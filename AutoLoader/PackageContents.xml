@@ -12,6 +12,7 @@
 	<CompanyDetails Name="TIANHUA" Url="http://www.thape.com/" Email="webmaster@thape.com.cn" />
 
 	<Components>
+        <ComponentEntry ModuleName="./Contents/Resources/Tianhua.cuix" />
 		<ComponentEntry AppName="GeneralTextLisp" ModuleName="./Contents/General-Text.lsp" PerDocument="True" />
 	</Components>
   
