@@ -31,16 +31,40 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AcCui">
-      <HintPath>C:\Program Files\Autodesk\AutoCAD 2012 - Simplified Chinese\AcCui.dll</HintPath>
+    <Reference Include="AcCui, Version=18.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoCAD-2012.Net.Base.1.0.0\lib\net40\AcCui.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="acdbmgd">
-      <HintPath>C:\Program Files\Autodesk\AutoCAD 2012 - Simplified Chinese\acdbmgd.dll</HintPath>
+    <Reference Include="AcDbMgd, Version=18.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoCAD-2012.Net.Base.1.0.0\lib\net40\AcDbMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="acmgd">
-      <HintPath>C:\Program Files\Autodesk\AutoCAD 2012 - Simplified Chinese\acmgd.dll</HintPath>
+    <Reference Include="acdbmgdbrep, Version=18.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoCAD-2012.Net.Base.1.0.0\lib\net40\acdbmgdbrep.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcDx, Version=18.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoCAD-2012.Net.Base.1.0.0\lib\net40\AcDx.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcMgd, Version=18.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoCAD-2012.Net.Base.1.0.0\lib\net40\AcMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcMr, Version=18.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoCAD-2012.Net.Base.1.0.0\lib\net40\AcMr.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcTcMgd, Version=18.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoCAD-2012.Net.Base.1.0.0\lib\net40\AcTcMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcWindows, Version=18.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoCAD-2012.Net.Base.1.0.0\lib\net40\AcWindows.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AdWindows, Version=3.2.23.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\AutoCAD-2012.Net.Base.1.0.0\lib\net40\AdWindows.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -61,14 +85,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\cad.net\DotNetARX2012\2010\DotNetARX.csproj">
-      <Project>{5ddfcada-bea4-402c-b3e4-5c7f83c2f09e}</Project>
-      <Name>DotNetARX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tools\Tools.csproj">
-      <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
-      <Name>Tools</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
