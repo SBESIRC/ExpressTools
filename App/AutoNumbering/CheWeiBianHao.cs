@@ -18,36 +18,23 @@ namespace TianHua.AutoCAD.CheWei
 {
     public class CheWeiBianHao : IExtensionApplication
     {
-        Database db = HostApplicationServices.WorkingDatabase;
-        static Document doc = AcadApp.DocumentManager.MdiActiveDocument;
-        Editor ed = doc.Editor;
-
         public void Initialize()
         {
-            //注册文档改变事件
-            AcadApp.DocumentManager.DocumentLockModeChanged += DocumentManager_DocumentLockModeChanged;
+            //
         }
 
         public void Terminate()
         {
-            //解绑定事件
-            AcadApp.DocumentManager.DocumentLockModeChanged -= DocumentManager_DocumentLockModeChanged;
-        }
-
-        /// <summary>
-        /// 改变当前文档
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void DocumentManager_DocumentLockModeChanged(object sender, EventArgs e)
-        {
-            doc = AcadApp.DocumentManager.MdiActiveDocument;
-            ed = doc.Editor;
+            //
         }
 
         [CommandMethod("TianHua", "THCNU", CommandFlags.Modal)]
         public void SetBianHao()
         {
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+
             var polyLayerName = "天华车位轨迹线";
             var numberLayerName = "天华车位编号";
             var numberTextStyleName = "Standard";
@@ -63,7 +50,6 @@ namespace TianHua.AutoCAD.CheWei
             //得到所有锁定的图层
             var lockLayers = new List<string>();
             WithTrans(() => { lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name).ToList(); });
-            //MessageBox.Show(string.Join(",", lockLayers));
 
             //确定要拾取的车位类型，只允许块参照被选中,只允许不被锁定的图层被选中
             var blocks = SelectionTool.DocChoose<BlockReference>(() => ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要编号的车位块类型" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers))));
@@ -88,7 +74,6 @@ namespace TianHua.AutoCAD.CheWei
             }
 
             //按照配置信息，选择图纸中的车位,只允许不被锁定的图层被选中*******如果用fence,窗口一缩小就看不到的就不对了，
-            //var ents = SelectionTool.DocChoose<BlockReference>(() => ed.SelectFence(poly.GetAllGripPoints(), OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(2) == string.Join(",", blockNameLists.ToArray()) & fil.Dxf(8) != string.Join(",", lockLayers))));
             var ents = SelectionTool.DocChoose<BlockReference>(() => ed.SelectAll(OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(2) == string.Join(",", blockNameLists.ToArray()) & fil.Dxf(8) != string.Join(",", lockLayers))));
             //如果没有选中则直接返回
             if (ents == null)
@@ -118,55 +103,7 @@ namespace TianHua.AutoCAD.CheWei
             {
                 db.AddToModelSpace(cheweis.SelectMany(chewei => chewei.Numbers).ToArray());
             });
-
-            //cheweis.Select(chewei => chewei.Ent).Highlight();
         }
-
-        #region 属性的方案，暂时不考虑
-        ///// <summary>
-        ///// 为块赋予属性
-        ///// </summary>
-        ///// <param name="blockReference"></param>
-        ///// <returns></returns>
-        //public void SetAttribute(BlockReference blockReference)
-        //{
-        //    WithTrans(() =>
-        //    {
-        //        //生成属性
-        //        AttributeDefinition attSYM = new AttributeDefinition(Point3d.Origin, "1", "SYM", "输入门的符号", ObjectId.Null);
-        //        //设置属性定义的通用样式
-        //        SetStyleForAtt(attSYM, true);
-
-        //        //为DOOR块添加上面定义的属性
-        //        blockReference.BlockTableRecord.AddAttsToBlock(attSYM);
-
-        //    });
-
-        //}
-
-        ///// <summary>
-        ///// 设置属性文字的基础样式
-        ///// </summary>
-        ///// <param name="att"></param>
-        ///// <param name="invisible"></param>
-        //private void SetStyleForAtt(AttributeDefinition att, bool invisible)
-        //{
-        //    att.Height = 0.15;//属性文字的高度
-        //    //属性文字的水平对齐方式为居中
-        //    att.HorizontalMode = TextHorizontalMode.TextCenter;
-        //    //属性文字的垂直对齐方式为居中
-        //    att.VerticalMode = TextVerticalMode.TextVerticalMid;
-        //    att.Invisible = invisible; //属性文字的可见性
-        //} 
-        #endregion
-
-        //动态生成多段线
-        //[CommandMethod("addpoly")]
-        public void Test()
-        {
-            var id = AddPoly("0", 0);
-        }
-
 
         /// <summary>
         /// 获取初始编号数值
@@ -174,6 +111,10 @@ namespace TianHua.AutoCAD.CheWei
         /// <returns></returns>
         public int GetStartNumber()
         {
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+
             var resPoint = ed.GetInteger(new PromptIntegerOptions("\n请输入起始编号数值") { DefaultValue = 1 });
             if (resPoint.Status == PromptStatus.Cancel)
                 return -1;
@@ -190,6 +131,10 @@ namespace TianHua.AutoCAD.CheWei
         /// <returns></returns>
         public Polyline AddPoly(string layerName, short color)
         {
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+
             double width = 0; //初始化线宽
             short colorIndex = color; //初始化颜色索引值
             int index = 2; //初始化多段线顶点数
@@ -341,50 +286,18 @@ namespace TianHua.AutoCAD.CheWei
         /// <returns></returns>
         private Polyline GetWaiJieRec(BlockReference block)
         {
-            //var angel = block.Rotation;
-            ////如果有角度就需要旋转
-
             //复制对象
             var cloneBlock = (BlockReference)block.Clone();
             //转成水平的
             cloneBlock.TransformBy(block.BlockTransform.Inverse());
-
-            //Polyline poly = new Polyline();
-            //poly.CreateRectangle(cloneBlock.GeometricExtents.MinPoint.toPoint2d(), cloneBlock.GeometricExtents.MaxPoint.toPoint2d());
-
+     
             var poly = new PolylineRec(cloneBlock.GeometricExtents.MinPoint.toPoint2d(), cloneBlock.GeometricExtents.MaxPoint.toPoint2d());
 
             //转回去
             poly.TransformBy(block.BlockTransform);
 
             return poly;
-
         }
-
-
-        /// <summary>
-        /// 判断多段线是否闭合了
-        /// </summary>
-        /// <param name="polyEntId"></param>
-        /// <returns></returns>
-        private bool HasClosed(ObjectId polyEntId)
-        {
-            var b = false;
-            WithTrans(() =>
-            {
-                //打开多段线的状态为写
-                Polyline polyEnt = doc.TransactionManager.GetObject(polyEntId, OpenMode.ForWrite) as Polyline;
-
-                if (polyEnt != null && (polyEnt.Closed || polyEnt.StartPoint == polyEnt.EndPoint))
-                {
-                    b = true;
-                }
-            });
-
-            return b;
-        }
-        //
-
 
         /// <summary>
         /// 丢入事务动作
@@ -392,10 +305,20 @@ namespace TianHua.AutoCAD.CheWei
         /// <param name="action"></param>
         private void WithTrans(Action action)
         {
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+
             using (Transaction trans = db.TransactionManager.StartTransaction())
             {
-                action();
-                trans.Commit();
+                try
+                {
+                    action();
+                    trans.Commit();
+                }
+                catch (System.Exception)
+                {
+                    trans.Abort();
+                }
             }
         }
 
@@ -405,9 +328,10 @@ namespace TianHua.AutoCAD.CheWei
         /// <param name="strs"></param>
         public void InitialLayer(params string[] strs)
         {
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+
             WithTrans(() => strs.ForEach(str => db.AddLayer(str)));
         }
-
-
     }
 }
