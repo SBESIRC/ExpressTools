@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ApplicationPackage SchemaVersion="1.0" 
-                    ProductCode="{736231AF-4BE2-479F-BB07-7BE20C6B0B2F}" 
-                    Version="1.0.0" 
-                    Name="TIANHUA Express Tools" 
-                    Description="TIANHUA Express Tools for AutoCAD" 
-                    Author="TIANHUA AI Research Center" 
-                    Icon=""
-                    HelpFile="" >
+<ApplicationPackage SchemaVersion="1.0" ProductCode="{736231AF-4BE2-479F-BB07-7BE20C6B0B2F}" Version="1.0.0" Name="TIANHUA Express Tools" Description="TIANHUA Express Tools for AutoCAD" Author="TIANHUA AI Research Center" Icon="" HelpFile="">
 
-	<RuntimeRequirements Platform="AutoCAD"/>
-	<CompanyDetails Name="TIANHUA" Url="http://www.thape.com/" Email="webmaster@thape.com.cn" />
+    <RuntimeRequirements Platform="AutoCAD"/>
+    <CompanyDetails Name="TIANHUA" Url="http://www.thape.com/" Email="webmaster@thape.com.cn" />
 
-	<Components>
+    <Components>
         <ComponentEntry ModuleName="./Contents/Resources/Tianhua.cuix" />
-		<ComponentEntry AppName="GeneralTextLisp" ModuleName="./Contents/General-Text.lsp" PerDocument="True" />
-	</Components>
-  
+        <ComponentEntry AppName="GeneralTextLisp" ModuleName="./Contents/General-Text.lsp" PerDocument="True" />
+    </Components>
+
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.0" SeriesMax="R18.2" />
+        <ComponentEntry ModuleName="./Contents/Win64/2012/CheWei.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="CheWei" AppType=".NET">
+
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCNU" Global="THCNU" />
+            </Commands>
+
+        </ComponentEntry>
+    </Components>
+
 </ApplicationPackage>
