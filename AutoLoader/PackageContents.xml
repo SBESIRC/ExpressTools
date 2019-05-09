@@ -10,7 +10,7 @@
     </Components>
 
     <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.0" SeriesMax="R18.2" />
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
         <ComponentEntry ModuleName="./Contents/Win64/2012/CheWei.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="CheWei" AppType=".NET">
 
             <Commands GroupName="TIANHUACAD">
