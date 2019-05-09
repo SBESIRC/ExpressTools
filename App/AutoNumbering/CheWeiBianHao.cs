@@ -28,7 +28,7 @@ namespace TianHua.AutoCAD.CheWei
             //
         }
 
-        [CommandMethod("TianHua", "THCNU", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THCNU", CommandFlags.Modal)]
         public void SetBianHao()
         {
             Document doc = AcadApp.DocumentManager.MdiActiveDocument;
