@@ -5,13 +5,37 @@
     <CompanyDetails Name="TIANHUA" Url="http://www.thape.com/" Email="webmaster@thape.com.cn" />
 
     <Components>
-        <ComponentEntry ModuleName="./Contents/Resources/Tianhua.cuix" />
         <ComponentEntry AppName="GeneralTextLisp" ModuleName="./Contents/General-Text.lsp" PerDocument="True" />
     </Components>
 
+    <!--Assembly App, CheWei, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
         <ComponentEntry ModuleName="./Contents/Win64/2012/CheWei.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="CheWei" AppType=".NET">
+
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCNU" Global="THCNU" />
+            </Commands>
+
+        </ComponentEntry>
+    </Components>
+
+    <!--Assembly App, CheWei, 2013 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2013/CheWei.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="CheWei" AppType=".NET">
+
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCNU" Global="THCNU" />
+            </Commands>
+
+        </ComponentEntry>
+    </Components>
+
+    <!--Assembly App, CheWei, 2015 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.0" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2015/CheWei.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="CheWei" AppType=".NET">
 
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCNU" Global="THCNU" />
