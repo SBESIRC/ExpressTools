@@ -30,9 +30,11 @@ namespace TianHua.AutoCAD.ThCui
             //保存按钮初始为失效状态
             btnSave.Enabled = false;
 
-            path = GetDataPath();
+            //找到工具选项版的路径
+            path = GetAppResourcePath();
             //MessageBox.Show(path);
             DirectoryInfo root = new DirectoryInfo(path);
+
 
             //找到已经加载的，显示再菜单中
             var addedPathes = root.GetDirectories().Join(GetAllToolPath(), d => d.FullName, p => p, (d, p) => p);
@@ -127,7 +129,7 @@ namespace TianHua.AutoCAD.ThCui
         /// </summary>
         private List<string> GetAllToolPath()
         {
-            return Preferences.Files.ToolPalettePath.Split(';').ToList();
+            return Preferences.Files.ToolPalettePath.Replace(@"/", @"\").Split(';').ToList();
 
             #region 注册表的方法
             //var autoCADKeyName = GetAutoCADKeyName();
@@ -312,17 +314,12 @@ namespace TianHua.AutoCAD.ThCui
         /// 获取当前运行程序所在的目录
         /// </summary>
         /// <returns></returns>
-        public string GetDataPath()
+        public string GetAppResourcePath()
         {
-            //获取当前dll所在的目录，返回上两级，进入data目录
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
-            var direc = Path.GetDirectoryName(path);
-            //var direc = Directory.GetCurrentDirectory();
-            direc = direc.Right(@"bin\Debug") + @"Data\天华图块集\";
-            //MessageBox.Show(direc.Replace("OtherInfos", "CheWei"));
-            return direc;
+            //获取appdata放置插件的路径
+            var bundleName = @"ThCADPlugin.bundle";
+            var destDirName = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Autodesk\ApplicationPlugins\" + bundleName;
+            return destDirName + @"\Contents\Resources\ToolPalette\";
         }
 
         private void lstSource_SelectedIndexChanged(object sender, EventArgs e)
@@ -352,7 +349,7 @@ namespace TianHua.AutoCAD.ThCui
         {
             //获取已有的加载情况，进行比对
 
-            path = GetDataPath();
+            path = GetAppResourcePath();
             DirectoryInfo root = new DirectoryInfo(path);
 
             //找到原来已经加载的
@@ -392,6 +389,7 @@ namespace TianHua.AutoCAD.ThCui
                     //更新安装包内数据源地址
                     UpdateDwgPath(path, currentDwgPath);
 
+                    //MessageBox.Show(path+major);
                     //为系统删除工具选项板路径
                     DeleteToolPath(path + major);
                 }
