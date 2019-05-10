@@ -44,4 +44,46 @@
         </ComponentEntry>
     </Components>
 
+    <!--Assembly App, CUI, 2012 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
+        <ComponentEntry ModuleName="./Contents/Win64/2012/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
+
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCADLOGIN" Global="THCADLOGIN" />
+                <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
+                <Command Local="THBLS" Global="THBLS" />
+            </Commands>
+
+        </ComponentEntry>
+    </Components>
+
+    <!--Assembly App, CUI, 2013 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2013/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
+
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCADLOGIN" Global="THCADLOGIN" />
+                <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
+                <Command Local="THBLS" Global="THBLS" />
+            </Commands>
+
+        </ComponentEntry>
+    </Components>
+
+    <!--Assembly App, CUI, 2015 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.0" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2015/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
+
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCADLOGIN" Global="THCADLOGIN" />
+                <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
+                <Command Local="THBLS" Global="THBLS" />
+            </Commands>
+
+        </ComponentEntry>
+    </Components>
+
 </ApplicationPackage>
