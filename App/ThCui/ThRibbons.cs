@@ -23,27 +23,7 @@ namespace TianHua.AutoCAD.ThCui
             }
         }
 
-
-        /// <summary>
-        /// 关闭除指定panel外的所有ribbon
-        /// </summary>
-        /// <param name="tab"></param>
-        /// <param name="panel"></param>
-        public void CloseRibbon(RibbonTab tab)
-        {
-            foreach (var item in tab.Panels)
-            {
-                item.IsVisible = false;
-            }
-            var panel = tab.Panels[0];
-            panel.IsVisible = true;
-        }
-
-        /// <summary>
-        /// 动态生成ribbon界面，并添加至cad
-        /// </summary>
-        [CommandMethod("TIANHUACAD", "AddRibbonXAML", CommandFlags.Modal)]
-        public void AddRibbonXAML()
+        public RibbonTab CreateRibbon()
         {
             //获取由XAML定义的选项卡
             RibbonTab tab = resourceDictionary["TabXaml"] as RibbonTab;
@@ -83,20 +63,28 @@ namespace TianHua.AutoCAD.ThCui
                 }
             };
 
+            return tab;
+        }
 
-            var btnHelp = (RibbonButton)tab.FindItem("ID_BtnHelp");
 
-            RibbonControl ribbonControl = ComponentManager.Ribbon;//获取Ribbon界面
-            ribbonControl.Tabs.Add(tab);//将选项卡添加到Ribbon界面中
-
-            //关闭所有的ribbon,仅保留登录模块
-            CloseRibbon(tab);
+        /// <summary>
+        /// 关闭除指定panel外的所有ribbon
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <param name="panel"></param>
+        public void CloseRibbon(RibbonTab tab)
+        {
+            foreach (var item in tab.Panels)
+            {
+                item.IsVisible = false;
+            }
+            var panel = tab.Panels[0];
+            panel.IsVisible = true;
         }
 
         /// <summary>
         /// 登录
         /// </summary>
-        [CommandMethod("TIANHUACAD", "THLOGIN", CommandFlags.Modal)]
         public void Login()
         {
             var usualDate = new DateTime(2019, 5, 5);
@@ -118,11 +106,12 @@ namespace TianHua.AutoCAD.ThCui
         /// <summary>
         /// 退出
         /// </summary>
-        [CommandMethod("TIANHUACAD", "THLOGOUT", CommandFlags.Modal)]
         public void Logout()
         {
             CloseRibbon(ComponentManager.Ribbon.ActiveTab);
         }
+
+
 
     }
 }
