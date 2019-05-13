@@ -97,10 +97,10 @@ namespace DotNetARX
         /// <returns>如果设置成功，则返回true，否则返回false</returns>
         public static bool SetRowTextString(this Table table, int rowIndex, params string[] data)
         {
-            if (data.Length > table.NumColumns) return false;
+            if (data.Length > table.Columns.Count) return false;
             for (int j = 0; j < data.Length; j++)
             {
-                table.SetTextString(rowIndex, j, data[j]);
+                table.Cells[rowIndex, j].TextString = data[j];
             }
             return true;
         }
