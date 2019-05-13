@@ -110,11 +110,17 @@ namespace DotNetARX
         /// <param name="args">命令参数列表</param>
         public static void SendCommand(this Document doc, params string[] args)
         {
-            Type AcadDocument = Type.GetTypeFromHandle(Type.GetTypeHandle(doc.AcadDocument));
+#if NET40
+            object acadDocument = doc.AcadDocument;
+#elif NET45
+            object acadDocument = doc.GetAcadDocument();
+#endif
+
+            Type AcadDocument = Type.GetTypeFromHandle(Type.GetTypeHandle(acadDocument));
             try
             {
                 // 通过后期绑定的方式调用SendCommand命令
-                AcadDocument.InvokeMember("SendCommand", BindingFlags.InvokeMethod, null, doc.AcadDocument, args);
+                AcadDocument.InvokeMember("SendCommand", BindingFlags.InvokeMethod, null, acadDocument, args);
             }
             catch // 捕获异常
             {
