@@ -9,17 +9,6 @@ namespace DotNetARX
     public static class TableTools
     {
         /// <summary>
-        /// 所有行的标志位（包括标题行、数据行）
-        /// </summary>
-        public static int AllRows
-        {
-            get
-            {
-                return (int)(RowType.DataRow | RowType.HeaderRow | RowType.TitleRow);
-            }
-        }
-
-        /// <summary>
         /// 创建表格
         /// </summary>
         /// <param name="db">数据库对象</param>
@@ -52,10 +41,10 @@ namespace DotNetARX
         /// <param name="table">表格对象</param>
         /// <param name="height">文本高度</param>
         /// <param name="rowType">行的标志位</param>
-        public static void SetTextHeight(this Table table, double height, RowType rowType)
-        {
-            table.SetTextHeight(height, rowType);
-        }
+        //public static void SetTextHeight(this Table table, double height, RowType rowType)
+        //{
+        //    table.SetTextHeight(height, rowType);
+        //}
 
         /// <summary>
         /// 设置表格中所有单元格中文本为同一高度
@@ -64,7 +53,13 @@ namespace DotNetARX
         /// <param name="height">文本高度</param>
         public static void SetTextHeight(this Table table, double height)
         {
-            table.SetTextHeight(height, AllRows);
+            for (int row = 0; row < table.Rows.Count; row++)
+            {
+                for (int column = 0; column < table.Columns.Count; column++)
+                {
+                    table.Cells[row, column].TextHeight = height;
+                }
+            }
         }
 
         /// <summary>
@@ -73,10 +68,10 @@ namespace DotNetARX
         /// <param name="table">表格对象</param>
         /// <param name="align">单元格对齐方式</param>
         /// <param name="rowType">行的标志位</param>
-        public static void SetAlignment(this Table table, CellAlignment align, RowType rowType)
-        {
-            table.SetAlignment(align, (int)rowType);
-        }
+        //public static void SetAlignment(this Table table, CellAlignment align, RowType rowType)
+        //{
+        //    table.SetAlignment(align, (int)rowType);
+        //}
 
         /// <summary>
         /// 设置表格中所有单元格中文本为同一对齐方式
@@ -85,7 +80,13 @@ namespace DotNetARX
         /// <param name="align">单元格对齐方式</param>
         public static void SetAlignment(this Table table, CellAlignment align)
         {
-            table.SetAlignment(align, AllRows);
+            for (int row = 0; row < table.Rows.Count; row++)
+            {
+                for (int column = 0; column < table.Columns.Count; column++)
+                {
+                    table.Cells[row, column].Alignment = align;
+                }
+            }
         }
 
         /// <summary>
