@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64">
+      <?if $(var.DotNetARX.Configuration) = Debug ?>
+        <Directory Id="DIR_Autoloader_Contents_App_Win64_R18" Name="2012">
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX" Guid="{E97A5608-DA8A-4115-9AE4-0A52D70CD681}">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_DotNetARX" KeyPath="yes" Source="$(var.DotNetARX.TargetDir)\DotNetARX.dll" />
+          </Component>
+        </Directory>
+      <?endif?>
+      <?if $(var.DotNetARX.Configuration) = Debug-NET40 ?>
+        <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2013">
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX" Guid="{47A8CFE4-88C0-48CB-B6BB-BC1295FEEC6D}">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_DotNetARX" KeyPath="yes" Source="$(var.DotNetARX.TargetDir)\DotNetARX.dll" />
+          </Component>
+        </Directory>
+      <?endif?>
+      <?if $(var.DotNetARX.Configuration) = Debug-NET45 ?>
+        <Directory Id="DIR_Autoloader_Contents_App_Win64_R20" Name="2015">
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX" Guid="{FE7156B0-F1A8-44A9-95C7-8E615F1F2ED6}">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_DotNetARX" KeyPath="yes" Source="$(var.DotNetARX.TargetDir)\DotNetARX.dll" />
+          </Component>
+        </Directory>
+      <?endif?>
+    </DirectoryRef>
+	</Fragment>
+   <Fragment>
+    <ComponentGroup Id="ProductComponentsAppWin64">
+      <?if $(var.DotNetARX.Configuration) = Debug ?>
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX" />
+      <?endif?>
+      <?if $(var.DotNetARX.Configuration) = Debug-NET40 ?>
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX" />
+      <?endif?>
+      <?if $(var.DotNetARX.Configuration) = Debug-NET45 ?>
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX" />
+      <?endif?>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

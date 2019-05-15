@@ -21,6 +21,7 @@
 			<ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="ProductComponentsLisp" />
 			<ComponentGroupRef Id="ProductComponentsToolpalette" />
+      <ComponentGroupRef Id="ProductComponentsAppWin64" />
 		</Feature>
 	</Product>
 
@@ -31,6 +32,7 @@
 					<Directory Id="ApplicationPlugins" Name="ApplicationPlugins">
 						<Directory Id="INSTALLFOLDER" Name="ThCADPlugin.bundle">
 							<Directory Id="DIR_Autoloader_Contents" Name="Contents">
+                <Directory Id="DIR_Autoloader_Contents_App_Win64" Name="Win64" />
 								<Directory Id="DIR_Autoloader_Contents_Resources" Name="Resources">
 									<Directory Id="DIR_Autoloader_Contents_Resources_ToolPalette" Name="ToolPalette" />
 								</Directory>
