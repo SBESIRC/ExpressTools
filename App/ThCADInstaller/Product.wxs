@@ -2,7 +2,7 @@
 <!-- The name of the product -->
 <?define Name = "ThCADInstaller" ?>
 <!-- The Description of the product -->
-<?define Description = "" ?>
+<?define Description = "TIANHUA CAD Express Tools" ?>
 <!-- The manufacturer, for setup package publisher and folder info -->
 <?define Manufacturer = "TIANHUA" ?>
 <!-- The version number of this setup package-->
@@ -11,8 +11,8 @@
 <?define UpgradeCode = "E8E400E7-CBC3-45A7-A870-988E8BE97ADB" ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!-- Codepage 936 for Simplified Chinese characters -->
-	<Product Id="B3E86A0B-D61A-4E23-BB61-CF2D504CE8E5" Name="$(var.Name)" Codepage="936" Language="1033" Version="$(var.Version)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Description="$(var.Name)" Manufacturer="$(var.Manufacturer)" />
+	<Product Id="B3E86A0B-D61A-4E23-BB61-CF2D504CE8E5" Name="$(var.Name)" Codepage="936" Language="2052" Version="$(var.Version)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Description="$(var.Description)" Manufacturer="$(var.Manufacturer)" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate />
