@@ -19,6 +19,7 @@
 
 		<Feature Id="ProductFeature" Title="ThCADInstaller" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="ProductComponentsLisp" />
 			<ComponentGroupRef Id="ProductComponentsToolpalette" />
 		</Feature>
 	</Product>

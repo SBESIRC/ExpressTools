@@ -12,13 +12,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;AutoloaderPath=..\..\AutoLoader;ToolPalettePath=..\..\AutoLoader\Contents\Resources\ToolPalette</DefineConstants>
+    <DefineConstants>Debug;AutoloaderPath=..\..\AutoLoader;ToolPalettePath=..\..\AutoLoader\Contents\Resources\ToolPalette;ContentsPath=..\..\AutoLoader\Contents</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Lisp.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="ToolPalette.wxs" />
   </ItemGroup>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+    <DirectoryRef Id="DIR_Autoloader_Contents">
+      <Component Id="CMP_Autoloader_PackageContents_Lisp_Text" Guid="73D0431E-FC8B-4D49-8891-A5769338D13A">
+        <File Id="FILE_Autoloader_PackageContents_Lisp_Text" Source="$(var.ContentsPath)\General-Text.lsp" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="ProductComponentsLisp">
+      <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Text" />
+    </ComponentGroup>
+  </Fragment>
+</Wix>
