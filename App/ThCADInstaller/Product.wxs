@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The name of the product -->
+<?define Name = "ThCADInstaller" ?>
+<!-- The Description of the product -->
+<?define Description = "" ?>
+<!-- The manufacturer, for setup package publisher and folder info -->
+<?define Manufacturer = "TIANHUA" ?>
+<!-- The version number of this setup package-->
+<?define Version = "1.0.0" ?>
+<!-- UpgradeCode must be unique and not changed once the first version of the program is installed. -->
+<?define UpgradeCode = "E8E400E7-CBC3-45A7-A870-988E8BE97ADB" ?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="B3E86A0B-D61A-4E23-BB61-CF2D504CE8E5" Name="$(var.Name)" Language="1033" Version="$(var.Version)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Description="$(var.Name)" Manufacturer="$(var.Manufacturer)" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate />
+
+		<Feature Id="ProductFeature" Title="ThCADInstaller" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="CommonAppDataFolder">
+        <Directory Id="Autodesk" Name="Autodesk">
+          <Directory Id="ApplicationPlugins" Name="ApplicationPlugins">
+            <Directory Id="INSTALLFOLDER" Name="ThCADPlugin.bundle" />
+          </Directory>
+        </Directory>
+      </Directory>
+			</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="CMP_Autoloader_PackageContents" Guid="5C172780-B69A-4940-8585-D14489C6538E">
+        <File Id="FILE_Autoloader_PackageContents" Source="$(var.AutoloaderPath)\PackageContents.xml" KeyPath="yes" />
+      </Component>
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+			<!-- <Component Id="ProductComponent"> -->
+				<!-- TODO: Insert files, registry keys, and other resources here. -->
+			<!-- </Component> -->
+		</ComponentGroup>
+	</Fragment>
+</Wix>
