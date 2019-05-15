@@ -12,7 +12,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;AutoloaderPath=..\..\AutoLoader</DefineConstants>
+    <DefineConstants>Debug;AutoloaderPath=..\..\AutoLoader;ToolPalettePath=..\..\AutoLoader\Contents\Resources\ToolPalette</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -20,6 +20,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />
+    <Compile Include="ToolPalette.wxs" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
