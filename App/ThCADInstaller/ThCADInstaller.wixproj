@@ -25,9 +25,33 @@
     <Compile Include="ToolPalette.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutoNumbering\CheWei.csproj">
+      <Name>CheWei</Name>
+      <Project>{bcb90541-f40f-4881-bb10-eed6cba5e3b4}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
       <Name>DotNetARX</Name>
       <Project>{5ddfcada-bea4-402c-b3e4-5c7f83c2f09e}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\ThCui\ThCui.csproj">
+      <Name>ThCui</Name>
+      <Project>{a7a6ed9c-27f3-4f7e-aa5e-d9637cb12a46}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
+      <Name>ExtensionTools</Name>
+      <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>

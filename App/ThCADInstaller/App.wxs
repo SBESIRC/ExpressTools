@@ -7,6 +7,15 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX" Guid="{E97A5608-DA8A-4115-9AE4-0A52D70CD681}">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_DotNetARX" KeyPath="yes" Source="$(var.DotNetARX.TargetPath)" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools" Guid="{173117A6-FF4D-4CFA-82E2-FCA3F4AC0DAC}">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ExtensionTools" KeyPath="yes" Source="$(var.ExtensionTools.TargetPath)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui" Guid="{DA4F2F82-7879-4238-B87B-A4A038863A8A}">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThCui" KeyPath="yes" Source="$(var.ThCui.TargetPath)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_CheWei" Guid="{ED56D6C6-5601-480B-AF24-13AE73A8841D}">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_CheWei" KeyPath="yes" Source="$(var.CheWei.TargetPath)" />
+          </Component>
         </Directory>
       <?endif?>
       <?if $(var.DotNetARX.Configuration) = Debug-NET40 ?>
@@ -14,12 +23,30 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX" Guid="{47A8CFE4-88C0-48CB-B6BB-BC1295FEEC6D}">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_DotNetARX" KeyPath="yes" Source="$(var.DotNetARX.TargetPath)" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools" Guid="{89FDBE43-17B8-4FD2-BA3F-CDF1D7060569}">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ExtensionTools" KeyPath="yes" Source="$(var.ExtensionTools.TargetPath)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui" Guid="{3EB314F2-7355-49D7-8C2D-3CC039161753}">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThCui" KeyPath="yes" Source="$(var.ThCui.TargetPath)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_CheWei" Guid="{612FF834-4FA7-4150-BFA1-089F99397DB5}">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_CheWei" KeyPath="yes" Source="$(var.CheWei.TargetPath)" />
+          </Component>
         </Directory>
       <?endif?>
       <?if $(var.DotNetARX.Configuration) = Debug-NET45 ?>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R20" Name="2015">
           <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX" Guid="{FE7156B0-F1A8-44A9-95C7-8E615F1F2ED6}">
             <File Id="FILE_Autoloader_Contents_App_Win64_R20_DotNetARX" KeyPath="yes" Source="$(var.DotNetARX.TargetPath)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools" Guid="{DF2E6A17-D9CD-462A-99B9-CECC56F0FF4B}">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExtensionTools" KeyPath="yes" Source="$(var.ExtensionTools.TargetPath)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui" Guid="{5257DE89-F437-405D-A007-16295E9F7095}">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThCui" KeyPath="yes" Source="$(var.ThCui.TargetPath)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_CheWei" Guid="{51067215-6DAB-48E7-91C8-036BC2CAE372}">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_CheWei" KeyPath="yes" Source="$(var.CheWei.TargetPath)" />
           </Component>
         </Directory>
       <?endif?>
@@ -29,12 +56,21 @@
     <ComponentGroup Id="ProductComponentsAppWin64">
       <?if $(var.DotNetARX.Configuration) = Debug ?>
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_CheWei" />
       <?endif?>
       <?if $(var.DotNetARX.Configuration) = Debug-NET40 ?>
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_CheWei" />
       <?endif?>
       <?if $(var.DotNetARX.Configuration) = Debug-NET45 ?>
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_CheWei" />
       <?endif?>
     </ComponentGroup>
   </Fragment>
