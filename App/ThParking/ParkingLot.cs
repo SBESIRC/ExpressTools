@@ -9,7 +9,7 @@ using System.Text;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
-namespace TianHua.AutoCAD.CheWei
+namespace TianHua.AutoCAD.Parking
 {
     public class ParkingLot
     {

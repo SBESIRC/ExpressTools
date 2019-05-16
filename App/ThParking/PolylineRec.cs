@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
-namespace TianHua.AutoCAD.CheWei
+namespace TianHua.AutoCAD.Parking
 {
     public class PolylineRec : Polyline
     {

@@ -1,35 +1,262 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.Colors;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
+using DotNetARX;
+using NFox.Cad.Collections;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using TianHua.AutoCAD.Parking;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using System.Windows.Forms;
-using Autodesk.AutoCAD.ApplicationServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
-using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Colors;
-using NFox.Cad.Collections;
-using DotNetARX;
+using Path = System.IO.Path;
+using Polyline = Autodesk.AutoCAD.DatabaseServices.Polyline;
 
-namespace TianHua.AutoCAD.CheWei
+namespace TianHua.AutoCAD.Parking
 {
-    public class CheWeiBianHao : IExtensionApplication
+    /// <summary>
+    /// CheWeiWindow.xaml 的交互逻辑
+    /// </summary>
+    public partial class CheWeiWindow : Window
     {
-        public void Initialize()
+        public ObservableCollection<ParkingLotInfo> ParkingLotInfos { get; set; }//车位配置信息
+        public CheWeiWindow()
         {
-            //
+
+            InitializeComponent();
+
+            //背景色设置为经典样式，xmal代码写不来。。。。
+            winCheWei.Background = SystemColors.ControlBrush;
+            WithTrans(() =>
+            {
+                //ReCatchIcon();
+                this.ParkingLotInfos = GetFormalParkingLotInfos();
+
+            });
+
+
+            //**********
+            //样式设定：1、button大小是固定的
+            //可输入的control，上面都有一个label解释
+            //一组要输入的内容，总是放在一个groupbox内
+            //combox\textbox,横向拉伸，纵向不拉伸
+            //radio\check,大小不变
         }
 
-        public void Terminate()
+
+        /// <summary>
+        /// 根据用户选择得图形对象，初始化车位类型配置信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnChooseBlock_Click(object sender, RoutedEventArgs e)
         {
-            //
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+
+            WithTrans(() =>
+            {
+                //得到所有锁定的图层
+                var lockLayers = new List<string>();
+                lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name).ToList();
+
+                //确定要拾取的车位类型，只允许块参照被选中,只允许不被锁定的图层被选中
+                var blocks = SelectionTool.DocChoose<BlockReference>(() => ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要编号的车位块类型" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers))));
+                if (blocks == null)
+                {
+                    return;
+                }
+
+                //获取图标临时文件夹路径
+                string tempDirName = GetTempDirectory().FullName;
+
+                //去重复，并计算输出图像路径
+                var parkingLotInfors = blocks.Distinct(new CompareElemnet<BlockReference>((i, j) => i.Name == j.Name)).Select(b => new ParkingLotInfo(b.Name, tempDirName + "\\" + b.Name + ".bmp", b.BlockTableRecord.GetObject(OpenMode.ForWrite) as BlockTableRecord));
+
+
+                //找到已有的，加上新添加的，绑定到车位listview
+                this.ParkingLotInfos = this.ParkingLotInfos.Union(parkingLotInfors, new CompareElemnet<ParkingLotInfo>((i, j) => i.Name == j.Name)).ToObservableCollection();
+
+                //******必须重新绑定才可以显示，不知道有没有什么优化方法
+                listViewBlocks.ItemsSource = this.ParkingLotInfos;
+
+            });
+
         }
 
-        [CommandMethod("TIANHUACAD", "THCNU", CommandFlags.Modal)]
-        public void SetBianHao()
+        private void ReCatchIcon()
+        {
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+
+            //获取所有临时文件夹下的图标文件，这些文件存储着上一次的选择信息
+            var tempIconFiles = GetTempDirectory().GetFiles("*.bmp");
+
+            foreach (var f in tempIconFiles)
+            {
+                var cmd = "BLOCKICON\n" + Path.GetFileNameWithoutExtension(f.FullName) + "\n";
+                //// 获取NOMUTT系统变量，该变量用来控制是否禁止显示提示信息
+                //object nomutt = AcadApp.GetSystemVariable("NOMUTT");
+                //// 命令字符串，表示在命令调用结束时，将NOMUTT设置为原始值
+                //cmd += "_NOMUTT " + nomutt.ToString() + " ";
+                //// 在命令调用之前，设置NOMUTT为1，表示禁止显示提示信息
+                //AcadApp.SetSystemVariable("NOMUTT", 1);
+
+                //不管有没有截图，都重新截图，确保块参照缩略图最新
+                doc.SendCommand(cmd);
+
+                //ResultBuffer rb = new ResultBuffer();
+                //rb.Add(new TypedValue(5005, "BLOCKICON")); // 字符串，表示命令
+                //rb.Add(new TypedValue(5005, this.Name)); // 实体的Id
+                //rb.Add(new TypedValue(5000)); // 打断的第二点
+                //ed.AcedCmd(rb);
+            }
+
+
+        }
+
+        /// <summary>
+        /// 在当前程序得目录下，创建一个临时文件夹，用来存放文件中的块预览图标
+        /// </summary>
+        /// <returns></returns>
+        private static DirectoryInfo GetTempDirectory()
+        {
+            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            UriBuilder uri = new UriBuilder(codeBase);
+            string ppath = Uri.UnescapeDataString(uri.Path);
+            var tempDirName = System.IO.Path.GetDirectoryName(ppath) + @"\Temp";
+
+            //声明一个文件夹变量，如果没有则创建，有则实例化
+            DirectoryInfo tempDirec = null;
+            if (!Directory.Exists(tempDirName))
+            {
+                tempDirec = Directory.CreateDirectory(tempDirName);
+            }
+            else
+            {
+                tempDirec = new DirectoryInfo(tempDirName);
+            }
+
+            return tempDirec;
+        }
+
+        public void WithTrans(Action action)
+        {
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    action();
+                    trans.Commit();
+                }
+                catch (System.Exception)
+                {
+                    trans.Abort();
+                }
+            }
+        }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// 获取上一次的车位数据记录
+        /// </summary>
+        /// <returns></returns>
+        private ObservableCollection<ParkingLotInfo> GetFormalParkingLotInfos()
+        {
+            //****上一次的记录，针对的是同一个文档，如果文档发生变化，只要块名不相同，不会显示记录。
+            //****在第三版考虑优化，针对每一个dwg文件，都进行单独的记录的留存。(不一定需要这样的优化，因为无法保证文档名是不改变的)
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+
+            //获取所有临时文件夹下的图标文件，这些文件存储着上一次的选择信息
+            var tempIconFiles = GetTempDirectory().GetFiles("*.bmp");
+
+            //***如在此期间，用户对已有的车位块进行了编辑，则获取的缩略图也应相应的变化,所以实例化车位信息时，始终要获取块表记录，以得到最新的缩略图保持同步
+            //创建车位信息类并返回
+            return tempIconFiles.Select(f => new ParkingLotInfo(Path.GetFileNameWithoutExtension(f.FullName), f.FullName, (db.BlockTableId.GetObject(OpenMode.ForWrite) as BlockTable)[Path.GetFileNameWithoutExtension(f.FullName)].GetObject(OpenMode.ForWrite) as BlockTableRecord)).ToObservableCollection();
+        }
+
+        /// <summary>
+        /// 将选中项删除
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            //通过Observercollection,对数据源的处理可直接反映到绑定对象上
+            this.ParkingLotInfos.Remove((ParkingLotInfo)this.listViewBlocks.SelectedItem);
+
+            //*******还差一个删除临时文件夹下的缩略图
+        }
+
+        /// <summary>
+        /// 将所有项删除
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnClear_Click(object sender, RoutedEventArgs e)
+        {
+            var count = this.listViewBlocks.Items.Count;
+            //每次都拿掉第一个，直到全部拿完
+            for (int i = 0; i < count; i++)
+            {
+                this.ParkingLotInfos.RemoveAt(0);
+            }
+
+        }
+
+        //自动添加序号列
+        private void ListViewBlocks_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = e.Row.GetIndex() + 1;
+        }
+
+        //自动减去序号列
+        private void ListViewBlocks_UnloadingRow(object sender, DataGridRowEventArgs e)
+        {
+            var dgData = (DataGrid)sender;
+            ListViewBlocks_LoadingRow(sender, e);
+            if (dgData.Items != null)
+            {
+                for (int i = 0; i < dgData.Items.Count; i++)
+                {
+                    try
+                    {
+                        DataGridRow row = dgData.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
+                        if (row != null)
+                        {
+                            row.Header = (i + 1).ToString();
+                        }
+                    }
+                    catch { }
+                }
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             Document doc = AcadApp.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
@@ -230,7 +457,7 @@ namespace TianHua.AutoCAD.CheWei
                         polyEnt.AddVertexAt(0, pt1, 0, width, width);
                         polyEnt.AddVertexAt(1, pt2, 0, width, width);
                         //设置多段线的颜色
-                        polyEnt.Color = Color.FromColorIndex(ColorMethod.ByColor, colorIndex);
+                        polyEnt.Color = Autodesk.AutoCAD.Colors.Color.FromColorIndex(ColorMethod.ByColor, colorIndex);
                         //将多段线添加到图形数据库并返回一个ObjectId(在绘图窗口动态显示多段线)
                         polyEntId = db.AddToModelSpace(polyEnt);
                     }
@@ -246,7 +473,7 @@ namespace TianHua.AutoCAD.CheWei
                                 Point2d ptCurrent = ptNext.toPoint2d();
                                 polyEnt.AddVertexAt(index - 1, ptCurrent, 0, width, width);
                                 //重新设置多段线的颜色和线宽
-                                polyEnt.Color = Color.FromColorIndex(ColorMethod.ByColor, colorIndex);
+                                polyEnt.Color = Autodesk.AutoCAD.Colors.Color.FromColorIndex(ColorMethod.ByColor, colorIndex);
                                 polyEnt.ConstantWidth = width;
                             }
 
@@ -290,36 +517,13 @@ namespace TianHua.AutoCAD.CheWei
             var cloneBlock = (BlockReference)block.Clone();
             //转成水平的
             cloneBlock.TransformBy(block.BlockTransform.Inverse());
-     
+
             var poly = new PolylineRec(cloneBlock.GeometricExtents.MinPoint.toPoint2d(), cloneBlock.GeometricExtents.MaxPoint.toPoint2d());
 
             //转回去
             poly.TransformBy(block.BlockTransform);
 
             return poly;
-        }
-
-        /// <summary>
-        /// 丢入事务动作
-        /// </summary>
-        /// <param name="action"></param>
-        private void WithTrans(Action action)
-        {
-            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-
-            using (Transaction trans = db.TransactionManager.StartTransaction())
-            {
-                try
-                {
-                    action();
-                    trans.Commit();
-                }
-                catch (System.Exception)
-                {
-                    trans.Abort();
-                }
-            }
         }
 
         /// <summary>

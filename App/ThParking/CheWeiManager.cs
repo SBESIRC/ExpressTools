@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TianHua.AutoCAD.CheWei
+namespace TianHua.AutoCAD.Parking
 {
     /// <summary>
     /// 用来管理配置信息的类
