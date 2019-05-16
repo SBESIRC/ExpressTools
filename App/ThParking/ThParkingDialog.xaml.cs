@@ -31,10 +31,10 @@ namespace TianHua.AutoCAD.Parking
     /// <summary>
     /// CheWeiWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class CheWeiWindow : Window
+    public partial class ThParkingDialog : Window
     {
         public ObservableCollection<ParkingLotInfo> ParkingLotInfos { get; set; }//车位配置信息
-        public CheWeiWindow()
+        public ThParkingDialog()
         {
 
             InitializeComponent();
@@ -269,7 +269,7 @@ namespace TianHua.AutoCAD.Parking
             double offsetDis = 900;
 
             //初始化配置信息
-            var manager = new CheWeiManager(polyLayerName, numberLayerName, numberTextStyleName, numberHeight, offsetDis);
+            var manager = new ThParkingManager(polyLayerName, numberLayerName, numberTextStyleName, numberHeight, offsetDis);
 
             //初始化图层
             InitialLayer(manager.PolyLayerName, manager.NumberLayerName);

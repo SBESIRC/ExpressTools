@@ -29,7 +29,7 @@ namespace TianHua.AutoCAD.Parking
         ///为车位赋值编号
         /// </summary>
         /// <param name="number"></param>
-        public void SetNumber(string number, CheWeiManager manager)
+        public void SetNumber(string number, ThParkingManager manager)
         {
             //复制对象
             var cloneBoundry = (Polyline)this.Boundry.Clone();

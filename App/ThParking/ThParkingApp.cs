@@ -44,7 +44,7 @@ namespace TianHua.AutoCAD.Parking
         [CommandMethod("TIANHUACAD", "THCNU", CommandFlags.Modal)]
         public void ShowToolPalette()
         {
-            CheWeiWindow toolPalette = new CheWeiWindow();
+            ThParkingDialog toolPalette = new ThParkingDialog();
             AcadApp.ShowModalWindow(toolPalette);
         }
     }

@@ -9,7 +9,7 @@ namespace TianHua.AutoCAD.Parking
     /// <summary>
     /// 用来管理配置信息的类
     /// </summary>
-    public class CheWeiManager
+    public class ThParkingManager
     {
         public string PolyLayerName { get; set; }//车位轨迹图层
         public string NumberLayerName { get; set; }//车位编号图层
@@ -17,7 +17,7 @@ namespace TianHua.AutoCAD.Parking
         public string NumberTextStyle { get; set; }//车位编号文字样式名
         public double OffsetDis { get; set; }//编号向上偏移距离
 
-        public CheWeiManager(string polyLayerName, string numbaerLayerName, string numberTextStyle, double height,double offsetDis)
+        public ThParkingManager(string polyLayerName, string numbaerLayerName, string numberTextStyle, double height,double offsetDis)
         {
             this.PolyLayerName = polyLayerName;
             this.NumberLayerName = numbaerLayerName;
