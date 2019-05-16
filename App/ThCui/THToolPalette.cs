@@ -130,20 +130,6 @@ namespace TianHua.AutoCAD.ThCui
         private List<string> GetAllToolPath()
         {
             return Preferences.Files.ToolPalettePath.Replace(@"/", @"\").Split(';').ToList();
-
-            #region 注册表的方法
-            //var autoCADKeyName = GetAutoCADKeyName();
-
-            ////确定是HKEY_CURRENT_USER还是HKEY_LOCAL_MACHINE
-            //RegistryKey keyRoot = true ? Registry.CurrentUser : Registry.LocalMachine;
-            //// 由于某些AutoCAD版本的HKEY_CURRENT_USER可能不包括Applications键值，因此要创建该键值
-            //// 如果已经存在该鍵，无须担心可能的覆盖操作问题，因为CreateSubKey函数会以写的方式打开它而不会执行覆盖操作
-            //RegistryKey keyApp = keyRoot.CreateSubKey(autoCADKeyName + "\\" + "Profiles");
-
-            ////将安装包路径设置为工具选项版路径
-            //var toolKey = keyApp.OpenSubKey("<<未命名配置>>\\General", true);
-            //return toolKey.GetValue("ToolPalettePath").ToString().Split(';').ToList(); 
-            #endregion
         }
 
 
@@ -155,21 +141,6 @@ namespace TianHua.AutoCAD.ThCui
         private void AddToolPath(string currentDwgPath)
         {
             Preferences.Files.ToolPalettePath += ";" + currentDwgPath;
-
-            #region 原先修改注册表的方式
-            //var autoCADKeyName = GetAutoCADKeyName();
-
-            ////确定是HKEY_CURRENT_USER还是HKEY_LOCAL_MACHINE
-            //RegistryKey keyRoot = true ? Registry.CurrentUser : Registry.LocalMachine;
-            //// 由于某些AutoCAD版本的HKEY_CURRENT_USER可能不包括Applications键值，因此要创建该键值
-            //// 如果已经存在该鍵，无须担心可能的覆盖操作问题，因为CreateSubKey函数会以写的方式打开它而不会执行覆盖操作
-            //RegistryKey keyApp = keyRoot.CreateSubKey(autoCADKeyName + "\\" + "Profiles");
-
-            ////将安装包路径设置为工具选项版路径
-            //var toolKey = keyApp.OpenSubKey("<<未命名配置>>\\General", true);
-            //var toolPath = toolKey.GetValue("ToolPalettePath").ToString();
-            //toolKey.SetValue("ToolPalettePath", currentDwgPath + ";" + toolPath, RegistryValueKind.ExpandString); 
-            #endregion
         }
 
         /// <summary>
@@ -180,21 +151,6 @@ namespace TianHua.AutoCAD.ThCui
         {
             //如果此路径为最后一个，则少删除一个分号，否则多删除一个分号
             Preferences.Files.ToolPalettePath = Preferences.Files.ToolPalettePath.EndsWith(currentDwgPath) ? Preferences.Files.ToolPalettePath.Replace(currentDwgPath, "") : Preferences.Files.ToolPalettePath.Replace(currentDwgPath + ";", "");
-
-            #region 注册表的方式
-            //var autoCADKeyName = GetAutoCADKeyName();
-
-            ////确定是HKEY_CURRENT_USER还是HKEY_LOCAL_MACHINE
-            //RegistryKey keyRoot = true ? Registry.CurrentUser : Registry.LocalMachine;
-            //// 由于某些AutoCAD版本的HKEY_CURRENT_USER可能不包括Applications键值，因此要创建该键值
-            //// 如果已经存在该鍵，无须担心可能的覆盖操作问题，因为CreateSubKey函数会以写的方式打开它而不会执行覆盖操作
-            //RegistryKey keyApp = keyRoot.CreateSubKey(autoCADKeyName + "\\" + "Profiles");
-
-            ////将安装包路径从默认路径中删除
-            //var toolKey = keyApp.OpenSubKey("<<未命名配置>>\\General", true);
-            //var toolPath = toolKey.GetValue("ToolPalettePath").ToString();
-            //toolKey.SetValue("ToolPalettePath", toolPath.Replace(currentDwgPath + ";", ""), RegistryValueKind.ExpandString); 
-            #endregion
         }
 
         /// <summary>
@@ -281,34 +237,10 @@ namespace TianHua.AutoCAD.ThCui
             lstCurrent.Items.Clear();
         }
 
-
         private void btnExit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
-
-
-
-        public static string GetAutoCADKeyName()
-        {
-            // 获取HKEY_CURRENT_USER键
-            RegistryKey keyCurrentUser = Registry.CurrentUser;
-            // 打开AutoCAD所属的注册表键:HKEY_CURRENT_USER\Software\Autodesk\AutoCAD
-            RegistryKey keyAutoCAD = keyCurrentUser.OpenSubKey("Software\\Autodesk\\AutoCAD");
-            //获得表示当前的AutoCAD版本的注册表键值:R18.2
-            string valueCurAutoCAD = keyAutoCAD.GetValue("CurVer").ToString();
-            if (valueCurAutoCAD == null) return "";//如果未安装AutoCAD，则返回
-            //获取当前的AutoCAD版本的注册表键:HKEY_LOCAL_MACHINE\Software\Autodesk\AutoCAD\R18.2
-            RegistryKey keyCurAutoCAD = keyAutoCAD.OpenSubKey(valueCurAutoCAD);
-            //获取表示AutoCAD当前语言的注册表键值:ACAD-a001:804
-            string language = keyCurAutoCAD.GetValue("CurVer").ToString();
-            //获取AutoCAD当前语言的注册表键:HKEY_LOCAL_MACHINE\Software\Autodesk\AutoCAD\R18.2\ACAD-a001:804
-            RegistryKey keyLanguage = keyCurAutoCAD.OpenSubKey(language);
-            //返回去除HKEY_LOCAL_MACHINE前缀的当前AutoCAD注册表项的键名:Software\Autodesk\AutoCAD\R18.2\ACAD-a001:804
-            return keyLanguage.Name.Substring(keyCurrentUser.Name.Length + 1);
-        }
-
 
         /// <summary>
         /// 获取当前运行程序所在的目录
@@ -318,7 +250,7 @@ namespace TianHua.AutoCAD.ThCui
         {
             //获取appdata放置插件的路径
             var bundleName = @"ThCADPlugin.bundle";
-            var destDirName = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Autodesk\ApplicationPlugins\" + bundleName;
+            var destDirName = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\Autodesk\ApplicationPlugins\" + bundleName;
             return destDirName + @"\Contents\Resources\ToolPalette\";
         }
 

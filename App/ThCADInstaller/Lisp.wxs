@@ -3,7 +3,7 @@
   <?include Variable.wxi ?>
 	<Fragment>
     <DirectoryRef Id="DIR_Autoloader_Contents">
-      <Component Id="CMP_Autoloader_PackageContents_Lisp_Text" Guid="73D0431E-FC8B-4D49-8891-A5769338D13A">
+      <Component Id="CMP_Autoloader_PackageContents_Lisp_Text" Guid="73D0431E-FC8B-4D49-8891-A5769338D13A" Win64="yes">
         <File Id="FILE_Autoloader_PackageContents_Lisp_Text" Source="$(var.AutoloaderContentsPath)\General-Text.lsp" KeyPath="yes" />
       </Component>
     </DirectoryRef>

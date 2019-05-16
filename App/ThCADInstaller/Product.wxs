@@ -4,7 +4,7 @@
   <?include Variable.wxi ?>
   <!-- Codepage 936 for Simplified Chinese characters -->
 	<Product Id="B3E86A0B-D61A-4E23-BB61-CF2D504CE8E5" Name="$(var.Name)" Codepage="936" Language="2052" Version="$(var.Version)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Description="$(var.Description)" Manufacturer="$(var.Manufacturer)" />
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Description="$(var.Description)" Manufacturer="$(var.Manufacturer)" Platform="x64" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate EmbedCab="yes" />
@@ -19,7 +19,7 @@
 
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="CommonAppDataFolder">
+			<Directory Id="ProgramFiles64Folder">
 				<Directory Id="Autodesk" Name="Autodesk">
 					<Directory Id="ApplicationPlugins" Name="ApplicationPlugins">
 						<Directory Id="INSTALLFOLDER" Name="ThCADPlugin.bundle">
@@ -38,7 +38,7 @@
 
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<Component Id="CMP_Autoloader_PackageContents" Guid="5C172780-B69A-4940-8585-D14489C6538E">
+			<Component Id="CMP_Autoloader_PackageContents" Guid="5C172780-B69A-4940-8585-D14489C6538E" Win64="yes">
 				<File Id="FILE_Autoloader_PackageContents" Source="$(var.AutoloaderPath)\PackageContents.xml" KeyPath="yes" />
 			</Component>
 			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
