@@ -92,14 +92,10 @@ namespace TianHua.AutoCAD.ThCui
             if ((dateTime - usualDate).Days <= 62)
             {
                 ShowRibbon(ComponentManager.Ribbon.ActiveTab);
-                ////重启命令
-                //Autodesk.AutoCAD.Internal.CommandCallback cc = new Autodesk.AutoCAD.Internal.CommandCallback(CheWeiBianHao);
-                //Autodesk.AutoCAD.Internal.Utils.AddCommand("MyGroup", "THCHU", "THCHU", CommandFlags.Modal, cc);
             }
             else
             {
-                //Autodesk.AutoCAD.Internal.Utils.RemoveCommand("MyGroup", "THCNU");
-                //System.Windows.Forms.MessageBox.Show("天华效率工具已过期，请使用最新版本！");
+                //
             }
         }
 
@@ -110,8 +106,5 @@ namespace TianHua.AutoCAD.ThCui
         {
             CloseRibbon(ComponentManager.Ribbon.ActiveTab);
         }
-
-
-
     }
 }

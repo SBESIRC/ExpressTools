@@ -29,7 +29,7 @@ using Polyline = Autodesk.AutoCAD.DatabaseServices.Polyline;
 namespace TianHua.AutoCAD.Parking
 {
     /// <summary>
-    /// CheWeiWindow.xaml 的交互逻辑
+    /// ThParkingDialog.xaml 的交互逻辑
     /// </summary>
     public partial class ThParkingDialog : Window
     {
