@@ -2,75 +2,132 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64">
-      <?if $(var.DotNetARX.Configuration) = Debug ?>
+      <?if $(var.Configuration) = Debug ?>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R18" Name="2012">
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX" Guid="{E97A5608-DA8A-4115-9AE4-0A52D70CD681}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R18_DotNetARX" KeyPath="yes" Source="$(var.DotNetARX.TargetPath)" />
+          <?define OutputPath_R18_Debug="bin\Debug" ?>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Debug" Guid="{E97A5608-DA8A-4115-9AE4-0A52D70CD681}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_DotNetARX_Debug" KeyPath="yes" Source="$(var.DotNetARX.ProjectDir)\$(var.OutputPath_R18_Debug)\$(var.DotNetARX.TargetFileName)" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools" Guid="{173117A6-FF4D-4CFA-82E2-FCA3F4AC0DAC}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ExtensionTools" KeyPath="yes" Source="$(var.ExtensionTools.TargetPath)" />
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Debug" Guid="{173117A6-FF4D-4CFA-82E2-FCA3F4AC0DAC}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ExtensionTools_Debug" KeyPath="yes" Source="$(var.ExtensionTools.ProjectDir)\$(var.OutputPath_R18_Debug)\$(var.ExtensionTools.TargetFileName)" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui" Guid="{DA4F2F82-7879-4238-B87B-A4A038863A8A}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThCui" KeyPath="yes" Source="$(var.ThCui.TargetPath)" />
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Debug" Guid="{DA4F2F82-7879-4238-B87B-A4A038863A8A}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThCui_Debug" KeyPath="yes" Source="$(var.ThCui.ProjectDir)\$(var.OutputPath_R18_Debug)\$(var.ThCui.TargetFileName)" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking" Guid="{ED56D6C6-5601-480B-AF24-13AE73A8841D}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThParking" KeyPath="yes" Source="$(var.ThParking.TargetPath)" />
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Debug" Guid="{ED56D6C6-5601-480B-AF24-13AE73A8841D}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThParking_Debug" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R18_Debug)\$(var.ThParking.TargetFileName)" />
           </Component>
         </Directory>
-      <?endif?>
-      <?if $(var.DotNetARX.Configuration) = Debug-NET40 ?>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2013">
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX" Guid="{47A8CFE4-88C0-48CB-B6BB-BC1295FEEC6D}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R19_DotNetARX" KeyPath="yes" Source="$(var.DotNetARX.TargetPath)" />
+          <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" Guid="{A2E5AE11-9269-414D-8D38-BE9367516242}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" KeyPath="yes" Source="$(var.DotNetARX.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.DotNetARX.TargetFileName)" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools" Guid="{89FDBE43-17B8-4FD2-BA3F-CDF1D7060569}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ExtensionTools" KeyPath="yes" Source="$(var.ExtensionTools.TargetPath)" />
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Debug" Guid="{08701E02-18F0-4E0E-80E2-F840AA8A8771}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ExtensionTools_Debug" KeyPath="yes" Source="$(var.ExtensionTools.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.ExtensionTools.TargetFileName)" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui" Guid="{3EB314F2-7355-49D7-8C2D-3CC039161753}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThCui" KeyPath="yes" Source="$(var.ThCui.TargetPath)" />
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Debug" Guid="{428747DA-1443-437A-BB30-87758C98697C}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThCui_Debug" KeyPath="yes" Source="$(var.ThCui.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.ThCui.TargetFileName)" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking" Guid="{612FF834-4FA7-4150-BFA1-089F99397DB5}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThParking" KeyPath="yes" Source="$(var.ThParking.TargetPath)" />
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Debug" Guid="{D3EB23DD-EF91-4DC0-98EE-E736A248E5AD}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThParking_Debug" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.ThParking.TargetFileName)" />
           </Component>
         </Directory>
-      <?endif?>
-      <?if $(var.DotNetARX.Configuration) = Debug-NET45 ?>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R20" Name="2015">
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX" Guid="{FE7156B0-F1A8-44A9-95C7-8E615F1F2ED6}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_DotNetARX" KeyPath="yes" Source="$(var.DotNetARX.TargetPath)" />
+          <?define OutputPath_R20_Debug="bin\Debug-NET45" ?>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" Guid="{A2A2D193-79AF-4F92-92D1-FDBBA94F7D1D}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" KeyPath="yes" Source="$(var.DotNetARX.ProjectDir)\$(var.OutputPath_R20_Debug)\$(var.DotNetARX.TargetFileName)" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools" Guid="{DF2E6A17-D9CD-462A-99B9-CECC56F0FF4B}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExtensionTools" KeyPath="yes" Source="$(var.ExtensionTools.TargetPath)" />
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Debug" Guid="{8F325DEC-EDFD-48D6-97DF-39C2DB788CE5}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExtensionTools_Debug" KeyPath="yes" Source="$(var.ExtensionTools.ProjectDir)\$(var.OutputPath_R20_Debug)\$(var.ExtensionTools.TargetFileName)" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui" Guid="{5257DE89-F437-405D-A007-16295E9F7095}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThCui" KeyPath="yes" Source="$(var.ThCui.TargetPath)" />
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Debug" Guid="{714C0C74-FFCD-434C-A245-A88C4C0E3B61}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThCui_Debug" KeyPath="yes" Source="$(var.ThCui.ProjectDir)\$(var.OutputPath_R20_Debug)\$(var.ThCui.TargetFileName)" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking" Guid="{51067215-6DAB-48E7-91C8-036BC2CAE372}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThParking" KeyPath="yes" Source="$(var.ThParking.TargetPath)" />
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Debug" Guid="{F1740AA4-7A1D-4760-8227-E13DB7E3782B}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThParking_Debug" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R20_Debug)\$(var.ThParking.TargetFileName)" />
           </Component>
         </Directory>
+      <?elseif $(var.Configuration) = Release ?>
+        <Directory Id="DIR_Autoloader_Contents_App_Win64_R18" Name="2012">
+          <?define OutputPath_R18_Release="bin\Release" ?>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Release" Guid="{E97A5608-DA8A-4115-9AE4-0A52D70CD681}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_DotNetARX_Release" KeyPath="yes" Source="$(var.DotNetARX.ProjectDir)\$(var.OutputPath_R18_Release)\$(var.DotNetARX.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Release" Guid="{173117A6-FF4D-4CFA-82E2-FCA3F4AC0DAC}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ExtensionTools_Release" KeyPath="yes" Source="$(var.ExtensionTools.ProjectDir)\$(var.OutputPath_R18_Release)\$(var.ExtensionTools.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Release" Guid="{DA4F2F82-7879-4238-B87B-A4A038863A8A}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThCui_Release" KeyPath="yes" Source="$(var.ThCui.ProjectDir)\$(var.OutputPath_R18_Release)\$(var.ThCui.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Release" Guid="{ED56D6C6-5601-480B-AF24-13AE73A8841D}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThParking_Release" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R18_Release)\$(var.ThParking.TargetFileName)" />
+          </Component>
+        </Directory>
+
+        <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2013">
+          <?define OutputPath_R19_Release="bin\Release-NET40" ?>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" Guid="{A2E5AE11-9269-414D-8D38-BE9367516242}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" KeyPath="yes" Source="$(var.DotNetARX.ProjectDir)\$(var.OutputPath_R19_Release)\$(var.DotNetARX.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" Guid="{08701E02-18F0-4E0E-80E2-F840AA8A8771}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" KeyPath="yes" Source="$(var.ExtensionTools.ProjectDir)\$(var.OutputPath_R19_Release)\$(var.ExtensionTools.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Release" Guid="{428747DA-1443-437A-BB30-87758C98697C}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThCui_Release" KeyPath="yes" Source="$(var.ThCui.ProjectDir)\$(var.OutputPath_R19_Release)\$(var.ThCui.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Release" Guid="{D3EB23DD-EF91-4DC0-98EE-E736A248E5AD}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThParking_Release" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R19_Release)\$(var.ThParking.TargetFileName)" />
+          </Component>
+        </Directory>
+
+        <Directory Id="DIR_Autoloader_Contents_App_Win64_R20" Name="2015">
+          <?define OutputPath_R20_Release="bin\Release-NET45" ?>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" Guid="{A2A2D193-79AF-4F92-92D1-FDBBA94F7D1D}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" KeyPath="yes" Source="$(var.DotNetARX.ProjectDir)\$(var.OutputPath_R20_Release)\$(var.DotNetARX.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" Guid="{8F325DEC-EDFD-48D6-97DF-39C2DB788CE5}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" KeyPath="yes" Source="$(var.ExtensionTools.ProjectDir)\$(var.OutputPath_R20_Release)\$(var.ExtensionTools.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Release" Guid="{714C0C74-FFCD-434C-A245-A88C4C0E3B61}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThCui_Release" KeyPath="yes" Source="$(var.ThCui.ProjectDir)\$(var.OutputPath_R20_Release)\$(var.ThCui.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Release" Guid="{F1740AA4-7A1D-4760-8227-E13DB7E3782B}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThParking_Release" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R20_Release)\$(var.ThParking.TargetFileName)" />
+          </Component>
+        </Directory>
+      
       <?endif?>
     </DirectoryRef>
   </Fragment>
    <Fragment>
     <ComponentGroup Id="ProductComponentsAppWin64">
-      <?if $(var.DotNetARX.Configuration) = Debug ?>
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking" />
-      <?endif?>
-      <?if $(var.DotNetARX.Configuration) = Debug-NET40 ?>
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking" />
-      <?endif?>
-      <?if $(var.DotNetARX.Configuration) = Debug-NET45 ?>
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking" />
+      <?if $(var.Configuration) = Debug ?>
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Debug" />
+      <?elseif $(var.Configuration) = Release ?>
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Release" />
       <?endif?>
     </ComponentGroup>
   </Fragment>
