@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Fragment>
+  <Fragment>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64">
       <?if $(var.DotNetARX.Configuration) = Debug ?>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R18" Name="2012">
@@ -51,7 +51,7 @@
         </Directory>
       <?endif?>
     </DirectoryRef>
-	</Fragment>
+  </Fragment>
    <Fragment>
     <ComponentGroup Id="ProductComponentsAppWin64">
       <?if $(var.DotNetARX.Configuration) = Debug ?>
