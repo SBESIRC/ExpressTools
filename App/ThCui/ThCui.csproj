@@ -91,8 +91,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AutoCAD-2012.Net.Base" Version="1.0.0" Condition="'$(TargetFramework)' == 'net40'" />
-	  <PackageReference Include="AutoCAD-2015.Net.Base" Version="1.0.0" Condition="'$(TargetFramework)' == 'net45'" />
+    <PackageReference Include="AutoCAD-2012.Net.Base" Version="1.0.0" Condition="'$(TargetFrameworkVersion)' == 'v4.0'" />
+	<PackageReference Include="AutoCAD-2015.Net.Base" Version="1.0.0" Condition="'$(TargetFrameworkVersion)' == 'v4.5'" />
   </ItemGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
