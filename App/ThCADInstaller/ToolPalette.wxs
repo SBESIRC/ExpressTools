@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
     <?include Variable.wxi ?>
     <Fragment>
         <DirectoryRef Id="DIR_Autoloader_Contents_Resources_ToolPalette">
@@ -12,25 +12,39 @@
                 </Component>
                 <Directory Id="dir34191EFB99208C1DE3FF3F740BDB89C3" Name="Palettes">
                     <Component Id="cmp0E3D5653BEC118776834DA6B41338322" Guid="{A24D765F-5E8D-4973-AD5B-48370D3E70B6}" Win64="yes">
-                        <File Id="fil7B96845B5DE9972D12BCCB6ED5E9FF9F" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\人防设备_3FE6C548-A3CC-44BF-841E-CBD24ABF63E0.atc" />
+                        <File Id="fil7B96845B5DE9972D12BCCB6ED5E9FF9F" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\人防设备_3FE6C548-A3CC-44BF-841E-CBD24ABF63E0.atc" >
+                          <util:PermissionEx User="Users" GenericWrite="yes" />
+                        </File>
                     </Component>
                     <Component Id="cmp4B337B36D8733BE31B63191D8D168CA6" Guid="{ACD6D7F8-FECF-436C-A7F7-EF1B81BFBCE9}" Win64="yes">
-                        <File Id="filFF689AD5B35B658A9FBFE8ACB80D6F0A" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\文字_23BA6E43-BB4E-4798-958D-AC898E616F40.atc" />
+                      <File Id="filFF689AD5B35B658A9FBFE8ACB80D6F0A" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\文字_23BA6E43-BB4E-4798-958D-AC898E616F40.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpAD7F61D949A76AB563FDE51A4EFB6A93" Guid="{62DF500D-1302-476A-9BAC-1681FC6F4364}" Win64="yes">
-                        <File Id="fil834513DC43B5B26BEF57E7F6AFA0E4D4" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\水配件_4968E8C3-2183-4E83-8DA4-50CCD22B14EF.atc" />
+                        <File Id="fil834513DC43B5B26BEF57E7F6AFA0E4D4" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\水配件_4968E8C3-2183-4E83-8DA4-50CCD22B14EF.atc" >
+                          <util:PermissionEx User="Users" GenericWrite="yes" />
+                        </File>
                     </Component>
                     <Component Id="cmp3CF450F7086BDAF7FCA21314BA7D0B1E" Guid="{CE6E6E9D-72D4-4FF3-8395-859F210FA4A8}" Win64="yes">
-                        <File Id="fil086A778FC3DE7FAEABA4572368FDFD7D" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\设备_6309342D-12A4-47F8-AACD-9876D3F48FAC.atc" />
+                        <File Id="fil086A778FC3DE7FAEABA4572368FDFD7D" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\设备_6309342D-12A4-47F8-AACD-9876D3F48FAC.atc" >
+                          <util:PermissionEx User="Users" GenericWrite="yes" />
+                        </File>
                     </Component>
                     <Component Id="cmpEADFA69304B6481B61248BB534F5854E" Guid="{40342B22-19E0-4240-9B79-B726FD9F255B}" Win64="yes">
-                        <File Id="fil5973C84BBE708C65CA3CC860DF256673" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\阀门_33F0C528-33C6-4B3A-9157-AD638E313400.atc" />
+                      <File Id="fil5973C84BBE708C65CA3CC860DF256673" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\阀门_33F0C528-33C6-4B3A-9157-AD638E313400.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpACC94E141042D55C02DC4D733D663418" Guid="{C32780C1-7702-488E-B150-6383B519D7CB}" Win64="yes">
-                        <File Id="fil081C0C89856FE61A1B0030424E7A5276" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\附件_9BD003F7-68CF-422D-A9ED-8E1D3CF9F6DA.atc" />
+                      <File Id="fil081C0C89856FE61A1B0030424E7A5276" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\附件_9BD003F7-68CF-422D-A9ED-8E1D3CF9F6DA.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpAE8C1C00C0E708B2FDA61EE461A7027A" Guid="{6CA95479-F85C-437D-8928-540F4E817537}" Win64="yes">
-                        <File Id="fil888B089494D005B6CCAE58058C85D686" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\风口_1DF3A4E7-EA4B-40C8-8161-126A27054388.atc" />
+                      <File Id="fil888B089494D005B6CCAE58058C85D686" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\暖通\Palettes\风口_1DF3A4E7-EA4B-40C8-8161-126A27054388.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Directory Id="dir3225D106CE19AAFFC93B68277360E6F8" Name="Images">
                         <Component Id="cmpFBFFC238C16BA0CB8C2DDE664DFFAD18" Guid="{4CC39D4F-E4DE-44E6-848E-1E73286B7575}" Win64="yes">
@@ -636,31 +650,49 @@
                 </Component>
                 <Directory Id="dirA3507BBCB95E7EE93E51FE56272C4D38" Name="Palettes">
                     <Component Id="cmpBE524300675D7468EBB83F244431F820" Guid="{7D0E9380-0524-4D1C-BB64-44AD3FCE45A5}" Win64="yes">
-                        <File Id="fil208E367275726722D5D0B5EB2BD87DC1" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\BAS_CCB2F36B-06DA-42AE-94AF-B768DD66508F.atc" />
+                      <File Id="fil208E367275726722D5D0B5EB2BD87DC1" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\BAS_CCB2F36B-06DA-42AE-94AF-B768DD66508F.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpC9C3CF7A51DF000D4C8B9A5B41F0FBF8" Guid="{93338ECC-4355-444F-91D6-1A9A428DF798}" Win64="yes">
-                        <File Id="filF915E0D729B42FFBBBB3E606941478D1" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\CAS_119DC526-31B8-451D-8A29-B4F4E3AF38BA.atc" />
+                      <File Id="filF915E0D729B42FFBBBB3E606941478D1" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\CAS_119DC526-31B8-451D-8A29-B4F4E3AF38BA.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpAB2AC1766F36DD44791EBBE3AD5BC309" Guid="{949A0889-4B65-499E-9F17-396F44E23856}" Win64="yes">
-                        <File Id="fil798CEAC212FDC1DFDF337F4B9D49E695" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\DES_0A9BAD8E-BE01-4B8E-89B1-22DED07A01CA.atc" />
+                      <File Id="fil798CEAC212FDC1DFDF337F4B9D49E695" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\DES_0A9BAD8E-BE01-4B8E-89B1-22DED07A01CA.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmp786761F8093311DC091F24592025B48B" Guid="{2F5E6F5E-8BEE-4938-8575-0E2014982142}" Win64="yes">
-                        <File Id="filA29BB6AF10FDF5AA86A401540421B2C1" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\FAS_9DDE3D7E-8757-43CD-9F73-013AEACDB626.atc" />
+                      <File Id="filA29BB6AF10FDF5AA86A401540421B2C1" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\FAS_9DDE3D7E-8757-43CD-9F73-013AEACDB626.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmp29A6DDF285F50121D195A6F7EAA79115" Guid="{8610A3FC-D7D3-42D4-9D12-ACCFB19F0CF4}" Win64="yes">
-                        <File Id="filE8436091AEA3E8204B525754A7E09F8A" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\GDN_397E3901-EBBC-478C-B3EF-9C00655E1975.atc" />
+                      <File Id="filE8436091AEA3E8204B525754A7E09F8A" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\GDN_397E3901-EBBC-478C-B3EF-9C00655E1975.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpD3EDBD889957CE70B617646D71EA5800" Guid="{EE8C139E-027B-40EF-9B77-A4EA12C19C2C}" Win64="yes">
-                        <File Id="fil5EEA83430B64B786A4311FDD4CCC0D70" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\LITE_7FCCA241-7C73-4758-B812-3C44C247EE25.atc" />
+                      <File Id="fil5EEA83430B64B786A4311FDD4CCC0D70" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\LITE_7FCCA241-7C73-4758-B812-3C44C247EE25.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmp88CE2B193D405CE477C1C5853900A78E" Guid="{1A34697A-E0AC-414D-ADF2-7B080BAF5BA3}" Win64="yes">
-                        <File Id="fil3C125566D82EAE41ADFAB4950E3E3DF4" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\POWER_AB37FA0F-16F7-4AEA-A906-5C531F1E3C37.atc" />
+                      <File Id="fil3C125566D82EAE41ADFAB4950E3E3DF4" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\POWER_AB37FA0F-16F7-4AEA-A906-5C531F1E3C37.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpF74AE1A37785E8D2FF2961CFC8D32E0D" Guid="{A41E522D-E198-443C-9828-9C3FEDB2FC91}" Win64="yes">
-                        <File Id="filDDE7935862B39E332D04034C56CB8432" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\其他_6949A09D-EC58-4F61-BCAB-37DBE7F3C3CF.atc" />
+                      <File Id="filDDE7935862B39E332D04034C56CB8432" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\其他_6949A09D-EC58-4F61-BCAB-37DBE7F3C3CF.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpE4AC718D935FA48084FF537CCBC920F5" Guid="{F6B4B26D-FD36-442B-AD7A-DE00621D8CAE}" Win64="yes">
-                        <File Id="filB439487490B6CF558330C4F97EC7F9D1" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\图框_11F5B2E3-6DA6-492F-A0C4-AA7A53997E9E.atc" />
+                      <File Id="filB439487490B6CF558330C4F97EC7F9D1" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\电气\Palettes\图框_11F5B2E3-6DA6-492F-A0C4-AA7A53997E9E.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Directory Id="dir19780CA086EDFFA0CC902B958A68813F" Name="Images">
                         <Component Id="cmp818AD99C1CFA151916481DCB295610D2" Guid="{5794650E-20D8-4AD2-8373-62E8162DA648}" Win64="yes">
@@ -1041,34 +1073,54 @@
                 </Component>
                 <Directory Id="dir715FC61C8044B725F16891DBF04D979F" Name="Palettes">
                     <Component Id="cmp248C5712AA593EFA0D1BA51F488880DB" Guid="{FC87A5FF-6368-4091-83F2-6B8F42BF56DC}" Win64="yes">
-                        <File Id="filB078253466E58B7CF5C616CA86E30BE9" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\常用附件_6C45F078-CCFA-485A-960D-E4E60B295009.atc" />
+                      <File Id="filB078253466E58B7CF5C616CA86E30BE9" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\常用附件_6C45F078-CCFA-485A-960D-E4E60B295009.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmp095716E7A201EE873FC3FCB74DDE0CCC" Guid="{2E0740EB-E888-4B80-B775-FC9E18D55977}" Win64="yes">
-                        <File Id="filF4A4F731EEB6D1B2313875C4CF81B1E7" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\新建 选项板_0568B527-42D4-4D87-8DAF-E1E7534AC350.atc" />
+                      <File Id="filF4A4F731EEB6D1B2313875C4CF81B1E7" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\新建 选项板_0568B527-42D4-4D87-8DAF-E1E7534AC350.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpBA62F96B496FDF1DDB0C2EC27E308B1A" Guid="{93A79A72-6782-49D5-8E30-B55315871F43}" Win64="yes">
-                        <File Id="filE4421E263D78446ADFD57570BB38960D" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\新建 选项板_32764225-BFEF-4755-85B2-5845DACCB100.atc" />
+                      <File Id="filE4421E263D78446ADFD57570BB38960D" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\新建 选项板_32764225-BFEF-4755-85B2-5845DACCB100.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmp384B79156CFE6525EB1338979C443BFB" Guid="{776A1C05-8B45-4007-B519-8FA46FB8E8B2}" Win64="yes">
-                        <File Id="fil057EF3B9D3A14FFCDC2AB804E96E58DA" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\新建 选项板_FCF48942-B0DC-42CC-8A9E-5500635428EC.atc" />
+                      <File Id="fil057EF3B9D3A14FFCDC2AB804E96E58DA" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\新建 选项板_FCF48942-B0DC-42CC-8A9E-5500635428EC.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpA3DCA6EE2F15FF8A608C852AFBC17B9B" Guid="{63FCBB3B-F078-4801-9851-6C445B48FFA1}" Win64="yes">
-                        <File Id="filE55D3BEE6A601FB44C334A6DFDAA57A9" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\消防系统_DDA27D02-764E-4789-8ED4-EFBF3D4ACD4A.atc" />
+                      <File Id="filE55D3BEE6A601FB44C334A6DFDAA57A9" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\消防系统_DDA27D02-764E-4789-8ED4-EFBF3D4ACD4A.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpC99C165ABE091F25CE9D1DDFD478A2DF" Guid="{7E10929D-C15D-4CB1-9AC7-BCDD07411D24}" Win64="yes">
-                        <File Id="fil19B3F393CB6D266197D0D54DB25E4481" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\立管及编号_936269BD-EDEF-48B0-9C9F-C7B85A8465B8.atc" />
+                      <File Id="fil19B3F393CB6D266197D0D54DB25E4481" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\立管及编号_936269BD-EDEF-48B0-9C9F-C7B85A8465B8.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmp2DEA7C48F54BA8CA14752E74EC0915E8" Guid="{6F92BE6E-99E1-4D67-BA68-48D4835F2D94}" Win64="yes">
-                        <File Id="fil8BB9023ABD584F96D9725D18CE4EC08B" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\自喷系统_51DE532C-26A7-4716-B8F9-475459F1D0A7.atc" />
+                      <File Id="fil8BB9023ABD584F96D9725D18CE4EC08B" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\自喷系统_51DE532C-26A7-4716-B8F9-475459F1D0A7.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmp2A343613B493CA8A0F2B9D1B419DD14A" Guid="{F5998006-5F88-447E-9CF6-35BF918DFB95}" Win64="yes">
-                        <File Id="fil5D7E1D8A8B9E616625FFA60FD750BC51" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\附件阀门_92434F17-239F-4499-B544-0F21FCA4D0DA.atc" />
+                      <File Id="fil5D7E1D8A8B9E616625FFA60FD750BC51" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\附件阀门_92434F17-239F-4499-B544-0F21FCA4D0DA.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpD32E79EC7AEA9CA15C6141A2F7593F09" Guid="{4E25EE16-0416-4CA9-84C5-908507DAA232}" Win64="yes">
-                        <File Id="fil3DCBDCA3DB49131576D645606E559B6C" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\附件阀门续_36BB0D95-07B0-4959-8FB9-6BC82BC3F2C3.atc" />
+                      <File Id="fil3DCBDCA3DB49131576D645606E559B6C" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\附件阀门续_36BB0D95-07B0-4959-8FB9-6BC82BC3F2C3.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Component Id="cmpF7191FFA8D6026A9F1C410018EA6C39C" Guid="{7AB7DED3-E7AA-4871-9340-4FBC359FB669}" Win64="yes">
-                        <File Id="fil77ED5B8BEC7F3C215408C692793C896B" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\雨水系统_FB3202DB-F9E6-4C7E-B937-88CF5B8C5803.atc" />
+                      <File Id="fil77ED5B8BEC7F3C215408C692793C896B" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Resources\ToolPalette\给排水\Palettes\雨水系统_FB3202DB-F9E6-4C7E-B937-88CF5B8C5803.atc" >
+                        <util:PermissionEx User="Users" GenericWrite="yes" />
+                      </File>
                     </Component>
                     <Directory Id="dir35C5519B6BEF87200511269D6AE9BD08" Name="Images">
                         <Component Id="cmp0AE00193DB2EC998CF712B4FFB0A0E04" Guid="{97F21A27-78E9-4EBD-B5DE-CC301EAE14B5}" Win64="yes">
