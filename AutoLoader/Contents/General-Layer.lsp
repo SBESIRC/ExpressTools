@@ -1,9 +1,5 @@
-(defun TH:loadCSV ( / data file )
-    (if
-        (and
-            (setq file (getfiled "Select CSV File" "" "csv" 16))
-            (setq data (LM:readcsv file))
-        )
+(defun TH:loadCSV ( file / data )
+    (if (setq data (LM:readcsv file))
         (progn
 	    (regapp "AcAecLayerStandard")
             (foreach line data
@@ -20,7 +16,9 @@
 )
 
 (defun c:THALC ()
- 	(TH:loadCSV)
+  	(setq pluginPath (strcat (getenv "PROGRAMFILES") "\\Autodesk\\ApplicationPlugins\\ThCADPlugin.bundle"))
+  	(setq pluginContentPath (strcat pluginPath "\\Contents"))
+ 	(TH:loadCSV (strcat pluginContentPath "\\Standards\\Layer\\Architecture.csv"))
 );defun
 
 (defun c:THSLC ()
