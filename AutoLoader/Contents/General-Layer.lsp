@@ -19,13 +19,20 @@
   	(setq pluginPath (strcat (getenv "PROGRAMFILES") "\\Autodesk\\ApplicationPlugins\\ThCADPlugin.bundle"))
   	(setq pluginContentPath (strcat pluginPath "\\Contents"))
  	(TH:loadCSV (strcat pluginContentPath "\\Standards\\Layer\\Architecture.csv"))
+  	(princ)
 );defun
 
 (defun c:THSLC ()
+    	(setq pluginPath (strcat (getenv "PROGRAMFILES") "\\Autodesk\\ApplicationPlugins\\ThCADPlugin.bundle"))
+  	(setq pluginContentPath (strcat pluginPath "\\Contents"))
+ 	(TH:loadCSV (strcat pluginContentPath "\\Standards\\Layer\\Structure.csv"))
 	(princ)
 );defun
 
 (defun c:THMLC ()
+      	(setq pluginPath (strcat (getenv "PROGRAMFILES") "\\Autodesk\\ApplicationPlugins\\ThCADPlugin.bundle"))
+  	(setq pluginContentPath (strcat pluginPath "\\Contents"))
+ 	(TH:loadCSV (strcat pluginContentPath "\\Standards\\Layer\\HVAC.csv"))
 	(princ)
 );defun
 
