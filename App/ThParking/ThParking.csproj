@@ -19,9 +19,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity">
-      <HintPath>C:\Program Files (x86)\LANDesk\LDClient\ServiceManager\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -93,8 +90,9 @@
     <Resource Include="Resource\select.png" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="AutoCAD-2012.Net.Base" Version="1.0.0" Condition="'$(TargetFrameworkVersion)' == 'v4.0'" />
-	<PackageReference Include="AutoCAD-2015.Net.Base" Version="1.0.0" Condition="'$(TargetFrameworkVersion)' == 'v4.5'" />
+    <PackageReference Include="AutoCAD-2015.Net.Base" Version="1.0.0" Condition="'$(TargetFrameworkVersion)' == 'v4.5'" />
   </ItemGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
