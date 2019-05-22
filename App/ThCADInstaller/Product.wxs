@@ -28,6 +28,9 @@
 								<Directory Id="DIR_Autoloader_Contents_Resources" Name="Resources">
 									<Directory Id="DIR_Autoloader_Contents_Resources_ToolPalette" Name="ToolPalette" />
 								</Directory>
+                <Directory Id="DIR_Autoloader_Contents_Standards" Name="Standards">
+                  <Directory Id="DIR_Autoloader_Contents_Standards_Layer" Name="Layer" />
+                </Directory>
 							</Directory>
 						</Directory>
 					</Directory>

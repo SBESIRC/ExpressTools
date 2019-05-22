@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variable.wxi ?>
+  <Fragment>
+    <DirectoryRef Id="DIR_Autoloader_Contents_Standards_Layer">
+      <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_Architecture" Guid="{D17D74E0-5F38-4499-AF84-366C8DE524AF}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Architecture" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Architecture.csv" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="ProductComponentsStandards">
+      <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Architecture" />
+    </ComponentGroup>
+  </Fragment>
+</Wix>
