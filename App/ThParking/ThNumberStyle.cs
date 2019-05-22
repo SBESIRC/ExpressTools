@@ -9,15 +9,35 @@ namespace TianHua.AutoCAD.Parking
     /// <summary>
     /// 用来管理配置信息的类
     /// </summary>
-    public class ThParkingManager
+    public class ThNumberStyle : ThNotifyObject
     {
         public string PolyLayerName { get; set; }//车位轨迹图层
         public string NumberLayerName { get; set; }//车位编号图层
         public double NumberHeight { get; set; }//车位编号文字高度
-        public string NumberTextStyle { get; set; }//车位编号文字样式名
+
+        private string _numberTextStyle;
+        public string NumberTextStyle//车位编号文字样式名
+        {
+            get
+            {
+                return _numberTextStyle;
+            }
+
+            set
+            {
+                if (_numberTextStyle != value)
+                {
+                    _numberTextStyle = value;
+                    RaisePropertyChanged("NumberTextStyle");
+                }
+            }
+        }
+
         public double OffsetDis { get; set; }//编号向上偏移距离
 
-        public ThParkingManager(string polyLayerName, string numbaerLayerName, string numberTextStyle, double height,double offsetDis)
+
+
+        public ThNumberStyle(string polyLayerName, string numbaerLayerName, string numberTextStyle, double height,double offsetDis)
         {
             this.PolyLayerName = polyLayerName;
             this.NumberLayerName = numbaerLayerName;

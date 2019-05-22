@@ -29,7 +29,7 @@ namespace TianHua.AutoCAD.Parking
         ///为车位赋值编号
         /// </summary>
         /// <param name="number"></param>
-        public void SetNumber(string number, ThParkingManager manager)
+        public void SetNumber(ThNumberInfo numberInfo, ThNumberStyle manager)
         {
             //复制对象
             var cloneBoundry = (Polyline)this.Boundry.Clone();
@@ -41,9 +41,9 @@ namespace TianHua.AutoCAD.Parking
             //回到世界坐标系求出中心
             position = position.TransformBy(this.Ent.BlockTransform);
 
-            //在世界坐标系下，实例化第一个编号，中心为上述中心,旋转角度为块参照的旋转角度（后面这个不知道对不对，再看看）
+            //在世界坐标系下，实例化第一个编号(加上前缀后缀)，中心为上述中心,旋转角度为块参照的旋转角度（后面这个不知道对不对，再看看）
             //var baseRotation=this.Ent.Normal.Z>0?
-            var baseText = new DBTextEx(number, position, manager.NumberHeight, manager.NumberLayerName, this.Ent.Rotation);
+            var baseText = new DBTextEx(numberInfo.NumberWithFix(numberInfo.StartNumber), position, manager.NumberHeight, manager.NumberLayerName, this.Ent.Rotation);
 
             //接下来开始实现在世界坐标系下的，多个编号的偏移
             var numbers = new List<DBText>();
@@ -59,7 +59,7 @@ namespace TianHua.AutoCAD.Parking
                 //var bcsPosition = new Point3d(position.X + this.Ent.Normal.X * manager.OffsetDis * i, position.Y + this.Ent.Normal.Y * manager.OffsetDis * i, 0);
 
                 //实例化第一个编号,中心位置如上述，旋转角度跟随块参照
-                var gg = new DBTextEx((Convert.ToInt32(number) + i).ToString(), bcsPosition, manager.NumberHeight, manager.NumberLayerName, this.Ent.Rotation);
+                var gg = new DBTextEx(numberInfo.NumberWithFix(numberInfo.StartNumber + i), bcsPosition, manager.NumberHeight, manager.NumberLayerName, this.Ent.Rotation);
 
                 //如果文字的旋转角度为[0,90]或者[270,360)，文字的显示就是我们要的向上或者向左，其他情况减掉180翻过来
                 if (!((gg.Rotation <= Math.PI / 2 + 0.001 && gg.Rotation >= 0 - 0.001) || (gg.Rotation < Math.PI * 2 + 0.001 && gg.Rotation >= Math.PI * 1.5 - 0.001)))

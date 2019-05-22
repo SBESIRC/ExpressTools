@@ -13,7 +13,7 @@ using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace TianHua.AutoCAD.Parking
 {
-    public class ThParkingApp:IExtensionApplication
+    public class ThParkingApp : IExtensionApplication
     {
         const string CMD_GROUPNAME = "TIANHUACAD";
         const string CMD_THCNU_GLOBAL_NAME = "THCNU";
@@ -32,7 +32,7 @@ namespace TianHua.AutoCAD.Parking
         public void RegisterCommands()
         {
             //注册车位编号命令
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THCNU_GLOBAL_NAME, CMD_THCNU_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(ShowToolPalette));
+            Utils.AddCommand(CMD_GROUPNAME, CMD_THCNU_GLOBAL_NAME, CMD_THCNU_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(ShowNumberDialog));
         }
 
         public void UnregisterCommands()
@@ -41,11 +41,15 @@ namespace TianHua.AutoCAD.Parking
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCNU_GLOBAL_NAME);
         }
 
-        [CommandMethod("TIANHUACAD", "THCNU", CommandFlags.Modal)]
-        public void ShowToolPalette()
+        public void ShowNumberDialog()
         {
-            ThParkingDialog toolPalette = new ThParkingDialog();
-            AcadApp.ShowModalWindow(toolPalette);
+            ThParkingDialog parkingDialog = ThParkingDialog.GetInstance();
+            AcadApp.ShowModalWindow(parkingDialog);
+            //if (parkingDialog.ResultState == true)
+            //{
+            //    var numberManager = new ThNumberingManager();
+            //    numberManager.Numbering(parkingDialog);
+            //}
         }
     }
 }

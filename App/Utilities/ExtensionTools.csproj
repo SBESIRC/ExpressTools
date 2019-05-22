@@ -40,6 +40,7 @@
     <Compile Include="EnumTool.cs" />
     <Compile Include="JiHe.cs" />
     <Compile Include="LinqTool.cs" />
+    <Compile Include="ObjectIDTool.cs" />
     <Compile Include="SelectionTool.cs" />
     <Compile Include="ShowTools.cs" />
     <Compile Include="WeiZhi.cs" />

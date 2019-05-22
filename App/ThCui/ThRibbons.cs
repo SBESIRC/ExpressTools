@@ -11,18 +11,6 @@ namespace TianHua.AutoCAD.ThCui
         //调用资源字典
         ResourceDictionary resourceDictionary = (ResourceDictionary)WinApp.LoadComponent(new Uri("/ThCui;component/ThRibbonDictionary.xaml", UriKind.Relative));
 
-        /// <summary>
-        /// 显示指定tab的ribbon
-        /// </summary>
-        /// <param name="tab"></param>
-        public void ShowRibbon(RibbonTab tab)
-        {
-            foreach (var item in tab.Panels)
-            {
-                item.IsVisible = true;
-            }
-        }
-
         public RibbonTab CreateRibbon()
         {
             //获取由XAML定义的选项卡
@@ -66,14 +54,26 @@ namespace TianHua.AutoCAD.ThCui
             return tab;
         }
 
+        /// <summary>
+        /// 显示指定tab的ribbon
+        /// </summary>
+        /// <param name="tab"></param>
+        public void ShowAllRibbon(RibbonTab tab)
+        {
+            foreach (var item in tab.Panels)
+            {
+                item.IsVisible = true;
+            }
+        }
 
         /// <summary>
         /// 关闭除指定panel外的所有ribbon
         /// </summary>
         /// <param name="tab"></param>
         /// <param name="panel"></param>
-        public void CloseRibbon(RibbonTab tab)
+        public void CloseRibbon()
         {
+            var tab = ComponentManager.Ribbon.ActiveTab;
             foreach (var item in tab.Panels)
             {
                 item.IsVisible = false;
@@ -91,7 +91,7 @@ namespace TianHua.AutoCAD.ThCui
             var dateTime = DateTime.Today;
             if ((dateTime - usualDate).Days <= 62)
             {
-                ShowRibbon(ComponentManager.Ribbon.ActiveTab);
+                ShowAllRibbon(ComponentManager.Ribbon.ActiveTab);
             }
             else
             {
@@ -104,7 +104,7 @@ namespace TianHua.AutoCAD.ThCui
         /// </summary>
         public void Logout()
         {
-            CloseRibbon(ComponentManager.Ribbon.ActiveTab);
+            CloseRibbon();
         }
     }
 }
