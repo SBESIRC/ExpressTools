@@ -155,10 +155,12 @@ namespace TianHua.AutoCAD.Parking
         /// <returns></returns>
         private static DirectoryInfo GetTempDirectory()
         {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string ppath = Uri.UnescapeDataString(uri.Path);
-            var tempDirName = System.IO.Path.GetDirectoryName(ppath) + @"\Temp";
+            //string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            //UriBuilder uri = new UriBuilder(codeBase);
+            //string ppath = Uri.UnescapeDataString(uri.Path);
+            //var tempDirName = System.IO.Path.GetDirectoryName(ppath) + @"\Temp";
+            //获取系统临时目录路径,统一将程序产生的临时文件
+            var tempDirName =System.Environment.GetEnvironmentVariable("TEMP") + @"\ThCADPlugin\BlockImage";
 
             //声明一个文件夹变量，如果没有则创建，有则实例化
             DirectoryInfo tempDirec = null;
