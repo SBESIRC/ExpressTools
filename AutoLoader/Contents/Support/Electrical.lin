@@ -1,0 +1,4 @@
+*E-GND,Ground line --/--.--/--.--/--
+A,1,["/",Standard,s=0.2,r=0,x=-0.53,y=-0.1],-0.1,0,-0.1
+*E-THU,Thunder line --X--.--X--.--X--
+A,1,["X",Standard,s=0.2,r=0,x=-0.53,y=-0.1],-0.1,0,-0.1

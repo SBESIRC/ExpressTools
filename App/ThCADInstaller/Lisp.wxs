@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?include Variable.wxi ?>
-  <Fragment>
-    <DirectoryRef Id="DIR_Autoloader_Contents">
-      <Component Id="CMP_Autoloader_PackageContents_Lisp_Text" Guid="73D0431E-FC8B-4D49-8891-A5769338D13A" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Lisp_Text" Source="$(var.AutoloaderContentsPath)\General-Text.lsp" KeyPath="yes" />
-      </Component>
-      <Component Id="CMP_Autoloader_PackageContents_Lisp_Make_Layer" Guid="{A7FCD3FC-1D64-481F-B7F8-956E31E27A3E}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Lisp_Make_Layer" Source="$(var.AutoloaderContentsPath)\MakeLayer.lsp" KeyPath="yes" />
-      </Component>
-      <Component Id="CMP_Autoloader_PackageContents_Lisp_Read_CSV" Guid="{0CA8A3E6-002E-4ABD-9F8C-C560F553DE46}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Lisp_Read_CSV" Source="$(var.AutoloaderContentsPath)\ReadCSV.lsp" KeyPath="yes" />
-      </Component>
-      <Component Id="CMP_Autoloader_PackageContents_Lisp_Layer" Guid="{CABE4A56-79F2-480A-948F-F3ACD8E42224}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Lisp_Layer" Source="$(var.AutoloaderContentsPath)\General-Layer.lsp" KeyPath="yes" />
-      </Component>
-    </DirectoryRef>
-  </Fragment>
-  <Fragment>
-    <ComponentGroup Id="ProductComponentsLisp">
-      <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Text" />
-      <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Make_Layer" />
-      <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Read_CSV" />
-      <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Layer" />
-    </ComponentGroup>
-  </Fragment>
+<Wix
+    xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?include Variable.wxi ?>
+    <Fragment>
+        <DirectoryRef Id="DIR_Autoloader_Contents">
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_Text" Guid="73D0431E-FC8B-4D49-8891-A5769338D13A" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Lisp_Text" Source="$(var.AutoloaderContentsPath)\General-Text.lsp" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_Make_Layer" Guid="{A7FCD3FC-1D64-481F-B7F8-956E31E27A3E}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Lisp_Make_Layer" Source="$(var.AutoloaderContentsPath)\MakeLayer.lsp" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_Read_CSV" Guid="{0CA8A3E6-002E-4ABD-9F8C-C560F553DE46}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Lisp_Read_CSV" Source="$(var.AutoloaderContentsPath)\ReadCSV.lsp" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_Layer" Guid="{CABE4A56-79F2-480A-948F-F3ACD8E42224}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Lisp_Layer" Source="$(var.AutoloaderContentsPath)\General-Layer.lsp" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_Load_Linetypes" Guid="{25F63906-4B48-41B3-8590-7456CF7350CF}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Lisp_Load_Linetypes" Source="$(var.AutoloaderContentsPath)\LoadLinetypes.lsp" KeyPath="yes" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ProductComponentsLisp">
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Text" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Make_Layer" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Read_CSV" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Layer" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Load_Linetypes" />
+        </ComponentGroup>
+    </Fragment>
 </Wix>

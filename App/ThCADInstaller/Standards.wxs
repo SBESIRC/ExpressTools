@@ -16,6 +16,9 @@
             <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_Plumbing" Guid="{92625670-A065-40ED-9F7C-5D7812DFAC2C}" Win64="yes">
                 <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Plumbing" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Plumbing.csv" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_Electrical" Guid="{75B2238C-8148-46E4-A81E-4FF9E1CC08EC}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Electrical" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Electrical.csv" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -24,6 +27,7 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Structure" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_HVAC" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Plumbing" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Electrical" />
         </ComponentGroup>
     </Fragment>
 </Wix>

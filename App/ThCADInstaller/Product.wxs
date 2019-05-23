@@ -11,6 +11,7 @@
         <Feature Id="ProductFeature" Title="ThCADInstaller" Level="1">
             <ComponentGroupRef Id="ProductComponents" />
             <ComponentGroupRef Id="ProductComponentsLisp" />
+            <ComponentGroupRef Id="ProductComponentsSupport" />
             <ComponentGroupRef Id="ProductComponentsStandards" />
             <ComponentGroupRef Id="ProductComponentsToolpalette" />
             <ComponentGroupRef Id="ProductComponentsAppWin64" />
@@ -24,6 +25,7 @@
                         <Directory Id="INSTALLFOLDER" Name="ThCADPlugin.bundle">
                             <Directory Id="DIR_Autoloader_Contents" Name="Contents">
                                 <Directory Id="DIR_Autoloader_Contents_App_Win64" Name="Win64" />
+                                <Directory Id="DIR_Autoloader_Contents_Support" Name="Support" />
                                 <Directory Id="DIR_Autoloader_Contents_Resources" Name="Resources">
                                     <Directory Id="DIR_Autoloader_Contents_Resources_ToolPalette" Name="ToolPalette" />
                                 </Directory>

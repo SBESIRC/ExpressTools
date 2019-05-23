@@ -23,6 +23,7 @@
     <Compile Include="Lisp.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="Standards.wxs" />
+    <Compile Include="Support.wxs" />
     <Compile Include="ToolPalette.wxs" />
   </ItemGroup>
   <ItemGroup>

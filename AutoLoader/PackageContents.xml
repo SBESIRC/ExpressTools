@@ -5,10 +5,12 @@
     <CompanyDetails Name="TIANHUA" Url="http://www.thape.com/" Email="webmaster@thape.com.cn" />
 
     <Components>
+        <RuntimeRequirements SupportPath="./Contents/Support"  />
         <ComponentEntry AppName="GeneralTextLisp"       ModuleName="./Contents/General-Text.lsp"    PerDocument="True" />
         <ComponentEntry AppName="GeneralLayerLisp"      ModuleName="./Contents/General-Layer.lsp"   PerDocument="True" />
         <ComponentEntry AppName="GeneralLayerUtilLisp"  ModuleName="./Contents/MakeLayer.lsp"       PerDocument="True" />
         <ComponentEntry AppName="GeneralCsvUtilLisp"    ModuleName="./Contents/ReadCSV.lsp"         PerDocument="True" />
+        <ComponentEntry AppName="GeneralCsvUtilLisp"    ModuleName="./Contents/LoadLinetypes.lsp"   PerDocument="True" />
     </Components>
 
     <!--Assembly App, ThParking, 2012 version-->
