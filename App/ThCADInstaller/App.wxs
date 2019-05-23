@@ -2,6 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64">
+      <?define mvvmLightLibs=".nuget\packages\mvvmlightlibs\5.4.1.1\lib" ?>
       <?if $(var.Configuration) = Debug ?>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R18" Name="2012">
           <?define OutputPath_R18_Debug="bin\Debug" ?>
@@ -16,6 +17,9 @@
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Debug" Guid="{ED56D6C6-5601-480B-AF24-13AE73A8841D}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThParking_Debug" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R18_Debug)\$(var.ThParking.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_WPF_Blend_Debug" Guid="{8BD3F0ED-CA94-4E0E-A6C7-626257421499}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_WPF_Blend_Debug" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
           </Component>
         </Directory>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2013">
@@ -32,6 +36,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Debug" Guid="{D3EB23DD-EF91-4DC0-98EE-E736A248E5AD}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThParking_Debug" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.ThParking.TargetFileName)" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_WPF_Blend_Debug" Guid="{01C6AF29-B676-4F0C-A432-5CA5157E5B2F}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_WPF_Blend_Debug" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
+          </Component>
         </Directory>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R20" Name="2015">
           <?define OutputPath_R20_Debug="bin\Debug-NET45" ?>
@@ -46,6 +53,9 @@
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Debug" Guid="{F1740AA4-7A1D-4760-8227-E13DB7E3782B}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThParking_Debug" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R20_Debug)\$(var.ThParking.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_WPF_Blend_Debug" Guid="{D9FCA84D-A493-455C-9E1E-37517CC0BB4B}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_WPF_Blend_Debug" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net45\System.Windows.Interactivity.dll" />
           </Component>
         </Directory>
       <?elseif $(var.Configuration) = Release ?>
@@ -63,8 +73,10 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Release" Guid="{ED56D6C6-5601-480B-AF24-13AE73A8841D}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThParking_Release" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R18_Release)\$(var.ThParking.TargetFileName)" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_WPF_Blend_Release" Guid="{F68E7A66-806B-4ABD-B51D-2969B89C624D}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_WPF_Blend_Release" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
+          </Component>
         </Directory>
-
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2013">
           <?define OutputPath_R19_Release="bin\Release-NET40" ?>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" Guid="{A2E5AE11-9269-414D-8D38-BE9367516242}" Win64="yes">
@@ -79,8 +91,10 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Release" Guid="{D3EB23DD-EF91-4DC0-98EE-E736A248E5AD}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThParking_Release" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R19_Release)\$(var.ThParking.TargetFileName)" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_WPF_Blend_Release" Guid="{AD6DCA0E-290C-4807-9634-0FE1F6739216}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_WPF_Blend_Release" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
+          </Component>
         </Directory>
-
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R20" Name="2015">
           <?define OutputPath_R20_Release="bin\Release-NET45" ?>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" Guid="{A2A2D193-79AF-4F92-92D1-FDBBA94F7D1D}" Win64="yes">
@@ -95,8 +109,10 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Release" Guid="{F1740AA4-7A1D-4760-8227-E13DB7E3782B}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThParking_Release" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R20_Release)\$(var.ThParking.TargetFileName)" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_WPF_Blend_Release" Guid="{E0713BCF-BA54-4250-AEA0-3FA3DBC84038}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_WPF_Blend_Release" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net45\System.Windows.Interactivity.dll" />
+          </Component>
         </Directory>
-      
       <?endif?>
     </DirectoryRef>
   </Fragment>
@@ -107,27 +123,33 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_WPF_Blend_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_WPF_Blend_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_WPF_Blend_Debug" />
       <?elseif $(var.Configuration) = Release ?>
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_WPF_Blend_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_WPF_Blend_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_WPF_Blend_Release" />
       <?endif?>
     </ComponentGroup>
   </Fragment>
