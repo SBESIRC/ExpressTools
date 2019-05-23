@@ -1,0 +1,64 @@
+筛选器分类,状态,名称,开关,冻结,锁定,颜色,线型,线宽,透明度,打印样式,打印,说明
+图框及说明,默认,W-SHET-SHET,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,图框、固定文字
+图框及说明,默认,W-NOTE,默认开,默认否,默认否,40,Continuous,默认,0,默认,T,总说明，材料表、图纸目录内
+图框及说明,默认,W-NOTE-NAME,默认开,默认否,默认否,40,Continuous,默认,0,默认,T,文字图名、比例字
+图框及说明,默认,W-SHET-PROF,默认开,默认否,默认否,40,Continuous,默认,0,默认,T,专业相关文字
+图框及说明,默认,W-SHET-IDGF,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,电子签名
+外部存放,默认,C-XRET-INT,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,专业内外参放置层
+外部存放,默认,C-XRET-EXT,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,引用其他专业文件放置层
+外参辅助,默认,C-XREF-PONT,默认开,默认否,默认否,7,Continuous,默认,0,默认,nil,外参定位点
+外参辅助,默认,C-XREF-SLCT,默认开,默认否,默认否,7,Continuous,默认,0,默认,nil,外参选择框
+给水,默认,W-WSUP-COOL-PIPE,默认开,默认否,默认否,3,Continuous,默认,0,默认,T,生活冷水管线（cool water)
+给水,默认,W-WSUP-HOT-PIPE,默认开,默认否,默认否,6,CENTER2,默认,0,默认,T,生活热水管线（hot water)
+给水,默认,W-WSUP-HOTR-PIPE,默认开,默认否,默认否,2,BORDER,默认,0,默认,T,生活热水回水管线（return pipe)
+给水,默认,W-WSUP-HOTI-PIPE,默认开,默认否,默认否,2,Continuous,默认,0,默认,T,热媒水管线（hot intermedium water)
+给水,默认,W-WSUP-EQPM,默认开,默认否,默认否,40,Continuous,默认,0,默认,T,给水系统设备（仅包括给电气提资的设备）
+给水,默认,W-WSUP-DIMS,默认开,默认否,默认否,41,Continuous,默认,0,默认,T,给水系统标注及图面说明、不需要给其他专业提资的设备、阀门等
+饮用净水,默认,W-DRIN-PIPE,默认开,默认否,默认否,3,Continuous,默认,0,默认,T,饮用净水管线
+饮用净水,默认,W-DRIR-PIPE,默认开,默认否,默认否,2,BORDER,默认,0,默认,T,饮用净水回水管线
+饮用净水,默认,W-DRIN-EQPM,默认开,默认否,默认否,210,Continuous,默认,0,默认,T,饮用净水系统设备（仅包括给电气提资的设备）
+饮用净水,默认,W-DRIN-DIMS,默认开,默认否,默认否,211,Continuous,默认,0,默认,T,饮用净水系统标注及图面说明、不需要给其他专业提资的设备、阀门等
+排水,默认,W-DRAI-DOME-PIPE,默认开,默认否,默认否,4,DASHED,默认,0,默认,T,生活排水管线（domestic soil)
+排水,默认,W-DRAI-VENT-PIPE,默认开,默认否,默认否,5,CENTER2,默认,0,默认,T,通气管管线（vent pipe）
+排水,默认,W-DRAI-FLDR,默认开,默认否,默认否,50,Continuous,默认,0,默认,T,地漏（floor drainage）
+排水,默认,W-DRAI-EQPM,默认开,默认否,默认否,50,Continuous,默认,0,默认,T,排水系统设备（仅包括给电气提资的设备，如潜泵）
+排水,默认,W-DRAI-EMBE,默认开,默认否,默认否,6,DASHED,默认,0,默认,T,预埋排水管线（Embedded drainpipe）
+排水,默认,W-DRAI-EMBE-DIMS,默认开,默认否,默认否,51,Continuous,默认,0,默认,T,预埋排水管线标注
+排水,默认,W-DRAI-DIMS,默认开,默认否,默认否,51,Continuous,默认,0,默认,T,排水系统标注（dimension)及图面说明
+雨水,默认,W-RAIN-PIPE,默认开,默认否,默认否,6,DASHDOT,默认,0,默认,T,雨水排水管线
+雨水,默认,W-RAIN-EQPM,默认开,默认否,默认否,60,Continuous,默认,0,默认,T,雨水系统设备（仅包括给电气提资的设备，如潜泵）
+雨水,默认,W-RAIN-DIMS,默认开,默认否,默认否,61,Continuous,默认,0,默认,T,雨水系统标注（dimension)及图面说明、不需要给其他专业提资的设备、阀门等
+中水,默认,W-RECL-PIPE,默认开,默认否,默认否,6,Continuous,默认,0,默认,T,中水管线
+中水,默认,W-RECL-EQPM,默认开,默认否,默认否,130,Continuous,默认,0,默认,T,中水系统设备（仅包括给电气提资的设备）
+中水,默认,W-RECL-DIMS,默认开,默认否,默认否,131,Continuous,默认,0,默认,T,中水系统标注（dimension)及图面说明、不需要给其他专业提资的设备、阀门等
+消防,默认,W-FRPT-HYDT-PIPE,默认开,默认否,默认否,1,Continuous,默认,0,默认,T,消火栓消防管线（hydrant)
+消防,默认,W-FRPT-SPRL-PIPE,默认开,默认否,默认否,2,Continuous,默认,0,默认,T,自动喷水灭火管线（fire protection spurt）
+消防,默认,W-FRPT-DRAI-PIPE,默认开,默认否,默认否,4,Continuous,默认,0,默认,T,消防排水管线（fire protection drainage)
+消防,默认,W-FRPT-EXTG,默认开,默认否,默认否,140,Continuous,默认,0,默认,T,灭火器（fire extinguisher）
+消防,默认,W-FRPT-HYDT,默认开,默认否,默认否,140,Continuous,默认,0,默认,T,消火栓（hydrant)
+消防,默认,W-FRPT-SPRL,默认开,默认否,默认否,60,Continuous,默认,0,默认,T,自动喷水灭火喷头（sprinkler）
+消防,默认,W-FRPT-HYDT-EQPM,默认开,默认否,默认否,60,Continuous,默认,0,默认,T,消火栓系统设备，压力开关、流量开关、消防泵等给电气提资的设备
+消防,默认,W-FRPT-HYDT-DIMS,默认开,默认否,默认否,61,Continuous,默认,0,默认,T,消火栓系统标注（dimension)及图面说明、不需要给其他专业提资的设备、阀门等
+消防,默认,W-FRPT-SPRL-DIMS,默认开,默认否,默认否,61,Continuous,默认,0,默认,T,自动喷水系统标注（dimension)及图面说明、不需要给其他专业提资的设备、阀门等
+消防,默认,W-FRPT-SPRL-EQPM,默认开,默认否,默认否,60,Continuous,默认,0,默认,T,自动喷水系统设备，水流指示器、信号阀、湿式报警阀、电动阀、喷淋泵等给电气提资的设备
+燃气,默认,W-GAS-PIPE,默认开,默认否,默认否,2,Continuous,默认,0,默认,T,燃气管线
+燃气,默认,W-GAS-EQPM,默认开,默认否,默认否,200,Continuous,默认,0,默认,T,燃气设备
+燃气,默认,W-GAS-DIMS,默认开,默认否,默认否,201,Continuous,默认,0,默认,T,燃气标注（dimension)及图面说明
+套管和留洞,默认,W-BUSH,默认开,默认否,默认否,231,Continuous,默认,0,默认,T,套管（Bushing）
+套管和留洞,默认,W-HOLE,默认开,默认否,默认否,231,Continuous,默认,0,默认,T,留洞（Hole）
+套管和留洞,默认,W-EQPM,默认开,默认否,默认否,40,Continuous,默认,0,默认,T,水箱、水箱基础及水泵基础（仅包含给建筑提资的水箱、水箱基础、水泵基础、集水井、排水沟
+提资,默认,W-POST,默认开,默认否,默认否,10,Continuous,默认,0,默认,nil,提资陈述文字，云线
+总图,默认,W-E-PIPE,默认开,默认否,默认否,4,Continuous,默认,0,默认,T,强电排管
+总图,默认,W-T-PIPE,默认开,默认否,默认否,6,Continuous,默认,0,默认,T,弱电排管
+总图,默认,W-E-EQPM,默认开,默认否,默认否,30,Continuous,默认,0,默认,T,强电设备，井室等需在综合图上表示的
+总图,默认,W-T-EQPM,默认开,默认否,默认否,20,Continuous,默认,0,默认,T,弱电设备，井室等需在综合图上表示的
+总图,默认,W-E-NOTE,默认开,默认否,默认否,80,Continuous,默认,0,默认,T,强电说明，接口引入说明等需在综合图上表示的
+总图,默认,W-T-NOTE,默认开,默认否,默认否,130,Continuous,默认,0,默认,T,弱电说明，接口引入说明等需在综合图上表示的
+总图,默认,W-E-DIMS,默认开,默认否,默认否,200,Continuous,默认,0,默认,T,强电标注，需在专业图中表示但不需在综合图上表示
+总图,默认,W-T-DIMS,默认开,默认否,默认否,140,Continuous,默认,0,默认,T,弱电标注，需在专业图中表示但不需在综合图上表示
+总图,默认,W-ZH-DIMS,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,管线综合标注，综合图定位
+总图,默认,W-ZH-NOTE,默认开,默认否,默认否,10,Continuous,默认,0,默认,T,管线综合说明
+总图,默认,W-DRAI-OUT-PIPE,默认开,默认否,默认否,4,DASHED,默认,0,默认,T,室外污水管
+总图,默认,W-RAIN-OUT-PIPE,默认开,默认否,默认否,6,DASHDOT,默认,0,默认,T,室外雨水管
+总图,默认,W-DRAI-DOME-PIPE,默认开,默认否,默认否,9,DASHED,默认,0,默认,T,污水出户管，插入图框后再将颜色改为9号色
+总图,默认,W-RAIN-PIPE,默认开,默认否,默认否,9,DASHDOT,默认,0,默认,T,雨水出户管，插入图框后再将颜色改为9号色

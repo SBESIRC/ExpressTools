@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?include Variable.wxi ?>
-  <Fragment>
-    <DirectoryRef Id="DIR_Autoloader_Contents_Standards_Layer">
-      <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_Architecture" Guid="{D17D74E0-5F38-4499-AF84-366C8DE524AF}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Architecture" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Architecture.csv" KeyPath="yes" />
-      </Component>
-
-      <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_Structure" Guid="{76C96840-00A4-4FD4-A1F5-D5775D2B959A}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Structure" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Structure.csv" KeyPath="yes" />
-      </Component>
-
-      <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_HVAC" Guid="{D4F1EC9A-FB0B-410E-87EF-FC5CC8E166FC}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Standards_Layer_HVAC" Source="$(var.AutoloaderContentsPath)\Standards\Layer\HVAC.csv" KeyPath="yes" />
-      </Component>
-      
-    </DirectoryRef>
-  </Fragment>
-  <Fragment>
-    <ComponentGroup Id="ProductComponentsStandards">
-      <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Architecture" />
-      <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Structure" />
-      <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_HVAC" />
-    </ComponentGroup>
-  </Fragment>
+<Wix
+    xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?include Variable.wxi ?>
+    <Fragment>
+        <DirectoryRef Id="DIR_Autoloader_Contents_Standards_Layer">
+            <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_Architecture" Guid="{D17D74E0-5F38-4499-AF84-366C8DE524AF}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Architecture" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Architecture.csv" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_Structure" Guid="{76C96840-00A4-4FD4-A1F5-D5775D2B959A}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Structure" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Structure.csv" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_HVAC" Guid="{D4F1EC9A-FB0B-410E-87EF-FC5CC8E166FC}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Standards_Layer_HVAC" Source="$(var.AutoloaderContentsPath)\Standards\Layer\HVAC.csv" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_Plumbing" Guid="{92625670-A065-40ED-9F7C-5D7812DFAC2C}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Plumbing" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Plumbing.csv" KeyPath="yes" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ProductComponentsStandards">
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Architecture" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Structure" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_HVAC" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Plumbing" />
+        </ComponentGroup>
+    </Fragment>
 </Wix>

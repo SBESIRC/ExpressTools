@@ -41,5 +41,8 @@
 );defun
 
 (defun c:THPLC ()
+        (setq pluginPath (strcat (getenv "PROGRAMFILES") "\\Autodesk\\ApplicationPlugins\\ThCADPlugin.bundle"))
+  	(setq pluginContentPath (strcat pluginPath "\\Contents"))
+ 	(TH:loadCSV (strcat pluginContentPath "\\Standards\\Layer\\Plumbing.csv"))
 	(princ)
 );defun
