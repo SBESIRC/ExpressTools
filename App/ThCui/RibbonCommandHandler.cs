@@ -12,7 +12,11 @@ namespace TianHua.AutoCAD.ThCui
             return true;//确定此命令可以在其当前状态下执行
         }
         //当出现影响是否应执行该命令的更改时发生
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { }
+            remove { }
+        }
 
         public void Execute(object parameter)
         {
