@@ -110,9 +110,9 @@ namespace DotNetARX
         /// <param name="args">命令参数列表</param>
         public static void SendCommand(this Document doc, params string[] args)
         {
-#if NET40
+#if ACAD2012
             object acadDocument = doc.AcadDocument;
-#elif NET45
+#else
             object acadDocument = doc.GetAcadDocument();
 #endif
 
