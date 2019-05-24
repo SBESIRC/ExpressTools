@@ -68,7 +68,7 @@
         </i:EventTrigger>-->
     </i:Interaction.Triggers>
 
-    <DockPanel LastChildFill="True">
+    <DockPanel LastChildFill="True" Margin="6,0,6,0">
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"></ColumnDefinition>
@@ -211,10 +211,9 @@
 
         </Grid>
 
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="1">
             <Button Command="{Binding NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">确定</Button>
             <Button Command="{Binding CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">取消</Button>
-            <Button >帮助</Button>
         </StackPanel>
     </DockPanel>
 </Window>
