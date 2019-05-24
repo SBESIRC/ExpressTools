@@ -302,7 +302,7 @@ namespace TianHua.AutoCAD.Parking
             //初始化编号方法类
             this.NumberingTasks = new ThNumberingTasks();
 
-            int startNumber = 1;
+            string startNumber = "1";
             string prefix = "";
             string suffix = "";
 

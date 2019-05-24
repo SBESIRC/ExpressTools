@@ -52,6 +52,7 @@
         <!--<Style TargetType="Image">
             <Setter Property="Height" Value="32"/>
         </Style>-->
+
     </Window.Resources>
 
     <!--触发器绑定命令，目前暂时用不到-->
@@ -62,7 +63,7 @@
         <!--<i:EventTrigger EventName="OnClosing">
             <local:ThEventCommand Command="{Binding OnClosingCommand}"/>
         </i:EventTrigger>-->
-    <!--<i:EventTrigger EventName="UnloadingRow">
+        <!--<i:EventTrigger EventName="UnloadingRow">
             <local:ThEventCommand Command="{Binding MouseMoveCommand}"/>
         </i:EventTrigger>-->
     </i:Interaction.Triggers>
@@ -150,7 +151,17 @@
                         </Grid.ColumnDefinitions>
 
                         <Label  Grid.Row="1" Grid.Column="0">起始编号:</Label>
-                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=StartNumber}"></TextBox>
+                        <TextBox Grid.Row="1" Grid.Column="1">
+                            <!--添加数据验证-->
+                            <TextBox.Text>
+                                <Binding Path="StartNumber"  UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:ThFormatRule ForMat="^[0-9]*$" ErrorContent="只允许数字!"></local:ThFormatRule>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+
+                        </TextBox>
                         <Label Grid.Row="2" Grid.Column="0">前缀:</Label>
                         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Prefix}"></TextBox>
                         <Label Grid.Row="3" Grid.Column="0">后缀:</Label>
@@ -173,9 +184,23 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Row="1" Grid.Column="0" >字高(mm):</Label>
-                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding NumberStyle.NumberHeight}" ></TextBox>
+                        <TextBox Grid.Row="1" Grid.Column="2" >
+                            <TextBox.Text>
+                                <Binding Path="NumberStyle.NumberHeight"  UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:ThFormatRule ForMat="^[0-9]*$" ErrorContent="只允许数字!"></local:ThFormatRule>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                         <Label Grid.Row="2" Grid.Column="0" >行距(mm):</Label>
-                        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding NumberStyle.OffsetDis}"></TextBox>
+                        <TextBox Grid.Row="2" Grid.Column="2" >
+                            <Binding Path="NumberStyle.OffsetDis"  UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:ThFormatRule ForMat="^[0-9]*$" ErrorContent="只允许数字!"></local:ThFormatRule>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox>
                         <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.ColumnSpan="2"  Grid.RowSpan="2">文字样式:</Label>
                         <ComboBox Grid.Row="4" Grid.ColumnSpan="3" 
     ItemsSource="{Binding CADTextStyles}" DisplayMemberPath="Name" SelectedValuePath="Name" SelectedValue="{Binding NumberStyle.NumberTextStyle}"></ComboBox>

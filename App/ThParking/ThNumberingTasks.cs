@@ -87,7 +87,8 @@ namespace TianHua.AutoCAD.Parking
             cheweis.ForEach(chewei =>
             {
                 chewei.SetNumber(viewModel.NumberInfo, viewModel.NumberStyle);
-                viewModel.NumberInfo.StartNumber += chewei.Count;
+                viewModel.NumberInfo.StartNumber = viewModel.NumberInfo.NumberWithComplementaryAdd(chewei.Count);
+
             });
 
             //将编好的号设置文字样式，并加入模型空间

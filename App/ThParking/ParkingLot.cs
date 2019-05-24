@@ -52,8 +52,9 @@ namespace TianHua.AutoCAD.Parking
                 var bcsPosition = new Point3d(position.X + addx, position.Y + Math.Abs(Math.Cos(baseText.Rotation) * numberStyle.OffsetDis * i), 0);
                 //var bcsPosition = new Point3d(position.X + this.Ent.Normal.X * manager.OffsetDis * i, position.Y + this.Ent.Normal.Y * manager.OffsetDis * i, 0);
 
-                //实例化第一个编号,中心位置如上述，旋转角度跟随块参照
-                var gg = new DBTextEx(numberInfo.NumberWithFix(numberInfo.StartNumber + i), bcsPosition, numberStyle.NumberHeight, numberStyle.NumberLayerName, this.BoundryRotation);
+                //实例化第一个编号,中心位置如上述，旋转角度跟随块参照,并为编号进行补位操作和前后缀操作
+                //var gg = new DBTextEx(numberInfo.NumberWithFix(numberInfo.StartNumber + i), bcsPosition, numberStyle.NumberHeight, numberStyle.NumberLayerName, this.BoundryRotation);
+                var gg = new DBTextEx(numberInfo.NumberWithFix(numberInfo.NumberWithComplementaryAdd(i)), bcsPosition, numberStyle.NumberHeight, numberStyle.NumberLayerName, this.BoundryRotation);
 
                 //如果文字的旋转角度为[0,90]或者[270,360)，文字的显示就是我们要的向上或者向左，其他情况减掉180翻过来
                 //******270°的改为了开区间
