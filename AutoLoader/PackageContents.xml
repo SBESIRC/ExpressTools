@@ -25,10 +25,10 @@
         </ComponentEntry>
     </Components>
 
-    <!--Assembly App, ThParking, 2013 version-->
+    <!--Assembly App, ThParking, 2014 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2013/ThParking.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="ThParking" AppType=".NET">
+        <ComponentEntry ModuleName="./Contents/Win64/2014/ThParking.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="ThParking" AppType=".NET">
 
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCNU" Global="THCNU" />
@@ -63,10 +63,10 @@
         </ComponentEntry>
     </Components>
 
-    <!--Assembly App, CUI, 2013 version-->
+    <!--Assembly App, CUI, 2014 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2013/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
+        <ComponentEntry ModuleName="./Contents/Win64/2014/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
 
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />

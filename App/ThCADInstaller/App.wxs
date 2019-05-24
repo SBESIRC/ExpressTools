@@ -22,7 +22,7 @@
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_WPF_Blend_Debug" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
           </Component>
         </Directory>
-        <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2013">
+        <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2014">
           <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" Guid="{A2E5AE11-9269-414D-8D38-BE9367516242}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" KeyPath="yes" Source="$(var.DotNetARX.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.DotNetARX.TargetFileName)" />
@@ -77,7 +77,7 @@
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_WPF_Blend_Release" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
           </Component>
         </Directory>
-        <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2013">
+        <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2014">
           <?define OutputPath_R19_Release="bin\Release-NET40" ?>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" Guid="{A2E5AE11-9269-414D-8D38-BE9367516242}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" KeyPath="yes" Source="$(var.DotNetARX.ProjectDir)\$(var.OutputPath_R19_Release)\$(var.DotNetARX.TargetFileName)" />
