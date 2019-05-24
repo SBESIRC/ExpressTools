@@ -169,8 +169,6 @@ namespace TianHua.AutoCAD.Parking
         {
             //通过Observercollection,对数据源的处理可直接反映到绑定对象上
             this.ParkingLotInfos.Remove((ParkingLotInfo)o);
-            //同时，删除临时文件夹下的缩略图
-            ((ParkingLotInfo)o).DeleteIcon();
         },
         o => this.ParkingLotInfos.Select(info => info.Name).Any());
 
@@ -196,7 +194,6 @@ namespace TianHua.AutoCAD.Parking
             //每次都拿掉第一个，直到全部拿完,记得要删除icon
             for (int i = 0; i < (int)o; i++)
             {
-                this.ParkingLotInfos[0].DeleteIcon();
                 this.ParkingLotInfos.RemoveAt(0);
             }
         },

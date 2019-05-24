@@ -22,15 +22,11 @@ namespace TianHua.AutoCAD.Parking
         {
             RegisterCommands();
 
-            //注册退出事件
-            AcadApp.BeginQuit += Application_BeginQuit;
         }
 
         public void Terminate()
         {
             UnregisterCommands();
-            //反注册退出事件
-            AcadApp.BeginQuit -= Application_BeginQuit;
 
         }
 
@@ -55,24 +51,6 @@ namespace TianHua.AutoCAD.Parking
             //    var numberManager = new ThNumberingManager();
             //    numberManager.Numbering(parkingDialog);
             //}
-        }
-
-        /// <summary>
-        /// 退出事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Application_BeginQuit(object sender, EventArgs e)
-        {
-            //获取系统临时目录路径,统一将程序产生的临时文件
-            var tempDirName = System.Environment.GetEnvironmentVariable("TEMP") + @"\ThCADPlugin\BlockImage";
-
-            //如果存在这个临时文件夹，则删除掉，清空程序退出
-            if (Directory.Exists(tempDirName))
-            {
-                Directory.Delete(tempDirName,true);
-            }
-
         }
 
 

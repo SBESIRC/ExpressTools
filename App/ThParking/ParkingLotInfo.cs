@@ -46,47 +46,31 @@ namespace TianHua.AutoCAD.Parking
         /// <returns></returns>
         private BitmapImage GetImage()
         {
-            //***预览图的类是Bitmap,缩略图更新失败
             BitmapImage bitmap = new BitmapImage();
-            //如果不是动态块、布局块，那么可以处理缩略图
+
             if (!(this.BtrRecord.IsAnonymous || this.BtrRecord.IsLayout))
             {
-                //如果存在图片，则先删掉，永远以当前的块参照的缩略图作为显示依据
-                if (File.Exists(this.IconPath))
+                if (this.BtrRecord.PreviewIcon != null)
                 {
-                    File.Delete(this.IconPath);
-                }
+                    //将缩略图转为字节数组
+                    Bitmap b = this.BtrRecord.PreviewIcon;
+                    MemoryStream ms = new MemoryStream();
+                    b.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                    byte[] bytes = ms.GetBuffer();
 
-                if (this.BtrRecord.PreviewIcon!=null)
-                {
-                    this.BtrRecord.PreviewIcon.Save(this.IconPath);
-                }
+                    //将字节数组以流的形式，转为bitmapImage的流的source
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
 
-                bitmap.BeginInit();
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-
-                using (Stream ms = new MemoryStream(File.ReadAllBytes(this.IconPath)))
-                {
-                    bitmap.StreamSource = ms;
-                    bitmap.EndInit();
-                    bitmap.Freeze();
+                    using (Stream ms2 = new MemoryStream(bytes))
+                    {
+                        bitmap.StreamSource = ms2;
+                        bitmap.EndInit();
+                        bitmap.Freeze();
+                    }
                 }
             }
-
             return bitmap;
-
-        }
-
-        /// <summary>
-        /// 删除临时文件夹下对应的icon
-        /// </summary>
-        public void DeleteIcon()
-        {
-            //存在才删除
-            if (this.IconPath != null)
-            {
-                File.Delete(this.IconPath);
-            }
         }
 
     }
