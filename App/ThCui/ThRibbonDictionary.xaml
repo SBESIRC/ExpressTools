@@ -14,6 +14,17 @@
     <BitmapImage x:Key="THMTC" UriSource="Images/THMTC.png"/>
     <BitmapImage x:Key="THMSC" UriSource="Images/THMSC.png"/>
     <BitmapImage x:Key="THHLP" UriSource="Images/THHLP.png"/>
+
+
+    <BitmapImage x:Key="THDTA" UriSource="Images/THDTA.png"/>
+    <BitmapImage x:Key="THZ0" UriSource="Images/THZ0.png"/>
+    <BitmapImage x:Key="TH_Tucenggongju" UriSource="Images/TH_Tucenggongju.png"/>
+    <BitmapImage x:Key="THALC" UriSource="Images/THALC.png"/>
+    <BitmapImage x:Key="THSLC" UriSource="Images/THSLC.png"/>
+    <BitmapImage x:Key="THMLC" UriSource="Images/THMLC.png"/>
+    <BitmapImage x:Key="THELC" UriSource="Images/THELC.png"/>
+    <BitmapImage x:Key="THPLC" UriSource="Images/THPLC.png"/>
+
     <!--<system:String x:Key="LOGIN">login</system:String>-->
 
     <adw:RibbonTab x:Key="TabXaml" Id="ID_TabMyRibbon"  Title="天华效率工具">
@@ -49,28 +60,22 @@
                         </adw:RibbonButton.ToolTip>
                     </adw:RibbonButton>
                 </adw:RibbonSplitButton>
-            </adw:RibbonPanelSource>
-        </adw:RibbonPanel>
-
-        <adw:RibbonPanel>
-            <adw:RibbonPanelSource Title="建筑专业">
-                <adw:RibbonButton Name="车位编号" Text = "车位编号"
+                <adw:RibbonButton Id="ID_BtnHelp" Name="帮助文档" Text = "帮助文档"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
-                                    LargeImage="{StaticResource THCNU}"
-                                    Image="{StaticResource THCNU}"
-                                CommandParameter="THCNU">
+                                    LargeImage="{StaticResource THHLP}"
+                                    Image="{StaticResource THHLP}"                              CommandParameter="THHLP">
                     <adw:RibbonButton.ToolTip>
                         <adw:RibbonToolTip  
-                    Command="THCNU" Title="车位编号"
-                    Content="绘制多段线穿过所需编号停车位图块，根据多段线穿过停车位的先后顺序快速生成车位编号" ExpandedContent = "注意: 确保绘制的多段线穿过所需编号车位时有偶数个交点。"/>
+                            Command="THHLP" Content="获取帮助文档"/>
                     </adw:RibbonButton.ToolTip>
                 </adw:RibbonButton>
+
             </adw:RibbonPanelSource>
         </adw:RibbonPanel>
 
         <adw:RibbonPanel>
-            <adw:RibbonPanelSource Title="机电专业">
+            <adw:RibbonPanelSource Title="图块图库">
                 <adw:RibbonToggleButton Id="ID_BtnTuKuai" Name="图块集" Text = "图块集"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
@@ -101,22 +106,115 @@
         </adw:RibbonPanel>
 
         <adw:RibbonPanel>
-            <adw:RibbonPanelSource Title="通用工具">
-                <adw:RibbonRowPanel>
-                    <adw:RibbonButton  Id="ID_BtnWenZiShua" Name="文字内容刷" Text = "文字内容刷"
+            <adw:RibbonPanelSource Title="标注工具">
+                <adw:RibbonButton Name="车位编号" Text = "车位编号"
                                     ShowImage="True" ShowText="True" 
-                                    Size="Standard"
-                                    LargeImage="{StaticResource THMTC}"
-                                    Image="{StaticResource THMTC}"               
-                                    CommandParameter="THMTC">
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THCNU}"
+                                    Image="{StaticResource THCNU}"
+                                CommandParameter="THCNU">
+                    <adw:RibbonButton.ToolTip>
+                        <adw:RibbonToolTip  
+                    Command="THCNU" Title="车位编号"
+                    Content="绘制多段线穿过所需编号停车位图块，根据多段线穿过停车位的先后顺序快速生成车位编号" ExpandedContent = "注意: 确保绘制的多段线穿过所需编号车位时有偶数个交点。"/>
+                    </adw:RibbonButton.ToolTip>
+                </adw:RibbonButton>
+
+                <adw:RibbonButton Name="尺寸避让" Text = "尺寸避让"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THDTA}"
+                                    Image="{StaticResource THDTA}"
+                                CommandParameter="THDTA">
+                    <adw:RibbonButton.ToolTip>
+                        <adw:RibbonToolTip  
+                    Command="THDTA" Content="调整交叉或重叠的标注文字以避免发生位置冲突"/>
+                    </adw:RibbonButton.ToolTip>
+                </adw:RibbonButton>
+            </adw:RibbonPanelSource>
+        </adw:RibbonPanel>
+
+        <adw:RibbonPanel>
+            <adw:RibbonPanelSource Title="图层工具">
+                <adw:RibbonSplitButton Text="建立天华图层" IsSplit="True" IsSynchronizedWithCurrentItem="False"
+                                        ShowImage="True" ShowText="True"
+                                        Orientation="Vertical" Size="Large"
+                                       LargeImage="{StaticResource TH_Tucenggongju}"
+                                        >
+                    <adw:RibbonButton Name="建立建筑图层" Text = "建立建筑图层"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THALC}"
+                                    Image="{StaticResource THALC}"
+                                CommandParameter="THALC">
                         <adw:RibbonButton.ToolTip>
                             <adw:RibbonToolTip  
-                    Title="文字内容刷"
-                            Command="THMTC"
-                    Content="将目标文字内容替换为源文字内容"/>
+                    Title="建立建筑图层"
+                    Content="建立建筑专业天华标准图层"/>
                         </adw:RibbonButton.ToolTip>
                     </adw:RibbonButton>
-                    <adw:RibbonRowBreak/>
+
+                    <adw:RibbonButton Name="建立结构图层" Text = "建立结构图层"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THSLC}"
+                                    Image="{StaticResource THSLC}"
+                                CommandParameter="THSLC">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="建立结构图层"
+                    Content="建立结构专业天华标准图层"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                    <adw:RibbonButton Name="建立暖通图层" Text = "建立暖通图层"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THMLC}"
+                                    Image="{StaticResource THMLC}"
+                                CommandParameter="THMLC">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="建立暖通图层"
+                    Content="建立暖通专业天华标准图层"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                    <adw:RibbonButton Name="建立电气图层" Text = "建立电气图层"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THELC}"
+                                    Image="{StaticResource THELC}"
+                                CommandParameter="THELC">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="建立电气图层"
+                    Content="建立电气专业天华标准图层"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                    <adw:RibbonButton Name="建立给排水图层" Text = "建立给排水图层"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THPLC}"
+                                    Image="{StaticResource THPLC}"
+                                CommandParameter="THPLC">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="建立给排水图层"
+                    Content="建立给排专业天华标准图层"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                </adw:RibbonSplitButton>
+
+            </adw:RibbonPanelSource>
+        </adw:RibbonPanel>
+
+
+        <adw:RibbonPanel>
+            <adw:RibbonPanelSource Title="辅助工具">
+                <adw:RibbonRowPanel>
                     <adw:RibbonButton Id="ID_BtnSuoFang" Name="批量缩放" Text = "批量缩放"
                                     ShowImage="True" ShowText="True" 
                                     Size="Standard"
@@ -130,21 +228,49 @@
                     Content="对多个选择对象以各自的开始点（插入点）为基准点进行批量比例缩放"/>
                         </adw:RibbonButton.ToolTip>
                     </adw:RibbonButton>
+                    <adw:RibbonRowBreak/>
+                    <adw:RibbonButton  Id="ID_BtnZGuiLing" Name="Z值归零" Text = "Z值归零"
+                                    ShowImage="True" ShowText="True" 
+                                    Size="Standard"
+                                    LargeImage="{StaticResource THZ0}"
+                                    Image="{StaticResource THZ0}"               
+                                    CommandParameter="THZ0">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="Z值归零"
+                            Command="THZ0"
+                    Content="将模型空间内所有对象Z值归零，使之处于同一平面"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
                 </adw:RibbonRowPanel>
 
-                <adw:RibbonButton Id="ID_BtnHelp" Name="帮助文档" Text = "帮助文档"
-                                    ShowImage="True" ShowText="True" 
-                                    Orientation="Vertical" Size="Large"
-                                    LargeImage="{StaticResource THHLP}"
-                                    Image="{StaticResource THHLP}"                              CommandParameter="THHLP">
-                    <adw:RibbonButton.ToolTip>
-                        <adw:RibbonToolTip  
-                            Command="THHLP"/>
-                    </adw:RibbonButton.ToolTip>
-                </adw:RibbonButton>
+
             </adw:RibbonPanelSource>
         </adw:RibbonPanel>
 
+
+        <adw:RibbonPanel>
+            <adw:RibbonPanelSource Title="文字表格">
+                <adw:RibbonRowPanel>
+                    <adw:RibbonButton  Id="ID_BtnWenZiShua" Name="文字内容刷" Text = "文字内容刷"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THMTC}"
+                                    Image="{StaticResource THMTC}"               
+                                    CommandParameter="THMTC">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="文字内容刷"
+                            Command="THMTC"
+                    Content="将目标文字内容替换为源文字内容"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                </adw:RibbonRowPanel>
+
+
+            </adw:RibbonPanelSource>
+        </adw:RibbonPanel>
 
 
     </adw:RibbonTab>
