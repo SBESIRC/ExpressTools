@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Autodesk.AutoCAD.Internal;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.Windows;
 using WinApp = System.Windows.Application;
@@ -105,7 +106,8 @@ namespace TianHua.AutoCAD.ThCui
         /// </summary>
         public void Login()
         {
-            var usualDate = new DateTime(2019, 5, 5);
+            //将程序有效期验证为3个月，一旦超过时限，要求用户更新，反注册命令
+            var usualDate = new DateTime(2019, 6, 1);
             var dateTime = DateTime.Today;
             if ((dateTime - usualDate).Days <= 62)
             {
@@ -113,7 +115,23 @@ namespace TianHua.AutoCAD.ThCui
             }
             else
             {
-                //
+                System.Windows.Forms.MessageBox.Show("天华效率工具已经过期，请及时更新！");
+                const string CMD_GROUPNAME = "TIANHUACAD";
+                const string CMD_THCADLOGIN_GLOBAL_NAME = "THCADLOGIN";
+                const string CMD_THCADLOGOUT_GLOBAL_NAME = "THCADLOGOUT";
+                const string CMD_THHLP_GLOBAL_NAME = "THHLP";
+                const string CMD_THBLS_GLOBAL_NAME = "THBLS";
+                const string CMD_THBLI_GLOBAL_NAME = "THBLI";
+
+                Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME);
+                Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME);
+                Utils.RemoveCommand(CMD_GROUPNAME, CMD_THHLP_GLOBAL_NAME);
+                Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLS_GLOBAL_NAME);
+                Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLI_GLOBAL_NAME);
+
+                const string CMD_THCNU_GLOBAL_NAME = "THCNU";
+                Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCNU_GLOBAL_NAME);
+
             }
         }
 
