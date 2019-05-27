@@ -1,94 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ApplicationPackage SchemaVersion="1.0" ProductCode="{736231AF-4BE2-479F-BB07-7BE20C6B0B2F}" Version="1.0.0" Name="TIANHUA Express Tools" Description="TIANHUA Express Tools for AutoCAD" Author="TIANHUA AI Research Center" Icon="" HelpFile="">
-
     <RuntimeRequirements Platform="AutoCAD"/>
     <CompanyDetails Name="TIANHUA" Url="http://www.thape.com/" Email="webmaster@thape.com.cn" />
-
     <Components>
         <RuntimeRequirements SupportPath="./Contents/Support"  />
-        <ComponentEntry AppName="GeneralTextLisp"       ModuleName="./Contents/General-Text.lsp"    PerDocument="True" />
-        <ComponentEntry AppName="GeneralLayerLisp"      ModuleName="./Contents/General-Layer.lsp"   PerDocument="True" />
-        <ComponentEntry AppName="GeneralLayerUtilLisp"  ModuleName="./Contents/MakeLayer.lsp"       PerDocument="True" />
-        <ComponentEntry AppName="GeneralCsvUtilLisp"    ModuleName="./Contents/ReadCSV.lsp"         PerDocument="True" />
-        <ComponentEntry AppName="GeneralCsvUtilLisp"    ModuleName="./Contents/LoadLinetypes.lsp"   PerDocument="True" />
+        <ComponentEntry AppName="GeneralTextLisp"       		ModuleName="./Contents/General-Text.lsp"    PerDocument="True" />
+        <ComponentEntry AppName="GeneralLayerLisp"      		ModuleName="./Contents/General-Layer.lsp"   PerDocument="True" />
+        <ComponentEntry AppName="GeneralLayerUtilLisp"  		ModuleName="./Contents/MakeLayer.lsp"       PerDocument="True" />
+        <ComponentEntry AppName="GeneralCsvUtilLisp"    		ModuleName="./Contents/ReadCSV.lsp"         PerDocument="True" />
+        <ComponentEntry AppName="GeneralLinetypeUtilLisp"    	ModuleName="./Contents/LoadLinetypes.lsp"   PerDocument="True" />
+        <ComponentEntry AppName="GeneralListUtilLisp"    		ModuleName="./Contents/ListUtil.lsp"   		PerDocument="True" />
+        <ComponentEntry AppName="GeneralLayerGroupUtiLisp"    	ModuleName="./Contents/MakeLayerGroup.lsp"  PerDocument="True" />
     </Components>
-
     <!--Assembly App, ThParking, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
         <ComponentEntry ModuleName="./Contents/Win64/2012/ThParking.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="ThParking" AppType=".NET">
-
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCNU" Global="THCNU" />
             </Commands>
-
         </ComponentEntry>
     </Components>
-
     <!--Assembly App, ThParking, 2014 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
         <ComponentEntry ModuleName="./Contents/Win64/2014/ThParking.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="ThParking" AppType=".NET">
-
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCNU" Global="THCNU" />
             </Commands>
-
         </ComponentEntry>
     </Components>
-
     <!--Assembly App, ThParking, 2015 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.0" SeriesMax="R20.1" />
         <ComponentEntry ModuleName="./Contents/Win64/2015/ThParking.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="ThParking" AppType=".NET">
-
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCNU" Global="THCNU" />
             </Commands>
-
         </ComponentEntry>
     </Components>
-
     <!--Assembly App, CUI, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
         <ComponentEntry ModuleName="./Contents/Win64/2012/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
-
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
                 <Command Local="THBLS" Global="THBLS" />
             </Commands>
-
         </ComponentEntry>
     </Components>
-
     <!--Assembly App, CUI, 2014 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
         <ComponentEntry ModuleName="./Contents/Win64/2014/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
-
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
                 <Command Local="THBLS" Global="THBLS" />
             </Commands>
-
         </ComponentEntry>
     </Components>
-
     <!--Assembly App, CUI, 2015 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.0" SeriesMax="R20.1" />
         <ComponentEntry ModuleName="./Contents/Win64/2015/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
-
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
                 <Command Local="THBLS" Global="THBLS" />
             </Commands>
-
         </ComponentEntry>
     </Components>
-
 </ApplicationPackage>

@@ -19,6 +19,12 @@
             <Component Id="CMP_Autoloader_PackageContents_Lisp_Load_Linetypes" Guid="{25F63906-4B48-41B3-8590-7456CF7350CF}" Win64="yes">
                 <File Id="FILE_Autoloader_PackageContents_Lisp_Load_Linetypes" Source="$(var.AutoloaderContentsPath)\LoadLinetypes.lsp" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_ListUtil" Guid="{BF8C77D8-4950-4136-B9B3-54EF1BCB9C8E}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Lisp_ListUtil" Source="$(var.AutoloaderContentsPath)\ListUtil.lsp" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_Make_Layer_Group" Guid="{DA23A955-ACA0-41FB-A1D2-3E40B720F46F}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Lisp_Make_Layer_Group" Source="$(var.AutoloaderContentsPath)\MakeLayerGroup.lsp" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -28,6 +34,8 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Read_CSV" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Layer" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Load_Linetypes" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_ListUtil" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Make_Layer_Group" />
         </ComponentGroup>
     </Fragment>
 </Wix>
