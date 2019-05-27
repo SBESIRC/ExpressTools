@@ -15,6 +15,7 @@
             <ComponentGroupRef Id="ProductComponentsStandards" />
             <ComponentGroupRef Id="ProductComponentsToolpalette" />
             <ComponentGroupRef Id="ProductComponentsAppWin64" />
+            <ComponentGroupRef Id="ProductComponentsResources" />
         </Feature>
     </Product>
     <Fragment>
