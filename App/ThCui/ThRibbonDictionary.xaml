@@ -3,9 +3,9 @@
                     xmlns:adw="clr-namespace:Autodesk.Windows;assembly=AdWindows"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <BitmapImage x:Key="THLOGIN" UriSource="Images/THLOGIN.png" />
+    <BitmapImage x:Key="THCADLOGIN" UriSource="Images/THLOGIN.png" />
     <BitmapImage x:Key="THCNU" UriSource="Images/THCNU.png"/>
-    <BitmapImage x:Key="THLOGOUT" UriSource="Images/THLOGOUT.png"/>
+    <BitmapImage x:Key="THCADLOGOUT" UriSource="Images/THLOGOUT.png"/>
     <BitmapImage x:Key="THBLI" UriSource="Images/THBLI.png"/>
     <BitmapImage x:Key="StretchImage" UriSource="Images/Stretch.ico"/>
     <BitmapImage x:Key="THBLS" UriSource="Images/THBLS.png"/>
@@ -38,9 +38,9 @@
                     <adw:RibbonButton Name="登录" Text = "登录"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
-                                    LargeImage="{StaticResource THLOGIN}"
-                                    Image="{StaticResource THLOGIN}"
-                                CommandParameter="THLOGIN">
+                                    LargeImage="{StaticResource THCADLOGIN}"
+                                    Image="{StaticResource THCADLOGIN}"
+                                CommandParameter="THCADLOGIN">
                         <adw:RibbonButton.ToolTip>
                             <adw:RibbonToolTip  
                     Title="登录"
@@ -50,9 +50,9 @@
                     <adw:RibbonButton Name="退出" Text = "退出"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
-                                    LargeImage="{StaticResource THLOGOUT}"
-                                    Image="{StaticResource THLOGOUT}"
-                               CommandParameter="THLOGOUT">
+                                    LargeImage="{StaticResource THCADLOGOUT}"
+                                    Image="{StaticResource THCADLOGOUT}"
+                               CommandParameter="THCADLOGOUT">
                         <adw:RibbonButton.ToolTip>
                             <adw:RibbonToolTip  
                     Title="退出"

@@ -104,10 +104,10 @@
     <Resource Include="Images\THZ0.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\THDTA.png" />
+    <Resource Include="Images\TH_Tucenggongju.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\TH_Tucenggongju.png" />
+    <Resource Include="Images\THDTA.png" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
