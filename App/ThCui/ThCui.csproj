@@ -73,8 +73,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\THLOGIN.png" />
-    <Resource Include="Images\THLOGOUT.png" />
     <Resource Include="Images\Stretch.ico" />
     <Resource Include="Images\THBLI.png" />
     <Resource Include="Images\THBLS.png" />
@@ -108,6 +106,20 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\THDTA.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\THZ0.ico" />
+    <Resource Include="Images\TH_Tucenggongju.ico" />
+    <Resource Include="Images\THALC.ico" />
+    <Resource Include="Images\THMLC.ico" />
+    <Resource Include="Images\THELC.ico" />
+    <Resource Include="Images\THSLC.ico" />
+    <Resource Include="Images\THPLC.ico" />
+    <Resource Include="Images\THDTA.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\THLOGIN.png" />
+    <Resource Include="Images\THLOGOUT.png" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">

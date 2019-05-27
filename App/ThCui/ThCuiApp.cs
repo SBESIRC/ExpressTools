@@ -113,7 +113,7 @@ namespace TianHua.AutoCAD.ThCui
             }
 
             //如果是第一次创建完毕后，仅呈现登录模块
-            if (ribbons.Count==1)
+            if (ribbons.Count == 1)
             {
                 ribbons.CloseTabRibbon();
             }

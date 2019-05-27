@@ -16,14 +16,14 @@
     <BitmapImage x:Key="THHLP" UriSource="Images/THHLP.png"/>
 
 
-    <BitmapImage x:Key="THDTA" UriSource="Images/THDTA.png"/>
-    <BitmapImage x:Key="THZ0" UriSource="Images/THZ0.png"/>
-    <BitmapImage x:Key="TH_Tucenggongju" UriSource="Images/TH_Tucenggongju.png"/>
-    <BitmapImage x:Key="THALC" UriSource="Images/THALC.png"/>
-    <BitmapImage x:Key="THSLC" UriSource="Images/THSLC.png"/>
-    <BitmapImage x:Key="THMLC" UriSource="Images/THMLC.png"/>
-    <BitmapImage x:Key="THELC" UriSource="Images/THELC.png"/>
-    <BitmapImage x:Key="THPLC" UriSource="Images/THPLC.png"/>
+    <BitmapImage x:Key="THDTA" UriSource="Images/THDTA.ico"/>
+    <BitmapImage x:Key="THZ0" UriSource="Images/THZ0.ico"/>
+    <BitmapImage x:Key="TH_Tucenggongju" UriSource="Images/TH_Tucenggongju.ico"/>
+    <BitmapImage x:Key="THALC" UriSource="Images/THALC.ico"/>
+    <BitmapImage x:Key="THSLC" UriSource="Images/THSLC.ico"/>
+    <BitmapImage x:Key="THMLC" UriSource="Images/THMLC.ico"/>
+    <BitmapImage x:Key="THELC" UriSource="Images/THELC.ico"/>
+    <BitmapImage x:Key="THPLC" UriSource="Images/THPLC.ico"/>
 
     <!--<system:String x:Key="LOGIN">login</system:String>-->
 
