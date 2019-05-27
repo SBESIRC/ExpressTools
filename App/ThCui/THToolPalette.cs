@@ -1,4 +1,5 @@
-﻿using DotNetARX;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using DotNetARX;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -333,5 +335,15 @@ namespace TianHua.AutoCAD.ThCui
             UpdateCount();
             //MessageBox.Show("天华图库已经重新配置，请重启CAD后生效！");
         }
+
+        /// <summary>
+        /// 显示工具选项板
+        /// </summary>
+        public void ShowToolPalette()
+        {
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            doc.SendCommand("TOOLPALETTES ");
+        }
     }
+
 }

@@ -106,5 +106,15 @@ namespace TianHua.AutoCAD.ThCui
         {
             CloseRibbon();
         }
+
+        /// <summary>
+        /// 显示帮助文档
+        /// </summary>
+        public void ShowHelpFile()
+        {
+            var helpFile = @"http://info.thape.com.cn/AI/thcad/help.html";
+            System.Diagnostics.Process.Start(helpFile);
+        }
+
     }
 }

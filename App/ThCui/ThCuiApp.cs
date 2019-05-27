@@ -14,9 +14,13 @@ namespace TianHua.AutoCAD.ThCui
         const string CMD_GROUPNAME = "TIANHUACAD";
         const string CMD_THCADLOGIN_GLOBAL_NAME = "THCADLOGIN";
         const string CMD_THCADLOGOUT_GLOBAL_NAME = "THCADLOGOUT";
+        const string CMD_THHLP_GLOBAL_NAME = "THHLP";
         const string CMD_THBLS_GLOBAL_NAME = "THBLS";
+        const string CMD_THBLI_GLOBAL_NAME = "THBLI";
+
 
         ThRibbons ribbons = new ThRibbons();
+        ThToolPalette toolPalette = new ThToolPalette();
 
         public void Initialize()
         {
@@ -46,15 +50,24 @@ namespace TianHua.AutoCAD.ThCui
             //注册退出命令
             Utils.AddCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME, CMD_THCADLOGOUT_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(ribbons.Logout));
 
+            //注册帮组和命令
+            Utils.AddCommand(CMD_GROUPNAME, CMD_THHLP_GLOBAL_NAME, CMD_THHLP_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(ribbons.ShowHelpFile));
+
             //注册打开工具选项板配置命令
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THBLS_GLOBAL_NAME, CMD_THBLS_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(ShowToolPalette));
+            Utils.AddCommand(CMD_GROUPNAME, CMD_THBLS_GLOBAL_NAME, CMD_THBLS_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(ShowToolPaletteConfigDialog));
+
+            //注册工具选项板开关命令
+            Utils.AddCommand(CMD_GROUPNAME, CMD_THBLI_GLOBAL_NAME, CMD_THBLI_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(toolPalette.ShowToolPalette));
         }
 
         public void UnregisterCommands()
         {
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME);
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME);
+            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THHLP_GLOBAL_NAME);
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLS_GLOBAL_NAME);
+            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLI_GLOBAL_NAME);
+
         }
 
         public void RemoveRibbon()
@@ -102,10 +115,11 @@ namespace TianHua.AutoCAD.ThCui
         /// <summary>
         /// 显示工具选项板配置
         /// </summary>
-        public void ShowToolPalette()
+        public void ShowToolPaletteConfigDialog()
         {
-            ThToolPalette toolPalette = new ThToolPalette();
             AcadApp.ShowModalDialog(toolPalette);
         }
+
+
     }
 }
