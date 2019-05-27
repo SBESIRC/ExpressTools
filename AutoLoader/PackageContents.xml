@@ -21,6 +21,8 @@ Icon="./Contents/Resources/THLOGO.ico" >
         <ComponentEntry AppName="GeneralLinetypeUtilLisp"    	ModuleName="./Contents/LoadLinetypes.lsp"   PerDocument="True" />
         <ComponentEntry AppName="GeneralListUtilLisp"    		ModuleName="./Contents/ListUtil.lsp"   		PerDocument="True" />
         <ComponentEntry AppName="GeneralLayerGroupUtiLisp"    	ModuleName="./Contents/MakeLayerGroup.lsp"  PerDocument="True" />
+		<ComponentEntry AppName="GeneralAnnotationLisp"    		ModuleName="./Contents/General-Annotation.lsp"  PerDocument="True" />
+		<ComponentEntry AppName="GeneralAuxiliaryLisp"    		ModuleName="./Contents/General-Auxiliary.lsp"  PerDocument="True" />
     </Components>
     <!--Assembly App, ThParking, 2012 version-->
     <Components>

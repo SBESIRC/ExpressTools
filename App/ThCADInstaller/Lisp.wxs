@@ -25,6 +25,12 @@
             <Component Id="CMP_Autoloader_PackageContents_Lisp_Make_Layer_Group" Guid="{DA23A955-ACA0-41FB-A1D2-3E40B720F46F}" Win64="yes">
                 <File Id="FILE_Autoloader_PackageContents_Lisp_Make_Layer_Group" Source="$(var.AutoloaderContentsPath)\MakeLayerGroup.lsp" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_General_Auxiliary" Guid="{1BE1791A-4DB9-4DD0-9698-0F4EB829FC3F}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Lisp_General_Auxiliary" Source="$(var.AutoloaderContentsPath)\General-Auxiliary.lsp" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_General_Annotation" Guid="{89D81114-C0D5-44AD-99F9-38DB3FE3F5E7}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Lisp_General_Annotation" Source="$(var.AutoloaderContentsPath)\General-Annotation.lsp" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -36,6 +42,8 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Load_Linetypes" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_ListUtil" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Make_Layer_Group" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_General_Auxiliary" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_General_Annotation" />
         </ComponentGroup>
     </Fragment>
 </Wix>
