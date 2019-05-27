@@ -28,7 +28,7 @@ namespace TianHua.AutoCAD.ThCui
             RegisterCommands();
 
             //安装事件
-            AcadApp.DocumentManager.DocumentActivated += Docs_DocumentActivated;
+            AcadApp.DocumentManager.DocumentLockModeChanged += Docs_DocumentLockModeChanged;
         }
 
         public void Terminate()
@@ -37,7 +37,7 @@ namespace TianHua.AutoCAD.ThCui
             UnregisterCommands();
 
             //卸载事件
-            AcadApp.DocumentManager.DocumentActivated -= Docs_DocumentActivated;
+            AcadApp.DocumentManager.DocumentLockModeChanged -= Docs_DocumentLockModeChanged;
 
             //卸载Ribbon
             RemoveRibbon();
@@ -88,7 +88,7 @@ namespace TianHua.AutoCAD.ThCui
         /// </summary>
         /// <param name="sendger"></param>
         /// <param name="e"></param>
-        void Docs_DocumentActivated(object sendger, EventArgs e)
+        void Docs_DocumentLockModeChanged(object sendger, EventArgs e)
         {
             RibbonControl rc = ComponentManager.Ribbon;
             if (rc == null)
