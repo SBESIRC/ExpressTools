@@ -11,6 +11,7 @@ namespace TianHua.AutoCAD.ThCui
         //调用资源字典
         ResourceDictionary resourceDictionary = (ResourceDictionary)WinApp.LoadComponent(new Uri("/ThCui;component/ThRibbonDictionary.xaml", UriKind.Relative));
 
+        public int Count { get; set; }//标记第几次创建
         public RibbonTab CreateRibbon()
         {
             //获取由XAML定义的选项卡
@@ -60,9 +61,13 @@ namespace TianHua.AutoCAD.ThCui
         /// <param name="tab"></param>
         public void ShowAllRibbon(RibbonTab tab)
         {
-            foreach (var item in tab.Panels)
+            foreach (var panel in tab.Panels)
             {
-                item.IsVisible = true;
+                panel.IsVisible = true;
+                foreach (var item in panel.Source.Items)
+                {
+                    item.IsVisible = true;
+                }
             }
         }
 
@@ -71,15 +76,28 @@ namespace TianHua.AutoCAD.ThCui
         /// </summary>
         /// <param name="tab"></param>
         /// <param name="panel"></param>
-        public void CloseRibbon()
+        public void CloseTabRibbon()
         {
-            var tab = ComponentManager.Ribbon.ActiveTab;
+            //找到创建的ribbontab
+            var tab = ComponentManager.Ribbon.FindTab("ID_TabMyRibbon");
+            //关闭所有的
             foreach (var item in tab.Panels)
             {
                 item.IsVisible = false;
             }
-            var panel = tab.Panels[0];
-            panel.IsVisible = true;
+            //找到登录Panel,显示打开
+            var loginPanel = tab.Panels[0];
+            loginPanel.IsVisible = true;
+
+            //遍历所有登录Panel中的item,全部关闭
+            foreach (var item in loginPanel.Source.Items)
+            {
+                item.IsVisible = false;
+            }
+
+            //找到登录Panel中的登录模块，显示打开
+            var loginItem = loginPanel.Source.Items[0];
+            loginItem.IsVisible = true;
         }
 
         /// <summary>
@@ -104,7 +122,7 @@ namespace TianHua.AutoCAD.ThCui
         /// </summary>
         public void Logout()
         {
-            CloseRibbon();
+            CloseTabRibbon();
         }
 
         /// <summary>
