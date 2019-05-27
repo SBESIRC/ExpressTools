@@ -25,10 +25,10 @@
                         <Directory Id="INSTALLFOLDER" Name="ThCADPlugin.bundle">
                             <Directory Id="DIR_Autoloader_Contents" Name="Contents">
                                 <Directory Id="DIR_Autoloader_Contents_App_Win64" Name="Win64" />
-                                <Directory Id="DIR_Autoloader_Contents_Support" Name="Support" />
-                                <Directory Id="DIR_Autoloader_Contents_Resources" Name="Resources">
-                                    <Directory Id="DIR_Autoloader_Contents_Resources_ToolPalette" Name="ToolPalette" />
+                                <Directory Id="DIR_Autoloader_Contents_Support" Name="Support" >
+                                    <Directory Id="DIR_Autoloader_Contents_Support_ToolPalette" Name="ToolPalette" />
                                 </Directory>
+                                <Directory Id="DIR_Autoloader_Contents_Resources" Name="Resources" />
                                 <Directory Id="DIR_Autoloader_Contents_Standards" Name="Standards">
                                     <Directory Id="DIR_Autoloader_Contents_Standards_Layer" Name="Layer" />
                                 </Directory>

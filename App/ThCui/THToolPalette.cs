@@ -251,7 +251,7 @@ namespace TianHua.AutoCAD.ThCui
             //获取appdata放置插件的路径
             var bundleName = @"ThCADPlugin.bundle";
             var destDirName = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\Autodesk\ApplicationPlugins\" + bundleName;
-            return destDirName + @"\Contents\Resources\ToolPalette\";
+            return destDirName + @"\Contents\Support\ToolPalette\";
         }
 
         private void lstSource_SelectedIndexChanged(object sender, EventArgs e)
