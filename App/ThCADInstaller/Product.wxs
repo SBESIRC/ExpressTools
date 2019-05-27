@@ -4,7 +4,7 @@
     <!-- Include wxi files -->
     <?include Variable.wxi ?>
     <!-- Codepage 936 for Simplified Chinese characters -->
-    <Product Id="B3E86A0B-D61A-4E23-BB61-CF2D504CE8E5" Name="$(var.Name)" Codepage="936" Language="2052" Version="$(var.Version)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+    <Product Id="$(var.ProductCode)" Name="$(var.Name)" Codepage="936" Language="2052" Version="$(var.Version)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
         <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Description="$(var.Description)" Manufacturer="$(var.Manufacturer)" Platform="x64" />
         <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
         <MediaTemplate EmbedCab="yes" />

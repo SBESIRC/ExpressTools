@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ApplicationPackage SchemaVersion="1.0" ProductCode="{736231AF-4BE2-479F-BB07-7BE20C6B0B2F}" Version="1.0.0" Name="TIANHUA Express Tools" Description="TIANHUA Express Tools for AutoCAD" Author="TIANHUA AI Research Center" Icon="./Contents/Resources/THLOGO.ico" HelpFile="">
+<ApplicationPackage 
+SchemaVersion="1.0" 
+ProductCode="{736231AF-4BE2-479F-BB07-7BE20C6B0B2F}" 
+Version="1.0.0" 
+Name="TIANHUA CAD Express Tools"
+NameChs="天华CAD效率工具" 
+Description="TIANHUA Express Tools for AutoCAD"
+DescriptionChs="天华CAD效率工具是天华AI研究中心自主研发的以提升设计师绘图效率为目标的工具集合，从建筑、结构、电气、暖通、给排水及方案六个方面为设计师提供高效建筑出图的软件解决方案。"
+Author="TIANHUA AI Research Center" 
+AuthorChs="天华AI研究中心"
+Icon="./Contents/Resources/THLOGO.ico" >
     <RuntimeRequirements Platform="AutoCAD"/>
     <CompanyDetails Name="TIANHUA" Url="http://www.thape.com/" Email="webmaster@thape.com.cn" />
     <Components>
