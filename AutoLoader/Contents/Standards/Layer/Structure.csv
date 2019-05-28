@@ -1,8 +1,8 @@
 各专业通用,默认,C-XREF-EXT,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,专业间外参放置层
 各专业通用,默认,C-XREF-INT,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,专业内外参放置层
-各专业通用,默认,C-XREF-SLCT,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,外参基准框
+各专业通用,默认,C-XREF-SLCT,默认开,默认否,默认否,7,Continuous,默认,0,默认,nil,外参基准框
 各专业通用,默认,C-XREF-PONT,默认开,默认否,默认否,7,Continuous,默认,0,默认,nil,外参基准点
-各专业通用,默认,C-WIPEOUT,默认开,默认否,默认否,240,Continuous,默认,0,默认,nil,遮挡放置层
+各专业通用,默认,C-WIPEOUT,默认开,默认否,默认否,240,Continuous,默认,0,默认,T,遮挡放置层
 墙一,默认,S_WALL,默认开,默认否,默认否,2,Continuous,默认,0,默认,T,平面砼墙，墙可见轮廓线，Line， Arch
 墙一,默认,S_WALL_HACH,默认开,默认否,默认否,30,Continuous,默认,0,默认,T,平面砼墙填充，HACH
 墙一,默认,S_WALL_OTHE,默认开,默认否,默认否,55,Continuous,默认,0,默认,T,平面墙柱-不提资墙柱轮廓线，用于阁楼，小屋顶等
@@ -52,10 +52,10 @@
 基础,默认,S_BASE_PIT_DASH,默认开,默认否,默认否,201,DASHED,默认,0,默认,T,平面井坑放坡线，Line、Pline
 基础,默认,S_BASE_NUMB,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,承台编号，TEXT
 基础,默认,S_BASE_EQPM,默认开,默认否,默认否,201,Continuous,默认,0,默认,T,平面设备基础线，Insert
-基础,默认,S_AXIS,默认开,默认否,默认否,8,CENTER,默认,0,默认,T,平面轴线-轴网，细点画线
-基础,默认,S_AXIS_DIMS,默认开,默认否,默认否,3,Continuous,默认,0,默认,T,平面轴线标注的尺寸及相关引线
-基础,默认,S_AXIS_NUMB,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,轴网的编号
-基础,默认,S_PLAN_DIMS,默认开,默认否,默认否,3,Continuous,默认,0,默认,T,除轴线和墙柱基础之外的平面标注
+平面一,默认,S_AXIS,默认开,默认否,默认否,8,CENTER,默认,0,默认,T,平面轴线-轴网，细点画线
+平面一,默认,S_AXIS_DIMS,默认开,默认否,默认否,3,Continuous,默认,0,默认,T,平面轴线标注的尺寸及相关引线
+平面一,默认,S_AXIS_NUMB,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,轴网的编号
+平面一,默认,S_PLAN_DIMS,默认开,默认否,默认否,3,Continuous,默认,0,默认,T,除轴线和墙柱基础之外的平面标注
 平面一,默认,S_PLAN_REIN,默认开,默认否,默认否,1,Continuous,默认,0,默认,T,楼板钢筋线，Pline，线宽70
 平面一,默认,S_PLAN_TEXT,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,说明文字TEXT
 平面一,默认,S_PLAN_TOPC,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,平面标题，大标题
@@ -72,8 +72,8 @@
 表格,默认,S_TABL,默认开,默认否,默认否,83,Continuous,默认,0,默认,T,表格线，Line
 表格,默认,S_TABL_NUMB,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,表格编号，TEXT
 表格,默认,S_TABL_LEVL,默认开,默认否,默认否,1,Continuous,默认,0,默认,T,层高表，Pline，线宽60，属性快
-表格,默认,S_CONS_COLU_TEXT,默认开,默认否,默认否,41,Continuous,默认,0,默认,T,构造柱注释，编号TEXT
-表格,默认,S_LEVL,默认开,默认否,默认否,241,Continuous,默认,0,默认,T,标高符号，三角高度250，节点索引，引出
+其他,默认,S_CONS_COLU_TEXT,默认开,默认否,默认否,41,Continuous,默认,0,默认,T,构造柱注释，编号TEXT
+其他,默认,S_LEVL,默认开,默认否,默认否,241,Continuous,默认,0,默认,T,标高符号，三角高度250，节点索引，引出
 其他,默认,S_INDX,默认开,默认否,默认否,11,Continuous,默认,0,默认,T,索引-线;剖切，线，Pline，线宽70
 其他,默认,S_OBSV,默认开,默认否,默认否,7,Continuous,默认,0,默认,T,沉降观测点，Pline
 其他,默认,S_PSPR,默认开,默认否,默认否,43,Continuous,默认,0,默认,T,后浇带
