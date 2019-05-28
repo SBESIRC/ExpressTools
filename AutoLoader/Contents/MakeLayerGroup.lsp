@@ -17,3 +17,7 @@
 (defun TH:AddToLayerGroup ( layer group)
     (command "._-layer" "filter" "edit" group "add" layer "")
 ); End of defun
+
+(defun TH:ShowLayerManagerPalette ( group )
+    (command "._+layer" group)
+); End of defun
