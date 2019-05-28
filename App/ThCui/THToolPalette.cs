@@ -29,6 +29,10 @@ namespace TianHua.AutoCAD.ThCui
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //上来先清空，重新加载
+            lstCurrent.Items.Clear();
+            lstSource.Items.Clear();
+
             //保存按钮初始为失效状态
             btnSave.Enabled = false;
 
@@ -45,7 +49,6 @@ namespace TianHua.AutoCAD.ThCui
                 var name = item.ToString().Split('\\').Last();
                 lstCurrent.Items.Add(name);
             }
-
             //将未加载的显示在起始菜单中
             var sourcePathes = root.GetDirectories().Select(d => d.FullName).Except(addedPathes);
             foreach (var item in sourcePathes)
