@@ -220,6 +220,8 @@ namespace TianHua.AutoCAD.Parking
             Database db = doc.Database;
             Editor ed = doc.Editor;
 
+            var mar = ed.CurrentUserCoordinateSystem;//获得当前UCS坐标系，用于坐标转换
+
             double width = 0; //初始化线宽
             short colorIndex = color; //初始化颜色索引值
             int index = 2; //初始化多段线顶点数
@@ -281,9 +283,9 @@ namespace TianHua.AutoCAD.Parking
                                 {
                                     polyEnt.RemoveVertexAt(polyEnt.NumberOfVertices - 1);
 
-                                    ptPrevious = polyEnt.GetPoint3dAt(polyEnt.NumberOfVertices - 1);
-                                    //将基点设置回先前的点
-                                    optPtKey.BasePoint = polyEnt.GetPoint3dAt(polyEnt.NumberOfVertices - 1);
+                                    ptPrevious = polyEnt.GetPoint3dAt(polyEnt.NumberOfVertices - 1).TransformBy(mar.Inverse());
+                                    //将基点设置回先前的点,进行坐标转换后执行
+                                    optPtKey.BasePoint = polyEnt.GetPoint3dAt(polyEnt.NumberOfVertices - 1).TransformBy(mar.Inverse());
                                     //记录撤回状态
                                     chehui = true;
 
@@ -316,7 +318,8 @@ namespace TianHua.AutoCAD.Parking
                         polyEnt.AddVertexAt(1, pt2, 0, width, width);
                         //设置多段线的颜色
                         polyEnt.Color = Autodesk.AutoCAD.Colors.Color.FromColorIndex(ColorMethod.ByColor, colorIndex);
-                        //将多段线添加到图形数据库并返回一个ObjectId(在绘图窗口动态显示多段线)
+                        //先进行坐标转换，将多段线添加到图形数据库并返回一个ObjectId(在绘图窗口动态显示多段线)
+                        polyEnt.TransformBy(mar);
                         polyEntId = db.AddToModelSpace(polyEnt);
                     }
                     else  //修改多段线，添加最后一个顶点
@@ -328,7 +331,7 @@ namespace TianHua.AutoCAD.Parking
                             if (polyEnt != null)
                             {
                                 //继续添加多段线的顶点
-                                Point2d ptCurrent = ptNext.toPoint2d();
+                                Point2d ptCurrent = ptNext.TransformBy(mar).toPoint2d();
                                 polyEnt.AddVertexAt(index - 1, ptCurrent, 0, width, width);
                                 //重新设置多段线的颜色和线宽
                                 polyEnt.Color = Autodesk.AutoCAD.Colors.Color.FromColorIndex(ColorMethod.ByColor, colorIndex);
