@@ -55,6 +55,11 @@
 
     </Window.Resources>
 
+    <Window.InputBindings>
+        <!--<KeyBinding Modifiers="Control+Alt" Key="Z" Command="{StaticResource CaptureScreen}" />-->
+        <KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
+    </Window.InputBindings>
+
     <!--触发器绑定命令，目前暂时用不到-->
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Activated">
@@ -62,8 +67,8 @@
         </i:EventTrigger>
         <!--<i:EventTrigger EventName="OnClosing">
             <local:ThEventCommand Command="{Binding OnClosingCommand}"/>
-        </i:EventTrigger>-->
-        <!--<i:EventTrigger EventName="UnloadingRow">
+        </i:EventTrigger>
+        <i:EventTrigger EventName="UnloadingRow">
             <local:ThEventCommand Command="{Binding MouseMoveCommand}"/>
         </i:EventTrigger>-->
     </i:Interaction.Triggers>
@@ -77,7 +82,7 @@
             <GroupBox Grid.Column="0" Header="车位属性配置" Height="auto" BorderThickness="1" BorderBrush="DarkGray" Margin="3">
                 <DockPanel LastChildFill="True">
                     <WrapPanel DockPanel.Dock="Top">
-                        <Button Name="btnChooseBlock" Command="{Binding ChooseCommand}"  Width="auto">
+                        <Button Name="btnChooseBlock" Command="{Binding ChooseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Width="auto">
                             <Image Source="Resource/select.png" Height="20"></Image>
                         </Button>
                         <Label VerticalContentAlignment="Center">拾取对象</Label>
