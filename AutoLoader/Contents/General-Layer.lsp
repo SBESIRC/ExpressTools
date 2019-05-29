@@ -38,52 +38,117 @@
 (setq *pluginPath* (strcat (getenv "PROGRAMFILES") "\\Autodesk\\ApplicationPlugins\\ThCADPlugin.bundle"))
 (setq *pluginContentPath* (strcat *pluginPath* "\\Contents"))
 
-(defun c:THALC ( / group )
+(defun c:THALC ( / *error* oecho group )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    
     (setq group "天华建筑标准图层")
     (LM:loadlinetypes '("HIDDEN" "CENTER") nil)
     (TH:DeleteLayerGroupFilter group)
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Architecture.csv"))
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
+    
+    (setvar 'cmdecho oecho)
     (princ)
 );defun
 
-(defun c:THSLC ( / group )
+(defun c:THSLC ( / *error* oecho group )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    
     (setq group "天华结构标准图层")
     (LM:loadlinetypes '("CENTER" "DASHED" "DASHED2") nil)
     (TH:DeleteLayerGroupFilter group)
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Structure.csv"))
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
+    
+    (setvar 'cmdecho oecho)
     (princ)
 );defun
 
-(defun c:THMLC ( / group )
+(defun c:THMLC ( / *error* oecho group )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    
     (setq group "天华暖通标准图层")
     (LM:loadlinetypes '("HIDDEN" "CENTER2" "DASHED2") nil)
     (TH:DeleteLayerGroupFilter group)
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\HVAC.csv"))
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
+    
+    (setvar 'cmdecho oecho)
     (princ)
 );defun
 
-(defun c:THELC ( / group )
+(defun c:THELC ( / *error* oecho group )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    
     (setq group "天华电气标准图层")
     (LM:loadlinetypes '("HIDDEN" "HIDDEN2" "DASHDOT" "DASHDOT2" "DIVIDE2" "E-GND" "E-THU" "PHANTOM" "PHANTOM2" "BORDER2" "CENTER" "DIVIDE" "DIVIDE2" "DASHED") nil)
     (TH:DeleteLayerGroupFilter group)
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Electrical.csv"))
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
+    
+    (setvar 'cmdecho oecho)
     (princ)
 );defun
 
-(defun c:THPLC ( / group )
+(defun c:THPLC ( / *error* oecho group )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+
     (setq group "天华给排水标准图层")
     (LM:loadlinetypes '("CENTER2" "BORDER" "DASHED" "DASHDOT") nil)
     (TH:DeleteLayerGroupFilter group)
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Plumbing.csv"))
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
+    
+    (setvar 'cmdecho oecho)
     (princ)
 );defun
