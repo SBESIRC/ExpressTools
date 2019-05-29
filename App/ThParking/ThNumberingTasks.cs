@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
@@ -26,87 +27,92 @@ namespace TianHua.AutoCAD.Parking
             Database db = doc.Database;
             Editor ed = doc.Editor;
 
-            //初始化图层
-            WithTrans(() =>
+            //必须锁定文档
+            using (doc.LockDocument())
             {
-                InitialLayer(viewModel.NumberStyle.PolyLayerName, viewModel.NumberStyle.NumberLayerName);
-            });
+                //初始化图层
+                WithTrans(() =>
+                {
+                    InitialLayer(viewModel.NumberStyle.PolyLayerName, viewModel.NumberStyle.NumberLayerName);
+                });
 
-            //得到所有锁定的图层
-            var lockLayers = new List<string>();
-            WithTrans(() => { lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name).ToList(); });
+                //得到所有锁定的图层
+                var lockLayers = new List<string>();
+                WithTrans(() => { lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name).ToList(); });
 
-            ////确定要拾取的车位类型，只允许块参照被选中,只允许不被锁定的图层被选中
-            //var blocks = SelectionTool.DocChoose<BlockReference>(() => ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要编号的车位块类型" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers))));
-            //if (blocks == null)
-            //{
-            //    return;
-            //}
-            //var blockNameLists = blocks.Distinct(new CompareElemnet<BlockReference>((i, j) => i.Name == j.Name)).Select(b => b.Name);
+                ////确定要拾取的车位类型，只允许块参照被选中,只允许不被锁定的图层被选中
+                //var blocks = SelectionTool.DocChoose<BlockReference>(() => ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要编号的车位块类型" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers))));
+                //if (blocks == null)
+                //{
+                //    return;
+                //}
+                //var blockNameLists = blocks.Distinct(new CompareElemnet<BlockReference>((i, j) => i.Name == j.Name)).Select(b => b.Name);
 
-            ////确定起始编号
-            //var startNumber = GetStartNumber();
-            //if (startNumber == -1)
-            //{
-            //    return;
-            //}
+                ////确定起始编号
+                //var startNumber = GetStartNumber();
+                //if (startNumber == -1)
+                //{
+                //    return;
+                //}
 
-            //获取所有进入选择得块名，如果没有则不执行，并提醒用户选择
-            var blockNames = viewModel.ParkingLotInfos.Select(info => info.Name);
-            if (!blockNames.Any())
-            {
-                System.Windows.Forms.MessageBox.Show("请选择要进行编号的车位！");
-                return;
+                //获取所有进入选择得块名，如果没有则不执行，并提醒用户选择
+                var blockNames = viewModel.ParkingLotInfos.Select(info => info.Name);
+                if (!blockNames.Any())
+                {
+                    System.Windows.Forms.MessageBox.Show("请选择要进行编号的车位！");
+                    return;
+                }
+
+                //按照配置信息，选择图纸中的车位,只允许不被锁定的图层被选中*******如果用fence,窗口一缩小就看不到的就不对了，
+                var ents = SelectionTool.DocChoose<BlockReference>(() => ed.SelectAll(OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(2) == string.Join(",", blockNames.ToArray()) & fil.Dxf(8) != string.Join(",", lockLayers))));
+                //如果没有选中则直接返回
+                if (ents == null)
+                {
+                    return;
+                }
+
+                //绘制多段线轨迹
+                var poly = AddPoly(viewModel.NumberStyle.PolyLayerName, 0);
+                if (poly == null)
+                {
+                    return;
+                }
+
+
+                //按照和轨迹相交的情况，选择车位,以距离多段线起始点的距离进行排序，并计算编号次数(交点/2)
+                var parks = ents.Select(b => new { Block = b, Points = GetWaiJieRec(b).GetIntersectPoints(poly, Intersect.OnBothOperands).Cast<Point3d>().OrderBy(p => poly.GetDistAtPoint(p)).ToList() }).Where(a => a.Points.Count > 0).OrderBy(a => poly.GetDistAtPoint(a.Points.First())).Select(a => new { a.Block, Count = a.Points.Count / 2 }).ToList();
+
+                //实例化车位
+                var cheweis = parks.Select(p => new ParkingLot(p.Block, p.Count)).ToList();
+
+
+                //为车位进行编号
+                //*******这里可以留有接口，为块参照和文字做出关联
+                cheweis.ForEach(chewei =>
+                {
+                    chewei.SetNumber(viewModel.NumberInfo, viewModel.NumberStyle);
+                    viewModel.NumberInfo.StartNumber = viewModel.NumberInfo.NumberWithComplementaryAdd(chewei.Count);
+
+                });
+
+                //将编好的号设置文字样式，并加入模型空间
+                WithTrans(() =>
+                {
+                    //确保能够找到文字样式，如果找不到，使用当前的
+                    var textStyleTable = db.TextStyleTableId.GetObjectByID<TextStyleTable>();
+                    var numberStyleID = textStyleTable.Has(viewModel.NumberStyle.NumberTextStyle) ? textStyleTable[viewModel.NumberStyle.NumberTextStyle] : db.Textstyle;
+
+                    //将文字样式设置为希望的文字样式
+                    cheweis.ForEach(chewei => chewei.Numbers.ForEach(num => num.TextStyleId = numberStyleID));
+
+                    //加入模型空间
+                    db.AddToModelSpace(cheweis.SelectMany(chewei => chewei.Numbers).ToArray());
+
+                });
+
+                //AcadApp.ShowModalWindow(this);
             }
 
-            //按照配置信息，选择图纸中的车位,只允许不被锁定的图层被选中*******如果用fence,窗口一缩小就看不到的就不对了，
-            var ents = SelectionTool.DocChoose<BlockReference>(() => ed.SelectAll(OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(2) == string.Join(",", blockNames.ToArray()) & fil.Dxf(8) != string.Join(",", lockLayers))));
-            //如果没有选中则直接返回
-            if (ents == null)
-            {
-                return;
-            }
-
-            //绘制多段线轨迹
-            var poly = AddPoly(viewModel.NumberStyle.PolyLayerName, 0);
-            if (poly == null)
-            {
-                return;
-            }
-
-
-            //按照和轨迹相交的情况，选择车位,以距离多段线起始点的距离进行排序，并计算编号次数(交点/2)
-            var parks = ents.Select(b => new { Block = b, Points = GetWaiJieRec(b).GetIntersectPoints(poly, Intersect.OnBothOperands).Cast<Point3d>().OrderBy(p => poly.GetDistAtPoint(p)).ToList() }).Where(a => a.Points.Count > 0).OrderBy(a => poly.GetDistAtPoint(a.Points.First())).Select(a => new { a.Block, Count = a.Points.Count / 2 }).ToList();
-
-            //实例化车位
-            var cheweis = parks.Select(p => new ParkingLot(p.Block, p.Count)).ToList();
-
-
-            //为车位进行编号
-            //*******这里可以留有接口，为块参照和文字做出关联
-            cheweis.ForEach(chewei =>
-            {
-                chewei.SetNumber(viewModel.NumberInfo, viewModel.NumberStyle);
-                viewModel.NumberInfo.StartNumber = viewModel.NumberInfo.NumberWithComplementaryAdd(chewei.Count);
-
-            });
-
-            //将编好的号设置文字样式，并加入模型空间
-            WithTrans(() =>
-            {
-                //确保能够找到文字样式，如果找不到，使用当前的
-                var textStyleTable = db.TextStyleTableId.GetObjectByID<TextStyleTable>();
-                var numberStyleID = textStyleTable.Has(viewModel.NumberStyle.NumberTextStyle) ? textStyleTable[viewModel.NumberStyle.NumberTextStyle] : db.Textstyle;
-
-                //将文字样式设置为希望的文字样式
-                cheweis.ForEach(chewei => chewei.Numbers.ForEach(num => num.TextStyleId = numberStyleID));
-
-                //加入模型空间
-                db.AddToModelSpace(cheweis.SelectMany(chewei => chewei.Numbers).ToArray());
-
-            });
-
-            //AcadApp.ShowModalWindow(this);
         }
 
         /// <summary>
@@ -114,37 +120,53 @@ namespace TianHua.AutoCAD.Parking
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public List<ParkingLotInfo> ChooseParkingLot(ThParkingNumberViewModel viewModel)
+        public List<ParkingLotInfo> ChooseParkingLot(ThParkingNumberViewModel viewModel, Window window)
         {
             Document doc = AcadApp.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
             Editor ed = doc.Editor;
 
             var result = new List<ParkingLotInfo>();
-            WithTrans(() =>
+            using (doc.LockDocument())
             {
-                //得到所有锁定的图层
-                var lockLayers = new List<string>();
-                lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name).ToList();
-
-                //确定要拾取的车位类型，只允许块参照被选中,只允许不被锁定的图层被选中
-                var blocks = SelectionTool.DocChoose<BlockReference>(() => ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要编号的车位块类型" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers))));
-                if (blocks == null)
+                WithTrans(() =>
                 {
-                    return;
-                }
-
-                //获取图标临时文件夹路径
-                string tempDirName = GetTempDirectory().FullName;
-
-                //去重复，并计算输出图像路径
-                var parkingLotInfors = blocks.Distinct(new CompareElemnet<BlockReference>((i, j) => i.Name == j.Name)).Select(b => new ParkingLotInfo(b.Name, tempDirName + "\\" + b.Name + ".bmp", b.BlockTableRecord.GetObject(OpenMode.ForWrite) as BlockTableRecord));
+                    //得到所有锁定的图层
+                    var lockLayers = new List<string>();
+                    lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name).ToList();
 
 
-                //找到已有的，加上新添加的，绑定到车位listview
-                result = viewModel.ParkingLotInfos.Union(parkingLotInfors, new CompareElemnet<ParkingLotInfo>((i, j) => i.Name == j.Name)).ToList();
+                    //确定要拾取的车位类型，只允许块参照被选中,只允许不被锁定的图层被选中
+                    var blocks = SelectionTool.DocChoose<BlockReference>(() =>
+                {
+                    return ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要编号的车位块类型" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers)));
 
-            });
+                });
+                    if (blocks == null)
+                    {
+                        return;
+                    }
+                    //获取图标临时文件夹路径
+                    string tempDirName = GetTempDirectory().FullName;
+
+                    //去重复，并计算输出图像路径
+                    var parkingLotInfors = blocks.Distinct(new CompareElemnet<BlockReference>((i, j) => i.Name == j.Name)).Select(b => new ParkingLotInfo(b.Name, tempDirName + "\\" + b.Name + ".bmp", b.BlockTableRecord.GetObject(OpenMode.ForWrite) as BlockTableRecord));
+
+
+                    //找到已有的，加上新添加的，绑定到车位listview
+                    result = viewModel.ParkingLotInfos.Union(parkingLotInfors, new CompareElemnet<ParkingLotInfo>((i, j) => i.Name == j.Name)).ToList();
+
+
+                    //var realLots = result.Except(result.Join(viewModel.ParkingLotInfos, p1 => p1, p2 => p2, (p1, p2) => p1));
+                    //foreach (var item in realLots)
+                    //{
+                    //    viewModel.ParkingLotInfos.Add(item);
+                    //}
+
+                });
+
+            }
+
 
             return result;
 
@@ -161,7 +183,7 @@ namespace TianHua.AutoCAD.Parking
             //string ppath = Uri.UnescapeDataString(uri.Path);
             //var tempDirName = System.IO.Path.GetDirectoryName(ppath) + @"\Temp";
             //获取系统临时目录路径,统一将程序产生的临时文件
-            var tempDirName =System.Environment.GetEnvironmentVariable("TEMP") + @"\ThCADPlugin\BlockImage";
+            var tempDirName = System.Environment.GetEnvironmentVariable("TEMP") + @"\ThCADPlugin\BlockImage";
 
             //声明一个文件夹变量，如果没有则创建，有则实例化
             DirectoryInfo tempDirec = null;

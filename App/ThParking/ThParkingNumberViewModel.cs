@@ -97,7 +97,11 @@ namespace TianHua.AutoCAD.Parking
             Database db = doc.Database;
             //窗体启动后，设置为当前样式
             this.NumberStyle.NumberTextStyle = db.Textstyle.GetObjectByID<TextStyleTableRecord>().Name;
+
+
         });
+
+
     });
                 return _activatedCommand;
             }
@@ -139,13 +143,18 @@ namespace TianHua.AutoCAD.Parking
                     _chooseCommand = new ThCommand(
         o =>
         {
+            //ThParkingDialog.singleThParkingDialog.Hide();
             //过滤出列表中没有的那些个块，避免重复添加
-            var lots = this.NumberingTasks.ChooseParkingLot(this);
+            var lots = this.NumberingTasks.ChooseParkingLot(this, (Window)o);
             var realLots = lots.Except(lots.Join(this.ParkingLotInfos, p1 => p1, p2 => p2, (p1, p2) => p1));
             foreach (var item in realLots)
             {
                 this.ParkingLotInfos.Add(item);
             }
+            //ThParkingDialog.singleThParkingDialog.Show();
+
+            //AcadApp.ShowModalWindow(window);
+
         });
                 }
                 return _chooseCommand;
@@ -222,12 +231,13 @@ namespace TianHua.AutoCAD.Parking
         {
             this.ResultState = true;//更改状态
             ((Window)o).Close();
-            if (this.ResultState)
+            if (this.ResultState == true)
             {
                 //如果确认配置状态完毕，执行编号操作
                 NumberingTasks.Numbering(this);
                 this.ResultState = false;
             }
+
         },
         o => this.ParkingLotInfos.Select(info => info.Name).Any());
 
@@ -328,10 +338,6 @@ namespace TianHua.AutoCAD.Parking
 
             //新建一个空的配置信息，用于初始化
             this.ParkingLotInfos = new ObservableCollection<ParkingLotInfo>();
-
-
-
-
 
 
         }
