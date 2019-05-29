@@ -73,7 +73,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Stretch.ico" />
     <Resource Include="Images\THBLI.png" />
     <Resource Include="Images\THBLS.png" />
     <Resource Include="Images\THCNU.png" />

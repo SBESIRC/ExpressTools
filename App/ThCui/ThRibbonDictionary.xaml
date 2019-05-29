@@ -7,7 +7,6 @@
     <BitmapImage x:Key="THCNU" UriSource="Images/THCNU.png"/>
     <BitmapImage x:Key="THCADLOGOUT" UriSource="Images/THLOGOUT.png"/>
     <BitmapImage x:Key="THBLI" UriSource="Images/THBLI.png"/>
-    <BitmapImage x:Key="StretchImage" UriSource="Images/Stretch.ico"/>
     <BitmapImage x:Key="THBLS" UriSource="Images/THBLS.png"/>
     <BitmapImage x:Key="tip_THCNU" UriSource="Images/tip_THCNU.gif"/>
     <BitmapImage x:Key="tianhua" UriSource="Images/tianhua.png"/>
