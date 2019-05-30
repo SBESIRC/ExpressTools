@@ -36,34 +36,47 @@ namespace TianHua.AutoCAD.Parking
             //计算车位的中心
             Point3d position = CalBoundryCenter();
 
-            //在世界坐标系下，实例化第一个编号(加上前缀后缀)，中心为上述中心,旋转角度为实际世界坐标系下的与Y夹角
-            var baseText = new DBTextEx(numberInfo.NumberWithFix(numberInfo.StartNumber), position, numberStyle.NumberHeight, numberStyle.NumberLayerName, this.BoundryRotation);
-
             //接下来开始实现在世界坐标系下的，多个编号的偏移
             var numbers = new List<DBText>();
             for (int i = 0; i < Count; i++)
             {
-                //System.Windows.Forms.MessageBox.Show(Math.Cos(baseText.Rotation).ToString());
-                //计算当前编号，基于其实编号的偏移量，确定中心位置
-                var addx = Math.Abs(Math.Sin(baseText.Rotation) * numberStyle.OffsetDis * i);
+                //向上偏移指定距离后，再向下偏移0/(D/2)/D/(D*1.5)。。。。使其回到中心
+                var vector = new Vector3d(0, numberStyle.OffsetDis * (i - (Count - 1) * 0.5), 0);
+                var bcsPosition = position.TransformBy(Matrix3d.Displacement(vector));
 
-                //第一、第三象限都是负的
-                addx = (baseText.Rotation <= Math.PI / 2 && baseText.Rotation >= 0) || (baseText.Rotation <= Math.PI * 1.5 && baseText.Rotation >= Math.PI) ? -addx : addx;
-                var bcsPosition = new Point3d(position.X + addx, position.Y + Math.Abs(Math.Cos(baseText.Rotation) * numberStyle.OffsetDis * i), 0);
-                //var bcsPosition = new Point3d(position.X + this.Ent.Normal.X * manager.OffsetDis * i, position.Y + this.Ent.Normal.Y * manager.OffsetDis * i, 0);
+                //实例化第一个编号(加上前缀后缀)，中心为上述中心
+                var text = new DBTextEx(numberInfo.NumberWithFix(numberInfo.NumberWithComplementaryAdd(i)), bcsPosition, numberStyle.NumberHeight, numberStyle.NumberLayerName, 0);
+                //按中心按指定的中心进行旋转
+                text.TransformBy(Matrix3d.Rotation(GetRealAngle(), Vector3d.ZAxis, position));
 
-                //实例化第一个编号,中心位置如上述，旋转角度跟随块参照,并为编号进行补位操作和前后缀操作
-                //var gg = new DBTextEx(numberInfo.NumberWithFix(numberInfo.StartNumber + i), bcsPosition, numberStyle.NumberHeight, numberStyle.NumberLayerName, this.BoundryRotation);
-                var gg = new DBTextEx(numberInfo.NumberWithFix(numberInfo.NumberWithComplementaryAdd(i)), bcsPosition, numberStyle.NumberHeight, numberStyle.NumberLayerName, this.BoundryRotation);
+                numbers.Add(text);
 
-                //如果文字的旋转角度为[0,90]或者[270,360)，文字的显示就是我们要的向上或者向左，其他情况减掉180翻过来
-                //******270°的改为了开区间
-                if (!((gg.Rotation <= Math.PI / 2 && gg.Rotation >= 0) || (gg.Rotation < Math.PI * 2 && gg.Rotation > Math.PI * 1.5)))
-                {
-                    gg.Rotation -= Math.PI;
-                }
 
-                numbers.Add(gg);
+                #region 原来不居中的算法
+                ////System.Windows.Forms.MessageBox.Show(Math.Cos(baseText.Rotation).ToString());
+                ////计算当前编号，基于其实编号的偏移量，确定中心位置
+                //var addx = Math.Abs(Math.Sin(baseText.Rotation) * numberStyle.OffsetDis * i);
+                ////var movex = Math.Sin(baseText.Rotation) * (numberStyle.OffsetDis * ((Count - 1) * 0.5));
+
+                ////第一、第三象限都是负的
+                //addx = (baseText.Rotation <= Math.PI / 2 && baseText.Rotation >= 0) || (baseText.Rotation <= Math.PI * 1.5 && baseText.Rotation >= Math.PI) ? -addx : addx;
+                //var bcsPosition = new Point3d(position.X + addx, position.Y + Math.Abs(Math.Cos(baseText.Rotation) * numberStyle.OffsetDis * i), 0);
+
+                ////var bcsPosition = new Point3d(position.X + addx + movex, position.Y + (numberStyle.OffsetDis * i - numberStyle.OffsetDis * ((Count - 1) * 0.5)) * Math.Abs(Math.Cos(baseText.Rotation)), 0);
+
+                ////实例化第一个编号,中心位置如上述，旋转角度跟随块参照,并为编号进行补位操作和前后缀操作
+                ////var gg = new DBTextEx(numberInfo.NumberWithFix(numberInfo.StartNumber + i), bcsPosition, numberStyle.NumberHeight, numberStyle.NumberLayerName, this.BoundryRotation);
+                //var gg = new DBTextEx(numberInfo.NumberWithFix(numberInfo.NumberWithComplementaryAdd(i)), bcsPosition, numberStyle.NumberHeight, numberStyle.NumberLayerName, this.BoundryRotation);
+
+                ////如果文字的旋转角度为[0,90]或者[270,360)，文字的显示就是我们要的向上或者向左，其他情况减掉180翻过来
+                ////******270°的改为了开区间
+                //if (!((gg.Rotation <= Math.PI / 2 && gg.Rotation >= 0) || (gg.Rotation < Math.PI * 2 && gg.Rotation > Math.PI * 1.5)))
+                //{
+                //    gg.Rotation -= Math.PI;
+                //}
+
+                //numbers.Add(gg);
+                #endregion
             }
             this.Numbers = numbers;
 
@@ -160,7 +173,44 @@ namespace TianHua.AutoCAD.Parking
             //将与X轴夹角减去90°得到Y轴夹角
             return longLine.Angle - Math.PI / 2;
 
+            //超过90°，就改为负角度
+
         }
+
+
+        /// <summary>
+        /// 按文字排列由下到上的方式，且始终朝向正Y负X方向，计算文字实际旋转的角度
+        /// </summary>
+        /// <returns></returns>
+        private double GetRealAngle()
+        {
+            var lines = new DBObjectCollection();
+            this.Boundry.Explode(lines);
+
+            var longLine = lines.Cast<Line>().MaxElement(l => l.Length);
+
+            //让两坐标点按Y值从大到小排序,此为文字的纵向排列标准，X从大到小排序,此为文字的横向排列标准
+            var pts = new List<Point3d>() { longLine.StartPoint, longLine.EndPoint }.OrderByDescending(pt => pt.Y).ThenByDescending(pt=>pt.X).ToList();
+
+            //确认标准后，重新画长边，以此确认车位边界的整体旋转角度
+            var realLine = new Line(pts[0], pts[1]);
+
+            //转换为与Y轴的夹角进行计算
+            var angle = realLine.Angle - Math.PI / 2;
+
+            //如果第一象限，说明转的对，不用动
+            //如果转到第二象限，说明翻过来了，不要翻过来，减掉180
+            //如果第三象限，说明翻过来了，不要翻过来，减掉180
+            //如果第四象限，也转的对，不用动
+
+            //由文字朝向正Y负X方向，结合四象限情况，确认最终文字旋转角度
+            if (angle > Math.PI / 2 && angle < Math.PI * 1.5)
+            {
+                angle -= Math.PI;
+            }
+            return angle;
+        }
+
 
     }
 }
