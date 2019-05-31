@@ -10,7 +10,7 @@
     (while t
         (setq ent (car (entsel "\n选择目标文字：")))
         (setq ent (entget ent))
-        (setq typ (cdr (assoc 0 enx)))
+        (setq typ (cdr (assoc 0 ent)))
         (if (= "TCH_TEXT" typ)
             (progn
                 (prompt "\n暂不支持天正文字对象，请炸成CAD文字后使用。")
