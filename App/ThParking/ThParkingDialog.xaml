@@ -55,10 +55,10 @@
 
     </Window.Resources>
 
-    <Window.InputBindings>
-        <!--<KeyBinding Modifiers="Control+Alt" Key="Z" Command="{StaticResource CaptureScreen}" />-->
+    <!--<Window.InputBindings>
+        --><!--<KeyBinding Modifiers="Control+Alt" Key="Z" Command="{StaticResource CaptureScreen}" />--><!--
         <KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
-    </Window.InputBindings>
+    </Window.InputBindings>-->
 
     <!--触发器绑定命令，目前暂时用不到-->
     <i:Interaction.Triggers>
@@ -199,7 +199,7 @@
                             </TextBox.Text>
                         </TextBox>
                         <Label Grid.Row="2" Grid.Column="0" >行距(mm):</Label>
-                        <TextBox Grid.Row="2" Grid.Column="2" >
+                        <TextBox Grid.Row="2" Grid.Column="2">
                             <Binding Path="NumberStyle.OffsetDis"  UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <local:ThFormatRule ForMat="^[0-9]*$" ErrorContent="只允许数字!"></local:ThFormatRule>
@@ -218,7 +218,7 @@
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="1">
             <Button Command="{Binding NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">确定</Button>
-            <Button Command="{Binding CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">取消</Button>
+            <Button IsCancel="True">取消</Button>
         </StackPanel>
     </DockPanel>
 </Window>
