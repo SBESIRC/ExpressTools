@@ -171,9 +171,10 @@
     (setvar 'cmdecho 0)
     (setvar 'clayer  "0")
     
-    ; lock layers
+    (command ".undo" "BE")
     (command "._-layer" "lock" "D-*" "")
     (command "._-layer" "lock" "H-*" "")
+    (command ".undo" "E") 
     
     (setvar 'cmdecho oecho)
     (princ)
@@ -192,9 +193,12 @@
     (setvar 'cmdecho 0)
     (setvar 'clayer  "0")
     
-    ; unlock layers
+    (command ".undo" "BE")
+    (command "._-layer" "lock" "*" "")
+    (command "._-layer" "unlock" "0" "")
     (command "._-layer" "unlock" "D-*" "")
     (command "._-layer" "unlock" "H-*" "")
+    (command ".undo" "E") 
     
     (setvar 'cmdecho oecho)
     (princ)
