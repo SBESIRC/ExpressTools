@@ -31,6 +31,9 @@
             <Component Id="CMP_Autoloader_PackageContents_Lisp_General_Annotation" Guid="{89D81114-C0D5-44AD-99F9-38DB3FE3F5E7}" Win64="yes">
                 <File Id="FILE_Autoloader_PackageContents_Lisp_General_Annotation" Source="$(var.AutoloaderContentsPath)\General-Annotation.lsp" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_Steal" Guid="{D9FA7C92-26CE-431C-99C8-9E68312872B6}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Lisp_Steal" Source="$(var.AutoloaderContentsPath)\Steal.lsp" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -44,6 +47,7 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Make_Layer_Group" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_General_Auxiliary" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_General_Annotation" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Steal" />
         </ComponentGroup>
     </Fragment>
 </Wix>

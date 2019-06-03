@@ -20,6 +20,11 @@
                 <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Electrical" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Electrical.csv" KeyPath="yes" />
             </Component>
         </DirectoryRef>
+        <DirectoryRef Id="DIR_Autoloader_Contents_Standards_Dwg">
+            <Component Id="CMP_Autoloader_PackageContents_Standards_Dwg_Plumbing" Guid="{38412EFA-0F3F-4AE6-A289-38B24A5E9512}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Standards_Dwg_Plumbing" Source="$(var.AutoloaderContentsPath)\Standards\DWG\Plumbing.dwg" KeyPath="yes" />
+            </Component>
+        </DirectoryRef>
     </Fragment>
     <Fragment>
         <ComponentGroup Id="ProductComponentsStandards">
@@ -28,6 +33,7 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_HVAC" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Plumbing" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Electrical" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Dwg_Plumbing" />
         </ComponentGroup>
     </Fragment>
 </Wix>

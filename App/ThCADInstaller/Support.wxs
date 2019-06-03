@@ -6,6 +6,9 @@
             <Component Id="CMP_Autoloader_PackageContents_Support_Linetype_Electrical" Guid="{7A9C5432-FFBD-4133-BCE8-EE0EFEB1B215}" Win64="yes">
                 <File Id="FILE_Autoloader_PackageContents_Support_Linetype_Electrical" Source="$(var.AutoloaderContentsPath)\Support\Electrical.lin" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Support_Linetype_Plumbing" Guid="{8566A4F9-C672-43DD-B9D7-535655DDB45E}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Support_Linetype_Plumbing" Source="$(var.AutoloaderContentsPath)\Support\Plumbing.lin" KeyPath="yes" />
+            </Component>
             <Component Id="CMP_Autoloader_PackageContents_Support_Shx_Tssdchn" Guid="{BC7CD720-C402-4961-A53E-A6234DFC3768}" Win64="yes">
                 <File Id="FILE_Autoloader_PackageContents_Support_Shx_Tssdchn" Source="$(var.AutoloaderContentsPath)\Support\Tssdchn.shx" KeyPath="yes" />
             </Component>
@@ -23,6 +26,7 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Shx_Tssdeng" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Shx_Tssdeng2" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Linetype_Electrical" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Linetype_Plumbing" />
         </ComponentGroup>
     </Fragment>
 </Wix>

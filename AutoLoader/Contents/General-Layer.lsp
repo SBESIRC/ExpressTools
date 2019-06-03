@@ -147,7 +147,55 @@
     (setvar 'cmdecho 0)
 
     (setq group "天华给排水标准图层")
-    (LM:loadlinetypes '("CENTER2" "BORDER" "DASHED" "DASHDOT") nil)
+    ; Import text styles from the standard drawing
+    (Steal (strcat *pluginContentPath* "\\Standards\\DWG\\Plumbing.dwg")
+        '(
+            (
+                "Text Styles"
+                ("TH-STYLE*")
+            )
+         )
+    )
+    ; Load line types from the standard line definition file
+    (LM:loadlinetypes '(
+                            "CENTER2"
+                            "BORDER"
+                            "DASHED"
+                            "DASHDOT"
+                            "TH_PL01-100_J" 
+                            "TH_PL01-110_J1" 
+                            "TH_PL01-120_J2" 
+                            "TH_PL02-100_R" 
+                            "TH_PL02-110_R1" 
+                            "TH_PL02-120_R2"
+                            "TH_PL04-100_RMH"
+                            "TH_PL05-100_RM"
+                            "TH_PL06-100_ZJ"
+                            "TH_PL06-110_ZJ1"
+                            "TH_PL06-120_ZJ2"
+                            "TH_PL07-100_RH"
+                            "TH_PL07-110_RH1"
+                            "TH_PL07-120_RH2"
+                            "TH_PL09-100_XH"
+                            "TH_PL09-110_XH1"
+                            "TH_PL09-120_XH2"
+                            "TH_PL10-100_ZP"
+                            "TH_PL10-110_ZP1"
+                            "TH_PL10-120_ZP2"
+                            "TH_PL11-100_SP"
+                            "TH_PL12-100_Q"
+                            "TH_PL13-100_F"
+                            "TH_PL14-100_YF"
+                            "TH_PL16-100_Y"
+                            "TH_PL17-100_YY"
+                            "TH_PL18-100_W"
+                            "TH_PL19-100_YW"
+                            "TH_PL21-100_T"
+                            "TH_PL20-100_HY"
+                            "TH_PL18-110_W"
+                        ) 
+                        nil
+        )
     (TH:DeleteLayerGroupFilter group)
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Plumbing.csv"))
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
