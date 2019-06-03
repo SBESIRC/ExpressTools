@@ -6,10 +6,22 @@
             <Component Id="CMP_Autoloader_PackageContents_Support_Linetype_Electrical" Guid="{7A9C5432-FFBD-4133-BCE8-EE0EFEB1B215}" Win64="yes">
                 <File Id="FILE_Autoloader_PackageContents_Support_Linetype_Electrical" Source="$(var.AutoloaderContentsPath)\Support\Electrical.lin" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Support_Shx_Tssdchn" Guid="{BC7CD720-C402-4961-A53E-A6234DFC3768}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Support_Shx_Tssdchn" Source="$(var.AutoloaderContentsPath)\Support\Tssdchn.shx" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Support_Shx_Tssdeng" Guid="{37BBE169-4B71-4A80-817A-86B7E1928577}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Support_Shx_Tssdeng" Source="$(var.AutoloaderContentsPath)\Support\Tssdeng.shx" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Support_Shx_Tssdeng2" Guid="{98E7E6F2-B296-4EB7-BC96-BB27950E9C14}" Win64="yes">
+                <File Id="FILE_Autoloader_PackageContents_Support_Shx_Tssdeng2" Source="$(var.AutoloaderContentsPath)\Support\Tssdeng2.shx" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
         <ComponentGroup Id="ProductComponentsSupport">
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Shx_Tssdchn" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Shx_Tssdeng" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Shx_Tssdeng2" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Linetype_Electrical" />
         </ComponentGroup>
     </Fragment>
