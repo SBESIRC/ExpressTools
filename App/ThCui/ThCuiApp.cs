@@ -24,11 +24,22 @@ namespace TianHua.AutoCAD.ThCui
 
         public void Initialize()
         {
-            //
-            RegisterCommands();
+            //将程序有效期验证为3个月，一旦超过时限，要求用户更新，不进行命令注册
+            var usualDate = new DateTime(2019, 6, 1);
+            var dateTime = DateTime.Today;
+            if ((dateTime - usualDate).Days <= 62)
+            {
+                //注册命令
+                RegisterCommands();
 
-            //安装事件
-            AcadApp.DocumentManager.DocumentLockModeChanged += Docs_DocumentLockModeChanged;
+                //安装事件
+                AcadApp.DocumentManager.DocumentLockModeChanged += Docs_DocumentLockModeChanged;
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("天华效率工具已经过期，请及时更新！");
+            }
+
         }
 
         public void Terminate()

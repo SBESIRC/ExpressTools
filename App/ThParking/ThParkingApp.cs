@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Internal;
 using Autodesk.AutoCAD.Runtime;
@@ -20,8 +21,14 @@ namespace TianHua.AutoCAD.Parking
 
         public void Initialize()
         {
-            RegisterCommands();
-
+            //将程序有效期验证为3个月，一旦超过时限，要求用户更新，不进行命令注册
+            var usualDate = new DateTime(2019, 6, 1);
+            var dateTime = DateTime.Today;
+            if ((dateTime - usualDate).Days <= 62)
+            {
+                //注册命令
+                RegisterCommands();
+            }
         }
 
         public void Terminate()
