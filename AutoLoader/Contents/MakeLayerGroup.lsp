@@ -10,6 +10,10 @@
     (command "._-layer" "filter" "delete" group "")
 ); End of defun
 
+(defun TH:ActivateLayerGroupFilter ( group )
+    (command "._-layer" "filter" "set" group "")
+); End of defun 
+
 (defun TH:RenameLayerGroupFilter ( oldName newName )
     (command "._-layer" "filter" "rename" oldName newName "")
 ); End of defun

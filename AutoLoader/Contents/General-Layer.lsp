@@ -56,6 +56,7 @@
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Architecture.csv"))
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
+    (TH:ActivateLayerGroupFilter group)
     
     (setvar 'cmdecho oecho)
     (princ)
@@ -79,6 +80,7 @@
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Structure.csv"))
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
+    (TH:ActivateLayerGroupFilter group)
     
     (setvar 'cmdecho oecho)
     (princ)
@@ -102,6 +104,7 @@
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\HVAC.csv"))
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
+    (TH:ActivateLayerGroupFilter group)
     
     (setvar 'cmdecho oecho)
     (princ)
@@ -125,6 +128,7 @@
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Electrical.csv"))
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
+    (TH:ActivateLayerGroupFilter group)
     
     (setvar 'cmdecho oecho)
     (princ)
@@ -148,6 +152,7 @@
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Plumbing.csv"))
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
+    (TH:ActivateLayerGroupFilter group)
     
     (setvar 'cmdecho oecho)
     (princ)
