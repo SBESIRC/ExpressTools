@@ -157,3 +157,45 @@
     (setvar 'cmdecho oecho)
     (princ)
 );defun
+
+(defun c:THMLK ( / *error* oecho )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    (setvar 'clayer  "0")
+    
+    ; lock layers
+    (command "._-layer" "lock" "D-*" "")
+    (command "._-layer" "lock" "H-*" "")
+    
+    (setvar 'cmdecho oecho)
+    (princ)
+);defun
+
+(defun c:THMUK ( / *error* oecho )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    (setvar 'clayer  "0")
+    
+    ; unlock layers
+    (command "._-layer" "unlock" "D-*" "")
+    (command "._-layer" "unlock" "H-*" "")
+    
+    (setvar 'cmdecho oecho)
+    (princ)
+);defun
