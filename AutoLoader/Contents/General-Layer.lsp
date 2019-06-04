@@ -251,3 +251,47 @@
     (setvar 'cmdecho oecho)
     (princ)
 );defun
+
+(defun c:THMON ( / *error* oecho )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    (setvar 'clayer  "0")
+    
+    (command ".undo" "BE")
+    (command "._-layer" "on" "D-*" "")
+    (command "._-layer" "on" "H-*" "")
+    (command ".undo" "E")
+    
+    (setvar 'cmdecho oecho)
+    (princ)
+);defun
+
+(defun c:THMOF ( / *error* oecho )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    (setvar 'clayer  "0")
+    
+    (command ".undo" "BE")
+    (command "._-layer" "off" "D-*" "")
+    (command "._-layer" "off" "H-*" "")
+    (command ".undo" "E")
+    
+    (setvar 'cmdecho oecho)
+    (princ)
+);defun
