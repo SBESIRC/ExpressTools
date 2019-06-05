@@ -148,7 +148,7 @@
 
     (setq group "天华给排水标准图层")
     ; Import text styles from the standard drawing
-    (Steal (strcat *pluginContentPath* "\\Standards\\DWG\\Plumbing.dwg")
+    (Steal (strcat *pluginContentPath* "\\Standards\\DWG\\Plumbing.dws")
         '(
             (
                 "Text Styles"
