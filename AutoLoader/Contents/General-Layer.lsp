@@ -47,6 +47,7 @@
                 (setq color     (nth index line))
                 (command "._-layer" "color" color name "")
             )
+            (layerstate-save "½¨Öþµ×Í¼" 255 nil)
             (princ)
         )
     )
