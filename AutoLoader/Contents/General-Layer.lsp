@@ -38,6 +38,20 @@
 (setq *pluginPath* (strcat (getenv "PROGRAMFILES") "\\Autodesk\\ApplicationPlugins\\ThCADPlugin.bundle"))
 (setq *pluginContentPath* (strcat *pluginPath* "\\Contents"))
 
+(defun TH:procLayerColor ( index / data )
+    (setq rules (strcat *pluginContentPath* "\\Standards\\Layer\\Process.csv"))
+    (if (setq data (LM:readcsv rules))
+        (progn
+            (foreach line data
+                (setq name      (nth 2 line))
+                (setq color     (nth index line))
+                (command "._-layer" "color" color name "")
+            )
+            (princ)
+        )
+    )
+)
+
 (defun c:THALC ( / *error* oecho group )
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
@@ -290,6 +304,69 @@
     (command ".undo" "BE")
     (command "._-layer" "off" "D-*" "")
     (command "._-layer" "off" "H-*" "")
+    (command ".undo" "E")
+    
+    (setvar 'cmdecho oecho)
+    (princ)
+);defun
+
+; 处理建筑结构底图（暖通）
+(defun c:THLPM ( / *error* oecho )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    
+    (command ".undo" "BE")
+    (TH:procLayerColor 13)
+    (command ".undo" "E")
+    
+    (setvar 'cmdecho oecho)
+    (princ)
+);defun
+
+; 处理建筑结构底图（电气）
+(defun c:THLPE ( / *error* oecho )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    
+    (command ".undo" "BE")
+    (TH:procLayerColor 14)
+    (command ".undo" "E")
+    
+    (setvar 'cmdecho oecho)
+    (princ)
+);defun
+
+; 处理建筑结构底图（给排水）
+(defun c:THLPP ( / *error* oecho )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    
+    (command ".undo" "BE")
+    (TH:procLayerColor 15)
     (command ".undo" "E")
     
     (setvar 'cmdecho oecho)
