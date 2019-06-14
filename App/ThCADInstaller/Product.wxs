@@ -18,6 +18,7 @@
             <ComponentGroupRef Id="ProductComponentsResources" />
         </Feature>
         <UIRef Id="WixUI_Minimal"/>
+        <WixVariable Id="WixUILicenseRtf" Value="License_zh-CN.rtf" />
     </Product>
     <Fragment>
         <Directory Id="TARGETDIR" Name="SourceDir">
