@@ -156,7 +156,7 @@ namespace Linq2Acad
       try
       {
         this.UpgradeOpen()
-             .ForEach(e => e.Erase());
+             .ForEachDbObject(e => e.Erase());
       }
       catch (Exception e)
       {

@@ -92,7 +92,7 @@ namespace Linq2Acad
       {
         var block = CreateInternal(name);
         entities.UpgradeOpen()
-                .ForEach(e => block.AppendEntity(e));
+                .ForEachDbObject(e => block.AppendEntity(e));
 
         return block;
       }
@@ -212,7 +212,7 @@ namespace Linq2Acad
       {
         var layer = CreateInternal(name);
         entities.UpgradeOpen()
-                .ForEach(e => e.LayerId = layer.ObjectId);
+                .ForEachDbObject(e => e.LayerId = layer.ObjectId);
 
         return layer;
       }

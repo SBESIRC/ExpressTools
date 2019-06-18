@@ -20,7 +20,7 @@ namespace Linq2Acad
     /// <param name="action">The action to execute.</param>
     /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter  <i>action</i> is null.</exception>
-    public static void ForEach<T>(this IEnumerable<T> items, Action<T> action) where T : DBObject
+    public static void ForEachDbObject<T>(this IEnumerable<T> items, Action<T> action) where T : DBObject
     {
       if (action == null) throw Error.ArgumentNull("action");
 
