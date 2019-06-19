@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variable.wxi ?>
   <Fragment>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64">
       <?define mvvmLightLibs=".nuget\packages\mvvmlightlibs\5.4.1.1\lib" ?>
@@ -21,6 +22,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_WPF_Blend_Debug" Guid="{8BD3F0ED-CA94-4E0E-A6C7-626257421499}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_WPF_Blend_Debug" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Debug" Guid="{F4051B11-7C47-4EE2-9D3A-CA3FB150E2B6}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Debug" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2012\DgnLsPurge.dll" />
+          </Component>
         </Directory>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2014">
           <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
@@ -38,6 +42,9 @@
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_WPF_Blend_Debug" Guid="{01C6AF29-B676-4F0C-A432-5CA5157E5B2F}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_WPF_Blend_Debug" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Debug" Guid="{965B685D-9183-4CCB-9705-F297793C77F6}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Debug" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2014\DgnLsPurge.dll" />
           </Component>
         </Directory>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R20" Name="2015">
@@ -76,6 +83,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_WPF_Blend_Release" Guid="{F68E7A66-806B-4ABD-B51D-2969B89C624D}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_WPF_Blend_Release" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" Guid="{1B317CB9-7CBD-4938-A390-A7D1F274275F}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2014\DgnLsPurge.dll" />
+          </Component>
         </Directory>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2014">
           <?define OutputPath_R19_Release="bin\Release-NET40" ?>
@@ -93,6 +103,9 @@
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_WPF_Blend_Release" Guid="{AD6DCA0E-290C-4807-9634-0FE1F6739216}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_WPF_Blend_Release" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" Guid="{3BEDE9E4-D57D-4F63-9D34-7382C82629D9}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2014\DgnLsPurge.dll" />
           </Component>
         </Directory>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R20" Name="2015">
@@ -124,11 +137,13 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_WPF_Blend_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_WPF_Blend_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Debug" />
@@ -140,11 +155,13 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_WPF_Blend_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_WPF_Blend_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Release" />
