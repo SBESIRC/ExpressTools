@@ -80,11 +80,10 @@ namespace TianHua.AutoCAD.Parking
 
 
                 //按照和轨迹相交的情况，选择车位,以距离多段线起始点的距离进行排序，并计算编号次数(交点/2)
-                var parks = ents.Select(b => new { Block = b, Points = GetWaiJieRec(b).GetIntersectPoints(poly, Intersect.OnBothOperands).Cast<Point3d>().OrderBy(p => poly.GetDistAtPoint(p)).ToList() }).Where(a => a.Points.Count > 0).OrderBy(a => poly.GetDistAtPoint(a.Points.First())).Select(a => new { a.Block, Count = a.Points.Count / 2 }).ToList();
+                var parks = ents.Select(b => new { Block = b, Points = GetWaiJieRec(b).GetIntersectPoints(poly, Intersect.OnBothOperands, ed.CurrentUserCoordinateSystem).Cast<Point3d>().OrderBy(p => poly.GetDistAtPoint(p)).ToList() }).Where(a => a.Points.Count > 0).OrderBy(a => poly.GetDistAtPoint(a.Points.First())).Select(a => new { a.Block, Count = a.Points.Count / 2 }).ToList();
 
                 //实例化车位
                 var cheweis = parks.Select(p => new ParkingLot(p.Block, p.Count)).ToList();
-
 
                 //为车位进行编号
                 //*******这里可以留有接口，为块参照和文字做出关联
