@@ -118,6 +118,7 @@
     <Compile Include="GeometryExtensions\Triangle3d.cs" />
     <Compile Include="GeometryExtensions\Vector3dExtensions.cs" />
     <Compile Include="GeometryExtensions\ViewportExtensions.cs" />
+    <Compile Include="TextTool.cs" />
     <Compile Include="WeiZhi.cs" />
     <Compile Include="ZiFu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
