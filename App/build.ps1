@@ -17,27 +17,36 @@ Task Requires.MSBuild {
 # Release build for AutoCAD R18
 Task Compile.Assembly.R18 -Depends Requires.MSBuild {
     exec { 
-            & $msbuildExe ".\TianHuaCADApp.sln" /p:Configuration=Release /t:restore
+            & $msbuildExe ".\ThCui\ThCui.csproj" /p:Configuration=Release /t:restore
             & $msbuildExe ".\ThCui\ThCui.csproj" /p:Configuration=Release /t:rebuild
+            & $msbuildExe ".\ThParking\ThParking.csproj" /p:Configuration=Release /t:restore
             & $msbuildExe ".\ThParking\ThParking.csproj" /p:Configuration=Release /t:rebuild
+            & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release /t:restore
+            & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release /t:rebuild
     }
 }
 
 # Release build for AutoCAD R19
 Task Compile.Assembly.R19 -Depends Requires.MSBuild {
     exec { 
-        & $msbuildExe ".\TianHuaCADApp.sln" /p:Configuration=Release-NET40 /t:restore
+        & $msbuildExe ".\ThCui\ThCui.csproj" /p:Configuration=Release-NET40 /t:restore
         & $msbuildExe ".\ThCui\ThCui.csproj" /p:Configuration=Release-NET40 /t:rebuild
+        & $msbuildExe ".\ThParking\ThParking.csproj" /p:Configuration=Release-NET40 /t:restore
         & $msbuildExe ".\ThParking\ThParking.csproj" /p:Configuration=Release-NET40 /t:rebuild
+        & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release-NET40 /t:restore
+        & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release-NET40 /t:rebuild
     }
 }
 
 # Release build for AutoCAD R20
 Task Compile.Assembly.R20 -Depends Requires.MSBuild {
     exec { 
-        & $msbuildExe ".\TianHuaCADApp.sln" /p:Configuration=Release-NET45 /t:restore
-        & $msbuildExe ".\ThCui\ThCui.csproj" /p:Configuration=Release-NET45 /t:build
-        & $msbuildExe ".\ThParking\ThParking.csproj" /p:Configuration=Release-NET45 /t:build
+        & $msbuildExe ".\ThCui\ThCui.csproj" /p:Configuration=Release-NET45 /t:restore
+        & $msbuildExe ".\ThCui\ThCui.csproj" /p:Configuration=Release-NET45 /t:rebuild
+        & $msbuildExe ".\ThParking\ThParking.csproj" /p:Configuration=Release-NET45 /t:restore
+        & $msbuildExe ".\ThParking\ThParking.csproj" /p:Configuration=Release-NET45 /t:rebuild
+        & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release-NET45 /t:restore
+        & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release-NET45 /t:rebuild
     }
 }
 
