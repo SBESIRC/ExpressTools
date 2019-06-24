@@ -373,3 +373,22 @@
     (setvar 'cmdecho oecho)
     (princ)
 );defun
+
+£ªΩ‚À¯À˘”–Õº≤„
+(defun c:THUKA ( / *error* oecho )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    
+    (command "._-layer" "unlock" "*" "")
+    
+    (setvar 'cmdecho oecho)
+    (princ)
+);defun
