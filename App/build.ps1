@@ -23,6 +23,8 @@ Task Compile.Assembly.R18 -Depends Requires.MSBuild {
             & $msbuildExe ".\ThParking\ThParking.csproj" /p:Configuration=Release /t:rebuild
             & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release /t:restore
             & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release /t:rebuild
+            & $msbuildExe ".\ThElectricalSysDiagram\ThElectricalSysDiagram.csproj" /p:Configuration=Release /t:restore
+            & $msbuildExe ".\ThElectricalSysDiagram\ThElectricalSysDiagram.csproj" /p:Configuration=Release /t:rebuild
     }
 }
 
@@ -35,6 +37,8 @@ Task Compile.Assembly.R19 -Depends Requires.MSBuild {
         & $msbuildExe ".\ThParking\ThParking.csproj" /p:Configuration=Release-NET40 /t:rebuild
         & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release-NET40 /t:restore
         & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release-NET40 /t:rebuild
+        & $msbuildExe ".\ThElectricalSysDiagram\ThElectricalSysDiagram.csproj" /p:Configuration=Release-NET40 /t:restore
+        & $msbuildExe ".\ThElectricalSysDiagram\ThElectricalSysDiagram.csproj" /p:Configuration=Release-NET40 /t:rebuild
     }
 }
 
@@ -47,6 +51,8 @@ Task Compile.Assembly.R20 -Depends Requires.MSBuild {
         & $msbuildExe ".\ThParking\ThParking.csproj" /p:Configuration=Release-NET45 /t:rebuild
         & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release-NET45 /t:restore
         & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release-NET45 /t:rebuild
+        & $msbuildExe ".\ThElectricalSysDiagram\ThElectricalSysDiagram.csproj" /p:Configuration=Release-NET45 /t:restore
+        & $msbuildExe ".\ThElectricalSysDiagram\ThElectricalSysDiagram.csproj" /p:Configuration=Release-NET45 /t:rebuild
     }
 }
 
