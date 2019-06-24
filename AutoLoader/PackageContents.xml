@@ -30,7 +30,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
         <ComponentEntry ModuleName="./Contents/Win64/2012/DgnLsPurge.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="AutoCAD DGN Hotfix for AutoCAD 2012" AppName="DgnLsPurge" AppType=".NET">
             <Commands GroupName="">
-                <Command Global="DGNPURGE" />
+                <Command Global="DGNPURGE" Local="DGNPURGE" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -39,7 +39,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
         <ComponentEntry ModuleName="./Contents/Win64/2014/DgnLsPurge.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="AutoCAD DGN Hotfix" AppName="DgnLsPurge" AppType=".NET">
             <Commands GroupName="">
-                <Command Global="DGNPURGE" />
+                <Command Global="DGNPURGE" Local="DGNPURGE" />
             </Commands>
         </ComponentEntry>
     </Components>
