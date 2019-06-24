@@ -49,38 +49,20 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Debug" Guid="{D3EB23DD-EF91-4DC0-98EE-E736A248E5AD}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThParking_Debug" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.ThParking.TargetFileName)" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Debug" Guid="{F44A9E8E-8299-4FF2-830B-6EE593BAEB70}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Debug" KeyPath="yes" Source="$(var.ThAreaFrame.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.ThAreaFrame.TargetFileName)" />
+          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Debug" Guid="{6EFD99AC-DCD5-49AB-9438-CBB635B28888}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Debug" KeyPath="yes" Source="$(var.ThResourceLibrary.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.ThResourceLibrary.TargetFileName)" />
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Debug" Guid="{B799A5BF-71CE-4DDE-94BD-A7AA672310AD}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Debug" KeyPath="yes" Source="$(var.ThElectricalSysDiagram.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.ThElectricalSysDiagram.TargetFileName)" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Debug" Guid="{F44A9E8E-8299-4FF2-830B-6EE593BAEB70}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Debug" KeyPath="yes" Source="$(var.ThAreaFrame.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.ThAreaFrame.TargetFileName)" />
-          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_WPF_Blend_Debug" Guid="{01C6AF29-B676-4F0C-A432-5CA5157E5B2F}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_WPF_Blend_Debug" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Debug" Guid="{965B685D-9183-4CCB-9705-F297793C77F6}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Debug" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2014\DgnLsPurge.dll" />
-          </Component>
-        </Directory>
-        <Directory Id="DIR_Autoloader_Contents_App_Win64_R20" Name="2015">
-          <?define OutputPath_R20_Debug="bin\Debug-NET45" ?>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" Guid="{A2A2D193-79AF-4F92-92D1-FDBBA94F7D1D}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" KeyPath="yes" Source="$(var.DotNetARX.ProjectDir)\$(var.OutputPath_R20_Debug)\$(var.DotNetARX.TargetFileName)" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Debug" Guid="{8F325DEC-EDFD-48D6-97DF-39C2DB788CE5}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExtensionTools_Debug" KeyPath="yes" Source="$(var.ExtensionTools.ProjectDir)\$(var.OutputPath_R20_Debug)\$(var.ExtensionTools.TargetFileName)" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Debug" Guid="{714C0C74-FFCD-434C-A245-A88C4C0E3B61}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThCui_Debug" KeyPath="yes" Source="$(var.ThCui.ProjectDir)\$(var.OutputPath_R20_Debug)\$(var.ThCui.TargetFileName)" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Debug" Guid="{F1740AA4-7A1D-4760-8227-E13DB7E3782B}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThParking_Debug" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R20_Debug)\$(var.ThParking.TargetFileName)" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_WPF_Blend_Debug" Guid="{D9FCA84D-A493-455C-9E1E-37517CC0BB4B}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_WPF_Blend_Debug" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net45\System.Windows.Interactivity.dll" />
           </Component>
         </Directory>
       <?elseif $(var.Configuration) = Release ?>
@@ -98,7 +80,6 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Release" Guid="{ED56D6C6-5601-480B-AF24-13AE73A8841D}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThParking_Release" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R18_Release)\$(var.ThParking.TargetFileName)" />
           </Component>
-
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrame_Release" Guid="{EA8EEF57-C025-4DAD-8DBC-DE7A5E345B5C}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAreaFrame_Release" KeyPath="yes" Source="$(var.ThAreaFrame.ProjectDir)\$(var.OutputPath_R18_Release)\$(var.ThAreaFrame.TargetFileName)" />
           </Component>
@@ -108,8 +89,6 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Release" Guid="{044C66DA-9634-422E-AA36-BEE98C5EEA0A}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Release" KeyPath="yes" Source="$(var.ThElectricalSysDiagram.ProjectDir)\$(var.OutputPath_R18_Release)\$(var.ThElectricalSysDiagram.TargetFileName)" />
           </Component>
-          
-          
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_WPF_Blend_Release" Guid="{F68E7A66-806B-4ABD-B51D-2969B89C624D}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_WPF_Blend_Release" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
           </Component>
@@ -147,24 +126,6 @@
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2014\DgnLsPurge.dll" />
           </Component>
         </Directory>
-        <Directory Id="DIR_Autoloader_Contents_App_Win64_R20" Name="2015">
-          <?define OutputPath_R20_Release="bin\Release-NET45" ?>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" Guid="{A2A2D193-79AF-4F92-92D1-FDBBA94F7D1D}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" KeyPath="yes" Source="$(var.DotNetARX.ProjectDir)\$(var.OutputPath_R20_Release)\$(var.DotNetARX.TargetFileName)" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" Guid="{8F325DEC-EDFD-48D6-97DF-39C2DB788CE5}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" KeyPath="yes" Source="$(var.ExtensionTools.ProjectDir)\$(var.OutputPath_R20_Release)\$(var.ExtensionTools.TargetFileName)" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Release" Guid="{714C0C74-FFCD-434C-A245-A88C4C0E3B61}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThCui_Release" KeyPath="yes" Source="$(var.ThCui.ProjectDir)\$(var.OutputPath_R20_Release)\$(var.ThCui.TargetFileName)" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Release" Guid="{F1740AA4-7A1D-4760-8227-E13DB7E3782B}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThParking_Release" KeyPath="yes" Source="$(var.ThParking.ProjectDir)\$(var.OutputPath_R20_Release)\$(var.ThParking.TargetFileName)" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_WPF_Blend_Release" Guid="{E0713BCF-BA54-4250-AEA0-3FA3DBC84038}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R20_WPF_Blend_Release" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net45\System.Windows.Interactivity.dll" />
-          </Component>
-        </Directory>
       <?endif?>
     </DirectoryRef>
   </Fragment>
@@ -189,11 +150,6 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_WPF_Blend_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_WPF_Blend_Debug" />
       <?elseif $(var.Configuration) = Release ?>
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Release" />
@@ -213,11 +169,6 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_WPF_Blend_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_WPF_Blend_Release" />
       <?endif?>
     </ComponentGroup>
   </Fragment>
