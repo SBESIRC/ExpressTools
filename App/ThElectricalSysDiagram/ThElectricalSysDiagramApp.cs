@@ -24,7 +24,7 @@ namespace ThElectricalSysDiagram
 
     public class ThElectricalSysDiagramCommands
     {
-        [CommandMethod("THBEE", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD","THBEE", CommandFlags.Modal)]
         public void BlockExchangeCmd()
         {
             var view = new ThSysDiagramView();

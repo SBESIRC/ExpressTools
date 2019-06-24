@@ -23,7 +23,7 @@ namespace ThAreaFrame
 
     public class ThAreaFrameCommands
     {
-        [CommandMethod("HTBAC", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THBAC", CommandFlags.Modal)]
         public void AreaCommand()
         {
             var ed = Active.Editor;
