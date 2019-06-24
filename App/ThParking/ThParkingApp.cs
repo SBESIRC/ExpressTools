@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
-[assembly: CommandClass(typeof(TianHua.AutoCAD.Parking.ThParkingCommands))]
 [assembly: ExtensionApplication(typeof(TianHua.AutoCAD.Parking.ThParkingApp))]
 
 namespace TianHua.AutoCAD.Parking
@@ -25,10 +24,7 @@ namespace TianHua.AutoCAD.Parking
         public void Terminate()
         {
         }
-    }
 
-    public class ThParkingCommands
-    {
         [CommandMethod("TIANHUACAD", "THCNU", CommandFlags.Modal)]
         public void ShowNumberDialog()
         {
