@@ -423,15 +423,6 @@ namespace ThElectricalSysDiagram
             }
         }
 
-        public struct ads_name
-        {
-            IntPtr a;
-            IntPtr b;
-        };
-
-        [DllImport("acdb18.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "?acdbGetAdsName@@YA?AW4ErrorStatus@Acad@@AEAY01_JVAcDbObjectId@@@Z")]
-        public static extern int acdbGetAdsName(ref ads_name name, ObjectId objId);
-
         /// <summary>
         /// 初始化需要的图层
         /// </summary>
