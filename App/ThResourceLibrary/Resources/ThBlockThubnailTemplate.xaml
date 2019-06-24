@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ThResourceLibrary">
+
+    <!--创建数据模板-->
+    <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ThBlockThubnailTemplate}">
+        <!--<Image Source="{Binding Path=Icon}" Height="32"/>-->
+        <TextBlock Text="{Binding Path=Name}"></TextBlock>
+    </DataTemplate>
+
+</ResourceDictionary>

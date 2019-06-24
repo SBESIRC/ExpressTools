@@ -64,6 +64,7 @@
     <Compile Include="AcHelper\Wrappers\WriteEnablerException.cs" />
     <Compile Include="AcHelper\Wrappers\XRecordHandler.cs" />
     <Compile Include="AcHelper\Wrappers\XRecordHandlerException.cs" />
+    <Compile Include="BlockTool.cs" />
     <Compile Include="CompareTool.cs" />
     <Compile Include="EnumDescriptionAttribute.cs" />
     <Compile Include="EnumHelper.cs" />

@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ThResourceLibrary">
+
+    <!--定义控件模板，并使用key标记-->
+    <!--
+    <ControlTemplate x:Key="ThButtonTemplate" TargetType="{x:Type Button}">
+
+        -->
+    <!--定义模板触发器-->
+    <!--
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                -->
+    <!--<Setter TargetName="ell"  Property="Fill" Value="Yellow"/>-->
+    <!--
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>-->
+
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:CustomResources}, ResourceId=ThConfirmButtonStyle}" TargetType="Button">
+        <Setter Property="Width" Value="80"/>
+        <Setter Property="Margin" Value="3"/>
+        <!--添加内边距-->
+        <Setter Property="Padding" Value="3"/>
+        <!--<Setter Property="FontSize" Value="14" />-->
+        <!--加粗-->
+        <!--<Setter Property="FontWeight" Value="Bold" />-->
+
+        <!--样式触发器-->
+        <Style.Triggers>
+            <!--获得焦点时触发--><!--
+            <Trigger Property="Control.IsFocused" Value="True">
+                <Setter Property="Control.Foreground" Value="Red" />
+            </Trigger>-->
+            <!--鼠标移过时触发，鼠标在之上前景色为蓝色-->
+            <Trigger Property="Control.IsMouseOver" Value="True">
+                <Setter Property="Control.Foreground" Value="Blue" />
+            </Trigger>
+            <!--按钮按下时触发-->
+            <!--<Trigger Property="Button.IsPressed" Value="True">
+                <Setter Property="Control.Foreground" Value="Blue" />
+            </Trigger>-->
+        </Style.Triggers>
+
+        <!--<EventSetter Event="Click" Handler="executeCommand"/>-->
+    </Style>
+
+</ResourceDictionary>
