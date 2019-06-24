@@ -26,6 +26,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcadInvoke\InvokeTool.cs" />
     <Compile Include="AcadExtension\LispDottedPair.cs" />
     <Compile Include="AcadExtension\LispList.cs" />
     <Compile Include="AcadExtension\ListData.cs" />
