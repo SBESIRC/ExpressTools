@@ -59,7 +59,10 @@ Task Compile.Assembly.R20 -Depends Requires.MSBuild {
 # Release build for ThCADPluginInstaller
 Task Compile.Installer -Depends Compile.Assembly.R18, Compile.Assembly.R19, Compile.Assembly.R20 {
     exec { 
-        & $msbuildExe ".\TianHuaCADApp.sln" /p:Configuration=Release /t:restore
+        & $msbuildExe ".\ThCui\ThCui.csproj" /p:Configuration=Release /t:restore
+        & $msbuildExe ".\ThParking\ThParking.csproj" /p:Configuration=Release /t:restore
+        & $msbuildExe ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=Release /t:restore
+        & $msbuildExe ".\ThElectricalSysDiagram\ThElectricalSysDiagram.csproj" /p:Configuration=Release /t:restore
         & $msbuildExe ".\ThCADInstaller\ThCADInstaller.wixproj" /p:Configuration=Release /t:rebuild
     }
 }
