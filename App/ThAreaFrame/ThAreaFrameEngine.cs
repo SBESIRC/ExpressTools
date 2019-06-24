@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrame
 {
-    class ThAreaFrameEngine
+    class ThAreaFrameEngine : IDisposable
     {
         private Database database;
         private ThAreaFrameRoof roof;
@@ -18,27 +18,48 @@ namespace ThAreaFrame
         public Database Database { get => database; set => database = value; }
         internal ThAreaFrameRoof Roof { get => roof; set => roof = value; }
 
-        // 构造函数
+        // 构造函数 (current database)
         public static ThAreaFrameEngine ResidentialEngine()
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                var names = new List<string>();
-                acadDatabase.Layers.ForEachDbObject(l => names.Add(l.Name));
-                var roofNames = names.Where(n => n.StartsWith(@"单体楼顶间"));
-                var foundationNames = names.Where(n => n.StartsWith(@"单体基底"));
-                var building = ResidentialBuilding.CreateWithLayers(names.ToArray());
-                var foundation = ThAreaFrameFoundation.Foundation(foundationNames.FirstOrDefault());
-                var roof = roofNames.Any() ? ThAreaFrameRoof.Roof(roofNames.FirstOrDefault()) : null;
-                ThAreaFrameEngine engine = new ThAreaFrameEngine()
-                {
-                    roof = roof,
-                    building = building,
-                    foundation = foundation,
-                    database = acadDatabase.Database
-                };
-                return engine;
+                return ResidentialEngineInternal(acadDatabase);
             }
+        }
+
+        // 构造函数 (side database)
+        public static ThAreaFrameEngine ResidentialEngine(string fileName)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Open(fileName, DwgOpenMode.ReadOnly, true))
+            {
+                return ResidentialEngineInternal(acadDatabase);
+            }
+        }
+
+        // 构造函数 (AcadDatabase wrapper)
+        private static ThAreaFrameEngine ResidentialEngineInternal(AcadDatabase acadDatabase)
+        {
+            var names = new List<string>();
+            acadDatabase.Layers.ForEachDbObject(l => names.Add(l.Name));
+            var roofNames = names.Where(n => n.StartsWith(@"单体楼顶间"));
+            var foundationNames = names.Where(n => n.StartsWith(@"单体基底"));
+            var building = ResidentialBuilding.CreateWithLayers(names.ToArray());
+            var foundation = ThAreaFrameFoundation.Foundation(foundationNames.FirstOrDefault());
+            var roof = roofNames.Any() ? ThAreaFrameRoof.Roof(roofNames.FirstOrDefault()) : null;
+            ThAreaFrameEngine engine = new ThAreaFrameEngine()
+            {
+                roof = roof,
+                building = building,
+                foundation = foundation,
+                database = acadDatabase.Database
+            };
+            return engine;
+        }
+
+        // Dispose()函数
+        public void Dispose()
+        {
+            database.Dispose();
         }
 
         // 楼号
