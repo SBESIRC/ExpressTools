@@ -2,7 +2,10 @@
 AutoCAD Express tools, App, Lisp and more
 
 # Build environment
+
 Win10 + Visual Studio 2017 Community
+
+WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 # Debug tips
 
