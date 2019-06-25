@@ -18,19 +18,11 @@ namespace ThElectricalSysDiagram
 {
     public class ThElectricalTask
     {
-        private static string filePath = GetAppResourcePath() + @"块表样本.dwg";
         private static string downStreamLayer = @"天华AI-电气设备块";
         private static string upStreamLayer = @"天华AI-提资专业块";
         private static string blockTableName = @"天华AI块关系对应表";
         private static string fanTableName = @"风机类型表";
-
-        private static string GetAppResourcePath()
-        {
-            //获取appdata放置插件的路径
-            var bundleName = @"ThCADPlugin.bundle";
-            var destDirName = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\Autodesk\ApplicationPlugins\" + bundleName;
-            return destDirName + @"\Contents\Support\";
-        }
+        private static string filePath = ThElectricalSysDiagramUtils.BlockTemplateFilePath();
 
         public List<ThBlockInfo> GetThBlockInfos()
         {

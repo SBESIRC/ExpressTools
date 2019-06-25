@@ -173,8 +173,7 @@ namespace ThElectricalSysDiagram
 
                                     if (tv.TypeCode == (int)DxfCode.ExtendedDataHandle)
                                     {
-                                        var filePath = @"C:\Users\lixuyin\Desktop\电气需求 (1)\块表样本.dwg";
-
+                                        var filePath = ThElectricalSysDiagramUtils.BlockTemplateFilePath();
                                         using (var db = AcadDatabase.Open(filePath, DwgOpenMode.ReadOnly))
                                         {
                                             var gg = db.Blocks.OfType<BlockTableRecord>().FirstOrDefault(b => b.Handle.ToString() == (string)tv.Value);

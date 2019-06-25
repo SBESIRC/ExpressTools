@@ -42,6 +42,7 @@
     <Compile Include="Model\ThRelationFanInfo.cs" />
     <Compile Include="ThElectricalSysDiagramApp.cs" />
     <Compile Include="Model\ThBlockInfo.cs" />
+    <Compile Include="ThElectricalSysDiagramUtils.cs" />
     <Compile Include="ViewModel\ThSysDiagramViewModel.cs" />
     <Compile Include="View\ThSysDiagramView.xaml.cs">
       <DependentUpon>ThSysDiagramView.xaml</DependentUpon>
