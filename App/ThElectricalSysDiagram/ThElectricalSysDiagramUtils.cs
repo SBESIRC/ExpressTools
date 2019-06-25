@@ -11,8 +11,8 @@ namespace ThElectricalSysDiagram
         public static string BlockTemplateFilePath()
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), 
-                                @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Support", 
-                                @"块表样本.dwg");
+                                @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Support",
+                                @"电气块转换表.dwg");
         }
     }
 }

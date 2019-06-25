@@ -18,6 +18,9 @@
             <Component Id="CMP_Autoloader_PackageContents_Support_Shx_Tssdeng2" Guid="{98E7E6F2-B296-4EB7-BC96-BB27950E9C14}" Win64="yes">
                 <File Id="FILE_Autoloader_PackageContents_Support_Shx_Tssdeng2" Source="$(var.AutoloaderContentsPath)\Support\Tssdeng2.shx" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Support_Electrical_Block_Template" Guid="{B24EC0F1-FA29-4B52-8479-7940267E2069}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Support_Electrical_Block_Template" Source="$(var.AutoloaderContentsPath)\Support\电气块转换表.dwg" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -27,6 +30,7 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Shx_Tssdeng2" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Linetype_Electrical" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Linetype_Plumbing" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Electrical_Block_Template" />
         </ComponentGroup>
     </Fragment>
 </Wix>
