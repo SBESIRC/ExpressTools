@@ -104,7 +104,16 @@ namespace ThAreaFrame
         #region Equality
         public bool Equals(ResidentialStorey other)
         {
-            return (number == other.number) && (standard == other.standard);
+            if (other == null) return false;
+            return (this.number == other.number) && (this.standard == other.standard);
+        }
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ResidentialStorey);
+        }
+        public override int GetHashCode()
+        {
+            return new { number, standard }.GetHashCode();
         }
         #endregion
     }
