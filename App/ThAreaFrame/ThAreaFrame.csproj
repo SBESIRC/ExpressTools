@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="ThAreaFrameApp.cs" />
     <Compile Include="ThAreaFrameDbUtils.cs" />
+    <Compile Include="ThAreaFrameDriver.cs" />
     <Compile Include="ThAreaFrameEngine.cs" />
     <Compile Include="ThAreaFrameFoundation.cs" />
     <Compile Include="ThAreaFramePublic.cs" />

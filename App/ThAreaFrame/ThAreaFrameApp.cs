@@ -34,7 +34,7 @@ namespace ThAreaFrame
                 return;
 
             // 创建面积引擎
-            ThAreaFrameEngine engine = ThAreaFrameEngine.ResidentialEngine();
+            ThAreaFrameDriver driver = ThAreaFrameDriver.ResidentialDriver();
 
             // 创建表单
             Point3d position = pr.Value.TransformBy(ed.CurrentUserCoordinateSystem);
@@ -45,14 +45,13 @@ namespace ThAreaFrame
                 using (new WriteEnabler(table))
                 {
                     int column = 0;
-                    int dataRow = (table.Rows.Count - 1);
                     int headerRow = (table.Rows.Count - 2);
 
                     // 建筑编号
-                    table.Cells[dataRow, column++].Value = engine.Name();
+                    column++;
 
                     // 普通楼层面积
-                    var ordinaryStoreys = engine.Building.OrdinaryStoreys();
+                    var ordinaryStoreys = driver.OrdinaryStoreys();
                     if (ordinaryStoreys.Count > 0)
                     {
                         table.InsertColumns(column, ThAreaFrameTableBuilder.ColumnWidth, ordinaryStoreys.Count);
@@ -61,48 +60,38 @@ namespace ThAreaFrame
                             table.Cells[headerRow, column].Alignment = CellAlignment.MiddleCenter;
                             table.Cells[headerRow, column].TextHeight = ThAreaFrameTableBuilder.TextHeight;
                             table.Cells[headerRow, column].Value = ThAreaFrameTableBuilder.OrdinaryStoreyColumnHeader(storey.number);
-
-                            table.Cells[dataRow, column].Alignment = CellAlignment.MiddleCenter;
-                            table.Cells[dataRow, column].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                            table.Cells[dataRow, column].SetAreaValue(engine.AreaOfFloor(storey.number)); 
-
                             column++;
                         }
                     }
 
                     // 标准楼层
-                    var areaOfStandardStoreys = engine.AreaOfStandardStoreys();
-                    if (areaOfStandardStoreys.Count > 0)
+                    int standardStoreyCount = driver.StandardStoreyCount();
+                    if (standardStoreyCount > 0)
                     {
-                        table.InsertColumns(column, ThAreaFrameTableBuilder.ColumnWidth, areaOfStandardStoreys.Count);
-                        for (int i = 0; i < areaOfStandardStoreys.Count; i++)
+                        table.InsertColumns(column, ThAreaFrameTableBuilder.ColumnWidth, standardStoreyCount);
+                        for (int index = 0; index < standardStoreyCount; index++)
                         {
-                            table.Cells[headerRow, column].Alignment = CellAlignment.MiddleCenter;
-                            table.Cells[headerRow, column].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                            table.Cells[headerRow, column].Value = ThAreaFrameTableBuilder.StandardStoreyColumnHeader(i);
-
-                            table.Cells[dataRow, column].Alignment = CellAlignment.MiddleCenter;
-                            table.Cells[dataRow, column].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                            table.Cells[dataRow, column].SetAreaValue(areaOfStandardStoreys[i]);
-
-                            column++;
+                            table.Cells[headerRow, column + index].Alignment = CellAlignment.MiddleCenter;
+                            table.Cells[headerRow, column + index].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                            table.Cells[headerRow, column + index].Value = ThAreaFrameTableBuilder.StandardStoreyColumnHeader(index);
                         }
                     }
+                    column += driver.StandardStoreyCount();
 
                     // 地上层数
-                    table.Cells[dataRow, column++].Value = engine.AboveGroundStoreyNumber();
+                    column++;
 
                     // 出屋面楼梯间及屋顶机房
-                    table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfRoof());
+                    column++;
 
                     // 报建面积
-                    table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfApplication());
+                    column++;
 
                     // 计容面积
-                    table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfCapacityBuilding());
+                    column++;
 
                     // 地下楼层
-                    var underGroundStoreys = engine.Building.UnderGroundStoreys();
+                    var underGroundStoreys = driver.UnderGroundStoreys();
                     if (underGroundStoreys.Count > 0)
                     {
                         table.InsertColumns(column, ThAreaFrameTableBuilder.ColumnWidth, underGroundStoreys.Count);
@@ -111,22 +100,99 @@ namespace ThAreaFrame
                             table.Cells[headerRow, column].Alignment = CellAlignment.MiddleCenter;
                             table.Cells[headerRow, column].TextHeight = ThAreaFrameTableBuilder.TextHeight;
                             table.Cells[headerRow, column].Value = ThAreaFrameTableBuilder.UnderGroundStoreyColumnHeader(storey.number);
-
-                            table.Cells[dataRow, column].Alignment = CellAlignment.MiddleCenter;
-                            table.Cells[dataRow, column].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                            table.Cells[dataRow, column].SetAreaValue(engine.AreaOfFloor(storey.number));
-
                             column++;
                         }
                     }
 
                     // 地下总面积
-                    table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfUnderGround());
+                    column++;
 
                     // 楼栋基底面积
-                    table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfFoundation());
+                    column++;
                 }
             }
+
+            // 添加数据行
+            using (AcTransaction tr = new AcTransaction())
+            {
+                Table table = (Table)tr.Transaction.GetObject(id, OpenMode.ForRead);
+                using (new WriteEnabler(table))
+                {
+                    table.InsertRowsAndInherit(table.Rows.Count, table.Rows.Count - 1, driver.engines.Count - 1);
+                }
+            }
+
+            // 填充数据
+            using (AcTransaction tr = new AcTransaction())
+            {
+                Table table = (Table)tr.Transaction.GetObject(id, OpenMode.ForRead);
+                using (new WriteEnabler(table))
+                {
+                    int column = 0;
+                    int dataRow = 2;
+                    foreach(ThAreaFrameEngine engine in driver.engines)
+                    {
+                        // 建筑编号
+                        table.Cells[dataRow, column++].Value = engine.Name();
+
+                        // 普通楼层面积
+                        foreach (ResidentialStorey storey in engine.Building.OrdinaryStoreys())
+                        {
+                            int index = driver.OrdinaryStoreys().FindIndex(x => x.number == storey.number);
+                            table.Cells[dataRow, column + index].Alignment = CellAlignment.MiddleCenter;
+                            table.Cells[dataRow, column + index].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                            table.Cells[dataRow, column + index].SetAreaValue(engine.AreaOfFloor(storey.number)); 
+                        }
+                        column += driver.OrdinaryStoreys().Count;
+
+                        // 标准楼层
+                        for (int i = 0; i < engine.Building.StandardStoreys().Count; i++)
+                        {
+                            table.Cells[dataRow, column + i].Alignment = CellAlignment.MiddleCenter;
+                            table.Cells[dataRow, column + i].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                            table.Cells[dataRow, column + i].SetAreaValue(engine.AreaOfStandardStoreys()[i]);
+
+                        }
+                        column += driver.StandardStoreyCount();
+
+                        // 地上层数
+                        table.Cells[dataRow, column++].Value = engine.AboveGroundStoreyNumber();
+
+                        // 出屋面楼梯间及屋顶机房
+                        table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfRoof());
+
+                        // 报建面积
+                        table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfApplication());
+
+                        // 计容面积
+                        table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfCapacityBuilding());
+
+                        // 地下楼层
+                        foreach (ResidentialStorey storey in engine.Building.UnderGroundStoreys())
+                        {
+                            int index = driver.UnderGroundStoreys().FindIndex(x => x.number == storey.number);
+                            table.Cells[dataRow, column + index].Alignment = CellAlignment.MiddleCenter;
+                            table.Cells[dataRow, column + index].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                            table.Cells[dataRow, column + index].SetAreaValue(engine.AreaOfFloor(storey.number));
+                        }
+                        column += driver.UnderGroundStoreys().Count;
+
+                        // 地下总面积
+                        table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfUnderGround());
+
+                        // 楼栋基底面积
+                        table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfFoundation());
+
+                        // 重置开始列
+                        column = 0;
+                        // 更新开始行
+                        dataRow++;
+                    }
+                }
+            }
+
+            // 销毁面积引擎
+            driver.Dispose();
         }
     }
 }
