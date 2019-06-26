@@ -120,6 +120,37 @@
     <Resource Include="Images\THLOGIN.png" />
     <Resource Include="Images\THLOGOUT.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\THBEE.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TH_JianZhuDiTu.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\THLPM.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\THLPE.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\THLPP.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TH_NuanTongTuCeng.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\THMON.ico" />
+    <Resource Include="Images\THMOF.ico" />
+    <Resource Include="Images\THUKA.ico" />
+    <Resource Include="Images\THMUK.ico" />
+    <Resource Include="Images\THMLK.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\THBAC.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DGNPURGE.ico" />
+  </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
       <ItemGroup>

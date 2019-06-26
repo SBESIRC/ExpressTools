@@ -24,7 +24,22 @@
     <BitmapImage x:Key="THELC" UriSource="Images/THELC.ico"/>
     <BitmapImage x:Key="THPLC" UriSource="Images/THPLC.ico"/>
 
-    <!--<system:String x:Key="LOGIN">login</system:String>-->
+
+    <BitmapImage x:Key="TH_JianZhuDiTu" UriSource="Images/TH_JianZhuDiTu.ico"/>
+    <BitmapImage x:Key="THBEE" UriSource="Images/THBEE.ico"/>
+    <BitmapImage x:Key="THLPM" UriSource="Images/THLPM.ico"/>
+    <BitmapImage x:Key="THLPE" UriSource="Images/THLPE.ico"/>
+    <BitmapImage x:Key="THLPP" UriSource="Images/THLPP.ico"/>
+
+    <BitmapImage x:Key="TH_NuanTongTuCeng" UriSource="Images/TH_NuanTongTuCeng.ico"/>
+    <BitmapImage x:Key="THMLK" UriSource="Images/THMLK.ico"/>
+    <BitmapImage x:Key="THMUK" UriSource="Images/THMUK.ico"/>
+    <BitmapImage x:Key="THUKA" UriSource="Images/THUKA.ico"/>
+    <BitmapImage x:Key="THMOF" UriSource="Images/THMOF.ico"/>
+    <BitmapImage x:Key="THMON" UriSource="Images/THMON.ico"/>
+    <BitmapImage x:Key="THBAC" UriSource="Images/THBAC.ico"/>
+    <BitmapImage x:Key="DGNPURGE" UriSource="Images/DGNPURGE.ico"/>
+
 
     <adw:RibbonTab x:Key="TabXaml" Id="ID_TabMyRibbon"  Title="天华效率工具">
         <adw:RibbonPanel>
@@ -101,6 +116,21 @@
                     Content="配置各专业图块集"/>
                     </adw:RibbonButton.ToolTip>
                 </adw:RibbonButton>
+
+                <adw:RibbonButton Name="提电气块转换" Text = "提电气块&#xD;转换"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THBEE}"
+                                    Image="{StaticResource THBEE}"
+                                CommandParameter="THBEE">
+                    <adw:RibbonButton.ToolTip>
+                        <adw:RibbonToolTip  
+                    Title="提电气块转换"
+                            Command="THBEE"
+                    Content="将暖通和给排水专业提资给电气的图块转换为电气专业所需的图块"/>
+                    </adw:RibbonButton.ToolTip>
+                </adw:RibbonButton>
+
             </adw:RibbonPanelSource>
         </adw:RibbonPanel>
 
@@ -135,7 +165,7 @@
 
         <adw:RibbonPanel>
             <adw:RibbonPanelSource Title="图层工具">
-                <adw:RibbonSplitButton Text="建立天华图层" IsSplit="True" IsSynchronizedWithCurrentItem="False"
+                <adw:RibbonSplitButton Text="建立&#xD;天华图层" IsSplit="True" IsSynchronizedWithCurrentItem="False"
                                         ShowImage="True" ShowText="True"
                                         Orientation="Vertical" Size="Large"
                                        LargeImage="{StaticResource TH_Tucenggongju}"
@@ -207,9 +237,158 @@
 
                 </adw:RibbonSplitButton>
 
+                <adw:RibbonSplitButton Text="处理建筑&#xD;结构底图" IsSplit="True" IsSynchronizedWithCurrentItem="False"
+                                        ShowImage="True" ShowText="True"
+                                        Orientation="Vertical" Size="Large"
+                                       LargeImage="{StaticResource TH_JianZhuDiTu}"
+                                        >
+                    <adw:RibbonSplitButton.ToolTip>
+                        <adw:RibbonToolTip  
+                    Title="处理建筑结构底图"
+                    Content="处理建筑结构专业提资的天华标准图层"/>
+                    </adw:RibbonSplitButton.ToolTip>
+
+                    <adw:RibbonButton Name="暖通用" Text = "暖通用"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THLPM}"
+                                    Image="{StaticResource THLPM}"
+                                CommandParameter="THLPM">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="暖通用"
+                    Content="处理建筑结构提暖通底图的各图层颜色至相应的色号"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                    <adw:RibbonButton Name="电气用" Text = "电气用"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THLPE}"
+                                    Image="{StaticResource THLPE}"
+                                CommandParameter="THLPE">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="电气用"
+                    Content="处理建筑结构提电气底图的各图层颜色至相应的色号"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                    <adw:RibbonButton Name="给排水用" Text = "给排水用"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THLPP}"
+                                    Image="{StaticResource THLPP}"
+                                CommandParameter="THLPP">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="给排水用"
+                    Content="处理建筑结构提给排水底图的各图层颜色至相应的色号"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                </adw:RibbonSplitButton>
+
+                <adw:RibbonSplitButton Text="暖通&#xD;图层管理" IsSplit="True" IsSynchronizedWithCurrentItem="False"
+                                        ShowImage="True" ShowText="True"
+                                        Orientation="Vertical" Size="Large"
+                                       LargeImage="{StaticResource TH_NuanTongTuCeng}"
+                                        >
+                    <adw:RibbonSplitButton.ToolTip>
+                        <adw:RibbonToolTip  
+                    Title="暖通图层管理"
+                    Content="批量操作暖通图层"/>
+                    </adw:RibbonSplitButton.ToolTip>
+
+                    <adw:RibbonButton Name="锁定暖通图层" Text = "锁定暖通图层"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THMLK}"
+                                    Image="{StaticResource THMLK}"
+                                CommandParameter="THMLK">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="锁定暖通图层"
+                    Content="锁定所有暖通图层"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                    <adw:RibbonButton Name="隔离暖通图层" Text = "隔离暖通图层"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THMUK}"
+                                    Image="{StaticResource THMUK}"
+                                CommandParameter="THMUK">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="隔离暖通图层"
+                    Content="解锁所有暖通图层，同时锁定其他图层"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                    <adw:RibbonButton Name="解锁所有图层" Text = "解锁所有图层"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THUKA}"
+                                    Image="{StaticResource THUKA}"
+                                CommandParameter="THUKA">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="解锁所有图层"
+                    Content="解锁所有图层"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                    <adw:RibbonButton Name="关闭暖通图层" Text = "关闭暖通图层"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THMOF}"
+                                    Image="{StaticResource THMOF}"
+                                CommandParameter="THMOF">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="关闭暖通图层"
+                    Content="关闭所有暖通图层"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                    <adw:RibbonButton Name="开启暖通图层" Text = "开启暖通图层"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THMON}"
+                                    Image="{StaticResource THMON}"
+                                CommandParameter="THMON">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="开启暖通图层"
+                    Content="开启所有暖通图层"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+
+
+                </adw:RibbonSplitButton>
             </adw:RibbonPanelSource>
         </adw:RibbonPanel>
 
+        <adw:RibbonPanel>
+            <adw:RibbonPanelSource Title="计算工具">
+                <adw:RibbonButton  Name="单体面积汇总" Text = "单体面积汇总"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THBAC}"
+                                    Image="{StaticResource THBAC}"               
+                                    CommandParameter="THBAC">
+                    <adw:RibbonButton.ToolTip>
+                        <adw:RibbonToolTip  
+                    Title="单体面积汇总"
+                            Command="THBAC"
+                    Content="汇总单体每层各区域建筑面积和计容面积"/>
+                    </adw:RibbonButton.ToolTip>
+                </adw:RibbonButton>
+
+            </adw:RibbonPanelSource>
+        </adw:RibbonPanel>
 
         <adw:RibbonPanel>
             <adw:RibbonPanelSource Title="辅助工具">
@@ -239,6 +418,21 @@
                     Title="Z值归零"
                             Command="THZ0"
                     Content="将模型空间内所有对象Z值归零，使之处于同一平面"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+
+                    <adw:RibbonRowBreak/>
+                    <adw:RibbonButton   Name="DGN清理" Text = "DGN清理"
+                                    ShowImage="True" ShowText="True" 
+                                    Size="Standard"
+                                    LargeImage="{StaticResource DGNPURGE}"
+                                    Image="{StaticResource DGNPURGE}"               
+                                    CommandParameter="DGNPURGE">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="DGN清理"
+                            Command="DGNPURGE"
+                    Content="清理图纸中多余DGN对象，含多余的DGN线型、注释比例等"/>
                         </adw:RibbonButton.ToolTip>
                     </adw:RibbonButton>
                 </adw:RibbonRowPanel>
