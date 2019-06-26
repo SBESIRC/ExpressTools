@@ -4,6 +4,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using AcHelper;
 using AcHelper.Wrappers;
+using System.Windows.Forms;
 
 [assembly: CommandClass(typeof(ThAreaFrame.ThAreaFrameCommands))]
 [assembly: ExtensionApplication(typeof(ThAreaFrame.ThAreaFrameApp))]
@@ -128,10 +129,18 @@ namespace ThAreaFrame
                 Table table = (Table)tr.Transaction.GetObject(id, OpenMode.ForRead);
                 using (new WriteEnabler(table))
                 {
+                    // 配置进度条
+                    ProgressMeter pm = new ProgressMeter();
+                    pm.Start(@"正在处理图纸");
+                    pm.SetLimit(driver.engines.Count);
+
                     int column = 0;
                     int dataRow = 2;
-                    foreach(ThAreaFrameEngine engine in driver.engines)
+                    foreach (ThAreaFrameEngine engine in driver.engines)
                     {
+                        // 更新进度条
+                        pm.MeterProgress();
+
                         // 建筑编号
                         table.Cells[dataRow, column++].Value = engine.Name;
 
@@ -187,7 +196,11 @@ namespace ThAreaFrame
                         column = 0;
                         // 更新开始行
                         dataRow++;
+
+                        // 让CAD在长时间任务处理时任然能接收消息
+                        Application.DoEvents();
                     }
+                    pm.Stop();  // 停止进度条更新
                 }
             }
 
