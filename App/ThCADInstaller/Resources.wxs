@@ -6,11 +6,15 @@
             <Component Id="CMP_Autoloader_PackageContents_Resources_App_Icon" Guid="{DCB364F3-9936-41DF-B045-FA8E811B772E}" Win64="yes">
                 <File Id="FILE_Autoloader_PackageContents_Resources_App_Icon" Source="$(var.AutoloaderContentsPath)\Resources\THLOGO.ico" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Resources_Menubar_Cuix" Guid="{2A6D1D2C-D279-423F-A019-B28DB77615FC}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Resources_Menubar_Cuix" Source="$(var.AutoloaderContentsPath)\Resources\ThMenubar.cuix" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
         <ComponentGroup Id="ProductComponentsResources">
             <ComponentRef Id="CMP_Autoloader_PackageContents_Resources_App_Icon" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Resources_Menubar_Cuix" />
         </ComponentGroup>
     </Fragment>
 </Wix>
