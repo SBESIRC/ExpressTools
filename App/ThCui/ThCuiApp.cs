@@ -41,6 +41,15 @@ namespace TianHua.AutoCAD.ThCui
             }
 
         }
+        
+        /// <summary>
+        /// 生成菜单栏
+        /// </summary>
+        private static void GenerateMenuBar()
+        {
+            ThMenuBar menuBar = new ThMenuBar();
+            menuBar.AddTHMenu();
+        }
 
         public void Terminate()
         {
@@ -139,6 +148,6 @@ namespace TianHua.AutoCAD.ThCui
             AcadApp.ShowModalDialog(toolPalette);
         }
 
-
+        
     }
 }

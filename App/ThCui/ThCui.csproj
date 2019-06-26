@@ -30,6 +30,8 @@
   <ItemGroup>
     <Compile Include="RibbonCommandHandler.cs" />
     <Compile Include="ThCuiApp.cs" />
+    <Compile Include="ThMenuBar.cs" />
+    <Compile Include="ThCommandInfo.cs" />
     <Compile Include="ThToolPalette.cs">
       <SubType>Form</SubType>
     </Compile>
