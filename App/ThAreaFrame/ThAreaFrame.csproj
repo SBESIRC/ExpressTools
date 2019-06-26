@@ -31,11 +31,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ThAreaFrameApp.cs" />
+    <Compile Include="ThAreaFrameCommon.cs" />
     <Compile Include="ThAreaFrameDbUtils.cs" />
     <Compile Include="ThAreaFrameDriver.cs" />
     <Compile Include="ThAreaFrameEngine.cs" />
     <Compile Include="ThAreaFrameFoundation.cs" />
-    <Compile Include="ThAreaFramePublic.cs" />
     <Compile Include="ThAreaFrameResident.cs" />
     <Compile Include="ThAreaFrameRoof.cs" />
     <Compile Include="ThAreaFrameTableBuilder.cs" />
