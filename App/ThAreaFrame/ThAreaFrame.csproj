@@ -38,6 +38,7 @@
     <Compile Include="ThAreaFrameFoundation.cs" />
     <Compile Include="ThAreaFrameResident.cs" />
     <Compile Include="ThAreaFrameRoof.cs" />
+    <Compile Include="ThAreaFrameRoofGreenSpace.cs" />
     <Compile Include="ThAreaFrameTableBuilder.cs" />
     <Compile Include="ThAreaFrameUtils.cs" />
     <Page Include="MainWindow.xaml">
