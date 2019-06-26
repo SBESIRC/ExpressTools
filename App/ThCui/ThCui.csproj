@@ -91,20 +91,11 @@
     <Resource Include="Images\THMTC.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\THALC.png" />
-    <Resource Include="Images\THMLC.png" />
     <Resource Include="Images\THELC.png" />
     <Resource Include="Images\THSLC.png" />
-    <Resource Include="Images\THPLC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THZ0.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\TH_Tucenggongju.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THDTA.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\THZ0.ico" />
