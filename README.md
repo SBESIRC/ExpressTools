@@ -13,6 +13,16 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [Debugging AutoCAD using Visual Studio 2013](https://www.keanw.com/2013/11/debugging-autocad-using-visual-studio-2013.html)
 
+# AutoCAD.NET tips
+
+[Cleaning up after yourself: how and when to dispose of AutoCAD objects in .NET](https://www.keanw.com/2008/06/cleaning-up-aft.html)
+
+[Calling Dispose() on AutoCAD objects](https://www.keanw.com/2012/08/calling-dispose-on-autocad-objects.html)
+
+[Examples of calling Dispose() on AutoCAD objects](https://www.keanw.com/2012/08/examples-of-calling-dispose-on-autocad-objects.html)
+
+[Querying AutoCAD objects of a particular type using .NET](https://www.keanw.com/2013/04/querying-autocad-objects-of-a-particular-type-using-net.html)
+
 # AutoLoader
 We use AutoLoader for deployment, for detail information, check these links:
 
