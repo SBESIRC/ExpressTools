@@ -43,7 +43,12 @@ namespace ThAreaFrame
             acadDatabase.Layers.ForEachDbObject(l => names.Add(l.Name));
             var roofNames = names.Where(n => n.StartsWith(@"单体楼顶间"));
             var foundationNames = names.Where(n => n.StartsWith(@"单体基底"));
-            var building = ResidentialBuilding.CreateWithLayers(names.ToArray());
+            var residentialNames = names.Where(n => n.StartsWith(@"住宅构件"));
+            if (!residentialNames.Any())
+            {
+                return null;
+            }
+            var building = ResidentialBuilding.CreateWithLayers(residentialNames.ToArray());
             var foundation = ThAreaFrameFoundation.Foundation(foundationNames.FirstOrDefault());
             var roof = roofNames.Any() ? ThAreaFrameRoof.Roof(roofNames.FirstOrDefault()) : null;
             ThAreaFrameEngine engine = new ThAreaFrameEngine()

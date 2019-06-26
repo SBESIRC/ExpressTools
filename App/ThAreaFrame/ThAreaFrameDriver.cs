@@ -27,6 +27,7 @@ namespace ThAreaFrame
             {
                 driver.engines.Add(ThAreaFrameEngine.ResidentialEngine(dwg));
             }
+            driver.engines.RemoveAll(e => e == null);
 
             // 按建造编号排序
             driver.engines.Sort();
