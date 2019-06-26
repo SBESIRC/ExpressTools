@@ -133,7 +133,7 @@ namespace ThAreaFrame
                     foreach(ThAreaFrameEngine engine in driver.engines)
                     {
                         // 建筑编号
-                        table.Cells[dataRow, column++].Value = engine.Name();
+                        table.Cells[dataRow, column++].Value = engine.Name;
 
                         // 普通楼层面积
                         foreach (ResidentialStorey storey in engine.Building.OrdinaryStoreys())

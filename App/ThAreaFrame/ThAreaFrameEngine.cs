@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrame
 {
-    class ThAreaFrameEngine : IDisposable
+    class ThAreaFrameEngine : IDisposable, IComparable<ThAreaFrameEngine>
     {
         private Database database;
         private ThAreaFrameRoof roof;
@@ -62,10 +62,19 @@ namespace ThAreaFrame
             database.Dispose();
         }
 
-        // 楼号
-        public string Name()
+        // 比较
+        public int CompareTo(ThAreaFrameEngine other)
         {
-            return foundation.name;
+            return this.foundation.CompareTo(other.foundation);
+        }
+
+        // 楼号
+        public string Name
+        {
+            get
+            {
+                return foundation.name;
+            }
         }
 
         // 地上层数

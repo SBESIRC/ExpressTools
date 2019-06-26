@@ -27,6 +27,10 @@ namespace ThAreaFrame
             {
                 driver.engines.Add(ThAreaFrameEngine.ResidentialEngine(dwg));
             }
+
+            // 按建造编号排序
+            driver.engines.Sort();
+
             return driver;
         }
 

@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace ThAreaFrame
 {
     // 单体基础信息
-    public class ThAreaFrameFoundation
+    public class ThAreaFrameFoundation : IComparable<ThAreaFrameFoundation>
     {
         // 单体基底
         public string type;
@@ -75,6 +76,20 @@ namespace ThAreaFrame
                 version = tokens[12]
             };
             return foundation;
+        }
+
+        public int CompareTo(ThAreaFrameFoundation other)
+        {
+            string pattern = @"\d+";
+            Match tm = Regex.Match(this.name, pattern);
+            Match om = Regex.Match(other.name, pattern);
+            if (tm.Success && om.Success)
+            {
+                int tv = int.Parse(tm.Value);
+                int ov = int.Parse(om.Value);
+                return (tv == ov) ? 0 : (Math.Max(tv, ov) == tv ? 1 : -1);
+            }
+            throw new ArgumentException();
         }
 
         public double StoreyHeight(int floor)
