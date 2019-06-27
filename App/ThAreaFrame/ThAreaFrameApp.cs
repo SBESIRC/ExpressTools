@@ -124,7 +124,10 @@ namespace ThAreaFrame
                 Table table = (Table)tr.Transaction.GetObject(id, OpenMode.ForRead);
                 using (new WriteEnabler(table))
                 {
-                    table.InsertRowsAndInherit(table.Rows.Count, table.Rows.Count - 1, driver.engines.Count - 1);
+                    if (driver.engines.Count > 1)
+                    {
+                        table.InsertRowsAndInherit(table.Rows.Count, table.Rows.Count - 1, driver.engines.Count - 1);
+                    }
                 }
             }
 
