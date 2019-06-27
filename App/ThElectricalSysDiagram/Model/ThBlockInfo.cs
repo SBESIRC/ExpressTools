@@ -17,8 +17,8 @@ namespace ThElectricalSysDiagram
         public string Name { get; set; }//普通名称
         public string RealName { get; set; }//真实名称
         //public string IconPath { get; set; }//车位缩略图路径
-        public BlockTableRecord BtrRecord { get; set; }//块表记录
-        public BlockTableRecord NormalBtrRecord { get; set; }//普通块的块表记录
+        //public BlockTableRecord BtrRecord { get; set; }//块表记录
+        //public BlockTableRecord NormalBtrRecord { get; set; }//普通块的块表记录
         public BitmapImage Icon { get; set; }//块缩略图
 
 
@@ -121,97 +121,6 @@ namespace ThElectricalSysDiagram
             }
 
             return bm;
-        }
-
-
-
-        /// <summary>
-        /// 从动态块定义的角度去获取块名
-        /// </summary>
-        /// <param name="btr"></param>
-        /// <returns></returns>
-        public string GetRealBlockName()
-        {
-            var result = "";
-            var xData = this.BtrRecord.XData;
-            //如果没有扩展数据，肯定是普通块
-            if (xData == null)
-            {
-                return this.BtrRecord.Name;
-            }
-            else
-            {
-                if (xData != null)
-                {
-                    // Get the XData as an array of TypeValues and loop
-                    // through it
-                    var tvs = xData.AsArray();
-                    for (int i = 0; i < tvs.Length; i++)
-                    {
-                        // The first value should be the RegAppName
-                        var tv = tvs[i];
-                        if (tv.TypeCode == (int)DxfCode.ExtendedDataRegAppName)
-                        {
-                            // If it's the one we care about...
-                            if ((string)tv.Value == "AcDbBlockRepBTag")
-                            {
-                                // ... then loop through until we find a
-                                // handle matching our blocks or otherwise
-                                // another RegAppName
-                                for (int j = i + 1; j < tvs.Length; j++)
-                                {
-                                    tv = tvs[j];
-                                    if (tv.TypeCode == (int)DxfCode.ExtendedDataRegAppName)
-                                    {
-                                        // If we have another RegAppName, then
-                                        // we'll break out of this for loop and
-                                        // let the outer loop have a chance to
-                                        // process this section
-                                        i = j - 1;
-                                        break;
-                                    }
-
-                                    if (tv.TypeCode == (int)DxfCode.ExtendedDataHandle)
-                                    {
-                                        var filePath = ThElectricalSysDiagramUtils.BlockTemplateFilePath();
-                                        using (var db = AcadDatabase.Open(filePath, DwgOpenMode.ReadOnly))
-                                        {
-                                            var gg = db.Blocks.OfType<BlockTableRecord>().FirstOrDefault(b => b.Handle.ToString() == (string)tv.Value);
-
-                                            if (gg != null)
-                                            {
-                                                result = gg.Name;
-                                            }
-
-                                        }
-                                        return result;
-                                        //// If we have a matching handle...
-                                        //if ((string)tv.Value == blkHand.ToString())
-                                        //{
-                                        //    // ... then we can add the block's name
-                                        //    // to the list and break from both loops
-                                        //    // (which we do by setting the outer index
-                                        //    // to the end)
-                                        //    blkNames.Add(btr2.Name);
-
-                                        //    i = tvs.Length - 1;
-
-                                        //    break;
-                                        //}
-
-                                    }
-
-                                }
-
-                            }
-
-                        }
-                    }
-                }
-            }
-
-            return result;
-
         }
 
     }
