@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using ThResourceLibrary;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
@@ -17,6 +18,8 @@ namespace ThElectricalSysDiagram
     {
         public static string defaultUpStreamName = "提资块名";
         public static string defaultDownStreamName = "电气块名";
+
+        public bool ResultState { get; set; }//结果状态
 
         /// <summary>
         /// 窗体读取命令
@@ -236,15 +239,27 @@ namespace ThElectricalSysDiagram
                     _convertCurrentCommand = new ThCommand(
         o =>
         {
-            var tab = (TabItem)o;
-            if (tab.Header.ToString() == "一对一转换")
+            this.ResultState = true;//更改状态
+
+            var window = (Window)o;
+            window.Close();
+            var tab = (TabItem)((TabControl)window.FindName("tctrRule")).SelectedItem;
+
+            if (this.ResultState == true)
             {
-                this.ElectricalTasks.ConvertBlock();
+                if (tab.Header.ToString() == "一对一转换")
+                {
+                    this.ElectricalTasks.ConvertBlock();
+                }
+                if (tab.Header.ToString() == "风机转换")
+                {
+                    this.ElectricalTasks.ConvertFanBlock();
+                }
+
+                //执行完毕后，将状态改回
+                this.ResultState = false;
             }
-            if (tab.Header.ToString() == "风机转换")
-            {
-                this.ElectricalTasks.ConvertFanBlock();
-            }
+
         }
         //, o =>
         //{
