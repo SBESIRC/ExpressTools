@@ -82,7 +82,7 @@ namespace TianHua.AutoCAD.ThCui
                 kps = new List<ThCommandInfo> {
                     new ThCommandInfo("建立建筑图层", "THALC", "建立建筑专业天华标准图层",true),
                     new ThCommandInfo("建立结构图层", "THSLC", "建立结构专业天华标准图层",true),
-                    new ThCommandInfo("建立暖通图层", "THSLC", "建立暖通专业天华标准图层",true),
+                    new ThCommandInfo("建立暖通图层", "THMLC", "建立暖通专业天华标准图层",true),
                     new ThCommandInfo("建立电气图层", "THELC", "建立电气专业天华标准图层",true),
                     new ThCommandInfo("建立给排水图层", "THPLC", "建立给排专业天华标准图层",true),
                 };
@@ -154,7 +154,15 @@ namespace TianHua.AutoCAD.ThCui
                 });
 
 
+                var cmdkp = new ThCommandInfo("帮助文档", "THHLP", "获取帮助文档", false);
+                cs.AddMacro(cmdkp.Name, marco + cmdkp.Command + " ", id + cmdkp.Command, cmdkp.HelpString, imageFolderPath + cmdkp.Command + cmdkp.Suffix);
+
+                PopMenuItem newPmi = new PopMenuItem(thMenu, -1);
+                if (cmdkp.Name != null) newPmi.Name = cmdkp.Name;
+                newPmi.MacroID = id + cmdkp.Command;
+
             }
+
             //cs.LoadCui();//必须装载CUI文件，才能看到添加的菜单
 
         }
