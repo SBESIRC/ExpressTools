@@ -197,15 +197,15 @@ namespace ThAreaFrame
                         // 更新开始行
                         dataRow++;
 
+                        // 处理面积引擎
+                        engine.Dispose();
+
                         // 让CAD在长时间任务处理时任然能接收消息
                         Application.DoEvents();
                     }
                     pm.Stop();  // 停止进度条更新
                 }
             }
-
-            // 销毁面积引擎
-            driver.Dispose();
         }
     }
 }

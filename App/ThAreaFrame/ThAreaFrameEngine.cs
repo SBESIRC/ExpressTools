@@ -64,7 +64,10 @@ namespace ThAreaFrame
         // Dispose()函数
         public void Dispose()
         {
-            database.Dispose();
+            if (!database.IsDisposed)
+            {
+                database.Dispose();
+            }
         }
 
         // 比较
