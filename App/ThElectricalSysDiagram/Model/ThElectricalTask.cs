@@ -23,6 +23,7 @@ namespace ThElectricalSysDiagram
         private static string blockTableName = @"天华AI块关系对应表";
         private static string fanTableName = @"风机类型表";
         private static string filePath = ThElectricalSysDiagramUtils.BlockTemplateFilePath();
+        private static string convertBlockName = "";
 
         public List<ThBlockInfo> GetThBlockInfos()
         {
@@ -66,15 +67,6 @@ namespace ThElectricalSysDiagram
 
             }
 
-            ////找到已有的，加上新添加的，绑定到车位listview
-            //result = viewModel.ParkingLotInfos.Union(thBlockInfos, new CompareElemnet<ThBlockInfo>((i, j) => i.Name == j.Name)).ToList();
-
-
-            //var realLots = result.Except(result.Join(viewModel.ParkingLotInfos, p1 => p1, p2 => p2, (p1, p2) => p1));
-            //foreach (var item in realLots)
-            //{
-            //    viewModel.ParkingLotInfos.Add(item);
-            //}
             return result;
         }
 
@@ -94,9 +86,9 @@ namespace ThElectricalSysDiagram
 
                 //去除标题和表头
                 //通过第一行和第二行，获取对应的块表记录
-                //通过块表记录，实例化块对应关系(由于表格中存储的是普通块的记录，所以可以正确显示)
+                //通过块表记录，实例化块对应关系(由于表格中存储的是普通块的记录，所以可以正确显示,也不需要获取匿名，因为在不同的数据库中，匿名是不同的)
                 result = table.Rows.Select((r, i) => i).Where(i => i > 1 && table.Cells[i, 0].Contents.Count > 0 && table.Cells[i, 0].Contents[0].BlockTableRecordId != null)
-                     .Select(i => new { b1 = table.Cells[i, 0].Contents[0].BlockTableRecordId.GetObjectByID<BlockTableRecord>(), b2 = table.Cells[i, 1].Contents[0].BlockTableRecordId.GetObjectByID<BlockTableRecord>() })
+                     .Select(i => new { b1 = db.Blocks.Element(table.Cells[i, 0].Contents[0].BlockTableRecordId), b2 = db.Blocks.Element(table.Cells[i, 1].Contents[0].BlockTableRecordId) })
                      .Select(a => new ThRelationBlockInfo(new ThBlockInfo(a.b1.Name, a.b1.PreviewIcon), new ThBlockInfo(a.b2.Name, a.b2.PreviewIcon))).ToList();
 
             }
@@ -226,17 +218,28 @@ namespace ThElectricalSysDiagram
                 var layer = currentDb.Layers.Element(upStreamLayer, true);
                 layer.IsOff = true;
 
+
+                ////首先过滤出当前图中具有的规则的块
+                ////找到所有符合规则的匿名块的名字，并进行过滤字符处理
+                //var dyBlockNames = ruleBlockInfos.Join(currentDb.Blocks, info => info.UpstreamBlockInfo.RealName, btr => btr.Name, (info, btr) => new { info, btr })
+                //    .Join(currentDb.Blocks.Where(btr => btr.Name.StartsWith("*")), a => a.btr.Handle.ToString(), dybtr => dybtr.GetNormalBlockHandle(), (a, dybtr) => "`" + dybtr.Name);
+
+
+                //********还没完全对，有的没过滤出来
+                //得到所有规则的块名的过滤器的通配字符的连接字符串
+                //var ruleBlockNames = ruleBlockInfos.Select(rule => rule.UpstreamBlockInfo.RealName);
+                convertBlockName = string.Join(",", ruleBlockInfos.Select(rule => rule.UpstreamBlockInfo.RealName));
+
                 //得到所有锁定的图层
                 var lockLayers = new List<string>();
                 lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name).ToList();
 
                 //确定要拾取的块类型，只允许块参照被选中,只允许指定的块名被选中,只允许不被锁定的图层被选中
-                //***这里会缺少动态块（匿名块）被选中的情况，但还是使用块名去过滤，因为不这么做，系统一口气选中的态度，可能会导致速度变慢，最后再把那些匿名的动态块加进来处理就好，暂时这么处理
                 IEnumerable<BlockReference> blocks = SelectionTool.DocChoose<BlockReference>(() =>
                 {
-                    return ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要进行转换的上游专业的块参照" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers)));
+                    return ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要进行转换的上游专业的块参照" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(2) == "`*U*," + convertBlockName & fil.Dxf(8) != string.Join(",", lockLayers)));
 
-                });
+                }, OnSelectionAddedDynamicFilter);
                 if (blocks == null)
                 {
                     return;
@@ -275,7 +278,12 @@ namespace ThElectricalSysDiagram
                 });
 
                 //必须重新重模型空间中，找出对应的块参照，放到指定的上游图层去，以实现块的替换效果，但保留原来的图形
-                currentDb.ModelSpace.OfType<BlockReference>().Join(infos, b => b.ObjectId, a => a.b.ObjectId, (b, a) => b).ForEach(b => { b.UpgradeOpen(); b.Layer = upStreamLayer; });
+                //*******这里如果要实现直接替换的效果，就算把提资专业图形放一个图层，也不能关掉，那么就要修改块里的元素到0层，这样对图纸的改动较大，是否合适？再讨论，所以现在就不动
+                currentDb.ModelSpace.OfType<BlockReference>().Join(infos, b => b.ObjectId, a => a.b.ObjectId, (b, a) => b).ForEach(b =>
+                {
+                    b.UpgradeOpen();
+                    b.Layer = upStreamLayer;
+                });
             }
 
         }
@@ -309,14 +317,11 @@ namespace ThElectricalSysDiagram
                 {
                     return ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要进行转换的上游专业的块参照" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers)));
 
-                });
+                }, OnSelectionAddedPowerFilter);
                 if (blocks == null)
                 {
                     return;
                 }
-
-                //找出包含Kw文字的块，如果不包含，则不属于要转换的块
-                blocks = blocks.Where(b => currentDb.Blocks.Element(b.Name).Cast<ObjectId>().SelectMany(id => id.acdbEntGetTypedVals().Where(tvs => tvs.TypeCode == 1)).Any(tvs => Regex.Match(tvs.Value.ToString(), @"kw", RegexOptions.IgnoreCase).Success));
 
                 //只允许存在于表格记录中的块名被操作
                 //并从转换记录中，取出要转换的块名
@@ -352,8 +357,8 @@ namespace ThElectricalSysDiagram
                         //然后修改样式和值
                         objs.Cast<Entity>().ForEach(ent =>
                         {
-                            //修改图层
-                            ent.Layer = downStreamLayer;
+                            //*****不修改图层，炸开后保持原来块内的图层
+                            //ent.Layer = downStreamLayer;
 
                             var dbText = ent as DBText;
                             if (dbText != null)
@@ -386,32 +391,59 @@ namespace ThElectricalSysDiagram
         }
 
 
-        public void Test()
+        /// <summary>
+        /// 过滤带kw的块
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void OnSelectionAddedPowerFilter(object sender, SelectionAddedEventArgs e)
         {
-            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
-
+            var ids = e.AddedObjects.GetObjectIds();
+            //没有取到就不执行
+            if (ids.Count() == 0)
+            {
+                return;
+            }
             using (var currentDb = AcadDatabase.Active())
             {
-                var ents = SelectionTool.DocChoose<Entity>(() =>
-                 {
-                     return ed.GetSelection();
-                 });
+                for (int i = 0; i < ids.Length; i++)
+                {
+                    var block = currentDb.ModelSpace.OfType<BlockReference>().First(b => b.ObjectId == ids[i]);
+                    //对每一个块，过滤其中包含了文字的，且文字信息带kw的
+                    if (!currentDb.Blocks.Element(block.Name).Cast<ObjectId>().Any(id => id.acdbEntGetTypedVals().Any(tvs => tvs.TypeCode == 1 && Regex.Match(tvs.Value.ToString(), @"kw", RegexOptions.IgnoreCase).Success)))
+                    {
+                        e.Remove(i);
+                    }
+                }
 
-                var ent = ents.First();
+            }
 
-               var gg= ent.ObjectId.acdbEntGetTypedVals().FirstOrDefault(tpv => tpv.TypeCode == 360);
+        }
 
-                System.Windows.Forms.MessageBox.Show(gg.Value.ToString());
 
-                System.Windows.Forms.MessageBox.Show(((BlockReference)ent).GetRealBlockName());
-                var xx = currentDb.Blocks.Element(((BlockReference)ent).GetRealBlockName()).OwnerId;
-
-                System.Windows.Forms.MessageBox.Show(currentDb.Blocks.Any(btr => btr.OwnerId.ToString() == gg.Value.ToString()).ToString());
-
-                //BlockTableRecord
-                //******明天检查一下adsname，看看可不可以匹配到
+        /// <summary>
+        /// 过滤符合普通块名的动态块
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void OnSelectionAddedDynamicFilter(object sender, SelectionAddedEventArgs e)
+        {
+            var ids = e.AddedObjects.GetObjectIds();
+            //没有取到就不执行
+            if (ids.Count() == 0)
+            {
+                return;
+            }
+            using (var tr = ids[0].Database.TransactionManager.StartOpenCloseTransaction())
+            {
+                for (int i = 0; i < ids.Length; i++)
+                {
+                    var br = (BlockReference)tr.GetObject(ids[i], OpenMode.ForRead);
+                    var btr = (BlockTableRecord)tr.GetObject(br.DynamicBlockTableRecord, OpenMode.ForRead);
+                    if (!Autodesk.AutoCAD.Internal.Utils.WcMatchEx(btr.Name, convertBlockName, true))
+                        e.Remove(i);
+                }
+                tr.Commit();
             }
         }
 

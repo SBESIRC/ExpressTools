@@ -33,7 +33,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
                 foreach (ObjectId id in ss.GetObjectIds())
                 {
                     var ent = trans.GetObject(id, OpenMode.ForWrite) as T;
-                    if (ent!=null)
+                    if (ent != null)
                     {
                         results.Add(ent);
                     }
@@ -101,6 +101,40 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             return results;
         }
 
+        /// <summary>
+        /// 带事件的自定义选择过滤器
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="func"></param>
+        /// <param name="onSelectionAdded"></param>
+        /// <returns></returns>
+        public static List<T> DocChoose<T>(Func<PromptSelectionResult> func, SelectionAddedEventHandler onSelectionAdded) where T : Entity
+        {
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Editor ed = doc.Editor;
+            var db = doc.Database;
+
+            var results = new List<T>();
+
+            ed.SelectionAdded += onSelectionAdded;
+            PromptSelectionResult psr = func();
+            ed.SelectionAdded -= onSelectionAdded;
+
+            //没有选择，返回空
+            if (psr.Status != PromptStatus.OK) return null;
+            SelectionSet ss = psr.Value;
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                foreach (ObjectId id in ss.GetObjectIds())
+                {
+                    var ent = trans.GetObject(id, OpenMode.ForWrite, false, true) as T;
+                    results.Add(ent);
+                }
+            }
+
+            return results;
+        }
+
 
         /// <summary>
         /// 各种类型的选择,可设定是否打开锁定图层
@@ -109,7 +143,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         /// <param name="func"></param>
         /// <param name="openForceLayer"></param>
         /// <returns></returns>
-        public static List<T> DocChoose<T>(Func<PromptSelectionResult> func,bool openForceLayer) where T : Entity
+        public static List<T> DocChoose<T>(Func<PromptSelectionResult> func, bool openForceLayer) where T : Entity
         {
             Document doc = AcadApp.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
