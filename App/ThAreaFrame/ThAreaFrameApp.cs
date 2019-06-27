@@ -36,6 +36,11 @@ namespace ThAreaFrame
 
             // 创建面积引擎
             ThAreaFrameDriver driver = ThAreaFrameDriver.ResidentialDriver();
+            if (driver.engines.Count == 0)
+            {
+                ed.WriteMessage("\n未找到指定目录，请将单体图纸放置在名为\"建筑单体\"的子目录下。");
+                return;
+            }
 
             // 创建表单
             Point3d position = pr.Value.TransformBy(ed.CurrentUserCoordinateSystem);

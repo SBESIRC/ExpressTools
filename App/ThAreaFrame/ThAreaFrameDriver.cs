@@ -20,19 +20,26 @@ namespace ThAreaFrame
         public static ThAreaFrameDriver ResidentialDriver()
         {
             ThAreaFrameDriver driver = new ThAreaFrameDriver();
-            string[] dwgs = Directory.GetFiles(Path.Combine(Active.DocumentDirectory, @"建筑单体"), 
-                                                "*.dwg", 
-                                                SearchOption.TopDirectoryOnly);
-            foreach(string dwg in dwgs)
+            try
             {
-                driver.engines.Add(ThAreaFrameEngine.ResidentialEngine(dwg));
+                string[] dwgs = Directory.GetFiles(Path.Combine(Active.DocumentDirectory, @"建筑单体"),
+                                    "*.dwg",
+                                    SearchOption.TopDirectoryOnly);
+                foreach (string dwg in dwgs)
+                {
+                    driver.engines.Add(ThAreaFrameEngine.ResidentialEngine(dwg));
+                }
+                driver.engines.RemoveAll(e => e == null);
+
+                // 按建造编号排序
+                driver.engines.Sort();
+
+                return driver;
             }
-            driver.engines.RemoveAll(e => e == null);
-
-            // 按建造编号排序
-            driver.engines.Sort();
-
-            return driver;
+            catch
+            {
+                return driver;
+            }
         }
 
         // Dispose()函数
