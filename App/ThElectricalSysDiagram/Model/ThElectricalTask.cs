@@ -19,7 +19,7 @@ namespace ThElectricalSysDiagram
     public class ThElectricalTask
     {
         private static string downStreamLayer = @"天华AI-电气设备块";
-        private static string upStreamLayer = @"天华AI-提资专业块";
+        //private static string upStreamLayer = @"天华AI-提资专业块";
         private static string blockTableName = @"天华AI块关系对应表";
         private static string fanTableName = @"风机类型表";
         private static string filePath = ThElectricalSysDiagramUtils.BlockTemplateFilePath();
@@ -213,21 +213,9 @@ namespace ThElectricalSysDiagram
             using (var currentDb = AcadDatabase.Active())
             {
                 //初始化图层
-                InitialLayer(downStreamLayer, upStreamLayer);
-                //关闭上游专业图层
-                var layer = currentDb.Layers.Element(upStreamLayer, true);
-                layer.IsOff = true;
+                InitialLayer(downStreamLayer);
 
-
-                ////首先过滤出当前图中具有的规则的块
-                ////找到所有符合规则的匿名块的名字，并进行过滤字符处理
-                //var dyBlockNames = ruleBlockInfos.Join(currentDb.Blocks, info => info.UpstreamBlockInfo.RealName, btr => btr.Name, (info, btr) => new { info, btr })
-                //    .Join(currentDb.Blocks.Where(btr => btr.Name.StartsWith("*")), a => a.btr.Handle.ToString(), dybtr => dybtr.GetNormalBlockHandle(), (a, dybtr) => "`" + dybtr.Name);
-
-
-                //********还没完全对，有的没过滤出来
                 //得到所有规则的块名的过滤器的通配字符的连接字符串
-                //var ruleBlockNames = ruleBlockInfos.Select(rule => rule.UpstreamBlockInfo.RealName);
                 convertBlockName = string.Join(",", ruleBlockInfos.Select(rule => rule.UpstreamBlockInfo.RealName));
 
                 //得到所有锁定的图层
@@ -244,19 +232,6 @@ namespace ThElectricalSysDiagram
                 {
                     return;
                 }
-
-                #region 单独加匿名块的代码段
-                ////由于不同的数据库，导入动态块后的匿名块命会发生变化，所以需要找到普通块对应的匿名块
-                //var anyBlocks = new List<BlockReference>();
-                //using (var acDb = AcadDatabase.Active())
-                //{
-                //    //先找到所有的匿名块
-                //    anyBlocks = acDb.ModelSpace.OfType<BlockReference>().Where(b => b.Name.StartsWith("*U")).ToList();
-                //}
-
-                ////把所有的匿名块也加入到选择集中
-                //blocks = blocks.Union(anyBlocks); 
-                #endregion
 
                 //只允许存在于表格记录中的块名被操作
                 //并从转换记录中，取出要转换的块名
@@ -277,13 +252,33 @@ namespace ThElectricalSysDiagram
                     db.GetModelSpaceId().InsertBlockReference(downStreamLayer, info.rule.DownstreamBlockInfo.RealName, info.b.Position, new Scale3d(), 0);
                 });
 
-                //必须重新重模型空间中，找出对应的块参照，放到指定的上游图层去，以实现块的替换效果，但保留原来的图形
-                //*******这里如果要实现直接替换的效果，就算把提资专业图形放一个图层，也不能关掉，那么就要修改块里的元素到0层，这样对图纸的改动较大，是否合适？再讨论，所以现在就不动
-                currentDb.ModelSpace.OfType<BlockReference>().Join(infos, b => b.ObjectId, a => a.b.ObjectId, (b, a) => b).ForEach(b =>
+                var optKey = new PromptKeywordOptions("\n是否要删除提资专业块？[是(Y)/否(N)]");
+                //为点交互类添加关键字
+                optKey.Keywords.Add("Y");
+                optKey.Keywords.Add("N");
+                optKey.Keywords.Default = "Y"; //设置默认的关键字
+
+                optKey.AppendKeywordsToMessage = false;//将关键字列表添加到提示信息中
+                var res = ed.GetKeywords(optKey);
+                //没有选择，全部回滚
+                if (res.Status != PromptStatus.OK) currentDb.DiscardChanges();
+
+                switch (res.StringResult)
                 {
-                    b.UpgradeOpen();
-                    b.Layer = upStreamLayer;
-                });
+                    case "Y":
+                        //将源对象删除
+                        currentDb.ModelSpace.OfType<BlockReference>().Join(infos, b => b.ObjectId, a => a.b.ObjectId, (b, a) => b).UpgradeOpen().ForEach(b =>
+                        {
+                            b.Erase();
+                        });
+                        ed.WriteMessage("\n块替换完成");
+                        break;
+
+                    case "U":
+                        ed.WriteMessage("\n块替换完成");
+                        break;
+                }
+
             }
 
         }
@@ -304,10 +299,10 @@ namespace ThElectricalSysDiagram
             using (var currentDb = AcadDatabase.Active())
             {
                 //初始化图层
-                InitialLayer(downStreamLayer, upStreamLayer);
-                //关闭上游专业图层
-                var layer = currentDb.Layers.Element(upStreamLayer, true);
-                layer.IsOff = true;
+                InitialLayer(downStreamLayer);
+                ////关闭上游专业图层
+                //var layer = currentDb.Layers.Element(upStreamLayer, true);
+                //layer.IsOff = true;
 
                 //得到所有锁定的图层
                 var lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name);
@@ -381,8 +376,32 @@ namespace ThElectricalSysDiagram
 
                     });
 
-                    //必须重新重模型空间中，找出对应的块参照，放到指定的上游图层去，以实现块的替换效果，但保留原来的图形
-                    currentDb.ModelSpace.OfType<BlockReference>().Join(infos, b => b.ObjectId, a => a.b.ObjectId, (b, a) => b).UpgradeOpen().ForEach(b => { b.Layer = upStreamLayer; });
+
+                    var optKey = new PromptKeywordOptions("\n是否要删除提资专业块？[是(Y)/否(N)]");
+                    //为点交互类添加关键字
+                    optKey.Keywords.Add("Y");
+                    optKey.Keywords.Add("N");
+                    optKey.Keywords.Default = "Y"; //设置默认的关键字
+
+                    optKey.AppendKeywordsToMessage = false;//将关键字列表添加到提示信息中
+                    var res = ed.GetKeywords(optKey);
+                    //没有选择，全部回滚
+                    if (res.Status != PromptStatus.OK) currentDb.DiscardChanges();
+
+                    switch (res.StringResult)
+                    {
+                        case "Y":
+                            //将源对象删除
+                            currentDb.ModelSpace.OfType<BlockReference>().Join(infos, b => b.ObjectId, a => a.b.ObjectId, (b, a) => b).UpgradeOpen().ForEach(b => b.Erase());
+                            ed.WriteMessage("\n块替换完成");
+                            break;
+
+                        case "U":
+                            ed.WriteMessage("\n块替换完成");
+                            break;
+                    }
+
+
                 }
 
 
