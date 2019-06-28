@@ -31,6 +31,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ThAreaFrameAOccupancy.cs" />
     <Compile Include="ThAreaFrameApp.cs" />
     <Compile Include="ThAreaFrameCommon.cs" />
     <Compile Include="ThAreaFrameDbUtils.cs" />
