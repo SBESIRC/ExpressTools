@@ -44,8 +44,8 @@ namespace ThElectricalSysDiagram
                 //去除标题和表头
                 //通过第一行和第二行，获取对应的块表记录
                 //通过块表记录，实例化块对应关系(由于表格中存储的是普通块的记录，所以可以正确显示,也不需要获取匿名，因为在不同的数据库中，匿名是不同的)
-                result = table.Rows.Select((r, i) => i).Where(i => i > 1 && table.Cells[i, 0].Contents.Count > 0 && table.Cells[i, 0].Contents[0].BlockTableRecordId != null)
-                     .Select(i => new { b1 = db.Blocks.Element(table.Cells[i, 0].Contents[0].BlockTableRecordId), b2 = db.Blocks.Element(table.Cells[i, 1].Contents[0].BlockTableRecordId) })
+                result = table.Rows.Select((r, i) => i).Where(i => i > 1 && table.Cells[i, 2].Contents.Count > 0 && table.Cells[i, 2].Contents[0].BlockTableRecordId != null)
+                     .Select(i => new { b1 = db.Blocks.Element(table.Cells[i, 2].Contents[0].BlockTableRecordId), b2 = db.Blocks.Element(table.Cells[i, 5].Contents[0].BlockTableRecordId) })
                      .Select(a => new ThRelationBlockInfo(new ThBlockInfo(a.b1.Name, a.b1.PreviewIcon), new ThBlockInfo(a.b2.Name, a.b2.PreviewIcon))).ToList();
 
             }
