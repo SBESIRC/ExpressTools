@@ -167,35 +167,6 @@ namespace ThElectricalSysDiagram
         }
 
         /// <summary>
-        /// 拾取图块命令
-        /// </summary>
-        private ThCommand _chooseCommand;
-        public ThCommand ChooseCommand
-        {
-            get
-            {
-                //拾取图块选择
-                if (_chooseCommand == null)
-                {
-                    _chooseCommand = new ThCommand(
-        o =>
-        {
-            //过滤出列表中没有的那些个块，避免重复添加
-            var blockInfos = this.ElectricalTasks.GetThBlockInfos();
-            var realblockInfos = blockInfos.Except(blockInfos.Join(this.HvacBlockInfos, p1 => p1.RealName, p2 => p2.RealName, (p1, p2) => p1));
-            foreach (var item in realblockInfos)
-            {
-                this.HvacBlockInfos.Add(item);
-            }
-
-        });
-                }
-                return _chooseCommand;
-            }
-
-        }
-
-        /// <summary>
         /// 获取对应列表命令
         /// </summary>
         private ThCommand _showCommand;

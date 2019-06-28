@@ -26,50 +26,6 @@ namespace ThElectricalSysDiagram
         private static string filePath = ThElectricalSysDiagramUtils.BlockTemplateFilePath();
         private static string convertBlockName = "";
 
-        public List<ThBlockInfo> GetThBlockInfos()
-        {
-            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
-
-            var blocks = new List<BlockReference>();
-            WithTrans(() =>
-            {
-                //得到所有锁定的图层
-                var lockLayers = new List<string>();
-                lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name).ToList();
-
-
-                //确定要拾取的车位类型，只允许块参照被选中,只允许不被锁定的图层被选中
-                blocks = SelectionTool.DocChoose<BlockReference>(() =>
-           {
-               return ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要进行转换的上游专业块类型" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers)));
-
-           });
-                if (blocks == null)
-                {
-                    return;
-                }
-            });
-            ////获取图标临时文件夹路径
-            //string tempDirName = GetTempDirectory().FullName;
-
-            //去重复，并计算输出图像路径
-
-
-            var result = new List<ThBlockInfo>();
-            using (var acDb = AcadDatabase.Active())
-            {
-                //先求出块的真实名称,并根据块参照获取块表记录
-                //再找到从普通块定义中找到和它名字相同的那个普通块
-                //根据获取的普通块，获取块截图，实例化对象
-                result = blocks.Distinct(new CompareElemnet<BlockReference>((i, j) => i.Name == j.Name)).Select(b => new { realBlockName = b.GetRealBlockName(), BtrRecord = b.BlockTableRecord.GetObjectByID<BlockTableRecord>() })
-                            .Join(acDb.Blocks.OfType<BlockTableRecord>(), a => a.realBlockName, block => block.Name, (a, block) => new ThBlockInfo(a.BtrRecord.Name, a.realBlockName, block.PreviewIcon)).ToList();
-
-            }
-
-            return result;
-        }
 
         /// <summary>
         /// 从外部数据源获取已有上下游块对应关系
@@ -112,7 +68,7 @@ namespace ThElectricalSysDiagram
                 //通过第一行和第二行，获取对应的块表记录
                 //通过块表记录，实例化块对应关系
                 result = table.Rows.Select((r, i) => i).Where(i => i > 1 && table.Cells[i, 0].Value != null && table.Cells[i, 1].Value != null && table.Cells[i, 2].Contents.Count > 0 && table.Cells[i, 2].Contents[0].BlockTableRecordId != null)
-                     .Select(i => new ThRelationFanInfo(table.Cells[i, 0].GetRealTextString(), table.Cells[i, 1].GetRealTextString(), table.Cells[i, 2].Contents[0].BlockTableRecordId.GetObjectByID<BlockTableRecord>().Name, db.Blocks.Element(table.Cells[i, 2].Contents[0].BlockTableRecordId).PreviewIcon)).ToList();
+                     .Select(i => new ThRelationFanInfo(table.Cells[i, 0].GetRealTextString(), table.Cells[i, 1].GetRealTextString(), db.Blocks.Element(table.Cells[i, 2].Contents[0].BlockTableRecordId).Name, db.Blocks.Element(table.Cells[i, 2].Contents[0].BlockTableRecordId).PreviewIcon)).ToList();
 
             }
             return result;
@@ -238,7 +194,7 @@ namespace ThElectricalSysDiagram
                 using (var sourceDb = AcadDatabase.Open(filePath, DwgOpenMode.ReadOnly))
                 {
                     //打开外部库的块表记录，根据上面求出的要进行转换的块名,找出其中需要导入的记录信息，注意去重
-                    var ids = sourceDb.Database.BlockTableId.GetObjectByID<BlockTable>().Cast<ObjectId>().Select(id => id.GetObjectByID<BlockTableRecord>()).Join(infos, btr => btr.Name, info => info.rule.DownstreamBlockInfo.RealName, (btr, info) => btr.ObjectId).Distinct();
+                    var ids = sourceDb.Blocks.Join(infos, btr => btr.Name, info => info.rule.DownstreamBlockInfo.RealName, (btr, info) => btr.ObjectId).Distinct();
 
                     //从源数据库向目标数据库复制块表记录
                     sourceDb.Database.WblockCloneObjects(new ObjectIdCollection(ids.ToArray()), db.BlockTableId, new IdMapping(), DuplicateRecordCloning.Replace, false);
