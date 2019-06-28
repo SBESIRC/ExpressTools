@@ -247,11 +247,11 @@ namespace ThElectricalSysDiagram
 
             if (this.ResultState == true)
             {
-                if (tab.Header.ToString() == "一对一转换")
+                if (tab.Header.ToString() == "按图块转换")
                 {
                     this.ElectricalTasks.ConvertBlock();
                 }
-                if (tab.Header.ToString() == "风机转换")
+                if (tab.Header.ToString() == "按图层转换")
                 {
                     this.ElectricalTasks.ConvertFanBlock();
                 }

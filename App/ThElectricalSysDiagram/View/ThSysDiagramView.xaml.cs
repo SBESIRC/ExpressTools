@@ -59,15 +59,15 @@ namespace ThElectricalSysDiagram
             }
         }
 
-        private void RuleGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        private void dtrBlockRule_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             e.Row.Header = e.Row.GetIndex() + 1;
         }
 
-        private void RuleGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
+        private void dtrBlockRule_UnloadingRow(object sender, DataGridRowEventArgs e)
         {
             var dgData = (DataGrid)sender;
-            RuleGrid_LoadingRow(sender, e);
+            dtrBlockRule_LoadingRow(sender, e);
             if (dgData.Items != null)
             {
                 for (int i = 0; i < dgData.Items.Count; i++)
@@ -127,6 +127,11 @@ namespace ThElectricalSysDiagram
             {
                 viewModel.RelationFanInfos.Add(item);
             }
+
+            dtrLayerRule.SelectedIndex = 0;
+            dtrBlockRule.SelectedIndex = 0;
         }
+
+
     }
 }

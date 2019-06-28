@@ -51,13 +51,13 @@
     <DockPanel LastChildFill="True" Margin="3">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
             <!--<Button Content="所有规则转换" Style="{DynamicResource {x:Static thRes:CustomResources.ThConfirmButtonStyle}}" Margin="3,3,12,3" Command="{Binding ConvertAllCommand}"/>-->
-            <Button Content="当前规则转换" Style="{DynamicResource {x:Static thRes:CustomResources.ThConfirmButtonStyle}}" Margin="3,3,12,3" Command="{Binding ConvertCurrentCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
+            <Button Content="{Binding ElementName=tctrRule, Path=SelectedItem.Header}" Style="{DynamicResource {x:Static thRes:CustomResources.ThConfirmButtonStyle}}" Margin="3,3,12,3" Command="{Binding ConvertCurrentCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Name="btnConvert"/>
             <Button Content="取消" Style="{DynamicResource {x:Static thRes:CustomResources.ThConfirmButtonStyle}}" IsCancel="True" Margin="3,3,6,3"/>
         </StackPanel>
 
         <TabControl DockPanel.Dock="Top" Name="tctrRule">
-            <TabItem Header="风机转换" Name="tabFan">
-                <Grid >
+            <TabItem Header="按图层转换" Name="tabFan">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
@@ -80,7 +80,7 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="图层名" Width="3*">
+                                    <DataGridTemplateColumn Header="源图块所在图层名" Width="3*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Path=LayerName}"></TextBlock>
@@ -88,7 +88,7 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="风机类型" Width="3*">
+                                    <DataGridTemplateColumn Header="目标图块风机类型" Width="3*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Path=FanStyleName}"></TextBlock>
@@ -113,7 +113,7 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <GroupBox Grid.Row="0" Grid.Column="0" Header="提资块配置" Style="{DynamicResource {x:Static thRes:CustomResources.ThGroupStyle}}" Background="{x:Static SystemColors.ControlBrush}">
+                        <GroupBox Grid.Row="0" Grid.Column="0" Header="源图块属性" Style="{DynamicResource {x:Static thRes:CustomResources.ThGroupStyle}}" Background="{x:Static SystemColors.ControlBrush}">
                             <Grid>
                                 <Grid Margin="6">
                                     <Grid.ColumnDefinitions>
@@ -135,7 +135,7 @@
                             </Grid>
                         </GroupBox>
 
-                        <GroupBox Grid.Row="0" Grid.Column="1" Header="电气块配置" Style="{DynamicResource {x:Static thRes:CustomResources.ThGroupStyle}}" Background="{x:Static SystemColors.ControlBrush}">
+                        <GroupBox Grid.Row="0" Grid.Column="1" Header="目标图块属性" Style="{DynamicResource {x:Static thRes:CustomResources.ThGroupStyle}}" Background="{x:Static SystemColors.ControlBrush}">
                             <Grid>
                                 <Grid Margin="6">
                                     <Grid.ColumnDefinitions>
@@ -161,7 +161,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="一对一转换" Name="tabBlock">
+            <TabItem Header="按图块转换" Name="tabBlock">
                 <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"></RowDefinition>
@@ -175,7 +175,7 @@
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <DataGrid Grid.Row="0" Grid.Column="0" x:Name="ruleGrid" Style="{DynamicResource {x:Static thRes:CustomResources.ThDataGridStyle}}" LoadingRow="RuleGrid_LoadingRow" UnloadingRow="RuleGrid_UnloadingRow" ItemsSource="{Binding RelationBlockInfos}">
+                            <DataGrid Grid.Row="0" Grid.Column="0" x:Name="dtrBlockRule" Style="{DynamicResource {x:Static thRes:CustomResources.ThDataGridStyle}}" LoadingRow="dtrBlockRule_LoadingRow" UnloadingRow="dtrBlockRule_UnloadingRow" ItemsSource="{Binding RelationBlockInfos}">
 
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn Header="序号" Width="auto">
@@ -186,7 +186,7 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="提资块名" Width="3*">
+                                    <DataGridTemplateColumn Header="源图块名" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Path=UpstreamBlockInfo.RealName}" TextWrapping="Wrap"></TextBlock>
@@ -194,7 +194,7 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="提资块图示" Width="2*">
+                                    <DataGridTemplateColumn Header="源图块图示" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Image Source="{Binding Path=UpstreamBlockInfo.Icon}" Height="32"/>
@@ -202,7 +202,7 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="电气块名" Width="3*">
+                                    <DataGridTemplateColumn Header="目标图块名" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Path=DownstreamBlockInfo.RealName}" TextWrapping="Wrap"></TextBlock>
@@ -210,7 +210,7 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="电气块图示" Width="2*">
+                                    <DataGridTemplateColumn Header="目标图块图示" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Image Source="{Binding Path=DownstreamBlockInfo.Icon}" Height="32"/>
@@ -230,14 +230,14 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <GroupBox Grid.Row="0" Grid.Column="0" Header="提资块配置" Style="{DynamicResource {x:Static thRes:CustomResources.ThGroupStyle}}" Background="{x:Static SystemColors.ControlBrush}">
+                        <GroupBox Grid.Row="0" Grid.Column="0" Header="源图块属性" Style="{DynamicResource {x:Static thRes:CustomResources.ThGroupStyle}}" Background="{x:Static SystemColors.ControlBrush}">
                             <Grid>
                                 <Grid Margin="6">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
 
-                                    <Grid Grid.Row="0" Grid.Column="0" DataContext="{Binding ElementName=ruleGrid, Path=SelectedItem}">
+                                    <Grid Grid.Row="0" Grid.Column="0" DataContext="{Binding ElementName=dtrBlockRule, Path=SelectedItem}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"></RowDefinition>
                                             <RowDefinition Height="auto"></RowDefinition>
@@ -251,14 +251,14 @@
                                 </Grid>
                             </Grid>
                         </GroupBox>
-                        <GroupBox Grid.Row="0" Grid.Column="1" Header="电气块配置" Style="{DynamicResource {x:Static thRes:CustomResources.ThGroupStyle}}" Background="{x:Static SystemColors.ControlBrush}">
+                        <GroupBox Grid.Row="0" Grid.Column="1" Header="目标图块属性" Style="{DynamicResource {x:Static thRes:CustomResources.ThGroupStyle}}" Background="{x:Static SystemColors.ControlBrush}">
                             <Grid>
                                 <Grid Margin="6">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
 
-                                    <Grid Grid.Row="0" Grid.Column="0" DataContext="{Binding ElementName=ruleGrid, Path=SelectedItem}">
+                                    <Grid Grid.Row="0" Grid.Column="0" DataContext="{Binding ElementName=dtrBlockRule, Path=SelectedItem}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"></RowDefinition>
                                             <RowDefinition Height="auto"></RowDefinition>
