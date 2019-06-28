@@ -14,7 +14,6 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
     <RuntimeRequirements OS="Win64" Platform="AutoCAD" SupportPathChs="./Contents/Support" />
     <CompanyDetails Name="Tianhua Architectural Design Co., Ltd" Phone="+86 21 64281588" Url="http://www.thape.com/" Email="airdcenter@thape.com.cn" />
     <Components Description="Runtime parts">
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R19.1" />
         <ComponentEntry AppName="GeneralTextLisp"                   ModuleName="./Contents/General-Text.lsp"        PerDocument="True" />
         <ComponentEntry AppName="GeneralLayerLisp"                  ModuleName="./Contents/General-Layer.lsp"       PerDocument="True" />
         <ComponentEntry AppName="GeneralLayerUtilLisp"              ModuleName="./Contents/MakeLayer.lsp"           PerDocument="True" />
@@ -25,7 +24,10 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry AppName="GeneralAnnotationLisp"             ModuleName="./Contents/General-Annotation.lsp"  PerDocument="True" />
         <ComponentEntry AppName="GeneralAuxiliaryLisp"              ModuleName="./Contents/General-Auxiliary.lsp"   PerDocument="True" />
         <ComponentEntry AppName="StealUtilLisp"                     ModuleName="./Contents/Steal.lsp"               PerDocument="True" />
-        <ComponentEntry AppName="ThMenubarCuix"                     ModuleName="./Contents/Resources/ThMenubar.cuix" />
+    </Components>
+    <Components Description="Partial CUIX parts">
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R19.1" />
+        <ComponentEntry AppName="ThMenubarCuix"                 ModuleName="./Contents/Resources/ThMenubar.cuix" />
     </Components>
     <!--Assembly App, DgnLsPurge, 2012 version-->
     <Components>
