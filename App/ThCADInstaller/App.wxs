@@ -93,7 +93,7 @@
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_WPF_Blend_Release" KeyPath="yes" Source="$(env.USERPROFILE)\$(var.mvvmLightLibs)\net40\System.Windows.Interactivity.dll" />
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" Guid="{1B317CB9-7CBD-4938-A390-A7D1F274275F}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2014\DgnLsPurge.dll" />
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2012\DgnLsPurge.dll" />
           </Component>
         </Directory>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2014">
