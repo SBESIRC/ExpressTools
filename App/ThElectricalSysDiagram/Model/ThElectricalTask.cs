@@ -7,6 +7,7 @@ using Linq2Acad;
 using NFox.Cad.Collections;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -201,11 +202,8 @@ namespace ThElectricalSysDiagram
         /// <summary>
         /// 直接根据数据库内容进行块转换
         /// </summary>
-        public void ConvertBlock()
+        public void ConvertBlock(ObservableCollection<ThRelationBlockInfo> ruleBlockInfos)
         {
-            //首先获取表格中的款转换关系记录
-            var ruleBlockInfos = GetThRelationInfos();
-
             Document doc = AcadApp.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
             Editor ed = doc.Editor;
@@ -287,11 +285,8 @@ namespace ThElectricalSysDiagram
         /// 直接根据数据库内容进行块转换
         /// </summary>
         /// <param name="thBlockInfos"></param>
-        public void ConvertFanBlock()
+        public void ConvertFanBlock(ObservableCollection<ThRelationFanInfo> ruleFanInfos)
         {
-            //首先获取表格中的款转换关系记录
-            var ruleFanInfos = GetThFanInfos();
-
             Document doc = AcadApp.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
             Editor ed = doc.Editor;

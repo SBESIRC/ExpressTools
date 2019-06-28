@@ -249,11 +249,11 @@ namespace ThElectricalSysDiagram
             {
                 if (tab.Header.ToString() == "按图块转换")
                 {
-                    this.ElectricalTasks.ConvertBlock();
+                    this.ElectricalTasks.ConvertBlock(this.RelationBlockInfos);
                 }
                 if (tab.Header.ToString() == "按图层转换")
                 {
-                    this.ElectricalTasks.ConvertFanBlock();
+                    this.ElectricalTasks.ConvertFanBlock(this.RelationFanInfos);
                 }
 
                 //执行完毕后，将状态改回
