@@ -19,7 +19,7 @@ namespace ThElectricalSysDiagram
 {
     public class ThElectricalTask
     {
-        private static string downStreamLayer = @"天华AI-电气设备块";
+        private static string downStreamLayer = @"EQUIP-消防";
         //private static string upStreamLayer = @"天华AI-提资专业块";
         private static string blockTableName = @"天华AI块关系对应表";
         private static string fanTableName = @"风机类型表";
