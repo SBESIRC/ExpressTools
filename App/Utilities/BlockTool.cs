@@ -23,9 +23,16 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
 
             //获取动态块所属的动态块表记录
             ObjectId idDyn = bref.DynamicBlockTableRecord;
-            //打开动态块表记录
-            BlockTableRecord btr = (BlockTableRecord)idDyn.GetObject(OpenMode.ForRead);
-            blockName = btr.Name;//获取块名
+
+            using (var trans = idDyn.Database.TransactionManager.StartOpenCloseTransaction())
+            {
+                //打开动态块表记录
+                BlockTableRecord btr = (BlockTableRecord)trans.GetObject(idDyn, OpenMode.ForRead);
+                blockName = btr.Name;//获取块名
+
+                trans.Commit();
+            }
+
 
 
             return blockName;//返回块名
