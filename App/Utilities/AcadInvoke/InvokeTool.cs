@@ -14,12 +14,22 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             IntPtr a;
             IntPtr b;
         };
-        
-         [DllImport("acdb18.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "?acdbGetAdsName@@YA?AW4ErrorStatus@Acad@@AEAY01_JVAcDbObjectId@@@Z")]
-        public static extern int acdbGetAdsName(ref ads_name name, ObjectId objId);
 
+#if ACAD2012
+        [DllImport("acdb18.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "?acdbGetAdsName@@YA?AW4ErrorStatus@Acad@@AEAY01_JVAcDbObjectId@@@Z")]
+        public static extern int acdbGetAdsName(ref ads_name name, ObjectId objId);
+#elif ACAD2014
+        [DllImport("acdb19.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "?acdbGetAdsName@@YA?AW4ErrorStatus@Acad@@AEAY01_JVAcDbObjectId@@@Z")]
+        public static extern int acdbGetAdsName(ref ads_name name, ObjectId objId);
+#endif
+
+#if ACAD2012
         [DllImport("acad.exe", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl, EntryPoint = "acdbEntGet")]
         public static extern System.IntPtr acdbEntGet(ref ads_name ename);
+#elif ACAD2014
+        [DllImport("accore.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl, EntryPoint = "acdbEntGet")]
+        public static extern System.IntPtr acdbEntGet(ref ads_name ename);
+#endif
 
         public static System.Collections.Generic.List<object> acdbEntGetObjects(this
             ObjectId id, short dxfcode)
