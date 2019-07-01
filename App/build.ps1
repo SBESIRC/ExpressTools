@@ -57,7 +57,7 @@ Task Compile.Assembly.R20 -Depends Requires.MSBuild {
 }
 
 # Release build for ThCADPluginInstaller
-Task Compile.Installer -Depends Compile.Assembly.R18, Compile.Assembly.R19, Compile.Assembly.R20 {
+Task Compile.Installer -Depends Compile.Assembly.R18, Compile.Assembly.R19 {
     exec { 
         & $msbuildExe ".\ThCui\ThCui.csproj" /p:Configuration=Release /t:restore
         & $msbuildExe ".\ThParking\ThParking.csproj" /p:Configuration=Release /t:restore
