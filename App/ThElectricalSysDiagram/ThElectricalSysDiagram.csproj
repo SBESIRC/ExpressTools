@@ -37,11 +37,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Model\ThDraw\ThBlockDraw.cs" />
+    <Compile Include="Model\ThDraw\ThDrawFactory.cs" />
+    <Compile Include="Model\ThDraw\ThFanDraw.cs" />
+    <Compile Include="Model\ThElement\ThBlockElement.cs" />
+    <Compile Include="Model\ThElement\ThElement.cs" />
+    <Compile Include="Model\ThDraw\ThDraw.cs" />
     <Compile Include="Model\ThElectricalTask.cs" />
-    <Compile Include="Model\ThRelationBlockInfo.cs" />
-    <Compile Include="Model\ThRelationFanInfo.cs" />
+    <Compile Include="Model\ThElement\ThFanElement.cs" />
+    <Compile Include="Model\ThRealtionInfo\ThRelationBlockInfo.cs" />
+    <Compile Include="Model\ThDraw\ThListRelationFactory.cs" />
+    <Compile Include="Model\ThRealtionInfo\ThRelationFanInfo.cs" />
+    <Compile Include="Model\ThRealtionInfo\ThRelationInfo.cs" />
     <Compile Include="ThElectricalSysDiagramApp.cs" />
-    <Compile Include="Model\ThBlockInfo.cs" />
+    <Compile Include="Model\ThRealtionInfo\ThBlockInfo.cs" />
     <Compile Include="ThElectricalSysDiagramUtils.cs" />
     <Compile Include="ViewModel\ThSysDiagramViewModel.cs" />
     <Compile Include="View\ThSysDiagramView.xaml.cs">
@@ -106,5 +115,6 @@
   <ItemGroup>
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

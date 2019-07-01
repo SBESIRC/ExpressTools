@@ -12,7 +12,7 @@ namespace ThElectricalSysDiagram
     /// <summary>
     /// 块转换关系的类
     /// </summary>
-    public class ThRelationBlockInfo
+    public class ThRelationBlockInfo:ThRelationInfo
     {
         public ThBlockInfo UpstreamBlockInfo { get; set; }//上游专业块信息
         public ThBlockInfo DownstreamBlockInfo { get; set; }//下游专业块信息

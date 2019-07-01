@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace ThElectricalSysDiagram
 {
-    public class ThRelationFanInfo
+    public class ThRelationFanInfo:ThRelationInfo
     {
         public string LayerName { get; set; }//对应图层
         public string FanStyleName { get; set; }//风机类型

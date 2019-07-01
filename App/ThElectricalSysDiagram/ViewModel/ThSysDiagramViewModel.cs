@@ -218,14 +218,10 @@ namespace ThElectricalSysDiagram
 
             if (this.ResultState == true)
             {
-                if (tab.Header.ToString() == "按图块转换")
-                {
-                    this.ElectricalTasks.ConvertBlock(this.RelationBlockInfos);
-                }
-                if (tab.Header.ToString() == "按图层转换")
-                {
-                    this.ElectricalTasks.ConvertFanBlock(this.RelationFanInfos);
-                }
+                //根据类型获取配置规则信息
+                var infos = ThListRelationFactory.CreateListThRelations(tab.Header.ToString(), this);
+                //根据类型和配置信息,执行转换
+                this.ElectricalTasks.ConvertTest(tab.Header.ToString(), infos);
 
                 //执行完毕后，将状态改回
                 this.ResultState = false;

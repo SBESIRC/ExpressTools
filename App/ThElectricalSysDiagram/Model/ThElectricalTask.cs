@@ -19,12 +19,12 @@ namespace ThElectricalSysDiagram
 {
     public class ThElectricalTask
     {
-        private static string downStreamLayer = @"EQUIP-消防";
+        public static string downStreamLayer = @"EQUIP-消防";
         //private static string upStreamLayer = @"天华AI-提资专业块";
-        private static string blockTableName = @"天华AI块关系对应表";
-        private static string fanTableName = @"风机类型表";
-        private static string filePath = ThElectricalSysDiagramUtils.BlockTemplateFilePath();
-        private static string convertBlockName = "";
+        public static string blockTableName = @"天华AI块关系对应表";
+        public static string fanTableName = @"风机类型表";
+        public static string filePath = ThElectricalSysDiagramUtils.BlockTemplateFilePath();
+        public static string convertBlockName = "";
 
 
         /// <summary>
@@ -447,6 +447,58 @@ namespace ThElectricalSysDiagram
                 }
             }
         }
+
+
+        public void ConvertTest(string type, List<ThRelationInfo> infos)
+        {
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+            using (var currentDb = AcadDatabase.Active())
+            {
+                //创建转换集
+                var thDraw = ThDrawFactory.CreateThDraw(type, infos);
+
+                //获取转换对象
+                thDraw.Elements = thDraw.GetElements();
+                //如果没有获取则不执行
+                if (!thDraw.Elements.Any())
+                {
+                    return;
+                }
+
+                //导入规则
+                thDraw.Import();
+
+                //处理转换集
+                thDraw.Deal();
+
+                var optKey = new PromptKeywordOptions("\n是否要删除提资专业块？[是(Y)/否(N)]");
+                //为点交互类添加关键字
+                optKey.Keywords.Add("Y");
+                optKey.Keywords.Add("N");
+                optKey.Keywords.Default = "Y"; //设置默认的关键字
+
+                optKey.AppendKeywordsToMessage = false;//将关键字列表添加到提示信息中
+                var res = ed.GetKeywords(optKey);
+                //没有选择，全部回滚
+                if (res.Status != PromptStatus.OK) currentDb.DiscardChanges();
+
+                switch (res.StringResult)
+                {
+                    case "Y":
+                        //将转换集中的源对象删除
+                        thDraw.Erase();
+                        ed.WriteMessage("\n块替换完成");
+                        break;
+
+                    case "U":
+                        ed.WriteMessage("\n块替换完成");
+                        break;
+                }
+            }
+        }
+
     }
 
 }
