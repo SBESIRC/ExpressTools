@@ -221,7 +221,7 @@ namespace ThElectricalSysDiagram
                 //根据类型获取配置规则信息
                 var infos = ThListRelationFactory.CreateListThRelations(tab.Header.ToString(), this);
                 //根据类型和配置信息,执行转换
-                this.ElectricalTasks.ConvertTest(tab.Header.ToString(), infos);
+                this.ElectricalTasks.ConvertCurrnetBlocks(tab.Header.ToString(), infos);
 
                 //执行完毕后，将状态改回
                 this.ResultState = false;

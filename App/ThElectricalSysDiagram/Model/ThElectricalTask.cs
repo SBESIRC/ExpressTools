@@ -187,7 +187,7 @@ namespace ThElectricalSysDiagram
         }
 
 
-        public void ConvertTest(string type, List<ThRelationInfo> infos)
+        public void ConvertCurrnetBlocks(string type, List<ThRelationInfo> infos)
         {
             Document doc = AcadApp.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
