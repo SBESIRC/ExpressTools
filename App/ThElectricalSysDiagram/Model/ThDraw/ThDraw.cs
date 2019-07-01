@@ -12,7 +12,6 @@ namespace ThElectricalSysDiagram
     {
         public List<ThElement> Elements { get; set; }//转换元素
         public abstract List<ThElement> GetElements();//获取要转换的元素
-        public abstract void ImportRule();//导入规则
         public abstract void Deal();//处理转换图形
 
         //删除源图形

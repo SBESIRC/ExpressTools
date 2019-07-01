@@ -24,21 +24,6 @@ namespace ThElectricalSysDiagram
             //this.Elements = GetElements();
         }
 
-        public override void ImportRule()
-        {
-            using (var currentDb = AcadDatabase.Active())
-            {
-                using (var sourceDb = AcadDatabase.Open(ThElectricalTask.filePath, DwgOpenMode.ReadOnly))
-                {
-                    //打开外部库的块表记录，根据上面求出的要进行转换的块名,找出其中需要导入的记录信息，注意去重
-                    var ids = sourceDb.Blocks.Join(this.Elements, btr => btr.Name, info => ((ThFanElement)info).FanInfo.FanBlockName, (btr, info) => btr.ObjectId).Distinct();
-
-                    //从源数据库向目标数据库复制块表记录
-                    sourceDb.Database.WblockCloneObjects(new ObjectIdCollection(ids.ToArray()), currentDb.Database.BlockTableId, new IdMapping(), DuplicateRecordCloning.Replace, false);
-                }
-            }
-        }
-
         protected override Func<ThElement, string> InfoFunc()
         {
             return info => ((ThFanElement)info).FanInfo.FanBlockName;
