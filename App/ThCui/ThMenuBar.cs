@@ -18,7 +18,19 @@ namespace TianHua.AutoCAD.ThCui
 {
     public class ThMenuBar
     {
-        public void AddTHMenu()
+        public void LoadThMenu()
+        {
+            //获得活动文档
+            Document activeDoc = AcadApp.DocumentManager.MdiActiveDocument;
+            string menuGroupName = "TianHuaCustom";
+            var cuiFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                                @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Resources",
+                                @"THMenubar.cuix");
+            CustomizationSection cs = activeDoc.AddCui(cuiFile, menuGroupName);
+            cs.LoadCui();
+        }
+
+        public void CreateTHMenu()
         {
             //获取当前dll所在的目录
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
@@ -163,7 +175,7 @@ namespace TianHua.AutoCAD.ThCui
 
             }
 
-            //cs.LoadCui();//必须装载CUI文件，才能看到添加的菜单
+            cs.LoadCui();//必须装载CUI文件，才能看到添加的菜单
 
         }
     }

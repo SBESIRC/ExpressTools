@@ -19,16 +19,20 @@ namespace TianHua.AutoCAD.ThCui
         const string CMD_THBLI_GLOBAL_NAME = "THBLI";
 
 
+        ThMenuBar menuBar = new ThMenuBar();
         ThRibbons ribbons = new ThRibbons();
         ThToolPalette toolPalette = new ThToolPalette();
 
         public void Initialize()
         {
             //将程序有效期验证为3个月，一旦超过时限，要求用户更新，不进行命令注册
-            var usualDate = new DateTime(2019, 6, 1);
+            var usualDate = new DateTime(2019, 7, 1);
             var dateTime = DateTime.Today;
             if ((dateTime - usualDate).Days <= 62)
             {
+                //读取菜单栏
+                menuBar.LoadThMenu();
+
                 //注册命令
                 RegisterCommands();
 
@@ -48,7 +52,7 @@ namespace TianHua.AutoCAD.ThCui
         private static void GenerateMenuBar()
         {
             ThMenuBar menuBar = new ThMenuBar();
-            menuBar.AddTHMenu();
+            menuBar.CreateTHMenu();
         }
 
         public void Terminate()
