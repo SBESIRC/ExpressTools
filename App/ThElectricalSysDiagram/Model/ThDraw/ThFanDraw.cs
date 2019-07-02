@@ -24,6 +24,11 @@ namespace ThElectricalSysDiagram
             //this.Elements = GetElements();
         }
 
+        public ThFanDraw(List<ThElement> elements)
+        {
+            this.Elements = elements;
+        }
+
         protected override Func<ThElement, string> InfoFunc()
         {
             return info => ((ThFanElement)info).FanInfo.FanBlockName;

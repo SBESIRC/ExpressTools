@@ -51,6 +51,8 @@
     <DockPanel LastChildFill="True" Margin="3">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
             <!--<Button Content="所有规则转换" Style="{DynamicResource {x:Static thRes:CustomResources.ThConfirmButtonStyle}}" Margin="3,3,12,3" Command="{Binding ConvertAllCommand}"/>-->
+            <Button Content="全部规则转换" Style="{DynamicResource {x:Static thRes:CustomResources.ThConfirmButtonStyle}}" Margin="3,3,12,3" Command="{Binding ConvertAllCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
+            
             <Button Content="{Binding ElementName=tctrRule, Path=SelectedItem.Header}" Style="{DynamicResource {x:Static thRes:CustomResources.ThConfirmButtonStyle}}" Margin="3,3,12,3" Command="{Binding ConvertCurrentCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Name="btnConvert"/>
             <Button Content="取消" Style="{DynamicResource {x:Static thRes:CustomResources.ThConfirmButtonStyle}}" IsCancel="True" Margin="3,3,6,3"/>
         </StackPanel>

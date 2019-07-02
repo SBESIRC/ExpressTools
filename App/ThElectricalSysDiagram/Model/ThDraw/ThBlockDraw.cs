@@ -23,6 +23,11 @@ namespace ThElectricalSysDiagram
             this.BlockInfos = infos;
         }
 
+        public ThBlockDraw(List<ThElement> elements)
+        {
+            this.Elements = elements;
+        }
+
         private static string convertBlockName = "";
 
         public override List<ThElement> GetElements()

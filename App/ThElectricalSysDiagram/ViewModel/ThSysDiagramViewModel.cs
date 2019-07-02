@@ -255,21 +255,23 @@ namespace ThElectricalSysDiagram
                     _convertAllCommand = new ThCommand(
         o =>
         {
-            //var tab = (TabItem)o;
-            //if (tab.Header.ToString() == "一对一转换")
-            //{
-            //    this.ElectricalTasks.ConvertBlock();
-            //}
-            //if (tab.Header.ToString() == "风机转换")
-            //{
-            //    this.ElectricalTasks.ConvertFanBlock();
-            //}
+            this.ResultState = true;//更改状态
+
+            var window = (Window)o;
+            window.Close();
+            var control = (TabControl)window.FindName("tctrRule");
+
+            if (this.ResultState == true)
+            {
+                //图块名的规则优先执行，所以反转
+                var dic = control.Items.OfType<TabItem>().Reverse().ToDictionary(tab => tab.Header.ToString(), tab => ThListRelationFactory.CreateListThRelations(tab.Header.ToString(), this));
+
+                this.ElectricalTasks.ConvertAllBlocks(dic);
+
+                //执行完毕后，将状态改回
+                this.ResultState = false;
+            }
         }
-        //, o =>
-        //{
-        //    var tab = (TabItem)o;
-        //    return tab.Header.ToString() == "一对一转换" ? this.RelationBlockInfos.Any() : this.RelationFanInfos.Any();
-        //}
         );
                 }
                 return _convertAllCommand;

@@ -237,6 +237,152 @@ namespace ThElectricalSysDiagram
             }
         }
 
+        /// <summary>
+        /// 转换所有规则
+        /// </summary>
+        /// <param name="dic"></param>
+        public void ConvertAllBlocks(Dictionary<string, List<ThRelationInfo>> dic)
+        {
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+            using (var currentDb = AcadDatabase.Active())
+            {
+                var thDraws = GetThDraws(dic);
+                foreach (var thDraw in thDraws)
+                {
+                    //如果有才执行
+                    if (thDraw.Elements.Any())
+                    {
+                        //导入规则
+                        thDraw.Import();
+
+                        //处理转换集
+                        thDraw.Deal();
+                    }
+                }
+
+                var optKey = new PromptKeywordOptions("\n是否要删除提资专业块？[是(Y)/否(N)]");
+                //为点交互类添加关键字
+                optKey.Keywords.Add("Y");
+                optKey.Keywords.Add("N");
+                optKey.Keywords.Default = "Y"; //设置默认的关键字
+
+                optKey.AppendKeywordsToMessage = false;//将关键字列表添加到提示信息中
+                var res = ed.GetKeywords(optKey);
+                //没有选择，全部回滚
+                if (res.Status != PromptStatus.OK) currentDb.DiscardChanges();
+
+                switch (res.StringResult)
+                {
+                    case "Y":
+                        //将转换集中的源对象删除
+                        thDraws.ForEach(thDraw => thDraw.Erase());
+                        ed.WriteMessage("\n块替换完成");
+                        break;
+
+                    case "U":
+                        ed.WriteMessage("\n块替换完成");
+                        break;
+                }
+
+            }
+        }
+
+
+
+        /// <summary>
+        /// 根据配置信息，获取所有的转换集
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <returns></returns>
+        public List<ThDraw> GetThDraws(Dictionary<string, List<ThRelationInfo>> dic)
+        {
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+
+            //声明两组规则过滤后的块参照集合
+            List<ThElement> nameBlockElements = new List<ThElement>();
+            List<ThElement> fanBlockElements = new List<ThElement>();
+            using (var currentDb = AcadDatabase.Active())
+            {
+                //得到所有锁定的图层
+                var lockLayers = new List<string>();
+                lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name).ToList();
+
+                //确定要拾取的块类型，只允许块参照被选中,只允许指定的块名被选中,只允许不被锁定的图层被选中
+                IEnumerable<BlockReference> blocks = SelectionTool.DocChoose<BlockReference>(() =>
+                {
+                    return ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要进行转换的上游专业的块参照" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers)));
+
+                },
+                (sender, e) =>
+                {
+                    var ids = e.AddedObjects.GetObjectIds().ToList();
+
+                    using (var tr = AcadApp.DocumentManager.MdiActiveDocument.TransactionManager.StartOpenCloseTransaction())
+                    {
+                        for (int n = 0; n < dic.Count; n++)
+                        {
+                            var ruleName = dic.ElementAt(n).Key;
+                            var ruleInfos = dic.ElementAt(n).Value;
+
+                            switch (ruleName)
+                            {
+                                case "按图块转换":
+                                    var ruleBlockInfos = ruleInfos.Cast<ThRelationBlockInfo>();
+                                    //实例化所有的名称块(***由于之后对ids做了操作，为了不影响遍历，这边注意要立刻执行)
+                                    ids.Join(ruleBlockInfos, id => (tr.GetObject(id, OpenMode.ForRead) as BlockReference).GetRealBlockName(), info => info.UpstreamBlockInfo.RealName, (id, info) => new ThBlockElement(id, (tr.GetObject(id, OpenMode.ForRead) as BlockReference).Name, info)).ToList()
+                                    .ForEach(ele =>
+                                    {
+                                        //加入结果集
+                                        nameBlockElements.Add(ele);
+                                        //从选中的集合中删除
+                                        ids.Remove(ele.ElementId);
+                                    });
+
+                                    break;
+
+                                case "按图层转换":
+                                    var ruleFanInfos = ruleInfos.Cast<ThRelationFanInfo>();
+
+                                    //去除符合名称块的实体，再实例化
+                                    ids.Join(ruleFanInfos, id => (tr.GetObject(id, OpenMode.ForRead) as BlockReference).Layer, info => info.LayerName, (id, info) => new ThFanElement(id, (tr.GetObject(id, OpenMode.ForRead) as BlockReference).Name, info))
+                                   .Where(ele => (tr.GetObject((tr.GetObject(ele.ElementId, OpenMode.ForRead) as BlockReference).BlockTableRecord, OpenMode.ForRead) as BlockTableRecord).Cast<ObjectId>().Any(id => id.acdbEntGetTypedVals().Any(tvs => tvs.TypeCode == 1 && Regex.Match(tvs.Value.ToString(), @"kw", RegexOptions.IgnoreCase).Success))).ToList()
+                                   .ForEach(ele =>
+                                   {
+                                       //加入结果集
+                                       fanBlockElements.Add(ele);
+                                       //从选中的集合中删除
+                                       ids.Remove(ele.ElementId);
+                                   });
+
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+
+                        //将上述两种皆去除后，剩下的就是不符合的，全部移除
+                        ids.Join(e.AddedObjects.GetObjectIds().Select((id, i) => new { id, i }), id => id, a1 => a1.id, (id, a1) => new { id, a1.i })
+                        .ForEach(a2 => e.Remove(a2.i));
+
+                        tr.Commit();
+                    }
+
+                });
+                if (blocks == null)
+                {
+                    return new List<ThDraw>();
+                }
+
+                //直接返回一组转换集
+                return new List<ThDraw> { new ThBlockDraw(nameBlockElements), new ThFanDraw(fanBlockElements) };
+            }
+        }
+
     }
 
 }
