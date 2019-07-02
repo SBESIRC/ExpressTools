@@ -30,14 +30,15 @@ namespace TianHua.AutoCAD.ThCui
             var dateTime = DateTime.Today;
             if ((dateTime - usualDate).Days <= 62)
             {
-                //读取菜单栏
-                menuBar.LoadThMenu();
+                ////读取菜单栏
+                //menuBar.LoadThMenu();
 
                 //注册命令
                 RegisterCommands();
 
                 //安装事件
                 AcadApp.DocumentManager.DocumentLockModeChanged += Docs_DocumentLockModeChanged;
+
             }
             else
             {
@@ -45,14 +46,15 @@ namespace TianHua.AutoCAD.ThCui
             }
 
         }
-        
+
         /// <summary>
         /// 生成菜单栏
         /// </summary>
-        private static void GenerateMenuBar()
+        [CommandMethod("TIANHUACAD", "THMENUBAR", CommandFlags.Modal)]
+        public void GenerateMenuBar()
         {
             ThMenuBar menuBar = new ThMenuBar();
-            menuBar.CreateTHMenu();
+            menuBar.LoadThMenu();
         }
 
         public void Terminate()
@@ -134,6 +136,7 @@ namespace TianHua.AutoCAD.ThCui
             {
                 theTab.IsVisible = true;
                 ribbons.Count++;
+
             }
 
             //如果是第一次创建完毕后，仅呈现登录模块
@@ -142,7 +145,10 @@ namespace TianHua.AutoCAD.ThCui
                 ribbons.CloseTabRibbon();
             }
 
+
         }
+
+
 
         /// <summary>
         /// 显示工具选项板配置
@@ -152,6 +158,6 @@ namespace TianHua.AutoCAD.ThCui
             AcadApp.ShowModalDialog(toolPalette);
         }
 
-        
+
     }
 }
