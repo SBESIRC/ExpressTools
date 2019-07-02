@@ -105,45 +105,53 @@ namespace ThElectricalSysDiagram
             {
                 this.Elements.ForEach(element =>
             {
-                var info = ((ThFanElement)element).FanInfo;
-                //实例化块参照,插入点为上游块图形的下角点
-                var fanBlock = new BlockReference((currentDb.ModelSpace.Element(element.ElementId) as BlockReference).GeometricExtents.MinPoint, currentDb.Blocks.Element(info.FanBlockName).ObjectId);
-
-
-                //炸开实体，将风机类型和功率值换为正确的值
-                DBObjectCollection objs = new DBObjectCollection();
-                fanBlock.Explode(objs);
-
-                //遍历块中实体，获取真实的功率信息,找到属于文字的，并从中找出文字内容包含kw的文字信息
-                var powerInfo = currentDb.Blocks.Element(element.Name).Cast<ObjectId>().SelectMany(id => id.acdbEntGetTypedVals().Where(tvs => tvs.TypeCode == 1)).FirstOrDefault(tvs => Regex.Match(tvs.Value.ToString(), @"kw", RegexOptions.IgnoreCase).Success);
-
-                //处理后赋值给规则
-                info.PowerInfo = powerInfo.Value.ToString();
-
-                //然后修改样式和值
-                objs.Cast<Entity>().ForEach(ent =>
+                try
                 {
-                    //*****不修改图层，炸开后保持原来块内的图层
-                    //ent.Layer = downStreamLayer;
+                    var info = ((ThFanElement)element).FanInfo;
+                    //实例化块参照,插入点为上游块图形的下角点
+                    var fanBlock = new BlockReference((currentDb.ModelSpace.Element(element.ElementId) as BlockReference).GeometricExtents.MinPoint, currentDb.Blocks.Element(info.FanBlockName).ObjectId);
 
-                    var dbText = ent as DBText;
-                    if (dbText != null)
+
+                    //炸开实体，将风机类型和功率值换为正确的值
+                    DBObjectCollection objs = new DBObjectCollection();
+                    fanBlock.Explode(objs);
+
+                    //遍历块中实体，获取真实的功率信息,找到属于文字的，并从中找出文字内容包含kw的文字信息
+                    var powerInfo = currentDb.Blocks.Element(element.Name).Cast<ObjectId>().SelectMany(id => id.acdbEntGetTypedVals().Where(tvs => tvs.TypeCode == 1)).FirstOrDefault(tvs => Regex.Match(tvs.Value.ToString(), @"kw", RegexOptions.IgnoreCase).Success);
+
+                    //处理后赋值给规则
+                    info.PowerInfo = powerInfo.Value.ToString();
+
+                    //然后修改样式和值
+                    objs.Cast<Entity>().ForEach(ent =>
                     {
-                        if (dbText.TextString == "风机类型")
-                        {
-                            dbText.TextString = info.FanStyleName;
-                        }
-                        if (dbText.TextString == "功率：xkW")
-                        {
-                            dbText.TextString = dbText.TextString.Replace("xkW", info.PowerInfo.ToString());
-                        }
-                    }
-                });
+                        //*****不修改图层，炸开后保持原来块内的图层
+                        //ent.Layer = downStreamLayer;
 
-                //修改完毕后，添加进入模型空间
-                currentDb.Database.AddToModelSpace(objs.Cast<Entity>().ToArray());
+                        var dbText = ent as DBText;
+                        if (dbText != null)
+                        {
+                            if (dbText.TextString == "风机类型")
+                            {
+                                dbText.TextString = info.FanStyleName;
+                            }
+                            if (dbText.TextString == "功率：xkW")
+                            {
+                                dbText.TextString = dbText.TextString.Replace("xkW", info.PowerInfo.ToString());
+                            }
+                        }
+                    });
 
-                fanBlock.Dispose();
+                    //修改完毕后，添加进入模型空间
+                    currentDb.Database.AddToModelSpace(objs.Cast<Entity>().ToArray());
+
+                    fanBlock.Dispose();
+                }
+                //捕获边界有问题的块的异常，不进行进一步处理
+                catch (Autodesk.AutoCAD.Runtime.Exception ex)
+                {
+                    currentDb.Database.GetEditor().WriteMessage("\n" + ex.Source + ":" + ex.Message);
+                }
 
             });
             }
