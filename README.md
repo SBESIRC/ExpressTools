@@ -29,6 +29,8 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [AutoCAD .NET: Real Performance of ObjectId.Open/GetObject Transaction and OpenCloseTransaction](https://spiderinnet1.typepad.com/blog/2012/08/autocad-net-real-performances-of-objectidopengetobject-transaction-and-openclosetransaction.html)
 
+[The Right Tools for the Job – AutoCAD Part 5](https://adndevblog.typepad.com/autocad/2012/08/the-right-tools-for-the-job-autocad-part-5.html)
+
 # AutoLoader
 We use AutoLoader for deployment, for detail information, check these links:
 
