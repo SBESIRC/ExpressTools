@@ -218,21 +218,17 @@ namespace ThElectricalSysDiagram
 
             if (this.ResultState == true)
             {
-                //根据类型获取配置规则信息
-                var infos = ThListRelationFactory.CreateListThRelations(tab.Header.ToString(), this);
-                //根据类型和配置信息,执行转换
-                this.ElectricalTasks.ConvertCurrnetBlocks(tab.Header.ToString(), infos);
+                //图块名的规则
+                var dic = new Dictionary<string, List<ThRelationInfo>>();
+                dic.Add(tab.Header.ToString(), ThListRelationFactory.CreateListThRelations(tab.Header.ToString(), this));
+
+                this.ElectricalTasks.ConvertAllBlocks(dic);
 
                 //执行完毕后，将状态改回
                 this.ResultState = false;
             }
 
         }
-        //, o =>
-        //{
-        //    var tab = (TabItem)o;
-        //    return tab.Header.ToString() == "一对一转换" ? this.RelationBlockInfos.Any() : this.RelationFanInfos.Any();
-        //}
         );
                 }
                 return _convertCurrentCommand;
