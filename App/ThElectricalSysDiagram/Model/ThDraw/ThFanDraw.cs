@@ -148,11 +148,10 @@ namespace ThElectricalSysDiagram
                     fanBlock.Dispose();
                 }
                 //捕获边界有问题的块的异常，不进行进一步处理
-                catch (Autodesk.AutoCAD.Runtime.Exception ex)
+                catch
                 {
-                    currentDb.Database.GetEditor().WriteMessage("\n" + ex.Source + ":" + ex.Message);
-                }
 
+                }
             });
             }
         }
