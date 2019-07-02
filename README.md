@@ -23,6 +23,12 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [Querying AutoCAD objects of a particular type using .NET](https://www.keanw.com/2013/04/querying-autocad-objects-of-a-particular-type-using-net.html)
 
+## Transaction
+
+[AutoCAD .NET: Append Entities to Database via Different Means](https://spiderinnet1.typepad.com/blog/2013/04/autocad-net-append-entities-to-database-via-different-means.html)
+
+[AutoCAD .NET: Real Performance of ObjectId.Open/GetObject Transaction and OpenCloseTransaction](https://spiderinnet1.typepad.com/blog/2012/08/autocad-net-real-performances-of-objectidopengetobject-transaction-and-openclosetransaction.html)
+
 # AutoLoader
 We use AutoLoader for deployment, for detail information, check these links:
 
