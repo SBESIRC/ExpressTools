@@ -51,27 +51,18 @@ namespace DotNetARX
         public static void LoadCui(this CustomizationSection cs)
         {
             if (cs.IsModified) cs.Save();//如果CUI文件被修改，则保存
-            //保存CMDECHO及FILEDIA系统变量
-            object oldCmdEcho = Application.GetSystemVariable("CMDECHO");
-            object oldFileDia = Application.GetSystemVariable("FILEDIA");
-            //设置CMDECHO=0，控制不在命令行上回显提示和输入信息
-            Application.SetSystemVariable("CMDECHO", 0);
-            //设置FILEDIA=0，禁止显示文件对话框，这样可以通过程序输入文件名
-            Application.SetSystemVariable("FILEDIA", 0);
+
             //获取当前活动文档
             Document doc = Application.DocumentManager.MdiActiveDocument;
             //获取主CUI文件
             CustomizationSection mainCs = doc.GetMainCustomizationSection();
             //如果已存在局部CUI文件，则先卸载
             if (mainCs.PartialCuiFiles.Contains(cs.CUIFileName))
-                doc.SendStringToExecute("_.cuiunload " + "\"" + cs.CUIFileBaseName + "\"" + " ", false, false, false);
+            {
+                Application.UnloadPartialMenu(cs.CUIFileName);
+            }
             //装载CUI文件，注意文件名必须是带路径的
-            //doc.SendStringToExecute("_.cuiload " + cs.CUIFileName + " ", false, false, false);
-            doc.SendStringToExecute("_.cuiload " + "\"" + cs.CUIFileName + "\"" + " ", false, false, false);
-
-            //恢复CMDECHO及FILEDIA系统变量的初始值
-            doc.SendStringToExecute("(setvar \"FILEDIA\" " + oldFileDia.ToString() + ")(princ) ", false, false, false);
-            doc.SendStringToExecute("(setvar \"CMDECHO\" " + oldCmdEcho.ToString() + ")(princ) ", false, false, false);
+            Application.LoadPartialMenu(cs.CUIFileName);
         }
 
         /// <summary>
