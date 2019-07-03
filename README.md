@@ -31,6 +31,12 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [The Right Tools for the Job – AutoCAD Part 5](https://adndevblog.typepad.com/autocad/2012/08/the-right-tools-for-the-job-autocad-part-5.html)
 
+## Calling commands
+
+[Techniques for calling AutoCAD commands programmatically](https://www.keanw.com/2006/08/techniques_for_.html)
+
+[AutoCAD 2015: calling commands](https://www.keanw.com/2014/03/autocad-2015-calling-commands.html)
+
 # AutoLoader
 We use AutoLoader for deployment, for detail information, check these links:
 
