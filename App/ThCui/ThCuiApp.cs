@@ -25,6 +25,14 @@ namespace TianHua.AutoCAD.ThCui
 
         public void Initialize()
         {
+            //add code to run when the ExtApp initializes. Here are a few examples:
+            //  Checking some host information like build #, a patch or a particular Arx/Dbx/Dll;
+            //  Creating/Opening some files to use in the whole life of the assembly, e.g. logs;
+            //  Adding some ribbon tabs, panels, and/or buttons, when necessary;
+            //  Loading some dependents explicitly which are not taken care of automatically;
+            //  Subscribing to some events which are important for the whole session;
+            //  Etc.
+
             //将程序有效期验证为3个月，一旦超过时限，要求用户更新，不进行命令注册
             var usualDate = new DateTime(2019, 7, 1);
             var dateTime = DateTime.Today;
@@ -36,26 +44,24 @@ namespace TianHua.AutoCAD.ThCui
                 //注册命令
                 RegisterCommands();
 
-                //安装事件
-                AcadApp.DocumentManager.DocumentLockModeChanged += Docs_DocumentLockModeChanged;
+                //注册事件
+                Autodesk.AutoCAD.Ribbon.RibbonServices.RibbonPaletteSetCreated +=
+                    new EventHandler(RibbonServices_RibbonPaletteSetCreated);
             }
             else
             {
                 System.Windows.Forms.MessageBox.Show("天华效率工具已经过期，请及时更新！");
             }
-
         }
 
         public void Terminate()
         {
-            //
-            UnregisterCommands();
-
-            //卸载事件
-            AcadApp.DocumentManager.DocumentLockModeChanged -= Docs_DocumentLockModeChanged;
-
-            //卸载Ribbon
-            RemoveRibbon();
+            //add code to clean up things when the ExtApp terminates. For example:
+            //  Closing the log files;
+            //  Deleting the custom ribbon tabs/panels/buttons;
+            //  Unloading those dependents;
+            //  Un-subscribing to those events;
+            //  Etc.
         }
 
         private void LoadPartialCui()
@@ -90,7 +96,7 @@ namespace TianHua.AutoCAD.ThCui
 
         }
 
-        public void RemoveRibbon()
+        private void RemoveRibbon()
         {
             RibbonControl rc = ComponentManager.Ribbon;
             if (rc == null)
@@ -103,12 +109,7 @@ namespace TianHua.AutoCAD.ThCui
                 rc.Tabs.Remove(tab);
         }
 
-        /// <summary>
-        /// 加载ribbon事件
-        /// </summary>
-        /// <param name="sendger"></param>
-        /// <param name="e"></param>
-        void Docs_DocumentLockModeChanged(object sendger, EventArgs e)
+        private void CreateRibbon()
         {
             RibbonControl rc = ComponentManager.Ribbon;
             if (rc == null)
@@ -130,7 +131,6 @@ namespace TianHua.AutoCAD.ThCui
             {
                 theTab.IsVisible = true;
                 ribbons.Count++;
-
             }
 
             //如果是第一次创建完毕后，仅呈现登录模块
@@ -138,11 +138,19 @@ namespace TianHua.AutoCAD.ThCui
             {
                 ribbons.CloseTabRibbon();
             }
-
-
         }
 
+        private void RibbonServices_RibbonPaletteSetCreated(object sender, EventArgs e)
+        {
+            AcadApp.Idle += new EventHandler(Application_OnIdle);
+        }
 
+        private void Application_OnIdle(object sender, EventArgs e)
+        {
+            AcadApp.Idle -= new EventHandler(Application_OnIdle);
+
+            CreateRibbon();
+        }
 
         /// <summary>
         /// 显示工具选项板配置
