@@ -46,16 +46,6 @@ namespace TianHua.AutoCAD.ThCui
 
         }
 
-        /// <summary>
-        /// 生成菜单栏
-        /// </summary>
-        [CommandMethod("TIANHUACAD", "THMENUBAR", CommandFlags.Modal)]
-        public void GenerateMenuBar()
-        {
-            ThMenuBar menuBar = new ThMenuBar();
-            menuBar.LoadThMenu();
-        }
-
         public void Terminate()
         {
             //

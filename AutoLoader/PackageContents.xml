@@ -82,7 +82,6 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
                 <Command Local="THBLS" Global="THBLS" />
-                <Command Local="THMENUBAR" Global="THMENUBAR" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -94,7 +93,6 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
                 <Command Local="THBLS" Global="THBLS" />
-                <Command Local="THMENUBAR" Global="THMENUBAR" />
             </Commands>
         </ComponentEntry>
     </Components>
