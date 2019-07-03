@@ -30,15 +30,14 @@ namespace TianHua.AutoCAD.ThCui
             var dateTime = DateTime.Today;
             if ((dateTime - usualDate).Days <= 62)
             {
-                ////读取菜单栏
-                //menuBar.LoadThMenu();
+                //装载局部CUI文件
+                LoadPartialCui();
 
                 //注册命令
                 RegisterCommands();
 
                 //安装事件
                 AcadApp.DocumentManager.DocumentLockModeChanged += Docs_DocumentLockModeChanged;
-
             }
             else
             {
@@ -67,6 +66,11 @@ namespace TianHua.AutoCAD.ThCui
 
             //卸载Ribbon
             RemoveRibbon();
+        }
+
+        private void LoadPartialCui()
+        {
+            menuBar.LoadThMenu();
         }
 
         public void RegisterCommands()
