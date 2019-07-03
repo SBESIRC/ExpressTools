@@ -39,6 +39,14 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [AutoCAD 2015: calling commands](https://www.keanw.com/2014/03/autocad-2015-calling-commands.html)
 
+## CUI
+
+[Creating a partial CUI file using .NET and loading it inside AutoCAD](https://www.keanw.com/2007/05/creating_a_part.html)
+
+[Unload partial CUIx when AutoCAD quits](https://adndevblog.typepad.com/autocad/2012/07/unload-partial-cuix-when-autocad-quits.html)
+
+[Removing the partial customization file](https://adndevblog.typepad.com/autocad/2012/07/removing-the-partial-customization-file.html)
+
 # AutoLoader
 We use AutoLoader for deployment, for detail information, check these links:
 
