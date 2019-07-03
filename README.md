@@ -35,6 +35,8 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [Techniques for calling AutoCAD commands programmatically](https://www.keanw.com/2006/08/techniques_for_.html)
 
+[Calling AutoCAD commands from .NET](https://through-the-interface.typepad.com/through_the_interface/2006/08/calling_command.html)
+
 [AutoCAD 2015: calling commands](https://www.keanw.com/2014/03/autocad-2015-calling-commands.html)
 
 # AutoLoader
