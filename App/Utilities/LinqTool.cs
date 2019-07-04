@@ -53,5 +53,49 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             }
             return result;
         }
+
+
+        /// <summary>
+        /// 按照一定的规律按顺序拿取归为一组
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="predicate"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static IEnumerable<IEnumerable<TElement>> GroupTake<TElement>(this IEnumerable<TElement> source, Func<TElement, bool> predicate, Func<IEnumerable<TElement>, int> func)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (predicate == null)
+                throw new ArgumentNullException("predicate");
+            if (func == null)
+                throw new ArgumentNullException("func");
+
+            var results = new List<List<TElement>>();
+
+            while (true)
+            {
+                //从303开始遍历
+                source = source.SkipWhile(predicate);
+                if (source.Any())
+                {
+                    //找303后的第一个的值，拿出这些数量的值
+                    var result = new List<TElement>();
+                    var number = func(source);
+                    result.AddRange(source.Take(number));
+                    results.Add(result);
+
+                    //修改数据源
+                    source = source.Skip(number);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return results;
+        }
     }
 }
