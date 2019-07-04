@@ -108,8 +108,8 @@ namespace ThElectricalSysDiagram
                 try
                 {
                     var info = ((ThFanElement)element).FanInfo;
-                    //实例化块参照,插入点为上游块图形的下角点
-                    var fanBlock = new BlockReference((currentDb.ModelSpace.Element(element.ElementId) as BlockReference).GeometricExtents.MinPoint, currentDb.Blocks.Element(info.FanBlockName).ObjectId);
+                    //实例化块参照,插入点为:上游块图形,在当前可见性下的下角点
+                    var fanBlock = new BlockReference((currentDb.ModelSpace.Element(element.ElementId) as BlockReference).GetGeometricExtents(element.ElementId.GetDynBlockValue("可见性1")).MinPoint, currentDb.Blocks.Element(info.FanBlockName).ObjectId);
 
 
                     //炸开实体，将风机类型和功率值换为正确的值
