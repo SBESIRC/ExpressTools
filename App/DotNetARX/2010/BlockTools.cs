@@ -490,16 +490,12 @@ namespace DotNetARX
         /// <returns>返回动态块的所有属性</returns>
         public static DynamicBlockReferencePropertyCollection GetDynProperties(this ObjectId blockId)
         {
-            using (var tr = blockId.Database.TransactionManager.StartOpenCloseTransaction())
-            {
-                //获取块参照
-                BlockReference br = tr.GetObject(blockId, OpenMode.ForRead) as BlockReference;
-                //如果不是动态块，则返回
-                if (br == null && !br.IsDynamicBlock) return null;
-                //返回动态块的动态属性
-                return br.DynamicBlockReferencePropertyCollection;
-            }
-
+            //获取块参照
+            BlockReference br = blockId.GetObject(OpenMode.ForRead) as BlockReference;
+            //如果不是动态块，则返回
+            if (br == null && !br.IsDynamicBlock) return null;
+            //返回动态块的动态属性
+            return br.DynamicBlockReferencePropertyCollection;
         }
 
         /// <summary>
