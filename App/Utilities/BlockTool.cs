@@ -1,4 +1,8 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
+using DotNetARX;
 using Linq2Acad;
 using System;
 using System.Collections.Generic;
@@ -111,6 +115,100 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             return result;
 
         }
+
+        /// <summary>
+        /// 将动态块的图元按可见性分类
+        /// </summary>
+        /// <param name="blockId"></param>
+        /// <returns></returns>
+        public static Dictionary<string, List<ObjectId>> GetDynablockVisibilityStatesGrp(this ObjectId blockId)
+        {
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+
+            var results = new Dictionary<string, List<ObjectId>>();
+            using (var tr = db.TransactionManager.StartOpenCloseTransaction())
+            {
+                var blockName = blockId.GetObjectByID<BlockReference>(tr).GetRealBlockName();
+                var bt = db.BlockTableId.GetObjectByID<BlockTable>(tr);
+
+                if (bt.Has(blockName))
+                {
+                    var btr = bt[blockName].GetObjectByID<BlockTableRecord>(tr);
+
+                    if (btr != null && btr.ExtensionDictionary != null)
+                    {
+                        var dico = btr.ExtensionDictionary.GetObjectByID<DBDictionary>(tr);
+                        if (dico.Contains("ACAD_ENHANCEDBLOCK"))
+                        {
+                            ObjectId graphId = dico.GetAt("ACAD_ENHANCEDBLOCK");
+
+                            var parameterIds = graphId.acdbEntGetObjects(360);
+
+                            var id = parameterIds.OfType<ObjectId>().First(parameterId => parameterId.ObjectClass.Name == "AcDbBlockVisibilityParameter");
+
+                            var visibilityParam = id.acdbEntGetTypedVals().AsEnumerable();
+
+                            //从303开始，按303后的元素个数进行拾取，每一份归为一组
+                            var grp = visibilityParam.GroupTake(par => par.TypeCode != 303, parms => (int)parms.Skip(1).First().Value + 2);
+
+                            results = grp.ToDictionary(res => res.First().Value.ToString(), res => res.Skip(2).Select(tv => (ObjectId)tv.Value).ToList());
+
+                        }
+                    }
+                }
+
+                tr.Commit();
+
+            }
+
+            return results;
+
+        }
+
+
+        /// <summary>
+        /// 获取可见动态块当前可见性下的边界
+        /// </summary>
+        /// <param name="block"></param>
+        /// <param name="visibilityStatus"></param>
+        /// <returns></returns>
+        public static Extents3d GetGeometricExtents(this BlockReference block, string visibilityStatus)
+        {
+            using (var tr = block.ObjectId.Database.TransactionManager.StartOpenCloseTransaction())
+            {
+                //获取到指定可见性状态下的实体，如果不是可见性块，则全部获取
+                var ids = visibilityStatus != null ? block.ObjectId.GetDynablockVisibilityStatesGrp().FirstOrDefault(kp => kp.Key == visibilityStatus).Value : block.BlockTableRecord.GetObjectByID<BlockTableRecord>(tr).Cast<ObjectId>();
+
+                //排除hatch类型，重新计算边界
+                var exts = ids.Where(id => id.ObjectClass.Name != "Hatch").Select(id => id.GetObjectByID<Entity>(tr).GeometricExtents);
+
+                //找出最小及最大点，返回边界
+                var minx = exts.Min(ext => ext.MinPoint.X);
+                var miny = exts.Min(ext => ext.MinPoint.Y);
+                var maxx = exts.Max(ext => ext.MaxPoint.X);
+                var maxy = exts.Max(ext => ext.MaxPoint.Y);
+
+                //转回世界坐标系
+                var result = new Extents3d(new Point3d(minx, miny, 0), new Point3d(maxx, maxy, 0));
+                result.TransformBy(block.BlockTransform);
+
+                return result;
+
+            }
+
+        }
+
+        /// <summary>
+        /// 判断是否是可见性块
+        /// </summary>
+        /// <param name="block"></param>
+        /// <returns></returns>
+        public static bool IsVisibilityBlock(this BlockReference block)
+        {
+            return block.ObjectId.GetDynBlockValue("可见性1") != null;
+        }
+
 
 
     }
