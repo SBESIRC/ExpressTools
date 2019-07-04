@@ -230,7 +230,7 @@ namespace ThElectricalSysDiagram
                         ed.WriteMessage("\n块替换完成");
                         break;
 
-                    case "U":
+                    case "N":
                         ed.WriteMessage("\n块替换完成");
                         break;
                 }
@@ -281,7 +281,7 @@ namespace ThElectricalSysDiagram
                         ed.WriteMessage("\n块替换完成");
                         break;
 
-                    case "U":
+                    case "N":
                         ed.WriteMessage("\n块替换完成");
                         break;
                 }
