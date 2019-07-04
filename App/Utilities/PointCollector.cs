@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.GraphicsInterface;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
-namespace AcadNetAddinWizard_Namespace
+namespace TianHua.AutoCAD.Utility.ExtensionTools
 {
     public class PointCollector : IDisposable
     {
