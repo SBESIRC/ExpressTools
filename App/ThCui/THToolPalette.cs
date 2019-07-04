@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using AcadPreferences = DotNetARX.Preferences;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace TianHua.AutoCAD.ThCui
@@ -134,7 +135,7 @@ namespace TianHua.AutoCAD.ThCui
         /// </summary>
         private List<string> GetAllToolPath()
         {
-            return Preferences.Files.ToolPalettePath.Replace(@"/", @"\").Split(';').ToList();
+            return AcadPreferences.Files.ToolPalettePath.Replace(@"/", @"\").Split(';').ToList();
         }
 
 
@@ -145,7 +146,7 @@ namespace TianHua.AutoCAD.ThCui
         /// <param name="currentDwgPath"></param>
         private void AddToolPath(string currentDwgPath)
         {
-            Preferences.Files.ToolPalettePath += ";" + currentDwgPath;
+            AcadPreferences.Files.ToolPalettePath += ";" + currentDwgPath;
         }
 
         /// <summary>
@@ -155,7 +156,7 @@ namespace TianHua.AutoCAD.ThCui
         private void DeleteToolPath(string currentDwgPath)
         {
             //如果此路径为最后一个，则少删除一个分号，否则多删除一个分号
-            Preferences.Files.ToolPalettePath = Preferences.Files.ToolPalettePath.EndsWith(currentDwgPath) ? Preferences.Files.ToolPalettePath.Replace(currentDwgPath, "") : Preferences.Files.ToolPalettePath.Replace(currentDwgPath + ";", "");
+            AcadPreferences.Files.ToolPalettePath = AcadPreferences.Files.ToolPalettePath.EndsWith(currentDwgPath) ? AcadPreferences.Files.ToolPalettePath.Replace(currentDwgPath, "") : AcadPreferences.Files.ToolPalettePath.Replace(currentDwgPath + ";", "");
         }
 
         /// <summary>
