@@ -1,7 +1,7 @@
-﻿using Autodesk.AutoCAD.Runtime;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AcRuntimeInterop = Autodesk.AutoCAD.Runtime.Interop;
 
 namespace Autodesk.AutoCAD.DatabaseServices.Wrapper
 {
@@ -33,7 +33,7 @@ namespace Autodesk.AutoCAD.DatabaseServices.Wrapper
             : base(dic.UnmanagedObject, dic.AutoDelete)
         {
             trans = trx;
-            Interop.DetachUnmanagedObject(dic);
+            AcRuntimeInterop.DetachUnmanagedObject(dic);
             GC.SuppressFinalize(dic);
             m_includingErased = includingErased;
         }
