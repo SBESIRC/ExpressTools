@@ -47,6 +47,12 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [Removing the partial customization file](https://adndevblog.typepad.com/autocad/2012/07/removing-the-partial-customization-file.html)
 
+## LINQ
+
+[Sorting lists of AutoCAD objects using LINQ](https://www.keanw.com/2016/02/sorting-lists-of-autocad-objects-using-linq-part-3.html)
+
+[LINQ and the AutoCAD .NET API ](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part/)
+
 # AutoLoader
 We use AutoLoader for deployment, for detail information, check these links:
 
