@@ -29,6 +29,10 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [Identifying the boundary through API](https://adndevblog.typepad.com/autocad/2012/05/identifying-the-boundary-through-api-.html)
 
+### Bounding box (AABB)
+
+[Using ActiveX API GetBoundingBox in .NET](https://adndevblog.typepad.com/autocad/2012/07/using-activex-api-getboundingbox-in-net.html)
+
 ## Transaction
 
 [AutoCAD .NET: Append Entities to Database via Different Means](https://spiderinnet1.typepad.com/blog/2013/04/autocad-net-append-entities-to-database-via-different-means.html)
