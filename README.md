@@ -23,6 +23,12 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [Querying AutoCAD objects of a particular type using .NET](https://www.keanw.com/2013/04/querying-autocad-objects-of-a-particular-type-using-net.html)
 
+## Geometry
+
+### Boundary
+
+[Identifying the boundary through API](https://adndevblog.typepad.com/autocad/2012/05/identifying-the-boundary-through-api-.html)
+
 ## Transaction
 
 [AutoCAD .NET: Append Entities to Database via Different Means](https://spiderinnet1.typepad.com/blog/2013/04/autocad-net-append-entities-to-database-via-different-means.html)
