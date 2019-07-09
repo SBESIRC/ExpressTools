@@ -19,10 +19,10 @@ namespace TianHua.AutoCAD.Parking
         public List<DBText> Numbers { get; set; }//车位编号
         public int Count { get; set; }//编号次数
 
-        public ParkingLot(BlockReference blockReference, int count)
+        public ParkingLot(BlockReference blockReference, Polyline boundary,int count)
         {
             this.Ent = blockReference;
-            this.Boundry = GetWaiJieRec();
+            this.Boundry = boundary;
             this.BoundryRotation = GetBoundryRotation();
             this.Count = count;
         }
@@ -130,33 +130,6 @@ namespace TianHua.AutoCAD.Parking
             //回到世界坐标系求出中心
             position = position.TransformBy(this.Ent.BlockTransform);
             return position;
-        }
-
-        /// <summary>
-        /// 求块参照的外边界
-        /// </summary>
-        /// <param name="block"></param>
-        /// <returns></returns>
-        private Polyline GetWaiJieRec()
-        {
-            //var angel = block.Rotation;
-            ////如果有角度就需要旋转
-
-            //复制对象
-            var cloneBlock = (BlockReference)this.Ent.Clone();
-            //转成水平的
-            cloneBlock.TransformBy(this.Ent.BlockTransform.Inverse());
-
-            //Polyline poly = new Polyline();
-            //poly.CreateRectangle(cloneBlock.GeometricExtents.MinPoint.toPoint2d(), cloneBlock.GeometricExtents.MaxPoint.toPoint2d());
-
-            var poly = new PolylineRec(cloneBlock.GeometricExtents.MinPoint.toPoint2d(), cloneBlock.GeometricExtents.MaxPoint.toPoint2d());
-
-            //转回去
-            poly.TransformBy(this.Ent.BlockTransform);
-
-            return poly;
-
         }
 
         /// <summary>

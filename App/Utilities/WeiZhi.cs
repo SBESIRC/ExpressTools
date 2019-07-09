@@ -34,7 +34,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             return pts;
         }
 
-        public static Point3dCollection GetIntersectPoints<T1, T2>(this T1 ent1, T2 ent2, Intersect interType, Matrix3d mar)
+        public static Point3dCollection GetIntersectPoints<T1, T2>(this T1 ent1, T2 ent2, Plane plane, Intersect interType)
     where T1 : Entity
     where T2 : Entity
         {
@@ -42,7 +42,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             IntPtr ptr = new IntPtr();
 
             //在当前UCS判断XY平面上相交
-            ent1.IntersectWith(ent2, interType, new Plane(Point3d.Origin.TransformBy(mar), Vector3d.ZAxis.TransformBy(mar)), pts, ptr, ptr);
+            ent1.IntersectWith(ent2, interType, plane, pts, ptr, ptr);
 
             return pts;
         }
