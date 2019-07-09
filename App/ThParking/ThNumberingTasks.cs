@@ -403,7 +403,6 @@ namespace TianHua.AutoCAD.Parking
 
             //生成边界
             DBObjectCollection objs = ed.TraceBoundary(pt.TransformBy(ed.WCS2UCS()), false);
-            System.Windows.Forms.MessageBox.Show(objs.Count.ToString());
             //找出其中面积最大的封闭多段线，就是我们要的外接矩形
             return objs.Cast<Polyline>().MaxElement(poly => poly.Area);
         }
