@@ -77,9 +77,25 @@ namespace TianHua.AutoCAD.Parking
                     return;
                 }
 
+                //找外边界
+                var boundarys = ents.Select(b => new { Block = b, Boundary = GetWaiJieRec(b) });
+
+                //如果外边界错误，则不执行程序,因为编号是连续的，有一个断了就没有意义
+                if (boundarys.Any(a => a.Boundary == null))
+                {
+                    ed.WriteMessage("\n车位块为非规则图形，无法编号，请绘制标准的车位块");
+                    return;
+                }
 
                 //按照和轨迹相交的情况，选择车位,以距离多段线起始点的距离进行排序，并计算编号次数(交点/2)
-                var parks = ents.Select(b => new { Block = b, Boundary = GetWaiJieRec(b), Points = GetWaiJieRec(b).GetIntersectPoints(poly, new Plane(Point3d.Origin, Vector3d.ZAxis), Intersect.OnBothOperands).Cast<Point3d>().OrderBy(p => poly.GetDistAtPoint(p)).ToList() }).Where(a => a.Points.Count > 0).OrderBy(a => poly.GetDistAtPoint(a.Points.First())).Select(a => new { a.Block, a.Boundary, Count = a.Points.Count / 2 }).ToList();
+                var parks = boundarys.Select(a => new
+                {
+                    a.Block,
+                    a.Boundary,
+                    Points = a.Boundary.GetIntersectPoints(poly, new Plane(Point3d.Origin, Vector3d.ZAxis), Intersect.OnBothOperands).Cast<Point3d>().OrderBy(p => poly.GetDistAtPoint(p)).ToList()
+                }).Where(a => a.Points.Count > 0).OrderBy(a => poly.GetDistAtPoint(a.Points.First())).Select(a => new { a.Block, a.Boundary, Count = a.Points.Count / 2 }).ToList();
+
+
 
                 //实例化车位
                 var cheweis = parks.Select(p => new ParkingLot(p.Block, p.Boundary, p.Count)).ToList();
@@ -394,17 +410,37 @@ namespace TianHua.AutoCAD.Parking
         /// <returns></returns>
         private Polyline GetWaiJieRec(BlockReference block)
         {
-            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
+            BlockReference cloneBlock = null;
+            Polyline poly = null;
+            try
+            {
+                cloneBlock = (BlockReference)block.GetTransformedCopy(block.BlockTransform.Inverse());
+                poly = new PolylineRec(cloneBlock.GeometricExtents.MinPoint.toPoint2d(), cloneBlock.GeometricExtents.MaxPoint.toPoint2d());
 
-            //找到边界点的中心
-            var pt = block.Get3DCenter();
+                poly.TransformBy(block.BlockTransform);
+                return poly;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            finally
+            {
+                cloneBlock.Dispose();
+            }
 
-            //生成边界
-            DBObjectCollection objs = ed.TraceBoundary(pt.TransformBy(ed.WCS2UCS()), false);
-            //找出其中面积最大的封闭多段线，就是我们要的外接矩形
-            return objs.Cast<Polyline>().MaxElement(poly => poly.Area);
+
+            //Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            //Database db = doc.Database;
+            //Editor ed = doc.Editor;
+
+            ////找到边界点的中心
+            //var pt = block.Get3DCenter();
+
+            ////生成边界
+            //DBObjectCollection objs = ed.TraceBoundary(pt.TransformBy(ed.WCS2UCS()), false);
+            ////找出其中面积最大的封闭多段线，就是我们要的外接矩形
+            //return objs.Cast<Polyline>().MaxElement(poly => poly.Area);
         }
 
     }
