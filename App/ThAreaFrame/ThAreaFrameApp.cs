@@ -221,17 +221,17 @@ namespace ThAreaFrame
                         column += driver.UnderGroundStoreyCollection.Count;
 
                         // 地下总面积
-                        table.Cells[dataRow, column++].SetAreaValue(engine.Calculator.AreaOfUnderGround());
+                        table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfUnderGround());
 
                         // 楼栋基底面积
                         table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfFoundation());
 
                         // 架空层面积
-                        table.Cells[dataRow, column++].SetAreaValue(engine.Calculator.AreaOfStilt());
+                        table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfStilt());
 
                         // "总建筑面积（不含架空层）"
-                        table.Cells[dataRow, column++].SetAreaValue(engine.Calculator.AreaOfAboveGround(engine.AreaOfRoof(false)) 
-                            + engine.Calculator.AreaOfUnderGround());
+                        table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfAboveGround(engine.AreaOfRoof(false)) 
+                            + engine.AreaOfUnderGround());
 
                         // 重置开始列
                         column = 0;

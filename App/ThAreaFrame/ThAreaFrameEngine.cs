@@ -182,5 +182,50 @@ namespace ThAreaFrame
             }
             return area;
         }
+
+        // 地下面积
+        public double AreaOfUnderGround()
+        {
+            double area = 0.0;
+            if (Building.Validate())
+            {
+                area += Calculators["住宅构件"].AreaOfUnderGround();
+            }
+            if (AOccupancyBuilding.Validate())
+            {
+                area += Calculators["附属公建"].AreaOfUnderGround();
+            }
+            return area;
+        }
+
+        // 架空
+        public double AreaOfStilt()
+        {
+            double area = 0.0;
+            if (Building.Validate())
+            {
+                area += Calculators["住宅构件"].AreaOfStilt();
+            }
+            if (AOccupancyBuilding.Validate())
+            {
+                area += Calculators["附属公建"].AreaOfStilt();
+            }
+            return area;
+        }
+
+        // 地上建筑面积
+        public double AreaOfAboveGround(double roofArea)
+        {
+            double area = 0.0;
+            if (Building.Validate())
+            {
+                area += Calculators["住宅构件"].AreaOfAboveGround(roofArea);
+            }
+            if (AOccupancyBuilding.Validate())
+            {
+                area += Calculators["附属公建"].AreaOfAboveGround(roofArea);
+            }
+            return area;
+        }
     }
 }
