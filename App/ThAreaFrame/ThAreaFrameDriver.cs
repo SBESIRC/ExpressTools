@@ -27,7 +27,7 @@ namespace ThAreaFrame
                                     SearchOption.TopDirectoryOnly);
                 foreach (string dwg in dwgs)
                 {
-                    driver.engines.Add(ThAreaFrameEngine.ResidentialEngine(dwg));
+                    driver.engines.Add(ThAreaFrameEngine.Engine(dwg));
                 }
                 driver.engines.RemoveAll(e => e == null);
 
@@ -48,6 +48,23 @@ namespace ThAreaFrame
             foreach(ThAreaFrameEngine engine in engines)
             {
                 engine.Dispose();
+            }
+        }
+
+        // 
+        public List<int> OrdinaryStoreyCollection
+        {
+            get
+            {
+                return OrdinaryStoreys().Select(o => o.number).Union(OrdinaryAOccupancyStoreys().Select(o => o.number)).ToList();
+            }
+        }
+
+        public List<int> UnderGroundStoreyCollection
+        {
+            get
+            {
+                return UnderGroundStoreys().Select(o => o.number).Union(UnderGroundAOccupancyStoreys().Select(o => o.number)).ToList();
             }
         }
 
@@ -80,6 +97,39 @@ namespace ThAreaFrame
             foreach (ThAreaFrameEngine engine in engines)
             {
                 storeys = storeys.Union(engine.Building.UnderGroundStoreys()).ToList();
+            }
+            return storeys;
+        }
+
+        // 公建普通楼层
+        public List<AOccupancyStorey> OrdinaryAOccupancyStoreys()
+        {
+            List<AOccupancyStorey> storeys = new List<AOccupancyStorey>();
+            foreach (ThAreaFrameEngine engine in engines)
+            {
+                storeys = storeys.Union(engine.AOccupancyBuilding.OrdinaryStoreys()).ToList();
+            }
+            return storeys;
+        }
+
+        // 公建标准楼层
+        public int StandardAOccupancyStoreyCount()
+        {
+            int count = 0;
+            foreach (ThAreaFrameEngine engine in engines)
+            {
+                count = Math.Max(count, engine.AOccupancyBuilding.StandardStoreys().Count);
+            }
+            return count;
+        }
+
+        // 公建地下楼层
+        public List<AOccupancyStorey> UnderGroundAOccupancyStoreys()
+        {
+            List<AOccupancyStorey> storeys = new List<AOccupancyStorey>();
+            foreach (ThAreaFrameEngine engine in engines)
+            {
+                storeys = storeys.Union(engine.AOccupancyBuilding.UnderGroundStoreys()).ToList();
             }
             return storeys;
         }

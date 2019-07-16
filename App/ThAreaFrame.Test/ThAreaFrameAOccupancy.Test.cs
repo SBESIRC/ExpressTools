@@ -36,5 +36,23 @@ namespace ThAreaFrame.Test
             Assert.AreEqual(miscellaneous.areaType, "附属其他构件");
             Assert.AreEqual(miscellaneous.storeys, "c1");
         }
+
+        [Test]
+        public void CreateBuilding()
+        {
+            string[] aOccupancies =
+            {
+                "附属公建_主体_教育_幼儿园_1_1_0_c1^3_PUB1_v2.1",
+                "附属公建_阳台_教育_幼儿园_1_1_c1^3_PUB1_v2.1",
+                "附属公建_架空_教育_幼儿园_1_1_1_c1_v2.1",
+                "附属公建_飘窗_教育_小学_0.5_0.5_c1^3_v2.1",
+                "附属公建_雨棚_教育_小学_0.5_0.5_c1^3_v2.1",
+                "附属公建_附属其他构件_通风井_室内停车库_小型汽车_1_0_c1_v2.1"
+            };
+
+            AOccupancyBuilding building = AOccupancyBuilding.CreateWithLayers(aOccupancies);
+            Assert.IsNotNull(building.aOccupancies["主体"]);
+            Assert.IsNotNull(building.aOccupancies["附属其他构件"]);
+        }
     }
 }

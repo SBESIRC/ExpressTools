@@ -31,7 +31,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ThAreaFrameAOccupancyCalculator.cs" />
+    <Compile Include="ThAreaFrameCalculator.cs" />
     <Compile Include="ThAreaFrameAOccupancy.cs" />
+    <Compile Include="ThAreaFrameAOccupancyDatabaseExtension.cs" />
     <Compile Include="ThAreaFrameApp.cs" />
     <Compile Include="ThAreaFrameCommon.cs" />
     <Compile Include="ThAreaFrameDbUtils.cs" />
@@ -39,6 +42,7 @@
     <Compile Include="ThAreaFrameEngine.cs" />
     <Compile Include="ThAreaFrameFoundation.cs" />
     <Compile Include="ThAreaFrameResident.cs" />
+    <Compile Include="ThAreaFrameResidentCalculator.cs" />
     <Compile Include="ThAreaFrameRoof.cs" />
     <Compile Include="ThAreaFrameRoofGreenSpace.cs" />
     <Compile Include="ThAreaFrameTableBuilder.cs" />

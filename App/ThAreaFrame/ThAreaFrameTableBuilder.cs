@@ -52,7 +52,7 @@ namespace ThAreaFrame
                 Position = position,
                 TableStyle = Active.Database.Tablestyle
             };
-            table.SetSize(3, 7);
+            table.SetSize(3, 8);
             table.SetRowHeight(5000);
             table.SetTextHeight(3000);
             table.SetColumnWidth(25000);
@@ -68,10 +68,11 @@ namespace ThAreaFrame
                 "楼号",
                 "地上层数",
                 "出屋面楼梯间及屋顶机房",
-                "报建面积",
                 "计容面积",
                 "地下总面积",
-                "楼栋基底面积"
+                "楼栋基底面积",
+                "架空层面积",
+                "总建筑面积（不含架空层）"
             };
             table.Rows[1].Height = 20000;
             table.SetRowTextString(1, headers);
@@ -86,21 +87,25 @@ namespace ThAreaFrame
             table.Cells[2, 2].DataFormat = "%lu2%pr3";
             table.Cells[2, 2].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
 
-            // "报建面积"
+            // "计容面积"
             table.Cells[2, 3].DataFormat = "%lu2%pr3";
             table.Cells[2, 3].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
 
-            // "计容面积"
+            // "地下总面积"
             table.Cells[2, 4].DataFormat = "%lu2%pr3";
             table.Cells[2, 4].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
 
-            // "地下总面积"
+            // "楼栋基底面积"
             table.Cells[2, 5].DataFormat = "%lu2%pr3";
             table.Cells[2, 5].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
 
-            // "楼栋基底面积"
+            // "架空层面积"
             table.Cells[2, 6].DataFormat = "%lu2%pr3";
             table.Cells[2, 6].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
+
+            // "总建筑面积（不含架空层）"
+            table.Cells[2, 7].DataFormat = "%lu2%pr3";
+            table.Cells[2, 7].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
 
             // 创建表单
             return Active.Database.AddToModelSpace(table);

@@ -211,6 +211,11 @@ namespace ThAreaFrame
             return building;
         }
 
+        public bool Validate()
+        {
+            return rooms.Count > 0;
+        }
+
         public List<ResidentialRoom> RoomsOnStorey(int floor)
         {
             var roomsOnFloor = new List<ResidentialRoom>();
