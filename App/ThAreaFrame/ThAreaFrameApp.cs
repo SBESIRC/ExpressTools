@@ -175,18 +175,22 @@ namespace ThAreaFrame
                         column += driver.OrdinaryStoreyCollection.Count;
 
                         // 标准楼层
+                        //  区分两种类型的标准楼层：住宅构件，附属公建
+                        //  顺序：住宅构件在前，附属公建在后
+                        int standardStoreyCount = 0;
                         for (int i = 0; i < engine.Building.StandardStoreys().Count; i++)
                         {
-                            table.Cells[dataRow, column + i].Alignment = CellAlignment.MiddleCenter;
-                            table.Cells[dataRow, column + i].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                            table.Cells[dataRow, column + i].SetAreaValue(engine.Calculators["住宅构件"].AreaOfStandardStoreys(true)[i]);
+                            table.Cells[dataRow, column + standardStoreyCount + i].Alignment = CellAlignment.MiddleCenter;
+                            table.Cells[dataRow, column + standardStoreyCount + i].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                            table.Cells[dataRow, column + standardStoreyCount + i].SetAreaValue(engine.Calculators["住宅构件"].AreaOfStandardStoreys(true)[i]);
 
                         }
+                        standardStoreyCount += engine.Building.StandardStoreys().Count;
                         for (int i = 0; i < engine.AOccupancyBuilding.StandardStoreys().Count; i++)
                         {
-                            table.Cells[dataRow, column + i].Alignment = CellAlignment.MiddleCenter;
-                            table.Cells[dataRow, column + i].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                            table.Cells[dataRow, column + i].SetAreaValue(engine.Calculators["附属公建"].AreaOfStandardStoreys(true)[i]);
+                            table.Cells[dataRow, column + standardStoreyCount + i].Alignment = CellAlignment.MiddleCenter;
+                            table.Cells[dataRow, column + standardStoreyCount + i].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                            table.Cells[dataRow, column + standardStoreyCount + i].SetAreaValue(engine.Calculators["附属公建"].AreaOfStandardStoreys(true)[i]);
                         }
                         column += driver.StandardStoreyCount();
 

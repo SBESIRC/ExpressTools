@@ -85,7 +85,7 @@ namespace ThAreaFrame
             int count = 0;
             foreach (ThAreaFrameEngine engine in engines)
             {
-                count = Math.Max(count, engine.Building.StandardStoreys().Count);
+                count = Math.Max(count, engine.StandardStoreyCount);
             }
             return count;
         }

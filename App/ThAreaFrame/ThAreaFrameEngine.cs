@@ -140,5 +140,15 @@ namespace ThAreaFrame
             }
             return 0.0;
         }
+
+        // 标准楼层个数
+        public int StandardStoreyCount
+        {
+            get
+            {
+                return (Building.StandardStoreys().Count + AOccupancyBuilding.StandardStoreys().Count);
+            }
+        }
+
     }
 }
