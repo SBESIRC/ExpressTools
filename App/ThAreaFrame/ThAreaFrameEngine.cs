@@ -167,5 +167,20 @@ namespace ThAreaFrame
                 return storeyNumber;
             }
         }
+
+        // 计容面积
+        public double AreaOfCapacityBuilding(double roofArea)
+        {
+            double area = 0.0;
+            if (Building.Validate())
+            {
+                area += Calculators["住宅构件"].AreaOfCapacityBuilding(roofArea);
+            }
+            if (AOccupancyBuilding.Validate())
+            {
+                area += Calculators["附属公建"].AreaOfCapacityBuilding(roofArea);
+            }
+            return area;
+        }
     }
 }

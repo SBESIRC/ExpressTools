@@ -201,7 +201,7 @@ namespace ThAreaFrame
                         table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfRoof(true));
 
                         // 计容面积
-                        table.Cells[dataRow, column++].SetAreaValue(engine.Calculator.AreaOfCapacityBuilding(engine.AreaOfRoof(true)));
+                        table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfCapacityBuilding(engine.AreaOfRoof(true)));
 
                         // 地下楼层
                         foreach (ResidentialStorey storey in engine.Building.UnderGroundStoreys())
