@@ -150,5 +150,22 @@ namespace ThAreaFrame
             }
         }
 
+        // 地上层数
+        public int AboveGroundStoreyNumber
+        {
+            get
+            {
+                int storeyNumber = 0;
+                if (Building.Validate())
+                {
+                    storeyNumber += Calculators["住宅构件"].AboveGroundStoreyNumber();
+                }
+                if (AOccupancyBuilding.Validate())
+                {
+                    storeyNumber += Calculators["附属公建"].AboveGroundStoreyNumber();
+                }
+                return storeyNumber;
+            }
+        }
     }
 }

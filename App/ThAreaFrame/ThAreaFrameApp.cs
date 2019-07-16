@@ -195,7 +195,7 @@ namespace ThAreaFrame
                         column += driver.StandardStoreyCount();
 
                         // 地上层数
-                        table.Cells[dataRow, column++].Value = engine.Calculator.AboveGroundStoreyNumber();
+                        table.Cells[dataRow, column++].Value = engine.AboveGroundStoreyNumber;
 
                         // 出屋面楼梯间及屋顶机房
                         table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfRoof(true));
