@@ -56,7 +56,7 @@ namespace ThAreaFrame
         {
             get
             {
-                return OrdinaryStoreys().Select(o => o.number).Union(OrdinaryAOccupancyStoreys().Select(o => o.number)).ToList();
+                return OrdinaryAOccupancyStoreys().Select(o => o.number).Union(OrdinaryStoreys().Select(o => o.number)).ToList();
             }
         }
 
