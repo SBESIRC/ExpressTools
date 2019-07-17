@@ -89,7 +89,7 @@ namespace ThAreaFrame
                     // 地上层数
                     column++;
 
-                    // 出屋面楼梯间及屋顶机房
+                    // 出屋面楼梯间及屋顶机房计容面积
                     column++;
 
                     // 计容面积
@@ -109,13 +109,13 @@ namespace ThAreaFrame
                         }
                     }
 
-                    // 地下总面积
+                    // 地下建筑面积
                     column++;
 
                     // 楼栋基底面积
                     column++;
 
-                    // 架空层面积
+                    // 架空层建筑面积
                     column++;
 
                     // "总建筑面积（不含架空层）"
@@ -197,7 +197,7 @@ namespace ThAreaFrame
                         // 地上层数
                         table.Cells[dataRow, column++].Value = engine.AboveGroundStoreyNumber;
 
-                        // 出屋面楼梯间及屋顶机房
+                        // 出屋面楼梯间及屋顶机房计容面积
                         table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfRoof(true));
 
                         // 计容面积
@@ -220,13 +220,13 @@ namespace ThAreaFrame
                         }
                         column += driver.UnderGroundStoreyCollection.Count;
 
-                        // 地下总面积
+                        // 地下建筑面积
                         table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfUnderGround());
 
                         // 楼栋基底面积
                         table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfFoundation());
 
-                        // 架空层面积
+                        // 架空层建筑面积
                         table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfStilt());
 
                         // "总建筑面积（不含架空层）"

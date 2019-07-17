@@ -67,11 +67,11 @@ namespace ThAreaFrame
             {
                 "楼号",
                 "地上层数",
-                "出屋面楼梯间及屋顶机房",
-                "计容面积",
-                "地下总面积",
+                "出屋面楼梯间及屋顶机房计容面积计容面积",
+                "楼栋计容面积",
+                "地下建筑面积",
                 "楼栋基底面积",
-                "架空层面积",
+                "架空层建筑面积",
                 "总建筑面积（不含架空层）"
             };
             table.Rows[1].Height = 20000;
@@ -83,7 +83,7 @@ namespace ThAreaFrame
             // "地上层数"
             table.Cells[2, 1].DataType = new DataTypeParameter(DataType.Long,   UnitType.Unitless);
 
-            // "出屋面楼梯间及屋顶机房"
+            // "出屋面楼梯间及屋顶机房计容面积"
             table.Cells[2, 2].DataFormat = "%lu2%pr3";
             table.Cells[2, 2].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
 

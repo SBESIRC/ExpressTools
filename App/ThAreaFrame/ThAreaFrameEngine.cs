@@ -130,7 +130,7 @@ namespace ThAreaFrame
             return (foundation.useInArea == @"是") ? ThAreaFrameDbUtils.SumOfArea(Database, foundation.layer) : 0.0;
         }
 
-        // 出屋面楼梯间及屋顶机房
+        // 出屋面楼梯间及屋顶机房计容面积
         public double AreaOfRoof(bool far/*Floor Area Ratio*/ = false)
         {
             if (roof != null)
