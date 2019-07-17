@@ -16,9 +16,9 @@ namespace ThAreaFrame
         private const string AreaDataFormat = "%lu2%pr3";
         private const double AreaUnitScale = (1.0 / 1000000.0);
 
-        public static void SetAreaValue(this Cell c, double area)
+        public static void SetAreaValue(this Cell c, double area, double unitScale = AreaUnitScale)
         {
-            c.Value = area * AreaUnitScale;
+            c.Value = area * unitScale;
             c.DataFormat = AreaDataFormat;
             c.DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
         }
@@ -43,6 +43,17 @@ namespace ThAreaFrame
         public static string StandardStoreyColumnHeader(int index)
         { 
             return "标准层" + (char)(65 + index);
+        }
+
+        public static int ColumnIndex(Table table, string header)
+        {
+            const int HEADER_ROW = 1;
+            for (int i = 0; i < table.Columns.Count; i++)
+            {
+                if (table.Cells[HEADER_ROW, i].TextString == header)
+                    return i;
+            }
+            return -1;
         }
 
         public static ObjectId CreateBuildingAreaTable(Point3d position)
@@ -91,7 +102,7 @@ namespace ThAreaFrame
             table.Cells[2, 3].DataFormat = "%lu2%pr3";
             table.Cells[2, 3].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
 
-            // "地下总面积"
+            // "地下建筑面积"
             table.Cells[2, 4].DataFormat = "%lu2%pr3";
             table.Cells[2, 4].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
 
@@ -99,7 +110,7 @@ namespace ThAreaFrame
             table.Cells[2, 5].DataFormat = "%lu2%pr3";
             table.Cells[2, 5].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
 
-            // "架空层面积"
+            // "架空层建筑面积"
             table.Cells[2, 6].DataFormat = "%lu2%pr3";
             table.Cells[2, 6].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
 

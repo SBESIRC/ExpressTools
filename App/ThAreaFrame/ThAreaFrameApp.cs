@@ -129,10 +129,7 @@ namespace ThAreaFrame
                 Table table = (Table)tr.Transaction.GetObject(id, OpenMode.ForRead);
                 using (new WriteEnabler(table))
                 {
-                    if (driver.engines.Count > 1)
-                    {
-                        table.InsertRowsAndInherit(table.Rows.Count, table.Rows.Count - 1, driver.engines.Count - 1);
-                    }
+                    table.InsertRowsAndInherit(table.Rows.Count, table.Rows.Count - 1, driver.engines.Count);
                 }
             }
 
@@ -244,6 +241,38 @@ namespace ThAreaFrame
                         // 让CAD在长时间任务处理时任然能接收消息
                         Application.DoEvents();
                     }
+
+                    // 统计总计
+                    dataRow = table.Rows.Count - 1;
+
+                    // 建筑编号
+                    table.Cells[dataRow, 0].Value = "总计";
+
+                    // "楼栋计容面积"
+                    string[] headers =
+                    {
+                        "楼栋计容面积",
+                        "地下建筑面积",
+                        "楼栋基底面积",
+                        "架空层建筑面积",
+                        "总建筑面积（不含架空层）"
+                    };
+                    foreach(string header in headers)
+                    {
+                        column = ThAreaFrameTableBuilder.ColumnIndex(table, header);
+                        if (column > 0)
+                        {
+                            double area = 0.0;
+                            for (int i = 2; i < dataRow; i++)
+                            {
+                                area += (double)table.Cells[i, column].Value;
+                            }
+                            table.Cells[dataRow, column].Alignment = CellAlignment.MiddleCenter;
+                            table.Cells[dataRow, column].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                            table.Cells[dataRow, column].SetAreaValue(area, 1.0);
+                        }
+                    }
+
                     pm.Stop();  // 停止进度条更新
                 }
             }
