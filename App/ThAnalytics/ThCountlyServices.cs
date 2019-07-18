@@ -25,9 +25,9 @@ namespace ThAnalytics
             //create the Countly init object
             CountlyConfig cc = new CountlyConfig()
             {
-                serverUrl = "http://159.65.140.241",
-                appKey = "0622be43c254fb306a277941b8e2f2842f807b43",
-                appVersion = "1.0.0"
+                serverUrl   = "http://49.234.60.227",
+                appKey      = "8a8a305d8fd6eef7a1f8b25843778ebd9f9417db",
+                appVersion  = "1.0.0"
             };
 
             //initiate the SDK with your preferences
