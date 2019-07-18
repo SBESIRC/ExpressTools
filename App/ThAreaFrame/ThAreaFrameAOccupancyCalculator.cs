@@ -103,5 +103,10 @@ namespace ThAreaFrame
             var aOccupancies = Building.aOccupancies.Where(o => o.areaType == "架空");
             return Database.AreaOfEntities(aOccupancies);
         }
+
+        public IEnumerable<int> OrdinaryStoreyCollection()
+        {
+            return Building.OrdinaryStoreys().Select(o => o.number);
+        }
     }
 }

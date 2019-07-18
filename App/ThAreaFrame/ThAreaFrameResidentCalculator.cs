@@ -163,5 +163,10 @@ namespace ThAreaFrame
         {
             return 0.0;
         }
+
+        public IEnumerable<int> OrdinaryStoreyCollection()
+        {
+            return building.OrdinaryStoreys().Select(o => o.number);
+        }
     }
 }

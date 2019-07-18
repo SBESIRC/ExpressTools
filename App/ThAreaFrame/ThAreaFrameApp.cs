@@ -155,19 +155,12 @@ namespace ThAreaFrame
                         table.Cells[dataRow, column++].Value = engine.Name;
 
                         // 普通楼层面积
-                        foreach (ResidentialStorey storey in engine.Building.OrdinaryStoreys())
+                        foreach(int storey in engine.OrdinaryStoreyCollection)
                         {
-                            int index = driver.OrdinaryStoreyCollection.FindIndex(x => x == storey.number);
+                            int index = driver.OrdinaryStoreyCollection.FindIndex(x => x == storey);
                             table.Cells[dataRow, column + index].Alignment = CellAlignment.MiddleCenter;
                             table.Cells[dataRow, column + index].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                            table.Cells[dataRow, column + index].SetAreaValue(engine.Calculators["住宅构件"].AreaOfFloor(storey.number, true)); 
-                        }
-                        foreach(AOccupancyStorey storey in engine.AOccupancyBuilding.OrdinaryStoreys())
-                        {
-                            int index = driver.OrdinaryStoreyCollection.FindIndex(x => x == storey.number);
-                            table.Cells[dataRow, column + index].Alignment = CellAlignment.MiddleCenter;
-                            table.Cells[dataRow, column + index].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                            table.Cells[dataRow, column + index].SetAreaValue(engine.Calculators["附属公建"].AreaOfFloor(storey.number, true));
+                            table.Cells[dataRow, column + index].SetAreaValue(engine.AreaOfFloor(storey, true));
                         }
                         column += driver.OrdinaryStoreyCollection.Count;
 

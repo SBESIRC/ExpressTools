@@ -101,29 +101,6 @@ namespace ThAreaFrame
             }
         }
 
-        // 面积计算器
-        public IThAreaFrameCalculator Calculator
-        {
-            get
-            { 
-                if (Building.Validate() && AOccupancyBuilding.Validate())
-                {
-                    //TODO：公建和住宅在同一图纸中
-                    return null;
-                }
-                else if (Building.Validate())
-                {
-                    return this.Calculators["住宅构件"];
-                }
-                else if (AOccupancyBuilding.Validate())
-                {
-                    return this.Calculators["附属公建"];
-                }
-
-                return null;
-            }
-        }
-
         // 楼栋基底面积
         public double AreaOfFoundation()
         {
@@ -224,6 +201,53 @@ namespace ThAreaFrame
             if (AOccupancyBuilding.Validate())
             {
                 area += Calculators["附属公建"].AreaOfAboveGround(roofArea);
+            }
+            return area;
+        }
+
+        public List<int> OrdinaryStoreyCollection
+        {
+            get
+            {
+                IEnumerable<int> resident = null;
+                IEnumerable<int> aOccupancy = null;
+                if (Building.Validate())
+                {
+                    resident = Calculators["住宅构件"].OrdinaryStoreyCollection();
+                }
+                if (AOccupancyBuilding.Validate())
+                {
+                    aOccupancy = Calculators["附属公建"].OrdinaryStoreyCollection();
+                }
+                if ((resident != null) && (aOccupancy != null))
+                {
+                    return aOccupancy.Union(resident).ToList();
+                }
+                else if (resident != null)
+                {
+                    return resident.ToList();
+                }
+                else if (aOccupancy != null)
+                {
+                    return aOccupancy.ToList();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public double AreaOfFloor(int floor, bool far = false)
+        {
+            double area = 0.0;
+            if (Building.Validate())
+            {
+                area += Calculators["住宅构件"].AreaOfFloor(floor, far);
+            }
+            if (AOccupancyBuilding.Validate())
+            {
+                area += Calculators["附属公建"].AreaOfFloor(floor, far);
             }
             return area;
         }

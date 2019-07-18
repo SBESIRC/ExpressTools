@@ -30,5 +30,8 @@ namespace ThAreaFrame
 
         // 地下层数
         int UnderGroundStoreyNumber();
+
+        // 普通楼层
+        IEnumerable<int> OrdinaryStoreyCollection();
     }
 }
