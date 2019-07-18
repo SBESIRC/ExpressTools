@@ -51,8 +51,8 @@ namespace ThAreaFrame.Test
             };
 
             AOccupancyBuilding building = AOccupancyBuilding.CreateWithLayers(aOccupancies);
-            Assert.IsNotNull(building.aOccupancies["主体"]);
-            Assert.IsNotNull(building.aOccupancies["附属其他构件"]);
+            Assert.IsNotNull(building.aOccupancies.Find(o => o.areaType == "主体"));
+            Assert.IsNotNull(building.aOccupancies.Find(o => o.areaType == "附属其他构件"));
         }
     }
 }
