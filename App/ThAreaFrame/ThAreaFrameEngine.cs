@@ -238,6 +238,40 @@ namespace ThAreaFrame
             }
         }
 
+        public List<int> UnderGroundStoreyCollection
+        {
+            get
+            {
+                IEnumerable<int> resident = null;
+                IEnumerable<int> aOccupancy = null;
+                if (Building.Validate())
+                {
+                    resident = Calculators["住宅构件"].UnderGroundStoreyCollection();
+                }
+                if (AOccupancyBuilding.Validate())
+                {
+                    aOccupancy = Calculators["附属公建"].UnderGroundStoreyCollection();
+                }
+                if ((resident != null) && (aOccupancy != null))
+                {
+                    return aOccupancy.Union(resident).ToList();
+                }
+                else if (resident != null)
+                {
+                    return resident.ToList();
+                }
+                else if (aOccupancy != null)
+                {
+                    return aOccupancy.ToList();
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+        }
+
         public double AreaOfFloor(int floor, bool far = false)
         {
             double area = 0.0;

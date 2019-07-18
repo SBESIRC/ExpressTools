@@ -194,19 +194,12 @@ namespace ThAreaFrame
                         table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfCapacityBuilding(engine.AreaOfRoof(true)));
 
                         // 地下楼层
-                        foreach (ResidentialStorey storey in engine.Building.UnderGroundStoreys())
+                        foreach(int storey in engine.UnderGroundStoreyCollection)
                         {
-                            int index = driver.UnderGroundStoreyCollection.FindIndex(x => x == storey.number);
+                            int index = driver.UnderGroundStoreyCollection.FindIndex(x => x == storey);
                             table.Cells[dataRow, column + index].Alignment = CellAlignment.MiddleCenter;
                             table.Cells[dataRow, column + index].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                            table.Cells[dataRow, column + index].SetAreaValue(engine.Calculators["住宅构件"].AreaOfFloor(storey.number));
-                        }
-                        foreach(AOccupancyStorey storey in engine.AOccupancyBuilding.UnderGroundStoreys())
-                        {
-                            int index = driver.UnderGroundStoreyCollection.FindIndex(x => x == storey.number);
-                            table.Cells[dataRow, column + index].Alignment = CellAlignment.MiddleCenter;
-                            table.Cells[dataRow, column + index].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                            table.Cells[dataRow, column + index].SetAreaValue(engine.Calculators["附属公建"].AreaOfFloor(storey.number));
+                            table.Cells[dataRow, column + index].SetAreaValue(engine.AreaOfFloor(storey));
                         }
                         column += driver.UnderGroundStoreyCollection.Count;
 

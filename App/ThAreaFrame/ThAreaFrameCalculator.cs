@@ -33,5 +33,8 @@ namespace ThAreaFrame
 
         // 普通楼层
         IEnumerable<int> OrdinaryStoreyCollection();
+
+        // 地下楼层
+        IEnumerable<int> UnderGroundStoreyCollection();
     }
 }

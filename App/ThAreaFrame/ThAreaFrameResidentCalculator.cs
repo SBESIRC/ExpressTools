@@ -168,5 +168,10 @@ namespace ThAreaFrame
         {
             return building.OrdinaryStoreys().Select(o => o.number);
         }
+
+        public IEnumerable<int> UnderGroundStoreyCollection()
+        {
+            return building.UnderGroundStoreys().Select(o => o.number);
+        }
     }
 }
