@@ -321,6 +321,16 @@ namespace ThAreaFrame
                     table.Cells[9, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
                     table.Cells[9, 3].SetAreaValue(driver.AreaOfStilt());
 
+                    // "地下室主楼建筑面积"
+                    table.Cells[11, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[11, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[11, 3].SetAreaValue(driver.AreaOfUnderGround());
+
+                    // "地下室其他建筑面积"
+                    table.Cells[12, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[12, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[12, 3].SetAreaValue(0);
+
                     // "地上停车位（个）"
                     table.Cells[16, 3].Alignment = CellAlignment.MiddleCenter;
                     table.Cells[16, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;

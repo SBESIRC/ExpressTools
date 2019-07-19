@@ -166,5 +166,16 @@ namespace ThAreaFrame
             }
             return area;
         }
+
+        // "地下室主楼建筑面积"
+        public double AreaOfUnderGround()
+        {
+            double area = 0.0;
+            foreach (ThAreaFrameEngine engine in engines)
+            {
+                area += engine.AreaOfUnderGround();
+            }
+            return area;
+        }
     }
 }

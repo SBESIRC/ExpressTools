@@ -220,7 +220,7 @@ namespace ThAreaFrame
             table.Cells[dataRow, 0].Value = "地下建筑面积";
             table.Cells[dataRow, 3].DataFormat = "%lu2%pr3";
             table.Cells[dataRow, 3].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
-            table.Cells[dataRow, 3].TextString = "=D11+D12";    //公式：（地下建筑面积 = 地下室主楼建筑面积 + 地下室其他建筑面积）
+            table.Cells[dataRow, 3].TextString = "=D12+D13";    //公式：（地下建筑面积 = 地下室主楼建筑面积 + 地下室其他建筑面积）
             dataRow++;
 
             // "其中"
