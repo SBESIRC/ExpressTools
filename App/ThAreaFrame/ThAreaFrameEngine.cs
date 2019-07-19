@@ -14,11 +14,13 @@ namespace ThAreaFrame
         private ResidentialBuilding building;
         private ThAreaFrameFoundation foundation;
         private AOccupancyBuilding aOccupancyBuilding;
+        private ThAreaFrameRoofGreenSpace roofGreenSpace;
         private Dictionary<string, IThAreaFrameCalculator> calculators;
         public ResidentialBuilding Building { get => building; set => building = value; }
         public ThAreaFrameFoundation Foundation { get => foundation; set => foundation = value; }
         public Database Database { get => database; set => database = value; }
         public ThAreaFrameRoof Roof { get => roof; set => roof = value; }
+        public ThAreaFrameRoofGreenSpace RoofGreenSpace { get => roofGreenSpace; set => roofGreenSpace = value; }
         public AOccupancyBuilding AOccupancyBuilding { get => aOccupancyBuilding; set => aOccupancyBuilding = value; }
         public Dictionary<string, IThAreaFrameCalculator> Calculators { get => calculators; set => calculators = value; }
 
@@ -49,6 +51,7 @@ namespace ThAreaFrame
             var foundationNames = names.Where(n => n.StartsWith(@"单体基底"));
             var residentialNames = names.Where(n => n.StartsWith(@"住宅构件"));
             var aOccupancyNames = names.Where(n => n.StartsWith(@"附属公建"));
+            var roofGreenSpaceNames = names.Where(n => n.StartsWith(@"屋顶构件_屋顶绿地"));
             if (!residentialNames.Any() && !aOccupancyNames.Any())
             {
                 return null;
@@ -57,11 +60,13 @@ namespace ThAreaFrame
             var foundation = ThAreaFrameFoundation.Foundation(foundationNames.FirstOrDefault());
             var aOccupancyBuilding = AOccupancyBuilding.CreateWithLayers(aOccupancyNames.ToArray());
             var roof = roofNames.Any() ? ThAreaFrameRoof.Roof(roofNames.FirstOrDefault()) : null;
+            var roofGreenSpace = roofGreenSpaceNames.Any() ? ThAreaFrameRoofGreenSpace.RoofOfGreenSpace(roofGreenSpaceNames.FirstOrDefault()) : null;
             ThAreaFrameEngine engine = new ThAreaFrameEngine()
             {
                 roof = roof,
                 building = building,
                 foundation = foundation,
+                roofGreenSpace = roofGreenSpace,
                 database = acadDatabase.Database,
                 aOccupancyBuilding = aOccupancyBuilding,
                 calculators = new Dictionary<string, IThAreaFrameCalculator>()
@@ -114,6 +119,16 @@ namespace ThAreaFrame
             {
                 double ratio = far ? double.Parse(roof.floorAreaRatio) : double.Parse(roof.areaRatio);
                 return ThAreaFrameDbUtils.SumOfArea(Database, roof.layer) * ratio;
+            }
+            return 0.0;
+        }
+
+        // 屋顶绿化
+        public double AreaOfRoofGreenSpace()
+        {
+            if (roofGreenSpace != null)
+            {
+                return ThAreaFrameDbUtils.SumOfArea(Database, roofGreenSpace.layer) * double.Parse(roofGreenSpace.coefficient);
             }
             return 0.0;
         }

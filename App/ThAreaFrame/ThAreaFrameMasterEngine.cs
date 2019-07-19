@@ -64,6 +64,16 @@ namespace ThAreaFrame
             return area;
         }
 
+        public double AreaOfGreenSpace()
+        {
+            double area = 0.0;
+            foreach (string name in names.Where(n => n.StartsWith(@"用地_公共绿地")))
+            {
+                area += ThAreaFrameDbUtils.SumOfArea(database, name);
+            }
+            return area;
+        }
+
         public int CountOfAboveGroundParkingLot()
         {
             int count = 0;

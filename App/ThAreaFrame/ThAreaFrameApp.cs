@@ -356,6 +356,12 @@ namespace ThAreaFrame
                     table.Cells[20, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
                     table.Cells[20, 3].Value = 0;
 
+                    // "绿地率"
+                    table.Cells[22, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[22, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    double greenSpace = engine.AreaOfGreenSpace() + driver.AreaOfRoofGreenSpace();
+                    table.Cells[22, 3].TextString = string.Format("={0}/D3", (1.0 / 1000000.0) * greenSpace);
+
                     // "居住户数"
                     table.Cells[23, 3].Alignment = CellAlignment.MiddleCenter;
                     table.Cells[23, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;

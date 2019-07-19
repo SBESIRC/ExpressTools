@@ -188,5 +188,16 @@ namespace ThAreaFrame
             }
             return area;
         }
+
+        // 屋顶绿化
+        public double AreaOfRoofGreenSpace()
+        {
+            double area = 0.0;
+            foreach (ThAreaFrameEngine engine in engines)
+            {
+                area += engine.AreaOfRoofGreenSpace();
+            }
+            return area;
+        }
     }
 }
