@@ -177,5 +177,16 @@ namespace ThAreaFrame
             }
             return area;
         }
+
+        // "建筑基底面积"
+        public double AreaOfFoundation()
+        {
+            double area = 0.0;
+            foreach (ThAreaFrameEngine engine in engines)
+            {
+                area += engine.AreaOfFoundation();
+            }
+            return area;
+        }
     }
 }

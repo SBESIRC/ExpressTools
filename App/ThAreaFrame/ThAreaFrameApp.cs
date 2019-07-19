@@ -331,21 +331,30 @@ namespace ThAreaFrame
                     table.Cells[12, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
                     table.Cells[12, 3].SetAreaValue(0);
 
+                    // "建筑基底面积"
+                    table.Cells[14, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[14, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[14, 3].SetAreaValue(driver.AreaOfFoundation());
+
                     // "地上停车位（个）"
                     table.Cells[16, 3].Alignment = CellAlignment.MiddleCenter;
                     table.Cells[16, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
                     table.Cells[16, 3].Value = engine.CountOfAboveGroundParkingLot();
+
+                    // "地下停车位（个）"
+                    table.Cells[17, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[17, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[17, 3].Value = 0;
 
                     // "地上非机动停车位（个）"
                     table.Cells[19, 3].Alignment = CellAlignment.MiddleCenter;
                     table.Cells[19, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
                     table.Cells[19, 3].Value = 0;
 
-
                     // "地下非机动停车位（个）"
-                    table.Cells[19, 3].Alignment = CellAlignment.MiddleCenter;
-                    table.Cells[19, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                    table.Cells[19, 3].Value = 0;
+                    table.Cells[20, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[20, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[20, 3].Value = 0;
 
                     // "居住户数"
                     table.Cells[23, 3].Alignment = CellAlignment.MiddleCenter;
