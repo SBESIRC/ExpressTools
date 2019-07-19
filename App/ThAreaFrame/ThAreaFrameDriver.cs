@@ -155,5 +155,16 @@ namespace ThAreaFrame
             }
             return area;
         }
+
+        // "架空部分建筑面积（非计容）"
+        public double AreaOfStilt()
+        {
+            double area = 0.0;
+            foreach (ThAreaFrameEngine engine in engines)
+            {
+                area += engine.AreaOfStilt();
+            }
+            return area;
+        }
     }
 }

@@ -316,6 +316,11 @@ namespace ThAreaFrame
                     table.Cells[8, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
                     table.Cells[8, 3].SetAreaValue(0);
 
+                    // "架空部分建筑面积（非计容）"
+                    table.Cells[9, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[9, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[9, 3].SetAreaValue(driver.AreaOfStilt());
+
                     // "地上停车位（个）"
                     table.Cells[16, 3].Alignment = CellAlignment.MiddleCenter;
                     table.Cells[16, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
