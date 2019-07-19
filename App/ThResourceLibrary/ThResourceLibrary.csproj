@@ -31,7 +31,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\ThCommand.cs" />
-    <Compile Include="Model\ThEventCommand.cs" />
     <Compile Include="Model\ThNotifyObject.cs" />
     <Compile Include="ThVerticalTextBlock.cs" />
     <Page Include="MainWindow.xaml">
@@ -86,7 +85,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -97,9 +95,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\select.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
