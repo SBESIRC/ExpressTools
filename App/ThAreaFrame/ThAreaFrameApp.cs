@@ -275,7 +275,15 @@ namespace ThAreaFrame
             if (pr.Status != PromptStatus.OK)
                 return;
 
-            // 创建面积引擎
+            // 创建单体面积引擎
+            ThAreaFrameDriver driver = ThAreaFrameDriver.ResidentialDriver();
+            if (driver.engines.Count == 0)
+            {
+                ed.WriteMessage("\n未找到指定目录，请将单体图纸放置在名为\"建筑单体\"的子目录下。");
+                return;
+            }
+
+            // 创建总和面积引擎
             ThAreaFrameMasterEngine engine = ThAreaFrameMasterEngine.Engine();
 
             // 创建表单
@@ -292,6 +300,16 @@ namespace ThAreaFrame
                     table.Cells[2, 3].Alignment = CellAlignment.MiddleCenter;
                     table.Cells[2, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
                     table.Cells[2, 3].SetAreaValue(engine.AreaOfPlanning());
+
+                    // "住宅建筑面积"
+                    table.Cells[6, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[6, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[6, 3].SetAreaValue(driver.ResidentAreaOfAboveGround());
+
+                    // "商业建筑面积"
+                    table.Cells[7, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[7, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[7, 3].SetAreaValue(driver.AOccupancyAreaOfAboveGround());
 
                     // "其他建筑面积"
                     table.Cells[8, 3].Alignment = CellAlignment.MiddleCenter;

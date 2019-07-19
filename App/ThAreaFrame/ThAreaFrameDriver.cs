@@ -133,5 +133,27 @@ namespace ThAreaFrame
             }
             return storeys;
         }
+
+        // 地上计容建筑面积（住宅）
+        public double ResidentAreaOfAboveGround()
+        {
+            double area = 0.0;
+            foreach (ThAreaFrameEngine engine in engines)
+            {
+                area += engine.ResidentAreaOfAboveGround(engine.AreaOfRoof(false));
+            }
+            return area;
+        }
+
+        // 地上计容建筑面积（商业）
+        public double AOccupancyAreaOfAboveGround()
+        {
+            double area = 0.0;
+            foreach (ThAreaFrameEngine engine in engines)
+            {
+                area += engine.AOccupancyAreaOfAboveGround(engine.AreaOfRoof(false));
+            }
+            return area;
+        }
     }
 }

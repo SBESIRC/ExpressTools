@@ -163,11 +163,24 @@ namespace ThAreaFrame
         // 地下面积
         public double AreaOfUnderGround()
         {
+            return ResidentAreaOfUnderGround() + AOccupancyAreaOfUnderGround();
+        }
+
+        // 地下住宅建筑面积
+        public double ResidentAreaOfUnderGround()
+        {
             double area = 0.0;
             if (Building.Validate())
             {
                 area += Calculators["住宅构件"].AreaOfUnderGround();
             }
+            return area;
+        }
+
+        // 地下公建建筑面积
+        public double AOccupancyAreaOfUnderGround()
+        {
+            double area = 0.0;
             if (AOccupancyBuilding.Validate())
             {
                 area += Calculators["附属公建"].AreaOfUnderGround();
@@ -193,11 +206,24 @@ namespace ThAreaFrame
         // 地上建筑面积
         public double AreaOfAboveGround(double roofArea)
         {
+            return ResidentAreaOfAboveGround(roofArea) + AOccupancyAreaOfAboveGround(roofArea);
+        }
+
+        // 地上住宅建筑面积
+        public double ResidentAreaOfAboveGround(double roofArea)
+        {
             double area = 0.0;
             if (Building.Validate())
             {
                 area += Calculators["住宅构件"].AreaOfAboveGround(roofArea);
             }
+            return area;
+        }
+
+        // 地上公建建筑面积
+        public double AOccupancyAreaOfAboveGround(double roofArea)
+        {
+            double area = 0.0;
             if (AOccupancyBuilding.Validate())
             {
                 area += Calculators["附属公建"].AreaOfAboveGround(roofArea);
