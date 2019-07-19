@@ -263,5 +263,68 @@ namespace ThAreaFrame
                 }
             }
         }
+
+
+        [CommandMethod("TIANHUACAD", "THBAC2", CommandFlags.Modal)]
+        public void AreaCommand2()
+        {
+            var ed = Active.Editor;
+
+            // 选取插入点
+            PromptPointResult pr = ed.GetPoint("\n请输入表格插入点: ");
+            if (pr.Status != PromptStatus.OK)
+                return;
+
+            // 创建面积引擎
+            ThAreaFrameMasterEngine engine = ThAreaFrameMasterEngine.Engine();
+
+            // 创建表单
+            Point3d position = pr.Value.TransformBy(ed.CurrentUserCoordinateSystem);
+            ObjectId id = ThAreaFrameTableBuilder.CreateMainIndexesTable(position);
+
+            // 填充数据
+            using (AcTransaction tr = new AcTransaction())
+            {
+                Table table = (Table)tr.Transaction.GetObject(id, OpenMode.ForRead);
+                using (new WriteEnabler(table))
+                {
+                    // "规划净用地面积"
+                    table.Cells[2, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[2, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[2, 3].SetAreaValue(engine.AreaOfPlanning());
+
+                    // "其他建筑面积"
+                    table.Cells[8, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[8, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[8, 3].SetAreaValue(0);
+
+                    // "地上停车位（个）"
+                    table.Cells[16, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[16, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[16, 3].Value = engine.CountOfAboveGroundParkingLot();
+
+                    // "地上非机动停车位（个）"
+                    table.Cells[19, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[19, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[19, 3].Value = 0;
+
+
+                    // "地下非机动停车位（个）"
+                    table.Cells[19, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[19, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[19, 3].Value = 0;
+
+                    // "居住户数"
+                    table.Cells[23, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[23, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[23, 3].Value = 0;
+
+                    // "居住人数"
+                    table.Cells[24, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[24, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[24, 3].Value = 0;
+                }
+            }
+        }
     }
 }

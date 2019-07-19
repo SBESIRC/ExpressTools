@@ -41,6 +41,7 @@
     <Compile Include="ThAreaFrameDriver.cs" />
     <Compile Include="ThAreaFrameEngine.cs" />
     <Compile Include="ThAreaFrameFoundation.cs" />
+    <Compile Include="ThAreaFrameMasterEngine.cs" />
     <Compile Include="ThAreaFrameResident.cs" />
     <Compile Include="ThAreaFrameResidentCalculator.cs" />
     <Compile Include="ThAreaFrameRoof.cs" />
