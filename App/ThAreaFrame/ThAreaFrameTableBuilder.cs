@@ -246,7 +246,7 @@ namespace ThAreaFrame
             table.Cells[dataRow, 0].Value = "容积率";
             table.Cells[dataRow, 3].DataFormat = "%lu2%pr3";
             table.Cells[dataRow, 3].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
-            table.Cells[dataRow, 3].TextString = "=D6/D13";     //公式：（容积率 = 地上计容建筑面积/地下室其他建筑面积）
+            table.Cells[dataRow, 3].TextString = "=D6/D3";     //公式：（容积率 = 地上计容建筑面积/规划净用地面积）
             dataRow++;
 
             // "建筑基底面积"
