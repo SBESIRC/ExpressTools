@@ -11,10 +11,12 @@ namespace ThAreaFrame
     class ThAreaFrameDriver : IDisposable
     {
         public List<ThAreaFrameEngine> engines;
+        public List<ThAreaFrameParkingGarageEngine> parkingGarageEngines;
 
         public ThAreaFrameDriver()
         {
             engines = new List<ThAreaFrameEngine>();
+            parkingGarageEngines = new List<ThAreaFrameParkingGarageEngine>();
         }
 
         public static ThAreaFrameDriver ResidentialDriver()
@@ -28,8 +30,10 @@ namespace ThAreaFrame
                 foreach (string dwg in dwgs)
                 {
                     driver.engines.Add(ThAreaFrameEngine.Engine(dwg));
+                    driver.parkingGarageEngines.Add(ThAreaFrameParkingGarageEngine.Engine(dwg));
                 }
                 driver.engines.RemoveAll(e => e == null);
+                driver.parkingGarageEngines.RemoveAll(e => e == null);
 
                 // 按建造编号排序
                 driver.engines.Sort();
@@ -198,6 +202,28 @@ namespace ThAreaFrame
                 area += engine.AreaOfRoofGreenSpace();
             }
             return area;
+        }
+
+        // 室内停车场面积
+        public double AreaOfParkingGarage()
+        {
+            double area = 0.0;
+            foreach (ThAreaFrameParkingGarageEngine engine in parkingGarageEngines)
+            {
+                area += engine.AreaOfParkingGarage();
+            }
+            return area;
+        }
+
+        // 地下停车位个数
+        public int CountOfUnderGroundParkingSlot()
+        {
+            int count = 0;
+            foreach (ThAreaFrameParkingGarageEngine engine in parkingGarageEngines)
+            {
+                count += engine.CountOfUnderGroundParkingSlot();
+            }
+            return count;
         }
     }
 }

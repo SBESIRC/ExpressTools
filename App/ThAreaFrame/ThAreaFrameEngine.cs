@@ -52,7 +52,7 @@ namespace ThAreaFrame
             var residentialNames = names.Where(n => n.StartsWith(@"住宅构件"));
             var aOccupancyNames = names.Where(n => n.StartsWith(@"附属公建"));
             var roofGreenSpaceNames = names.Where(n => n.StartsWith(@"屋顶构件_屋顶绿地"));
-            if (!residentialNames.Any() && !aOccupancyNames.Any())
+            if (!foundationNames.Any())
             {
                 return null;
             }
