@@ -11,8 +11,6 @@ using System.Linq;
 using System.Text;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
-[assembly: ExtensionApplication(typeof(TianHua.AutoCAD.Parking.ThParkingApp))]
-
 namespace TianHua.AutoCAD.Parking
 {
     public class ThParkingApp : IExtensionApplication
