@@ -45,6 +45,7 @@
   </Choose>
   <ItemGroup>
     <PackageReference Include="NetSparkle.New" Version="0.16.6" />
+    <PackageReference Include="NetSparkle.New.Tools" Version="0.16.6" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
