@@ -356,11 +356,16 @@ namespace ThAreaFrame
                     table.Cells[20, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
                     table.Cells[20, 3].Value = 0;
 
+                    // "建筑密度"
+                    table.Cells[21, 3].Alignment = CellAlignment.MiddleCenter;
+                    table.Cells[21, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
+                    table.Cells[21, 3].SetPercentageValue((double)table.Cells[14, 3].Value / (double)table.Cells[2, 3].Value);
+
                     // "绿地率"
                     table.Cells[22, 3].Alignment = CellAlignment.MiddleCenter;
                     table.Cells[22, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
                     double greenSpace = engine.AreaOfGreenSpace() + driver.AreaOfRoofGreenSpace();
-                    table.Cells[22, 3].TextString = string.Format("={0}/D3", (1.0 / 1000000.0) * greenSpace);
+                    table.Cells[22, 3].SetPercentageValue(greenSpace/ engine.AreaOfPlanning());
 
                     // "居住户数"
                     table.Cells[23, 3].Alignment = CellAlignment.MiddleCenter;

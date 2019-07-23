@@ -14,6 +14,7 @@ namespace ThAreaFrame
     public static class ThAreaFrameTable
     {
         private const string AreaDataFormat = "%lu2%pr3";
+        private const string PercentageDataFormat = "%lu2%pr2%ps[,%]%ct8[100]";
         private const double AreaUnitScale = (1.0 / 1000000.0);
 
         public static void SetAreaValue(this Cell c, double area, double unitScale = AreaUnitScale)
@@ -22,8 +23,13 @@ namespace ThAreaFrame
             c.DataFormat = AreaDataFormat;
             c.DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
         }
-    }
 
+        public static void SetPercentageValue(this Cell c, double value)
+        {
+            c.Value = value;
+            c.DataFormat = PercentageDataFormat;
+        }
+    }
 
     public class ThAreaFrameTableBuilder
     {
@@ -305,16 +311,13 @@ namespace ThAreaFrame
             // "建筑密度"
             table.MergeCells(CellRange.Create(table, dataRow, 0, dataRow, 2));
             table.Cells[dataRow, 0].Value = "建筑密度";
-            table.Cells[dataRow, 3].DataFormat = "%lu2%pr3";
-            table.Cells[dataRow, 3].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
-            table.Cells[dataRow, 3].TextString = "=D15/D3"; //公式：（建筑密度 = 建筑基底面积/规划净用地面积）
+            table.Cells[dataRow, 3].DataType = new DataTypeParameter(DataType.Double, UnitType.Percentage);
             dataRow++;
 
             // "绿地率"
             table.MergeCells(CellRange.Create(table, dataRow, 0, dataRow, 2));
             table.Cells[dataRow, 0].Value = "绿地率";
-            table.Cells[dataRow, 3].DataFormat = "%lu2%pr3";
-            table.Cells[dataRow, 3].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
+            table.Cells[dataRow, 3].DataType = new DataTypeParameter(DataType.Double, UnitType.Percentage);
             dataRow++;
 
             // "居住户数"
