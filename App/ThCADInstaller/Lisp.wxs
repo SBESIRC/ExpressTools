@@ -37,6 +37,9 @@
             <Component Id="CMP_Autoloader_PackageContents_Lisp_Flatten" Guid="{A159EF46-1708-4E52-A928-C0DE0152861B}" Win64="yes">
                 <File Id="FILE_Autoloader_PackageContents_Lisp_Flatten" Source="$(var.AutoloaderContentsPath)\FLATTEN.lsp" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_BatchPlot" Guid="{CFED635D-5E01-4EBE-B16E-FEF260E06C3A}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Lisp_BatchPlot" Source="$(var.AutoloaderContentsPath)\BatchPlot.lsp" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -52,6 +55,7 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_General_Annotation" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Steal" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Flatten" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BatchPlot" />
         </ComponentGroup>
     </Fragment>
 </Wix>

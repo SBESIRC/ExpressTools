@@ -25,6 +25,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry AppName="GeneralAuxiliaryLisp"              ModuleName="./Contents/General-Auxiliary.lsp"   PerDocument="True" />
         <ComponentEntry AppName="StealUtilLisp"                     ModuleName="./Contents/Steal.lsp"               PerDocument="True" />
         <ComponentEntry AppName="FlattenLisp"                       ModuleName="./Contents/FLATTEN.lsp"             PerDocument="True" />
+        <ComponentEntry AppName="BatchPlotLisp"                     ModuleName="./Contents/BatchPlot.lsp"           PerDocument="True" />
     </Components>
     <Components Description="Partial CUIX parts">
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R19.1" />
