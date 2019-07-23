@@ -370,12 +370,12 @@ namespace ThAreaFrame
                     // "居住户数"
                     table.Cells[23, 3].Alignment = CellAlignment.MiddleCenter;
                     table.Cells[23, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                    table.Cells[23, 3].Value = 0;
+                    table.Cells[23, 3].Value = engine.CountOfHousehold();
 
                     // "居住人数"
                     table.Cells[24, 3].Alignment = CellAlignment.MiddleCenter;
                     table.Cells[24, 3].TextHeight = ThAreaFrameTableBuilder.TextHeight;
-                    table.Cells[24, 3].Value = 0;
+                    table.Cells[24, 3].Value = engine.CountOfHouseholdPopulation();
                 }
             }
         }

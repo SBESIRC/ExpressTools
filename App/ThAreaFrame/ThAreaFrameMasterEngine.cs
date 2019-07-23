@@ -83,5 +83,20 @@ namespace ThAreaFrame
             }
             return count;
         }
+
+        public int CountOfHousehold()
+        {
+            foreach (string name in names.Where(n => n.StartsWith(@"用地_规划净用地")))
+            {
+                string[] tokens = name.Split('_');
+                return int.Parse(tokens[2]);
+            }
+            return 0;
+        }
+
+        public int CountOfHouseholdPopulation()
+        {
+            return (int)(CountOfHousehold() * 3.2);
+        }
     }
 }
