@@ -27,6 +27,8 @@ Task Compile.Assembly.R18 -Depends Requires.MSBuild {
             & $msbuildExe ".\ThElectricalSysDiagram\ThElectricalSysDiagram.csproj" /p:Configuration=Release /t:rebuild
             & $msbuildExe ".\ThAnalytics\ThAnalytics.csproj" /p:Configuration=Release /t:restore
             & $msbuildExe ".\ThAnalytics\ThAnalytics.csproj" /p:Configuration=Release /t:rebuild
+            & $msbuildExe ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration=Release /t:restore
+            & $msbuildExe ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration=Release /t:rebuild
     }
 }
 
@@ -43,6 +45,8 @@ Task Compile.Assembly.R19 -Depends Requires.MSBuild {
         & $msbuildExe ".\ThElectricalSysDiagram\ThElectricalSysDiagram.csproj" /p:Configuration=Release-NET40 /t:rebuild
         & $msbuildExe ".\ThAnalytics\ThAnalytics.csproj" /p:Configuration=Release-NET40 /t:restore
         & $msbuildExe ".\ThAnalytics\ThAnalytics.csproj" /p:Configuration=Release-NET40 /t:rebuild
+        & $msbuildExe ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration=Release-NET40 /t:restore
+        & $msbuildExe ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration=Release-NET40 /t:rebuild
     }
 }
 

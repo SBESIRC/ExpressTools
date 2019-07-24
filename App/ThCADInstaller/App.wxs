@@ -27,6 +27,15 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Debug" Guid="{6C99CCFE-15AD-46EA-965D-DD29AD67DDC7}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Debug" KeyPath="yes" Source="$(var.ThResourceLibrary.ProjectDir)\$(var.OutputPath_R18_Debug)\$(var.ThResourceLibrary.TargetFileName)" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAutoUpdate_Debug" Guid="{FC090C72-6EC6-4BFA-80F4-0B93C9339114}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAutoUpdate_Debug" KeyPath="yes" Source="$(var.ThAutoUpdate.ProjectDir)\$(var.OutputPath_R18_Debug)\$(var.ThAutoUpdate.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NetSparkle_Debug" Guid="{E4699E1A-6828-449C-B131-07BBC1D95C4F}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_NetSparkle_Debug" KeyPath="yes" Source="$(var.ThAutoUpdate.ProjectDir)\$(var.OutputPath_R18_Debug)\NetSparkle.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DSK_Public_Key_Debug" Guid="{7BBD84D5-EAAB-47F0-AFA2-5BAAC3DDBA52}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_DSK_Public_Key_Debug" KeyPath="yes" Source="$(var.ThAutoUpdate.ProjectDir)\$(var.OutputPath_R18_Debug)\NetSparkle_DSA.pub" />
+          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Debug" Guid="{2EB319E5-70D4-4333-84C6-CD3D27E2C90E}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Debug" KeyPath="yes" Source="$(var.ThElectricalSysDiagram.ProjectDir)\$(var.OutputPath_R18_Debug)\$(var.ThElectricalSysDiagram.TargetFileName)" />
           </Component>
@@ -53,6 +62,15 @@
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Debug" Guid="{F44A9E8E-8299-4FF2-830B-6EE593BAEB70}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Debug" KeyPath="yes" Source="$(var.ThAreaFrame.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.ThAreaFrame.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAutoUpdate_Debug" Guid="{8BC780AE-A77C-4690-AD29-B175E8831BD5}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAutoUpdate_Debug" KeyPath="yes" Source="$(var.ThAutoUpdate.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.ThAutoUpdate.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NetSparkle_Debug" Guid="{010DFA38-A574-4139-B053-E088415A751E}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_NetSparkle_Debug" KeyPath="yes" Source="$(var.ThAutoUpdate.ProjectDir)\$(var.OutputPath_R19_Debug)\NetSparkle.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DSK_Public_Key_Debug" Guid="{19C2EB1A-EF65-4514-A458-62BCE40B8441}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_DSK_Public_Key_Debug" KeyPath="yes" Source="$(var.ThAutoUpdate.ProjectDir)\$(var.OutputPath_R19_Debug)\NetSparkle_DSA.pub" />
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Debug" Guid="{6EFD99AC-DCD5-49AB-9438-CBB635B28888}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Debug" KeyPath="yes" Source="$(var.ThResourceLibrary.ProjectDir)\$(var.OutputPath_R19_Debug)\$(var.ThResourceLibrary.TargetFileName)" />
@@ -85,6 +103,15 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrame_Release" Guid="{EA8EEF57-C025-4DAD-8DBC-DE7A5E345B5C}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAreaFrame_Release" KeyPath="yes" Source="$(var.ThAreaFrame.ProjectDir)\$(var.OutputPath_R18_Release)\$(var.ThAreaFrame.TargetFileName)" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAutoUpdate_Release" Guid="{FA1CC171-5EA0-4697-AF59-A41887AF27FE}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAutoUpdate_Release" KeyPath="yes" Source="$(var.ThAutoUpdate.ProjectDir)\$(var.OutputPath_R18_Release)\$(var.ThAutoUpdate.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NetSparkle_Release" Guid="{A649E92A-B2F9-4C8F-999F-4DD1583CDCDD}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_NetSparkle_Release" KeyPath="yes" Source="$(var.ThAutoUpdate.ProjectDir)\$(var.OutputPath_R18_Release)\NetSparkle.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DSK_Public_Key_Release" Guid="{6DE51A58-A05E-40FB-A795-C04424B45A3E}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_DSK_Public_Key_Release" KeyPath="yes" Source="$(var.ThAutoUpdate.ProjectDir)\$(var.OutputPath_R18_Release)\NetSparkle_DSA.pub" />
+          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Release" Guid="{9469877B-0C72-44C7-A07D-85502B89D796}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Release" KeyPath="yes" Source="$(var.ThResourceLibrary.ProjectDir)\$(var.OutputPath_R18_Release)\$(var.ThResourceLibrary.TargetFileName)" />
           </Component>
@@ -115,6 +142,15 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Release" Guid="{3938F274-538B-49BB-8B36-44155AF99F45}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Release" KeyPath="yes" Source="$(var.ThAreaFrame.ProjectDir)\$(var.OutputPath_R19_Release)\$(var.ThAreaFrame.TargetFileName)" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAutoUpdate_Release" Guid="{F596548A-2DEF-44F9-9F2A-8B85EAA1F8BF}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAutoUpdate_Release" KeyPath="yes" Source="$(var.ThAutoUpdate.ProjectDir)\$(var.OutputPath_R19_Release)\$(var.ThAutoUpdate.TargetFileName)" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NetSparkle_Release" Guid="{CF6EFB0D-3821-4D51-BAD7-5AC26943D251}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_NetSparkle_Release" KeyPath="yes" Source="$(var.ThAutoUpdate.ProjectDir)\$(var.OutputPath_R19_Release)\NetSparkle.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DSK_Public_Key_Release" Guid="{6CC55295-36A8-460C-8BD5-A8A0702CC357}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_DSK_Public_Key_Release" KeyPath="yes" Source="$(var.ThAutoUpdate.ProjectDir)\$(var.OutputPath_R19_Release)\NetSparkle_DSA.pub" />
+          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Release" Guid="{F14C38F5-EA8E-4F89-BFFB-987F3FCBDA96}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Release" KeyPath="yes" Source="$(var.ThResourceLibrary.ProjectDir)\$(var.OutputPath_R19_Release)\$(var.ThResourceLibrary.TargetFileName)" />
           </Component>
@@ -137,6 +173,9 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_XamlBehaviorsWpf_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrame_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAutoUpdate_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NetSparkle_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DSK_Public_Key_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Debug" />
@@ -146,6 +185,9 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_XamlBehaviorsWpf_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAutoUpdate_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NetSparkle_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DSK_Public_Key_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Debug" />
@@ -156,6 +198,9 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_XamlBehaviorsWpf_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrame_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAutoUpdate_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NetSparkle_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DSK_Public_Key_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" />
@@ -165,6 +210,9 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_XamlBehaviorsWpf_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAutoUpdate_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NetSparkle_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DSK_Public_Key_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" />
