@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
     <channel>
-        <title>ThAutoUpdate</title>
-        <link>"http://118.89.179.187/appcast.xml"</link>
+        <title>NetSparkle Test App</title>
+        <link>https://deadpikle.github.io/NetSparkle/files/sample-app/appcast.xml</link>
         <description>Most recent changes with links to updates.</description>
         <language>en</language>
         <item>
-            <title>Version 1.0.1</title>
-            <pubDate>Thu, 16 Jun 2019 10:30:00 +0000</pubDate>
-            <enclosure url="http://118.89.179.187/autoupdate.exe"
-                       sparkle:version="1.0.2"
-                       length="0"
+            <title>Version 2.0 (2 bugs fixed; 3 new features)</title>
+            <sparkle:releaseNotesLink>
+            https://deadpikle.github.io/NetSparkle/files/sample-app/2.0-release-notes.md
+            </sparkle:releaseNotesLink>
+            <pubDate>Thu, 27 Oct 2016 10:30:00 +0000</pubDate>
+            <enclosure url="https://deadpikle.github.io/NetSparkle/files/sample-app/NetSparkleUpdate.exe"
+                       sparkle:version="2.0"
+                       length="12288"
                        type="application/octet-stream"
-					   sparkle:dsaSignature="
-MIH3AgEAAkEA08wtBHSUzHt0h42o5voEBzP8BhJYJYHx/JuGzUTiQJJFRjxI+Qru
-KoUwjEEtMUz/XRMmuQcWdD8qvfnqGxOsAwIVAL5nXeAX3D3gn0bKai8azB2OHGAd
-AkAGze0FcM1cE2E14Ovz+BisiASwCEk8MZEGypHOLCJYyEVmvRomftZyaBXaG6rt
-VWsAgBE5xIMC5Hge0c/FmwBBAkA9+dxLIe3MoSiDIk8zmzY1oPM5Zml49MqI79ND
-TKA2VVniG2n20YJb7ldi4SMEm1FlI2ysseSzGrm07Ua/ioNuAhQ73Nvo0oHUILMi
-Yo1rw8GzHKbDuw=="
-					   />
+                       sparkle:dsaSignature="NSG/eKz9BaTJrRDvKSwYEaOumYpPMtMYRq+vjsNlHqRGku/Ual3EoQ==" />
         </item>
     </channel>
 </rss>
