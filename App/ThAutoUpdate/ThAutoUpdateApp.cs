@@ -28,7 +28,7 @@ namespace ThAutoUpdate
         public void AutoUpdate()
         {
             string assembly = Path.GetFileName(Assembly.GetExecutingAssembly().Location);
-            Sparkle sparkle = new Sparkle(AppcastUrl, null, NetSparkle.Enums.SecurityMode.Strict, null, assembly);
+            Sparkle sparkle = new Sparkle(AppcastUrl, ThAutoUpdate.Resource.AppIcon, NetSparkle.Enums.SecurityMode.Strict, null, assembly);
             sparkle.CloseApplication += () =>
             {
                 AcadApp.DocumentManager.MdiActiveDocument.SendStringToExecute("quit ", true, false, true);
