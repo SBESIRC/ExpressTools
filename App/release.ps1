@@ -1,7 +1,16 @@
-﻿param($script:appcast, $script:releasenote, $script:releasemsi)
+﻿param($script:dsapriv, $script:appcast, $script:releasenote, $script:releasemsi)
 
-$commond_parameter_missing = "please ckeck your commond and use commond like:<.\shellname> <*appcast.xml> <*.html> <*.msi>"
-
+$commond_parameter_missing = "please ckeck your commond and use commond like:<.\shellname> <*NetSparkle_DSA.priv> <*appcast.xml> <*.html> <*.msi>"
+if ($dsapriv -eq $null)
+{
+    Write-Host $commond_parameter_missing
+    return
+}
+elseif (-not ($dsapriv -like "*NetSparkle_DSA.priv"))
+{
+    Write-Host "Dsa priv file name wrong"
+    return
+}
 if ($appcast -eq $null)
 {
     Write-Host $commond_parameter_missing
@@ -9,7 +18,7 @@ if ($appcast -eq $null)
 }
 elseif (-not ($appcast -like "*appcast.xml"))
 {
-    Write-Host $commond_parameter_missing
+    Write-Host "Appcast.xml priv file name wrong"
     return
 }
 if ($releasenote -eq $null)
@@ -19,7 +28,7 @@ if ($releasenote -eq $null)
 }
 elseif (-not ($releasenote -like "*.html"))
 {
-    Write-Host $commond_parameter_missing
+    Write-Host "Html file name wrong"
     return
 }
 if ($releasemsi -eq $null)
@@ -29,7 +38,7 @@ if ($releasemsi -eq $null)
 }
 elseif (-not ($releasemsi -like "*.msi"))
 {
-    Write-Host $commond_parameter_missing
+    Write-Host "Msi file name wrong"
     return
 }
 
@@ -42,7 +51,7 @@ if ($DSAHelperExe -eq $null)
     return
 }
 
-$script:msisign = & $DSAHelperExe /sign_update ThCAD.v1.1.msi .\ThAutoUpdate\NetSparkle_DSA.priv
+$script:msisign = & $DSAHelperExe /sign_update $releasemsi $dsapriv
 Write-Host "Sign ($releasemsi) completely"
 
 $script:sparklesige_old = "sparkle:dsaSignature="+'"'+".*"+'"'
@@ -53,7 +62,7 @@ $script:sparklesige_new = "sparkle:dsaSignature="+'"'+"$msisign"+'"'
 Write-Host "Change appcast sparkle:dsaSignature completely"
 
 #sign appcast
-& $DSAHelperExe /sign_update $appcast .\ThAutoUpdate\NetSparkle_DSA.priv|out-file $dsafile -encoding utf8
+& $DSAHelperExe /sign_update $appcast $dsapriv|out-file $dsafile -encoding utf8
 Write-Host "Sign ($appcast) completely"
 
 #publish to server
