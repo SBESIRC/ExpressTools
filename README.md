@@ -84,3 +84,7 @@ We use AutoLoader for deployment, for detail information, check these links:
 
 [Github Bootcamp](https://help.github.com/en#dotcom)
 
+# Training
+
+[AutoCAD .NET Training](https://github.com/ADN-DevTech/AutoCADDotnetTrainingMaterial)
+
