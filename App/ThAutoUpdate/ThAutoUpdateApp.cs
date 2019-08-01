@@ -5,17 +5,47 @@ using Microsoft.Win32;
 using Microsoft.VisualBasic.Devices;
 using Autodesk.AutoCAD.Runtime;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using System;
 
 namespace ThAutoUpdate
 {
     public class ThAutoUpdateApp : IExtensionApplication
     {
+        public Sparkle sparkle;
+        private const string AppcastUrl = "http://49.234.60.227/AI/thcad/appcast.xml";
+
         public void Initialize()
         {
+            //init sparkle
+            string assembly = Path.GetFileName(Assembly.GetExecutingAssembly().Location);
+            sparkle = new Sparkle(AppcastUrl, ThAutoUpdate.Resource.AppIcon, NetSparkle.Enums.SecurityMode.Strict, null, assembly);
+            //set sparkle loop time
+#if false
+            //release 1d
+            var timeSpan = TimeSpan.FromDays(1);
+#else
+            //test 10s
+            var timeSpan = TimeSpan.FromSeconds(10);
+#endif
+            sparkle.StartLoop(true, timeSpan);
+            //set sparkle not allow skip
+            sparkle.HideSkipButton = true;
+            //set msi save location
+            //sparkle.TmpDownloadFilePath = "D:\\download";
+            //set close event
+            sparkle.CloseApplication += () =>
+            {
+#if ACAD2012
+                AcadApp.Quit();
+#else
+                AcadApp.DocumentManager.MdiActiveDocument.SendStringToExecute("quit ", true, false, true);
+#endif
+            };
         }
 
         public void Terminate()
         {
+            sparkle.StopLoop();
         }
     }
 
@@ -29,6 +59,8 @@ namespace ThAutoUpdate
         {
             string assembly = Path.GetFileName(Assembly.GetExecutingAssembly().Location);
             Sparkle sparkle = new Sparkle(AppcastUrl, ThAutoUpdate.Resource.AppIcon, NetSparkle.Enums.SecurityMode.Strict, null, assembly);
+            //set sparkle not allow skip
+            sparkle.HideSkipButton = true;
             sparkle.CloseApplication += () =>
             {
 #if ACAD2012
