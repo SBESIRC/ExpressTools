@@ -22,7 +22,6 @@ namespace ThAutoUpdate
 
     public class ThAutoUpdateCommand
     {
-        private const string AppcastUrl = "http://118.89.179.187/appcast.xml";
         private const string AppcastUrl = "http://49.234.60.227/AI/thcad/appcast.xml";
 
         [CommandMethod("TIANHUACAD", "THAUU", CommandFlags.Modal)]
@@ -32,7 +31,11 @@ namespace ThAutoUpdate
             Sparkle sparkle = new Sparkle(AppcastUrl, ThAutoUpdate.Resource.AppIcon, NetSparkle.Enums.SecurityMode.Strict, null, assembly);
             sparkle.CloseApplication += () =>
             {
+#if ACAD2012
+                AcadApp.Quit();
+#else
                 AcadApp.DocumentManager.MdiActiveDocument.SendStringToExecute("quit ", true, false, true);
+#endif
             };
 
             sparkle.CheckForUpdatesAtUserRequest();
