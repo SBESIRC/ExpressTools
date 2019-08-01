@@ -1,6 +1,6 @@
 ﻿param($script:dsapriv, $script:appcast, $script:releasenote, $script:releasemsi)
 
-$commond_parameter_missing = "please ckeck your commond and use commond like:<.\shellname> <*NetSparkle_DSA.priv> <*appcast.xml> <*.html> <*.msi>"
+$commond_parameter_missing = "please ckeck your commond and use commond like:<.\shellname> <*NetSparkle_DSA.priv> <*appcast.xml> <*.html/*.md> <*.msi>"
 if ($dsapriv -eq $null)
 {
     Write-Host $commond_parameter_missing
@@ -26,9 +26,9 @@ if ($releasenote -eq $null)
     Write-Host $commond_parameter_missing
     return
 }
-elseif (-not ($releasenote -like "*.html"))
+elseif (-not (($releasenote -like "*.html") -or ($releasenote -like "*.md")))
 {
-    Write-Host "Html file name wrong"
+    Write-Host "Html/Markdown file name wrong"
     return
 }
 if ($releasemsi -eq $null)
