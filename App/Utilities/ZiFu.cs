@@ -17,5 +17,16 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         {
             return text.Substring(0, text.IndexOf(a));
         }
+
+        /// <summary>
+        /// 提取某个字符后的所有字符
+        /// </summary>s
+        /// <param name="text">文字内容</param>
+        /// <param name="a">字符</param>
+        /// <returns></returns>
+        public static string Left(this string text, string a)
+        {
+            return text.Substring(text.IndexOf(a) + a.Length);
+        }
     }
 }

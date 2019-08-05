@@ -133,7 +133,22 @@ namespace TianHua.AutoCAD.ThCui
 
                 menuModify = thMenu.AddSubMenu(-1, "计算工具", "ID_THMenu_JiSuanGongJu");
                 kps = new List<ThCommandInfo> {
-                    new ThCommandInfo("单体面积汇总", "THBAC", "汇总单体每层各区域建筑面积和计容面积",true)
+
+                      new ThCommandInfo("天华单体规整", "THBPS", "将建筑单体各层平面图中代表各区域的多段线图元设置到相应的图层，以供生成单体面积汇总表所用",true),
+                      new ThCommandInfo("天华总平规整", "THCSP", "将总平面图中代表各区域的多段线图元设置到相应的图层，以供生成综合经济技术指标表所用",true),
+                      new ThCommandInfo("单体面积汇总", "THBAC", "汇总单体每层各区域建筑面积和计容面积",true),
+                      new ThCommandInfo("综合经济技术指标表", "THTET", "汇总总平面及各单体各区域建筑面积和计容面积，形成综合经济技术指标表",true)
+                };
+                kps.ForEach(kp =>
+                {
+                    menuModify.AddMenuItem(-1, kp.Name, id + kp.Command);
+                    cs.AddMacro(kp.Name, marco + kp.Command + " ", id + kp.Command, kp.HelpString, imageFolderPath + kp.Command + kp.Suffix);
+                });
+
+                menuModify = thMenu.AddSubMenu(-1, "系统详图", "ID_THMenu_XiTongXiangTu");
+                kps = new List<ThCommandInfo> {
+
+                      new ThCommandInfo("配电箱系统图修改", "THLDC", "识别图纸系统图中各配电箱的回路、开关型号等相关信息。修改回路功率值，回路和配电箱其他参数自动更新",true)
                 };
                 kps.ForEach(kp =>
                 {
@@ -147,6 +162,7 @@ namespace TianHua.AutoCAD.ThCui
                     new ThCommandInfo("批量缩放", "THMSC", "对多个选择对象以各自的开始点（插入点）为基准点进行批量比例缩放",false),
                     new ThCommandInfo("Z值归零", "THZ0", "将模型空间内所有对象Z值归零，使之处于同一平面",true),
                     new ThCommandInfo("DGN清理", "DGNPURGE", "清理图纸中多余DGN对象，含多余的DGN线型、注释比例等",true),
+                    new ThCommandInfo("批量打印PDF", "THBPT", "选择需要批量打印的天华图框，将图纸批量打印为PDF文件，读取图框中的图纸编号重命名相应PDF文件",true)
                 };
                 kps.ForEach(kp =>
                 {

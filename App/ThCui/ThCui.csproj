@@ -10,6 +10,8 @@
     <AssemblyName>ThCui</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
@@ -143,6 +145,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\DGNPURGE.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\THBPS.ico" />
+    <Resource Include="Images\THCSP.ico" />
+    <Resource Include="Images\THTET.ico" />
+    <Resource Include="Images\THLDC.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\THBPT.ico" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">

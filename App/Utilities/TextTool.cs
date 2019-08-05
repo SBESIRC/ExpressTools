@@ -19,7 +19,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         }
 
 
-        private static string GetRealCADTextstring(this string content)
+        public static string GetRealCADTextstring(this string content)
         {
             //将多行文本按“\\”进行分割
             string[] strs = content.Split(new string[] { @"\\" }, StringSplitOptions.None);

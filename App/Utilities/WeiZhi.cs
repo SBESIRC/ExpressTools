@@ -46,5 +46,11 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
 
             return pts;
         }
+
+        public static bool IsBottomGongXian(this Point3d pt1, Point3d pt2, double tol)
+        {
+            return Math.Abs(pt1.Y - pt2.Y) <= tol;
+
+        }
     }
 }

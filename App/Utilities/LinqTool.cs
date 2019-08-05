@@ -54,6 +54,34 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             return result;
         }
 
+        //自定义找某个属性为最小的那个元素
+        public static TElement MinElement<TElement, TData>(
+          this IEnumerable<TElement> source,
+          Func<TElement, TData> selector)
+          where TData : IComparable<TData>
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (selector == null)
+                throw new ArgumentNullException("selector");
+
+            Boolean firstElement = true;
+            TElement result = default(TElement);
+            TData maxValue = default(TData);
+            foreach (TElement element in source)
+            {
+                var candidate = selector(element);
+                if (firstElement || (candidate.CompareTo(maxValue) < 0))
+                {
+                    firstElement = false;
+                    maxValue = candidate;
+                    result = element;
+                }
+            }
+            return result;
+        }
+
+
 
         /// <summary>
         /// 按照一定的规律按顺序拿取归为一组
@@ -83,6 +111,12 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
                     //找303后的第一个的值，拿出这些数量的值
                     var result = new List<TElement>();
                     var number = func(source);
+                    //如果取的值不正常，则全部都取
+                    if (number<0)
+                    {
+                        number = source.Count();
+                    }
+
                     result.AddRange(source.Take(number));
                     results.Add(result);
 
@@ -97,5 +131,39 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
 
             return results;
         }
+
+        /// <summary>
+        /// 判断指定元素在序列中第几次出现的索引位置
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ids"></param>
+        /// <param name="sourceElement"></param>
+        /// <returns></returns>
+        public static int TakeNumber<T>(this IEnumerable<T> ids, T sourceElement, int times)
+        {
+            if (ids == null)
+                throw new ArgumentNullException("ids");
+            if (sourceElement == null)
+                throw new ArgumentNullException("sourceElement");
+
+            var realTimes = 0;//定义指定元素出现的次数
+            var n = 0;//记录索引值
+            foreach (var item in ids)
+            {
+                if (ids.ElementAt(n).Equals(sourceElement))
+                {
+                    realTimes++;
+                    if (realTimes==times)
+                    {
+                        return n;
+                    }
+                }
+                n++;
+            }
+
+            //如果遍历完成后，没有找到，则返回-1表示查找失败
+            return -1;
+        }
+
     }
 }

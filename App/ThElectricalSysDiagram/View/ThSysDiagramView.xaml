@@ -30,6 +30,18 @@
             </Style.Triggers>
         </Style>
 
+        <!--<Style TargetType="DataGridCell">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <TextBlock TextAlignment="Center" VerticalAlignment="Center">
+                            <ContentPresenter />
+                        </TextBlock>
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+        </Style>-->
         <!--引用自定义换行控件作为数据模板-->
         <!--
         <DataTemplate x:Key= 
@@ -52,7 +64,7 @@
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
             <!--<Button Content="所有规则转换" Style="{DynamicResource {x:Static thRes:CustomResources.ThConfirmButtonStyle}}" Margin="3,3,12,3" Command="{Binding ConvertAllCommand}"/>-->
             <Button Content="全部规则转换" Style="{DynamicResource {x:Static thRes:CustomResources.ThConfirmButtonStyle}}" Margin="3,3,12,3" Command="{Binding ConvertAllCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
-            
+
             <Button Content="{Binding ElementName=tctrRule, Path=SelectedItem.Header}" Style="{DynamicResource {x:Static thRes:CustomResources.ThConfirmButtonStyle}}" Margin="3,3,12,3" Command="{Binding ConvertCurrentCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Name="btnConvert"/>
             <Button Content="取消" Style="{DynamicResource {x:Static thRes:CustomResources.ThConfirmButtonStyle}}" IsCancel="True" Margin="3,3,6,3"/>
         </StackPanel>
@@ -77,7 +89,11 @@
                                     <DataGridTemplateColumn Header="序号" Width="auto">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type DataGridRow}}, Path=Header}" MinHeight="32" HorizontalAlignment="Left" VerticalAlignment="Center" ></TextBlock>
+                                                <Grid VerticalAlignment="Center" Height="32">
+                                                    <Grid.RowDefinitions></Grid.RowDefinitions>
+                                                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type DataGridRow}}, Path=Header}" HorizontalAlignment="Left"></TextBlock>
+                                                </Grid>
+
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>

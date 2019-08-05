@@ -20,5 +20,23 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
                 item.Highlight();
             }
         }
+
+        public static void Highlight(this IEnumerable<ObjectId> ids, OpenCloseTransaction tr)
+        {
+            foreach (var id in ids)
+            {
+                (tr.GetObject(id, OpenMode.ForRead) as Entity).Highlight();
+            }
+        }
+
+        public static void Highlight(this ObjectId id, OpenCloseTransaction tr)
+        {
+            (tr.GetObject(id, OpenMode.ForRead) as Entity).Highlight();
+        }
+
+        public static void UnHighlight(this ObjectId id, OpenCloseTransaction tr)
+        {
+            (tr.GetObject(id, OpenMode.ForRead) as Entity).Unhighlight();
+        }
     }
 }
