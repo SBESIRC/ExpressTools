@@ -1,5 +1,6 @@
 ﻿param($script:dsapriv, $script:appcast, $script:releasenote, $script:releasemsi)
 
+$script:msilength = (Get-Item $releasemsi).length
 $commond_parameter_missing = "please ckeck your commond and use commond like:<.\shellname> <*NetSparkle_DSA.priv> <*appcast.xml> <*.html/*.md> <*.msi>"
 if ($dsapriv -eq $null)
 {
@@ -57,8 +58,12 @@ Write-Host "Sign ($releasemsi) completely"
 $script:sparklesige_old = "sparkle:dsaSignature="+'"'+".*"+'"'
 $script:sparklesige_new = "sparkle:dsaSignature="+'"'+"$msisign"+'"'
 
+$script:length_old = "length="+'"'+".*"+'"'
+$script:length_new = "length="+'"'+"$msilength"+'"'
+
 #change dsasignicure in appcast.xml
 (type $appcast) -replace ($sparklesige_old, $sparklesige_new)|out-file $appcast -encoding utf8
+(type $appcast) -replace ($length_old, $length_new)|out-file $appcast -encoding utf8
 Write-Host "Change appcast sparkle:dsaSignature completely"
 
 #sign appcast
