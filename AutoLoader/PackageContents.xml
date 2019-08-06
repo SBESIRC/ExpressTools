@@ -115,7 +115,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry ModuleName="./Contents/Win64/2012/ThAreaFrame.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for frame area." AppName="ThAreaFrame" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THBAC" Local="THBAC" />
-                <Command Global="THTEI" Local="THTEI" />
+                <Command Global="THTET" Local="THTET" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -125,7 +125,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry ModuleName="./Contents/Win64/2014/ThAreaFrame.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for frame area." AppName="ThAreaFrame" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THBAC" Local="THBAC" />
-                <Command Global="THTEI" Local="THTEI" />
+                <Command Global="THTET" Local="THTET" />
             </Commands>
         </ComponentEntry>
     </Components>

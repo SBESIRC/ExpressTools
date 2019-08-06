@@ -265,7 +265,7 @@ namespace ThAreaFrame
         }
 
 
-        [CommandMethod("TIANHUACAD", "THTEI", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THTET", CommandFlags.Modal)]
         public void AreaCommand2()
         {
             var ed = Active.Editor;
