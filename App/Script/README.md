@@ -20,11 +20,11 @@ release.ps1 It have no limit of location
 .\build.ps1 release 1.0.1  
 .\build.ps1 release  
   
-## release  
+## pubilsh  
 **usage**  
-.\release dsaprivatefile appcast.xml releasenote msi  
+.\pubilsh dsaprivatefile appcast.xml releasenote msi  
 **example**  
-.\release.ps1 NetSparkle_DSA.priv appcast.xml release-note.md *.msi  
+.\pubilsh.ps1 NetSparkle_DSA.priv appcast.xml release-note.md *.msi  
 (Pulling file in powershell as parameters is permited)  
   
 ## other script(do the percise active)  
