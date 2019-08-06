@@ -94,15 +94,15 @@ namespace ThElectrical.ViewModel
 
                                 draw.Cabinets.ForEach(cabinet =>
                                 {
-                                //找到配电箱的所有回路
-                                cabinet.Records = this.Task.GetCabinetCircuit(draw, cabinet).ToObservableCollection();
+                                    //找到配电箱的所有回路
+                                    cabinet.Records = this.Task.GetCabinetCircuit(draw, cabinet).ToObservableCollection();
                                 });
 
                                 this.DistributionDraws.Add(draw);
                             }
                             catch (Exception ex)
                             {
-                                Winform.MessageBox.Show(ex.Source+"\n"+ex.Message+"\n"+ex.StackTrace);
+                                Winform.MessageBox.Show(ex.Source + "\n" + ex.Message + "\n" + ex.StackTrace);
                             }
 
                         });
@@ -236,9 +236,13 @@ namespace ThElectrical.ViewModel
                 if (_zoomCircuitCommand == null)
                     _zoomCircuitCommand = new ThGenericCommand<MouseButtonEventArgs>(new Action<MouseButtonEventArgs>(e =>
                     {
-                        var circuitMinPoint = new Point3d(this.SelectedCabinet.TableMinPoint.X + 12500, this.SelectedCabinet.TableMinPoint.Y, this.SelectedCabinet.TableMinPoint.Z);
+                        //下角点由回路的位置决定
+                        var circuitMinPoint = new Point3d(this.SelectedRecord.CircuitElement.Center.X - 12500, this.SelectedRecord.CircuitElement.Center.Y - 1400, 0);
 
-                        COMTool.ZoomWindow(circuitMinPoint, this.SelectedCabinet.TableMaxPoint);
+                        //上角点由配电箱和回路决定
+                        var circuitMaxPoint = new Point3d(this.SelectedCabinet.TableMaxPoint.X, this.SelectedRecord.CircuitElement.Center.Y + 2400, 0);
+
+                        COMTool.ZoomWindow(circuitMinPoint, circuitMaxPoint);
 
                     }), e => this.DistributionDraws.FirstOrDefault(dr => dr.Name == (e.OriginalSource as TextBlock).Text) == null && this.DistributionDraws.SelectMany(dr => dr.Cabinets).All(cab => cab.Element.CabinetName != (e.OriginalSource as TextBlock).Text));
 
