@@ -149,7 +149,7 @@ namespace ThElectrical
         public void UpdateCabinetInfo(ThCabinetRecord record)
         {
             record.PowerCapacityElement.Update();
-            
+
         }
 
         /// <summary>
@@ -366,20 +366,12 @@ namespace ThElectrical
             }
 
             var colGrp = new List<ThColumn>();
-            try
-            {
-                //System.Windows.Forms.MessageBox.Show((thCabinet.Element==null).ToString());
-                //System.Windows.Forms.MessageBox.Show((thCabinet.Element.MinPoint==null).ToString());
 
-                //找到配电箱对应的那一组列信息
-                colGrp = draw.ColumnGrps.FirstOrDefault(grp => grp.Cast<ThCabinetColumn>().Any(col => Math.Abs(col.Center.X - thCabinet.Element.MinPoint.X) < 2300));
-                //System.Windows.Forms.MessageBox.Show((colGrp==null).ToString());
-            }
-            catch (System.Exception)
-            {
+            //找到配电箱对应的那一组列信息
+            colGrp = draw.ColumnGrps.FirstOrDefault(grp => grp.Where(gr => gr is ThCabinetColumn).Any(col => Math.Abs(col.Center.X - thCabinet.Element.MinPoint.X) < 2300));
+            //System.Windows.Forms.MessageBox.Show((colGrp==null).ToString());
 
-                throw;
-            }
+
 
             //缩放确保数据可以被正确获取
             COMTool.ZoomWindow(draw.MinPoint, draw.MaxPoint);
@@ -412,20 +404,11 @@ namespace ThElectrical
             }
 
             var colGrp = new List<ThColumn>();
-            try
-            {
-                //System.Windows.Forms.MessageBox.Show((thCabinet.Element==null).ToString());
-                //System.Windows.Forms.MessageBox.Show((thCabinet.Element.MinPoint==null).ToString());
 
-                //找到配电箱对应的那一组列信息
-                colGrp = draw.ColumnGrps.FirstOrDefault(grp => grp.Cast<ThCabinetColumn>().Any(col => Math.Abs(col.Center.X - thCabinet.Element.MinPoint.X) < 2300));
-                //System.Windows.Forms.MessageBox.Show((colGrp==null).ToString());
-            }
-            catch (System.Exception)
-            {
+            //找到配电箱对应的那一组列信息
+            //*****这里用cast会强制转换失败，不明原因
+            colGrp = draw.ColumnGrps.FirstOrDefault(grp => grp.Where(gr => gr is ThCabinetColumn).Any(col => Math.Abs(col.Center.X - thCabinet.Element.MinPoint.X) < 2300));
 
-                throw;
-            }
 
             //缩放确保数据可以被正确获取
             COMTool.ZoomWindow(thCabinet.TableMinPoint, thCabinet.TableMaxPoint);
@@ -448,22 +431,22 @@ namespace ThElectrical
             Document doc = AcadApp.DocumentManager.MdiActiveDocument;
 
             using (doc.LockDocument())
-            using (var tr=record.CircuitElement.ElementId.Database.TransactionManager.StartOpenCloseTransaction())
+            using (var tr = record.CircuitElement.ElementId.Database.TransactionManager.StartOpenCloseTransaction())
             {
                 //加入空的判断，以免特殊图纸出错崩溃
-                if (record.CircuitElement!=null)
+                if (record.CircuitElement != null)
                 {
                     record.CircuitElement.ElementId.Highlight(tr);
                 }
-                if (record.PowerCapacityElement!=null)
+                if (record.PowerCapacityElement != null)
                 {
                     record.PowerCapacityElement.ElementId.Highlight(tr);
                 }
-                if (record.OutCableElement!=null)
+                if (record.OutCableElement != null)
                 {
                     record.OutCableElement.ElementId.Highlight(tr);
                 }
-                if (record.BranchSwitchElement!=null)
+                if (record.BranchSwitchElement != null)
                 {
                     record.BranchSwitchElement.ElementId.Highlight(tr);
                 }

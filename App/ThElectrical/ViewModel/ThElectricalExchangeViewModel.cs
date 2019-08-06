@@ -88,24 +88,31 @@ namespace ThElectrical.ViewModel
                         //找到所有的配电柜系统图，并找到每一张图的配电柜
                         this.Task.GetDistributionDraws().ForEach(draw =>
                         {
-                            draw.Cabinets = this.Task.GetCabinets(draw).ToObservableCollection();
-
-                            draw.Cabinets.ForEach(cabinet =>
+                            try
                             {
+                                draw.Cabinets = this.Task.GetCabinets(draw).ToObservableCollection();
+
+                                draw.Cabinets.ForEach(cabinet =>
+                                {
                                 //找到配电箱的所有回路
                                 cabinet.Records = this.Task.GetCabinetCircuit(draw, cabinet).ToObservableCollection();
-                            });
+                                });
 
-                            this.DistributionDraws.Add(draw);
-
-                            //完成读取后再设置窗口的拉伸属性
-                            var window = o as Window;
-                            window.SizeToContent = SizeToContent.Width;
-
-                            //添加删除事件
-                            this.Task.AddErasedMornitor(ObjectErased);
+                                this.DistributionDraws.Add(draw);
+                            }
+                            catch (Exception ex)
+                            {
+                                Winform.MessageBox.Show(ex.Source+"\n"+ex.Message+"\n"+ex.StackTrace);
+                            }
 
                         });
+
+                        //完成读取后再设置窗口的拉伸属性
+                        var window = o as Window;
+                        window.SizeToContent = SizeToContent.Width;
+
+                        //添加删除事件
+                        this.Task.AddErasedMornitor(ObjectErased);
 
                     });
                 return _loadedCommand;
@@ -272,33 +279,40 @@ namespace ThElectrical.ViewModel
                 if (_changeRecordCommand == null)
                     _changeRecordCommand = new ThGenericCommand<RoutedPropertyChangedEventArgs<object>>(new Action<RoutedPropertyChangedEventArgs<object>>(e =>
                     {
-                        //配电箱改变了
-                        cabinetChanged = true;
-
-                        //如果之前有高亮，则取消其高亮
-                        if (this.SelectedRecord != null)
+                        try
                         {
-                            this.Task.UnHighLightsRecord(this.SelectedRecord);
+                            //配电箱改变了
+                            cabinetChanged = true;
+
+                            //如果之前有高亮，则取消其高亮
+                            if (this.SelectedRecord != null)
+                            {
+                                this.Task.UnHighLightsRecord(this.SelectedRecord);
+                            }
+
+
+                            var record = e.NewValue as ThCabinetRecord;
+
+                            //找到对应的配电箱
+                            var cabinet = this.DistributionDraws.SelectMany(d => d.Cabinets).FirstOrDefault(cab => cab.Records.Any(re => re.CircuitElement == record.CircuitElement));
+
+                            //找到对应的图纸
+                            var draw = this.DistributionDraws.FirstOrDefault(d => d.Cabinets.Any(cab => cab.Element == cabinet.Element));
+
+                            //计算相关信息，并赋值
+                            this.Task.GetCabinetRecords(draw, cabinet, record);
+                            this.SelectedRecord = record;
+
+                            //高亮显示
+                            this.Task.HighlightRecord(this.SelectedRecord);
+
+                            //配电箱完成了改变
+                            cabinetChanged = false;
                         }
-
-
-                        var record = e.NewValue as ThCabinetRecord;
-
-                        //找到对应的配电箱
-                        var cabinet = this.DistributionDraws.SelectMany(d => d.Cabinets).FirstOrDefault(cab => cab.Records.Any(re => re.CircuitElement == record.CircuitElement));
-
-                        //找到对应的图纸
-                        var draw = this.DistributionDraws.FirstOrDefault(d => d.Cabinets.Any(cab => cab.Element == cabinet.Element));
-
-                        //计算相关信息，并赋值
-                        this.Task.GetCabinetRecords(draw, cabinet, record);
-                        this.SelectedRecord = record;
-
-                        //高亮显示
-                        this.Task.HighlightRecord(this.SelectedRecord);
-
-                        //配电箱完成了改变
-                        cabinetChanged = false;
+                        catch (Exception ex)
+                        {
+                            Winform.MessageBox.Show(ex.Source + "\n" + ex.Message + "\n" + ex.StackTrace);
+                        }
 
                     }),
                     e => e.NewValue is ThCabinetRecord);
