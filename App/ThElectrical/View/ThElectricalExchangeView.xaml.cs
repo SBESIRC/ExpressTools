@@ -240,7 +240,11 @@ namespace ThElectrical.View
                             //一旦进入了,就表示记录更改了,修改状态
                             viewModel.SelectedRecordChanged = true;
 
-                            viewModel.SelectedRecord.BranchSwitchElement.SetEachPro();
+                            //存在双速风机没有开关型号，加入空值判断
+                            if (viewModel.SelectedRecord.BranchSwitchElement != null)
+                            {
+                                viewModel.SelectedRecord.BranchSwitchElement.SetEachPro();
+                            }
                         }
 
 
