@@ -21,6 +21,9 @@
             <Component Id="CMP_Autoloader_PackageContents_Support_Electrical_Block_Template" Guid="{B24EC0F1-FA29-4B52-8479-7940267E2069}" Win64="yes">
               <File Id="FILE_Autoloader_PackageContents_Support_Electrical_Block_Template" Source="$(var.AutoloaderContentsPath)\Support\电气块转换表.dwg" KeyPath="yes" />
             </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Support_Electrical_Rule_Block_Template" Guid="{0F73028E-22A5-44C6-B49A-199318741A56}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Support_Electrical_Rule_Block_Template" Source="$(var.AutoloaderContentsPath)\Support\电气系统图规则表.dwg" KeyPath="yes" />
+          </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -31,6 +34,7 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Linetype_Electrical" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Linetype_Plumbing" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Electrical_Block_Template" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Electrical_Rule_Block_Template" />
         </ComponentGroup>
     </Fragment>
 </Wix>
