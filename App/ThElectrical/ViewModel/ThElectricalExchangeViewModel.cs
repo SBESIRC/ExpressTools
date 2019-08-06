@@ -127,8 +127,12 @@ namespace ThElectrical.ViewModel
         void ObjectErased(object sender, ObjectErasedEventArgs e)
         {
             var id = e.DBObject.ObjectId;
-            //删了图纸或者配电箱或者回路编号,必须重新运行程序
-            if (this.DistributionDraws.Any(draw => draw.BoundaryId == id) || this.DistributionDraws.Any(draw => draw.Cabinets.Any(cab => cab.Element.ElementId == id)) || this.DistributionDraws.Any(draw => draw.Cabinets.Any(cab => cab.Records.Any(re => re.CircuitElement.ElementId == id))))
+
+            //拿到所有的records
+            var records = this.DistributionDraws.SelectMany(draw => draw.Cabinets.SelectMany(cab => cab.Records));
+
+            //删了图纸或者配电箱或者任何有关的东西,必须重新运行程序
+            if (this.DistributionDraws.Any(draw => draw.BoundaryId == id) || this.DistributionDraws.Any(draw => draw.Cabinets.Any(cab => cab.Element.ElementId == id)) || records.Any(re => re.CircuitElement.ElementId == id) || records.Any(re => re.PowerCapacityElement != null && re.PowerCapacityElement.ElementId == id) || records.Any(re => re.OutCableElement != null && re.OutCableElement.ElementId == id) || records.Any(re => re.BranchSwitchElement != null && re.BranchSwitchElement.ElementId == id))
             {
                 //一旦删了某些东西,就标记为true
                 this.ErasedSomething = true;
@@ -162,7 +166,7 @@ namespace ThElectrical.ViewModel
         }
 
 
-        //,激活窗体后的重置命令
+        //激活窗体后的重置命令
         private ThCommand _activatedCommand;
         public ThCommand ActivatedCommand
         {
