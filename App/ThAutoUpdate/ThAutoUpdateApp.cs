@@ -54,7 +54,7 @@ namespace ThAutoUpdate
     {
         private const string AppcastUrl = "http://49.234.60.227/AI/thcad/appcast.xml";
 
-        [CommandMethod("TIANHUACAD", "THAUU", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THUPT", CommandFlags.Modal)]
         public void AutoUpdate()
         {
             string assembly = Path.GetFileName(Assembly.GetExecutingAssembly().Location);
