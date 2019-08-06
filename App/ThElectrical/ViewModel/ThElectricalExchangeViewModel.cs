@@ -205,7 +205,7 @@ namespace ThElectrical.ViewModel
                         var draw = this.DistributionDraws.First(dr => dr.Name == (e.OriginalSource as TextBlock).Text);
                         COMTool.ZoomWindow(draw.MinPoint, draw.MaxPoint);
                     }),
-                    e => this.DistributionDraws.FirstOrDefault(dr => dr.Name == (e.OriginalSource as TextBlock).Text) != null);
+                    e => e.OriginalSource is TextBlock && (e.OriginalSource as TextBlock).DataContext is ThDistributionDraw);
 
                 return _zoomDrawCommand;
             }
@@ -223,7 +223,7 @@ namespace ThElectrical.ViewModel
                     _zoomCabinetCommand = new ThGenericCommand<MouseButtonEventArgs>(new Action<MouseButtonEventArgs>(e =>
                     {
                         COMTool.ZoomWindow(this.SelectedCabinet.TableMinPoint, this.SelectedCabinet.TableMaxPoint);
-                    }), e => this.DistributionDraws.FirstOrDefault(dr => dr.Name == (e.OriginalSource as TextBlock).Text) == null);
+                    }), e => e.OriginalSource is TextBlock && (e.OriginalSource as TextBlock).DataContext is ThCabinet);
 
                 return _zoomCabinetCommand;
             }
@@ -248,7 +248,7 @@ namespace ThElectrical.ViewModel
 
                         COMTool.ZoomWindow(circuitMinPoint, circuitMaxPoint);
 
-                    }), e => this.DistributionDraws.FirstOrDefault(dr => dr.Name == (e.OriginalSource as TextBlock).Text) == null && this.DistributionDraws.SelectMany(dr => dr.Cabinets).All(cab => cab.Element.CabinetName != (e.OriginalSource as TextBlock).Text));
+                    }), e => e.OriginalSource is TextBlock && (e.OriginalSource as TextBlock).DataContext is ThCabinetRecord);
 
                 return _zoomCircuitCommand;
             }
