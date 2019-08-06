@@ -45,6 +45,7 @@
     <BitmapImage x:Key="THTET" UriSource="Images/THTET.ico"/>
     <BitmapImage x:Key="THLDC" UriSource="Images/THLDC.ico"/>
     <BitmapImage x:Key="THBPT" UriSource="Images/THBPT.ico"/>
+    <BitmapImage x:Key="THUPT" UriSource="Images/THUPT.ico"/>
 
 
     <adw:RibbonTab x:Key="TabXaml" Id="ID_TabMyRibbon"  Title="天华效率工具">
@@ -90,6 +91,18 @@
                             Command="THHLP" Content="获取帮助文档"/>
                     </adw:RibbonButton.ToolTip>
                 </adw:RibbonButton>
+
+                <adw:RibbonButton  Name="检查更新" Text = "检查更新"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THUPT}"
+                                    Image="{StaticResource THUPT}"                              CommandParameter="THUPT">
+                    <adw:RibbonButton.ToolTip>
+                        <adw:RibbonToolTip  
+                            Command="THUPT" Content="检查更新"/>
+                    </adw:RibbonButton.ToolTip>
+                </adw:RibbonButton>
+
 
             </adw:RibbonPanelSource>
         </adw:RibbonPanel>
@@ -379,7 +392,7 @@
 
         <adw:RibbonPanel>
             <adw:RibbonPanelSource Title="计算工具">
-                <adw:RibbonButton  Name="天华单体规整" Text = "天华单体规整"
+                <!--<adw:RibbonButton  Name="天华单体规整" Text = "天华单体规整"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
                                     LargeImage="{StaticResource THBPS}"
@@ -391,9 +404,9 @@
                             Command="THBPS"
                     Content="将建筑单体各层平面图中代表各区域的多段线图元设置到相应的图层，以供生成单体面积汇总表所用"/>
                     </adw:RibbonButton.ToolTip>
-                </adw:RibbonButton>
+                </adw:RibbonButton>-->
 
-                <adw:RibbonButton  Name="天华总平规整" Text = "天华总平规整"
+                <!--<adw:RibbonButton  Name="天华总平规整" Text = "天华总平规整"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
                                     LargeImage="{StaticResource THCSP}"
@@ -405,9 +418,9 @@
                             Command="THCSP"
                     Content="将总平面图中代表各区域的多段线图元设置到相应的图层，以供生成综合经济技术指标表所用"/>
                     </adw:RibbonButton.ToolTip>
-                </adw:RibbonButton>
+                </adw:RibbonButton>-->
 
-                <adw:RibbonButton  Name="单体面积汇总" Text = "单体面积汇总"
+                <adw:RibbonButton  Name="单体面积汇总" Text = "单体面积&#xD;汇总"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
                                     LargeImage="{StaticResource THBAC}"
@@ -422,7 +435,7 @@
                 </adw:RibbonButton>
 
 
-                <adw:RibbonButton  Name="综合经济技术指标表" Text = "综合经济技术指标表"
+                <adw:RibbonButton  Name="综合经济技术指标表" Text = "综合经济&#xD;技术指标表"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
                                     LargeImage="{StaticResource THTET}"
@@ -443,7 +456,7 @@
         
         <adw:RibbonPanel>
             <adw:RibbonPanelSource Title="系统详图">
-                <adw:RibbonButton  Name="配电箱系统图修改" Text = "配电箱系统图修改"
+                <adw:RibbonButton  Name="配电箱系统图修改" Text = "配电箱&#xD;系统图修改"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
                                     LargeImage="{StaticResource THLDC}"

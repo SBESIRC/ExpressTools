@@ -134,8 +134,8 @@ namespace TianHua.AutoCAD.ThCui
                 menuModify = thMenu.AddSubMenu(-1, "计算工具", "ID_THMenu_JiSuanGongJu");
                 kps = new List<ThCommandInfo> {
 
-                      new ThCommandInfo("天华单体规整", "THBPS", "将建筑单体各层平面图中代表各区域的多段线图元设置到相应的图层，以供生成单体面积汇总表所用",true),
-                      new ThCommandInfo("天华总平规整", "THCSP", "将总平面图中代表各区域的多段线图元设置到相应的图层，以供生成综合经济技术指标表所用",true),
+                      //new ThCommandInfo("天华单体规整", "THBPS", "将建筑单体各层平面图中代表各区域的多段线图元设置到相应的图层，以供生成单体面积汇总表所用",true),
+                      //new ThCommandInfo("天华总平规整", "THCSP", "将总平面图中代表各区域的多段线图元设置到相应的图层，以供生成综合经济技术指标表所用",true),
                       new ThCommandInfo("单体面积汇总", "THBAC", "汇总单体每层各区域建筑面积和计容面积",true),
                       new ThCommandInfo("综合经济技术指标表", "THTET", "汇总总平面及各单体各区域建筑面积和计容面积，形成综合经济技术指标表",true)
                 };
@@ -181,13 +181,24 @@ namespace TianHua.AutoCAD.ThCui
                     cs.AddMacro(kp.Name, marco + kp.Command + " ", id + kp.Command, kp.HelpString, imageFolderPath + kp.Command + kp.Suffix);
                 });
 
+                {
+                    var cmdkp = new ThCommandInfo("帮助文档", "THHLP", "获取帮助文档", false);
+                    cs.AddMacro(cmdkp.Name, marco + cmdkp.Command + " ", id + cmdkp.Command, cmdkp.HelpString, imageFolderPath + cmdkp.Command + cmdkp.Suffix);
 
-                var cmdkp = new ThCommandInfo("帮助文档", "THHLP", "获取帮助文档", false);
-                cs.AddMacro(cmdkp.Name, marco + cmdkp.Command + " ", id + cmdkp.Command, cmdkp.HelpString, imageFolderPath + cmdkp.Command + cmdkp.Suffix);
+                    PopMenuItem newPmi = new PopMenuItem(thMenu, -1);
+                    if (cmdkp.Name != null) newPmi.Name = cmdkp.Name;
+                    newPmi.MacroID = id + cmdkp.Command;
+                }
 
-                PopMenuItem newPmi = new PopMenuItem(thMenu, -1);
-                if (cmdkp.Name != null) newPmi.Name = cmdkp.Name;
-                newPmi.MacroID = id + cmdkp.Command;
+                {
+                    var cmdkp = new ThCommandInfo("检查更新", "THUPT", "检查更新", true);
+                    cs.AddMacro(cmdkp.Name, marco + cmdkp.Command + " ", id + cmdkp.Command, cmdkp.HelpString, imageFolderPath + cmdkp.Command + cmdkp.Suffix);
+
+                    PopMenuItem newPmi = new PopMenuItem(thMenu, -1);
+                    if (cmdkp.Name != null) newPmi.Name = cmdkp.Name;
+                    newPmi.MacroID = id + cmdkp.Command;
+
+                }
 
             }
 
