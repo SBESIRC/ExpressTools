@@ -494,9 +494,18 @@ namespace ThElectrical
         /// <param name="record"></param>
         public void UpdateToDwg(ThCabinetRecord record)
         {
-            record.PowerCapacityElement.UpdateToDwg();
-            record.OutCableElement.UpdateToDwg();
-            record.BranchSwitchElement.UpdateToDwg();
+            if (record.PowerCapacityElement!=null)
+            {
+                record.PowerCapacityElement.UpdateToDwg();
+            }
+            if (record.OutCableElement!=null)
+            {
+                record.OutCableElement.UpdateToDwg();
+            }
+            if (record.BranchSwitchElement!=null)
+            {
+                record.BranchSwitchElement.UpdateToDwg();
+            }
         }
 
         /// <summary>
