@@ -17,4 +17,6 @@
   <?define AutoloaderContentsPath = "$(var.AutoloaderPath)\Contents" ?>
   <!-- Output root path. -->
   <?define OutputRootPath = "$(var.ProjectDir)\..\build" ?>
+  <!-- Lanuage. -->
+  <?define LanuageIdentifier = "zh-CN" ?>
 </Include>

@@ -33,6 +33,11 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NetSparkle_Debug" Guid="{E4699E1A-6828-449C-B131-07BBC1D95C4F}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_NetSparkle_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\NetSparkle.dll" />
           </Component>
+          <Directory Id="DIR_Autoloader_Contents_App_Win64_R18_Language" Name="zh-CN">
+            <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Debug" Guid="{749DB047-7F28-465E-A786-2418C89A82C8}" Win64="yes">
+              <File Id="FILE_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\$(var.LanuageIdentifier)\NetSparkle.resources.dll" />
+            </Component>
+          </Directory>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DSK_Public_Key_Debug" Guid="{7BBD84D5-EAAB-47F0-AFA2-5BAAC3DDBA52}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_DSK_Public_Key_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\NetSparkle_DSA.pub" />
           </Component>
@@ -93,6 +98,11 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DSK_Public_Key_Debug" Guid="{19C2EB1A-EF65-4514-A458-62BCE40B8441}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_DSK_Public_Key_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\NetSparkle_DSA.pub" />
           </Component>
+          <Directory Id="DIR_Autoloader_Contents_App_Win64_R19_Language" Name="zh-CN">
+            <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Debug" Guid="{64750C2D-B1F7-43C6-B269-521D653B02FE}" Win64="yes">
+              <File Id="FILE_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\$(var.LanuageIdentifier)\NetSparkle.resources.dll" />
+            </Component>
+          </Directory>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Countly_Debug" Guid="{E58AE23C-61CA-4443-A63B-53492508FD6B}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_Countly_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\Countly.dll" />
           </Component>
@@ -154,6 +164,11 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DSK_Public_Key_Release" Guid="{6DE51A58-A05E-40FB-A795-C04424B45A3E}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_DSK_Public_Key_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\NetSparkle_DSA.pub" />
           </Component>
+          <Directory Id="DIR_Autoloader_Contents_App_Win64_R18_Language" Name="zh-CN">
+            <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Release" Guid="{9AF97F21-056A-4473-BF35-EF1851A987DA}" Win64="yes">
+              <File Id="FILE_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.LanuageIdentifier)\NetSparkle.resources.dll" />
+            </Component>
+          </Directory>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Countly_Release" Guid="{1457ACC8-7096-4574-884F-09798724D915}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_Countly_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Countly.dll" />
           </Component>
@@ -214,6 +229,11 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DSK_Public_Key_Release" Guid="{6CC55295-36A8-460C-8BD5-A8A0702CC357}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_DSK_Public_Key_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\NetSparkle_DSA.pub" />
           </Component>
+          <Directory Id="DIR_Autoloader_Contents_App_Win64_R19_Language" Name="zh-CN">
+            <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Release" Guid="{64750C2D-B1F7-43C6-B269-521D653B02FE}" Win64="yes">
+              <File Id="FILE_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\$(var.LanuageIdentifier)\NetSparkle.resources.dll" />
+            </Component>
+          </Directory>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Countly_Release" Guid="{8EEE592D-0589-4469-B441-C2AF29635DF9}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_Countly_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Countly.dll" />
           </Component>
@@ -260,6 +280,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAutoUpdate_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NetSparkle_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DSK_Public_Key_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Countly_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Json_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Threading_Debug" />
@@ -279,6 +300,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAutoUpdate_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NetSparkle_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DSK_Public_Key_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Countly_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Json_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Threading_Debug" />
@@ -299,6 +321,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAutoUpdate_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NetSparkle_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DSK_Public_Key_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Countly_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Json_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Threading_Release" />
@@ -318,6 +341,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAutoUpdate_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NetSparkle_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DSK_Public_Key_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Countly_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Json_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Threading_Release" />
