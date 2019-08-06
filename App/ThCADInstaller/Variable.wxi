@@ -15,4 +15,6 @@
   <!-- Autoloader path. -->
   <?define AutoloaderPath = "$(var.ProjectDir)\..\..\AutoLoader" ?>
   <?define AutoloaderContentsPath = "$(var.AutoloaderPath)\Contents" ?>
+  <!-- Output root path. -->
+  <?define OutputRootPath = "$(var.ProjectDir)\..\build" ?>
 </Include>
