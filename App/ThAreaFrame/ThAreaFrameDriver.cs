@@ -60,7 +60,7 @@ namespace ThAreaFrame
         {
             get
             {
-                return OrdinaryAOccupancyStoreys().Select(o => o.number).Union(OrdinaryStoreys().Select(o => o.number)).ToList();
+                return OrdinaryAOccupancyStoreys().Select(o => o.number).Union(OrdinaryStoreys().Select(o => o.number)).OrderBy(i => i).ToList();
             }
         }
 
@@ -68,7 +68,7 @@ namespace ThAreaFrame
         {
             get
             {
-                return UnderGroundStoreys().Select(o => o.number).Union(UnderGroundAOccupancyStoreys().Select(o => o.number)).ToList();
+                return UnderGroundStoreys().Select(o => o.number).Union(UnderGroundAOccupancyStoreys().Select(o => o.number)).OrderBy(i => i).ToList();
             }
         }
 
