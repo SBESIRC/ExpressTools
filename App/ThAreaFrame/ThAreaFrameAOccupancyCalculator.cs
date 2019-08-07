@@ -63,7 +63,7 @@ namespace ThAreaFrame
             {
                 double area = 0.0;
                 storeys.ForEach(s => area += AreaOfFloor(s.number, far));
-                areas.Add(area);
+                areas.Add(area / storeys.Count);
             }
             return areas;
         }
