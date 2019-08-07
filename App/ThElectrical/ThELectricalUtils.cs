@@ -105,7 +105,7 @@ namespace ThElectrical
                 var table = db.ModelSpace.OfType<Table>().First(t => t.Cells[0, 0].Value != null && t.Cells[0, 0].GetRealTextString() == kaiBaoTableName);
 
                 //找到所有
-                return table.Rows.Select((r, i) => i).Where(i => i > 1).Select(i => table.Cells[i, 2].GetRealTextString()).ToList();
+                return table.Rows.Select((r, i) => i).Where(i => i > 1).Select(i => table.Cells[i, 2].GetRealTextString()).Distinct().ToList();
 
             }
         }

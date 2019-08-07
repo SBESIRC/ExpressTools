@@ -28,6 +28,7 @@ namespace ThElectrical.ViewModel
         public static bool cabinetChanged = false;//配电箱是否改变了，默认没改变
 
         public bool ErasedSomething { get; set; }//是否删掉了某些东西
+        public bool PowerTextBoxOrComboBox { get; set; }//判断执行textbox还是comb的变换
         public bool SelectedRecordChanged { get; set; }//配电箱记录值是否改变了
         public List<string> PowerCapacities { get; set; }//所有的容量规格
         public List<string> PipeMatiralStyle { get; set; }//所有的棺材
@@ -516,7 +517,8 @@ namespace ThElectrical.ViewModel
             this.Task = new ThElectricalExchangeTask();
             this.DistributionDraws = new ObservableCollection<ThDistributionDraw>();
             this.SelectedRecordChanged = false;
-            this.ErasedSomething = false;
+            this.PowerTextBoxOrComboBox = false;
+            this.ErasedSomething = true;
 
             this.PhraseWireStyle = ThELectricalUtils.GetPhraseStyle();
             this.GroundWireStyle = ThELectricalUtils.GetGroundStyle();
