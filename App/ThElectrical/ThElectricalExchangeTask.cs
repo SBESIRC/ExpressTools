@@ -409,18 +409,22 @@ namespace ThElectrical
             //*****这里用cast会强制转换失败，不明原因
             colGrp = draw.ColumnGrps.FirstOrDefault(grp => grp.Where(gr => gr is ThCabinetColumn).Any(col => Math.Abs(col.Center.X - thCabinet.Element.MinPoint.X) < 2300));
 
+            if (colGrp!=null)
+            {
+                //缩放确保数据可以被正确获取
+                COMTool.ZoomWindow(thCabinet.TableMinPoint, thCabinet.TableMaxPoint);
 
-            //缩放确保数据可以被正确获取
-            COMTool.ZoomWindow(thCabinet.TableMinPoint, thCabinet.TableMaxPoint);
+                //根据列求出列的所有元素，配电箱和回路的列不用求
+                var elements = colGrp.Where(colum => !(colum is ThCabinetColumn || colum is ThCircuitColumn)).SelectMany(column => column.GetThElements());
 
-            //根据列求出列的所有元素，配电箱和回路的列不用求
-            var elements = colGrp.Where(colum => !(colum is ThCabinetColumn || colum is ThCircuitColumn)).SelectMany(column => column.GetThElements());
+                record.PowerCapacityElement = elements.OfType<ThPowerCapacityElement>().FirstOrDefault(ele => ele.Center.IsBottomGongXian(record.CircuitElement.Center, ThElementFactory.circuitToPowerCapacityTol));
 
-            record.PowerCapacityElement = elements.OfType<ThPowerCapacityElement>().FirstOrDefault(ele => ele.Center.IsBottomGongXian(record.CircuitElement.Center, ThElementFactory.circuitToPowerCapacityTol));
+                record.OutCableElement = elements.OfType<ThOutCableElement>().FirstOrDefault(ele => ele.MinPoint.IsBottomGongXian(record.CircuitElement.Center, ThElementFactory.circuitToOutCableTol));
 
-            record.OutCableElement = elements.OfType<ThOutCableElement>().FirstOrDefault(ele => ele.MinPoint.IsBottomGongXian(record.CircuitElement.Center, ThElementFactory.circuitToOutCableTol));
+                record.BranchSwitchElement = elements.OfType<ThBranchSwitchElement>().FirstOrDefault(ele => ele.MinPoint.IsBottomGongXian(record.CircuitElement.Center, ThElementFactory.circuitToBranchSwitchTol));
+            }
 
-            record.BranchSwitchElement = elements.OfType<ThBranchSwitchElement>().FirstOrDefault(ele => ele.MinPoint.IsBottomGongXian(record.CircuitElement.Center, ThElementFactory.circuitToBranchSwitchTol));
+
         }
 
         /// <summary>

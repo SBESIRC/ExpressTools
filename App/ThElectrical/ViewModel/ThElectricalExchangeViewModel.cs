@@ -247,7 +247,7 @@ namespace ThElectrical.ViewModel
                             var circuitMinPoint = new Point3d(this.SelectedRecord.CircuitElement.Center.X - 12500, this.SelectedRecord.CircuitElement.Center.Y - 1400, 0);
 
                             //上角点也回路决定，这里不引用任何配电箱数据，以免空值异常
-                            var circuitMaxPoint = new Point3d(this.SelectedRecord.CircuitElement.Center.X+10800, this.SelectedRecord.CircuitElement.Center.Y + 2400, 0);
+                            var circuitMaxPoint = new Point3d(this.SelectedRecord.CircuitElement.Center.X + 10800, this.SelectedRecord.CircuitElement.Center.Y + 2400, 0);
 
                             COMTool.ZoomWindow(circuitMinPoint, circuitMaxPoint);
                         }
@@ -306,7 +306,6 @@ namespace ThElectrical.ViewModel
                                 this.Task.UnHighLightsRecord(this.SelectedRecord);
                             }
 
-
                             var record = e.NewValue as ThCabinetRecord;
 
                             //找到对应的配电箱
@@ -325,9 +324,9 @@ namespace ThElectrical.ViewModel
                             //配电箱完成了改变
                             cabinetChanged = false;
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            Winform.MessageBox.Show(ex.Source + "\n" + ex.Message + "\n" + ex.StackTrace);
+                            Winform.MessageBox.Show("非符合天华电气标准的配电图，未能解析回路信息。");
                         }
 
                     }),
@@ -525,7 +524,7 @@ namespace ThElectrical.ViewModel
             this.DistributionDraws = new ObservableCollection<ThDistributionDraw>();
             this.SelectedRecordChanged = false;
             this.PowerTextBoxOrComboBox = false;
-            this.ErasedSomething = true;
+            this.ErasedSomething = false;
 
             this.PhraseWireStyle = ThELectricalUtils.GetPhraseStyle();
             this.GroundWireStyle = ThELectricalUtils.GetGroundStyle();
