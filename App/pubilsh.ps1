@@ -1,5 +1,17 @@
 ﻿param($script:dsapriv, $script:appcast, $script:releasenote, $script:releasemsi)
 
+$monthenum = "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+[string]$script:weekday = $((Get-Date).DayOfWeek)
+$weekdayshort = $weekday.Substring(0, 3)
+$script:day = $(Get-Date -Format 'dd')
+[int]$script:month = $(Get-Date -Format 'MM')
+$enmonth = $monthenum[$month - 1]
+$script:year = $(Get-Date -Format 'yyyy')
+$script:hour = $(Get-Date -Format 'HH')
+$script:minute = $(Get-Date -Format 'mm')
+$script:second = $(Get-Date -Format 'ss')
+$script:date = "${weekdayshort}, ${day} ${enmonth} ${year} ${hour}:${minute}:${second} +0800"
+
 $script:msilength = (Get-Item $releasemsi).length
 $commond_parameter_missing = "please ckeck your commond and use commond like:<.\shellname> <*NetSparkle_DSA.priv> <*appcast.xml> <*.html/*.md> <*.msi>"
 if ($dsapriv -eq $null)
@@ -61,10 +73,16 @@ $script:sparklesige_new = "sparkle:dsaSignature="+'"'+"$msisign"+'"'
 $script:length_old = "length="+'"'+".*"+'"'
 $script:length_new = "length="+'"'+"$msilength"+'"'
 
+$script:date_old = "<pubDate>.*</pubDate>"
+$script:date_new = "<pubDate>$date</pubDate>"
+
 #change dsasignicure in appcast.xml
 (type $appcast) -replace ($sparklesige_old, $sparklesige_new)|out-file $appcast -encoding utf8
+Write-Host "Change appcast dsaSignature completely"
 (type $appcast) -replace ($length_old, $length_new)|out-file $appcast -encoding utf8
-Write-Host "Change appcast sparkle:dsaSignature completely"
+Write-Host "Change appcast msi length completely"
+(type $appcast) -replace ($date_old, $date_new)|out-file $appcast -encoding utf8
+Write-Host "Change appcast pubdate completely"
 
 #sign appcast
 & $DSAHelperExe /sign_update $appcast $dsapriv|out-file $dsafile -encoding utf8
