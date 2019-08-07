@@ -13,10 +13,13 @@
         (setq s    (vlax-invoke-method  regex "Replace" s ""))
     )
       (vlax-put-property regex "Pattern" " ")
-      (setq s(vlax-invoke-method  regex "Replace" s ""))
+      (setq s (vlax-invoke-method  regex "Replace" s ""))
     
       (vlax-put-property regex "Pattern" "({|})")
-      (setq s(vlax-invoke-method  regex "Replace" s ""))
+      (setq s (vlax-invoke-method  regex "Replace" s ""))
+
+      (vlax-put-property regex "Pattern" "\\/")
+      (setq s (vlax-invoke-method  regex "Replace" s "、"))
 
       (vlax-release-object regex)
       s
@@ -67,6 +70,7 @@
 
 (defun lgm_plottofile(paper_sc dir_1 pt1 pt2 plot_sc pdf_name layout_name / layout_ob)
     (SETQ LIST_PLOTSTYLE (mapcar 'strcase (vlax-safearray->list (vlax-variant-value (vla-GetPlotStyleTableNames (vla-get-ActiveLayout (vla-get-ActiveDocument (vlax-get-acad-object))))))))
+    (SETQ LIST_PPlotDeviceNames (mapcar 'strcase (vlax-safearray->list (vlax-variant-value (vla-GetPlotDeviceNames (vla-get-ActiveLayout (vla-get-ActiveDocument (vlax-get-acad-object))))))))
     (SETQ layout_ob (VLA-ITEM (VLA-GET-LAYOUTS (VLA-GET-ACTIVEDOCUMENT (VLAX-GET-ACAD-OBJECT))) layout_name))
     (VLA-SetLayoutsToPlot (VLA-GET-PLOT (VLA-GET-ACTIVEDOCUMENT (VLAX-GET-ACAD-OBJECT)))  (vlax-safearray-fill (VLAX-MAKE-safearray vlax-vbString '(0 . 0)) (LIST LAYOUT_NAME)))
     (setq point1 (vlax-make-safearray vlax-vbDouble '(0 . 1)))
@@ -74,15 +78,19 @@
     (vlax-safearray-fill point1 (LIST (CAR (TRANS PT1 1 2)) (CADR (TRANS PT1 1 2))))
     (vlax-safearray-fill point2 (LIST (CAR (TRANS PT2 1 2)) (CADR (TRANS PT2 1 2))))
     (vla-RefreshPlotDeviceInfo     layout_ob)
-    (vla-put-ConfigName         layout_ob     "DWG TO PDF 08-13.pc3")
+    (COND
+        ((/= (member  (strcase "DWG TO PDF 2010.pc3")     LIST_PPlotDeviceNames) NIL )    (vla-put-ConfigName        layout_ob    "DWG TO PDF 2010.pc3"))
+        ((/= (member  (strcase "DWG TO PDF 2012.pc3")     LIST_PPlotDeviceNames) NIL )    (vla-put-ConfigName        layout_ob    "DWG TO PDF 2012.pc3"))
+        (T                                    (progn(princ "警告：检查cad是否正确配置公司标准虚拟打印机." )(exit)))
+    )
     (vla-put-CanonicalMediaName     layout_ob     paper_sc)
     (COND
         ((/= (member  (strcase "H-PLOTTER.ctb")     LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "H-PLOTTER.CTB"))
         ((/= (member  (strcase "A-PLOTTER.ctb")     LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "A-PLOTTER.CTB"))
-        ((/= (member  (strcase "E-PLOTTER.ctb")     LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "E-PLOTTER.CTB"))
-        ((/= (member  (strcase "W-PLOTTER.ctb") LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "W-PLOTTER.CTB"))
-        ((/= (member  (strcase "S-PLOTTER.ctb")    LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "S-PLOTTER.CTB"))
-        (T                            (vla-put-StyleSheet        layout_ob    "MONOCHROME.CTB"))
+        ((/= (member  (strcase "E-PLOTTER.ctb")     LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "E-PRINTER.CTB"))
+        ((/= (member  (strcase "W-PLOTTER.ctb")     LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "W-PLOTTER.CTB"))
+        ((/= (member  (strcase "S-PLOTTER.ctb")     LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "S-PLOTTER.CTB"))
+        (T                                (progn(princ "警告：检查cad是否正确安装公司打印样式." )(exit)))
     )
     (vla-SetWindowToPlot         layout_ob     point1 point2)
     (vla-put-PaperUnits         layout_ob     acMillimeters )
