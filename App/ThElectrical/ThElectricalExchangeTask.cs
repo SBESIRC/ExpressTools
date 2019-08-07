@@ -29,7 +29,6 @@ namespace ThElectrical
 {
     public class ThElectricalExchangeTask
     {
-        [CommandMethod("test2")]
         public void Test2()
         {
             var i = SelectionTool.ChooseEntity<DBText>().Get3DCenter();

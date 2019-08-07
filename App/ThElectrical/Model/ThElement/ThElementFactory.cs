@@ -10,8 +10,8 @@ namespace ThElectrical.Model.ThElement
     public class ThElementFactory
     {
         public const double circuitToPowerCapacityTol = 325;//回路与容量的位置容差
-        public const double circuitToOutCableTol = 300;//回路与出现电缆规格的位置容差
-        public const double circuitToBranchSwitchTol = 300;//回路与分支开关的位置容差
+        public const double circuitToOutCableTol = 401;//回路与出现电缆规格的位置容差
+        public const double circuitToBranchSwitchTol = 401;//回路与分支开关的位置容差
 
         public static ThElement CreateElement(Type type, ObjectId id)
         {
