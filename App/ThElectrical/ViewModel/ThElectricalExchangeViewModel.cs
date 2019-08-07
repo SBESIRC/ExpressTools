@@ -241,13 +241,20 @@ namespace ThElectrical.ViewModel
                 if (_zoomCircuitCommand == null)
                     _zoomCircuitCommand = new ThGenericCommand<MouseButtonEventArgs>(new Action<MouseButtonEventArgs>(e =>
                     {
-                        //下角点由回路的位置决定
-                        var circuitMinPoint = new Point3d(this.SelectedRecord.CircuitElement.Center.X - 12500, this.SelectedRecord.CircuitElement.Center.Y - 1400, 0);
+                        try
+                        {
+                            //下角点由回路的位置决定
+                            var circuitMinPoint = new Point3d(this.SelectedRecord.CircuitElement.Center.X - 12500, this.SelectedRecord.CircuitElement.Center.Y - 1400, 0);
 
-                        //上角点由配电箱和回路决定
-                        var circuitMaxPoint = new Point3d(this.SelectedCabinet.TableMaxPoint.X, this.SelectedRecord.CircuitElement.Center.Y + 2400, 0);
+                            //上角点也回路决定，这里不引用任何配电箱数据，以免空值异常
+                            var circuitMaxPoint = new Point3d(this.SelectedRecord.CircuitElement.Center.X+10800, this.SelectedRecord.CircuitElement.Center.Y + 2400, 0);
 
-                        COMTool.ZoomWindow(circuitMinPoint, circuitMaxPoint);
+                            COMTool.ZoomWindow(circuitMinPoint, circuitMaxPoint);
+                        }
+                        catch (Exception ex)
+                        {
+                            Winform.MessageBox.Show(ex.Source + "\n" + ex.Message + "\n" + ex.StackTrace);
+                        }
 
                     }), e => e.OriginalSource is TextBlock && (e.OriginalSource as TextBlock).DataContext is ThCabinetRecord);
 
