@@ -95,7 +95,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                    <GroupBox Grid.Row="0" Grid.Column="0" Header="回路信息" Style="{DynamicResource {x:Static thRes:CustomResources.ThGroupStyle}}" Background="{x:Static SystemColors.ControlBrush}" Selector.SelectionChanged="GroupBox_SelectionChanged_1" TextBoxBase.TextChanged="GroupBox_TextChanged_1">
+                    <GroupBox Grid.Row="0" Grid.Column="0" Header="回路信息" Style="{DynamicResource {x:Static thRes:CustomResources.ThGroupStyle}}" Background="{x:Static SystemColors.ControlBrush}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -109,7 +109,7 @@
                             </Grid.RowDefinitions>
 
                             <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">容量选型：</Label>
-                            <ComboBox Name="cmbPower"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="50" ItemsSource="{Binding PowerCapacities}"   SelectedValue="{Binding SelectedRecord.PowerCapacityElement.CapacityValue, UpdateSourceTrigger=PropertyChanged}" Tag="容量选型">
+                            <ComboBox Name="cmbPower"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="50" ItemsSource="{Binding PowerCapacities}"   SelectedValue="{Binding SelectedRecord.PowerCapacityElement.CapacityValue, UpdateSourceTrigger=PropertyChanged}" Tag="容量选型" SelectionChanged="GroupBox_SelectionChanged_1">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -120,7 +120,7 @@
                             </ComboBox>
 
                             <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" >值：</Label>
-                            <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Text="{Binding SelectedRecord.PowerCapacityElement.RealCapacity, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" MinWidth="70" Tag="值"></TextBox>
+                            <TextBox Name="txtRealCap" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Text="{Binding SelectedRecord.PowerCapacityElement.RealCapacity, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" MinWidth="70" Tag="值" TextChanged="GroupBox_TextChanged_1"></TextBox>
 
                         </Grid>
                     </GroupBox>

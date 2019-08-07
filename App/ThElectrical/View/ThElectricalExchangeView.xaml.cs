@@ -145,10 +145,24 @@ namespace ThElectrical.View
                     {
                         if (combo.Tag.ToString() == "容量选型")
                         {
-                            ////执行信息的联动
-                            //viewModel.Task.AddCabinetObserve(viewModel.SelectedRecord);
-                            //viewModel.Task.UpdateCabinetInfo(viewModel.SelectedRecord);
-                            //viewModel.Task.RemoveCabinetObserve(viewModel.SelectedRecord);
+                            if (viewModel.SelectedRecord != null)
+                            {
+                                //断开容量文本框变化事件
+                                txtRealCap.TextChanged -= GroupBox_TextChanged_1;
+
+                                //一旦进入了,就表示记录更改了,修改状态
+                                viewModel.SelectedRecordChanged = true;
+
+                             viewModel.SelectedRecord.PowerCapacityElement.ResetByValue();
+
+                                //执行信息的联动
+                                viewModel.Task.AddCabinetObserve(viewModel.SelectedRecord);
+                                viewModel.Task.UpdateCabinetInfo(viewModel.SelectedRecord);
+                                viewModel.Task.RemoveCabinetObserve(viewModel.SelectedRecord);
+
+                                txtRealCap.TextChanged -= GroupBox_TextChanged_1;
+
+                            }
 
                         }
 
@@ -201,6 +215,9 @@ namespace ThElectrical.View
                     {
                         if (viewModel.SelectedRecord != null)
                         {
+                            //断开cmb的变化事件
+                            cmbPower.SelectionChanged -= GroupBox_SelectionChanged_1;
+
                             //一旦进入了,就表示记录更改了,修改状态
                             viewModel.SelectedRecordChanged = true;
 
@@ -210,6 +227,9 @@ namespace ThElectrical.View
                             viewModel.Task.AddCabinetObserve(viewModel.SelectedRecord);
                             viewModel.Task.UpdateCabinetInfo(viewModel.SelectedRecord);
                             viewModel.Task.RemoveCabinetObserve(viewModel.SelectedRecord);
+
+                            //重新连接cmb的变化事件
+                            cmbPower.SelectionChanged += GroupBox_SelectionChanged_1;
 
                         }
                     }
