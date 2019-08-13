@@ -26,6 +26,8 @@ namespace ThAnalytics
         // command name filters
         private readonly ArrayList filters = new ArrayList { "THDAS", "THDAE" };
 
+        private readonly Hashtable commandhashtable = new Hashtable();
+
         [CommandMethod("TIANHUACAD", "THDAS", CommandFlags.Modal)]
         public void ThAnalyticsStart()
         {
@@ -91,6 +93,8 @@ namespace ThAnalytics
 
         private void Document_CommandWillStart(object sender, CommandEventArgs e)
         {
+            int commamndstarttime = (int)(DateTime.Now.Ticks / 10000000);
+            commandhashtable.Add(e.GlobalCommandName, commamndstarttime);
         }
 
         private void Document_CommandEnded(object sender, CommandEventArgs e)
@@ -98,15 +102,29 @@ namespace ThAnalytics
             if (filters.Contains(e.GlobalCommandName))
                 return;
 
-            ThCountlyServices.Instance.RecordCommandEvent(e.GlobalCommandName);
+            if (commandhashtable.ContainsKey(e.GlobalCommandName))
+            {
+                int commamndstoptime = (int)(DateTime.Now.Ticks / 10000000);
+                int runtime = commamndstoptime - (int)commandhashtable[e.GlobalCommandName];
+                ThCountlyServices.Instance.RecordCommandEvent(e.GlobalCommandName, runtime);
+                commandhashtable.Remove(e.GlobalCommandName);
+            }
         }
 
         private void Document_CommandCancelled(object sender, CommandEventArgs e)
         {
+            if (commandhashtable.ContainsKey(e.GlobalCommandName))
+            {
+                commandhashtable.Remove(e.GlobalCommandName);
+            }
         }
 
         private void Documet_CommandFailed(object sender, CommandEventArgs e)
         {
+            if (commandhashtable.ContainsKey(e.GlobalCommandName))
+            {
+                commandhashtable.Remove(e.GlobalCommandName);
+            }
         }
 
         private void Document_UnknownCommand(object sender, UnknownCommandEventArgs e)

@@ -64,10 +64,11 @@ namespace ThAnalytics
             Countly.Instance.SessionEnd();
         }
 
-        public void RecordCommandEvent(string cmdName)
+        public void RecordCommandEvent(string cmdName,int duration)
         {
             Segmentation segmentation = new Segmentation();
             segmentation.Add("GlobalCommandName", cmdName);
+            segmentation.Add("GlobalCommandDuration", duration.ToString());
             Countly.RecordEvent("InvokeCommand", 1, segmentation);
         }
     }
