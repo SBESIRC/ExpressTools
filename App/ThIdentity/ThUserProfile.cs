@@ -62,7 +62,7 @@ namespace ThIdentity
 
         public ThUserProfile(string name)
         {
-             properties = Collectionproperty(name, null);
+            properties = Collectionproperty(name, null);
         }
 
         public ThUserProfile(string name, string domain)

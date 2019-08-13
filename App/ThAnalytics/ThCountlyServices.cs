@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using CountlySDK;
 using CountlySDK.Entities;
+using ThIdentity;
 
 namespace ThAnalytics
 {
@@ -32,6 +33,19 @@ namespace ThAnalytics
 
             //initiate the SDK with your preferences
             Countly.Instance.Init(cc);
+
+            //initiate the user profile
+            InitializeUserProfile();
+        }
+
+        private void InitializeUserProfile()
+        {
+            ThUserProfile thuserprofile = new ThUserProfile();
+            Countly.UserDetails.Name = thuserprofile.Name;
+            Countly.UserDetails.Email = thuserprofile.Mail;
+            Countly.UserDetails.Custom.Add("title", thuserprofile.Title);
+            Countly.UserDetails.Custom.Add("company", thuserprofile.Company);
+            Countly.UserDetails.Custom.Add("department", thuserprofile.Department);
         }
 
         public void UnInitialize()

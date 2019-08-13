@@ -48,5 +48,11 @@
   <ItemGroup>
     <PackageReference Include="Countly" Version="19.2.1" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThIdentity\ThIdentity.csproj">
+      <Project>{f089c903-64d4-4620-9d68-81cad9ed3e44}</Project>
+      <Name>ThIdentity</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
