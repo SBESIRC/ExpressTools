@@ -37,6 +37,7 @@
             this.thResidentialRoomControl1 = new ThAreaFrameConfig.WinForms.ThResidentialRoomControl();
             this.tabNavigationPage3 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.tabNavigationPage4 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.thAOccupancyControl1 = new ThAreaFrameConfig.WinForms.ThAOccupancyControl();
             this.tabNavigationPage5 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.tabNavigationPage6 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.tabNavigationPage7 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
@@ -44,6 +45,7 @@
             this.tabPane1.SuspendLayout();
             this.tabNavigationPage1.SuspendLayout();
             this.tabNavigationPage2.SuspendLayout();
+            this.tabNavigationPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -128,8 +130,19 @@
             // tabNavigationPage4
             // 
             this.tabNavigationPage4.Caption = "公摊";
+            this.tabNavigationPage4.Controls.Add(this.thAOccupancyControl1);
             this.tabNavigationPage4.Name = "tabNavigationPage4";
             this.tabNavigationPage4.Size = new System.Drawing.Size(758, 351);
+            // 
+            // thAOccupancyControl1
+            // 
+            this.thAOccupancyControl1.AutoSize = true;
+            this.thAOccupancyControl1.Location = new System.Drawing.Point(3, 3);
+            this.thAOccupancyControl1.Name = "thAOccupancyControl1";
+            this.thAOccupancyControl1.Size = new System.Drawing.Size(834, 495);
+            this.thAOccupancyControl1.TabIndex = 0;
+
+
             // 
             // tabNavigationPage5
             // 
@@ -165,6 +178,8 @@
             this.tabNavigationPage1.PerformLayout();
             this.tabNavigationPage2.ResumeLayout(false);
             this.tabNavigationPage2.PerformLayout();
+            this.tabNavigationPage4.ResumeLayout(false);
+            this.tabNavigationPage4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -178,6 +193,7 @@
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage2;
         private ThResidentialRoomControl thResidentialRoomControl1;
         private ThResidentialBuildingControl thResidentialBuildingControl1;
+        private ThAOccupancyControl thAOccupancyControl1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage3;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage4;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage5;

@@ -61,6 +61,12 @@
     <Compile Include="ThAreaFrameConfigApp.cs" />
     <Compile Include="View\IResidentialRoomView.cs" />
     <Compile Include="View\IThAreaFrameView.cs" />
+    <Compile Include="WinForms\ThAOccupancyControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WinForms\ThAOccupancyControl.Designer.cs">
+      <DependentUpon>ThAOccupancyControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinForms\ThResidentialBuildingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -94,6 +100,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="WinForms\ThAOccupancyControl.resx">
+      <DependentUpon>ThAOccupancyControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinForms\ThResidentialBuildingControl.resx">
       <DependentUpon>ThResidentialBuildingControl.cs</DependentUpon>
     </EmbeddedResource>
