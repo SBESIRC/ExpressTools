@@ -41,13 +41,17 @@
             this.tabNavigationPage5 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.thRoofGreenSpaceControl1 = new ThAreaFrameConfig.WinForms.ThRoofGreenSpaceControl();
             this.tabNavigationPage6 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.thUnderGroundParkingControl1 = new ThAreaFrameConfig.WinForms.ThUnderGroundParkingControl();
             this.tabNavigationPage7 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.thRoofControl1 = new ThAreaFrameConfig.WinForms.ThRoofControl();
             ((System.ComponentModel.ISupportInitialize)(this.tabPane1)).BeginInit();
             this.tabPane1.SuspendLayout();
             this.tabNavigationPage1.SuspendLayout();
             this.tabNavigationPage2.SuspendLayout();
-            this.tabNavigationPage4.SuspendLayout();
+            this.tabNavigationPage3.SuspendLayout();
             this.tabNavigationPage5.SuspendLayout();
+            this.tabNavigationPage6.SuspendLayout();
+            this.tabNavigationPage7.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -126,15 +130,9 @@
             // tabNavigationPage3
             // 
             this.tabNavigationPage3.Caption = "附属公建";
+            this.tabNavigationPage3.Controls.Add(this.thAOccupancyControl1);
             this.tabNavigationPage3.Name = "tabNavigationPage3";
             this.tabNavigationPage3.Size = new System.Drawing.Size(758, 351);
-            // 
-            // tabNavigationPage4
-            // 
-            this.tabNavigationPage4.Caption = "公摊";
-            this.tabNavigationPage4.Controls.Add(this.thAOccupancyControl1);
-            this.tabNavigationPage4.Name = "tabNavigationPage4";
-            this.tabNavigationPage4.Size = new System.Drawing.Size(758, 351);
             // 
             // thAOccupancyControl1
             // 
@@ -143,6 +141,13 @@
             this.thAOccupancyControl1.Name = "thAOccupancyControl1";
             this.thAOccupancyControl1.Size = new System.Drawing.Size(834, 495);
             this.thAOccupancyControl1.TabIndex = 0;
+            // 
+            // tabNavigationPage4
+            // 
+            this.tabNavigationPage4.Caption = "公摊";
+            this.tabNavigationPage4.Name = "tabNavigationPage4";
+            this.tabNavigationPage4.Size = new System.Drawing.Size(758, 351);
+            this.tabNavigationPage4.PageVisible = false;
             // 
             // tabNavigationPage5
             // 
@@ -162,14 +167,32 @@
             // tabNavigationPage6
             // 
             this.tabNavigationPage6.Caption = "室内车位";
+            this.tabNavigationPage6.Controls.Add(this.thUnderGroundParkingControl1);
             this.tabNavigationPage6.Name = "tabNavigationPage6";
             this.tabNavigationPage6.Size = new System.Drawing.Size(758, 351);
+            // 
+            // thUnderGroundParkingControl1
+            // 
+            this.thUnderGroundParkingControl1.AutoSize = true;
+            this.thUnderGroundParkingControl1.Location = new System.Drawing.Point(3, 3);
+            this.thUnderGroundParkingControl1.Name = "thUnderGroundParkingControl1";
+            this.thUnderGroundParkingControl1.Size = new System.Drawing.Size(834, 495);
+            this.thUnderGroundParkingControl1.TabIndex = 0;
             // 
             // tabNavigationPage7
             // 
             this.tabNavigationPage7.Caption = "楼顶间";
+            this.tabNavigationPage7.Controls.Add(this.thRoofControl1);
             this.tabNavigationPage7.Name = "tabNavigationPage7";
             this.tabNavigationPage7.Size = new System.Drawing.Size(758, 351);
+            // 
+            // thRoofControl1
+            // 
+            this.thRoofControl1.AutoSize = true;
+            this.thRoofControl1.Location = new System.Drawing.Point(3, 3);
+            this.thRoofControl1.Name = "thRoofControl1";
+            this.thRoofControl1.Size = new System.Drawing.Size(834, 495);
+            this.thRoofControl1.TabIndex = 0;
             // 
             // ThResidentialRoomControlDialog
             // 
@@ -187,10 +210,14 @@
             this.tabNavigationPage1.PerformLayout();
             this.tabNavigationPage2.ResumeLayout(false);
             this.tabNavigationPage2.PerformLayout();
-            this.tabNavigationPage4.ResumeLayout(false);
-            this.tabNavigationPage4.PerformLayout();
+            this.tabNavigationPage3.ResumeLayout(false);
+            this.tabNavigationPage3.PerformLayout();
             this.tabNavigationPage5.ResumeLayout(false);
             this.tabNavigationPage5.PerformLayout();
+            this.tabNavigationPage6.ResumeLayout(false);
+            this.tabNavigationPage6.PerformLayout();
+            this.tabNavigationPage7.ResumeLayout(false);
+            this.tabNavigationPage7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -201,15 +228,17 @@
         private System.Windows.Forms.Button button2;
         private DevExpress.XtraBars.Navigation.TabPane tabPane1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage1;
+        private ThResidentialBuildingControl thResidentialBuildingControl1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage2;
         private ThResidentialRoomControl thResidentialRoomControl1;
-        private ThResidentialBuildingControl thResidentialBuildingControl1;
-        private ThAOccupancyControl thAOccupancyControl1;
-        private ThRoofGreenSpaceControl thRoofGreenSpaceControl1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage3;
+        private ThAOccupancyControl thAOccupancyControl1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage4;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage5;
+        private ThRoofGreenSpaceControl thRoofGreenSpaceControl1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage6;
+        private ThUnderGroundParkingControl thUnderGroundParkingControl1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage7;
+        private ThRoofControl thRoofControl1;
     }
 }
