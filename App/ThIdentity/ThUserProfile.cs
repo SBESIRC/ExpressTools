@@ -49,6 +49,11 @@ namespace ThIdentity
             }
         }
 
+        public bool IsDomainUser()
+        {
+            return (properties != null);
+        }
+
         private string AccountName()
         {
             // Machines current user is as AD account name
