@@ -32,6 +32,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
             this.tabNavigationPage1 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.thResidentialBuildingControl1 = new ThAreaFrameConfig.WinForms.ThResidentialBuildingControl();
             this.tabNavigationPage2 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.thResidentialRoomControl1 = new ThAreaFrameConfig.WinForms.ThResidentialRoomControl();
             this.tabNavigationPage3 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
@@ -41,6 +42,7 @@
             this.tabNavigationPage7 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             ((System.ComponentModel.ISupportInitialize)(this.tabPane1)).BeginInit();
             this.tabPane1.SuspendLayout();
+            this.tabNavigationPage1.SuspendLayout();
             this.tabNavigationPage2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,8 +92,17 @@
             // tabNavigationPage1
             // 
             this.tabNavigationPage1.Caption = "单体信息";
+            this.tabNavigationPage1.Controls.Add(this.thResidentialBuildingControl1);
             this.tabNavigationPage1.Name = "tabNavigationPage1";
-            this.tabNavigationPage1.Size = new System.Drawing.Size(758, 351);
+            this.tabNavigationPage1.Size = new System.Drawing.Size(842, 501);
+            // 
+            // thResidentialBuildingControl1
+            // 
+            this.thResidentialBuildingControl1.AutoSize = true;
+            this.thResidentialBuildingControl1.Location = new System.Drawing.Point(3, 3);
+            this.thResidentialBuildingControl1.Name = "thResidentialBuildingControl1";
+            this.thResidentialBuildingControl1.Size = new System.Drawing.Size(836, 495);
+            this.thResidentialBuildingControl1.TabIndex = 0;
             // 
             // tabNavigationPage2
             // 
@@ -150,6 +161,8 @@
             this.Text = "天华单体框线图层规整";
             ((System.ComponentModel.ISupportInitialize)(this.tabPane1)).EndInit();
             this.tabPane1.ResumeLayout(false);
+            this.tabNavigationPage1.ResumeLayout(false);
+            this.tabNavigationPage1.PerformLayout();
             this.tabNavigationPage2.ResumeLayout(false);
             this.tabNavigationPage2.PerformLayout();
             this.ResumeLayout(false);
@@ -164,6 +177,7 @@
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage2;
         private ThResidentialRoomControl thResidentialRoomControl1;
+        private ThResidentialBuildingControl thResidentialBuildingControl1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage3;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage4;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage5;
