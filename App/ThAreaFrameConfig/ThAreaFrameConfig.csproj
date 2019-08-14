@@ -53,13 +53,18 @@
     <Compile Include="Model\ThResidentialRoomComponent.cs" />
     <Compile Include="Model\ThResidentialRoomUtil.cs" />
     <Compile Include="Model\ThResidentialStorey.cs" />
+    <Compile Include="Model\ThRoofGreenSpace.cs" />
+    <Compile Include="Model\ThRoofGreenSpaceDbRepository.cs" />
+    <Compile Include="Presenter\IRoofGreenSpacePresenterCallback.cs" />
     <Compile Include="Presenter\IThAreaFramePresenter.cs" />
     <Compile Include="Presenter\IThAreaFramePresenterCallback.cs" />
     <Compile Include="Presenter\ThResidentialRoomDbUtil.cs" />
     <Compile Include="Presenter\ThResidentialRoomPresenter.cs" />
+    <Compile Include="Presenter\ThRoofGreenSpacePresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThAreaFrameConfigApp.cs" />
     <Compile Include="View\IResidentialRoomView.cs" />
+    <Compile Include="View\IRoofGreenSpaceView.cs" />
     <Compile Include="View\IThAreaFrameView.cs" />
     <Compile Include="WinForms\ThAOccupancyControl.cs">
       <SubType>UserControl</SubType>

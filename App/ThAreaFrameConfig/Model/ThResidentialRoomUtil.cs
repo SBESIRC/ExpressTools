@@ -106,6 +106,22 @@ namespace ThAreaFrameConfig.Model
             return storeys;
         }
 
+        public static List<ThRoofGreenSpace> RoofGreenSpace(string[] names)
+        {
+            List<ThRoofGreenSpace> spaces = new List<ThRoofGreenSpace>();
+            foreach (string name in names.Where(n => n.StartsWith(@"屋顶构件_屋顶绿地")))
+            {
+                string[] tokens = name.Split('_');
+                spaces.Add(new ThRoofGreenSpace()
+                {
+                    ID = Guid.NewGuid(),
+                    Number = spaces.Count+1,
+                    Coefficient = double.Parse(tokens[2])
+                });
+            }
+            return spaces;
+        }
+
         // 默认住宅楼层
         public static ThResidentialStorey DefaultResidentialStorey(string identifier)
         {
