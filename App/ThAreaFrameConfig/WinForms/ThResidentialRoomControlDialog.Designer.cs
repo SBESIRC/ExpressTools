@@ -39,6 +39,7 @@
             this.tabNavigationPage4 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.thAOccupancyControl1 = new ThAreaFrameConfig.WinForms.ThAOccupancyControl();
             this.tabNavigationPage5 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.thRoofGreenSpaceControl1 = new ThAreaFrameConfig.WinForms.ThRoofGreenSpaceControl();
             this.tabNavigationPage6 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.tabNavigationPage7 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             ((System.ComponentModel.ISupportInitialize)(this.tabPane1)).BeginInit();
@@ -46,6 +47,7 @@
             this.tabNavigationPage1.SuspendLayout();
             this.tabNavigationPage2.SuspendLayout();
             this.tabNavigationPage4.SuspendLayout();
+            this.tabNavigationPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -141,14 +143,21 @@
             this.thAOccupancyControl1.Name = "thAOccupancyControl1";
             this.thAOccupancyControl1.Size = new System.Drawing.Size(834, 495);
             this.thAOccupancyControl1.TabIndex = 0;
-
-
             // 
             // tabNavigationPage5
             // 
             this.tabNavigationPage5.Caption = "屋顶绿地";
+            this.tabNavigationPage5.Controls.Add(this.thRoofGreenSpaceControl1);
             this.tabNavigationPage5.Name = "tabNavigationPage5";
             this.tabNavigationPage5.Size = new System.Drawing.Size(758, 351);
+            // 
+            // thRoofGreenSpaceControl1
+            // 
+            this.thRoofGreenSpaceControl1.AutoSize = true;
+            this.thRoofGreenSpaceControl1.Location = new System.Drawing.Point(3, 3);
+            this.thRoofGreenSpaceControl1.Name = "thRoofGreenSpaceControl1";
+            this.thRoofGreenSpaceControl1.Size = new System.Drawing.Size(834, 495);
+            this.thRoofGreenSpaceControl1.TabIndex = 0;
             // 
             // tabNavigationPage6
             // 
@@ -180,6 +189,8 @@
             this.tabNavigationPage2.PerformLayout();
             this.tabNavigationPage4.ResumeLayout(false);
             this.tabNavigationPage4.PerformLayout();
+            this.tabNavigationPage5.ResumeLayout(false);
+            this.tabNavigationPage5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -194,6 +205,7 @@
         private ThResidentialRoomControl thResidentialRoomControl1;
         private ThResidentialBuildingControl thResidentialBuildingControl1;
         private ThAOccupancyControl thAOccupancyControl1;
+        private ThRoofGreenSpaceControl thRoofGreenSpaceControl1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage3;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage4;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage5;
