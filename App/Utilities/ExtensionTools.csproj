@@ -18,6 +18,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -140,6 +141,7 @@
     <Compile Include="JiHe.cs" />
     <Compile Include="LinqTool.cs" />
     <Compile Include="ObjectIDTool.cs" />
+    <Compile Include="PickTool.cs" />
     <Compile Include="PointCollector.cs" />
     <Compile Include="SelectionTool.cs" />
     <Compile Include="ShowTools.cs" />
@@ -189,6 +191,7 @@
     <Compile Include="GeometryExtensions\Vector3dExtensions.cs" />
     <Compile Include="GeometryExtensions\ViewportExtensions.cs" />
     <Compile Include="TextTool.cs" />
+    <Compile Include="ThEntTool.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="WeiZhi.cs" />
     <Compile Include="ZiFu.cs" />
