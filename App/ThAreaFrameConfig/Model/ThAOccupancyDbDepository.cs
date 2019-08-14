@@ -1,7 +1,4 @@
 ﻿using AcHelper;
-using Linq2Acad;
-using System;
-using System.Linq;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 

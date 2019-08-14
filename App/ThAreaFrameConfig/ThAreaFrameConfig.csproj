@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\IThResidentialRoomRepository.cs" />
     <Compile Include="Model\ThAOccupancy.cs" />
     <Compile Include="Model\ThAOccupancyDbDepository.cs" />
     <Compile Include="Model\ThAOccupancyStorey.cs" />
