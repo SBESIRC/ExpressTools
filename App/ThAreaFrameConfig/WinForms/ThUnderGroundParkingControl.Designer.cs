@@ -28,35 +28,86 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
+            this.gridControl_parking = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
+            this.gridColumn_number = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_category = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_Floor = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_storey = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_slot = new DevExpress.XtraGrid.Columns.GridColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_parking)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // gridControl1
+            // gridControl_parking
             // 
-            this.gridControl1.Location = new System.Drawing.Point(3, 3);
-            this.gridControl1.MainView = this.gridView1;
-            this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(658, 496);
-            this.gridControl1.TabIndex = 0;
-            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridControl_parking.Location = new System.Drawing.Point(3, 3);
+            this.gridControl_parking.MainView = this.gridView1;
+            this.gridControl_parking.Name = "gridControl_parking";
+            this.gridControl_parking.Size = new System.Drawing.Size(768, 579);
+            this.gridControl_parking.TabIndex = 0;
+            this.gridControl_parking.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
             // 
             // gridView1
             // 
-            this.gridView1.GridControl = this.gridControl1;
+            this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn_number,
+            this.gridColumn_category,
+            this.gridColumn_Floor,
+            this.gridColumn_storey,
+            this.gridColumn_slot});
+            this.gridView1.GridControl = this.gridControl_parking;
             this.gridView1.Name = "gridView1";
+            // 
+            // gridColumn_number
+            // 
+            this.gridColumn_number.Caption = "序号";
+            this.gridColumn_number.FieldName = "Number";
+            this.gridColumn_number.Name = "gridColumn_number";
+            this.gridColumn_number.Visible = true;
+            this.gridColumn_number.VisibleIndex = 0;
+            // 
+            // gridColumn_category
+            // 
+            this.gridColumn_category.Caption = "停车类型";
+            this.gridColumn_category.FieldName = "Category";
+            this.gridColumn_category.Name = "gridColumn_category";
+            this.gridColumn_category.Visible = true;
+            this.gridColumn_category.VisibleIndex = 1;
+            // 
+            // gridColumn_Floor
+            // 
+            this.gridColumn_Floor.Caption = "车场层数";
+            this.gridColumn_Floor.FieldName = "Floors";
+            this.gridColumn_Floor.Name = "gridColumn_Floor";
+            this.gridColumn_Floor.Visible = true;
+            this.gridColumn_Floor.VisibleIndex = 2;
+            // 
+            // gridColumn_storey
+            // 
+            this.gridColumn_storey.Caption = "所属层";
+            this.gridColumn_storey.FieldName = "Storey";
+            this.gridColumn_storey.Name = "gridColumn_storey";
+            this.gridColumn_storey.Visible = true;
+            this.gridColumn_storey.VisibleIndex = 3;
+            // 
+            // gridColumn_slot
+            // 
+            this.gridColumn_slot.Caption = "室内车位数";
+            this.gridColumn_slot.FieldName = "Slots";
+            this.gridColumn_slot.Name = "gridColumn_slot";
+            this.gridColumn_slot.Visible = true;
+            this.gridColumn_slot.VisibleIndex = 4;
             // 
             // ThUnderGroundParkingControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gridControl1);
+            this.Controls.Add(this.gridControl_parking);
             this.Name = "ThUnderGroundParkingControl";
-            this.Size = new System.Drawing.Size(664, 502);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
+            this.Size = new System.Drawing.Size(775, 586);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_parking)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.ResumeLayout(false);
 
@@ -64,7 +115,12 @@
 
         #endregion
 
-        private DevExpress.XtraGrid.GridControl gridControl1;
+        private DevExpress.XtraGrid.GridControl gridControl_parking;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_number;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_category;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_Floor;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_storey;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_slot;
     }
 }
