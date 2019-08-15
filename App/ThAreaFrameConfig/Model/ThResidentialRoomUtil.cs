@@ -30,6 +30,58 @@ namespace ThAreaFrameConfig.Model
             return string.Join("_", tokens);
         }
 
+        // 图层名称
+        public static string LayerName(ThAOccupancyStorey storey, ThAOccupancy aoccupancy)
+        {
+            switch(aoccupancy.Component)
+            {
+                case "主体":
+                case "架空":
+                    {
+                        string[] tokens =
+                        {
+                            "附属公建",
+                            aoccupancy.Component,
+                            aoccupancy.Category,
+                            "",
+                            aoccupancy.Coefficient.ToString(),
+                            aoccupancy.FARCoefficient.ToString(),
+                            aoccupancy.Floors,
+                            storey.Identifier,
+                            "",
+                            version,
+                        };
+
+                        return string.Join("_", tokens);
+                    }
+                case "阳台":
+                case "飘窗":
+                case "雨棚":
+                case "附属其他构件":
+                    {
+                        string[] tokens =
+                        {
+                            "附属公建",
+                            aoccupancy.Component,
+                            aoccupancy.Category,
+                            "",
+                            aoccupancy.Coefficient.ToString(),
+                            aoccupancy.FARCoefficient.ToString(),
+                            storey.Identifier,
+                            "",
+                            version,
+                        };
+
+                        return string.Join("_", tokens);
+                    }
+                default:
+                    break;
+            }
+
+            //
+            return null;
+        }
+
         public static List<string> LayerNames(ThResidentialStorey storey)
         { 
             List<string> names = new List<string>();

@@ -7,5 +7,6 @@ namespace ThAreaFrameConfig.Presenter
 {
     public interface IAOccupanyPresenterCallback
     {
+        void OnPickAreaFrames(string name);
     }
 }

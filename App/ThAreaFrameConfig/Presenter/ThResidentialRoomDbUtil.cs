@@ -11,19 +11,34 @@ namespace ThAreaFrameConfig.Presenter
     {
         public static ObjectId ConfigLayer(string layerName)
         {
-            Dictionary<string, short> colors = new Dictionary<string, short>
+            Dictionary<string, Dictionary<string, short>> colors = new Dictionary<string, Dictionary<string, short>>
             {
-                { "套内", 1 },
-                { "阳台", 3 }
+                { "住宅构件", new Dictionary<string, short>
+                    {
+                        { "套内",             1   },
+                        { "阳台",             3   },
+                     }
+                },
+
+                { "附属公建", new Dictionary<string, short>
+                    {
+                        { "主体",             96  },
+                        { "阳台",             3   },
+                        { "架空",             2   },
+                        { "飘窗",             4   },
+                        { "雨棚",             226 },
+                        { "附属其他构件",      185 }
+                    }
+                }
             };
 
             string[] tokens = layerName.Split('_');
-            short colorIndex = colors[tokens[1]];
+            short colorIndex = colors[tokens[0]][tokens[1]];
 
             using (var db = AcadDatabase.Active())
             {
                 ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
-                LayerTools.SetLayerColor(db.Database, layerName, colors[tokens[1]]);
+                LayerTools.SetLayerColor(db.Database, layerName, colorIndex);
                 return objectId;
             };
         }
