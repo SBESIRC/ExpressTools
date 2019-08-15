@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using ThAreaFrameConfig.View;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.Presenter;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Base;
-using DevExpress.Utils.Menu;
 using DevExpress.XtraTab;
-using DevExpress.XtraTab.Buttons;
-using DevExpress.XtraEditors.Controls;
 using Autodesk.AutoCAD.Runtime;
 
 namespace ThAreaFrameConfig.WinForms

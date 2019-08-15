@@ -5,8 +5,7 @@ using System.Text;
 
 namespace ThAreaFrameConfig.Presenter
 {
-    public interface IRoofPresenterCallback
+    public interface IRoofPresenterCallback : IThAreaFramePresenterCallback
     {
-        void OnPickAreaFrames(string name);
     }
 }

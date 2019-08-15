@@ -5,8 +5,7 @@ using System.Text;
 
 namespace ThAreaFrameConfig.Presenter
 {
-    public interface IUnderGroundParkingPresenterCallback
+    public interface IUnderGroundParkingPresenterCallback : IThAreaFramePresenterCallback
     {
-        void OnPickAreaFrames(string name);
     }
 }

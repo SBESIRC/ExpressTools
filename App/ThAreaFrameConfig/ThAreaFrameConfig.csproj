@@ -68,6 +68,7 @@
     <Compile Include="Presenter\IThAreaFramePresenter.cs" />
     <Compile Include="Presenter\IThAreaFramePresenterCallback.cs" />
     <Compile Include="Presenter\IUnderGroundParkingPresenterCallback.cs" />
+    <Compile Include="Presenter\ThPickAreaFrameHelper.cs" />
     <Compile Include="Presenter\ThResidentialRoomDbUtil.cs" />
     <Compile Include="Presenter\ThResidentialRoomPresenter.cs" />
     <Compile Include="Presenter\ThRoofGreenSpacePresenter.cs" />
