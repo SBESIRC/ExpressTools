@@ -33,7 +33,7 @@ namespace ThAreaFrameConfig.Model
         public double FARCoefficient { get; set; }
 
         // 车位层数
-        public UInt16 Floors { get; set; }
+        public string Floors { get; set; }
 
         // 面积
         public double Area

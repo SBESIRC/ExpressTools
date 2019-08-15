@@ -46,7 +46,9 @@ namespace ThAreaFrameConfig.WinForms
 
         public void Reload()
         {
-            //
+            DbRepository = new ThAOccupancyDbDepository();
+            gridControl_aoccupancy.DataSource = DbRepository.AOccupancies(this.CurrentStorey);
+            gridControl_aoccupancy.RefreshDataSource();
         }
 
         public void InitializeTabControl()
@@ -63,6 +65,32 @@ namespace ThAreaFrameConfig.WinForms
             }
 
             this.xtraTabControl1.TabPages.RemoveAt(0);
+        }
+
+        private ThAOccupancyStorey CurrentStorey
+        {
+            get
+            {
+                return DbRepository.Storeys.Where(o => o.Identifier == xtraTabControl1.SelectedTabPage.Text).FirstOrDefault();
+            }
+        }
+
+        // XtraTabControl.SelectedPageChanged Event handler
+        private void xtraTabControl1_SelectedPageChanged(object sender, TabPageChangedEventArgs e)
+        {
+            e.PrevPage.Controls.RemoveAt(0);
+            e.Page.Controls.Add(gridControl_aoccupancy);
+            gridControl_aoccupancy.DataSource = DbRepository.AOccupancies(e.Page.Text);
+            gridControl_aoccupancy.RefreshDataSource();
+        }
+
+        private void gridView_aoccupancy_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
+        {
+            if (e.Column.FieldName == "Area" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+            {
+                double area = Convert.ToDouble(e.Value);
+                e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
+            }
         }
     }
 }
