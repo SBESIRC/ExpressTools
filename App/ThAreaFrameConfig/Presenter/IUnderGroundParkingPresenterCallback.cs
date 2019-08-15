@@ -7,5 +7,6 @@ namespace ThAreaFrameConfig.Presenter
 {
     public interface IUnderGroundParkingPresenterCallback
     {
+        void OnPickAreaFrames(string name);
     }
 }

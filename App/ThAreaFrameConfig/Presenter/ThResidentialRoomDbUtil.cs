@@ -35,6 +35,12 @@ namespace ThAreaFrameConfig.Presenter
                     {
                         { "屋顶绿地",   77}
                     }
+                },
+
+                { "单体车位", new Dictionary<string, short>
+                    {
+                        { "小型汽车", 17 } 
+                    }
                 }
             };
 

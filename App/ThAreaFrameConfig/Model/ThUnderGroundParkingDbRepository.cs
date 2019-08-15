@@ -38,6 +38,7 @@ namespace ThAreaFrameConfig.Model
             {
                 ID = Guid.NewGuid(),
                 Number = parkings.Count + 1,
+                Floors = 1
             });
         }
 

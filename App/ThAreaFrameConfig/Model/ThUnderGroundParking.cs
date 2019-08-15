@@ -1,6 +1,8 @@
 ﻿using System;
-using Linq2Acad;
+using System.Linq;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Linq2Acad;
 using Autodesk.AutoCAD.DatabaseServices;
 namespace ThAreaFrameConfig.Model
 {
@@ -29,10 +31,17 @@ namespace ThAreaFrameConfig.Model
         public string Storey { get; set; }
 
         // 室内车位数
-        public UInt16 Slots {
+        public int Slots {
             get
             {
-                return 0;
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    var name = ThResidentialRoomUtil.LayerName(this);
+                    return acadDatabase.ModelSpace
+                        .OfType<Polyline>()
+                        .Where(e => e.Layer == name)
+                        .Count();
+                }
             }
         }
     }

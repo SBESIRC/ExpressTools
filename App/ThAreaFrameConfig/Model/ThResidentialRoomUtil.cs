@@ -95,6 +95,20 @@ namespace ThAreaFrameConfig.Model
             return string.Join("_", tokens);
         }
 
+        public static string LayerName(ThUnderGroundParking parking)
+        {
+            string[] tokens =
+            {
+                "单体车位",
+                "小型汽车",
+                parking.Floors.ToString(),
+                parking.Storey,
+                version,
+            };
+
+            return string.Join("_", tokens);
+        }
+
         public static List<string> LayerNames(ThResidentialStorey storey)
         { 
             List<string> names = new List<string>();

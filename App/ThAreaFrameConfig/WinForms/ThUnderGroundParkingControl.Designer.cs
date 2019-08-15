@@ -32,11 +32,16 @@
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn_number = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_category = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox_category = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn_Floor = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_storey = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_slot = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_parking)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_category)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // gridControl_parking
@@ -44,6 +49,9 @@
             this.gridControl_parking.Location = new System.Drawing.Point(3, 3);
             this.gridControl_parking.MainView = this.gridView1;
             this.gridControl_parking.Name = "gridControl_parking";
+            this.gridControl_parking.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemHyperLinkEdit1,
+            this.repositoryItemComboBox_category});
             this.gridControl_parking.Size = new System.Drawing.Size(768, 579);
             this.gridControl_parking.TabIndex = 0;
             this.gridControl_parking.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -56,9 +64,12 @@
             this.gridColumn_category,
             this.gridColumn_Floor,
             this.gridColumn_storey,
-            this.gridColumn_slot});
+            this.gridColumn_slot,
+            this.gridColumn_pick});
             this.gridView1.GridControl = this.gridControl_parking;
             this.gridView1.Name = "gridView1";
+            this.gridView1.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView1_RowClick);
+            this.gridView1.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView1_CustomUnboundColumnData);
             // 
             // gridColumn_number
             // 
@@ -71,10 +82,26 @@
             // gridColumn_category
             // 
             this.gridColumn_category.Caption = "停车类型";
+            this.gridColumn_category.ColumnEdit = this.repositoryItemComboBox_category;
             this.gridColumn_category.FieldName = "Category";
             this.gridColumn_category.Name = "gridColumn_category";
+            this.gridColumn_category.OptionsColumn.AllowEdit = false;
             this.gridColumn_category.Visible = true;
             this.gridColumn_category.VisibleIndex = 1;
+            // 
+            // repositoryItemComboBox_category
+            // 
+            this.repositoryItemComboBox_category.AutoHeight = false;
+            this.repositoryItemComboBox_category.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox_category.Items.AddRange(new object[] {
+            "小型汽车",
+            "微型汽车",
+            "中型汽车",
+            "大型汽车",
+            "铰接车"});
+            this.repositoryItemComboBox_category.Name = "repositoryItemComboBox_category";
+            this.repositoryItemComboBox_category.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             // 
             // gridColumn_Floor
             // 
@@ -97,8 +124,25 @@
             this.gridColumn_slot.Caption = "室内车位数";
             this.gridColumn_slot.FieldName = "Slots";
             this.gridColumn_slot.Name = "gridColumn_slot";
+            this.gridColumn_slot.OptionsColumn.AllowEdit = false;
             this.gridColumn_slot.Visible = true;
             this.gridColumn_slot.VisibleIndex = 4;
+            // 
+            // gridColumn_pick
+            // 
+            this.gridColumn_pick.Caption = "选择";
+            this.gridColumn_pick.ColumnEdit = this.repositoryItemHyperLinkEdit1;
+            this.gridColumn_pick.FieldName = "gridColumn_pick";
+            this.gridColumn_pick.Name = "gridColumn_pick";
+            this.gridColumn_pick.OptionsColumn.AllowEdit = false;
+            this.gridColumn_pick.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.gridColumn_pick.Visible = true;
+            this.gridColumn_pick.VisibleIndex = 5;
+            // 
+            // repositoryItemHyperLinkEdit1
+            // 
+            this.repositoryItemHyperLinkEdit1.AutoHeight = false;
+            this.repositoryItemHyperLinkEdit1.Name = "repositoryItemHyperLinkEdit1";
             // 
             // ThUnderGroundParkingControl
             // 
@@ -109,6 +153,8 @@
             this.Size = new System.Drawing.Size(775, 586);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_parking)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_category)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -122,5 +168,8 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_Floor;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_storey;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_slot;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_pick;
+        private DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit repositoryItemHyperLinkEdit1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox_category;
     }
 }
