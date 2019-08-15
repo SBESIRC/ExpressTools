@@ -49,6 +49,17 @@ namespace ThAreaFrameConfig.Model
                         UnderGroundFloorNumber = tokens[5]
                     };
                 }
+                if (building == null)
+                {
+                    building = new ThResidentialBuilding()
+                    {
+                        Number = "",
+                        Name = "",
+                        Category = "住宅",
+                        AboveGroundFloorNumber = "",
+                        UnderGroundFloorNumber = ""
+                    };
+                }
             }
         }
     }
