@@ -109,6 +109,19 @@ namespace ThAreaFrameConfig.Model
             return string.Join("_", tokens);
         }
 
+        public static string LayerName(ThRoof roof)
+        {
+            string[] tokens =
+            {
+                "单体楼顶间",
+                roof.Coefficient.ToString(),
+                roof.FARCoefficient.ToString(),
+                version,
+            };
+
+            return string.Join("_", tokens);
+        }
+
         public static List<string> LayerNames(ThResidentialStorey storey)
         { 
             List<string> names = new List<string>();

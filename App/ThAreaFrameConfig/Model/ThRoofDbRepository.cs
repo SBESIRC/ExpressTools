@@ -64,7 +64,7 @@ namespace ThAreaFrameConfig.Model
             {
                 var names = new List<string>();
                 acadDatabase.Layers.ForEachDbObject(l => names.Add(l.Name));
-                foreach (string name in names.Where(n => n.StartsWith(@"屋顶构件_屋顶绿地")))
+                foreach (string name in names.Where(n => n.StartsWith(@"单体楼顶间")))
                 {
                     string[] tokens = name.Split('_');
                     foreach (ObjectId objId in AreaFrameLines(name))
@@ -74,8 +74,8 @@ namespace ThAreaFrameConfig.Model
                             ID = Guid.NewGuid(),
                             Number = roofs.Count + 1,
                             Frame = objId.OldIdPtr,
-                            Coefficient = double.Parse(tokens[2]),
-                            FARCoefficient = double.Parse(tokens[3])
+                            Coefficient = double.Parse(tokens[1]),
+                            FARCoefficient = double.Parse(tokens[2])
                         });
                     }
                 }

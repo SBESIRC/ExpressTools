@@ -55,6 +55,16 @@ namespace ThAreaFrameConfig.Presenter
             };
         }
 
+        public static ObjectId ConfigRoofLayer(string layerName)
+        {
+            using (var db = AcadDatabase.Active())
+            {
+                ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
+                LayerTools.SetLayerColor(db.Database, layerName, 80);
+                return objectId;
+            };
+        }
+
         public static void RemoveLayer(string layerName)
         {
             using (var db = AcadDatabase.Active())
