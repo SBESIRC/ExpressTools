@@ -7,6 +7,6 @@ namespace ThAreaFrameConfig.Presenter
 {
     public interface IRoofGreenSpacePresenterCallback
     {
-        //
+        void OnPickAreaFrames(string name);
     }
 }

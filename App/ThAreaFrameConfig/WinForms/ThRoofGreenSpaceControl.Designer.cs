@@ -33,8 +33,11 @@
             this.gridColumn_number = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_coefficient = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_space)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // gridControl_space
@@ -42,6 +45,8 @@
             this.gridControl_space.Location = new System.Drawing.Point(4, 4);
             this.gridControl_space.MainView = this.gridView1;
             this.gridControl_space.Name = "gridControl_space";
+            this.gridControl_space.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemHyperLinkEdit1});
             this.gridControl_space.Size = new System.Drawing.Size(682, 502);
             this.gridControl_space.TabIndex = 0;
             this.gridControl_space.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -52,15 +57,20 @@
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn_number,
             this.gridColumn_coefficient,
-            this.gridColumn_area});
+            this.gridColumn_area,
+            this.gridColumn_pick});
             this.gridView1.GridControl = this.gridControl_space;
             this.gridView1.Name = "gridView1";
+            this.gridView1.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView1_RowClick);
+            this.gridView1.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView1_CustomUnboundColumnData);
+            this.gridView1.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridView1_CustomColumnDisplayText);
             // 
             // gridColumn_number
             // 
             this.gridColumn_number.Caption = "编号";
             this.gridColumn_number.FieldName = "Number";
             this.gridColumn_number.Name = "gridColumn_number";
+            this.gridColumn_number.OptionsColumn.AllowEdit = false;
             this.gridColumn_number.Visible = true;
             this.gridColumn_number.VisibleIndex = 0;
             // 
@@ -77,8 +87,25 @@
             this.gridColumn_area.Caption = "面积";
             this.gridColumn_area.FieldName = "Area";
             this.gridColumn_area.Name = "gridColumn_area";
+            this.gridColumn_area.OptionsColumn.AllowEdit = false;
             this.gridColumn_area.Visible = true;
             this.gridColumn_area.VisibleIndex = 2;
+            // 
+            // gridColumn_pick
+            // 
+            this.gridColumn_pick.Caption = "选择";
+            this.gridColumn_pick.ColumnEdit = this.repositoryItemHyperLinkEdit1;
+            this.gridColumn_pick.FieldName = "gridColumn_pick";
+            this.gridColumn_pick.Name = "gridColumn_pick";
+            this.gridColumn_pick.OptionsColumn.AllowEdit = false;
+            this.gridColumn_pick.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.gridColumn_pick.Visible = true;
+            this.gridColumn_pick.VisibleIndex = 3;
+            // 
+            // repositoryItemHyperLinkEdit1
+            // 
+            this.repositoryItemHyperLinkEdit1.AutoHeight = false;
+            this.repositoryItemHyperLinkEdit1.Name = "repositoryItemHyperLinkEdit1";
             // 
             // ThRoofGreenSpaceControl
             // 
@@ -89,6 +116,7 @@
             this.Size = new System.Drawing.Size(689, 509);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_space)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -100,5 +128,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_number;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_coefficient;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_area;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_pick;
+        private DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit repositoryItemHyperLinkEdit1;
     }
 }

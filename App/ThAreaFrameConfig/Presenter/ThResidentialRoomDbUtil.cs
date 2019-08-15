@@ -29,6 +29,12 @@ namespace ThAreaFrameConfig.Presenter
                         { "雨棚",             226 },
                         { "附属其他构件",      185 }
                     }
+                },
+
+                { "屋顶构件", new Dictionary<string, short>
+                    {
+                        { "屋顶绿地",   77}
+                    }
                 }
             };
 

@@ -82,6 +82,19 @@ namespace ThAreaFrameConfig.Model
             return null;
         }
 
+        public static string LayerName(ThRoofGreenSpace greenSpace)
+        {
+            string[] tokens =
+            {           
+                "屋顶构件",
+                "屋顶绿地",
+                greenSpace.Coefficient.ToString(),
+                version,
+            };
+
+            return string.Join("_", tokens);
+        }
+
         public static List<string> LayerNames(ThResidentialStorey storey)
         { 
             List<string> names = new List<string>();
