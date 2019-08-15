@@ -77,34 +77,42 @@ namespace ThIdentity
 
         private PropertyCollection Collectionproperty(string name, string domain)
         {
-            //get domain
-            if (domain == null)
+            try
             {
-                IPGlobalProperties ipglobalproperties = IPGlobalProperties.GetIPGlobalProperties();
-                domain = ipglobalproperties.DomainName;
+                //get domain
+                if (domain == null)
+                {
+                    IPGlobalProperties ipglobalproperties = IPGlobalProperties.GetIPGlobalProperties();
+                    domain = ipglobalproperties.DomainName;
+                }
+
+                //split domain
+                string LDAPString = string.Empty;
+                string[] domainComponents = domain.Split('.');
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < domainComponents.Length; i++)
+                {
+                    builder.AppendFormat(",dc={0}", domainComponents[i]);
+                }
+                if (builder.Length > 0)
+                    LDAPString = builder.ToString(1, builder.Length - 1);
+
+                //create AD
+                DirectoryEntry entry = new DirectoryEntry("LDAP://" + LDAPString);
+                if (entry.NativeObject == null) { }//这里只是让entry.NativeObject抛出异常用catch捕捉，而不需要进行操作
+                DirectorySearcher searcher = new DirectorySearcher(entry)
+                {
+                    Filter = "sAMAccountName=" + (name ?? AccountName())
+                };
+
+                //find
+                SearchResult result = searcher.FindOne();
+                return result?.GetDirectoryEntry().Properties;
             }
-
-            //split domain
-            string LDAPString = string.Empty;
-            string[] domainComponents = domain.Split('.');
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < domainComponents.Length; i++)
+            catch (Exception e)
             {
-                builder.AppendFormat(",dc={0}", domainComponents[i]);
+                return null;
             }
-            if (builder.Length > 0)
-                LDAPString = builder.ToString(1, builder.Length - 1);
-
-            //create AD
-            DirectoryEntry entry = new DirectoryEntry("LDAP://" + LDAPString);
-            DirectorySearcher searcher = new DirectorySearcher(entry)
-            {
-                Filter = "sAMAccountName=" + (name ?? AccountName())
-            };
-
-            //find
-            SearchResult result = searcher.FindOne();
-            return result?.GetDirectoryEntry().Properties;
         }
     }
 }
