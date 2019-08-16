@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using CountlySDK;
+﻿using CountlySDK;
 using CountlySDK.Entities;
 using ThIdentity;
 
@@ -26,7 +22,7 @@ namespace ThAnalytics
             //create the Countly init object
             CountlyConfig cc = new CountlyConfig()
             {
-                serverUrl = "https://asia-try.count.ly", // asia-try.count.ly
+                serverUrl = "https://asia-try.count.ly",
                 appKey      = "b179dc3c7e08f3aab6ceff7d0cf8e2304c196390",
                 appVersion  = "1.0.0"
             };
@@ -41,12 +37,15 @@ namespace ThAnalytics
 
         private void InitializeUserProfile()
         {
-            ThUserProfile thuserprofile = new ThUserProfile();
-            Countly.UserDetails.Name = thuserprofile.Name;
-            Countly.UserDetails.Email = thuserprofile.Mail;
-            Countly.UserDetails.Custom.Add("title", thuserprofile.Title);
-            Countly.UserDetails.Custom.Add("company", thuserprofile.Company);
-            Countly.UserDetails.Custom.Add("department", thuserprofile.Department);
+            ThUserProfile userProfile = new ThUserProfile();
+            if (userProfile.IsDomainUser())
+            {
+                Countly.UserDetails.Name = userProfile.Name;
+                Countly.UserDetails.Email = userProfile.Mail;
+                Countly.UserDetails.Custom.Add("title", userProfile.Title);
+                Countly.UserDetails.Custom.Add("company", userProfile.Company);
+                Countly.UserDetails.Custom.Add("department", userProfile.Department);
+            }
         }
 
         public void UnInitialize()
