@@ -60,6 +60,7 @@ namespace ThAreaFrameConfig.WinForms
             string name = DbRepository.Building.Layer;
             string newName = ThResidentialRoomUtil.LayerName(DbRepository.Building);
             Presenter.OnRenameAreaFrameLayer(name, newName);
+            DbRepository.Building.Layer = newName;
         }
 
         public void Attach(IResidentialBuildingPresenterCallback presenter)

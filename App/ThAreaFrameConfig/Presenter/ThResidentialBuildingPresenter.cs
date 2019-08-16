@@ -1,5 +1,6 @@
 ﻿using AcHelper;
 using ThAreaFrameConfig.View;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
@@ -30,7 +31,20 @@ namespace ThAreaFrameConfig.Presenter
         {
             using (Active.Document.LockDocument())
             {
-                ThResidentialRoomDbUtil.RenameLayer(name, newName);
+                if (string.IsNullOrEmpty(name))
+                {
+                    Active.Editor.WriteLine("没有单体基底实体");
+                    return;
+                }
+
+                try
+                {
+                    ThResidentialRoomDbUtil.RenameLayer(name, newName);
+                    Active.Editor.WriteLine("修改成功");
+                }
+                catch
+                {
+                }
             }
         }
     }
