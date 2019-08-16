@@ -19,5 +19,8 @@ namespace ThAreaFrameConfig.Model
 
         // 地下层数
         public string UnderGroundFloorNumber { get; set; }
+
+        // 图层
+        public string Layer { get; set; }
     }
 }
