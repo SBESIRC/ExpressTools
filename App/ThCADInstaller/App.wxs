@@ -56,6 +56,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThIdentity_Debug" Guid="{29739345-5DAC-4064-8DF7-F79DC4EBFC9E}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThIdentity_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThIdentity.dll" />
           </Component>
+		  <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThLicense_Debug" Guid="{367B2BB1-805B-453F-A946-87F2D8540652}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThLicense_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThLicense.dll" />
+          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Debug" Guid="{2EB319E5-70D4-4333-84C6-CD3D27E2C90E}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\$(var.ThElectricalSysDiagram.TargetFileName)" />
           </Component>
@@ -120,6 +123,9 @@
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThIdentity_Debug" Guid="{7C16BF00-0D5C-4594-9672-7A5641CAB5DB}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThIdentity_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThIdentity.dll" />
+          </Component>
+		  <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThLicense_Debug" Guid="{458359D7-7942-45F0-8349-B1CA3BD69FFB}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThLicense_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThLicense.dll" />
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Debug" Guid="{6EFD99AC-DCD5-49AB-9438-CBB635B28888}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\$(var.ThResourceLibrary.TargetFileName)" />
@@ -190,6 +196,9 @@
 		  <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThIdentity_Release" Guid="{A9F4CE72-8C50-4688-8D71-39A26BCF03A7}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThIdentity_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThIdentity.dll" />
           </Component>
+		  <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThLicense_Release" Guid="{EE7C5016-0B73-440E-846B-350B815230F3}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThLicense.dll" />
+          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Release" Guid="{9469877B-0C72-44C7-A07D-85502B89D796}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.ThResourceLibrary.TargetFileName)" />
           </Component>
@@ -258,6 +267,9 @@
 		  <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThIdentity_Release" Guid="{47256429-1779-4D41-AEF1-A9C5F8BCF306}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThIdentity_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThIdentity.dll" />
           </Component>
+		  <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThLicense_Release" Guid="{0CA46FA1-9DFC-47D8-BACB-7D51AE6A322A}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThLicense.dll" />
+          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Release" Guid="{F14C38F5-EA8E-4F89-BFFB-987F3FCBDA96}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\$(var.ThResourceLibrary.TargetFileName)" />
           </Component>
@@ -298,6 +310,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Threading_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAnalytics_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThIdentity_Debug" />
+		<ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThLicense_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Debug" />
@@ -319,6 +332,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Threading_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAnalytics_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThIdentity_Debug" />
+		<ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThLicense_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Debug" />
@@ -341,6 +355,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Threading_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAnalytics_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThIdentity_Release" />
+		<ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThLicense_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" />
@@ -362,6 +377,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Threading_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAnalytics_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThIdentity_Release" />
+		<ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThLicense_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" />
