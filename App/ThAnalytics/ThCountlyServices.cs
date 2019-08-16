@@ -30,6 +30,7 @@ namespace ThAnalytics
                 appKey      = "b179dc3c7e08f3aab6ceff7d0cf8e2304c196390",
                 appVersion  = "1.0.0"
             };
+            
 
             //initiate the SDK with your preferences
             Countly.Instance.Init(cc);
@@ -67,9 +68,9 @@ namespace ThAnalytics
         public void RecordCommandEvent(string cmdName,int duration)
         {
             Segmentation segmentation = new Segmentation();
-            segmentation.Add("GlobalCommandName", cmdName);
-            segmentation.Add("GlobalCommandDuration", duration.ToString());
-            Countly.RecordEvent("InvokeCommand", 1, segmentation);
+            segmentation.Add("CAD命令名称", cmdName);
+            segmentation.Add("CAD命令单次使用时间", duration.ToString());
+            Countly.RecordEvent("CAD命令使用", 1, segmentation);
         }
     }
 }
