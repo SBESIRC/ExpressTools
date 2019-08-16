@@ -20,6 +20,6 @@ namespace ThAnalytics
         void EndSession();
 
         // 记录CAD命令事件
-        void RecordCommandEvent(string GlobalCommandName, int runtime);
+        void RecordCommandEvent(string GlobalCommandName, double duration);
     }
 }

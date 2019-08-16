@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.ApplicationServices;
@@ -143,8 +144,7 @@ namespace ThAnalytics
 
         private void Document_CommandWillStart(object sender, CommandEventArgs e)
         {
-            int commamndstarttime = (int)(DateTime.Now.Ticks / 10000000);
-            commandhashtable.Add(e.GlobalCommandName, commamndstarttime);
+            commandhashtable.Add(e.GlobalCommandName, Stopwatch.StartNew());
         }
 
         private void Document_CommandEnded(object sender, CommandEventArgs e)
@@ -154,9 +154,8 @@ namespace ThAnalytics
 
             if (commandhashtable.ContainsKey(e.GlobalCommandName))
             {
-                int commamndstoptime = (int)(DateTime.Now.Ticks / 10000000);
-                int runtime = commamndstoptime - (int)commandhashtable[e.GlobalCommandName];
-                ThCountlyServices.Instance.RecordCommandEvent(e.GlobalCommandName, runtime);
+                Stopwatch sw = (Stopwatch)commandhashtable[e.GlobalCommandName];
+                ThCountlyServices.Instance.RecordCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
                 commandhashtable.Remove(e.GlobalCommandName);
             }
         }

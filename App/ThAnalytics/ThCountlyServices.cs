@@ -1,4 +1,5 @@
-﻿using CountlySDK;
+﻿using System.Diagnostics;
+using CountlySDK;
 using CountlySDK.Entities;
 using ThIdentity;
 
@@ -64,12 +65,11 @@ namespace ThAnalytics
             Countly.Instance.SessionEnd();
         }
 
-        public void RecordCommandEvent(string cmdName,int duration)
+        public void RecordCommandEvent(string cmdName, double duration)
         {
             Segmentation segmentation = new Segmentation();
-            segmentation.Add("CAD命令名称", cmdName);
-            segmentation.Add("CAD命令单次使用时间", duration.ToString());
-            Countly.RecordEvent("CAD命令使用", 1, segmentation);
+            segmentation.Add("名称", cmdName);
+            Countly.RecordEvent("CAD命令使用", 1, null, duration, segmentation);
         }
     }
 }
