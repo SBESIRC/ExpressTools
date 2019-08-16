@@ -29,11 +29,12 @@ namespace ThAreaFrame
         [CommandMethod("TIANHUACAD", "THBAC", CommandFlags.Modal)]
         public void AreaCommand()
         {
+            /*
             if (!ThLicenseService.Service.IsLicensed())
             {
                 return;
             }
-
+            */
             var ed = Active.Editor;
 
             // 选取插入点
