@@ -65,6 +65,16 @@ namespace ThAreaFrameConfig.Presenter
             };
         }
 
+        public static ObjectId ConfigBuildingLayer(string layerName)
+        {
+            using (var db = AcadDatabase.Active())
+            {
+                ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
+                LayerTools.SetLayerColor(db.Database, layerName, 56);
+                return objectId;
+            };
+        }
+
         public static void RemoveLayer(string layerName)
         {
             using (var db = AcadDatabase.Active())
@@ -88,6 +98,14 @@ namespace ThAreaFrameConfig.Presenter
                 {
                     polyline.LayerId = layerId;
                 }
+            }
+        }
+
+        public static void RenameLayer(string layerName, string newLayerName)
+        {
+            using (var db = AcadDatabase.Active())
+            {
+                db.Layers.Element(layerName, true).Name = newLayerName;
             }
         }
     }

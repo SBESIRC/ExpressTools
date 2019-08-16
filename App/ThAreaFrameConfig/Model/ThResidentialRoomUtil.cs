@@ -109,6 +109,27 @@ namespace ThAreaFrameConfig.Model
             return string.Join("_", tokens);
         }
 
+        public static string LayerName(ThResidentialBuilding building)
+        {
+            string[] tokens =
+            {
+                "单体基底",
+                building.Number,
+                building.Name,
+                building.Category,
+                building.AboveGroundFloorNumber,
+                building.UnderGroundFloorNumber,
+                "",
+                "",
+                "",
+                "",
+                "",
+                version,
+            };
+
+            return string.Join("_", tokens);
+        }
+
         public static string LayerName(ThRoof roof)
         {
             string[] tokens =

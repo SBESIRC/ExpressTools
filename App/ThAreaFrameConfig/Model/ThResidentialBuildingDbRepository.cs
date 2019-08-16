@@ -46,7 +46,8 @@ namespace ThAreaFrameConfig.Model
                         Name = tokens[2],
                         Category = tokens[3],
                         AboveGroundFloorNumber = tokens[4],
-                        UnderGroundFloorNumber = tokens[5]
+                        UnderGroundFloorNumber = tokens[5],
+                        Layer = name,
                     };
                 }
                 if (building == null)
@@ -57,7 +58,8 @@ namespace ThAreaFrameConfig.Model
                         Name = "",
                         Category = "住宅",
                         AboveGroundFloorNumber = "",
-                        UnderGroundFloorNumber = ""
+                        UnderGroundFloorNumber = "",
+                        Layer = "",
                     };
                 }
             }
