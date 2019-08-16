@@ -26,8 +26,8 @@ namespace ThAnalytics
             //create the Countly init object
             CountlyConfig cc = new CountlyConfig()
             {
-                serverUrl   = "http://49.234.60.227",
-                appKey      = "8a8a305d8fd6eef7a1f8b25843778ebd9f9417db",
+                serverUrl = "https://asia-try.count.ly", // asia-try.count.ly
+                appKey      = "b179dc3c7e08f3aab6ceff7d0cf8e2304c196390",
                 appVersion  = "1.0.0"
             };
 
