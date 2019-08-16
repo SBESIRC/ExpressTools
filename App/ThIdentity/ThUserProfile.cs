@@ -109,7 +109,7 @@ namespace ThIdentity
                 SearchResult result = searcher.FindOne();
                 return result?.GetDirectoryEntry().Properties;
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }
