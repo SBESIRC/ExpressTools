@@ -117,14 +117,49 @@ namespace ThAreaFrameConfig.WinForms
                 return;
             }
 
-            GridView gridView = (GridView)sender;
-            ThAOccupancy aoccupancy = (ThAOccupancy)gridView.GetRow(e.RowHandle);
-            ThAOccupancyStorey storey = DbRepository.Storeys.Where(o => o.ID == aoccupancy.StoreyID).First();
-            string name = ThResidentialRoomUtil.LayerName(storey, aoccupancy);
-            Presenter.OnPickAreaFrames(name);
+            try
+            {
+                GridView gridView = (GridView)sender;
+                ThAOccupancy aoccupancy = (ThAOccupancy)gridView.GetRow(e.RowHandle);
+                ThAOccupancyStorey storey = DbRepository.Storeys.Where(o => o.ID == aoccupancy.StoreyID).First();
+                string name = ThResidentialRoomUtil.LayerName(storey, aoccupancy);
+                Presenter.OnPickAreaFrames(name);
 
-            // 更新界面
-            this.Reload();
+                // 更新界面
+                this.Reload();
+            }
+            catch (System.Exception exception)
+            {
+#if DEBUG
+                Presenter.OnHandleAcadException(exception);
+#endif
+            }
+        }
+
+        private void gridView_aoccupancy_RowUpdated(object sender, RowObjectEventArgs e)
+        {
+
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+
+            try
+            {
+                ThAOccupancy aoccupancy = (ThAOccupancy)e.Row;
+                ThAOccupancyStorey storey = DbRepository.Storeys.Where(o => o.ID == aoccupancy.StoreyID).First();
+                string name = ThResidentialRoomUtil.LayerName(storey, aoccupancy);
+                Presenter.OnRenameAreaFrameLayer(name, aoccupancy.Frame);
+
+                // 更新界面
+                this.Reload();
+            }
+            catch (System.Exception exception)
+            {
+#if DEBUG
+                Presenter.OnHandleAcadException(exception);
+#endif
+            }
         }
     }
 }

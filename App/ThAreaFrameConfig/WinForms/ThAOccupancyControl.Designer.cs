@@ -105,6 +105,7 @@
             this.gridView_aoccupancy.GridControl = this.gridControl_aoccupancy;
             this.gridView_aoccupancy.Name = "gridView_aoccupancy";
             this.gridView_aoccupancy.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_aoccupancy_RowClick);
+            this.gridView_aoccupancy.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_aoccupancy_RowUpdated);
             this.gridView_aoccupancy.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView_aoccupancy_CustomUnboundColumnData);
             this.gridView_aoccupancy.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridView_aoccupancy_CustomColumnDisplayText);
             // 
