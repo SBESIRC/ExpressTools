@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThAreaFrameConfig.Model
 {
@@ -70,7 +71,7 @@ namespace ThAreaFrameConfig.Model
                 Category = "商业",
                 Coefficient = 1.0,
                 FARCoefficient = 1.0,
-                Floors = "",
+                Floors = null,
                 Frame = ObjectId.Null.OldIdPtr
             };
         }
@@ -156,7 +157,7 @@ namespace ThAreaFrameConfig.Model
                                             Category = tokens[2],
                                             Coefficient = double.Parse(tokens[4]),
                                             FARCoefficient = double.Parse(tokens[5]),
-                                            Floors = tokens[6],
+                                            Floors = NullableParser.TryParseInt(tokens[6]),
                                             Frame = objId.OldIdPtr
                                         });
                                     }

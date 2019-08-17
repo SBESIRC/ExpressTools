@@ -161,5 +161,41 @@ namespace ThAreaFrameConfig.WinForms
 #endif
             }
         }
+
+        private void gridView_aoccupancy_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
+        {
+            GridView view = sender as GridView;
+            switch (view.FocusedColumn.FieldName)
+            {
+                case "Coefficient":
+                case "FARCoefficient":
+                    {
+                        if (!double.TryParse(e.Value.ToString(), out double value))
+                        {
+                            e.Valid = false;
+                            e.ErrorText = "请输入浮点数";
+                        }
+                    }
+                    break;
+                case "Floors":
+                    {
+                        if (!int.TryParse(e.Value.ToString(), out int value))
+                        {
+                            e.Valid = false;
+                            e.ErrorText = "请输入整数";
+                        }
+
+                    }
+                    break;
+            };
+        }
+
+        private void gridView_aoccupancy_ShowingEditor(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            GridView View = sender as GridView;
+            string cellValue = View.GetRowCellValue(View.FocusedRowHandle, "Category").ToString();
+            if (cellValue != "室内停车库" && View.FocusedColumn.FieldName == "Floors")
+                e.Cancel = true;
+        }
     }
 }

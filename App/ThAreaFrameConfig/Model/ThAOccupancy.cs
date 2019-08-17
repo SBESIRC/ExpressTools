@@ -9,6 +9,9 @@ namespace ThAreaFrameConfig.Model
     [Serializable()]
     public class ThAOccupancy
     {
+        private int? floors;
+        private string category;
+
         // ID
         [Display(AutoGenerateField = false)]
         public Guid ID { get; set; }
@@ -24,7 +27,26 @@ namespace ThAreaFrameConfig.Model
         public string Component { get; set; }
 
         // 类型
-        public string Category { get; set; }
+        public string Category {
+            get
+            {
+                return category;
+            }
+
+            set
+            {
+                category = value;
+                if (category == "室内停车库")
+                {
+                    floors = 1;
+                }
+                else
+                {
+                    floors = null;
+                }
+            }
+
+        }
 
         // 计算系数
         public double Coefficient { get; set; }
@@ -33,7 +55,17 @@ namespace ThAreaFrameConfig.Model
         public double FARCoefficient { get; set; }
 
         // 车位层数
-        public string Floors { get; set; }
+        public int? Floors {
+            get
+            {
+                return floors;
+            }
+
+            set
+            {
+                floors = value;
+            }
+        }
 
         // 面积
         public double Area
