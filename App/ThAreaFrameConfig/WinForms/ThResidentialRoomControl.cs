@@ -217,27 +217,20 @@ namespace ThAreaFrameConfig.WinForms
 
         private void gdv_room_area_frame_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
         {
-            /*
             GridView view = sender as GridView;
             switch (view.FocusedColumn.FieldName)
             {
                 case "Coefficient":
                 case "FARCoefficient":
                     {
-                        double? coefficient = e.Value as double?;
-                        if (coefficient == 0.0)
+                        if (!double.TryParse(e.Value.ToString(), out double value))
                         {
                             e.Valid = false;
-                            e.ErrorText = "系数不能为0";
+                            e.ErrorText = "请输入浮点数";
                         }
-
-                    };
+                    }
                     break;
-                default:
-                    break;
-
             };
-            */
         }
 
         private void gdv_room_PopupMenuShowing(object sender, PopupMenuShowingEventArgs e)
