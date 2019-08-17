@@ -140,6 +140,7 @@
     <Compile Include="EnumTool.cs" />
     <Compile Include="JiHe.cs" />
     <Compile Include="LinqTool.cs" />
+    <Compile Include="NullableParser.cs" />
     <Compile Include="ObjectIDTool.cs" />
     <Compile Include="PickTool.cs" />
     <Compile Include="PointCollector.cs" />
