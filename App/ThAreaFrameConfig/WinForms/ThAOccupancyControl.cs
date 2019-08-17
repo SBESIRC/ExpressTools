@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Drawing;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using ThAreaFrameConfig.View;
 using ThAreaFrameConfig.Model;
@@ -7,6 +9,7 @@ using ThAreaFrameConfig.Presenter;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraTab;
+using DevExpress.XtraTab.ViewInfo;
 using Autodesk.AutoCAD.Runtime;
 
 namespace ThAreaFrameConfig.WinForms
@@ -196,6 +199,43 @@ namespace ThAreaFrameConfig.WinForms
             string cellValue = View.GetRowCellValue(View.FocusedRowHandle, "Category").ToString();
             if (cellValue != "室内停车库" && View.FocusedColumn.FieldName == "Floors")
                 e.Cancel = true;
+        }
+
+        private void xtraTabControl1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                XtraTabControl tabCtrl = sender as XtraTabControl;
+                Point pt = MousePosition;
+                XtraTabHitInfo info = tabCtrl.CalcHitInfo(tabCtrl.PointToClient(pt));
+                if (info.HitTest == XtraTabHitTest.PageHeader)
+                {
+                    popupMenu_storey.ShowPopup(pt);
+                }
+            }
+        }
+
+        private void barButtonItem_add_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            using (var dlg = new ThResidentialStoreyDialog())
+            {
+                if (DialogResult.OK != dlg.ShowDialog())
+                    return;
+
+                DbRepository.AppendStorey(dlg.Storey);
+                XtraTabPage page = this.xtraTabControl1.TabPages.Add(dlg.Storey);
+                this.xtraTabControl1.SelectedTabPage = page;
+            }
+        }
+
+        private void barButtonItem_delete_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
+        }
+
+        private void barButtonItem_modify_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
         }
     }
 }
