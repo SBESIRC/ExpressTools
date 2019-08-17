@@ -32,14 +32,14 @@
             this.gridView_space = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn_number = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_coefficient = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox_coefficient = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
-            this.repositoryItemComboBox_coefficient = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_space)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_space)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_coefficient)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // gridControl_space
@@ -68,6 +68,7 @@
             this.gridView_space.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_space_RowUpdated);
             this.gridView_space.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView1_CustomUnboundColumnData);
             this.gridView_space.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridView1_CustomColumnDisplayText);
+            this.gridView_space.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridView_space_ValidatingEditor);
             // 
             // gridColumn_number
             // 
@@ -86,6 +87,17 @@
             this.gridColumn_coefficient.Name = "gridColumn_coefficient";
             this.gridColumn_coefficient.Visible = true;
             this.gridColumn_coefficient.VisibleIndex = 1;
+            // 
+            // repositoryItemComboBox_coefficient
+            // 
+            this.repositoryItemComboBox_coefficient.AutoHeight = false;
+            this.repositoryItemComboBox_coefficient.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox_coefficient.Items.AddRange(new object[] {
+            "0.0",
+            "0.5",
+            "1.0"});
+            this.repositoryItemComboBox_coefficient.Name = "repositoryItemComboBox_coefficient";
             // 
             // gridColumn_area
             // 
@@ -112,17 +124,6 @@
             this.repositoryItemHyperLinkEdit1.AutoHeight = false;
             this.repositoryItemHyperLinkEdit1.Name = "repositoryItemHyperLinkEdit1";
             // 
-            // repositoryItemComboBox_coefficient
-            // 
-            this.repositoryItemComboBox_coefficient.AutoHeight = false;
-            this.repositoryItemComboBox_coefficient.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox_coefficient.Items.AddRange(new object[] {
-            "0.0",
-            "0.5",
-            "1.0"});
-            this.repositoryItemComboBox_coefficient.Name = "repositoryItemComboBox_coefficient";
-            // 
             // ThRoofGreenSpaceControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -132,8 +133,8 @@
             this.Size = new System.Drawing.Size(689, 509);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_space)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_space)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_coefficient)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
             this.ResumeLayout(false);
 
         }

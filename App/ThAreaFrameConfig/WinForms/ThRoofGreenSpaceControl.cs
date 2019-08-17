@@ -135,5 +135,22 @@ namespace ThAreaFrameConfig.WinForms
                 e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
             }
         }
+
+        private void gridView_space_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
+        {
+            GridView view = sender as GridView;
+            switch (view.FocusedColumn.FieldName)
+            {
+                case "Coefficient":
+                    {
+                        if (!double.TryParse((string)e.Value, out double value))
+                        {
+                            e.Valid = false;
+                            e.ErrorText = "请输入浮点数";
+                        }
+                    }
+                    break;
+            };
+        }
     }
 }

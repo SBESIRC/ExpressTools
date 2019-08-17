@@ -143,8 +143,7 @@ namespace ThAreaFrameConfig.WinForms
                 case "Coefficient":
                 case "FARCoefficient":
                     {
-                        double value;
-                        if (!double.TryParse((string)e.Value, out value))
+                        if (!double.TryParse((string)e.Value, out double value))
                         {
                             e.Valid = false;
                             e.ErrorText = "请输入浮点数";
