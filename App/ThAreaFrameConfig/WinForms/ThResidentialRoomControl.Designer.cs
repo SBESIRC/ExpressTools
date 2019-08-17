@@ -35,7 +35,9 @@
             this.gdv_room_area_frame = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.room_are_frame_id = new DevExpress.XtraGrid.Columns.GridColumn();
             this.room_area_frame_coefficient = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox_coefficient = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.room_area_frame_far_coefficient = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox_farcoefficient = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.room_area_frame_area = new DevExpress.XtraGrid.Columns.GridColumn();
             this.room_area_frame_pick = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
@@ -52,6 +54,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room_area_unit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_room)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room_area_frame)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_coefficient)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_farcoefficient)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
@@ -95,7 +99,9 @@
             this.gridControl_room.MainView = this.gdv_room;
             this.gridControl_room.Name = "gridControl_room";
             this.gridControl_room.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemHyperLinkEdit1});
+            this.repositoryItemHyperLinkEdit1,
+            this.repositoryItemComboBox_coefficient,
+            this.repositoryItemComboBox_farcoefficient});
             this.gridControl_room.Size = new System.Drawing.Size(814, 451);
             this.gridControl_room.TabIndex = 0;
             this.gridControl_room.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -133,6 +139,7 @@
             this.gdv_room_area_frame.ScrollStyle = DevExpress.XtraGrid.Views.Grid.ScrollStyleFlags.None;
             this.gdv_room_area_frame.Tag = "room_area_frame";
             this.gdv_room_area_frame.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gdv_room_area_frame_RowClick);
+            this.gdv_room_area_frame.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gdv_room_area_frame_RowUpdated);
             this.gdv_room_area_frame.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gdv_room_area_frame_CustomUnboundColumnData);
             this.gdv_room_area_frame.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gdv_room_area_frame_CustomColumnDisplayText);
             this.gdv_room_area_frame.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gdv_room_area_frame_ValidatingEditor);
@@ -149,18 +156,42 @@
             // room_area_frame_coefficient
             // 
             this.room_area_frame_coefficient.Caption = "计算系数";
+            this.room_area_frame_coefficient.ColumnEdit = this.repositoryItemComboBox_coefficient;
             this.room_area_frame_coefficient.FieldName = "Coefficient";
             this.room_area_frame_coefficient.Name = "room_area_frame_coefficient";
             this.room_area_frame_coefficient.Visible = true;
             this.room_area_frame_coefficient.VisibleIndex = 1;
             // 
+            // repositoryItemComboBox_coefficient
+            // 
+            this.repositoryItemComboBox_coefficient.AutoHeight = false;
+            this.repositoryItemComboBox_coefficient.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox_coefficient.Items.AddRange(new object[] {
+            "0.0",
+            "0.5",
+            "1.0"});
+            this.repositoryItemComboBox_coefficient.Name = "repositoryItemComboBox_coefficient";
+            // 
             // room_area_frame_far_coefficient
             // 
             this.room_area_frame_far_coefficient.Caption = "计容系数";
+            this.room_area_frame_far_coefficient.ColumnEdit = this.repositoryItemComboBox_farcoefficient;
             this.room_area_frame_far_coefficient.FieldName = "FARCoefficient";
             this.room_area_frame_far_coefficient.Name = "room_area_frame_far_coefficient";
             this.room_area_frame_far_coefficient.Visible = true;
             this.room_area_frame_far_coefficient.VisibleIndex = 2;
+            // 
+            // repositoryItemComboBox_farcoefficient
+            // 
+            this.repositoryItemComboBox_farcoefficient.AutoHeight = false;
+            this.repositoryItemComboBox_farcoefficient.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox_farcoefficient.Items.AddRange(new object[] {
+            "0.0",
+            "0.5",
+            "1.0"});
+            this.repositoryItemComboBox_farcoefficient.Name = "repositoryItemComboBox_farcoefficient";
             // 
             // room_area_frame_area
             // 
@@ -319,6 +350,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room_area_unit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_room)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room_area_frame)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_coefficient)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_farcoefficient)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
@@ -349,5 +382,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn room_area_frame_area;
         private DevExpress.XtraGrid.Columns.GridColumn room_area_frame_pick;
         private DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit repositoryItemHyperLinkEdit1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox_coefficient;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox_farcoefficient;
     }
 }

@@ -1,8 +1,6 @@
 ﻿using AcHelper;
 using ThAreaFrameConfig.View;
 using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.DatabaseServices;
-using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -20,6 +18,11 @@ namespace ThAreaFrameConfig.Presenter
         public void Initialize()
         {
             roomView.Attach(this);
+        }
+
+        public void OnHandleAcadException(System.Exception e)
+        {
+            this.HandleAcadException(e);
         }
 
         public void OnPickAreaFrames(string name)

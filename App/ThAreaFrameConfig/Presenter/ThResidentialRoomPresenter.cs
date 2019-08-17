@@ -1,7 +1,5 @@
-﻿using AcHelper;
+﻿using System;
 using ThAreaFrameConfig.View;
-using Autodesk.AutoCAD.DatabaseServices;
-using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -24,6 +22,16 @@ namespace ThAreaFrameConfig.Presenter
         public void OnPickAreaFrames(string name)
         {
             this.PickAreaFrames(name);
+        }
+
+        public void OnHandleAcadException(System.Exception e)
+        {
+            this.HandleAcadException(e);
+        }
+
+        public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)
+        {
+            this.RenameAreaFrameLayer(newName, areaFrame);
         }
 
         public void OnRemoveStorey(string[] names)

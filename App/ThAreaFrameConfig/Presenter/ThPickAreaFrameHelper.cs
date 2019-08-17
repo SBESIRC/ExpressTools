@@ -1,7 +1,8 @@
-﻿using AcHelper;
+﻿using System;
+using AcHelper;
 using DotNetARX;
 using Linq2Acad;
-using ThAreaFrameConfig.View;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
@@ -88,6 +89,23 @@ namespace ThAreaFrameConfig.Presenter
                     }
                 }
             }
+        }
+
+        public static void RenameAreaFrameLayer(this IThAreaFramePresenterCallback presenterCallback, string newName, IntPtr areaFrame)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    var name = acadDatabase.ModelSpace.Element(new ObjectId(areaFrame)).Layer;
+                    ThResidentialRoomDbUtil.RenameLayer(name, newName);
+                }
+            }
+        }
+
+        public static void HandleAcadException(this IThAreaFramePresenterCallback presenterCallback, System.Exception e)
+        {
+            Active.Editor.Write(e.ToString());
         }
     }
 }

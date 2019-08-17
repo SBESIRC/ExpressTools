@@ -12,6 +12,7 @@ using DevExpress.XtraTab;
 using DevExpress.XtraTab.Buttons;
 using DevExpress.XtraEditors.Controls;
 using Autodesk.AutoCAD.Runtime;
+using AcadException = Autodesk.AutoCAD.Runtime.Exception;
 
 namespace ThAreaFrameConfig.WinForms
 {
@@ -135,16 +136,52 @@ namespace ThAreaFrameConfig.WinForms
                 return;
             }
 
-            GridView gridView = (GridView)sender;
-            ThResidentialAreaFrame areaFrame = (ThResidentialAreaFrame)gridView.GetRow(e.RowHandle);
-            ThResidentialRoom room = DbRepository.Rooms(this.CurrentStorey).Where(o => o.ID == areaFrame.RoomID).First();
-            ThResidentialStorey storey = DbRepository.Storeys().Where(o => o.ID == room.StoreyID).First();
-            ThResidentialRoomComponent component = room.Components.Find(o => o.ID == areaFrame.ComponentID);
-            string name = ThResidentialRoomUtil.LayerName(storey, room, component, areaFrame);
-            Presenter.OnPickAreaFrames(name);
+            try
+            {
+                GridView gridView = (GridView)sender;
+                ThResidentialAreaFrame areaFrame = (ThResidentialAreaFrame)gridView.GetRow(e.RowHandle);
+                ThResidentialRoom room = DbRepository.Rooms(this.CurrentStorey).Where(o => o.ID == areaFrame.RoomID).First();
+                ThResidentialStorey storey = DbRepository.Storeys().Where(o => o.ID == room.StoreyID).First();
+                ThResidentialRoomComponent component = room.Components.Find(o => o.ID == areaFrame.ComponentID);
+                string name = ThResidentialRoomUtil.LayerName(storey, room, component, areaFrame);
+                Presenter.OnPickAreaFrames(name);
 
-            // 更新界面
-            this.Reload();
+                // 更新界面
+                this.Reload();
+            }
+            catch(System.Exception exception)
+            {
+#if DEBUG
+                Presenter.OnHandleAcadException(exception);
+#endif
+            }
+        }
+
+        private void gdv_room_area_frame_RowUpdated(object sender, RowObjectEventArgs e)
+        {
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+
+            try
+            {
+                ThResidentialAreaFrame areaFrame = (ThResidentialAreaFrame)e.Row;
+                ThResidentialRoom room = DbRepository.Rooms(this.CurrentStorey).Where(o => o.ID == areaFrame.RoomID).First();
+                ThResidentialStorey storey = DbRepository.Storeys().Where(o => o.ID == room.StoreyID).First();
+                ThResidentialRoomComponent component = room.Components.Find(o => o.ID == areaFrame.ComponentID);
+                string name = ThResidentialRoomUtil.LayerName(storey, room, component, areaFrame);
+                Presenter.OnRenameAreaFrameLayer(name, areaFrame.Frame);
+
+                // 更新界面
+                this.Reload();
+            }
+            catch (AcadException exception)
+            {
+#if DEBUG
+                Presenter.OnHandleAcadException(exception);
+#endif
+            }
         }
 
         private void gdv_room_area_frame_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
