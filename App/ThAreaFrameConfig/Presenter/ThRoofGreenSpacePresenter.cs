@@ -28,5 +28,10 @@ namespace ThAreaFrameConfig.Presenter
         {
             this.PickAreaFrames(name);
         }
+
+        public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)
+        {
+            this.RenameAreaFrameLayer(newName, areaFrame);
+        }
     }
 }

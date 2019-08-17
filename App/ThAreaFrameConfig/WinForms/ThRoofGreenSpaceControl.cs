@@ -85,13 +85,46 @@ namespace ThAreaFrameConfig.WinForms
                 return;
             }
 
-            GridView gridView = (GridView)sender;
-            ThRoofGreenSpace roofGreenSpace = (ThRoofGreenSpace)gridView.GetRow(e.RowHandle);
-            string name = ThResidentialRoomUtil.LayerName(roofGreenSpace);
-            Presenter.OnPickAreaFrames(name);
+            try
+            {
+                GridView gridView = (GridView)sender;
+                ThRoofGreenSpace roofGreenSpace = (ThRoofGreenSpace)gridView.GetRow(e.RowHandle);
+                string name = ThResidentialRoomUtil.LayerName(roofGreenSpace);
+                Presenter.OnPickAreaFrames(name);
 
-            // 更新界面
-            this.Reload();
+                // 更新界面
+                this.Reload();
+            }
+            catch (System.Exception exception)
+            {
+#if DEBUG
+                Presenter.OnHandleAcadException(exception);
+#endif
+            }
+        }
+
+        private void gridView_space_RowUpdated(object sender, RowObjectEventArgs e)
+        {
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+
+            try
+            {
+                ThRoofGreenSpace roofGreenSpace = (ThRoofGreenSpace)e.Row;
+                string name = ThResidentialRoomUtil.LayerName(roofGreenSpace);
+                Presenter.OnRenameAreaFrameLayer(name, roofGreenSpace.Frame);
+
+                // 更新界面
+                this.Reload();
+            }
+            catch (System.Exception exception)
+            {
+#if DEBUG
+                Presenter.OnHandleAcadException(exception);
+#endif
+            }
         }
 
         private void gridView1_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
