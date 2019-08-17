@@ -92,7 +92,7 @@
             this.tabNavigationPage6,
             this.tabNavigationPage7});
             this.tabPane1.RegularSize = new System.Drawing.Size(860, 547);
-            this.tabPane1.SelectedPage = this.tabNavigationPage2;
+            this.tabPane1.SelectedPage = this.tabNavigationPage1;
             this.tabPane1.Size = new System.Drawing.Size(860, 547);
             this.tabPane1.TabIndex = 2;
             this.tabPane1.Text = "tabPane1";
