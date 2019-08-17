@@ -1,4 +1,5 @@
-﻿using AcHelper;
+﻿using System;
+using AcHelper;
 using ThAreaFrameConfig.View;
 using Autodesk.AutoCAD.EditorInput;
 
@@ -49,6 +50,10 @@ namespace ThAreaFrameConfig.Presenter
                 {
                 }
             }
+        }
+
+        public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)
+        {
         }
     }
 }
