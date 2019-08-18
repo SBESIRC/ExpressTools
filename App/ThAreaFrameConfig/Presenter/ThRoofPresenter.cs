@@ -43,5 +43,15 @@ namespace ThAreaFrameConfig.Presenter
         {
             this.RenameAreaFrameLayer(newName, areaFrame);
         }
+
+        public void OnDeleteAreaFrame(IntPtr areaFrame)
+        {
+            this.DeleteAreaFrame(areaFrame);
+        }
+
+        public void OnDeleteAreaFrameLayer(string name)
+        {
+            this.DeleteAreaFrameLayer(name);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DotNetARX;
+﻿using System;
+using DotNetARX;
 using Linq2Acad;
 using System.Linq;
 using AcHelper.Wrappers;
@@ -106,6 +107,15 @@ namespace ThAreaFrameConfig.Presenter
             using (var db = AcadDatabase.Active())
             {
                 db.Layers.Element(layerName, true).Name = newLayerName;
+            }
+        }
+
+        public static string LayerName(IntPtr obj)
+        {
+            ObjectId objId = new ObjectId(obj);
+            using (var db = AcadDatabase.Active())
+            {
+                return db.ModelSpace.Element(objId).Layer;
             }
         }
     }

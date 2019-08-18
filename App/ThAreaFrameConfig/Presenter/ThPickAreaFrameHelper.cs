@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AcHelper;
 using DotNetARX;
 using Linq2Acad;
@@ -99,6 +100,34 @@ namespace ThAreaFrameConfig.Presenter
                 {
                     var name = acadDatabase.ModelSpace.Element(new ObjectId(areaFrame)).Layer;
                     ThResidentialRoomDbUtil.RenameLayer(name, newName);
+                }
+            }
+        }
+
+        public static void DeleteAreaFrame(this IThAreaFramePresenterCallback presenterCallback, IntPtr areaFrame)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    acadDatabase.ModelSpace.Element(new ObjectId(areaFrame), true).Erase();
+                }
+            }
+        }
+
+        public static void DeleteAreaFrameLayer(this IThAreaFramePresenterCallback presenterCallback, string name)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    var areaFrames = acadDatabase.ModelSpace
+                        .OfType<Polyline>()
+                        .Where(o => o.Layer == name);
+                    if (!areaFrames.Any())
+                    {
+                        acadDatabase.Layers.Element(name, true).Erase();
+                    }
                 }
             }
         }

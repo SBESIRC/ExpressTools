@@ -44,6 +44,16 @@ namespace ThAreaFrameConfig.Presenter
             this.UnhighlightAreaFrame(areaFrame);
         }
 
+        public void OnDeleteAreaFrame(IntPtr areaFrame)
+        {
+            this.DeleteAreaFrame(areaFrame);
+        }
+
+        public void OnDeleteAreaFrameLayer(string name)
+        {
+            this.DeleteAreaFrameLayer(name);
+        }
+
         public void OnRemoveStorey(string[] names)
         {
             foreach(var name in names)

@@ -193,7 +193,7 @@ namespace ThAreaFrameConfig.WinForms
 
         DXMenuItem CreateDeleteAllMenuItem(GridView view, int rowHandle)
         {
-            return new DXMenuItem("全部删除", new EventHandler(OnDeleteRoofItemClick))
+            return new DXMenuItem("全部删除", new EventHandler(OnDeleteAllRoofItemsClick))
             {
                 Tag = new RowInfo(view, rowHandle)
             };
@@ -212,12 +212,36 @@ namespace ThAreaFrameConfig.WinForms
 
         void OnDeleteRoofItemClick(object sender, EventArgs e)
         {
-            //
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            { 
+                // 更新图纸
+                ThRoof roof = (ThRoof)ri.View.GetRow(ri.RowHandle);
+                string layer = ThResidentialRoomDbUtil.LayerName(roof.Frame);
+                Presenter.OnDeleteAreaFrame(roof.Frame);
+                Presenter.OnDeleteAreaFrameLayer(layer);
+
+                // 更新界面
+                this.Reload();
+            }
         }
 
         void OnDeleteAllRoofItemsClick(object sender, EventArgs e)
         {
-            //
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            {
+                // 更新图纸
+                foreach(var roof in DbRepository.Roofs)
+                {
+                    string layer = ThResidentialRoomDbUtil.LayerName(roof.Frame);
+                    Presenter.OnDeleteAreaFrame(roof.Frame);
+                    Presenter.OnDeleteAreaFrameLayer(layer);
+                }
+
+                // 更新界面
+                this.Reload();
+            }
         }
     }
 }
