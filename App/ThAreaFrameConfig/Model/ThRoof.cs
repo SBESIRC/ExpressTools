@@ -40,5 +40,15 @@ namespace ThAreaFrameConfig.Model
 
         // 面积框线
         public IntPtr Frame { get; set; }
+
+        
+        // 状态
+        public bool IsDefined
+        {
+            get
+            {
+                return Frame != ObjectId.Null.OldIdPtr;
+            }
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
-        public void AppendRoof()
+        public void AppendDefaultRoof()
         {
             roofs.Add(new ThRoof()
             {

@@ -44,6 +44,7 @@ namespace ThAreaFrameConfig.WinForms
         public void Reload()
         {
             DbRepository = new ThRoofDbRepository();
+            DbRepository.AppendDefaultRoof();
             gridControl_roof.DataSource = DbRepository.Roofs;
             gridControl_roof.RefreshDataSource();
         }
@@ -52,10 +53,7 @@ namespace ThAreaFrameConfig.WinForms
         {
             Presenter = new ThRoofPresenter(this);
             DbRepository = new ThRoofDbRepository();
-            if (DbRepository.Roofs.Count == 0)
-            {
-                DbRepository.AppendRoof();
-            }
+            DbRepository.AppendDefaultRoof();
             gridControl_roof.DataSource = DbRepository.Roofs;
             gridControl_roof.RefreshDataSource();
         }
@@ -82,6 +80,10 @@ namespace ThAreaFrameConfig.WinForms
             {
                 return;
             }
+            if (e.HitInfo.Column == null)
+            {
+                return;
+            }
             if (e.HitInfo.Column.FieldName != "gridColumn_pick")
             {
                 return;
@@ -91,8 +93,7 @@ namespace ThAreaFrameConfig.WinForms
             {
                 GridView gridView = (GridView)sender;
                 ThRoof roof = (ThRoof)gridView.GetRow(e.RowHandle);
-                string name = ThResidentialRoomUtil.LayerName(roof);
-                Presenter.OnPickAreaFrames(name);
+                Presenter.OnPickAreaFrames(ThResidentialRoomUtil.LayerName(roof));
 
                 // 更新界面
                 this.Reload();
@@ -115,6 +116,12 @@ namespace ThAreaFrameConfig.WinForms
             try
             {
                 ThRoof roof = (ThRoof)e.Row;
+                if (!roof.IsDefined)
+                {
+                    return;
+                }
+
+                // 更新图纸
                 string name = ThResidentialRoomUtil.LayerName(roof);
                 Presenter.OnRenameAreaFrameLayer(name, roof.Frame);
 
@@ -164,6 +171,9 @@ namespace ThAreaFrameConfig.WinForms
             if (info.InRow || info.InRowCell)
             {
                 ThRoof roof = (ThRoof)view.GetRow(info.RowHandle);
+                if (!roof.IsDefined)
+                    return;
+
                 Presenter.OnHighlightAreaFrame(roof.Frame);
             }
         }
@@ -176,6 +186,10 @@ namespace ThAreaFrameConfig.WinForms
             {
                 if (e.HitInfo.InRow || e.HitInfo.InRowCell)
                 {
+                    ThRoof roof = (ThRoof)view.GetRow(e.HitInfo.RowHandle);
+                    if (!roof.IsDefined)
+                        return;
+
                     e.Menu.Items.Clear();
                     e.Menu.Items.Add(CreateDeleteMenuItem(view, e.HitInfo.RowHandle));
                     e.Menu.Items.Add(CreateDeleteAllMenuItem(view, e.HitInfo.RowHandle));
@@ -234,6 +248,9 @@ namespace ThAreaFrameConfig.WinForms
                 // 更新图纸
                 foreach(var roof in DbRepository.Roofs)
                 {
+                    if (!roof.IsDefined)
+                        continue;
+
                     string layer = ThResidentialRoomDbUtil.LayerName(roof.Frame);
                     Presenter.OnDeleteAreaFrame(roof.Frame);
                     Presenter.OnDeleteAreaFrameLayer(layer);
