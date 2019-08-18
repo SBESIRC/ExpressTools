@@ -6,6 +6,7 @@ using ThAreaFrameConfig.Presenter;
 using DevExpress.XtraGrid.Views.Grid;
 using Autodesk.AutoCAD.Runtime;
 using DevExpress.Utils;
+using DevExpress.Utils.Menu;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 
 namespace ThAreaFrameConfig.WinForms
@@ -165,6 +166,58 @@ namespace ThAreaFrameConfig.WinForms
                 ThRoof roof = (ThRoof)view.GetRow(info.RowHandle);
                 Presenter.OnHighlightAreaFrame(roof.Frame);
             }
+        }
+
+        private void gridView_roof_PopupMenuShowing(object sender, PopupMenuShowingEventArgs e)
+        {
+
+            GridView view = sender as GridView;
+            if (e.MenuType == GridMenuType.Row)
+            {
+                if (e.HitInfo.InRow || e.HitInfo.InRowCell)
+                {
+                    e.Menu.Items.Clear();
+                    e.Menu.Items.Add(CreateDeleteMenuItem(view, e.HitInfo.RowHandle));
+                    e.Menu.Items.Add(CreateDeleteAllMenuItem(view, e.HitInfo.RowHandle));
+                }
+            }
+        }
+
+        DXMenuItem CreateDeleteMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("删除", new EventHandler(OnDeleteRoofItemClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        DXMenuItem CreateDeleteAllMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("全部删除", new EventHandler(OnDeleteRoofItemClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        class RowInfo
+        {
+            public RowInfo(GridView view, int rowHandle)
+            {
+                this.RowHandle = rowHandle;
+                this.View = view;
+            }
+            public GridView View;
+            public int RowHandle;
+        }
+
+        void OnDeleteRoofItemClick(object sender, EventArgs e)
+        {
+            //
+        }
+
+        void OnDeleteAllRoofItemsClick(object sender, EventArgs e)
+        {
+            //
         }
     }
 }
