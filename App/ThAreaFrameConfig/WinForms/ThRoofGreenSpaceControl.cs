@@ -5,6 +5,9 @@ using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.Presenter;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Base;
+using DevExpress.Utils;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using DevExpress.Utils.Menu;
 using Autodesk.AutoCAD.Runtime;
 
 namespace ThAreaFrameConfig.WinForms
@@ -151,6 +154,69 @@ namespace ThAreaFrameConfig.WinForms
                     }
                     break;
             };
+        }
+
+        private void gridView_space_DoubleClick(object sender, EventArgs e)
+        {
+            DXMouseEventArgs ea = e as DXMouseEventArgs;
+            GridView view = sender as GridView;
+            GridHitInfo info = view.CalcHitInfo(ea.Location);
+            if (info.InRow || info.InRowCell)
+            {
+                ThRoofGreenSpace space = view.GetRow(info.RowHandle) as ThRoofGreenSpace;
+                Presenter.OnHighlightAreaFrame(space.Frame);
+            }
+        }
+
+        private void gridView_space_PopupMenuShowing(object sender, PopupMenuShowingEventArgs e)
+        {
+            GridView view = sender as GridView;
+            if (e.MenuType == GridMenuType.Row)
+            {
+                if (e.HitInfo.InRow || e.HitInfo.InRowCell)
+                {
+                    e.Menu.Items.Clear();
+                    e.Menu.Items.Add(CreateDeleteMenuItem(view, e.HitInfo.RowHandle));
+                    e.Menu.Items.Add(CreateDeleteAllMenuItem(view, e.HitInfo.RowHandle));
+                }
+            }
+        }
+
+        DXMenuItem CreateDeleteMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("删除", new EventHandler(OnDeleteRoofItemClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        DXMenuItem CreateDeleteAllMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("全部删除", new EventHandler(OnDeleteRoofItemClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        class RowInfo
+        {
+            public RowInfo(GridView view, int rowHandle)
+            {
+                this.RowHandle = rowHandle;
+                this.View = view;
+            }
+            public GridView View;
+            public int RowHandle;
+        }
+
+        void OnDeleteRoofItemClick(object sender, EventArgs e)
+        {
+            //
+        }
+
+        void OnDeleteAllRoofItemsClick(object sender, EventArgs e)
+        {
+            //
         }
     }
 }
