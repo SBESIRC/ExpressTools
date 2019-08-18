@@ -24,6 +24,16 @@ namespace ThAreaFrameConfig.Presenter
             this.HandleAcadException(e);
         }
 
+        public void OnHighlightAreaFrame(IntPtr areaFrame)
+        {
+            this.HighlightAreaFrame(areaFrame);
+        }
+
+        public void OnUnhighlightAreaFrame(IntPtr areaFrame)
+        {
+            this.UnhighlightAreaFrame(areaFrame);
+        }
+
         public void OnPickAreaFrames(string name)
         {
             this.PickRoofAreaFrames(name);

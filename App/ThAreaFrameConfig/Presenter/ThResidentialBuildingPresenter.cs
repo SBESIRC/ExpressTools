@@ -54,6 +54,17 @@ namespace ThAreaFrameConfig.Presenter
 
         public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)
         {
+            //
+        }
+
+        public void OnHighlightAreaFrame(IntPtr areaFrame)
+        {
+            //
+        }
+
+        public void OnUnhighlightAreaFrame(IntPtr areaFrame)
+        {
+            //
         }
     }
 }

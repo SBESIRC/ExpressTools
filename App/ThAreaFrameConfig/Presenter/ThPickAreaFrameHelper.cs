@@ -103,6 +103,28 @@ namespace ThAreaFrameConfig.Presenter
             }
         }
 
+        public static void HighlightAreaFrame(this IThAreaFramePresenterCallback presenterCallback, IntPtr areaFrame)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    acadDatabase.ModelSpace.Element(new ObjectId(areaFrame)).Highlight();
+                }
+            }
+        }
+
+        public static void UnhighlightAreaFrame(this IThAreaFramePresenterCallback presenterCallback, IntPtr areaFrame)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    acadDatabase.ModelSpace.Element(new ObjectId(areaFrame)).Unhighlight();
+                }
+            }
+        }
+
         public static void HandleAcadException(this IThAreaFramePresenterCallback presenterCallback, System.Exception e)
         {
             Active.Editor.Write(e.ToString());

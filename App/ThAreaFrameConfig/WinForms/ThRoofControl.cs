@@ -5,6 +5,8 @@ using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.Presenter;
 using DevExpress.XtraGrid.Views.Grid;
 using Autodesk.AutoCAD.Runtime;
+using DevExpress.Utils;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 
 namespace ThAreaFrameConfig.WinForms
 {
@@ -151,6 +153,18 @@ namespace ThAreaFrameConfig.WinForms
                     }
                     break;
             };
+        }
+
+        private void gridView_roof_DoubleClick(object sender, EventArgs e)
+        {
+            DXMouseEventArgs ea = e as DXMouseEventArgs;
+            GridView view = sender as GridView;
+            GridHitInfo info = view.CalcHitInfo(ea.Location);
+            if (info.InRow || info.InRowCell)
+            {
+                ThRoof roof = (ThRoof)view.GetRow(info.RowHandle);
+                Presenter.OnHighlightAreaFrame(roof.Frame);
+            }
         }
     }
 }
