@@ -32,27 +32,28 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
-        public void AppendUnderGroundParking()
+        public void AppendDefaultUnderGroundParking()
         {
             parkings.Add(new ThUnderGroundParking()
             {
                 ID = Guid.NewGuid(),
                 Number = parkings.Count + 1,
-                Floors = 1
+                Floors = 1,
+                Frames = new List<IntPtr>(),
             });
         }
 
-        private ObjectIdCollection AreaFrameLines(string layer)
+        private List<IntPtr> AreaFrameLines(string layer)
         {
-            var objectIdCollection = new ObjectIdCollection();
+            var areaFrames = new List<IntPtr>();
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
                 acadDatabase.ModelSpace
                             .OfType<Polyline>()
                             .Where(e => e.Layer == layer)
-                            .ForEachDbObject(e => objectIdCollection.Add(e.ObjectId));
+                            .ForEachDbObject(e => areaFrames.Add(e.ObjectId.OldIdPtr));
             }
-            return objectIdCollection;
+            return areaFrames;
         }
 
         private void ConstructUnderGroundParkings()
@@ -65,16 +66,14 @@ namespace ThAreaFrameConfig.Model
                 foreach (string name in names.Where(n => n.StartsWith(@"单体车位_小型汽车")))
                 {
                     string[] tokens = name.Split('_');
-                    foreach (ObjectId objId in AreaFrameLines(name))
+                    parkings.Add(new ThUnderGroundParking()
                     {
-                        parkings.Add(new ThUnderGroundParking()
-                        {
-                            ID = Guid.NewGuid(),
-                            Number = parkings.Count + 1,
-                            Floors = UInt16.Parse(tokens[2]),
-                            Storey = tokens[3]
-                        });
-                    }
+                        ID = Guid.NewGuid(),
+                        Number = parkings.Count + 1,
+                        Floors = UInt16.Parse(tokens[2]),
+                        Storey = tokens[3],
+                        Frames = AreaFrameLines(name)
+                    });
                 }
             }
         }

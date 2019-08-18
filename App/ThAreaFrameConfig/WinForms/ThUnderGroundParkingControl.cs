@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ThAreaFrameConfig.View;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.Presenter;
@@ -38,6 +39,7 @@ namespace ThAreaFrameConfig.WinForms
         public void Reload()
         {
             DbRepository = new ThUnderGroundParkingDbRepository();
+            DbRepository.AppendDefaultUnderGroundParking();
             gridControl_parking.DataSource = DbRepository.Parkings;
             gridControl_parking.RefreshDataSource();
         }
@@ -46,10 +48,7 @@ namespace ThAreaFrameConfig.WinForms
         {
             Presenter = new ThUnderGroundParkingPresenter(this);
             DbRepository = new ThUnderGroundParkingDbRepository();
-            if (DbRepository.Parkings.Count == 0)
-            {
-                DbRepository.AppendUnderGroundParking();
-            }
+            DbRepository.AppendDefaultUnderGroundParking();
             gridControl_parking.DataSource = DbRepository.Parkings;
             gridControl_parking.RefreshDataSource();
         }
@@ -76,18 +75,79 @@ namespace ThAreaFrameConfig.WinForms
             {
                 return;
             }
+            if (e.HitInfo.Column == null)
+            {
+                return;
+            }
             if (e.HitInfo.Column.FieldName != "gridColumn_pick")
             {
                 return;
             }
 
-            GridView gridView = (GridView)sender;
-            ThUnderGroundParking parking = (ThUnderGroundParking)gridView.GetRow(e.RowHandle);
-            string name = ThResidentialRoomUtil.LayerName(parking);
-            Presenter.OnPickAreaFrames(name);
+            try
+            {
+                GridView gridView = (GridView)sender;
+                ThUnderGroundParking parking = (ThUnderGroundParking)gridView.GetRow(e.RowHandle);
+                string name = ThResidentialRoomUtil.LayerName(parking);
+                Presenter.OnPickAreaFrames(name);
 
-            // 更新界面
-            this.Reload();
+                // 更新界面
+                this.Reload();
+            }
+            catch (Exception exception)
+            {
+#if DEBUG
+                Presenter.OnHandleAcadException(exception);
+#endif
+            }
+        }
+
+        private void gridView_parking_RowUpdated(object sender, DevExpress.XtraGrid.Views.Base.RowObjectEventArgs e)
+        {
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+
+            try
+            {
+                ThUnderGroundParking parking = (ThUnderGroundParking)e.Row;
+                if (!parking.IsDefined)
+                {
+                    return;
+                }
+
+                // 更新图纸
+                string name = ThResidentialRoomUtil.LayerName(parking);
+                Presenter.OnRenameAreaFrameLayer(name, parking.Frames[0]);
+
+                // 更新界面
+                this.Reload();
+            }
+            catch (System.Exception exception)
+            {
+#if DEBUG
+                Presenter.OnHandleAcadException(exception);
+#endif
+            }
+        }
+
+        private void gridView_parking_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
+        {
+            GridView view = sender as GridView;
+            switch (view.FocusedColumn.FieldName)
+            {
+                case "Floors":
+                    {
+                        if (!int.TryParse(e.Value.ToString(), out int value))
+                        {
+                            e.Valid = false;
+                            e.ErrorText = "请输入整数";
+                        }
+
+                    }
+                    break;
+            };
         }
     }
 }

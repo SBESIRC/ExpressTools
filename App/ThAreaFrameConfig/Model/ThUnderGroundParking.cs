@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Linq2Acad;
-using Autodesk.AutoCAD.DatabaseServices;
+
 namespace ThAreaFrameConfig.Model
 {
     [Serializable()]
@@ -34,15 +32,20 @@ namespace ThAreaFrameConfig.Model
         public int Slots {
             get
             {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    var name = ThResidentialRoomUtil.LayerName(this);
-                    return acadDatabase.ModelSpace
-                        .OfType<Polyline>()
-                        .Where(e => e.Layer == name)
-                        .Count();
-                }
+                return Frames.Count;
             }
         }
+
+        // 状态
+        public bool IsDefined
+        {
+            get
+            {
+                return Frames.Count > 0;
+            }
+        }
+
+        // 面积框线
+        public List<IntPtr> Frames { get; set; }
     }
 }
