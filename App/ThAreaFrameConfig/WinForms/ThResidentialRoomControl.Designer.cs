@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
             DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
             this.gdv_room_area_unit = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -51,6 +52,15 @@
             this.room_area_aggregation = new DevExpress.XtraGrid.Columns.GridColumn();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
+            this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
+            this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
+            this.barButtonItem_add = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem_modify = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem_delete = new DevExpress.XtraBars.BarButtonItem();
+            this.popupMenu_storey = new DevExpress.XtraBars.PopupMenu(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room_area_unit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_room)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room_area_frame)).BeginInit();
@@ -61,6 +71,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.xtraTabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu_storey)).BeginInit();
             this.SuspendLayout();
             // 
             // gdv_room_area_unit
@@ -323,28 +335,108 @@
             // 
             // xtraTabControl1
             // 
-            this.xtraTabControl1.Location = new System.Drawing.Point(3, 0);
+            this.xtraTabControl1.Location = new System.Drawing.Point(3, 3);
             this.xtraTabControl1.Name = "xtraTabControl1";
             this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.xtraTabControl1.Size = new System.Drawing.Size(828, 492);
+            this.xtraTabControl1.Size = new System.Drawing.Size(829, 490);
             this.xtraTabControl1.TabIndex = 0;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1});
             this.xtraTabControl1.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.xtraTabControl1_SelectedPageChanged);
             this.xtraTabControl1.CustomHeaderButtonClick += new DevExpress.XtraTab.ViewInfo.CustomHeaderButtonEventHandler(this.xtraTabControl1_CustomHeaderButtonClick);
+            this.xtraTabControl1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.xtraTabControl1_MouseUp);
             // 
             // xtraTabPage1
             // 
             this.xtraTabPage1.Controls.Add(this.gridControl_room);
             this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(822, 463);
+            this.xtraTabPage1.Size = new System.Drawing.Size(823, 461);
             this.xtraTabPage1.Text = "c1";
+            // 
+            // barManager1
+            // 
+            this.barManager1.DockControls.Add(this.barDockControlTop);
+            this.barManager1.DockControls.Add(this.barDockControlBottom);
+            this.barManager1.DockControls.Add(this.barDockControlLeft);
+            this.barManager1.DockControls.Add(this.barDockControlRight);
+            this.barManager1.Form = this;
+            this.barManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.barButtonItem_add,
+            this.barButtonItem_modify,
+            this.barButtonItem_delete});
+            this.barManager1.MaxItemId = 3;
+            // 
+            // barDockControlTop
+            // 
+            this.barDockControlTop.CausesValidation = false;
+            this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
+            this.barDockControlTop.Manager = this.barManager1;
+            this.barDockControlTop.Size = new System.Drawing.Size(835, 0);
+            // 
+            // barDockControlBottom
+            // 
+            this.barDockControlBottom.CausesValidation = false;
+            this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 496);
+            this.barDockControlBottom.Manager = this.barManager1;
+            this.barDockControlBottom.Size = new System.Drawing.Size(835, 0);
+            // 
+            // barDockControlLeft
+            // 
+            this.barDockControlLeft.CausesValidation = false;
+            this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
+            this.barDockControlLeft.Manager = this.barManager1;
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 496);
+            // 
+            // barDockControlRight
+            // 
+            this.barDockControlRight.CausesValidation = false;
+            this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.barDockControlRight.Location = new System.Drawing.Point(835, 0);
+            this.barDockControlRight.Manager = this.barManager1;
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 496);
+            // 
+            // barButtonItem_add
+            // 
+            this.barButtonItem_add.Caption = "添加";
+            this.barButtonItem_add.Id = 0;
+            this.barButtonItem_add.Name = "barButtonItem_add";
+            this.barButtonItem_add.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem_add_ItemClick);
+            // 
+            // barButtonItem_modify
+            // 
+            this.barButtonItem_modify.Caption = "修改";
+            this.barButtonItem_modify.Id = 1;
+            this.barButtonItem_modify.Name = "barButtonItem_modify";
+            this.barButtonItem_modify.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem_modify_ItemClick);
+            // 
+            // barButtonItem_delete
+            // 
+            this.barButtonItem_delete.Caption = "删除";
+            this.barButtonItem_delete.Id = 2;
+            this.barButtonItem_delete.Name = "barButtonItem_delete";
+            this.barButtonItem_delete.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem_delete_ItemClick);
+            // 
+            // popupMenu_storey
+            // 
+            this.popupMenu_storey.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem_add),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem_modify),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem_delete)});
+            this.popupMenu_storey.Manager = this.barManager1;
+            this.popupMenu_storey.Name = "popupMenu_storey";
             // 
             // ThResidentialRoomControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.xtraTabControl1);
+            this.Controls.Add(this.barDockControlLeft);
+            this.Controls.Add(this.barDockControlRight);
+            this.Controls.Add(this.barDockControlBottom);
+            this.Controls.Add(this.barDockControlTop);
             this.Name = "ThResidentialRoomControl";
             this.Size = new System.Drawing.Size(835, 496);
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room_area_unit)).EndInit();
@@ -357,7 +449,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
             this.xtraTabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu_storey)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -384,5 +479,14 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit repositoryItemHyperLinkEdit1;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox_coefficient;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox_farcoefficient;
+        private DevExpress.XtraBars.BarManager barManager1;
+        private DevExpress.XtraBars.BarDockControl barDockControlTop;
+        private DevExpress.XtraBars.BarDockControl barDockControlBottom;
+        private DevExpress.XtraBars.BarDockControl barDockControlLeft;
+        private DevExpress.XtraBars.BarDockControl barDockControlRight;
+        private DevExpress.XtraBars.PopupMenu popupMenu_storey;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem_add;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem_modify;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem_delete;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using ThAreaFrameConfig.View;
@@ -9,8 +10,7 @@ using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.Utils.Menu;
 using DevExpress.XtraTab;
-using DevExpress.XtraTab.Buttons;
-using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraTab.ViewInfo;
 using Autodesk.AutoCAD.Runtime;
 using AcadException = Autodesk.AutoCAD.Runtime.Exception;
 
@@ -50,9 +50,6 @@ namespace ThAreaFrameConfig.WinForms
 
         public void InitializeTabControl()
         {
-            this.xtraTabControl1.CustomHeaderButtons.Add(new CustomHeaderButton(ButtonPredefines.Plus));
-            this.xtraTabControl1.CustomHeaderButtons.Add(new CustomHeaderButton(ButtonPredefines.Minus));
-
             Presenter = new ThResidentialRoomPresenter(this);
             DbRepository = new ThResidentialRoomDbRepository();
             if (!DbRepository.Storeys().Any())
@@ -277,6 +274,35 @@ namespace ThAreaFrameConfig.WinForms
                 DbRepository.RemoveStorey(this.CurrentStorey.Identifier);
                 this.xtraTabControl1.TabPages.Remove(this.xtraTabControl1.SelectedTabPage);
                 Presenter.OnRemoveStorey(ThResidentialRoomUtil.LayerNames(this.CurrentStorey).ToArray());
+            }
+        }
+
+        private void barButtonItem_add_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
+        }
+
+        private void barButtonItem_delete_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
+        }
+
+        private void barButtonItem_modify_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
+        }
+
+        private void xtraTabControl1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                XtraTabControl tabCtrl = sender as XtraTabControl;
+                Point pt = MousePosition;
+                XtraTabHitInfo info = tabCtrl.CalcHitInfo(tabCtrl.PointToClient(pt));
+                if (info.HitTest == XtraTabHitTest.PageHeader)
+                {
+                    popupMenu_storey.ShowPopup(pt);
+                }
             }
         }
     }
