@@ -11,7 +11,7 @@
             </sparkle:releaseNotesLink>
             <pubDate>Mon, 12 Aug 2019 13:42:08 +0800</pubDate>
             <enclosure url="http://49.234.60.227/AI/thcad/Release/ThCADInstaller.v1.2.0.msi"
-                       sparkle:version="1.2.0"
+                       sparkle:version="1.2.1"
                        length="4376321"
                        type="application/octet-stream"
                        sparkle:dsaSignature="PyFxMx24iEGQMWxiJA6rd6Pj5CbFLx5o2t9yUWYKPrEsmsQ8kDHz2w==" />
