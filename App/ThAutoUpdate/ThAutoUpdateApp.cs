@@ -38,7 +38,7 @@ namespace ThAutoUpdate
             sparkle.HideSkipButton = true;
             sparkle.CloseApplication += () =>
             {
-#if ACAD2012
+#if ACAD2012 || ACAD2014
                 AcadApp.Quit();
 #else
                 AcadApp.DocumentManager.MdiActiveDocument.SendStringToExecute("quit ", true, false, true);
