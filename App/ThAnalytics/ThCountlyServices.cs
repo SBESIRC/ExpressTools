@@ -20,6 +20,8 @@ namespace ThAnalytics
 
         public void Initialize()
         {
+            ThUserProfile userProfile = new ThUserProfile();
+
             //create the Countly init object
             CountlyConfig cc = new CountlyConfig()
             {
@@ -27,18 +29,22 @@ namespace ThAnalytics
                 appKey      = "b179dc3c7e08f3aab6ceff7d0cf8e2304c196390",
                 appVersion  = "1.0.0"
             };
+
+            if (userProfile.IsDomainUser())
+            {
+                cc.developerProvidedDeviceId = userProfile.Mail;
+            }
             
 
             //initiate the SDK with your preferences
             Countly.Instance.Init(cc);
 
             //initiate the user profile
-            InitializeUserProfile();
+            InitializeUserProfile(userProfile);
         }
 
-        private void InitializeUserProfile()
+        private void InitializeUserProfile(ThUserProfile userProfile)
         {
-            ThUserProfile userProfile = new ThUserProfile();
             if (userProfile.IsDomainUser())
             {
                 Countly.UserDetails.Name = userProfile.Name;
