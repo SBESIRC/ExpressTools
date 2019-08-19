@@ -39,7 +39,7 @@ namespace ThElectrical.View
                 {
                     var combo = e.OriginalSource as ComboBox;
                     //有值得时候再换算
-                    if (combo.SelectedValue != null && combo.Tag != null)
+                    if (combo.SelectedValue != null && combo.Tag != null && viewModel.SelectedRecord.OutCableElement != null)
                     {
                         if (combo.Tag.ToString() == "相线规格")
                         {
@@ -79,7 +79,7 @@ namespace ThElectrical.View
 
                     if (textBox.Tag != null && textBox.Tag.ToString() == "值")
                     {
-                        if (viewModel.SelectedRecord != null)
+                        if (viewModel.SelectedRecord != null && viewModel.SelectedRecord.OutCableElement != null)
                         {
                             //一旦进入了,就表示记录更改了,修改状态
                             viewModel.SelectedRecordChanged = true;
@@ -105,7 +105,7 @@ namespace ThElectrical.View
                 {
                     var combo = e.OriginalSource as ComboBox;
                     //有值得时候再换算
-                    if (combo.SelectedValue != null && combo.Tag != null)
+                    if (combo.SelectedValue != null && combo.Tag != null&&viewModel.SelectedRecord.BranchSwitchElement!=null)
                     {
                         if (combo.Tag.ToString() == "主体电流")
                         {
@@ -145,7 +145,7 @@ namespace ThElectrical.View
                     {
                         if (combo.Tag.ToString() == "容量选型")
                         {
-                            if (viewModel.SelectedRecord != null)
+                            if (viewModel.SelectedRecord != null && viewModel.SelectedRecord.PowerCapacityElement != null)
                             {
                                 //断开容量文本框变化事件
                                 txtRealCap.TextChanged -= GroupBox_TextChanged_1;
@@ -153,7 +153,7 @@ namespace ThElectrical.View
                                 //一旦进入了,就表示记录更改了,修改状态
                                 viewModel.SelectedRecordChanged = true;
 
-                             viewModel.SelectedRecord.PowerCapacityElement.ResetByValue();
+                                viewModel.SelectedRecord.PowerCapacityElement.ResetByValue();
 
                                 //执行信息的联动
                                 viewModel.Task.AddCabinetObserve(viewModel.SelectedRecord);
@@ -213,7 +213,8 @@ namespace ThElectrical.View
 
                     if (textBox.Tag != null && textBox.Tag.ToString() == "值")
                     {
-                        if (viewModel.SelectedRecord != null)
+                        //这里因为要执行容量的联动，所以容量也不能为0
+                        if (viewModel.SelectedRecord != null && viewModel.SelectedRecord.PowerCapacityElement != null)
                         {
                             //断开cmb的变化事件
                             cmbPower.SelectionChanged -= GroupBox_SelectionChanged_1;
