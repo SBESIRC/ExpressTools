@@ -16,4 +16,4 @@ if($assembly_version -ne $null)
 
 Invoke-psake .\run-build.ps1 -Task "${buildType}.Build", Compile.Installer
 Invoke-psake .\run-nunit.ps1 -Task "${buildType}.Build", Unit.Tests
-Invoke-psake .\run-harness.ps1 -Task "${buildType}.Build", Gallio.Tests
+#Invoke-psake .\run-harness.ps1 -Task "${buildType}.Build", Gallio.Tests
