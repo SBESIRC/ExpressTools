@@ -30,7 +30,7 @@ namespace ThAreaFrame
         public void AreaCommand()
         {
             /*
-            if (!ThLicenseService.Service.IsLicensed())
+            if (!ThLicenseService.Instance.IsLicensed())
             {
                 return;
             }
@@ -275,11 +275,12 @@ namespace ThAreaFrame
         [CommandMethod("TIANHUACAD", "THTET", CommandFlags.Modal)]
         public void AreaCommand2()
         {
-            if (!ThLicenseService.Service.IsLicensed())
+            /*
+            if (!ThLicenseService.Instance.IsLicensed())
             {
                 return;
             }
-
+            */
             var ed = Active.Editor;
 
             // 选取插入点
