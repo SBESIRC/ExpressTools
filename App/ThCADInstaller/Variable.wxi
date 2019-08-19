@@ -19,4 +19,6 @@
   <?define OutputRootPath = "$(var.ProjectDir)\..\build" ?>
   <!-- Lanuage. -->
   <?define LanuageIdentifier = "zh-CN" ?>
+  <!-- DevExpress version suffix -->
+  <?define DevExpressVersionSuffix = "v17.2" ?>
 </Include>

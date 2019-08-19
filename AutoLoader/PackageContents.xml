@@ -129,6 +129,24 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
+	<!--Assembly App, ThAreaFrameConfig, 2012 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
+        <ComponentEntry ModuleName="./Contents/Win64/2012/ThAreaFrameConfig.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for frame area configuration dialog" AppName="ThAreaFrameConfig" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THAFC" Local="THAFC" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+	<!--Assembly App, ThAreaFrame, 2014 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2014/ThAreaFrameConfig.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for frame area configuration dialog" AppName="ThAreaFrameConfig" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THAFC" Local="THAFC" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
     <!--Assembly App, ThElectricalSysDiagram, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
