@@ -1,4 +1,4 @@
-﻿param($script:dsapriv, $script:appcast, $script:releasenote, $script:releasemsi)
+﻿param($script:releasemsi, $script:dsapriv, $script:appcast, $script:releasenote)
 
 $monthenum = "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 [string]$script:weekday = $((Get-Date).DayOfWeek)
@@ -12,38 +12,8 @@ $script:minute = $(Get-Date -Format 'mm')
 $script:second = $(Get-Date -Format 'ss')
 $script:date = "${weekdayshort}, ${day} ${enmonth} ${year} ${hour}:${minute}:${second} +0800"
 
-$script:msilength = (Get-Item $releasemsi).length
 $commond_parameter_missing = "please ckeck your commond and use commond like:<.\shellname> <*NetSparkle_DSA.priv> <*appcast.xml> <*.html/*.md> <*.msi>"
-if ($dsapriv -eq $null)
-{
-    Write-Host $commond_parameter_missing
-    return
-}
-elseif (-not ($dsapriv -like "*NetSparkle_DSA.priv"))
-{
-    Write-Host "Dsa priv file name wrong"
-    return
-}
-if ($appcast -eq $null)
-{
-    Write-Host $commond_parameter_missing
-    return
-}
-elseif (-not ($appcast -like "*appcast.xml"))
-{
-    Write-Host "Appcast.xml priv file name wrong"
-    return
-}
-if ($releasenote -eq $null)
-{
-    Write-Host $commond_parameter_missing
-    return
-}
-elseif (-not (($releasenote -like "*.html") -or ($releasenote -like "*.md")))
-{
-    Write-Host "Html/Markdown file name wrong"
-    return
-}
+
 if ($releasemsi -eq $null)
 {
     Write-Host $commond_parameter_missing
@@ -52,6 +22,34 @@ if ($releasemsi -eq $null)
 elseif (-not ($releasemsi -like "*.msi"))
 {
     Write-Host "Msi file name wrong"
+    return
+}
+$script:msilength = (Get-Item $releasemsi).length
+if ($dsapriv -eq $null)
+{
+    $dsapriv = ".\ThAutoUpdate\NetSparkle_DSA.priv"
+}
+elseif (-not ($dsapriv -like "*NetSparkle_DSA.priv"))
+{
+    Write-Host "Dsa priv file name wrong"
+    return
+}
+if ($appcast -eq $null)
+{
+    $appcast = ".\ThAutoUpdate\appcast.xml"
+}
+elseif (-not ($appcast -like "*appcast.xml"))
+{
+    Write-Host "Appcast.xml priv file name wrong"
+    return
+}
+if ($releasenote -eq $null)
+{
+    $releasenote = ".\ThAutoUpdate\release-note.md"
+}
+elseif (-not (($releasenote -like "*.html") -or ($releasenote -like "*.md")))
+{
+    Write-Host "Html/Markdown file name wrong"
     return
 }
 

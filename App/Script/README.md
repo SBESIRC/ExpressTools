@@ -22,9 +22,9 @@ release.ps1 It have no limit of location
   
 ## pubilsh  
 **usage**  
-.\pubilsh dsaprivatefile appcast.xml releasenote msi  
+.\pubilsh msi  
 **example**  
-.\pubilsh.ps1 NetSparkle_DSA.priv appcast.xml release-note.md *.msi  
+.\pubilsh.ps1 *.msi  
 (Pulling file in powershell as parameters is permited)  
   
 ## other script(do the percise active)  
