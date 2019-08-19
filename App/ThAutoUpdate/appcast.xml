@@ -7,7 +7,7 @@
         <item>
             <title>Version 1.2 (2 bugs fixed; 3 new features)</title>
             <sparkle:releaseNotesLink>
-                http://49.234.60.227/AI/thcad/ReleaseNote/release.md
+                http://49.234.60.227/AI/thcad/ReleaseNote/release-note.md
             </sparkle:releaseNotesLink>
             <pubDate>Mon, 12 Aug 2019 13:42:08 +0800</pubDate>
             <enclosure url="http://49.234.60.227/AI/thcad/Release/ThCADInstaller.v1.2.0.msi"
