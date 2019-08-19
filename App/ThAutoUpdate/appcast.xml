@@ -1,21 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
     <channel>
-        <title>NetSparkle Test App</title>
-        <link>https://deadpikle.github.io/NetSparkle/files/sample-app/appcast.xml</link>
-        <description>Most recent changes with links to updates.</description>
+        <title>ThExpressTools</title>
+        <link>"http://49.234.60.227/AI/thcad/appcast.xml"</link>
         <language>en</language>
         <item>
-            <title>Version 2.0 (2 bugs fixed; 3 new features)</title>
+            <title>Version 1.2 (2 bugs fixed; 3 new features)</title>
             <sparkle:releaseNotesLink>
-            https://deadpikle.github.io/NetSparkle/files/sample-app/2.0-release-notes.md
+                http://49.234.60.227/AI/thcad/ReleaseNote/release.md
             </sparkle:releaseNotesLink>
-            <pubDate>Thu, 27 Oct 2016 10:30:00 +0000</pubDate>
-            <enclosure url="https://deadpikle.github.io/NetSparkle/files/sample-app/NetSparkleUpdate.exe"
-                       sparkle:version="2.0"
-                       length="12288"
+            <pubDate>Mon, 12 Aug 2019 13:42:08 +0800</pubDate>
+            <enclosure url="http://49.234.60.227/AI/thcad/Release/ThCADInstaller.v1.2.0.msi"
+                       sparkle:version="1.2.0"
+                       length="4376321"
                        type="application/octet-stream"
-                       sparkle:dsaSignature="NSG/eKz9BaTJrRDvKSwYEaOumYpPMtMYRq+vjsNlHqRGku/Ual3EoQ==" />
+                       sparkle:dsaSignature="PyFxMx24iEGQMWxiJA6rd6Pj5CbFLx5o2t9yUWYKPrEsmsQ8kDHz2w==" />
         </item>
     </channel>
 </rss>
