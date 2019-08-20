@@ -49,6 +49,14 @@ namespace ThIdentity
             }
         }
 
+        public string Accountname
+        {
+            get
+            {
+                return properties["sAMAccountName"][0].ToString();
+            }
+        }
+
         public bool IsDomainUser()
         {
             return (properties != null);

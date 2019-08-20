@@ -49,6 +49,8 @@ namespace ThAnalytics
             {
                 Countly.UserDetails.Name = userProfile.Name;
                 Countly.UserDetails.Email = userProfile.Mail;
+                //这个地方存在一个bug，大部分用户无法显示Custom中的第一项内容，为了显示需要的内容，特此添加一项accountname作为第一项
+                Countly.UserDetails.Custom.Add("accountname", userProfile.Accountname);
                 Countly.UserDetails.Custom.Add("title", userProfile.Title);
                 Countly.UserDetails.Custom.Add("company", userProfile.Company);
                 Countly.UserDetails.Custom.Add("department", userProfile.Department);
