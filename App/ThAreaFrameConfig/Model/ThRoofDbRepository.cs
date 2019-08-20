@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrameConfig.Model
 {
-    internal class ThRoofDbRepository
+    internal class ThRoofDbRepository : IThRoofRepository
     {
         private readonly Database database;
         private List<ThRoof> roofs;

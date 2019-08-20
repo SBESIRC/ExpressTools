@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\IThRoofRepository.cs" />
     <Compile Include="Model\ThAOccupancy.cs" />
     <Compile Include="Model\ThAOccupancyDbDepository.cs" />
     <Compile Include="Model\ThAOccupancyStorey.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Model\ThRoofDbRepository.cs" />
     <Compile Include="Model\ThRoofGreenSpace.cs" />
     <Compile Include="Model\ThRoofGreenSpaceDbRepository.cs" />
+    <Compile Include="Model\ThRoofNullRepository.cs" />
     <Compile Include="Model\ThUnderGroundParking.cs" />
     <Compile Include="Model\ThUnderGroundParkingDbRepository.cs" />
     <Compile Include="Presenter\IResidentialBuildingPresenterCallback.cs" />
