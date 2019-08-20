@@ -108,7 +108,6 @@
             this.thResidentialRoomControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.thResidentialRoomControl1.Location = new System.Drawing.Point(0, 0);
             this.thResidentialRoomControl1.Name = "thResidentialRoomControl1";
-            this.thResidentialRoomControl1.Rooms = ((System.Collections.Generic.List<ThAreaFrameConfig.Model.ThResidentialRoom>)(resources.GetObject("thResidentialRoomControl1.Rooms")));
             this.thResidentialRoomControl1.Size = new System.Drawing.Size(507, 332);
             this.thResidentialRoomControl1.TabIndex = 0;
             // 
@@ -121,7 +120,6 @@
             // 
             // thAOccupancyControl1
             // 
-            this.thAOccupancyControl1.AOccupancies = ((System.Collections.Generic.List<ThAreaFrameConfig.Model.ThAOccupancy>)(resources.GetObject("thAOccupancyControl1.AOccupancies")));
             this.thAOccupancyControl1.AutoSize = true;
             this.thAOccupancyControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.thAOccupancyControl1.Location = new System.Drawing.Point(0, 0);
@@ -150,7 +148,6 @@
             this.thRoofGreenSpaceControl1.Location = new System.Drawing.Point(0, 0);
             this.thRoofGreenSpaceControl1.Name = "thRoofGreenSpaceControl1";
             this.thRoofGreenSpaceControl1.Size = new System.Drawing.Size(507, 332);
-            this.thRoofGreenSpaceControl1.Spaces = ((System.Collections.Generic.List<ThAreaFrameConfig.Model.ThRoofGreenSpace>)(resources.GetObject("thRoofGreenSpaceControl1.Spaces")));
             this.thRoofGreenSpaceControl1.TabIndex = 0;
             // 
             // tabNavigationPage6
@@ -166,7 +163,6 @@
             this.thUnderGroundParkingControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.thUnderGroundParkingControl1.Location = new System.Drawing.Point(0, 0);
             this.thUnderGroundParkingControl1.Name = "thUnderGroundParkingControl1";
-            this.thUnderGroundParkingControl1.Parkings = ((System.Collections.Generic.List<ThAreaFrameConfig.Model.ThUnderGroundParking>)(resources.GetObject("thUnderGroundParkingControl1.Parkings")));
             this.thUnderGroundParkingControl1.Size = new System.Drawing.Size(507, 332);
             this.thUnderGroundParkingControl1.TabIndex = 0;
             // 
@@ -183,7 +179,6 @@
             this.thRoofControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.thRoofControl1.Location = new System.Drawing.Point(0, 0);
             this.thRoofControl1.Name = "thRoofControl1";
-            this.thRoofControl1.Roofs = null;
             this.thRoofControl1.Size = new System.Drawing.Size(507, 332);
             this.thRoofControl1.TabIndex = 0;
             // 
