@@ -46,15 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\IThAOccupancyDepository.cs" />
+    <Compile Include="Model\IThResidentialBuildingRepository.cs" />
     <Compile Include="Model\IThRoofGreenSpaceRepository.cs" />
     <Compile Include="Model\IThRoofRepository.cs" />
     <Compile Include="Model\IThUnderGroundParkingRepository.cs" />
     <Compile Include="Model\ThAOccupancy.cs" />
     <Compile Include="Model\ThAOccupancyDbDepository.cs" />
+    <Compile Include="Model\ThAOccupancyNullDepository.cs" />
     <Compile Include="Model\ThAOccupancyStorey.cs" />
     <Compile Include="Model\ThResidentialAreaFrame.cs" />
     <Compile Include="Model\ThResidentialBuilding.cs" />
     <Compile Include="Model\ThResidentialBuildingDbRepository.cs" />
+    <Compile Include="Model\ThResidentialBuildingNullRepository.cs" />
     <Compile Include="Model\ThResidentialRoom.cs" />
     <Compile Include="Model\ThResidentialRoomDbRepository.cs" />
     <Compile Include="Model\ThResidentialRoomComponent.cs" />
