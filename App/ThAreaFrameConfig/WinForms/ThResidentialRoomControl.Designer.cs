@@ -100,6 +100,7 @@
             // 
             // gridControl_room
             // 
+            this.gridControl_room.Dock = System.Windows.Forms.DockStyle.Fill;
             gridLevelNode1.LevelTemplate = this.gdv_room_area_unit;
             gridLevelNode1.RelationName = "Level1";
             gridLevelNode2.LevelTemplate = this.gdv_room_area_frame;
@@ -107,14 +108,14 @@
             this.gridControl_room.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
             gridLevelNode1,
             gridLevelNode2});
-            this.gridControl_room.Location = new System.Drawing.Point(3, 3);
+            this.gridControl_room.Location = new System.Drawing.Point(0, 0);
             this.gridControl_room.MainView = this.gdv_room;
             this.gridControl_room.Name = "gridControl_room";
             this.gridControl_room.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemHyperLinkEdit1,
             this.repositoryItemComboBox_coefficient,
             this.repositoryItemComboBox_farcoefficient});
-            this.gridControl_room.Size = new System.Drawing.Size(814, 451);
+            this.gridControl_room.Size = new System.Drawing.Size(829, 467);
             this.gridControl_room.TabIndex = 0;
             this.gridControl_room.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gdv_room_area_frame,
@@ -335,10 +336,11 @@
             // 
             // xtraTabControl1
             // 
-            this.xtraTabControl1.Location = new System.Drawing.Point(3, 3);
+            this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.xtraTabControl1.Location = new System.Drawing.Point(0, 0);
             this.xtraTabControl1.Name = "xtraTabControl1";
             this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.xtraTabControl1.Size = new System.Drawing.Size(829, 490);
+            this.xtraTabControl1.Size = new System.Drawing.Size(835, 496);
             this.xtraTabControl1.TabIndex = 0;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1});
@@ -350,7 +352,7 @@
             // 
             this.xtraTabPage1.Controls.Add(this.gridControl_room);
             this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(823, 461);
+            this.xtraTabPage1.Size = new System.Drawing.Size(829, 467);
             this.xtraTabPage1.Text = "c1";
             // 
             // barManager1
