@@ -1,3 +1,17 @@
+(defun C:THBPT( / s)
+  (setq s    nil)
+  (while     (and (/= s "A") (/= s "P") (/= s "a") (/= s "p"))
+     (setq s     (getstring "[请选择打印方式:全部打印(A)/手选图框(P)]:")) 
+    (print)
+  )
+  (cond
+    ((or (= s "A") (= s "a")) (C:LP))
+    ((or (= s "P") (= s "p")) (C:LPP))
+  )
+  (princ)
+)
+
+
 ;****************字符串去除特殊字符**************
 (defun lgm_mtext2text(MTextString / regex s)
     (setq regex(vlax-create-object "Vbscript.RegExp")) ;引用正则表达式控件
@@ -22,7 +36,7 @@
       (setq s (vlax-invoke-method  regex "Replace" s "、"))
 
       (vlax-release-object regex)
-      s
+     s
 )
 
 
@@ -88,8 +102,8 @@
         ((/= (member  (strcase "H-PLOTTER.ctb")     LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "H-PLOTTER.CTB"))
         ((/= (member  (strcase "A-PLOTTER.ctb")     LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "A-PLOTTER.CTB"))
         ((/= (member  (strcase "E-PLOTTER.ctb")     LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "E-PRINTER.CTB"))
-        ((/= (member  (strcase "W-PLOTTER.ctb")     LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "W-PLOTTER.CTB"))
-        ((/= (member  (strcase "S-PLOTTER.ctb")     LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "S-PLOTTER.CTB"))
+        ((/= (member  (strcase "W-PLOTTER.ctb") LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "W-PLOTTER.CTB"))
+        ((/= (member  (strcase "S-PLOTTER.ctb")    LIST_PLOTSTYLE) NIL )    (vla-put-StyleSheet        layout_ob    "S-PLOTTER.CTB"))
         (T                                (progn(princ "警告：检查cad是否正确安装公司打印样式." )(exit)))
     )
     (vla-SetWindowToPlot         layout_ob     point1 point2)
@@ -444,7 +458,7 @@
 )
 
 
-(DEFUN C:THBPT()
+(DEFUN C:LPP()
   (defun *error*(msg)
       (SETVAR "OSMODE" #OS)
       (SETVAR "BACKGROUNDPLOT" #BGP)    
