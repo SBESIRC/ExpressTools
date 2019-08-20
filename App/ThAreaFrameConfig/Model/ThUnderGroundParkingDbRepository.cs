@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrameConfig.Model
 {
-    internal class ThUnderGroundParkingDbRepository
+    internal class ThUnderGroundParkingDbRepository : IThUnderGroundParkingRepository
     {
         private readonly Database database;
         private List<ThUnderGroundParking> parkings;
