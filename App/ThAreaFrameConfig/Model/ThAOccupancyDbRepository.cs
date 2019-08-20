@@ -8,20 +8,20 @@ using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThAreaFrameConfig.Model
 {
-    public class ThAOccupancyDbDepository : IThAOccupancyDepository
+    public class ThAOccupancyDbRepository : IThAOccupancyRepository
     {
         private readonly Database database;
         private List<ThAOccupancyStorey> storeys;
 
         // 构造函数
-        public ThAOccupancyDbDepository()
+        public ThAOccupancyDbRepository()
         {
             database = Active.Database;
             ConstructRepository();
             ConstructAreaFrames();
         }
 
-        public ThAOccupancyDbDepository(Database db)
+        public ThAOccupancyDbRepository(Database db)
         {
             database = db;
             ConstructRepository();
@@ -116,19 +116,6 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
-        private ObjectIdCollection AreaFrameLines(string layer)
-        {
-            var objectIdCollection = new ObjectIdCollection();
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
-            {
-                acadDatabase.ModelSpace
-                            .OfType<Polyline>()
-                            .Where(e => e.Layer == layer)
-                            .ForEachDbObject(e => objectIdCollection.Add(e.ObjectId));
-            }
-            return objectIdCollection;
-        }
-
         private void ConstructAreaFrames()
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
@@ -139,7 +126,7 @@ namespace ThAreaFrameConfig.Model
                 foreach(var name in aOccupancyNames)
                 {
                     string[] tokens = name.Split('_');
-                    foreach (ObjectId objId in AreaFrameLines(name))
+                    foreach (ObjectId objId in database.AreaFrameLines(name))
                     {
                         switch (tokens[1])
                         {

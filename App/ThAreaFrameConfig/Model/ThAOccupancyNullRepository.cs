@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ThAreaFrameConfig.Model
 {
-    public class ThAOccupancyNullDepository : IThAOccupancyDepository
+    public class ThAOccupancyNullRepository : IThAOccupancyRepository
     {
         private List<ThAOccupancyStorey> storeys;
 
@@ -16,7 +16,7 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
-        public ThAOccupancyNullDepository()
+        public ThAOccupancyNullRepository()
         {
             storeys = new List<ThAOccupancyStorey>();
 

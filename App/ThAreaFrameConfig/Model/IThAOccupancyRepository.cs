@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ThAreaFrameConfig.Model
 {
-    public interface IThAOccupancyDepository
+    public interface IThAOccupancyRepository
     {
         List<ThAOccupancyStorey> Storeys
         {
@@ -16,6 +16,5 @@ namespace ThAreaFrameConfig.Model
 
         List<ThAOccupancy> AOccupancies(string storey);
         List<ThAOccupancy> AOccupancies(ThAOccupancyStorey storey);
-    
     }
 }

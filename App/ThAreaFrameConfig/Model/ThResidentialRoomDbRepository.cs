@@ -52,19 +52,6 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
-        private ObjectIdCollection AreaFrameLines(string layer)
-        {
-            var objectIdCollection = new ObjectIdCollection();
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
-            {
-                acadDatabase.ModelSpace
-                            .OfType<Polyline>()
-                            .Where(e => e.Layer == layer)
-                            .ForEachDbObject(e => objectIdCollection.Add(e.ObjectId));
-            }
-            return objectIdCollection;
-        }
-
         private void ConstructAreaFrames()
         {
             List<string> layers = new List<string>();
@@ -85,7 +72,7 @@ namespace ThAreaFrameConfig.Model
                         string[] tokens = layer.Split('_');
                         if (tokens[6] == storey.Identifier && tokens[5] == room.Identifier)
                         {
-                            foreach (ObjectId objId in AreaFrameLines(layer))
+                            foreach (ObjectId objId in database.AreaFrameLines(layer))
                             {
                                 comoponent.AreaFrames.Add(new ThResidentialAreaFrame()
                                 {
@@ -110,7 +97,7 @@ namespace ThAreaFrameConfig.Model
                         string[] tokens = layer.Split('_');
                         if (tokens[4] == room.Identifier)
                         {
-                            foreach (ObjectId objId in AreaFrameLines(layer))
+                            foreach (ObjectId objId in database.AreaFrameLines(layer))
                             {
                                 comoponent.AreaFrames.Add(new ThResidentialAreaFrame()
                                 {
@@ -135,7 +122,7 @@ namespace ThAreaFrameConfig.Model
                         string[] tokens = layer.Split('_');
                         if (tokens[4] == room.Identifier)
                         {
-                            foreach (ObjectId objId in AreaFrameLines(layer))
+                            foreach (ObjectId objId in database.AreaFrameLines(layer))
                             {
                                 comoponent.AreaFrames.Add(new ThResidentialAreaFrame()
                                 {
@@ -160,7 +147,7 @@ namespace ThAreaFrameConfig.Model
                         string[] tokens = layer.Split('_');
                         if (tokens[4] == room.Identifier)
                         {
-                            foreach (ObjectId objId in AreaFrameLines(layer))
+                            foreach (ObjectId objId in database.AreaFrameLines(layer))
                             {
                                 comoponent.AreaFrames.Add(new ThResidentialAreaFrame()
                                 {

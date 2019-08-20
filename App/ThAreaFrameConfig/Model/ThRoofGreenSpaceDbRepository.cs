@@ -43,19 +43,6 @@ namespace ThAreaFrameConfig.Model
             });
         }
 
-        private ObjectIdCollection AreaFrameLines(string layer)
-        {
-            var objectIdCollection = new ObjectIdCollection();
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
-            {
-                acadDatabase.ModelSpace
-                            .OfType<Polyline>()
-                            .Where(e => e.Layer == layer)
-                            .ForEachDbObject(e => objectIdCollection.Add(e.ObjectId));
-            }
-            return objectIdCollection;
-        }
-
         private void ConstructRoofGreenSpaces()
         {
             spaces = new List<ThRoofGreenSpace>();
@@ -66,7 +53,7 @@ namespace ThAreaFrameConfig.Model
                 foreach (string name in names.Where(n => n.StartsWith(@"屋顶构件_屋顶绿地")))
                 {
                     string[] tokens = name.Split('_');
-                    foreach (ObjectId objId in AreaFrameLines(name))
+                    foreach (ObjectId objId in database.AreaFrameLines(name))
                     {
                         spaces.Add(new ThRoofGreenSpace()
                         {

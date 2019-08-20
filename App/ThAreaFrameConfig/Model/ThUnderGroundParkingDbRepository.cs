@@ -43,19 +43,6 @@ namespace ThAreaFrameConfig.Model
             });
         }
 
-        private List<IntPtr> AreaFrameLines(string layer)
-        {
-            var areaFrames = new List<IntPtr>();
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
-            {
-                acadDatabase.ModelSpace
-                            .OfType<Polyline>()
-                            .Where(e => e.Layer == layer)
-                            .ForEachDbObject(e => areaFrames.Add(e.ObjectId.OldIdPtr));
-            }
-            return areaFrames;
-        }
-
         private void ConstructUnderGroundParkings()
         {
             parkings = new List<ThUnderGroundParking>();
@@ -72,7 +59,7 @@ namespace ThAreaFrameConfig.Model
                         Number = parkings.Count + 1,
                         Floors = UInt16.Parse(tokens[2]),
                         Storey = tokens[3],
-                        Frames = AreaFrameLines(name)
+                        Frames = database.AreaFrameLinesEx(name)
                     });
                 }
             }

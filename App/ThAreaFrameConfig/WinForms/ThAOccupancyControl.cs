@@ -17,7 +17,7 @@ namespace ThAreaFrameConfig.WinForms
     public partial class ThAOccupancyControl : DevExpress.XtraEditors.XtraUserControl, IAOccupancyView
     {
         private ThAOccupanyPresenter Presenter;
-        private ThAOccupancyDbDepository DbRepository;
+        private ThAOccupancyDbRepository DbRepository;
 
         public ThAOccupancyControl()
         {
@@ -45,7 +45,7 @@ namespace ThAreaFrameConfig.WinForms
 
         public void Reload()
         {
-            DbRepository = new ThAOccupancyDbDepository();
+            DbRepository = new ThAOccupancyDbRepository();
             gridControl_aoccupancy.DataSource = DbRepository.AOccupancies(this.CurrentStorey);
             gridControl_aoccupancy.RefreshDataSource();
         }
@@ -53,7 +53,7 @@ namespace ThAreaFrameConfig.WinForms
         public void InitializeTabControl()
         {
             Presenter = new ThAOccupanyPresenter(this);
-            DbRepository = new ThAOccupancyDbDepository();
+            DbRepository = new ThAOccupancyDbRepository();
             if (DbRepository.Storeys.Count == 0)
             {
                 DbRepository.AppendStorey("c1");
