@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrameConfig.Model
 {
@@ -30,7 +27,7 @@ namespace ThAreaFrameConfig.Model
             {
                 ID = Guid.NewGuid(),
                 Number = spaces.Count + 1,
-                Frame = ObjectId.Null.OldIdPtr,
+                Frame = (IntPtr)0,
                 Coefficient = 1.0
             });
         }

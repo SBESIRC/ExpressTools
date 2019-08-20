@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Model\IThAOccupancyDepository.cs" />
     <Compile Include="Model\IThResidentialBuildingRepository.cs" />
+    <Compile Include="Model\IThResidentialRoomRepository.cs" />
     <Compile Include="Model\IThRoofGreenSpaceRepository.cs" />
     <Compile Include="Model\IThRoofRepository.cs" />
     <Compile Include="Model\IThUnderGroundParkingRepository.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Model\ThResidentialRoom.cs" />
     <Compile Include="Model\ThResidentialRoomDbRepository.cs" />
     <Compile Include="Model\ThResidentialRoomComponent.cs" />
+    <Compile Include="Model\ThResidentialRoomNullRepository.cs" />
     <Compile Include="Model\ThResidentialRoomUtil.cs" />
     <Compile Include="Model\ThResidentialStorey.cs" />
     <Compile Include="Model\ThRoof.cs" />

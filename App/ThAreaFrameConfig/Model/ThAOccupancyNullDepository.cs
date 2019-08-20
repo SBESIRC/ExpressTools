@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrameConfig.Model
 {
@@ -51,7 +49,7 @@ namespace ThAreaFrameConfig.Model
                 Coefficient = 1.0,
                 FARCoefficient = 1.0,
                 Floors = null,
-                Frame = ObjectId.Null.OldIdPtr
+                Frame = (IntPtr)0
             };
         }
 
