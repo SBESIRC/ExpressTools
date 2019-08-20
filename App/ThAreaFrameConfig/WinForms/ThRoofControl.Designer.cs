@@ -47,14 +47,15 @@
             // 
             // gridControl_roof
             // 
-            this.gridControl_roof.Location = new System.Drawing.Point(0, 3);
+            this.gridControl_roof.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl_roof.Location = new System.Drawing.Point(0, 0);
             this.gridControl_roof.MainView = this.gridView_roof;
             this.gridControl_roof.Name = "gridControl_roof";
             this.gridControl_roof.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemHyperLinkEdit1,
             this.repositoryItemComboBox_coefficient,
             this.repositoryItemComboBox_farcoefficient});
-            this.gridControl_roof.Size = new System.Drawing.Size(764, 556);
+            this.gridControl_roof.Size = new System.Drawing.Size(764, 562);
             this.gridControl_roof.TabIndex = 0;
             this.gridControl_roof.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_roof});

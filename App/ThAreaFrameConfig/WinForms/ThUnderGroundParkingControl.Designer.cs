@@ -46,13 +46,14 @@
             // 
             // gridControl_parking
             // 
-            this.gridControl_parking.Location = new System.Drawing.Point(3, 3);
+            this.gridControl_parking.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl_parking.Location = new System.Drawing.Point(0, 0);
             this.gridControl_parking.MainView = this.gridView_parking;
             this.gridControl_parking.Name = "gridControl_parking";
             this.gridControl_parking.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemHyperLinkEdit1,
             this.repositoryItemComboBox_category});
-            this.gridControl_parking.Size = new System.Drawing.Size(768, 579);
+            this.gridControl_parking.Size = new System.Drawing.Size(775, 586);
             this.gridControl_parking.TabIndex = 0;
             this.gridControl_parking.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_parking});
@@ -68,6 +69,7 @@
             this.gridColumn_pick});
             this.gridView_parking.GridControl = this.gridControl_parking;
             this.gridView_parking.Name = "gridView_parking";
+            this.gridView_parking.OptionsView.ShowGroupPanel = false;
             this.gridView_parking.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView1_RowClick);
             this.gridView_parking.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_parking_RowUpdated);
             this.gridView_parking.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView1_CustomUnboundColumnData);

@@ -71,10 +71,11 @@
             // 
             // xtraTabControl1
             // 
-            this.xtraTabControl1.Location = new System.Drawing.Point(6, 3);
+            this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.xtraTabControl1.Location = new System.Drawing.Point(0, 0);
             this.xtraTabControl1.Name = "xtraTabControl1";
             this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.xtraTabControl1.Size = new System.Drawing.Size(661, 471);
+            this.xtraTabControl1.Size = new System.Drawing.Size(670, 477);
             this.xtraTabControl1.TabIndex = 0;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1});
@@ -85,12 +86,13 @@
             // 
             this.xtraTabPage1.Controls.Add(this.gridControl_aoccupancy);
             this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(655, 442);
+            this.xtraTabPage1.Size = new System.Drawing.Size(664, 448);
             this.xtraTabPage1.Text = "xtraTabPage1";
             // 
             // gridControl_aoccupancy
             // 
-            this.gridControl_aoccupancy.Location = new System.Drawing.Point(3, 3);
+            this.gridControl_aoccupancy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl_aoccupancy.Location = new System.Drawing.Point(0, 0);
             this.gridControl_aoccupancy.MainView = this.gridView_aoccupancy;
             this.gridControl_aoccupancy.Name = "gridControl_aoccupancy";
             this.gridControl_aoccupancy.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
@@ -99,7 +101,7 @@
             this.repositoryItemComboBox_coefficient,
             this.repositoryItemComboBox_farcoefficient,
             this.repositoryItemHyperLinkEdit1});
-            this.gridControl_aoccupancy.Size = new System.Drawing.Size(649, 436);
+            this.gridControl_aoccupancy.Size = new System.Drawing.Size(664, 448);
             this.gridControl_aoccupancy.TabIndex = 0;
             this.gridControl_aoccupancy.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_aoccupancy});
