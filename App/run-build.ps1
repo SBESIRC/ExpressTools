@@ -114,12 +114,12 @@ Task Compile.Installer -Depends Requires.BuildType, Compile.Assembly.R18, Compil
         & $msbuildExe /verbosity:minimal ".\ThCui\ThCui.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThParking\ThParking.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThAreaFrame\ThAreaFrame.csproj" /p:Configuration=$buildType /t:restore
-        & $msbuildExe /verbosity:minimal ".\ThAnalytics\ThAnalytics.csproj" /p:Configuration=Release /t:restore
-        & $msbuildExe /verbosity:minimal ".\ThIdentity\ThIdentity.csproj" /p:Configuration=Release /t:restore
-        & $msbuildExe /verbosity:minimal ".\ThLicense\ThLicense.csproj" /p:Configuration=Release /t:restore
-        & $msbuildExe /verbosity:minimal ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration=Release /t:restore
-        & $msbuildExe /verbosity:minimal ".\ThElectrical\ThElectrical.csproj" /p:Configuration=Release /t:restore
-		& $msbuildExe /verbosity:minimal ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration=Release /t:restore
+        & $msbuildExe /verbosity:minimal ".\ThAnalytics\ThAnalytics.csproj" /p:Configuration=$buildType /t:restore
+        & $msbuildExe /verbosity:minimal ".\ThIdentity\ThIdentity.csproj" /p:Configuration=$buildType /t:restore
+        & $msbuildExe /verbosity:minimal ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:restore
+        & $msbuildExe /verbosity:minimal ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration=$buildType /t:restore
+        & $msbuildExe /verbosity:minimal ".\ThElectrical\ThElectrical.csproj" /p:Configuration=$buildType /t:restore
+		& $msbuildExe /verbosity:minimal ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThElectricalSysDiagram\ThElectricalSysDiagram.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThCADInstaller\ThCADInstaller.wixproj" /p:Configuration=$buildType /t:rebuild
     }
