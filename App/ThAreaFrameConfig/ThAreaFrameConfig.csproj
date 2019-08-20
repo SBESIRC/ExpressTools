@@ -46,23 +46,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\IThAOccupancyDepository.cs" />
+    <Compile Include="Model\IThResidentialBuildingRepository.cs" />
+    <Compile Include="Model\IThResidentialRoomRepository.cs" />
+    <Compile Include="Model\IThRoofGreenSpaceRepository.cs" />
+    <Compile Include="Model\IThRoofRepository.cs" />
+    <Compile Include="Model\IThUnderGroundParkingRepository.cs" />
     <Compile Include="Model\ThAOccupancy.cs" />
     <Compile Include="Model\ThAOccupancyDbDepository.cs" />
+    <Compile Include="Model\ThAOccupancyNullDepository.cs" />
     <Compile Include="Model\ThAOccupancyStorey.cs" />
     <Compile Include="Model\ThResidentialAreaFrame.cs" />
     <Compile Include="Model\ThResidentialBuilding.cs" />
     <Compile Include="Model\ThResidentialBuildingDbRepository.cs" />
+    <Compile Include="Model\ThResidentialBuildingNullRepository.cs" />
     <Compile Include="Model\ThResidentialRoom.cs" />
     <Compile Include="Model\ThResidentialRoomDbRepository.cs" />
     <Compile Include="Model\ThResidentialRoomComponent.cs" />
+    <Compile Include="Model\ThResidentialRoomNullRepository.cs" />
     <Compile Include="Model\ThResidentialRoomUtil.cs" />
     <Compile Include="Model\ThResidentialStorey.cs" />
     <Compile Include="Model\ThRoof.cs" />
     <Compile Include="Model\ThRoofDbRepository.cs" />
     <Compile Include="Model\ThRoofGreenSpace.cs" />
     <Compile Include="Model\ThRoofGreenSpaceDbRepository.cs" />
+    <Compile Include="Model\ThRoofGreenSpaceNullRepository.cs" />
+    <Compile Include="Model\ThRoofNullRepository.cs" />
     <Compile Include="Model\ThUnderGroundParking.cs" />
     <Compile Include="Model\ThUnderGroundParkingDbRepository.cs" />
+    <Compile Include="Model\ThUnderGroundParkingNullRepository.cs" />
     <Compile Include="Presenter\IResidentialBuildingPresenterCallback.cs" />
     <Compile Include="Presenter\ThAOccupanyPresenter.cs" />
     <Compile Include="Presenter\IAOccupanyPresenterCallback.cs" />

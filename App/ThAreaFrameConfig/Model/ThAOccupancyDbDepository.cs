@@ -8,7 +8,7 @@ using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThAreaFrameConfig.Model
 {
-    public class ThAOccupancyDbDepository
+    public class ThAOccupancyDbDepository : IThAOccupancyDepository
     {
         private readonly Database database;
         private List<ThAOccupancyStorey> storeys;

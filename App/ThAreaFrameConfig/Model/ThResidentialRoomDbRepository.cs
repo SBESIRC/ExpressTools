@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrameConfig.Model
 {
-    internal class ThResidentialRoomDbRepository
+    internal class ThResidentialRoomDbRepository : IThResidentialRoomRepository
     {
         private readonly Database database;
         private List<ThResidentialStorey> storeys;

@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrameConfig.Model
 {
-    internal class ThRoofGreenSpaceDbRepository
+    internal class ThRoofGreenSpaceDbRepository : IThRoofGreenSpaceRepository
     {
         private readonly Database database;
         private List<ThRoofGreenSpace> spaces;
