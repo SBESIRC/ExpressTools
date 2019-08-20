@@ -34,5 +34,19 @@ namespace ThAreaFrameConfig.Model
             }
             return areaFrames;
         }
+
+        public static double Area(this IntPtr frame)
+        {
+            if (frame == (IntPtr)0)
+            {
+                return 0.0;
+            }
+
+            ObjectId objId = new ObjectId(frame);
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(objId.Database))
+            {
+                return acadDatabase.ElementOrDefault<Polyline>(objId).Area * (1.0 / 1000000.0);
+            }
+        }
     }
 }

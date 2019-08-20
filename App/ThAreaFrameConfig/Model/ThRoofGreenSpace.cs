@@ -1,7 +1,5 @@
 ﻿using System;
-using Linq2Acad;
 using System.ComponentModel.DataAnnotations;
-using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrameConfig.Model
 {
@@ -23,18 +21,7 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
-                if (Frame == (IntPtr)0)
-                    return 0.0;
-
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    ObjectId objId = new ObjectId(Frame);
-                    Polyline frameLine = acadDatabase.ElementOrDefault<Polyline>(objId);
-                    if (frameLine == null)
-                        return 0.0;
-
-                    return frameLine.Area * (1.0 / 1000000.0);
-                }
+                return Frame.Area();
             }
         }
 
