@@ -72,6 +72,11 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
+                if (Frame == (IntPtr)0)
+                {
+                    return 0.0;
+                }
+
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
                     ObjectId objId = new ObjectId(Frame);
