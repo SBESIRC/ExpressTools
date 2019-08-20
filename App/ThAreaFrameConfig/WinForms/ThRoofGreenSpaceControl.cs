@@ -45,6 +45,7 @@ namespace ThAreaFrameConfig.WinForms
         public void Reload()
         {
             DbRepository = new ThRoofGreenSpaceDbRepository();
+            DbRepository.AppendRoofGreenSpace();
             gridControl_space.DataSource = DbRepository.Spaces;
             gridControl_space.RefreshDataSource();
         }
@@ -53,10 +54,7 @@ namespace ThAreaFrameConfig.WinForms
         {
             Presenter = new ThRoofGreenSpacePresenter(this);
             DbRepository = new ThRoofGreenSpaceDbRepository();
-            if (DbRepository.Spaces.Count == 0)
-            {
-                DbRepository.AppendRoofGreenSpace();
-            }
+            DbRepository.AppendRoofGreenSpace();
             gridControl_space.DataSource = DbRepository.Spaces;
             gridControl_space.RefreshDataSource();
         }
