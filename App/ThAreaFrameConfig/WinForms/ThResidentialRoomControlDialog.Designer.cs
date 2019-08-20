@@ -188,8 +188,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(525, 378);
             this.Controls.Add(this.tabPane1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Name = "ThResidentialRoomControlDialog";
             this.Text = "天华单体框线图层规整";
             ((System.ComponentModel.ISupportInitialize)(this.tabPane1)).EndInit();
