@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using ThAreaFrameConfig.View;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.Presenter;
@@ -86,8 +87,8 @@ namespace ThAreaFrameConfig.WinForms
 
             try
             {
-                GridView gridView = (GridView)sender;
-                ThUnderGroundParking parking = (ThUnderGroundParking)gridView.GetRow(e.RowHandle);
+                GridView gridView = sender as GridView;
+                ThUnderGroundParking parking = gridView.GetRow(e.RowHandle) as ThUnderGroundParking;
                 string name = ThResidentialRoomUtil.LayerName(parking);
                 Presenter.OnPickAreaFrames(name);
 
@@ -111,7 +112,7 @@ namespace ThAreaFrameConfig.WinForms
 
             try
             {
-                ThUnderGroundParking parking = (ThUnderGroundParking)e.Row;
+                ThUnderGroundParking parking = e.Row as ThUnderGroundParking;
                 if (!parking.IsDefined)
                 {
                     return;
@@ -137,6 +138,7 @@ namespace ThAreaFrameConfig.WinForms
             GridView view = sender as GridView;
             switch (view.FocusedColumn.FieldName)
             {
+                // "车场层数"
                 case "Floors":
                     {
                         if (!int.TryParse(e.Value.ToString(), out int value))
@@ -145,6 +147,17 @@ namespace ThAreaFrameConfig.WinForms
                             e.ErrorText = "请输入整数";
                         }
 
+                    }
+                    break;
+                // "所属层"
+                case "Storey":
+                    {
+                        string pattern = @"^[cC]*\d+$";
+                        if (!Regex.IsMatch(e.Value.ToString(), pattern))
+                        {
+                            e.Valid = false;
+                            e.ErrorText = "";
+                        }
                     }
                     break;
             };

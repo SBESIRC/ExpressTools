@@ -91,8 +91,8 @@ namespace ThAreaFrameConfig.WinForms
 
             try
             {
-                GridView gridView = (GridView)sender;
-                ThRoof roof = (ThRoof)gridView.GetRow(e.RowHandle);
+                GridView gridView = sender as GridView;
+                ThRoof roof = gridView.GetRow(e.RowHandle) as ThRoof;
                 Presenter.OnPickAreaFrames(ThResidentialRoomUtil.LayerName(roof));
 
                 // 更新界面
@@ -170,7 +170,7 @@ namespace ThAreaFrameConfig.WinForms
             GridHitInfo info = view.CalcHitInfo(ea.Location);
             if (info.InRow || info.InRowCell)
             {
-                ThRoof roof = (ThRoof)view.GetRow(info.RowHandle);
+                ThRoof roof = view.GetRow(info.RowHandle) as ThRoof;
                 if (!roof.IsDefined)
                     return;
 
@@ -180,13 +180,12 @@ namespace ThAreaFrameConfig.WinForms
 
         private void gridView_roof_PopupMenuShowing(object sender, PopupMenuShowingEventArgs e)
         {
-
             GridView view = sender as GridView;
             if (e.MenuType == GridMenuType.Row)
             {
                 if (e.HitInfo.InRow || e.HitInfo.InRowCell)
                 {
-                    ThRoof roof = (ThRoof)view.GetRow(e.HitInfo.RowHandle);
+                    ThRoof roof = view.GetRow(e.HitInfo.RowHandle) as ThRoof;
                     if (!roof.IsDefined)
                         return;
 
@@ -230,7 +229,7 @@ namespace ThAreaFrameConfig.WinForms
             if (menuItem.Tag is RowInfo ri)
             { 
                 // 更新图纸
-                ThRoof roof = (ThRoof)ri.View.GetRow(ri.RowHandle);
+                ThRoof roof = ri.View.GetRow(ri.RowHandle) as ThRoof;
                 string layer = ThResidentialRoomDbUtil.LayerName(roof.Frame);
                 Presenter.OnDeleteAreaFrame(roof.Frame);
                 Presenter.OnDeleteAreaFrameLayer(layer);

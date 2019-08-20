@@ -49,14 +49,14 @@ namespace ThAreaFrameConfig.Presenter
                         // 复制面积框线
                         ObjectId clonedObjId = ThEntTool.DeepClone(pline.ObjectId);
                         if (clonedObjId.IsNull)
-                            return;
+                            continue;
 
                         // 图层管理
                         //  1. 如果指定图层不存在，创建图层
                         //  2. 如果指定图层存在，返回此图层
                         ObjectId layerId = ThResidentialRoomDbUtil.ConfigRoofLayer(name);
                         if (layerId.IsNull)
-                            return;
+                            continue;
 
                         // 将复制的放置在指定图层上
                         ThResidentialRoomDbUtil.MoveToLayer(clonedObjId, layerId);
