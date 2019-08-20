@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using CountlySDK;
 using CountlySDK.Entities;
 using ThIdentity;
@@ -17,6 +18,48 @@ namespace ThAnalytics
         internal ThCountlyServices() { }
         public static ThCountlyServices Instance { get { return instance; } }
         //-------------SINGLETON-----------------
+
+        private readonly Dictionary<string, string> thcommanfunctiondict = new Dictionary<string, string>
+        {
+            {"THHLP", "帮助"},
+
+            {"THUPT", "检查更新"},
+
+            {"THBLI", "图块集"},
+            {"THBLS", "图块集配置"},
+            {"THBEE", "提电气块转换"},
+
+            {"THCNU", "车位编号"},
+            {"THDTA", "尺寸避让"},
+
+            {"THALC", "建立建筑图层"},
+            {"THSLC", "建立结构图层"},
+            {"THMLC", "建立暖通图层"},
+            {"THELC", "建立电气图层"},
+            {"THPLC", "建立给排水图层"},
+            {"THLPM", "暖通用"},
+            {"THLPE", "电气用"},
+            {"THLPP", "给排水用"},
+            {"THMLK", "锁定暖通图层"},
+            {"THMUK", "隔离暖通图层"},
+            {"THUKA", "解锁所有图层"},
+            {"THMOF", "关闭暖通图层"},
+            {"THMON", "开启暖通图层"},
+
+            {"THBPS", "天华单体规整"},
+            {"THCSP", "天华总体规整"},
+            {"THBAC", "单体面积总汇"},
+            {"THTET", "综合经济技术指标表"},
+
+            {"THLDC", "配电箱系统图修改"},
+
+            {"THMSC", "批量缩放"},
+            {"THZ0", "Z值归零"},
+            {"DGNPURGE", "DGN清理"},
+            {"THBPT", "批量打印PDF"},
+
+            {"THMTC", "文字内容刷"}
+        };
 
         public void Initialize()
         {
@@ -77,6 +120,10 @@ namespace ThAnalytics
         {
             Segmentation segmentation = new Segmentation();
             segmentation.Add("名称", cmdName);
+            if (thcommanfunctiondict.ContainsKey(cmdName))
+            {
+                segmentation.Add("功能", thcommanfunctiondict[cmdName]);
+            }
             Countly.RecordEvent("CAD命令使用", 1, null, duration, segmentation);
         }
     }
