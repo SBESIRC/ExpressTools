@@ -14,6 +14,14 @@ namespace ThAreaFrameConfig.Model
             ThResidentialRoomComponent component, 
             ThResidentialAreaFrame frame)
         {
+            return LayerName(storey.Identifier, room, component, frame);
+        }
+
+        public static string LayerName(string identifier,
+            ThResidentialRoom room,
+            ThResidentialRoomComponent component,
+            ThResidentialAreaFrame frame)
+        {
             string[] tokens =
             {
                 "住宅构件",
@@ -22,7 +30,7 @@ namespace ThAreaFrameConfig.Model
                 frame.FARCoefficient.ToString(),
                 room.Name,
                 room.Identifier,
-                storey.Identifier,
+                identifier,
                 "",
                 version,
             };
