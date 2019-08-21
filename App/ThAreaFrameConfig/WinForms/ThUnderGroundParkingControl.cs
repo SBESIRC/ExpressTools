@@ -5,6 +5,9 @@ using ThAreaFrameConfig.View;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.Presenter;
 using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.Utils;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using DevExpress.Utils.Menu;
 
 namespace ThAreaFrameConfig.WinForms
 {
@@ -161,6 +164,103 @@ namespace ThAreaFrameConfig.WinForms
                     }
                     break;
             };
+        }
+
+        private void gridView_parking_DoubleClick(object sender, EventArgs e)
+        {
+            DXMouseEventArgs ea = e as DXMouseEventArgs;
+            GridView view = sender as GridView;
+            GridHitInfo info = view.CalcHitInfo(ea.Location);
+            if (info.InRow || info.InRowCell)
+            {
+                ThUnderGroundParking parking = view.GetRow(info.RowHandle) as ThUnderGroundParking;
+                if (!parking.IsDefined)
+                    return;
+
+                Presenter.OnHighlightAreaFrames(parking.Frames.ToArray());
+            }
+        }
+
+        private void gridView_parking_PopupMenuShowing(object sender, PopupMenuShowingEventArgs e)
+        {
+            GridView view = sender as GridView;
+            if (e.MenuType == GridMenuType.Row)
+            {
+                if (e.HitInfo.InRow || e.HitInfo.InRowCell)
+                {
+                    ThUnderGroundParking parking = view.GetRow(e.HitInfo.RowHandle) as ThUnderGroundParking;
+                    if (!parking.IsDefined)
+                        return;
+
+                    e.Menu.Items.Clear();
+                    e.Menu.Items.Add(CreateDeleteMenuItem(view, e.HitInfo.RowHandle));
+                    e.Menu.Items.Add(CreateDeleteAllMenuItem(view, e.HitInfo.RowHandle));
+                }
+            }
+        }
+
+        DXMenuItem CreateDeleteMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("删除", new EventHandler(OnDeleteRoofItemClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        DXMenuItem CreateDeleteAllMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("全部删除", new EventHandler(OnDeleteAllRoofItemsClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        class RowInfo
+        {
+            public RowInfo(GridView view, int rowHandle)
+            {
+                this.RowHandle = rowHandle;
+                this.View = view;
+            }
+            public GridView View;
+            public int RowHandle;
+        }
+
+        void OnDeleteRoofItemClick(object sender, EventArgs e)
+        {
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            {
+                // 更新图纸
+                ThUnderGroundParking parking = ri.View.GetRow(ri.RowHandle) as ThUnderGroundParking;
+                string layer = ThResidentialRoomUtil.LayerName(parking);
+                Presenter.OnDeleteAreaFrames(parking.Frames.ToArray());
+                Presenter.OnDeleteAreaFrameLayer(layer);
+
+                // 更新界面
+                this.Reload();
+            }
+        }
+
+        void OnDeleteAllRoofItemsClick(object sender, EventArgs e)
+        {
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            {
+                // 更新图纸
+                foreach (var parking in DbRepository.Parkings)
+                {
+                    if (!parking.IsDefined)
+                        continue;
+
+                    string layer = ThResidentialRoomUtil.LayerName(parking);
+                    Presenter.OnDeleteAreaFrames(parking.Frames.ToArray());
+                    Presenter.OnDeleteAreaFrameLayer(layer);
+                }
+
+                // 更新界面
+                this.Reload();
+            }
         }
     }
 }

@@ -31,47 +31,42 @@ namespace ThAreaFrameConfig.Presenter
 
         public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)
         {
-            //
-        }
-
-        public void OnHighlightAreaFrame(IntPtr areaFrame)
-        {
-            //
-        }
-
-        public void OnUnhighlightAreaFrame(IntPtr areaFrame)
-        {
-            //
-        }
-
-        public void OnDeleteAreaFrame(IntPtr areaFrame)
-        {
-            //
+            this.RenameAreaFrameLayer(newName, areaFrame);
         }
 
         public void OnDeleteAreaFrameLayer(string name)
         {
-            //
+            this.DeleteAreaFrameLayer(name);
+        }
+
+        public void OnHighlightAreaFrame(IntPtr areaFrame)
+        {
+            this.HighlightAreaFrame(areaFrame);
         }
 
         public void OnHighlightAreaFrames(IntPtr[] areaFrames)
         {
-            //
+            this.HighlightAreaFrames(areaFrames);
+        }
+
+        public void OnUnhighlightAreaFrame(IntPtr areaFrame)
+        {
+            this.UnhighlightAreaFrame(areaFrame);
         }
 
         public void OnUnhighlightAreaFrames(IntPtr[] areaFrames)
         {
-            //
+            this.UnhighlightAreaFrames(areaFrames);
+        }
+
+        public void OnDeleteAreaFrame(IntPtr areaFrame)
+        {
+            this.DeleteAreaFrame(areaFrame);
         }
 
         public void OnDeleteAreaFrames(IntPtr[] areaFrames)
         {
-            //
-        }
-
-        public void OnDeleteAreaFrames(IntPtr areaFrame)
-        {
-            //
+            this.DeleteAreaFrames(areaFrames);
         }
     }
 }

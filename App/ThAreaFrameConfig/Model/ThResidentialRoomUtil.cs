@@ -6,7 +6,7 @@ namespace ThAreaFrameConfig.Model
 {
     public class ThResidentialRoomUtil
     {
-        private const string version = "V1.0";
+        private const string version = "V2.1";
 
         // 图层名称
         public static string LayerName(ThResidentialStorey storey,
