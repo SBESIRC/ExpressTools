@@ -209,12 +209,39 @@ namespace ThAreaFrameConfig.WinForms
 
         void OnDeleteRoofItemClick(object sender, EventArgs e)
         {
-            //
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            {
+                // 更新图纸
+                ThRoofGreenSpace space = ri.View.GetRow(ri.RowHandle) as ThRoofGreenSpace;
+                string layer = ThResidentialRoomDbUtil.LayerName(space.Frame);
+                Presenter.OnDeleteAreaFrame(space.Frame);
+                Presenter.OnDeleteAreaFrameLayer(layer);
+
+                // 更新界面
+                this.Reload();
+            }
         }
 
         void OnDeleteAllRoofItemsClick(object sender, EventArgs e)
         {
-            //
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            {
+                // 更新图纸
+                foreach (var space in DbRepository.Spaces)
+                {
+                    if (!space.IsDefined)
+                        continue;
+
+                    string layer = ThResidentialRoomDbUtil.LayerName(space.Frame);
+                    Presenter.OnDeleteAreaFrame(space.Frame);
+                    Presenter.OnDeleteAreaFrameLayer(layer);
+                }
+
+                // 更新界面
+                this.Reload();
+            }
         }
     }
 }
