@@ -148,7 +148,7 @@ namespace ThAnalytics
 
         private void AcadApp_SystemVariableChanged(object sender, SystemVariableChangedEventArgs e)
         {
-            ThCountlyServices.Instance.RecordSysVerEvent(e.Name);
+            ThCountlyServices.Instance.RecordSysVerEvent(e.Name, AcadApp.GetSystemVariable(e.Name).ToString());
         }
 
         private void AddCommandHandler()
@@ -367,7 +367,7 @@ namespace ThAnalytics
 
         private void AcadApp_SystemVariableChanged(object sender, SystemVariableChangedEventArgs e)
         {
-            ThCountlyServices.Instance.RecordSysVerEvent(e.Name);
+            ThCountlyServices.Instance.RecordSysVerEvent(e.Name, AcadApp.GetSystemVariable(e.Name).ToString());
         }
 
         private void AddCommandHandler()
