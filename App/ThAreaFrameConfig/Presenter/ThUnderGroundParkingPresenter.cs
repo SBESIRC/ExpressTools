@@ -53,5 +53,15 @@ namespace ThAreaFrameConfig.Presenter
         {
             //
         }
+
+        public void OnHighlightAreaFrames(IntPtr[] areaFrames)
+        {
+            //
+        }
+
+        public void OnUnhighlightAreaFrames(IntPtr[] areaFrames)
+        {
+            //
+        }
     }
 }

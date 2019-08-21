@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -21,8 +22,10 @@ namespace ThAreaFrameConfig.Presenter
 
         // 高亮面积框线
         void OnHighlightAreaFrame(IntPtr areaFrame);
+        void OnHighlightAreaFrames(IntPtr[] areaFrames);
 
         // 去高亮面积框线
         void OnUnhighlightAreaFrame(IntPtr areaFrame);
+        void OnUnhighlightAreaFrames(IntPtr[] areaFrames);
     }
 }

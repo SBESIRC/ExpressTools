@@ -143,6 +143,20 @@ namespace ThAreaFrameConfig.Presenter
             }
         }
 
+        public static void HighlightAreaFrames(this IThAreaFramePresenterCallback presenterCallback, IntPtr[] areaFrames)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    foreach(var frame in areaFrames)
+                    {
+                        acadDatabase.ModelSpace.Element(new ObjectId(frame)).Highlight();
+                    }
+                }
+            }
+        }
+
         public static void UnhighlightAreaFrame(this IThAreaFramePresenterCallback presenterCallback, IntPtr areaFrame)
         {
             using (Active.Document.LockDocument())
@@ -150,6 +164,20 @@ namespace ThAreaFrameConfig.Presenter
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
                     acadDatabase.ModelSpace.Element(new ObjectId(areaFrame)).Unhighlight();
+                }
+            }
+        }
+
+        public static void UnhighlightAreaFrames(this IThAreaFramePresenterCallback presenterCallback, IntPtr[] areaFrames)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    foreach(var frame in areaFrames)
+                    {
+                        acadDatabase.ModelSpace.Element(new ObjectId(frame)).Unhighlight();
+                    }
                 }
             }
         }

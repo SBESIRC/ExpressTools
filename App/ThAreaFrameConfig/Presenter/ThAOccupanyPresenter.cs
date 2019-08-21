@@ -34,6 +34,16 @@ namespace ThAreaFrameConfig.Presenter
             this.UnhighlightAreaFrame(areaFrame);
         }
 
+        public void OnHighlightAreaFrames(IntPtr[] areaFrames)
+        {
+            this.HighlightAreaFrames(areaFrames);
+        }
+
+        public void OnUnhighlightAreaFrames(IntPtr[] areaFrames)
+        {
+            this.UnhighlightAreaFrames(areaFrames);
+        }
+
         public void OnPickAreaFrames(string name)
         {
             this.PickAreaFrames(name);
