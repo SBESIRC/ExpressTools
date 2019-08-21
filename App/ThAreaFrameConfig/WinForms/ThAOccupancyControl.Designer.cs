@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.gridControl_aoccupancy = new DevExpress.XtraGrid.GridControl();
@@ -46,7 +45,7 @@
             this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
-            this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
+            this.barManager1 = new DevExpress.XtraBars.BarManager();
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
@@ -54,7 +53,7 @@
             this.barButtonItem_add = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem_modify = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem_delete = new DevExpress.XtraBars.BarButtonItem();
-            this.popupMenu_storey = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.popupMenu_storey = new DevExpress.XtraBars.PopupMenu();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.xtraTabPage1.SuspendLayout();

@@ -33,7 +33,12 @@ namespace ThAreaFrameConfig.Model
         // 图层名称
         public static string LayerName(ThAOccupancyStorey storey, ThAOccupancy aoccupancy)
         {
-            switch(aoccupancy.Component)
+            return LayerName(storey.Identifier, aoccupancy);
+        }
+
+        public static string LayerName(string identifier, ThAOccupancy aoccupancy)
+        {
+            switch (aoccupancy.Component)
             {
                 case "主体":
                 case "架空":
@@ -49,7 +54,7 @@ namespace ThAreaFrameConfig.Model
                             // aoccupancy.Floors可以为null，
                             // Convert.ToString(null)返回一个空字符串
                             Convert.ToString(aoccupancy.Floors),
-                            storey.Identifier,
+                            identifier,
                             "",
                             version,
                         };
@@ -70,7 +75,7 @@ namespace ThAreaFrameConfig.Model
                             aoccupancy.Coefficient.ToString(),
                             aoccupancy.FARCoefficient.ToString(),
                             // 没有车位层数
-                            storey.Identifier,
+                            identifier,
                             "",
                             version,
                         };

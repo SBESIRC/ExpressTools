@@ -219,9 +219,11 @@ namespace ThAreaFrameConfig.WinForms
         {
             using (var dlg = new ThResidentialStoreyDialog())
             {
+                dlg.Text = "增加层";
                 if (DialogResult.OK != dlg.ShowDialog())
                     return;
 
+                // 增加一个新的楼层不会导致图纸变化
                 DbRepository.AppendStorey(dlg.Storey);
                 XtraTabPage page = this.xtraTabControl1.TabPages.Add(dlg.Storey);
                 this.xtraTabControl1.SelectedTabPage = page;
@@ -230,12 +232,53 @@ namespace ThAreaFrameConfig.WinForms
 
         private void barButtonItem_delete_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+            using (var dlg = new ThResidentialStoreyDialog())
+            {
+                dlg.Text = "修改层";
+                if (DialogResult.OK != dlg.ShowDialog())
+                    return;
 
+                // 更新图纸
+                foreach (var aoccupancy in CurrentStorey.AOccupancies)
+                {
+                    if (!aoccupancy.IsDefined)
+                    {
+                        continue;
+                    }
+
+                    string name = ThResidentialRoomUtil.LayerName(CurrentStorey, aoccupancy);
+                    Presenter.OnDeleteAreaFrame(aoccupancy.Frame);
+                    Presenter.OnDeleteAreaFrameLayer(name);
+                }
+
+                // 更新界面
+                this.Reload();
+            }
         }
 
         private void barButtonItem_modify_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+            using (var dlg = new ThResidentialStoreyDialog())
+            {
+                dlg.Text = "修改层";
+                if (DialogResult.OK != dlg.ShowDialog())
+                    return;
 
+                // 更新图纸
+                XtraTabPage page = this.xtraTabControl1.SelectedTabPage;
+                ThAOccupancyStorey storey = DbRepository.Storeys.Where(o => o.Identifier == page.Text).FirstOrDefault();
+                if (storey != null)
+                {
+                    foreach(var aoccupancy in storey.AOccupancies)
+                    {
+                        string newName = ThResidentialRoomUtil.LayerName(dlg.Storey, aoccupancy);
+                        Presenter.OnRenameAreaFrameLayer(newName, aoccupancy.Frame);
+                    }
+                }
+
+                // 更新界面
+                this.Reload();
+            }
         }
     }
 }
