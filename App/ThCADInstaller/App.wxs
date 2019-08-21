@@ -119,6 +119,27 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Debug" Guid="{FD9B321E-AAF8-48D0-AD66-BD1715D41C4F}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\DevExpress.XtraTreeList.$(var.DevExpressVersionSuffix).dll" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Debug" Guid="{E40F785C-465D-4471-A1FF-4D9F1F4015C5}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThPlot_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThPlot.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Debug" Guid="{F23887CA-62B5-4E12-98D2-9C305CC124C0}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_NetOffice_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\NetOffice.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_OfficeApi_Debug" Guid="{E9AD2E8B-F195-4D43-A2F4-C82BC4D3ADD1}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_OfficeApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\OfficeApi.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PDFNet_Debug" Guid="{D4C58946-C734-4F97-AE5C-0220AF35B73D}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_PDFNet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\PDFNet.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PDFNetLoader_Debug" Guid="{B076C505-CBB1-44AD-ADC0-8A2C863E0017}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_PDFNetLoader_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\PDFNetLoader.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PowerPointApi_Debug" Guid="{AD0B92FD-73E6-4004-83BC-887D60D89BDA}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_PowerPointApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\PowerPointApi.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_VBIDEApi_Debug" Guid="{495CBD9D-D9C9-4841-B571-F11C34578A21}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_VBIDEApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\VBIDEApi.dll" />
+          </Component>
         </Directory>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2014">
           <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
@@ -234,6 +255,27 @@
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Debug" Guid="{4ECC553B-FF0F-4316-BDBC-F83A725E95A3}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\DevExpress.XtraTreeList.$(var.DevExpressVersionSuffix).dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Debug" Guid="{B68A9526-D94A-4300-8BD3-F31125527DD3}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThPlot_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThPlot.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NetOffice_Debug" Guid="{760F1E68-6FE3-4438-BA61-F19051ACCF3C}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_NetOffice_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\NetOffice.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_OfficeApi_Debug" Guid="{EF9E56C1-3EF0-43A5-8FF2-9EE3AD2DE7F9}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_OfficeApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\OfficeApi.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PDFNet_Debug" Guid="{5867DD4C-17FA-4C7D-A84E-774B2F17B13C}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_PDFNet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\PDFNet.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PDFNetLoader_Debug" Guid="{E1C80E5C-1581-410C-BC75-5FA2E56AC286}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_PDFNetLoader_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\PDFNetLoader.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PowerPointApi_Debug" Guid="{464C20AA-C6D4-4AAB-A5CB-8293936E231A}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_PowerPointApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\PowerPointApi.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_VBIDEApi_Debug" Guid="{CEB342C2-301A-4828-84E1-C2907B447413}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_VBIDEApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\VBIDEApi.dll" />
           </Component>
         </Directory>
       <?elseif $(var.Configuration) = Release ?>
@@ -352,6 +394,27 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Release" Guid="{971A19BB-E7D6-4820-88BE-6FFD957B6C58}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\DevExpress.XtraTreeList.$(var.DevExpressVersionSuffix).dll" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Release" Guid="{A60ABDE2-625D-45EE-A6F2-A11B0797C6F9}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThPlot.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Release" Guid="{15FA6E7C-646F-4078-AC0A-F767C0E6C80F}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_NetOffice_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\NetOffice.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_OfficeApi_Release" Guid="{E61F94A1-C9B4-4F8C-8694-B4400A2C9104}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_OfficeApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\OfficeApi.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PDFNet_Release" Guid="{85132179-0C6A-441F-9EDB-3EE628026256}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_PDFNet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\PDFNet.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PDFNetLoader_Release" Guid="{C56AE898-3273-4FAB-80A2-0F1D2D6DF416}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_PDFNetLoader_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\PDFNetLoader.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PowerPointApi_Release" Guid="{90B81318-27D3-4E75-8482-BFDDD64B4D2F}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_PowerPointApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\PowerPointApi.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_VBIDEApi_Release" Guid="{ADAF0843-9FB3-4F48-B3D6-D8FDBA44041F}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_VBIDEApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\VBIDEApi.dll" />
+          </Component>
         </Directory>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2014">
           <?define OutputPath_R19_Release="bin\Release-NET40" ?>
@@ -468,6 +531,27 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Release" Guid="{ECC00612-ED48-45F9-B99E-A719A610CC00}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\DevExpress.XtraTreeList.$(var.DevExpressVersionSuffix).dll" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Release" Guid="{3679303E-44A2-4F83-BF76-9815AFFEB184}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThPlot.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NetOffice_Release" Guid="{6122DF94-5847-404F-9785-BC1A193E32A3}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_NetOffice_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\NetOffice.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_OfficeApi_Release" Guid="{9B0419E1-D72A-4744-9B03-883E2B31EF36}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_OfficeApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\OfficeApi.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PDFNet_Release" Guid="{E66BE22E-145D-406A-954C-48642582A478}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_PDFNet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\PDFNet.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PDFNetLoader_Release" Guid="{80C9579D-9335-49E9-B683-8FD14FD1C841}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_PDFNetLoader_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\PDFNetLoader.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PowerPointApi_Release" Guid="{82C74B29-4459-4422-B28C-ED6F347BD4B0}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_PowerPointApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\PowerPointApi.dll" />
+          </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_VBIDEApi_Release" Guid="{F5A0FAD1-CCA6-4C0F-BCBD-B9F3F7F7BC28}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_VBIDEApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\VBIDEApi.dll" />
+          </Component>
         </Directory>
       <?endif?>
     </DirectoryRef>
@@ -512,6 +596,13 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Office_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Images_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_OfficeApi_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PDFNet_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PDFNetLoader_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PowerPointApi_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_VBIDEApi_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Debug" />
@@ -549,6 +640,13 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Office_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Images_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NetOffice_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_OfficeApi_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PDFNet_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PDFNetLoader_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PowerPointApi_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_VBIDEApi_Debug" />
       <?elseif $(var.Configuration) = Release ?>
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Release" />
@@ -587,6 +685,13 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Office_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Images_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_OfficeApi_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PDFNet_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PDFNetLoader_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PowerPointApi_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_VBIDEApi_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Release" />
@@ -624,6 +729,13 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Office_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Images_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NetOffice_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_OfficeApi_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PDFNet_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PDFNetLoader_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PowerPointApi_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_VBIDEApi_Release" />
       <?endif?>
     </ComponentGroup>
   </Fragment>
