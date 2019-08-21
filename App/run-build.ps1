@@ -64,16 +64,16 @@ Task Compile.Assembly.R19 -Depends Requires.MSBuild {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAnalytics\ThAnalytics.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThIdentity\ThIdentity.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThIdentity\ThIdentity.csproj" /p:Configuration=$buildType /t:rebuild
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath=..\build\obj\$buildType\ ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath=..\build\obj\$buildType\ ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThElectrical\ThElectrical.csproj" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThElectrical\ThElectrical.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath=..\build\obj\$buildType\ ".\ThPlot\ThPlot.csproj" /p:Configuration=$buildType /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath=..\build\obj\$buildType\ ".\ThPlot\ThPlot.csproj" /p:Configuration=$buildType /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThPlot\ThPlot.csproj" /p:Configuration=$buildType /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThPlot\ThPlot.csproj" /p:Configuration=$buildType /t:rebuild
     }
 }
 
@@ -92,8 +92,8 @@ Task Compile.Assembly.R20 -Depends Requires.MSBuild {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThAnalytics\ThAnalytics.csproj" "${buildType}-NET45" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThIdentity\ThIdentity.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThIdentity\ThIdentity.csproj" /p:Configuration=$buildType /t:rebuild
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath=..\build\obj\$buildType\ ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath=..\build\obj\$buildType\ ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThElectrical\ThElectrical.csproj" "${buildType}-NET45" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThElectrical\ThElectrical.csproj" "${buildType}-NET45" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration="${buildType}-NET45" /t:restore
