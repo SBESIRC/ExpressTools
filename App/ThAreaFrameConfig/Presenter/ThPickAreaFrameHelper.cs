@@ -115,6 +115,20 @@ namespace ThAreaFrameConfig.Presenter
             }
         }
 
+        public static void DeleteAreaFrames(this IThAreaFramePresenterCallback presenterCallback, IntPtr[] areaFrames)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    foreach(var frame in areaFrames)
+                    {
+                        acadDatabase.ModelSpace.Element(new ObjectId(frame), true).Erase();
+                    }
+                }
+            }
+        }
+
         public static void DeleteAreaFrameLayer(this IThAreaFramePresenterCallback presenterCallback, string name)
         {
             using (Active.Document.LockDocument())

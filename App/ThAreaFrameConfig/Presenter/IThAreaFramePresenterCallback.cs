@@ -10,6 +10,7 @@ namespace ThAreaFrameConfig.Presenter
 
         // 删除面积框线
         void OnDeleteAreaFrame(IntPtr areaFrame);
+        void OnDeleteAreaFrames(IntPtr[] areaFrames);
 
         // 重命名面积框线所在的图层
         void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame);

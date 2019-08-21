@@ -63,5 +63,15 @@ namespace ThAreaFrameConfig.Presenter
         {
             //
         }
+
+        public void OnDeleteAreaFrames(IntPtr[] areaFrames)
+        {
+            //
+        }
+
+        public void OnDeleteAreaFrames(IntPtr areaFrame)
+        {
+            //
+        }
     }
 }

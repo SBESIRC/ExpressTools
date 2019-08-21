@@ -59,10 +59,14 @@ namespace ThAreaFrameConfig.Presenter
             this.DeleteAreaFrame(areaFrame);
         }
 
+        public void OnDeleteAreaFrames(IntPtr[] areaFrames)
+        {
+            this.DeleteAreaFrames(areaFrames);
+        }
+
         public void OnDeleteAreaFrameLayer(string name)
         {
             this.DeleteAreaFrameLayer(name);
         }
-
     }
 }
