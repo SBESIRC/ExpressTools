@@ -11,8 +11,11 @@ namespace DotNetARX
     /// </summary>
     public static class UCSTools
     {
-        //[DllImport("acad.exe", CallingConvention = CallingConvention.Cdecl, EntryPoint = "acedTrans")]
+#if ACAD2012
+        [DllImport("acad.exe", CallingConvention = CallingConvention.Cdecl, EntryPoint = "acedTrans")]
+#else
         [DllImport("accore.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "acedTrans")]
+#endif
         private static extern int acedTrans(double[] point, IntPtr fromResbuf, IntPtr toResbuf, int displacement, double[] result);
         /// <summary>
         /// 坐标系的类型

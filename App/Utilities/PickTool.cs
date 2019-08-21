@@ -28,5 +28,20 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             }
             return picked;
         }
+
+        public static ObjectId PickEntity(string selectMessage)
+        {
+            Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
+
+            ObjectId picked = ObjectId.Null;
+            PromptEntityOptions opt = new PromptEntityOptions("\n" + selectMessage);
+            PromptEntityResult res = ed.GetEntity(opt);
+            if (res.Status == PromptStatus.OK)
+            {
+                picked = res.ObjectId;
+            }
+
+            return picked;
+        }
     }
 }
