@@ -23,6 +23,6 @@ namespace ThAnalytics
         void RecordCommandEvent(string GlobalCommandName, double duration);
 
         //记录CAD系统变量事件
-        void RecordSysVerEvent(string sysverName);
+        void RecordSysVerEvent(string sysverName, string sysValue);
     }
 }
