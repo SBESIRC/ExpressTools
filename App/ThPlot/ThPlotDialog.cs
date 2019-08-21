@@ -58,12 +58,8 @@ namespace ThPlot
         /// </summary>
         private void InitializeSyleCombox()
         {
-#if ACAD2012
-            //TODO: No hard-coded path
-            var ctbfolder = @"C:\Users\User\AppData\Roaming\Autodesk\AutoCAD 2012 - Simplified Chinese\R18.2\chs\Plotters\Plot Styles";
-#elif ACAD2014
-            var ctbfolder = "";
-#endif
+            string ctbfolder = AcadApp.GetSystemVariable("ROAMABLEROOTPREFIX") as string;
+            ctbfolder += "\\Plotters\\Plot Styles";
 
             DirectoryInfo dir = new DirectoryInfo(ctbfolder);
             FileSystemInfo[] fileinfo = dir.GetFileSystemInfos();  //返回目录中所有文件和子目录
