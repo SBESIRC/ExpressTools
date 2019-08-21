@@ -13,6 +13,8 @@ using DevExpress.XtraTab;
 using DevExpress.XtraTab.ViewInfo;
 using Autodesk.AutoCAD.Runtime;
 using AcadException = Autodesk.AutoCAD.Runtime.Exception;
+using DevExpress.Utils;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 
 namespace ThAreaFrameConfig.WinForms
 {
@@ -43,6 +45,10 @@ namespace ThAreaFrameConfig.WinForms
         public void Reload()
         {
             DbRepository = new ThResidentialRoomDbRepository();
+            if (!DbRepository.Storeys().Any())
+            {
+                DbRepository.AppendStorey("c1");
+            }
             gridControl_room.DataSource = DbRepository.Rooms(this.CurrentStorey);
             gridControl_room.RefreshDataSource();
             RefreshGridControl();
@@ -232,24 +238,83 @@ namespace ThAreaFrameConfig.WinForms
 
         private void gdv_room_PopupMenuShowing(object sender, PopupMenuShowingEventArgs e)
         {
+            GridView view = sender as GridView;
             if (e.MenuType == GridMenuType.Row)
             {
-                e.Menu.Items.Clear();
-                e.Menu.Items.Add(new DXMenuItem("添加户型", new EventHandler(OnAppendRoomItemClick)));
-                e.Menu.Items.Add(new DXMenuItem("删除户型", new EventHandler(OnRemoveRoomItemClick)));
+                if (e.HitInfo.InRow || e.HitInfo.InRowCell)
+                {
+                    ThResidentialRoom room = view.GetRow(e.HitInfo.RowHandle) as ThResidentialRoom;
+
+                    e.Menu.Items.Clear();
+                    e.Menu.Items.Add(CreateAppendRoomItemMenuItem(view, e.HitInfo.RowHandle));
+                    e.Menu.Items.Add(CreateRemoveRoomItemMenuItem(view, e.HitInfo.RowHandle));
+                }
             }
+        }
+
+        DXMenuItem CreateAppendRoomItemMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("添加户型", new EventHandler(OnAppendRoomItemClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        DXMenuItem CreateRemoveRoomItemMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("删除户型", new EventHandler(OnRemoveRoomItemClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        class RowInfo
+        {
+            public RowInfo(GridView view, int rowHandle)
+            {
+                this.RowHandle = rowHandle;
+                this.View = view;
+            }
+            public GridView View;
+            public int RowHandle;
         }
 
         void OnAppendRoomItemClick(object sender, EventArgs e)
         {
-            this.CurrentStorey.Rooms.Add(ThResidentialRoomUtil.DefaultResidentialRoom(this.CurrentStorey.ID));
-            gridControl_room.RefreshDataSource();
-            RefreshGridControl();
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            {
+                this.CurrentStorey.Rooms.Add(ThResidentialRoomUtil.DefaultResidentialRoom(this.CurrentStorey.ID));
+                gridControl_room.RefreshDataSource();
+                RefreshGridControl();
+            }
         }
 
         void OnRemoveRoomItemClick(object sender, EventArgs e)
         {
-            //
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            {
+                // 更新图纸
+                ThResidentialRoom room = ri.View.GetRow(ri.RowHandle) as ThResidentialRoom;
+                foreach(var component in room.Components)
+                {
+                    foreach(var frame in component.AreaFrames)
+                    {
+                        if (!frame.IsDefined)
+                        {
+                            continue;
+                        }
+
+                        string name = ThResidentialRoomUtil.LayerName(CurrentStorey, room, component, frame);
+                        Presenter.OnDeleteAreaFrame(frame.Frame);
+                        Presenter.OnDeleteAreaFrameLayer(name);
+                    }
+                }
+
+                // 更新界面
+                this.Reload();
+            }
         }
 
         private void xtraTabControl1_CustomHeaderButtonClick(object sender, DevExpress.XtraTab.ViewInfo.CustomHeaderButtonEventArgs e)
@@ -359,6 +424,62 @@ namespace ThAreaFrameConfig.WinForms
                 {
                     popupMenu_storey.ShowPopup(pt);
                 }
+            }
+        }
+
+        private void gdv_room_area_frame_DoubleClick(object sender, EventArgs e)
+        {
+            DXMouseEventArgs ea = e as DXMouseEventArgs;
+            GridView view = sender as GridView;
+            GridHitInfo info = view.CalcHitInfo(ea.Location);
+            if (info.InRow || info.InRowCell)
+            {
+                ThResidentialAreaFrame areaFrame = view.GetRow(info.RowHandle) as ThResidentialAreaFrame;
+                if (!areaFrame.IsDefined)
+                    return;
+
+                Presenter.OnHighlightAreaFrame(areaFrame.Frame);
+            }
+        }
+
+        private void gdv_room_area_frame_PopupMenuShowing(object sender, PopupMenuShowingEventArgs e)
+        {
+            GridView view = sender as GridView;
+            if (e.MenuType == GridMenuType.Row)
+            {
+                if (e.HitInfo.InRow || e.HitInfo.InRowCell)
+                {
+                    ThResidentialAreaFrame areaFrame = view.GetRow(e.HitInfo.RowHandle) as ThResidentialAreaFrame;
+                    if (!areaFrame.IsDefined)
+                        return;
+
+                    e.Menu.Items.Clear();
+                    e.Menu.Items.Add(CreateDeleteAreaFrameMenuItem(view, e.HitInfo.RowHandle));
+                }
+            }
+        }
+
+        DXMenuItem CreateDeleteAreaFrameMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("删除", new EventHandler(OnDeleteAreaFrameItemClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        void OnDeleteAreaFrameItemClick(object sender, EventArgs e)
+        {
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            {
+                // 更新图纸
+                ThResidentialAreaFrame areaFrame = ri.View.GetRow(ri.RowHandle) as ThResidentialAreaFrame;
+                string layer = ThResidentialRoomDbUtil.LayerName(areaFrame.Frame);
+                Presenter.OnDeleteAreaFrame(areaFrame.Frame);
+                Presenter.OnDeleteAreaFrameLayer(layer);
+
+                // 更新界面
+                this.Reload();
             }
         }
     }
