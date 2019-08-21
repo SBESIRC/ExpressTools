@@ -126,5 +126,12 @@ namespace ThAnalytics
             }
             Countly.RecordEvent("CAD命令使用", 1, null, duration, segmentation);
         }
+
+        public void RecordSysVerEvent(string sysverName)
+        {
+            Segmentation segmentation = new Segmentation();
+            segmentation.Add("名称", sysverName);
+            Countly.RecordEvent("CAD系统变量", 1, null, segmentation);
+        }
     }
 }

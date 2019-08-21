@@ -83,6 +83,8 @@ namespace ThAnalytics
         {
             // unhook event handlers
             RemoveCommandHandler();
+            // unhook application event handlers
+            RemoveAppEventHandler();
 
             //end the user session
             ThCountlyServices.Instance.EndSession();
@@ -94,9 +96,26 @@ namespace ThAnalytics
             
             // hook event handlers
             AddCommandHandler();
+            // hook event handlers
+            AddAppEventHandler();
 
             //start the user session
             ThCountlyServices.Instance.StartSession();
+        }
+
+        private void AddAppEventHandler()
+        {
+            AcadApp.SystemVariableChanged += AcadApp_SystemVariableChanged;
+        }
+
+        private void RemoveAppEventHandler()
+        {
+            AcadApp.SystemVariableChanged -= AcadApp_SystemVariableChanged;
+        }
+
+        private void AcadApp_SystemVariableChanged(object sender, SystemVariableChangedEventArgs e)
+        {
+            ThCountlyServices.Instance.RecordSysVerEvent(e.Name);
         }
 
         private void AddCommandHandler()
@@ -185,15 +204,74 @@ namespace ThAnalytics
     public class ThAnalyticsCommands
     {
         // command name filters
-        private readonly ArrayList filters = new ArrayList { "THDAS", "THDAE" };
+        private readonly ArrayList filters = new ArrayList {
+            "THDAS",
+            "THDAE",
+            "QUIT",
+            "OPEN",
+            "CLOSE",
+            "SAVE",
+            "NEW",
+            "SAVEAS",
+            "UNDO",
+            "MREDO",
+            "LINE",
+            "CIRCLE",
+            "PLINE",
+            "POLYGON",
+            "RECTANG",
+            "ARC",
+            "SPLINE",
+            "ELLIPSE",
+            "INSERT",
+            "BLOCK",
+            "HATCH",
+            "TEXT",
+            "MTEXT",
+            "DDEDIT",
+            "MTEDIT",
+            "BEDIT",
+            "DIST",
+            "DIMLINEAR",
+            "DIMALIGNED",
+            "DIMARC",
+            "DIMCONTINUE",
+            "XREF",
+            "REFEDIT",
+            "LAYER",
+            "-LAYER",
+            "ERASE",
+            "COPY",
+            "COPYBASE",
+            "MIRROR",
+            "OFFSET",
+            "MOVE",
+            "ROTATE",
+            "SCALE",
+            "TRIM",
+            "EXTEND",
+            "BREAK",
+            "FILLET",
+            "EXPLODE",
+            "PROPERTIES",
+            "MATCHPROP",
+            "REGEN",
+            "ZOOM",
+            "CUTCLIP",
+            "AI_SELALL",
+            "FIND"
+        };
 
         private readonly Hashtable commandhashtable = new Hashtable();
 
         [CommandMethod("TIANHUACAD", "THDAS", CommandFlags.Modal)]
         public void ThAnalyticsStart()
         {
+            ThCountlyServices.Instance.Initialize();
             // hook event handlers
             AddCommandHandler();
+            // hook event handlers
+            AddAppEventHandler();
 
             //start the user session
             ThCountlyServices.Instance.StartSession();
@@ -204,9 +282,26 @@ namespace ThAnalytics
         {
             // unhook event handlers
             RemoveCommandHandler();
+            // unhook application event handlers
+            RemoveAppEventHandler();
 
             //end the user session
             ThCountlyServices.Instance.EndSession();
+        }
+
+        private void AddAppEventHandler()
+        {
+            AcadApp.SystemVariableChanged += AcadApp_SystemVariableChanged;
+        }
+
+        private void RemoveAppEventHandler()
+        {
+            AcadApp.SystemVariableChanged -= AcadApp_SystemVariableChanged;
+        }
+
+        private void AcadApp_SystemVariableChanged(object sender, SystemVariableChangedEventArgs e)
+        {
+            ThCountlyServices.Instance.RecordSysVerEvent(e.Name);
         }
 
         private void AddCommandHandler()
@@ -254,8 +349,7 @@ namespace ThAnalytics
 
         private void Document_CommandWillStart(object sender, CommandEventArgs e)
         {
-            int commamndstarttime = (int)(DateTime.Now.Ticks / 10000000);
-            commandhashtable.Add(e.GlobalCommandName, commamndstarttime);
+            commandhashtable.Add(e.GlobalCommandName, Stopwatch.StartNew());
         }
 
         private void Document_CommandEnded(object sender, CommandEventArgs e)
@@ -265,9 +359,8 @@ namespace ThAnalytics
 
             if (commandhashtable.ContainsKey(e.GlobalCommandName))
             {
-                int commamndstoptime = (int)(DateTime.Now.Ticks / 10000000);
-                int runtime = commamndstoptime - (int)commandhashtable[e.GlobalCommandName];
-                ThCountlyServices.Instance.RecordCommandEvent(e.GlobalCommandName, runtime);
+                Stopwatch sw = (Stopwatch)commandhashtable[e.GlobalCommandName];
+                ThCountlyServices.Instance.RecordCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
                 commandhashtable.Remove(e.GlobalCommandName);
             }
         }
