@@ -60,12 +60,14 @@
     <Compile Include="Model\ThAOccupancyNullRepository.cs" />
     <Compile Include="Model\ThAOccupancyStorey.cs" />
     <Compile Include="Model\ThAreaFrameDbExtension.cs" />
-    <Compile Include="Model\ThOutdoorParkingNullSpaceRepository.cs" />
+    <Compile Include="Model\ThOutdoorParkingSpaceDbRepository.cs" />
+    <Compile Include="Model\ThOutdoorParkingSpaceNullRepository.cs" />
     <Compile Include="Model\ThOutdoorParkingSpace.cs" />
     <Compile Include="Model\ThPlotSpace.cs" />
     <Compile Include="Model\ThPlotSpaceDbRepository.cs" />
     <Compile Include="Model\ThPlotSpaceNullRepository.cs" />
     <Compile Include="Model\ThPublicGreenSpace.cs" />
+    <Compile Include="Model\ThPublicGreenSpaceDbRepository.cs" />
     <Compile Include="Model\ThPublicGreenSpaceNullRepository.cs" />
     <Compile Include="Model\ThResidentialAreaFrame.cs" />
     <Compile Include="Model\ThResidentialBuilding.cs" />

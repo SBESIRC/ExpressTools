@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ThAreaFrameConfig.Model
 {
-    public class ThOutdoorParkingNullSpaceRepository : IThOutdoorParkingSpaceRepository
+    public class ThOutdoorParkingSpaceNullRepository : IThOutdoorParkingSpaceRepository
     {
         private List<ThOutdoorParkingSpace> spaces;
 
@@ -17,7 +17,7 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
-        public ThOutdoorParkingNullSpaceRepository()
+        public ThOutdoorParkingSpaceNullRepository()
         {
             spaces = new List<ThOutdoorParkingSpace>();
             AppendDefaultOutdoorParkingSpace();

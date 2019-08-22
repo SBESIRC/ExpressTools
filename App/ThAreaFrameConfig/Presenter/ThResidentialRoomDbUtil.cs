@@ -87,6 +87,16 @@ namespace ThAreaFrameConfig.Presenter
             };
         }
 
+        public static ObjectId ConfigOutdoorParkingSpaceLayer(string layerName)
+        {
+            using (var db = AcadDatabase.Active())
+            {
+                ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
+                LayerTools.SetLayerColor(db.Database, layerName, Color.FromRgb(29, 99, 64).ColorIndex);
+                return objectId;
+            };
+        }
+
         public static ObjectId ConfigBuildingLayer(string layerName)
         {
             using (var db = AcadDatabase.Active())

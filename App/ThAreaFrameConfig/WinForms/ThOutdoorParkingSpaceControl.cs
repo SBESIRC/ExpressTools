@@ -20,11 +20,12 @@ namespace ThAreaFrameConfig.WinForms
     public partial class ThOutdoorParkingSpaceControl : DevExpress.XtraEditors.XtraUserControl, IOutdoorParkingSpaceView
     {
         private ThOutdoorParkingSpacePresenter Presenter;
-        private ThOutdoorParkingNullSpaceRepository DbRepository;
+        private ThOutdoorParkingSpaceNullRepository DbRepository;
 
         public ThOutdoorParkingSpaceControl()
         {
             InitializeComponent();
+            InitializeGridControl();
         }
 
         public List<ThOutdoorParkingSpace> Spaces
@@ -47,7 +48,7 @@ namespace ThAreaFrameConfig.WinForms
 
         public void Reload()
         {
-            DbRepository = new ThOutdoorParkingNullSpaceRepository();
+            DbRepository = new ThOutdoorParkingSpaceNullRepository();
             DbRepository.AppendDefaultOutdoorParkingSpace();
             gridControl_outdoor_parking_space.DataSource = DbRepository.Spaces;
             gridControl_outdoor_parking_space.RefreshDataSource();
@@ -56,7 +57,7 @@ namespace ThAreaFrameConfig.WinForms
         public void InitializeGridControl()
         {
             Presenter = new ThOutdoorParkingSpacePresenter(this);
-            DbRepository = new ThOutdoorParkingNullSpaceRepository();
+            DbRepository = new ThOutdoorParkingSpaceNullRepository();
             DbRepository.AppendDefaultOutdoorParkingSpace();
             gridControl_outdoor_parking_space.DataSource = DbRepository.Spaces;
             gridControl_outdoor_parking_space.RefreshDataSource();
@@ -94,7 +95,7 @@ namespace ThAreaFrameConfig.WinForms
                 GridView gridView = (GridView)sender;
                 ThOutdoorParkingSpace space = gridView.GetRow(e.RowHandle) as ThOutdoorParkingSpace;
                 string name = ThResidentialRoomUtil.LayerName(space);
-                Presenter.OnPickAreaFrames(name);
+                Presenter.PickOutdoorParkingSpaceFrames(name);
 
                 // 更新界面
                 this.Reload();
@@ -135,8 +136,8 @@ namespace ThAreaFrameConfig.WinForms
         {
             if (e.Column.FieldName == "Area" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
             {
-                double area = Convert.ToDouble(e.Value);
-                e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
+                //double area = Convert.ToDouble(e.Value);
+                //e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
             }
         }
 

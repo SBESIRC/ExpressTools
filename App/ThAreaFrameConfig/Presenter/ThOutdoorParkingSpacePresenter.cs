@@ -24,52 +24,52 @@ namespace ThAreaFrameConfig.Presenter
 
         public void OnDeleteAreaFrame(IntPtr areaFrame)
         {
-            throw new NotImplementedException();
+            this.DeleteAreaFrame(areaFrame);
         }
 
         public void OnDeleteAreaFrameLayer(string name)
         {
-            throw new NotImplementedException();
+            this.DeleteAreaFrameLayer(name);
         }
 
         public void OnDeleteAreaFrames(IntPtr[] areaFrames)
         {
-            throw new NotImplementedException();
+            this.DeleteAreaFrames(areaFrames);
         }
 
         public void OnHandleAcadException(Exception e)
         {
-            throw new NotImplementedException();
+            this.HandleAcadException(e);
         }
 
         public void OnHighlightAreaFrame(IntPtr areaFrame)
         {
-            throw new NotImplementedException();
+            this.HighlightAreaFrame(areaFrame);
         }
 
         public void OnHighlightAreaFrames(IntPtr[] areaFrames)
         {
-            throw new NotImplementedException();
+            this.HighlightAreaFrames(areaFrames);
         }
 
         public void OnPickAreaFrames(string name)
         {
-            throw new NotImplementedException();
+            this.PickAreaFrames(name);
         }
 
         public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)
         {
-            throw new NotImplementedException();
+            this.RenameAreaFrameLayer(newName, areaFrame);
         }
 
         public void OnUnhighlightAreaFrame(IntPtr areaFrame)
         {
-            throw new NotImplementedException();
+            this.UnhighlightAreaFrame(areaFrame);
         }
 
         public void OnUnhighlightAreaFrames(IntPtr[] areaFrames)
         {
-            throw new NotImplementedException();
+            this.UnhighlightAreaFrames(areaFrames);
         }
     }
 }
