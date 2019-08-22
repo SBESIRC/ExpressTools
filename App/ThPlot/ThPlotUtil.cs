@@ -150,7 +150,6 @@ namespace ThPlot
         /// <param name="inputPdfPath"></param>
         public static void ConvertPdfToImage(string inputPdfPath, string outputPdfPath)
         {
-            PDFNet.Initialize();
             using (PDFDoc doc = new PDFDoc(inputPdfPath))
             {
                 doc.InitSecurityHandler();

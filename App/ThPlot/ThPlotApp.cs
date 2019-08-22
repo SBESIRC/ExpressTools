@@ -4,24 +4,20 @@ using Autodesk.AutoCAD.DatabaseServices;
 using System.Windows.Forms;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
-[assembly: CommandClass(typeof(ThPlot.ThPlotCommands))]
-[assembly: ExtensionApplication(typeof(ThPlot.ThPlotApp))]
-
 namespace ThPlot
 {
     public class ThPlotApp : IExtensionApplication
     {
         public void Initialize()
         {
+            pdftron.PDFNet.Initialize();
         }
 
         public void Terminate()
         {
+            pdftron.PDFNet.Terminate();
         }
-    }
 
-    public class ThPlotCommands
-    {
         [CommandMethod("TIANHUACAD", "THPTP", CommandFlags.Modal)]
         static public void PlotPageSetup()
         {
