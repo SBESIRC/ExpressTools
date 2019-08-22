@@ -20,5 +20,12 @@ namespace ThAreaFrameConfig
             ThResidentialRoomControlDialog dlg = new ThResidentialRoomControlDialog();
             AcadApp.ShowModelessDialog(dlg);
         }
+
+        [CommandMethod("TIANHUACAD", "THAFC2", CommandFlags.Modal)]
+        public void AreaFrameConfig2()
+        {
+            ThSitePlanDialog dlg = new ThSitePlanDialog();
+            AcadApp.ShowModelessDialog(dlg);
+        }
     }
 }

@@ -106,6 +106,24 @@
     <Compile Include="WinForms\ThAOccupancyControl.Designer.cs">
       <DependentUpon>ThAOccupancyControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinForms\ThOutdoorParkingSpace.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WinForms\ThOutdoorParkingSpace.Designer.cs">
+      <DependentUpon>ThOutdoorParkingSpace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinForms\ThPlotAreaControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WinForms\ThPlotAreaControl.Designer.cs">
+      <DependentUpon>ThPlotAreaControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinForms\ThPublicGreenSpace.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WinForms\ThPublicGreenSpace.Designer.cs">
+      <DependentUpon>ThPublicGreenSpace.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinForms\ThResidentialBuildingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -142,6 +160,12 @@
     <Compile Include="WinForms\ThRoofGreenSpaceControl.Designer.cs">
       <DependentUpon>ThRoofGreenSpaceControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinForms\ThSitePlanDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\ThSitePlanDialog.Designer.cs">
+      <DependentUpon>ThSitePlanDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinForms\ThUnderGroundParkingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -160,6 +184,15 @@
     <EmbeddedResource Include="WinForms\ThAOccupancyControl.resx">
       <DependentUpon>ThAOccupancyControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\ThOutdoorParkingSpace.resx">
+      <DependentUpon>ThOutdoorParkingSpace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\ThPlotAreaControl.resx">
+      <DependentUpon>ThPlotAreaControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\ThPublicGreenSpace.resx">
+      <DependentUpon>ThPublicGreenSpace.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinForms\ThResidentialBuildingControl.resx">
       <DependentUpon>ThResidentialBuildingControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -177,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\ThRoofGreenSpaceControl.resx">
       <DependentUpon>ThRoofGreenSpaceControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\ThSitePlanDialog.resx">
+      <DependentUpon>ThSitePlanDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\ThUnderGroundParkingControl.resx">
       <DependentUpon>ThUnderGroundParkingControl.cs</DependentUpon>
