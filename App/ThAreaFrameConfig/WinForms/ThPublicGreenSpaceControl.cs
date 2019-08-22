@@ -17,53 +17,53 @@ using DevExpress.Utils.Menu;
 
 namespace ThAreaFrameConfig.WinForms
 {
-    public partial class ThPlotAreaControl : DevExpress.XtraEditors.XtraUserControl, IPlotSpaceView
+    public partial class ThPublicGreenSpaceControl : DevExpress.XtraEditors.XtraUserControl, IPublicGreenSpaceView
     {
-        private ThPlotSpacePresenter Presenter;
-        private ThPlotSpaceNullRepository DbRepository;
+        private ThPublicGreenSpacePresenter Presenter;
+        private ThPublicGreenSpaceNullRepository DbRepository;
 
-
-        public ThPlotAreaControl()
+        public ThPublicGreenSpaceControl()
         {
             InitializeComponent();
             InitializeGridControl();
         }
 
-        public List<ThPlotSpace> Spaces {
+        public List<ThPublicGreenSpace> Spaces
+        {
             get
             {
-                return (List<ThPlotSpace>)gridControl_plot_area.DataSource;
+                return (List<ThPublicGreenSpace>)gridControl_public_green_space.DataSource;
             }
 
             set
             {
-                gridControl_plot_area.DataSource = value;
+                gridControl_public_green_space.DataSource = value;
             }
-        }
-
-        public void Attach(IPlotSpacePresenterCallback presenter)
-        {
-            throw new NotImplementedException();
         }
 
         public void Reload()
         {
-            DbRepository = new ThPlotSpaceNullRepository();
-            DbRepository.AppendDefaultPlotSpace();
-            gridControl_plot_area.DataSource = DbRepository.Spaces;
-            gridControl_plot_area.RefreshDataSource();
+            DbRepository = new ThPublicGreenSpaceNullRepository();
+            DbRepository.AppendDefaultPublicGreenSpace();
+            gridControl_public_green_space.DataSource = DbRepository.Spaces;
+            gridControl_public_green_space.RefreshDataSource();
+        }
+
+        public void Attach(IPublicGreenSpacePresenterCallback presenter)
+        {
+            //
         }
 
         public void InitializeGridControl()
         {
-            Presenter = new ThPlotSpacePresenter(this);
-            DbRepository = new ThPlotSpaceNullRepository();
-            DbRepository.AppendDefaultPlotSpace();
-            gridControl_plot_area.DataSource = DbRepository.Spaces;
-            gridControl_plot_area.RefreshDataSource();
+            Presenter = new ThPublicGreenSpacePresenter(this);
+            DbRepository = new ThPublicGreenSpaceNullRepository();
+            DbRepository.AppendDefaultPublicGreenSpace();
+            gridControl_public_green_space.DataSource = DbRepository.Spaces;
+            gridControl_public_green_space.RefreshDataSource();
         }
 
-        private void gridView_plot_area_CustomUnboundColumnData(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDataEventArgs e)
+        private void gridView_public_green_space_CustomUnboundColumnData(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDataEventArgs e)
         {
             if (!(sender is GridView view))
             {
@@ -79,7 +79,16 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        private void gridView_plot_area_RowClick(object sender, RowClickEventArgs e)
+        private void gridView_public_green_space_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
+        {
+            if (e.Column.FieldName == "Area" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+            {
+                double area = Convert.ToDouble(e.Value);
+                e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
+            }
+        }
+
+        private void gridView_public_green_space_RowClick(object sender, RowClickEventArgs e)
         {
             if (!(sender is GridView view))
             {
@@ -93,8 +102,8 @@ namespace ThAreaFrameConfig.WinForms
             try
             {
                 GridView gridView = sender as GridView;
-                ThPlotSpace roof = gridView.GetRow(e.RowHandle) as ThPlotSpace;
-                Presenter.PickPlotSpaceFrames(ThResidentialRoomUtil.LayerName(roof));
+                ThPublicGreenSpace space = gridView.GetRow(e.RowHandle) as ThPublicGreenSpace;
+                Presenter.PickPublicGreenSpaceFrames(ThResidentialRoomUtil.LayerName(space));
 
                 // 更新界面
                 this.Reload();
@@ -107,70 +116,19 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        private void gridView_plot_area_RowUpdated(object sender, DevExpress.XtraGrid.Views.Base.RowObjectEventArgs e)
-        {
-            if (!(sender is GridView view))
-            {
-                return;
-            }
-
-            try
-            {
-                ThPlotSpace roofGreenSpace = (ThPlotSpace)e.Row;
-                string name = ThResidentialRoomUtil.LayerName(roofGreenSpace);
-                Presenter.OnRenameAreaFrameLayer(name, roofGreenSpace.Frame);
-
-                // 更新界面
-                this.Reload();
-            }
-            catch (System.Exception exception)
-            {
-#if DEBUG
-                Presenter.OnHandleAcadException(exception);
-#endif
-            }
-        }
-
-        private void gridView_plot_area_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
-        {
-            if (e.Column.FieldName == "Area" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
-            {
-                double area = Convert.ToDouble(e.Value);
-                e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
-            }
-        }
-
-        private void gridView_plot_area_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
-        {
-            GridView view = sender as GridView;
-            switch (view.FocusedColumn.FieldName)
-            {
-                case "HouseHold":
-                    {
-                        if (!UInt16.TryParse(e.Value.ToString(), out UInt16 value))
-                        {
-                            e.Valid = false;
-                            e.ErrorText = "请输入整数";
-                        }
-
-                    }
-                    break;
-            };
-        }
-
-        private void gridView_plot_area_DoubleClick(object sender, EventArgs e)
+        private void gridView_public_green_space_DoubleClick(object sender, EventArgs e)
         {
             DXMouseEventArgs ea = e as DXMouseEventArgs;
             GridView view = sender as GridView;
             GridHitInfo info = view.CalcHitInfo(ea.Location);
             if (info.InRow || info.InRowCell)
             {
-                ThPlotSpace space = view.GetRow(info.RowHandle) as ThPlotSpace;
+                ThPublicGreenSpace space = view.GetRow(info.RowHandle) as ThPublicGreenSpace;
                 Presenter.OnHighlightAreaFrame(space.Frame);
             }
         }
 
-        private void gridView_plot_area_PopupMenuShowing(object sender, PopupMenuShowingEventArgs e)
+        private void gridView_public_green_space_PopupMenuShowing(object sender, PopupMenuShowingEventArgs e)
         {
             GridView view = sender as GridView;
             if (e.MenuType == GridMenuType.Row)
@@ -217,7 +175,7 @@ namespace ThAreaFrameConfig.WinForms
             if (menuItem.Tag is RowInfo ri)
             {
                 // 更新图纸
-                ThPlotSpace space = ri.View.GetRow(ri.RowHandle) as ThPlotSpace;
+                ThPublicGreenSpace space = ri.View.GetRow(ri.RowHandle) as ThPublicGreenSpace;
                 string layer = ThResidentialRoomDbUtil.LayerName(space.Frame);
                 Presenter.OnDeleteAreaFrame(space.Frame);
                 Presenter.OnDeleteAreaFrameLayer(layer);

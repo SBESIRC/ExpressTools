@@ -6,11 +6,11 @@ using ThAreaFrameConfig.View;
 
 namespace ThAreaFrameConfig.Presenter
 {
-    public class ThPlotSpacePresenter : IThAreaFramePresenter, IPlotSpacePresenterCallback
+    public class ThPublicGreenSpacePresenter : IThAreaFramePresenter, IPublicGreenSpacePresenterCallback
     {
-        private readonly IPlotSpaceView roomView;
+        private readonly IPublicGreenSpaceView roomView;
 
-        public ThPlotSpacePresenter(IPlotSpaceView view)
+        public ThPublicGreenSpacePresenter(IPublicGreenSpaceView view)
         {
             roomView = view;
         }

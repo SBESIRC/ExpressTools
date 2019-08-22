@@ -125,6 +125,19 @@ namespace ThAreaFrameConfig.Model
             return string.Join("_", tokens);
         }
 
+        public static string LayerName(ThPublicGreenSpace greenSpace)
+        {
+            string[] tokens =
+            {
+                "用地",
+                "公共绿地",
+                "",
+                version,
+            };
+
+            return string.Join("_", tokens);
+        }
+
         public static string LayerName(ThUnderGroundParking parking)
         {
             string[] tokens =

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ThAreaFrameConfig.Model
 {
     [Serializable()]
-    class ThPublicGreenSpace
+    public class ThPublicGreenSpace
     {
         // ID
         [Display(AutoGenerateField = false)]

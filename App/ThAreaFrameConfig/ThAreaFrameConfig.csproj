@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Model\IThAOccupancyRepository.cs" />
     <Compile Include="Model\IThPlotSpaceRepository.cs" />
+    <Compile Include="Model\IThPublicGreenSpaceRepository.cs" />
     <Compile Include="Model\IThResidentialBuildingRepository.cs" />
     <Compile Include="Model\IThResidentialRoomRepository.cs" />
     <Compile Include="Model\IThRoofGreenSpaceRepository.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Model\ThPlotSpaceDbRepository.cs" />
     <Compile Include="Model\ThPlotSpaceNullRepository.cs" />
     <Compile Include="Model\ThPublicGreenSpace.cs" />
+    <Compile Include="Model\ThPublicGreenSpaceNullRepository.cs" />
     <Compile Include="Model\ThResidentialAreaFrame.cs" />
     <Compile Include="Model\ThResidentialBuilding.cs" />
     <Compile Include="Model\ThResidentialBuildingDbRepository.cs" />
@@ -82,7 +84,8 @@
     <Compile Include="Model\ThUnderGroundParking.cs" />
     <Compile Include="Model\ThUnderGroundParkingDbRepository.cs" />
     <Compile Include="Model\ThUnderGroundParkingNullRepository.cs" />
-    <Compile Include="Presenter\IPlotSpaceCallback.cs" />
+    <Compile Include="Presenter\IPlotSpacePresenterCallback.cs" />
+    <Compile Include="Presenter\IPublicGreenSpacePresenterCallback.cs" />
     <Compile Include="Presenter\IResidentialBuildingPresenterCallback.cs" />
     <Compile Include="Presenter\ThAOccupanyPresenter.cs" />
     <Compile Include="Presenter\IAOccupanyPresenterCallback.cs" />
@@ -93,6 +96,7 @@
     <Compile Include="Presenter\IUnderGroundParkingPresenterCallback.cs" />
     <Compile Include="Presenter\ThPickAreaFrameHelper.cs" />
     <Compile Include="Presenter\ThPlotSpacePresenter.cs" />
+    <Compile Include="Presenter\ThPublicGreenSpacePresenter.cs" />
     <Compile Include="Presenter\ThResidentialBuildingPresenter.cs" />
     <Compile Include="Presenter\ThResidentialRoomDbUtil.cs" />
     <Compile Include="Presenter\ThResidentialRoomPresenter.cs" />
@@ -103,6 +107,7 @@
     <Compile Include="ThAreaFrameConfigApp.cs" />
     <Compile Include="View\IAOccupancyView.cs" />
     <Compile Include="View\IPlotSpaceView.cs" />
+    <Compile Include="View\IPublicGreenSpaceView.cs" />
     <Compile Include="View\IResidentialBuildingView.cs" />
     <Compile Include="View\IResidentialRoomView.cs" />
     <Compile Include="View\IRoofGreenSpaceView.cs" />
@@ -127,11 +132,11 @@
     <Compile Include="WinForms\ThPlotAreaControl.Designer.cs">
       <DependentUpon>ThPlotAreaControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="WinForms\ThPublicGreenSpace.cs">
+    <Compile Include="WinForms\ThPublicGreenSpaceControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="WinForms\ThPublicGreenSpace.Designer.cs">
-      <DependentUpon>ThPublicGreenSpace.cs</DependentUpon>
+    <Compile Include="WinForms\ThPublicGreenSpaceControl.Designer.cs">
+      <DependentUpon>ThPublicGreenSpaceControl.cs</DependentUpon>
     </Compile>
     <Compile Include="WinForms\ThResidentialBuildingControl.cs">
       <SubType>UserControl</SubType>
@@ -199,8 +204,8 @@
     <EmbeddedResource Include="WinForms\ThPlotAreaControl.resx">
       <DependentUpon>ThPlotAreaControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinForms\ThPublicGreenSpace.resx">
-      <DependentUpon>ThPublicGreenSpace.cs</DependentUpon>
+    <EmbeddedResource Include="WinForms\ThPublicGreenSpaceControl.resx">
+      <DependentUpon>ThPublicGreenSpaceControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\ThResidentialBuildingControl.resx">
       <DependentUpon>ThResidentialBuildingControl.cs</DependentUpon>

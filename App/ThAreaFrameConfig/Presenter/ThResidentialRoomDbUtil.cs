@@ -77,6 +77,16 @@ namespace ThAreaFrameConfig.Presenter
             };
         }
 
+        public static ObjectId ConfigPublicGreenSpaceLayer(string layerName)
+        {
+            using (var db = AcadDatabase.Active())
+            {
+                ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
+                LayerTools.SetLayerColor(db.Database, layerName, Color.FromRgb(0, 87, 0).ColorIndex);
+                return objectId;
+            };
+        }
+
         public static ObjectId ConfigBuildingLayer(string layerName)
         {
             using (var db = AcadDatabase.Active())
