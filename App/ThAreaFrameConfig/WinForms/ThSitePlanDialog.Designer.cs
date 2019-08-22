@@ -54,7 +54,7 @@
             this.tabNavigationPage_public_green_space,
             this.tabNavigationPage_outdoor_parking_space});
             this.tabPane1.RegularSize = new System.Drawing.Size(460, 237);
-            this.tabPane1.SelectedPage = this.tabNavigationPage_public_green_space;
+            this.tabPane1.SelectedPage = this.tabNavigationPage_plot_area;
             this.tabPane1.Size = new System.Drawing.Size(460, 237);
             this.tabPane1.TabIndex = 0;
             this.tabPane1.Text = "tabPane1";
