@@ -111,6 +111,20 @@ namespace ThAreaFrameConfig.Model
             return string.Join("_", tokens);
         }
 
+        public static string LayerName(ThPlotSpace plotSpace)
+        {
+            string[] tokens =
+            {
+                "用地",
+                "规划净用地",
+                plotSpace.HouseHold.ToString(),
+                "",
+                version,
+            };
+
+            return string.Join("_", tokens);
+        }
+
         public static string LayerName(ThUnderGroundParking parking)
         {
             string[] tokens =

@@ -50,6 +50,13 @@
             this.gridView_plot_area.GridControl = this.gridControl_plot_area;
             this.gridView_plot_area.Name = "gridView_plot_area";
             this.gridView_plot_area.OptionsView.ShowGroupPanel = false;
+            this.gridView_plot_area.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_plot_area_RowClick);
+            this.gridView_plot_area.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridView_plot_area_PopupMenuShowing);
+            this.gridView_plot_area.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_plot_area_RowUpdated);
+            this.gridView_plot_area.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView_plot_area_CustomUnboundColumnData);
+            this.gridView_plot_area.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridView_plot_area_CustomColumnDisplayText);
+            this.gridView_plot_area.DoubleClick += new System.EventHandler(this.gridView_plot_area_DoubleClick);
+            this.gridView_plot_area.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridView_plot_area_ValidatingEditor);
             // 
             // gridColumn_number
             // 

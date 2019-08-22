@@ -4,6 +4,7 @@ using Linq2Acad;
 using System.Linq;
 using AcHelper.Wrappers;
 using System.Collections.Generic;
+using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrameConfig.Presenter
@@ -62,6 +63,16 @@ namespace ThAreaFrameConfig.Presenter
             {
                 ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
                 LayerTools.SetLayerColor(db.Database, layerName, 80);
+                return objectId;
+            };
+        }
+
+        public static ObjectId ConfigPlotSpaceLayer(string layerName)
+        {
+            using (var db = AcadDatabase.Active())
+            {
+                ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
+                LayerTools.SetLayerColor(db.Database, layerName, Color.FromRgb(69, 119, 19).ColorIndex);
                 return objectId;
             };
         }
