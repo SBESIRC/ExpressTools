@@ -208,6 +208,7 @@ namespace ThAnalytics
             {
                 Stopwatch sw = (Stopwatch)commandhashtable[e.GlobalCommandName];
                 ThCountlyServices.Instance.RecordCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
+                ThCountlyServices.Instance.RecordTHCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
                 commandhashtable.Remove(e.GlobalCommandName);
             }
         }
@@ -427,6 +428,7 @@ namespace ThAnalytics
             {
                 Stopwatch sw = (Stopwatch)commandhashtable[e.GlobalCommandName];
                 ThCountlyServices.Instance.RecordCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
+                ThCountlyServices.Instance.RecordTHCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
                 commandhashtable.Remove(e.GlobalCommandName);
             }
         }

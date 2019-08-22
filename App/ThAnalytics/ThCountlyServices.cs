@@ -21,17 +21,22 @@ namespace ThAnalytics
 
         private readonly Dictionary<string, string> thcommanfunctiondict = new Dictionary<string, string>
         {
+            // 登录界面
             {"THHLP", "帮助"},
 
+            // 检查更新
             {"THUPT", "检查更新"},
-
+            
+            // 图块图库
             {"THBLI", "图块集"},
             {"THBLS", "图块集配置"},
             {"THBEE", "提电气块转换"},
-
+            
+            // 标注工具
             {"THCNU", "车位编号"},
             {"THDTA", "尺寸避让"},
-
+            
+            // 图层工具
             {"THALC", "建立建筑图层"},
             {"THSLC", "建立结构图层"},
             {"THMLC", "建立暖通图层"},
@@ -45,19 +50,23 @@ namespace ThAnalytics
             {"THUKA", "解锁所有图层"},
             {"THMOF", "关闭暖通图层"},
             {"THMON", "开启暖通图层"},
-
+            
+            // 计算工具
             {"THBPS", "天华单体规整"},
             {"THCSP", "天华总体规整"},
             {"THBAC", "单体面积总汇"},
             {"THTET", "综合经济技术指标表"},
-
+            
+            // 系统详图
             {"THLDC", "配电箱系统图修改"},
-
+            
+            // 辅助工具
             {"THMSC", "批量缩放"},
             {"THZ0", "Z值归零"},
             {"DGNPURGE", "DGN清理"},
             {"THBPT", "批量打印PDF"},
-
+            
+            // 文字表格
             {"THMTC", "文字内容刷"}
         };
 
@@ -127,6 +136,14 @@ namespace ThAnalytics
             Countly.RecordEvent("CAD命令使用", 1, null, duration, segmentation);
         }
 
+        public void RecordTHCommandEvent(string cmdName, double duration)
+        {
+            if (thcommanfunctiondict.ContainsKey(cmdName))
+            {
+                Segmentation segmentation = new Segmentation();
+                Countly.RecordEvent(thcommanfunctiondict[cmdName], 1, null, duration, segmentation);
+            }
+        }
         public void RecordSysVerEvent(string sysverName, string sysverValue)
         {
             Segmentation segmentation = new Segmentation();
