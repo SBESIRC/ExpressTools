@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ThAreaFrameConfig.Model
 {
     [Serializable()]
-    class ThOutdoorParkingSpace
+    public class ThOutdoorParkingSpace
     {
         // ID
         [Display(AutoGenerateField = false)]
@@ -23,10 +23,21 @@ namespace ThAreaFrameConfig.Model
         }
 
         // 车场类型
-        public string Category { get; set; }
+        public string Category {
+            get
+            {
+                return "露天车场";
+            }
+        }
 
         // 停车类型
-        public string ParkingCategory { get; set; }
+        public string ParkingCategory
+        {
+            get
+            {
+                return "小型汽车";
+            }
+        }
 
         // 车场/车位层数
         public UInt16 Storey { get; set; }

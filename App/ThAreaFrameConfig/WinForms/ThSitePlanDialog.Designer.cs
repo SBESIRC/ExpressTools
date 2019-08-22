@@ -34,7 +34,7 @@
             this.tabNavigationPage_outdoor_parking_space = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.xtraUserControl_plot_area = new ThPlotAreaControl();
             this.xtraUserControl_public_green_space = new ThPublicGreenSpaceControl();
-            this.xtraUserControl_outdoor_parking_space = new ThOutdoorParkingSpace();
+            this.xtraUserControl_outdoor_parking_space = new ThOutdoorParkingSpaceControl();
             ((System.ComponentModel.ISupportInitialize)(this.tabPane1)).BeginInit();
             this.tabPane1.SuspendLayout();
             this.tabNavigationPage_plot_area.SuspendLayout();
@@ -130,6 +130,6 @@
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage_outdoor_parking_space;
         private ThPlotAreaControl xtraUserControl_plot_area;
         private ThPublicGreenSpaceControl xtraUserControl_public_green_space;
-        private ThOutdoorParkingSpace xtraUserControl_outdoor_parking_space;
+        private ThOutdoorParkingSpaceControl xtraUserControl_outdoor_parking_space;
     }
 }

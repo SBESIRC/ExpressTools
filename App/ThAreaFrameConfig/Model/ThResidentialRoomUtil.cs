@@ -138,6 +138,22 @@ namespace ThAreaFrameConfig.Model
             return string.Join("_", tokens);
         }
 
+        public static string LayerName(ThOutdoorParkingSpace parkingSpace)
+        {
+            string[] tokens =
+            {
+                "车场车位",
+                "室外车场",
+                parkingSpace.Category,
+                parkingSpace.ParkingCategory,
+                parkingSpace.Storey.ToString(),
+                "",
+                version,
+            };
+
+            return string.Join("_", tokens);
+        }
+
         public static string LayerName(ThUnderGroundParking parking)
         {
             string[] tokens =
