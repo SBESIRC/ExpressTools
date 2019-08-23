@@ -46,7 +46,7 @@ namespace ThAreaFrameConfig.Presenter
 
         public void OnPickAreaFrames(string name)
         {
-            this.PickAreaFrames(name);
+            this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigLayer);
         }
 
         public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)

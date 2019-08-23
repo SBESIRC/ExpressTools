@@ -94,7 +94,7 @@ namespace ThAreaFrameConfig.WinForms
             {
                 GridView gridView = sender as GridView;
                 ThPlotSpace roof = gridView.GetRow(e.RowHandle) as ThPlotSpace;
-                Presenter.PickPlotSpaceFrames(ThResidentialRoomUtil.LayerName(roof));
+                Presenter.OnPickAreaFrames(ThResidentialRoomUtil.LayerName(roof));
 
                 // 更新界面
                 this.Reload();

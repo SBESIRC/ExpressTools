@@ -11,7 +11,9 @@ namespace ThAreaFrameConfig.Presenter
 {
     public static class ThPickAreaFrameHelper
     {
-        public static void PickAreaFrames(this IThAreaFramePresenterCallback presenterCallback, string name)
+        public static void PickAreaFrames(this IThAreaFramePresenterCallback presenterCallback, 
+            string name,
+            Func<string, ObjectId> layerCreator)
         {
             using (Active.Document.LockDocument())
             {
@@ -27,142 +29,7 @@ namespace ThAreaFrameConfig.Presenter
                         // 图层管理
                         //  1. 如果指定图层不存在，创建图层
                         //  2. 如果指定图层存在，返回此图层
-                        ObjectId layerId = ThResidentialRoomDbUtil.ConfigLayer(name);
-                        if (layerId.IsNull)
-                            return;
-
-                        // 将复制的放置在指定图层上
-                        ThResidentialRoomDbUtil.MoveToLayer(clonedObjId, layerId);
-                    }
-                }
-            }
-        }
-
-        public static void PickRoofAreaFrames(this IThAreaFramePresenterCallback presenterCallback, string name)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    foreach (var pline in Active.Database.GetSelection<Polyline>())
-                    {
-                        // 复制面积框线
-                        ObjectId clonedObjId = ThEntTool.DeepClone(pline.ObjectId);
-                        if (clonedObjId.IsNull)
-                            continue;
-
-                        // 图层管理
-                        //  1. 如果指定图层不存在，创建图层
-                        //  2. 如果指定图层存在，返回此图层
-                        ObjectId layerId = ThResidentialRoomDbUtil.ConfigRoofLayer(name);
-                        if (layerId.IsNull)
-                            continue;
-
-                        // 将复制的放置在指定图层上
-                        ThResidentialRoomDbUtil.MoveToLayer(clonedObjId, layerId);
-                    }
-                }
-            }
-        }
-
-        public static void PickPlotSpaceFrames(this IThAreaFramePresenterCallback presenterCallback, string name)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    foreach (var pline in Active.Database.GetSelection<Polyline>())
-                    {
-                        // 复制面积框线
-                        ObjectId clonedObjId = ThEntTool.DeepClone(pline.ObjectId);
-                        if (clonedObjId.IsNull)
-                            continue;
-
-                        // 图层管理
-                        //  1. 如果指定图层不存在，创建图层
-                        //  2. 如果指定图层存在，返回此图层
-                        ObjectId layerId = ThResidentialRoomDbUtil.ConfigPlotSpaceLayer(name);
-                        if (layerId.IsNull)
-                            continue;
-
-                        // 将复制的放置在指定图层上
-                        ThResidentialRoomDbUtil.MoveToLayer(clonedObjId, layerId);
-                    }
-                }
-            }
-        }
-
-        public static void PickPublicGreenSpaceFrames(this IThAreaFramePresenterCallback presenterCallback, string name)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    foreach (var pline in Active.Database.GetSelection<Polyline>())
-                    {
-                        // 复制面积框线
-                        ObjectId clonedObjId = ThEntTool.DeepClone(pline.ObjectId);
-                        if (clonedObjId.IsNull)
-                            continue;
-
-                        // 图层管理
-                        //  1. 如果指定图层不存在，创建图层
-                        //  2. 如果指定图层存在，返回此图层
-                        ObjectId layerId = ThResidentialRoomDbUtil.ConfigPublicGreenSpaceLayer(name);
-                        if (layerId.IsNull)
-                            continue;
-
-                        // 将复制的放置在指定图层上
-                        ThResidentialRoomDbUtil.MoveToLayer(clonedObjId, layerId);
-                    }
-                }
-            }
-        }
-
-        public static void PickOutdoorParkingSpaceFrames(this IThAreaFramePresenterCallback presenterCallback, string name)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    foreach (var pline in Active.Database.GetSelection<Polyline>())
-                    {
-                        // 复制面积框线
-                        ObjectId clonedObjId = ThEntTool.DeepClone(pline.ObjectId);
-                        if (clonedObjId.IsNull)
-                            continue;
-
-                        // 图层管理
-                        //  1. 如果指定图层不存在，创建图层
-                        //  2. 如果指定图层存在，返回此图层
-                        ObjectId layerId = ThResidentialRoomDbUtil.ConfigOutdoorParkingSpaceLayer(name);
-                        if (layerId.IsNull)
-                            continue;
-
-                        // 将复制的放置在指定图层上
-                        ThResidentialRoomDbUtil.MoveToLayer(clonedObjId, layerId);
-                    }
-                }
-            }
-        }
-
-        public static void PickBuildingAreaFrames(this IThAreaFramePresenterCallback presenterCallback, string name)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    foreach (var pline in Active.Database.GetSelection<Polyline>())
-                    {
-                        // 复制面积框线
-                        ObjectId clonedObjId = ThEntTool.DeepClone(pline.ObjectId);
-                        if (clonedObjId.IsNull)
-                            return;
-
-                        // 图层管理
-                        //  1. 如果指定图层不存在，创建图层
-                        //  2. 如果指定图层存在，返回此图层
-                        ObjectId layerId = ThResidentialRoomDbUtil.ConfigBuildingLayer(name);
+                        ObjectId layerId = layerCreator(name);
                         if (layerId.IsNull)
                             return;
 

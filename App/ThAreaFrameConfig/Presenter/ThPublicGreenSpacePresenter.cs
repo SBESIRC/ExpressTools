@@ -54,7 +54,7 @@ namespace ThAreaFrameConfig.Presenter
 
         public void OnPickAreaFrames(string name)
         {
-            this.PickAreaFrames(name);
+            this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigPublicGreenSpaceLayer);
         }
 
         public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)

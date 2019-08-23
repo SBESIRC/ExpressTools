@@ -11,9 +11,7 @@ namespace ThAreaFrameConfig.Presenter
 {
     public class ThResidentialRoomDbUtil
     {
-        public static ObjectId ConfigLayer(string layerName)
-        {
-            Dictionary<string, Dictionary<string, short>> colors = new Dictionary<string, Dictionary<string, short>>
+        private static readonly Dictionary<string, Dictionary<string, short>> LayerColorConfig = new Dictionary<string, Dictionary<string, short>>
             {
                 { "住宅构件", new Dictionary<string, short>
                     {
@@ -41,68 +39,49 @@ namespace ThAreaFrameConfig.Presenter
 
                 { "单体车位", new Dictionary<string, short>
                     {
-                        { "小型汽车", 17 } 
+                        { "小型汽车", 17 }
                     }
                 }
             };
 
+        public static ObjectId ConfigLayer(string layerName)
+        {
             string[] tokens = layerName.Split('_');
-            short colorIndex = colors[tokens[0]][tokens[1]];
-
-            using (var db = AcadDatabase.Active())
-            {
-                ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
-                LayerTools.SetLayerColor(db.Database, layerName, colorIndex);
-                return objectId;
-            };
+            short colorIndex = LayerColorConfig[tokens[0]][tokens[1]];
+            return CreateAreaFrameLayer(layerName, colorIndex);
         }
 
         public static ObjectId ConfigRoofLayer(string layerName)
         {
-            using (var db = AcadDatabase.Active())
-            {
-                ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
-                LayerTools.SetLayerColor(db.Database, layerName, 80);
-                return objectId;
-            };
-        }
-
-        public static ObjectId ConfigPlotSpaceLayer(string layerName)
-        {
-            using (var db = AcadDatabase.Active())
-            {
-                ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
-                LayerTools.SetLayerColor(db.Database, layerName, Color.FromRgb(69, 119, 19).ColorIndex);
-                return objectId;
-            };
-        }
-
-        public static ObjectId ConfigPublicGreenSpaceLayer(string layerName)
-        {
-            using (var db = AcadDatabase.Active())
-            {
-                ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
-                LayerTools.SetLayerColor(db.Database, layerName, Color.FromRgb(0, 87, 0).ColorIndex);
-                return objectId;
-            };
-        }
-
-        public static ObjectId ConfigOutdoorParkingSpaceLayer(string layerName)
-        {
-            using (var db = AcadDatabase.Active())
-            {
-                ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
-                LayerTools.SetLayerColor(db.Database, layerName, Color.FromRgb(29, 99, 64).ColorIndex);
-                return objectId;
-            };
+            return CreateAreaFrameLayer(layerName, 80);
         }
 
         public static ObjectId ConfigBuildingLayer(string layerName)
         {
+            return CreateAreaFrameLayer(layerName, 56);
+        }
+
+        public static ObjectId ConfigPlotSpaceLayer(string layerName)
+        {
+            return CreateAreaFrameLayer(layerName, Color.FromRgb(69, 119, 19).ColorIndex);
+        }
+
+        public static ObjectId ConfigPublicGreenSpaceLayer(string layerName)
+        {
+            return CreateAreaFrameLayer(layerName, Color.FromRgb(0, 87, 0).ColorIndex);
+        }
+
+        public static ObjectId ConfigOutdoorParkingSpaceLayer(string layerName)
+        {
+            return CreateAreaFrameLayer(layerName, Color.FromRgb(29, 99, 64).ColorIndex);
+        }
+
+        private static ObjectId CreateAreaFrameLayer(string name, short colorIndex)
+        {
             using (var db = AcadDatabase.Active())
             {
-                ObjectId objectId = LayerTools.AddLayer(db.Database, layerName);
-                LayerTools.SetLayerColor(db.Database, layerName, 56);
+                ObjectId objectId = LayerTools.AddLayer(db.Database, name);
+                LayerTools.SetLayerColor(db.Database, name, colorIndex);
                 return objectId;
             };
         }

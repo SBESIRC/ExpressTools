@@ -103,7 +103,7 @@ namespace ThAreaFrameConfig.WinForms
             {
                 GridView gridView = sender as GridView;
                 ThPublicGreenSpace space = gridView.GetRow(e.RowHandle) as ThPublicGreenSpace;
-                Presenter.PickPublicGreenSpaceFrames(ThResidentialRoomUtil.LayerName(space));
+                Presenter.OnPickAreaFrames(ThResidentialRoomUtil.LayerName(space));
 
                 // 更新界面
                 this.Reload();

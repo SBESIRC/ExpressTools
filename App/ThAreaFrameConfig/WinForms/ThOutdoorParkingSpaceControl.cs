@@ -95,7 +95,7 @@ namespace ThAreaFrameConfig.WinForms
                 GridView gridView = (GridView)sender;
                 ThOutdoorParkingSpace space = gridView.GetRow(e.RowHandle) as ThOutdoorParkingSpace;
                 string name = ThResidentialRoomUtil.LayerName(space);
-                Presenter.PickOutdoorParkingSpaceFrames(name);
+                Presenter.OnPickAreaFrames(name);
 
                 // 更新界面
                 this.Reload();
