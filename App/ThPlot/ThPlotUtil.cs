@@ -327,7 +327,6 @@ namespace ThPlot
                 else
                 {
                     var shape = slide.Shapes.AddPicture(imagePaths[i], MsoTriState.msoFalse, MsoTriState.msoTrue, (float)(967 * xImageRation), (float)(544 * yImageRation));
-                    shape.Rotation = 90;
                 }
                 
                 // 增加文字
