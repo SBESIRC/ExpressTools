@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using ThAreaFrameConfig.View;
 using ThAreaFrameConfig.Presenter;
 using ThAreaFrameConfig.Model;
-using DevExpress.XtraGrid.Views.Grid;
-using Autodesk.AutoCAD.Runtime;
 using DevExpress.Utils;
-using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.Utils.Menu;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using Autodesk.AutoCAD.Runtime;
 
 namespace ThAreaFrameConfig.WinForms
 {
     public partial class ThPlotAreaControl : DevExpress.XtraEditors.XtraUserControl, IPlotSpaceView
     {
         private ThPlotSpacePresenter Presenter;
-        private ThPlotSpaceNullRepository DbRepository;
+        private ThPlotSpaceDbRepository DbRepository;
 
 
         public ThPlotAreaControl()
@@ -48,7 +42,7 @@ namespace ThAreaFrameConfig.WinForms
 
         public void Reload()
         {
-            DbRepository = new ThPlotSpaceNullRepository();
+            DbRepository = new ThPlotSpaceDbRepository();
             DbRepository.AppendDefaultPlotSpace();
             gridControl_plot_area.DataSource = DbRepository.Spaces;
             gridControl_plot_area.RefreshDataSource();
@@ -57,7 +51,7 @@ namespace ThAreaFrameConfig.WinForms
         public void InitializeGridControl()
         {
             Presenter = new ThPlotSpacePresenter(this);
-            DbRepository = new ThPlotSpaceNullRepository();
+            DbRepository = new ThPlotSpaceDbRepository();
             DbRepository.AppendDefaultPlotSpace();
             gridControl_plot_area.DataSource = DbRepository.Spaces;
             gridControl_plot_area.RefreshDataSource();

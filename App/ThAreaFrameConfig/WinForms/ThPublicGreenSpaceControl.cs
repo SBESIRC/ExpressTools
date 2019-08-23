@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using ThAreaFrameConfig.View;
 using ThAreaFrameConfig.Presenter;
 using ThAreaFrameConfig.Model;
-using DevExpress.XtraGrid.Views.Grid;
-using Autodesk.AutoCAD.Runtime;
 using DevExpress.Utils;
-using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.Utils.Menu;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using Autodesk.AutoCAD.Runtime;
 
 namespace ThAreaFrameConfig.WinForms
 {
     public partial class ThPublicGreenSpaceControl : DevExpress.XtraEditors.XtraUserControl, IPublicGreenSpaceView
     {
         private ThPublicGreenSpacePresenter Presenter;
-        private ThPublicGreenSpaceNullRepository DbRepository;
+        private ThPublicGreenSpaceDbRepository DbRepository;
 
         public ThPublicGreenSpaceControl()
         {
@@ -43,7 +37,7 @@ namespace ThAreaFrameConfig.WinForms
 
         public void Reload()
         {
-            DbRepository = new ThPublicGreenSpaceNullRepository();
+            DbRepository = new ThPublicGreenSpaceDbRepository();
             DbRepository.AppendDefaultPublicGreenSpace();
             gridControl_public_green_space.DataSource = DbRepository.Spaces;
             gridControl_public_green_space.RefreshDataSource();
@@ -57,7 +51,7 @@ namespace ThAreaFrameConfig.WinForms
         public void InitializeGridControl()
         {
             Presenter = new ThPublicGreenSpacePresenter(this);
-            DbRepository = new ThPublicGreenSpaceNullRepository();
+            DbRepository = new ThPublicGreenSpaceDbRepository();
             DbRepository.AppendDefaultPublicGreenSpace();
             gridControl_public_green_space.DataSource = DbRepository.Spaces;
             gridControl_public_green_space.RefreshDataSource();

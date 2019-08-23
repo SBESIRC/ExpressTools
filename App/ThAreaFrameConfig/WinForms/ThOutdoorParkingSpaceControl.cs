@@ -1,26 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.View;
 using ThAreaFrameConfig.Presenter;
-using DevExpress.XtraGrid.Views.Grid;
-using Autodesk.AutoCAD.Runtime;
 using DevExpress.Utils;
-using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.Utils.Menu;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 
 namespace ThAreaFrameConfig.WinForms
 {
     public partial class ThOutdoorParkingSpaceControl : DevExpress.XtraEditors.XtraUserControl, IOutdoorParkingSpaceView
     {
         private ThOutdoorParkingSpacePresenter Presenter;
-        private ThOutdoorParkingSpaceNullRepository DbRepository;
+        private ThOutdoorParkingSpaceDbRepository DbRepository;
 
         public ThOutdoorParkingSpaceControl()
         {
@@ -48,7 +41,7 @@ namespace ThAreaFrameConfig.WinForms
 
         public void Reload()
         {
-            DbRepository = new ThOutdoorParkingSpaceNullRepository();
+            DbRepository = new ThOutdoorParkingSpaceDbRepository();
             DbRepository.AppendDefaultOutdoorParkingSpace();
             gridControl_outdoor_parking_space.DataSource = DbRepository.Spaces;
             gridControl_outdoor_parking_space.RefreshDataSource();
@@ -57,7 +50,7 @@ namespace ThAreaFrameConfig.WinForms
         public void InitializeGridControl()
         {
             Presenter = new ThOutdoorParkingSpacePresenter(this);
-            DbRepository = new ThOutdoorParkingSpaceNullRepository();
+            DbRepository = new ThOutdoorParkingSpaceDbRepository();
             DbRepository.AppendDefaultOutdoorParkingSpace();
             gridControl_outdoor_parking_space.DataSource = DbRepository.Spaces;
             gridControl_outdoor_parking_space.RefreshDataSource();
