@@ -111,8 +111,16 @@ Task Requires.BuildType {
     Write-Host "$buildType build confirmed"
 }
 
+Task Sign {
+    exec { 
+        cd Sign
+        .\sign.ps1
+        cd ..
+    }
+}
+
 # $buildType build for ThCADPluginInstaller
-Task Compile.Installer -Depends Requires.BuildType, Compile.Assembly.R18, Compile.Assembly.R19 {
+Task Compile.Installer -Depends Requires.BuildType, Compile.Assembly.R18, Compile.Assembly.R19, Sign {
     if ($buildType -eq $null) {
         throw "No build type specified"
     }
