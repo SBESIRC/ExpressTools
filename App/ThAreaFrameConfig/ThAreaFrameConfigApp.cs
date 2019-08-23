@@ -14,15 +14,17 @@ namespace ThAreaFrameConfig
         {
         }
 
-        [CommandMethod("TIANHUACAD", "THAFC", CommandFlags.Modal)]
-        public void AreaFrameConfig()
+        // 天华单体规划
+        [CommandMethod("TIANHUACAD", "THBPS", CommandFlags.Modal)]
+        public void THBPS()
         {
             ThResidentialRoomControlDialog dlg = new ThResidentialRoomControlDialog();
             AcadApp.ShowModelessDialog(dlg);
         }
 
-        [CommandMethod("TIANHUACAD", "THAFC2", CommandFlags.Modal)]
-        public void AreaFrameConfig2()
+        // 天华总平规划
+        [CommandMethod("TIANHUACAD", "THSPS", CommandFlags.Modal)]
+        public void THSPS()
         {
             ThSitePlanDialog dlg = new ThSitePlanDialog();
             AcadApp.ShowModelessDialog(dlg);
