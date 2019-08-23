@@ -5,7 +5,6 @@ using System.Linq;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
-
 namespace ThAreaFrameConfig.Model
 {
     public class ThPlotSpaceDbRepository : IThPlotSpaceRepository
