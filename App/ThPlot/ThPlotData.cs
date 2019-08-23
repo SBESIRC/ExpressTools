@@ -10,6 +10,7 @@ using System.Linq;
 using System.Collections.Generic;
 using DotNetARX;
 using System;
+using Autodesk.AutoCAD.Colors;
 
 namespace ThPlot
 {
@@ -132,6 +133,10 @@ namespace ThPlot
 
     public class ThPlotData
     {
+        private static readonly double A4PAGEPORTRAITRATIO = 297.0 / 210.0;
+        private static readonly double A4PAGELANDSCAPERATIO = 210.0 / 297.0;
+
+
         // 绘图，用于测试点的位置
         public static void DrawPointWithTransaction(Point3d drawPoint)
         {
@@ -152,6 +157,15 @@ namespace ThPlot
             return new List<Line>() { lineX, lineY };
         }
 
+        // 测试用
+        public static List<Line> Point2Lines(Point2d drawPoint)
+        {
+            var aimPoint = new Point3d(drawPoint.X, drawPoint.Y, 0);
+            Line lineX = new Line(aimPoint, aimPoint + new Vector3d(1, 0, 0) * 10000);
+            Line lineY = new Line(aimPoint, aimPoint + new Vector3d(0, 1, 0) * 10000);
+            return new List<Line>() { lineX, lineY };
+        }
+
         /// <summary>
         /// 返回值true 时，点在图形内
         /// </summary>
@@ -169,7 +183,7 @@ namespace ThPlot
                 lineSegLst.Add(lineSeg);
             }
 
-            LineSegment2d horizontalLine = new LineSegment2d(aimPoint2d, aimPoint2d + new Vector2d(1, 0) * 10000000000);
+            LineSegment2d horizontalLine = new LineSegment2d(aimPoint2d, aimPoint2d + new Vector2d(1, 0) * 100000000);
             List<Point2d> ptLst = new List<Point2d>();
 
             foreach (var line in lineSegLst)
@@ -233,7 +247,7 @@ namespace ThPlot
         /// <param name="profiles"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public static List<PageWithProfile> CalculateProfileWithPages(List<Polyline> profiles, SelectDir dir)
+        public static List<PageWithProfile> CalculateProfileWithPages(List<Polyline> profiles, SelectDir dir, ref int pageIndex)
         {
             if (profiles.Count == 0)
                 return null;
@@ -245,7 +259,7 @@ namespace ThPlot
             // 网格划分数据（预处理）轮廓需要进行外扩处理（为了包含边界顶点处理）
             var gridBoxsLst = CalculateGridBoxs(srcPageWithProfiles, OffsetRectBox(entityWindowData), dir);
 
-            return CalculateProfileWithPagesWithGridBoxs(gridBoxsLst);
+            return CalculateProfileWithPagesWithGridBoxs(gridBoxsLst, ref pageIndex);
         }
 
         /// <summary>
@@ -254,11 +268,9 @@ namespace ThPlot
         /// <param name="boxsLst"> boxsLst这个网格二维表格的排列顺序是从左到右，从上到下的</param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public static List<PageWithProfile> CalculateProfileWithPagesWithGridBoxs(List<List<GridBox>> boxsLst)
+        public static List<PageWithProfile> CalculateProfileWithPagesWithGridBoxs(List<List<GridBox>> boxsLst, ref int indexPage)
         {
             var pageWithProfiles = new List<PageWithProfile>();
-            int nPageCount = 0; // 使用前再增加
-
             foreach (var gridBoxs in boxsLst)
             {
                 foreach (var gridBox in gridBoxs)
@@ -266,7 +278,7 @@ namespace ThPlot
                     if (gridBox.PageWithProfiles.Count != 0)
                     {
                         // 进入到每个子网格中进行页码匹配计算
-                        var pageRes = CalculatePagesWithProfileWithUnitGridBoxHorizontal(gridBox, ref nPageCount);
+                        var pageRes = CalculatePagesWithProfileWithUnitGridBoxHorizontal(gridBox, ref indexPage);
                         pageWithProfiles.AddRange(pageRes);
                     }
                 }
@@ -579,7 +591,6 @@ namespace ThPlot
             return new WindowData(new Point2d(minPoint.X, minPoint.Y), new Point2d(maxPoint.X, maxPoint.Y));
         }
 
-
         /// <summary>
         /// 计算Page的相对位置关系，考虑到留白处理的情形
         /// </summary>
@@ -589,7 +600,7 @@ namespace ThPlot
         /// <param name="yRation"></param>
         public static void GetImagePosRelatedRation(Polyline imageProfile, Polyline pptProfile, ref double xRation, ref double yRation)
         {
-            var a4PaperRation = 297.0 / 210;
+            var a4PaperRation = CalculatePaperSizeInfo(imageProfile);
             double lineWidth = 0;
             double lineHeight = 0;
             var window = CalculateProfileTwoEdge(imageProfile, ref lineWidth, ref lineHeight);
@@ -620,6 +631,74 @@ namespace ThPlot
             var verticalY = Math.Abs(topLeftPos.Y - pptTopLeftPos.Y);
             xRation = horizontalX / pptWindowWidth;
             yRation = verticalY / pptWindowHeight;
+        }
+
+        /// <summary>
+        /// 计算Page的相对位置关系，考虑到留白处理的情形 以及旋转角度
+        /// </summary>
+        /// <param name="imageProfile"></param>
+        /// <param name="pptProfile"></param>
+        /// <param name="xRation"></param>
+        /// <param name="yRation"></param>
+        public static void GetImagePosRelatedRationWithAngle(RelatedData relatedData,  ref double xRation, ref double yRation)
+        {
+            var pptText = relatedData.PptTextLst;
+            Polyline imageProfile = relatedData.ImagePolyline;
+            Polyline pptProfile = relatedData.PptPolyline;
+
+            // 尺寸计算
+            var a4PaperRation = CalculatePaperSizeInfo(imageProfile);
+            double lineWidth = 0;
+            double lineHeight = 0;
+            var window = CalculateProfileTwoEdge(imageProfile, ref lineWidth, ref lineHeight);
+            var standardHeight = a4PaperRation * lineWidth;
+            var standardWidth = lineHeight / a4PaperRation;
+
+            var windowHeight = window.RightTopPoint.Y - window.LeftBottomPoint.Y;
+            // 原始框的左顶点
+            var topLeftPos = new Point2d(window.LeftBottomPoint.X, window.LeftBottomPoint.Y + windowHeight);
+
+            // PPt轮廓的左顶点
+            var pptPoints = GetPolylinePoints(pptProfile);
+            var pptWindow = GetEntityPointsWindow(pptPoints);
+            var pptWindowHeight = pptWindow.RightTopPoint.Y - pptWindow.LeftBottomPoint.Y;
+            var pptWindowWidth = pptWindow.RightTopPoint.X - pptWindow.LeftBottomPoint.X;
+            var pptTopLeftPos = new Point2d(pptWindow.LeftBottomPoint.X, pptWindow.LeftBottomPoint.Y + pptWindowHeight);
+
+            // 计算生成纸张后考虑留白的轮廓的左顶点
+            if (standardWidth > lineWidth)
+            {
+                topLeftPos += (new Vector2d(1, 0) * (standardWidth - lineWidth) * 0.5);
+            }
+            else if (standardHeight > lineHeight)
+            {
+                topLeftPos += (new Vector2d(0, 1) * (standardHeight - lineHeight) * 0.5);
+            }
+
+            var horizontalX = Math.Abs(topLeftPos.X - pptTopLeftPos.X);
+            var verticalY = Math.Abs(topLeftPos.Y - pptTopLeftPos.Y);
+            xRation = horizontalX / pptWindowWidth;
+            yRation = verticalY / pptWindowHeight;
+        }
+
+        /// <summary>
+        /// 计算当前纸张的尺寸
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <returns></returns>
+        public static double CalculatePaperSizeInfo(Polyline profile)
+        {
+            var ptLst = GetPolylinePoints(profile);
+            var windowData = GetEntityPointsWindow(ptLst);
+            double width = 0;
+            double height = 0;
+            ThPlotUtil.GetWindowDataWidthAndHeight(windowData, ref width, ref height);
+            if (width < height)
+            {
+                return A4PAGEPORTRAITRATIO;
+            }
+
+            return A4PAGELANDSCAPERATIO;
         }
 
         /// <summary>
@@ -757,6 +836,18 @@ namespace ThPlot
             return ptLst;
         }
 
+        // 获取多段线的顶点坐标
+        public static List<Point3d> GetPolylinePointLst(Polyline polyline)
+        {
+            List<Point3d> ptLst = new List<Point3d>();
+            for (int i = 0; i < polyline.NumberOfVertices; i++)
+            {
+                ptLst.Add(polyline.GetPoint3dAt(i));
+            }
+
+            return ptLst;
+        }
+
         /// <summary>
         /// 根据PPT轮廓计算需要插入的DBText
         /// </summary>
@@ -804,6 +895,50 @@ namespace ThPlot
         }
 
         /// <summary>
+        /// 两个多段线相交
+        /// </summary>
+        /// <param name="relatedData"></param>
+        /// <param name="polyline"></param>
+        /// <returns></returns>
+        public static bool BoundaryIntersectWithBound(RelatedData relatedData, Polyline polyline)
+        {
+            Point3dCollection ptLst = new Point3dCollection();
+            var curImagePolyline = relatedData.ImagePolyline;
+            curImagePolyline.IntersectWith(polyline, Intersect.OnBothOperands, ptLst, new System.IntPtr(0), new System.IntPtr(0));
+
+            if (ptLst.Count != 0)
+            {
+                relatedData.PptPolyline = polyline;
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 前者在后者图元的内部 返回true
+        /// </summary>
+        /// <param name="relatedData"></param>
+        /// <param name="polyline"></param>
+        /// <returns></returns>
+        public static bool EntityContainsEntity(RelatedData relatedData, Polyline polyline)
+        {
+            var curImagePolyline = relatedData.ImagePolyline;
+            var ptLst = GetPolylinePointLst(curImagePolyline);
+
+            foreach (var pt in ptLst)
+            {
+                if (!PointInnerEntity(polyline, pt))
+                {
+                    return false;
+                }
+            }
+
+            relatedData.PptPolyline = polyline;
+            return true;
+        }
+
+        /// <summary>
         /// 生成数据的相关关系，Image框， PPT框，ppt文字 页码文字
         /// </summary>
         /// <returns></returns>
@@ -824,109 +959,86 @@ namespace ThPlot
 
             using (Transaction dataGetTrans = db.TransactionManager.StartTransaction())
             {
-                try
+                // 图片多段线
+                foreach (var imageId in imageIdLst)
                 {
-                    // 图片多段线
-                    foreach (var imageId in imageIdLst)
+                    Polyline imagePolyline = (Polyline)dataGetTrans.GetObject(imageId, OpenMode.ForRead);
+                    imagePolylineLst.Add((Polyline)imagePolyline.Clone());
+                }
+
+                if (imagePolylineLst.Count == 0)
+                    return null;
+
+                imagePolylineLst.ForEach(p => pptRelatedData.Add(new RelatedData(p)));
+
+                // PPT多段线
+                foreach (var pptId in pptIdLst)
+                {
+                    Polyline pptPolyline = (Polyline)dataGetTrans.GetObject(pptId, OpenMode.ForRead);
+                    pptPolylineLst.Add((Polyline)pptPolyline.Clone());
+                }
+
+                if (pptPolylineLst.Count == 0)
+                    return null;
+
+                // PPT文本
+                foreach (var textId in pptTextIdLst)
+                {
+                    DBText dbText = (DBText)dataGetTrans.GetObject(textId, OpenMode.ForRead);
+                    pptTextLst.Add((DBText)dbText.Clone());
+                }
+
+                // 页码文本
+                foreach (var pageTextId in pageTextIdLst)
+                {
+                    DBText dbPageText = (DBText)dataGetTrans.GetObject(pageTextId, OpenMode.ForRead);
+                    pageTextLst.Add((DBText)dbPageText.Clone());
+                }
+
+                // polyline 线框文本信息等匹配
+                foreach (var relatedData in pptRelatedData)
+                {
+                    var curImagePolyline = relatedData.ImagePolyline;
+                    foreach (var pptPolyline in pptPolylineLst)
                     {
-                        Polyline imagePolyline = (Polyline)dataGetTrans.GetObject(imageId, OpenMode.ForRead);
-                        imagePolylineLst.Add((Polyline)imagePolyline.Clone());
+                        if (BoundaryIntersectWithBound(relatedData, pptPolyline) || EntityContainsEntity(relatedData, pptPolyline))
+                        {
+                            break;
+                        }
                     }
+                }
 
-                    if (imagePolylineLst.Count == 0)
-                        return null;
+                foreach (var relatedData in pptRelatedData)
+                {
+                    var curPptPolyline = relatedData.PptPolyline;
+                    if (curPptPolyline == null)
+                        continue;
 
-                    imagePolylineLst.ForEach(p => pptRelatedData.Add(new RelatedData(p)));
-
-                    // PPT多段线
-                    foreach (var pptId in pptIdLst)
+                    // ppt文本
+                    foreach (var pptText in pptTextLst)
                     {
-                        Polyline pptPolyline = (Polyline)dataGetTrans.GetObject(pptId, OpenMode.ForRead);
-                        pptPolylineLst.Add((Polyline)pptPolyline.Clone());
-                    }
-
-                    if (pptPolylineLst.Count == 0)
-                        return null;
-
-                    // PPT文本
-                    foreach (var textId in pptTextIdLst)
-                    {
-                        DBText dbText = (DBText)dataGetTrans.GetObject(textId, OpenMode.ForRead);
-                        pptTextLst.Add((DBText)dbText.Clone());
+                        if (PointInnerEntity(curPptPolyline, pptText.Position))
+                        {
+                            relatedData.PptTextLst.Add(pptText);
+                        }
                     }
 
                     // 页码文本
-                    foreach (var pageTextId in pageTextIdLst)
+                    foreach (var pageText in pageTextLst)
                     {
-                        DBText dbPageText = (DBText)dataGetTrans.GetObject(pageTextId, OpenMode.ForRead);
-                        pageTextLst.Add((DBText)dbPageText.Clone());
-                        # region 测试点的位置
-                        //// 注意事务嵌套
-                        //using (BlockTableRecord btr = (BlockTableRecord)dataGetTrans.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
-                        //{
-                        //    foreach (var drawLine in Point2Lines(dbPageText.Position))
-                        //    {
-                        //        btr.AppendEntity(drawLine);
-                        //        dataGetTrans.AddNewlyCreatedDBObject(drawLine, true);
-                        //    }
-                        //}
-                        # endregion
-                    }
-
-
-                    // polyline 线框文本信息等匹配
-                    foreach (var relatedData in pptRelatedData)
-                    {
-                        var curImagePolyline = relatedData.ImagePolyline;
-                        foreach (var pptPolyline in pptPolylineLst)
+                        if (PointInnerEntity(curPptPolyline, pageText.Position))
                         {
-                            Point3dCollection ptLst = new Point3dCollection();
-                            curImagePolyline.IntersectWith(pptPolyline, Intersect.OnBothOperands, ptLst, new System.IntPtr(0), new System.IntPtr(0));
-                            if (ptLst.Count != 0)
-                            {
-                                relatedData.PptPolyline = pptPolyline;
-                                break;
-                            }
+                            relatedData.PageText = pageText;
+                            break;
                         }
                     }
-
-                    foreach (var relatedData in pptRelatedData)
-                    {
-                        var curPptPolyline = relatedData.PptPolyline;
-                        if (curPptPolyline == null)
-                            continue;
-
-                        // ppt文本
-                        foreach (var pptText in pptTextLst)
-                        {
-                            if (PointInnerEntity(curPptPolyline, pptText.Position))
-                            {
-                                relatedData.PptTextLst.Add(pptText);
-                            }
-                        }
-
-                        // 页码文本
-                        foreach (var pageText in pageTextLst)
-                        {
-                            if (PointInnerEntity(curPptPolyline, pageText.Position))
-                            {
-                                relatedData.PageText = pageText;
-                                break;
-                            }
-                        }
-                    }
-
-                    // 页码从大到小排序
-                    pptRelatedData.Sort((s1, s2) => { return Double.Parse(s1.PageText.TextString).CompareTo(Double.Parse(s2.PageText.TextString)); });
-                    pptRelatedData.Reverse();
-                }
-                catch
-                {
-
                 }
 
-                dataGetTrans.Commit();
-                return pptRelatedData;
+                // 页码从大到小排序
+                var validRelatedData = pptRelatedData.Where(s1 => s1.PageText != null).ToList();
+                validRelatedData.Sort((s1, s2) => { return Double.Parse(s1.PageText.TextString).CompareTo(Double.Parse(s2.PageText.TextString)); });
+                validRelatedData.Reverse();
+                return validRelatedData;
             }
         }
     }

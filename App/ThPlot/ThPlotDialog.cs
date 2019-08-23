@@ -19,6 +19,8 @@ namespace ThPlot
     {
         public UserSelectData UserData = new UserSelectData();
         private Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+        private string DwgFileName;
+        private int indexPage = 0;
 
         public ThPlotDialog()
         {
@@ -49,7 +51,8 @@ namespace ThPlot
             string pptFullName = fullName.Substring(0, fullNameExtensionPos);
             textOutPut.Text = pptFullName + ".pptx";
             UserData.PrintOutPath = pptFullName;
-
+            var dwgFilePos = fullName.LastIndexOf(@"\");
+            DwgFileName = pptFullName.Substring(dwgFilePos + 1);
             InitializeSyleCombox();
         }
 
@@ -90,54 +93,59 @@ namespace ThPlot
         // 选择需要批量打印框线
         private void btnSelectPrintProfile_Click(object sender, EventArgs e)
         {
-            if (radioSelectPrint.Checked) // 一个一个选择PPT框线
+            try
             {
-                int index = 0;
-                while (true)
+                if (radioSelectPrint.Checked) // 一个一个选择PPT框线
                 {
-                    var objId = PickTool.PickEntity(this, "请单选PPT框线");
-                    if (objId.IsNull)
-                        return;
+                    while (true)
+                    {
+                        var objId = PickTool.PickEntity(this, "请单选PPT框线");
+                        if (objId.IsNull)
+                            return;
 
-                    var curCount = Convert.ToInt32(lblSelectCount.Text) + 1;
-                    lblSelectCount.Text = curCount.ToString();
+                        using (AcadDatabase db = AcadDatabase.Active())
+                        {
+                            var pline = db.ModelSpace.Element(objId) as Polyline;
+                            var dbText = ThPlotData.InsertPageText(pline, ++indexPage);
+                            var objectId = db.ModelSpace.Add(dbText);
+                            db.ModelSpace.Element(objectId, true).Layer = pline.Layer;
+                        }
 
+                        lblSelectCount.Text = indexPage.ToString();
+                    }
+                }
+                else // 框选， 左右、上下 或者上下/左右
+                {
                     using (AcadDatabase db = AcadDatabase.Active())
                     {
-                        var pline = db.ModelSpace.Element(objId) as Polyline;
-                        var dbText = ThPlotData.InsertPageText(pline, ++index);
-                        var objectId = db.ModelSpace.Add(dbText);
-                        db.ModelSpace.Element(objectId, true).Layer = pline.Layer;
+                        var totalPlines = Active.Database.GetSelection<Polyline>();
+                        var pptLines = new List<Polyline>();
+
+                        // 收集PPT图层框线 进行排版等插入页码处理
+                        foreach (var pLine in totalPlines)
+                        {
+                            if (pLine.Layer.Equals(comboPPTLayer.SelectedItem as string))
+                                pptLines.Add(pLine);
+                        }
+
+                        SelectDir dir = (radioLeft2Right.Checked == true) ? SelectDir.LEFT2RIGHTUP2DOWN : SelectDir.UP2DOWNLEFT2RIGHT;
+                        var pageWithProfiles = ThPlotData.CalculateProfileWithPages(pptLines, dir, ref indexPage);
+
+                        // 插入页码处理
+                        foreach (var pageWithProfile in pageWithProfiles)
+                        {
+                            var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
+                            var objectId = db.ModelSpace.Add(dbText);
+                            db.ModelSpace.Element(objectId, true).Layer = pageWithProfile.Profile.Layer;
+                        }
                     }
+
+                    lblSelectCount.Text = indexPage.ToString();
                 }
             }
-            else // 框选， 左右、上下 或者上下/左右
+            catch
             {
-                using (AcadDatabase db = AcadDatabase.Active())
-                {
-                    var totalPlines = Active.Database.GetSelection<Polyline>();
-                    var pptLines = new List<Polyline>();
 
-                    // 收集PPT图层框线 进行排版等插入页码处理
-                    foreach (var pLine in totalPlines)
-                    {
-                        if (pLine.Layer.Equals(comboPPTLayer.SelectedItem as string))
-                            pptLines.Add(pLine);
-                    }
-
-                    SelectDir dir = (radioLeft2Right.Checked == true) ? SelectDir.LEFT2RIGHTUP2DOWN : SelectDir.UP2DOWNLEFT2RIGHT;
-                    var pageWithProfiles = ThPlotData.CalculateProfileWithPages(pptLines, dir);
-
-                    // 插入页码处理
-                    foreach (var pageWithProfile in pageWithProfiles)
-                    {
-                        var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
-                        var objectId = db.ModelSpace.Add(dbText);
-                        db.ModelSpace.Element(objectId, true).Layer = pageWithProfile.Profile.Layer;
-                    }
-
-                    lblSelectCount.Text = pageWithProfiles.Count.ToString();
-                }
             }
         }
 
@@ -190,6 +198,8 @@ namespace ThPlot
             UserData.ImageLayer = comboPrintImage.SelectedItem as string;
             UserData.PrintTextLayer = comboPrintTextLayer.SelectedItem as string;
             UserData.PrintStyle = comboPrintStyle.SelectedItem as string;
+            if (UserData.PrintStyle == null)
+                UserData.PrintStyle = "monochrome.ctb";
 
             if (radioImageLower.Checked)
                 UserData.ImageQua = UserSelectData.ImageQuality.IMAGELOWER;
@@ -203,11 +213,24 @@ namespace ThPlot
         private void btnOpen_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
+            dialog.FileName = DwgFileName;
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                UserData.PrintOutPath = dialog.FileName;
-                textOutPut.Text = dialog.FileName + ".pptx";
+                var fileSrcName = dialog.FileName;
+                var extensionPos = fileSrcName.IndexOf(@".");
+                string fileValidName;
+                if (extensionPos == -1)
+                {
+                    fileValidName = fileSrcName;
+                }
+                else
+                {
+                    fileValidName = fileSrcName.Substring(0, extensionPos);
+                }
+
+                UserData.PrintOutPath = fileValidName;
+                textOutPut.Text = fileValidName + ".pptx";
             }
         }
     }

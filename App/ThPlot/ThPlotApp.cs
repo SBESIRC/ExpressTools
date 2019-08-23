@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Windows.Forms;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.DatabaseServices;
-using System.Windows.Forms;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace ThPlot
@@ -28,8 +28,12 @@ namespace ThPlot
             }
 
             UserSelectData userData = thPlotForm.UserData;
+
             // 获取图层中的窗口
             var relatedDataLst = ThPlotData.MakeRelatedData(userData);
+            if (relatedDataLst == null)
+                return;
+
             var pos = userData.PrintOutPath.LastIndexOf(@"\");
             string outPath = userData.PrintOutPath.Substring(0, pos);
             string pptName = userData.PrintOutPath.Substring(pos + 1);
@@ -47,7 +51,7 @@ namespace ThPlot
                 var pdfName = related.PageText.TextString + ".pdf";
                 var outPdfPath = System.IO.Path.Combine(outPath, pdfName);
                 outPdfPaths.Add(outPdfPath);
-                ThPlotUtil.PlotWithWindow(window, outPdfPath, userData.PrintStyle);
+                ThPlotUtil.PlotWithWindowWithSelfPlot(window, outPdfPath, userData.PrintStyle);
             }
 
             // 生成PNG图片
