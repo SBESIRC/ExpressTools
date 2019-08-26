@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThPlotDialog));
             this.btnPPTSelectLayer = new System.Windows.Forms.Button();
             this.btnPrintImageLayer = new System.Windows.Forms.Button();
             this.comboPPTLayer = new System.Windows.Forms.ComboBox();
@@ -36,6 +35,8 @@
             this.btnPrintTextLayer = new System.Windows.Forms.Button();
             this.comboPrintTextLayer = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.btnSelectPrintProfile = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lblSelectCount = new System.Windows.Forms.Label();
@@ -54,35 +55,37 @@
             this.textOutPut = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnPPTSelectLayer
             // 
-            this.btnPPTSelectLayer.Image = ((System.Drawing.Image)(resources.GetObject("btnPPTSelectLayer.Image")));
+            this.btnPPTSelectLayer.Image = global::ThPlot.Resource.pick_object;
             this.btnPPTSelectLayer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPPTSelectLayer.Location = new System.Drawing.Point(23, 21);
+            this.btnPPTSelectLayer.Location = new System.Drawing.Point(165, 20);
             this.btnPPTSelectLayer.Name = "btnPPTSelectLayer";
-            this.btnPPTSelectLayer.Size = new System.Drawing.Size(165, 33);
+            this.btnPPTSelectLayer.Size = new System.Drawing.Size(27, 22);
             this.btnPPTSelectLayer.TabIndex = 0;
-            this.btnPPTSelectLayer.Text = "指定PPT框线图层";
             this.btnPPTSelectLayer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPPTSelectLayer.UseVisualStyleBackColor = true;
             this.btnPPTSelectLayer.Click += new System.EventHandler(this.btnPPTSelectLayer_Click);
             // 
             // btnPrintImageLayer
             // 
-            this.btnPrintImageLayer.Image = ((System.Drawing.Image)(resources.GetObject("btnPrintImageLayer.Image")));
+            this.btnPrintImageLayer.Image = global::ThPlot.Resource.pick_object;
             this.btnPrintImageLayer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPrintImageLayer.Location = new System.Drawing.Point(23, 95);
+            this.btnPrintImageLayer.Location = new System.Drawing.Point(165, 21);
             this.btnPrintImageLayer.Name = "btnPrintImageLayer";
-            this.btnPrintImageLayer.Size = new System.Drawing.Size(165, 33);
+            this.btnPrintImageLayer.Size = new System.Drawing.Size(27, 22);
             this.btnPrintImageLayer.TabIndex = 1;
-            this.btnPrintImageLayer.Text = "指定打印窗口线图层";
             this.btnPrintImageLayer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPrintImageLayer.UseVisualStyleBackColor = true;
             this.btnPrintImageLayer.Click += new System.EventHandler(this.btnPrintImageLayer_Click);
@@ -91,29 +94,28 @@
             // 
             this.comboPPTLayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboPPTLayer.FormattingEnabled = true;
-            this.comboPPTLayer.Location = new System.Drawing.Point(23, 60);
+            this.comboPPTLayer.Location = new System.Drawing.Point(6, 22);
             this.comboPPTLayer.Name = "comboPPTLayer";
-            this.comboPPTLayer.Size = new System.Drawing.Size(165, 20);
+            this.comboPPTLayer.Size = new System.Drawing.Size(153, 20);
             this.comboPPTLayer.TabIndex = 2;
             // 
             // comboPrintImage
             // 
             this.comboPrintImage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboPrintImage.FormattingEnabled = true;
-            this.comboPrintImage.Location = new System.Drawing.Point(23, 135);
+            this.comboPrintImage.Location = new System.Drawing.Point(6, 21);
             this.comboPrintImage.Name = "comboPrintImage";
-            this.comboPrintImage.Size = new System.Drawing.Size(165, 20);
+            this.comboPrintImage.Size = new System.Drawing.Size(153, 20);
             this.comboPrintImage.TabIndex = 3;
             // 
             // btnPrintTextLayer
             // 
-            this.btnPrintTextLayer.Image = ((System.Drawing.Image)(resources.GetObject("btnPrintTextLayer.Image")));
+            this.btnPrintTextLayer.Image = global::ThPlot.Resource.pick_object;
             this.btnPrintTextLayer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPrintTextLayer.Location = new System.Drawing.Point(23, 162);
+            this.btnPrintTextLayer.Location = new System.Drawing.Point(165, 23);
             this.btnPrintTextLayer.Name = "btnPrintTextLayer";
-            this.btnPrintTextLayer.Size = new System.Drawing.Size(165, 34);
+            this.btnPrintTextLayer.Size = new System.Drawing.Size(27, 22);
             this.btnPrintTextLayer.TabIndex = 4;
-            this.btnPrintTextLayer.Text = "指定需打印文字图层";
             this.btnPrintTextLayer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPrintTextLayer.UseVisualStyleBackColor = true;
             this.btnPrintTextLayer.Click += new System.EventHandler(this.btnPrintTextLayer_Click);
@@ -122,40 +124,59 @@
             // 
             this.comboPrintTextLayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboPrintTextLayer.FormattingEnabled = true;
-            this.comboPrintTextLayer.Location = new System.Drawing.Point(23, 210);
+            this.comboPrintTextLayer.Location = new System.Drawing.Point(6, 23);
             this.comboPrintTextLayer.Name = "comboPrintTextLayer";
-            this.comboPrintTextLayer.Size = new System.Drawing.Size(165, 20);
+            this.comboPrintTextLayer.Size = new System.Drawing.Size(153, 20);
             this.comboPrintTextLayer.TabIndex = 5;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnPPTSelectLayer);
-            this.groupBox1.Controls.Add(this.comboPrintTextLayer);
-            this.groupBox1.Controls.Add(this.comboPPTLayer);
-            this.groupBox1.Controls.Add(this.btnPrintTextLayer);
-            this.groupBox1.Controls.Add(this.btnPrintImageLayer);
-            this.groupBox1.Controls.Add(this.comboPrintImage);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Controls.Add(this.groupBox8);
+            this.groupBox1.Controls.Add(this.groupBox7);
+            this.groupBox1.Controls.Add(this.groupBox6);
+            this.groupBox1.Location = new System.Drawing.Point(12, 14);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(205, 245);
+            this.groupBox1.Size = new System.Drawing.Size(205, 218);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "图层指定";
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.comboPrintImage);
+            this.groupBox7.Controls.Add(this.btnPrintImageLayer);
+            this.groupBox7.Location = new System.Drawing.Point(6, 81);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(193, 55);
+            this.groupBox7.TabIndex = 7;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "指定打印窗口框线图层";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.comboPPTLayer);
+            this.groupBox6.Controls.Add(this.btnPPTSelectLayer);
+            this.groupBox6.Location = new System.Drawing.Point(6, 23);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(193, 52);
+            this.groupBox6.TabIndex = 6;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "指定PPT框线图层";
+            // 
             // btnSelectPrintProfile
             // 
-            this.btnSelectPrintProfile.Location = new System.Drawing.Point(35, 265);
+            this.btnSelectPrintProfile.Location = new System.Drawing.Point(24, 257);
             this.btnSelectPrintProfile.Name = "btnSelectPrintProfile";
-            this.btnSelectPrintProfile.Size = new System.Drawing.Size(165, 23);
+            this.btnSelectPrintProfile.Size = new System.Drawing.Size(186, 23);
             this.btnSelectPrintProfile.TabIndex = 7;
-            this.btnSelectPrintProfile.Text = "选择需要批量打印框线";
+            this.btnSelectPrintProfile.Text = "选择需要批量打印的PPT框线";
             this.btnSelectPrintProfile.UseVisualStyleBackColor = true;
             this.btnSelectPrintProfile.Click += new System.EventHandler(this.btnSelectPrintProfile_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(40, 310);
+            this.label1.Location = new System.Drawing.Point(31, 293);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 12);
             this.label1.TabIndex = 8;
@@ -165,7 +186,7 @@
             // lblSelectCount
             // 
             this.lblSelectCount.AutoSize = true;
-            this.lblSelectCount.Location = new System.Drawing.Point(102, 310);
+            this.lblSelectCount.Location = new System.Drawing.Point(93, 293);
             this.lblSelectCount.Name = "lblSelectCount";
             this.lblSelectCount.Size = new System.Drawing.Size(11, 12);
             this.lblSelectCount.TabIndex = 9;
@@ -240,7 +261,7 @@
             this.groupBox4.Controls.Add(this.radioTop2Down);
             this.groupBox4.Controls.Add(this.radioLeft2Right);
             this.groupBox4.Controls.Add(this.radioSelectPrint);
-            this.groupBox4.Location = new System.Drawing.Point(243, 157);
+            this.groupBox4.Location = new System.Drawing.Point(242, 143);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(226, 89);
             this.groupBox4.TabIndex = 12;
@@ -283,9 +304,9 @@
             // 
             this.groupBox5.Controls.Add(this.btnOpen);
             this.groupBox5.Controls.Add(this.textOutPut);
-            this.groupBox5.Location = new System.Drawing.Point(243, 252);
+            this.groupBox5.Location = new System.Drawing.Point(243, 238);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(226, 49);
+            this.groupBox5.Size = new System.Drawing.Size(226, 63);
             this.groupBox5.TabIndex = 13;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "输出位置";
@@ -303,8 +324,9 @@
             // textOutPut
             // 
             this.textOutPut.Location = new System.Drawing.Point(17, 21);
+            this.textOutPut.Multiline = true;
             this.textOutPut.Name = "textOutPut";
-            this.textOutPut.Size = new System.Drawing.Size(151, 21);
+            this.textOutPut.Size = new System.Drawing.Size(151, 36);
             this.textOutPut.TabIndex = 0;
             // 
             // btnOK
@@ -327,6 +349,17 @@
             this.btnCancel.Text = "取消";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.comboPrintTextLayer);
+            this.groupBox8.Controls.Add(this.btnPrintTextLayer);
+            this.groupBox8.Location = new System.Drawing.Point(6, 143);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(200, 60);
+            this.groupBox8.TabIndex = 8;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "指定打印文字图层";
+            // 
             // ThPlotDialog
             // 
             this.AcceptButton = this.btnOK;
@@ -348,9 +381,11 @@
             this.MinimizeBox = false;
             this.Name = "ThPlotDialog";
             this.ShowIcon = false;
-            this.Text = "打印到PPT";
+            this.Text = "批量打印到PPT";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ThPlotDialog_FormClosing);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -358,6 +393,7 @@
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -390,5 +426,8 @@
         private System.Windows.Forms.TextBox textOutPut;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.GroupBox groupBox8;
     }
 }
