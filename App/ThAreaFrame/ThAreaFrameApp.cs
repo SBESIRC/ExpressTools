@@ -5,7 +5,9 @@ using Autodesk.AutoCAD.DatabaseServices;
 using AcHelper;
 using AcHelper.Wrappers;
 using System;
+using System.IO;
 using System.Windows.Forms;
+using Linq2Acad;
 using ThLicense;
 
 [assembly: CommandClass(typeof(ThAreaFrame.ThAreaFrameCommands))]
@@ -43,8 +45,8 @@ namespace ThAreaFrame
                 return;
 
             // 创建面积引擎
-            ThAreaFrameDriver driver = ThAreaFrameDriver.ResidentialDriver();
-            if (driver.engines.Count == 0)
+            ThAreaFrameDriver driver = CreateDriver(Path.Combine(Active.DocumentDirectory, @"建筑单体"));
+            if (driver == null || driver.engines.Count == 0)
             {
                 ed.WriteMessage("\n未找到指定目录，请将单体图纸放置在名为\"建筑单体\"的子目录下。");
                 return;
@@ -146,18 +148,10 @@ namespace ThAreaFrame
                 Table table = (Table)tr.Transaction.GetObject(id, OpenMode.ForRead);
                 using (new WriteEnabler(table))
                 {
-                    // 配置进度条
-                    ProgressMeter pm = new ProgressMeter();
-                    pm.Start(@"正在处理图纸");
-                    pm.SetLimit(driver.engines.Count);
-
                     int column = 0;
                     int dataRow = 2;
                     foreach (ThAreaFrameEngine engine in driver.engines)
                     {
-                        // 更新进度条
-                        pm.MeterProgress();
-
                         // 建筑编号
                         table.Cells[dataRow, column++].Value = engine.Name;
 
@@ -230,9 +224,6 @@ namespace ThAreaFrame
 
                         // 处理面积引擎
                         engine.Dispose();
-
-                        // 让CAD在长时间任务处理时任然能接收消息
-                        Application.DoEvents();
                     }
 
                     // 统计总计
@@ -265,8 +256,6 @@ namespace ThAreaFrame
                             table.Cells[dataRow, column].SetAreaValue(area, 1.0);
                         }
                     }
-
-                    pm.Stop();  // 停止进度条更新
                 }
             }
         }
@@ -289,8 +278,8 @@ namespace ThAreaFrame
                 return;
 
             // 创建单体面积引擎
-            ThAreaFrameDriver driver = ThAreaFrameDriver.ResidentialDriver();
-            if (driver.engines.Count == 0)
+            ThAreaFrameDriver driver = CreateDriver(Path.Combine(Active.DocumentDirectory, @"建筑单体"));
+            if (driver == null || driver.engines.Count == 0)
             {
                 ed.WriteMessage("\n未找到指定目录，请将单体图纸放置在名为\"建筑单体\"的子目录下。");
                 return;
@@ -391,6 +380,48 @@ namespace ThAreaFrame
                     table.Cells[24, 3].Value = engine.CountOfHouseholdPopulation();
                 }
             }
+        }
+
+        private ThAreaFrameDriver CreateDriver(string path)
+        {
+            // 指定目录下所有的dwg文件
+            string[] dwgs = Directory.GetFiles(path, "*.dwg", SearchOption.TopDirectoryOnly);
+            if (dwgs.Length == 0)
+                return null;
+
+            // 配置进度条
+            //  https://www.keanw.com/2007/05/displaying_a_pr.html
+            ProgressMeter pm = new ProgressMeter();
+            pm.Start(@"正在处理图纸");
+            pm.SetLimit(dwgs.Length);
+
+            ThAreaFrameDriver driver = new ThAreaFrameDriver();
+            foreach (string dwg in dwgs)
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Open(path, DwgOpenMode.ReadOnly, true))
+                {
+                    driver.engines.Add(ThAreaFrameEngine.Engine(acadDatabase.Database));
+                    driver.parkingGarageEngines.Add(ThAreaFrameParkingGarageEngine.Engine(acadDatabase.Database));
+                }
+
+                // 更新进度条
+                pm.MeterProgress();
+
+                // 让CAD在长时间任务处理时任然能接收消息
+                Application.DoEvents();
+            }
+
+            // 停止进度条更新
+            pm.Stop();
+
+            // 剔除null
+            driver.engines.RemoveAll(e => e == null);
+            driver.parkingGarageEngines.RemoveAll(e => e == null);
+
+            // 按建造编号排序
+            driver.engines.Sort();
+
+            return driver;
         }
     }
 }

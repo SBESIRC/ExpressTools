@@ -19,37 +19,15 @@ namespace ThAreaFrame
             parkingGarageEngines = new List<ThAreaFrameParkingGarageEngine>();
         }
 
-        public static ThAreaFrameDriver ResidentialDriver()
-        {
-            ThAreaFrameDriver driver = new ThAreaFrameDriver();
-            try
-            {
-                string[] dwgs = Directory.GetFiles(Path.Combine(Active.DocumentDirectory, @"建筑单体"),
-                                    "*.dwg",
-                                    SearchOption.TopDirectoryOnly);
-                foreach (string dwg in dwgs)
-                {
-                    driver.engines.Add(ThAreaFrameEngine.Engine(dwg));
-                    driver.parkingGarageEngines.Add(ThAreaFrameParkingGarageEngine.Engine(dwg));
-                }
-                driver.engines.RemoveAll(e => e == null);
-                driver.parkingGarageEngines.RemoveAll(e => e == null);
-
-                // 按建造编号排序
-                driver.engines.Sort();
-
-                return driver;
-            }
-            catch
-            {
-                return driver;
-            }
-        }
-
         // Dispose()函数
         public void Dispose()
         {
             foreach(ThAreaFrameEngine engine in engines)
+            {
+                engine.Dispose();
+            }
+
+            foreach(ThAreaFrameParkingGarageEngine engine in parkingGarageEngines)
             {
                 engine.Dispose();
             }

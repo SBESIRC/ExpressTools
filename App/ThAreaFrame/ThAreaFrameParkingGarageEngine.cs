@@ -32,6 +32,15 @@ namespace ThAreaFrame
             }
         }
 
+        // 构造函数 (side database)
+        public static ThAreaFrameParkingGarageEngine Engine(Database database)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                return EngineInternal(acadDatabase);
+            }
+        }
+
         // 构造函数 (AcadDatabase wrapper)
         private static ThAreaFrameParkingGarageEngine EngineInternal(AcadDatabase acadDatabase)
         {
