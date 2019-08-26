@@ -75,6 +75,8 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [Use of Window.Focus in AutoCAD 2014](https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html)
 
+[Best Practices for Creating and Consuming Modal Dialogs in WinForms](https://joebuschmann.com/best-practices-for-creating-and-consuming-modal-dialogs-in-winforms/)
+
 # AutoLoader
 We use AutoLoader for deployment, for detail information, check these links:
 
