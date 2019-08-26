@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThPlotDialog));
             this.btnPPTSelectLayer = new System.Windows.Forms.Button();
             this.btnPrintImageLayer = new System.Windows.Forms.Button();
             this.comboPPTLayer = new System.Windows.Forms.ComboBox();
@@ -35,6 +36,7 @@
             this.btnPrintTextLayer = new System.Windows.Forms.Button();
             this.comboPrintTextLayer = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.btnSelectPrintProfile = new System.Windows.Forms.Button();
@@ -55,15 +57,14 @@
             this.textOutPut = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnPPTSelectLayer
@@ -140,6 +141,17 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "图层指定";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.comboPrintTextLayer);
+            this.groupBox8.Controls.Add(this.btnPrintTextLayer);
+            this.groupBox8.Location = new System.Drawing.Point(6, 143);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(200, 60);
+            this.groupBox8.TabIndex = 8;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "指定打印文字图层";
             // 
             // groupBox7
             // 
@@ -349,17 +361,6 @@
             this.btnCancel.Text = "取消";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.comboPrintTextLayer);
-            this.groupBox8.Controls.Add(this.btnPrintTextLayer);
-            this.groupBox8.Location = new System.Drawing.Point(6, 143);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(200, 60);
-            this.groupBox8.TabIndex = 8;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "指定打印文字图层";
-            // 
             // ThPlotDialog
             // 
             this.AcceptButton = this.btnOK;
@@ -377,13 +378,14 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSelectPrintProfile);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ThPlotDialog";
-            this.ShowIcon = false;
             this.Text = "批量打印到PPT";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ThPlotDialog_FormClosing);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -393,7 +395,6 @@
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
