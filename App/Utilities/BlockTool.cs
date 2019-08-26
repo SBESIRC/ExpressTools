@@ -1,13 +1,11 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Windows.Data;
 using DotNetARX;
-using Linq2Acad;
-using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace TianHua.AutoCAD.Utility.ExtensionTools
 {
@@ -209,7 +207,34 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             return block.ObjectId.GetDynBlockValue("可见性1") != null;
         }
 
+        public static System.Drawing.Image CaptureThumbnail(this BlockTableRecord blk)
+        {
+#if ACAD2012
+            // Attempt to generate an icon, where one doesn't exist
+            //  https://www.keanw.com/2011/11/generating-preview-images-for-all-blocks-in-an-autocad-drawing-using-net.html
+            if (blk.PreviewIcon == null)
+            {
+                string[] args = { "_.BLOCKICON " + blk.Name + "\n" };
+                blk.Database.GetDocument().SendCommand(args);
+            }
 
+            return blk.PreviewIcon;
+#else
+            // https://www.keanw.com/2013/11/generating-larger-preview-images-for-all-blocks-in-an-autocad-drawing-using-net.html
+            var imgsrc = CMLContentSearchPreviews.GetBlockTRThumbnail(blk);
+            return ImageSourceToGDI(imgsrc as System.Windows.Media.Imaging.BitmapSource);
+#endif
+        }
 
+        // Helper function to generate an Image from a BitmapSource
+        private static System.Drawing.Image ImageSourceToGDI(System.Windows.Media.Imaging.BitmapSource src)
+        {
+            var ms = new MemoryStream();
+            var encoder = new System.Windows.Media.Imaging.BmpBitmapEncoder();
+            encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(src));
+            encoder.Save(ms);
+            ms.Flush();
+            return System.Drawing.Image.FromStream(ms);
+        }
     }
 }
