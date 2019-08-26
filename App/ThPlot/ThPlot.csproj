@@ -95,9 +95,7 @@
       <DependentUpon>ThPlotDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resource\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\pick_object.png" />
   </ItemGroup>
