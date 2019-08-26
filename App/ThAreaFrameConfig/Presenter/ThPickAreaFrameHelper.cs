@@ -19,6 +19,14 @@ namespace ThAreaFrameConfig.Presenter
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
                     foreach (var pline in Active.Database.GetSelection<Polyline>())
                     {
                         // 复制面积框线
