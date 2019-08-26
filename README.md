@@ -69,6 +69,12 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [LINQ and the AutoCAD .NET API ](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part/)
 
+## UI
+
+[Using a palette from .NET to display properties of multiple AutoCAD objects](https://through-the-interface.typepad.com/through_the_interface/2007/07/using-a-palette.html)
+
+[Use of Window.Focus in AutoCAD 2014](https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html)
+
 # AutoLoader
 We use AutoLoader for deployment, for detail information, check these links:
 
