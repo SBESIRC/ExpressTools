@@ -398,7 +398,7 @@ namespace ThAreaFrame
             ThAreaFrameDriver driver = new ThAreaFrameDriver();
             foreach (string dwg in dwgs)
             {
-                using (AcadDatabase acadDatabase = AcadDatabase.Open(path, DwgOpenMode.ReadOnly, true))
+                using (AcadDatabase acadDatabase = AcadDatabase.Open(dwg, DwgOpenMode.ReadOnly, true))
                 {
                     driver.engines.Add(ThAreaFrameEngine.Engine(acadDatabase.Database));
                     driver.parkingGarageEngines.Add(ThAreaFrameParkingGarageEngine.Engine(acadDatabase.Database));
