@@ -18,7 +18,7 @@ namespace ThPlot
             pdftron.PDFNet.Terminate();
         }
 
-        [CommandMethod("TIANHUACAD", "THPTP", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THBPP", CommandFlags.Modal)]
         static public void PlotPageSetup()
         {
             var thPlotForm = new ThPlotDialog();

@@ -135,6 +135,9 @@ namespace ThPlot
     {
         private static readonly double A4PAGEPORTRAITRATIO = 297.0 / 210.0;
         private static readonly double A4PAGELANDSCAPERATIO = 210.0 / 297.0;
+        public static readonly double PI = 3.1415926535898;
+        public static readonly double PPTWIDTH = 967;
+        public static readonly double PPTHEIGHT = 544;
 
 
         // 绘图，用于测试点的位置
@@ -526,7 +529,7 @@ namespace ThPlot
         /// <param name="profile"></param>
         /// <param name="xRation"></param>
         /// <param name="yRation"></param>
-        public static void GetPosRelatedRation(DBText text, Polyline profile, ref double xRation, ref double yRation)
+        public static void GetTextPosRelatedRation(DBText text, Polyline profile, ref double xRation, ref double yRation)
         {
             var ptLst = ThPlotData.GetPolylinePoints(profile);
             var windowData = ThPlotData.GetEntityPointsWindow(ptLst);
@@ -541,11 +544,11 @@ namespace ThPlot
         }
 
         /// <summary>
-        /// 计算Polyline的宽边跟高边 
+        /// 计算Polyline的水平边和垂直高边 
         /// </summary>
         /// <param name="profile"></param>
-        /// <param name="lineWidth"></param>
-        /// <param name="lineHeight"></param>
+        /// <param name="lineWidthLength"> 这个是水平的长度值</param>
+        /// <param name="lineHeightLength"> 这个是垂直的高度值</param>
         /// <returns></returns>
         public static WindowData CalculateProfileTwoEdge(Polyline profile, ref double lineWidthLength, ref double lineHeightLength)
         {
@@ -598,7 +601,7 @@ namespace ThPlot
         /// <param name="pptProfile"></param>
         /// <param name="xRation"></param>
         /// <param name="yRation"></param>
-        public static void GetImagePosRelatedRation(Polyline imageProfile, Polyline pptProfile, ref double xRation, ref double yRation)
+        public static void GetImagePosRelatedRation(Polyline imageProfile, Polyline pptProfile, ref double xRationPos, ref double yRationPos)
         {
             var a4PaperRation = CalculatePaperSizeInfo(imageProfile);
             double lineWidth = 0;
@@ -629,8 +632,10 @@ namespace ThPlot
 
             var horizontalX = Math.Abs(topLeftPos.X - pptTopLeftPos.X);
             var verticalY = Math.Abs(topLeftPos.Y - pptTopLeftPos.Y);
-            xRation = horizontalX / pptWindowWidth;
-            yRation = verticalY / pptWindowHeight;
+            var xRatio = horizontalX / pptWindowWidth;
+            var yRatio = verticalY / pptWindowHeight;
+            xRationPos = xRatio * ThPlotData.PPTWIDTH;
+            yRationPos = yRatio * ThPlotData.PPTHEIGHT;
         }
 
         /// <summary>
@@ -640,45 +645,180 @@ namespace ThPlot
         /// <param name="pptProfile"></param>
         /// <param name="xRation"></param>
         /// <param name="yRation"></param>
-        public static void GetImagePosRelatedRationWithAngle(RelatedData relatedData,  ref double xRation, ref double yRation)
+        public static void GetImagePosRelatedRationWithAngle(RelatedData relatedData,  ref double xRatioPos, ref double yRatioPos, ref double pictureRotateWidth, ref double pictureRotateHeight)
         {
-            var pptText = relatedData.PptTextLst;
+            var pptTextAngle = relatedData.PptTextLst.First().Rotation / ThPlotData.PI * 180;
             Polyline imageProfile = relatedData.ImagePolyline;
             Polyline pptProfile = relatedData.PptPolyline;
 
-            // 尺寸计算
+            // 计算不同情形下的距离PPT左顶点的计算方式 standardWidth 都是水平方向的长度， standardHeight是纵向的高度
+            if (ThPlotUtil.DoubleEqualValue(pptTextAngle, 90, 5))
+                CalculateAngle90(imageProfile, pptProfile, ref xRatioPos, ref yRatioPos, ref pictureRotateWidth, ref pictureRotateHeight);
+            else if (ThPlotUtil.DoubleEqualValue(pptTextAngle, 180, 5))
+                CalculateAngle180(imageProfile, pptProfile, ref xRatioPos, ref yRatioPos, ref pictureRotateWidth, ref pictureRotateHeight);
+            else if (ThPlotUtil.DoubleEqualValue(pptTextAngle, 270, 5))
+                CalculateAngle270(imageProfile, pptProfile, ref xRatioPos, ref yRatioPos, ref pictureRotateWidth, ref pictureRotateHeight);
+        }
+
+        /// <summary>
+        /// 计算Image的左下顶点的位置比例
+        /// </summary>
+        /// <param name="imageProfile"></param>
+        /// <param name="pptProfile"></param>
+        /// <param name="xRatio"></param>
+        /// <param name="yRatio"></param>
+        public static void CalculateAngle90(Polyline imageProfile, Polyline pptProfile, ref double xRatioPos, ref double yRatioPos, ref double pictureRotateWidth, ref double pictureRotateHeight)
+        {
             var a4PaperRation = CalculatePaperSizeInfo(imageProfile);
-            double lineWidth = 0;
-            double lineHeight = 0;
-            var window = CalculateProfileTwoEdge(imageProfile, ref lineWidth, ref lineHeight);
-            var standardHeight = a4PaperRation * lineWidth;
-            var standardWidth = lineHeight / a4PaperRation;
+            double horizontalValue = 0; // 水平值
+            double verticalValue = 0; // 竖向值
+            var imageWindow = CalculateProfileTwoEdge(imageProfile, ref horizontalValue, ref verticalValue);
+            var standardVerticalValue = a4PaperRation * horizontalValue;
+            var standardHorizontalValue = verticalValue / a4PaperRation;
 
-            var windowHeight = window.RightTopPoint.Y - window.LeftBottomPoint.Y;
-            // 原始框的左顶点
-            var topLeftPos = new Point2d(window.LeftBottomPoint.X, window.LeftBottomPoint.Y + windowHeight);
+            // 计算imageWndow的左下顶点 和ppt框的左下顶点
+            var ptLst = GetPolylinePoints(pptProfile);
+            var pptWindow = GetEntityPointsWindow(ptLst);
+            var pptWindowVertical = pptWindow.RightTopPoint.Y - pptWindow.LeftBottomPoint.Y;
+            var pptWindowHorizontal = pptWindow.RightTopPoint.X - pptWindow.LeftBottomPoint.X;
+            var pptLeftBottomPoint = pptWindow.LeftBottomPoint;
 
-            // PPt轮廓的左顶点
-            var pptPoints = GetPolylinePoints(pptProfile);
-            var pptWindow = GetEntityPointsWindow(pptPoints);
-            var pptWindowHeight = pptWindow.RightTopPoint.Y - pptWindow.LeftBottomPoint.Y;
-            var pptWindowWidth = pptWindow.RightTopPoint.X - pptWindow.LeftBottomPoint.X;
-            var pptTopLeftPos = new Point2d(pptWindow.LeftBottomPoint.X, pptWindow.LeftBottomPoint.Y + pptWindowHeight);
-
-            // 计算生成纸张后考虑留白的轮廓的左顶点
-            if (standardWidth > lineWidth)
+            // 计算生成纸张后考虑留白的轮廓的新的左下顶点
+            var imageLeftBottomPoint = imageWindow.LeftBottomPoint;
+            if (standardHorizontalValue > horizontalValue)
             {
-                topLeftPos += (new Vector2d(1, 0) * (standardWidth - lineWidth) * 0.5);
+                imageLeftBottomPoint -= (new Vector2d(1, 0) * (standardHorizontalValue - horizontalValue) * 0.5);
             }
-            else if (standardHeight > lineHeight)
+            else if (standardVerticalValue > verticalValue)
             {
-                topLeftPos += (new Vector2d(0, 1) * (standardHeight - lineHeight) * 0.5);
+                imageLeftBottomPoint -= (new Vector2d(0, 1) * (standardVerticalValue - verticalValue) * 0.5);
             }
 
-            var horizontalX = Math.Abs(topLeftPos.X - pptTopLeftPos.X);
-            var verticalY = Math.Abs(topLeftPos.Y - pptTopLeftPos.Y);
-            xRation = horizontalX / pptWindowWidth;
-            yRation = verticalY / pptWindowHeight;
+            var yGapValue = imageLeftBottomPoint.Y - pptLeftBottomPoint.Y;
+            var xGapValue = imageLeftBottomPoint.X - pptLeftBottomPoint.X;
+            // 左下顶点POS
+            var xRatio = yGapValue / pptWindowVertical;
+            var yRatio = xGapValue / pptWindowHorizontal;
+            var xRatioPosTopLeft = xRatio * ThPlotData.PPTWIDTH;
+            var yRatioPosTopLeft = yRatio * ThPlotData.PPTHEIGHT;
+
+            // picture的在PPT中的的宽值和高值
+            pictureRotateWidth = standardHorizontalValue / pptWindowHorizontal * ThPlotData.PPTHEIGHT;
+            pictureRotateHeight = standardVerticalValue / pptWindowVertical * ThPlotData.PPTWIDTH;
+            var imageLenthAdd = pictureRotateHeight * 0.5;
+            var imageHeightAdd = pictureRotateWidth * 0.5;
+            var centerPosX = xRatioPosTopLeft + imageLenthAdd;
+            var centerPosY = yRatioPosTopLeft + imageHeightAdd;
+            xRatioPos = centerPosX - imageHeightAdd;
+            yRatioPos = centerPosY - imageLenthAdd;          
+        }
+
+        /// <summary>
+        /// 计算Image的右下顶点的位置比例， 旋转180的情形
+        /// </summary>
+        /// <param name="imageProfile"></param>
+        /// <param name="pptProfile"></param>
+        /// <param name="xRatio"></param>
+        /// <param name="yRatio"></param>
+        public static void CalculateAngle180(Polyline imageProfile, Polyline pptProfile, ref double xRatioPos, ref double yRatioPos, ref double pictureRotateWidth, ref double pictureRotateHeight)
+        {
+            var a4PaperRation = CalculatePaperSizeInfo(imageProfile);
+            double horizontalValue = 0; // 水平值
+            double verticalValue = 0; // 竖向值
+            var imageWindow = CalculateProfileTwoEdge(imageProfile, ref horizontalValue, ref verticalValue);
+            var standardVerticalValue = a4PaperRation * horizontalValue;
+            var standardHorizontalValue = verticalValue / a4PaperRation;
+
+            // 计算imageWndow的右下顶点 和ppt框的右下顶点
+            var ptLst = GetPolylinePoints(pptProfile);
+            var pptWindow = GetEntityPointsWindow(ptLst);
+            var pptWindowVertical = pptWindow.RightTopPoint.Y - pptWindow.LeftBottomPoint.Y;
+            var pptWindowHorizontal = pptWindow.RightTopPoint.X - pptWindow.LeftBottomPoint.X;
+            var pptLeftBottomPoint = pptWindow.LeftBottomPoint;
+            var pptRightBottomPoint = new Point2d(pptLeftBottomPoint.X + pptWindowHorizontal, pptLeftBottomPoint.Y);
+
+            // 计算生成纸张后考虑留白的轮廓的新的右下顶点
+            var imageLeftBottomPoint = imageWindow.LeftBottomPoint;
+            var imageRightBottomPoint = new Point2d(imageLeftBottomPoint.X + horizontalValue, imageLeftBottomPoint.Y);
+
+            if (standardHorizontalValue > horizontalValue)
+            {
+                imageRightBottomPoint += (new Vector2d(1, 0) * (standardHorizontalValue - horizontalValue) * 0.5);
+            }
+            else if (standardVerticalValue > verticalValue)
+            {
+                imageRightBottomPoint -= (new Vector2d(0, 1) * (standardVerticalValue - verticalValue) * 0.5);
+            }
+
+            var yGapValue = Math.Abs(imageRightBottomPoint.Y - pptRightBottomPoint.Y);
+            var xGapValue = Math.Abs(imageRightBottomPoint.X - pptRightBottomPoint.X);
+            // 右下顶点POS
+            var xRatio = xGapValue / pptWindowHorizontal;
+            var yRatio = yGapValue / pptWindowVertical;
+            
+            var xRatioPosTopLeft = xRatio * ThPlotData.PPTWIDTH;
+            var yRatioPosTopLeft = yRatio * ThPlotData.PPTHEIGHT;
+
+            // picture的在PPT中的的宽值和高值
+            pictureRotateWidth = standardHorizontalValue / pptWindowHorizontal * ThPlotData.PPTWIDTH;
+            pictureRotateHeight = standardVerticalValue / pptWindowVertical * ThPlotData.PPTHEIGHT;
+            var imageLenthAdd = pictureRotateWidth;
+            var imageHeightAdd = pictureRotateHeight;
+            xRatioPos = xRatioPosTopLeft;
+            yRatioPos = yRatioPosTopLeft;
+        }
+
+        /// <summary>
+        /// 计算Image的左上顶点的位置比例
+        /// </summary>
+        /// <param name="imageProfile"></param>
+        /// <param name="pptProfile"></param>
+        /// <param name="xRatio"></param>
+        /// <param name="yRatio"></param>
+        public static void CalculateAngle270(Polyline imageProfile, Polyline pptProfile, ref double xRatioPos, ref double yRatioPos, ref double pictureRotateWidth, ref double pictureRotateHeight)
+        {
+            var a4PaperRation = CalculatePaperSizeInfo(imageProfile);
+            double horizontalValue = 0; // 水平值
+            double verticalValue = 0; // 竖向值
+            var imageWindow = CalculateProfileTwoEdge(imageProfile, ref horizontalValue, ref verticalValue);
+            var standardVerticalValue = a4PaperRation * horizontalValue;
+            var standardHorizontalValue = verticalValue / a4PaperRation;
+
+            // 计算imageWndow的右上顶点 和ppt框的右上顶点
+            var ptLst = GetPolylinePoints(pptProfile);
+            var pptWindow = GetEntityPointsWindow(ptLst);
+            var pptWindowVertical = pptWindow.RightTopPoint.Y - pptWindow.LeftBottomPoint.Y;
+            var pptWindowHorizontal = pptWindow.RightTopPoint.X - pptWindow.LeftBottomPoint.X;
+            var pptRightTopPoint = pptWindow.RightTopPoint;
+
+            // 计算生成纸张后考虑留白的轮廓的新的右上顶点
+            var imageRightTopPoint = imageWindow.RightTopPoint;
+            if (standardHorizontalValue > horizontalValue)
+            {
+                imageRightTopPoint += (new Vector2d(1, 0) * (standardHorizontalValue - horizontalValue) * 0.5);
+            }
+            else if (standardVerticalValue > verticalValue)
+            {
+                imageRightTopPoint -= (new Vector2d(0, 1) * (standardVerticalValue - verticalValue) * 0.5);
+            }
+
+            var yGapValue = Math.Abs(imageRightTopPoint.Y - pptRightTopPoint.Y);
+            var xGapValue = Math.Abs(imageRightTopPoint.X - pptRightTopPoint.X);
+            // 左下顶点POS
+            var xRatio = yGapValue / pptWindowVertical;
+            var yRatio = xGapValue / pptWindowHorizontal;
+            var xRatioPosTopLeft = xRatio * ThPlotData.PPTWIDTH;
+            var yRatioPosTopLeft = yRatio * ThPlotData.PPTHEIGHT;
+
+            // picture的在PPT中的的宽值和高值
+            pictureRotateWidth = standardHorizontalValue / pptWindowHorizontal * ThPlotData.PPTHEIGHT;
+            pictureRotateHeight = standardVerticalValue / pptWindowVertical * ThPlotData.PPTWIDTH;
+            var imageLenthAdd = pictureRotateHeight * 0.5;
+            var imageHeightAdd = pictureRotateWidth * 0.5;
+            var centerPosX = xRatioPosTopLeft + imageLenthAdd;
+            var centerPosY = yRatioPosTopLeft + imageHeightAdd;
+            xRatioPos = centerPosX - imageHeightAdd;
+            yRatioPos = centerPosY - imageLenthAdd;
         }
 
         /// <summary>

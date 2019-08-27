@@ -16,6 +16,8 @@ using static ThPlot.ThPlotData;
 using System.Threading;
 using System.Diagnostics;
 using AcHelper;
+using System.Linq;
+using Autodesk.AutoCAD.Geometry;
 
 namespace ThPlot
 {
@@ -291,6 +293,35 @@ namespace ThPlot
         }
 
         /// <summary>
+        /// 对角度进行标准化
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        public static double StandardAngle(double angle)
+        {
+            if (angle > 0)
+            {
+                while (angle > 360)
+                {
+                    angle -= 360;
+                }
+
+                return angle;
+            }
+            else if (angle < 0)
+            {
+                while (angle < 0)
+                {
+                    angle += 360;
+                }
+
+                return angle;
+            }
+
+            return angle;
+        }
+
+        /// <summary>
         /// 向PPT中插入图片
         /// </summary>
         /// <param name="imagePaths"></param>
@@ -308,34 +339,61 @@ namespace ThPlot
             for (int i = 0; i < imagePaths.Count; i++)
             {
                 PowerPoint.Slide slide = presentation.Slides.Add(1, PpSlideLayout.ppLayoutBlank);
-                double xImageRation = 0;
-                double yImageRation = 0;
-                
+                double xImageRatioPos = 0;
+                double yImageRatioPos = 0;
+
+                var textAngle = relatedData[i].PptTextLst.First().Rotation / ThPlotData.PI * 180;
+                textAngle = StandardAngle(textAngle);
+                double pictureRotateWidth = 620;
+                double pictureRotateHeight = 350;
+
                 // 插入图片
-                if (DoubleEqualValue(relatedData[i].PageText.Rotation, 0, 5))
-                    ThPlotData.GetImagePosRelatedRation(relatedData[i].ImagePolyline, relatedData[i].PptPolyline, ref xImageRation, ref yImageRation);
-                else   
-                    ThPlotData.GetImagePosRelatedRationWithAngle(relatedData[i], ref xImageRation, ref yImageRation);
+                if (DoubleEqualValue(textAngle, 0, 5) || DoubleEqualValue(textAngle, 360, 5))
+                    ThPlotData.GetImagePosRelatedRation(relatedData[i].ImagePolyline, relatedData[i].PptPolyline, ref xImageRatioPos, ref yImageRatioPos);
+                else
+                    ThPlotData.GetImagePosRelatedRationWithAngle(relatedData[i], ref xImageRatioPos, ref yImageRatioPos, ref pictureRotateWidth, ref pictureRotateHeight);
 
                 // 宽高控制
                 double pictureWidth = 620;
                 double pictureHeight = 350;
-                if (IsAdjustRationAndGetWidthHeight(relatedData[i],ref pictureWidth, ref pictureHeight))
+                if (DoubleEqualValue(textAngle, 0, 5) || DoubleEqualValue(textAngle, 360, 5)) // 非旋转处理
                 {
-                    slide.Shapes.AddPicture(imagePaths[i], MsoTriState.msoFalse, MsoTriState.msoTrue, (float)(967 * xImageRation), (float)(544 * yImageRation), pictureWidth, pictureHeight);
+                    if (IsAdjustRationAndGetWidthHeight(relatedData[i], ref pictureWidth, ref pictureHeight))
+                    {
+                        // 控制图片的宽度和高度值
+                        slide.Shapes.AddPicture(imagePaths[i], MsoTriState.msoFalse, MsoTriState.msoTrue, (float)(xImageRatioPos), (float)(yImageRatioPos), pictureWidth, pictureHeight);
+                    }
+                    else
+                    {
+                        slide.Shapes.AddPicture(imagePaths[i], MsoTriState.msoFalse, MsoTriState.msoTrue, (float)(xImageRatioPos), (float)(yImageRatioPos));
+                    }
                 }
                 else
                 {
-                    var shape = slide.Shapes.AddPicture(imagePaths[i], MsoTriState.msoFalse, MsoTriState.msoTrue, (float)(967 * xImageRation), (float)(544 * yImageRation));
+                    // 旋转处理
+                    var shape = slide.Shapes.AddPicture(imagePaths[i], MsoTriState.msoFalse, MsoTriState.msoTrue, (float)(xImageRatioPos), (float)(yImageRatioPos), pictureRotateWidth, pictureRotateHeight);
+                    if (DoubleEqualValue(textAngle, 270, 5))
+                        shape.Rotation = (float)(textAngle - 360);
+                    else
+                        shape.Rotation = (float)textAngle;
                 }
-                
+
                 // 增加文字
                 var pptTextLst = relatedData[i].PptTextLst;
                 var pptPolyline = relatedData[i].PptPolyline;
 
                 // 对字体位置进行排序 然后分别设置字体大小
                 if (pptTextLst.Count > 1)
-                    SortTextVertical(ref pptTextLst);
+                {
+                    if (DoubleEqualValue(textAngle, 0, 5) || DoubleEqualValue(textAngle, 360, 5))
+                    {
+                        SortTextVertical(ref pptTextLst);
+                    }
+                    else
+                    {
+                        SortTextWithAngle(textAngle, ref pptTextLst);
+                    }
+                }
 
                 float fontSize = 22;
                 MsoTriState fontValue = MsoTriState.msoTrue;
@@ -345,11 +403,17 @@ namespace ThPlot
                     if (j != 0)
                         fontValue = MsoTriState.msoFalse;
 
-                    double xRation = 0;
-                    double yRation = 0;
-                    GetPosRelatedRation(pptTextLst[j], pptPolyline, ref xRation, ref yRation);
-                    slide.Shapes.AddTextEffect(MsoPresetTextEffect.msoTextEffect9, pptTextLst[j].TextString, "微软雅黑", fontSize,
-                             fontValue, MsoTriState.msoFalse, (float)(967 * xRation), (float)(544 * yRation));
+                    double xRatio = 0;
+                    double yRatio = 0;
+
+                    if (DoubleEqualValue(textAngle, 0, 5) || DoubleEqualValue(textAngle, 360, 5))
+                        GetTextPosRelatedRation(pptTextLst[j], pptPolyline, ref xRatio, ref yRatio);
+                    else
+                        GetTextPosRelatedRationWithAngle(pptTextLst[j], textAngle, pptPolyline, ref xRatio, ref yRatio);
+
+                    pptTextLst[j].Rotation = textAngle;
+                    var textShape = slide.Shapes.AddTextEffect(MsoPresetTextEffect.msoTextEffect9, pptTextLst[j].TextString, "微软雅黑", fontSize,
+                             fontValue, MsoTriState.msoFalse, (float)(967 * xRatio), (float)(544 * yRatio));
                 }
 
                 // 增加页码
@@ -362,6 +426,136 @@ namespace ThPlot
             presentation.SaveAs(documentFile);
             powerApplication.Quit();
             powerApplication.Dispose();
+        }
+
+        /// <summary>
+        /// 不同角度进行文本排序
+        /// </summary>
+        /// <param name="pptTextLst"></param>
+        public static void SortTextWithAngle(double textAngle, ref List<DBText> pptTextLst)
+        {
+            if (DoubleEqualValue(textAngle, 90, 5))
+            {
+                SortTextHorizontal(ref pptTextLst);
+            }
+            else if (DoubleEqualValue(textAngle, 180, 5))
+            {
+                SortTextVertical(ref pptTextLst);
+                pptTextLst.Reverse();
+            }
+            else if (DoubleEqualValue(textAngle, 270, 5))
+            {
+                SortTextHorizontal(ref pptTextLst);
+                pptTextLst.Reverse();
+            }
+        }
+
+        /// <summary>
+        /// 对文本进行水平方向上的排序
+        /// </summary>
+        /// <param name="pptTextLst"></param>
+        public static void SortTextHorizontal(ref List<DBText> pptTextLst)
+        {
+            var positions = new List<Autodesk.AutoCAD.Geometry.Point2d>();
+            foreach (var dbText in pptTextLst)
+            {
+                positions.Add(new Autodesk.AutoCAD.Geometry.Point2d(dbText.Position.X, dbText.Position.Y));
+            }
+
+            var windowData = GetEntityPointsWindow(positions);
+            var minXValue = windowData.LeftBottomPoint.X;
+            pptTextLst.Sort((s1, s2) => { return (Math.Abs(s1.Position.X - minXValue)).CompareTo(Math.Abs(s2.Position.X - minXValue)); });
+        }
+
+        /// <summary>
+        /// 不同角度进行计算
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="textAngle"></param>
+        /// <param name="profile"></param>
+        /// <param name="xRation"></param>
+        /// <param name="yRation"></param>
+        public static void GetTextPosRelatedRationWithAngle(DBText text, double textAngle, Polyline profile, ref double xRation, ref double yRation)
+        {
+            if (DoubleEqualValue(textAngle, 90, 5))
+            {
+                GetTextPosRelatedRationWithAngle90(text, profile, ref xRation, ref yRation);
+            }
+            else if (DoubleEqualValue(textAngle, 180, 5))
+            {
+                GetTextPosRelatedRationWithAngle180(text, profile, ref xRation, ref yRation);
+            }
+            else if (DoubleEqualValue(textAngle, 270, 5))
+            {
+                GetTextPosRelatedRationWithAngle270(text, profile, ref xRation, ref yRation);
+            }
+        }
+
+        /// <summary>
+        /// 左下顶点的文字处理 比例计算
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="profile"> PPT轮廓</param>
+        /// <param name="xRation"></param>
+        /// <param name="yRation"></param>
+        public static void GetTextPosRelatedRationWithAngle90(DBText text, Polyline profile, ref double xRation, ref double yRation)
+        {
+            var ptLst = ThPlotData.GetPolylinePoints(profile);
+            var windowData = ThPlotData.GetEntityPointsWindow(ptLst); 
+            var height = windowData.RightTopPoint.Y - windowData.LeftBottomPoint.Y;
+            var width = windowData.RightTopPoint.X - windowData.LeftBottomPoint.X;
+            var leftBottomPos = windowData.LeftBottomPoint;
+            var textPos = text.Position;
+
+            var textPos2OrigionX = Math.Abs(textPos.Y - leftBottomPos.Y);
+            var textPos2OrigionY = Math.Abs(textPos.X - leftBottomPos.X);
+            xRation = textPos2OrigionX / height;
+            yRation = textPos2OrigionY / width;
+        }
+
+        /// <summary>
+        /// 右下顶点的文字处理 比例计算
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="profile"> PPT轮廓</param>
+        /// <param name="xRation"></param>
+        /// <param name="yRation"></param>
+        public static void GetTextPosRelatedRationWithAngle180(DBText text, Polyline profile, ref double xRation, ref double yRation)
+        {
+            var ptLst = ThPlotData.GetPolylinePoints(profile);
+            var windowData = ThPlotData.GetEntityPointsWindow(ptLst);
+            var height = windowData.RightTopPoint.Y - windowData.LeftBottomPoint.Y;
+            var width = windowData.RightTopPoint.X - windowData.LeftBottomPoint.X;
+            var rightTopPoint = windowData.RightTopPoint;
+            var rightBottomPos = new Point2d(rightTopPoint.X, rightTopPoint.Y - height);
+            var textPos = text.Position;
+
+            var textPos2OrigionY = Math.Abs(textPos.Y - rightBottomPos.Y);
+            var textPos2OrigionX = Math.Abs(textPos.X - rightBottomPos.X);
+            xRation = textPos2OrigionX / width;
+            yRation = textPos2OrigionY / height;
+        }
+
+        /// <summary>
+        /// 右上顶点的文字处理 比例计算
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="profile"> PPT轮廓</param>
+        /// <param name="xRation"></param>
+        /// <param name="yRation"></param>
+        public static void GetTextPosRelatedRationWithAngle270(DBText text, Polyline profile, ref double xRation, ref double yRation)
+        {
+            var ptLst = ThPlotData.GetPolylinePoints(profile);
+            var windowData = ThPlotData.GetEntityPointsWindow(ptLst);
+            var height = windowData.RightTopPoint.Y - windowData.LeftBottomPoint.Y;
+            var width = windowData.RightTopPoint.X - windowData.LeftBottomPoint.X;
+            var rightTopPoint = windowData.RightTopPoint;
+            var textPos = text.Position;
+
+            var textPos2OrigionX = Math.Abs(textPos.Y - rightTopPoint.Y);
+            var textPos2OrigionY = Math.Abs(textPos.X - rightTopPoint.X);
+            xRation = textPos2OrigionX / height;
+            yRation = textPos2OrigionY / width;
         }
 
         /// <summary>
