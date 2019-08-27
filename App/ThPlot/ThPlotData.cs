@@ -623,15 +623,15 @@ namespace ThPlot
             // 计算生成纸张后考虑留白的轮廓的左顶点
             if (standardWidth > lineWidth)
             {
-                topLeftPos += (new Vector2d(1, 0) * (standardWidth - lineWidth) * 0.5);
+                topLeftPos -= (new Vector2d(1, 0) * (standardWidth - lineWidth) * 0.5);
             }
             else if (standardHeight > lineHeight)
             {
                 topLeftPos += (new Vector2d(0, 1) * (standardHeight - lineHeight) * 0.5);
             }
 
-            var horizontalX = Math.Abs(topLeftPos.X - pptTopLeftPos.X);
-            var verticalY = Math.Abs(topLeftPos.Y - pptTopLeftPos.Y);
+            var horizontalX = (topLeftPos.X - pptTopLeftPos.X);
+            var verticalY = -(topLeftPos.Y - pptTopLeftPos.Y);
             var xRatio = horizontalX / pptWindowWidth;
             var yRatio = verticalY / pptWindowHeight;
             xRationPos = xRatio * ThPlotData.PPTWIDTH;

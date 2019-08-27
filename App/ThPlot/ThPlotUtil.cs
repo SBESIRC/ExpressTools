@@ -365,7 +365,8 @@ namespace ThPlot
                     }
                     else
                     {
-                        slide.Shapes.AddPicture(imagePaths[i], MsoTriState.msoFalse, MsoTriState.msoTrue, (float)(xImageRatioPos), (float)(yImageRatioPos));
+                        CalculateVerticalRatioSize(relatedData[i], ref pictureWidth, ref pictureHeight);
+                        slide.Shapes.AddPicture(imagePaths[i], MsoTriState.msoFalse, MsoTriState.msoTrue, (float)(xImageRatioPos), (float)(yImageRatioPos), pictureWidth, pictureHeight);
                     }
                 }
                 else
@@ -396,13 +397,9 @@ namespace ThPlot
                 }
 
                 float fontSize = 22;
-                MsoTriState fontValue = MsoTriState.msoTrue;
                 for (int j = 0; j < pptTextLst.Count; j++)
                 {
                     fontSize -= j * 2;
-                    if (j != 0)
-                        fontValue = MsoTriState.msoFalse;
-
                     double xRatio = 0;
                     double yRatio = 0;
 
@@ -412,13 +409,19 @@ namespace ThPlot
                         GetTextPosRelatedRationWithAngle(pptTextLst[j], textAngle, pptPolyline, ref xRatio, ref yRatio);
 
                     pptTextLst[j].Rotation = textAngle;
-                    var textShape = slide.Shapes.AddTextEffect(MsoPresetTextEffect.msoTextEffect9, pptTextLst[j].TextString, "微软雅黑", fontSize,
-                             fontValue, MsoTriState.msoFalse, (float)(967 * xRatio), (float)(544 * yRatio));
+                    var textShape = slide.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, (float)(ThPlotData.PPTWIDTH * xRatio), (float)(ThPlotData.PPTHEIGHT * yRatio), 300, 20);
+                    textShape.TextFrame.TextRange.Text = pptTextLst[j].TextString;
+                    textShape.TextFrame.TextRange.Font.Name = "微软雅黑";
+                    textShape.TextFrame.TextRange.Font.Size = fontSize;
+                    if (j == 0)
+                        textShape.TextFrame.TextRange.Font.Bold = MsoTriState.msoTrue;
                 }
 
                 // 增加页码
-                slide.Shapes.AddTextEffect(MsoPresetTextEffect.msoTextEffect1, relatedData[i].PageText.TextString, "微软雅黑", 12,
-                            MsoTriState.msoFalse, MsoTriState.msoFalse, 900, 500);
+                var pageShape = slide.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 900, 500, 30, 20);
+                pageShape.TextFrame.TextRange.Text = relatedData[i].PageText.TextString;
+                pageShape.TextFrame.TextRange.Font.Name = "微软雅黑";
+                pageShape.TextFrame.TextRange.Font.Size = 12;
             }
 
             // 保存
@@ -501,7 +504,7 @@ namespace ThPlot
         public static void GetTextPosRelatedRationWithAngle90(DBText text, Polyline profile, ref double xRation, ref double yRation)
         {
             var ptLst = ThPlotData.GetPolylinePoints(profile);
-            var windowData = ThPlotData.GetEntityPointsWindow(ptLst); 
+            var windowData = ThPlotData.GetEntityPointsWindow(ptLst);
             var height = windowData.RightTopPoint.Y - windowData.LeftBottomPoint.Y;
             var width = windowData.RightTopPoint.X - windowData.LeftBottomPoint.X;
             var leftBottomPos = windowData.LeftBottomPoint;
@@ -618,6 +621,38 @@ namespace ThPlot
             GetWindowDataWidthAndHeight(windowDataPpt, ref widthPpt, ref heightPpt);
             pictureWidth = width / widthPpt * 967;
             pictureHeight = height / heightPpt * 544;
+            return true;
+        }
+
+        /// <summary>
+        /// 调节纵向宽和高值
+        /// </summary>
+        /// <param name="relatedData"></param>
+        /// <param name="pictureWidth"></param>
+        /// <param name="pictureHeight"></param>
+        /// <returns></returns>
+        public static bool CalculateVerticalRatioSize(RelatedData relatedData, ref double pictureWidth, ref double pictureHeight)
+        {
+            var imagePolyline = relatedData.ImagePolyline;
+            var pptPolyline = relatedData.PptPolyline;
+            var ptLst = GetPolylinePoints(imagePolyline);
+            var windowDataImage = GetEntityPointsWindow(ptLst);
+            double width = 0;
+            double height = 0;
+
+            GetWindowDataWidthAndHeight(windowDataImage, ref width, ref height);
+
+            // 水平打印需要调整
+            var ptPptLst = GetPolylinePoints(pptPolyline);
+            var windowDataPpt = GetEntityPointsWindow(ptPptLst);
+            double widthPpt = 0;
+            double heightPpt = 0;
+
+            GetWindowDataWidthAndHeight(windowDataPpt, ref widthPpt, ref heightPpt);
+
+            pictureHeight = height / heightPpt * 544;
+            var paperSize = CalculatePaperSizeInfo(imagePolyline);
+            pictureWidth = pictureHeight / paperSize;
             return true;
         }
 
