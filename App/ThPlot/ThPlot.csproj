@@ -15,13 +15,8 @@
   </PropertyGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
-    <Reference Include="PDFNet, Version=7.0.7.1969, Culture=neutral, PublicKeyToken=45663c462b939c60, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdPartyLibs\PDFNetDotNet4\Lib\PDFNet\x64\PDFNet.dll</HintPath>
-    </Reference>
-    <Reference Include="PDFNetLoader, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdPartyLibs\PDFNetDotNet4\Lib\PDFNetLoader.dll</HintPath>
+    <Reference Include="PdfiumLight">
+      <HintPath>..\ThirdPartyLibs\PdfiumLight\0.0.4\Debug\PdfiumLight.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -102,4 +97,7 @@
     <None Include="Resources\pick_object.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy $(ProjectDir)\..\ThirdPartyLibs\PdfiumLight\0.0.4\Debug\x64 $(TargetDir) /S /I /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -4,9 +4,6 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.PlottingServices;
-using pdftron;
-using pdftron.PDF;
-using pdftron.Common;
 using PowerPoint = NetOffice.PowerPointApi;
 using NetOffice.OfficeApi.Tools;
 using NetOffice.OfficeApi.Enums;
@@ -17,6 +14,7 @@ using System.Threading;
 using System.Diagnostics;
 using AcHelper;
 using System.Linq;
+using PdfiumLight;
 using Autodesk.AutoCAD.Geometry;
 
 namespace ThPlot
@@ -255,26 +253,28 @@ namespace ThPlot
         /// <param name="quality"></param>
         public static void DrawPdfToPng(string inputPdfPath, string outpdfPath, UserSelectData.ImageQuality quality)
         {
-            using (PDFDraw draw = new PDFDraw())
+            using (PdfDocument document = new PdfDocument(inputPdfPath))
             {
-                using (PDFDoc doc = new PDFDoc(inputPdfPath))
-                {
-                    doc.InitSecurityHandler();
-                    if (quality == UserSelectData.ImageQuality.IMAGEHIGHER)
-                    {
-                        draw.SetDPI(300);
-                    }
-                    else if (quality == UserSelectData.ImageQuality.IMAGEMEDIUM)
-                    {
-                        draw.SetDPI(500);
-                    }
-                    else
-                    {
-                        draw.SetDPI(700);
-                    }
+                // Load the first page
+                PdfPage page = document.GetPage(0);
 
-                    Page pg = doc.GetPage(1);
-                    draw.Export(pg, outpdfPath);
+                System.Drawing.Image image = null;
+                if (quality == UserSelectData.ImageQuality.IMAGELOWER)
+                {
+                    image = page.Render(100, 100, 300, 300, PdfRotation.Rotate0, PdfRenderFlags.None);
+                }
+                else if (quality == UserSelectData.ImageQuality.IMAGEMEDIUM)
+                {
+                    image = page.Render(100, 100, 500, 500, PdfRotation.Rotate0, PdfRenderFlags.None);
+                }
+                else if (quality == UserSelectData.ImageQuality.IMAGEHIGHER)
+                {
+                    image = page.Render(100, 100, 700, 700, PdfRotation.Rotate0, PdfRenderFlags.None);
+                }
+
+                if (image != null)
+                {
+                    image.Save(outpdfPath);
                 }
             }
         }

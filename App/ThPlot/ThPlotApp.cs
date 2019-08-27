@@ -10,12 +10,10 @@ namespace ThPlot
     {
         public void Initialize()
         {
-            pdftron.PDFNet.Initialize();
         }
 
         public void Terminate()
         {
-            pdftron.PDFNet.Terminate();
         }
 
         [CommandMethod("TIANHUACAD", "THBPP", CommandFlags.Modal)]
