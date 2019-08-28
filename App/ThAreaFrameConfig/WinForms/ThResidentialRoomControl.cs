@@ -72,9 +72,33 @@ namespace ThAreaFrameConfig.WinForms
 
         private void RefreshGridControl()
         {
+            // Prevent excessive visual updates. 
+            gdv_room.BeginUpdate();
+
+            // Recursively Expand all Master Rows
             for (int i = 0; i < Rooms.Count; i++)
             {
-                gdv_room.SetMasterRowExpanded(i, true);
+                RecursiveExpand(gdv_room, i);
+            }
+
+            // Enable visual updates. 
+            gdv_room.EndUpdate();
+        }
+
+        // custom method for expanding nested details
+        private void RecursiveExpand(GridView masterView, int masterRowHandle)
+        {
+            var relationCount = masterView.GetRelationCount(masterRowHandle);
+            for (var index = relationCount - 1; index >= 0; index--)
+            {
+                masterView.ExpandMasterRow(masterRowHandle, index);
+                var childView = masterView.GetDetailView(masterRowHandle, index) as GridView;
+                if (childView != null)
+                {
+                    var childRowCount = childView.DataRowCount;
+                    for (var handle = 0; handle < childRowCount; handle++)
+                        RecursiveExpand(childView, handle);
+                }
             }
         }
 
