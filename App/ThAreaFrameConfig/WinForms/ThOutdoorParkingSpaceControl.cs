@@ -7,6 +7,7 @@ using DevExpress.Utils;
 using DevExpress.Utils.Menu;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using Autodesk.AutoCAD.Runtime;
 
 namespace ThAreaFrameConfig.WinForms
 {
@@ -129,8 +130,8 @@ namespace ThAreaFrameConfig.WinForms
         {
             if (e.Column.FieldName == "Area" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
             {
-                //double area = Convert.ToDouble(e.Value);
-                //e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
+                double area = Convert.ToDouble(e.Value);
+                e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
             }
         }
 
