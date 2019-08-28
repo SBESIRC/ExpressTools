@@ -34,14 +34,14 @@ Task Compile.Installer.Test -Depends Requires.MSBuild, Requires.XUnitConsole  {
     exec { 
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThAreaFrame.Test\ThAreaFrame.Test.csproj" /p:Configuration=$buildType /t:restore
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThAreaFrame.Test\ThAreaFrame.Test.csproj" /p:Configuration=$buildType /t:rebuild
-            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThUi.Test\ThUi.Test.csproj" /p:Configuration=$buildType /t:restore
-            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThUi.Test\ThUi.Test.csproj" /p:Configuration=$buildType /t:rebuild
+            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThHarness\ThHarness.csproj" /p:Configuration=$buildType /t:restore
+            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThHarness\ThHarness.csproj" /p:Configuration=$buildType /t:rebuild
     }
 }
 
 Task Unit.Tests -Depends Requires.XUnitConsole, Compile.Installer.Test {
     exec {
         & $xunitExe ".\build\bin\$buildType\ThAreaFrame.Test.dll"
-        & $xunitExe ".\build\bin\$buildType\ThUi.Test.dll"
+        & $xunitExe ".\build\bin\$buildType\ThHarness.dll"
     }
 }

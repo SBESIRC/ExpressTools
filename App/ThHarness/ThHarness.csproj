@@ -7,8 +7,8 @@
     <ProjectGuid>{D4429F20-3E12-4C3E-A189-B10A3133BB10}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ThUi.Test</RootNamespace>
-    <AssemblyName>ThUi.Test</AssemblyName>
+    <RootNamespace>ThHarness</RootNamespace>
+    <AssemblyName>ThHarness</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
