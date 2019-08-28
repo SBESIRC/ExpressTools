@@ -88,6 +88,10 @@ namespace ThAreaFrameConfig.WinForms
             {
                 return;
             }
+            if (e.HitInfo.Column == null)
+            {
+                return;
+            }
             if (e.HitInfo.Column.FieldName != "gridColumn_pick")
             {
                 return;

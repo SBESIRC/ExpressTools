@@ -134,6 +134,10 @@ namespace ThAreaFrameConfig.WinForms
             {
                 return;
             }
+            if (e.HitInfo.Column == null)
+            {
+                return;
+            }
             if (e.HitInfo.Column.FieldName != "room_area_frame_pick")
             {
                 return;
