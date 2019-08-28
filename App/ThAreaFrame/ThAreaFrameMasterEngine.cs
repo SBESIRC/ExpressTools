@@ -77,7 +77,7 @@ namespace ThAreaFrame
         public int CountOfAboveGroundParkingLot()
         {
             int count = 0;
-            foreach(string name in names.Where(n => n.StartsWith(@"车场车位_室外车位_露天车场_小型汽车")))
+            foreach(string name in names.Where(n => n.StartsWith(@"车场车位_室外车场_露天车场_小型汽车")))
             {
                 count += ThAreaFrameDbUtils.CountOfAreaFrames(database, name);
             }

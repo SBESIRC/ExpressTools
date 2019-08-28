@@ -56,7 +56,7 @@ namespace ThAreaFrameConfig.Model
             {
                 var names = new List<string>();
                 acadDatabase.Layers.ForEachDbObject(l => names.Add(l.Name));
-                foreach (string name in names.Where(n => n.StartsWith(@"车场车位_室外车位")))
+                foreach (string name in names.Where(n => n.StartsWith(@"车场车位_室外车场")))
                 {
                     string[] tokens = name.Split('_');
                     if (tokens[2] != "露天车场" || tokens[3] != "小型汽车")
