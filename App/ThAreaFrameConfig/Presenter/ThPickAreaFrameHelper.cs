@@ -48,24 +48,20 @@ namespace ThAreaFrameConfig.Presenter
             }
         }
 
-        public static void RenameAreaFrameLayer(this IThAreaFramePresenterCallback presenterCallback, string newName, IntPtr areaFrame)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    var name = acadDatabase.ModelSpace.Element(new ObjectId(areaFrame)).Layer;
-                    ThResidentialRoomDbUtil.RenameLayer(name, newName);
-                }
-            }
-        }
-
         public static void DeleteAreaFrame(this IThAreaFramePresenterCallback presenterCallback, IntPtr areaFrame)
         {
             using (Active.Document.LockDocument())
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
                     acadDatabase.ModelSpace.Element(new ObjectId(areaFrame), true).Erase();
                 }
             }
@@ -77,10 +73,112 @@ namespace ThAreaFrameConfig.Presenter
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
-                    foreach(var frame in areaFrames)
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
+                    foreach (var frame in areaFrames)
                     {
                         acadDatabase.ModelSpace.Element(new ObjectId(frame), true).Erase();
                     }
+                }
+            }
+        }
+
+        public static void HighlightAreaFrame(this IThAreaFramePresenterCallback presenterCallback, IntPtr areaFrame)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
+                    acadDatabase.ModelSpace.Element(new ObjectId(areaFrame)).Highlight();
+                }
+            }
+        }
+
+        public static void HighlightAreaFrames(this IThAreaFramePresenterCallback presenterCallback, IntPtr[] areaFrames)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
+                    foreach (var frame in areaFrames)
+                    {
+                        acadDatabase.ModelSpace.Element(new ObjectId(frame)).Highlight();
+                    }
+                }
+            }
+        }
+
+        public static void UnhighlightAreaFrame(this IThAreaFramePresenterCallback presenterCallback, IntPtr areaFrame)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
+                    acadDatabase.ModelSpace.Element(new ObjectId(areaFrame)).Unhighlight();
+                }
+            }
+        }
+
+        public static void UnhighlightAreaFrames(this IThAreaFramePresenterCallback presenterCallback, IntPtr[] areaFrames)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
+                    foreach (var frame in areaFrames)
+                    {
+                        acadDatabase.ModelSpace.Element(new ObjectId(frame)).Unhighlight();
+                    }
+                }
+            }
+        }
+
+        public static void RenameAreaFrameLayer(this IThAreaFramePresenterCallback presenterCallback, string newName, IntPtr areaFrame)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    var name = acadDatabase.ModelSpace.Element(new ObjectId(areaFrame)).Layer;
+                    ThResidentialRoomDbUtil.RenameLayer(name, newName);
                 }
             }
         }
@@ -97,56 +195,6 @@ namespace ThAreaFrameConfig.Presenter
                     if (!areaFrames.Any())
                     {
                         acadDatabase.Layers.Element(name, true).Erase();
-                    }
-                }
-            }
-        }
-
-        public static void HighlightAreaFrame(this IThAreaFramePresenterCallback presenterCallback, IntPtr areaFrame)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    acadDatabase.ModelSpace.Element(new ObjectId(areaFrame)).Highlight();
-                }
-            }
-        }
-
-        public static void HighlightAreaFrames(this IThAreaFramePresenterCallback presenterCallback, IntPtr[] areaFrames)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    foreach(var frame in areaFrames)
-                    {
-                        acadDatabase.ModelSpace.Element(new ObjectId(frame)).Highlight();
-                    }
-                }
-            }
-        }
-
-        public static void UnhighlightAreaFrame(this IThAreaFramePresenterCallback presenterCallback, IntPtr areaFrame)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    acadDatabase.ModelSpace.Element(new ObjectId(areaFrame)).Unhighlight();
-                }
-            }
-        }
-
-        public static void UnhighlightAreaFrames(this IThAreaFramePresenterCallback presenterCallback, IntPtr[] areaFrames)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    foreach(var frame in areaFrames)
-                    {
-                        acadDatabase.ModelSpace.Element(new ObjectId(frame)).Unhighlight();
                     }
                 }
             }
