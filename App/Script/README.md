@@ -46,7 +46,13 @@ Invoke-psake .\run-build.ps1 -Task release.build, Compile.Installer
 **usage**  
 Invoke-psake .\run-nunit.ps1 -Task "${buildType}.Build", Unit.Tests
 **example**  
-Invoke-psake .\run-nunit.ps1 -Task release.Build, Unit.Tests
+Invoke-psake .\run-nunit.ps1 -Task release.Build, Unit.Tests  
+**notice**  
+If you want to run the ui-test, you must run command ("C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe") in cmd before  
+First, install (WinAppDriver). [download](https://github.com/Microsoft/WinAppDriver/releases)  
+Senond, enable Windows 10 developer mode [reference]https://blog.csdn.net/dyxcome/article/details/82948945  
+third, run cmd and run command ("C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe")  
+forth, run (Invoke-psake .\run-nunit.ps1 -Task release.Build, Unit.Tests) in powershell or run build.ps1  
 
 ### run-harness(Install paske)  
 **usage**  
