@@ -159,9 +159,9 @@
     <Resource Include="Images\THUPT.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\THBPD.ico" />
-    <Content Include="Images\THBPP.ico" />
-    <Content Include="Images\THSPS.ico" />
+    <Resource Include="Images\THBPD.ico" />
+    <Resource Include="Images\THBPP.ico" />
+    <Resource Include="Images\THSPS.ico" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
