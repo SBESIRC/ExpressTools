@@ -439,10 +439,10 @@ namespace ThAreaFrameConfig.WinForms
             if (info.InRow || info.InRowCell)
             {
                 ThResidentialAreaFrame areaFrame = view.GetRow(info.RowHandle) as ThResidentialAreaFrame;
-                if (!areaFrame.IsDefined)
-                    return;
-
-                Presenter.OnHighlightAreaFrame(areaFrame.Frame);
+                if (areaFrame.IsDefined)
+                {
+                    Presenter.OnHighlightAreaFrame(areaFrame.Frame);
+                }
             }
         }
 

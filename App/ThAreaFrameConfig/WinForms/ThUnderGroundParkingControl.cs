@@ -174,10 +174,10 @@ namespace ThAreaFrameConfig.WinForms
             if (info.InRow || info.InRowCell)
             {
                 ThUnderGroundParking parking = view.GetRow(info.RowHandle) as ThUnderGroundParking;
-                if (!parking.IsDefined)
-                    return;
-
-                Presenter.OnHighlightAreaFrames(parking.Frames.ToArray());
+                if (parking.IsDefined)
+                {
+                    Presenter.OnHighlightAreaFrames(parking.Frames.ToArray());
+                }
             }
         }
 

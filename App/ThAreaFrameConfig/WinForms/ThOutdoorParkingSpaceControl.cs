@@ -164,7 +164,10 @@ namespace ThAreaFrameConfig.WinForms
             if (info.InRow || info.InRowCell)
             {
                 ThOutdoorParkingSpace space = view.GetRow(info.RowHandle) as ThOutdoorParkingSpace;
-                Presenter.OnHighlightAreaFrame(space.Frame);
+                if (space.IsDefined)
+                {
+                    Presenter.OnHighlightAreaFrame(space.Frame);
+                }
             }
         }
 

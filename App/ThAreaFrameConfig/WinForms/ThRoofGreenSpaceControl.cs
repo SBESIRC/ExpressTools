@@ -166,7 +166,10 @@ namespace ThAreaFrameConfig.WinForms
             if (info.InRow || info.InRowCell)
             {
                 ThRoofGreenSpace space = view.GetRow(info.RowHandle) as ThRoofGreenSpace;
-                Presenter.OnHighlightAreaFrame(space.Frame);
+                if (space.IsDefined)
+                {
+                    Presenter.OnHighlightAreaFrame(space.Frame);
+                }
             }
         }
 

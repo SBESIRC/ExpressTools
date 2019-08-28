@@ -122,7 +122,10 @@ namespace ThAreaFrameConfig.WinForms
             if (info.InRow || info.InRowCell)
             {
                 ThPublicGreenSpace space = view.GetRow(info.RowHandle) as ThPublicGreenSpace;
-                Presenter.OnHighlightAreaFrame(space.Frame);
+                if (space.IsDefined)
+                {
+                    Presenter.OnHighlightAreaFrame(space.Frame);
+                }
             }
         }
 

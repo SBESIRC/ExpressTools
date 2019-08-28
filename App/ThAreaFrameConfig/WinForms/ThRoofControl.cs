@@ -171,10 +171,10 @@ namespace ThAreaFrameConfig.WinForms
             if (info.InRow || info.InRowCell)
             {
                 ThRoof roof = view.GetRow(info.RowHandle) as ThRoof;
-                if (!roof.IsDefined)
-                    return;
-
-                Presenter.OnHighlightAreaFrame(roof.Frame);
+                if (roof.IsDefined)
+                {
+                    Presenter.OnHighlightAreaFrame(roof.Frame);
+                }
             }
         }
 
