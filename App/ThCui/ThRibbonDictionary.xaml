@@ -41,10 +41,13 @@
     <BitmapImage x:Key="DGNPURGE" UriSource="Images/DGNPURGE.ico"/>
 
     <BitmapImage x:Key="THBPS" UriSource="Images/THBPS.ico"/>
+    <BitmapImage x:Key="THSPS" UriSource="Images/THSPS.ico"/>
     <BitmapImage x:Key="THCSP" UriSource="Images/THCSP.ico"/>
     <BitmapImage x:Key="THTET" UriSource="Images/THTET.ico"/>
     <BitmapImage x:Key="THLDC" UriSource="Images/THLDC.ico"/>
     <BitmapImage x:Key="THBPT" UriSource="Images/THBPT.ico"/>
+    <BitmapImage x:Key="THBPD" UriSource="Images/THBPD.ico"/>
+    <BitmapImage x:Key="THBPP" UriSource="Images/THBPP.ico"/>
     <BitmapImage x:Key="THUPT" UriSource="Images/THUPT.ico"/>
 
 
@@ -392,7 +395,7 @@
 
         <adw:RibbonPanel>
             <adw:RibbonPanelSource Title="计算工具">
-                <!--<adw:RibbonButton  Name="天华单体规整" Text = "天华单体规整"
+                <adw:RibbonButton  Name="天华单体规整" Text = "天华单体规整"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
                                     LargeImage="{StaticResource THBPS}"
@@ -404,21 +407,21 @@
                             Command="THBPS"
                     Content="将建筑单体各层平面图中代表各区域的多段线图元设置到相应的图层，以供生成单体面积汇总表所用"/>
                     </adw:RibbonButton.ToolTip>
-                </adw:RibbonButton>-->
+                </adw:RibbonButton>
 
-                <!--<adw:RibbonButton  Name="天华总平规整" Text = "天华总平规整"
+                <adw:RibbonButton  Name="天华总平规整" Text = "天华总平规整"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
-                                    LargeImage="{StaticResource THCSP}"
-                                    Image="{StaticResource THCSP}"               
-                                    CommandParameter="THCSP">
+                                    LargeImage="{StaticResource THSPS}"
+                                    Image="{StaticResource THSPS}"               
+                                    CommandParameter="THSPS">
                     <adw:RibbonButton.ToolTip>
                         <adw:RibbonToolTip  
                     Title="天华总平规整"
-                            Command="THCSP"
+                            Command="THSPS"
                     Content="将总平面图中代表各区域的多段线图元设置到相应的图层，以供生成综合经济技术指标表所用"/>
                     </adw:RibbonButton.ToolTip>
-                </adw:RibbonButton>-->
+                </adw:RibbonButton>
 
                 <adw:RibbonButton  Name="单体面积汇总" Text = "单体面积&#xD;汇总"
                                     ShowImage="True" ShowText="True" 
@@ -521,20 +524,51 @@
                     </adw:RibbonButton>
                 </adw:RibbonRowPanel>
 
-                <adw:RibbonButton  Name="批量打印PDF" Text = "批量打印PDF"
+
+                <adw:RibbonRowPanel>
+                    <adw:RibbonButton  Name="批量打印PDF" Text = "批量打印PDF"
                                     ShowImage="True" ShowText="True" 
-                                    Orientation="Vertical" Size="Large"
+                                    Size="Standard"
                                     LargeImage="{StaticResource THBPT}"
                                     Image="{StaticResource THBPT}"               
                                     CommandParameter="THBPT">
-                    <adw:RibbonButton.ToolTip>
-                        <adw:RibbonToolTip  
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
                     Title="批量打印PDF"
                             Command="THBPT"
                     Content="选择需要批量打印的天华图框，将图纸批量打印为PDF文件，读取图框中的图纸编号重命名相应PDF文件"/>
-                    </adw:RibbonButton.ToolTip>
-                </adw:RibbonButton>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+                    <adw:RibbonRowBreak/>
+                    <adw:RibbonButton  Name="批量导出DWF" Text = "批量导出DWF"
+                                    ShowImage="True" ShowText="True" 
+                                    Size="Standard"
+                                    LargeImage="{StaticResource THBPD}"
+                                    Image="{StaticResource THBPD}"               
+                                    CommandParameter="THBPD">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="批量导出DWF"
+                            Command="THBPD"
+                    Content="选择需要批量打印的天华图框，将图纸批量打印为DWF文件，读取图框中的图纸编号重命名相应DWF文件"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
 
+                    <adw:RibbonRowBreak/>
+                    <adw:RibbonButton   Name="批量打印PPT" Text = "批量打印PPT"
+                                    ShowImage="True" ShowText="True" 
+                                    Size="Standard"
+                                    LargeImage="{StaticResource THBPP}"
+                                    Image="{StaticResource THBPP}"               
+                                    CommandParameter="THBPP">
+                        <adw:RibbonButton.ToolTip>
+                            <adw:RibbonToolTip  
+                    Title="批量打印PPT"
+                            Command="THBPP"
+                    Content="选择需要批量打印的PPT框线，将图纸批量打印为单个PPT文件，读取打印窗口框线与PPT框线的位置完成PPT内图片的定位"/>
+                        </adw:RibbonButton.ToolTip>
+                    </adw:RibbonButton>
+                </adw:RibbonRowPanel>
             </adw:RibbonPanelSource>
         </adw:RibbonPanel>
 
