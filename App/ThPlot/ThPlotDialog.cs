@@ -99,19 +99,39 @@ namespace ThPlot
                 {
                     while (true)
                     {
-                        var objId = PickTool.PickEntity(this, "请单选PPT框线");
-                        if (objId.IsNull)
-                            return;
-
                         using (AcadDatabase db = AcadDatabase.Active())
                         {
-                            var pline = db.ModelSpace.Element(objId) as Polyline;
-                            var dbText = ThPlotData.InsertPageText(pline, ++indexPage);
-                            var objectId = db.ModelSpace.Add(dbText);
-                            db.ModelSpace.Element(objectId, true).Layer = pline.Layer;
-                        }
+                            var totalPlines = Active.Database.GetSelection<Polyline>();
+                            if (totalPlines == null || totalPlines.Count == 0)
+                                return;
 
-                        lblSelectCount.Text = indexPage.ToString();
+                            var pptLines = new List<Polyline>();
+
+                            // 收集PPT图层框线 进行排版等插入页码处理
+                            foreach (var pLine in totalPlines)
+                            {
+                                if (pLine.Layer.Equals(comboPPTLayer.SelectedItem as string))
+                                    pptLines.Add(pLine);
+                            }
+
+                            if (pptLines.Count == 0)
+                                return;
+
+                            var pageWithProfiles = ThPlotData.CalculateProfileWithPages(pptLines, SelectDir.LEFT2RIGHTUP2DOWN, ref indexPage);
+
+                            // 插入页码处理
+                            foreach (var pageWithProfile in pageWithProfiles)
+                            {
+                                var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
+                                var objectId = db.ModelSpace.Add(dbText);
+                                db.ModelSpace.Element(objectId, true).Layer = pageWithProfile.Profile.Layer;
+                            }
+
+                            lblSelectCount.Text = indexPage.ToString();
+                            var findCount = pageWithProfiles.Count;
+                            string CommndLineTip = "找到" + findCount.ToString() + "个，总计" + indexPage.ToString() + "个";
+                            Active.WriteMessage(CommndLineTip);
+                        }
                     }
                 }
                 else // 框选， 左右、上下 或者上下/左右
@@ -138,9 +158,12 @@ namespace ThPlot
                             var objectId = db.ModelSpace.Add(dbText);
                             db.ModelSpace.Element(objectId, true).Layer = pageWithProfile.Profile.Layer;
                         }
-                    }
 
-                    lblSelectCount.Text = indexPage.ToString();
+                        lblSelectCount.Text = indexPage.ToString();
+                        var findCount = pageWithProfiles.Count;
+                        string CommndLineTip = "找到" + findCount.ToString() + "个，总计" + indexPage.ToString() + "个";
+                        Active.WriteMessage(CommndLineTip);
+                    }
                 }
             }
             catch

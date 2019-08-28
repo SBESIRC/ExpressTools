@@ -426,9 +426,16 @@ namespace ThPlot
 
             // 保存
             string documentFile = Path.Combine(outPathPPT, namePPT);
-            presentation.SaveAs(documentFile);
+            try
+            {
+                presentation.SaveAs(documentFile); // 如果有一个打开的PPT的名字和正在保存的名字相同则会异常，系统会取一个不重复的名字
+            }
+            catch
+            {
+            }
+            
             powerApplication.Quit();
-            powerApplication.Dispose();
+            // powerApplication.Dispose(); //关闭所有的PPT
         }
 
         /// <summary>
