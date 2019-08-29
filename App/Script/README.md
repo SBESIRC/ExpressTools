@@ -44,18 +44,20 @@ Invoke-psake .\run-build.ps1 -Task release.build, Compile.Installer
   
 ### run-nunit(Install paske)  
 **usage**  
-Invoke-psake .\run-nunit.ps1 -Task "${buildType}.Build", Unit.Tests
+Invoke-psake .\run-nunit.ps1 -Task "${buildType}.Build", Unit.Tests  
 **example**  
 Invoke-psake .\run-nunit.ps1 -Task release.Build, Unit.Tests  
+
+
+### run-harness(Install paske)  
+**usage**  
+Invoke-psake .\run-harness.ps1 -Task "${buildType}.Build", Harness  
+**example**  
+Invoke-psake .\run-harness.ps1 -Task release.Build, Harness  
 **notice**  
 If you want to run the ui-test, you must run command ("C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe") in cmd before  
 First, install (WinAppDriver). [download](https://github.com/Microsoft/WinAppDriver/releases)  
 Senond, enable Windows 10 developer mode [reference]https://blog.csdn.net/dyxcome/article/details/82948945  
 third, run cmd and run command ("C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe")  
 forth, run (Invoke-psake .\run-nunit.ps1 -Task release.Build, Unit.Tests) in powershell or run build.ps1  
-
-### run-harness(Install paske)  
-**usage**  
-Invoke-psake .\run-harness.ps1 -Task "${buildType}.Build", Gallio.Tests
-**example**  
-Invoke-psake .\run-harness.ps1 -Task release.Build, Gallio.Tests
+[read more about WinAppDriver](https://github.com/Microsoft/WinAppDriver)

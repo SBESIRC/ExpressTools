@@ -17,30 +17,28 @@ Task Requires.MSBuild {
     Write-Host "Found MSBuild here: $msbuildExe"
 }
 
-Task Requires.Gallio {
-    $script:galliofolder = "C:\Users\$env:UserName\.nuget\packages\galliobundle\3.4.14\bin"
-    SET-Variable GALLIO_RUNTIME_PATH=C:\Users\$env:UserName\.nuget\packages\galliobundle\3.4.14\bin
-    $script:Gallioexe = resolve-path "${galliofolder}\Gallio.Echo.exe"
-    if ($Gallioexe -eq $null)
+Task Requires.XUnitConsole {
+
+    $script:xunitExe =
+        resolve-path "C:\Users\$env:UserName\.nuget\packages\nunit.consolerunner\3.10.0\tools\nunit3-console.exe"
+
+    if ($xunitExe -eq $null)
     {
-        Write-Host "Failed to find Gallio.Echo.exe"
-        return
+        throw "Failed to find XUnit.Console.exe"
     }
-    Write-Host "Found Gallio.Echo.exe here: $Gallioexe"
+
+    Write-Host "Found XUnit.Console here: $xunitExe"
 }
 
-Task Compile.Installer.Test -Depends Requires.MSBuild, Requires.Gallio  {
+Task Compile.Installer.Test -Depends Requires.MSBuild, Requires.XUnitConsole  {
     exec { 
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThHarness\ThHarness.csproj" /p:Configuration=$buildType /t:restore
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThHarness\ThHarness.csproj" /p:Configuration=$buildType /t:rebuild
     }
 }
 
-Task Gallio.Tests -Depends Requires.Gallio, Compile.Installer.Test {
+Task Harness -Depends Requires.XUnitConsole, Compile.Installer.Test {
     exec {
-        COPY-item -r .\build\bin\$buildType\ThHarness.dll $galliofolder
-        & $Gallioexe C:\Users\$env:UserName\.nuget\packages\galliobundle\3.4.14\bin\ThHarness.dll /r:AutoCAD
-        #Unable to delete dll file, because CAD is using it
-        #Remove-Item "C:\Users\$env:UserName\.nuget\packages\galliobundle\3.4.14\bin\${dllname}"
+        & $xunitExe ".\build\bin\$buildType\ThHarness.dll"
     }
 }
