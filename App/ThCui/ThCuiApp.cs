@@ -44,9 +44,9 @@ namespace TianHua.AutoCAD.ThCui
                 //注册命令
                 RegisterCommands();
 
-                //注册事件
-                Autodesk.AutoCAD.Ribbon.RibbonServices.RibbonPaletteSetCreated +=
-                    new EventHandler(RibbonServices_RibbonPaletteSetCreated);
+                //创建自定义Ribbon
+                //  https://www.theswamp.org/index.php?topic=44440.0
+                ThRibbonHelper.OnRibbonFound(this.CreateRibbon);
             }
             else
             {
@@ -109,14 +109,8 @@ namespace TianHua.AutoCAD.ThCui
                 rc.Tabs.Remove(tab);
         }
 
-        private void CreateRibbon()
+        private void CreateRibbon(RibbonControl rc)
         {
-            RibbonControl rc = ComponentManager.Ribbon;
-            if (rc == null)
-            {
-                return;
-            }
-
             if (rc.FindTab("ID_TabMyRibbon") == null)
             {
                 RibbonTab tab = ribbons.CreateRibbon();
@@ -138,18 +132,6 @@ namespace TianHua.AutoCAD.ThCui
             {
                 ribbons.CloseTabRibbon();
             }
-        }
-
-        private void RibbonServices_RibbonPaletteSetCreated(object sender, EventArgs e)
-        {
-            AcadApp.Idle += new EventHandler(Application_OnIdle);
-        }
-
-        private void Application_OnIdle(object sender, EventArgs e)
-        {
-            AcadApp.Idle -= new EventHandler(Application_OnIdle);
-
-            CreateRibbon();
         }
 
         /// <summary>
