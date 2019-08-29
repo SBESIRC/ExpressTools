@@ -968,7 +968,11 @@ namespace Linq2Acad
         {
             var database = new Database(false, true);
             database.ReadDwgFile(fileName, openMode == DwgOpenMode.ReadWrite ? FileOpenMode.OpenForReadAndWriteNoShare : FileOpenMode.OpenForReadAndReadShare, false, password);
-            database.CloseInput(true);
+            // 尽管在adndevblog有一篇博客建议调用CloseInput():
+            //  https://adndevblog.typepad.com/autocad/2012/07/using-readdwgfile-with-net-attachxref-or-objectarx-acdbattachxref.html
+            // 但是我们遇到了很严重的Performance问题，而且导致在打开图纸的过程中进度条不能正确的刷新。
+            // 这里采用的workaround就是不调用CloseInput().
+            //database.CloseInput(true);
             return new AcadDatabase(database, keepOpen);
         }
 
