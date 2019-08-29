@@ -39,7 +39,7 @@ namespace SampleClass
 
             // Click or SendKeys
             AutoCAD.FindElementByAccessibilityId("2").SendKeys("STYLE\n");
-            Thread.Sleep(TimeSpan.FromSeconds(3));
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             
             // 颠倒
             AutoCAD.FindElementByAccessibilityId("906").Click();
@@ -81,12 +81,15 @@ namespace SampleClass
 
             // Click or SendKeys
             AutoCAD.FindElementByAccessibilityId("2").SendKeys("THBPS\n");
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Thread.Sleep(TimeSpan.FromSeconds(3));
 
             // 输入值
             AutoCAD.FindElementByAccessibilityId("textEdit_number").SendKeys("1#");
             AutoCAD.FindElementByAccessibilityId("textEdit_name").SendKeys("一号楼");
-            //AutoCAD.FindElementByAccessibilityId("")
+            AutoCAD.FindElementByName("Open").Click();
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            AutoCAD.Mouse.MouseMove(AutoCAD.FindElementByName("公建").Coordinates);
+            AutoCAD.Mouse.Click(null);
             AutoCAD.FindElementByAccessibilityId("textEdit_above_ground_storeys").SendKeys("10");
             AutoCAD.FindElementByAccessibilityId("textEdit_under_ground_storeys").SendKeys("1");
 
@@ -96,7 +99,7 @@ namespace SampleClass
             AutoCAD.Keyboard.SendKeys("\n");
 
             //
-            Assert.AreEqual(AutoCAD.FindElementByAccessibilityId("textEdit_number").Text, "1#");
+            Assert.AreEqual(AutoCAD.FindElementByAccessibilityId("comboBoxEdit_category").Text, "公建");
         }
 
         [Test]
@@ -106,10 +109,19 @@ namespace SampleClass
             WindowsElement paintplate = AutoCAD.FindElementByAccessibilityId("59648");
 
             // 打开图纸
-            
+            // 画线
+            AutoCAD.FindElementByAccessibilityId("2").SendKeys("LINE\n");
+            AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 100, 100);
+            AutoCAD.Mouse.Click(null);
+            AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 200, 200);
+            AutoCAD.Mouse.Click(null);
+            AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 100, 200);
+            AutoCAD.Mouse.Click(null);
+            AutoCAD.Keyboard.SendKeys("C\n");
+
             // Click or SendKeys
             AutoCAD.FindElementByAccessibilityId("2").SendKeys("THBPP\n");
-            Thread.Sleep(TimeSpan.FromSeconds(3));
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             // 输入值
 
             // 确定
