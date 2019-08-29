@@ -329,8 +329,11 @@ namespace ThPlot
         /// <param name="namePPT"></param> ppt名字
         public static void InsertImageToPPT(List<string> imagePaths, List<RelatedData> relatedData, string outPathPPT, string namePPT)
         {
-            PowerPoint.Application powerApplication = new PowerPoint.Application();
-
+            PowerPoint.Application powerApplication = PowerPoint.Application.GetActiveInstance();
+            if (powerApplication == null)
+            {
+                powerApplication = new PowerPoint.Application();
+            }
             CommonUtils utils = new CommonUtils(powerApplication);
 
             // 增加页且插入图片
