@@ -142,8 +142,14 @@ namespace ThAnalytics
             {
                 Segmentation segmentation = new Segmentation();
                 Countly.RecordEvent(thcommanfunctiondict[cmdName], 1, null, duration, segmentation);
+
+                Segmentation thsegmentation = new Segmentation();
+                thsegmentation.Add("名称", cmdName);
+                thsegmentation.Add("功能", thcommanfunctiondict[cmdName]);
+                Countly.RecordEvent("天华命令使用", 1, null, duration, thsegmentation);
             }
         }
+
         public void RecordSysVerEvent(string sysverName, string sysverValue)
         {
             Segmentation segmentation = new Segmentation();
