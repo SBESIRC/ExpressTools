@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.DatabaseServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using Autodesk.AutoCAD.PlottingServices;
+using DotNetARX;
 
 namespace ThPlot
 {
@@ -32,14 +34,22 @@ namespace ThPlot
             if (relatedDataLst == null)
                 return;
 
+            var increStepPDF = 70.0 / relatedDataLst.Count;
             var pos = userData.PrintOutPath.LastIndexOf(@"\");
             string outPath = userData.PrintOutPath.Substring(0, pos);
             string pptName = userData.PrintOutPath.Substring(pos + 1);
 
+            // 开始设置进度条打印
+            double curProgressPos = 10;
+            var plotDlg = new PlotProgressDialog(false, 1, false);
+            ThPlotUtil.StartPlotProgressPPT(ref plotDlg);
+            plotDlg.StartSheetProgress();
+            plotDlg.SheetProgressPos = (int)curProgressPos;
             // 生成PDF
             var outPdfPaths = new List<string>();
-            foreach (var related in relatedDataLst)
+            for (int m = 0; m < relatedDataLst.Count; m++)
             {
+                var related = relatedDataLst[m];
                 if (related.ImagePolyline == null || related.PptPolyline == null)
                     continue;
 
@@ -50,9 +60,12 @@ namespace ThPlot
                 var outPdfPath = System.IO.Path.Combine(outPath, pdfName);
                 outPdfPaths.Add(outPdfPath);
                 ThPlotUtil.PlotWithWindowWithSelfPlot(window, outPdfPath, userData.PrintStyle);
+                curProgressPos += increStepPDF;
+                plotDlg.SheetProgressPos = (int)(curProgressPos);
             }
 
             // 生成PNG图片
+            var increStepPNG = 20.0 / outPdfPaths.Count;
             List<string> pngPaths = new List<string>();
             for (int i = 0; i < outPdfPaths.Count; i++)
             {
@@ -60,8 +73,12 @@ namespace ThPlot
                 var pngPath = System.IO.Path.Combine(outPath, pngName);
                 ThPlotUtil.DrawPdfToPng(outPdfPaths[i], pngPath, userData.ImageQua);
                 pngPaths.Add(pngPath);
+                curProgressPos += increStepPNG;
+                plotDlg.SheetProgressPos = (int)curProgressPos;
             }
 
+            plotDlg.EndSheetProgress();
+            plotDlg.EndPlotProgress();
             // 生成ppt
             if (relatedDataLst.Count > 0)
                 ThPlotUtil.InsertImageToPPT(pngPaths, relatedDataLst, outPath, pptName);
