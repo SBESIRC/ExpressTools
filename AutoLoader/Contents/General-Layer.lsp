@@ -56,6 +56,7 @@
 (defun c:THALC ( / *error* oecho group )
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
+        (if omeasurement (setvar 'measurement omeasurement))
         (if (not (member msg '("Function cancelled" "quit / exit abort")))
             (princ (strcat "\nError: " msg))
          )
@@ -64,6 +65,10 @@
     
     (setq oecho (getvar 'cmdecho))
     (setvar 'cmdecho 0)
+    
+    ; we want to use imperial .lin files in a metric drawing
+    (setq omeasurement (getvar 'measurement))
+    (setvar 'measurement 0) ;Imperial
     
     (setq group "天华建筑标准图层")
     (LM:loadlinetypes '("HIDDEN" "CENTER") nil)
@@ -74,12 +79,14 @@
     (TH:ActivateLayerGroupFilter group)
     
     (setvar 'cmdecho oecho)
+    (setvar 'measurement omeasurement)
     (princ)
 );defun
 
 (defun c:THSLC ( / *error* oecho group )
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
+        (if omeasurement (setvar 'measurement omeasurement))
         (if (not (member msg '("Function cancelled" "quit / exit abort")))
             (princ (strcat "\nError: " msg))
          )
@@ -88,6 +95,10 @@
     
     (setq oecho (getvar 'cmdecho))
     (setvar 'cmdecho 0)
+    
+    ; we want to use imperial .lin files in a metric drawing
+    (setq omeasurement (getvar 'measurement))
+    (setvar 'measurement 0) ;Imperial
     
     (setq group "天华结构标准图层")
     (LM:loadlinetypes '("CENTER" "DASHED" "DASHED2") nil)
@@ -98,12 +109,14 @@
     (TH:ActivateLayerGroupFilter group)
     
     (setvar 'cmdecho oecho)
+    (setvar 'measurement omeasurement)
     (princ)
 );defun
 
 (defun c:THMLC ( / *error* oecho group )
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
+        (if omeasurement (setvar 'measurement omeasurement))
         (if (not (member msg '("Function cancelled" "quit / exit abort")))
             (princ (strcat "\nError: " msg))
          )
@@ -112,6 +125,10 @@
     
     (setq oecho (getvar 'cmdecho))
     (setvar 'cmdecho 0)
+    
+    ; we want to use imperial .lin files in a metric drawing
+    (setq omeasurement (getvar 'measurement))
+    (setvar 'measurement 0) ;Imperial
     
     (setq group "天华暖通标准图层")
     (LM:loadlinetypes '("HIDDEN" "CENTER2" "DASHED2") nil)
@@ -122,12 +139,14 @@
     (TH:ActivateLayerGroupFilter group)
     
     (setvar 'cmdecho oecho)
+    (setvar 'measurement omeasurement)
     (princ)
 );defun
 
 (defun c:THELC ( / *error* oecho group )
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
+        (if omeasurement (setvar 'measurement omeasurement))
         (if (not (member msg '("Function cancelled" "quit / exit abort")))
             (princ (strcat "\nError: " msg))
          )
@@ -136,6 +155,10 @@
     
     (setq oecho (getvar 'cmdecho))
     (setvar 'cmdecho 0)
+    
+    ; we want to use imperial .lin files in a metric drawing
+    (setq omeasurement (getvar 'measurement))
+    (setvar 'measurement 0) ;Imperial
     
     (setq group "天华电气标准图层")
     (LM:loadlinetypes '("HIDDEN" "HIDDEN2" "DASHDOT" "DASHDOT2" "DIVIDE2" "E-GND" "E-THU" "PHANTOM" "PHANTOM2" "BORDER2" "CENTER" "DIVIDE" "DIVIDE2" "DASHED") nil)
@@ -146,12 +169,14 @@
     (TH:ActivateLayerGroupFilter group)
     
     (setvar 'cmdecho oecho)
+    (setvar 'measurement omeasurement)
     (princ)
 );defun
 
 (defun c:THPLC ( / *error* oecho group )
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
+        (if omeasurement (setvar 'measurement omeasurement))
         (if (not (member msg '("Function cancelled" "quit / exit abort")))
             (princ (strcat "\nError: " msg))
          )
@@ -160,6 +185,10 @@
     
     (setq oecho (getvar 'cmdecho))
     (setvar 'cmdecho 0)
+    
+    ; we want to use imperial .lin files in a metric drawing
+    (setq omeasurement (getvar 'measurement))
+    (setvar 'measurement 0) ;Imperial
 
     (setq group "天华给排水标准图层")
     ; Import text styles from the standard drawing
@@ -218,6 +247,7 @@
     (TH:ActivateLayerGroupFilter group)
     
     (setvar 'cmdecho oecho)
+    (setvar 'measurement omeasurement)
     (princ)
 );defun
 
