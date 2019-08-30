@@ -187,7 +187,7 @@ namespace ThAreaFrameConfig.WinForms
 
         DXMenuItem CreateDeleteMenuItem(GridView view, int rowHandle)
         {
-            return new DXMenuItem("删除", new EventHandler(OnDeleteRoofItemClick))
+            return new DXMenuItem("删除", new EventHandler(OnDeleteOutdoorParkingSpaceItemClick))
             {
                 Tag = new RowInfo(view, rowHandle)
             };
@@ -195,7 +195,7 @@ namespace ThAreaFrameConfig.WinForms
 
         DXMenuItem CreateDeleteAllMenuItem(GridView view, int rowHandle)
         {
-            return new DXMenuItem("全部删除", new EventHandler(OnDeleteRoofItemClick))
+            return new DXMenuItem("全部删除", new EventHandler(OnDeleteAllOutdoorParkingSpaceItemsClick))
             {
                 Tag = new RowInfo(view, rowHandle)
             };
@@ -212,23 +212,26 @@ namespace ThAreaFrameConfig.WinForms
             public int RowHandle;
         }
 
-        void OnDeleteRoofItemClick(object sender, EventArgs e)
+        void OnDeleteOutdoorParkingSpaceItemClick(object sender, EventArgs e)
         {
             DXMenuItem menuItem = sender as DXMenuItem;
             if (menuItem.Tag is RowInfo ri)
             {
-                // 更新图纸
                 ThOutdoorParkingSpace space = ri.View.GetRow(ri.RowHandle) as ThOutdoorParkingSpace;
-                string layer = ThResidentialRoomDbUtil.LayerName(space.Frame);
-                Presenter.OnDeleteAreaFrame(space.Frame);
-                Presenter.OnDeleteAreaFrameLayer(layer);
+                if (space.IsDefined)
+                {
+                    // 更新图纸
+                    string layer = ThResidentialRoomDbUtil.LayerName(space.Frame);
+                    Presenter.OnDeleteAreaFrame(space.Frame);
+                    Presenter.OnDeleteAreaFrameLayer(layer);
 
-                // 更新界面
-                this.Reload();
+                    // 更新界面
+                    this.Reload();
+                }
             }
         }
 
-        void OnDeleteAllRoofItemsClick(object sender, EventArgs e)
+        void OnDeleteAllOutdoorParkingSpaceItemsClick(object sender, EventArgs e)
         {
             DXMenuItem menuItem = sender as DXMenuItem;
             if (menuItem.Tag is RowInfo ri)
