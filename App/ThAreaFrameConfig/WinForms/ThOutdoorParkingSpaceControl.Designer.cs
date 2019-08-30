@@ -104,7 +104,7 @@
             // 
             // gridColumn_storey
             // 
-            this.gridColumn_storey.Caption = "车场/车位类型";
+            this.gridColumn_storey.Caption = "车场/车位层数";
             this.gridColumn_storey.FieldName = "Storey";
             this.gridColumn_storey.Name = "gridColumn_storey";
             this.gridColumn_storey.Visible = true;
