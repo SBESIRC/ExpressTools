@@ -230,6 +230,23 @@ namespace ThPlot
         }
 
         /// <summary>
+        /// 打印PPT的进度条设置
+        /// </summary>
+        /// <param name="plotDlg"></param>
+        public static void StartPlotProgressPPT(ref PlotProgressDialog plotDlg)
+        {
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            //设置打印进度框中的提示信息
+            string dialogTitle = "批量打印PPT";
+            plotDlg.set_PlotMsgString(PlotMessageIndex.DialogTitle, dialogTitle);
+            plotDlg.set_PlotMsgString(PlotMessageIndex.SheetProgressCaption, "正在打印PPT，请稍后...");
+            plotDlg.LowerPlotProgressRange = 0;//开始的打印进度
+            plotDlg.UpperPlotProgressRange = 100;//线束时的打印进度
+            plotDlg.PlotProgressPos = 0;//当前进度为0，表示开始
+            plotDlg.OnBeginPlot();//打印开始，进程框开始工作
+            plotDlg.IsVisible = true;//显示打印进度框
+        }
+        /// <summary>
         /// 是否水平打印
         /// </summary>
         /// <param name="window"></param>

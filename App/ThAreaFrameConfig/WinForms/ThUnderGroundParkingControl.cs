@@ -201,7 +201,7 @@ namespace ThAreaFrameConfig.WinForms
 
         DXMenuItem CreateDeleteMenuItem(GridView view, int rowHandle)
         {
-            return new DXMenuItem("删除", new EventHandler(OnDeleteRoofItemClick))
+            return new DXMenuItem("删除", new EventHandler(OnDeleteUnderGroundParkingItemClick))
             {
                 Tag = new RowInfo(view, rowHandle)
             };
@@ -209,7 +209,7 @@ namespace ThAreaFrameConfig.WinForms
 
         DXMenuItem CreateDeleteAllMenuItem(GridView view, int rowHandle)
         {
-            return new DXMenuItem("全部删除", new EventHandler(OnDeleteAllRoofItemsClick))
+            return new DXMenuItem("全部删除", new EventHandler(OnDeleteAllUnderGroundParkingItemsClick))
             {
                 Tag = new RowInfo(view, rowHandle)
             };
@@ -226,23 +226,26 @@ namespace ThAreaFrameConfig.WinForms
             public int RowHandle;
         }
 
-        void OnDeleteRoofItemClick(object sender, EventArgs e)
+        void OnDeleteUnderGroundParkingItemClick(object sender, EventArgs e)
         {
             DXMenuItem menuItem = sender as DXMenuItem;
             if (menuItem.Tag is RowInfo ri)
             {
-                // 更新图纸
                 ThUnderGroundParking parking = ri.View.GetRow(ri.RowHandle) as ThUnderGroundParking;
-                string layer = ThResidentialRoomUtil.LayerName(parking);
-                Presenter.OnDeleteAreaFrames(parking.Frames.ToArray());
-                Presenter.OnDeleteAreaFrameLayer(layer);
+                if (parking.IsDefined)
+                {
+                    // 更新图纸
+                    string layer = ThResidentialRoomUtil.LayerName(parking);
+                    Presenter.OnDeleteAreaFrames(parking.Frames.ToArray());
+                    Presenter.OnDeleteAreaFrameLayer(layer);
 
-                // 更新界面
-                this.Reload();
+                    // 更新界面
+                    this.Reload();
+                }
             }
         }
 
-        void OnDeleteAllRoofItemsClick(object sender, EventArgs e)
+        void OnDeleteAllUnderGroundParkingItemsClick(object sender, EventArgs e)
         {
             DXMenuItem menuItem = sender as DXMenuItem;
             if (menuItem.Tag is RowInfo ri)

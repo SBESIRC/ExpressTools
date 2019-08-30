@@ -145,7 +145,7 @@ namespace ThAreaFrameConfig.WinForms
 
         DXMenuItem CreateDeleteMenuItem(GridView view, int rowHandle)
         {
-            return new DXMenuItem("删除", new EventHandler(OnDeleteRoofItemClick))
+            return new DXMenuItem("删除", new EventHandler(OnDeletePublicGreenSpaceItemClick))
             {
                 Tag = new RowInfo(view, rowHandle)
             };
@@ -153,7 +153,7 @@ namespace ThAreaFrameConfig.WinForms
 
         DXMenuItem CreateDeleteAllMenuItem(GridView view, int rowHandle)
         {
-            return new DXMenuItem("全部删除", new EventHandler(OnDeleteRoofItemClick))
+            return new DXMenuItem("全部删除", new EventHandler(OnDeleteAllPublicGreenSpaceItemsClick))
             {
                 Tag = new RowInfo(view, rowHandle)
             };
@@ -170,23 +170,26 @@ namespace ThAreaFrameConfig.WinForms
             public int RowHandle;
         }
 
-        void OnDeleteRoofItemClick(object sender, EventArgs e)
+        void OnDeletePublicGreenSpaceItemClick(object sender, EventArgs e)
         {
             DXMenuItem menuItem = sender as DXMenuItem;
             if (menuItem.Tag is RowInfo ri)
             {
-                // 更新图纸
                 ThPublicGreenSpace space = ri.View.GetRow(ri.RowHandle) as ThPublicGreenSpace;
-                string layer = ThResidentialRoomDbUtil.LayerName(space.Frame);
-                Presenter.OnDeleteAreaFrame(space.Frame);
-                Presenter.OnDeleteAreaFrameLayer(layer);
+                if (space.IsDefined)
+                {
+                    // 更新图纸
+                    string layer = ThResidentialRoomDbUtil.LayerName(space.Frame);
+                    Presenter.OnDeleteAreaFrame(space.Frame);
+                    Presenter.OnDeleteAreaFrameLayer(layer);
 
-                // 更新界面
-                this.Reload();
+                    // 更新界面
+                    this.Reload();
+                }
             }
         }
 
-        void OnDeleteAllRoofItemsClick(object sender, EventArgs e)
+        void OnDeleteAllPublicGreenSpaceItemsClick(object sender, EventArgs e)
         {
             DXMenuItem menuItem = sender as DXMenuItem;
             if (menuItem.Tag is RowInfo ri)

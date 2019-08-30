@@ -140,12 +140,13 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
-    <!--Assembly App, ThAreaFrame, 2014 version-->
+    <!--Assembly App, ThAreaFrameConfig, 2014 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
         <ComponentEntry ModuleName="./Contents/Win64/2014/ThAreaFrameConfig.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for frame area configuration dialog" AppName="ThAreaFrameConfig" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
-                <Command Global="THAFC" Local="THAFC" />
+                <Command Global="THBPS" Local="THBPS" />
+                <Command Global="THSPS" Local="THSPS" />
             </Commands>
         </ComponentEntry>
     </Components>
