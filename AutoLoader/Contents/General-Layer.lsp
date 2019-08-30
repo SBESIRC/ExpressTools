@@ -69,8 +69,22 @@
     ; we want to use imperial .lin files in a metric drawing
     (setq omeasurement (getvar 'measurement))
     (setvar 'measurement 0) ;Imperial
-    
+   
     (setq group "天华建筑标准图层")
+    ; Import text styles and dimension styles from the standard drawing
+    (Steal (strcat *pluginContentPath* "\\Standards\\Style\\THArchitecture.dwg")
+        '(
+            (
+                "Text Styles"
+                ("TH-STYLE*")
+            )
+            (
+                "Dimension Styles"
+                ("TH-DIM*")
+            )
+         )
+    )
+    ; Load line types from the standard line definition file
     (LM:loadlinetypes '("HIDDEN" "CENTER") nil)
     (TH:DeleteLayerGroupFilter group)
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Architecture.csv"))
@@ -104,6 +118,20 @@
     (setvar 'measurement 0) ;Imperial
     
     (setq group "天华结构标准图层")
+    ; Import text styles and dimension styles from the standard drawing
+    (Steal (strcat *pluginContentPath* "\\Standards\\Style\\THStructure.dwg")
+        '(
+            (
+                "Text Styles"
+                ("TH-STYLE*")
+            )
+            (
+                "Dimension Styles"
+                ("TSSD_*_*")
+            )
+         )
+    )
+    ; Load line types from the standard line definition file
     (LM:loadlinetypes '("CENTER" "DASHED" "DASHED2") nil)
     (TH:DeleteLayerGroupFilter group)
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Structure.csv"))
@@ -137,6 +165,20 @@
     (setvar 'measurement 0) ;Imperial
     
     (setq group "天华暖通标准图层")
+    ; Import text styles and dimension styles from the standard drawing
+    (Steal (strcat *pluginContentPath* "\\Standards\\Style\\THHVAC.dwg")
+        '(
+            (
+                "Text Styles"
+                ("TH-STYLE*")
+            )
+            (
+                "Dimension Styles"
+                ("TH-DIM*")
+            )
+         )
+    )
+    ; Load line types from the standard line definition file
     (LM:loadlinetypes '("HIDDEN" "CENTER2" "DASHED2") nil)
     (TH:DeleteLayerGroupFilter group)
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\HVAC.csv"))
@@ -170,6 +212,20 @@
     (setvar 'measurement 0) ;Imperial
     
     (setq group "天华电气标准图层")
+    ; Import text styles and dimension styles from the standard drawing
+    (Steal (strcat *pluginContentPath* "\\Standards\\Style\\THElectrical.dwg")
+        '(
+            (
+                "Text Styles"
+                ("TH-STYLE*")
+            )
+            (
+                "Dimension Styles"
+                ("E-DIMA*" "TH-DIM*")
+            )
+         )
+    )
+    ; Load line types from the standard line definition file
     (LM:loadlinetypes '("HIDDEN" "HIDDEN2" "DASHDOT" "DASHDOT2" "DIVIDE2" "E-GND" "E-THU" "PHANTOM" "PHANTOM2" "BORDER2" "CENTER" "DIVIDE" "DIVIDE2" "DASHED") nil)
     (TH:DeleteLayerGroupFilter group)
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Electrical.csv"))
@@ -204,11 +260,15 @@
 
     (setq group "天华给排水标准图层")
     ; Import text styles from the standard drawing
-    (Steal (strcat *pluginContentPath* "\\Standards\\DWG\\Plumbing.dws")
+    (Steal (strcat *pluginContentPath* "\\Standards\\DWG\\THPlumbing.dwg")
         '(
             (
                 "Text Styles"
-                ("TH-STYLE*")
+                ("TH-STYLE*" "W-text")
+            )
+            (
+                "Dimension Styles"
+                ("TH-DIM*-W" "w-DN*")
             )
          )
     )

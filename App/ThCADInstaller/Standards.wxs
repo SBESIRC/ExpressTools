@@ -23,10 +23,22 @@
               <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Process" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Process.csv" KeyPath="yes" />
             </Component>
         </DirectoryRef>
-        <DirectoryRef Id="DIR_Autoloader_Contents_Standards_Dwg">
-            <Component Id="CMP_Autoloader_PackageContents_Standards_Dwg_Plumbing" Guid="{38412EFA-0F3F-4AE6-A289-38B24A5E9512}" Win64="yes">
-                <File Id="FILE_Autoloader_PackageContents_Standards_Dwg_Plumbing" Source="$(var.AutoloaderContentsPath)\Standards\DWG\Plumbing.dws" KeyPath="yes" />
-            </Component>
+        <DirectoryRef Id="DIR_Autoloader_Contents_Standards_Style">
+          <Component Id="CMP_Autoloader_PackageContents_Standards_Style_Architecture" Guid="{14027AD8-8D1C-4F60-B223-30F866BDDD7D}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Standards_Style_Architecture" Source="$(var.AutoloaderContentsPath)\Standards\Style\THArchitecture.dwg" KeyPath="yes" />
+          </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Standards_Style_Structure" Guid="{47399175-9967-42F0-A2F9-9AD8825A5EFE}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Standards_Style_Structure" Source="$(var.AutoloaderContentsPath)\Standards\Style\THStructure.dwg" KeyPath="yes" />
+          </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Standards_Style_HVAC" Guid="{20EB30E0-A5D4-42D2-848F-5639DD78385C}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Standards_Style_HVAC" Source="$(var.AutoloaderContentsPath)\Standards\Style\THHVAC.dwg" KeyPath="yes" />
+          </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Standards_Style_Plumbing" Guid="{1AAC6809-38FE-4F16-8942-E96AA2175D15}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Standards_Style_Plumbing" Source="$(var.AutoloaderContentsPath)\Standards\Style\THPlumbing.dwg" KeyPath="yes" />
+          </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Standards_Style_Electrical" Guid="{590576F5-2A0D-47AA-AFB5-C78E56C6C7DD}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Standards_Style_Electrical" Source="$(var.AutoloaderContentsPath)\Standards\Style\THElectrical.dwg" KeyPath="yes" />
+          </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -37,7 +49,11 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Plumbing" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Process" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Electrical" />
-            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Dwg_Plumbing" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Style_Architecture" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Style_Structure" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Style_HVAC" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Style_Plumbing" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Style_Electrical" />
         </ComponentGroup>
     </Fragment>
 </Wix>
