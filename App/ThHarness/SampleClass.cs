@@ -158,6 +158,11 @@ namespace SampleClass
             // 确定
             Thread.Sleep(TimeSpan.FromSeconds(1));
             AutoCAD.FindElementByAccessibilityId("btnOK").Click();
+            // 等待打印完成
+            while (AutoCAD.FindElementsByName("批量打印PPT").Count != 0)
+            {
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
         }
     }
 }
