@@ -97,20 +97,18 @@ namespace ThAreaFrameConfig.WinForms
                 return;
             }
 
-            try
+            GridView gridView = sender as GridView;
+            ThPublicGreenSpace space = gridView.GetRow(e.RowHandle) as ThPublicGreenSpace;
+            if (!space.IsDefined)
             {
-                GridView gridView = sender as GridView;
-                ThPublicGreenSpace space = gridView.GetRow(e.RowHandle) as ThPublicGreenSpace;
-                Presenter.OnPickAreaFrames(ThResidentialRoomUtil.LayerName(space));
+                // 面积框线图层名
+                string name = ThResidentialRoomUtil.LayerName(space);
+
+                // 选取面积框线
+                Presenter.OnPickAreaFrames(name);
 
                 // 更新界面
                 this.Reload();
-            }
-            catch (System.Exception exception)
-            {
-#if DEBUG
-                Presenter.OnHandleAcadException(exception);
-#endif
             }
         }
 

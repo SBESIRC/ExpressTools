@@ -167,24 +167,21 @@ namespace ThAreaFrameConfig.WinForms
                 return;
             }
 
-            try
+            GridView gridView = (GridView)sender;
+            ThResidentialAreaFrame areaFrame = (ThResidentialAreaFrame)gridView.GetRow(e.RowHandle);
+            if (!areaFrame.IsDefined)
             {
-                GridView gridView = (GridView)sender;
-                ThResidentialAreaFrame areaFrame = (ThResidentialAreaFrame)gridView.GetRow(e.RowHandle);
+                // 面积框线图层名
                 ThResidentialRoom room = DbRepository.Rooms(this.CurrentStorey).Where(o => o.ID == areaFrame.RoomID).First();
                 ThResidentialStorey storey = DbRepository.Storeys().Where(o => o.ID == room.StoreyID).First();
                 ThResidentialRoomComponent component = room.Components.Find(o => o.ID == areaFrame.ComponentID);
                 string name = ThResidentialRoomUtil.LayerName(storey, room, component, areaFrame);
+
+                // 选取面积框线
                 Presenter.OnPickAreaFrames(name);
 
                 // 更新界面
                 this.Reload();
-            }
-            catch(System.Exception exception)
-            {
-#if DEBUG
-                Presenter.OnHandleAcadException(exception);
-#endif
             }
         }
 

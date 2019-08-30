@@ -88,21 +88,18 @@ namespace ThAreaFrameConfig.WinForms
                 return;
             }
 
-            try
+            GridView gridView = (GridView)sender;
+            ThOutdoorParkingSpace space = gridView.GetRow(e.RowHandle) as ThOutdoorParkingSpace;
+            if (!space.IsDefined)
             {
-                GridView gridView = (GridView)sender;
-                ThOutdoorParkingSpace space = gridView.GetRow(e.RowHandle) as ThOutdoorParkingSpace;
+                // 面积框线图层名
                 string name = ThResidentialRoomUtil.LayerName(space);
+
+                // 选取面积框线
                 Presenter.OnPickAreaFrames(name);
 
                 // 更新界面
                 this.Reload();
-            }
-            catch (System.Exception exception)
-            {
-#if DEBUG
-                Presenter.OnHandleAcadException(exception);
-#endif
             }
         }
 

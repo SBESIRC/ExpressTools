@@ -124,22 +124,19 @@ namespace ThAreaFrameConfig.WinForms
                 return;
             }
 
-            try
+            GridView gridView = (GridView)sender;
+            ThAOccupancy aoccupancy = (ThAOccupancy)gridView.GetRow(e.RowHandle);
+            if (!aoccupancy.IsDefined)
             {
-                GridView gridView = (GridView)sender;
-                ThAOccupancy aoccupancy = (ThAOccupancy)gridView.GetRow(e.RowHandle);
+                // 面积框线图层名
                 ThAOccupancyStorey storey = DbRepository.Storeys.Where(o => o.ID == aoccupancy.StoreyID).First();
                 string name = ThResidentialRoomUtil.LayerName(storey, aoccupancy);
+
+                // 选取面积框线
                 Presenter.OnPickAreaFrames(name);
 
                 // 更新界面
                 this.Reload();
-            }
-            catch (System.Exception exception)
-            {
-#if DEBUG
-                Presenter.OnHandleAcadException(exception);
-#endif
             }
         }
 
