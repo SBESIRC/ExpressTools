@@ -178,6 +178,16 @@ namespace ThAnalytics
             d.CommandCancelled += Document_CommandCancelled;
             d.CommandFailed += Documet_CommandFailed;
             d.UnknownCommand += Document_UnknownCommand;
+
+            d.LispWillStart += Document_LispWillStart;
+        }
+
+        private void Document_LispWillStart(object sender, LispWillStartEventArgs e)
+        {
+            if (e.FirstLine.StartsWith("c:TH")| e.FirstLine.StartsWith("C:TH"))
+            {
+                ThCountlyServices.Instance.RecordTHCommandEvent(e.FirstLine.Substring(2), 0);
+            }
         }
 
         private void UnsubscribeToDoc(Document d)

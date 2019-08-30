@@ -53,7 +53,7 @@ namespace ThAnalytics
             
             // 计算工具
             {"THBPS", "天华单体规整"},
-            {"THCSP", "天华总体规整"},
+            {"THSPS", "天华总体规整"},
             {"THBAC", "单体面积总汇"},
             {"THTET", "综合经济技术指标表"},
             
@@ -65,6 +65,8 @@ namespace ThAnalytics
             {"THZ0", "Z值归零"},
             {"DGNPURGE", "DGN清理"},
             {"THBPT", "批量打印PDF"},
+            {"THBPD", "批量打印DWF"},
+            {"THBPP", "批量打印PPT"},
             
             // 文字表格
             {"THMTC", "文字内容刷"}
@@ -140,9 +142,6 @@ namespace ThAnalytics
         {
             if (thcommanfunctiondict.ContainsKey(cmdName))
             {
-                Segmentation segmentation = new Segmentation();
-                Countly.RecordEvent(thcommanfunctiondict[cmdName], 1, null, duration, segmentation);
-
                 Segmentation thsegmentation = new Segmentation();
                 thsegmentation.Add("名称", cmdName);
                 thsegmentation.Add("功能", thcommanfunctiondict[cmdName]);
