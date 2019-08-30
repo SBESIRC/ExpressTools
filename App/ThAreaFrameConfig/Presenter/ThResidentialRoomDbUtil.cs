@@ -91,7 +91,6 @@ namespace ThAreaFrameConfig.Presenter
             using (var db = AcadDatabase.Active())
             {
                 db.ModelSpace
-                    .OfType<Polyline>()
                     .Where(e => e.Layer == layerName)
                     .UpgradeOpen()
                     .ForEachDbObject(e => e.Erase());
@@ -102,13 +101,9 @@ namespace ThAreaFrameConfig.Presenter
 
         public static void MoveToLayer(ObjectId objectId, ObjectId layerId)
         {
-            using (AcTransaction tr = new AcTransaction())
+            using (var db = AcadDatabase.Active())
             {
-                Polyline polyline = (Polyline)tr.Transaction.GetObject(objectId, OpenMode.ForRead);
-                using (new WriteEnabler(polyline))
-                {
-                    polyline.LayerId = layerId;
-                }
+                db.ModelSpace.Element(objectId, true).LayerId = layerId;
             }
         }
 

@@ -26,23 +26,29 @@ namespace ThAreaFrameConfig.Presenter
 #else
                     Active.Document.Window.Focus();
 #endif
-
-                    foreach (var pline in Active.Database.GetSelection<Polyline>())
+                    // 支持多种类型的面积框线
+                    Type[] types = { typeof(Polyline), typeof(Circle) };
+                    AllowedClassFilter filter = new AllowedClassFilter(types);
+                    var entSelected = Active.Editor.GetSelection(filter);
+                    if (entSelected.Status == PromptStatus.OK)
                     {
-                        // 复制面积框线
-                        ObjectId clonedObjId = ThEntTool.DeepClone(pline.ObjectId);
-                        if (clonedObjId.IsNull)
-                            return;
+                        foreach (var objId in entSelected.Value.GetObjectIds())
+                        {
+                            // 复制面积框线
+                            ObjectId clonedObjId = ThEntTool.DeepClone(objId);
+                            if (clonedObjId.IsNull)
+                                return;
 
-                        // 图层管理
-                        //  1. 如果指定图层不存在，创建图层
-                        //  2. 如果指定图层存在，返回此图层
-                        ObjectId layerId = layerCreator(name);
-                        if (layerId.IsNull)
-                            return;
+                            // 图层管理
+                            //  1. 如果指定图层不存在，创建图层
+                            //  2. 如果指定图层存在，返回此图层
+                            ObjectId layerId = layerCreator(name);
+                            if (layerId.IsNull)
+                                return;
 
-                        // 将复制的放置在指定图层上
-                        ThResidentialRoomDbUtil.MoveToLayer(clonedObjId, layerId);
+                            // 将复制的放置在指定图层上
+                            ThResidentialRoomDbUtil.MoveToLayer(clonedObjId, layerId);
+                        }
                     }
                 }
             }
@@ -190,7 +196,7 @@ namespace ThAreaFrameConfig.Presenter
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
                     var areaFrames = acadDatabase.ModelSpace
-                        .OfType<Polyline>()
+                        .OfType<Curve>()
                         .Where(o => o.Layer == name);
                     if (!areaFrames.Any())
                     {

@@ -15,7 +15,7 @@ namespace ThAreaFrameConfig.Model
             using (AcadDatabase acadDatabase = AcadDatabase.Use(db))
             {
                 acadDatabase.ModelSpace
-                            .OfType<Polyline>()
+                            .OfType<Curve>()
                             .Where(e => e.Layer == layer)
                             .ForEachDbObject(e => objectIdCollection.Add(e.ObjectId));
             }
@@ -28,7 +28,7 @@ namespace ThAreaFrameConfig.Model
             using (AcadDatabase acadDatabase = AcadDatabase.Use(db))
             {
                 acadDatabase.ModelSpace
-                            .OfType<Polyline>()
+                            .OfType<Curve>()
                             .Where(e => e.Layer == layer)
                             .ForEachDbObject(e => areaFrames.Add(e.ObjectId.OldIdPtr));
             }
@@ -45,7 +45,7 @@ namespace ThAreaFrameConfig.Model
             ObjectId objId = new ObjectId(frame);
             using (AcadDatabase acadDatabase = AcadDatabase.Use(objId.Database))
             {
-                return acadDatabase.ElementOrDefault<Polyline>(objId).Area * (1.0 / 1000000.0);
+                return acadDatabase.ElementOrDefault<Curve>(objId).Area * (1.0 / 1000000.0);
             }
         }
 
