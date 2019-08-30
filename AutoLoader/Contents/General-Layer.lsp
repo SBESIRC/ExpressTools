@@ -78,6 +78,9 @@
     (TH:ShowLayerManagerPalette group)
     (TH:ActivateLayerGroupFilter group)
     
+    ; Line Type Scale factor globally
+    (setvar 'ltscale 1000)
+    
     (setvar 'cmdecho oecho)
     (setvar 'measurement omeasurement)
     (princ)
@@ -107,6 +110,9 @@
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
     (TH:ActivateLayerGroupFilter group)
+    
+    ; Line Type Scale factor globally
+    (setvar 'ltscale 500)
     
     (setvar 'cmdecho oecho)
     (setvar 'measurement omeasurement)
@@ -138,6 +144,9 @@
     (TH:ShowLayerManagerPalette group)
     (TH:ActivateLayerGroupFilter group)
     
+    ; Line Type Scale factor globally
+    (setvar 'ltscale 1000)
+    
     (setvar 'cmdecho oecho)
     (setvar 'measurement omeasurement)
     (princ)
@@ -167,6 +176,9 @@
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
     (TH:ActivateLayerGroupFilter group)
+    
+    ; Line Type Scale factor globally
+    (setvar 'ltscale 500)
     
     (setvar 'cmdecho oecho)
     (setvar 'measurement omeasurement)
@@ -245,6 +257,9 @@
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
     (TH:ActivateLayerGroupFilter group)
+    
+    ; Line Type Scale factor globally
+    (setvar 'ltscale 500)
     
     (setvar 'cmdecho oecho)
     (setvar 'measurement omeasurement)
