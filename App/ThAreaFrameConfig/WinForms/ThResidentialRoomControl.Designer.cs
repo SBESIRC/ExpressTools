@@ -41,7 +41,6 @@
             this.repositoryItemComboBox_farcoefficient = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.room_area_frame_area = new DevExpress.XtraGrid.Columns.GridColumn();
             this.room_area_frame_pick = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
             this.gdv_room = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.room_name = new DevExpress.XtraGrid.Columns.GridColumn();
             this.room_identifier = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -50,6 +49,7 @@
             this.room_area_baywindow = new DevExpress.XtraGrid.Columns.GridColumn();
             this.room_area_miscellaneous = new DevExpress.XtraGrid.Columns.GridColumn();
             this.room_area_aggregation = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
@@ -66,8 +66,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room_area_frame)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_coefficient)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_farcoefficient)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.xtraTabPage1.SuspendLayout();
@@ -229,11 +229,6 @@
             this.room_area_frame_pick.Visible = true;
             this.room_area_frame_pick.VisibleIndex = 4;
             // 
-            // repositoryItemHyperLinkEdit1
-            // 
-            this.repositoryItemHyperLinkEdit1.AutoHeight = false;
-            this.repositoryItemHyperLinkEdit1.Name = "repositoryItemHyperLinkEdit1";
-            // 
             // gdv_room
             // 
             this.gdv_room.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
@@ -336,6 +331,12 @@
             this.room_area_aggregation.OptionsColumn.ReadOnly = true;
             this.room_area_aggregation.Visible = true;
             this.room_area_aggregation.VisibleIndex = 6;
+            // 
+            // repositoryItemHyperLinkEdit1
+            // 
+            this.repositoryItemHyperLinkEdit1.AutoHeight = false;
+            this.repositoryItemHyperLinkEdit1.LinkColor = System.Drawing.Color.Blue;
+            this.repositoryItemHyperLinkEdit1.Name = "repositoryItemHyperLinkEdit1";
             // 
             // xtraTabControl1
             // 
@@ -449,8 +450,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room_area_frame)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_coefficient)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_farcoefficient)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
             this.xtraTabPage1.ResumeLayout(false);
