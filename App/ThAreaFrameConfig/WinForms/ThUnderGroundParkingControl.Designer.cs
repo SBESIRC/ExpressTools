@@ -71,6 +71,7 @@
             this.gridView_parking.Name = "gridView_parking";
             this.gridView_parking.OptionsView.ShowGroupPanel = false;
             this.gridView_parking.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView1_RowClick);
+            this.gridView_parking.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_parking_CustomRowCellEdit);
             this.gridView_parking.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridView_parking_PopupMenuShowing);
             this.gridView_parking.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_parking_RowUpdated);
             this.gridView_parking.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView1_CustomUnboundColumnData);
@@ -137,7 +138,6 @@
             // gridColumn_pick
             // 
             this.gridColumn_pick.Caption = "选择";
-            this.gridColumn_pick.ColumnEdit = this.repositoryItemHyperLinkEdit1;
             this.gridColumn_pick.FieldName = "gridColumn_pick";
             this.gridColumn_pick.Name = "gridColumn_pick";
             this.gridColumn_pick.OptionsColumn.AllowEdit = false;

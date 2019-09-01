@@ -68,6 +68,7 @@
             this.gridView_space.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
             this.gridView_space.OptionsView.ShowGroupPanel = false;
             this.gridView_space.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView1_RowClick);
+            this.gridView_space.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_space_CustomRowCellEdit);
             this.gridView_space.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridView_space_PopupMenuShowing);
             this.gridView_space.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_space_RowUpdated);
             this.gridView_space.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView1_CustomUnboundColumnData);
@@ -116,7 +117,6 @@
             // gridColumn_pick
             // 
             this.gridColumn_pick.Caption = "选择";
-            this.gridColumn_pick.ColumnEdit = this.repositoryItemHyperLinkEdit1;
             this.gridColumn_pick.FieldName = "gridColumn_pick";
             this.gridColumn_pick.Name = "gridColumn_pick";
             this.gridColumn_pick.OptionsColumn.AllowEdit = false;

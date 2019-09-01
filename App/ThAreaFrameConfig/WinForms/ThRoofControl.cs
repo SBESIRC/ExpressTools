@@ -70,7 +70,8 @@ namespace ThAreaFrameConfig.WinForms
             }
             if (e.IsGetData)
             {
-                e.Value = "选择";
+                ThRoof roof = e.Row as ThRoof;
+                e.Value = roof.IsDefined ? "" : "选择";
             }
         }
 
@@ -255,6 +256,25 @@ namespace ThAreaFrameConfig.WinForms
 
                 // 更新界面
                 this.Reload();
+            }
+        }
+
+        private void gridView_roof_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
+        {
+            if (e.Column.FieldName != "gridColumn_pick")
+            {
+                return;
+            }
+
+            GridView view = sender as GridView;
+            ThRoof roof = view.GetRow(e.RowHandle) as ThRoof;
+            if (!roof.IsDefined)
+            {
+                e.RepositoryItem = repositoryItemHyperLinkEdit1;
+            }
+            else
+            {
+                e.RepositoryItem = null;
             }
         }
     }

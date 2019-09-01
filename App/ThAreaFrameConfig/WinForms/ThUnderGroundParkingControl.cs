@@ -69,7 +69,8 @@ namespace ThAreaFrameConfig.WinForms
             }
             if (e.IsGetData)
             {
-                e.Value = "选择";
+                ThUnderGroundParking parking = e.Row as ThUnderGroundParking;
+                e.Value = parking.IsDefined ? "" : "选择";
             }
         }
 
@@ -260,6 +261,25 @@ namespace ThAreaFrameConfig.WinForms
 
                 // 更新界面
                 this.Reload();
+            }
+        }
+
+        private void gridView_parking_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
+        {
+            if (e.Column.FieldName != "gridColumn_pick")
+            {
+                return;
+            }
+
+            GridView view = sender as GridView;
+            ThUnderGroundParking parking = view.GetRow(e.RowHandle) as ThUnderGroundParking;
+            if (!parking.IsDefined)
+            {
+                e.RepositoryItem = repositoryItemHyperLinkEdit1;
+            }
+            else
+            {
+                e.RepositoryItem = null;
             }
         }
     }
