@@ -112,26 +112,17 @@ namespace ThAreaFrameConfig.WinForms
                 return;
             }
 
-            try
+            ThRoof roof = (ThRoof)e.Row;
+            if (roof.IsDefined)
             {
-                ThRoof roof = (ThRoof)e.Row;
-                if (!roof.IsDefined)
-                {
-                    return;
-                }
-
-                // 更新图纸
+                // 面积框线图层名
                 string name = ThResidentialRoomUtil.LayerName(roof);
+
+                // 更新面积框线图层名
                 Presenter.OnRenameAreaFrameLayer(name, roof.Frame);
 
                 // 更新界面
                 this.Reload();
-            }
-            catch (System.Exception exception)
-            {
-#if DEBUG
-                Presenter.OnHandleAcadException(exception);
-#endif
             }
         }
 

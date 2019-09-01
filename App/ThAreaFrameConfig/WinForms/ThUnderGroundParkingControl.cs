@@ -111,26 +111,17 @@ namespace ThAreaFrameConfig.WinForms
                 return;
             }
 
-            try
+            ThUnderGroundParking parking = e.Row as ThUnderGroundParking;
+            if (parking.IsDefined)
             {
-                ThUnderGroundParking parking = e.Row as ThUnderGroundParking;
-                if (!parking.IsDefined)
-                {
-                    return;
-                }
-
-                // 更新图纸
+                // 面积框线图层名
                 string name = ThResidentialRoomUtil.LayerName(parking);
+
+                // 更新面积框线图层名
                 Presenter.OnRenameAreaFrameLayer(name, parking.Frames[0]);
 
                 // 更新界面
                 this.Reload();
-            }
-            catch (System.Exception exception)
-            {
-#if DEBUG
-                Presenter.OnHandleAcadException(exception);
-#endif
             }
         }
 

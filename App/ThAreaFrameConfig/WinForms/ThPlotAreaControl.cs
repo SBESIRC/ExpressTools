@@ -112,20 +112,17 @@ namespace ThAreaFrameConfig.WinForms
                 return;
             }
 
-            try
+            ThPlotSpace roofGreenSpace = (ThPlotSpace)e.Row;
+            if (roofGreenSpace.IsDefined)
             {
-                ThPlotSpace roofGreenSpace = (ThPlotSpace)e.Row;
+                // 面积框线图层名
                 string name = ThResidentialRoomUtil.LayerName(roofGreenSpace);
+
+                // 更新面积框线图层名
                 Presenter.OnRenameAreaFrameLayer(name, roofGreenSpace.Frame);
 
                 // 更新界面
                 this.Reload();
-            }
-            catch (System.Exception exception)
-            {
-#if DEBUG
-                Presenter.OnHandleAcadException(exception);
-#endif
             }
         }
 

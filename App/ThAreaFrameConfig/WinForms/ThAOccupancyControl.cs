@@ -149,21 +149,18 @@ namespace ThAreaFrameConfig.WinForms
                 return;
             }
 
-            try
+            ThAOccupancy aoccupancy = (ThAOccupancy)e.Row;
+            if (aoccupancy.IsDefined)
             {
-                ThAOccupancy aoccupancy = (ThAOccupancy)e.Row;
+                // 面积框线图层名
                 ThAOccupancyStorey storey = DbRepository.Storeys.Where(o => o.ID == aoccupancy.StoreyID).First();
                 string name = ThResidentialRoomUtil.LayerName(storey, aoccupancy);
+
+                // 更新面积框线图层名
                 Presenter.OnRenameAreaFrameLayer(name, aoccupancy.Frame);
 
                 // 更新界面
                 this.Reload();
-            }
-            catch (System.Exception exception)
-            {
-#if DEBUG
-                Presenter.OnHandleAcadException(exception);
-#endif
             }
         }
 

@@ -111,20 +111,17 @@ namespace ThAreaFrameConfig.WinForms
                 return;
             }
 
-            try
+            ThOutdoorParkingSpace space = (ThOutdoorParkingSpace)e.Row;
+            if (space.IsDefined)
             {
-                ThOutdoorParkingSpace space = (ThOutdoorParkingSpace)e.Row;
+                // 面积框线图层名
                 string name = ThResidentialRoomUtil.LayerName(space);
+
+                // 选取面积框线
                 Presenter.OnRenameAreaFrameLayer(name, space.Frame);
 
                 // 更新界面
                 this.Reload();
-            }
-            catch (System.Exception exception)
-            {
-#if DEBUG
-                Presenter.OnHandleAcadException(exception);
-#endif
             }
         }
 
