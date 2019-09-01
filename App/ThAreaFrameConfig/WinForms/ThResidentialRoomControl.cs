@@ -148,7 +148,8 @@ namespace ThAreaFrameConfig.WinForms
             }
             if (e.IsGetData)
             {
-                e.Value = "选择";
+                ThResidentialAreaFrame areaFrame = e.Row as ThResidentialAreaFrame;
+                e.Value = areaFrame.IsDefined ? "" : "选择";
             }
         }
 
@@ -505,6 +506,25 @@ namespace ThAreaFrameConfig.WinForms
 
                 // 更新界面
                 this.Reload();
+            }
+        }
+
+        private void gdv_room_area_frame_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
+        {
+            if (e.Column.FieldName != "room_area_frame_pick")
+            {
+                return;
+            }
+
+            GridView view = sender as GridView;
+            ThResidentialAreaFrame areaFrame = view.GetRow(e.RowHandle) as ThResidentialAreaFrame;
+            if (!areaFrame.IsDefined)
+            {
+                e.RepositoryItem = repositoryItemHyperLinkEdit1;
+            }
+            else
+            {
+                e.RepositoryItem = null;
             }
         }
     }

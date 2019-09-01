@@ -177,6 +177,11 @@ namespace ThAreaFrameConfig.Model
                         }
                     }
                 }
+
+                foreach(var storey in storeys)
+                {
+                    ThResidentialRoomUtil.AppendPlaceHolderAreaFrame(storey);
+                }
             }
         }
     }

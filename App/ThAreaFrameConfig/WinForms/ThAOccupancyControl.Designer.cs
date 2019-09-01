@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.gridControl_aoccupancy = new DevExpress.XtraGrid.GridControl();
@@ -45,7 +46,7 @@
             this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
-            this.barManager1 = new DevExpress.XtraBars.BarManager();
+            this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
@@ -53,7 +54,7 @@
             this.barButtonItem_add = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem_modify = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem_delete = new DevExpress.XtraBars.BarButtonItem();
-            this.popupMenu_storey = new DevExpress.XtraBars.PopupMenu();
+            this.popupMenu_storey = new DevExpress.XtraBars.PopupMenu(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.xtraTabPage1.SuspendLayout();
@@ -120,6 +121,7 @@
             this.gridView_aoccupancy.Name = "gridView_aoccupancy";
             this.gridView_aoccupancy.OptionsView.ShowGroupPanel = false;
             this.gridView_aoccupancy.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_aoccupancy_RowClick);
+            this.gridView_aoccupancy.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_aoccupancy_CustomRowCellEdit);
             this.gridView_aoccupancy.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gridView_aoccupancy_ShowingEditor);
             this.gridView_aoccupancy.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_aoccupancy_RowUpdated);
             this.gridView_aoccupancy.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView_aoccupancy_CustomUnboundColumnData);
@@ -245,7 +247,6 @@
             // gridColumn_pick
             // 
             this.gridColumn_pick.Caption = "选择";
-            this.gridColumn_pick.ColumnEdit = this.repositoryItemHyperLinkEdit1;
             this.gridColumn_pick.FieldName = "gridColumn_pick";
             this.gridColumn_pick.Name = "gridColumn_pick";
             this.gridColumn_pick.OptionsColumn.AllowEdit = false;

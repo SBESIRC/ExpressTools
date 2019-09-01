@@ -153,6 +153,7 @@
             this.gdv_room_area_frame.ScrollStyle = DevExpress.XtraGrid.Views.Grid.ScrollStyleFlags.None;
             this.gdv_room_area_frame.Tag = "room_area_frame";
             this.gdv_room_area_frame.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gdv_room_area_frame_RowClick);
+            this.gdv_room_area_frame.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gdv_room_area_frame_CustomRowCellEdit);
             this.gdv_room_area_frame.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gdv_room_area_frame_PopupMenuShowing);
             this.gdv_room_area_frame.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gdv_room_area_frame_RowUpdated);
             this.gdv_room_area_frame.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gdv_room_area_frame_CustomUnboundColumnData);
@@ -221,7 +222,6 @@
             // room_area_frame_pick
             // 
             this.room_area_frame_pick.Caption = "选择";
-            this.room_area_frame_pick.ColumnEdit = this.repositoryItemHyperLinkEdit1;
             this.room_area_frame_pick.FieldName = "room_area_frame_pick";
             this.room_area_frame_pick.Name = "room_area_frame_pick";
             this.room_area_frame_pick.OptionsColumn.AllowEdit = false;

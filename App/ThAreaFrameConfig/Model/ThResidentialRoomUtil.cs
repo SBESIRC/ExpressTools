@@ -349,5 +349,22 @@ namespace ThAreaFrameConfig.Model
                 FARCoefficient = 1.0,
             });
         }
+
+        public static void AppendPlaceHolderAreaFrame(ThAOccupancyStorey storey)
+        {
+            int index = storey.AOccupancies.Count;
+            storey.AOccupancies.Add(new ThAOccupancy()
+            {
+                ID = Guid.NewGuid(),
+                StoreyID = storey.ID,
+                Number = ++index,
+                Component = "主体",
+                Category = "商业",
+                Coefficient = 1.0,
+                FARCoefficient = 1.0,
+                Floors = null,
+                Frame = (IntPtr)0
+            });
+        }
     }
 }

@@ -105,7 +105,8 @@ namespace ThAreaFrameConfig.WinForms
             }
             if (e.IsGetData)
             {
-                e.Value = "选择";
+                ThAOccupancy aoccupancy = e.Row as ThAOccupancy;
+                e.Value = aoccupancy.IsDefined ? "" : "选择";
             }
         }
 
@@ -272,6 +273,25 @@ namespace ThAreaFrameConfig.WinForms
 
                 // 更新界面
                 this.Reload();
+            }
+        }
+
+        private void gridView_aoccupancy_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
+        {
+            if (e.Column.FieldName != "gridColumn_pick")
+            {
+                return;
+            }
+
+            GridView view = sender as GridView;
+            ThAOccupancy aoccupancy = view.GetRow(e.RowHandle) as ThAOccupancy;
+            if (!aoccupancy.IsDefined)
+            {
+                e.RepositoryItem = repositoryItemHyperLinkEdit1;
+            }
+            else
+            {
+                e.RepositoryItem = null;
             }
         }
     }
