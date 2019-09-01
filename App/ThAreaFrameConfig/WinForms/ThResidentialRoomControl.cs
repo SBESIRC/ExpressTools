@@ -212,10 +212,23 @@ namespace ThAreaFrameConfig.WinForms
 
         private void gdv_room_area_frame_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
         {
-            if (e.Column.FieldName == "Area" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+            if (e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
             {
-                double area = Convert.ToDouble(e.Value);
-                e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
+                switch (e.Column.FieldName)
+                {
+                    case "Area":
+                        {
+                            double area = Convert.ToDouble(e.Value);
+                            e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
+                        }
+                        break;
+                    case "Coefficient":
+                    case "FARCoefficient":
+                        {
+                            e.DisplayText = String.Format("{0:0.0}", Convert.ToDouble(e.Value));
+                        }
+                        break;
+                }
             }
         }
 
