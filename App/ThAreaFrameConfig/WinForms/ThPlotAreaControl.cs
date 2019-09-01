@@ -23,7 +23,8 @@ namespace ThAreaFrameConfig.WinForms
             InitializeGridControl();
         }
 
-        public List<ThPlotSpace> Spaces {
+        public List<ThPlotSpace> Spaces
+        {
             get
             {
                 return (List<ThPlotSpace>)gridControl_plot_area.DataSource;
@@ -69,7 +70,8 @@ namespace ThAreaFrameConfig.WinForms
             }
             if (e.IsGetData)
             {
-                e.Value = "选择";
+                ThPlotSpace space = e.Row as ThPlotSpace;
+                e.Value = space.IsDefined ? "" : "选择";
             }
         }
 
@@ -247,6 +249,25 @@ namespace ThAreaFrameConfig.WinForms
 
                 // 更新界面
                 this.Reload();
+            }
+        }
+
+        private void gridView_plot_area_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
+        {
+            if (e.Column.FieldName != "gridColumn_pick")
+            {
+                return;
+            }
+
+            GridView view = sender as GridView;
+            ThPlotSpace space = view.GetRow(e.RowHandle) as ThPlotSpace;
+            if (!space.IsDefined)
+            {
+                e.RepositoryItem = repositoryItemHyperLinkEdit1;
+            }
+            else
+            {
+                e.RepositoryItem = null;
             }
         }
     }

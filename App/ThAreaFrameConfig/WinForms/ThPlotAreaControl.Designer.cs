@@ -51,6 +51,7 @@
             this.gridView_plot_area.Name = "gridView_plot_area";
             this.gridView_plot_area.OptionsView.ShowGroupPanel = false;
             this.gridView_plot_area.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_plot_area_RowClick);
+            this.gridView_plot_area.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_plot_area_CustomRowCellEdit);
             this.gridView_plot_area.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridView_plot_area_PopupMenuShowing);
             this.gridView_plot_area.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_plot_area_RowUpdated);
             this.gridView_plot_area.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView_plot_area_CustomUnboundColumnData);
@@ -87,7 +88,6 @@
             // gridColumn_pick
             // 
             this.gridColumn_pick.Caption = "选择";
-            this.gridColumn_pick.ColumnEdit = this.repositoryItemHyperLinkEdit1;
             this.gridColumn_pick.FieldName = "gridColumn_pick";
             this.gridColumn_pick.Name = "gridColumn_pick";
             this.gridColumn_pick.OptionsColumn.AllowEdit = false;

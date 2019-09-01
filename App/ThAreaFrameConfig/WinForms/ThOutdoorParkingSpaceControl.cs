@@ -69,7 +69,8 @@ namespace ThAreaFrameConfig.WinForms
             }
             if (e.IsGetData)
             {
-                e.Value = "选择";
+                ThOutdoorParkingSpace space = e.Row as ThOutdoorParkingSpace;
+                e.Value = space.IsDefined ? "" : "选择";
             }
         }
 
@@ -246,6 +247,25 @@ namespace ThAreaFrameConfig.WinForms
 
                 // 更新界面
                 this.Reload();
+            }
+        }
+
+        private void gridView_outdoor_parking_space_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
+        {
+            if (e.Column.FieldName != "gridColumn_pick")
+            {
+                return;
+            }
+
+            GridView view = sender as GridView;
+            ThOutdoorParkingSpace space = view.GetRow(e.RowHandle) as ThOutdoorParkingSpace;
+            if (!space.IsDefined)
+            {
+                e.RepositoryItem = repositoryItemHyperLinkEdit1;
+            }
+            else
+            {
+                e.RepositoryItem = null;
             }
         }
     }
