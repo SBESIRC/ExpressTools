@@ -126,14 +126,14 @@ namespace ThAreaFrameConfig.Model
                 foreach(var name in aOccupancyNames)
                 {
                     string[] tokens = name.Split('_');
-                    foreach (ObjectId objId in database.AreaFrameLines(name))
+                    foreach (var storey in storeys.Where(o => o.Identifier == tokens[7]))
                     {
-                        switch (tokens[1])
+                        foreach (ObjectId objId in database.AreaFrameLines(name))
                         {
-                            case "主体":
-                            case "架空":
-                                {
-                                    foreach(var storey in storeys.Where(o => o.Identifier == tokens[7]))
+                            switch (tokens[1])
+                            {
+                                case "主体":
+                                case "架空":
                                     {
                                         storey.AOccupancies.Add(new ThAOccupancy()
                                         {
@@ -148,14 +148,11 @@ namespace ThAreaFrameConfig.Model
                                             Frame = objId.OldIdPtr
                                         });
                                     }
-                                }
-                                break;
-                            case "阳台":
-                            case "飘窗":
-                            case "雨棚":
-                            case "附属其他构件":
-                                {
-                                    foreach (var storey in storeys.Where(o => o.Identifier == tokens[6]))
+                                    break;
+                                case "阳台":
+                                case "飘窗":
+                                case "雨棚":
+                                case "附属其他构件":
                                     {
                                         storey.AOccupancies.Add(new ThAOccupancy()
                                         {
@@ -170,18 +167,18 @@ namespace ThAreaFrameConfig.Model
                                             Frame = objId.OldIdPtr
                                         });
                                     }
-                                }
-                                break;
-                            default:
-                                break;
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 }
+            }
 
-                foreach(var storey in storeys)
-                {
-                    ThResidentialRoomUtil.AppendPlaceHolderAreaFrame(storey);
-                }
+            foreach (var storey in storeys)
+            {
+                ThResidentialRoomUtil.AppendPlaceHolderAreaFrame(storey);
             }
         }
     }
