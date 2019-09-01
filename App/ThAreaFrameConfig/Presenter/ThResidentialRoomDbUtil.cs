@@ -17,6 +17,8 @@ namespace ThAreaFrameConfig.Presenter
                     {
                         { "套内",             1   },
                         { "阳台",             3   },
+                        { "飘窗",             4   },
+                        { "其他构件",         185  },
                      }
                 },
 

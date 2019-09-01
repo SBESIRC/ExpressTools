@@ -95,7 +95,7 @@ namespace ThAreaFrameConfig.Model
                     foreach (string layer in layers.Where(n => n.StartsWith(@"住宅构件_阳台")))
                     {
                         string[] tokens = layer.Split('_');
-                        if (tokens[4] == room.Identifier)
+                        if (tokens[5] == room.Identifier)
                         {
                             foreach (ObjectId objId in database.AreaFrameLines(layer))
                             {
@@ -120,7 +120,7 @@ namespace ThAreaFrameConfig.Model
                     foreach (string layer in layers.Where(n => n.StartsWith(@"住宅构件_飘窗")))
                     {
                         string[] tokens = layer.Split('_');
-                        if (tokens[4] == room.Identifier)
+                        if (tokens[5] == room.Identifier)
                         {
                             foreach (ObjectId objId in database.AreaFrameLines(layer))
                             {
@@ -145,7 +145,7 @@ namespace ThAreaFrameConfig.Model
                     foreach (string layer in layers.Where(n => n.StartsWith(@"住宅构件_其他构件")))
                     {
                         string[] tokens = layer.Split('_');
-                        if (tokens[4] == room.Identifier)
+                        if (tokens[5] == room.Identifier)
                         {
                             foreach (ObjectId objId in database.AreaFrameLines(layer))
                             {
