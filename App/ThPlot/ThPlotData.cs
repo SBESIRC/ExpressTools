@@ -136,9 +136,8 @@ namespace ThPlot
         private static readonly double A4PAGEPORTRAITRATIO = 297.0 / 210.0;
         private static readonly double A4PAGELANDSCAPERATIO = 210.0 / 297.0;
         public static readonly double PI = 3.1415926535898;
-        public static readonly double PPTWIDTH = 967;
-        public static readonly double PPTHEIGHT = 544;
-
+        public static readonly double PPTWIDTH = 1010;
+        public static readonly double PPTHEIGHT = 755;
 
         // 绘图，用于测试点的位置
         public static void DrawPointWithTransaction(Point3d drawPoint)
@@ -152,7 +151,7 @@ namespace ThPlot
             AcHelper.DocumentExtensions.AddEntity<Line>(doc, lineY);
         }
 
-        // 测试用
+        //  绘图，用于测试点的位置
         public static List<Line> Point2Lines(Point3d drawPoint)
         {
             Line lineX = new Line(drawPoint, drawPoint + new Vector3d(1, 0, 0) * 10000);
@@ -160,7 +159,7 @@ namespace ThPlot
             return new List<Line>() { lineX, lineY };
         }
 
-        // 测试用
+        //  绘图，用于测试点的位置
         public static List<Line> Point2Lines(Point2d drawPoint)
         {
             var aimPoint = new Point3d(drawPoint.X, drawPoint.Y, 0);

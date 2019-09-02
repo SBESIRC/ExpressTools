@@ -357,6 +357,7 @@ namespace ThPlot
 
                 // 增加页且插入图片
                 PowerPoint.Presentation presentation = powerApplication.Presentations.Add(MsoTriState.msoTrue);
+                presentation.PageSetup.SlideSize = NetOffice.PowerPointApi.Enums.PpSlideSizeType.ppSlideSizeA3Paper;
 
                 for (int i = 0; i < imagePaths.Count; i++)
                 {
@@ -440,7 +441,7 @@ namespace ThPlot
                     }
 
                     // 增加页码
-                    var pageShape = slide.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 900, 500, 30, 20);
+                    var pageShape = slide.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 950, 700, 30, 20);
                     pageShape.TextFrame.TextRange.Text = relatedData[i].PageText.TextString;
                     pageShape.TextFrame.TextRange.Font.Name = "微软雅黑";
                     pageShape.TextFrame.TextRange.Font.Size = 12;
@@ -646,8 +647,8 @@ namespace ThPlot
             double heightPpt = 0;
 
             GetWindowDataWidthAndHeight(windowDataPpt, ref widthPpt, ref heightPpt);
-            pictureWidth = width / widthPpt * 967;
-            pictureHeight = height / heightPpt * 544;
+            pictureWidth = width / widthPpt * ThPlotData.PPTWIDTH;
+            pictureHeight = height / heightPpt * ThPlotData.PPTHEIGHT;
             return true;
         }
 
@@ -677,7 +678,7 @@ namespace ThPlot
 
             GetWindowDataWidthAndHeight(windowDataPpt, ref widthPpt, ref heightPpt);
 
-            pictureHeight = height / heightPpt * 544;
+            pictureHeight = height / heightPpt * ThPlotData.PPTHEIGHT;
             var paperSize = CalculatePaperSizeInfo(imagePolyline);
             pictureWidth = pictureHeight / paperSize;
             return true;
