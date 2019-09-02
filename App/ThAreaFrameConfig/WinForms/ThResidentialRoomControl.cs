@@ -26,6 +26,7 @@ namespace ThAreaFrameConfig.WinForms
         public ThResidentialRoomControl()
         {
             InitializeComponent();
+            InitializeGridControl();
             InitializeTabControl();
         }
 
@@ -68,6 +69,11 @@ namespace ThAreaFrameConfig.WinForms
             }
 
             this.xtraTabControl1.TabPages.RemoveAt(0);
+        }
+
+        private void InitializeGridControl()
+        {
+            gdv_room.OptionsDetail.DetailMode = DetailMode.Embedded;
         }
 
         private void RefreshGridControl()
