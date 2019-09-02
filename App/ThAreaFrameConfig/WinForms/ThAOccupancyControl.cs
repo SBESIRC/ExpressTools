@@ -156,7 +156,6 @@ namespace ThAreaFrameConfig.WinForms
 
         private void gridView_aoccupancy_RowUpdated(object sender, RowObjectEventArgs e)
         {
-
             if (!(sender is GridView view))
             {
                 return;
@@ -175,6 +174,48 @@ namespace ThAreaFrameConfig.WinForms
                 // 更新界面
                 this.Reload();
             }
+        }
+
+        private void gridView_aoccupancy_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+
+            if (e.Column.FieldName != "Component")
+            {
+                return;
+            }
+
+            double coefficient = 1.0;
+            double farCoefficient = 1.0;
+            switch (e.Value.ToString())
+            {
+                case "主体":
+                case "架空":
+                    {
+                        coefficient = 1.0;
+                        farCoefficient = 1.0;
+                    }
+                    break;
+                case "阳台":
+                case "雨棚":
+                case "附属其他构件":
+                    {
+                        coefficient = 0.5;
+                        farCoefficient = 0.5;
+                    }
+                    break;
+                case "飘窗":
+                    {
+                        coefficient = 0.0;
+                        farCoefficient = 0.0;
+                    }
+                    break;
+            }
+            view.SetRowCellValue(e.RowHandle, view.Columns["Coefficient"], coefficient);
+            view.SetRowCellValue(e.RowHandle, view.Columns["FARCoefficient"], farCoefficient);
         }
 
         private void gridView_aoccupancy_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
