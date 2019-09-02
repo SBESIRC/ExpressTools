@@ -43,6 +43,11 @@ namespace ThAreaFrameConfig.Model
             }
 
             ObjectId objId = new ObjectId(frame);
+            if (objId.IsErased)
+            {
+                return 0.0;
+            }
+
             using (AcadDatabase acadDatabase = AcadDatabase.Use(objId.Database))
             {
                 return acadDatabase.ElementOrDefault<Curve>(objId).Area * (1.0 / 1000000.0);
