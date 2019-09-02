@@ -32,7 +32,7 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
-                            return storeys;
+                return storeys;
             }
         }
 
@@ -101,17 +101,35 @@ namespace ThAreaFrameConfig.Model
                 foreach (string name in aOccupancyNames)
                 {
                     string[] tokens = name.Split('_');
-                    if (storeys.Where(o => o.Identifier == tokens[7]).Any())
+                    string storey = "";
+                    switch (tokens[1])
                     {
-                        continue;
+                        case "主体":
+                        case "架空":
+                            {
+                                storey = tokens[7];
+                            }
+                            break;
+                        case "阳台":
+                        case "飘窗":
+                        case "雨棚":
+                        case "附属其他构件":
+                            {
+                                storey = tokens[6];
+                            }
+                            break;
                     }
+
                     // 添加楼层
-                    storeys.Add(new ThAOccupancyStorey()
+                    if (!storeys.Where(o => o.Identifier == storey).Any())
                     {
-                        ID = Guid.NewGuid(),
-                        Identifier = tokens[7],
-                        AOccupancies = new List<ThAOccupancy>()
-                    });
+                        storeys.Add(new ThAOccupancyStorey()
+                        {
+                            ID = Guid.NewGuid(),
+                            Identifier = storey,
+                            AOccupancies = new List<ThAOccupancy>()
+                        });
+                    }
                 }
             }
         }
@@ -126,14 +144,14 @@ namespace ThAreaFrameConfig.Model
                 foreach(var name in aOccupancyNames)
                 {
                     string[] tokens = name.Split('_');
-                    foreach (var storey in storeys.Where(o => o.Identifier == tokens[7]))
+                    foreach (ObjectId objId in database.AreaFrameLines(name))
                     {
-                        foreach (ObjectId objId in database.AreaFrameLines(name))
+                        switch (tokens[1])
                         {
-                            switch (tokens[1])
-                            {
-                                case "主体":
-                                case "架空":
+                            case "主体":
+                            case "架空":
+                                {
+                                    foreach (var storey in storeys.Where(o => o.Identifier == tokens[7]))
                                     {
                                         storey.AOccupancies.Add(new ThAOccupancy()
                                         {
@@ -148,11 +166,14 @@ namespace ThAreaFrameConfig.Model
                                             Frame = objId.OldIdPtr
                                         });
                                     }
-                                    break;
-                                case "阳台":
-                                case "飘窗":
-                                case "雨棚":
-                                case "附属其他构件":
+                                }
+                                break;
+                            case "阳台":
+                            case "飘窗":
+                            case "雨棚":
+                            case "附属其他构件":
+                                {
+                                    foreach (var storey in storeys.Where(o => o.Identifier == tokens[6]))
                                     {
                                         storey.AOccupancies.Add(new ThAOccupancy()
                                         {
@@ -167,10 +188,10 @@ namespace ThAreaFrameConfig.Model
                                             Frame = objId.OldIdPtr
                                         });
                                     }
-                                    break;
-                                default:
-                                    break;
-                            }
+                                }
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
