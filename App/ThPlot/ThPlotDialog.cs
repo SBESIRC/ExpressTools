@@ -18,6 +18,9 @@ namespace ThPlot
     public partial class ThPlotDialog : Form
     {
         public UserSelectData UserData = new UserSelectData();
+        private static string strPPTLayer = null;
+        private static string strImageLayer = null;
+        private static string strTextLayer = null;
         private Document doc = AcadApp.DocumentManager.MdiActiveDocument;
         private string DwgFileName;
         private int indexPage = 0;
@@ -45,6 +48,13 @@ namespace ThPlot
                 comboPrintImage.SelectedIndex = 0;
                 comboPrintTextLayer.SelectedIndex = 0;
             }
+
+            if (strPPTLayer != null)
+                comboPPTLayer.SelectedItem = strPPTLayer;
+            if (strImageLayer != null)
+                comboPrintImage.SelectedItem = strImageLayer;
+            if (strTextLayer != null)
+                comboPrintTextLayer.SelectedItem = strTextLayer;
 
             var fullName = doc.Name;
             var fullNameExtensionPos = fullName.LastIndexOf(@".");
@@ -224,6 +234,9 @@ namespace ThPlot
             if (UserData.PrintStyle == null)
                 UserData.PrintStyle = "monochrome.ctb";
 
+            strPPTLayer = UserData.PPTLayer;
+            strImageLayer = UserData.ImageLayer;
+            strTextLayer = UserData.PrintTextLayer;
             if (radioImageLower.Checked)
                 UserData.ImageQua = UserSelectData.ImageQuality.IMAGELOWER;
             else if (radioImageMedium.Checked)

@@ -648,7 +648,8 @@ namespace ThPlot
 
             GetWindowDataWidthAndHeight(windowDataPpt, ref widthPpt, ref heightPpt);
             pictureWidth = width / widthPpt * ThPlotData.PPTWIDTH;
-            pictureHeight = height / heightPpt * ThPlotData.PPTHEIGHT;
+            var paperSize = CalculatePaperSizeInfo(imagePolyline);
+            pictureHeight = pictureWidth * paperSize;
             return true;
         }
 
