@@ -74,6 +74,7 @@ namespace ThAreaFrameConfig.WinForms
         private void InitializeGridControl()
         {
             gdv_room.OptionsDetail.DetailMode = DetailMode.Embedded;
+            gdv_room.OptionsCustomization.AllowColumnMoving = false;
         }
 
         private void RefreshGridControl()
