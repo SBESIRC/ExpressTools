@@ -78,6 +78,7 @@
             // gdv_room_area_unit
             // 
             this.gdv_room_area_unit.GridControl = this.gridControl_room;
+            this.gdv_room_area_unit.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never;
             this.gdv_room_area_unit.Name = "gdv_room_area_unit";
             this.gdv_room_area_unit.OptionsBehavior.SmartVertScrollBar = false;
             this.gdv_room_area_unit.OptionsDetail.ShowDetailTabs = false;
@@ -94,8 +95,8 @@
             this.gdv_room_area_unit.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gdv_room_area_unit.OptionsView.ShowGroupPanel = false;
             this.gdv_room_area_unit.OptionsView.ShowIndicator = false;
-            this.gdv_room_area_unit.ScrollStyle = DevExpress.XtraGrid.Views.Grid.ScrollStyleFlags.None;
             this.gdv_room_area_unit.Tag = "room_area_unit";
+            this.gdv_room_area_unit.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never;
             this.gdv_room_area_unit.MasterRowGetLevelDefaultView += new DevExpress.XtraGrid.Views.Grid.MasterRowGetLevelDefaultViewEventHandler(this.gdv_room_area_unit_MasterRowGetLevelDefaultView);
             // 
             // gridControl_room
@@ -131,6 +132,7 @@
             this.room_area_frame_area,
             this.room_area_frame_pick});
             this.gdv_room_area_frame.GridControl = this.gridControl_room;
+            this.gdv_room_area_frame.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never;
             this.gdv_room_area_frame.Name = "gdv_room_area_frame";
             this.gdv_room_area_frame.OptionsBehavior.AutoExpandAllGroups = true;
             this.gdv_room_area_frame.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
@@ -150,8 +152,8 @@
             this.gdv_room_area_frame.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
             this.gdv_room_area_frame.OptionsView.ShowGroupPanel = false;
             this.gdv_room_area_frame.OptionsView.ShowIndicator = false;
-            this.gdv_room_area_frame.ScrollStyle = DevExpress.XtraGrid.Views.Grid.ScrollStyleFlags.None;
             this.gdv_room_area_frame.Tag = "room_area_frame";
+            this.gdv_room_area_frame.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never;
             this.gdv_room_area_frame.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gdv_room_area_frame_RowClick);
             this.gdv_room_area_frame.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gdv_room_area_frame_CustomRowCellEdit);
             this.gdv_room_area_frame.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gdv_room_area_frame_PopupMenuShowing);
@@ -242,6 +244,7 @@
             this.gdv_room.GridControl = this.gridControl_room;
             this.gdv_room.Name = "gdv_room";
             this.gdv_room.OptionsBehavior.AutoExpandAllGroups = true;
+            this.gdv_room.OptionsBehavior.SmartVertScrollBar = false;
             this.gdv_room.OptionsDetail.ShowDetailTabs = false;
             this.gdv_room.OptionsMenu.EnableColumnMenu = false;
             this.gdv_room.OptionsMenu.EnableFooterMenu = false;
