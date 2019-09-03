@@ -6,6 +6,7 @@ using Linq2Acad;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using System.Collections.Generic;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -26,20 +27,23 @@ namespace ThAreaFrameConfig.Presenter
 #else
                     Active.Document.Window.Focus();
 #endif
-                    // 支持多种类型的面积框线
-                    Type[] types = { typeof(Polyline), typeof(Circle) };
-                    AllowedClassFilter filter = new AllowedClassFilter(types);
-                    var entSelected = Active.Editor.GetSelection(filter);
+
+                    // SelectionFilter
+                    //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
+                    TypedValue[] filterlist = new TypedValue[2];
+                    // 支持的面积框线类型
+                    filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
+                    // 过滤掉在锁定图层的面积框线
+                    var layers = new List<string>();
+                    acadDatabase.Layers
+                        .Where(o => o.IsLocked == false)
+                        .ForEach(o => layers.Add(o.Name));
+                    filterlist[1] = new TypedValue(8, string.Join(",", layers));
+                    var entSelected = Active.Editor.GetSelection(new SelectionFilter(filterlist));
                     if (entSelected.Status == PromptStatus.OK)
                     {
                         foreach (var objId in entSelected.Value.GetObjectIds())
                         {
-                            // 过滤掉在锁定图层的面积框线
-                            if (ThResidentialRoomDbUtil.IsInLockedLayer(objId))
-                            {
-                                continue;
-                            }
-
                             // 复制面积框线
                             ObjectId clonedObjId = ThEntTool.DeepClone(objId);
                             if (clonedObjId.IsNull)
