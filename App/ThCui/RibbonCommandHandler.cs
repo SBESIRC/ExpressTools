@@ -19,6 +19,11 @@ namespace TianHua.AutoCAD.ThCui
         {
             if (parameter is RibbonCommandItem ribbonItem)
             {
+                if (ribbonItem.CommandParameter == null)
+                {
+                    return;
+                }
+
                 Document dwg = AcadApp.DocumentManager.MdiActiveDocument;
                 string cmdString = (ribbonItem.CommandParameter as string).TrimEnd();
                 if (!cmdString.EndsWith(";"))
