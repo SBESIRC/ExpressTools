@@ -2,6 +2,7 @@
 using System.DirectoryServices;
 using System.Net.NetworkInformation;
 using System.Text;
+using Oracle.ManagedDataAccess.Client;
 
 namespace ThIdentity
 {
@@ -121,6 +122,81 @@ namespace ThIdentity
             {
                 return null;
             }
+        }
+    }
+
+    public class ThUserProfileex
+    {
+        public string Name;
+        public string Title;
+        public string Company;
+        public string Department;
+        public string Mail;
+        public string Accountname;
+
+        //oracle 相关信息
+        private const string oracleinformation = "";
+        private OracleConnection connection;
+
+        public ThUserProfileex()
+        {
+            connection = Connection(oracleinformation);
+            //查询
+            Select("");
+            if (connection.State != System.Data.ConnectionState.Closed)
+            {
+                connection.Close();
+            }
+        }
+
+        public OracleConnection Connection(string oracleStr)
+        {
+            OracleConnection connection = null;
+            try
+            {
+                connection = new OracleConnection(oracleinformation);
+                connection.Open();
+                return connection;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public void Select(string sql)
+        {
+            try
+            {
+                OracleCommand cmd = new OracleCommand(sql, connection);
+                using (var dataReader = cmd.ExecuteReader())
+                {
+                    Name = dataReader.GetValue(1).ToString();
+                    Title = dataReader.GetValue(2).ToString();
+                    Company = dataReader.GetValue(3).ToString();
+                    Department = dataReader.GetValue(4).ToString();
+                    Mail = dataReader.GetValue(5).ToString();
+                    Accountname = dataReader.GetValue(6).ToString();
+                }
+            }
+            catch
+            {
+                Name = null;
+                Title = null;
+                Company = null;
+                Department = null;
+                Mail = null;
+                Accountname = null;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public bool IsDomainUser()
+        {
+            return (Mail != null);
         }
     }
 }
