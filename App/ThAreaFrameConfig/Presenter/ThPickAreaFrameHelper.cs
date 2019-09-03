@@ -34,6 +34,12 @@ namespace ThAreaFrameConfig.Presenter
                     {
                         foreach (var objId in entSelected.Value.GetObjectIds())
                         {
+                            // 过滤掉在锁定图层的面积框线
+                            if (ThResidentialRoomDbUtil.IsInLockedLayer(objId))
+                            {
+                                continue;
+                            }
+
                             // 复制面积框线
                             ObjectId clonedObjId = ThEntTool.DeepClone(objId);
                             if (clonedObjId.IsNull)

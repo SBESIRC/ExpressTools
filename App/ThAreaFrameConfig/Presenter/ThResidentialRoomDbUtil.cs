@@ -117,6 +117,14 @@ namespace ThAreaFrameConfig.Presenter
             }
         }
 
+        public static bool IsInLockedLayer(ObjectId objectId)
+        {
+            using (var db = AcadDatabase.Active())
+            {
+                return db.Layers.Element(db.ModelSpace.Element(objectId).LayerId).IsLocked;
+            }
+        }
+
         public static string LayerName(IntPtr obj)
         {
             ObjectId objId = new ObjectId(obj);
