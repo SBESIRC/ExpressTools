@@ -1026,11 +1026,39 @@ namespace ThPlot
             var rightBottomPos = new Point3d(rightTopPos.X, leftBottomPos.Y, 0);
 
             // 根据现有PPT框线的一个比例计算字符的高度
-            var heightRatio = 800.0 / 27000;
+            var heightRatio = 2000.0 / 27000;
             var profileHeight = rightTopPos.Y - leftBottomPos.Y;
             dbText.Height = heightRatio * profileHeight;
+
+            // 设置字体样式
+            var textId = GetIdFromSymbolTable();
+            if (textId != ObjectId.Null)
+                dbText.TextStyleId = textId;
+
             dbText.Position = new Point3d(rightBottomPos.X - 2500 - dbText.Height, rightBottomPos.Y + 1000 + dbText.Height, 0);
             return dbText;
+        }
+
+        /// <summary>
+        /// 获取字体
+        /// </summary>
+        /// <returns></returns>
+        public static ObjectId GetIdFromSymbolTable()
+        {
+            Database dbH = HostApplicationServices.WorkingDatabase;
+            using (Transaction trans = dbH.TransactionManager.StartTransaction())
+            {
+                TextStyleTable textTableStyle = (TextStyleTable)trans.GetObject(dbH.TextStyleTableId, OpenMode.ForWrite);
+
+                if (textTableStyle.Has("黑体"))
+                {
+                    ObjectId idres = textTableStyle["黑体"];
+                    if (!idres.IsErased)
+                        return idres;
+                }
+            }
+
+            return ObjectId.Null;
         }
 
         /// <summary>
