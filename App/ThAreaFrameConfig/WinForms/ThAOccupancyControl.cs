@@ -79,7 +79,12 @@ namespace ThAreaFrameConfig.WinForms
         {
             e.PrevPage.Controls.RemoveAt(0);
             e.Page.Controls.Add(gridControl_aoccupancy);
-            gridControl_aoccupancy.DataSource = DbRepository.AOccupancies(e.Page.Text);
+            string storey = e.Page.Text;
+            if (!DbRepository.Storeys.Where(o => o.Identifier == storey).Any())
+            {
+                DbRepository.AppendStorey(storey);
+            }
+            gridControl_aoccupancy.DataSource = DbRepository.AOccupancies(storey);
             gridControl_aoccupancy.RefreshDataSource();
         }
 

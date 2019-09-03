@@ -137,7 +137,12 @@ namespace ThAreaFrameConfig.WinForms
         {
             e.PrevPage.Controls.RemoveAt(0);
             e.Page.Controls.Add(gridControl_room);
-            gridControl_room.DataSource = DbRepository.Rooms(e.Page.Text);
+            string storey = e.Page.Text;
+            if (!DbRepository.Storeys().Where(o => o.Identifier == storey).Any())
+            {
+                DbRepository.AppendStorey(storey);
+            }
+            gridControl_room.DataSource = DbRepository.Rooms(storey);
             gridControl_room.RefreshDataSource();
             RefreshGridControl();
         }
