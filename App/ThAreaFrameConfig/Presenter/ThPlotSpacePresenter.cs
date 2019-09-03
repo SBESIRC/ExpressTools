@@ -49,9 +49,9 @@ namespace ThAreaFrameConfig.Presenter
             this.HighlightAreaFrames(areaFrames);
         }
 
-        public void OnPickAreaFrames(string name)
+        public bool OnPickAreaFrames(string name)
         {
-            this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigPlotSpaceLayer);
+            return this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigPlotSpaceLayer);
         }
 
         public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)

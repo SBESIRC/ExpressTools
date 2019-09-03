@@ -49,9 +49,9 @@ namespace ThAreaFrameConfig.Presenter
             this.HighlightAreaFrames(areaFrames);
         }
 
-        public void OnPickAreaFrames(string name)
+        public bool OnPickAreaFrames(string name)
         {
-            this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigOutdoorParkingSpaceLayer);
+            return this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigOutdoorParkingSpaceLayer);
         }
 
         public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)

@@ -26,9 +26,9 @@ namespace ThAreaFrameConfig.Presenter
             this.HandleAcadException(e);
         }
 
-        public void OnPickAreaFrames(string name)
+        public bool OnPickAreaFrames(string name)
         {
-            this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigBuildingLayer);
+            return this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigBuildingLayer);
         }
 
         public void OnRenameAreaFrameLayer(string name, string newName)

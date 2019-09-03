@@ -5,7 +5,7 @@ namespace ThAreaFrameConfig.Presenter
     public interface IThAreaFramePresenterCallback
     {
         // 选取面积框线
-        void OnPickAreaFrames(string name);
+        bool OnPickAreaFrames(string name);
 
         // 删除面积框线
         void OnDeleteAreaFrame(IntPtr areaFrame);

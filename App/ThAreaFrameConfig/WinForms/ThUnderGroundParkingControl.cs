@@ -97,10 +97,11 @@ namespace ThAreaFrameConfig.WinForms
                 string name = ThResidentialRoomUtil.LayerName(parking);
 
                 // 选取面积框线
-                Presenter.OnPickAreaFrames(name);
-
-                // 更新界面
-                this.Reload();
+                if (Presenter.OnPickAreaFrames(name))
+                {
+                    // 更新界面
+                    this.Reload();
+                }
             }
         }
 

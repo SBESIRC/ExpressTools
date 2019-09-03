@@ -19,9 +19,9 @@ namespace ThAreaFrameConfig.Presenter
             roomView.Attach(this);
         }
 
-        public void OnPickAreaFrames(string name)
+        public bool OnPickAreaFrames(string name)
         {
-            this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigLayer);
+            return this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigLayer);
         }
 
         public void OnHandleAcadException(System.Exception e)
