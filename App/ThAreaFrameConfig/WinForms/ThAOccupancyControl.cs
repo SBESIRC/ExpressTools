@@ -276,7 +276,7 @@ namespace ThAreaFrameConfig.WinForms
 
         private void barButtonItem_add_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            using (var dlg = new ThResidentialStoreyDialog())
+            using (var dlg = new ThResidentialStoreyDialog(""))
             {
                 dlg.Text = "增加层";
                 if (DialogResult.OK != dlg.ShowDialog())
@@ -310,22 +310,17 @@ namespace ThAreaFrameConfig.WinForms
 
         private void barButtonItem_modify_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            using (var dlg = new ThResidentialStoreyDialog())
+            using (var dlg = new ThResidentialStoreyDialog(CurrentStorey.Identifier))
             {
                 dlg.Text = "修改层";
                 if (DialogResult.OK != dlg.ShowDialog())
                     return;
 
                 // 更新图纸
-                XtraTabPage page = this.xtraTabControl1.SelectedTabPage;
-                ThAOccupancyStorey storey = DbRepository.Storeys.Where(o => o.Identifier == page.Text).FirstOrDefault();
-                if (storey != null)
+                foreach (var aoccupancy in CurrentStorey.AOccupancies)
                 {
-                    foreach(var aoccupancy in storey.AOccupancies)
-                    {
-                        string newName = ThResidentialRoomUtil.LayerName(dlg.Storey, aoccupancy);
-                        Presenter.OnRenameAreaFrameLayer(newName, aoccupancy.Frame);
-                    }
+                    string newName = ThResidentialRoomUtil.LayerName(dlg.Storey, aoccupancy);
+                    Presenter.OnRenameAreaFrameLayer(newName, aoccupancy.Frame);
                 }
 
                 // 更新界面

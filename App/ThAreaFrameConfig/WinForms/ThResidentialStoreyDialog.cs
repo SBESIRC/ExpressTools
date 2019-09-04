@@ -18,18 +18,38 @@ namespace ThAreaFrameConfig.WinForms
             {
                 if (radioButton_common.Checked)
                     return "c" + textBox_storey.Text;
-                else if (radioButton_odd.Checked)
-                    return "j" + textBox_storey.Text;
                 else if (radioButton_even.Checked)
                     return "o" + textBox_storey.Text;
+                else if (radioButton_odd.Checked)
+                    return "j" + textBox_storey.Text;
                 else
                     return "";
             }
         }
 
-        public ThResidentialStoreyDialog()
+        public ThResidentialStoreyDialog(string storey)
         {
             InitializeComponent();
+            if (!string.IsNullOrEmpty(storey))
+            {
+                if (storey.StartsWith("c"))
+                {
+                    // 所有楼层
+                    radioButton_common.Checked = true;
+                }
+                else if (storey.StartsWith("o"))
+                {
+                    // 所有偶数楼层
+                    radioButton_even.Checked = true;
+                }
+                else if (storey.StartsWith("j"))
+                {
+                    // 所有奇数楼层
+                    radioButton_odd.Checked = true;
+                }
+
+                textBox_storey.Text = storey.Substring(1);
+            }
         }
 
         private void textBox_storey_Validating(object sender, CancelEventArgs e)

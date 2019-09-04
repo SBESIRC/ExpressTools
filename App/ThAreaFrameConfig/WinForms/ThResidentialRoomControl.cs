@@ -366,34 +366,9 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        private void xtraTabControl1_CustomHeaderButtonClick(object sender, DevExpress.XtraTab.ViewInfo.CustomHeaderButtonEventArgs e)
-        {
-            if (e.Button.Kind == DevExpress.XtraEditors.Controls.ButtonPredefines.Plus)
-            {
-                using (var dlg = new ThResidentialStoreyDialog())
-                {
-                    if (DialogResult.OK != dlg.ShowDialog())
-                        return;
-
-                    DbRepository.AppendStorey(dlg.Storey);
-                    XtraTabPage page = this.xtraTabControl1.TabPages.Add(dlg.Storey);
-                    this.xtraTabControl1.SelectedTabPage = page;
-                }
-            }
-            else if (e.Button.Kind == DevExpress.XtraEditors.Controls.ButtonPredefines.Minus)
-            {
-                if (this.xtraTabControl1.TabPages.Count == 1)
-                    return;
-
-                DbRepository.RemoveStorey(this.CurrentStorey.Identifier);
-                this.xtraTabControl1.TabPages.Remove(this.xtraTabControl1.SelectedTabPage);
-                Presenter.OnRemoveStorey(ThResidentialRoomUtil.LayerNames(this.CurrentStorey).ToArray());
-            }
-        }
-
         private void barButtonItem_add_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            using (var dlg = new ThResidentialStoreyDialog())
+            using (var dlg = new ThResidentialStoreyDialog(""))
             {
                 dlg.Text = "增加层";
                 if (DialogResult.OK != dlg.ShowDialog())
@@ -433,7 +408,7 @@ namespace ThAreaFrameConfig.WinForms
 
         private void barButtonItem_modify_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            using (var dlg = new ThResidentialStoreyDialog())
+            using (var dlg = new ThResidentialStoreyDialog(CurrentStorey.Identifier))
             {
                 dlg.Text = "修改层";
                 if (DialogResult.OK != dlg.ShowDialog())
