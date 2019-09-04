@@ -61,7 +61,7 @@ namespace ThAreaFrameConfig.WinForms
                 textBox_storey.Select(0, textBox_storey.Text.Length);
 
                 // Set the ErrorProvider error with the text to display. 
-                this.errorProvider1.SetError(textBox_storey, "请输入正确的楼层格式");
+                this.errorProvider1.SetError(textBox_storey, "请输入正确的楼层格式。\n" + "例如：1^5'9^13");
             }
         }
 
@@ -76,7 +76,7 @@ namespace ThAreaFrameConfig.WinForms
             var floors = new List<int>();
 
             // 匹配X^Y
-            string pattern = @"-?\d+[\^]-?\d+";
+            string pattern = @"^-?[0-9]+[\^]-?[0-9]+$";
             Match m = Regex.Match(storey, pattern);
             while (m.Success)
             {
@@ -87,7 +87,7 @@ namespace ThAreaFrameConfig.WinForms
             }
 
             // 匹配X'Y
-            pattern = @"-?\d+'-?\d+";
+            pattern = @"^-?[0-9]+'-?[0-9]+$";
             m = Regex.Match(storey, pattern);
             while (m.Success)
             {
@@ -98,7 +98,7 @@ namespace ThAreaFrameConfig.WinForms
             }
 
             // 匹配数字
-            pattern = @"-?\d+";
+            pattern = @"^-?[0-9]+$";
             m = Regex.Match(storey, pattern);
             while (m.Success)
             {
