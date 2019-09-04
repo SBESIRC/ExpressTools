@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ThAreaFrameConfig.View;
 
 namespace ThAreaFrameConfig.Presenter
@@ -22,6 +23,11 @@ namespace ThAreaFrameConfig.Presenter
         public bool OnPickAreaFrames(string name)
         {
             return this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigLayer);
+        }
+
+        public bool OnAdjustAreaFrames(Dictionary<string, string> parameters)
+        {
+            return this.AdjustAreaFrames(parameters, ThResidentialRoomDbUtil.ConfigLayer);
         }
 
         public void OnHandleAcadException(System.Exception e)

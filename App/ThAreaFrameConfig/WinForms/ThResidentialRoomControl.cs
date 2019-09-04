@@ -525,5 +525,57 @@ namespace ThAreaFrameConfig.WinForms
                 e.RepositoryItem = null;
             }
         }
+
+        private void gdv_room_CustomUnboundColumnData(object sender, CustomColumnDataEventArgs e)
+        {
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+            if (e.Column.FieldName != "room_area_adjustment")
+            {
+                return;
+            }
+            if (e.IsGetData)
+            {
+                e.Value = "规整";
+            }
+        }
+
+        private void gdv_room_RowClick(object sender, RowClickEventArgs e)
+        {
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+            if (e.HitInfo.Column == null)
+            {
+                return;
+            }
+            if (e.HitInfo.Column.FieldName != "room_area_adjustment")
+            {
+                return;
+            }
+
+
+            GridView gridView = sender as GridView;
+            ThResidentialRoom room = gridView.GetRow(e.RowHandle) as ThResidentialRoom;
+            ThResidentialStorey storey = DbRepository.Storeys().Where(o => o.ID == room.StoreyID).First();
+
+            // 规整参数
+            Dictionary<string, string> parameters = new Dictionary<string, string>
+            {
+                { "storey_identifier",  storey.Identifier   },
+                { "room_name",          room.Name           },
+                { "room_identifier",    room.Identifier     }
+            };
+
+            // 选取面积框线
+            if (Presenter.OnAdjustAreaFrames(parameters))
+            {
+                // 更新界面
+                this.Reload();
+            }
+        }
     }
 }

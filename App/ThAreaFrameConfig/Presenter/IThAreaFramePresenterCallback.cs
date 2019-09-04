@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -6,6 +7,9 @@ namespace ThAreaFrameConfig.Presenter
     {
         // 选取面积框线
         bool OnPickAreaFrames(string name);
+
+        // 规整面积框线
+        bool OnAdjustAreaFrames(Dictionary<string, string> parameters);
 
         // 删除面积框线
         void OnDeleteAreaFrame(IntPtr areaFrame);

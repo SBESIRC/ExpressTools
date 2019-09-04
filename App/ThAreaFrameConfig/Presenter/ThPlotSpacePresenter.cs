@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ThAreaFrameConfig.View;
 
 namespace ThAreaFrameConfig.Presenter
@@ -52,6 +53,11 @@ namespace ThAreaFrameConfig.Presenter
         public bool OnPickAreaFrames(string name)
         {
             return this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigPlotSpaceLayer);
+        }
+
+        public bool OnAdjustAreaFrames(Dictionary<string, string> parameters)
+        {
+            return this.AdjustAreaFrames(parameters, ThResidentialRoomDbUtil.ConfigPlotSpaceLayer);
         }
 
         public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)

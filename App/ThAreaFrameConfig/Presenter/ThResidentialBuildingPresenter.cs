@@ -2,6 +2,7 @@
 using AcHelper;
 using ThAreaFrameConfig.View;
 using Autodesk.AutoCAD.EditorInput;
+using System.Collections.Generic;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -29,6 +30,11 @@ namespace ThAreaFrameConfig.Presenter
         public bool OnPickAreaFrames(string name)
         {
             return this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigBuildingLayer);
+        }
+
+        public bool OnAdjustAreaFrames(Dictionary<string, string> parameters)
+        {
+            return this.AdjustAreaFrames(parameters, ThResidentialRoomDbUtil.ConfigBuildingLayer);
         }
 
         public void OnRenameAreaFrameLayer(string name, string newName)
@@ -91,6 +97,5 @@ namespace ThAreaFrameConfig.Presenter
         {
             //
         }
-
     }
 }

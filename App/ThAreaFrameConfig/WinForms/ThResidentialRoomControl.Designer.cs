@@ -49,6 +49,8 @@
             this.room_area_baywindow = new DevExpress.XtraGrid.Columns.GridColumn();
             this.room_area_miscellaneous = new DevExpress.XtraGrid.Columns.GridColumn();
             this.room_area_aggregation = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.room_area_adjustment = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemHyperLinkEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
@@ -67,6 +69,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_coefficient)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_farcoefficient)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
@@ -115,7 +118,8 @@
             this.gridControl_room.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemHyperLinkEdit1,
             this.repositoryItemComboBox_coefficient,
-            this.repositoryItemComboBox_farcoefficient});
+            this.repositoryItemComboBox_farcoefficient,
+            this.repositoryItemHyperLinkEdit2});
             this.gridControl_room.Size = new System.Drawing.Size(829, 467);
             this.gridControl_room.TabIndex = 0;
             this.gridControl_room.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -240,7 +244,8 @@
             this.room_area_balcony,
             this.room_area_baywindow,
             this.room_area_miscellaneous,
-            this.room_area_aggregation});
+            this.room_area_aggregation,
+            this.room_area_adjustment});
             this.gdv_room.GridControl = this.gridControl_room;
             this.gdv_room.Name = "gdv_room";
             this.gdv_room.OptionsBehavior.AutoExpandAllGroups = true;
@@ -260,8 +265,10 @@
             this.gdv_room.OptionsView.ShowGroupPanel = false;
             this.gdv_room.OptionsView.ShowIndicator = false;
             this.gdv_room.Tag = "room";
+            this.gdv_room.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gdv_room_RowClick);
             this.gdv_room.MasterRowGetLevelDefaultView += new DevExpress.XtraGrid.Views.Grid.MasterRowGetLevelDefaultViewEventHandler(this.gdv_room_MasterRowGetLevelDefaultView);
             this.gdv_room.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gdv_room_PopupMenuShowing);
+            this.gdv_room.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gdv_room_CustomUnboundColumnData);
             this.gdv_room.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gdv_room_CustomColumnDisplayText);
             // 
             // room_name
@@ -334,6 +341,23 @@
             this.room_area_aggregation.OptionsColumn.ReadOnly = true;
             this.room_area_aggregation.Visible = true;
             this.room_area_aggregation.VisibleIndex = 6;
+            // 
+            // room_area_adjustment
+            // 
+            this.room_area_adjustment.Caption = "规整";
+            this.room_area_adjustment.ColumnEdit = this.repositoryItemHyperLinkEdit2;
+            this.room_area_adjustment.FieldName = "room_area_adjustment";
+            this.room_area_adjustment.Name = "room_area_adjustment";
+            this.room_area_adjustment.OptionsColumn.AllowEdit = false;
+            this.room_area_adjustment.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.room_area_adjustment.Visible = true;
+            this.room_area_adjustment.VisibleIndex = 7;
+            // 
+            // repositoryItemHyperLinkEdit2
+            // 
+            this.repositoryItemHyperLinkEdit2.AutoHeight = false;
+            this.repositoryItemHyperLinkEdit2.LinkColor = System.Drawing.Color.Blue;
+            this.repositoryItemHyperLinkEdit2.Name = "repositoryItemHyperLinkEdit2";
             // 
             // repositoryItemHyperLinkEdit1
             // 
@@ -453,6 +477,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_coefficient)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox_farcoefficient)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdv_room)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
@@ -496,5 +521,7 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem_add;
         private DevExpress.XtraBars.BarButtonItem barButtonItem_modify;
         private DevExpress.XtraBars.BarButtonItem barButtonItem_delete;
+        private DevExpress.XtraGrid.Columns.GridColumn room_area_adjustment;
+        private DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit repositoryItemHyperLinkEdit2;
     }
 }

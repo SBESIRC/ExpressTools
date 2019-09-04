@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ThAreaFrameConfig.View;
 
 namespace ThAreaFrameConfig.Presenter
@@ -47,6 +48,11 @@ namespace ThAreaFrameConfig.Presenter
         public bool OnPickAreaFrames(string name)
         {
             return this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigRoofLayer);
+        }
+
+        public bool OnAdjustAreaFrames(Dictionary<string, string> parameters)
+        {
+            return this.AdjustAreaFrames(parameters, ThResidentialRoomDbUtil.ConfigRoofLayer);
         }
 
         public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)
