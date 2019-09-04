@@ -47,6 +47,14 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [The Right Tools for the Job – AutoCAD Part 5](https://adndevblog.typepad.com/autocad/2012/08/the-right-tools-for-the-job-autocad-part-5.html)
 
+## Overrule
+
+[Customizing the display of standard AutoCAD objects using .NET](https://through-the-interface.typepad.com/through_the_interface/2007/02/changing_the_co.html)
+
+[Let’s get specific: customizing the display of individual AutoCAD objects using .NET](https://through-the-interface.typepad.com/through_the_interface/2009/04/lets-get-specific-customizing-the-display-of-individual-autocad-objects-using-net.html)
+
+[Optimized overruling in AutoCAD 2010 using .NET](https://through-the-interface.typepad.com/through_the_interface/2009/04/optimized-overruling-in-autocad-2010-using-net.html)
+
 ## Calling commands
 
 [Techniques for calling AutoCAD commands programmatically](https://www.keanw.com/2006/08/techniques_for_.html)
