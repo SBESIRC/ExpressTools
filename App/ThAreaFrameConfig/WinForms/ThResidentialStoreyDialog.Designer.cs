@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.radioButton_common = new System.Windows.Forms.RadioButton();
             this.radioButton_odd = new System.Windows.Forms.RadioButton();
             this.radioButton_even = new System.Windows.Forms.RadioButton();
@@ -35,6 +36,8 @@
             this.textBox_storey = new System.Windows.Forms.TextBox();
             this.button_ok = new System.Windows.Forms.Button();
             this.button_cancel = new System.Windows.Forms.Button();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // radioButton_common
@@ -84,6 +87,8 @@
             this.textBox_storey.Name = "textBox_storey";
             this.textBox_storey.Size = new System.Drawing.Size(167, 22);
             this.textBox_storey.TabIndex = 4;
+            this.textBox_storey.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_storey_Validating);
+            this.textBox_storey.Validated += new System.EventHandler(this.textBox_storey_Validated);
             // 
             // button_ok
             // 
@@ -105,6 +110,10 @@
             this.button_cancel.Text = "取消";
             this.button_cancel.UseVisualStyleBackColor = true;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // ThResidentialStoreyDialog
             // 
             this.AcceptButton = this.button_ok;
@@ -125,6 +134,7 @@
             this.Name = "ThResidentialStoreyDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "增加层";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -139,5 +149,6 @@
         private System.Windows.Forms.TextBox textBox_storey;
         private System.Windows.Forms.Button button_ok;
         private System.Windows.Forms.Button button_cancel;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
