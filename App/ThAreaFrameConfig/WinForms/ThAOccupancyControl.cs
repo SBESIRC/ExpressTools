@@ -288,8 +288,10 @@ namespace ThAreaFrameConfig.WinForms
                     return;
                 }
 
-                // 增加一个新的楼层不会导致图纸变化
+                // 更新数据源
                 DbRepository.AppendStorey(dlg.Storey);
+
+                // 更新界面
                 XtraTabPage page = this.xtraTabControl1.TabPages.Add(dlg.Storey);
                 this.xtraTabControl1.SelectedTabPage = page;
             }
@@ -310,8 +312,11 @@ namespace ThAreaFrameConfig.WinForms
                 Presenter.OnDeleteAreaFrameLayer(name);
             }
 
+            // 更新数据源
+            DbRepository.RemoveStorey(CurrentStorey.Identifier);
+
             // 更新界面
-            this.Reload();
+            this.xtraTabControl1.TabPages.Remove(this.xtraTabControl1.SelectedTabPage, true);
         }
 
         private void barButtonItem_modify_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
