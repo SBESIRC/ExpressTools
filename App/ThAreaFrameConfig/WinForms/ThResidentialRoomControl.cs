@@ -517,12 +517,15 @@ namespace ThAreaFrameConfig.WinForms
             {
                 // 更新图纸
                 ThResidentialAreaFrame areaFrame = ri.View.GetRow(ri.RowHandle) as ThResidentialAreaFrame;
-                string layer = ThResidentialRoomDbUtil.LayerName(areaFrame.Frame);
-                Presenter.OnDeleteAreaFrame(areaFrame.Frame);
-                Presenter.OnDeleteAreaFrameLayer(layer);
+                if (areaFrame.IsDefined)
+                {
+                    string layer = ThResidentialRoomDbUtil.LayerName(areaFrame.Frame);
+                    Presenter.OnDeleteAreaFrame(areaFrame.Frame);
+                    Presenter.OnDeleteAreaFrameLayer(layer);
 
-                // 更新界面
-                this.Reload();
+                    // 更新界面
+                    this.Reload();
+                }
             }
         }
 

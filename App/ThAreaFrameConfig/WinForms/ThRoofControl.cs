@@ -229,12 +229,15 @@ namespace ThAreaFrameConfig.WinForms
             { 
                 // 更新图纸
                 ThRoof roof = ri.View.GetRow(ri.RowHandle) as ThRoof;
-                string layer = ThResidentialRoomDbUtil.LayerName(roof.Frame);
-                Presenter.OnDeleteAreaFrame(roof.Frame);
-                Presenter.OnDeleteAreaFrameLayer(layer);
+                if (roof.IsDefined)
+                {
+                    string layer = ThResidentialRoomDbUtil.LayerName(roof.Frame);
+                    Presenter.OnDeleteAreaFrame(roof.Frame);
+                    Presenter.OnDeleteAreaFrameLayer(layer);
 
-                // 更新界面
-                this.Reload();
+                    // 更新界面
+                    this.Reload();
+                }
             }
         }
 
