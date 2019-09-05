@@ -70,21 +70,28 @@ namespace SampleClass
             // 画布窗口
             WindowsElement paintplate = AutoCAD.FindElementByAccessibilityId("59648");
 
-            // 画线
-            AutoCAD.FindElementByAccessibilityId("2").SendKeys("PLINE\n");
-            AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 300, 100);
-            AutoCAD.Mouse.Click(null);
-            AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 400, 100);
-            AutoCAD.Mouse.Click(null);
-            AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 300, 200);
-            AutoCAD.Mouse.Click(null);
-            AutoCAD.Keyboard.SendKeys("C\n");
+            // 画线6次
+            for (int i = 0; i < 6; i++)
+            {
+                AutoCAD.FindElementByAccessibilityId("2").SendKeys("PLINE\n");
+                AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 300 + i * 150, 100);
+                AutoCAD.Mouse.Click(null);
+                AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 400 + i * 150, 100);
+                AutoCAD.Mouse.Click(null);
+                AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 300 + i * 150, 200);
+                AutoCAD.Mouse.Click(null);
+                AutoCAD.Keyboard.SendKeys("C\n");
+            }
 
-            // Click or SendKeys
+            // 打开和移动
             AutoCAD.FindElementByAccessibilityId("2").SendKeys("THBPS\n");
             Thread.Sleep(TimeSpan.FromSeconds(3));
+            AutoCAD.Mouse.MouseMove(AutoCAD.FindElementByName("天华单体框线图层规整").Coordinates, 100, 10);
+            AutoCAD.Mouse.MouseDown(null);
+            AutoCAD.Mouse.MouseMove(null, 0, 100);
+            AutoCAD.Mouse.MouseUp(null);
 
-            // 输入值
+            // 第一页测试
             AutoCAD.FindElementByAccessibilityId("textEdit_number").SendKeys("1#");
             AutoCAD.FindElementByAccessibilityId("textEdit_name").SendKeys("一号楼");
             AutoCAD.FindElementByName("Open").Click();
@@ -93,14 +100,34 @@ namespace SampleClass
             AutoCAD.Mouse.Click(null);
             AutoCAD.FindElementByAccessibilityId("textEdit_above_ground_storeys").SendKeys("10");
             AutoCAD.FindElementByAccessibilityId("textEdit_under_ground_storeys").SendKeys("1");
-
             AutoCAD.FindElementByAccessibilityId("simpleButton_OK").Click();
             AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 300, 100);
             AutoCAD.Mouse.Click(null);
             AutoCAD.Keyboard.SendKeys("\n");
-
-            //
             Assert.AreEqual(AutoCAD.FindElementByAccessibilityId("comboBoxEdit_category").Text, "公建");
+
+            // 第二页选择测试
+            AutoCAD.Mouse.MouseMove(AutoCAD.FindElementByAccessibilityId("tabPane1").Coordinates, 100, 15);
+            AutoCAD.Mouse.Click(null);
+            
+            var windowsElements = AutoCAD.FindElementsByName("选择 row 0");
+            for(int i = windowsElements.Count - 1, j = 0; i >= 0; j += 150, i--)
+            {
+                windowsElements[i].Click();
+                AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 450 + j, 100);
+                AutoCAD.Mouse.DoubleClick(null);
+                AutoCAD.Mouse.Click(null);
+                AutoCAD.Keyboard.SendKeys("\n");
+            }
+            
+            AutoCAD.FindElementByName("选择 row 1").Click();
+            AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 1050, 100);
+            AutoCAD.Mouse.DoubleClick(null);
+            AutoCAD.Mouse.Click(null);
+            AutoCAD.Keyboard.SendKeys("\n");
+
+            Assert.AreEqual(AutoCAD.FindElementByName("面积 row 0").Text, "0.03");
+            Assert.AreEqual(AutoCAD.FindElementByName("面积 row 1").Text, "0.03");
         }
         
         [Test]
