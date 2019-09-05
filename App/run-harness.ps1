@@ -38,7 +38,10 @@ Task Compile.Installer.Test -Depends Requires.MSBuild, Requires.XUnitConsole  {
 }
 
 Task Harness -Depends Requires.XUnitConsole, Compile.Installer.Test {
+    $script:windows = New-Object -ComObject shell.application
+    $windows.MinimizeAll()
     exec {
         & $xunitExe ".\build\bin\$buildType\ThHarness.dll"
     }
+    $windows.UndoMinimizeALL()
 }
