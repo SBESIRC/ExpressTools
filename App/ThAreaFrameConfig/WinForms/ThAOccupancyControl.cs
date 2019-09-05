@@ -281,6 +281,13 @@ namespace ThAreaFrameConfig.WinForms
                 if (DialogResult.OK != dlg.ShowDialog())
                     return;
 
+                // 楼层是否已经存在
+                if (DbRepository.Storey(dlg.Storey) != null)
+                {
+                    MessageBox.Show("楼层已存在！请指定新的楼层");
+                    return;
+                }
+
                 // 增加一个新的楼层不会导致图纸变化
                 DbRepository.AppendStorey(dlg.Storey);
                 XtraTabPage page = this.xtraTabControl1.TabPages.Add(dlg.Storey);

@@ -36,9 +36,15 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
+        public ThAOccupancyStorey Storey(string storey)
+        {
+            return storeys.Where(o => o.Identifier == storey).FirstOrDefault();
+        }
+
         public List<ThAOccupancy> AOccupancies(string storey)
         {
-            return storeys.Where(o => o.Identifier == storey).First().AOccupancies;
+            var item = Storey(storey);
+            return item?.AOccupancies;
         }
 
         public List<ThAOccupancy> AOccupancies(ThAOccupancyStorey storey)

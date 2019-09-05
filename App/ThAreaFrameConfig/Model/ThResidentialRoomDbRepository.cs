@@ -76,11 +76,16 @@ namespace ThAreaFrameConfig.Model
 
         public void RemoveStorey(string identifier)
         {
-            var storey = storeys.Where(o => o.Identifier == identifier).FirstOrDefault();
-            if (storey != null)
+            var item = Storey(identifier);
+            if (item != null)
             {
-                storeys.Remove(storey);
+                storeys.Remove(item);
             }
+        }
+
+        public ThResidentialStorey Storey(string storey)
+        {
+            return storeys.Where(o => o.Identifier == storey).FirstOrDefault();
         }
 
         private void ConstructRepository()
