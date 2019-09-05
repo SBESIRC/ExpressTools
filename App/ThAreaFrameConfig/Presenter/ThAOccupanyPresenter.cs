@@ -50,9 +50,9 @@ namespace ThAreaFrameConfig.Presenter
             return this.AdjustAreaFrames(parameters, ThResidentialRoomDbUtil.ConfigLayer);
         }
 
-        public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)
+        public void OnMoveAreaFrameToLayer(string newName, IntPtr areaFrame)
         {
-            this.RenameAreaFrameLayer(newName, areaFrame);
+            this.MoveAreaFrameToLayer(newName, areaFrame, ThResidentialRoomDbUtil.ConfigLayer);
         }
 
         public void OnDeleteAreaFrame(IntPtr areaFrame)

@@ -115,7 +115,7 @@ namespace ThAreaFrameConfig.WinForms
                 string name = ThResidentialRoomUtil.LayerName(roof);
 
                 // 更新面积框线图层名
-                Presenter.OnRenameAreaFrameLayer(name, roof.Frame);
+                Presenter.OnMoveAreaFrameToLayer(name, roof.Frame);
 
                 // 更新界面
                 this.Reload();
