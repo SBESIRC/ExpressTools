@@ -4,11 +4,8 @@ using ThAreaFrameConfig.Presenter;
 
 namespace ThAreaFrameConfig.View
 {
-    public interface IPlotSpaceView : IThAreaFrameView<IPlotSpacePresenterCallback>
+    public interface IPlotSpaceView : IThAreaFrameView
     {
         List<ThPlotSpace> Spaces { get; set; }
-
-        // 刷新
-        void Reload();
     }
 }

@@ -27,6 +27,48 @@ namespace ThAreaFrameConfig.Model
             ConstructAreaFrames();
         }
 
+        public void RegisterAreaFrameModifiedEvent(ObjectEventHandler handler)
+        {
+            database.ObjectModified += handler;
+        }
+
+        public void UnRegisterAreaFrameModifiedEvent(ObjectEventHandler handler)
+        {
+            database.ObjectModified -= handler;
+        }
+
+        public void RegisterAreaFrameErasedEvent(ObjectErasedEventHandler handler)
+        {
+            database.ObjectErased += handler;
+        }
+
+        public void UnRegisterAreaFrameErasedEvent(ObjectErasedEventHandler handler)
+        {
+            database.ObjectErased -= handler;
+        }
+
+        public ThResidentialAreaFrame AreaFrame(DBObject dbobj)
+        {
+            foreach (var storey in storeys)
+            {
+                foreach (var room in storey.Rooms)
+                {
+                    foreach(var component in room.Components)
+                    {
+                        foreach (var areaFrame in component.AreaFrames)
+                        {
+                            if (areaFrame.Frame == dbobj.ObjectId.OldIdPtr)
+                            {
+                                return areaFrame;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public void AppendStorey(string identifier)
         {
             storeys.Add(ThResidentialRoomUtil.DefaultResidentialStorey(identifier));

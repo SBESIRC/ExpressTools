@@ -4,11 +4,8 @@ using ThAreaFrameConfig.Presenter;
 
 namespace ThAreaFrameConfig.View
 {
-    public interface IOutdoorParkingSpaceView : IThAreaFrameView<IOutdoorParkingSpacePresenterCallback>
+    public interface IOutdoorParkingSpaceView : IThAreaFrameView
     {
         List<ThOutdoorParkingSpace> Spaces { get; set; }
-
-        // 刷新
-        void Reload();
     }
 }

@@ -4,11 +4,8 @@ using ThAreaFrameConfig.Presenter;
 
 namespace ThAreaFrameConfig.View
 {
-    public interface IResidentialRoomView : IThAreaFrameView<IThAreaFramePresenterCallback>
+    public interface IResidentialRoomView : IThAreaFrameView
     {
         List<ThResidentialRoom> Rooms { get; }
-
-        // 刷新
-        void Reload();
     }
 }

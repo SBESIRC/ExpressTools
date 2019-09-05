@@ -43,11 +43,6 @@ namespace ThAreaFrameConfig.WinForms
             gridControl_public_green_space.RefreshDataSource();
         }
 
-        public void Attach(IPublicGreenSpacePresenterCallback presenter)
-        {
-            //
-        }
-
         public void InitializeGridControl()
         {
             Presenter = new ThPublicGreenSpacePresenter(this);

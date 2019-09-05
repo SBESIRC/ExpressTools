@@ -11,14 +11,15 @@ using DevExpress.XtraGrid.Views.Base;
 using DevExpress.Utils.Menu;
 using DevExpress.XtraTab;
 using DevExpress.XtraTab.ViewInfo;
-using Autodesk.AutoCAD.Runtime;
-using AcadException = Autodesk.AutoCAD.Runtime.Exception;
 using DevExpress.Utils;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.DatabaseServices;
+using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace ThAreaFrameConfig.WinForms
 {
-    public partial class ThResidentialRoomControl : DevExpress.XtraEditors.XtraUserControl, IResidentialRoomView
+    public partial class ThResidentialRoomControl : DevExpress.XtraEditors.XtraUserControl, IResidentialRoomView, IAreaFrameDatabaseReactor
     {
         private ThResidentialRoomPresenter Presenter;
         private ThResidentialRoomDbRepository DbRepository;
@@ -117,11 +118,6 @@ namespace ThAreaFrameConfig.WinForms
         private void gdv_room_area_unit_MasterRowGetLevelDefaultView(object sender, DevExpress.XtraGrid.Views.Grid.MasterRowGetLevelDefaultViewEventArgs e)
         {
             e.DefaultView = gdv_room_area_frame;
-        }
-
-        public void Attach(IThAreaFramePresenterCallback presenter)
-        {
-            //
         }
 
         private ThResidentialStorey CurrentStorey
@@ -249,7 +245,7 @@ namespace ThAreaFrameConfig.WinForms
         {
             if (e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
             {
-                switch(e.Column.FieldName)
+                switch (e.Column.FieldName)
                 {
                     case "DwellingArea":
                     case "BalconyArea":
@@ -346,9 +342,9 @@ namespace ThAreaFrameConfig.WinForms
             {
                 // 更新图纸
                 ThResidentialRoom room = ri.View.GetRow(ri.RowHandle) as ThResidentialRoom;
-                foreach(var component in room.Components)
+                foreach (var component in room.Components)
                 {
-                    foreach(var frame in component.AreaFrames)
+                    foreach (var frame in component.AreaFrames)
                     {
                         if (!frame.IsDefined)
                         {
@@ -417,9 +413,9 @@ namespace ThAreaFrameConfig.WinForms
                 // 更新图纸
                 foreach (var room in CurrentStorey.Rooms)
                 {
-                    foreach(var component in room.Components)
+                    foreach (var component in room.Components)
                     {
-                        foreach(var frame in component.AreaFrames)
+                        foreach (var frame in component.AreaFrames)
                         {
                             if (!frame.IsDefined)
                             {
@@ -576,6 +572,50 @@ namespace ThAreaFrameConfig.WinForms
                 // 更新界面
                 this.Reload();
             }
+        }
+
+        public void RegisterAreaFrameModifiedEvent()
+        {
+            DbRepository.RegisterAreaFrameModifiedEvent(OnAreaFrameModified);
+        }
+
+        public void UnRegisterAreaFrameModifiedEvent()
+        {
+            DbRepository.UnRegisterAreaFrameModifiedEvent(OnAreaFrameModified);
+        }
+
+        public void RegisterAreaFrameErasedEvent()
+        {
+            DbRepository.RegisterAreaFrameErasedEvent(OnAreaFrameErased);
+        }
+
+        public void UnRegisterAreaFrameErasedEvent()
+        {
+            DbRepository.UnRegisterAreaFrameErasedEvent(OnAreaFrameErased);
+        }
+
+        private void OnAreaFrameModified(object sender, ObjectEventArgs e)
+        {
+            if (DbRepository.AreaFrame(e.DBObject) != null)
+            {
+                AcadApp.Idle += Application_OnIdle;
+            }
+        }
+
+        private void OnAreaFrameErased(object sender, ObjectErasedEventArgs e)
+        {
+            if (DbRepository.AreaFrame(e.DBObject) != null)
+            {
+                AcadApp.Idle += Application_OnIdle;
+            }
+        }
+
+        private void Application_OnIdle(object sender, EventArgs e)
+        {
+            AcadApp.Idle -= Application_OnIdle;
+
+            // 更新界面
+            this.Reload();
         }
     }
 }

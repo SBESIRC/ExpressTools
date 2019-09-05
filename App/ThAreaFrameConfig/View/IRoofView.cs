@@ -4,11 +4,8 @@ using ThAreaFrameConfig.Presenter;
 
 namespace ThAreaFrameConfig.View
 {
-    public interface IRoofView : IThAreaFrameView<IRoofPresenterCallback>
+    public interface IRoofView : IThAreaFrameView
     {
         List<ThRoof> Roofs { get; set; }
-
-        // 刷新
-        void Reload();
     }
 }

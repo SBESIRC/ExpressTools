@@ -4,11 +4,8 @@ using ThAreaFrameConfig.Presenter;
 
 namespace ThAreaFrameConfig.View
 {
-    public interface IAOccupancyView : IThAreaFrameView<IAOccupanyPresenterCallback>
+    public interface IAOccupancyView : IThAreaFrameView
     {
         List<ThAOccupancy> AOccupancies { get; set; }
-
-        // 刷新
-        void Reload();
     }
 }

@@ -15,11 +15,6 @@ namespace ThAreaFrameConfig.Presenter
 
         public object UI => roomView;
 
-        public void Initialize()
-        {
-            roomView.Attach(this);
-        }
-
         public void OnHandleAcadException(Exception e)
         {
             this.HandleAcadException(e);

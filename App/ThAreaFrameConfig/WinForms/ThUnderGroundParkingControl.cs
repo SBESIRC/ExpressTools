@@ -22,11 +22,6 @@ namespace ThAreaFrameConfig.WinForms
             InitializeGridControl();
         }
 
-        public void Attach(IUnderGroundParkingPresenterCallback presenter)
-        {
-            //
-        }
-
         public List<ThUnderGroundParking> Parkings
         {
             get

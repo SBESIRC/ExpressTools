@@ -36,11 +36,6 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        public void Attach(IRoofPresenterCallback presenter)
-        {
-            //
-        }
-
         public void Reload()
         {
             DbRepository = new ThRoofDbRepository();

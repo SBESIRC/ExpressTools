@@ -24,11 +24,6 @@ namespace ThAreaFrameConfig.WinForms
             InitializeGridControl();
         }
 
-        public void Attach(IRoofGreenSpacePresenterCallback presenter)
-        {
-            //
-        }
-
         public List<ThRoofGreenSpace> Spaces
         {
             get

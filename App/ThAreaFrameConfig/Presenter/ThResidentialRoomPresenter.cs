@@ -15,11 +15,6 @@ namespace ThAreaFrameConfig.Presenter
 
         public object UI => roomView;
 
-        public void Initialize()
-        {
-            roomView.Attach(this);
-        }
-
         public bool OnPickAreaFrames(string name)
         {
             return this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigLayer);

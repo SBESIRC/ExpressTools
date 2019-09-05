@@ -62,10 +62,5 @@ namespace ThAreaFrameConfig.WinForms
             Presenter.OnRenameAreaFrameLayer(name, newName);
             DbRepository.Building.Layer = newName;
         }
-
-        public void Attach(IResidentialBuildingPresenterCallback presenter)
-        {
-            //
-        }
     }
 }

@@ -35,11 +35,6 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        public void Attach(IOutdoorParkingSpacePresenterCallback presenter)
-        {
-            //
-        }
-
         public void Reload()
         {
             DbRepository = new ThOutdoorParkingSpaceDbRepository();

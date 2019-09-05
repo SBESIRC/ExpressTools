@@ -78,6 +78,7 @@
             this.tabPane1.Size = new System.Drawing.Size(525, 378);
             this.tabPane1.TabIndex = 2;
             this.tabPane1.Text = "tabPane1";
+            this.tabPane1.SelectedPageChanged += new DevExpress.XtraBars.Navigation.SelectedPageChangedEventHandler(this.tabPane1_SelectedPageChanged);
             // 
             // tabNavigationPage1
             // 
@@ -194,6 +195,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Name = "ThResidentialRoomControlDialog";
             this.Text = "天华单体框线图层规整";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ThResidentialRoomControlDialog_FormClosed);
+            this.Load += new System.EventHandler(this.ThResidentialRoomControlDialog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tabPane1)).EndInit();
             this.tabPane1.ResumeLayout(false);
             this.tabNavigationPage1.ResumeLayout(false);

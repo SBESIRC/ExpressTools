@@ -38,14 +38,13 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        public void Attach(IAOccupanyPresenterCallback presenter)
-        {
-            //
-        }
-
         public void Reload()
         {
             DbRepository = new ThAOccupancyDbRepository();
+            if (DbRepository.Storeys.Count == 0)
+            {
+                DbRepository.AppendStorey("c1");
+            }
             gridControl_aoccupancy.DataSource = DbRepository.AOccupancies(this.CurrentStorey);
             gridControl_aoccupancy.RefreshDataSource();
         }

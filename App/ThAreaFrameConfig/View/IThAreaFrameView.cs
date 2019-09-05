@@ -5,8 +5,9 @@ using System.Text;
 
 namespace ThAreaFrameConfig.View
 {
-    public interface IThAreaFrameView<TCallbacks>
+    public interface IThAreaFrameView
     {
-        void Attach(TCallbacks presenter);
+        // 刷新界面
+        void Reload();
     }
 }

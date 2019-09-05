@@ -7,6 +7,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using System.Collections.Generic;
+using Autodesk.AutoCAD.Runtime;
 
 namespace ThAreaFrameConfig.Presenter
 {

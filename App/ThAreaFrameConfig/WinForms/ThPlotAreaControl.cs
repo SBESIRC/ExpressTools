@@ -36,11 +36,6 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        public void Attach(IPlotSpacePresenterCallback presenter)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Reload()
         {
             DbRepository = new ThPlotSpaceDbRepository();

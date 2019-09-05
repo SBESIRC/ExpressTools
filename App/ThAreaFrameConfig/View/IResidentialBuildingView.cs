@@ -8,9 +8,7 @@ using ThAreaFrameConfig.Presenter;
 
 namespace ThAreaFrameConfig.View
 {
-    public interface IResidentialBuildingView : IThAreaFrameView<IResidentialBuildingPresenterCallback>
+    public interface IResidentialBuildingView : IThAreaFrameView
     {
-        // 刷新
-        void Reload();
     }
 }

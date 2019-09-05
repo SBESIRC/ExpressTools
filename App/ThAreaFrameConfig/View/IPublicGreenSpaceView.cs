@@ -4,11 +4,8 @@ using ThAreaFrameConfig.Presenter;
 
 namespace ThAreaFrameConfig.View
 {
-    public interface IPublicGreenSpaceView : IThAreaFrameView<IPublicGreenSpacePresenterCallback>
+    public interface IPublicGreenSpaceView : IThAreaFrameView
     {
         List<ThPublicGreenSpace> Spaces { get; set; }
-
-        // 刷新
-        void Reload();
     }
 }
