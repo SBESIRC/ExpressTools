@@ -128,6 +128,21 @@ namespace SampleClass
 
             Assert.AreEqual(AutoCAD.FindElementByName("面积 row 0").Text, "0.03");
             Assert.AreEqual(AutoCAD.FindElementByName("面积 row 1").Text, "0.03");
+            // 删除一项
+            AutoCAD.Mouse.MouseMove(AutoCAD.FindElementByName("编号 row 0").Coordinates);
+            AutoCAD.Mouse.ContextClick(null);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            AutoCAD.Mouse.MouseMove(null, 20, 10);
+            AutoCAD.Mouse.Click(null);
+            // 添加楼层
+            AutoCAD.Mouse.MouseMove(AutoCAD.FindElementByName("c1").Coordinates, 10, -10);
+            AutoCAD.Mouse.ContextClick(null);
+            AutoCAD.Mouse.MouseMove(null, 20, 10);
+            AutoCAD.Mouse.Click(null);
+            AutoCAD.FindElementByAccessibilityId("textBox_storey").SendKeys("2");
+            AutoCAD.FindElementByAccessibilityId("button_ok").Click();
+            
+            Thread.Sleep(TimeSpan.FromSeconds(3));
         }
         
         [Test]
