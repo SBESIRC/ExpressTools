@@ -125,7 +125,7 @@ namespace ThIdentity
         }
     }
 
-    public class ThUserProfileex
+    public class ThUserProfileEx
     {
         public string Name;
         public string Title;
@@ -135,49 +135,19 @@ namespace ThIdentity
         public string Accountname;
 
         //oracle 相关信息
-        private const string oracleinformation = "";
+        private const string oracleinformation = "User Id=NC63_AI;" +
+            "Password=NC63_AI;" +
+            "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=172.16.0.8)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME= thapeorcl)))";
         private OracleConnection connection;
 
-        public ThUserProfileex()
-        {
-            connection = Connection(oracleinformation);
-            //查询
-            Select("");
-            if (connection.State != System.Data.ConnectionState.Closed)
-            {
-                connection.Close();
-            }
-        }
-
-        public OracleConnection Connection(string oracleStr)
-        {
-            OracleConnection connection = null;
-            try
-            {
-                connection = new OracleConnection(oracleinformation);
-                connection.Open();
-                return connection;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public void Select(string sql)
+        public ThUserProfileEx()
         {
             try
             {
-                OracleCommand cmd = new OracleCommand(sql, connection);
-                using (var dataReader = cmd.ExecuteReader())
-                {
-                    Name = dataReader.GetValue(1).ToString();
-                    Title = dataReader.GetValue(2).ToString();
-                    Company = dataReader.GetValue(3).ToString();
-                    Department = dataReader.GetValue(4).ToString();
-                    Mail = dataReader.GetValue(5).ToString();
-                    Accountname = dataReader.GetValue(6).ToString();
-                }
+                var userprofilefromlocal = new ThUserProfile();
+                connection = Connection(oracleinformation);
+                //查询
+                Select("select * from v_person_onjob where EMAIL = '" + userprofilefromlocal.Mail + "'");
             }
             catch
             {
@@ -190,7 +160,53 @@ namespace ThIdentity
             }
             finally
             {
-                connection.Close();
+                if (connection.State != System.Data.ConnectionState.Closed)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        public OracleConnection Connection(string oracleStr)
+        {
+            try
+            {
+                connection = new OracleConnection(oracleinformation);
+                connection.Open();
+                return connection;
+            }
+            catch
+            {
+                return connection;
+            }
+        }
+
+        public void Select(string sql)
+        {
+            try
+            {
+                OracleCommand cmd = new OracleCommand(sql, connection);
+                using (var datareader = cmd.ExecuteReader())
+                {
+                    while (datareader.Read())
+                    {
+                        Accountname = datareader["PNCODE"].ToString();
+                        Name = datareader["NAME"].ToString();
+                        Mail = datareader["EMAIL"].ToString();
+                        Company = datareader["CORPNAME"].ToString();
+                        Department = datareader["DEPTNAME"].ToString();
+                        Title = datareader["POSTNAME"].ToString();
+                    }
+                }
+            }
+            catch
+            {
+                Name = null;
+                Title = null;
+                Company = null;
+                Department = null;
+                Mail = null;
+                Accountname = null;
             }
         }
 
