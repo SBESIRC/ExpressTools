@@ -26,8 +26,8 @@ namespace ThAreaFrameConfig.Model
             {
                 "住宅构件",
                 component.Name,
-                frame.Coefficient.ToString(),
-                frame.FARCoefficient.ToString(),
+                String.Format("{0:0.0}", Convert.ToDouble(frame.Coefficient)),
+                String.Format("{0:0.0}", Convert.ToDouble(frame.FARCoefficient)),
                 room.Name,
                 room.Identifier,
                 identifier,
@@ -57,8 +57,8 @@ namespace ThAreaFrameConfig.Model
                             aoccupancy.Component,
                             aoccupancy.Category,
                             "",
-                            aoccupancy.Coefficient.ToString(),
-                            aoccupancy.FARCoefficient.ToString(),
+                            String.Format("{0:0.0}", Convert.ToDouble(aoccupancy.Coefficient)),
+                            String.Format("{0:0.0}", Convert.ToDouble(aoccupancy.FARCoefficient)),
                             // aoccupancy.Floors可以为null，
                             // Convert.ToString(null)返回一个空字符串
                             Convert.ToString(aoccupancy.Floors),
@@ -80,8 +80,8 @@ namespace ThAreaFrameConfig.Model
                             aoccupancy.Component,
                             aoccupancy.Category,
                             "",
-                            aoccupancy.Coefficient.ToString(),
-                            aoccupancy.FARCoefficient.ToString(),
+                            String.Format("{0:0.0}", Convert.ToDouble(aoccupancy.Coefficient)),
+                            String.Format("{0:0.0}", Convert.ToDouble(aoccupancy.FARCoefficient)),
                             // 没有车位层数
                             identifier,
                             "",
@@ -104,7 +104,7 @@ namespace ThAreaFrameConfig.Model
             {           
                 "屋顶构件",
                 "屋顶绿地",
-                greenSpace.Coefficient.ToString(),
+                String.Format("{0:0.0}", Convert.ToDouble(greenSpace.Coefficient)),
                 version,
             };
 
@@ -194,8 +194,8 @@ namespace ThAreaFrameConfig.Model
             string[] tokens =
             {
                 "单体楼顶间",
-                roof.Coefficient.ToString(),
-                roof.FARCoefficient.ToString(),
+                String.Format("{0:0.0}", Convert.ToDouble(roof.Coefficient)),
+                String.Format("{0:0.0}", Convert.ToDouble(roof.FARCoefficient)),
                 version,
             };
 
