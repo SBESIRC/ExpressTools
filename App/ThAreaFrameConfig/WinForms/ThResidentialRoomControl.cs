@@ -212,7 +212,7 @@ namespace ThAreaFrameConfig.WinForms
                 string name = ThResidentialRoomUtil.LayerName(storey, room, component, areaFrame);
 
                 // 更新面积框线图层名
-                Presenter.OnRenameAreaFrameLayer(name, areaFrame.Frame);
+                Presenter.OnMoveAreaFrameToLayer(name, areaFrame.Frame);
 
                 // 更新界面
                 this.Reload();
@@ -376,8 +376,10 @@ namespace ThAreaFrameConfig.WinForms
                     return;
                 }
 
-                // 增加一个新的楼层不会导致图纸变化
+                // 更新数据源
                 DbRepository.AppendStorey(dlg.Storey);
+
+                // 更新界面
                 XtraTabPage page = this.xtraTabControl1.TabPages.Add(dlg.Storey);
                 this.xtraTabControl1.SelectedTabPage = page;
             }
@@ -404,13 +406,17 @@ namespace ThAreaFrameConfig.WinForms
                 }
             }
 
+            // 更新数据源
+            DbRepository.RemoveStorey(CurrentStorey.Identifier);
+
             // 更新界面
-            this.Reload();
+            this.xtraTabControl1.TabPages.Remove(this.xtraTabControl1.SelectedTabPage, true);
         }
 
         private void barButtonItem_modify_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            using (var dlg = new ThResidentialStoreyDialog(CurrentStorey.Identifier))
+            string storey = CurrentStorey.Identifier;
+            using (var dlg = new ThResidentialStoreyDialog(storey))
             {
                 dlg.Text = "修改层";
                 if (DialogResult.OK != dlg.ShowDialog())
@@ -428,14 +434,25 @@ namespace ThAreaFrameConfig.WinForms
                                 continue;
                             }
 
+                            // 将面积框线置于新的图层上
                             string newName = ThResidentialRoomUtil.LayerName(dlg.Storey, room, component, frame);
-                            Presenter.OnRenameAreaFrameLayer(newName, frame.Frame);
+                            Presenter.OnMoveAreaFrameToLayer(newName, frame.Frame);
+
+                            // 删除旧的图层
+                            string name = ThResidentialRoomUtil.LayerName(storey, room, component, frame);
+                            Presenter.OnDeleteAreaFrameLayer(name);
                         }
                     }
                 }
 
+                // 更新数据源
+                DbRepository.AppendStorey(dlg.Storey);
+                DbRepository.RemoveStorey(storey);
+
                 // 更新界面
-                this.Reload();
+                XtraTabPage page = this.xtraTabControl1.TabPages.Add(dlg.Storey);
+                this.xtraTabControl1.TabPages.Remove(this.xtraTabControl1.SelectedTabPage, true);
+                this.xtraTabControl1.SelectedTabPage = page;
             }
         }
 
@@ -500,12 +517,15 @@ namespace ThAreaFrameConfig.WinForms
             {
                 // 更新图纸
                 ThResidentialAreaFrame areaFrame = ri.View.GetRow(ri.RowHandle) as ThResidentialAreaFrame;
-                string layer = ThResidentialRoomDbUtil.LayerName(areaFrame.Frame);
-                Presenter.OnDeleteAreaFrame(areaFrame.Frame);
-                Presenter.OnDeleteAreaFrameLayer(layer);
+                if (areaFrame.IsDefined)
+                {
+                    string layer = ThResidentialRoomDbUtil.LayerName(areaFrame.Frame);
+                    Presenter.OnDeleteAreaFrame(areaFrame.Frame);
+                    Presenter.OnDeleteAreaFrameLayer(layer);
 
-                // 更新界面
-                this.Reload();
+                    // 更新界面
+                    this.Reload();
+                }
             }
         }
 

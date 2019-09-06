@@ -25,14 +25,14 @@ namespace ThAreaFrameConfig.Presenter
             return this.AdjustAreaFrames(parameters, ThResidentialRoomDbUtil.ConfigLayer);
         }
 
+        public void OnMoveAreaFrameToLayer(string newName, IntPtr areaFrame)
+        {
+            this.MoveAreaFrameToLayer(newName, areaFrame, ThResidentialRoomDbUtil.ConfigLayer);
+        }
+
         public void OnHandleAcadException(System.Exception e)
         {
             this.HandleAcadException(e);
-        }
-
-        public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)
-        {
-            this.RenameAreaFrameLayer(newName, areaFrame);
         }
 
         public void OnHighlightAreaFrame(IntPtr areaFrame)

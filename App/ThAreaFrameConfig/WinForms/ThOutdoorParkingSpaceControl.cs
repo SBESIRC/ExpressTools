@@ -114,7 +114,7 @@ namespace ThAreaFrameConfig.WinForms
                 string name = ThResidentialRoomUtil.LayerName(space);
 
                 // 选取面积框线
-                Presenter.OnRenameAreaFrameLayer(name, space.Frame);
+                Presenter.OnMoveAreaFrameToLayer(name, space.Frame);
 
                 // 更新界面
                 this.Reload();

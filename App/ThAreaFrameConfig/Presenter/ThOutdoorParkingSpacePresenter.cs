@@ -55,9 +55,9 @@ namespace ThAreaFrameConfig.Presenter
             return this.AdjustAreaFrames(parameters, ThResidentialRoomDbUtil.ConfigOutdoorParkingSpaceLayer);
         }
 
-        public void OnRenameAreaFrameLayer(string newName, IntPtr areaFrame)
+        public void OnMoveAreaFrameToLayer(string newName, IntPtr areaFrame)
         {
-            this.RenameAreaFrameLayer(newName, areaFrame);
+            this.MoveAreaFrameToLayer(newName, areaFrame, ThResidentialRoomDbUtil.ConfigOutdoorParkingSpaceLayer);
         }
 
         public void OnUnhighlightAreaFrame(IntPtr areaFrame)

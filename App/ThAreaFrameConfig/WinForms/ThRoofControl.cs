@@ -115,7 +115,7 @@ namespace ThAreaFrameConfig.WinForms
                 string name = ThResidentialRoomUtil.LayerName(roof);
 
                 // 更新面积框线图层名
-                Presenter.OnRenameAreaFrameLayer(name, roof.Frame);
+                Presenter.OnMoveAreaFrameToLayer(name, roof.Frame);
 
                 // 更新界面
                 this.Reload();
@@ -229,12 +229,15 @@ namespace ThAreaFrameConfig.WinForms
             { 
                 // 更新图纸
                 ThRoof roof = ri.View.GetRow(ri.RowHandle) as ThRoof;
-                string layer = ThResidentialRoomDbUtil.LayerName(roof.Frame);
-                Presenter.OnDeleteAreaFrame(roof.Frame);
-                Presenter.OnDeleteAreaFrameLayer(layer);
+                if (roof.IsDefined)
+                {
+                    string layer = ThResidentialRoomDbUtil.LayerName(roof.Frame);
+                    Presenter.OnDeleteAreaFrame(roof.Frame);
+                    Presenter.OnDeleteAreaFrameLayer(layer);
 
-                // 更新界面
-                this.Reload();
+                    // 更新界面
+                    this.Reload();
+                }
             }
         }
 

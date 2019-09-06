@@ -253,14 +253,34 @@ namespace ThAreaFrameConfig.Presenter
             }
         }
 
-        public static void RenameAreaFrameLayer(this IThAreaFramePresenterCallback presenterCallback, string newName, IntPtr areaFrame)
+        public static void MoveAreaFrameToLayer(this IThAreaFramePresenterCallback presenterCallback, 
+            string newName, 
+            IntPtr areaFrame,
+            Func<string, ObjectId> layerCreator)
         {
             using (Active.Document.LockDocument())
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
-                    var name = acadDatabase.ModelSpace.Element(new ObjectId(areaFrame)).Layer;
-                    ThResidentialRoomDbUtil.RenameLayer(name, newName);
+                    // 面积框线
+                    ObjectId objId = new ObjectId(areaFrame);
+                    if (objId.IsNull)
+                    {
+                        return;
+                    }
+
+                    // 图层管理
+                    //  1. 如果指定图层不存在，创建图层
+                    //  2. 如果指定图层存在，返回此图层
+                    ObjectId layerId = layerCreator(newName);
+                    if (layerId.IsNull)
+                    {
+                        return;
+                    }
+
+
+                    // 将面积框线放置在指定图层上
+                    ThResidentialRoomDbUtil.MoveToLayer(objId, layerId);
                 }
             }
         }
