@@ -58,6 +58,7 @@
             this.tabPane1.Size = new System.Drawing.Size(460, 237);
             this.tabPane1.TabIndex = 0;
             this.tabPane1.Text = "tabPane1";
+            this.tabPane1.SelectedPageChanged += new DevExpress.XtraBars.Navigation.SelectedPageChangedEventHandler(this.tabPane1_SelectedPageChanged);
             // 
             // tabNavigationPage_plot_area
             // 
@@ -113,6 +114,8 @@
             this.Name = "ThSitePlanDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "总平规整";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ThSitePlanDialog_FormClosed);
+            this.Load += new System.EventHandler(this.ThSitePlanDialog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tabPane1)).EndInit();
             this.tabPane1.ResumeLayout(false);
             this.tabNavigationPage_plot_area.ResumeLayout(false);
