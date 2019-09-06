@@ -7,6 +7,27 @@ using NUnit.Framework;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
+/*
+ * 1、一般使用下面三种方式查询，按照使用频率排序
+ *     FindElementByAccessibilityId   —— 通过AutomationID查询，最常用
+ *     FindElementByName              —— 通过name查询，一般常用
+ *     FindElementsByName             —— 通过name查询，返回一个collection，包含所有名字相同的控件信息，速度较慢
+ * 2、标定了程序，所以如果要查找的控件不属于程序，则找不到，有如下两种解决方式：
+ *     ——由于这类控件一般属于衍生控件，所以可以根据上一步操作推测其坐标，通过坐标对其操作
+ *     ——新绑定一个缓存存放控件的父级程序，目前没有实现
+ * 3、出现未找到控件的原因
+ *     ——控件AutomationID或者name没有匹配  —— 确认控件信息
+ *     ——窗口还未刷新就开始查询控件        —— 测试程序中主动加入等待
+ * 4、关于鼠标
+ *     ——AutoCAD.FindElementByName("关闭").Click();                             —— 直接通过控件的Click()点击  —— 没有可选项，点击就是控件中心位置
+ *     ——AutoCAD.Mouse.Click(null);                                             —— 点击当前位置
+ *     ——AutoCAD.Mouse.Click(AutoCAD.FindElementByName("关闭").Coordinates);    —— 点击控件中心位置
+ *     ——如果要点击控件某个相对位置，使用先MouseMove(*.Coordinates, *, *)，再Click(null)
+ * 5、关于键盘
+ *     ——就目前来看，所有edit编辑框都是能用AutomationID精确匹配，直接SendKeys(*)即可
+ *     ——AutoCAD.Mouse.SendKeys(*)，这个是向当前程序焦点处模拟键盘按键
+*/
+
 namespace SampleClass
 {
     [TestFixture]
@@ -17,7 +38,7 @@ namespace SampleClass
         [SetUp]
         public void Setup()
         {
-            // Launch the AutoCAD
+            // 启动CAD
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.SetCapability("app", @"C:\Program Files\Autodesk\AutoCAD 2012 - Simplified Chinese\acad.exe");
             AutoCAD = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), capabilities);
@@ -37,11 +58,9 @@ namespace SampleClass
         [Test]
         public void Test_a_Basicaltest()
         {
-
-            // Click or SendKeys
+            // 向命令行输入"STYLE\n"
             AutoCAD.FindElementByAccessibilityId("2").SendKeys("STYLE\n");
             Thread.Sleep(TimeSpan.FromSeconds(2));
-            
             // 颠倒
             AutoCAD.FindElementByAccessibilityId("906").Click();
             // 高度
@@ -51,11 +70,17 @@ namespace SampleClass
             AutoCAD.FindElementByAccessibilityId("915").Click();
             // 关闭
             AutoCAD.FindElementByAccessibilityId("917").Click();
-
             // 画线
             AutoCAD.FindElementByAccessibilityId("2").SendKeys("LINE\n");
+            // 缓存画布
             WindowsElement paintplate = AutoCAD.FindElementByAccessibilityId("59648");
+
+            // 鼠标移动到画布相对于左上角(100,100)位置
+            // 其中 *.Coordinates是*控件的中心坐标
+            // 如果没有后面两项会移动到控件中心位置
             AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 100, 100);
+
+            // 点击（如果为"null"则点击当前位置）
             AutoCAD.Mouse.Click(null);
             AutoCAD.Mouse.MouseMove(paintplate.Coordinates, 200, 200);
             AutoCAD.Mouse.Click(null);
@@ -125,7 +150,6 @@ namespace SampleClass
             AutoCAD.Mouse.DoubleClick(null);
             AutoCAD.Mouse.Click(null);
             AutoCAD.Keyboard.SendKeys("\n");
-
             Assert.AreEqual(AutoCAD.FindElementByName("面积 row 0").Text, "0.03");
             Assert.AreEqual(AutoCAD.FindElementByName("面积 row 1").Text, "0.03");
             // 删除一项
