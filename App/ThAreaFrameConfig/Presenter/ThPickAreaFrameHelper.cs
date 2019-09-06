@@ -7,7 +7,6 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using System.Collections.Generic;
-using Autodesk.AutoCAD.Runtime;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -28,6 +27,10 @@ namespace ThAreaFrameConfig.Presenter
 #else
                     Active.Document.Window.Focus();
 #endif
+
+                    // Cancel active selection session
+                    //  https://through-the-interface.typepad.com/through_the_interface/2006/08/cancelling_an_a.html
+                    Active.Editor.PostCommand("CANCELCMD");
 
                     // SelectionFilter
                     //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
