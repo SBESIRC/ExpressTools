@@ -4,6 +4,7 @@ using System.Collections;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.ApplicationServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using System.Text.RegularExpressions;
 
 [assembly: CommandClass(typeof(ThAnalytics.ThAnalyticsCommands))]
 [assembly: ExtensionApplication(typeof(ThAnalytics.ThAnalyticsApp))]
@@ -184,9 +185,10 @@ namespace ThAnalytics
 
         private void Document_LispWillStart(object sender, LispWillStartEventArgs e)
         {
-            if (e.FirstLine.StartsWith("c:TH")| e.FirstLine.StartsWith("C:TH"))
+            string pattern = @"^\([cC]:TH[A-Z]{3,}\)$";
+            if (Regex.Match(e.FirstLine, pattern).Success)
             {
-                ThCountlyServices.Instance.RecordTHCommandEvent(e.FirstLine.Substring(2), 0);
+                ThCountlyServices.Instance.RecordTHCommandEvent(e.FirstLine.Substring(3, e.FirstLine.Length - 4), 0);
             }
         }
 
