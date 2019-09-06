@@ -111,10 +111,11 @@ namespace SampleClass
             // 打开和移动
             AutoCAD.FindElementByAccessibilityId("2").SendKeys("THBPS\n");
             Thread.Sleep(TimeSpan.FromSeconds(3));
-            AutoCAD.Mouse.MouseMove(AutoCAD.FindElementByName("天华单体框线图层规整").Coordinates, 100, 10);
-            AutoCAD.Mouse.MouseDown(null);
-            AutoCAD.Mouse.MouseMove(null, 0, 100);
-            AutoCAD.Mouse.MouseUp(null);
+            // 拖动
+            //AutoCAD.Mouse.MouseMove(AutoCAD.FindElementByName("天华单体框线图层规整").Coordinates, 100, 10);
+            //AutoCAD.Mouse.MouseDown(null);
+            //AutoCAD.Mouse.MouseMove(null, 0, 100);
+            //AutoCAD.Mouse.MouseUp(null);
 
             // 第一页测试
             AutoCAD.FindElementByAccessibilityId("textEdit_number").SendKeys("1#");
@@ -165,7 +166,19 @@ namespace SampleClass
             AutoCAD.Mouse.Click(null);
             AutoCAD.FindElementByAccessibilityId("textBox_storey").SendKeys("2");
             AutoCAD.FindElementByAccessibilityId("button_ok").Click();
-            
+            // 修改楼层
+            AutoCAD.Mouse.MouseMove(AutoCAD.FindElementByName("c2").Coordinates, 40, -10);
+            AutoCAD.Mouse.ContextClick(null);
+            AutoCAD.Mouse.MouseMove(null, 20, 30);
+            AutoCAD.Mouse.Click(null);
+            AutoCAD.FindElementByAccessibilityId("textBox_storey").SendKeys("5");
+            AutoCAD.FindElementByAccessibilityId("button_ok").Click();
+            // 删除楼层
+            AutoCAD.Mouse.MouseMove(AutoCAD.FindElementByName("c5").Coordinates, 40, -10);
+            AutoCAD.Mouse.ContextClick(null);
+            AutoCAD.Mouse.MouseMove(null, 20, 50);
+            AutoCAD.Mouse.Click(null);
+
             Thread.Sleep(TimeSpan.FromSeconds(3));
         }
         
