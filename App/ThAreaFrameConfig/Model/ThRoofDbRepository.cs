@@ -22,6 +22,39 @@ namespace ThAreaFrameConfig.Model
             ConstructRoofs();
         }
 
+        public void RegisterAreaFrameModifiedEvent(ObjectEventHandler handler)
+        {
+            database.ObjectModified += handler;
+        }
+
+        public void UnRegisterAreaFrameModifiedEvent(ObjectEventHandler handler)
+        {
+            database.ObjectModified -= handler;
+        }
+
+        public void RegisterAreaFrameErasedEvent(ObjectErasedEventHandler handler)
+        {
+            database.ObjectErased += handler;
+        }
+
+        public void UnRegisterAreaFrameErasedEvent(ObjectErasedEventHandler handler)
+        {
+            database.ObjectErased -= handler;
+        }
+
+        public ThRoof AreaFrame(DBObject dbobj)
+        {
+            foreach(var roof in Roofs)
+            {
+                if (roof.Frame == dbobj.ObjectId.OldIdPtr)
+                {
+                    return roof;
+                }
+            }
+
+            return null;
+        }
+
         public List<ThRoof> Roofs
         {
             get

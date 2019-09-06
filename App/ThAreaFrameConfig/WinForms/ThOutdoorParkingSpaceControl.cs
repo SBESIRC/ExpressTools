@@ -8,10 +8,12 @@ using DevExpress.Utils.Menu;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.DatabaseServices;
+using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace ThAreaFrameConfig.WinForms
 {
-    public partial class ThOutdoorParkingSpaceControl : DevExpress.XtraEditors.XtraUserControl, IOutdoorParkingSpaceView
+    public partial class ThOutdoorParkingSpaceControl : DevExpress.XtraEditors.XtraUserControl, IOutdoorParkingSpaceView, IAreaFrameDatabaseReactor
     {
         private ThOutdoorParkingSpacePresenter Presenter;
         private ThOutdoorParkingSpaceDbRepository DbRepository;
@@ -260,6 +262,50 @@ namespace ThAreaFrameConfig.WinForms
             {
                 e.RepositoryItem = null;
             }
+        }
+
+        public void RegisterAreaFrameModifiedEvent()
+        {
+            DbRepository.RegisterAreaFrameModifiedEvent(OnAreaFrameModified);
+        }
+
+        public void UnRegisterAreaFrameModifiedEvent()
+        {
+            DbRepository.UnRegisterAreaFrameModifiedEvent(OnAreaFrameModified);
+        }
+
+        public void RegisterAreaFrameErasedEvent()
+        {
+            DbRepository.RegisterAreaFrameErasedEvent(OnAreaFrameErased);
+        }
+
+        public void UnRegisterAreaFrameErasedEvent()
+        {
+            DbRepository.UnRegisterAreaFrameErasedEvent(OnAreaFrameErased);
+        }
+
+        private void OnAreaFrameModified(object sender, ObjectEventArgs e)
+        {
+            if (DbRepository.AreaFrame(e.DBObject) != null)
+            {
+                AcadApp.Idle += Application_OnIdle;
+            }
+        }
+
+        private void OnAreaFrameErased(object sender, ObjectErasedEventArgs e)
+        {
+            if (DbRepository.AreaFrame(e.DBObject) != null)
+            {
+                AcadApp.Idle += Application_OnIdle;
+            }
+        }
+
+        private void Application_OnIdle(object sender, EventArgs e)
+        {
+            AcadApp.Idle -= Application_OnIdle;
+
+            // 更新界面
+            this.Reload();
         }
     }
 }

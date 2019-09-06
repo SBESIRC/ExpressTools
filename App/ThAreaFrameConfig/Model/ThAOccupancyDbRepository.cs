@@ -28,6 +28,42 @@ namespace ThAreaFrameConfig.Model
             ConstructAreaFrames();
         }
 
+        public void RegisterAreaFrameModifiedEvent(ObjectEventHandler handler)
+        {
+            database.ObjectModified += handler;
+        }
+
+        public void UnRegisterAreaFrameModifiedEvent(ObjectEventHandler handler)
+        {
+            database.ObjectModified -= handler;
+        }
+
+        public void RegisterAreaFrameErasedEvent(ObjectErasedEventHandler handler)
+        {
+            database.ObjectErased += handler;
+        }
+
+        public void UnRegisterAreaFrameErasedEvent(ObjectErasedEventHandler handler)
+        {
+            database.ObjectErased -= handler;
+        }
+
+        public ThAOccupancy AreaFrame(DBObject dbobj)
+        {
+            foreach(var storey in Storeys)
+            {
+                foreach(var aoccupancy in storey.AOccupancies)
+                {
+                    if (aoccupancy.Frame == dbobj.ObjectId.OldIdPtr)
+                    {
+                        return aoccupancy;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public List<ThAOccupancyStorey> Storeys
         {
             get

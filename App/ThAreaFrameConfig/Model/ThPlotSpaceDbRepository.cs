@@ -30,6 +30,39 @@ namespace ThAreaFrameConfig.Model
             ConstructPlotSpaces();
         }
 
+        public void RegisterAreaFrameModifiedEvent(ObjectEventHandler handler)
+        {
+            database.ObjectModified += handler;
+        }
+
+        public void UnRegisterAreaFrameModifiedEvent(ObjectEventHandler handler)
+        {
+            database.ObjectModified -= handler;
+        }
+
+        public void RegisterAreaFrameErasedEvent(ObjectErasedEventHandler handler)
+        {
+            database.ObjectErased += handler;
+        }
+
+        public void UnRegisterAreaFrameErasedEvent(ObjectErasedEventHandler handler)
+        {
+            database.ObjectErased -= handler;
+        }
+
+        public ThPlotSpace AreaFrame(DBObject dbobj)
+        {
+            foreach (var space in Spaces)
+            {
+                if (space.Frame == dbobj.ObjectId.OldIdPtr)
+                {
+                    return space;
+                }
+            }
+
+            return null;
+        }
+
         public void AppendDefaultPlotSpace()
         {
             spaces.Add(new ThPlotSpace()
