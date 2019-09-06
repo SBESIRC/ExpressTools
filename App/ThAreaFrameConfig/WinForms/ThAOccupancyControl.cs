@@ -45,7 +45,7 @@ namespace ThAreaFrameConfig.WinForms
             DbRepository = new ThAOccupancyDbRepository();
             if (DbRepository.Storeys.Count == 0)
             {
-                DbRepository.AppendStorey("c1");
+                DbRepository.AppendStorey(xtraTabControl1.SelectedTabPage.Text);
             }
             gridControl_aoccupancy.DataSource = DbRepository.AOccupancies(this.CurrentStorey);
             gridControl_aoccupancy.RefreshDataSource();
@@ -57,7 +57,7 @@ namespace ThAreaFrameConfig.WinForms
             DbRepository = new ThAOccupancyDbRepository();
             if (DbRepository.Storeys.Count == 0)
             {
-                DbRepository.AppendStorey("c1");
+                DbRepository.AppendStorey(xtraTabControl1.SelectedTabPage.Text);
             }
             foreach (var storey in DbRepository.Storeys)
             {

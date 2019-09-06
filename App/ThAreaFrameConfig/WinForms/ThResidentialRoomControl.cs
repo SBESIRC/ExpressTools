@@ -49,7 +49,7 @@ namespace ThAreaFrameConfig.WinForms
             DbRepository = new ThResidentialRoomDbRepository();
             if (!DbRepository.Storeys().Any())
             {
-                DbRepository.AppendStorey("c1");
+                DbRepository.AppendStorey(xtraTabControl1.SelectedTabPage.Text);
             }
             gridControl_room.DataSource = DbRepository.Rooms(this.CurrentStorey);
             gridControl_room.RefreshDataSource();
@@ -62,7 +62,7 @@ namespace ThAreaFrameConfig.WinForms
             DbRepository = new ThResidentialRoomDbRepository();
             if (!DbRepository.Storeys().Any())
             {
-                DbRepository.AppendStorey("c1");
+                DbRepository.AppendStorey(xtraTabControl1.SelectedTabPage.Text);
             }
             foreach (var storey in DbRepository.Storeys())
             {
