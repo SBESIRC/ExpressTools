@@ -5,6 +5,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using Autodesk.AutoCAD.PlottingServices;
 using DotNetARX;
+using Autodesk.AutoCAD.Geometry;
 
 namespace ThPlot
 {
@@ -55,7 +56,13 @@ namespace ThPlot
 
                 var ptLst = ThPlotData.GetPolylinePoints(related.ImagePolyline);
                 var windowData = ThPlotData.GetEntityPointsWindow(ptLst);
-                var window = new Extents2d(windowData.LeftBottomPoint.X, windowData.LeftBottomPoint.Y, windowData.RightTopPoint.X, windowData.RightTopPoint.Y);
+                var ptLeft = windowData.LeftBottomPoint;
+                var ptRight = windowData.RightTopPoint;
+                var ptLeft3d = new Point3d(ptLeft.X, ptLeft.Y, 0);
+                var ptRight3d = new Point3d(ptRight.X, ptRight.Y, 0);
+                var ucsLeftBottomPoint = UCSTools.TranslateCoordinates(ptLeft3d, UCSTools.CoordSystem.UCS, UCSTools.CoordSystem.DCS);
+                var ucsRightTopPoint = UCSTools.TranslateCoordinates(ptRight3d, UCSTools.CoordSystem.UCS, UCSTools.CoordSystem.DCS);
+                var window = new Extents2d(ucsLeftBottomPoint.X, ucsLeftBottomPoint.Y, ucsRightTopPoint.X, ucsRightTopPoint.Y);
                 var pdfName = related.PageText.TextString + ".pdf";
                 var outPdfPath = System.IO.Path.Combine(outPath, pdfName);
                 outPdfPaths.Add(outPdfPath);

@@ -196,8 +196,9 @@ namespace ThPlot
                 if (HorizontalPrint(window))
                     psv.SetPlotRotation(plotSetting, PlotRotation.Degrees000);
                 psv.SetPlotCentered(plotSetting, true);
-                psv.SetPlotPaperUnits(plotSetting, PlotPaperUnit.Millimeters);
+                
                 psv.SetPlotConfigurationName(plotSetting, "DWG To PDF.pc3", "ISO_A4_(297.00_x_210.00_MM)");
+                psv.SetPlotPaperUnits(plotSetting, PlotPaperUnit.Millimeters);
                 plotInfo.OverrideSettings = plotSetting;
                 PlotInfoValidator piv = new PlotInfoValidator();
                 piv.Validate(plotInfo);

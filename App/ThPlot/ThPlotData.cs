@@ -1130,7 +1130,8 @@ namespace ThPlot
                 foreach (var imageId in imageIdLst)
                 {
                     Polyline imagePolyline = (Polyline)dataGetTrans.GetObject(imageId, OpenMode.ForRead);
-                    imagePolylineLst.Add((Polyline)imagePolyline.Clone());
+                    if (imagePolyline.Closed)
+                        imagePolylineLst.Add((Polyline)imagePolyline.Clone());
                 }
 
                 if (imagePolylineLst.Count == 0)
@@ -1142,7 +1143,8 @@ namespace ThPlot
                 foreach (var pptId in pptIdLst)
                 {
                     Polyline pptPolyline = (Polyline)dataGetTrans.GetObject(pptId, OpenMode.ForRead);
-                    pptPolylineLst.Add((Polyline)pptPolyline.Clone());
+                    if (pptPolyline.Closed)
+                        pptPolylineLst.Add((Polyline)pptPolyline.Clone());
                 }
 
                 if (pptPolylineLst.Count == 0)
@@ -1155,12 +1157,20 @@ namespace ThPlot
                     pptTextLst.Add((DBText)dbText.Clone());
                 }
 
+                if (pptTextLst.Count == 0)
+                    return null;
                 // 页码文本
                 foreach (var pageTextId in pageTextIdLst)
                 {
                     DBText dbPageText = (DBText)dataGetTrans.GetObject(pageTextId, OpenMode.ForRead);
-                    pageTextLst.Add((DBText)dbPageText.Clone());
+                    var pageStr = dbPageText.TextString;
+                    int nPage = 0;
+                    if (Int32.TryParse(pageStr, out nPage))
+                        pageTextLst.Add((DBText)dbPageText.Clone());
                 }
+
+                if (pageTextLst.Count == 0)
+                    return null;
 
                 // polyline 线框文本信息等匹配
                 foreach (var relatedData in pptRelatedData)
