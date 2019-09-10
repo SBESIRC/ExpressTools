@@ -26,6 +26,7 @@
   <ItemGroup>
     <Compile Include="ThRoomBoundaryApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThRoomData.cs" />
     <Compile Include="topo\CommonUtils.cs" />
     <Compile Include="topo\TopoCalculate.cs" />
     <Compile Include="topo\TopoUtils.cs" />

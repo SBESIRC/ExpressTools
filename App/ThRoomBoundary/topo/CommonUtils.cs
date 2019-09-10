@@ -185,5 +185,25 @@ namespace ThRoomBoundary.topo
             var loopEntity = new LoopEntity(loops);
             return loopEntity.RootInnerLoop;
         }
+
+        /// <summary>
+        /// 点在线段上面
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="line"></param>
+        /// <param name="tole"></param>
+        /// <returns></returns>
+        public static bool IsPointOnSegment(Point2d point, TopoEdge line, double tole = 1e-8)
+        {
+            var ptS = line.Start;
+            var ptE = line.End;
+            var lengthS = (ptS - point).Length;
+            var lengthE = (ptE - point).Length;
+            var lengthDiff = lengthS + lengthE - (ptS - ptE).Length;
+            if (CommonUtils.IsAlmostNearZero(lengthDiff, tole))
+                return true;
+
+            return false;
+        }
     }
 }

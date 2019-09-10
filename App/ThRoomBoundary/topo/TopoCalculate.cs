@@ -44,7 +44,12 @@ namespace ThRoomBoundary.topo
             var ptE = edge.End;
             var ptSadd = ptS - vec;
             var ptEadd = ptE - vec;
-            return new TopoEdge(ptSadd, ptEadd);
+            return new TopoEdge(ptSadd, ptEadd, ThUtils.Vector2XY(ptSadd - ptEadd));
+        }
+
+        public static XY Vector2XY(Vector2d vec)
+        {
+            return new XY(vec.X, vec.Y);
         }
     }
 
@@ -56,7 +61,7 @@ namespace ThRoomBoundary.topo
         private TopoEdge m_pair;
         private Point2d m_start = new Point2d();
         private Point2d m_end = new Point2d();
-        private Vector2d m_dir = new Vector2d();
+        private XY m_dir = null;
         private bool m_bUse = false;
 
         public bool IsUse
@@ -69,13 +74,14 @@ namespace ThRoomBoundary.topo
         {
             m_start = srcLine.StartPoint;
             m_end = srcLine.EndPoint;
-            m_dir = srcLine.Direction;
+            m_dir = ThUtils.Vector2XY(srcLine.Direction);
         }
 
-        public TopoEdge(Point2d start, Point2d end)
+        public TopoEdge(Point2d start, Point2d end, XY dir)
         {
             m_start = start;
             m_end = end;
+            m_dir = dir;
         }
 
         public TopoEdge Pair
@@ -96,7 +102,7 @@ namespace ThRoomBoundary.topo
             set { m_end = value; }
         }
 
-        public Vector2d Dir
+        public XY Dir
         {
             get { return m_dir; }
             set { m_dir = value; }
@@ -106,8 +112,8 @@ namespace ThRoomBoundary.topo
         {
             var srcLineS = srcLine.StartPoint;
             var srcLineE = srcLine.EndPoint;
-            TopoEdge curEdge = new TopoEdge(srcLineS, srcLineE);
-            TopoEdge pairEdge = new TopoEdge(srcLineE, srcLineS);
+            TopoEdge curEdge = new TopoEdge(srcLineS, srcLineE, ThUtils.Vector2XY(srcLine.Direction));
+            TopoEdge pairEdge = new TopoEdge(srcLineE, srcLineS,ThUtils.Vector2XY(srcLine.Direction.Negate()));
             curEdge.Pair = pairEdge;
             pairEdge.Pair = curEdge;
             topoEdges.Add(curEdge);
@@ -310,6 +316,10 @@ namespace ThRoomBoundary.topo
         {
             foreach (var curLoop in m_srcLoops)
             {
+                //if (curLoop.Count == 10)
+                //ThRoomData.DrawLinesWithTransaction(curLoop);
+                //ThRoomData.DrawPointWithTransaction(m_point2d);
+                //ThRoomData.DrawTopoEdges(curLoop);
                 if (CommonUtils.PtInLoop(curLoop, m_point2d))
                 {
                     double loopArea = CommonUtils.CalcuLoopArea(curLoop);
@@ -342,8 +352,12 @@ namespace ThRoomBoundary.topo
             var edgesLoop = new List<List<TopoEdge>>();
             edgesLoop.Add(outLoop);
             edgesLoop.AddRange(innerLoops);
-            var resultTopoEdges = RemoveDuplicate(edgesLoop);
-            return resultTopoEdges;
+            var tmpTopoEdges = RemoveDuplicate(edgesLoop);
+
+            // inner loops combine
+            var innerLoopProfile = new InnerLoopProfile(tmpTopoEdges);
+            innerLoopProfile.Do();
+            return innerLoopProfile.OutLoops;
         }
 
         /// <summary>
@@ -380,6 +394,154 @@ namespace ThRoomBoundary.topo
             }
 
             return edgeLoops;
+        }
+    }
+
+    /// <summary>
+    /// 内轮廓合并处理
+    /// </summary>
+    class InnerLoopProfile
+    {
+        class Profile
+        {
+            public Profile(List<TopoEdge> loop)
+            {
+                m_loop = loop;
+            }
+
+            public bool m_bUse = false;
+            public List<TopoEdge> m_loop = null;
+            public List<Profile> m_relatedLoops = new List<Profile>();
+        }
+
+        private List<List<TopoEdge>> m_srcLoops;
+        private List<List<TopoEdge>> m_outLoops = new List<List<TopoEdge>>();
+        public List<List<TopoEdge>> OutLoops
+        {
+            get { return m_outLoops; }
+        }
+
+        private List<List<TopoEdge>> m_nearLoops = new List<List<TopoEdge>>();
+        private List<Profile> m_profiles = new List<Profile>();
+        public InnerLoopProfile(List<List<TopoEdge>> loops)
+        {
+            m_srcLoops = loops;
+        }
+
+        public void Do()
+        {
+            for (int i = 0; i < m_srcLoops.Count; i++)
+            {
+                m_profiles.Add(new Profile(m_srcLoops[i]));
+            }
+
+            for (int i = 0; i < m_profiles.Count; i++)
+            {
+                var curProfile = m_profiles[i];
+                for (int j = i + 1; j < m_profiles.Count; j++)
+                {
+                    var nextProfile = m_profiles[j];
+                    if (LoopIntersectLoop(curProfile.m_loop, nextProfile.m_loop))
+                    {
+                        curProfile.m_relatedLoops.Add(nextProfile);
+                        nextProfile.m_relatedLoops.Add(curProfile);
+                    }
+                }
+            }
+
+            var edgeLoops = new List<List<TopoEdge>>();
+            // 相邻区域收集
+            for (int j = 0; j < m_profiles.Count; j++)
+            {
+                if (m_profiles[j].m_bUse)
+                    continue;
+
+                if (m_profiles[j].m_relatedLoops.Count == 0)
+                {
+                    m_profiles[j].m_bUse = true;
+                    m_outLoops.Add(m_profiles[j].m_loop);
+                }
+                else
+                {
+                    var loops = SearchFromOneProfile(m_profiles[j]);
+                    edgeLoops.Add(loops);
+                }
+            }
+
+            foreach (var edges in edgeLoops)
+            {
+                var curves = TopoCalculate.MakeNoScatterProfile(edges);
+                curves.Sort((s1, s2) => { return Math.Abs(CommonUtils.CalcuLoopArea(s1)).CompareTo(Math.Abs(CommonUtils.CalcuLoopArea(s2))); });
+
+                m_outLoops.Add(curves.Last());
+            }
+        }
+
+        private List<TopoEdge> SearchFromOneProfile(Profile Searchprofile)
+        {
+            var topoEdges = new List<TopoEdge>();
+            var profiles = new List<Profile>();
+            profiles.Add(Searchprofile);
+            while (profiles.Count != 0)
+            {
+                var curProfile = profiles.First();
+                topoEdges.AddRange(curProfile.m_loop);
+                curProfile.m_bUse = true;
+                profiles.RemoveAt(0);
+                var childProfiles = curProfile.m_relatedLoops;
+                foreach (var profile in childProfiles)
+                {
+                    if (!profile.m_bUse)
+                        profiles.Add(profile);
+                }
+            }
+
+            return topoEdges;
+        }
+
+        /// <summary>
+        /// 重叠
+        /// </summary>
+        /// <param name="lineFir"></param>
+        /// <param name="lineSec"></param>
+        /// <returns></returns>
+        private bool IsOverlap(TopoEdge lineFir, TopoEdge lineSec)
+        {
+            var ptFirS = lineFir.Start;
+            var ptFirE = lineFir.End;
+            var ptSecS = lineSec.Start;
+            var ptSecE = lineSec.End;
+            if (CommonUtils.IsPointOnSegment(ptFirS, lineSec) || CommonUtils.IsPointOnSegment(ptFirE, lineSec)
+               || CommonUtils.IsPointOnSegment(ptSecS, lineFir) || CommonUtils.IsPointOnSegment(ptSecE, lineFir))
+                return true;
+            return false;
+        }
+
+        // 环与环有公共区域
+        private bool LoopIntersectLoop(List<TopoEdge> loopFir, List<TopoEdge> loopSec)
+        {
+            foreach (var curveFir in loopFir)
+            {
+                LineSegment2d lineFir = new LineSegment2d(curveFir.Start, curveFir.End);
+                foreach (var curveSec in loopSec)
+                {
+                    LineSegment2d lineSec = new LineSegment2d(curveSec.Start, curveSec.End);
+                    var intersectPts = lineFir.IntersectWith(lineSec);
+                    if (intersectPts != null && intersectPts.Count() == 1)
+                    {
+                        // intersect
+                        return true;
+                    }
+                    else
+                    {
+                        // not intersect
+                        if (IsOverlap(curveFir, curveSec))
+                            return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 
@@ -538,6 +700,24 @@ namespace ThRoomBoundary.topo
             Calculate(lines);
         }
 
+        public static List<List<TopoEdge>> MakeNoScatterProfile(List<TopoEdge> edges)
+        {
+            var topoCal = new TopoCalculate(edges);
+            return topoCal.ProfileLoops;
+        }
+
+        private TopoCalculate(List<TopoEdge> edges)
+        {
+            var lines = new List<LineSegment2d>();
+            foreach (var edge in edges)
+            {
+                lines.Add(new LineSegment2d(edge.Start, edge.End));
+            }
+
+            m_lines = lines;
+            Calculate(m_lines);
+        }
+
         private void Calculate(List<LineSegment2d> srcLines)
         {
             foreach (var line in srcLines)
@@ -582,10 +762,10 @@ namespace ThRoomBoundary.topo
                 var curPtHead = curEdge.Start;
                 var curPtTail = curEdge.End;
 
-                if (curEdge.IsUse || (CommonUtils.Point2dIsEqualPoint2d(headPoint, curPtTail, 1e-3) && CommonUtils.Point2dIsEqualPoint2d(tailPoint, curPtHead, 1e-3)))
+                if (curEdge.IsUse || (CommonUtils.Point2dIsEqualPoint2d(headPoint, curPtTail, 1e-1) && CommonUtils.Point2dIsEqualPoint2d(tailPoint, curPtHead, 1e-1)))
                     continue;
 
-                if (CommonUtils.Point2dIsEqualPoint2d(tailPoint, curEdge.Start, 1e-3))
+                if (CommonUtils.Point2dIsEqualPoint2d(tailPoint, curEdge.Start, 1e-1))
                 {
                     var clockEdge = new ClockWiseMatch(curEdge);
                     clockEdge.Angle = curDir.CalAngle(clockEdge.Dir);
@@ -787,7 +967,7 @@ namespace ThRoomBoundary.topo
                     var nextPointXY = new Point2d(nextPoint.X, nextPoint.Y);
                     try
                     {
-                        if ((curPointXY - nextPointXY).Length > 1)
+                        if ((curPointXY - nextPointXY).Length > 1e-5)
                         {
                             var newLine = new LineSegment2d(curPointXY, nextPointXY);
                             m_geneLines.Add(newLine);
@@ -880,6 +1060,9 @@ namespace ThRoomBoundary.topo
         public bool IsTranslation()
         {
             // 平移处理
+            if (m_leftBottom.X > 0 && m_leftBottom.Y > 0)
+                return false;
+
             var offsetX = 0 - m_leftBottom.X;
             var offsetY = 0 - m_leftBottom.Y;
             if (offsetX < 0 || offsetY < 0)
@@ -914,7 +1097,7 @@ namespace ThRoomBoundary.topo
     /// <summary>
     /// 二维平面坐标及其计算处理
     /// </summary>
-    class XY
+    public class XY
     {
         private double m_x;
         private double m_y;
