@@ -114,7 +114,10 @@ namespace ThAreaFrameConfig.WinForms
                 string name = ThResidentialRoomUtil.LayerName(parking);
 
                 // 更新面积框线图层名
-                Presenter.OnMoveAreaFrameToLayer(name, parking.Frames[0]);
+                foreach(var frame in parking.Frames)
+                {
+                    Presenter.OnMoveAreaFrameToLayer(name, frame);
+                }
 
                 // 更新界面
                 this.Reload();
