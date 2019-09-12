@@ -281,9 +281,14 @@ namespace ThAreaFrameConfig.Presenter
                         return;
                     }
 
+                    // 面积框线原图层
+                    string oldName = acadDatabase.ModelSpace.Element(objId).Layer;
 
                     // 将面积框线放置在指定图层上
                     ThResidentialRoomDbUtil.MoveToLayer(objId, layerId);
+
+                    // 删除原面积框线原图层
+                    LayerTools.DeleteLayer(acadDatabase.Database, oldName);
                 }
             }
         }
@@ -294,13 +299,7 @@ namespace ThAreaFrameConfig.Presenter
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
-                    var areaFrames = acadDatabase.ModelSpace
-                        .OfType<Curve>()
-                        .Where(o => o.Layer == name);
-                    if (!areaFrames.Any())
-                    {
-                        acadDatabase.Layers.Element(name, true).Erase();
-                    }
+                    LayerTools.DeleteLayer(acadDatabase.Database, name);
                 }
             }
         }
