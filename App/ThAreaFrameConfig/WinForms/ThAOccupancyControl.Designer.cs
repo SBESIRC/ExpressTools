@@ -87,7 +87,7 @@
             this.xtraTabPage1.Controls.Add(this.gridControl_aoccupancy);
             this.xtraTabPage1.Name = "xtraTabPage1";
             this.xtraTabPage1.Size = new System.Drawing.Size(664, 448);
-            this.xtraTabPage1.Text = "xtraTabPage1";
+            this.xtraTabPage1.Text = "c1";
             // 
             // gridControl_aoccupancy
             // 
