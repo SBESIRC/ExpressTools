@@ -380,9 +380,43 @@ namespace ThAreaFrameConfig.Model
                 ComponentID = comoponent.ID,
                 Number = ++index,
                 Frame = (IntPtr)0,
-                Coefficient = 1.0,
-                FARCoefficient = 1.0,
+                Coefficient = DefaultComponentCoefficient(comoponent),
+                FARCoefficient = DefaultComponentFARCoefficient(comoponent),
             });
+        }
+
+        private static double DefaultComponentCoefficient(ThResidentialRoomComponent comoponent)
+        {
+            switch (comoponent.Name)
+            {
+                case "套内":
+                    return 1.0;
+                case "阳台":
+                    return 0.5;
+                case "飘窗":
+                    return 0.0;
+                case "其他构件":
+                    return 0.5;
+                default:
+                    return 0.0;
+            }
+        }
+
+        private static double DefaultComponentFARCoefficient(ThResidentialRoomComponent comoponent)
+        {
+            switch (comoponent.Name)
+            {
+                case "套内":
+                    return 1.0;
+                case "阳台":
+                    return 0.5;
+                case "飘窗":
+                    return 0.0;
+                case "其他构件":
+                    return 0.5;
+                default:
+                    return 0.0;
+            }
         }
 
         public static void AppendPlaceHolderAreaFrame(ThAOccupancyStorey storey)
