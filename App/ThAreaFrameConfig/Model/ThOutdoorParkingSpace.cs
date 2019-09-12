@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ThAreaFrameConfig.Model
@@ -12,15 +13,6 @@ namespace ThAreaFrameConfig.Model
 
         // 编号
         public int Number { get; set; }
-
-        // 面积
-        public double Area
-        {
-            get
-            {
-                return Frame.Area();
-            }
-        }
 
         // 车场类型
         public string Category {
@@ -40,17 +32,26 @@ namespace ThAreaFrameConfig.Model
         }
 
         // 车场/车位层数
-        public UInt16 Storey { get; set; }
+        public int Storey { get; set; }
+
+        // 车位数
+        public int Slot
+        {
+            get
+            {
+                return Storey * Frames.Count;
+            }
+        }
 
         // 面积框线
-        public IntPtr Frame { get; set; }
+        public List<IntPtr> Frames { get; set; }
 
         // 状态
         public bool IsDefined
         {
             get
             {
-                return Frame != (IntPtr)0;
+                return (Frames.Count > 0);
             }
         }
     }

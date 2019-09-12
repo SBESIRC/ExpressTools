@@ -54,7 +54,7 @@ namespace ThAreaFrameConfig.Model
         {
             foreach (var space in Spaces)
             {
-                if (space.Frame == dbobj.ObjectId.OldIdPtr)
+                if (space.Frames.Contains(dbobj.ObjectId.OldIdPtr))
                 {
                     return space;
                 }
@@ -69,7 +69,8 @@ namespace ThAreaFrameConfig.Model
             {
                 ID = Guid.NewGuid(),
                 Number = spaces.Count + 1,
-                Frame = ObjectId.Null.OldIdPtr,
+                Frames = new List<IntPtr>(),
+                Storey = 1,
             });
         }
 

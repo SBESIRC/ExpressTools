@@ -34,7 +34,7 @@
             this.gridColumn_category = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_parking_category = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_storey = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_slot = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_outdoor_parking_space)).BeginInit();
@@ -62,10 +62,11 @@
             this.gridColumn_category,
             this.gridColumn_parking_category,
             this.gridColumn_storey,
-            this.gridColumn_area,
+            this.gridColumn_slot,
             this.gridColumn_pick});
             this.gridView_outdoor_parking_space.GridControl = this.gridControl_outdoor_parking_space;
             this.gridView_outdoor_parking_space.Name = "gridView_outdoor_parking_space";
+            this.gridView_outdoor_parking_space.OptionsDetail.EnableMasterViewMode = false;
             this.gridView_outdoor_parking_space.OptionsView.ShowGroupPanel = false;
             this.gridView_outdoor_parking_space.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_outdoor_parking_space_RowClick);
             this.gridView_outdoor_parking_space.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_outdoor_parking_space_CustomRowCellEdit);
@@ -111,14 +112,14 @@
             this.gridColumn_storey.Visible = true;
             this.gridColumn_storey.VisibleIndex = 3;
             // 
-            // gridColumn_area
+            // gridColumn_slot
             // 
-            this.gridColumn_area.Caption = "面积";
-            this.gridColumn_area.FieldName = "Area";
-            this.gridColumn_area.Name = "gridColumn_area";
-            this.gridColumn_area.OptionsColumn.AllowEdit = false;
-            this.gridColumn_area.Visible = true;
-            this.gridColumn_area.VisibleIndex = 4;
+            this.gridColumn_slot.Caption = "室外车位数";
+            this.gridColumn_slot.FieldName = "Slot";
+            this.gridColumn_slot.Name = "gridColumn_slot";
+            this.gridColumn_slot.OptionsColumn.AllowEdit = false;
+            this.gridColumn_slot.Visible = true;
+            this.gridColumn_slot.VisibleIndex = 4;
             // 
             // gridColumn_pick
             // 
@@ -158,8 +159,8 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_category;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_parking_category;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_storey;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_area;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_pick;
         private DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit repositoryItemHyperLinkEdit1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_slot;
     }
 }

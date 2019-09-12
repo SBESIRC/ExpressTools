@@ -116,7 +116,10 @@ namespace ThAreaFrameConfig.WinForms
                 string name = ThResidentialRoomUtil.LayerName(space);
 
                 // 选取面积框线
-                Presenter.OnMoveAreaFrameToLayer(name, space.Frame);
+                foreach(var frame in space.Frames)
+                {
+                    Presenter.OnMoveAreaFrameToLayer(name, frame);
+                }
 
                 // 更新界面
                 this.Reload();
@@ -159,7 +162,7 @@ namespace ThAreaFrameConfig.WinForms
                 ThOutdoorParkingSpace space = view.GetRow(info.RowHandle) as ThOutdoorParkingSpace;
                 if (space.IsDefined)
                 {
-                    Presenter.OnHighlightAreaFrame(space.Frame);
+                    Presenter.OnHighlightAreaFrames(space.Frames.ToArray());
                 }
             }
         }
@@ -214,9 +217,9 @@ namespace ThAreaFrameConfig.WinForms
                 if (space.IsDefined)
                 {
                     // 更新图纸
-                    string layer = ThResidentialRoomDbUtil.LayerName(space.Frame);
-                    Presenter.OnDeleteAreaFrame(space.Frame);
-                    Presenter.OnDeleteAreaFrameLayer(layer);
+                    string name = ThResidentialRoomUtil.LayerName(space);
+                    Presenter.OnDeleteAreaFrames(space.Frames.ToArray());
+                    Presenter.OnDeleteAreaFrameLayer(name);
 
                     // 更新界面
                     this.Reload();
@@ -235,9 +238,9 @@ namespace ThAreaFrameConfig.WinForms
                     if (!space.IsDefined)
                         continue;
 
-                    string layer = ThResidentialRoomDbUtil.LayerName(space.Frame);
-                    Presenter.OnDeleteAreaFrame(space.Frame);
-                    Presenter.OnDeleteAreaFrameLayer(layer);
+                    string name = ThResidentialRoomUtil.LayerName(space);
+                    Presenter.OnDeleteAreaFrames(space.Frames.ToArray());
+                    Presenter.OnDeleteAreaFrameLayer(name);
                 }
 
                 // 更新界面
