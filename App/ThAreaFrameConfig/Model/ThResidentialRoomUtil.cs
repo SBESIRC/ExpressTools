@@ -22,20 +22,55 @@ namespace ThAreaFrameConfig.Model
             ThResidentialRoomComponent component,
             ThResidentialAreaFrame frame)
         {
-            string[] tokens =
+            switch(component.Name)
             {
-                "住宅构件",
-                component.Name,
-                String.Format("{0:0.0}", Convert.ToDouble(frame.Coefficient)),
-                String.Format("{0:0.0}", Convert.ToDouble(frame.FARCoefficient)),
-                room.Name,
-                room.Identifier,
-                identifier,
-                "",
-                version,
-            };
+                case "套内":
+                    {
+                        string[] tokens = {
+                            "住宅构件",
+                            component.Name,
+                            String.Format("{0:0.0}", Convert.ToDouble(frame.Coefficient)),
+                            String.Format("{0:0.0}", Convert.ToDouble(frame.FARCoefficient)),
+                            room.Name,
+                            room.Identifier,
+                            identifier,
+                            "",
+                            version,
+                        };
 
-            return string.Join("_", tokens);
+                        return string.Join("_", tokens);
+                    }
+                case "阳台":
+                    {
+                        string[] tokens = {
+                            "住宅构件",
+                            component.Name,
+                            String.Format("{0:0.0}", Convert.ToDouble(frame.Coefficient)),
+                            String.Format("{0:0.0}", Convert.ToDouble(frame.FARCoefficient)),
+                            room.Identifier,
+                            "",
+                            version,
+                        };
+
+                        return string.Join("_", tokens);
+                    }
+                case "飘窗":
+                case "其他构件":
+                    {
+                        string[] tokens = {
+                            "住宅构件",
+                            component.Name,
+                            String.Format("{0:0.0}", Convert.ToDouble(frame.Coefficient)),
+                            String.Format("{0:0.0}", Convert.ToDouble(frame.FARCoefficient)),
+                            room.Identifier,
+                            version,
+                        };
+
+                        return string.Join("_", tokens);
+                    }
+                default:
+                    return "";
+            }
         }
 
         // 图层名称
