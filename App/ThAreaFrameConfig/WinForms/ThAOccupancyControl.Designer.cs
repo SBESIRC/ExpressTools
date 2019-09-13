@@ -123,8 +123,8 @@
             this.gridView_aoccupancy.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_aoccupancy_RowClick);
             this.gridView_aoccupancy.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_aoccupancy_CustomRowCellEdit);
             this.gridView_aoccupancy.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gridView_aoccupancy_ShowingEditor);
-            this.gridView_aoccupancy.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_aoccupancy_RowUpdated);
             this.gridView_aoccupancy.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView_aoccupancy_CellValueChanged);
+            this.gridView_aoccupancy.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_aoccupancy_RowUpdated);
             this.gridView_aoccupancy.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView_aoccupancy_CustomUnboundColumnData);
             this.gridView_aoccupancy.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridView_aoccupancy_CustomColumnDisplayText);
             this.gridView_aoccupancy.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridView_aoccupancy_ValidatingEditor);
@@ -135,6 +135,7 @@
             this.gridColumn_number.FieldName = "Number";
             this.gridColumn_number.Name = "gridColumn_number";
             this.gridColumn_number.OptionsColumn.AllowEdit = false;
+            this.gridColumn_number.OptionsColumn.AllowFocus = false;
             this.gridColumn_number.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.gridColumn_number.Visible = true;
             this.gridColumn_number.VisibleIndex = 0;
@@ -242,6 +243,7 @@
             this.gridColumn_area.FieldName = "Area";
             this.gridColumn_area.Name = "gridColumn_area";
             this.gridColumn_area.OptionsColumn.AllowEdit = false;
+            this.gridColumn_area.OptionsColumn.AllowFocus = false;
             this.gridColumn_area.Visible = true;
             this.gridColumn_area.VisibleIndex = 5;
             // 
@@ -251,6 +253,7 @@
             this.gridColumn_pick.FieldName = "gridColumn_pick";
             this.gridColumn_pick.Name = "gridColumn_pick";
             this.gridColumn_pick.OptionsColumn.AllowEdit = false;
+            this.gridColumn_pick.OptionsColumn.AllowFocus = false;
             this.gridColumn_pick.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.gridColumn_pick.Visible = true;
             this.gridColumn_pick.VisibleIndex = 7;
