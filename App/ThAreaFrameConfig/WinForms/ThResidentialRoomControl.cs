@@ -516,16 +516,22 @@ namespace ThAreaFrameConfig.WinForms
             if (menuItem.Tag is RowInfo ri)
             {
                 // 更新图纸
-                ThResidentialAreaFrame areaFrame = ri.View.GetRow(ri.RowHandle) as ThResidentialAreaFrame;
-                if (areaFrame.IsDefined)
+                // 支持多选
+                foreach(var handle in ri.View.GetSelectedRows())
                 {
-                    string layer = ThResidentialRoomDbUtil.LayerName(areaFrame.Frame);
-                    Presenter.OnDeleteAreaFrame(areaFrame.Frame);
-                    Presenter.OnDeleteAreaFrameLayer(layer);
+                    var frame = ri.View.GetRow(handle) as ThResidentialAreaFrame;
+                    if (!frame.IsDefined)
+                    {
+                        continue;
+                    }
 
-                    // 更新界面
-                    this.Reload();
+                    string name = ThResidentialRoomDbUtil.LayerName(frame.Frame);
+                    Presenter.OnDeleteAreaFrame(frame.Frame);
+                    Presenter.OnDeleteAreaFrameLayer(name);
                 }
+
+                // 更新界面
+                this.Reload();
             }
         }
 

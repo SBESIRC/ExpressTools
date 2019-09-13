@@ -173,6 +173,7 @@
             this.room_are_frame_id.FieldName = "Number";
             this.room_are_frame_id.Name = "room_are_frame_id";
             this.room_are_frame_id.OptionsColumn.AllowEdit = false;
+            this.room_are_frame_id.OptionsColumn.AllowFocus = false;
             this.room_are_frame_id.Visible = true;
             this.room_are_frame_id.VisibleIndex = 0;
             // 
@@ -222,6 +223,7 @@
             this.room_area_frame_area.FieldName = "Area";
             this.room_area_frame_area.Name = "room_area_frame_area";
             this.room_area_frame_area.OptionsColumn.AllowEdit = false;
+            this.room_area_frame_area.OptionsColumn.AllowFocus = false;
             this.room_area_frame_area.Visible = true;
             this.room_area_frame_area.VisibleIndex = 3;
             // 
@@ -231,6 +233,7 @@
             this.room_area_frame_pick.FieldName = "room_area_frame_pick";
             this.room_area_frame_pick.Name = "room_area_frame_pick";
             this.room_area_frame_pick.OptionsColumn.AllowEdit = false;
+            this.room_area_frame_pick.OptionsColumn.AllowFocus = false;
             this.room_area_frame_pick.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.room_area_frame_pick.Visible = true;
             this.room_area_frame_pick.VisibleIndex = 4;
