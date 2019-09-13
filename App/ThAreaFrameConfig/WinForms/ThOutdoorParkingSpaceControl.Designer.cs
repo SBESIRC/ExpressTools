@@ -83,6 +83,7 @@
             this.gridColumn_number.FieldName = "Number";
             this.gridColumn_number.Name = "gridColumn_number";
             this.gridColumn_number.OptionsColumn.AllowEdit = false;
+            this.gridColumn_number.OptionsColumn.AllowFocus = false;
             this.gridColumn_number.Visible = true;
             this.gridColumn_number.VisibleIndex = 0;
             // 
@@ -92,6 +93,7 @@
             this.gridColumn_category.FieldName = "Category";
             this.gridColumn_category.Name = "gridColumn_category";
             this.gridColumn_category.OptionsColumn.AllowEdit = false;
+            this.gridColumn_category.OptionsColumn.AllowFocus = false;
             this.gridColumn_category.Visible = true;
             this.gridColumn_category.VisibleIndex = 1;
             // 
@@ -101,6 +103,7 @@
             this.gridColumn_parking_category.FieldName = "ParkingCategory";
             this.gridColumn_parking_category.Name = "gridColumn_parking_category";
             this.gridColumn_parking_category.OptionsColumn.AllowEdit = false;
+            this.gridColumn_parking_category.OptionsColumn.AllowFocus = false;
             this.gridColumn_parking_category.Visible = true;
             this.gridColumn_parking_category.VisibleIndex = 2;
             // 
@@ -118,6 +121,7 @@
             this.gridColumn_slot.FieldName = "Slot";
             this.gridColumn_slot.Name = "gridColumn_slot";
             this.gridColumn_slot.OptionsColumn.AllowEdit = false;
+            this.gridColumn_slot.OptionsColumn.AllowFocus = false;
             this.gridColumn_slot.Visible = true;
             this.gridColumn_slot.VisibleIndex = 4;
             // 
@@ -127,6 +131,7 @@
             this.gridColumn_pick.FieldName = "gridColumn_pick";
             this.gridColumn_pick.Name = "gridColumn_pick";
             this.gridColumn_pick.OptionsColumn.AllowEdit = false;
+            this.gridColumn_pick.OptionsColumn.AllowFocus = false;
             this.gridColumn_pick.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.gridColumn_pick.Visible = true;
             this.gridColumn_pick.VisibleIndex = 5;
