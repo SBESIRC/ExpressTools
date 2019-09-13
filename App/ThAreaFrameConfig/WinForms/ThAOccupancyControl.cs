@@ -10,6 +10,7 @@ using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraTab;
 using DevExpress.XtraTab.ViewInfo;
+using DevExpress.Utils.Menu;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.DatabaseServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
@@ -413,6 +414,67 @@ namespace ThAreaFrameConfig.WinForms
 
             // 更新界面
             this.Reload();
+        }
+
+        private void gridView_aoccupancy_PopupMenuShowing(object sender, PopupMenuShowingEventArgs e)
+        {
+            GridView view = sender as GridView;
+            if (e.MenuType == GridMenuType.Row)
+            {
+                if (e.HitInfo.InRow || e.HitInfo.InRowCell)
+                {
+                    ThAOccupancy aoccupancy = view.GetRow(e.HitInfo.RowHandle) as ThAOccupancy;
+                    if (!aoccupancy.IsDefined)
+                        return;
+
+                    e.Menu.Items.Clear();
+                    e.Menu.Items.Add(CreateDeleteAreaFrameMenuItem(view, e.HitInfo.RowHandle));
+                }
+            }
+        }
+
+        class RowInfo
+        {
+            public RowInfo(GridView view, int rowHandle)
+            {
+                this.RowHandle = rowHandle;
+                this.View = view;
+            }
+            public GridView View;
+            public int RowHandle;
+        }
+
+        DXMenuItem CreateDeleteAreaFrameMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("删除", new EventHandler(OnDeleteAreaFrameItemClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        void OnDeleteAreaFrameItemClick(object sender, EventArgs e)
+        {
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            {
+                // 更新图纸
+                // 支持多选
+                foreach (var handle in ri.View.GetSelectedRows())
+                {
+                    var aoccupancy = ri.View.GetRow(handle) as ThAOccupancy;
+                    if (!aoccupancy.IsDefined)
+                    {
+                        continue;
+                    }
+
+                    string name = ThResidentialRoomDbUtil.LayerName(aoccupancy.Frame);
+                    Presenter.OnDeleteAreaFrame(aoccupancy.Frame);
+                    Presenter.OnDeleteAreaFrameLayer(name);
+                }
+
+                // 更新界面
+                this.Reload();
+            }
         }
     }
 }

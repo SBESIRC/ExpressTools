@@ -119,9 +119,11 @@
             this.gridColumn_pick});
             this.gridView_aoccupancy.GridControl = this.gridControl_aoccupancy;
             this.gridView_aoccupancy.Name = "gridView_aoccupancy";
+            this.gridView_aoccupancy.OptionsSelection.MultiSelect = true;
             this.gridView_aoccupancy.OptionsView.ShowGroupPanel = false;
             this.gridView_aoccupancy.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_aoccupancy_RowClick);
             this.gridView_aoccupancy.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_aoccupancy_CustomRowCellEdit);
+            this.gridView_aoccupancy.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridView_aoccupancy_PopupMenuShowing);
             this.gridView_aoccupancy.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gridView_aoccupancy_ShowingEditor);
             this.gridView_aoccupancy.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView_aoccupancy_CellValueChanged);
             this.gridView_aoccupancy.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_aoccupancy_RowUpdated);
