@@ -66,6 +66,7 @@
             this.gridView_space.GridControl = this.gridControl_space;
             this.gridView_space.Name = "gridView_space";
             this.gridView_space.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
+            this.gridView_space.OptionsSelection.MultiSelect = true;
             this.gridView_space.OptionsView.ShowGroupPanel = false;
             this.gridView_space.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView1_RowClick);
             this.gridView_space.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_space_CustomRowCellEdit);

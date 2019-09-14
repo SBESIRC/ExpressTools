@@ -185,9 +185,17 @@ namespace ThAreaFrameConfig.WinForms
             {
                 if (e.HitInfo.InRow || e.HitInfo.InRowCell)
                 {
+                    foreach (var handle in view.GetSelectedRows())
+                    {
+                        var space = view.GetRow(handle) as ThRoofGreenSpace;
+                        if (!space.IsDefined)
+                        {
+                            return;
+                        }
+                    }
+
                     e.Menu.Items.Clear();
                     e.Menu.Items.Add(CreateDeleteMenuItem(view, e.HitInfo.RowHandle));
-                    e.Menu.Items.Add(CreateDeleteAllMenuItem(view, e.HitInfo.RowHandle));
                 }
             }
         }
@@ -195,14 +203,6 @@ namespace ThAreaFrameConfig.WinForms
         DXMenuItem CreateDeleteMenuItem(GridView view, int rowHandle)
         {
             return new DXMenuItem("删除", new EventHandler(OnDeleteRoofGreenSpaceItemClick))
-            {
-                Tag = new RowInfo(view, rowHandle)
-            };
-        }
-
-        DXMenuItem CreateDeleteAllMenuItem(GridView view, int rowHandle)
-        {
-            return new DXMenuItem("全部删除", new EventHandler(OnDeleteAllRoofGreenSpaceItemsClick))
             {
                 Tag = new RowInfo(view, rowHandle)
             };
@@ -224,30 +224,15 @@ namespace ThAreaFrameConfig.WinForms
             DXMenuItem menuItem = sender as DXMenuItem;
             if (menuItem.Tag is RowInfo ri)
             {
-                ThRoofGreenSpace space = ri.View.GetRow(ri.RowHandle) as ThRoofGreenSpace;
-                if (space.IsDefined)
-                {
-                    // 更新图纸
-                    string layer = ThResidentialRoomDbUtil.LayerName(space.Frame);
-                    Presenter.OnDeleteAreaFrame(space.Frame);
-                    Presenter.OnDeleteAreaFrameLayer(layer);
-
-                    // 更新界面
-                    this.Reload();
-                }
-            }
-        }
-
-        void OnDeleteAllRoofGreenSpaceItemsClick(object sender, EventArgs e)
-        {
-            DXMenuItem menuItem = sender as DXMenuItem;
-            if (menuItem.Tag is RowInfo ri)
-            {
                 // 更新图纸
-                foreach (var space in DbRepository.Spaces)
+                // 支持多选
+                foreach (var handle in ri.View.GetSelectedRows())
                 {
+                    var space = ri.View.GetRow(handle) as ThRoofGreenSpace;
                     if (!space.IsDefined)
+                    {
                         continue;
+                    }
 
                     string layer = ThResidentialRoomDbUtil.LayerName(space.Frame);
                     Presenter.OnDeleteAreaFrame(space.Frame);
