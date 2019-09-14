@@ -195,14 +195,24 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        private void gdv_room_area_frame_RowUpdated(object sender, RowObjectEventArgs e)
+        private void gdv_room_area_frame_CellValueChanged(object sender, CellValueChangedEventArgs e)
         {
             if (!(sender is GridView view))
             {
                 return;
             }
 
-            ThResidentialAreaFrame areaFrame = (ThResidentialAreaFrame)e.Row;
+            var columns = new List<string>
+            {
+                "Coefficient",
+                "FARCoefficient"
+            };
+            if (!columns.Contains(e.Column.FieldName))
+            {
+                return;
+            }
+
+            ThResidentialAreaFrame areaFrame = (ThResidentialAreaFrame)view.GetRow(e.RowHandle);
             if (areaFrame.IsDefined)
             {
                 // 面积框线图层名

@@ -161,7 +161,7 @@
             this.gdv_room_area_frame.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gdv_room_area_frame_RowClick);
             this.gdv_room_area_frame.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gdv_room_area_frame_CustomRowCellEdit);
             this.gdv_room_area_frame.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gdv_room_area_frame_PopupMenuShowing);
-            this.gdv_room_area_frame.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gdv_room_area_frame_RowUpdated);
+            this.gdv_room_area_frame.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gdv_room_area_frame_CellValueChanged);
             this.gdv_room_area_frame.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gdv_room_area_frame_CustomUnboundColumnData);
             this.gdv_room_area_frame.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gdv_room_area_frame_CustomColumnDisplayText);
             this.gdv_room_area_frame.DoubleClick += new System.EventHandler(this.gdv_room_area_frame_DoubleClick);
