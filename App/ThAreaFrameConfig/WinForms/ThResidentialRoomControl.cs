@@ -492,9 +492,14 @@ namespace ThAreaFrameConfig.WinForms
             {
                 if (e.HitInfo.InRow || e.HitInfo.InRowCell)
                 {
-                    ThResidentialAreaFrame areaFrame = view.GetRow(e.HitInfo.RowHandle) as ThResidentialAreaFrame;
-                    if (!areaFrame.IsDefined)
-                        return;
+                    foreach (var handle in view.GetSelectedRows())
+                    {
+                        var frame = view.GetRow(handle) as ThResidentialAreaFrame;
+                        if (!frame.IsDefined)
+                        {
+                            return;
+                        }
+                    }
 
                     e.Menu.Items.Clear();
                     e.Menu.Items.Add(CreateDeleteAreaFrameMenuItem(view, e.HitInfo.RowHandle));

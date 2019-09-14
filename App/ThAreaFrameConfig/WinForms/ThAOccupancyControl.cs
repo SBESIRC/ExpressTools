@@ -423,9 +423,14 @@ namespace ThAreaFrameConfig.WinForms
             {
                 if (e.HitInfo.InRow || e.HitInfo.InRowCell)
                 {
-                    ThAOccupancy aoccupancy = view.GetRow(e.HitInfo.RowHandle) as ThAOccupancy;
-                    if (!aoccupancy.IsDefined)
-                        return;
+                    foreach (var handle in view.GetSelectedRows())
+                    {
+                        var aoccupancy = view.GetRow(handle) as ThAOccupancy;
+                        if (!aoccupancy.IsDefined)
+                        {
+                            return;
+                        }
+                    }
 
                     e.Menu.Items.Clear();
                     e.Menu.Items.Add(CreateDeleteAreaFrameMenuItem(view, e.HitInfo.RowHandle));
