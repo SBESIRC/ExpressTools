@@ -352,6 +352,7 @@
             this.room_area_adjustment.FieldName = "room_area_adjustment";
             this.room_area_adjustment.Name = "room_area_adjustment";
             this.room_area_adjustment.OptionsColumn.AllowEdit = false;
+            this.room_area_adjustment.OptionsColumn.AllowFocus = false;
             this.room_area_adjustment.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.room_area_adjustment.Visible = true;
             this.room_area_adjustment.VisibleIndex = 7;
