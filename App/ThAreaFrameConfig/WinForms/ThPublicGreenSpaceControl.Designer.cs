@@ -60,6 +60,9 @@
             this.gridColumn_pick});
             this.gridView_public_green_space.GridControl = this.gridControl_public_green_space;
             this.gridView_public_green_space.Name = "gridView_public_green_space";
+            this.gridView_public_green_space.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_public_green_space.OptionsCustomization.AllowFilter = false;
+            this.gridView_public_green_space.OptionsCustomization.AllowGroup = false;
             this.gridView_public_green_space.OptionsView.ShowGroupPanel = false;
             this.gridView_public_green_space.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_public_green_space_RowClick);
             this.gridView_public_green_space.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_public_green_space_CustomRowCellEdit);

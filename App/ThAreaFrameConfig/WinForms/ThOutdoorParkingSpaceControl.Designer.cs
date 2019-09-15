@@ -66,6 +66,9 @@
             this.gridColumn_pick});
             this.gridView_outdoor_parking_space.GridControl = this.gridControl_outdoor_parking_space;
             this.gridView_outdoor_parking_space.Name = "gridView_outdoor_parking_space";
+            this.gridView_outdoor_parking_space.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_outdoor_parking_space.OptionsCustomization.AllowFilter = false;
+            this.gridView_outdoor_parking_space.OptionsCustomization.AllowGroup = false;
             this.gridView_outdoor_parking_space.OptionsDetail.EnableMasterViewMode = false;
             this.gridView_outdoor_parking_space.OptionsView.ShowGroupPanel = false;
             this.gridView_outdoor_parking_space.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_outdoor_parking_space_RowClick);

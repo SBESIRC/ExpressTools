@@ -84,6 +84,9 @@
             this.gdv_room_area_unit.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never;
             this.gdv_room_area_unit.Name = "gdv_room_area_unit";
             this.gdv_room_area_unit.OptionsBehavior.SmartVertScrollBar = false;
+            this.gdv_room_area_unit.OptionsCustomization.AllowColumnMoving = false;
+            this.gdv_room_area_unit.OptionsCustomization.AllowFilter = false;
+            this.gdv_room_area_unit.OptionsCustomization.AllowGroup = false;
             this.gdv_room_area_unit.OptionsDetail.ShowDetailTabs = false;
             this.gdv_room_area_unit.OptionsMenu.EnableColumnMenu = false;
             this.gdv_room_area_unit.OptionsMenu.EnableFooterMenu = false;
@@ -141,6 +144,9 @@
             this.gdv_room_area_frame.OptionsBehavior.AutoExpandAllGroups = true;
             this.gdv_room_area_frame.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
             this.gdv_room_area_frame.OptionsBehavior.SmartVertScrollBar = false;
+            this.gdv_room_area_frame.OptionsCustomization.AllowColumnMoving = false;
+            this.gdv_room_area_frame.OptionsCustomization.AllowFilter = false;
+            this.gdv_room_area_frame.OptionsCustomization.AllowGroup = false;
             this.gdv_room_area_frame.OptionsDetail.ShowDetailTabs = false;
             this.gdv_room_area_frame.OptionsMenu.EnableColumnMenu = false;
             this.gdv_room_area_frame.OptionsMenu.EnableFooterMenu = false;
@@ -253,6 +259,9 @@
             this.gdv_room.Name = "gdv_room";
             this.gdv_room.OptionsBehavior.AutoExpandAllGroups = true;
             this.gdv_room.OptionsBehavior.SmartVertScrollBar = false;
+            this.gdv_room.OptionsCustomization.AllowColumnMoving = false;
+            this.gdv_room.OptionsCustomization.AllowFilter = false;
+            this.gdv_room.OptionsCustomization.AllowGroup = false;
             this.gdv_room.OptionsDetail.ShowDetailTabs = false;
             this.gdv_room.OptionsMenu.EnableColumnMenu = false;
             this.gdv_room.OptionsMenu.EnableFooterMenu = false;

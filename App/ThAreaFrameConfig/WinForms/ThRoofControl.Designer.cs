@@ -71,6 +71,9 @@
             this.gridView_roof.GridControl = this.gridControl_roof;
             this.gridView_roof.Name = "gridView_roof";
             this.gridView_roof.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
+            this.gridView_roof.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_roof.OptionsCustomization.AllowFilter = false;
+            this.gridView_roof.OptionsCustomization.AllowGroup = false;
             this.gridView_roof.OptionsSelection.MultiSelect = true;
             this.gridView_roof.OptionsView.ShowGroupPanel = false;
             this.gridView_roof.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView1_RowClick);

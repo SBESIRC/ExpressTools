@@ -119,6 +119,9 @@
             this.gridColumn_pick});
             this.gridView_aoccupancy.GridControl = this.gridControl_aoccupancy;
             this.gridView_aoccupancy.Name = "gridView_aoccupancy";
+            this.gridView_aoccupancy.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_aoccupancy.OptionsCustomization.AllowFilter = false;
+            this.gridView_aoccupancy.OptionsCustomization.AllowGroup = false;
             this.gridView_aoccupancy.OptionsSelection.MultiSelect = true;
             this.gridView_aoccupancy.OptionsView.ShowGroupPanel = false;
             this.gridView_aoccupancy.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_aoccupancy_RowClick);

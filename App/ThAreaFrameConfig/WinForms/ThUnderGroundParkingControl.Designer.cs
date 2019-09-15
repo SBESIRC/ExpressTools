@@ -69,6 +69,9 @@
             this.gridColumn_pick});
             this.gridView_parking.GridControl = this.gridControl_parking;
             this.gridView_parking.Name = "gridView_parking";
+            this.gridView_parking.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_parking.OptionsCustomization.AllowFilter = false;
+            this.gridView_parking.OptionsCustomization.AllowGroup = false;
             this.gridView_parking.OptionsDetail.EnableMasterViewMode = false;
             this.gridView_parking.OptionsSelection.MultiSelect = true;
             this.gridView_parking.OptionsView.ShowGroupPanel = false;
