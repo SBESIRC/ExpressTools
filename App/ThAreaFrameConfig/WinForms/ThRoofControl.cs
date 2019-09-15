@@ -186,13 +186,17 @@ namespace ThAreaFrameConfig.WinForms
             {
                 if (e.HitInfo.InRow || e.HitInfo.InRowCell)
                 {
-                    ThRoof roof = view.GetRow(e.HitInfo.RowHandle) as ThRoof;
-                    if (!roof.IsDefined)
-                        return;
+                    foreach (var handle in view.GetSelectedRows())
+                    {
+                        var roof = view.GetRow(handle) as ThRoof;
+                        if (!roof.IsDefined)
+                        {
+                            return;
+                        }
+                    }
 
                     e.Menu.Items.Clear();
                     e.Menu.Items.Add(CreateDeleteMenuItem(view, e.HitInfo.RowHandle));
-                    e.Menu.Items.Add(CreateDeleteAllMenuItem(view, e.HitInfo.RowHandle));
                 }
             }
         }
@@ -200,14 +204,6 @@ namespace ThAreaFrameConfig.WinForms
         DXMenuItem CreateDeleteMenuItem(GridView view, int rowHandle)
         {
             return new DXMenuItem("删除", new EventHandler(OnDeleteRoofItemClick))
-            {
-                Tag = new RowInfo(view, rowHandle)
-            };
-        }
-
-        DXMenuItem CreateDeleteAllMenuItem(GridView view, int rowHandle)
-        {
-            return new DXMenuItem("全部删除", new EventHandler(OnDeleteAllRoofItemsClick))
             {
                 Tag = new RowInfo(view, rowHandle)
             };
@@ -228,31 +224,16 @@ namespace ThAreaFrameConfig.WinForms
         {
             DXMenuItem menuItem = sender as DXMenuItem;
             if (menuItem.Tag is RowInfo ri)
-            { 
-                // 更新图纸
-                ThRoof roof = ri.View.GetRow(ri.RowHandle) as ThRoof;
-                if (roof.IsDefined)
-                {
-                    string layer = ThResidentialRoomDbUtil.LayerName(roof.Frame);
-                    Presenter.OnDeleteAreaFrame(roof.Frame);
-                    Presenter.OnDeleteAreaFrameLayer(layer);
-
-                    // 更新界面
-                    this.Reload();
-                }
-            }
-        }
-
-        void OnDeleteAllRoofItemsClick(object sender, EventArgs e)
-        {
-            DXMenuItem menuItem = sender as DXMenuItem;
-            if (menuItem.Tag is RowInfo ri)
             {
                 // 更新图纸
-                foreach(var roof in DbRepository.Roofs)
+                // 支持多选
+                foreach (var handle in ri.View.GetSelectedRows())
                 {
+                    var roof = ri.View.GetRow(handle) as ThRoof;
                     if (!roof.IsDefined)
+                    {
                         continue;
+                    }
 
                     string layer = ThResidentialRoomDbUtil.LayerName(roof.Frame);
                     Presenter.OnDeleteAreaFrame(roof.Frame);
