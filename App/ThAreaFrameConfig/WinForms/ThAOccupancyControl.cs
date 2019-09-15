@@ -14,6 +14,8 @@ using DevExpress.Utils.Menu;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.DatabaseServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using DevExpress.Utils;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 
 namespace ThAreaFrameConfig.WinForms
 {
@@ -479,6 +481,21 @@ namespace ThAreaFrameConfig.WinForms
 
                 // 更新界面
                 this.Reload();
+            }
+        }
+
+        private void gridView_aoccupancy_DoubleClick(object sender, EventArgs e)
+        {
+            DXMouseEventArgs ea = e as DXMouseEventArgs;
+            GridView view = sender as GridView;
+            GridHitInfo info = view.CalcHitInfo(ea.Location);
+            if (info.InRow || info.InRowCell)
+            {
+                var aoccupancy = view.GetRow(info.RowHandle) as ThAOccupancy;
+                if (aoccupancy.IsDefined)
+                {
+                    Presenter.OnHighlightAreaFrame(aoccupancy.Frame);
+                }
             }
         }
     }
