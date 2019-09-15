@@ -43,6 +43,7 @@ namespace ThAreaFrameConfig.WinForms
             DbRepository.AppendDefaultOutdoorParkingSpace();
             gridControl_outdoor_parking_space.DataSource = DbRepository.Spaces;
             gridControl_outdoor_parking_space.RefreshDataSource();
+            gridView_outdoor_parking_space.BestFitColumns();
         }
 
         public void InitializeGridControl()
@@ -52,6 +53,7 @@ namespace ThAreaFrameConfig.WinForms
             DbRepository.AppendDefaultOutdoorParkingSpace();
             gridControl_outdoor_parking_space.DataSource = DbRepository.Spaces;
             gridControl_outdoor_parking_space.RefreshDataSource();
+            gridView_outdoor_parking_space.BestFitColumns();
         }
 
         private void gridView_outdoor_parking_space_CustomUnboundColumnData(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDataEventArgs e)
