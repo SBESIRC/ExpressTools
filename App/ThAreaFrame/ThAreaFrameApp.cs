@@ -384,6 +384,11 @@ namespace ThAreaFrame
 
         private ThAreaFrameDriver CreateDriver(string path)
         {
+            if (!Directory.Exists(path))
+            {
+                return null;
+            }
+
             // 指定目录下所有的dwg文件
             string[] dwgs = Directory.GetFiles(path, "*.dwg", SearchOption.TopDirectoryOnly);
             if (dwgs.Length == 0)
