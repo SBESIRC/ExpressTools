@@ -14,9 +14,9 @@
 给水,默认,W-WSUP-HOT-PIPE,默认开,默认否,默认否,6,R生活热水管,默认,0,默认,T,生活热水管线（hot water)
 给水,默认,W-WSUP-HOT-PIPE1,默认开,默认否,默认否,6,R1中区生活热水管,默认,0,默认,T,中区生活热水管线（hot water)
 给水,默认,W-WSUP-HOT-PIPE2,默认开,默认否,默认否,6,R2高区生活热水管,默认,0,默认,T,高区生活热水管线（hot water)
-给水,默认,W-WSUP-HOTR-PIPE,默认开,默认否,默认否,2,R热水回水管,默认,0,默认,T,生活热水回水管线（return pipe)
-给水,默认,W-WSUP-HOTR-PIPE1,默认开,默认否,默认否,2,R1中区热水回水管,默认,0,默认,T,中区生活热水回水管线（return pipe)
-给水,默认,W-WSUP-HOTR-PIPE2,默认开,默认否,默认否,2,R2高区热水回水管,默认,0,默认,T,高区生活热水回水管线（return pipe)
+给水,默认,W-WSUP-HOTR-PIPE,默认开,默认否,默认否,2,RH热水回水管,默认,0,默认,T,生活热水回水管线（return pipe)
+给水,默认,W-WSUP-HOTR-PIPE1,默认开,默认否,默认否,2,RH1中区热水回水管,默认,0,默认,T,中区生活热水回水管线（return pipe)
+给水,默认,W-WSUP-HOTR-PIPE2,默认开,默认否,默认否,2,RH2高区热水回水管,默认,0,默认,T,高区生活热水回水管线（return pipe)
 给水,默认,W-WSUP-HOTI-PIPE,默认开,默认否,默认否,2,RM热媒水管,默认,0,默认,T,热媒水管线（hot intermedium water)
 给水,默认,W-WSUP-HOTIR-PIPE,默认开,默认否,默认否,2,RMH热媒回水管,默认,0,默认,T,热媒水回水管线
 给水,默认,W-WSUP-EQPM,默认开,默认否,默认否,40,Continuous,默认,0,默认,T,给水系统设备（仅包括给电气提资的设备）
@@ -32,7 +32,7 @@
 排水,默认,W-PRES-SEWR-PIPE,默认开,默认否,默认否,2,YW压力污水管线,默认,0,默认,T,压力污水管线
 排水,默认,W-DRAI-DOME-PIPE1,默认开,默认否,默认否,2,F废水管线,默认,0,默认,T,废水管线
 排水,默认,W-PRES-DOME-PIPE,默认开,默认否,默认否,2,YF压力废水管线,默认,0,默认,T,压力废水管线
-排水,默认,W-DRAI-VENT-PIPE,默认开,默认否,默认否,5,CENTER2,默认,0,默认,T,通气管管线（vent pipe）
+排水,默认,W-DRAI-VENT-PIPE,默认开,默认否,默认否,5,T通气管,默认,0,默认,T,通气管管线（vent pipe）
 排水,默认,W-DRAI-FLDR,默认开,默认否,默认否,50,Continuous,默认,0,默认,T,地漏（floor drainage）
 排水,默认,W-DRAI-EQPM,默认开,默认否,默认否,50,Continuous,默认,0,默认,T,排水系统设备（仅包括给电气提资的设备，如潜泵）
 排水,默认,W-DRAI-EMBE,默认开,默认否,默认否,6,DASHED,默认,0,默认,T,预埋排水管线（Embedded drainpipe）
@@ -52,24 +52,24 @@
 消防,默认,W-FRPT-HYDT-PIPE1,默认开,默认否,默认否,1,X1中区消火栓消防管,默认,0,默认,T,中区消火栓消防管线（hydrant)
 消防,默认,W-FRPT-HYDT-PIPE2,默认开,默认否,默认否,1,X2高区消火栓消防管,默认,0,默认,T,高区消火栓消防管线（hydrant)
 消防,默认,W-FRPT-SPRL-PIPE,默认开,默认否,默认否,2,ZP自动喷淋管,默认,0,默认,T,自动喷水灭火管线（fire protection spurt）
-消防,默认,W-FRPT-SPRL-PIPE1,默认开,默认否,默认否,2,ZP1中区自动喷淋管,默认,0,默认,T,中区自动喷水灭火管线（fire protection spurt）
-消防,默认,W-FRPT-SPRL-PIPE2,默认开,默认否,默认否,2,ZP2高区自动喷淋管,默认,0,默认,T,高区自动喷水灭火管线（fire protection spurt）
-消防,默认,W-FRPT-SPRL-PIPE3,默认开,默认否,默认否,2,ZM水幕管,默认,0,默认,T,水幕管
-消防,默认,W-FRPT-SPRL-PIPE4,默认开,默认否,默认否,2,ZY雨淋管,默认,0,默认,T,雨淋管
-消防,默认,W-FRPT-SPRL-PIPE5,默认开,默认否,默认否,2,ZW水喷雾管,默认,0,默认,T,水喷雾管
+消防,默认,W-FRPT-SPRL-PIPE1,默认开,默认否,默认否,2,ZP1中区自动喷淋管,默认,0,默认,T,中区自动喷水灭火管线
+消防,默认,W-FRPT-SPRL-PIPE2,默认开,默认否,默认否,2,ZP2高区自动喷淋管,默认,0,默认,T,高区自动喷水灭火管线
+消防,默认,W-FRPT-SPRL-PIPE3,默认开,默认否,默认否,2,SM水幕管,默认,0,默认,T,水幕管
+消防,默认,W-FRPT-SPRL-PIPE4,默认开,默认否,默认否,2,YL雨淋管,默认,0,默认,T,雨淋管
+消防,默认,W-FRPT-SPRL-PIPE5,默认开,默认否,默认否,2,SPW水喷雾管,默认,0,默认,T,水喷雾管
 消防,默认,W-FRPT-SPRL-PIPE6,默认开,默认否,默认否,2,ZXW细水雾管,默认,0,默认,T,细水雾管
 消防,默认,W-FRPT-MONI-PIPE,默认开,默认否,默认否,2,SP水炮给水管线,默认,0,默认,T,水炮给水管线
-消防,默认,W-FGAS-PIPE,默认开,默认否,默认否,5,Q气体灭火管线,默认,0,默认,T,气体灭火管线
+消防,默认 ,W-FGAS-PIPE,默认开,默认否,默认否,5,Q气体灭火管线,默认,0,默认,T,气体灭火管线
 消防,默认,W-FRPT-DRAI-PIPE,默认开,默认否,默认否,4,Continuous,默认,0,默认,T,消防排水管线（fire protection drainage)
 消防,默认,W-FRPT-EXTG,默认开,默认否,默认否,140,Continuous,默认,0,默认,T,灭火器（fire extinguisher）
 消防,默认,W-FRPT-HYDT,默认开,默认否,默认否,140,Continuous,默认,0,默认,T,消火栓（hydrant)
-消防,默认,W-FRPT-SPRL,默认开,默认否,默认否,60,Continuous,默认,0,默认,T,自动喷水灭火喷头（sprinkler）
+消防,默认,W-FRPT-SPRL,默认开,默认否,默认否,60,Continuous,默认,0,默认,是,自动喷水灭火喷头（sprinkler）
 消防,默认,W-FRPT-HYDT-EQPM,默认开,默认否,默认否,60,Continuous,默认,0,默认,T,消火栓系统设备，压力开关、流量开关、消防泵等给电气提资的设备
 消防,默认,W-FRPT-HYDT-DIMS,默认开,默认否,默认否,61,Continuous,默认,0,默认,T,消火栓系统标注（dimension)及图面说明、不需要给其他专业提资的设备、阀门等
 消防,默认,W-FRPT-SPRL-DIMS,默认开,默认否,默认否,61,Continuous,默认,0,默认,T,自动喷水系统标注（dimension)及图面说明、不需要给其他专业提资的设备、阀门等
 消防,默认,W-FRPT-SPRL-EQPM,默认开,默认否,默认否,60,Continuous,默认,0,默认,T,自动喷水系统设备，水流指示器、信号阀、湿式报警阀、电动阀、喷淋泵等给电气提资的设备
 燃气,默认,W-GAS-PIPE,默认开,默认否,默认否,2,G燃气管,默认,0,默认,T,燃气管线
-燃气,默认,W-GAS-PIPE1,默认开,默认否,默认否,2,G燃气放散管,默认,0,默认,T,燃气放散管
+燃气,默认,W-GAS-PIPE1,默认开,默认否,默认否,2,V燃气放散管,默认,0,默认,T,燃气放散管
 燃气,默认,W-GAS-EQPM,默认开,默认否,默认否,200,Continuous,默认,0,默认,T,燃气设备
 燃气,默认,W-GAS-DIMS,默认开,默认否,默认否,201,Continuous,默认,0,默认,T,燃气标注（dimension)及图面说明
 套管和留洞,默认,W-BUSH,默认开,默认否,默认否,231,Continuous,默认,0,默认,T,套管（Bushing）
