@@ -1428,7 +1428,7 @@ namespace ThPlot
             {
                 Document doc = Application.DocumentManager.MdiActiveDocument;
                 var editor = doc.Editor;
-                PromptPointOptions ppoLeftBottom = new PromptPointOptions("/nSelect left bottom corner of plot area: ");
+                PromptPointOptions ppoLeftBottom = new PromptPointOptions("选择示例插入点");
                 ppoLeftBottom.AllowNone = false;
                 PromptPointResult ppr = editor.GetPoint(ppoLeftBottom);
 
