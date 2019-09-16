@@ -69,6 +69,8 @@
             this.gridView_space.OptionsCustomization.AllowColumnMoving = false;
             this.gridView_space.OptionsCustomization.AllowFilter = false;
             this.gridView_space.OptionsCustomization.AllowGroup = false;
+            this.gridView_space.OptionsCustomization.AllowQuickHideColumns = false;
+            this.gridView_space.OptionsCustomization.AllowSort = false;
             this.gridView_space.OptionsSelection.MultiSelect = true;
             this.gridView_space.OptionsView.ShowGroupPanel = false;
             this.gridView_space.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView1_RowClick);

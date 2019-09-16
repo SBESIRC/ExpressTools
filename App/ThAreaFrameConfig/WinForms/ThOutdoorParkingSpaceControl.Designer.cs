@@ -69,6 +69,8 @@
             this.gridView_outdoor_parking_space.OptionsCustomization.AllowColumnMoving = false;
             this.gridView_outdoor_parking_space.OptionsCustomization.AllowFilter = false;
             this.gridView_outdoor_parking_space.OptionsCustomization.AllowGroup = false;
+            this.gridView_outdoor_parking_space.OptionsCustomization.AllowQuickHideColumns = false;
+            this.gridView_outdoor_parking_space.OptionsCustomization.AllowSort = false;
             this.gridView_outdoor_parking_space.OptionsDetail.EnableMasterViewMode = false;
             this.gridView_outdoor_parking_space.OptionsView.ShowGroupPanel = false;
             this.gridView_outdoor_parking_space.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_outdoor_parking_space_RowClick);

@@ -52,6 +52,8 @@
             this.gridView_plot_area.OptionsCustomization.AllowColumnMoving = false;
             this.gridView_plot_area.OptionsCustomization.AllowFilter = false;
             this.gridView_plot_area.OptionsCustomization.AllowGroup = false;
+            this.gridView_plot_area.OptionsCustomization.AllowQuickHideColumns = false;
+            this.gridView_plot_area.OptionsCustomization.AllowSort = false;
             this.gridView_plot_area.OptionsView.ShowGroupPanel = false;
             this.gridView_plot_area.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_plot_area_RowClick);
             this.gridView_plot_area.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_plot_area_CustomRowCellEdit);
