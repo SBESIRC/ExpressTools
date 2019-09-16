@@ -12,11 +12,48 @@ namespace ThAreaFrameConfig.Model
         public Guid ID { get; set; }
 
         // 标题
-        public string Name { get; set; }
-        public string Coefficient { get; set; }
-        public string FARCoefficient { get; set; }
-        public string Area { get; set; }
-        public string Pick { get; set; }
+        private readonly string name;
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+        public string Coefficient
+        {
+            get
+            {
+                return "计算系数";
+            }
+        }
+        public string FARCoefficient
+        {
+            get
+            {
+                return "计容系数";
+            }
+        }
+        public string Area
+        {
+            get
+            {
+                return "面积（m2）";
+            }
+        }
+        public string Pick
+        {
+            get
+            {
+                return "";
+            }
+        }
+
+        // 构造函数
+        public ThResidentialRoomComponent(string theName)
+        {
+            name = theName;
+        }
 
         // 面积框线
         public List<ThResidentialAreaFrame> AreaFrames { get; set; }
@@ -24,14 +61,9 @@ namespace ThAreaFrameConfig.Model
         private static ThResidentialRoomComponent ConstructComponent(string name, Guid guid)
         {
             Guid componentGuid = Guid.NewGuid();
-            ThResidentialRoomComponent component = new ThResidentialRoomComponent()
+            ThResidentialRoomComponent component = new ThResidentialRoomComponent(name)
             {
                 ID = componentGuid,
-                Name = name,
-                Coefficient = "计算系数",
-                FARCoefficient = "计容系数",
-                Area = "面积（m2）",
-                Pick = "选择",
                 AreaFrames = new List<ThResidentialAreaFrame>()
             };
             return component;
