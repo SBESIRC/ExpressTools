@@ -101,14 +101,24 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        private void gridView_parking_RowUpdated(object sender, DevExpress.XtraGrid.Views.Base.RowObjectEventArgs e)
+        private void gridView_parking_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
             if (!(sender is GridView view))
             {
                 return;
             }
 
-            ThUnderGroundParking parking = e.Row as ThUnderGroundParking;
+            var columns = new List<string>
+            {
+                "Floors",
+                "Storey"
+            };
+            if (!columns.Contains(e.Column.FieldName))
+            {
+                return;
+            }
+
+            ThUnderGroundParking parking = view.GetRow(e.RowHandle) as ThUnderGroundParking;
             if (parking.IsDefined)
             {
                 // 面积框线图层名

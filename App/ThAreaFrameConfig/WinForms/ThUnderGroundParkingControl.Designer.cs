@@ -80,7 +80,7 @@
             this.gridView_parking.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView1_RowClick);
             this.gridView_parking.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_parking_CustomRowCellEdit);
             this.gridView_parking.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridView_parking_PopupMenuShowing);
-            this.gridView_parking.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_parking_RowUpdated);
+            this.gridView_parking.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView_parking_CellValueChanged);
             this.gridView_parking.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView1_CustomUnboundColumnData);
             this.gridView_parking.DoubleClick += new System.EventHandler(this.gridView_parking_DoubleClick);
             this.gridView_parking.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridView_parking_ValidatingEditor);
