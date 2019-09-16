@@ -345,7 +345,7 @@
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(146, 310);
+            this.btnOK.Location = new System.Drawing.Point(183, 310);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 14;
@@ -355,7 +355,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(234, 310);
+            this.btnCancel.Location = new System.Drawing.Point(280, 310);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 15;
@@ -365,11 +365,11 @@
             // btnHelp
             // 
             this.btnHelp.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnHelp.Location = new System.Drawing.Point(320, 310);
+            this.btnHelp.Location = new System.Drawing.Point(376, 310);
             this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(141, 23);
+            this.btnHelp.Size = new System.Drawing.Size(85, 23);
             this.btnHelp.TabIndex = 2;
-            this.btnHelp.Text = "帮助（点击插入示例）";
+            this.btnHelp.Text = "点击插入示例";
             this.btnHelp.UseVisualStyleBackColor = true;
             this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
