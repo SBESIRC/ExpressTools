@@ -210,16 +210,17 @@ namespace ThAreaFrameConfig.Model
             string[] tokens =
             {
                 "单体基底",
-                building.Number,
-                building.Name,
-                building.Category,
-                building.AboveGroundFloorNumber,
-                building.UnderGroundFloorNumber,
-                "",
-                "",
-                "",
-                "",
-                "",
+                building.Number,                        // 建筑编号
+                building.Name,                          // 建筑名称
+                building.Category,                      // 单体性质
+                building.AboveGroundFloorNumber,        // 地上层数
+                building.UnderGroundFloorNumber,        // 地下层数
+                "",                                     // 层高
+                "",                                     // 地下室露高
+                "",                                     // 室内外高差
+                "",                                     // 屋面高度
+                "是",                                   // 是否计入计算
+                "",                                     // 概况
                 version,
             };
 
