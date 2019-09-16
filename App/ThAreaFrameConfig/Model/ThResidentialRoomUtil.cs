@@ -6,7 +6,7 @@ namespace ThAreaFrameConfig.Model
 {
     public class ThResidentialRoomUtil
     {
-        private const string version = "V2.1";
+        public const string version = "V2.2";
 
         // 图层名称
         public static string LayerName(ThResidentialStorey storey,
@@ -48,6 +48,7 @@ namespace ThAreaFrameConfig.Model
                             String.Format("{0:0.0}", Convert.ToDouble(frame.Coefficient)),
                             String.Format("{0:0.0}", Convert.ToDouble(frame.FARCoefficient)),
                             room.Identifier,
+                            identifier,
                             "",
                             version,
                         };
@@ -63,6 +64,7 @@ namespace ThAreaFrameConfig.Model
                             String.Format("{0:0.0}", Convert.ToDouble(frame.Coefficient)),
                             String.Format("{0:0.0}", Convert.ToDouble(frame.FARCoefficient)),
                             room.Identifier,
+                            identifier,
                             version,
                         };
 

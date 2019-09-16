@@ -141,23 +141,32 @@ namespace ThAreaFrameConfig.Model
                     comoponent = room.Components.Where(o => o.Name == "阳台").First();
                     foreach (string layer in layers.Where(n => n.StartsWith(@"住宅构件_阳台")))
                     {
-                        //TODO:
-                        //  图层名中只包含户型信息，并没有楼层信息。
-                        //  需要一种方法来标识某个构件属于那一层。
-
+                        // TODO: 
+                        //  暂时不支持旧版本的图层命名规则v2.1
+                        //  在v2.1中，"住宅构件_阳台"图层名并不包含楼层信息
                         string[] tokens = layer.Split('_');
+                        if (tokens.Last() != ThResidentialRoomUtil.version)
+                        {
+                            continue;
+                        }
+
                         foreach (ObjectId objId in database.AreaFrameLines(layer))
                         {
-                            comoponent.AreaFrames.Add(new ThResidentialAreaFrame()
+                            // 图层命名规则v2.2:
+                            //  "住宅构件_阳台"图层名中添加“所属层”字段
+                            if (tokens[5] == storey.Identifier && tokens[4] == room.Identifier)
                             {
-                                ID = Guid.NewGuid(),
-                                RoomID = room.ID,
-                                ComponentID = comoponent.ID,
-                                Number = ++index,
-                                Frame = objId.OldIdPtr,
-                                Coefficient = double.Parse(tokens[2]),
-                                FARCoefficient = double.Parse(tokens[3]),
-                            });
+                                comoponent.AreaFrames.Add(new ThResidentialAreaFrame()
+                                {
+                                    ID = Guid.NewGuid(),
+                                    RoomID = room.ID,
+                                    ComponentID = comoponent.ID,
+                                    Number = ++index,
+                                    Frame = objId.OldIdPtr,
+                                    Coefficient = double.Parse(tokens[2]),
+                                    FARCoefficient = double.Parse(tokens[3]),
+                                });
+                            }
                         }
                     }
                     ThResidentialRoomUtil.AppendPlaceHolderAreaFrame(room, comoponent);
@@ -167,23 +176,32 @@ namespace ThAreaFrameConfig.Model
                     comoponent = room.Components.Where(o => o.Name == "飘窗").First();
                     foreach (string layer in layers.Where(n => n.StartsWith(@"住宅构件_飘窗")))
                     {
-                        //TODO:
-                        //  图层名中只包含户型信息，并没有楼层信息。
-                        //  需要一种方法来标识某个构件属于那一层。
-
+                        // TODO: 
+                        //  暂时不支持旧版本的图层命名规则v2.1
+                        //  在v2.1中，"住宅构件_阳台"图层名并不包含楼层信息
                         string[] tokens = layer.Split('_');
+                        if (tokens.Last() != ThResidentialRoomUtil.version)
+                        {
+                            continue;
+                        }
+
                         foreach (ObjectId objId in database.AreaFrameLines(layer))
                         {
-                            comoponent.AreaFrames.Add(new ThResidentialAreaFrame()
+                            // 图层命名规则v2.2:
+                            //  "住宅构件_飘窗"图层名中添加“所属层”字段
+                            if (tokens[5] == storey.Identifier && tokens[4] == room.Identifier)
                             {
-                                ID = Guid.NewGuid(),
-                                RoomID = room.ID,
-                                ComponentID = comoponent.ID,
-                                Number = ++index,
-                                Frame = objId.OldIdPtr,
-                                Coefficient = double.Parse(tokens[2]),
-                                FARCoefficient = double.Parse(tokens[3]),
-                            });
+                                comoponent.AreaFrames.Add(new ThResidentialAreaFrame()
+                                {
+                                    ID = Guid.NewGuid(),
+                                    RoomID = room.ID,
+                                    ComponentID = comoponent.ID,
+                                    Number = ++index,
+                                    Frame = objId.OldIdPtr,
+                                    Coefficient = double.Parse(tokens[2]),
+                                    FARCoefficient = double.Parse(tokens[3]),
+                                });
+                            }
                         }
                     }
                     ThResidentialRoomUtil.AppendPlaceHolderAreaFrame(room, comoponent);
@@ -193,23 +211,32 @@ namespace ThAreaFrameConfig.Model
                     comoponent = room.Components.Where(o => o.Name == "其他构件").First();
                     foreach (string layer in layers.Where(n => n.StartsWith(@"住宅构件_其他构件")))
                     {
-                        //TODO:
-                        //  图层名中只包含户型信息，并没有楼层信息。
-                        //  需要一种方法来标识某个构件属于那一层。
-
+                        // TODO: 
+                        //  暂时不支持旧版本的图层命名规则v2.1
+                        //  在v2.1中，"住宅构件_阳台"图层名并不包含楼层信息
                         string[] tokens = layer.Split('_');
+                        if (tokens.Last() != ThResidentialRoomUtil.version)
+                        {
+                            continue;
+                        }
+
                         foreach (ObjectId objId in database.AreaFrameLines(layer))
                         {
-                            comoponent.AreaFrames.Add(new ThResidentialAreaFrame()
+                            // 图层命名规则v2.2:
+                            //  "住宅构件_其他构件"图层名中添加“所属层”字段
+                            if (tokens[5] == storey.Identifier && tokens[4] == room.Identifier)
                             {
-                                ID = Guid.NewGuid(),
-                                RoomID = room.ID,
-                                ComponentID = comoponent.ID,
-                                Number = ++index,
-                                Frame = objId.OldIdPtr,
-                                Coefficient = double.Parse(tokens[2]),
-                                FARCoefficient = double.Parse(tokens[3]),
-                            });
+                                comoponent.AreaFrames.Add(new ThResidentialAreaFrame()
+                                {
+                                    ID = Guid.NewGuid(),
+                                    RoomID = room.ID,
+                                    ComponentID = comoponent.ID,
+                                    Number = ++index,
+                                    Frame = objId.OldIdPtr,
+                                    Coefficient = double.Parse(tokens[2]),
+                                    FARCoefficient = double.Parse(tokens[3]),
+                                });
+                            }
                         }
                     }
                     ThResidentialRoomUtil.AppendPlaceHolderAreaFrame(room, comoponent);
