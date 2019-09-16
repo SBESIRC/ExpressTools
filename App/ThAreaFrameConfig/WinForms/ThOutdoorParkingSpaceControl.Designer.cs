@@ -76,7 +76,7 @@
             this.gridView_outdoor_parking_space.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_outdoor_parking_space_RowClick);
             this.gridView_outdoor_parking_space.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_outdoor_parking_space_CustomRowCellEdit);
             this.gridView_outdoor_parking_space.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridView_outdoor_parking_space_PopupMenuShowing);
-            this.gridView_outdoor_parking_space.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_outdoor_parking_space_RowUpdated);
+            this.gridView_outdoor_parking_space.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView_outdoor_parking_space_CellValueChanged);
             this.gridView_outdoor_parking_space.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView_outdoor_parking_space_CustomUnboundColumnData);
             this.gridView_outdoor_parking_space.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridView_outdoor_parking_space_CustomColumnDisplayText);
             this.gridView_outdoor_parking_space.DoubleClick += new System.EventHandler(this.gridView_outdoor_parking_space_DoubleClick);

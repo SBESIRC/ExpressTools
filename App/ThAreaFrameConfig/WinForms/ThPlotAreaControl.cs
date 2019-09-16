@@ -103,21 +103,30 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        private void gridView_plot_area_RowUpdated(object sender, DevExpress.XtraGrid.Views.Base.RowObjectEventArgs e)
+        private void gridView_plot_area_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
             if (!(sender is GridView view))
             {
                 return;
             }
 
-            ThPlotSpace roofGreenSpace = (ThPlotSpace)e.Row;
-            if (roofGreenSpace.IsDefined)
+            var columns = new List<string>
+            {
+                "HouseHold",
+            };
+            if (!columns.Contains(e.Column.FieldName))
+            {
+                return;
+            }
+
+            ThPlotSpace space = view.GetRow(e.RowHandle) as ThPlotSpace;
+            if (space.IsDefined)
             {
                 // 面积框线图层名
-                string name = ThResidentialRoomUtil.LayerName(roofGreenSpace);
+                string name = ThResidentialRoomUtil.LayerName(space);
 
                 // 更新面积框线图层名
-                Presenter.OnMoveAreaFrameToLayer(name, roofGreenSpace.Frame);
+                Presenter.OnMoveAreaFrameToLayer(name, space.Frame);
 
                 // 更新界面
                 this.Reload();

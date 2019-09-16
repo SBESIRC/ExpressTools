@@ -164,28 +164,6 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        private void gridView_aoccupancy_RowUpdated(object sender, RowObjectEventArgs e)
-        {
-            if (!(sender is GridView view))
-            {
-                return;
-            }
-
-            ThAOccupancy aoccupancy = (ThAOccupancy)e.Row;
-            if (aoccupancy.IsDefined)
-            {
-                // 面积框线图层名
-                ThAOccupancyStorey storey = DbRepository.Storeys.Where(o => o.ID == aoccupancy.StoreyID).First();
-                string name = ThResidentialRoomUtil.LayerName(storey, aoccupancy);
-
-                // 更新面积框线图层名
-                Presenter.OnMoveAreaFrameToLayer(name, aoccupancy.Frame);
-
-                // 更新界面
-                this.Reload();
-            }
-        }
-
         private void gridView_aoccupancy_CellValueChanging(object sender, CellValueChangedEventArgs e)
         {
             if (!(sender is GridView view))
@@ -226,6 +204,41 @@ namespace ThAreaFrameConfig.WinForms
             }
             view.SetRowCellValue(e.RowHandle, view.Columns["Coefficient"], coefficient);
             view.SetRowCellValue(e.RowHandle, view.Columns["FARCoefficient"], farCoefficient);
+        }
+
+        private void gridView_aoccupancy_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+
+            var columns = new List<string>
+            {
+                "Component",
+                "Category",
+                "Coefficient",
+                "FARCoefficient",
+                "Floors"
+            };
+            if (!columns.Contains(e.Column.FieldName))
+            {
+                return;
+            }
+
+            ThAOccupancy aoccupancy = view.GetRow(e.RowHandle) as ThAOccupancy;
+            if (aoccupancy.IsDefined)
+            {
+                // 面积框线图层名
+                ThAOccupancyStorey storey = DbRepository.Storeys.Where(o => o.ID == aoccupancy.StoreyID).First();
+                string name = ThResidentialRoomUtil.LayerName(storey, aoccupancy);
+
+                // 更新面积框线图层名
+                Presenter.OnMoveAreaFrameToLayer(name, aoccupancy.Frame);
+
+                // 更新界面
+                this.Reload();
+            }
         }
 
         private void gridView_aoccupancy_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)

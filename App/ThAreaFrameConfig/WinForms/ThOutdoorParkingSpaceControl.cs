@@ -104,14 +104,23 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        private void gridView_outdoor_parking_space_RowUpdated(object sender, DevExpress.XtraGrid.Views.Base.RowObjectEventArgs e)
+        private void gridView_outdoor_parking_space_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
             if (!(sender is GridView view))
             {
                 return;
             }
 
-            ThOutdoorParkingSpace space = (ThOutdoorParkingSpace)e.Row;
+            var columns = new List<string>
+            {
+                "Storey",
+            };
+            if (!columns.Contains(e.Column.FieldName))
+            {
+                return;
+            }
+
+            ThOutdoorParkingSpace space = view.GetRow(e.RowHandle) as ThOutdoorParkingSpace;
             if (space.IsDefined)
             {
                 // 面积框线图层名

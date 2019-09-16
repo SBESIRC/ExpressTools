@@ -103,14 +103,24 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        private void gridView_roof_RowUpdated(object sender, DevExpress.XtraGrid.Views.Base.RowObjectEventArgs e)
+        private void gridView_roof_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
             if (!(sender is GridView view))
             {
                 return;
             }
 
-            ThRoof roof = (ThRoof)e.Row;
+            var columns = new List<string>
+            {
+                "Coefficient",
+                "FARCoefficient"
+            };
+            if (!columns.Contains(e.Column.FieldName))
+            {
+                return;
+            }
+
+            ThRoof roof = view.GetRow(e.RowHandle) as ThRoof;
             if (roof.IsDefined)
             {
                 // 面积框线图层名

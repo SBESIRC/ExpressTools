@@ -104,14 +104,23 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        private void gridView_space_RowUpdated(object sender, RowObjectEventArgs e)
+        private void gridView_space_CellValueChanged(object sender, CellValueChangedEventArgs e)
         {
             if (!(sender is GridView view))
             {
                 return;
             }
 
-            ThRoofGreenSpace roofGreenSpace = (ThRoofGreenSpace)e.Row;
+            var columns = new List<string>
+            {
+                "Coefficient"
+            };
+            if (!columns.Contains(e.Column.FieldName))
+            {
+                return;
+            }
+
+            ThRoofGreenSpace roofGreenSpace = view.GetRow(e.RowHandle) as ThRoofGreenSpace;
             if (roofGreenSpace.IsDefined)
             {
                 // 面积框线图层名
