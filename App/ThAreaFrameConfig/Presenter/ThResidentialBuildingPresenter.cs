@@ -92,5 +92,10 @@ namespace ThAreaFrameConfig.Presenter
         {
             //
         }
+
+        public void OnRenameAreaFrameLayer(string newName, IntPtr[] areaFrames)
+        {
+            //
+        }
     }
 }

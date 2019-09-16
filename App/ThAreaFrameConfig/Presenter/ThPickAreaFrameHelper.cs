@@ -293,6 +293,33 @@ namespace ThAreaFrameConfig.Presenter
             }
         }
 
+        public static void RenameAreaFrameLayer(this IThAreaFramePresenterCallback presenterCallback,
+            string newName, 
+            IntPtr[] areaFrames)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    foreach(var areaFrame in areaFrames)
+                    {
+                        // 面积框线
+                        ObjectId objId = new ObjectId(areaFrame);
+                        if (objId.IsNull)
+                        {
+                            continue;
+                        }
+
+                        // 面积框线图层
+                        string oldName = acadDatabase.ModelSpace.Element(objId).Layer;
+
+                        // 重命名图层名
+                        acadDatabase.Layers.Element(oldName, true).Name = newName;
+                    }
+                }
+            }
+        }
+
         public static void DeleteAreaFrameLayer(this IThAreaFramePresenterCallback presenterCallback, string name)
         {
             using (Active.Document.LockDocument())

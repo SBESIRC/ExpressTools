@@ -55,6 +55,11 @@ namespace ThAreaFrameConfig.Presenter
             this.MoveAreaFrameToLayer(newName, areaFrame, ThResidentialRoomDbUtil.ConfigLayer);
         }
 
+        public void OnRenameAreaFrameLayer(string newName, IntPtr[] areaFrames)
+        {
+            this.RenameAreaFrameLayer(newName, areaFrames);
+        }
+
         public void OnDeleteAreaFrame(IntPtr areaFrame)
         {
             this.DeleteAreaFrame(areaFrame);

@@ -60,6 +60,11 @@ namespace ThAreaFrameConfig.Presenter
             this.MoveAreaFrameToLayer(newName, areaFrame, ThResidentialRoomDbUtil.ConfigPublicGreenSpaceLayer);
         }
 
+        public void OnRenameAreaFrameLayer(string newName, IntPtr[] areaFrames)
+        {
+            this.RenameAreaFrameLayer(newName, areaFrames);
+        }
+
         public void OnUnhighlightAreaFrame(IntPtr areaFrame)
         {
             this.UnhighlightAreaFrame(areaFrame);
