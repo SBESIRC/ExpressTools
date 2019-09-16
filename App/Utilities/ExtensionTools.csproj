@@ -192,6 +192,7 @@
     <Compile Include="GeometryExtensions\Vector3dExtensions.cs" />
     <Compile Include="GeometryExtensions\ViewportExtensions.cs" />
     <Compile Include="TextTool.cs" />
+    <Compile Include="ThCADCommon.cs" />
     <Compile Include="ThEntTool.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="WeiZhi.cs" />
