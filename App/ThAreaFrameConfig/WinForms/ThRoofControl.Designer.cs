@@ -71,6 +71,10 @@
             this.gridView_roof.GridControl = this.gridControl_roof;
             this.gridView_roof.Name = "gridView_roof";
             this.gridView_roof.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
+            this.gridView_roof.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_roof.OptionsCustomization.AllowFilter = false;
+            this.gridView_roof.OptionsCustomization.AllowGroup = false;
+            this.gridView_roof.OptionsSelection.MultiSelect = true;
             this.gridView_roof.OptionsView.ShowGroupPanel = false;
             this.gridView_roof.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView1_RowClick);
             this.gridView_roof.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_roof_CustomRowCellEdit);
@@ -87,6 +91,7 @@
             this.gridColumn_number.FieldName = "Number";
             this.gridColumn_number.Name = "gridColumn_number";
             this.gridColumn_number.OptionsColumn.AllowEdit = false;
+            this.gridColumn_number.OptionsColumn.AllowFocus = false;
             this.gridColumn_number.Visible = true;
             this.gridColumn_number.VisibleIndex = 0;
             // 
@@ -136,6 +141,7 @@
             this.gridColumn_area.FieldName = "Area";
             this.gridColumn_area.Name = "gridColumn_area";
             this.gridColumn_area.OptionsColumn.AllowEdit = false;
+            this.gridColumn_area.OptionsColumn.AllowFocus = false;
             this.gridColumn_area.Visible = true;
             this.gridColumn_area.VisibleIndex = 3;
             // 
@@ -145,6 +151,7 @@
             this.gridColumn_pick.FieldName = "gridColumn_pick";
             this.gridColumn_pick.Name = "gridColumn_pick";
             this.gridColumn_pick.OptionsColumn.AllowEdit = false;
+            this.gridColumn_pick.OptionsColumn.AllowFocus = false;
             this.gridColumn_pick.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.gridColumn_pick.Visible = true;
             this.gridColumn_pick.VisibleIndex = 4;

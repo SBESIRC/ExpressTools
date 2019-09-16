@@ -23,7 +23,7 @@ namespace ThAreaFrameConfig.Model
         }
 
         // 车场层数
-        public UInt16 Floors { get; set; }
+        public int Floors { get; set; }
 
         // 所属层
         public string Storey { get; set; }
@@ -32,7 +32,7 @@ namespace ThAreaFrameConfig.Model
         public int Slots {
             get
             {
-                return Frames.Count;
+                return Floors * Frames.Count;
             }
         }
 

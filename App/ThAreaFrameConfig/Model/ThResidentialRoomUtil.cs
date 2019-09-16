@@ -22,20 +22,55 @@ namespace ThAreaFrameConfig.Model
             ThResidentialRoomComponent component,
             ThResidentialAreaFrame frame)
         {
-            string[] tokens =
+            switch(component.Name)
             {
-                "住宅构件",
-                component.Name,
-                String.Format("{0:0.0}", Convert.ToDouble(frame.Coefficient)),
-                String.Format("{0:0.0}", Convert.ToDouble(frame.FARCoefficient)),
-                room.Name,
-                room.Identifier,
-                identifier,
-                "",
-                version,
-            };
+                case "套内":
+                    {
+                        string[] tokens = {
+                            "住宅构件",
+                            component.Name,
+                            String.Format("{0:0.0}", Convert.ToDouble(frame.Coefficient)),
+                            String.Format("{0:0.0}", Convert.ToDouble(frame.FARCoefficient)),
+                            room.Name,
+                            room.Identifier,
+                            identifier,
+                            "",
+                            version,
+                        };
 
-            return string.Join("_", tokens);
+                        return string.Join("_", tokens);
+                    }
+                case "阳台":
+                    {
+                        string[] tokens = {
+                            "住宅构件",
+                            component.Name,
+                            String.Format("{0:0.0}", Convert.ToDouble(frame.Coefficient)),
+                            String.Format("{0:0.0}", Convert.ToDouble(frame.FARCoefficient)),
+                            room.Identifier,
+                            "",
+                            version,
+                        };
+
+                        return string.Join("_", tokens);
+                    }
+                case "飘窗":
+                case "其他构件":
+                    {
+                        string[] tokens = {
+                            "住宅构件",
+                            component.Name,
+                            String.Format("{0:0.0}", Convert.ToDouble(frame.Coefficient)),
+                            String.Format("{0:0.0}", Convert.ToDouble(frame.FARCoefficient)),
+                            room.Identifier,
+                            version,
+                        };
+
+                        return string.Join("_", tokens);
+                    }
+                default:
+                    return "";
+            }
         }
 
         // 图层名称
@@ -345,9 +380,43 @@ namespace ThAreaFrameConfig.Model
                 ComponentID = comoponent.ID,
                 Number = ++index,
                 Frame = (IntPtr)0,
-                Coefficient = 1.0,
-                FARCoefficient = 1.0,
+                Coefficient = DefaultComponentCoefficient(comoponent),
+                FARCoefficient = DefaultComponentFARCoefficient(comoponent),
             });
+        }
+
+        private static double DefaultComponentCoefficient(ThResidentialRoomComponent comoponent)
+        {
+            switch (comoponent.Name)
+            {
+                case "套内":
+                    return 1.0;
+                case "阳台":
+                    return 0.5;
+                case "飘窗":
+                    return 0.0;
+                case "其他构件":
+                    return 0.5;
+                default:
+                    return 0.0;
+            }
+        }
+
+        private static double DefaultComponentFARCoefficient(ThResidentialRoomComponent comoponent)
+        {
+            switch (comoponent.Name)
+            {
+                case "套内":
+                    return 1.0;
+                case "阳台":
+                    return 0.5;
+                case "飘窗":
+                    return 0.0;
+                case "其他构件":
+                    return 0.5;
+                default:
+                    return 0.0;
+            }
         }
 
         public static void AppendPlaceHolderAreaFrame(ThAOccupancyStorey storey)

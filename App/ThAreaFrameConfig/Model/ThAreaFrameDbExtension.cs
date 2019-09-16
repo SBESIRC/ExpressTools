@@ -67,15 +67,21 @@ namespace ThAreaFrameConfig.Model
                     if (tokens[2] != "露天车场" || tokens[3] != "小型汽车")
                         continue;
 
+                    var frames = new List<IntPtr>();
                     foreach (ObjectId objId in database.AreaFrameLines(name))
                     {
-                        spaces.Add(new ThOutdoorParkingSpace()
-                        {
-                            ID = Guid.NewGuid(),
-                            Number = spaces.Count + 1,
-                            Frame = objId.OldIdPtr,
-                        });
+                        frames.Add(objId.OldIdPtr);
                     }
+                    if (frames.Count == 0)
+                        continue;
+
+                    spaces.Add(new ThOutdoorParkingSpace()
+                    {
+                        ID = Guid.NewGuid(),
+                        Number = spaces.Count + 1,
+                        Storey = int.Parse(tokens[4]),
+                        Frames = frames
+                    });
                 }
             }
             return spaces;

@@ -114,7 +114,10 @@ namespace ThAreaFrameConfig.WinForms
                 string name = ThResidentialRoomUtil.LayerName(parking);
 
                 // 更新面积框线图层名
-                Presenter.OnMoveAreaFrameToLayer(name, parking.Frames[0]);
+                foreach(var frame in parking.Frames)
+                {
+                    Presenter.OnMoveAreaFrameToLayer(name, frame);
+                }
 
                 // 更新界面
                 this.Reload();
@@ -173,13 +176,17 @@ namespace ThAreaFrameConfig.WinForms
             {
                 if (e.HitInfo.InRow || e.HitInfo.InRowCell)
                 {
-                    ThUnderGroundParking parking = view.GetRow(e.HitInfo.RowHandle) as ThUnderGroundParking;
-                    if (!parking.IsDefined)
-                        return;
+                    foreach (var handle in view.GetSelectedRows())
+                    {
+                        var parking = view.GetRow(handle) as ThUnderGroundParking;
+                        if (!parking.IsDefined)
+                        {
+                            return;
+                        }
+                    }
 
                     e.Menu.Items.Clear();
                     e.Menu.Items.Add(CreateDeleteMenuItem(view, e.HitInfo.RowHandle));
-                    e.Menu.Items.Add(CreateDeleteAllMenuItem(view, e.HitInfo.RowHandle));
                 }
             }
         }
@@ -187,14 +194,6 @@ namespace ThAreaFrameConfig.WinForms
         DXMenuItem CreateDeleteMenuItem(GridView view, int rowHandle)
         {
             return new DXMenuItem("删除", new EventHandler(OnDeleteUnderGroundParkingItemClick))
-            {
-                Tag = new RowInfo(view, rowHandle)
-            };
-        }
-
-        DXMenuItem CreateDeleteAllMenuItem(GridView view, int rowHandle)
-        {
-            return new DXMenuItem("全部删除", new EventHandler(OnDeleteAllUnderGroundParkingItemsClick))
             {
                 Tag = new RowInfo(view, rowHandle)
             };
@@ -216,30 +215,15 @@ namespace ThAreaFrameConfig.WinForms
             DXMenuItem menuItem = sender as DXMenuItem;
             if (menuItem.Tag is RowInfo ri)
             {
-                ThUnderGroundParking parking = ri.View.GetRow(ri.RowHandle) as ThUnderGroundParking;
-                if (parking.IsDefined)
-                {
-                    // 更新图纸
-                    string layer = ThResidentialRoomUtil.LayerName(parking);
-                    Presenter.OnDeleteAreaFrames(parking.Frames.ToArray());
-                    Presenter.OnDeleteAreaFrameLayer(layer);
-
-                    // 更新界面
-                    this.Reload();
-                }
-            }
-        }
-
-        void OnDeleteAllUnderGroundParkingItemsClick(object sender, EventArgs e)
-        {
-            DXMenuItem menuItem = sender as DXMenuItem;
-            if (menuItem.Tag is RowInfo ri)
-            {
                 // 更新图纸
-                foreach (var parking in DbRepository.Parkings)
+                // 支持多选
+                foreach (var handle in ri.View.GetSelectedRows())
                 {
+                    var parking = ri.View.GetRow(handle) as ThUnderGroundParking;
                     if (!parking.IsDefined)
+                    {
                         continue;
+                    }
 
                     string layer = ThResidentialRoomUtil.LayerName(parking);
                     Presenter.OnDeleteAreaFrames(parking.Frames.ToArray());

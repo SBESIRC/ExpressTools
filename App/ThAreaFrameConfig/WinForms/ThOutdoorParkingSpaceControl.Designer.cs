@@ -34,7 +34,7 @@
             this.gridColumn_category = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_parking_category = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_storey = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_slot = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_outdoor_parking_space)).BeginInit();
@@ -62,10 +62,14 @@
             this.gridColumn_category,
             this.gridColumn_parking_category,
             this.gridColumn_storey,
-            this.gridColumn_area,
+            this.gridColumn_slot,
             this.gridColumn_pick});
             this.gridView_outdoor_parking_space.GridControl = this.gridControl_outdoor_parking_space;
             this.gridView_outdoor_parking_space.Name = "gridView_outdoor_parking_space";
+            this.gridView_outdoor_parking_space.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_outdoor_parking_space.OptionsCustomization.AllowFilter = false;
+            this.gridView_outdoor_parking_space.OptionsCustomization.AllowGroup = false;
+            this.gridView_outdoor_parking_space.OptionsDetail.EnableMasterViewMode = false;
             this.gridView_outdoor_parking_space.OptionsView.ShowGroupPanel = false;
             this.gridView_outdoor_parking_space.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_outdoor_parking_space_RowClick);
             this.gridView_outdoor_parking_space.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_outdoor_parking_space_CustomRowCellEdit);
@@ -82,6 +86,7 @@
             this.gridColumn_number.FieldName = "Number";
             this.gridColumn_number.Name = "gridColumn_number";
             this.gridColumn_number.OptionsColumn.AllowEdit = false;
+            this.gridColumn_number.OptionsColumn.AllowFocus = false;
             this.gridColumn_number.Visible = true;
             this.gridColumn_number.VisibleIndex = 0;
             // 
@@ -91,6 +96,7 @@
             this.gridColumn_category.FieldName = "Category";
             this.gridColumn_category.Name = "gridColumn_category";
             this.gridColumn_category.OptionsColumn.AllowEdit = false;
+            this.gridColumn_category.OptionsColumn.AllowFocus = false;
             this.gridColumn_category.Visible = true;
             this.gridColumn_category.VisibleIndex = 1;
             // 
@@ -100,6 +106,7 @@
             this.gridColumn_parking_category.FieldName = "ParkingCategory";
             this.gridColumn_parking_category.Name = "gridColumn_parking_category";
             this.gridColumn_parking_category.OptionsColumn.AllowEdit = false;
+            this.gridColumn_parking_category.OptionsColumn.AllowFocus = false;
             this.gridColumn_parking_category.Visible = true;
             this.gridColumn_parking_category.VisibleIndex = 2;
             // 
@@ -111,14 +118,15 @@
             this.gridColumn_storey.Visible = true;
             this.gridColumn_storey.VisibleIndex = 3;
             // 
-            // gridColumn_area
+            // gridColumn_slot
             // 
-            this.gridColumn_area.Caption = "面积";
-            this.gridColumn_area.FieldName = "Area";
-            this.gridColumn_area.Name = "gridColumn_area";
-            this.gridColumn_area.OptionsColumn.AllowEdit = false;
-            this.gridColumn_area.Visible = true;
-            this.gridColumn_area.VisibleIndex = 4;
+            this.gridColumn_slot.Caption = "室外车位数";
+            this.gridColumn_slot.FieldName = "Slot";
+            this.gridColumn_slot.Name = "gridColumn_slot";
+            this.gridColumn_slot.OptionsColumn.AllowEdit = false;
+            this.gridColumn_slot.OptionsColumn.AllowFocus = false;
+            this.gridColumn_slot.Visible = true;
+            this.gridColumn_slot.VisibleIndex = 4;
             // 
             // gridColumn_pick
             // 
@@ -126,6 +134,7 @@
             this.gridColumn_pick.FieldName = "gridColumn_pick";
             this.gridColumn_pick.Name = "gridColumn_pick";
             this.gridColumn_pick.OptionsColumn.AllowEdit = false;
+            this.gridColumn_pick.OptionsColumn.AllowFocus = false;
             this.gridColumn_pick.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.gridColumn_pick.Visible = true;
             this.gridColumn_pick.VisibleIndex = 5;
@@ -158,8 +167,8 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_category;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_parking_category;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_storey;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_area;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_pick;
         private DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit repositoryItemHyperLinkEdit1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_slot;
     }
 }

@@ -29,8 +29,8 @@ namespace ThAreaFrameConfig.Model
             {
                 ID = Guid.NewGuid(),
                 Number = spaces.Count + 1,
-                Frame = (IntPtr)0,
-                Storey = 0,
+                Frames = new List<IntPtr>(),
+                Storey = 1,
             });
         }
     }

@@ -195,14 +195,24 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        private void gdv_room_area_frame_RowUpdated(object sender, RowObjectEventArgs e)
+        private void gdv_room_area_frame_CellValueChanged(object sender, CellValueChangedEventArgs e)
         {
             if (!(sender is GridView view))
             {
                 return;
             }
 
-            ThResidentialAreaFrame areaFrame = (ThResidentialAreaFrame)e.Row;
+            var columns = new List<string>
+            {
+                "Coefficient",
+                "FARCoefficient"
+            };
+            if (!columns.Contains(e.Column.FieldName))
+            {
+                return;
+            }
+
+            ThResidentialAreaFrame areaFrame = (ThResidentialAreaFrame)view.GetRow(e.RowHandle);
             if (areaFrame.IsDefined)
             {
                 // 面积框线图层名
@@ -492,9 +502,14 @@ namespace ThAreaFrameConfig.WinForms
             {
                 if (e.HitInfo.InRow || e.HitInfo.InRowCell)
                 {
-                    ThResidentialAreaFrame areaFrame = view.GetRow(e.HitInfo.RowHandle) as ThResidentialAreaFrame;
-                    if (!areaFrame.IsDefined)
-                        return;
+                    foreach (var handle in view.GetSelectedRows())
+                    {
+                        var frame = view.GetRow(handle) as ThResidentialAreaFrame;
+                        if (!frame.IsDefined)
+                        {
+                            return;
+                        }
+                    }
 
                     e.Menu.Items.Clear();
                     e.Menu.Items.Add(CreateDeleteAreaFrameMenuItem(view, e.HitInfo.RowHandle));
@@ -516,16 +531,22 @@ namespace ThAreaFrameConfig.WinForms
             if (menuItem.Tag is RowInfo ri)
             {
                 // 更新图纸
-                ThResidentialAreaFrame areaFrame = ri.View.GetRow(ri.RowHandle) as ThResidentialAreaFrame;
-                if (areaFrame.IsDefined)
+                // 支持多选
+                foreach(var handle in ri.View.GetSelectedRows())
                 {
-                    string layer = ThResidentialRoomDbUtil.LayerName(areaFrame.Frame);
-                    Presenter.OnDeleteAreaFrame(areaFrame.Frame);
-                    Presenter.OnDeleteAreaFrameLayer(layer);
+                    var frame = ri.View.GetRow(handle) as ThResidentialAreaFrame;
+                    if (!frame.IsDefined)
+                    {
+                        continue;
+                    }
 
-                    // 更新界面
-                    this.Reload();
+                    string name = ThResidentialRoomDbUtil.LayerName(frame.Frame);
+                    Presenter.OnDeleteAreaFrame(frame.Frame);
+                    Presenter.OnDeleteAreaFrameLayer(name);
                 }
+
+                // 更新界面
+                this.Reload();
             }
         }
 

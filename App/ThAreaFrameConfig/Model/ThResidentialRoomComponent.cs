@@ -16,6 +16,7 @@ namespace ThAreaFrameConfig.Model
         public string Coefficient { get; set; }
         public string FARCoefficient { get; set; }
         public string Area { get; set; }
+        public string Pick { get; set; }
 
         // 面积框线
         public List<ThResidentialAreaFrame> AreaFrames { get; set; }
@@ -30,6 +31,7 @@ namespace ThAreaFrameConfig.Model
                 Coefficient = "计算系数",
                 FARCoefficient = "计容系数",
                 Area = "面积（m2）",
+                Pick = "选择",
                 AreaFrames = new List<ThResidentialAreaFrame>()
             };
             return component;
