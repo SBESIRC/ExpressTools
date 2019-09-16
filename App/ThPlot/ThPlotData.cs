@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using DotNetARX;
 using System;
 using Autodesk.AutoCAD.Colors;
+using System.IO;
 
 namespace ThPlot
 {
@@ -1438,9 +1439,11 @@ namespace ThPlot
 
                 using (var db = AcadDatabase.Active())
                 {
-                    var dir = System.Environment.CurrentDirectory;
-                    var file = dir + "\\Resources\\图层框线示例.dwg";
-                    db.Database.ImportBlocksFromDwg(file);
+                     var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                                @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Support",
+                                @"图层框线示例.dwg");
+
+                    db.Database.ImportBlocksFromDwg(filePath);
                     var insertobjId = db.ModelSpace.ObjectId.InsertBlockReference("0", "图层框线示例", insertPoint, new Scale3d(1, 1, 1), 0);
                     using (Transaction dataGetTrans = db.Database.TransactionManager.StartTransaction())
                     {

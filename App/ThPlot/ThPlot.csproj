@@ -95,9 +95,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\pick_object.png" />
-    <Content Include="Resources\图层框线示例.dwg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

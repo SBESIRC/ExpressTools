@@ -365,9 +365,9 @@
             // btnHelp
             // 
             this.btnHelp.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnHelp.Location = new System.Drawing.Point(376, 310);
+            this.btnHelp.Location = new System.Drawing.Point(370, 310);
             this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(85, 23);
+            this.btnHelp.Size = new System.Drawing.Size(99, 23);
             this.btnHelp.TabIndex = 2;
             this.btnHelp.Text = "点击插入示例";
             this.btnHelp.UseVisualStyleBackColor = true;
