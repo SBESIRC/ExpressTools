@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.Geometry;
+﻿using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,53 +7,6 @@ using System.Text;
 
 namespace ThRoomBoundary.topo
 {
-    class ThUtils
-    {
-        /// <summary>
-        /// 平移
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="vec"></param>
-        /// <returns></returns>
-        public static LineSegment2d LineAddVector(LineSegment2d line, Vector2d vec)
-        {
-            var ptS = line.StartPoint;
-            var ptE = line.EndPoint;
-            var ptSadd = ptS + vec;
-            var ptEadd = ptE + vec;
-            return new LineSegment2d(ptSadd, ptEadd);
-        }
-
-        /// <summary>
-        /// 平移
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="vec"></param>
-        /// <returns></returns>
-        public static LineSegment2d LineDecVector(LineSegment2d line, Vector2d vec)
-        {
-            var ptS = line.StartPoint;
-            var ptE = line.EndPoint;
-            var ptSadd = ptS - vec;
-            var ptEadd = ptE - vec;
-            return new LineSegment2d(ptSadd, ptEadd);
-        }
-
-        public static TopoEdge LineDecVector(TopoEdge edge, Vector2d vec)
-        {
-            var ptS = edge.Start;
-            var ptE = edge.End;
-            var ptSadd = ptS - vec;
-            var ptEadd = ptE - vec;
-            return new TopoEdge(ptSadd, ptEadd, ThUtils.Vector2XY(ptSadd - ptEadd));
-        }
-
-        public static XY Vector2XY(Vector2d vec)
-        {
-            return new XY(vec.X, vec.Y);
-        }
-    }
-
     /// <summary>
     /// topo边的数据信息
     /// </summary>
@@ -74,7 +28,7 @@ namespace ThRoomBoundary.topo
         {
             m_start = srcLine.StartPoint;
             m_end = srcLine.EndPoint;
-            m_dir = ThUtils.Vector2XY(srcLine.Direction);
+            m_dir = CommonUtils.Vector2XY(srcLine.Direction);
         }
 
         public TopoEdge(Point2d start, Point2d end, XY dir)
@@ -112,8 +66,8 @@ namespace ThRoomBoundary.topo
         {
             var srcLineS = srcLine.StartPoint;
             var srcLineE = srcLine.EndPoint;
-            TopoEdge curEdge = new TopoEdge(srcLineS, srcLineE, ThUtils.Vector2XY(srcLine.Direction));
-            TopoEdge pairEdge = new TopoEdge(srcLineE, srcLineS,ThUtils.Vector2XY(srcLine.Direction.Negate()));
+            TopoEdge curEdge = new TopoEdge(srcLineS, srcLineE, CommonUtils.Vector2XY(srcLine.Direction));
+            TopoEdge pairEdge = new TopoEdge(srcLineE, srcLineS, CommonUtils.Vector2XY(srcLine.Direction.Negate()));
             curEdge.Pair = pairEdge;
             pairEdge.Pair = curEdge;
             topoEdges.Add(curEdge);
@@ -186,8 +140,13 @@ namespace ThRoomBoundary.topo
             }
         }
 
-        // 内部使用 获取点的最小包围区域
-        public static List<List<LineSegment2d>> MakeMinProfileLoopsInner(List<LineSegment2d> lines, Point2d point)
+        /// <summary>
+        /// 内部使用 获取点的最小包围区域
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static List<RoomDataInner> MakeMinProfileLoopsInner(List<LineSegment2d> lines, Point2d point)
         {
             var search = new TopoSearch(lines, point);
             var profileLoops = search.ContainsPtLoop();
@@ -195,15 +154,43 @@ namespace ThRoomBoundary.topo
             return search.ConvertTopoEdges2Curve(tmpEdgeLoops);
         }
 
-        public static List<List<LineSegment2d>> MakeSrcProfileLoops(List<LineSegment2d> lines)
+        /// <summary>
+        /// 获取轮廓
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <returns></returns>
+        public static List<RoomDataInner> MakeSrcProfileLoops(List<LineSegment2d> lines, List<LineSegment2d> rectLines)
         {
             var search = new TopoSearch(lines);
-            
+
             var loops = TopoSearch.RemoveDuplicate(search.m_srcLoops);
             var tmpEdgeLoops = search.TransFormProfileLoops(loops);
-            return search.ConvertTopoEdges2Curve(tmpEdgeLoops);
+            var validEdgeLoops = MakeTopoEdgeProfilesFromRect(tmpEdgeLoops, rectLines);
+            return search.ConvertTopoEdges2Curve(validEdgeLoops);
         }
 
+        /// <summary>
+        /// 删选轮廓数据
+        /// </summary>
+        /// <param name="profiles"></param>
+        /// <param name="rectLines"></param>
+        /// <returns></returns>
+        public static List<List<TopoEdge>> MakeTopoEdgeProfilesFromRect(List<List<TopoEdge>> profiles, List<LineSegment2d> rectLines)
+        {
+            if (profiles == null || profiles.Count == 0)
+                return null;
+
+            var topoEdgeProfiles = new List<List<TopoEdge>>();
+            foreach (var profile in profiles)
+            {
+                if (CommonUtils.OutLoopContainsInnerLoop(rectLines, profile))
+                    topoEdgeProfiles.Add(profile);
+            }
+
+            return topoEdgeProfiles;
+        }
+
+        
         private TopoSearch(List<LineSegment2d> lines)
         {
             m_planeBox = new BoundBoxPlane(lines);
@@ -215,7 +202,7 @@ namespace ThRoomBoundary.topo
                 var tmpLines = new List<LineSegment2d>();
                 foreach (var line in lines)
                 {
-                    var transLine = ThUtils.LineAddVector(line, trans);
+                    var transLine = CommonUtils.LineAddVector(line, trans);
                     tmpLines.Add(transLine);
                 }
 
@@ -240,7 +227,7 @@ namespace ThRoomBoundary.topo
                 var tmpLines = new List<LineSegment2d>();
                 foreach (var line in lines)
                 {
-                    var transLine = ThUtils.LineAddVector(line, trans);
+                    var transLine = CommonUtils.LineAddVector(line, trans);
                     tmpLines.Add(transLine);
                 }
 
@@ -261,12 +248,12 @@ namespace ThRoomBoundary.topo
         /// </summary>
         /// <param name="topoLoops"></param>
         /// <returns></returns>
-        private List<List<LineSegment2d>> ConvertTopoEdges2Curve(List<List<TopoEdge>> topoLoops)
+        private List<RoomDataInner> ConvertTopoEdges2Curve(List<List<TopoEdge>> topoLoops)
         {
-            if (topoLoops == null)
+            if (topoLoops == null || topoLoops.Count == 0)
                 return null;
 
-            var curveLoops = new List<List<LineSegment2d>>();
+            var curveLoops = new List<RoomDataInner>();
             foreach (var loop in topoLoops)
             {
                 var profile = new List<LineSegment2d>();
@@ -276,7 +263,9 @@ namespace ThRoomBoundary.topo
                     profile.Add(line);
                 }
 
-                curveLoops.Add(profile);
+                var pos = CommonUtils.CalculateLineSegment2dPos(profile);
+                var area = CommonUtils.CalcuLoopArea(profile);
+                curveLoops.Add(new RoomDataInner(profile, pos, area));
             }
 
             return curveLoops;
@@ -301,7 +290,7 @@ namespace ThRoomBoundary.topo
                 var loopEdge = new List<TopoEdge>();
                 foreach (var edge in loop)
                 {
-                    var transEdge = ThUtils.LineDecVector(edge, transValue);
+                    var transEdge = CommonUtils.LineDecVector(edge, transValue);
                     loopEdge.Add(transEdge);
                 }
 
@@ -689,7 +678,13 @@ namespace ThRoomBoundary.topo
 
         public static List<List<TopoEdge>> MakeProfileLoop(List<LineSegment2d> lines)
         {
-            var topoCal = new TopoCalculate(lines);
+            List<LineSegment2d> removeLines = null;
+            CommonUtils.RemoveCollinearLines(lines, out removeLines);
+            var tmpCurves = CommonUtils.line2d2Curves(removeLines);
+            ThRoomData.DrawCurvesAdd(tmpCurves);
+            if (removeLines == null)
+                return null;
+            var topoCal = new TopoCalculate(removeLines);
             return topoCal.ProfileLoops;
         }
 
@@ -1065,13 +1060,8 @@ namespace ThRoomBoundary.topo
 
             var offsetX = 0 - m_leftBottom.X;
             var offsetY = 0 - m_leftBottom.Y;
-            if (offsetX < 0 || offsetY < 0)
-            {
-                TransValue = new Vector2d(offsetX, offsetY);
-                return true;
-            }
-
-            return false;
+            TransValue = new Vector2d(offsetX, offsetY);
+            return true;
         }
 
         public Vector2d TransValue
@@ -1123,6 +1113,14 @@ namespace ThRoomBoundary.topo
             return angleRad;
         }
 
+        public bool IsEqualTo(XY pt)
+        {
+            var pt1 = new Point2d(m_x, m_y);
+            var pt2 = new Point2d(pt.X, pt.Y);
+            if (pt1.IsEqualTo(pt2))
+                return true;
+            return false;
+        }
         private double CrossProduct(XY dir)
         {
             return (m_x * dir.Y - m_y * dir.X);
@@ -1154,6 +1152,212 @@ namespace ThRoomBoundary.topo
         {
             get { return m_y; }
             set { m_y = value; }
+        }
+    }
+
+    class CoEdge
+    {
+        private bool m_IsErase = false; // 是否已经删除
+        public bool IsErase
+        {
+            get { return m_IsErase; }
+            set { m_IsErase = value; }
+        }
+
+        private int m_nChange = 0; // 修改的次数
+        public int ChangeCount
+        {
+            get { return m_nChange; }
+            set { m_nChange = value; }
+        }
+
+        private LineSegment2d m_coLine = null;
+        private List<CoEdge> m_relevantLines = null; // 相关联的线段
+        public List<CoEdge> RelevantLines
+        {
+            get { return m_relevantLines; }
+        }
+
+        public LineSegment2d CoLine
+        {
+            get { return m_coLine; }
+            set { m_coLine = value; }
+        }
+
+        public CoEdge(LineSegment2d line)
+        {
+            m_coLine = line;
+            m_relevantLines = new List<CoEdge>();
+        }
+    }
+
+    /// <summary>
+    /// 共边处理
+    /// </summary>
+    class CoEdgeErase
+    {
+        private List<CoEdge> m_coEdges = null;
+        private CoEdgeErase(List<LineSegment2d> lines)
+        {
+            m_coEdges = new List<CoEdge>();
+            for (int i = 0; i < lines.Count; i++)
+            {
+                m_coEdges.Add(new CoEdge(lines[i]));
+            }
+        }
+
+        // 接口调用
+        public static List<LineSegment2d> MakeCoEdgeErase(List<LineSegment2d> lines)
+        {
+            var edgeErase = new CoEdgeErase(lines);
+            edgeErase.CoRelationPre();
+            edgeErase.CoEdgeEraseDo();
+            var eraselines = edgeErase.Traverse2Lines();
+            return eraselines;
+        }
+
+        /// <summary>
+        /// 边的关系预处理-类似无向图
+        /// </summary>
+        private void CoRelationPre()
+        {
+            for (int i = 0; i < m_coEdges.Count; i++)
+            {
+                var curEdge = m_coEdges[i];
+                if (curEdge.IsErase)
+                    continue;
+
+                var curLine = curEdge.CoLine;
+                var curLinePtS = curLine.StartPoint;
+                var curLinePtE = curLine.EndPoint;
+                for (int j = i + 1; j < m_coEdges.Count; j++)
+                {
+                    var nextEdge = m_coEdges[j];
+                    if (curEdge.IsErase || nextEdge.IsErase)
+                        continue;
+
+                    var nextLine = nextEdge.CoLine;
+                    var nextLinePtS = nextLine.StartPoint;
+                    var nextLinePtE = nextLine.EndPoint;
+                    if (CommonUtils.IsAlmostNearZero(CommonUtils.CalAngle(CommonUtils.Vector2XY(curLine.Direction), CommonUtils.Vector2XY(nextLine.Direction)), 1e-6)
+                       || CommonUtils.IsAlmostNearZero(CommonUtils.CalAngle(CommonUtils.Vector2XY(curLine.Direction), CommonUtils.Vector2XY(nextLine.Direction.Negate())), 1e-6))
+                    {
+                        // 重合线
+                        if ((CommonUtils.Point2dIsEqualPoint2d(curLinePtS, nextLinePtS) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, nextLinePtE))
+                        || (CommonUtils.Point2dIsEqualPoint2d(curLinePtS, nextLinePtE) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, nextLinePtS)))
+                        {
+                            nextEdge.IsErase = true;
+                        }
+                        else if (CommonUtils.IsPointOnSegment(nextLinePtS, curLine, 1e-9) && CommonUtils.IsPointOnSegment(nextLinePtE, curLine, 1e-9)) // 完全包含线nextLine
+                        {
+                            nextEdge.IsErase = true;
+                        }
+                        else if (CommonUtils.IsPointOnSegment(curLinePtS, nextLine, 1e-9) && CommonUtils.IsPointOnSegment(curLinePtE, nextLine, 1e-9)) // 完全包含线curLine
+                        {
+                            curEdge.IsErase = true;
+                        }
+                        else if (CommonUtils.IsPointOnSegment(nextLinePtS, curLine, 1e-6) || (CommonUtils.IsPointOnSegment(nextLinePtE, curLine, 1e-6))) // 部分包含线
+                        {
+                            curEdge.RelevantLines.Add(nextEdge);
+                            nextEdge.RelevantLines.Add(curEdge);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 部分包含的细分处理
+        /// </summary>
+        private void CoEdgeEraseDo()
+        {
+            for (int i = 0; i < m_coEdges.Count; i++)
+            {
+                var curEdge = m_coEdges[i];
+                var curReleEdges = curEdge.RelevantLines;
+                if (curEdge.IsErase || curReleEdges.Count == 0)
+                    continue;
+
+                // 每次都需要判断，因为相关性会改变
+                for (int j = 0; j < curReleEdges.Count; j++)
+                {
+                    if (curEdge.IsErase)
+                        break;
+
+                    var curLine = curEdge.CoLine; // 可能会不断修改curEdge中line的值
+                    var releEdge = curReleEdges[j];
+                    if (releEdge.IsErase)
+                        continue;
+
+                    var curLinePtS = curLine.StartPoint;
+                    var curLinePtE = curLine.EndPoint;
+                    var releLine = releEdge.CoLine;
+                    var releLinePtS = releLine.StartPoint;
+                    var releLinePtE = releLine.EndPoint;
+
+                    // 当前段被相关重合段裁剪
+                    if (CommonUtils.IsPointOnSegment(releLinePtS, curLine) && !CommonUtils.IsPointOnSegment(releLinePtE, curLine)) // 部分包含当前线条
+                    {
+                        if (CommonUtils.IsPointOnSegment(curLinePtS, releLine))
+                        {
+                            curEdge.CoLine = new LineSegment2d(releLinePtS, curLinePtE); // 裁剪当前线段
+                        }
+                        else if (CommonUtils.IsPointOnSegment(curLinePtE, releLine))
+                        {
+                            curEdge.CoLine = new LineSegment2d(releLinePtS, curLinePtS);
+                        }
+
+                        curEdge.ChangeCount++;
+                        continue;
+                    }
+                    else if (CommonUtils.IsPointOnSegment(releLinePtE, curLine) && !CommonUtils.IsPointOnSegment(releLinePtS, curLine)) // 部分包含当前线条
+                    {
+                        if (CommonUtils.IsPointOnSegment(curLinePtS, releLine))
+                        {
+                            curEdge.CoLine = new LineSegment2d(releLinePtE, curLinePtE);
+                        }
+                        else if (CommonUtils.IsPointOnSegment(curLinePtE, releLine))
+                        {
+                            curEdge.CoLine = new LineSegment2d(releLinePtE, curLinePtS);
+                        }
+
+                        curEdge.ChangeCount++;
+                        continue;
+                    }
+
+                    // 部分裁剪完出现完全包含或者相同的情况
+                    if (curEdge.ChangeCount != 0)
+                    {
+                        if ((CommonUtils.Point2dIsEqualPoint2d(curLinePtS, releLinePtS) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, releLinePtE))
+                           || (CommonUtils.Point2dIsEqualPoint2d(curLinePtS, releLinePtE) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, releLinePtS)))
+                        {
+                            curEdge.IsErase = true;
+                        }
+                        else if (CommonUtils.IsPointOnSegment(curLinePtS, releLine) && CommonUtils.IsPointOnSegment(curLinePtE, releLine))
+                        {
+                            curEdge.IsErase = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// data convert
+        /// </summary>
+        /// <returns></returns>
+        private List<LineSegment2d> Traverse2Lines()
+        {
+            var lines = new List<LineSegment2d>();
+            for (int i = 0; i < m_coEdges.Count; i++)
+            {
+                if (m_coEdges[i].IsErase)
+                    continue;
+
+                lines.Add(m_coEdges[i].CoLine);
+            }
+
+            return lines;
         }
     }
 }

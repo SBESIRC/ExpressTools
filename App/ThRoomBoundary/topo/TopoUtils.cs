@@ -4,37 +4,149 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DotNetARX;
 
 namespace ThRoomBoundary.topo
 {
-    class TopoUtils
+    public class RoomData
     {
-        /// <summary>
-        /// 获取包含点的最小轮廓,topo算法的上层进行数据的处理，处理为直线段
-        /// </summary>
-        /// <param name="curves"></param>
-        /// <param name="point3"></param>
-        /// <returns></returns>
-        public static List<List<LineSegment2d>> MakeStructureMinLoop(List<LineSegment2d> lines, Point2d point)
+        public List<Line> Lines
         {
-            var profiles = TopoSearch.MakeMinProfileLoopsInner(lines, point);
-            return profiles;
+            get;
+            set;
         }
 
+        public Point3d Pos
+        {
+            get;
+            set;
+        }
+
+        public double Area
+        {
+            get;
+            set;
+        }
+    }
+
+    public class RoomDataPolyline
+    {
+        public Polyline RoomPolyline
+        {
+            get;
+            set;
+        }
+
+        public Point3d Pos
+        {
+            get;
+            set;
+        }
+
+        public double Area
+        {
+            get;
+            set;
+        }
+
+        public RoomDataPolyline(Polyline polyline, Point3d pos, double area)
+        {
+            RoomPolyline = polyline;
+            Pos = pos;
+            Area = area;
+        }
+    }
+
+    /// <summary>
+    /// 内部数据
+    /// </summary>
+    class RoomDataInner
+    {
+        public RoomDataInner(List<LineSegment2d> lines, Point2d pos, double area)
+        {
+            Lines = lines;
+            Pos = pos;
+            Area = area;
+        }
+
+        public List<LineSegment2d> Lines
+        {
+            get;
+            set;
+        }
+
+        public Point2d Pos
+        {
+            get;
+            set;
+        }
+
+        public double Area
+        {
+            get;
+            set;
+        }
+    }
+
+    class TopoUtils
+    {
         /// <summary>
         /// 获取包含点的最小轮廓
         /// </summary>
         /// <param name="curves"></param>
         /// <param name="point3"></param>
         /// <returns></returns>
-        public static List<List<Line>> MakeStructureMinLoop(List<Curve> curves, Point3d point)
+        public static List<RoomData> MakeStructureMinLoop(List<Curve> curves, Point3d point)
         {
             var lines = TesslateCurve2Lines(curves);
             var pt = new Point2d(point.X, point.Y);
             var profiles = TopoSearch.MakeMinProfileLoopsInner(lines, pt);
 
             // 二维转化为三维
-            return LineSegment2d2LineProfiles(profiles);
+            return Convert2RoomData(profiles);
+        }
+
+        /// <summary>
+        /// 获取闭合轮廓
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <returns></returns>
+        public static List<RoomDataPolyline> MakeSrcProfiles(List<Curve> curves, List<LineSegment2d> rectLines)
+        {
+            var lines = TesslateCurve2Lines(curves);
+            var profiles = TopoSearch.MakeSrcProfileLoops(lines, rectLines);
+
+            // 二维转化为三维
+            var roomDatas = Convert2RoomData(profiles);
+            return TopoUtils.Convert2RoomDataPolyline(roomDatas);
+        }
+
+        /// <summary>
+        /// 数据格式转换
+        /// </summary>
+        /// <param name="roomDatas"></param>
+        /// <returns></returns>
+        public static List<RoomDataPolyline> Convert2RoomDataPolyline(List<RoomData> roomDatas)
+        {
+            if (roomDatas == null || roomDatas.Count == 0)
+                return null;
+
+            var roomDataPolylines = new List<RoomDataPolyline>();
+            foreach (var room in roomDatas)
+            {
+                var polyline = new Polyline();
+                polyline.Closed = true;
+                for (int i = 0; i < room.Lines.Count; i++)
+                {
+                    var point = room.Lines[i].StartPoint;
+                    polyline.AddVertexAt(i, new Point2d(point.X, point.Y), 0, 0, 0);
+                }
+
+                var roomPolyline = new RoomDataPolyline(polyline, room.Pos, room.Area);
+                roomDataPolylines.Add(roomPolyline);
+            }
+
+            return roomDataPolylines;
         }
 
         /// <summary>
@@ -42,28 +154,51 @@ namespace ThRoomBoundary.topo
         /// </summary>
         /// <param name="profileLst"></param>
         /// <returns></returns>
-        public static List<List<Line>> LineSegment2d2LineProfiles(List<List<LineSegment2d>> profileLst)
+        public static List<RoomData> Convert2RoomData(List<RoomDataInner> roomDataInner)
         {
-            if (profileLst == null)
+            if (roomDataInner == null)
                 return null;
-            var loopLst = new List<List<Line>>();
-            foreach (var profiles in profileLst)
-            {
-                var lines = new List<Line>();
-                foreach (var lineSegment2d in profiles)
-                {
-                    var ptS = lineSegment2d.StartPoint;
-                    var ptE = lineSegment2d.EndPoint;
-                    var line = new Line(new Point3d(ptS.X, ptS.Y, 0), new Point3d(ptE.X, ptE.Y, 0));
-                    lines.Add(line);
-                }
 
-                loopLst.Add(lines);
+            var roomDatas = new List<RoomData>();
+            foreach (var dataInner in roomDataInner)
+            {
+                var roomData = new RoomData();
+                roomData.Lines = Convert2Lines(dataInner.Lines);
+                roomData.Pos = new Point3d(dataInner.Pos.X, dataInner.Pos.Y, 0);
+                roomData.Area = dataInner.Area;
+                roomDatas.Add(roomData);
             }
 
-            return loopLst;
+            return roomDatas;
         }
 
+        /// <summary>
+        /// 二维数据转化为三维数据
+        /// </summary>
+        /// <param name="line2ds"></param>
+        /// <returns></returns>
+        public static List<Line> Convert2Lines(List<LineSegment2d> line2ds)
+        {
+            if (line2ds == null)
+                return null;
+
+            var outLines = new List<Line>();
+            foreach (var line2d in line2ds)
+            {
+                var ptS = line2d.StartPoint;
+                var ptE = line2d.EndPoint;
+                var line = new Line(new Point3d(ptS.X, ptS.Y, 0), new Point3d(ptE.X, ptE.Y, 0));
+                outLines.Add(line);
+            }
+
+            return outLines;
+        }
+
+        /// <summary>
+        /// 数据打撒成直线段
+        /// </summary>
+        /// <param name="curves"></param>
+        /// <returns></returns>
         public static List<LineSegment2d> TesslateCurve2Lines(List<Curve> curves)
         {
             var lines = new List<LineSegment2d>();
@@ -79,15 +214,28 @@ namespace ThRoomBoundary.topo
                 }
                 else if (curve is Arc)
                 {
-
+                    var arc = curve as Arc;
+                    var polyline = arc.Spline.ToPolyline();
+                    var lineSegment2ds = Polyline2Lines(polyline as Polyline);
+                    if (lineSegment2ds != null)
+                        lines.AddRange(lineSegment2ds);
                 }
                 else if (curve is Circle)
                 {
-
+                    var circle = curve as Circle;
+                    var spline = circle.Spline;
+                    var polyline = spline.ToPolyline();
+                    var lineSegment2ds = Polyline2Lines(polyline as Polyline);
+                    if (lineSegment2ds != null)
+                        lines.AddRange(lineSegment2ds);
                 }
                 else if (curve is Ellipse)
                 {
-
+                    var ellipse = curve as Ellipse;
+                    var polyline = ellipse.Spline.ToPolyline();
+                    var lineSegment2ds = Polyline2Lines(polyline as Polyline);
+                    if (lineSegment2ds != null)
+                        lines.AddRange(lineSegment2ds);
                 }
                 else if (curve is Polyline)
                 {
@@ -97,22 +245,34 @@ namespace ThRoomBoundary.topo
                 }
                 else if (curve is Spline)
                 {
-
+                    var polyline = (curve as Spline).ToPolyline();
+                    if (polyline is Polyline)
+                    {
+                        var lineSegment2ds = Polyline2Lines(polyline as Polyline);
+                        if (lineSegment2ds != null)
+                            lines.AddRange(lineSegment2ds);
+                    }
                 }
             }
 
             return lines;
         }
 
+        /// <summary>
+        /// 多段线转换为直线
+        /// </summary>
+        /// <param name="polyline"></param>
+        /// <returns></returns>
         public static List<LineSegment2d> Polyline2Lines(Polyline polyline)
         {
             if (polyline == null)
                 return null;
+
             var lines = new List<LineSegment2d>();
             if (polyline.Closed)
             {
-               for (int i = 0; i < polyline.NumberOfVertices; i++)
-               {
+                for (int i = 0; i < polyline.NumberOfVertices; i++)
+                {
                     var bulge = polyline.GetBulgeAt(i);
                     if (CommonUtils.IsAlmostNearZero(bulge))
                     {
@@ -121,13 +281,28 @@ namespace ThRoomBoundary.topo
                     }
                     else
                     {
-                        var arc3d = polyline.GetArcSegmentAt(i);
+                        var type = polyline.GetSegmentType(i);
+                        if (type == SegmentType.Arc)
+                        {
+                            var arc3d = polyline.GetArcSegmentAt(i);
+                            var normal = arc3d.Normal;
+                            var axisZ = Vector3d.ZAxis;
+                            var arc = new Arc();
+                            if (normal.IsEqualTo(Vector3d.ZAxis.Negate()))
+                                arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
+                            else
+                                arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
+                            var pline = arc.Spline.ToPolyline();
+                            var lineSegment2ds = Polyline2Lines(pline as Polyline);
+                            if (lineSegment2ds != null)
+                                lines.AddRange(lineSegment2ds);
+                        }
                     }
-               }
+                }
             }
             else
             {
-                for (int j  = 0; j < polyline.NumberOfVertices - 1; j++)
+                for (int j = 0; j < polyline.NumberOfVertices - 1; j++)
                 {
                     var bulge = polyline.GetBulgeAt(j);
                     if (CommonUtils.IsAlmostNearZero(bulge))
@@ -137,7 +312,22 @@ namespace ThRoomBoundary.topo
                     }
                     else
                     {
-                        var arc3d = polyline.GetArcSegmentAt(j);
+                        var type = polyline.GetSegmentType(j);
+                        if (type == SegmentType.Arc)
+                        {
+                            var arc3d = polyline.GetArcSegmentAt(j);
+                            var normal = arc3d.Normal;
+                            var axisZ = Vector3d.ZAxis;
+                            var arc = new Arc();
+                            if (normal.IsEqualTo(Vector3d.ZAxis.Negate()))
+                                arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
+                            else
+                                arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
+                            var pline = arc.Spline.ToPolyline();
+                            var lineSegment2ds = Polyline2Lines(pline as Polyline);
+                            if (lineSegment2ds != null)
+                                lines.AddRange(lineSegment2ds);
+                        }
                     }
                 }
             }
@@ -146,33 +336,22 @@ namespace ThRoomBoundary.topo
         }
 
         /// <summary>
-        /// 获取闭合轮廓
+        /// 数据格式转换
         /// </summary>
-        /// <param name="lines"></param>
+        /// <param name="curves"></param>
         /// <returns></returns>
-        public static List<List<LineSegment2d>> MakeSrcProfiles(List<LineSegment2d> lines)
+        public static List<LineSegment2d> ConvertToLineSegment2d(List<Curve2d> curves)
         {
-            var profiles = TopoSearch.MakeSrcProfileLoops(lines);
-            return profiles;
+            if (curves == null || curves.Count == 0)
+                return null;
+
+            var lines = new List<LineSegment2d>();
+            foreach (var curve in curves)
+            {
+                lines.Add(new LineSegment2d(curve.StartPoint, curve.EndPoint));
+            }
+
+            return lines;
         }
     }
-
-    //class MinProfile
-    //{
-    //    private List<List<LineSegment2d>> m_LineLoops = new List<List<LineSegment2d>>();
-    //    public List<List<LineSegment2d>> LineLoops
-    //    {
-    //        get { return m_LineLoops; }
-    //    }
-
-    //    public MinProfile(List<LineSegment2d> lines, Point2d point)
-    //    {
-    //        var profiles = TopoSearch.MakeMinProfileLoopsInner(lines, point);
-    //        var wLineLoops = new List<List<LineSegment2d>>();
-    //        if (profiles != null)
-    //        {
-    //            m_LineLoops.AddRange(profiles);
-    //        }
-    //    }
-    //}
 }

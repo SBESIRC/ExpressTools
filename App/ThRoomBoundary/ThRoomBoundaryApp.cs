@@ -6,6 +6,9 @@ using Autodesk.AutoCAD.Runtime;
 using ThRoomBoundary.topo;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
 
 namespace ThRoomBoundary
 {
@@ -22,41 +25,40 @@ namespace ThRoomBoundary
         [CommandMethod("TIANHUACAD", "THABC", CommandFlags.Modal)]
         static public void RoomBoundaryCalculate()
         {
-            //关闭所有图层
-            using (var db = AcadDatabase.Active())
+            //打开需要的图层
+            ThRoomData.ShowLayers();
+
+            // 选择框线生成
+            var rectLines = ThRoomData.GetSelectRectLines();
+            if (rectLines == null || rectLines.Count == 0)
+                return;
+
+            // 是否插入面积值
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Editor ed = doc.Editor;
+            PromptKeywordOptions getWhichOptions = new PromptKeywordOptions("是否在框线内插入面积值? [YES(Y)/NO(N)]", "YES NO");
+            getWhichOptions.Keywords.Add("Y");
+            getWhichOptions.Keywords.Add("N");
+            getWhichOptions.Keywords.Default = "Y";
+            PromptResult getWhichResult = ed.GetKeywords(getWhichOptions);
+            if ((getWhichResult.Status == PromptStatus.OK))
             {
-                var layers = db.Layers;
-                foreach (var layer in layers)
-                {
-                    //layerNames.Add(layer.Name);
-                }
+                if (getWhichResult.StringResult != "YES")
+                    return;
             }
 
-            //test
-            string layerName = "0";
+
+            string layerName = "WINDOW";
             var curves = ThRoomData.GetAllCurvesFromLayerName(layerName);
-            //ThRoomData.DrawCurves(curves);
+            if (curves == null || curves.Count == 0)
+                return;
 
-            //打开需要图层
-            var texts = ThRoomData.GetAllTextFromLayerName(layerName);
-            foreach (var text in texts)
-            {
-                var loopLst = TopoUtils.MakeStructureMinLoop(curves, text.Position);
-                if (loopLst == null)
-                    continue;
-                var loopCurveLst = new List<List<Curve>>();
-                foreach (var lines in loopLst)
-                {
-                    loopCurveLst.Add(lines.ToList<Curve>());
-                }
-                foreach (var loop in loopCurveLst)
-                {
-                     ThRoomData.DrawCurvesAdd(loop);
-                }
-            }
-            // 矩形框裁剪
+            // 生成轮廓数据
+            var roomDatas = TopoUtils.MakeSrcProfiles(curves, rectLines);
 
-
+            // 界面显示数据
+            ThRoomData.DisplayRoomProfile(roomDatas, "天华面积框线");
+            Active.WriteMessage("框线生成完成");
         }
     }
 }
