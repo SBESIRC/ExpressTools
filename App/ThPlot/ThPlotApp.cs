@@ -6,6 +6,9 @@ using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using Autodesk.AutoCAD.PlottingServices;
 using DotNetARX;
 using Autodesk.AutoCAD.Geometry;
+using Linq2Acad;
+using System.Linq;
+using Autodesk.AutoCAD.ApplicationServices;
 
 namespace ThPlot
 {
@@ -22,6 +25,7 @@ namespace ThPlot
         [CommandMethod("TIANHUACAD", "THBPP", CommandFlags.Modal)]
         static public void PlotPageSetup()
         {
+            // 启动选择对话框
             var thPlotForm = new ThPlotDialog();
             if (AcadApp.ShowModalDialog(thPlotForm) != DialogResult.OK)
             {

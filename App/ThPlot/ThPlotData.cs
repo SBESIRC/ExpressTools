@@ -18,16 +18,20 @@ namespace ThPlot
     {
         public Polyline ImagePolyline { get; set; } // 打印的图片多段线
         public Polyline PptPolyline { get; set; }   // PPT多段线
-        public List<DBText> PptTextLst { get; set; }         // PPT 说明性文档
+        public List<DBText> PptTextLst { get; set; } // PPT 说明性文档
+        public List<MText> PptMtextLst { get; set; } // PPT 多行说明性文档
         public DBText PageText { get; set; }        // PPT 页码说明
 
-        public RelatedData(Polyline imagePolyline, Polyline pptPolyline = null, DBText pptText = null, DBText pageText = null)
+        public RelatedData(Polyline imagePolyline, Polyline pptPolyline = null, DBText pptText = null, MText pptMtext = null, DBText pageText = null)
         {
             this.ImagePolyline = imagePolyline;
             this.PptPolyline = pptPolyline;
             this.PptTextLst = new List<DBText>();
+            this.PptMtextLst = new List<MText>();
             if (pptText != null)
                 this.PptTextLst.Add(pptText);
+            if (pptMtext != null)
+                this.PptMtextLst.Add(pptMtext);
             this.PageText = pageText;
         }
     }
@@ -121,6 +125,15 @@ namespace ThPlot
             IMAGELOWER = 0,
             IMAGEMEDIUM,
             IMAGEHIGHER
+        }
+
+        public UserSelectData()
+        {
+            PPTLayer = null;
+            ImageLayer = null;
+            PrintTextLayer = null;
+            PrintStyle = null;
+            PrintOutPath = null;
         }
 
         public string PPTLayer { get; set; }        // PPT 层
@@ -644,7 +657,7 @@ namespace ThPlot
         /// <param name="pptProfile"></param>
         /// <param name="xRation"></param>
         /// <param name="yRation"></param>
-        public static void GetImagePosRelatedRationWithAngle(RelatedData relatedData,  ref double xRatioPos, ref double yRatioPos, ref double pictureRotateWidth, ref double pictureRotateHeight)
+        public static void GetImagePosRelatedRationWithAngle(RelatedData relatedData, ref double xRatioPos, ref double yRatioPos, ref double pictureRotateWidth, ref double pictureRotateHeight)
         {
             var pptTextAngle = relatedData.PptTextLst.First().Rotation / ThPlotData.PI * 180;
             Polyline imageProfile = relatedData.ImagePolyline;
@@ -709,7 +722,7 @@ namespace ThPlot
             var centerPosX = xRatioPosTopLeft + imageLenthAdd;
             var centerPosY = yRatioPosTopLeft + imageHeightAdd;
             xRatioPos = centerPosX - imageHeightAdd;
-            yRatioPos = centerPosY - imageLenthAdd;          
+            yRatioPos = centerPosY - imageLenthAdd;
         }
 
         /// <summary>
@@ -754,7 +767,7 @@ namespace ThPlot
             // 右下顶点POS
             var xRatio = xGapValue / pptWindowHorizontal;
             var yRatio = yGapValue / pptWindowVertical;
-            
+
             var xRatioPosTopLeft = xRatio * ThPlotData.PPTWIDTH;
             var yRatioPosTopLeft = yRatio * ThPlotData.PPTHEIGHT;
 
@@ -885,6 +898,21 @@ namespace ThPlot
             using (var db = AcadDatabase.Active())
             {
                 var res = db.ModelSpace.OfType<DBText>().Where(p => p.Layer == layerName);
+                foreach (var text in res)
+                {
+                    result.Add(text.ObjectId);
+                }
+                return result;
+            }
+        }
+
+        // 获取图层中多行文本的Id对象
+        public static List<ObjectId> GetMTextIdFromLayer(string layerName)
+        {
+            var result = new List<ObjectId>();
+            using (var db = AcadDatabase.Active())
+            {
+                var res = db.ModelSpace.OfType<MText>().Where(p => p.Layer == layerName);
                 foreach (var text in res)
                 {
                     result.Add(text.ObjectId);
@@ -1117,10 +1145,12 @@ namespace ThPlot
             var imageIdLst = GetObjectIdFromLayer(userData.ImageLayer);
             var pptIdLst = GetObjectIdFromLayer(userData.PPTLayer);
             var pptTextIdLst = GetTextIdFromLayer(userData.PrintTextLayer);
+            var pptMTextIdLst = GetMTextIdFromLayer(userData.PrintTextLayer);
             var pageTextIdLst = GetTextIdFromLayer(userData.PPTLayer);
             var imagePolylineLst = new List<Polyline>();
             var pptPolylineLst = new List<Polyline>();
             var pptTextLst = new List<DBText>();
+            var pptMTextLst = new List<MText>();
             var pageTextLst = new List<DBText>();
             var pptRelatedData = new List<RelatedData>();
 
@@ -1157,8 +1187,15 @@ namespace ThPlot
                     pptTextLst.Add((DBText)dbText.Clone());
                 }
 
-                if (pptTextLst.Count == 0)
+                foreach (var textId in pptMTextIdLst)
+                {
+                    MText dbText = (MText)dataGetTrans.GetObject(textId, OpenMode.ForRead);
+                    pptMTextLst.Add((MText)dbText.Clone());
+                }
+
+                if (pptTextLst.Count == 0 && pptMTextLst.Count == 0)
                     return null;
+
                 // 页码文本
                 foreach (var pageTextId in pageTextIdLst)
                 {
@@ -1200,6 +1237,14 @@ namespace ThPlot
                         }
                     }
 
+
+                    // ppt多行文本
+                    foreach (var pptMtext in pptMTextLst)
+                    {
+                        if (PointInnerEntity(curPptPolyline, pptMtext.Location))
+                            relatedData.PptMtextLst.Add(pptMtext);
+                    }
+
                     // 页码文本
                     foreach (var pageText in pageTextLst)
                     {
@@ -1211,11 +1256,203 @@ namespace ThPlot
                     }
                 }
 
+                // 多行文本转化为单行文本
+                Convert2DBTexts(pptRelatedData);
                 // 页码从大到小排序
                 var validRelatedData = pptRelatedData.Where(s1 => s1.PageText != null).ToList();
                 validRelatedData.Sort((s1, s2) => { return Double.Parse(s1.PageText.TextString).CompareTo(Double.Parse(s2.PageText.TextString)); });
                 validRelatedData.Reverse();
                 return validRelatedData;
+            }
+        }
+
+        /// <summary>
+        /// 多行文本转化为单行文本
+        /// </summary>
+        /// <param name="pptRelatedDatas"></param>
+        public static void ConvertMTexts2DBText(RelatedData relatedData)
+        {
+            foreach (var mtext in relatedData.PptMtextLst)
+            {
+                var dbText = new DBText();
+                var contents = mtext.Contents;
+
+                string[] texts = contents.Split('\\');
+                string stext = string.Empty;
+                foreach (var text in texts)
+                {
+                    stext += text;
+                }
+                dbText.TextString = stext;
+                relatedData.PptTextLst.Add(dbText);
+                dbText.Position = mtext.Location;
+            }
+
+            relatedData.PptMtextLst.Clear();
+        }
+
+        public static void ConvertMTexts2DBText90(RelatedData relatedData)
+        {
+            foreach (var mtext in relatedData.PptMtextLst)
+            {
+                var contents = mtext.Contents;
+
+                var curTextPos = mtext.Location;
+                string[] texts = contents.Split('\\');
+
+                for (int i = 0; i < texts.Count(); i++)
+                {
+                    var text = texts[i];
+                    var dbText = new DBText();
+                    curTextPos += new Vector3d(mtext.Width * i, 0, 0);
+                    dbText.Position = curTextPos;
+                    dbText.TextString = text;
+                    relatedData.PptTextLst.Add(dbText);
+                }
+            }
+
+            relatedData.PptMtextLst.Clear();
+        }
+
+        public static void ConvertMTexts2DBText180(RelatedData relatedData)
+        {
+            foreach (var mtext in relatedData.PptMtextLst)
+            {
+                var contents = mtext.Contents;
+
+                var curTextPos = mtext.Location;
+                string[] texts = contents.Split('\\');
+
+                for (int i = 0; i < texts.Count(); i++)
+                {
+                    var text = texts[i];
+                    var dbText = new DBText();
+                    curTextPos += new Vector3d(0, mtext.TextHeight * i, 0);
+                    dbText.Position = curTextPos;
+                    dbText.TextString = text;
+                    relatedData.PptTextLst.Add(dbText);
+                }
+            }
+
+            relatedData.PptMtextLst.Clear();
+        }
+
+        public static void ConvertMTexts2DBText270(RelatedData relatedData)
+        {
+            foreach (var mtext in relatedData.PptMtextLst)
+            {
+                var contents = mtext.Contents;
+
+                var curTextPos = mtext.Location;
+                string[] texts = contents.Split('\\');
+
+                for (int i = 0; i < texts.Count(); i++)
+                {
+                    var text = texts[i];
+                    var dbText = new DBText();
+                    curTextPos += new Vector3d(-mtext.Width, 0, 0);
+                    dbText.Position = curTextPos;
+                    dbText.TextString = text;
+                    relatedData.PptTextLst.Add(dbText);
+                }
+            }
+
+            relatedData.PptMtextLst.Clear();
+        }
+
+
+        public static void ConvertMTexts2DBText0(RelatedData relatedData)
+        {
+            foreach (var mtext in relatedData.PptMtextLst)
+            {
+                var contents = mtext.Contents;
+
+                var curTextPos = mtext.Location;
+                string[] texts = contents.Split('\\');
+
+                for (int i = 0; i < texts.Count(); i++)
+                {
+                    var text = texts[i];
+                    var dbText = new DBText();
+                    curTextPos += new Vector3d(0, -mtext.TextHeight * i, 0);
+                    dbText.Position = curTextPos;
+                    dbText.TextString = text;
+                    relatedData.PptTextLst.Add(dbText);
+                }
+            }
+
+            relatedData.PptMtextLst.Clear();
+        }
+
+
+        public static void Convert2DBTexts(List<RelatedData> pptRelatedDatas)
+        {
+            foreach (var relatedData in pptRelatedDatas)
+            {
+                if (relatedData.PptMtextLst != null && relatedData.PptMtextLst.Count != 0)
+                {
+                    var textAngle = relatedData.PptMtextLst.First().Rotation;
+                    if (ThPlotUtil.DoubleEqualValue(textAngle, 0, 5) || ThPlotUtil.DoubleEqualValue(textAngle, 360, 5))
+                    {
+                        ConvertMTexts2DBText0(relatedData);
+                    }
+                    else if (ThPlotUtil.DoubleEqualValue(textAngle, 90, 5))
+                    {
+                        ConvertMTexts2DBText90(relatedData);
+                    }
+                    else if (ThPlotUtil.DoubleEqualValue(textAngle, 180, 5))
+                    {
+                        ConvertMTexts2DBText180(relatedData);
+                    }
+                    else if (ThPlotUtil.DoubleEqualValue(textAngle, 270, 0))
+                    {
+                        ConvertMTexts2DBText270(relatedData);
+                    }
+                    else
+                    {
+                        ConvertMTexts2DBText(relatedData);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 插入块并拆分块
+        /// </summary>
+        public static void insertTemplateFile()
+        {
+            try
+            {
+                Document doc = Application.DocumentManager.MdiActiveDocument;
+                using (var db = AcadDatabase.Active())
+                {
+                    var dir = System.Environment.CurrentDirectory;
+                    var file = dir + "\\Resources\\图层框线示例.dwg";
+                    db.Database.ImportBlocksFromDwg(file);
+                    var insertobjId = db.ModelSpace.ObjectId.InsertBlockReference("0", "图层框线示例", new Point3d(0, 0, 0), new Scale3d(1, 1, 1), 0);
+                    using (Transaction dataGetTrans = db.Database.TransactionManager.StartTransaction())
+                    {
+                        BlockReference blockReference = (BlockReference)dataGetTrans.GetObject(insertobjId, OpenMode.ForWrite);
+                        DBObjectCollection collection = new DBObjectCollection();
+                        blockReference.Explode(collection);
+                        blockReference.Erase(true);
+                        BlockTableRecord btr = (BlockTableRecord)dataGetTrans.GetObject(db.Database.CurrentSpaceId, OpenMode.ForWrite);
+                        foreach (var obj in collection)
+                        {
+                            if (obj is Entity)
+                            {
+                                btr.AppendEntity(obj as Entity);
+                                dataGetTrans.AddNewlyCreatedDBObject(obj as Entity, true);
+                            }
+                        }
+
+                        dataGetTrans.Commit();
+                    }
+                }
+            }
+            catch
+            {
+
             }
         }
     }
