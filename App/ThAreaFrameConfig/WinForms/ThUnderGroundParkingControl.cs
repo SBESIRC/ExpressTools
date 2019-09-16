@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using ThAreaFrameConfig.View;
@@ -143,11 +144,10 @@ namespace ThAreaFrameConfig.WinForms
                 // "所属层"
                 case "Storey":
                     {
-                        string pattern = @"^[cC]*\d+$";
-                        if (!Regex.IsMatch(e.Value.ToString(), pattern))
+                        if (!ValidStorey(e.Value.ToString()))
                         {
                             e.Valid = false;
-                            e.ErrorText = "";
+                            e.ErrorText = "请输入正确的楼层格式";
                         }
                     }
                     break;
@@ -252,6 +252,45 @@ namespace ThAreaFrameConfig.WinForms
             {
                 e.RepositoryItem = null;
             }
+        }
+
+        private bool ValidStorey(string storey)
+        {
+            var floors = new List<int>();
+
+            // 匹配X^Y
+            string pattern = @"^-?[0-9]+[\^]-?[0-9]+$";
+            Match m = Regex.Match(storey, pattern);
+            while (m.Success)
+            {
+                int[] numbers = Array.ConvertAll(m.Value.Split('^'), int.Parse);
+                floors.AddRange(Enumerable.Range(numbers[0], (numbers[1] - numbers[0] + 1)));
+
+                m = m.NextMatch();
+            }
+
+            // 匹配X'Y
+            pattern = @"^-?[0-9]+'-?[0-9]+$";
+            m = Regex.Match(storey, pattern);
+            while (m.Success)
+            {
+                int[] numbers = Array.ConvertAll(m.Value.Split('\''), int.Parse);
+                floors.AddRange(numbers);
+
+                m = m.NextMatch();
+            }
+
+            // 匹配数字
+            pattern = @"^-?[0-9]+$";
+            m = Regex.Match(storey, pattern);
+            while (m.Success)
+            {
+                floors.Add(Int16.Parse(m.Value));
+
+                m = m.NextMatch();
+            }
+
+            return (floors.Count > 0);
         }
     }
 }
