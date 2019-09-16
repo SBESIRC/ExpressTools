@@ -186,7 +186,7 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
-        private void gridView_aoccupancy_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        private void gridView_aoccupancy_CellValueChanging(object sender, CellValueChangedEventArgs e)
         {
             if (!(sender is GridView view))
             {

@@ -128,7 +128,7 @@
             this.gridView_aoccupancy.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_aoccupancy_CustomRowCellEdit);
             this.gridView_aoccupancy.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridView_aoccupancy_PopupMenuShowing);
             this.gridView_aoccupancy.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gridView_aoccupancy_ShowingEditor);
-            this.gridView_aoccupancy.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView_aoccupancy_CellValueChanged);
+            this.gridView_aoccupancy.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView_aoccupancy_CellValueChanging);
             this.gridView_aoccupancy.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView_aoccupancy_RowUpdated);
             this.gridView_aoccupancy.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView_aoccupancy_CustomUnboundColumnData);
             this.gridView_aoccupancy.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridView_aoccupancy_CustomColumnDisplayText);
