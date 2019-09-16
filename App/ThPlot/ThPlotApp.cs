@@ -33,6 +33,12 @@ namespace ThPlot
             }
 
             UserSelectData userData = thPlotForm.UserData;
+            if (userData.InsertTemplateFile)
+            {
+                ThPlotData.insertTemplateFile();
+                return;
+            }
+                
 
             // 获取图层中的窗口
             var relatedDataLst = ThPlotData.MakeRelatedData(userData);

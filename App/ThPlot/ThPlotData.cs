@@ -134,6 +134,7 @@ namespace ThPlot
             PrintTextLayer = null;
             PrintStyle = null;
             PrintOutPath = null;
+            InsertTemplateFile = false;
         }
 
         public string PPTLayer { get; set; }        // PPT 层
@@ -142,6 +143,7 @@ namespace ThPlot
         public string PrintStyle { get; set; }      // 打印样式
         public string PrintOutPath { get; set; }    // 输出位置路径
         public ImageQuality ImageQua { get; set; }  // 输出图片质量
+        public bool InsertTemplateFile { get; set; } // 插入模板文件
     }
 
     public class ThPlotData
@@ -1424,12 +1426,22 @@ namespace ThPlot
             try
             {
                 Document doc = Application.DocumentManager.MdiActiveDocument;
+                var editor = doc.Editor;
+                PromptPointOptions ppoLeftBottom = new PromptPointOptions("/nSelect left bottom corner of plot area: ");
+                ppoLeftBottom.AllowNone = false;
+                PromptPointResult ppr = editor.GetPoint(ppoLeftBottom);
+
+                if (ppr.Status != PromptStatus.OK)
+                    return;
+
+                Point3d insertPoint = ppr.Value;
+
                 using (var db = AcadDatabase.Active())
                 {
                     var dir = System.Environment.CurrentDirectory;
                     var file = dir + "\\Resources\\图层框线示例.dwg";
                     db.Database.ImportBlocksFromDwg(file);
-                    var insertobjId = db.ModelSpace.ObjectId.InsertBlockReference("0", "图层框线示例", new Point3d(0, 0, 0), new Scale3d(1, 1, 1), 0);
+                    var insertobjId = db.ModelSpace.ObjectId.InsertBlockReference("0", "图层框线示例", insertPoint, new Scale3d(1, 1, 1), 0);
                     using (Transaction dataGetTrans = db.Database.TransactionManager.StartTransaction())
                     {
                         BlockReference blockReference = (BlockReference)dataGetTrans.GetObject(insertobjId, OpenMode.ForWrite);

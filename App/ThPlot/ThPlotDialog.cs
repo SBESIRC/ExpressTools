@@ -269,5 +269,14 @@ namespace ThPlot
                 textOutPut.Text = fileValidName + ".pptx";
             }
         }
+
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            // 插入模板文件
+            if (UserData.InsertTemplateFile)
+                return;
+
+            UserData.InsertTemplateFile = true;
+        }
     }
 }
