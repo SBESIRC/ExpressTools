@@ -209,5 +209,10 @@ namespace ThAreaFrameConfig.Model
             }
             return parkings;
         }
+
+        public static List<ThFireCompartment> FireCompartments(this Database database)
+        {
+            return null;
+        }
     }
 }

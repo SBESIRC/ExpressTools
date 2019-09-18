@@ -29,5 +29,16 @@ namespace ThAreaFrameConfig
             ThSitePlanDialog dlg = new ThSitePlanDialog();
             AcadApp.ShowModelessDialog(dlg);
         }
+
+        // 消防疏散表
+        [CommandMethod("TIANHUACAD", "THFET", CommandFlags.Modal)]
+        public void THFET()
+        {
+            using (var dlg = new ThFireProofingDialog())
+            {
+                AcadApp.ShowModalDialog(dlg);
+            }
+        }
+
     }
 }
