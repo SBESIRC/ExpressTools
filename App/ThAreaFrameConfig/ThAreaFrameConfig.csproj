@@ -63,6 +63,7 @@
     <Compile Include="Model\ThFCUnderGroundParkingDbRepository.cs" />
     <Compile Include="Model\ThFireCompartment.cs" />
     <Compile Include="Model\ThFCCommerceDbRepository.cs" />
+    <Compile Include="Model\ThFireCompartmentUtil.cs" />
     <Compile Include="Model\ThOutdoorParkingSpaceDbRepository.cs" />
     <Compile Include="Model\ThOutdoorParkingSpaceNullRepository.cs" />
     <Compile Include="Model\ThOutdoorParkingSpace.cs" />
