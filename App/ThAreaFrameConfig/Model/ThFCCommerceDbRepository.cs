@@ -5,7 +5,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrameConfig.Model
 {
-    public class ThFireProofDbRepository
+    public class ThFCCommerceDbRepository
     {
         private readonly Database database;
         private List<ThFireCompartment> compartments;
@@ -18,13 +18,13 @@ namespace ThAreaFrameConfig.Model
         }
 
 
-        public ThFireProofDbRepository()
+        public ThFCCommerceDbRepository()
         {
             database = Active.Database;
             ConstructFireCompartments();
         }
 
-        public ThFireProofDbRepository(Database db)
+        public ThFCCommerceDbRepository(Database db)
         {
             database = db;
             ConstructFireCompartments();
@@ -32,7 +32,7 @@ namespace ThAreaFrameConfig.Model
 
         private void ConstructFireCompartments()
         {
-            compartments = database.FireCompartments();
+            compartments = database.CommerceFireCompartments();
         }
     }
 }

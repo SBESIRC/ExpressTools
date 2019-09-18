@@ -60,8 +60,9 @@
     <Compile Include="Model\ThAOccupancyNullRepository.cs" />
     <Compile Include="Model\ThAOccupancyStorey.cs" />
     <Compile Include="Model\ThAreaFrameDbExtension.cs" />
+    <Compile Include="Model\ThFCUnderGroundParkingDbRepository.cs" />
     <Compile Include="Model\ThFireCompartment.cs" />
-    <Compile Include="Model\ThFireProofDbRepository.cs" />
+    <Compile Include="Model\ThFCCommerceDbRepository.cs" />
     <Compile Include="Model\ThOutdoorParkingSpaceDbRepository.cs" />
     <Compile Include="Model\ThOutdoorParkingSpaceNullRepository.cs" />
     <Compile Include="Model\ThOutdoorParkingSpace.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Presenter\IThAreaFramePresenter.cs" />
     <Compile Include="Presenter\IThAreaFramePresenterCallback.cs" />
     <Compile Include="Presenter\IUnderGroundParkingPresenterCallback.cs" />
+    <Compile Include="Presenter\ThFireCompartmentHelper.cs" />
     <Compile Include="Presenter\ThOutdoorParkingSpacePresenter.cs" />
     <Compile Include="Presenter\ThPickAreaFrameHelper.cs" />
     <Compile Include="Presenter\ThPlotSpacePresenter.cs" />
