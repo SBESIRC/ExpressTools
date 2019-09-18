@@ -20,11 +20,11 @@ release.ps1 It have no limit of location
 .\build.ps1 release 1.0.1  
 .\build.ps1 release  
   
-## pubilsh  
+## publish
 **usage**  
-.\pubilsh msi  
+.\publish <msi file path>  
 **example**  
-.\pubilsh.ps1 *.msi  
+.\publish.ps1 *.msi  
 (Pulling file in powershell as parameters is permited)  
   
 ## other script(do the percise active)  
