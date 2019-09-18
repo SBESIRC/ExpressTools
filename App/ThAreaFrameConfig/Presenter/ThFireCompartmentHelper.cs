@@ -21,7 +21,7 @@ namespace ThAreaFrameConfig.Presenter
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
-                    // 创建防火分区文字
+                    // 创建防火分区标识文字
                     DBText dbText = new DBText()
                     {
                         Position = pos,
@@ -29,15 +29,26 @@ namespace ThAreaFrameConfig.Presenter
                     };
                     ObjectId textId = acadDatabase.ModelSpace.Add(dbText, true);
 
-                    // 关联面积框线和防火分区文字
+                    // 创建防火分区面积文字
+                    MText mText = new MText()
+                    {
+                        Location = pos,
+                        Contents = ThFireCompartmentUtil.AreaTextContent(compartment)
+                    };
+                    ObjectId areaId = acadDatabase.ModelSpace.Add(mText, true);
+
+                    // 创建防火分区包围框线
+                    Polyline bbox = new Polyline();
+                    ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
+
+                    // 关联面积框线和防火分区
                     TypedValueList valueList = new TypedValueList
                     {
-                        { (int)DxfCode.ExtendedDataHandle, textId.Handle }
+                        { (int)DxfCode.ExtendedDataHandle, textId.Handle },
+                        { (int)DxfCode.ExtendedDataHandle, areaId.Handle },
+                        { (int)DxfCode.ExtendedDataHandle, bboxId.Handle }
                     };
-                    textId.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment, valueList);
-
-                    // TODO：创建防火分区面积文字
-                    // TODO：创建防火分区包围框
+                    frame.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment, valueList);
 
                     return true;
                 }
@@ -51,7 +62,8 @@ namespace ThAreaFrameConfig.Presenter
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
-                    List<ObjectId> textObjIds = new List<ObjectId>();
+                    List<ObjectId> snTextObjIds = new List<ObjectId>();
+                    List<ObjectId> areaTextObjIds = new List<ObjectId>();
                     foreach (var frame in compartment.Frames)
                     {
                         ObjectId frameId = new ObjectId(frame.Frame);
@@ -59,25 +71,32 @@ namespace ThAreaFrameConfig.Presenter
                         if (valueList == null)
                             continue;
 
-                        TypedValue value = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle).FirstOrDefault();
-                        if (value == null)
-                            continue;
-
-                        // 从Object Handle到ObjectId
-                        //  https://through-the-interface.typepad.com/through_the_interface/2007/02/getting_access_.html
-                        textObjIds.Add(acadDatabase.Database.GetObjectId(false, (Handle)value.Value, 0));
+                        var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                        if (handles.Any())
+                        {
+                            // 从Object Handle到ObjectId
+                            //  https://through-the-interface.typepad.com/through_the_interface/2007/02/getting_access_.html
+                            snTextObjIds.Add(acadDatabase.Database.GetObjectId(false, (Handle)handles.ElementAt(0).Value, 0));
+                            areaTextObjIds.Add(acadDatabase.Database.GetObjectId(false, (Handle)handles.ElementAt(1).Value, 0));
+                        }
                     }
 
-                    foreach(var textObjId in textObjIds)
+                    // 修改防火分区标识文字
+                    foreach (var objId in snTextObjIds)
                     {
-                        // 修改防火分区文字
-                        if (acadDatabase.ModelSpace.Element(textObjId, true) is DBText dbText)
+                        if (acadDatabase.ModelSpace.Element(objId, true) is DBText dbText)
                         {
                             dbText.TextString = ThFireCompartmentUtil.CommerceSerialNumber(compartment, subKey);
                         }
+                    }
 
-                        // TODO：修改防火分区面积文字
-                        // TODO：修改防火分区包围框
+                    // 修改防火分区面积文字
+                    foreach(var objId in areaTextObjIds)
+                    {
+                        if (acadDatabase.ModelSpace.Element(objId, true) is MText mText)
+                        {
+                            mText.Contents = ThFireCompartmentUtil.AreaTextContent(compartment);
+                        }
                     }
 
                     return true;
@@ -92,7 +111,9 @@ namespace ThAreaFrameConfig.Presenter
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
-                    List<ObjectId> textObjIds = new List<ObjectId>();
+                    List<ObjectId> bboxObjIds = new List<ObjectId>();
+                    List<ObjectId> snTextObjIds = new List<ObjectId>();
+                    List<ObjectId> areaTextObjIds = new List<ObjectId>();
                     foreach (var frame in compartment.Frames)
                     {
                         ObjectId frameId = new ObjectId(frame.Frame);
@@ -100,24 +121,36 @@ namespace ThAreaFrameConfig.Presenter
                         if (valueList == null)
                             continue;
 
-                        TypedValue value = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle).FirstOrDefault();
-                        if (value == null)
-                            continue;
-
-                        // 从Object Handle到ObjectId
-                        //  https://through-the-interface.typepad.com/through_the_interface/2007/02/getting_access_.html
-                        textObjIds.Add(acadDatabase.Database.GetObjectId(false, (Handle)value.Value, 0));
-
-                        ObjectId textId = acadDatabase.Database.GetObjectId(false, (Handle)value.Value, 0);
-
-                        // 删除防火分区文字
-                        acadDatabase.ModelSpace.Element(textId, true).Erase();
-
-                        // TODO：删除防火分区面积文字
-                        // TODO：删除防火分区包围框
+                        var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                        if (handles.Any())
+                        {
+                            // 从Object Handle到ObjectId
+                            //  https://through-the-interface.typepad.com/through_the_interface/2007/02/getting_access_.html
+                            snTextObjIds.Add(acadDatabase.Database.GetObjectId(false, (Handle)handles.ElementAt(0).Value, 0));
+                            areaTextObjIds.Add(acadDatabase.Database.GetObjectId(false, (Handle)handles.ElementAt(1).Value, 0));
+                            bboxObjIds.Add(acadDatabase.Database.GetObjectId(false, (Handle)handles.ElementAt(2).Value, 0));
+                        }
 
                         // 删除面积框线XData
                         frameId.RemoveXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
+                    }
+
+                    // 删除防火分区标识文字
+                    foreach (var objId in snTextObjIds)
+                    {
+                        acadDatabase.ModelSpace.Element(objId, true).Erase();
+                    }
+
+                    // 删除防火分区面积文字
+                    foreach (var objId in areaTextObjIds)
+                    {
+                        acadDatabase.ModelSpace.Element(objId, true).Erase();
+                    }
+
+                    // 删除防火分区包围框
+                    foreach(var objId in bboxObjIds)
+                    {
+                        acadDatabase.ModelSpace.Element(objId, true).Erase();
                     }
 
                     return true;

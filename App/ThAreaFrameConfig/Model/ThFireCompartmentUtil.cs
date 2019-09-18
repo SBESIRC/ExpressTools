@@ -16,5 +16,10 @@ namespace ThAreaFrameConfig.Model
         {
             return string.Format("防火分区{0}", Tools.NumberToChinese(compartment.Number));
         }
+
+        public static string AreaTextContent(ThFireCompartment compartment)
+        {
+            return string.Format("面积：{0}m2", compartment.Area);
+        }
     }
 }
