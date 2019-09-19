@@ -59,6 +59,11 @@ namespace ThAreaFrameConfig
                     AboveGroundStoreys = 1,
                     fireResistance = ThCommerceFireProofSettings.FireResistance.Level1
                 },
+                Layers = new Dictionary<string, string>()
+                {
+                    { "INNERFRAME", "AD-INDX"},
+                    { "OUTERFRAME", "AD-AREA-DIVD" }
+                },
                 Compartments = new List<ThFireCompartment>()
                 {
                     new ThFireCompartment()
@@ -72,7 +77,7 @@ namespace ThAreaFrameConfig
             };
 
             // 创建防火分区
-            ThFireCompartmentHelper.PickFireCompartmentFrames(settings.Compartments[0], "AD-AREA-DIVD");
+            ThFireCompartmentHelper.PickFireCompartmentFrames(settings.Compartments[0], settings.Layers["OUTERFRAME"]);
         }
     }
 }
