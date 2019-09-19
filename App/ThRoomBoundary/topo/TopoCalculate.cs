@@ -195,7 +195,7 @@ namespace ThRoomBoundary.topo
             return topoEdgeProfiles;
         }
 
-        
+
         private TopoSearch(List<LineSegment2d> lines)
         {
             m_planeBox = new BoundBoxPlane(lines);
@@ -811,7 +811,7 @@ namespace ThRoomBoundary.topo
                 var first = polys.First();
                 var last = polys.Last();
 
-                if (CommonUtils.Point2dIsEqualPoint2d(first.Start, last.End, 1e-3) && !CommonUtils.IsAlmostNearZero(CommonUtils.CalcuLoopArea(polys)))
+                if (polys.Count > 2 && CommonUtils.Point2dIsEqualPoint2d(first.Start, last.End, 1e-3) && !CommonUtils.IsAlmostNearZero(CommonUtils.CalcuLoopArea(polys), 10))
                 {
                     m_ProfileLoop.Add(polys);
                     break;
@@ -832,7 +832,8 @@ namespace ThRoomBoundary.topo
                             edgeLoop.Add(polys[k]);
                         }
 
-                        m_ProfileLoop.Add(edgeLoop);
+                        if (edgeLoop.Count > 2 && !CommonUtils.IsAlmostNearZero(CommonUtils.CalcuLoopArea(edgeLoop), 10))
+                            m_ProfileLoop.Add(edgeLoop);
                         var nEraseCnt = polys.Count - nEraseindex;
                         polys.RemoveRange(nEraseindex, nEraseCnt);
                     }

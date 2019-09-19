@@ -753,8 +753,11 @@ namespace ThRoomBoundary
                         //dbText.WidthFactor = 1;
                         //var objectTextId = db.ModelSpace.Add(dbText);
                         //db.ModelSpace.Element(objectTextId, true).Layer = layerName;
-                        var objectPolylineId = db.ModelSpace.Add(room.RoomPolyline);
-                        db.ModelSpace.Element(objectPolylineId, true).Layer = layerName;
+                        if (!CommonUtils.IsAlmostNearZero(room.RoomPolyline.Area, 1))
+                        {
+                            var objectPolylineId = db.ModelSpace.Add(room.RoomPolyline);
+                            db.ModelSpace.Element(objectPolylineId, true).Layer = layerName;
+                        }
                     }
                 }
             }

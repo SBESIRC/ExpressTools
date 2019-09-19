@@ -77,7 +77,7 @@ namespace ThRoomBoundary
 
             if (doorInsertCurves != null && doorInsertCurves.Count != 0)
             {
-                wallCurves.AddRange(doorInsertCurves);
+                //wallCurves.AddRange(doorInsertCurves);
                 layerCurves.AddRange(doorInsertCurves);
             }
 
@@ -87,7 +87,7 @@ namespace ThRoomBoundary
 
             if (windInsertCurves != null && windInsertCurves.Count != 0)
             {
-                wallCurves.AddRange(windInsertCurves);
+                //wallCurves.AddRange(windInsertCurves);
                 layerCurves.AddRange(windInsertCurves);
             }
 
