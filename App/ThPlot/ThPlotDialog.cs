@@ -185,7 +185,7 @@ namespace ThPlot
         // 点选打印图层 PPT
         private void btnPPTSelectLayer_Click(object sender, EventArgs e)
         {
-            var objectId = PickTool.PickEntity(this, "请选择PPT框线图层");
+            var objectId = ThPickTool.PickEntity(this, "请选择PPT框线图层");
             if (objectId.IsNull)
                 return;
 
@@ -195,7 +195,7 @@ namespace ThPlot
         // 点选打印图层 Image
         private void btnPrintImageLayer_Click(object sender, EventArgs e)
         {
-            var objectId = PickTool.PickEntity(this, "指定打印窗口线图层");
+            var objectId = ThPickTool.PickEntity(this, "指定打印窗口线图层");
             if (objectId.IsNull)
                 return;
 
@@ -205,7 +205,7 @@ namespace ThPlot
         // 点选打印图层 文本
         private void btnPrintTextLayer_Click(object sender, EventArgs e)
         {
-            var objectId = PickTool.PickEntity(this, "指定需打印文字图层");
+            var objectId = ThPickTool.PickEntity(this, "指定需打印文字图层");
             if (objectId.IsNull)
                 return;
 

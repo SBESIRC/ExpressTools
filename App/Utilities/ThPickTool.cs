@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Autodesk.AutoCAD.ApplicationServices;
+﻿using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.ApplicationServices;
 
 namespace TianHua.AutoCAD.Utility.ExtensionTools
 {
-    public static class PickTool
+    public static class ThPickTool
     {
         // Taking mouse inputs from a modal dialog box
         //  https://adndevblog.typepad.com/autocad/2012/05/taking-mouse-inputs-from-a-modal-dialog-box.html
