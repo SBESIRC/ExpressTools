@@ -8,7 +8,7 @@ using System.Text;
 
 namespace TianHua.AutoCAD.Utility.ExtensionTools
 {
-    public static class RegionTool
+    public static class ThRegionTool
     {
         ///<summary>
         /// Returns whether a Region contains a Point3d.

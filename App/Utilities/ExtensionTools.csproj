@@ -144,7 +144,7 @@
     <Compile Include="ObjectIDTool.cs" />
     <Compile Include="PickTool.cs" />
     <Compile Include="PointCollector.cs" />
-    <Compile Include="RegionTool.cs" />
+    <Compile Include="ThRegionTool.cs" />
     <Compile Include="SelectionTool.cs" />
     <Compile Include="ShowTools.cs" />
     <Compile Include="Linq2Acad\AcadDatabase.cs" />
@@ -195,6 +195,7 @@
     <Compile Include="TextTool.cs" />
     <Compile Include="ThCADCommon.cs" />
     <Compile Include="ThEntTool.cs" />
+    <Compile Include="ThPolylineExtension.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="WeiZhi.cs" />
     <Compile Include="ZiFu.cs" />
