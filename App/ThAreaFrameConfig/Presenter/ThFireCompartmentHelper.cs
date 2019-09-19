@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 using AcHelper;
 using DotNetARX;
 using Linq2Acad;
-using Autodesk.AutoCAD.Geometry;
+using GeometryExtensions;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using System.Collections.Generic;
 using ThAreaFrameConfig.Model;
 
 namespace ThAreaFrameConfig.Presenter
@@ -18,47 +18,10 @@ namespace ThAreaFrameConfig.Presenter
             foreach (var frame in compartment.Frames)
             {
                 ObjectId frameId = new ObjectId(frame.Frame);
-                // TODO：需要计算位置
-                Point3d pos = new Point3d();
-                CreateFireCompartmentAreaFrame(compartment, subKey, frameId, pos);
+                CreateFireCompartmentAreaFrame(compartment, subKey, frameId);
             }
 
             return true;
-        }
-
-        private static bool CreateFireCompartmentAreaFrame(ThFireCompartment compartment, string subKey, ObjectId frame, Point3d pos)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    // 创建防火分区文字
-                    MText mText = new MText()
-                    {
-                        Location = pos,
-                        Contents = ThFireCompartmentUtil.CommerceTextContent(compartment, subKey)
-                    };
-                    ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
-
-                    // 创建防火分区文字框线
-                    Polyline bbox = new Polyline()
-                    {
-                        Closed = true,
-                    };
-                    bbox.CreatePolyline(acadDatabase.Element<MText>(textId).GetBoundingPoints());
-                    ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
-
-                    // 关联面积框线和防火分区
-                    TypedValueList valueList = new TypedValueList
-                    {
-                        { (int)DxfCode.ExtendedDataHandle, textId.Handle },
-                        { (int)DxfCode.ExtendedDataHandle, bboxId.Handle }
-                    };
-                    frame.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment, valueList);
-
-                    return true;
-                }
-            }
         }
 
         // 修改商业防火分区
@@ -76,9 +39,7 @@ namespace ThAreaFrameConfig.Presenter
                         TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
                         if (valueList == null)
                         {
-                            // TODO：需要计算位置
-                            Point3d pos = new Point3d();
-                            CreateFireCompartmentAreaFrame(compartment, subKey, frameId, pos);
+                            CreateFireCompartmentAreaFrame(compartment, subKey, frameId);
                         }
                         else
                         {
@@ -169,6 +130,51 @@ namespace ThAreaFrameConfig.Presenter
             ModifyFireCompartment(targetCompartment, subKey);
 
             return true;
+        }
+
+        private static bool CreateFireCompartmentAreaFrame(ThFireCompartment compartment, string subKey, ObjectId frame)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    // 根据面积框线轮廓创建“区域”
+                    //  https://www.keanw.com/2015/08/getting-the-centroid-of-an-autocad-region-using-net.html
+                    DBObjectCollection curves = new DBObjectCollection()
+                    {
+                        acadDatabase.Element<Curve>(frame)
+                    };
+                    DBObjectCollection regions = Region.CreateFromCurves(curves);
+                    Region region = regions[0] as Region;
+
+                    // 创建防火分区文字
+                    //  https://www.keanw.com/2015/08/fitting-autocad-text-into-a-selected-space-using-net.html
+                    MText mText = new MText()
+                    {
+                        Location = region.Centroid(),
+                        Contents = ThFireCompartmentUtil.CommerceTextContent(compartment, subKey)
+                    };
+                    ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
+
+                    // 创建防火分区文字框线
+                    Polyline bbox = new Polyline()
+                    {
+                        Closed = true,
+                    };
+                    bbox.CreatePolyline(acadDatabase.Element<MText>(textId).GetBoundingPoints());
+                    ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
+
+                    // 关联面积框线和防火分区
+                    TypedValueList valueList = new TypedValueList
+                    {
+                        { (int)DxfCode.ExtendedDataHandle, textId.Handle },
+                        { (int)DxfCode.ExtendedDataHandle, bboxId.Handle }
+                    };
+                    frame.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment, valueList);
+
+                    return true;
+                }
+            }
         }
     }
 }
