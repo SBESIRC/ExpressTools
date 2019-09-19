@@ -159,14 +159,19 @@ namespace ThRoomBoundary.topo
         /// </summary>
         /// <param name="lines"></param>
         /// <returns></returns>
-        public static List<RoomDataInner> MakeSrcProfileLoops(List<LineSegment2d> lines, List<LineSegment2d> rectLines)
+        public static List<RoomDataInner> MakeSrcProfileLoops(List<LineSegment2d> lines, List<LineSegment2d> rectLines = null)
         {
             var search = new TopoSearch(lines);
 
             var loops = TopoSearch.RemoveDuplicate(search.m_srcLoops);
             var tmpEdgeLoops = search.TransFormProfileLoops(loops);
-            var validEdgeLoops = MakeTopoEdgeProfilesFromRect(tmpEdgeLoops, rectLines);
-            return search.ConvertTopoEdges2Curve(validEdgeLoops);
+            if (rectLines == null)
+                return search.ConvertTopoEdges2Curve(tmpEdgeLoops);
+            else
+            {
+                var validEdgeLoops = MakeTopoEdgeProfilesFromRect(tmpEdgeLoops, rectLines);
+                return search.ConvertTopoEdges2Curve(validEdgeLoops);
+            }
         }
 
         /// <summary>
@@ -305,10 +310,6 @@ namespace ThRoomBoundary.topo
         {
             foreach (var curLoop in m_srcLoops)
             {
-                //if (curLoop.Count == 10)
-                //ThRoomData.DrawLinesWithTransaction(curLoop);
-                //ThRoomData.DrawPointWithTransaction(m_point2d);
-                //ThRoomData.DrawTopoEdges(curLoop);
                 if (CommonUtils.PtInLoop(curLoop, m_point2d))
                 {
                     double loopArea = CommonUtils.CalcuLoopArea(curLoop);
@@ -680,8 +681,6 @@ namespace ThRoomBoundary.topo
         {
             List<LineSegment2d> removeLines = null;
             CommonUtils.RemoveCollinearLines(lines, out removeLines);
-            var tmpCurves = CommonUtils.line2d2Curves(removeLines);
-            ThRoomData.DrawCurvesAdd(tmpCurves);
             if (removeLines == null)
                 return null;
             var topoCal = new TopoCalculate(removeLines);
@@ -922,7 +921,7 @@ namespace ThRoomBoundary.topo
                 {
                     var nextLine = m_lines[j];
 
-                    var intersectPts = curLine.IntersectWith(nextLine);
+                    var intersectPts = curLine.IntersectWith(nextLine, new Tolerance(1e-3, 1e-3));
                     if (intersectPts != null && intersectPts.Count() == 1)
                     {
                         m_pointsLst[i].AddRange(intersectPts);

@@ -49,11 +49,18 @@ namespace ThRoomBoundary.topo
             set;
         }
 
+        public bool ValidData
+        {
+            get;
+            set;
+        }
+
         public RoomDataPolyline(Polyline polyline, Point3d pos, double area)
         {
             RoomPolyline = polyline;
             Pos = pos;
             Area = area;
+            ValidData = true;
         }
     }
 
@@ -111,7 +118,7 @@ namespace ThRoomBoundary.topo
         /// </summary>
         /// <param name="lines"></param>
         /// <returns></returns>
-        public static List<RoomDataPolyline> MakeSrcProfiles(List<Curve> curves, List<LineSegment2d> rectLines)
+        public static List<RoomDataPolyline> MakeSrcProfiles(List<Curve> curves, List<LineSegment2d> rectLines = null)
         {
             var lines = TesslateCurve2Lines(curves);
             var profiles = TopoSearch.MakeSrcProfileLoops(lines, rectLines);
@@ -126,7 +133,7 @@ namespace ThRoomBoundary.topo
         /// </summary>
         /// <param name="roomDatas"></param>
         /// <returns></returns>
-        public static List<RoomDataPolyline> Convert2RoomDataPolyline(List<RoomData> roomDatas)
+        public static List<RoomDataPolyline> Convert2RoomDataPolylines(List<RoomData> roomDatas)
         {
             if (roomDatas == null || roomDatas.Count == 0)
                 return null;
@@ -139,6 +146,36 @@ namespace ThRoomBoundary.topo
                 for (int i = 0; i < room.Lines.Count; i++)
                 {
                     var point = room.Lines[i].StartPoint;
+                    polyline.AddVertexAt(i, new Point2d(point.X, point.Y), 0, 0, 0);
+                }
+
+                var roomPolyline = new RoomDataPolyline(polyline, room.Pos, room.Area);
+                roomDataPolylines.Add(roomPolyline);
+            }
+
+            return roomDataPolylines;
+        }
+
+        public static List<RoomDataPolyline> Convert2RoomDataPolyline(List<RoomData> roomDatas)
+        {
+            if (roomDatas == null || roomDatas.Count == 0)
+                return null;
+
+            var roomDataPolylines = new List<RoomDataPolyline>();
+            foreach (var room in roomDatas)
+            {
+                var polyline = new Polyline();
+                polyline.Closed = true;
+                var lines = room.Lines;
+                var drawLines = new List<Line>();
+                foreach (var line in lines)
+                {
+                    drawLines.Add(CommonUtils.LineDecVector(line, new Vector3d(0, -50000, 0)));
+                }
+
+                for (int i = 0; i < drawLines.Count; i++)
+                {
+                    var point = drawLines[i].StartPoint;
                     polyline.AddVertexAt(i, new Point2d(point.X, point.Y), 0, 0, 0);
                 }
 

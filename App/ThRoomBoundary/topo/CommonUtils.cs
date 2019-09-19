@@ -145,6 +145,21 @@ namespace ThRoomBoundary.topo
             return bIn;
         }
 
+        public static bool OutLoopContainsInnerLoop(List<LineSegment2d> outerprofile, List<LineSegment2d> innerEdge)
+        {
+            bool bIn = true;
+            foreach (var edge in innerEdge)
+            {
+                var pt = edge.StartPoint;
+                if (!PtInLoop(outerprofile, pt))
+                {
+                    bIn = false;
+                    break;
+                }
+            }
+            return bIn;
+        }
+
         /// <summary>
         /// 面积计算
         /// </summary>
@@ -388,6 +403,15 @@ namespace ThRoomBoundary.topo
             return new TopoEdge(ptSadd, ptEadd, CommonUtils.Vector2XY(ptSadd - ptEadd));
         }
 
+        public static Line LineDecVector(Line line, Vector3d vec)
+        {
+            var ptS = line.StartPoint;
+            var ptE = line.EndPoint;
+            var ptSadd = ptS - vec;
+            var ptEadd = ptE - vec;
+            return new Line(ptSadd, ptEadd);
+        }
+
         public static XY Vector2XY(Vector2d vec)
         {
             return new XY(vec.X, vec.Y);
@@ -406,6 +430,17 @@ namespace ThRoomBoundary.topo
             }
 
             return curves;
+        }
+
+        public static List<LineSegment2d> MoveLine2d(List<LineSegment2d> lines, Vector2d vec)
+        {
+            var resLines = new List<LineSegment2d>();
+            foreach (var line in lines)
+            {
+                resLines.Add(CommonUtils.LineDecVector(line, vec));
+            }
+
+            return resLines;
         }
     }
 }
