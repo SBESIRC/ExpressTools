@@ -26,6 +26,19 @@ namespace ThAreaFrameConfig.Presenter
             return true;
         }
 
+        // 填充商业防火分区
+        public static bool FillFireCompartment(ThFireCompartment compartment, Hatch hatch)
+        {
+            foreach (var frame in compartment.Frames)
+            {
+                ObjectId frameId = new ObjectId(frame.Frame);
+                frameId.FillFireCompartmentAreaFrame(hatch);
+            }
+
+            return true;
+        }
+
+
         // 修改商业防火分区
         public static bool ModifyFireCompartment(ThFireCompartment compartment)
         {
@@ -187,6 +200,27 @@ namespace ThAreaFrameConfig.Presenter
             }
         }
 
+        private static bool FillFireCompartmentAreaFrame(this ObjectId frame, Hatch hatch)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    // Creating transparent hatches in AutoCAD using .NET
+                    //  https://www.keanw.com/2010/06/creating-transparent-hatches-in-autocad-using-net.html
+                    ObjectId objId = acadDatabase.ModelSpace.Add(hatch);
+                    var hat = acadDatabase.Element<Hatch>(objId, true);
+                    hat.Associative = true;
+                    hat.AppendLoop(HatchLoopTypes.Default, new ObjectIdCollection
+                    {
+                        frame
+                    });
+                    hat.EvaluateHatch(true);
+                    return true;
+                }
+            }
+        }
+
         // 拾取防火分区框线
         public static bool PickFireCompartmentFrames(ThFireCompartment compartment, string layer)
         {
@@ -220,7 +254,7 @@ namespace ThAreaFrameConfig.Presenter
                             });
                         }
 
-                        //创建防火分区
+                        // 创建防火分区
                         CreateFireCompartment(compartment);
                     }
 
