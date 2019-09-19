@@ -50,13 +50,6 @@ namespace ThAreaFrameConfig
         [CommandMethod("TIANHUACAD", "THFETCLI", CommandFlags.Modal)]
         public void THFETCLI()
         {
-            var frame = PickTool.PickEntity("选择防火分区框线");
-            if (frame.IsNull)
-            {
-                return;
-            }
-
-
             // 初始化防火分区设置
             var settings = new ThCommerceFireProofSettings()
             {
@@ -74,21 +67,12 @@ namespace ThAreaFrameConfig
                         Storey = 2,
                         Subkey = 13,
                         Frames = new List<ThFireCompartmentAreaFrame>()
-                        {
-                            new ThFireCompartmentAreaFrame()
-                            {
-                                Frame = frame.OldIdPtr
-                            }
-                        }
                     }
                 }
             };
 
             // 创建防火分区
-            using (AcTransaction tr = new AcTransaction())
-            {
-                ThFireCompartmentHelper.CreateFireCompartment(settings.Compartments[0]);
-            }
+            ThFireCompartmentHelper.PickFireCompartmentFrames(settings.Compartments[0], "AD-AREA-DIVD");
         }
     }
 }

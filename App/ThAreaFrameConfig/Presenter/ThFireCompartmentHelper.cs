@@ -8,6 +8,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using ThAreaFrameConfig.Model;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.EditorInput;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -106,7 +107,7 @@ namespace ThAreaFrameConfig.Presenter
                     }
 
                     // 删除防火分区文字框线
-                    foreach(var objId in bboxObjIds.Distinct())
+                    foreach (var objId in bboxObjIds.Distinct())
                     {
                         acadDatabase.ModelSpace.Element(objId, true).Erase();
                     }
@@ -182,6 +183,48 @@ namespace ThAreaFrameConfig.Presenter
                     frame.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment, valueList);
 
                     return true;
+                }
+            }
+        }
+
+        // 拾取防火分区框线
+        public static bool PickFireCompartmentFrames(ThFireCompartment compartment, string layer)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
+                    // SelectionFilter
+                    //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
+                    TypedValue[] filterlist = new TypedValue[2];
+                    // 支持的框线类型
+                    filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
+                    // 只拾取指定图层上的框线
+                    filterlist[1] = new TypedValue(8, layer);
+                    var entSelected = Active.Editor.GetSelection(new SelectionFilter(filterlist));
+                    if (entSelected.Status == PromptStatus.OK)
+                    {
+                        foreach (var objId in entSelected.Value.GetObjectIds())
+                        {
+                            compartment.Frames.Add(new ThFireCompartmentAreaFrame()
+                            {
+                                Frame = objId.OldIdPtr
+                            });
+                        }
+
+                        //创建防火分区
+                        CreateFireCompartment(compartment);
+                    }
+
+                    return false;
                 }
             }
         }
