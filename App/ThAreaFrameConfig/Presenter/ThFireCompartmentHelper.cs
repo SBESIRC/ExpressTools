@@ -13,7 +13,20 @@ namespace ThAreaFrameConfig.Presenter
     public static class ThFireCompartmentHelper
     {
         // 创建商业防火分区
-        public static bool CreateFireCompartment(ThFireCompartment compartment, string subKey, ObjectId frame, Point3d pos)
+        public static bool CreateFireCompartment(ThFireCompartment compartment, string subKey)
+        {
+            foreach (var frame in compartment.Frames)
+            {
+                ObjectId frameId = new ObjectId(frame.Frame);
+                // TODO：需要计算位置
+                Point3d pos = new Point3d();
+                CreateFireCompartmentAreaFrame(compartment, subKey, frameId, pos);
+            }
+
+            return true;
+        }
+
+        private static bool CreateFireCompartmentAreaFrame(ThFireCompartment compartment, string subKey, ObjectId frame, Point3d pos)
         {
             using (Active.Document.LockDocument())
             {
@@ -65,7 +78,7 @@ namespace ThAreaFrameConfig.Presenter
                         {
                             // TODO：需要计算位置
                             Point3d pos = new Point3d();
-                            CreateFireCompartment(compartment, subKey, frameId, pos);
+                            CreateFireCompartmentAreaFrame(compartment, subKey, frameId, pos);
                         }
                         else
                         {
