@@ -15,7 +15,11 @@ namespace DotNetARX
     public static class RegionTools
     {
         #region 面域特性
-        [DllImport("acdb17.dll", CallingConvention = CallingConvention.ThisCall, EntryPoint = "?getAreaProp@AcDbRegion@@UBE?AW4ErrorStatus@Acad@@ABVAcGePoint3d@@ABVAcGeVector3d@@1AAN2AAVAcGePoint2d@@QAN24QAVAcGeVector2d@@433@Z")]
+#if ACAD2012
+        [DllImport("acdb18.dll", CallingConvention = CallingConvention.ThisCall, EntryPoint = "?getAreaProp@AcDbRegion@@UEBA?AW4ErrorStatus@Acad@@AEBVAcGePoint3d@@AEBVAcGeVector3d@@1AEAN2AEAVAcGePoint2d@@QEAN24QEAVAcGeVector2d@@433@Z")]
+#elif ACAD2014
+        [DllImport("acdb19.dll", CallingConvention = CallingConvention.ThisCall, EntryPoint = "?getAreaProp@AcDbRegion@@UEBA?AW4ErrorStatus@Acad@@AEBVAcGePoint3d@@AEBVAcGeVector3d@@1AEAN2AEAVAcGePoint2d@@QEAN24QEAVAcGeVector2d@@433@Z")]
+#endif
         private static extern ErrorStatus getAreaProp(IntPtr region,
                                                 ref Point3d origin,
                                                 ref Vector3d xAxis,
@@ -168,7 +172,7 @@ namespace DotNetARX
                        momInertia, out prodInertia, prinMoments, prinAxes, radiiGyration, out extentsLow, out extentsHigh);
             return extentsHigh;
         } 
-        #endregion
+#endregion
 
         /// <summary>
         /// 根据曲线创建面域
