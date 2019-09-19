@@ -1,5 +1,11 @@
-﻿using Autodesk.AutoCAD.Runtime;
+﻿using AcHelper;
+using AcHelper.Wrappers;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.EditorInput;
 using ThAreaFrameConfig.WinForms;
+using ThAreaFrameConfig.Model;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace ThAreaFrameConfig
@@ -40,5 +46,15 @@ namespace ThAreaFrameConfig
             }
         }
 
+        // 测试命令
+        [CommandMethod("TIANHUACAD", "THXXX", CommandFlags.Modal)]
+        public void THXXX()
+        {
+            using (AcTransaction tr = new AcTransaction())
+            {
+                var pline = SelectionTool.ChooseEntity<Polyline>();
+                Active.Editor.WriteLine(pline.ObjectId.OldIdPtr.AreaEx());
+            }
+        }
     }
 }

@@ -144,6 +144,7 @@
     <Compile Include="ObjectIDTool.cs" />
     <Compile Include="PickTool.cs" />
     <Compile Include="PointCollector.cs" />
+    <Compile Include="RegionTool.cs" />
     <Compile Include="SelectionTool.cs" />
     <Compile Include="ShowTools.cs" />
     <Compile Include="Linq2Acad\AcadDatabase.cs" />

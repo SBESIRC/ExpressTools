@@ -4,7 +4,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using GeometryExtensions;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThAreaFrameConfig.Model
 {
@@ -78,7 +80,11 @@ namespace ThAreaFrameConfig.Model
                 };
                 DBObjectCollection regions = Region.CreateFromCurves(curves);
                 Region region = regions[0] as Region;
-
+                Point3d centroid = region.Centroid();
+                if (!region.ContainsPoint(centroid))
+                {
+                    return 0.0;
+                }
 
                 // 在“面心”处作为“种子”点，创建“轮廓”。“轮廓”会考虑到“空岛”的存在
                 //  https://www.keanw.com/2010/06/tracing-a-boundary-defined-by-autocad-geometry-using-net.html
