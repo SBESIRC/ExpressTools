@@ -7,25 +7,26 @@ using GeometryExtensions;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using ThAreaFrameConfig.Model;
+using Autodesk.AutoCAD.Geometry;
 
 namespace ThAreaFrameConfig.Presenter
 {
     public static class ThFireCompartmentHelper
     {
         // 创建商业防火分区
-        public static bool CreateFireCompartment(ThFireCompartment compartment, string subKey)
+        public static bool CreateFireCompartment(ThFireCompartment compartment)
         {
             foreach (var frame in compartment.Frames)
             {
                 ObjectId frameId = new ObjectId(frame.Frame);
-                CreateFireCompartmentAreaFrame(compartment, subKey, frameId);
+                frameId.CreateFireCompartmentAreaFrame(compartment);
             }
 
             return true;
         }
 
         // 修改商业防火分区
-        public static bool ModifyFireCompartment(ThFireCompartment compartment, string subKey)
+        public static bool ModifyFireCompartment(ThFireCompartment compartment)
         {
             using (Active.Document.LockDocument())
             {
@@ -39,7 +40,7 @@ namespace ThAreaFrameConfig.Presenter
                         TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
                         if (valueList == null)
                         {
-                            CreateFireCompartmentAreaFrame(compartment, subKey, frameId);
+                            frameId.CreateFireCompartmentAreaFrame(compartment);
                         }
                         else
                         {
@@ -58,7 +59,7 @@ namespace ThAreaFrameConfig.Presenter
                     foreach (var objId in textObjIds.Distinct())
                     {
                         var text = acadDatabase.Element<MText>(objId, true);
-                        text.Contents = ThFireCompartmentUtil.CommerceTextContent(compartment, subKey);
+                        text.Contents = ThFireCompartmentUtil.CommerceTextContent(compartment);
                     }
 
                     // TODO:
@@ -127,12 +128,12 @@ namespace ThAreaFrameConfig.Presenter
             DeleteFireCompartment(sourceCompartment);
 
             // 修改目标防火分区
-            ModifyFireCompartment(targetCompartment, subKey);
+            ModifyFireCompartment(targetCompartment);
 
             return true;
         }
 
-        private static bool CreateFireCompartmentAreaFrame(ThFireCompartment compartment, string subKey, ObjectId frame)
+        private static bool CreateFireCompartmentAreaFrame(this ObjectId frame, ThFireCompartment compartment)
         {
             using (Active.Document.LockDocument())
             {
@@ -152,7 +153,7 @@ namespace ThAreaFrameConfig.Presenter
                     MText mText = new MText()
                     {
                         Location = region.Centroid(),
-                        Contents = ThFireCompartmentUtil.CommerceTextContent(compartment, subKey)
+                        Contents = ThFireCompartmentUtil.CommerceTextContent(compartment)
                     };
                     ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
 
@@ -161,7 +162,15 @@ namespace ThAreaFrameConfig.Presenter
                     {
                         Closed = true,
                     };
-                    bbox.CreatePolyline(acadDatabase.Element<MText>(textId).GetBoundingPoints());
+                    // 变换顶点顺序
+                    //  (0)-----(1)     (0)-----(1)
+                    //   |       |       |       |
+                    //   |       |  ==>  |       |
+                    //   |       |       |       |
+                    //  (2)-----(3)     (3)-----(2)
+                    Point3dCollection points = acadDatabase.Element<MText>(textId).GetBoundingPoints();
+                    points.Swap(2, 3);
+                    bbox.CreatePolyline(points);
                     ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
 
                     // 关联面积框线和防火分区

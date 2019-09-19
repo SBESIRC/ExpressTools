@@ -36,11 +36,14 @@ namespace ThAreaFrameConfig.Model
         [Display(AutoGenerateField = false)]
         public Guid ID { get; set; }
 
+        // 子项编号
+        public UInt16 Subkey { get; set; }
+
         // 序号
-        public int Number { get; set; }
+        public UInt16 Number { get; set; }
 
         // 楼层
-        public string Storey { get; set; }
+        public UInt16 Storey { get; set; }
 
         // 编号
         public string Identifier { get; set; }

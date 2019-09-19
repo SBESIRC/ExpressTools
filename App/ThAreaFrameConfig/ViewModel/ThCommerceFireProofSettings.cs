@@ -7,10 +7,10 @@ namespace ThAreaFrameConfig.ViewModel
     public class ThCommerceFireProofSettings
     {
         public enum Density { Low, Middle, High }
-        public enum FireResistance { Low, Middle, High }
+        public enum FireResistance { Level1, Level2, Level3, Level4 }
         public struct BuildingInfo
         {
-            public string identifier;
+            public UInt16 subKey;
             public FireResistance fireResistance;
             public UInt16 AboveGroundStoreys;
         };

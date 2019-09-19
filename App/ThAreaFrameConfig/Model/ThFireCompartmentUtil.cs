@@ -7,9 +7,9 @@ namespace ThAreaFrameConfig.Model
 {
     public class ThFireCompartmentUtil
     {
-        private static string CommerceSerialNumber(ThFireCompartment compartment, string subKey)
+        private static string CommerceSerialNumber(ThFireCompartment compartment)
         {
-            return string.Format("FC-{0}-FL{1}-{2}", subKey, compartment.Storey, compartment.Number);
+            return string.Format("FC-{0}-FL{1}-{2}", compartment.Subkey, compartment.Storey, compartment.Number);
         }
 
         private static string UndergroundParkingSerialNumber(ThFireCompartment compartment)
@@ -19,12 +19,12 @@ namespace ThAreaFrameConfig.Model
 
         private static string AreaTextContent(ThFireCompartment compartment)
         {
-            return string.Format("面积：{0:2}m\u00B2", compartment.Area);
+            return string.Format("面积：{0:0.00}m\u00B2", compartment.Area);
         }
 
-        public static string CommerceTextContent(ThFireCompartment compartment, string subKey)
+        public static string CommerceTextContent(ThFireCompartment compartment)
         {
-            return CommerceSerialNumber(compartment, subKey) + "\\P" + AreaTextContent(compartment);
+            return CommerceSerialNumber(compartment) + "\\P" + AreaTextContent(compartment);
         }
 
         public static string UndergroundParkingTextContent(ThFireCompartment compartment)
