@@ -343,9 +343,9 @@ namespace ThRoomBoundary.topo
         /// </summary>
         /// <param name="lines"></param>
         /// <param name="outLines"></param>
-        public static void RemoveCollinearLines(List<LineSegment2d> lines, out List<LineSegment2d> outLines)
+        public static void RemoveCollinearLines(List<LineNode> lines, out List<LineNode> outLines)
         {
-            outLines = new List<LineSegment2d>();
+            outLines = new List<LineNode>();
             var eraseLines = CoEdgeErase.MakeCoEdgeErase(lines);
             outLines.AddRange(eraseLines);
         }
@@ -400,7 +400,7 @@ namespace ThRoomBoundary.topo
             var ptE = edge.End;
             var ptSadd = ptS - vec;
             var ptEadd = ptE - vec;
-            return new TopoEdge(ptSadd, ptEadd, CommonUtils.Vector2XY(ptSadd - ptEadd));
+            return new TopoEdge(ptSadd, ptEadd, CommonUtils.Vector2XY(ptSadd - ptEadd), edge.LayerName);
         }
 
         public static Line LineDecVector(Line line, Vector3d vec)

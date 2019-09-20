@@ -121,6 +121,7 @@ namespace ThRoomBoundary.topo
         public static List<RoomDataPolyline> MakeSrcProfiles(List<Curve> curves, List<LineSegment2d> rectLines = null)
         {
             var lines = TesslateCurve2Lines(curves);
+            //ThRoomUtils.DrawCurvesAdd(lines);
             var profiles = TopoSearch.MakeSrcProfileLoops(lines, rectLines);
 
             // 二维转化为三维
@@ -236,9 +237,9 @@ namespace ThRoomBoundary.topo
         /// </summary>
         /// <param name="curves"></param>
         /// <returns></returns>
-        public static List<LineSegment2d> TesslateCurve2Lines(List<Curve> curves)
+        public static List<LineNode> TesslateCurve2Lines(List<Curve> curves)
         {
-            var lines = new List<LineSegment2d>();
+            var lines = new List<LineNode>();
             foreach (var curve in curves)
             {
                 if (curve is Line)
@@ -247,47 +248,47 @@ namespace ThRoomBoundary.topo
                     var ptS = line.StartPoint;
                     var ptE = line.EndPoint;
                     var lineSegment2d = new LineSegment2d(new Point2d(ptS.X, ptS.Y), new Point2d(ptE.X, ptE.Y));
-                    lines.Add(lineSegment2d);
+                    lines.Add(new LineNode(lineSegment2d, line.Layer));
                 }
                 else if (curve is Arc)
                 {
                     var arc = curve as Arc;
                     var polyline = arc.Spline.ToPolyline();
-                    var lineSegment2ds = Polyline2Lines(polyline as Polyline);
-                    if (lineSegment2ds != null)
-                        lines.AddRange(lineSegment2ds);
+                    var lineNodes = Polyline2Lines(polyline as Polyline);
+                    if (lineNodes != null)
+                        lines.AddRange(lineNodes);
                 }
                 else if (curve is Circle)
                 {
                     var circle = curve as Circle;
                     var spline = circle.Spline;
                     var polyline = spline.ToPolyline();
-                    var lineSegment2ds = Polyline2Lines(polyline as Polyline);
-                    if (lineSegment2ds != null)
-                        lines.AddRange(lineSegment2ds);
+                    var lineNodes = Polyline2Lines(polyline as Polyline);
+                    if (lineNodes != null)
+                        lines.AddRange(lineNodes);
                 }
                 else if (curve is Ellipse)
                 {
                     var ellipse = curve as Ellipse;
                     var polyline = ellipse.Spline.ToPolyline();
-                    var lineSegment2ds = Polyline2Lines(polyline as Polyline);
-                    if (lineSegment2ds != null)
-                        lines.AddRange(lineSegment2ds);
+                    var lineNodes = Polyline2Lines(polyline as Polyline);
+                    if (lineNodes != null)
+                        lines.AddRange(lineNodes);
                 }
                 else if (curve is Polyline)
                 {
-                    var lineSegment2ds = Polyline2Lines(curve as Polyline);
-                    if (lineSegment2ds != null)
-                        lines.AddRange(lineSegment2ds);
+                    var lineNodes = Polyline2Lines(curve as Polyline);
+                    if (lineNodes != null)
+                        lines.AddRange(lineNodes);
                 }
                 else if (curve is Spline)
                 {
                     var polyline = (curve as Spline).ToPolyline();
                     if (polyline is Polyline)
                     {
-                        var lineSegment2ds = Polyline2Lines(polyline as Polyline);
-                        if (lineSegment2ds != null)
-                            lines.AddRange(lineSegment2ds);
+                        var lineNodes = Polyline2Lines(polyline as Polyline);
+                        if (lineNodes != null)
+                            lines.AddRange(lineNodes);
                     }
                 }
             }
@@ -300,12 +301,12 @@ namespace ThRoomBoundary.topo
         /// </summary>
         /// <param name="polyline"></param>
         /// <returns></returns>
-        public static List<LineSegment2d> Polyline2Lines(Polyline polyline)
+        public static List<LineNode> Polyline2Lines(Polyline polyline)
         {
             if (polyline == null)
                 return null;
 
-            var lines = new List<LineSegment2d>();
+            var lines = new List<LineNode>();
             if (polyline.Closed)
             {
                 for (int i = 0; i < polyline.NumberOfVertices; i++)
@@ -314,7 +315,7 @@ namespace ThRoomBoundary.topo
                     if (CommonUtils.IsAlmostNearZero(bulge))
                     {
                         var line2d = polyline.GetLineSegment2dAt(i);
-                        lines.Add(line2d);
+                        lines.Add(new LineNode(line2d, polyline.Layer));
                     }
                     else
                     {
@@ -330,9 +331,9 @@ namespace ThRoomBoundary.topo
                             else
                                 arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
                             var pline = arc.Spline.ToPolyline();
-                            var lineSegment2ds = Polyline2Lines(pline as Polyline);
-                            if (lineSegment2ds != null)
-                                lines.AddRange(lineSegment2ds);
+                            var lineNodes = Polyline2Lines(pline as Polyline);
+                            if (lineNodes != null)
+                                lines.AddRange(lineNodes);
                         }
                     }
                 }
@@ -345,7 +346,7 @@ namespace ThRoomBoundary.topo
                     if (CommonUtils.IsAlmostNearZero(bulge))
                     {
                         var line2d = polyline.GetLineSegment2dAt(j);
-                        lines.Add(line2d);
+                        lines.Add(new LineNode(line2d, polyline.Layer));
                     }
                     else
                     {
@@ -361,9 +362,9 @@ namespace ThRoomBoundary.topo
                             else
                                 arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
                             var pline = arc.Spline.ToPolyline();
-                            var lineSegment2ds = Polyline2Lines(pline as Polyline);
-                            if (lineSegment2ds != null)
-                                lines.AddRange(lineSegment2ds);
+                            var lineNodes = Polyline2Lines(pline as Polyline);
+                            if (lineNodes != null)
+                                lines.AddRange(lineNodes);
                         }
                     }
                 }

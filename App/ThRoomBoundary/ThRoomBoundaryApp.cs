@@ -70,7 +70,6 @@ namespace ThRoomBoundary
 
             var wallCurves = ThRoomUtils.GetValidCurvesFromSelectArea(wallAllCurves, rectLines);
             
-
             // door 内门中的数据
             if (arcDoorLayers != null && arcDoorLayers.Count != 0)
             {
@@ -99,6 +98,7 @@ namespace ThRoomBoundary
 
             // 生成轮廓数据
             //var wallRoomDatas = TopoUtils.MakeSrcProfiles(wallCurves, rectLines);
+            //ThRoomUtils.DrawCurvesAdd(layerCurves);
             var roomDatas = TopoUtils.MakeSrcProfiles(layerCurves);
             if (roomDatas == null || roomDatas.Count == 0)
                 return;

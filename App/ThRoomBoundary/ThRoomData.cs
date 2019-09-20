@@ -64,6 +64,28 @@ namespace ThRoomBoundary
         }
 
     }
+
+    public class LineNode
+    {
+        public LineSegment2d CurLine
+        {
+            get;
+            set;
+        }
+
+        public string LayerName
+        {
+            get;
+            set;
+        }
+
+        public LineNode(LineSegment2d line2d, string layerName)
+        {
+            CurLine = line2d;
+            LayerName = layerName;
+        }
+    }
+
     class ThRoomUtils
     {
         /// <summary>
@@ -81,6 +103,8 @@ namespace ThRoomBoundary
             {
                 // 相关数据
                 var relatedCurves = BoundRelatedBoundCurves(doorBound, wallCurves);
+                //ThRoomUtils.DrawCurvesAdd(relatedCurves);
+                //ThRoomUtils.DrawCurvesAdd(doorBound);
                 // 插入数据
                 if (relatedCurves == null || relatedCurves.Count == 0)
                     continue;
@@ -177,8 +201,19 @@ namespace ThRoomBoundary
                 ptLst.Sort((p1, p2) => { return p1.X.CompareTo(p2.X); });
             }
 
-            var ptS = ptLst.First();
-            var ptE = ptLst.Last();
+            Point2d ptS;
+            Point2d ptE;
+            if (ptLst.Count > 3)
+            {
+                ptS = ptLst[1];
+                ptE = ptLst[2];
+            }
+            else
+            {
+                ptS = ptLst.First();
+                ptE = ptLst.Last();
+            }
+            
             var line = new Line(new Point3d(ptS.X, ptS.Y, 0), new Point3d(ptE.X, ptE.Y, 0));
             return line;
         }
@@ -261,11 +296,23 @@ namespace ThRoomBoundary
             }
         }
 
+        public static void DrawCurvesAdd(List<LineNode> lineNodes)
+        {
+            var line2ds = new List<LineSegment2d>();
+            var layerNames = new List<string>();
+            lineNodes.ForEach(p => 
+            {
+                line2ds.Add(p.CurLine);
+                layerNames.Add(p.LayerName);
+            });
+            DrawCurvesAdd(line2ds, layerNames);
+        }
+
         /// <summary>
         /// 绘制
         /// </summary>
         /// <param name="curves"></param>
-        public static void DrawCurvesAdd(List<LineSegment2d> line2ds)
+        public static void DrawCurvesAdd(List<LineSegment2d> line2ds, List<string> layerNames = null)
         {
             Document doc = Application.DocumentManager.MdiActiveDocument;
             var curves = new List<Curve>();
@@ -277,6 +324,14 @@ namespace ThRoomBoundary
                 var endPoint = new Point3d(endPt.X, endPt.Y, 0);
                 var line = new Line(startPoint, endPoint);
                 curves.Add(line);
+            }
+
+            if (layerNames != null)
+            {
+                for (int i = 0; i < layerNames.Count; i++)
+                {
+                    curves[i].Layer = layerNames[i];
+                }
             }
 
             foreach (var curve in curves)
@@ -507,8 +562,11 @@ namespace ThRoomBoundary
                 {
                     if (ValidBlock(block, layerNames))
                     {
-                        var bound = block.Bounds.Value;
-                        var lines = GetRectFromBound(bound);
+                        var blockCurves = GetCurvesFromBlock(block);
+                        var lines = GetBoundFromCurves(blockCurves);
+                        if (lines == null || lines.Count == 0)
+                            continue;
+
                         if (CommonUtils.OutLoopContainsInnerLoop(rectLines, lines))
                             blockBounds.Add(lines);
                     }
@@ -516,6 +574,63 @@ namespace ThRoomBoundary
             }
 
             return blockBounds;
+        }
+
+        /// <summary>
+        ///  计算curves的外包边界
+        /// </summary>
+        /// <param name="curves"></param>
+        /// <returns></returns>
+        public static List<LineSegment2d> GetBoundFromCurves(List<Curve> curves)
+        {
+            if (curves == null || curves.Count == 0)
+                return null;
+
+            var boundLines = new List<LineSegment2d>();
+            var lineNodes = TopoUtils.TesslateCurve2Lines(curves);
+            var ptLst = new List<XY>();
+            foreach (var lineNode in lineNodes)
+            {
+                var line = lineNode.CurLine;
+                var pxHead = line.StartPoint;
+                var pxEnd = line.EndPoint;
+                var ptS = new XY(pxHead.X, pxHead.Y);
+                var ptE = new XY(pxEnd.X, pxEnd.Y);
+                ptLst.Add(ptS);
+                ptLst.Add(ptE);
+            }
+
+            var leftBottom = new XY(ptLst[0].X, ptLst[0].Y);
+            var rightTop = new XY(ptLst[0].X, ptLst[0].Y);
+            for (int i = 1; i < ptLst.Count; i++)
+            {
+                if (leftBottom.X > ptLst[i].X)
+                    leftBottom.X = ptLst[i].X;
+                if (leftBottom.Y > ptLst[i].Y)
+                    leftBottom.Y = ptLst[i].Y;
+
+                if (rightTop.X < ptLst[i].X)
+                    rightTop.X = ptLst[i].X;
+                if (rightTop.Y < ptLst[i].Y)
+                    rightTop.Y = ptLst[i].Y;
+            }
+
+            leftBottom = leftBottom - new XY(10, 10);
+            rightTop = rightTop + new XY(10, 10);
+            var pt1 = new Point2d(leftBottom.X, leftBottom.Y);
+            var pt3 = new Point2d(rightTop.X, rightTop.Y);
+            var pt2 = new Point2d(pt3.X, pt1.Y);
+            var pt4 = new Point2d(pt1.X, pt3.Y);
+
+            var line1 = new LineSegment2d(pt1, pt2);
+            var line2 = new LineSegment2d(pt2, pt3);
+            var line3 = new LineSegment2d(pt3, pt4);
+            var line4 = new LineSegment2d(pt4, pt1);
+            boundLines.Add(line1);
+            boundLines.Add(line2);
+            boundLines.Add(line3);
+            boundLines.Add(line4);
+            return boundLines;
         }
 
         /// <summary>
@@ -753,7 +868,7 @@ namespace ThRoomBoundary
                         //dbText.WidthFactor = 1;
                         //var objectTextId = db.ModelSpace.Add(dbText);
                         //db.ModelSpace.Element(objectTextId, true).Layer = layerName;
-                        if (!CommonUtils.IsAlmostNearZero(room.RoomPolyline.Area, 1))
+                        //if (!CommonUtils.IsAlmostNearZero(room.RoomPolyline.Area, 1))
                         {
                             var objectPolylineId = db.ModelSpace.Add(room.RoomPolyline);
                             db.ModelSpace.Element(objectPolylineId, true).Layer = layerName;
