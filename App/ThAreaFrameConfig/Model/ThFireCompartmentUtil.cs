@@ -5,31 +5,21 @@ using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThAreaFrameConfig.Model
 {
-    public class ThFireCompartmentUtil
+    public static class ThFireCompartmentUtil
     {
-        private static string CommerceSerialNumber(ThFireCompartment compartment)
+        private static string AreaTextContent(this IntPtr frame)
         {
-            return string.Format("FC-{0}-FL{1}-{2}", compartment.Subkey, compartment.Storey, compartment.Number);
+            return string.Format("面积：{0:0.00}m\u00B2", frame.AreaEx());
         }
 
-        private static string UndergroundParkingSerialNumber(ThFireCompartment compartment)
+        public static string CommerceTextContent(this IntPtr frame, UInt16 subKey, UInt16 storey, UInt16 index)
         {
-            return string.Format("防火分区{0}", Tools.NumberToChinese(compartment.Number));
+            return CommerceSerialNumber(subKey, storey, index) + "\\P" + AreaTextContent(frame);
         }
 
-        private static string AreaTextContent(ThFireCompartment compartment)
+        public static string CommerceSerialNumber(UInt16 subKey, UInt16 storey, UInt16 index)
         {
-            return string.Format("面积：{0:0.00}m\u00B2", compartment.Area);
-        }
-
-        public static string CommerceTextContent(ThFireCompartment compartment)
-        {
-            return CommerceSerialNumber(compartment) + "\\P" + AreaTextContent(compartment);
-        }
-
-        public static string UndergroundParkingTextContent(ThFireCompartment compartment)
-        {
-            return UndergroundParkingSerialNumber(compartment) + "\\P" + AreaTextContent(compartment);
+            return string.Format("FC-{0}-FL{1}-{2}", subKey, storey, index);
         }
     }
 }

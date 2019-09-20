@@ -9,36 +9,13 @@ using TianHua.AutoCAD.Utility.ExtensionTools;
 using ThAreaFrameConfig.Model;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
+using System;
+using Autodesk.AutoCAD.Colors;
 
 namespace ThAreaFrameConfig.Presenter
 {
     public static class ThFireCompartmentHelper
     {
-        // 创建商业防火分区
-        public static bool CreateFireCompartment(ThFireCompartment compartment)
-        {
-            foreach (var frame in compartment.Frames)
-            {
-                ObjectId frameId = new ObjectId(frame.Frame);
-                frameId.CreateFireCompartmentAreaFrame(compartment);
-            }
-
-            return true;
-        }
-
-        // 填充商业防火分区
-        public static bool FillFireCompartment(ThFireCompartment compartment, Hatch hatch)
-        {
-            foreach (var frame in compartment.Frames)
-            {
-                ObjectId frameId = new ObjectId(frame.Frame);
-                frameId.FillFireCompartmentAreaFrame(hatch);
-            }
-
-            return true;
-        }
-
-
         // 修改商业防火分区
         public static bool ModifyFireCompartment(ThFireCompartment compartment)
         {
@@ -54,7 +31,7 @@ namespace ThAreaFrameConfig.Presenter
                         TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
                         if (valueList == null)
                         {
-                            frameId.CreateFireCompartmentAreaFrame(compartment);
+                            frameId.CreateFireCompartmentAreaFrame(compartment.Subkey, compartment.Storey, compartment.Index);
                         }
                         else
                         {
@@ -73,7 +50,7 @@ namespace ThAreaFrameConfig.Presenter
                     foreach (var objId in textObjIds.Distinct())
                     {
                         var text = acadDatabase.Element<MText>(objId, true);
-                        text.Contents = ThFireCompartmentUtil.CommerceTextContent(compartment);
+                        text.Contents = ThFireCompartmentUtil.CommerceSerialNumber(compartment.Subkey, compartment.Storey, compartment.Index);
                     }
 
                     // TODO:
@@ -147,7 +124,7 @@ namespace ThAreaFrameConfig.Presenter
             return true;
         }
 
-        private static bool CreateFireCompartmentAreaFrame(this ObjectId frame, ThFireCompartment compartment)
+        private static bool CreateFireCompartmentAreaFrame(this ObjectId frame, UInt16 subKey, UInt16 storey, UInt16 index)
         {
             using (Active.Document.LockDocument())
             {
@@ -167,7 +144,7 @@ namespace ThAreaFrameConfig.Presenter
                     MText mText = new MText()
                     {
                         Location = region.Centroid(),
-                        Contents = ThFireCompartmentUtil.CommerceTextContent(compartment)
+                        Contents = frame.OldIdPtr.CommerceTextContent(subKey, storey, index)
                     };
                     ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
 
@@ -195,19 +172,15 @@ namespace ThAreaFrameConfig.Presenter
                     };
                     frame.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment, valueList);
 
-                    return true;
-                }
-            }
-        }
-
-        private static bool FillFireCompartmentAreaFrame(this ObjectId frame, Hatch hatch)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    // Creating transparent hatches in AutoCAD using .NET
+                    // 填充面积框线
                     //  https://www.keanw.com/2010/06/creating-transparent-hatches-in-autocad-using-net.html
+                    Hatch hatch = new Hatch()
+                    {
+                        // Set our transparency to 50% (=127)
+                        // Alpha value is Truncate(255 * (100-n)/100)
+                        Transparency = new Transparency(127)
+                    };
+                    hatch.SetHatchPattern(HatchPatternType.PreDefined, "ANSI31");
                     ObjectId objId = acadDatabase.ModelSpace.Add(hatch);
                     var hat = acadDatabase.Element<Hatch>(objId, true);
                     hat.Associative = true;
@@ -216,13 +189,14 @@ namespace ThAreaFrameConfig.Presenter
                         frame
                     });
                     hat.EvaluateHatch(true);
+
                     return true;
                 }
             }
         }
 
         // 拾取防火分区框线
-        public static bool PickFireCompartmentFrames(ThFireCompartment compartment, string layer)
+        public static bool PickFireCompartmentFrames(UInt16 subKey, UInt16 storey, UInt16 index)
         {
             using (Active.Document.LockDocument())
             {
@@ -242,20 +216,17 @@ namespace ThAreaFrameConfig.Presenter
                     // 支持的框线类型
                     filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
                     // 只拾取指定图层上的框线
-                    filterlist[1] = new TypedValue(8, layer);
+                    filterlist[1] = new TypedValue(8, "AD-AREA-DIVD");
                     var entSelected = Active.Editor.GetSelection(new SelectionFilter(filterlist));
                     if (entSelected.Status == PromptStatus.OK)
                     {
                         foreach (var objId in entSelected.Value.GetObjectIds())
                         {
-                            compartment.Frames.Add(new ThFireCompartmentAreaFrame()
-                            {
-                                Frame = objId.OldIdPtr
-                            });
+                            // 创建防火分区
+                            objId.CreateFireCompartmentAreaFrame(subKey, storey, index++);
                         }
 
-                        // 创建防火分区
-                        CreateFireCompartment(compartment);
+                        return true;
                     }
 
                     return false;

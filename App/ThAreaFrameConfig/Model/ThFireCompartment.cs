@@ -32,21 +32,28 @@ namespace ThAreaFrameConfig.Model
 
     public class ThFireCompartment
     {
-        // ID
-        [Display(AutoGenerateField = false)]
-        public Guid ID { get; set; }
-
         // 子项编号
         public UInt16 Subkey { get; set; }
-
-        // 序号
-        public UInt16 Number { get; set; }
 
         // 楼层
         public UInt16 Storey { get; set; }
 
+        // 序号
+        public UInt16 Index { get; set; }
+
+        // 自动灭火系统
+        public bool SelfExtinguishingSystem { get; set; }
+
+        // 面积框线
+        public List<ThFireCompartmentAreaFrame> Frames;
+
         // 编号
-        public string Identifier { get; set; }
+        public string Identifier {
+            get
+            {
+                return ThFireCompartmentUtil.CommerceSerialNumber(Subkey, Storey, Index);
+            }
+        }
 
         // 面积
         public double Area
@@ -61,10 +68,13 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
-        // 自动灭火系统
-        public bool SelfExtinguishingSystem { get; set; }
-
-        // 面积框线
-        public List<ThFireCompartmentAreaFrame> Frames;
+        // 是否合并
+        public bool IsMerged
+        {
+            get
+            {
+                return Frames.Where(o => o.IsDefined).Count() > 1;
+            }
+        }
     }
 }

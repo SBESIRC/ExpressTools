@@ -7,6 +7,7 @@ using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.ViewModel;
 using ThAreaFrameConfig.Presenter;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using System.Windows.Forms;
 
 namespace ThAreaFrameConfig
 {
@@ -42,7 +43,39 @@ namespace ThAreaFrameConfig
         {
             using (var dlg = new ThFireProofingDialog())
             {
-                AcadApp.ShowModalDialog(dlg);
+                // 初始化防火分区设置
+                dlg.CommerceFireProofSettings = new ThCommerceFireProofSettings()
+                {
+                    GenerateHatch = true,
+                    Info = new ThCommerceFireProofSettings.BuildingInfo()
+                    {
+                        subKey = 13,
+                        AboveGroundStoreys = 1,
+                        fireResistance = ThCommerceFireProofSettings.FireResistance.Level1
+                    },
+                    Layers = new Dictionary<string, string>()
+                    {
+                        { "INNERFRAME", "AD-INDX"},
+                        { "OUTERFRAME", "AD-AREA-DIVD" }
+                    },
+                    Compartments = new List<ThFireCompartment>()
+                    {
+                        new ThFireCompartment()
+                        {
+                            Subkey = 13,
+                            Storey = 1,
+                            Index = 1,
+                            SelfExtinguishingSystem = true,
+                            Frames = new List<ThFireCompartmentAreaFrame>()
+                        }
+                    }
+                };
+
+                // 显示模态对话框
+                if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
+                {
+                    return;
+                }
             }
         }
 
@@ -50,53 +83,8 @@ namespace ThAreaFrameConfig
         [CommandMethod("TIANHUACAD", "THFETCLI", CommandFlags.Modal)]
         public void THFETCLI()
         {
-            // 初始化防火分区设置
-            var settings = new ThCommerceFireProofSettings()
-            {
-                GenerateHatch = true,
-                Info = new ThCommerceFireProofSettings.BuildingInfo()
-                {
-                    subKey = 13,
-                    AboveGroundStoreys = 1,
-                    fireResistance = ThCommerceFireProofSettings.FireResistance.Level1
-                },
-                Layers = new Dictionary<string, string>()
-                {
-                    { "INNERFRAME", "AD-INDX"},
-                    { "OUTERFRAME", "AD-AREA-DIVD" }
-                },
-                Compartments = new List<ThFireCompartment>()
-                {
-                    new ThFireCompartment()
-                    {
-                        Number = 1,
-                        Storey = 2,
-                        Subkey = 13,
-                        Frames = new List<ThFireCompartmentAreaFrame>()
-                    }
-                }
-            };
-
             // 创建防火分区
-            ThFireCompartmentHelper.PickFireCompartmentFrames(settings.Compartments[0], settings.Layers["OUTERFRAME"]);
-
-            // 创建防火分区填充
-            if (settings.GenerateHatch)
-            {
-                foreach(var compartment in settings.Compartments)
-                {
-                    // TODO: 创建Hatch对象
-                    //  https://www.keanw.com/2010/06/creating-transparent-hatches-in-autocad-using-net.html
-                    Hatch hatch = new Hatch()
-                    {
-                        // Set our transparency to 50% (=127)
-                        // Alpha value is Truncate(255 * (100-n)/100)
-                        Transparency = new Transparency(127)
-                    };
-                    hatch.SetHatchPattern(HatchPatternType.PreDefined, "ANSI31");
-                    ThFireCompartmentHelper.FillFireCompartment(compartment, hatch);
-                }
-            }
+            ThFireCompartmentHelper.PickFireCompartmentFrames(13, 1, 1);
         }
     }
 }
