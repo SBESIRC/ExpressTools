@@ -72,23 +72,29 @@ namespace ThRoomBoundary
             
 
             // door 内门中的数据
-            var doorBounds = ThRoomUtils.GetBoundsFromLayerBlocks(arcDoorLayers, rectLines);
-            var doorInsertCurves = ThRoomUtils.InsertDoorRelatedCurveDatas(doorBounds, wallCurves, wallLayers.First());
-
-            if (doorInsertCurves != null && doorInsertCurves.Count != 0)
+            if (arcDoorLayers != null && arcDoorLayers.Count != 0)
             {
-                //wallCurves.AddRange(doorInsertCurves);
-                layerCurves.AddRange(doorInsertCurves);
+                var doorBounds = ThRoomUtils.GetBoundsFromLayerBlocks(arcDoorLayers, rectLines);
+                var doorInsertCurves = ThRoomUtils.InsertDoorRelatedCurveDatas(doorBounds, wallCurves, arcDoorLayers.First());
+
+                if (doorInsertCurves != null && doorInsertCurves.Count != 0)
+                {
+                    //wallCurves.AddRange(doorInsertCurves);
+                    layerCurves.AddRange(doorInsertCurves);
+                }
             }
 
             // wind 中的数据
-            var windBounds = ThRoomUtils.GetBoundsFromLayerBlocks(windLayers, rectLines);
-            var windInsertCurves = ThRoomUtils.InsertDoorRelatedCurveDatas(windBounds, wallCurves, wallLayers.First());
-
-            if (windInsertCurves != null && windInsertCurves.Count != 0)
+            if (windLayers != null && windLayers.Count != 0)
             {
-                //wallCurves.AddRange(windInsertCurves);
-                layerCurves.AddRange(windInsertCurves);
+                var windBounds = ThRoomUtils.GetBoundsFromLayerBlocks(windLayers, rectLines);
+                var windInsertCurves = ThRoomUtils.InsertDoorRelatedCurveDatas(windBounds, wallCurves, windLayers.First());
+
+                if (windInsertCurves != null && windInsertCurves.Count != 0)
+                {
+                    //wallCurves.AddRange(windInsertCurves);
+                    layerCurves.AddRange(windInsertCurves);
+                }
             }
 
             // 生成轮廓数据

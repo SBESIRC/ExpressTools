@@ -140,6 +140,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_VBIDEApi_Debug" Guid="{495CBD9D-D9C9-4841-B571-F11C34578A21}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_VBIDEApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\VBIDEApi.dll" />
           </Component>
+           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RoomBoundary_Debug" Guid="{0D76BB1E-32A8-433C-94DE-E28CB71CE5A0}" Win64="yes">
+              <File Id="FILE_Autoloader_Contents_App_Win64_R18_RoomBoundary_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThRoomBoundary.dll" />
+           </Component>
         </Directory>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2014">
           <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
@@ -277,6 +280,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_VBIDEApi_Debug" Guid="{CEB342C2-301A-4828-84E1-C2907B447413}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_VBIDEApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\VBIDEApi.dll" />
           </Component>
+           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_RoomBoundary_Debug" Guid="{7128C223-81A9-4890-83C7-AAD46AFE88C4}" Win64="yes">
+              <File Id="FILE_Autoloader_Contents_App_Win64_R19_RoomBoundary_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThRoomBoundary.dll" />
+           </Component>
         </Directory>
       <?elseif $(var.Configuration) = Release ?>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R18" Name="2012">
@@ -415,6 +421,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_VBIDEApi_Release" Guid="{ADAF0843-9FB3-4F48-B3D6-D8FDBA44041F}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_VBIDEApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\VBIDEApi.dll" />
           </Component>
+           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RoomBoundary_Release" Guid="{FFCCB34A-0235-4F96-A996-D9137E3ABE02}" Win64="yes">
+              <File Id="FILE_Autoloader_Contents_App_Win64_R18_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThRoomBoundary.dll" />
+           </Component>
         </Directory>
         <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2014">
           <?define OutputPath_R19_Release="bin\Release-NET40" ?>
@@ -552,6 +561,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_VBIDEApi_Release" Guid="{F5A0FAD1-CCA6-4C0F-BCBD-B9F3F7F7BC28}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_VBIDEApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\VBIDEApi.dll" />
           </Component>
+           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_RoomBoundary_Release" Guid="{9FA4D436-A9F4-40F8-BE72-42AE9B4340BF}" Win64="yes">
+              <File Id="FILE_Autoloader_Contents_App_Win64_R19_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThRoomBoundary.dll" />
+           </Component>
         </Directory>
       <?endif?>
     </DirectoryRef>
@@ -603,6 +615,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumLight_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PowerPointApi_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_VBIDEApi_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_RoomBoundary_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Debug" />
@@ -647,6 +660,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumLight_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PowerPointApi_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_VBIDEApi_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RoomBoundary_Debug" />
       <?elseif $(var.Configuration) = Release ?>
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Release" />
@@ -692,6 +706,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumLight_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PowerPointApi_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_VBIDEApi_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_RoomBoundary_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Release" />
@@ -736,6 +751,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumLight_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PowerPointApi_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_VBIDEApi_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RoomBoundary_Release" />
       <?endif?>
     </ComponentGroup>
   </Fragment>
