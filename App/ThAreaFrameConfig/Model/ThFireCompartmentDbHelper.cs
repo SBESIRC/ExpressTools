@@ -23,8 +23,6 @@ namespace ThAreaFrameConfig.Model
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
-                    var textObjIds = new List<ObjectId>();
-                    var bboxObjIds = new List<ObjectId>();
                     foreach (var frame in compartment.Frames)
                     {
                         ObjectId frameId = new ObjectId(frame.Frame);
@@ -38,24 +36,16 @@ namespace ThAreaFrameConfig.Model
                             var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
                             if (handles.Any())
                             {
-                                // 从Object Handle到ObjectId
-                                //  https://through-the-interface.typepad.com/through_the_interface/2007/02/getting_access_.html
-                                textObjIds.Add(acadDatabase.Database.GetObjectId(false, (Handle)handles.ElementAt(0).Value, 0));
-                                bboxObjIds.Add(acadDatabase.Database.GetObjectId(false, (Handle)handles.ElementAt(1).Value, 0));
+                                // 修改防火分区标识文字
+                                ObjectId objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                                var text = acadDatabase.Element<MText>(objId, true);
+                                text.Contents.UpdateCommerceSerialNumber(compartment.Subkey, compartment.Storey, compartment.Index);
+
+                                // TODO:
+                                //  修改防火分区文字框线
                             }
                         }
                     }
-
-                    // 修改防火分区标识文字
-                    foreach (var objId in textObjIds.Distinct())
-                    {
-                        var text = acadDatabase.Element<MText>(objId, true);
-                        text.Contents = ThFireCompartmentUtil.CommerceSerialNumber(compartment.Subkey, compartment.Storey, compartment.Index);
-                    }
-
-                    // TODO:
-                    //  修改防火分区文字框线
-
                     return true;
                 }
             }
@@ -82,8 +72,8 @@ namespace ThAreaFrameConfig.Model
                         {
                             // 从Object Handle到ObjectId
                             //  https://through-the-interface.typepad.com/through_the_interface/2007/02/getting_access_.html
-                            textObjIds.Add(acadDatabase.Database.GetObjectId(false, (Handle)handles.ElementAt(0).Value, 0));
-                            bboxObjIds.Add(acadDatabase.Database.GetObjectId(false, (Handle)handles.ElementAt(1).Value, 0));
+                            textObjIds.Add(acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value));
+                            bboxObjIds.Add(acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(1).Value));
                         }
 
                         // 删除面积框线XData
@@ -108,20 +98,15 @@ namespace ThAreaFrameConfig.Model
         }
 
         // 合并商业防火分区
-        public static bool MergeFireCompartment(ThFireCompartment targetCompartment, ThFireCompartment sourceCompartment, string subKey)
+        public static void MergeFireCompartment(ThFireCompartment targetCompartment, ThFireCompartment sourceCompartment)
         {
             foreach (var frame in sourceCompartment.Frames)
             {
                 targetCompartment.Frames.Add(frame);
             }
 
-            // 删除源防火分区
-            DeleteFireCompartment(sourceCompartment);
-
             // 修改目标防火分区
             ModifyFireCompartment(targetCompartment);
-
-            return true;
         }
 
         public static bool CreateFireCompartmentAreaFrame(this ObjectId frame, UInt16 subKey, UInt16 storey, UInt16 index)
@@ -200,6 +185,7 @@ namespace ThAreaFrameConfig.Model
             return frame.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment) != null;
         }
 
+
         public static List<ThFireCompartment> CommerceFireCompartments(this Database database)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
@@ -221,14 +207,27 @@ namespace ThAreaFrameConfig.Model
                         var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
                         string[] tokens = Regex.Split(acadDatabase.Element<MText>(objId).Contents, @"\\P");
                         var compartment = new ThFireCompartment(tokens[0]);
-                        compartment.Frames.Add(new ThFireCompartmentAreaFrame()
+                        // 考虑合并的情况
+                        if (compartments.Contains(compartment))
                         {
-                            Frame = frame.ObjectId.OldIdPtr
-                        });
-                        compartments.Add(compartment);
+                            foreach(var item in compartments.Where(o => o == compartment))
+                            {
+                                item.Frames.Add(new ThFireCompartmentAreaFrame()
+                                {
+                                    Frame = frame.ObjectId.OldIdPtr
+                                });
+                            }
+                        }
+                        else
+                        {
+                            compartment.Frames.Add(new ThFireCompartmentAreaFrame()
+                            {
+                                Frame = frame.ObjectId.OldIdPtr
+                            });
+                            compartments.Add(compartment);
+                        }
                     }
                 }
-
                 return compartments;
             }
         }

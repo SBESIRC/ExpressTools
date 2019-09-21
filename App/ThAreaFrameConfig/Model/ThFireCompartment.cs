@@ -30,7 +30,7 @@ namespace ThAreaFrameConfig.Model
         }
     }
 
-    public class ThFireCompartment
+    public class ThFireCompartment : IEquatable<ThFireCompartment>
     {
         // 子项编号
         public UInt16 Subkey { get; set; }
@@ -66,6 +66,51 @@ namespace ThAreaFrameConfig.Model
             SelfExtinguishingSystem = true;
             Subkey = subKey; Storey = storey; Index = index;
             Frames = new List<ThFireCompartmentAreaFrame>();
+        }
+
+        public bool Equals(ThFireCompartment other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.SerialNumber == other.SerialNumber;
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+                return false;
+
+            ThFireCompartment compartment = obj as ThFireCompartment;
+            if (compartment != null)
+            {
+                return Equals(compartment);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.SerialNumber.GetHashCode();
+        }
+
+        public static bool operator ==(ThFireCompartment compartment1, ThFireCompartment compartment2)
+        {
+            if (((object)compartment1) == null || ((object)compartment2) == null)
+                return Object.Equals(compartment1, compartment2);
+
+            return compartment1.Equals(compartment2);
+        }
+
+        public static bool operator !=(ThFireCompartment compartment1, ThFireCompartment compartment2)
+        {
+            if (((object)compartment1) == null || ((object)compartment2) == null)
+                return !Object.Equals(compartment1, compartment2);
+
+            return !compartment1.Equals(compartment2);
         }
 
         // 编号

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using System.Linq;
-using System.Collections.Generic;
-using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThAreaFrameConfig.Model
 {
@@ -21,6 +18,13 @@ namespace ThAreaFrameConfig.Model
         public static string CommerceSerialNumber(UInt16 subKey, UInt16 storey, UInt16 index)
         {
             return string.Format("FC-{0}-FL{1}-{2}", subKey, storey, index);
+        }
+
+        public static void UpdateCommerceSerialNumber(this string contents, UInt16 subKey, UInt16 storey, UInt16 index)
+        {
+            string[] tokens = Regex.Split(contents, @"\\P");
+            tokens[0] = CommerceSerialNumber(subKey, storey, index);
+            contents = tokens[0] + "\\P" + tokens[1];
         }
 
         public static bool MatchCommerceSerialNumber(this string sn, ref UInt16 subKey, ref UInt16 storey, ref UInt16 index)

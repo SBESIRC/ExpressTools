@@ -83,9 +83,9 @@ namespace ThAreaFrameConfig
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 var compartments = acadDatabase.Database.CommerceFireCompartments();
-                foreach(var compartment in compartments)
+                if (compartments.Count == 2)
                 {
-                    //
+                    ThFireCompartmentDbHelper.MergeFireCompartment(compartments[0], compartments[1]);
                 }
             }
         }
