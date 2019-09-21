@@ -103,7 +103,7 @@
     <Compile Include="Presenter\IThAreaFramePresenter.cs" />
     <Compile Include="Presenter\IThAreaFramePresenterCallback.cs" />
     <Compile Include="Presenter\IUnderGroundParkingPresenterCallback.cs" />
-    <Compile Include="Presenter\ThFireCompartmentHelper.cs" />
+    <Compile Include="Model\ThFireCompartmentDbHelper.cs" />
     <Compile Include="Presenter\ThOutdoorParkingSpacePresenter.cs" />
     <Compile Include="Presenter\ThPickAreaFrameHelper.cs" />
     <Compile Include="Presenter\ThPlotSpacePresenter.cs" />

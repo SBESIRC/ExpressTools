@@ -1,20 +1,20 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using AcHelper;
 using DotNetARX;
 using Linq2Acad;
 using GeometryExtensions;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using ThAreaFrameConfig.Model;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using System;
 using Autodesk.AutoCAD.Colors;
 
-namespace ThAreaFrameConfig.Presenter
+namespace ThAreaFrameConfig.Model
 {
-    public static class ThFireCompartmentHelper
+    public static class ThFireCompartmentDbHelper
     {
         // 修改商业防火分区
         public static bool ModifyFireCompartment(ThFireCompartment compartment)
@@ -124,7 +124,7 @@ namespace ThAreaFrameConfig.Presenter
             return true;
         }
 
-        private static bool CreateFireCompartmentAreaFrame(this ObjectId frame, UInt16 subKey, UInt16 storey, UInt16 index)
+        public static bool CreateFireCompartmentAreaFrame(this ObjectId frame, UInt16 subKey, UInt16 storey, UInt16 index)
         {
             using (Active.Document.LockDocument())
             {
@@ -193,6 +193,49 @@ namespace ThAreaFrameConfig.Presenter
                     return true;
                 }
             }
+        }
+
+        public static bool IsFireCompartmentAreaFrame(this ObjectId frame)
+        {
+            return frame.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment) != null;
+        }
+
+        public static List<ThFireCompartment> CommerceFireCompartments(this Database database)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                var compartments = new List<ThFireCompartment>();
+                var frames = acadDatabase.ModelSpace
+                    .OfType<Curve>()
+                    .Where(o => o.Layer == "AD-AREA-DIVD" && o.ObjectId.IsFireCompartmentAreaFrame());
+                foreach (var frame in frames)
+                {
+                    TypedValueList valueList = frame.ObjectId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
+                    if (valueList == null)
+                        continue;
+
+                    var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                    if (handles.Any())
+                    {
+                        // 获取防火分区编号
+                        var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                        string[] tokens = Regex.Split(acadDatabase.Element<MText>(objId).Contents, @"\\P");
+                        var compartment = new ThFireCompartment(tokens[0]);
+                        compartment.Frames.Add(new ThFireCompartmentAreaFrame()
+                        {
+                            Frame = frame.ObjectId.OldIdPtr
+                        });
+                        compartments.Add(compartment);
+                    }
+                }
+
+                return compartments;
+            }
+        }
+
+        public static List<ThFireCompartment> UnderGroundParkingFireCompartments(this Database database)
+        {
+            return null;
         }
 
         // 拾取防火分区框线

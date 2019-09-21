@@ -47,8 +47,30 @@ namespace ThAreaFrameConfig.Model
         // 面积框线
         public List<ThFireCompartmentAreaFrame> Frames;
 
+        // 构造函数
+        public ThFireCompartment(UInt16 subKey, UInt16 storey, UInt16 index)
+        {
+            InitFireCompartment(subKey, storey, index);
+        }
+
+        // 构造函数
+        public ThFireCompartment(string sn)
+        {
+            UInt16 subKey = 0, storey = 0, index = 0;
+            sn.MatchCommerceSerialNumber(ref subKey, ref storey, ref index);
+            InitFireCompartment(subKey, storey, index);
+        }
+
+        private void InitFireCompartment(UInt16 subKey, UInt16 storey, UInt16 index)
+        {
+            SelfExtinguishingSystem = true;
+            Subkey = subKey; Storey = storey; Index = index;
+            Frames = new List<ThFireCompartmentAreaFrame>();
+        }
+
         // 编号
-        public string Identifier {
+        public string SerialNumber
+        {
             get
             {
                 return ThFireCompartmentUtil.CommerceSerialNumber(Subkey, Storey, Index);

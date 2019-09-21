@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Windows.Forms;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThAreaFrameConfig.WinForms;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.ViewModel;
-using ThAreaFrameConfig.Presenter;
+using AcHelper;
+using Linq2Acad;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
-using System.Windows.Forms;
 
 namespace ThAreaFrameConfig
 {
@@ -60,14 +60,7 @@ namespace ThAreaFrameConfig
                     },
                     Compartments = new List<ThFireCompartment>()
                     {
-                        new ThFireCompartment()
-                        {
-                            Subkey = 13,
-                            Storey = 1,
-                            Index = 1,
-                            SelfExtinguishingSystem = true,
-                            Frames = new List<ThFireCompartmentAreaFrame>()
-                        }
+                        new ThFireCompartment(13, 1, 1)
                     }
                 };
 
@@ -84,7 +77,17 @@ namespace ThAreaFrameConfig
         public void THFETCLI()
         {
             // 创建防火分区
-            ThFireCompartmentHelper.PickFireCompartmentFrames(13, 1, 1);
+            ThFireCompartmentDbHelper.PickFireCompartmentFrames(13, 1, 1);
+
+            // 获取防火分区
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var compartments = acadDatabase.Database.CommerceFireCompartments();
+                foreach(var compartment in compartments)
+                {
+                    //
+                }
+            }
         }
     }
 }
