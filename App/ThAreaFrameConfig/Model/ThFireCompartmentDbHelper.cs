@@ -54,6 +54,25 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
+        // 规整防火分区
+        //  合并后防火分区的编号不再连续，规整后防火分区的编号保存连续
+        public static void NormalizeFireCompartments(List<ThFireCompartment> compartments)
+        {
+            // 按照"子键"，“楼层”， “编号”排序
+            compartments.Sort();
+
+            // 按<子键，楼层>分组，在同一组内重新编号
+            foreach (var group in compartments.GroupBy(o => new { o.Subkey, o.Storey }))
+            {
+                UInt16 index = 0;
+                foreach(var compartment in group)
+                {
+                    compartment.Index = ++index;
+                    ModifyFireCompartment(compartment);
+                }
+            }
+        }
+
         // 删除防火分区
         public static bool DeleteFireCompartment(ThFireCompartment compartment)
         {

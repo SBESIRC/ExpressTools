@@ -82,10 +82,18 @@ namespace ThAreaFrameConfig
             // 获取防火分区
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
+                // 合并防火分区
                 var compartments = acadDatabase.Database.CommerceFireCompartments();
-                if (compartments.Count == 2)
+                if (compartments.Count == 3)
                 {
                     ThFireCompartmentDbHelper.MergeFireCompartment(compartments[0], compartments[1]);
+                }
+
+                // 规整防火分区
+                var compartments2 = acadDatabase.Database.CommerceFireCompartments();
+                if (compartments2.Count == 2)
+                {
+                    ThFireCompartmentDbHelper.NormalizeFireCompartments(compartments2);
                 }
             }
         }
