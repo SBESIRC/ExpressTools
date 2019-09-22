@@ -39,7 +39,10 @@ namespace ThAreaFrameConfig.Model
                                 // 修改防火分区标识文字
                                 ObjectId objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
                                 var text = acadDatabase.Element<MText>(objId, true);
-                                text.Contents.UpdateCommerceSerialNumber(compartment.Subkey, compartment.Storey, compartment.Index);
+                                text.Contents = text.Contents.UpdateCommerceSerialNumber(
+                                    compartment.Subkey,
+                                    compartment.Storey,
+                                    compartment.Index);
 
                                 // TODO:
                                 //  修改防火分区文字框线
@@ -98,15 +101,38 @@ namespace ThAreaFrameConfig.Model
         }
 
         // 合并商业防火分区
-        public static void MergeFireCompartment(ThFireCompartment targetCompartment, ThFireCompartment sourceCompartment)
+        public static void MergeFireCompartment(ThFireCompartment compartment1, ThFireCompartment compartment2)
         {
-            foreach (var frame in sourceCompartment.Frames)
+            if (compartment1.CompareTo(compartment2) == 0)
             {
-                targetCompartment.Frames.Add(frame);
+                return;
+            }
+            else if (compartment1.CompareTo(compartment2) < 0)
+            {
+                // compartment1 < compartment2，将compartment2合并到compartment1
+                foreach (var frame in compartment2.Frames)
+                {
+                    compartment1.Frames.Add(frame);
+                }
+
+                // 清空compartment2
+                compartment2.Frames.Clear();
+            }
+            else
+            {
+                // compartment1 > compartment2，将compartment1合并到compartment2
+                foreach(var frame in compartment1.Frames)
+                {
+                    compartment2.Frames.Add(frame);
+                }
+
+                // 清空compartment1
+                compartment1.Frames.Clear();
             }
 
-            // 修改目标防火分区
-            ModifyFireCompartment(targetCompartment);
+            // 修改防火分区
+            ModifyFireCompartment(compartment1);
+            ModifyFireCompartment(compartment2);
         }
 
         public static bool CreateFireCompartmentAreaFrame(this ObjectId frame, UInt16 subKey, UInt16 storey, UInt16 index)

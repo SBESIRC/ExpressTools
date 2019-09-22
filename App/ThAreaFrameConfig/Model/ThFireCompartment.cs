@@ -30,7 +30,7 @@ namespace ThAreaFrameConfig.Model
         }
     }
 
-    public class ThFireCompartment : IEquatable<ThFireCompartment>
+    public class ThFireCompartment : IEquatable<ThFireCompartment>, IComparable<ThFireCompartment>
     {
         // 子项编号
         public UInt16 Subkey { get; set; }
@@ -81,7 +81,9 @@ namespace ThAreaFrameConfig.Model
         public override bool Equals(Object obj)
         {
             if (obj == null)
+            {
                 return false;
+            }
 
             ThFireCompartment compartment = obj as ThFireCompartment;
             if (compartment != null)
@@ -95,6 +97,29 @@ namespace ThAreaFrameConfig.Model
         public override int GetHashCode()
         {
             return this.SerialNumber.GetHashCode();
+        }
+
+        public int CompareTo(ThFireCompartment other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+
+            // 比较子项编号
+            if (this.Subkey != other.Subkey)
+            {
+                return this.Subkey.CompareTo(other.Subkey);
+            }
+
+            // 在子项编号相等的情况下，继续比较楼层
+            if (this.Storey != other.Storey)
+            {
+                return this.Storey.CompareTo(other.Storey);
+            }
+
+            // 在楼层相等的情况下，继续比较编号
+            return this.Index.CompareTo(other.Index);
         }
 
         public static bool operator ==(ThFireCompartment compartment1, ThFireCompartment compartment2)
