@@ -6,9 +6,6 @@ namespace ThAreaFrameConfig.WinForms
 {
     public partial class ThFireProofingDialog : XtraForm
     {
-        public ThCommerceFireProofSettings CommerceFireProofSettings { get; set; }
-        public ThUndergroundGarageFireProofSettings UndergroundGarageFireProofSettings { get; set; }
-
         public ThFireProofingDialog()
         {
             InitializeComponent();

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ThAreaFrameConfig.Model;
 
-namespace ThAreaFrameConfig.ViewModel
+namespace ThAreaFrameConfig.Model
 {
     public class ThCommerceFireProofSettings
     {

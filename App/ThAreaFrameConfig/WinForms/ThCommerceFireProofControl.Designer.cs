@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox_storey = new System.Windows.Forms.TextBox();
+            this.comboBox_fire_resistance = new System.Windows.Forms.ComboBox();
+            this.textBox_sub_key = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,8 +43,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridControl_fire_compartment = new DevExpress.XtraGrid.GridControl();
+            this.gridView_fire_compartment = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
@@ -60,8 +60,8 @@
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_fire_compartment)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_fire_compartment)).BeginInit();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
@@ -69,9 +69,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.comboBox1);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.textBox_storey);
+            this.groupBox1.Controls.Add(this.comboBox_fire_resistance);
+            this.groupBox1.Controls.Add(this.textBox_sub_key);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
@@ -82,31 +82,32 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "建筑信息";
             // 
-            // textBox2
+            // textBox_storey
             // 
-            this.textBox2.Location = new System.Drawing.Point(95, 105);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(116, 22);
-            this.textBox2.TabIndex = 5;
+            this.textBox_storey.Location = new System.Drawing.Point(95, 105);
+            this.textBox_storey.Name = "textBox_storey";
+            this.textBox_storey.Size = new System.Drawing.Size(116, 22);
+            this.textBox_storey.TabIndex = 5;
             // 
-            // comboBox1
+            // comboBox_fire_resistance
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "一，二级",
+            this.comboBox_fire_resistance.FormattingEnabled = true;
+            this.comboBox_fire_resistance.Items.AddRange(new object[] {
+            "一级",
+            "二级",
             "三级",
             "四级"});
-            this.comboBox1.Location = new System.Drawing.Point(95, 66);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(116, 22);
-            this.comboBox1.TabIndex = 4;
+            this.comboBox_fire_resistance.Location = new System.Drawing.Point(95, 66);
+            this.comboBox_fire_resistance.Name = "comboBox_fire_resistance";
+            this.comboBox_fire_resistance.Size = new System.Drawing.Size(116, 22);
+            this.comboBox_fire_resistance.TabIndex = 4;
             // 
-            // textBox1
+            // textBox_sub_key
             // 
-            this.textBox1.Location = new System.Drawing.Point(95, 28);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(116, 22);
-            this.textBox1.TabIndex = 3;
+            this.textBox_sub_key.Location = new System.Drawing.Point(95, 28);
+            this.textBox_sub_key.Name = "textBox_sub_key";
+            this.textBox_sub_key.Size = new System.Drawing.Size(116, 22);
+            this.textBox_sub_key.TabIndex = 3;
             // 
             // label3
             // 
@@ -204,7 +205,7 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.gridControl1);
+            this.groupBox5.Controls.Add(this.gridControl_fire_compartment);
             this.groupBox5.Location = new System.Drawing.Point(5, 158);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(483, 344);
@@ -212,21 +213,21 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "防火分区表";
             // 
-            // gridControl1
+            // gridControl_fire_compartment
             // 
-            this.gridControl1.Location = new System.Drawing.Point(6, 21);
-            this.gridControl1.MainView = this.gridView1;
-            this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(468, 314);
-            this.gridControl1.TabIndex = 5;
-            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1});
+            this.gridControl_fire_compartment.Location = new System.Drawing.Point(6, 21);
+            this.gridControl_fire_compartment.MainView = this.gridView_fire_compartment;
+            this.gridControl_fire_compartment.Name = "gridControl_fire_compartment";
+            this.gridControl_fire_compartment.Size = new System.Drawing.Size(468, 314);
+            this.gridControl_fire_compartment.TabIndex = 5;
+            this.gridControl_fire_compartment.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView_fire_compartment});
             // 
-            // gridView1
+            // gridView_fire_compartment
             // 
-            this.gridView1.GridControl = this.gridControl1;
-            this.gridView1.Name = "gridView1";
-            this.gridView1.OptionsView.ShowGroupPanel = false;
+            this.gridView_fire_compartment.GridControl = this.gridControl_fire_compartment;
+            this.gridView_fire_compartment.Name = "gridView_fire_compartment";
+            this.gridView_fire_compartment.OptionsView.ShowGroupPanel = false;
             // 
             // groupBox6
             // 
@@ -352,8 +353,8 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl_fire_compartment)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView_fire_compartment)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox7.ResumeLayout(false);
@@ -370,9 +371,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox textBox_sub_key;
+        private System.Windows.Forms.TextBox textBox_storey;
+        private System.Windows.Forms.ComboBox comboBox_fire_resistance;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ComboBox comboBox2;
@@ -391,7 +392,7 @@
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label6;
-        private DevExpress.XtraGrid.GridControl gridControl1;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.GridControl gridControl_fire_compartment;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView_fire_compartment;
     }
 }

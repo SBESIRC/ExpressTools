@@ -44,6 +44,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\IThAOccupancyRepository.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Model\ThUndergroundGarageFireProofSettings.cs" />
     <Compile Include="View\IAOccupancyView.cs" />
     <Compile Include="View\IDatabaseReactor.cs" />
+    <Compile Include="View\IFCCommerceView.cs" />
     <Compile Include="View\IOutdoorParkingSpaceView.cs" />
     <Compile Include="View\IPlotSpaceView.cs" />
     <Compile Include="View\IPublicGreenSpaceView.cs" />

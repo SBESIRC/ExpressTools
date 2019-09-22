@@ -43,27 +43,6 @@ namespace ThAreaFrameConfig
         {
             using (var dlg = new ThFireProofingDialog())
             {
-                // 初始化防火分区设置
-                dlg.CommerceFireProofSettings = new ThCommerceFireProofSettings()
-                {
-                    GenerateHatch = true,
-                    Info = new ThCommerceFireProofSettings.BuildingInfo()
-                    {
-                        subKey = 13,
-                        AboveGroundStoreys = 1,
-                        fireResistance = ThCommerceFireProofSettings.FireResistance.Level1
-                    },
-                    Layers = new Dictionary<string, string>()
-                    {
-                        { "INNERFRAME", "AD-INDX"},
-                        { "OUTERFRAME", "AD-AREA-DIVD" }
-                    },
-                    Compartments = new List<ThFireCompartment>()
-                    {
-                        new ThFireCompartment(13, 1, 1)
-                    }
-                };
-
                 // 显示模态对话框
                 if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
                 {
