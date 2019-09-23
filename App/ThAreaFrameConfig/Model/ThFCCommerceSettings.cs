@@ -4,7 +4,7 @@ using ThAreaFrameConfig.Model;
 
 namespace ThAreaFrameConfig.Model
 {
-    public class ThCommerceFireProofSettings
+    public class ThFCCommerceSettings
     {
         public enum Density { Low, Middle, High }
         public enum FireResistance

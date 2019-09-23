@@ -38,10 +38,10 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.comboBox_inner_frame = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboBox_outer_frame = new System.Windows.Forms.ComboBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.gridControl_fire_compartment = new DevExpress.XtraGrid.GridControl();
             this.gridView_fire_compartment = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -150,7 +150,7 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.button2);
-            this.groupBox4.Controls.Add(this.comboBox3);
+            this.groupBox4.Controls.Add(this.comboBox_inner_frame);
             this.groupBox4.Location = new System.Drawing.Point(7, 81);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(241, 59);
@@ -167,18 +167,18 @@
             this.button2.TabIndex = 1;
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // comboBox3
+            // comboBox_inner_frame
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(19, 24);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(170, 22);
-            this.comboBox3.TabIndex = 0;
+            this.comboBox_inner_frame.FormattingEnabled = true;
+            this.comboBox_inner_frame.Location = new System.Drawing.Point(19, 24);
+            this.comboBox_inner_frame.Name = "comboBox_inner_frame";
+            this.comboBox_inner_frame.Size = new System.Drawing.Size(170, 22);
+            this.comboBox_inner_frame.TabIndex = 0;
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.button1);
-            this.groupBox3.Controls.Add(this.comboBox2);
+            this.groupBox3.Controls.Add(this.comboBox_outer_frame);
             this.groupBox3.Location = new System.Drawing.Point(7, 21);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(241, 54);
@@ -195,13 +195,13 @@
             this.button1.TabIndex = 1;
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // comboBox2
+            // comboBox_outer_frame
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(19, 24);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(170, 22);
-            this.comboBox2.TabIndex = 0;
+            this.comboBox_outer_frame.FormattingEnabled = true;
+            this.comboBox_outer_frame.Location = new System.Drawing.Point(19, 24);
+            this.comboBox_outer_frame.Name = "comboBox_outer_frame";
+            this.comboBox_outer_frame.Size = new System.Drawing.Size(170, 22);
+            this.comboBox_outer_frame.TabIndex = 0;
             // 
             // groupBox5
             // 
@@ -376,10 +376,10 @@
         private System.Windows.Forms.ComboBox comboBox_fire_resistance;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBox_outer_frame;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox comboBox_inner_frame;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox6;

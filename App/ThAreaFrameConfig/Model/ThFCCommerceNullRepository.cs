@@ -7,8 +7,8 @@ namespace ThAreaFrameConfig.Model
 {
     public class ThFCCommerceNullRepository
     {
-        private ThCommerceFireProofSettings settings;
-        public ThCommerceFireProofSettings Settings
+        private ThFCCommerceSettings settings;
+        public ThFCCommerceSettings Settings
         {
             get
             {
@@ -18,11 +18,11 @@ namespace ThAreaFrameConfig.Model
 
         public ThFCCommerceNullRepository()
         {
-            settings = new ThCommerceFireProofSettings()
+            settings = new ThFCCommerceSettings()
             {
                 SubKey = 13,
                 Storey = 1,
-                Resistance = ThCommerceFireProofSettings.FireResistance.Level2,
+                Resistance = ThFCCommerceSettings.FireResistance.Level2,
                 Layers = new Dictionary<string, string>()
                 {
                     { "INNERFRAME", "AD-INDX"},

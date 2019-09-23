@@ -10,8 +10,8 @@ namespace ThAreaFrameConfig.Model
     public class ThFCCommerceDbRepository
     {
         private readonly Database database;
-        private ThCommerceFireProofSettings settings;
-        public ThCommerceFireProofSettings Settings
+        private ThFCCommerceSettings settings;
+        public ThFCCommerceSettings Settings
         {
             get
             {
@@ -59,12 +59,12 @@ namespace ThAreaFrameConfig.Model
         private void ConstructFireCompartments()
         {
             var compartments = database.CommerceFireCompartments();
-            settings = new ThCommerceFireProofSettings()
+            settings = new ThFCCommerceSettings()
             {
                 Compartments = compartments,
                 SubKey = 13,
                 Storey = 1,
-                Resistance = ThCommerceFireProofSettings.FireResistance.Level1,
+                Resistance = ThFCCommerceSettings.FireResistance.Level1,
                 Layers = new Dictionary<string, string>()
                 {
                     { "INNERFRAME", "AD-INDX"},

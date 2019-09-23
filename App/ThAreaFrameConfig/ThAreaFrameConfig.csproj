@@ -118,7 +118,7 @@
     <Compile Include="Presenter\ThUnderGroundParkingPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThAreaFrameConfigApp.cs" />
-    <Compile Include="Model\ThCommerceFireProofSettings.cs" />
+    <Compile Include="Model\ThFCCommerceSettings.cs" />
     <Compile Include="Model\ThUndergroundGarageFireProofSettings.cs" />
     <Compile Include="View\IAOccupancyView.cs" />
     <Compile Include="View\IDatabaseReactor.cs" />

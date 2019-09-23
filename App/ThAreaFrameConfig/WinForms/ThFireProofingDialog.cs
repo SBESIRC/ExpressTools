@@ -16,13 +16,5 @@ namespace ThAreaFrameConfig.WinForms
             //TODO: add code here 
             base.OnLoad(e);
         }
-
-        public ThCommerceFireProofSettings CommerceFireProofSettings
-        {
-            get
-            {
-                return commerceFireProofControl.Settings;
-            }
-        }
     }
 }

@@ -13,6 +13,7 @@ namespace ThAreaFrameConfig.WinForms
 {
     public partial class ThCommerceFireProofControl : XtraUserControl, IFCCommerceView
     {
+        private BindingSource bindingSource;
         private ThFCCommerceNullRepository DbRepository;
         //private ThFCCommerceDbRepository DbRepository;
 
@@ -23,7 +24,7 @@ namespace ThAreaFrameConfig.WinForms
             InitializeDataBindings();
         }
 
-        public ThCommerceFireProofSettings Settings
+        public ThFCCommerceSettings Settings
         {
             get
             {
@@ -60,23 +61,69 @@ namespace ThAreaFrameConfig.WinForms
             gridControl_fire_compartment.RefreshDataSource();
         }
 
+        public List<string> Layers
+        {
+            get
+            {
+                var layers = new List<string>();
+                foreach (var description in AcadApp.UIBindings.Collections.Layers)
+                {
+                    var properties = description.GetProperties();
+                    layers.Add((string)properties["Name"].GetValue(description));
+
+                }
+                return layers;
+            }
+        }
+
         public void InitializeDataBindings()
         {
+            // 创建BindingSource
+            bindingSource = new BindingSource()
+            {
+                DataSource = Settings
+            };
+
             // 子项编号
             textBox_sub_key.DataBindings.Add(
-                "Text", 
-                DbRepository,
-                "Settings.SubKey", 
+                "Text",
+                bindingSource,
+                "SubKey", 
                 true, 
                 DataSourceUpdateMode.OnPropertyChanged);
 
             // 地上层数
             textBox_storey.DataBindings.Add(
                 "Text",
-                DbRepository,
-                "Settings.Storey",
+                bindingSource,
+                "Storey",
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
+
+            // 耐火等级
+            comboBox_fire_resistance.SelectedIndex = (int)Settings.Resistance;
+
+            // 指定外框线图层
+            comboBox_outer_frame.DataSource = Layers;
+            if (Layers.Contains(Settings.Layers["OUTERFRAME"]))
+            {
+                comboBox_outer_frame.SelectedItem = Settings.Layers["OUTERFRAME"];
+            }
+            else
+            {
+                comboBox_outer_frame.SelectedItem = "0";
+            }
+
+            // 指定内框线图层
+            comboBox_inner_frame.DataSource = Layers;
+            if (Layers.Contains(Settings.Layers["INNERFRAME"]))
+            {
+                comboBox_inner_frame.SelectedItem = Settings.Layers["INNERFRAME"];
+            }
+            else
+            {
+                comboBox_inner_frame.SelectedItem = "0";
+            }
         }
     }
 }
