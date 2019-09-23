@@ -856,20 +856,20 @@ namespace ThRoomBoundary
                 {
                     if (room.ValidData)
                     {
-                        //var area = (int)room.Area;
-                        //var pos = room.Pos;
-                        //var dbText = new DBText();
-                        //if (textId != ObjectId.Null)
-                        //    dbText.TextStyleId = textId;
-                        //dbText.TextString = area.ToString();
-                        //dbText.Position = pos;
-                        //dbText.Height = 200;
-                        //dbText.Thickness = 1;
-                        //dbText.WidthFactor = 1;
-                        //var objectTextId = db.ModelSpace.Add(dbText);
-                        //db.ModelSpace.Element(objectTextId, true).Layer = layerName;
-                        //if (!CommonUtils.IsAlmostNearZero(room.RoomPolyline.Area, 1))
+                        if (!CommonUtils.IsAlmostNearZero(room.RoomPolyline.Area, 2600000))
                         {
+                            var area = (int)room.RoomPolyline.Area;
+                            var pos = room.Pos;
+                            var dbText = new DBText();
+                            if (textId != ObjectId.Null)
+                                dbText.TextStyleId = textId;
+                            dbText.TextString = area.ToString();
+                            dbText.Position = pos;
+                            dbText.Height = 200;
+                            dbText.Thickness = 1;
+                            dbText.WidthFactor = 1;
+                            var objectTextId = db.ModelSpace.Add(dbText);
+                            db.ModelSpace.Element(objectTextId, true).Layer = layerName;
                             var objectPolylineId = db.ModelSpace.Add(room.RoomPolyline);
                             db.ModelSpace.Element(objectPolylineId, true).Layer = layerName;
                         }

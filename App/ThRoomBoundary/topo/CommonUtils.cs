@@ -400,7 +400,7 @@ namespace ThRoomBoundary.topo
             var ptE = edge.End;
             var ptSadd = ptS - vec;
             var ptEadd = ptE - vec;
-            return new TopoEdge(ptSadd, ptEadd, CommonUtils.Vector2XY(ptSadd - ptEadd), edge.LayerName);
+            return new TopoEdge(ptSadd, ptEadd, CommonUtils.Vector2XY(ptSadd - ptEadd),(ptSadd - ptEadd).Length, edge.LayerName);
         }
 
         public static Line LineDecVector(Line line, Vector3d vec)

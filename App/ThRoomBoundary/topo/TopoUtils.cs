@@ -69,7 +69,7 @@ namespace ThRoomBoundary.topo
     /// </summary>
     class RoomDataInner
     {
-        public RoomDataInner(List<LineSegment2d> lines, Point2d pos, double area)
+        public RoomDataInner(List<LineSegment2d> lines, Point2d pos, double area = 0)
         {
             Lines = lines;
             Pos = pos;
@@ -168,15 +168,16 @@ namespace ThRoomBoundary.topo
                 var polyline = new Polyline();
                 polyline.Closed = true;
                 var lines = room.Lines;
-                var drawLines = new List<Line>();
-                foreach (var line in lines)
-                {
-                    drawLines.Add(CommonUtils.LineDecVector(line, new Vector3d(0, -50000, 0)));
-                }
+                //// 偏移面积框线
+                //var drawLines = new List<Line>();
+                //foreach (var line in lines)
+                //{
+                //    drawLines.Add(CommonUtils.LineDecVector(line, new Vector3d(0, -50000, 0)));
+                //}
 
-                for (int i = 0; i < drawLines.Count; i++)
+                for (int i = 0; i < lines.Count; i++)
                 {
-                    var point = drawLines[i].StartPoint;
+                    var point = lines[i].StartPoint;
                     polyline.AddVertexAt(i, new Point2d(point.X, point.Y), 0, 0, 0);
                 }
 
