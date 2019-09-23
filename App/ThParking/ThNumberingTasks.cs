@@ -147,45 +147,45 @@ namespace TianHua.AutoCAD.Parking
                 {
                     WithTrans(() =>
                     {
-                    //得到所有锁定的图层
-                    var lockLayers = new List<string>();
+                        //得到所有锁定的图层
+                        var lockLayers = new List<string>();
                         lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name).ToList();
 
-                   
-                    //确定要拾取的车位类型，只允许块参照被选中,只允许不被锁定的图层被选中
-                    var blocks = SelectionTool.DocChoose<BlockReference>(() =>
-                    {
-                        return ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要编号的车位块类型" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers)));
 
-                    });
+                        //确定要拾取的车位类型，只允许块参照被选中,只允许不被锁定的图层被选中
+                        var blocks = SelectionTool.DocChoose<BlockReference>(() =>
+                        {
+                            return ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要编号的车位块类型" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers)));
+
+                        });
                         if (blocks == null)
                         {
                             return;
                         }
-                    //获取图标临时文件夹路径
-                    string tempDirName = GetTempDirectory().FullName;
+                        //获取图标临时文件夹路径
+                        string tempDirName = GetTempDirectory().FullName;
 
-                    //去重复，并计算输出图像路径
-                    var parkingLotInfors = blocks.Distinct(new CompareElemnet<BlockReference>((i, j) => i.Name == j.Name)).Select(b => new ParkingLotInfo(b.Name, tempDirName + "\\" + b.Name + ".bmp", b.BlockTableRecord.GetObject(OpenMode.ForWrite) as BlockTableRecord));
-
-
-                    //找到已有的，加上新添加的，绑定到车位listview
-                    result = viewModel.ParkingLotInfos.Union(parkingLotInfors, new CompareElemnet<ParkingLotInfo>((i, j) => i.Name == j.Name)).ToList();
+                        //去重复，并计算输出图像路径
+                        var parkingLotInfors = blocks.Distinct(new CompareElemnet<BlockReference>((i, j) => i.Name == j.Name)).Select(b => new ParkingLotInfo(b.Name, tempDirName + "\\" + b.Name + ".bmp", b.BlockTableRecord.GetObject(OpenMode.ForWrite) as BlockTableRecord));
 
 
-                    //var realLots = result.Except(result.Join(viewModel.ParkingLotInfos, p1 => p1, p2 => p2, (p1, p2) => p1));
-                    //foreach (var item in realLots)
-                    //{
-                    //    viewModel.ParkingLotInfos.Add(item);
-                    //}
+                        //找到已有的，加上新添加的，绑定到车位listview
+                        result = viewModel.ParkingLotInfos.Union(parkingLotInfors, new CompareElemnet<ParkingLotInfo>((i, j) => i.Name == j.Name)).ToList();
 
-                });
+
+                        //var realLots = result.Except(result.Join(viewModel.ParkingLotInfos, p1 => p1, p2 => p2, (p1, p2) => p1));
+                        //foreach (var item in realLots)
+                        //{
+                        //    viewModel.ParkingLotInfos.Add(item);
+                        //}
+
+                    });
 
                 }
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message+"\n"+ex.Source+"\n"+ex.StackTrace);
+                System.Windows.Forms.MessageBox.Show(ex.Message + "\n" + ex.Source + "\n" + ex.StackTrace);
             }
 
 
@@ -284,15 +284,13 @@ namespace TianHua.AutoCAD.Parking
             //进入拾取模式
             if (resPoint.Status == PromptStatus.Keyword)
             {
-                var res = ed.GetEntity("请拾取车位轨迹多段线");
-                if (res.Status== PromptStatus.Cancel)
+                var ent = SelectionTool.DocChoose<Polyline>(() => ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "\n请拾取车位轨迹多段线", SingleOnly = true }, OpFilter.Bulid(fil => fil.Dxf(0) == "lwpolyline")));
+
+                if (ent == null)
                 {
                     return null;
                 }
-                using (var tr = doc.Database.TransactionManager.StartOpenCloseTransaction())
-                {
-                    return res.ObjectId.GetObjectByID<Polyline>(tr);
-                }
+                return ent.First();
             }
 
 
