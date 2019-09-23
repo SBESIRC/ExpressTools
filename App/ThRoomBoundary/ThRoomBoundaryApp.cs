@@ -41,19 +41,19 @@ namespace ThRoomBoundary
             if (rectLines == null || rectLines.Count == 0)
                 return;
 
-            //// 是否插入面积值
-            //Document doc = Application.DocumentManager.MdiActiveDocument;
-            //Editor ed = doc.Editor;
-            //PromptKeywordOptions getWhichOptions = new PromptKeywordOptions("是否在框线内插入面积值? [YES(Y)/NO(N)]", "YES NO");
-            //getWhichOptions.Keywords.Add("Y");
-            //getWhichOptions.Keywords.Add("N");
-            //getWhichOptions.Keywords.Default = "Y";
-            //PromptResult getWhichResult = ed.GetKeywords(getWhichOptions);
-            //if ((getWhichResult.Status == PromptStatus.OK))
-            //{
-            //    if (getWhichResult.StringResult != "YES")
-            //        return;
-            //}
+            // 是否插入面积值
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Editor ed = doc.Editor;
+            PromptKeywordOptions getWhichOptions = new PromptKeywordOptions("是否在框线内插入面积值? [YES(Y)/NO(N)]", "YES NO");
+            getWhichOptions.Keywords.Add("Y");
+            getWhichOptions.Keywords.Add("N");
+            getWhichOptions.Keywords.Default = "Y";
+            PromptResult getWhichResult = ed.GetKeywords(getWhichOptions);
+            if ((getWhichResult.Status == PromptStatus.OK))
+            {
+                if (getWhichResult.StringResult != "YES")
+                    return;
+            }
 
             // 获取相关图层中的数据
             // 所有数据

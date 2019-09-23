@@ -19,6 +19,7 @@ namespace ThRoomBoundary.topo
         private XY m_dir = null;
         private bool m_bUse = false;
         private string m_layerName;
+        private double m_length = 0;
 
         public string LayerName
         {
@@ -32,20 +33,29 @@ namespace ThRoomBoundary.topo
             set { m_bUse = true; }
         }
 
-        public TopoEdge(LineSegment2d srcLine, string layerName = AddLayerName)
+        public double Length
+        {
+            get { return m_length; }
+            set { m_length = value; }
+        }
+
+
+        public TopoEdge(LineSegment2d srcLine, double length, string layerName = AddLayerName)
         {
             m_start = srcLine.StartPoint;
             m_end = srcLine.EndPoint;
             m_dir = CommonUtils.Vector2XY(srcLine.Direction);
             m_layerName = layerName;
+            m_length = length;
         }
 
-        public TopoEdge(Point2d start, Point2d end, XY dir, string layerName)
+        public TopoEdge(Point2d start, Point2d end, XY dir, double length, string layerName)
         {
             m_start = start;
             m_end = end;
             m_dir = dir;
             m_layerName = layerName;
+            m_length = length;
         }
 
         public TopoEdge Pair
@@ -77,8 +87,8 @@ namespace ThRoomBoundary.topo
             var srcLine = lineNode.CurLine;
             var srcLineS = srcLine.StartPoint;
             var srcLineE = srcLine.EndPoint;
-            TopoEdge curEdge = new TopoEdge(srcLineS, srcLineE, CommonUtils.Vector2XY(srcLine.Direction), lineNode.LayerName);
-            TopoEdge pairEdge = new TopoEdge(srcLineE, srcLineS, CommonUtils.Vector2XY(srcLine.Direction.Negate()), lineNode.LayerName);
+            TopoEdge curEdge = new TopoEdge(srcLineS, srcLineE, CommonUtils.Vector2XY(srcLine.Direction), srcLine.Length, lineNode.LayerName);
+            TopoEdge pairEdge = new TopoEdge(srcLineE, srcLineS, CommonUtils.Vector2XY(srcLine.Direction.Negate()), srcLine.Length, lineNode.LayerName);
             curEdge.Pair = pairEdge;
             pairEdge.Pair = curEdge;
             topoEdges.Add(curEdge);
@@ -278,8 +288,8 @@ namespace ThRoomBoundary.topo
                 }
 
                 var pos = CommonUtils.CalculateLineSegment2dPos(profile);
-                var area = CommonUtils.CalcuLoopArea(profile);
-                curveLoops.Add(new RoomDataInner(profile, pos, area));
+                //var area = CommonUtils.CalcuLoopArea(profile);
+                curveLoops.Add(new RoomDataInner(profile, pos));
             }
 
             return curveLoops;
@@ -857,6 +867,32 @@ namespace ThRoomBoundary.topo
         }
 
         /// <summary>
+        /// 根据墙线的比例值来确定是否是有效的
+        /// </summary>
+        /// <param name="topoEdges"></param>
+        /// <returns></returns>
+        public static bool IsValidLoopFromRatio(List<TopoEdge> topoEdges)
+        {
+            double wallLength = 0;
+            double profileLength = 0;
+            foreach (var edge in topoEdges)
+            {
+                if (edge.LayerName.Contains("AE-WALL"))
+                {
+                    wallLength += edge.Length;
+                }
+
+                profileLength += edge.Length;
+            }
+
+            var ratio = wallLength / profileLength;
+            // 大于0.7且不等于1
+            if (ratio > 0.7 && !CommonUtils.IsAlmostNearZero(ratio - 100))
+                return true;
+            return false;
+        }
+
+        /// <summary>
         /// 不包含墙，柱子构成的轮廓
         /// </summary>
         /// <param name="topoEdges"></param>
@@ -875,8 +911,25 @@ namespace ThRoomBoundary.topo
             return false;
         }
 
+        public static bool IsLengthGreate(List<TopoEdge> topoEdges, double toleranceLength)
+        {
+            double length = 0;
+            foreach (var edge in topoEdges)
+            {
+                length += edge.Length;
+            }
+
+            if (length > toleranceLength)
+                return true;
+            return false;
+        }
+
+
         public static bool IsValidLoops(List<TopoEdge> topoEdges)
         {
+            if (!IsLengthGreate(topoEdges, 5000))
+                return false;
+
             if (IsAllColumns(topoEdges))
                 return false;
 
