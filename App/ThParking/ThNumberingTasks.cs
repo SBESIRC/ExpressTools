@@ -141,25 +141,27 @@ namespace TianHua.AutoCAD.Parking
             Editor ed = doc.Editor;
 
             var result = new List<ParkingLotInfo>();
-            using (doc.LockDocument())
+            try
             {
-                WithTrans(() =>
+                using (doc.LockDocument())
                 {
+                    WithTrans(() =>
+                    {
                     //得到所有锁定的图层
                     var lockLayers = new List<string>();
-                    lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name).ToList();
+                        lockLayers = db.GetAllLayers().Where(la => la.IsLocked).Select(la => la.Name).ToList();
 
-
+                   
                     //确定要拾取的车位类型，只允许块参照被选中,只允许不被锁定的图层被选中
                     var blocks = SelectionTool.DocChoose<BlockReference>(() =>
-                {
-                    return ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要编号的车位块类型" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers)));
-
-                });
-                    if (blocks == null)
                     {
-                        return;
-                    }
+                        return ed.GetSelection(new PromptSelectionOptions() { MessageForAdding = "请选择需要编号的车位块类型" }, OpFilter.Bulid(fil => fil.Dxf(0) == "insert" & fil.Dxf(8) != string.Join(",", lockLayers)));
+
+                    });
+                        if (blocks == null)
+                        {
+                            return;
+                        }
                     //获取图标临时文件夹路径
                     string tempDirName = GetTempDirectory().FullName;
 
@@ -179,6 +181,11 @@ namespace TianHua.AutoCAD.Parking
 
                 });
 
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message+"\n"+ex.Source+"\n"+ex.StackTrace);
             }
 
 
@@ -264,13 +271,31 @@ namespace TianHua.AutoCAD.Parking
             Polyline polyEnt = null;
             ObjectId polyEntId = ObjectId.Null; //声明多段线的ObjectId
                                                 //定义第一个点的用户交互类
-            PromptPointOptions optPoint = new PromptPointOptions("\n请在屏幕绘制车位编号轨迹线的第一个点");
+            PromptPointOptions optPoint = new PromptPointOptions("\n请在屏幕绘制车位编号轨迹线的第一个点或[拾取车位轨迹多段线(P)]");
             optPoint.AllowNone = true; //允许用户回车响应
-                                       //返回点的用户提示类
+            //为点交互类添加关键字
+            optPoint.Keywords.Add("P");
+
+            //返回点的用户提示类
             PromptPointResult resPoint = ed.GetPoint(optPoint);
             //用户按下ESC键，退出
             if (resPoint.Status == PromptStatus.Cancel)
                 return null;
+            //进入拾取模式
+            if (resPoint.Status == PromptStatus.Keyword)
+            {
+                var res = ed.GetEntity("请拾取车位轨迹多段线");
+                if (res.Status== PromptStatus.Cancel)
+                {
+                    return null;
+                }
+                using (var tr = doc.Database.TransactionManager.StartOpenCloseTransaction())
+                {
+                    return res.ObjectId.GetObjectByID<Polyline>(tr);
+                }
+            }
+
+
             Point3d ptStart; //声明第一个输入点
                              //用户按回车键
             if (resPoint.Status == PromptStatus.None)
