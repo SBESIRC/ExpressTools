@@ -1,5 +1,5 @@
 ﻿using System;
-using ThAreaFrameConfig.ViewModel;
+using ThAreaFrameConfig.Model;
 using DevExpress.XtraEditors;
 
 namespace ThAreaFrameConfig.WinForms
@@ -15,6 +15,14 @@ namespace ThAreaFrameConfig.WinForms
         {
             //TODO: add code here 
             base.OnLoad(e);
+        }
+
+        public ThCommerceFireProofSettings CommerceFireProofSettings
+        {
+            get
+            {
+                return commerceFireProofControl.Settings;
+            }
         }
     }
 }

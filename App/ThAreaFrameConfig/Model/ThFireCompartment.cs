@@ -6,6 +6,7 @@ using Linq2Acad;
 
 namespace ThAreaFrameConfig.Model
 {
+    [Serializable()]
     public class ThFireCompartmentAreaFrame
     {
         // 面积
@@ -30,6 +31,7 @@ namespace ThAreaFrameConfig.Model
         }
     }
 
+    [Serializable()]
     public class ThFireCompartment : IEquatable<ThFireCompartment>, IComparable<ThFireCompartment>
     {
         // 子项编号

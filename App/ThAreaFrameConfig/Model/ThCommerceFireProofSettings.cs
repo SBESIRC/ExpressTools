@@ -7,16 +7,18 @@ namespace ThAreaFrameConfig.Model
     public class ThCommerceFireProofSettings
     {
         public enum Density { Low, Middle, High }
-        public enum FireResistance { Level1, Level2, Level3, Level4 }
-        public struct BuildingInfo
+        public enum FireResistance
         {
-            public UInt16 subKey;
-            public FireResistance fireResistance;
-            public UInt16 AboveGroundStoreys;
-        };
+            Level1 = 0,
+            Level2 = 1,
+            Level3 = 2,
+            Level4 = 3
+        }
 
         // 建筑信息
-        public BuildingInfo Info { get; set; }
+        public UInt16 SubKey { get; set; }
+        public UInt16 Storey { get; set; }
+        public FireResistance Resistance { get; set; }
 
         // 图层
         public Dictionary<string, string> Layers { get; set; }

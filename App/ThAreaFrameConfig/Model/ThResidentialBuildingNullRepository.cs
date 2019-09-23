@@ -24,5 +24,10 @@
                 Layer = "",
             };
         }
+
+        public void AppendDefaultFireCompartment()
+        {
+            //
+        }
     }
 }

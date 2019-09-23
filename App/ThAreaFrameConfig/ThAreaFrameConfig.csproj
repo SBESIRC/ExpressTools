@@ -61,6 +61,7 @@
     <Compile Include="Model\ThAOccupancyNullRepository.cs" />
     <Compile Include="Model\ThAOccupancyStorey.cs" />
     <Compile Include="Model\ThAreaFrameDbExtension.cs" />
+    <Compile Include="Model\ThFCCommerceNullRepository.cs" />
     <Compile Include="Model\ThFCUnderGroundParkingDbRepository.cs" />
     <Compile Include="Model\ThFireCompartment.cs" />
     <Compile Include="Model\ThFCCommerceDbRepository.cs" />

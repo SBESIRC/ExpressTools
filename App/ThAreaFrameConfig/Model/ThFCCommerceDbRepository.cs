@@ -61,19 +61,16 @@ namespace ThAreaFrameConfig.Model
             var compartments = database.CommerceFireCompartments();
             settings = new ThCommerceFireProofSettings()
             {
-                GenerateHatch = false,
                 Compartments = compartments,
-                Info = new ThCommerceFireProofSettings.BuildingInfo()
-                {
-                    subKey = 13,
-                    AboveGroundStoreys = 1,
-                    fireResistance = ThCommerceFireProofSettings.FireResistance.Level1
-                },
+                SubKey = 13,
+                Storey = 1,
+                Resistance = ThCommerceFireProofSettings.FireResistance.Level1,
                 Layers = new Dictionary<string, string>()
                 {
                     { "INNERFRAME", "AD-INDX"},
                     { "OUTERFRAME", "AD-AREA-DIVD" }
                 },
+                GenerateHatch = false,
             };
         }
     }
