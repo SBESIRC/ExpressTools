@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.View;
+using AcHelper;
+using Autodesk.AutoCAD.EditorInput;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -17,9 +20,9 @@ namespace ThAreaFrameConfig.Presenter
 
         public object UI => compartmentView;
 
-        public bool OnPickAreaFrames(string name)
+        public bool OnPickAreaFrames(ThFireCompartment compartment, string name)
         {
-            return this.PickAreaFrames(name);
+            return this.PickAreaFrames(compartment, name);
         }
     }
 }

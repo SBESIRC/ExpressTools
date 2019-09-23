@@ -1,14 +1,14 @@
-﻿using System;
-using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.DatabaseServices;
-using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
-using DevExpress.XtraEditors;
+﻿using DevExpress.XtraEditors;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.View;
 using ThAreaFrameConfig.Presenter;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using DevExpress.XtraGrid.Views.Grid;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Runtime;
+using AcHelper;
+using System;
 
 namespace ThAreaFrameConfig.WinForms
 {
@@ -16,8 +16,7 @@ namespace ThAreaFrameConfig.WinForms
     {
         private BindingSource bindingSource;
         private ThFCCommercePresenter Presenter;
-        private ThFCCommerceNullRepository DbRepository;
-        //private ThFCCommerceDbRepository DbRepository;
+        private ThFCCommerceDbRepository DbRepository;
 
         public ThCommerceFireProofControl()
         {
@@ -49,8 +48,7 @@ namespace ThAreaFrameConfig.WinForms
 
         public void Reload()
         {
-            DbRepository = new ThFCCommerceNullRepository();
-            DbRepository.AppendDefaultFireCompartment();
+            DbRepository.ReloadFireCompartments();
             gridControl_fire_compartment.DataSource = Settings.Compartments;
             gridControl_fire_compartment.RefreshDataSource();
         }
@@ -58,7 +56,7 @@ namespace ThAreaFrameConfig.WinForms
         public void InitializeGridControl()
         {
             Presenter = new ThFCCommercePresenter(this);
-            DbRepository = new ThFCCommerceNullRepository();
+            DbRepository = new ThFCCommerceDbRepository();
             DbRepository.AppendDefaultFireCompartment();
             gridControl_fire_compartment.DataSource = Settings.Compartments;
             gridControl_fire_compartment.RefreshDataSource();
@@ -154,11 +152,23 @@ namespace ThAreaFrameConfig.WinForms
                 string name = Settings.Layers["OUTERFRAME"];
 
                 // 选取面积框线
-                if (Presenter.OnPickAreaFrames(name))
+                using (EditorUserInteraction inter = Active.Editor.StartUserInteraction(FindForm()))
                 {
-                    // 更新界面
-                    this.Reload();
+                    if (Presenter.OnPickAreaFrames(compartment, name))
+                    {
+                        // 更新界面
+                        this.Reload();
+                    }
                 }
+            }
+        }
+
+        private void gridView_fire_compartment_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
+        {
+            if (e.Column.FieldName == "Area" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+            {
+                double area = Convert.ToDouble(e.Value);
+                e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
             }
         }
     }

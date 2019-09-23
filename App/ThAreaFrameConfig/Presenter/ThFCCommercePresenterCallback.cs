@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ThAreaFrameConfig.Presenter
 {
-    public interface ThFCCommercePresenterCallback : IThFireCompartmentPresenterCallback
+    public interface IThFCCommercePresenterCallback : IThFireCompartmentPresenterCallback
     {
         //
     }

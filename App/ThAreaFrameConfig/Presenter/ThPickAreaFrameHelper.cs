@@ -7,6 +7,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using System.Collections.Generic;
+using ThAreaFrameConfig.Model;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -74,8 +75,29 @@ namespace ThAreaFrameConfig.Presenter
             }
         }
 
-        public static bool PickAreaFrames(this IThFireCompartmentPresenterCallback presenterCallback, string name)
+        public static bool PickAreaFrames(this IThFireCompartmentPresenterCallback presenterCallback,
+            ThFireCompartment compartment,
+            string name)
         {
+            // SelectionFilter
+            //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
+            TypedValue[] filterlist = new TypedValue[2];
+            // 支持的框线类型
+            filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
+            // 只拾取指定图层上的框线
+            filterlist[1] = new TypedValue(8, name);
+            var entSelected = Active.Editor.GetSelection(new SelectionFilter(filterlist));
+            if (entSelected.Status == PromptStatus.OK)
+            {
+                foreach (var objId in entSelected.Value.GetObjectIds())
+                {
+                    // 创建防火分区
+                    objId.CreateFireCompartmentAreaFrame(compartment.Subkey, compartment.Storey, compartment.Index++);
+                }
+
+                return true;
+            }
+
             return false;
         }
 
