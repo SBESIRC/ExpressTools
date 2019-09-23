@@ -8,6 +8,7 @@ using ThAreaFrameConfig.View;
 using ThAreaFrameConfig.Presenter;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using DevExpress.XtraGrid.Views.Grid;
 
 namespace ThAreaFrameConfig.WinForms
 {
@@ -108,6 +109,46 @@ namespace ThAreaFrameConfig.WinForms
             else
             {
                 comboBox_inner_frame.SelectedItem = "0";
+            }
+        }
+
+        private void gridView_fire_compartment_CustomUnboundColumnData(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDataEventArgs e)
+        {
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+            if (e.Column.FieldName != "gridColumn_pick")
+            {
+                return;
+            }
+            if (e.IsGetData)
+            {
+                ThFireCompartment compartment = e.Row as ThFireCompartment;
+                e.Value = compartment.IsDefined ? "" : "选择";
+            }
+        }
+
+        private void gridView_fire_compartment_RowClick(object sender, RowClickEventArgs e)
+        {
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+            if (e.HitInfo.Column == null)
+            {
+                return;
+            }
+            if (e.HitInfo.Column.FieldName != "gridColumn_pick")
+            {
+                return;
+            }
+
+            GridView gridView = sender as GridView;
+            ThFireCompartment compartment = gridView.GetRow(e.RowHandle) as ThFireCompartment;
+            if (!compartment.IsDefined)
+            {
+                //
             }
         }
     }

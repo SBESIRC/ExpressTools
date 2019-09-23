@@ -170,5 +170,14 @@ namespace ThAreaFrameConfig.Model
                 return Frames.Where(o => o.IsDefined).Count() > 1;
             }
         }
+
+        // 是否定义
+        public bool IsDefined
+        {
+            get
+            {
+                return Frames.Where(o => o.IsDefined).Count() > 0;
+            }
+        }
     }
 }

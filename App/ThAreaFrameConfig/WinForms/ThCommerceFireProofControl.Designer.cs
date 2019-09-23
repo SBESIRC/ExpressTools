@@ -49,6 +49,7 @@
             this.gridColumn_storey = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_serial_number = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -60,6 +61,7 @@
             this.radioButton5 = new System.Windows.Forms.RadioButton();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -71,6 +73,7 @@
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -225,7 +228,8 @@
             this.gridControl_fire_compartment.MainView = this.gridView_fire_compartment;
             this.gridControl_fire_compartment.Name = "gridControl_fire_compartment";
             this.gridControl_fire_compartment.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemComboBox1});
+            this.repositoryItemComboBox1,
+            this.repositoryItemHyperLinkEdit1});
             this.gridControl_fire_compartment.Size = new System.Drawing.Size(468, 228);
             this.gridControl_fire_compartment.TabIndex = 5;
             this.gridControl_fire_compartment.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -237,7 +241,8 @@
             this.gridColumn_number,
             this.gridColumn_storey,
             this.gridColumn_serial_number,
-            this.gridColumn_area});
+            this.gridColumn_area,
+            this.gridColumn_pick});
             this.gridView_fire_compartment.GridControl = this.gridControl_fire_compartment;
             this.gridView_fire_compartment.Name = "gridView_fire_compartment";
             this.gridView_fire_compartment.OptionsCustomization.AllowColumnMoving = false;
@@ -247,6 +252,8 @@
             this.gridView_fire_compartment.OptionsCustomization.AllowSort = false;
             this.gridView_fire_compartment.OptionsDetail.EnableMasterViewMode = false;
             this.gridView_fire_compartment.OptionsView.ShowGroupPanel = false;
+            this.gridView_fire_compartment.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_fire_compartment_RowClick);
+            this.gridView_fire_compartment.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView_fire_compartment_CustomUnboundColumnData);
             // 
             // gridColumn_number
             // 
@@ -285,6 +292,18 @@
             this.gridColumn_area.OptionsColumn.AllowFocus = false;
             this.gridColumn_area.Visible = true;
             this.gridColumn_area.VisibleIndex = 3;
+            // 
+            // gridColumn_pick
+            // 
+            this.gridColumn_pick.Caption = "选择框线";
+            this.gridColumn_pick.ColumnEdit = this.repositoryItemHyperLinkEdit1;
+            this.gridColumn_pick.FieldName = "gridColumn_pick";
+            this.gridColumn_pick.Name = "gridColumn_pick";
+            this.gridColumn_pick.OptionsColumn.AllowEdit = false;
+            this.gridColumn_pick.OptionsColumn.AllowFocus = false;
+            this.gridColumn_pick.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.gridColumn_pick.Visible = true;
+            this.gridColumn_pick.VisibleIndex = 4;
             // 
             // repositoryItemComboBox1
             // 
@@ -402,6 +421,11 @@
             this.radioButton3.Text = "下限";
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
+            // repositoryItemHyperLinkEdit1
+            // 
+            this.repositoryItemHyperLinkEdit1.AutoHeight = false;
+            this.repositoryItemHyperLinkEdit1.Name = "repositoryItemHyperLinkEdit1";
+            // 
             // ThCommerceFireProofControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -429,6 +453,7 @@
             this.groupBox7.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -467,5 +492,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_serial_number;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_area;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_pick;
+        private DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit repositoryItemHyperLinkEdit1;
     }
 }

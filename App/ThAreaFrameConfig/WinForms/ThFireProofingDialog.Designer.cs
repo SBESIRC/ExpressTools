@@ -63,7 +63,6 @@
             // 
             // commerceFireProofControl
             // 
-            this.commerceFireProofControl.Compartments = null;
             this.commerceFireProofControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.commerceFireProofControl.Location = new System.Drawing.Point(3, 3);
             this.commerceFireProofControl.Name = "commerceFireProofControl";
