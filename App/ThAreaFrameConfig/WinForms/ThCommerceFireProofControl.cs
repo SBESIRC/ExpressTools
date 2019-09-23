@@ -49,7 +49,7 @@ namespace ThAreaFrameConfig.WinForms
         {
             DbRepository = new ThFCCommerceNullRepository();
             DbRepository.AppendDefaultFireCompartment();
-            gridControl_fire_compartment.DataSource = DbRepository.Settings.Compartments;
+            gridControl_fire_compartment.DataSource = Settings.Compartments;
             gridControl_fire_compartment.RefreshDataSource();
         }
 
@@ -57,23 +57,8 @@ namespace ThAreaFrameConfig.WinForms
         {
             DbRepository = new ThFCCommerceNullRepository();
             DbRepository.AppendDefaultFireCompartment();
-            gridControl_fire_compartment.DataSource = DbRepository.Settings.Compartments;
+            gridControl_fire_compartment.DataSource = Settings.Compartments;
             gridControl_fire_compartment.RefreshDataSource();
-        }
-
-        public List<string> Layers
-        {
-            get
-            {
-                var layers = new List<string>();
-                foreach (var description in AcadApp.UIBindings.Collections.Layers)
-                {
-                    var properties = description.GetProperties();
-                    layers.Add((string)properties["Name"].GetValue(description));
-
-                }
-                return layers;
-            }
         }
 
         public void InitializeDataBindings()
@@ -104,8 +89,8 @@ namespace ThAreaFrameConfig.WinForms
             comboBox_fire_resistance.SelectedIndex = (int)Settings.Resistance;
 
             // 指定外框线图层
-            comboBox_outer_frame.DataSource = Layers;
-            if (Layers.Contains(Settings.Layers["OUTERFRAME"]))
+            comboBox_outer_frame.DataSource = DbRepository.Layers;
+            if (DbRepository.Layers.Contains(Settings.Layers["OUTERFRAME"]))
             {
                 comboBox_outer_frame.SelectedItem = Settings.Layers["OUTERFRAME"];
             }
@@ -115,8 +100,8 @@ namespace ThAreaFrameConfig.WinForms
             }
 
             // 指定内框线图层
-            comboBox_inner_frame.DataSource = Layers;
-            if (Layers.Contains(Settings.Layers["INNERFRAME"]))
+            comboBox_inner_frame.DataSource = DbRepository.Layers;
+            if (DbRepository.Layers.Contains(Settings.Layers["INNERFRAME"]))
             {
                 comboBox_inner_frame.SelectedItem = Settings.Layers["INNERFRAME"];
             }

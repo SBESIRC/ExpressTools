@@ -28,14 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThFireProofingDialog));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_commerce = new System.Windows.Forms.TabPage();
+            this.commerceFireProofControl = new ThAreaFrameConfig.WinForms.ThCommerceFireProofControl();
             this.tabPage_underground_parking = new System.Windows.Forms.TabPage();
+            this.undergroundParkingFireProofControl = new ThAreaFrameConfig.WinForms.ThUndergroundParkingFireProofControl();
             this.button_Cancel = new System.Windows.Forms.Button();
             this.button_OK = new System.Windows.Forms.Button();
-            this.commerceFireProofControl = new ThAreaFrameConfig.WinForms.ThCommerceFireProofControl();
-            this.undergroundParkingFireProofControl = new ThAreaFrameConfig.WinForms.ThUndergroundParkingFireProofControl();
             this.tabControl1.SuspendLayout();
             this.tabPage_commerce.SuspendLayout();
             this.tabPage_underground_parking.SuspendLayout();
@@ -48,7 +47,7 @@
             this.tabControl1.Location = new System.Drawing.Point(15, 15);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(517, 646);
+            this.tabControl1.Size = new System.Drawing.Size(517, 565);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage_commerce
@@ -57,10 +56,19 @@
             this.tabPage_commerce.Location = new System.Drawing.Point(4, 23);
             this.tabPage_commerce.Name = "tabPage_commerce";
             this.tabPage_commerce.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_commerce.Size = new System.Drawing.Size(509, 619);
+            this.tabPage_commerce.Size = new System.Drawing.Size(509, 538);
             this.tabPage_commerce.TabIndex = 0;
             this.tabPage_commerce.Text = "商业";
             this.tabPage_commerce.UseVisualStyleBackColor = true;
+            // 
+            // commerceFireProofControl
+            // 
+            this.commerceFireProofControl.Compartments = null;
+            this.commerceFireProofControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.commerceFireProofControl.Location = new System.Drawing.Point(3, 3);
+            this.commerceFireProofControl.Name = "commerceFireProofControl";
+            this.commerceFireProofControl.Size = new System.Drawing.Size(503, 532);
+            this.commerceFireProofControl.TabIndex = 0;
             // 
             // tabPage_underground_parking
             // 
@@ -68,15 +76,23 @@
             this.tabPage_underground_parking.Location = new System.Drawing.Point(4, 23);
             this.tabPage_underground_parking.Name = "tabPage_underground_parking";
             this.tabPage_underground_parking.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_underground_parking.Size = new System.Drawing.Size(509, 619);
+            this.tabPage_underground_parking.Size = new System.Drawing.Size(509, 538);
             this.tabPage_underground_parking.TabIndex = 1;
             this.tabPage_underground_parking.Text = "地下车库";
             this.tabPage_underground_parking.UseVisualStyleBackColor = true;
             // 
+            // undergroundParkingFireProofControl
+            // 
+            this.undergroundParkingFireProofControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.undergroundParkingFireProofControl.Location = new System.Drawing.Point(3, 3);
+            this.undergroundParkingFireProofControl.Name = "undergroundParkingFireProofControl";
+            this.undergroundParkingFireProofControl.Size = new System.Drawing.Size(503, 532);
+            this.undergroundParkingFireProofControl.TabIndex = 0;
+            // 
             // button_Cancel
             // 
             this.button_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button_Cancel.Location = new System.Drawing.Point(422, 667);
+            this.button_Cancel.Location = new System.Drawing.Point(422, 586);
             this.button_Cancel.Name = "button_Cancel";
             this.button_Cancel.Size = new System.Drawing.Size(110, 27);
             this.button_Cancel.TabIndex = 1;
@@ -86,29 +102,12 @@
             // button_OK
             // 
             this.button_OK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button_OK.Location = new System.Drawing.Point(306, 667);
+            this.button_OK.Location = new System.Drawing.Point(306, 586);
             this.button_OK.Name = "button_OK";
             this.button_OK.Size = new System.Drawing.Size(110, 27);
             this.button_OK.TabIndex = 2;
             this.button_OK.Text = "确定";
             this.button_OK.UseVisualStyleBackColor = true;
-            // 
-            // commerceFireProofControl
-            // 
-            this.commerceFireProofControl.Compartments = ((System.Collections.Generic.List<ThAreaFrameConfig.Model.ThFireCompartment>)(resources.GetObject("commerceFireProofControl.Compartments")));
-            this.commerceFireProofControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.commerceFireProofControl.Location = new System.Drawing.Point(3, 3);
-            this.commerceFireProofControl.Name = "commerceFireProofControl";
-            this.commerceFireProofControl.Size = new System.Drawing.Size(503, 613);
-            this.commerceFireProofControl.TabIndex = 0;
-            // 
-            // undergroundParkingFireProofControl
-            // 
-            this.undergroundParkingFireProofControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.undergroundParkingFireProofControl.Location = new System.Drawing.Point(3, 3);
-            this.undergroundParkingFireProofControl.Name = "undergroundParkingFireProofControl";
-            this.undergroundParkingFireProofControl.Size = new System.Drawing.Size(503, 614);
-            this.undergroundParkingFireProofControl.TabIndex = 0;
             // 
             // ThFireProofingDialog
             // 
@@ -116,7 +115,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button_Cancel;
-            this.ClientSize = new System.Drawing.Size(539, 704);
+            this.ClientSize = new System.Drawing.Size(539, 622);
             this.Controls.Add(this.button_OK);
             this.Controls.Add(this.button_Cancel);
             this.Controls.Add(this.tabControl1);

@@ -127,7 +127,7 @@
             this.groupBox7.Controls.Add(this.radioButton2);
             this.groupBox7.Controls.Add(this.radioButton1);
             this.groupBox7.Controls.Add(this.label4);
-            this.groupBox7.Location = new System.Drawing.Point(5, 539);
+            this.groupBox7.Location = new System.Drawing.Point(5, 410);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(492, 62);
             this.groupBox7.TabIndex = 7;
@@ -168,7 +168,7 @@
             // 
             this.groupBox6.Controls.Add(this.label6);
             this.groupBox6.Controls.Add(this.button3);
-            this.groupBox6.Location = new System.Drawing.Point(5, 477);
+            this.groupBox6.Location = new System.Drawing.Point(5, 353);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(492, 56);
             this.groupBox6.TabIndex = 6;
@@ -197,7 +197,7 @@
             this.groupBox5.Controls.Add(this.gridControl1);
             this.groupBox5.Location = new System.Drawing.Point(5, 113);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(492, 359);
+            this.groupBox5.Size = new System.Drawing.Size(492, 239);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "防火分区表";
@@ -207,7 +207,7 @@
             this.gridControl1.Location = new System.Drawing.Point(8, 24);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(478, 329);
+            this.gridControl1.Size = new System.Drawing.Size(478, 207);
             this.gridControl1.TabIndex = 5;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -227,7 +227,7 @@
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox1);
             this.Name = "ThUndergroundParkingFireProofControl";
-            this.Size = new System.Drawing.Size(500, 610);
+            this.Size = new System.Drawing.Size(500, 478);
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);

@@ -45,6 +45,11 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.gridControl_fire_compartment = new DevExpress.XtraGrid.GridControl();
             this.gridView_fire_compartment = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn_number = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_storey = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_serial_number = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
@@ -62,6 +67,7 @@
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_fire_compartment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_fire_compartment)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
@@ -208,7 +214,7 @@
             this.groupBox5.Controls.Add(this.gridControl_fire_compartment);
             this.groupBox5.Location = new System.Drawing.Point(5, 158);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(483, 344);
+            this.groupBox5.Size = new System.Drawing.Size(483, 257);
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "防火分区表";
@@ -218,22 +224,83 @@
             this.gridControl_fire_compartment.Location = new System.Drawing.Point(6, 21);
             this.gridControl_fire_compartment.MainView = this.gridView_fire_compartment;
             this.gridControl_fire_compartment.Name = "gridControl_fire_compartment";
-            this.gridControl_fire_compartment.Size = new System.Drawing.Size(468, 314);
+            this.gridControl_fire_compartment.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemComboBox1});
+            this.gridControl_fire_compartment.Size = new System.Drawing.Size(468, 228);
             this.gridControl_fire_compartment.TabIndex = 5;
             this.gridControl_fire_compartment.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_fire_compartment});
             // 
             // gridView_fire_compartment
             // 
+            this.gridView_fire_compartment.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn_number,
+            this.gridColumn_storey,
+            this.gridColumn_serial_number,
+            this.gridColumn_area});
             this.gridView_fire_compartment.GridControl = this.gridControl_fire_compartment;
             this.gridView_fire_compartment.Name = "gridView_fire_compartment";
+            this.gridView_fire_compartment.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_fire_compartment.OptionsCustomization.AllowFilter = false;
+            this.gridView_fire_compartment.OptionsCustomization.AllowGroup = false;
+            this.gridView_fire_compartment.OptionsCustomization.AllowQuickHideColumns = false;
+            this.gridView_fire_compartment.OptionsCustomization.AllowSort = false;
+            this.gridView_fire_compartment.OptionsDetail.EnableMasterViewMode = false;
             this.gridView_fire_compartment.OptionsView.ShowGroupPanel = false;
+            // 
+            // gridColumn_number
+            // 
+            this.gridColumn_number.Caption = "序号";
+            this.gridColumn_number.FieldName = "Index";
+            this.gridColumn_number.Name = "gridColumn_number";
+            this.gridColumn_number.OptionsColumn.AllowEdit = false;
+            this.gridColumn_number.OptionsColumn.AllowFocus = false;
+            this.gridColumn_number.Visible = true;
+            this.gridColumn_number.VisibleIndex = 0;
+            // 
+            // gridColumn_storey
+            // 
+            this.gridColumn_storey.Caption = "输入楼层";
+            this.gridColumn_storey.FieldName = "Storey";
+            this.gridColumn_storey.Name = "gridColumn_storey";
+            this.gridColumn_storey.Visible = true;
+            this.gridColumn_storey.VisibleIndex = 1;
+            // 
+            // gridColumn_serial_number
+            // 
+            this.gridColumn_serial_number.Caption = "防火分区编号";
+            this.gridColumn_serial_number.FieldName = "SerialNumber";
+            this.gridColumn_serial_number.Name = "gridColumn_serial_number";
+            this.gridColumn_serial_number.OptionsColumn.AllowEdit = false;
+            this.gridColumn_serial_number.OptionsColumn.AllowFocus = false;
+            this.gridColumn_serial_number.Visible = true;
+            this.gridColumn_serial_number.VisibleIndex = 2;
+            // 
+            // gridColumn_area
+            // 
+            this.gridColumn_area.Caption = "面积";
+            this.gridColumn_area.FieldName = "Area";
+            this.gridColumn_area.Name = "gridColumn_area";
+            this.gridColumn_area.OptionsColumn.AllowEdit = false;
+            this.gridColumn_area.OptionsColumn.AllowFocus = false;
+            this.gridColumn_area.Visible = true;
+            this.gridColumn_area.VisibleIndex = 3;
+            // 
+            // repositoryItemComboBox1
+            // 
+            this.repositoryItemComboBox1.AutoHeight = false;
+            this.repositoryItemComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox1.Items.AddRange(new object[] {
+            "是",
+            "否"});
+            this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
             // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.label6);
             this.groupBox6.Controls.Add(this.button3);
-            this.groupBox6.Location = new System.Drawing.Point(5, 499);
+            this.groupBox6.Location = new System.Drawing.Point(5, 421);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(483, 58);
             this.groupBox6.TabIndex = 3;
@@ -261,7 +328,7 @@
             // 
             this.groupBox7.Controls.Add(this.radioButton2);
             this.groupBox7.Controls.Add(this.radioButton1);
-            this.groupBox7.Location = new System.Drawing.Point(5, 563);
+            this.groupBox7.Location = new System.Drawing.Point(5, 485);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(220, 42);
             this.groupBox7.TabIndex = 4;
@@ -295,7 +362,7 @@
             this.groupBox8.Controls.Add(this.radioButton5);
             this.groupBox8.Controls.Add(this.radioButton4);
             this.groupBox8.Controls.Add(this.radioButton3);
-            this.groupBox8.Location = new System.Drawing.Point(238, 563);
+            this.groupBox8.Location = new System.Drawing.Point(238, 485);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(250, 42);
             this.groupBox8.TabIndex = 5;
@@ -346,7 +413,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "ThCommerceFireProofControl";
-            this.Size = new System.Drawing.Size(500, 610);
+            this.Size = new System.Drawing.Size(500, 530);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -355,6 +422,7 @@
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_fire_compartment)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_fire_compartment)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox7.ResumeLayout(false);
@@ -394,5 +462,10 @@
         private System.Windows.Forms.Label label6;
         private DevExpress.XtraGrid.GridControl gridControl_fire_compartment;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView_fire_compartment;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_number;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_storey;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_serial_number;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_area;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
     }
 }
