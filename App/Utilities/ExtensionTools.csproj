@@ -142,6 +142,7 @@
     <Compile Include="LinqTool.cs" />
     <Compile Include="NullableParser.cs" />
     <Compile Include="ObjectIDTool.cs" />
+    <Compile Include="ThEditorExtension.cs" />
     <Compile Include="ThPickTool.cs" />
     <Compile Include="PointCollector.cs" />
     <Compile Include="ThPoint3dCollectionExtensions.cs" />
