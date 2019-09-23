@@ -15,6 +15,7 @@ namespace ThAreaFrameConfig.WinForms
     public partial class ThCommerceFireProofControl : XtraUserControl, IFCCommerceView
     {
         private BindingSource bindingSource;
+        private ThFCCommercePresenter Presenter;
         private ThFCCommerceNullRepository DbRepository;
         //private ThFCCommerceDbRepository DbRepository;
 
@@ -56,6 +57,7 @@ namespace ThAreaFrameConfig.WinForms
 
         public void InitializeGridControl()
         {
+            Presenter = new ThFCCommercePresenter(this);
             DbRepository = new ThFCCommerceNullRepository();
             DbRepository.AppendDefaultFireCompartment();
             gridControl_fire_compartment.DataSource = Settings.Compartments;
@@ -148,7 +150,15 @@ namespace ThAreaFrameConfig.WinForms
             ThFireCompartment compartment = gridView.GetRow(e.RowHandle) as ThFireCompartment;
             if (!compartment.IsDefined)
             {
-                //
+                // 面积框线图层名
+                string name = Settings.Layers["OUTERFRAME"];
+
+                // 选取面积框线
+                if (Presenter.OnPickAreaFrames(name))
+                {
+                    // 更新界面
+                    this.Reload();
+                }
             }
         }
     }

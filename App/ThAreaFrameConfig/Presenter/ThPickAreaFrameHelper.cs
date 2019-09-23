@@ -74,6 +74,11 @@ namespace ThAreaFrameConfig.Presenter
             }
         }
 
+        public static bool PickAreaFrames(this IThFireCompartmentPresenterCallback presenterCallback, string name)
+        {
+            return false;
+        }
+
         public static bool AdjustAreaFrames(this IThAreaFramePresenterCallback presenterCallback,
             Dictionary<string, string> parameters,
             Func<string, ObjectId> layerCreator)
