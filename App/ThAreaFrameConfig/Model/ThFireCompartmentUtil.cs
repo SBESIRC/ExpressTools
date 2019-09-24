@@ -5,14 +5,16 @@ namespace ThAreaFrameConfig.Model
 {
     public static class ThFireCompartmentUtil
     {
-        private static string AreaTextContent(this IntPtr frame)
+        private static string AreaTextContent(ThFireCompartment compartment)
         {
-            return string.Format("面积：{0:0.00}m\u00B2", frame.AreaEx());
+            return string.Format("面积：{0:0.00}m\u00B2", compartment.Area);
         }
 
-        public static string CommerceTextContent(this IntPtr frame, UInt16 subKey, UInt16 storey, UInt16 index)
+        public static string CommerceTextContent(this IntPtr frame, ThFireCompartment compartment)
         {
-            return CommerceSerialNumber(subKey, storey, index) + "\\P" + AreaTextContent(frame);
+            return CommerceSerialNumber(compartment.Subkey, compartment.Storey, compartment.Index) 
+                + "\\P" 
+                + AreaTextContent(compartment);
         }
 
         public static string CommerceSerialNumber(UInt16 subKey, UInt16 storey, UInt16 index)

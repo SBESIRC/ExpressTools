@@ -46,10 +46,7 @@ namespace ThAreaFrameConfig.Model
                                 // 修改防火分区标识文字
                                 ObjectId objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
                                 var text = acadDatabase.Element<MText>(objId, true);
-                                text.Contents = text.Contents.UpdateCommerceSerialNumber(
-                                    compartment.Subkey,
-                                    compartment.Storey,
-                                    compartment.Index);
+                                text.Contents = frame.Frame.CommerceTextContent(compartment);
 
                                 // TODO:
                                 //  修改防火分区文字框线
@@ -225,7 +222,7 @@ namespace ThAreaFrameConfig.Model
                 MText mText = new MText()
                 {
                     Location = region.Centroid(),
-                    Contents = frame.OldIdPtr.CommerceTextContent(compartment.Subkey, compartment.Storey, compartment.Index)
+                    Contents = frame.OldIdPtr.CommerceTextContent(compartment)
                 };
                 ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
 
@@ -281,6 +278,43 @@ namespace ThAreaFrameConfig.Model
             return frame.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment) != null;
         }
 
+        public static ThFireCompartmentAreaFrame CreateFireCompartmentAreaFrame(this ObjectId frame)
+        {
+            var obj = new ThFireCompartmentAreaFrame()
+            {
+                Frame = frame.OldIdPtr,
+                IslandFrames = new List<IntPtr>()
+            };
+
+            using (Active.Document.LockDocument())
+            {
+                //
+                using (AcadDatabase acadDatabase = AcadDatabase.Use(frame.Database))
+                {
+                    //
+                    var curve = acadDatabase.Element<Polyline>(frame);
+
+                    // SelectionFilter
+                    //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
+                    TypedValue[] filterlist = new TypedValue[2];
+                    // 支持的面积框线类型
+                    filterlist[0] = new TypedValue(0, "LWPOLYLINE");
+                    // 过滤掉在锁定图层的面积框线
+                    filterlist[1] = new TypedValue(8, "AD-INDX");
+                    PromptSelectionResult psr = Active.Editor.SelectByPolyline(curve, PolygonSelectionMode.Window, filterlist);
+                    if (psr.Status == PromptStatus.OK)
+                    {
+                        foreach (ObjectId objId in psr.Value.GetObjectIds())
+                        {
+                            obj.IslandFrames.Add(objId.OldIdPtr);
+                        }
+                    }
+
+                    //
+                    return obj;
+                }
+            }
+        }
 
         public static List<ThFireCompartment> CommerceFireCompartments(this Database database)
         {
@@ -309,18 +343,12 @@ namespace ThAreaFrameConfig.Model
                         {
                             foreach (var item in compartments.Where(o => o == compartment))
                             {
-                                item.Frames.Add(new ThFireCompartmentAreaFrame()
-                                {
-                                    Frame = frame.ObjectId.OldIdPtr
-                                });
+                                item.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId));
                             }
                         }
                         else
                         {
-                            compartment.Frames.Add(new ThFireCompartmentAreaFrame()
-                            {
-                                Frame = frame.ObjectId.OldIdPtr
-                            });
+                            compartment.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId));
                             compartments.Add(compartment);
                         }
                     }

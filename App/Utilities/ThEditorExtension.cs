@@ -1,5 +1,7 @@
-﻿using Autodesk.AutoCAD.Geometry;
+﻿using DotNetARX;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace Autodesk.AutoCAD.EditorInput
 {
@@ -25,7 +27,7 @@ namespace Autodesk.AutoCAD.EditorInput
             }
             PromptSelectionResult result;
             ViewTableRecord view = ed.GetCurrentView();
-            ed.Zoom(pline.GeometricExtents);
+            ed.ZoomObject(pline.ObjectId);
             if (mode == PolygonSelectionMode.Crossing)
                 result = ed.SelectCrossingPolygon(polygon, new SelectionFilter(filter));
             else
@@ -34,22 +36,19 @@ namespace Autodesk.AutoCAD.EditorInput
             return result;
         }
 
-        public static void Zoom(this Editor ed, Extents3d extents)
+        public static void ZoomObject(this Editor ed, ObjectId entId)
         {
-            using (ViewTableRecord view = ed.GetCurrentView())
+            Database db = ed.Document.Database;
+            using (Transaction trans = db.TransactionManager.StartTransaction())
             {
-                Matrix3d worldToEye = 
-                    Matrix3d.Rotation(-view.ViewTwist, view.ViewDirection, view.Target) *
-                    Matrix3d.Displacement(view.Target - Point3d.Origin) *
-                    Matrix3d.PlaneToWorld(view.ViewDirection)
-                    .Inverse();
-                extents.TransformBy(worldToEye);
-                view.Width = extents.MaxPoint.X - extents.MinPoint.X;
-                view.Height = extents.MaxPoint.Y - extents.MinPoint.Y;
-                view.CenterPoint = new Point2d(
-                    (extents.MaxPoint.X + extents.MinPoint.X) / 2.0,
-                    (extents.MaxPoint.Y + extents.MinPoint.Y) / 2.0);
-                ed.SetCurrentView(view);
+                //获取实体对象
+                Entity ent = trans.GetObject(entId, OpenMode.ForRead) as Entity;
+                if (ent == null) return;
+                //根据实体的范围对视图进行缩放
+                Extents3d ext = ent.GeometricExtents;
+                ext.TransformBy(ed.CurrentUserCoordinateSystem.Inverse());
+                COMTool.ZoomWindow(ext.MinPoint, ext.MaxPoint);
+                trans.Commit();
             }
         }
     }

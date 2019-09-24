@@ -14,12 +14,20 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
-                return Frame.AreaEx();
+                double area = Frame.Area();
+                foreach(var frame in IslandFrames)
+                {
+                    area -= frame.Area();
+                }
+                return area;
             }
         }
 
         // 面积框线
         public IntPtr Frame { get; set; }
+
+        // 内框孤岛框线
+        public List<IntPtr> IslandFrames { get; set; }
 
         // 状态
         public bool IsDefined
