@@ -36,7 +36,7 @@ namespace ThAreaFrameConfig.Model
                         TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
                         if (valueList == null)
                         {
-                            frameId.CreateFireCompartmentAreaFrame(compartment.Subkey, compartment.Storey, compartment.Index);
+                            frameId.CreateFireCompartmentAreaFrame(compartment);
                         }
                         else
                         {
@@ -53,6 +53,18 @@ namespace ThAreaFrameConfig.Model
 
                                 // TODO:
                                 //  修改防火分区文字框线
+                            }
+
+                            // 其他属性（是否自动灭火系统）
+                            var properties = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger16);
+                            if (properties.Any())
+                            {
+                                frameId.ModXData(
+                                    ThCADCommon.RegAppName_AreaFrame_FireCompartment,
+                                    DxfCode.ExtendedDataInteger16,
+                                    properties.ElementAt(0).Value,
+                                    compartment.SelfExtinguishingSystem);
+
                             }
                         }
                     }
@@ -161,7 +173,7 @@ namespace ThAreaFrameConfig.Model
             ModifyFireCompartment(compartment2);
         }
 
-        public static bool CreateFireCompartmentAreaFrame(this ObjectId frame, UInt16 subKey, UInt16 storey, UInt16 index)
+        public static bool CreateFireCompartmentAreaFrame(this ObjectId frame, ThFireCompartment compartment)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
@@ -179,7 +191,7 @@ namespace ThAreaFrameConfig.Model
                 MText mText = new MText()
                 {
                     Location = region.Centroid(),
-                    Contents = frame.OldIdPtr.CommerceTextContent(subKey, storey, index)
+                    Contents = frame.OldIdPtr.CommerceTextContent(compartment.Subkey, compartment.Storey, compartment.Index)
                 };
                 ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
 
@@ -203,7 +215,8 @@ namespace ThAreaFrameConfig.Model
                 TypedValueList valueList = new TypedValueList
                     {
                         { (int)DxfCode.ExtendedDataHandle, textId.Handle },
-                        { (int)DxfCode.ExtendedDataHandle, bboxId.Handle }
+                        { (int)DxfCode.ExtendedDataHandle, bboxId.Handle },
+                        { (int)DxfCode.ExtendedDataInteger16, compartment.SelfExtinguishingSystem }
                     };
                 frame.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment, valueList);
 
@@ -249,17 +262,18 @@ namespace ThAreaFrameConfig.Model
                     if (valueList == null)
                         continue;
 
+                    ThFireCompartment compartment = null;
                     var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
                     if (handles.Any())
                     {
                         // 获取防火分区编号
                         var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
                         string[] tokens = Regex.Split(acadDatabase.Element<MText>(objId).Contents, @"\\P");
-                        var compartment = new ThFireCompartment(tokens[0]);
+                        compartment = new ThFireCompartment(tokens[0]);
                         // 考虑合并的情况
                         if (compartments.Contains(compartment))
                         {
-                            foreach(var item in compartments.Where(o => o == compartment))
+                            foreach (var item in compartments.Where(o => o == compartment))
                             {
                                 item.Frames.Add(new ThFireCompartmentAreaFrame()
                                 {
@@ -276,6 +290,13 @@ namespace ThAreaFrameConfig.Model
                             compartments.Add(compartment);
                         }
                     }
+
+                    // 是否自动灭火系统
+                    var properties = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger16);
+                    if (properties.Any())
+                    {
+                        compartment.SelfExtinguishingSystem = Convert.ToBoolean(properties.ElementAt(0).Value);
+                    }
                 }
                 return compartments;
             }
@@ -284,34 +305,6 @@ namespace ThAreaFrameConfig.Model
         public static List<ThFireCompartment> UnderGroundParkingFireCompartments(this Database database)
         {
             return null;
-        }
-
-        // 拾取防火分区框线
-        public static bool PickFireCompartmentFrames(UInt16 subKey, UInt16 storey, UInt16 index)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            {
-                // SelectionFilter
-                //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
-                TypedValue[] filterlist = new TypedValue[2];
-                // 支持的框线类型
-                filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
-                // 只拾取指定图层上的框线
-                filterlist[1] = new TypedValue(8, "AD-AREA-DIVD");
-                var entSelected = Active.Editor.GetSelection(new SelectionFilter(filterlist));
-                if (entSelected.Status == PromptStatus.OK)
-                {
-                    foreach (var objId in entSelected.Value.GetObjectIds())
-                    {
-                        // 创建防火分区
-                        objId.CreateFireCompartmentAreaFrame(subKey, storey, index++);
-                    }
-
-                    return true;
-                }
-
-                return false;
-            }
         }
     }
 }

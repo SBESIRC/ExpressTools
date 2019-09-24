@@ -108,7 +108,10 @@ namespace ThAreaFrameConfig.Presenter
                         foreach (var objId in entSelected.Value.GetObjectIds())
                         {
                             // 创建防火分区
-                            objId.CreateFireCompartmentAreaFrame(compartment.Subkey, compartment.Storey, compartment.Index++);
+                            objId.CreateFireCompartmentAreaFrame(compartment);
+
+                            // 下一个防火分区序号
+                            ++compartment.Index;
                         }
 
                         return true;
