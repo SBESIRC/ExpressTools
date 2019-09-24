@@ -59,56 +59,57 @@ namespace ThAreaFrameConfig.Model
 
         public static double AreaEx(this IntPtr frame)
         {
-            if (frame == (IntPtr)0)
-            {
-                return 0.0;
-            }
+            return frame.Area();
+            //if (frame == (IntPtr)0)
+            //{
+            //    return 0.0;
+            //}
 
-            ObjectId objId = new ObjectId(frame);
-            if (objId.IsErased)
-            {
-                return 0.0;
-            }
+            //ObjectId objId = new ObjectId(frame);
+            //if (objId.IsErased)
+            //{
+            //    return 0.0;
+            //}
 
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(objId.Database))
-            {
-                // 根据面积框线轮廓创建“区域”
-                //  https://www.keanw.com/2015/08/getting-the-centroid-of-an-autocad-region-using-net.html
-                DBObjectCollection curves = new DBObjectCollection()
-                {
-                    acadDatabase.Element<Curve>(objId)
-                };
-                DBObjectCollection regions = Region.CreateFromCurves(curves);
-                Region region = regions[0] as Region;
-                Point3d centroid = region.Centroid();
-                if (!region.ContainsPoint(centroid))
-                {
-                    return 0.0;
-                }
+            //using (AcadDatabase acadDatabase = AcadDatabase.Use(objId.Database))
+            //{
+            //    // 根据面积框线轮廓创建“区域”
+            //    //  https://www.keanw.com/2015/08/getting-the-centroid-of-an-autocad-region-using-net.html
+            //    DBObjectCollection curves = new DBObjectCollection()
+            //    {
+            //        acadDatabase.Element<Curve>(objId)
+            //    };
+            //    DBObjectCollection regions = Region.CreateFromCurves(curves);
+            //    Region region = regions[0] as Region;
+            //    Point3d centroid = region.Centroid();
+            //    if (!region.ContainsPoint(centroid))
+            //    {
+            //        return 0.0;
+            //    }
 
-                // 在“面心”处作为“种子”点，创建“轮廓”。“轮廓”会考虑到“空岛”的存在
-                //  https://www.keanw.com/2010/06/tracing-a-boundary-defined-by-autocad-geometry-using-net.html
-                //  https://www.keanw.com/2010/06/creating-transparent-hatches-in-autocad-using-net.html
-                DBObjectCollection boundaries = Active.Editor.TraceBoundary(region.Centroid(), true);
+            //    // 在“面心”处作为“种子”点，创建“轮廓”。“轮廓”会考虑到“空岛”的存在
+            //    //  https://www.keanw.com/2010/06/tracing-a-boundary-defined-by-autocad-geometry-using-net.html
+            //    //  https://www.keanw.com/2010/06/creating-transparent-hatches-in-autocad-using-net.html
+            //    DBObjectCollection boundaries = Active.Editor.TraceBoundary(region.Centroid(), false);
 
-                // 根据“轮廓”创建新的“区域”
-                DBObjectCollection boundaryRegions = Region.CreateFromCurves(boundaries);
+            //    // 根据“轮廓”创建新的“区域”
+            //    DBObjectCollection boundaryRegions = Region.CreateFromCurves(boundaries);
 
-                // 计算“区域”面积
-                // 第一个“区域”是轮廓区域
-                var outmostRegion = boundaryRegions[0] as Region;
-                double area = outmostRegion.Area;
-                for (int i = 1; i < boundaryRegions.Count; i++)
-                {
-                    // 减去“空岛区域“
-                    if (boundaryRegions[i] is Region boundaryRegion)
-                    {
-                        area -= boundaryRegion.Area;
-                    }
-                }
+            //    // 计算“区域”面积
+            //    // 第一个“区域”是轮廓区域
+            //    var outmostRegion = boundaryRegions[0] as Region;
+            //    double area = outmostRegion.Area;
+            //    for (int i = 1; i < boundaryRegions.Count; i++)
+            //    {
+            //        // 减去“空岛区域“
+            //        if (boundaryRegions[i] is Region boundaryRegion)
+            //        {
+            //            area -= boundaryRegion.Area;
+            //        }
+            //    }
 
-                return area * (1.0 / 1000000.0);
-            }
+            //    return area * (1.0 / 1000000.0);
+            //}
         }
 
         public static List<ThOutdoorParkingSpace> OutdoorParkingSpaces(this Database database)

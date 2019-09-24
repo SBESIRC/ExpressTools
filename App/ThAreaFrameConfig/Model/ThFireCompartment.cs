@@ -14,7 +14,7 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
-                return Frame.Area();
+                return Frame.AreaEx();
             }
         }
 

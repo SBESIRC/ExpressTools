@@ -41,14 +41,8 @@ namespace ThAreaFrameConfig
         [CommandMethod("TIANHUACAD", "THFET", CommandFlags.Modal)]
         public void THFET()
         {
-            using (var dlg = new ThFireProofingDialog())
-            {
-                // 显示模态对话框
-                if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
-                {
-                    return;
-                }
-            }
+            ThFireProofingDialog dlg = new ThFireProofingDialog();
+            AcadApp.ShowModelessDialog(dlg);
         }
 
         // 测试命令

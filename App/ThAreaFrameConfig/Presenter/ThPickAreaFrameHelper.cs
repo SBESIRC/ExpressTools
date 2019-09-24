@@ -79,26 +79,44 @@ namespace ThAreaFrameConfig.Presenter
             ThFireCompartment compartment,
             string name)
         {
-            // SelectionFilter
-            //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
-            TypedValue[] filterlist = new TypedValue[2];
-            // 支持的框线类型
-            filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
-            // 只拾取指定图层上的框线
-            filterlist[1] = new TypedValue(8, name);
-            var entSelected = Active.Editor.GetSelection(new SelectionFilter(filterlist));
-            if (entSelected.Status == PromptStatus.OK)
+            using (Active.Document.LockDocument())
             {
-                foreach (var objId in entSelected.Value.GetObjectIds())
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
-                    // 创建防火分区
-                    objId.CreateFireCompartmentAreaFrame(compartment.Subkey, compartment.Storey, compartment.Index++);
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
+                    // Cancel active selection session
+                    //  https://through-the-interface.typepad.com/through_the_interface/2006/08/cancelling_an_a.html
+                    Active.Editor.PostCommand("CANCELCMD");
+
+                    // SelectionFilter
+                    //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
+                    TypedValue[] filterlist = new TypedValue[2];
+                    // 支持的框线类型
+                    filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
+                    // 只拾取指定图层上的框线
+                    filterlist[1] = new TypedValue(8, name);
+                    var entSelected = Active.Editor.GetSelection(new SelectionFilter(filterlist));
+                    if (entSelected.Status == PromptStatus.OK)
+                    {
+                        foreach (var objId in entSelected.Value.GetObjectIds())
+                        {
+                            // 创建防火分区
+                            objId.CreateFireCompartmentAreaFrame(compartment.Subkey, compartment.Storey, compartment.Index++);
+                        }
+
+                        return true;
+                    }
+
+                    return false;
                 }
-
-                return true;
             }
-
-            return false;
         }
 
         public static bool AdjustAreaFrames(this IThAreaFramePresenterCallback presenterCallback,

@@ -49,6 +49,7 @@ namespace ThAreaFrameConfig.WinForms
         public void Reload()
         {
             DbRepository.ReloadFireCompartments();
+            DbRepository.AppendDefaultFireCompartment();
             gridControl_fire_compartment.DataSource = Settings.Compartments;
             gridControl_fire_compartment.RefreshDataSource();
         }
