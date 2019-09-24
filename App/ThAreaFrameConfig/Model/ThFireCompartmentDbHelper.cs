@@ -99,6 +99,14 @@ namespace ThAreaFrameConfig.Model
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
                     List<ObjectId> textObjIds = new List<ObjectId>();
                     List<ObjectId> bboxObjIds = new List<ObjectId>();
                     foreach (var frame in compartment.Frames)
@@ -138,7 +146,37 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
+        public static bool DeleteFireCompartments(List<ThFireCompartment> compartments)
+        {
+            foreach(var compartment in compartments)
+            {
+                DeleteFireCompartment(compartment);
+            }
+
+            return true;
+        }
+
         // 合并商业防火分区
+        public static bool MergeFireCompartment(List<ThFireCompartment> compartments)
+        {
+            if (compartments.Count < 2)
+            {
+                return false;
+            }
+
+            // 排序
+            compartments.Sort();
+
+            // 往”最小“的防火分区合并，即往第一个防火分区合并
+            for(int i = 1; i < compartments.Count; i++)
+            {
+                MergeFireCompartment(compartments[0], compartments[1]);
+            }
+
+            // 修改目标防火分区
+            return ModifyFireCompartment(compartments[0]);
+        }
+
         public static void MergeFireCompartment(ThFireCompartment compartment1, ThFireCompartment compartment2)
         {
             if (compartment1.CompareTo(compartment2) == 0)
@@ -159,7 +197,7 @@ namespace ThAreaFrameConfig.Model
             else
             {
                 // compartment1 > compartment2，将compartment1合并到compartment2
-                foreach(var frame in compartment1.Frames)
+                foreach (var frame in compartment1.Frames)
                 {
                     compartment2.Frames.Add(frame);
                 }
@@ -167,10 +205,6 @@ namespace ThAreaFrameConfig.Model
                 // 清空compartment1
                 compartment1.Frames.Clear();
             }
-
-            // 修改防火分区
-            ModifyFireCompartment(compartment1);
-            ModifyFireCompartment(compartment2);
         }
 
         public static bool CreateFireCompartmentAreaFrame(this ObjectId frame, ThFireCompartment compartment)

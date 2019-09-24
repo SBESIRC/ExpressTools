@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ThAreaFrameConfig.Model;
 
 namespace ThAreaFrameConfig.Presenter
@@ -10,5 +11,11 @@ namespace ThAreaFrameConfig.Presenter
 
         // 修改防火分区
         bool OnModifyFireCompartment(ThFireCompartment compartment);
+
+        // 合并防火分区
+        bool OnMergeFireCompartments(List<ThFireCompartment> compartments);
+
+        // 删除防火分区
+        bool OnDeleteFireCompartments(List<ThFireCompartment> compartments);
     }
 }

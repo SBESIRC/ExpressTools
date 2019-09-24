@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.View;
 
@@ -14,6 +15,16 @@ namespace ThAreaFrameConfig.Presenter
         }
 
         public object UI => compartmentView;
+
+        public bool OnDeleteFireCompartments(List<ThFireCompartment> compartments)
+        {
+            return ThFireCompartmentDbHelper.DeleteFireCompartments(compartments);
+        }
+
+        public bool OnMergeFireCompartments(List<ThFireCompartment> compartments)
+        {
+            return ThFireCompartmentDbHelper.MergeFireCompartment(compartments);
+        }
 
         public bool OnModifyFireCompartment(ThFireCompartment compartment)
         {

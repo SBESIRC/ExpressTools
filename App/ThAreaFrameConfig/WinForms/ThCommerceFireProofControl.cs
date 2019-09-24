@@ -9,6 +9,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 using AcHelper;
 using System;
+using DevExpress.Utils.Menu;
 
 namespace ThAreaFrameConfig.WinForms
 {
@@ -153,13 +154,10 @@ namespace ThAreaFrameConfig.WinForms
                 string name = Settings.Layers["OUTERFRAME"];
 
                 // 选取面积框线
-                using (EditorUserInteraction inter = Active.Editor.StartUserInteraction(FindForm()))
+                if (Presenter.OnPickAreaFrames(compartment, name))
                 {
-                    if (Presenter.OnPickAreaFrames(compartment, name))
-                    {
-                        // 更新界面
-                        this.Reload();
-                    }
+                    // 更新界面
+                    this.Reload();
                 }
             }
         }
@@ -194,6 +192,124 @@ namespace ThAreaFrameConfig.WinForms
             if (compartment.IsDefined)
             {
                 if (Presenter.OnModifyFireCompartment(compartment))
+                {
+                    // 更新界面
+                    this.Reload();
+                }
+            }
+        }
+
+        private void gridView_fire_compartment_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
+        {
+            GridView view = sender as GridView;
+            switch (view.FocusedColumn.FieldName)
+            {
+                case "Storey":
+                    {
+                        if (!int.TryParse(e.Value.ToString(), out int value))
+                        {
+                            e.Valid = false;
+                            e.ErrorText = "请输入整数";
+                        }
+
+                    }
+                    break;
+            };
+        }
+
+        private void gridView_fire_compartment_PopupMenuShowing(object sender, PopupMenuShowingEventArgs e)
+        {
+            GridView view = sender as GridView;
+            if (e.MenuType == GridMenuType.Row)
+            {
+                if (e.HitInfo.InRow || e.HitInfo.InRowCell)
+                {
+                    foreach (var handle in view.GetSelectedRows())
+                    {
+                        var compartment = view.GetRow(handle) as ThFireCompartment;
+                        if (!compartment.IsDefined)
+                        {
+                            return;
+                        }
+                    }
+
+                    e.Menu.Items.Clear();
+                    e.Menu.Items.Add(CreateMergeMenuItem(view, e.HitInfo.RowHandle));
+                    e.Menu.Items.Add(CreateDeleteMenuItem(view, e.HitInfo.RowHandle));
+                }
+            }
+        }
+
+        DXMenuItem CreateMergeMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("合并", new EventHandler(OnMergeFireCompartmentsItemClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        DXMenuItem CreateDeleteMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("删除", new EventHandler(OnDeleteFireCompartmentsClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        class RowInfo
+        {
+            public RowInfo(GridView view, int rowHandle)
+            {
+                this.RowHandle = rowHandle;
+                this.View = view;
+            }
+            public GridView View;
+            public int RowHandle;
+        }
+
+        void OnMergeFireCompartmentsItemClick(object sender, EventArgs e)
+        {
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            {
+                // 更新图纸
+                // 支持多选
+                var compartments = new List<ThFireCompartment>();
+                foreach (var handle in ri.View.GetSelectedRows())
+                {
+                    var compartment = ri.View.GetRow(handle) as ThFireCompartment;
+                    if (compartment.IsDefined)
+                    { 
+                        compartments.Add(compartment);
+                    }
+                }
+
+                if (Presenter.OnMergeFireCompartments(compartments))
+                {
+                    // 更新界面
+                    this.Reload();
+                }
+            }
+        }
+
+        void OnDeleteFireCompartmentsClick(object sender, EventArgs e)
+        {
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            {
+                // 更新图纸
+                // 支持多选
+                var compartments = new List<ThFireCompartment>();
+                foreach (var handle in ri.View.GetSelectedRows())
+                {
+                    var compartment = ri.View.GetRow(handle) as ThFireCompartment;
+                    if (compartment.IsDefined)
+                    {
+                        compartments.Add(compartment);
+                    }
+                }
+
+                if (Presenter.OnDeleteFireCompartments(compartments))
                 {
                     // 更新界面
                     this.Reload();
