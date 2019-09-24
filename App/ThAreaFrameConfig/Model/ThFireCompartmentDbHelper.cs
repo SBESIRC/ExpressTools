@@ -1,16 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using AcHelper;
-using DotNetARX;
-using Linq2Acad;
-using GeometryExtensions;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
-using System;
-using Autodesk.AutoCAD.Colors;
+using AcHelper;
+using DotNetARX;
+using Linq2Acad;
+using GeometryExtensions;
 
 namespace ThAreaFrameConfig.Model
 {
@@ -23,6 +22,14 @@ namespace ThAreaFrameConfig.Model
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
                     foreach (var frame in compartment.Frames)
                     {
                         ObjectId frameId = new ObjectId(frame.Frame);

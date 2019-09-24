@@ -7,5 +7,8 @@ namespace ThAreaFrameConfig.Presenter
     {
         // 选取面积框线
         bool OnPickAreaFrames(ThFireCompartment compartment, string name);
+
+        // 修改防火分区
+        bool OnModifyFireCompartment(ThFireCompartment compartment);
     }
 }

@@ -172,5 +172,32 @@ namespace ThAreaFrameConfig.WinForms
                 e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
             }
         }
+
+        private void gridView_fire_compartment_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
+        {
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+
+            var columns = new List<string>
+            {
+                "Storey"
+            };
+            if (!columns.Contains(e.Column.FieldName))
+            {
+                return;
+            }
+
+            ThFireCompartment compartment = view.GetRow(e.RowHandle) as ThFireCompartment;
+            if (compartment.IsDefined)
+            {
+                if (Presenter.OnModifyFireCompartment(compartment))
+                {
+                    // 更新界面
+                    this.Reload();
+                }
+            }
+        }
     }
 }

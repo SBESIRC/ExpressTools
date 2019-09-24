@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.View;
-using AcHelper;
-using Autodesk.AutoCAD.EditorInput;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -19,6 +14,11 @@ namespace ThAreaFrameConfig.Presenter
         }
 
         public object UI => compartmentView;
+
+        public bool OnModifyFireCompartment(ThFireCompartment compartment)
+        {
+            return ThFireCompartmentDbHelper.ModifyFireCompartment(compartment);
+        }
 
         public bool OnPickAreaFrames(ThFireCompartment compartment, string name)
         {
