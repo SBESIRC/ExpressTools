@@ -59,16 +59,16 @@ namespace ThAreaFrameConfig.Model
 
         public void ReloadFireCompartments()
         {
-            settings.Compartments = database.CommerceFireCompartments();
+            string layer = settings.Layers["OUTERFRAME"];
+            string islandLayer = settings.Layers["INNERFRAME"];
+            settings.Compartments = database.CommerceFireCompartments(layer, islandLayer);
             ThFireCompartmentDbHelper.NormalizeFireCompartments(settings.Compartments);
         }
 
         private void ConstructFireCompartments()
         {
-            var compartments = database.CommerceFireCompartments();
             settings = new ThFCCommerceSettings()
             {
-                Compartments = compartments,
                 SubKey = 13,
                 Storey = 1,
                 Resistance = ThFCCommerceSettings.FireResistance.Level1,
@@ -79,6 +79,10 @@ namespace ThAreaFrameConfig.Model
                 },
                 GenerateHatch = false,
             };
+
+            string layer = settings.Layers["OUTERFRAME"];
+            string islandLayer = settings.Layers["INNERFRAME"];
+            settings.Compartments = database.CommerceFireCompartments(layer, islandLayer);
         }
     }
 }

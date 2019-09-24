@@ -278,7 +278,7 @@ namespace ThAreaFrameConfig.Model
             return frame.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment) != null;
         }
 
-        public static ThFireCompartmentAreaFrame CreateFireCompartmentAreaFrame(this ObjectId frame)
+        public static ThFireCompartmentAreaFrame CreateFireCompartmentAreaFrame(this ObjectId frame, string islandLayer)
         {
             var obj = new ThFireCompartmentAreaFrame()
             {
@@ -300,7 +300,7 @@ namespace ThAreaFrameConfig.Model
                     // 支持的面积框线类型
                     filterlist[0] = new TypedValue(0, "LWPOLYLINE");
                     // 过滤掉在锁定图层的面积框线
-                    filterlist[1] = new TypedValue(8, "AD-INDX");
+                    filterlist[1] = new TypedValue(8, islandLayer);
                     PromptSelectionResult psr = Active.Editor.SelectByPolyline(curve, PolygonSelectionMode.Window, filterlist);
                     if (psr.Status == PromptStatus.OK)
                     {
@@ -316,14 +316,14 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
-        public static List<ThFireCompartment> CommerceFireCompartments(this Database database)
+        public static List<ThFireCompartment> CommerceFireCompartments(this Database database, string layer, string islandLayer)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
                 var compartments = new List<ThFireCompartment>();
                 var frames = acadDatabase.ModelSpace
                     .OfType<Curve>()
-                    .Where(o => o.Layer == "AD-AREA-DIVD" && o.ObjectId.IsFireCompartmentAreaFrame());
+                    .Where(o => o.Layer == layer && o.ObjectId.IsFireCompartmentAreaFrame());
                 foreach (var frame in frames)
                 {
                     TypedValueList valueList = frame.ObjectId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
@@ -343,12 +343,12 @@ namespace ThAreaFrameConfig.Model
                         {
                             foreach (var item in compartments.Where(o => o == compartment))
                             {
-                                item.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId));
+                                item.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId, islandLayer));
                             }
                         }
                         else
                         {
-                            compartment.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId));
+                            compartment.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId, islandLayer));
                             compartments.Add(compartment);
                         }
                     }

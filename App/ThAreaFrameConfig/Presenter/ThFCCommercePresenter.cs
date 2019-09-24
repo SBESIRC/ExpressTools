@@ -31,9 +31,9 @@ namespace ThAreaFrameConfig.Presenter
             return ThFireCompartmentDbHelper.ModifyFireCompartment(compartment);
         }
 
-        public bool OnPickAreaFrames(ThFireCompartment compartment, string name)
+        public bool OnPickAreaFrames(ThFireCompartment compartment, string layer, string islandLayer)
         {
-            return this.PickAreaFrames(compartment, name);
+            return this.PickAreaFrames(compartment, layer, islandLayer);
         }
     }
 }

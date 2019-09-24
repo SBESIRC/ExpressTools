@@ -77,7 +77,8 @@ namespace ThAreaFrameConfig.Presenter
 
         public static bool PickAreaFrames(this IThFireCompartmentPresenterCallback presenterCallback,
             ThFireCompartment compartment,
-            string name)
+            string layer, 
+            string islandLayer)
         {
             using (Active.Document.LockDocument())
             {
@@ -101,7 +102,7 @@ namespace ThAreaFrameConfig.Presenter
                     // 支持的框线类型
                     filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
                     // 只拾取指定图层上的框线
-                    filterlist[1] = new TypedValue(8, name);
+                    filterlist[1] = new TypedValue(8, layer);
                     var entSelected = Active.Editor.GetSelection(new SelectionFilter(filterlist));
                     if (entSelected.Status == PromptStatus.OK)
                     {

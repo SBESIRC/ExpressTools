@@ -151,10 +151,11 @@ namespace ThAreaFrameConfig.WinForms
             if (!compartment.IsDefined)
             {
                 // 面积框线图层名
-                string name = Settings.Layers["OUTERFRAME"];
+                string layer = Settings.Layers["OUTERFRAME"];
+                string islandLayer = Settings.Layers["INNERFRAME"];
 
                 // 选取面积框线
-                if (Presenter.OnPickAreaFrames(compartment, name))
+                if (Presenter.OnPickAreaFrames(compartment, layer, islandLayer))
                 {
                     // 更新界面
                     this.Reload();
