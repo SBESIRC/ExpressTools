@@ -49,9 +49,9 @@
             this.gridColumn_storey = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_serial_number = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_self_extinguishing_system = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
-            this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
@@ -62,6 +62,7 @@
             this.radioButton5 = new System.Windows.Forms.RadioButton();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.repositoryItemImageComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemImageComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -70,10 +71,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_fire_compartment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_fire_compartment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -228,8 +229,8 @@
             this.gridControl_fire_compartment.MainView = this.gridView_fire_compartment;
             this.gridControl_fire_compartment.Name = "gridControl_fire_compartment";
             this.gridControl_fire_compartment.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemComboBox1,
-            this.repositoryItemHyperLinkEdit1});
+            this.repositoryItemHyperLinkEdit1,
+            this.repositoryItemImageComboBox1});
             this.gridControl_fire_compartment.Size = new System.Drawing.Size(468, 228);
             this.gridControl_fire_compartment.TabIndex = 5;
             this.gridControl_fire_compartment.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -242,6 +243,7 @@
             this.gridColumn_storey,
             this.gridColumn_serial_number,
             this.gridColumn_area,
+            this.gridColumn_self_extinguishing_system,
             this.gridColumn_pick});
             this.gridView_fire_compartment.GridControl = this.gridControl_fire_compartment;
             this.gridView_fire_compartment.Name = "gridView_fire_compartment";
@@ -295,6 +297,15 @@
             this.gridColumn_area.Visible = true;
             this.gridColumn_area.VisibleIndex = 3;
             // 
+            // gridColumn_self_extinguishing_system
+            // 
+            this.gridColumn_self_extinguishing_system.Caption = "是否自动灭火系统";
+            this.gridColumn_self_extinguishing_system.ColumnEdit = this.repositoryItemImageComboBox1;
+            this.gridColumn_self_extinguishing_system.FieldName = "SelfExtinguishingSystem";
+            this.gridColumn_self_extinguishing_system.Name = "gridColumn_self_extinguishing_system";
+            this.gridColumn_self_extinguishing_system.Visible = true;
+            this.gridColumn_self_extinguishing_system.VisibleIndex = 4;
+            // 
             // gridColumn_pick
             // 
             this.gridColumn_pick.Caption = "选择框线";
@@ -305,22 +316,12 @@
             this.gridColumn_pick.OptionsColumn.AllowFocus = false;
             this.gridColumn_pick.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.gridColumn_pick.Visible = true;
-            this.gridColumn_pick.VisibleIndex = 4;
+            this.gridColumn_pick.VisibleIndex = 5;
             // 
             // repositoryItemHyperLinkEdit1
             // 
             this.repositoryItemHyperLinkEdit1.AutoHeight = false;
             this.repositoryItemHyperLinkEdit1.Name = "repositoryItemHyperLinkEdit1";
-            // 
-            // repositoryItemComboBox1
-            // 
-            this.repositoryItemComboBox1.AutoHeight = false;
-            this.repositoryItemComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox1.Items.AddRange(new object[] {
-            "是",
-            "否"});
-            this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
             // 
             // groupBox6
             // 
@@ -428,6 +429,16 @@
             this.radioButton3.Text = "下限";
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
+            // repositoryItemImageComboBox1
+            // 
+            this.repositoryItemImageComboBox1.AutoHeight = false;
+            this.repositoryItemImageComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemImageComboBox1.Items.AddRange(new DevExpress.XtraEditors.Controls.ImageComboBoxItem[] {
+            new DevExpress.XtraEditors.Controls.ImageComboBoxItem("是", true, -1),
+            new DevExpress.XtraEditors.Controls.ImageComboBoxItem("否", false, -1)});
+            this.repositoryItemImageComboBox1.Name = "repositoryItemImageComboBox1";
+            // 
             // ThCommerceFireProofControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -449,13 +460,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_fire_compartment)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_fire_compartment)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -493,8 +504,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_storey;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_serial_number;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_area;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_pick;
         private DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit repositoryItemHyperLinkEdit1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn_self_extinguishing_system;
+        private DevExpress.XtraEditors.Repository.RepositoryItemImageComboBox repositoryItemImageComboBox1;
     }
 }

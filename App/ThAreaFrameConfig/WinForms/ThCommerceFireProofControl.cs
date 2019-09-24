@@ -182,7 +182,8 @@ namespace ThAreaFrameConfig.WinForms
 
             var columns = new List<string>
             {
-                "Storey"
+                "Storey",
+                "SelfExtinguishingSystem"
             };
             if (!columns.Contains(e.Column.FieldName))
             {
