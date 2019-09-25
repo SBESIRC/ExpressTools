@@ -46,7 +46,7 @@
             this.tabControl1.Location = new System.Drawing.Point(15, 15);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(517, 565);
+            this.tabControl1.Size = new System.Drawing.Size(517, 515);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage_commerce
@@ -55,7 +55,7 @@
             this.tabPage_commerce.Location = new System.Drawing.Point(4, 23);
             this.tabPage_commerce.Name = "tabPage_commerce";
             this.tabPage_commerce.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_commerce.Size = new System.Drawing.Size(509, 538);
+            this.tabPage_commerce.Size = new System.Drawing.Size(509, 488);
             this.tabPage_commerce.TabIndex = 0;
             this.tabPage_commerce.Text = "商业";
             this.tabPage_commerce.UseVisualStyleBackColor = true;
@@ -65,7 +65,7 @@
             this.commerceFireProofControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.commerceFireProofControl.Location = new System.Drawing.Point(3, 3);
             this.commerceFireProofControl.Name = "commerceFireProofControl";
-            this.commerceFireProofControl.Size = new System.Drawing.Size(503, 532);
+            this.commerceFireProofControl.Size = new System.Drawing.Size(503, 482);
             this.commerceFireProofControl.TabIndex = 0;
             // 
             // tabPage_underground_parking
@@ -74,7 +74,7 @@
             this.tabPage_underground_parking.Location = new System.Drawing.Point(4, 23);
             this.tabPage_underground_parking.Name = "tabPage_underground_parking";
             this.tabPage_underground_parking.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_underground_parking.Size = new System.Drawing.Size(509, 538);
+            this.tabPage_underground_parking.Size = new System.Drawing.Size(509, 488);
             this.tabPage_underground_parking.TabIndex = 1;
             this.tabPage_underground_parking.Text = "地下车库";
             this.tabPage_underground_parking.UseVisualStyleBackColor = true;
@@ -84,14 +84,14 @@
             this.undergroundParkingFireProofControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.undergroundParkingFireProofControl.Location = new System.Drawing.Point(3, 3);
             this.undergroundParkingFireProofControl.Name = "undergroundParkingFireProofControl";
-            this.undergroundParkingFireProofControl.Size = new System.Drawing.Size(503, 532);
+            this.undergroundParkingFireProofControl.Size = new System.Drawing.Size(503, 482);
             this.undergroundParkingFireProofControl.TabIndex = 0;
             // 
             // ThFireProofingDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 589);
+            this.ClientSize = new System.Drawing.Size(539, 541);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
