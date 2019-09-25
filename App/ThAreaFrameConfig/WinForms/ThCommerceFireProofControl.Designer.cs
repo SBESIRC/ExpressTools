@@ -268,9 +268,9 @@
             this.gridView_fire_compartment.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn_number,
             this.gridColumn_storey,
+            this.gridColumn_self_extinguishing_system,
             this.gridColumn_serial_number,
             this.gridColumn_area,
-            this.gridColumn_self_extinguishing_system,
             this.gridColumn_pick});
             this.gridView_fire_compartment.GridControl = this.gridControl_fire_compartment;
             this.gridView_fire_compartment.Name = "gridView_fire_compartment";
@@ -315,7 +315,7 @@
             this.gridColumn_serial_number.OptionsColumn.AllowEdit = false;
             this.gridColumn_serial_number.OptionsColumn.AllowFocus = false;
             this.gridColumn_serial_number.Visible = true;
-            this.gridColumn_serial_number.VisibleIndex = 2;
+            this.gridColumn_serial_number.VisibleIndex = 3;
             // 
             // gridColumn_area
             // 
@@ -325,7 +325,7 @@
             this.gridColumn_area.OptionsColumn.AllowEdit = false;
             this.gridColumn_area.OptionsColumn.AllowFocus = false;
             this.gridColumn_area.Visible = true;
-            this.gridColumn_area.VisibleIndex = 3;
+            this.gridColumn_area.VisibleIndex = 4;
             // 
             // gridColumn_self_extinguishing_system
             // 
@@ -334,7 +334,7 @@
             this.gridColumn_self_extinguishing_system.FieldName = "SelfExtinguishingSystem";
             this.gridColumn_self_extinguishing_system.Name = "gridColumn_self_extinguishing_system";
             this.gridColumn_self_extinguishing_system.Visible = true;
-            this.gridColumn_self_extinguishing_system.VisibleIndex = 4;
+            this.gridColumn_self_extinguishing_system.VisibleIndex = 2;
             // 
             // repositoryItemImageComboBox1
             // 
