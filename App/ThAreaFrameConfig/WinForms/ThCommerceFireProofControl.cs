@@ -127,7 +127,7 @@ namespace ThAreaFrameConfig.WinForms
             if (e.IsGetData)
             {
                 ThFireCompartment compartment = e.Row as ThFireCompartment;
-                e.Value = compartment.IsDefined ? "" : "选择";
+                e.Value = (compartment.IsDefined || compartment.Storey == 0) ? "" : "选择";
             }
         }
 
@@ -197,6 +197,20 @@ namespace ThAreaFrameConfig.WinForms
                     // 更新界面
                     this.Reload();
                 }
+            }
+            else
+            {
+                // 计算编号索引
+                var compartments = Settings.Compartments.Where(
+                    o => o.IsDefined &&
+                    o.Subkey == compartment.Subkey &&
+                    o.Storey == compartment.Storey);
+
+                // 由于编号索引是连续的，下一个索引即为个数+1
+                compartment.Index = (UInt16)(compartments.Count() + 1);
+
+                // 刷新Row
+                view.RefreshRow(e.RowHandle);
             }
         }
 

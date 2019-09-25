@@ -292,7 +292,7 @@
             // gridColumn_number
             // 
             this.gridColumn_number.Caption = "序号";
-            this.gridColumn_number.FieldName = "Index";
+            this.gridColumn_number.FieldName = "Number";
             this.gridColumn_number.Name = "gridColumn_number";
             this.gridColumn_number.OptionsColumn.AllowEdit = false;
             this.gridColumn_number.OptionsColumn.AllowFocus = false;

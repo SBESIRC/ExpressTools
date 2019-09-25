@@ -348,6 +348,7 @@ namespace ThAreaFrameConfig.Model
                         }
                         else
                         {
+                            compartment.Number = compartments.Count() + 1;
                             compartment.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId, islandLayer));
                             compartments.Add(compartment);
                         }

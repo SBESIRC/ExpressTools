@@ -46,8 +46,10 @@ namespace ThAreaFrameConfig.Model
 
         public void AppendDefaultFireCompartment()
         {
-            UInt16 index = (UInt16)(settings.Compartments.Count + 1);
-            settings.Compartments.Add(new ThFireCompartment(settings.SubKey, settings.Storey, index));
+            settings.Compartments.Add(new ThFireCompartment(settings.SubKey, 0, 0)
+            {
+                Number = settings.Compartments.Count + 1
+            });
         }
     }
 }

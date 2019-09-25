@@ -42,11 +42,14 @@ namespace ThAreaFrameConfig.Model
     [Serializable()]
     public class ThFireCompartment : IEquatable<ThFireCompartment>, IComparable<ThFireCompartment>
     {
+        // 序号
+        public int Number { get; set; }
+
         // 子项编号
         public UInt16 Subkey { get; set; }
 
         // 楼层
-        public UInt16 Storey { get; set; }
+        public Int16 Storey { get; set; }
 
         // 序号
         public UInt16 Index { get; set; }
@@ -58,7 +61,7 @@ namespace ThAreaFrameConfig.Model
         public List<ThFireCompartmentAreaFrame> Frames;
 
         // 构造函数
-        public ThFireCompartment(UInt16 subKey, UInt16 storey, UInt16 index)
+        public ThFireCompartment(UInt16 subKey, Int16 storey, UInt16 index)
         {
             InitFireCompartment(subKey, storey, index);
         }
@@ -66,13 +69,15 @@ namespace ThAreaFrameConfig.Model
         // 构造函数
         public ThFireCompartment(string sn)
         {
-            UInt16 subKey = 0, storey = 0, index = 0;
+            Int16 storey = 0;
+            UInt16 subKey = 0, index = 0;
             sn.MatchCommerceSerialNumber(ref subKey, ref storey, ref index);
             InitFireCompartment(subKey, storey, index);
         }
 
-        private void InitFireCompartment(UInt16 subKey, UInt16 storey, UInt16 index)
+        private void InitFireCompartment(UInt16 subKey, Int16 storey, UInt16 index)
         {
+            Number = 0;
             SelfExtinguishingSystem = true;
             Subkey = subKey; Storey = storey; Index = index;
             Frames = new List<ThFireCompartmentAreaFrame>();
