@@ -374,9 +374,9 @@
             // 
             // button_create_table
             // 
-            this.button_create_table.Location = new System.Drawing.Point(363, 454);
+            this.button_create_table.Location = new System.Drawing.Point(349, 454);
             this.button_create_table.Name = "button_create_table";
-            this.button_create_table.Size = new System.Drawing.Size(125, 23);
+            this.button_create_table.Size = new System.Drawing.Size(139, 23);
             this.button_create_table.TabIndex = 3;
             this.button_create_table.Text = "生成防火分区疏散表";
             this.button_create_table.UseVisualStyleBackColor = true;
@@ -384,9 +384,9 @@
             // 
             // button_create_fill
             // 
-            this.button_create_fill.Location = new System.Drawing.Point(245, 454);
+            this.button_create_fill.Location = new System.Drawing.Point(217, 454);
             this.button_create_fill.Name = "button_create_fill";
-            this.button_create_fill.Size = new System.Drawing.Size(112, 23);
+            this.button_create_fill.Size = new System.Drawing.Size(126, 23);
             this.button_create_fill.TabIndex = 4;
             this.button_create_fill.Text = "生成防火分区填充";
             this.button_create_fill.UseVisualStyleBackColor = true;
