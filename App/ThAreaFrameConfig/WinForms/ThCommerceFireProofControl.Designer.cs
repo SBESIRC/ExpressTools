@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboBox_density = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.textBox_storey = new System.Windows.Forms.TextBox();
             this.comboBox_fire_resistance = new System.Windows.Forms.ComboBox();
             this.textBox_sub_key = new System.Windows.Forms.TextBox();
@@ -43,6 +45,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.comboBox_outer_frame = new System.Windows.Forms.ComboBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.gridControl_fire_compartment = new DevExpress.XtraGrid.GridControl();
             this.gridView_fire_compartment = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn_number = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -53,16 +56,9 @@
             this.repositoryItemImageComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemImageComboBox();
             this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.button_create_table = new System.Windows.Forms.Button();
+            this.button_create_fill = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -72,13 +68,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridView_fire_compartment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
-            this.groupBox6.SuspendLayout();
-            this.groupBox7.SuspendLayout();
-            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBox_density);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.textBox_storey);
             this.groupBox1.Controls.Add(this.comboBox_fire_resistance);
             this.groupBox1.Controls.Add(this.textBox_sub_key);
@@ -92,9 +87,30 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "建筑信息";
             // 
+            // comboBox_density
+            // 
+            this.comboBox_density.FormattingEnabled = true;
+            this.comboBox_density.Items.AddRange(new object[] {
+            "下限",
+            "中值",
+            "上限"});
+            this.comboBox_density.Location = new System.Drawing.Point(96, 113);
+            this.comboBox_density.Name = "comboBox_density";
+            this.comboBox_density.Size = new System.Drawing.Size(115, 22);
+            this.comboBox_density.TabIndex = 7;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(22, 116);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(67, 14);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "人员密度：";
+            // 
             // textBox_storey
             // 
-            this.textBox_storey.Location = new System.Drawing.Point(95, 105);
+            this.textBox_storey.Location = new System.Drawing.Point(95, 84);
             this.textBox_storey.Name = "textBox_storey";
             this.textBox_storey.Size = new System.Drawing.Size(116, 22);
             this.textBox_storey.TabIndex = 5;
@@ -107,7 +123,7 @@
             "二级",
             "三级",
             "四级"});
-            this.comboBox_fire_resistance.Location = new System.Drawing.Point(95, 66);
+            this.comboBox_fire_resistance.Location = new System.Drawing.Point(95, 56);
             this.comboBox_fire_resistance.Name = "comboBox_fire_resistance";
             this.comboBox_fire_resistance.Size = new System.Drawing.Size(116, 22);
             this.comboBox_fire_resistance.TabIndex = 4;
@@ -122,7 +138,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 111);
+            this.label3.Location = new System.Drawing.Point(22, 87);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(67, 14);
             this.label3.TabIndex = 2;
@@ -131,7 +147,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 69);
+            this.label2.Location = new System.Drawing.Point(22, 59);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(67, 14);
             this.label2.TabIndex = 1;
@@ -215,13 +231,24 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.label6);
             this.groupBox5.Controls.Add(this.gridControl_fire_compartment);
+            this.groupBox5.Controls.Add(this.button3);
             this.groupBox5.Location = new System.Drawing.Point(5, 158);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(483, 257);
+            this.groupBox5.Size = new System.Drawing.Size(483, 289);
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "防火分区表";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(40, 261);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(115, 14);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "点击合并防火分区：";
             // 
             // gridControl_fire_compartment
             // 
@@ -336,140 +363,55 @@
             this.repositoryItemHyperLinkEdit1.AutoHeight = false;
             this.repositoryItemHyperLinkEdit1.Name = "repositoryItemHyperLinkEdit1";
             // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.label6);
-            this.groupBox6.Controls.Add(this.button3);
-            this.groupBox6.Location = new System.Drawing.Point(5, 421);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(483, 58);
-            this.groupBox6.TabIndex = 3;
-            this.groupBox6.TabStop = false;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(179, 26);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(103, 14);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "已建立合并关系：";
-            // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(6, 20);
+            this.button3.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
+            this.button3.Location = new System.Drawing.Point(6, 255);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(157, 27);
+            this.button3.Size = new System.Drawing.Size(28, 27);
             this.button3.TabIndex = 0;
-            this.button3.Text = "拾取需合并的防火分区";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // groupBox7
+            // button_create_table
             // 
-            this.groupBox7.Controls.Add(this.radioButton2);
-            this.groupBox7.Controls.Add(this.radioButton1);
-            this.groupBox7.Location = new System.Drawing.Point(5, 485);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(220, 42);
-            this.groupBox7.TabIndex = 4;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "是否生成防火分区填充";
+            this.button_create_table.Location = new System.Drawing.Point(375, 454);
+            this.button_create_table.Name = "button_create_table";
+            this.button_create_table.Size = new System.Drawing.Size(113, 23);
+            this.button_create_table.TabIndex = 3;
+            this.button_create_table.Text = "生成防火分区疏散表";
+            this.button_create_table.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // button_create_fill
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(86, 20);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(37, 18);
-            this.radioButton2.TabIndex = 2;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "否";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(43, 20);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(37, 18);
-            this.radioButton1.TabIndex = 1;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "是";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.radioButton5);
-            this.groupBox8.Controls.Add(this.radioButton4);
-            this.groupBox8.Controls.Add(this.radioButton3);
-            this.groupBox8.Location = new System.Drawing.Point(238, 485);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(250, 42);
-            this.groupBox8.TabIndex = 5;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "人员密度取值";
-            // 
-            // radioButton5
-            // 
-            this.radioButton5.AutoSize = true;
-            this.radioButton5.Location = new System.Drawing.Point(129, 21);
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(49, 18);
-            this.radioButton5.TabIndex = 4;
-            this.radioButton5.TabStop = true;
-            this.radioButton5.Text = "上限";
-            this.radioButton5.UseVisualStyleBackColor = true;
-            // 
-            // radioButton4
-            // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(74, 20);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(49, 18);
-            this.radioButton4.TabIndex = 3;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "中值";
-            this.radioButton4.UseVisualStyleBackColor = true;
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(19, 20);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(49, 18);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "下限";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.button_create_fill.Location = new System.Drawing.Point(257, 454);
+            this.button_create_fill.Name = "button_create_fill";
+            this.button_create_fill.Size = new System.Drawing.Size(112, 23);
+            this.button_create_fill.TabIndex = 4;
+            this.button_create_fill.Text = "生成防火分区填充";
+            this.button_create_fill.UseVisualStyleBackColor = true;
             // 
             // ThCommerceFireProofControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupBox8);
-            this.Controls.Add(this.groupBox7);
-            this.Controls.Add(this.groupBox6);
+            this.Controls.Add(this.button_create_fill);
+            this.Controls.Add(this.button_create_table);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "ThCommerceFireProofControl";
-            this.Size = new System.Drawing.Size(500, 530);
+            this.Size = new System.Drawing.Size(500, 488);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl_fire_compartment)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView_fire_compartment)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -491,14 +433,6 @@
         private System.Windows.Forms.ComboBox comboBox_inner_frame;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton5;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label6;
         private DevExpress.XtraGrid.GridControl gridControl_fire_compartment;
@@ -511,5 +445,9 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit repositoryItemHyperLinkEdit1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_self_extinguishing_system;
         private DevExpress.XtraEditors.Repository.RepositoryItemImageComboBox repositoryItemImageComboBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboBox_density;
+        private System.Windows.Forms.Button button_create_table;
+        private System.Windows.Forms.Button button_create_fill;
     }
 }
