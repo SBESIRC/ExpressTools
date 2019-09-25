@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.View;
 
@@ -34,6 +33,11 @@ namespace ThAreaFrameConfig.Presenter
         public bool OnPickAreaFrames(ThFireCompartment compartment, string layer, string islandLayer)
         {
             return this.PickAreaFrames(compartment, layer, islandLayer);
+        }
+
+        public void OnCreateFCCommerceTable(ThFCCommerceSettings settings)
+        {
+            this.CreateFCCommerceTable(settings);
         }
     }
 }

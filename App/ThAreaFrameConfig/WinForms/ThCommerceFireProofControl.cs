@@ -1,15 +1,14 @@
-﻿using DevExpress.XtraEditors;
+﻿using System;
+using System.Linq;
+using System.Windows.Forms;
+using System.Collections.Generic;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.View;
 using ThAreaFrameConfig.Presenter;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using DevExpress.XtraGrid.Views.Grid;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Runtime;
-using AcHelper;
-using System;
 using DevExpress.Utils.Menu;
+using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Views.Grid;
+using Autodesk.AutoCAD.Runtime;
 
 namespace ThAreaFrameConfig.WinForms
 {
@@ -330,6 +329,11 @@ namespace ThAreaFrameConfig.WinForms
                     this.Reload();
                 }
             }
+        }
+
+        private void button_create_table_Click(object sender, EventArgs e)
+        {
+            Presenter.OnCreateFCCommerceTable(Settings);
         }
     }
 }

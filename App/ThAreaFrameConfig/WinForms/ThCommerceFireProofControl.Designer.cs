@@ -50,10 +50,10 @@
             this.gridView_fire_compartment = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn_number = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_storey = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn_serial_number = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_self_extinguishing_system = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemImageComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemImageComboBox();
+            this.gridColumn_serial_number = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
             this.button3 = new System.Windows.Forms.Button();
@@ -307,6 +307,25 @@
             this.gridColumn_storey.Visible = true;
             this.gridColumn_storey.VisibleIndex = 1;
             // 
+            // gridColumn_self_extinguishing_system
+            // 
+            this.gridColumn_self_extinguishing_system.Caption = "是否自动灭火系统";
+            this.gridColumn_self_extinguishing_system.ColumnEdit = this.repositoryItemImageComboBox1;
+            this.gridColumn_self_extinguishing_system.FieldName = "SelfExtinguishingSystem";
+            this.gridColumn_self_extinguishing_system.Name = "gridColumn_self_extinguishing_system";
+            this.gridColumn_self_extinguishing_system.Visible = true;
+            this.gridColumn_self_extinguishing_system.VisibleIndex = 2;
+            // 
+            // repositoryItemImageComboBox1
+            // 
+            this.repositoryItemImageComboBox1.AutoHeight = false;
+            this.repositoryItemImageComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemImageComboBox1.Items.AddRange(new DevExpress.XtraEditors.Controls.ImageComboBoxItem[] {
+            new DevExpress.XtraEditors.Controls.ImageComboBoxItem("是", true, -1),
+            new DevExpress.XtraEditors.Controls.ImageComboBoxItem("否", false, -1)});
+            this.repositoryItemImageComboBox1.Name = "repositoryItemImageComboBox1";
+            // 
             // gridColumn_serial_number
             // 
             this.gridColumn_serial_number.Caption = "防火分区编号";
@@ -326,25 +345,6 @@
             this.gridColumn_area.OptionsColumn.AllowFocus = false;
             this.gridColumn_area.Visible = true;
             this.gridColumn_area.VisibleIndex = 4;
-            // 
-            // gridColumn_self_extinguishing_system
-            // 
-            this.gridColumn_self_extinguishing_system.Caption = "是否自动灭火系统";
-            this.gridColumn_self_extinguishing_system.ColumnEdit = this.repositoryItemImageComboBox1;
-            this.gridColumn_self_extinguishing_system.FieldName = "SelfExtinguishingSystem";
-            this.gridColumn_self_extinguishing_system.Name = "gridColumn_self_extinguishing_system";
-            this.gridColumn_self_extinguishing_system.Visible = true;
-            this.gridColumn_self_extinguishing_system.VisibleIndex = 2;
-            // 
-            // repositoryItemImageComboBox1
-            // 
-            this.repositoryItemImageComboBox1.AutoHeight = false;
-            this.repositoryItemImageComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemImageComboBox1.Items.AddRange(new DevExpress.XtraEditors.Controls.ImageComboBoxItem[] {
-            new DevExpress.XtraEditors.Controls.ImageComboBoxItem("是", true, -1),
-            new DevExpress.XtraEditors.Controls.ImageComboBoxItem("否", false, -1)});
-            this.repositoryItemImageComboBox1.Name = "repositoryItemImageComboBox1";
             // 
             // gridColumn_pick
             // 
@@ -374,16 +374,17 @@
             // 
             // button_create_table
             // 
-            this.button_create_table.Location = new System.Drawing.Point(375, 454);
+            this.button_create_table.Location = new System.Drawing.Point(363, 454);
             this.button_create_table.Name = "button_create_table";
-            this.button_create_table.Size = new System.Drawing.Size(113, 23);
+            this.button_create_table.Size = new System.Drawing.Size(125, 23);
             this.button_create_table.TabIndex = 3;
             this.button_create_table.Text = "生成防火分区疏散表";
             this.button_create_table.UseVisualStyleBackColor = true;
+            this.button_create_table.Click += new System.EventHandler(this.button_create_table_Click);
             // 
             // button_create_fill
             // 
-            this.button_create_fill.Location = new System.Drawing.Point(257, 454);
+            this.button_create_fill.Location = new System.Drawing.Point(245, 454);
             this.button_create_fill.Name = "button_create_fill";
             this.button_create_fill.Size = new System.Drawing.Size(112, 23);
             this.button_create_fill.TabIndex = 4;

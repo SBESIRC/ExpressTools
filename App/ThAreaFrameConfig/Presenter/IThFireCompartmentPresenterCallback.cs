@@ -17,5 +17,8 @@ namespace ThAreaFrameConfig.Presenter
 
         // 删除防火分区
         bool OnDeleteFireCompartments(List<ThFireCompartment> compartments);
+
+        // 创建商业防火分区疏散宽度表
+        void OnCreateFCCommerceTable(ThFCCommerceSettings settings);
     }
 }
