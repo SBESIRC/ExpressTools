@@ -251,24 +251,6 @@ namespace ThAreaFrameConfig.Model
                     };
                 frame.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment, valueList);
 
-                //// 填充面积框线
-                ////  https://www.keanw.com/2010/06/creating-transparent-hatches-in-autocad-using-net.html
-                //Hatch hatch = new Hatch()
-                //{
-                //    // Set our transparency to 50% (=127)
-                //    // Alpha value is Truncate(255 * (100-n)/100)
-                //    Transparency = new Transparency(127)
-                //};
-                //hatch.SetHatchPattern(HatchPatternType.PreDefined, "ANSI31");
-                //ObjectId objId = acadDatabase.ModelSpace.Add(hatch);
-                //var hat = acadDatabase.Element<Hatch>(objId, true);
-                //hat.Associative = true;
-                //hat.AppendLoop(HatchLoopTypes.Default, new ObjectIdCollection
-                //    {
-                //        frame
-                //    });
-                //hat.EvaluateHatch(true);
-
                 return true;
             }
         }

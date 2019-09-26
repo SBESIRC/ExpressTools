@@ -8,11 +8,20 @@ using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using System.Collections.Generic;
 using ThAreaFrameConfig.Model;
+using Autodesk.AutoCAD.Colors;
 
 namespace ThAreaFrameConfig.Presenter
 {
     public static class ThPickAreaFrameHelper
     {
+        static readonly List<Tuple<string, HatchPatternType, int>> Hathes = new List<Tuple<string, HatchPatternType, int>>()
+        {
+            new Tuple<string, HatchPatternType, int>("ANSI31",   HatchPatternType.PreDefined,    500),
+            new Tuple<string, HatchPatternType, int>("松散材料",  HatchPatternType.PreDefined,    500),
+            new Tuple<string, HatchPatternType, int>("CROSS",    HatchPatternType.PreDefined,    500),
+            new Tuple<string, HatchPatternType, int>("ANSI37",   HatchPatternType.PreDefined,    800)
+        };
+
         public static bool PickAreaFrames(this IThAreaFramePresenterCallback presenterCallback, 
             string name,
             Func<string, ObjectId> layerCreator)
@@ -119,6 +128,79 @@ namespace ThAreaFrameConfig.Presenter
                     }
 
                     return false;
+                }
+            }
+        }
+
+        public static bool CreateFCCommerceFills(this IThFireCompartmentPresenterCallback presenterCallback,
+            List<ThFireCompartment> compartments)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
+                    // 按照"子键"，“楼层”， “编号”排序
+                    compartments.Sort();
+
+                    // 按<子键，楼层>分组，在同一组内填充
+                    foreach (var group in compartments.GroupBy(o => new { o.Subkey, o.Storey }))
+                    {
+                        foreach (var compartment in group)
+                        {
+                            int index = 0;
+                            foreach (var frame in compartment.Frames)
+                            {
+                                // 填充面积框线
+                                //  https://www.keanw.com/2010/06/creating-transparent-hatches-in-autocad-using-net.html
+                                Hatch hatch = new Hatch()
+                                {
+                                    // Set our transparency to 50% (=127)
+                                    // Alpha value is Truncate(255 * (100-n)/100)
+                                    Transparency = new Transparency(127),
+                                };
+                                ObjectId objId = acadDatabase.ModelSpace.Add(hatch);
+                                hatch.SetHatchPattern(Hathes[index % 4].Item2, Hathes[index % 4].Item1);
+                                hatch.PatternScale = Hathes[index % 4].Item3;
+                                hatch.Associative = true;
+
+                                // 外圈轮廓
+                                ObjectIdCollection objIdColl = new ObjectIdCollection();
+                                objIdColl.Add(new ObjectId(frame.Frame));
+                                hatch.AppendLoop(HatchLoopTypes.Outermost, objIdColl);
+
+                                try
+                                {
+                                    // 孤岛
+                                    objIdColl.Clear();
+                                    foreach (var item in frame.IslandFrames)
+                                    {
+                                        objIdColl.Add(new ObjectId(item));
+                                    }
+                                    hatch.AppendLoop(HatchLoopTypes.Default, objIdColl);
+                                }
+                                catch
+                                {
+                                    // 不知道什么原因，对于有些孤岛，AppendLoop()会抛"InvalidInput"异常
+                                    // 在找到真正的原因之前，通过try...catch...捕捉异常。
+                                }
+
+                                // 重新生成Hatch纹理
+                                hatch.EvaluateHatch(true);
+
+                                ++index;
+                            }
+                        }
+                    }
+
+                    return true;
                 }
             }
         }

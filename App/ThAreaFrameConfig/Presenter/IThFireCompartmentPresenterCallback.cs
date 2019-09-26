@@ -20,5 +20,8 @@ namespace ThAreaFrameConfig.Presenter
 
         // 创建商业防火分区疏散宽度表
         void OnCreateFCCommerceTable(ThFCCommerceSettings settings);
+
+        // 创建商业防火分区填充
+        void OnCreateFCCommerceFills(List<ThFireCompartment> compartments);
     }
 }

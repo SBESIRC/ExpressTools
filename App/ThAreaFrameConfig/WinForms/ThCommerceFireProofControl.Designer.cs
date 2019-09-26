@@ -390,6 +390,7 @@
             this.button_create_fill.TabIndex = 4;
             this.button_create_fill.Text = "生成防火分区填充";
             this.button_create_fill.UseVisualStyleBackColor = true;
+            this.button_create_fill.Click += new System.EventHandler(this.button_create_fill_Click);
             // 
             // ThCommerceFireProofControl
             // 

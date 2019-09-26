@@ -39,5 +39,10 @@ namespace ThAreaFrameConfig.Presenter
         {
             this.CreateFCCommerceTable(settings);
         }
+
+        public void OnCreateFCCommerceFills(List<ThFireCompartment> compartments)
+        {
+            this.CreateFCCommerceFills(compartments);
+        }
     }
 }

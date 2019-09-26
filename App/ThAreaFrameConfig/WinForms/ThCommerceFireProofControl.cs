@@ -75,8 +75,8 @@ namespace ThAreaFrameConfig.WinForms
             textBox_sub_key.DataBindings.Add(
                 "Text",
                 bindingSource,
-                "SubKey", 
-                true, 
+                "SubKey",
+                true,
                 DataSourceUpdateMode.OnPropertyChanged);
 
             // 地上层数
@@ -293,7 +293,7 @@ namespace ThAreaFrameConfig.WinForms
                 {
                     var compartment = ri.View.GetRow(handle) as ThFireCompartment;
                     if (compartment.IsDefined)
-                    { 
+                    {
                         compartments.Add(compartment);
                     }
                 }
@@ -334,6 +334,12 @@ namespace ThAreaFrameConfig.WinForms
         private void button_create_table_Click(object sender, EventArgs e)
         {
             Presenter.OnCreateFCCommerceTable(Settings);
+        }
+
+        private void button_create_fill_Click(object sender, EventArgs e)
+        {
+            var compartments = Compartments.Where(o => o.IsDefined).ToList();
+            Presenter.OnCreateFCCommerceFills(compartments);
         }
     }
 }
