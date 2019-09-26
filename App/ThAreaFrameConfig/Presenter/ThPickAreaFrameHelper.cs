@@ -159,17 +159,17 @@ namespace ThAreaFrameConfig.Presenter
                             foreach (var frame in compartment.Frames)
                             {
                                 // 填充面积框线
-                                //  https://www.keanw.com/2010/06/creating-transparent-hatches-in-autocad-using-net.html
-                                Hatch hatch = new Hatch()
-                                {
-                                    // Set our transparency to 50% (=127)
-                                    // Alpha value is Truncate(255 * (100-n)/100)
-                                    Transparency = new Transparency(127),
-                                };
+                                Hatch hatch = new Hatch();
                                 ObjectId objId = acadDatabase.ModelSpace.Add(hatch);
                                 hatch.SetHatchPattern(Hathes[index % 4].Item2, Hathes[index % 4].Item1);
                                 hatch.PatternScale = Hathes[index % 4].Item3;
                                 hatch.Associative = true;
+
+                                // 图层
+                                string layer = "AE-PATN-MATE";
+                                LayerTools.AddLayer(acadDatabase.Database, layer);
+                                LayerTools.SetLayerColor(acadDatabase.Database, layer, 8);
+                                hatch.Layer = layer;
 
                                 // 外圈轮廓
                                 ObjectIdCollection objIdColl = new ObjectIdCollection();
