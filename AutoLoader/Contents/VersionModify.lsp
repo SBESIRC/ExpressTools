@@ -61,10 +61,10 @@
   (princ)
   )
 
-(setq _pi2	   (* pi 0.5)
-      _pi4	   (* pi 0.25)
-      _2pi	   (* pi 2.)
-      _3pi	   (* 1.5 pi))
+(setq _pi2       (* pi 0.5)
+      _pi4       (* pi 0.25)
+      _2pi       (* pi 2.)
+      _3pi       (* 1.5 pi))
 (defun ny-dtor (dang) (* dang (/ pi 180)))
 (defun ny-rtod (rang) (* rang (/ 180 pi)))
 (defun ny-ucsAng (/ rel) (ANGLE (trans '(0 0) 1 0) (trans '(1 0) 1 0)))
@@ -96,7 +96,7 @@
   (if (not (vlax-ldata-get dict "key"))
     (vlax-ldata-put dict "key" str)
     )
-  (setq	aaa (vlax-ldata-get dict "key")
+  (setq    aaa (vlax-ldata-get dict "key")
         val  (getstring (strcat "\n" ny-msg "<" (vlax-ldata-get dict "key") ">:"))
         )
   (if (/= val "")
@@ -127,15 +127,15 @@
   (command "_.undo" "_E")
   )
 (defun ny-1str-Postion-N (String Mode IfNum? / lst I Index Num? ifNum)
-  (setq	Num? t
+  (setq    Num? t
         I 0
         )
   (setq lst (vl-string->list String))
-  (cond	((= Mode 1) (setq lst lst))
+  (cond    ((= Mode 1) (setq lst lst))
         ((= Mode 0) (setq lst (reverse lst)))
         )
   (foreach X lst
-    (cond	((= IfNum? 1) (setq ifNum (member X (vl-string->list "0123456789"))))
+    (cond    ((= IfNum? 1) (setq ifNum (member X (vl-string->list "0123456789"))))
       ((= IfNum? 0) (setq ifNum (not (member X (vl-string->list "0123456789")))))
       )
     (if   (and Num? ifNum)
@@ -367,7 +367,7 @@
   (if (and ss1desname (equal versionname "名字"))
       (setq name (ny-dxfread 1 (car (ny-SS2LST ss1desname))))
       (setq name versionname)
-	  ) ;输入名字则用输入值，否则用图框中第一设计人名字，需要图框处于绘图区才能搜索到
+      ) ;输入名字则用输入值，否则用图框中第一设计人名字，需要图框处于绘图区才能搜索到
   
   (setq L1 (* thscale 2.50)
         L2 (* thscale 35.00)
@@ -449,7 +449,7 @@
   (if (and ss1desname (equal versionname "名字"))
       (setq name (ny-dxfread 1 (car (ny-SS2LST ss1desname))))
       (setq name versionname)
-	  ) ;输入名字则用输入值，否则用图框中第一设计人名字，需要图框处于绘图区才能搜索到
+      ) ;输入名字则用输入值，否则用图框中第一设计人名字，需要图框处于绘图区才能搜索到
   
   (setq L1 (* thscale 1.79)
         L2 (* thscale 25.11)
