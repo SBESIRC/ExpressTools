@@ -4,6 +4,7 @@ using NetSparkle;
 using Microsoft.Win32;
 using Microsoft.VisualBasic.Devices;
 using Autodesk.AutoCAD.Runtime;
+using Win32RegistryKey = Microsoft.Win32.RegistryKey;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using System;
 
@@ -62,7 +63,7 @@ namespace ThAutoUpdate
         {
             const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
 
-            using (var ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
+            using (var ndpKey = Win32RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
             {
                 var ed = AcadApp.DocumentManager.MdiActiveDocument.Editor;
 
@@ -111,7 +112,7 @@ namespace ThAutoUpdate
         {
             const string subkey = @"SOFTWARE\Microsoft\Updates";
 
-            using (RegistryKey baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
+            using (Win32RegistryKey baseKey = Win32RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
             {
                 var ed = AcadApp.DocumentManager.MdiActiveDocument.Editor;
 
@@ -119,12 +120,12 @@ namespace ThAutoUpdate
                 {
                     if (baseKeyName.Contains(".NET Framework"))
                     {
-                        using (RegistryKey updateKey = baseKey.OpenSubKey(baseKeyName))
+                        using (Win32RegistryKey updateKey = baseKey.OpenSubKey(baseKeyName))
                         {
                             ed.WriteMessage("\n" + baseKeyName);
                             foreach (string kbKeyName in updateKey.GetSubKeyNames())
                             {
-                                using (RegistryKey kbKey = updateKey.OpenSubKey(kbKeyName))
+                                using (Win32RegistryKey kbKey = updateKey.OpenSubKey(kbKeyName))
                                 {
                                     ed.WriteMessage("\n  " + kbKeyName);
                                 }

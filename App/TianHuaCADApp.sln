@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThParking", "ThParking\ThPa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThAreaFrame", "ThAreaFrame\ThAreaFrame.csproj", "{F02A753B-4560-493F-9E3C-AE1F3B274E2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThAreaFrame.Test", "ThAreaFrame.Test\ThAreaFrame.Test.csproj", "{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThResourceLibrary", "ThResourceLibrary\ThResourceLibrary.csproj", "{7ADD4E30-4F8A-4B20-AC50-7A2D4CBABCD1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThElectricalSysDiagram", "ThElectricalSysDiagram\ThElectricalSysDiagram.csproj", "{DDCCFC84-32BE-480D-9AAC-E3ADB2003093}"
@@ -109,18 +107,6 @@ Global
 		{F02A753B-4560-493F-9E3C-AE1F3B274E2D}.Release-NET40|Any CPU.Build.0 = Release-NET40|Any CPU
 		{F02A753B-4560-493F-9E3C-AE1F3B274E2D}.Release-NET45|Any CPU.ActiveCfg = Release-NET45|Any CPU
 		{F02A753B-4560-493F-9E3C-AE1F3B274E2D}.Release-NET45|Any CPU.Build.0 = Release-NET45|Any CPU
-		{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}.Debug-NET40|Any CPU.ActiveCfg = Debug|Any CPU
-		{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}.Debug-NET40|Any CPU.Build.0 = Debug|Any CPU
-		{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}.Debug-NET45|Any CPU.ActiveCfg = Debug|Any CPU
-		{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}.Debug-NET45|Any CPU.Build.0 = Debug|Any CPU
-		{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}.Release-NET40|Any CPU.ActiveCfg = Release|Any CPU
-		{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}.Release-NET40|Any CPU.Build.0 = Release|Any CPU
-		{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}.Release-NET45|Any CPU.ActiveCfg = Release|Any CPU
-		{96EAA3D1-74B5-466C-BD29-709BD9D8F67E}.Release-NET45|Any CPU.Build.0 = Release|Any CPU
 		{7ADD4E30-4F8A-4B20-AC50-7A2D4CBABCD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7ADD4E30-4F8A-4B20-AC50-7A2D4CBABCD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ADD4E30-4F8A-4B20-AC50-7A2D4CBABCD1}.Debug-NET40|Any CPU.ActiveCfg = Debug-NET40|Any CPU
@@ -270,7 +256,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		        SolutionGuid = {BACE1130-D315-4658-B063-566B4F1EBA5B}
 		SolutionGuid = {4DC31E7F-3F21-4F0B-B4C8-C20B040E84EF}
+		        SolutionGuid = {BACE1130-D315-4658-B063-566B4F1EBA5B}
 	EndGlobalSection
 EndGlobal

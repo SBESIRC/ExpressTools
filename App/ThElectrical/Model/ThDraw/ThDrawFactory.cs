@@ -21,6 +21,24 @@ namespace ThElectrical.Model.ThDraw
 
         public static ThDraw CreateDraw(string type, ObjectId id, Point3d pt1, Point3d pt2)
         {
+#if ACAD2016
+            if (Utils.WcMatchEx(type, distributionDrawName, false))
+            {
+                return new ThDistributionDraw(type, id, pt1, pt2);
+            }
+            else if (Utils.WcMatchEx(type, cabinetDrawName, false))
+            {
+                return new ThCabinetDraw(type,id, pt1, pt2);
+            }
+            else if (Utils.WcMatchEx(type, mainlineDrawName, false))
+            {
+                return new ThMainlineDraw(type,id, pt1, pt2);
+            }
+            else
+            {
+                return null;
+            }
+#else
             if (Utils.WcMatch(type, distributionDrawName))
             {
                 return new ThDistributionDraw(type, id, pt1, pt2);
@@ -37,7 +55,7 @@ namespace ThElectrical.Model.ThDraw
             {
                 return null;
             }
-
+#endif
         }
     }
 }

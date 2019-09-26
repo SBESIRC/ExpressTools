@@ -129,6 +129,12 @@
         <PackageReference Include="AutoCAD-2014.Net.Interop.x64" Version="1.0.0" />
       </ItemGroup>
     </When>
+    <When Condition="$(DefineConstants.Contains('ACAD2016'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD-2016.Net.Base" Version="1.0.0" />
+        <PackageReference Include="AutoCAD-2016.Net.Interop.x86" Version="1.0.0" />
+      </ItemGroup>
+    </When>
   </Choose>
   <ItemGroup>
     <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />

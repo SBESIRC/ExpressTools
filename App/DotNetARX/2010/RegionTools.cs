@@ -19,6 +19,8 @@ namespace DotNetARX
         [DllImport("acdb18.dll", CallingConvention = CallingConvention.ThisCall, EntryPoint = "?getAreaProp@AcDbRegion@@UEBA?AW4ErrorStatus@Acad@@AEBVAcGePoint3d@@AEBVAcGeVector3d@@1AEAN2AEAVAcGePoint2d@@QEAN24QEAVAcGeVector2d@@433@Z")]
 #elif ACAD2014
         [DllImport("acdb19.dll", CallingConvention = CallingConvention.ThisCall, EntryPoint = "?getAreaProp@AcDbRegion@@UEBA?AW4ErrorStatus@Acad@@AEBVAcGePoint3d@@AEBVAcGeVector3d@@1AEAN2AEAVAcGePoint2d@@QEAN24QEAVAcGeVector2d@@433@Z")]
+#elif ACAD2016
+        [DllImport("acdb20.dll", CallingConvention = CallingConvention.ThisCall, EntryPoint = "?getAreaProp@AcDbRegion@@UEBA?AW4ErrorStatus@Acad@@AEBVAcGePoint3d@@AEBVAcGeVector3d@@1AEAN2AEAVAcGePoint2d@@QEAN24QEAVAcGeVector2d@@433@Z")]
 #endif
         private static extern ErrorStatus getAreaProp(IntPtr region,
                                                 ref Point3d origin,

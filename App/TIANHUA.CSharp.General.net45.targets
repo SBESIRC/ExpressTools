@@ -43,7 +43,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-NET45|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug-NET45\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;ACAD2015</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;ACAD2016</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -52,7 +52,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-NET45|AnyCPU'">
     <OutputPath>bin\Release-NET45\</OutputPath>
-    <DefineConstants>TRACE;ACAD2015</DefineConstants>
+    <DefineConstants>TRACE;ACAD2016</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
