@@ -65,6 +65,274 @@ namespace ThRoomBoundary
 
     }
 
+    class PathNearSearch
+    {
+        class PathNode
+        {
+            public PathNode(LineSegment2d line)
+            {
+                m_curLine = line;
+            }
+
+            public bool m_bUse = false;
+            public LineSegment2d m_curLine = null;
+            public List<PathNode> m_relatedConnectNodes = new List<PathNode>();
+        }
+
+        private List<LineSegment2d> m_lines;
+        private List<LineSegment2d> m_outLines = new List<LineSegment2d>();
+        public List<LineSegment2d> OutLines
+        {
+            get { return m_outLines; }
+        }
+
+        private List<PathNode> m_ConnectedNodes = new List<PathNode>();
+        public PathNearSearch(List<LineSegment2d> lines)
+        {
+            m_lines = lines;
+        }
+
+        public static List<LineSegment2d> MakeMergeLines(List<LineSegment2d> lines)
+        {
+            var pathSearch = new PathNearSearch(lines);
+            pathSearch.Do();
+            return pathSearch.OutLines;
+        }
+
+        public void Do()
+        {
+            for (int i = 0; i < m_lines.Count; i++)
+            {
+                m_ConnectedNodes.Add(new PathNode(m_lines[i]));
+            }
+
+            for (int i = 0; i < m_ConnectedNodes.Count; i++)
+            {
+                var curProfile = m_ConnectedNodes[i];
+                for (int j = i + 1; j < m_ConnectedNodes.Count; j++)
+                {
+                    var nextProfile = m_ConnectedNodes[j];
+                    if (IsLineNear(curProfile.m_curLine, nextProfile.m_curLine))
+                    {
+                        curProfile.m_relatedConnectNodes.Add(nextProfile);
+                        nextProfile.m_relatedConnectNodes.Add(curProfile);
+                    }
+                }
+            }
+
+            // 相邻区域收集
+            for (int j = 0; j < m_ConnectedNodes.Count; j++)
+            {
+                if (m_ConnectedNodes[j].m_bUse)
+                    continue;
+
+                if (m_ConnectedNodes[j].m_relatedConnectNodes.Count == 0)
+                {
+                    m_ConnectedNodes[j].m_bUse = true;
+                    m_outLines.Add(m_ConnectedNodes[j].m_curLine);
+                }
+                else
+                {
+                    var nearLines = SearchFromOneLine(m_ConnectedNodes[j]);
+                    var mergeLine = MergeLines(nearLines);
+                    if (mergeLine != null)
+                        m_outLines.Add(mergeLine);
+                }
+            }
+        }
+
+        private LineSegment2d MergeLines(List<LineSegment2d> lines)
+        {
+            if (lines == null || lines.Count == 0)
+                return null;
+            var ptLst = new List<Point2d>();
+            foreach (var line in lines)
+            {
+                ptLst.Add(line.StartPoint);
+                ptLst.Add(line.EndPoint);
+            }
+
+            //跟Y轴平行
+            if (lines[0].Direction.IsParallelTo(new Vector2d(0, 1)))
+            {
+                ptLst.Sort((p1, p2) => { return p1.Y.CompareTo(p2.Y); });
+            }
+            else
+            {
+                ptLst.Sort((p1, p2) => { return p1.X.CompareTo(p2.X); });
+            }
+
+            Point2d ptS = ptLst.First();
+            Point2d ptE = ptLst.Last();
+            var outLine = new LineSegment2d(ptS, ptE);
+            return outLine;
+        }
+
+        // 从一块区域开始搜索
+        private List<LineSegment2d> SearchFromOneLine(PathNode SearchLine)
+        {
+            var line2ds = new List<LineSegment2d>();
+            var InOutNodes = new List<PathNode>();
+            InOutNodes.Add(SearchLine);
+            while (InOutNodes.Count != 0)
+            {
+                var curProfile = InOutNodes.First();
+                line2ds.Add(curProfile.m_curLine);
+                curProfile.m_bUse = true;
+                InOutNodes.RemoveAt(0);
+                var childConnectNodes = curProfile.m_relatedConnectNodes;
+                foreach (var connectedNode in childConnectNodes)
+                {
+                    if (!connectedNode.m_bUse)
+                        InOutNodes.Add(connectedNode);
+                }
+            }
+
+            return line2ds;
+        }
+
+        // 线与线之间是连接的
+        private bool IsLineNear(LineSegment2d lineFir, LineSegment2d lineSec)
+        {
+            var ptFirHead = lineFir.StartPoint;
+            var ptFirTail = lineFir.EndPoint;
+            var ptSecHead = lineSec.StartPoint;
+            var ptSecTail = lineSec.EndPoint;
+
+            if (CommonUtils.IsAlmostNearZero(ptFirHead.GetDistanceTo(ptSecHead), 1e-2) || CommonUtils.IsAlmostNearZero(ptFirHead.GetDistanceTo(ptSecTail), 1e-2)
+                || CommonUtils.IsAlmostNearZero(ptFirTail.GetDistanceTo(ptSecHead), 1e-2) || CommonUtils.IsAlmostNearZero(ptFirTail.GetDistanceTo(ptSecTail), 1e-2))
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+    /// <summary>
+    ///  合并相连的直线
+    /// </summary>
+    class CombineLine
+    {
+        public List<LineSegment2d> CombineLines
+        {
+            get;
+            set;
+        }
+
+        public List<LineSegment2d> OutLines
+        {
+            get;
+            set;
+        }
+
+        public CombineLine(List<LineSegment2d> srcLines)
+        {
+            CombineLines = srcLines;
+            OutLines = new List<LineSegment2d>();
+        }
+
+        public static List<LineSegment2d> MakeCombineLines(List<LineSegment2d> srcLines)
+        {
+            var combine = new CombineLine(srcLines);
+            combine.Do();
+            return combine.OutLines;
+        }
+
+        private bool IsCollinearLines(LineSegment2d lineFir, LineSegment2d lineSec)
+        {
+            var angle1 = lineFir.Direction.GetAngleTo(lineSec.Direction);
+            var angle2 = lineFir.Direction.GetAngleTo(lineSec.Direction.Negate());
+            if (CommonUtils.IsAlmostNearZero(Math.Abs(angle1), 1e-5) || CommonUtils.IsAlmostNearZero(Math.Abs(angle2), 1e-5))
+            {
+                var ptFirS = lineFir.StartPoint;
+                var ptSecS = lineSec.StartPoint;
+                var vector = ptFirS - ptSecS;
+                var angle3 = lineFir.Direction.GetAngleTo(vector);
+                var angle4 = lineFir.Direction.GetAngleTo(vector.Negate());
+                if (CommonUtils.IsAlmostNearZero(Math.Abs(angle3), 1e-5) || CommonUtils.IsAlmostNearZero(Math.Abs(angle4), 1e-5))
+                {
+                    return true;
+                }
+
+            }
+
+            return false;
+        }
+
+        public void Do()
+        {
+            var relatedDatas = new List<CollinearData>();
+            foreach (var line in CombineLines)
+            {
+                relatedDatas.Add(new CollinearData(line));
+            }
+
+            for (int i = 0; i < relatedDatas.Count; i++)
+            {
+                if (!relatedDatas[i].Valid)
+                    continue;
+
+                for (int j = i + 1; j < relatedDatas.Count; j++)
+                {
+                    if (!relatedDatas[j].Valid)
+                        continue;
+
+                    //共线
+                    if (IsCollinearLines(relatedDatas[i].Line, relatedDatas[j].Line))
+                    {
+                        relatedDatas[i].RelatedCollinearLines.Add(((LineSegment2d)relatedDatas[j].Line.Clone()));
+                        relatedDatas[j].Valid = false;
+                    }
+                }
+            }
+
+            // 有共线则生成共线数据
+            foreach (var data in relatedDatas)
+            {
+                if (data.Valid)
+                {
+                    if (data.RelatedCollinearLines.Count == 0)
+                    {
+                        OutLines.Add(data.Line);
+                    }
+                    else
+                    {
+                        var lines = CombineData(data);
+                        if (lines.Count != 0)
+                            OutLines.AddRange(lines);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 合并相邻的数据
+        /// </summary>
+        /// <param name="CollinearData"></param>
+        /// <returns></returns>
+        private List<LineSegment2d> CombineData(CollinearData data)
+        {
+            var lines = RemoveOverlaySection(data);
+            var outLines = PathNearSearch.MakeMergeLines(lines);
+            return outLines;
+        }
+
+        //删除重复边
+        private List<LineSegment2d> RemoveOverlaySection(CollinearData data)
+        {
+            var srcLines = new List<LineSegment2d>();
+            srcLines.Add(data.Line);
+            srcLines.AddRange(data.RelatedCollinearLines);
+            var lineNodes = new List<LineNode>();
+            srcLines.ForEach(l => lineNodes.Add(new LineNode(l)));
+            List<LineNode> outLineNodes = null;
+            CommonUtils.RemoveCollinearLines(lineNodes, out outLineNodes);
+            var aimLines = new List<LineSegment2d>();
+            outLineNodes.ForEach(p => aimLines.Add(p.CurLine));
+            return aimLines;
+        }
+    }
+
     public class LineNode
     {
         public LineSegment2d CurLine
@@ -79,10 +347,186 @@ namespace ThRoomBoundary
             set;
         }
 
-        public LineNode(LineSegment2d line2d, string layerName)
+        public LineNode(LineSegment2d line2d, string layerName = null)
         {
             CurLine = line2d;
             LayerName = layerName;
+        }
+    }
+
+    class ConnectedNode
+    {
+        public ConnectedNode(List<LineSegment2d> relatedCurvesNode)
+        {
+            m_curNode = relatedCurvesNode;
+        }
+
+        public bool m_bUse = false;
+        public List<LineSegment2d> m_curNode = null;
+        public List<ConnectedNode> m_relatedConnectNodes = new List<ConnectedNode>();
+    }
+
+    /// <summary>
+    /// 连通区域的外包框
+    /// </summary>
+    class ConnectedBoxBound
+    {
+        private List<List<LineSegment2d>> m_curvesLst;
+        private List<List<LineSegment2d>> m_outBounds = new List<List<LineSegment2d>>();
+        public List<List<LineSegment2d>> OutBounds
+        {
+            get { return m_outBounds; }
+        }
+
+        private List<ConnectedNode> m_ConnectedNodes = new List<ConnectedNode>();
+        public ConnectedBoxBound(List<List<LineSegment2d>> curvesLst)
+        {
+            m_curvesLst = curvesLst;
+        }
+
+        /// <summary>
+        /// 生成相邻区域外包轮廓
+        /// </summary>
+        /// <param name="curvesLst"></param>
+        /// <returns></returns>
+        public static List<List<LineSegment2d>> MakeRelatedBoundary(List<List<LineSegment2d>> curvesLst)
+        {
+            var boxBound = new ConnectedBoxBound(curvesLst);
+            var relatedCurves = boxBound.Do();
+            boxBound.CalculateBounds(relatedCurves);
+            return boxBound.OutBounds;
+        }
+
+        public static List<List<LineSegment2d>> MakeRelatedCurves(List<List<LineSegment2d>> curvesLst)
+        {
+            var boxBound = new ConnectedBoxBound(curvesLst);
+            return boxBound.Do();
+        }
+
+        public List<List<LineSegment2d>> Do()
+        {
+            for (int i = 0; i < m_curvesLst.Count; i++)
+            {
+                m_ConnectedNodes.Add(new ConnectedNode(m_curvesLst[i]));
+            }
+
+            for (int i = 0; i < m_ConnectedNodes.Count; i++)
+            {
+                var curProfile = m_ConnectedNodes[i];
+                for (int j = i + 1; j < m_ConnectedNodes.Count; j++)
+                {
+                    var nextProfile = m_ConnectedNodes[j];
+                    if (IsAreaConnectArea(curProfile.m_curNode, nextProfile.m_curNode))
+                    {
+                        curProfile.m_relatedConnectNodes.Add(nextProfile);
+                        nextProfile.m_relatedConnectNodes.Add(curProfile);
+                    }
+                }
+            }
+
+            var connectedAreaLst = new List<List<LineSegment2d>>();
+            // 相邻区域收集
+            for (int j = 0; j < m_ConnectedNodes.Count; j++)
+            {
+                if (m_ConnectedNodes[j].m_bUse)
+                    continue;
+
+                if (m_ConnectedNodes[j].m_relatedConnectNodes.Count == 0)
+                {
+                    m_ConnectedNodes[j].m_bUse = true;
+                    connectedAreaLst.Add(m_ConnectedNodes[j].m_curNode);
+                }
+                else
+                {
+                    var loops = SearchFromOneArea(m_ConnectedNodes[j]);
+                    connectedAreaLst.Add(loops);
+                }
+            }
+
+            return connectedAreaLst;
+        }
+
+        /// <summary>
+        /// 计算相邻区域的外包框
+        /// </summary>
+        /// <param name="connectedAreaLst"></param>
+        public void CalculateBounds(List<List<LineSegment2d>> connectedAreaLst)
+        {
+            foreach (var connectCurves in connectedAreaLst)
+            {
+                // 经过外扩的
+                var boundLines = ThRoomUtils.GetBoundFromLine2ds(connectCurves);
+                if (boundLines != null && boundLines.Count != 0)
+                {
+                    m_outBounds.Add(boundLines);
+                }
+            }
+        }
+
+        // 从一块区域开始搜索
+        private List<LineSegment2d> SearchFromOneArea(ConnectedNode Searchprofile)
+        {
+            var line2ds = new List<LineSegment2d>();
+            var InOutNodes = new List<ConnectedNode>();
+            InOutNodes.Add(Searchprofile);
+            while (InOutNodes.Count != 0)
+            {
+                var curProfile = InOutNodes.First();
+                line2ds.AddRange(curProfile.m_curNode);
+                curProfile.m_bUse = true;
+                InOutNodes.RemoveAt(0);
+                var childConnectNodes = curProfile.m_relatedConnectNodes;
+                foreach (var connectedNode in childConnectNodes)
+                {
+                    if (!connectedNode.m_bUse)
+                        InOutNodes.Add(connectedNode);
+                }
+            }
+
+            return line2ds;
+        }
+
+        /// <summary>
+        /// 重叠
+        /// </summary>
+        /// <param name="lineFir"></param>
+        /// <param name="lineSec"></param>
+        /// <returns></returns>
+        private bool IsOverlap(LineSegment2d lineFir, LineSegment2d lineSec)
+        {
+            var ptFirS = lineFir.StartPoint;
+            var ptFirE = lineFir.EndPoint;
+            var ptSecS = lineSec.StartPoint;
+            var ptSecE = lineSec.EndPoint;
+            if (CommonUtils.IsPointOnSegment(ptFirS, lineSec) || CommonUtils.IsPointOnSegment(ptFirE, lineSec)
+               || CommonUtils.IsPointOnSegment(ptSecS, lineFir) || CommonUtils.IsPointOnSegment(ptSecE, lineFir))
+                return true;
+            return false;
+        }
+
+        // 区域之间有连通的
+        private bool IsAreaConnectArea(List<LineSegment2d> curvesFir, List<LineSegment2d> curvesSec)
+        {
+            foreach (var curveFir in curvesFir)
+            {
+                foreach (var curveSec in curvesSec)
+                {
+                    var intersectPts = curveFir.IntersectWith(curveSec);
+                    if (intersectPts != null && intersectPts.Count() == 1)
+                    {
+                        // intersect
+                        return true;
+                    }
+                    else
+                    {
+                        // not intersect
+                        if (IsOverlap(curveFir, curveSec))
+                            return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 
@@ -101,15 +545,15 @@ namespace ThRoomBoundary
             var curves = new List<Curve>();
             foreach (var doorBound in doorBounds)
             {
-                // 相关数据
+                // 相关数据内部或者相交
                 var relatedCurves = BoundRelatedBoundCurves(doorBound, wallCurves);
-                //ThRoomUtils.DrawCurvesAdd(relatedCurves);
-                //ThRoomUtils.DrawCurvesAdd(doorBound);
-                // 插入数据
                 if (relatedCurves == null || relatedCurves.Count == 0)
                     continue;
 
-                var insertCurves = InsertConnectCurves(relatedCurves, layer);
+                // 根据相关数据进行连接处理
+                // 收尾相连且共线的线段进行合并直线处理
+                var combineCurves = CombineCollinearLines(relatedCurves);
+                var insertCurves = InsertConnectCurves(combineCurves, layer);
                 if (insertCurves != null && insertCurves.Count != 0)
                 {
                     curves.AddRange(insertCurves);
@@ -117,6 +561,135 @@ namespace ThRoomBoundary
             }
 
             return curves;
+        }
+
+        /// <summary>
+        /// 合并直线处理
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <returns></returns>
+        public static List<LineSegment2d> CombineCollinearLines(List<LineSegment2d> lines)
+        {
+            if (lines == null || lines.Count == 0)
+                return null;
+
+            var combines = CombineLine.MakeCombineLines(lines);
+            return combines;
+        }
+
+        /// <summary>
+        /// 是否有平行共线的数据，如果没有，则进行相交处理
+        /// </summary>
+        /// <param name="relatedDatas"></param>
+        /// <returns> 没有平行共线的处理则返回true</returns>
+        public static bool IsNotHaveCollinearDatas(List<CollinearData> relatedDatas)
+        {
+            foreach (var relatedData in relatedDatas)
+            {
+                // 只要有false则说明有共线的处理
+                if (!relatedData.Valid)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static LineSegment2d ExtendLine(LineSegment2d line)
+        {
+            var ptS = line.StartPoint;
+            var ptE = line.EndPoint;
+            ptS = ptS - line.Direction * 1000000;
+            ptE = ptE + line.Direction * 1000000;
+            return new LineSegment2d(ptS, ptE);
+        }
+
+        /// <summary>
+        /// 一块区域和另一块区域的连接处理
+        /// </summary>
+        /// <param name="line2dsFir"></param>
+        /// <param name="line2dsSec"></param>
+        /// <returns></returns>
+        public static List<Curve> ConnectLinesWithsLines(List<LineSegment2d> line2dsFir, List<LineSegment2d> line2dsSec, string layerName = null)
+        {
+            //DrawCurves(line2dsFir);
+            //DrawCurves(line2dsSec);
+            var curves = new List<Curve>();
+            foreach (var firLine in line2dsFir)
+            {
+                foreach (var secLine in line2dsSec)
+                {
+                    if (IsParallel(firLine, secLine))
+                        continue;
+
+                    // 非平行
+                    var firLineExtend = ExtendLine(firLine);
+                    var secLineExtend = ExtendLine(secLine);
+                    var intersectPoints = firLineExtend.IntersectWith(secLineExtend);
+
+                    if (intersectPoints != null && intersectPoints.Count() == 1)
+                    {
+                        Point2d pt = intersectPoints.First();
+                        var ptFirHead = firLine.StartPoint;
+                        var ptFirEnd = firLine.EndPoint;
+                        var ptSecHead = secLine.StartPoint;
+                        var ptSecEnd = secLine.EndPoint;
+                        Line line = null;
+                        if (CommonUtils.IsPointOnSegment(pt, firLine, 1e-1))
+                        {
+                            if (pt.GetDistanceTo(ptSecHead) < pt.GetDistanceTo(ptSecEnd))
+                                line = new Line(new Point3d(pt.X, pt.Y, 0), new Point3d(ptSecHead.X, ptSecHead.Y, 0));
+                            else
+                                line = new Line(new Point3d(pt.X, pt.Y, 0), new Point3d(ptSecEnd.X, ptSecEnd.Y, 0));
+                        }
+                        else if (CommonUtils.IsPointOnSegment(pt, secLine, 1e-1))
+                        {
+                            if (pt.GetDistanceTo(ptFirHead) < pt.GetDistanceTo(ptFirEnd))
+                                line = new Line(new Point3d(pt.X, pt.Y, 0), new Point3d(ptFirHead.X, ptFirHead.Y, 0));
+                            else
+                                line = new Line(new Point3d(pt.X, pt.Y, 0), new Point3d(ptFirEnd.X, ptFirEnd.Y, 0));
+                        }
+
+                        if (line != null)
+                        {
+                            if (layerName != null)
+                                line.Layer = layerName;
+
+                            // 剔除重复的增加线
+                            if (!IsInValidLine(curves, line))
+                                curves.Add(line);
+                        }
+                    }
+
+                }
+            }
+
+            return curves;
+        }
+
+        public static bool IsInValidLine(List<Curve> curves, Line line)
+        {
+            if (curves.Count == 0)
+                return false;
+
+            foreach (var curve in curves)
+            {
+                if (curve is Line)
+                {
+                    var addLine = curve as Line;
+                    if (CommonUtils.IsAlmostNearZero(addLine.Length - line.Length, 1))
+                    {
+                        var ptAddS = addLine.StartPoint;
+                        var ptAddE = addLine.EndPoint;
+                        var ptS = line.StartPoint;
+                        var ptE = line.EndPoint;
+                        if ((CommonUtils.Point3dIsEqualPoint3d(ptAddS, ptS, 0.1) && CommonUtils.Point3dIsEqualPoint3d(ptAddE, ptE, 0.1))
+                            || (CommonUtils.Point3dIsEqualPoint3d(ptAddS, ptE, 0.1) && CommonUtils.Point3dIsEqualPoint3d(ptAddE, ptS, 0.1)))
+                            return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         //共线数据生成
@@ -147,10 +720,27 @@ namespace ThRoomBoundary
                 }
             }
 
-            //生成共线数据
-            var curves = new List<Curve>();
-            using (var db = AcadDatabase.Active())
+            // 如果没有平行线，则做相交处理
+            if (IsNotHaveCollinearDatas(relatedDatas))
             {
+                var innerLinesLst = new List<List<LineSegment2d>>();
+                relatedDatas.ForEach(p =>
+                {
+                    innerLinesLst.Add(new List<LineSegment2d>() { p.Line });
+                });
+
+                var relatedCurvesLst = ConnectedBoxBound.MakeRelatedCurves(innerLinesLst);
+                if (relatedCurvesLst.Count == 2)
+                {
+                    return ConnectLinesWithsLines(relatedCurvesLst.First(), relatedCurvesLst.Last(), layer);
+                }
+                else
+                    return null;
+            }
+            else
+            {
+                // 有共线则生成共线数据
+                var curves = new List<Curve>();
                 foreach (var data in relatedDatas)
                 {
                     if (data.Valid)
@@ -164,10 +754,9 @@ namespace ThRoomBoundary
                         }
                     }
                 }
+
+                return curves;
             }
-
-
-            return curves;
         }
 
         /// <summary>
@@ -191,8 +780,9 @@ namespace ThRoomBoundary
             ptLst.Add(curLine.StartPoint);
             ptLst.Add(curLine.EndPoint);
 
+            Tolerance tolerance = new Tolerance(1e-4, 0);
             //跟Y轴平行
-            if (collinearData.Line.Direction.IsParallelTo(new Vector2d(0, 1)))
+            if (collinearData.Line.Direction.IsParallelTo(new Vector2d(0, 1), tolerance))
             {
                 ptLst.Sort((p1, p2) => { return p1.Y.CompareTo(p2.Y); });
             }
@@ -213,9 +803,18 @@ namespace ThRoomBoundary
                 ptS = ptLst.First();
                 ptE = ptLst.Last();
             }
-            
+
             var line = new Line(new Point3d(ptS.X, ptS.Y, 0), new Point3d(ptE.X, ptE.Y, 0));
             return line;
+        }
+
+        public static bool IsParallel(LineSegment2d lineFir, LineSegment2d lineSec)
+        {
+            var angle1 = lineFir.Direction.GetAngleTo(lineSec.Direction);
+            var angle2 = lineFir.Direction.GetAngleTo(lineSec.Direction.Negate());
+            if (CommonUtils.IsAlmostNearZero(Math.Abs(angle1), 1e-5) || CommonUtils.IsAlmostNearZero(Math.Abs(angle2), 1e-5))
+                return true;
+            return false;
         }
 
         /// <summary>
@@ -236,7 +835,14 @@ namespace ThRoomBoundary
                 var angle3 = lineFir.Direction.GetAngleTo(vector);
                 var angle4 = lineFir.Direction.GetAngleTo(vector.Negate());
                 if (CommonUtils.IsAlmostNearZero(Math.Abs(angle3), 1e-5) || CommonUtils.IsAlmostNearZero(Math.Abs(angle4), 1e-5))
-                    return true;
+                {
+                    // 共线直线之间的距离不能太小
+                    var ptFirE = lineFir.EndPoint;
+                    var ptSecE = lineSec.EndPoint;
+                    if (ptSecS.GetDistanceTo(ptFirS) > 10 && ptSecS.GetDistanceTo(ptFirE) > 10 && ptSecE.GetDistanceTo(ptFirS) > 10 && ptSecE.GetDistanceTo(ptFirE) > 10)
+                        return true;
+                }
+
             }
 
             return false;
@@ -281,18 +887,47 @@ namespace ThRoomBoundary
             }
         }
 
+        public static void DrawCurves(List<LineSegment2d> lines)
+        {
+            var curves = new List<Curve>();
+            foreach (var line in lines)
+            {
+                var ptS2d = line.StartPoint;
+                var ptE2d = line.EndPoint;
+                var ptS = new Point3d(ptS2d.X, ptS2d.Y, 0);
+                var ptE = new Point3d(ptE2d.X, ptE2d.Y, 0);
+                curves.Add(new Line(ptS, ptE));
+            }
+
+            using (AcadDatabase acad = AcadDatabase.Active())
+            {
+                IntegerCollection intCol = new IntegerCollection();
+                foreach (var curve in curves)
+                {
+                    curve.Color = Color.FromRgb(0, 255, 0);
+                    Autodesk.AutoCAD.GraphicsInterface.TransientManager tm = Autodesk.AutoCAD.GraphicsInterface.TransientManager.CurrentTransientManager;
+
+                    tm.AddTransient(curve, Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode.Highlight, 128, intCol);
+                }
+            }
+        }
+
         /// <summary>
         /// 绘制
         /// </summary>
         /// <param name="curves"></param>
         public static void DrawCurvesAdd(List<Curve> curves)
         {
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            foreach (var curve in curves)
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                curve.Color = Color.FromRgb(0, 255, 255);
-                // 添加到modelSpace中
-                AcHelper.DocumentExtensions.AddEntity<Curve>(doc, curve);
+                foreach (var curve in curves)
+                {
+                    // curve.UpgradeOpen();
+                    curve.Color = Color.FromRgb(0, 255, 255);
+                    // 添加到modelSpace中
+
+                    acadDatabase.ModelSpace.Add(curve);
+                }
             }
         }
 
@@ -300,7 +935,7 @@ namespace ThRoomBoundary
         {
             var line2ds = new List<LineSegment2d>();
             var layerNames = new List<string>();
-            lineNodes.ForEach(p => 
+            lineNodes.ForEach(p =>
             {
                 line2ds.Add(p.CurLine);
                 layerNames.Add(p.LayerName);
@@ -314,6 +949,43 @@ namespace ThRoomBoundary
         /// <param name="curves"></param>
         public static void DrawCurvesAdd(List<LineSegment2d> line2ds, List<string> layerNames = null)
         {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var curves = new List<Curve>();
+                foreach (var line2d in line2ds)
+                {
+                    var start = line2d.StartPoint;
+                    var endPt = line2d.EndPoint;
+                    var startPoint = new Point3d(start.X, start.Y, 0);
+                    var endPoint = new Point3d(endPt.X, endPt.Y, 0);
+                    var line = new Line(startPoint, endPoint);
+                    curves.Add(line);
+                }
+
+                if (layerNames != null)
+                {
+                    for (int i = 0; i < layerNames.Count; i++)
+                    {
+                        curves[i].Layer = layerNames[i];
+                    }
+                }
+
+                foreach (var curve in curves)
+                {
+                    curve.Color = Color.FromRgb(0, 255, 255);
+                    // 添加到modelSpace中
+
+                    acadDatabase.ModelSpace.Add(curve);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 绘制
+        /// </summary>
+        /// <param name="curves"></param>
+        public static void DrawCurvesAddWithLayer(List<LineSegment2d> line2ds, List<string> layerNames = null)
+        {
             Document doc = Application.DocumentManager.MdiActiveDocument;
             var curves = new List<Curve>();
             foreach (var line2d in line2ds)
@@ -326,16 +998,10 @@ namespace ThRoomBoundary
                 curves.Add(line);
             }
 
-            if (layerNames != null)
-            {
-                for (int i = 0; i < layerNames.Count; i++)
-                {
-                    curves[i].Layer = layerNames[i];
-                }
-            }
-
             foreach (var curve in curves)
             {
+                if (layerNames != null)
+                    curve.Layer = layerNames.First();
                 curve.Color = Color.FromRgb(0, 255, 255);
                 // 添加到modelSpace中
                 AcHelper.DocumentExtensions.AddEntity<Curve>(doc, curve);
@@ -577,6 +1243,67 @@ namespace ThRoomBoundary
         }
 
         /// <summary>
+        /// 获取指定图层中连通区域的包围盒边界处理
+        /// </summary>
+        /// <param name="layerName"></param>
+        /// <returns></returns>
+        public static List<List<LineSegment2d>> GetBoundsFromLayerBlocksAndCurves(List<string> layerNames, List<LineSegment2d> rectLines)
+        {
+            var blockBounds = new List<List<LineSegment2d>>();
+
+            using (var db = AcadDatabase.Active())
+            {
+                var blocks = db.ModelSpace.OfType<BlockReference>();
+                foreach (var block in blocks)
+                {
+                    if (ValidBlock(block, layerNames))
+                    {
+                        var blockCurves = GetCurvesFromBlock(block);
+                        var lines = GetBoundFromCurves(blockCurves);
+                        if (lines == null || lines.Count == 0)
+                            continue;
+
+                        if (CommonUtils.OutLoopContainsInnerLoop(rectLines, lines))
+                            blockBounds.Add(lines);
+                    }
+                }
+
+                var layerCurves = db.ModelSpace.OfType<Curve>().Where(l =>
+                {
+                    foreach (var layerName in layerNames)
+                    {
+                        if (l.Layer == layerName)
+                            return true;
+                    }
+
+                    return false;
+                }).ToList<Curve>();
+
+                var validCurves = GetValidCurvesFromSelectArea(layerCurves, rectLines);
+
+                foreach (var curve in validCurves)
+                {
+                    if (curve is Line)
+                    {
+                        var line = curve as Line;
+                        var ptS = new Point2d(line.StartPoint.X, line.StartPoint.Y);
+                        var ptE = new Point2d(line.EndPoint.X, line.EndPoint.Y);
+                        blockBounds.Add(new List<LineSegment2d>() { new LineSegment2d(ptS, ptE) });
+                    }
+                    else
+                    {
+                        var curveBounds = ThRoomUtils.GetRectFromBound(curve.Bounds.Value);
+                        blockBounds.Add(curveBounds);
+                    }
+                }
+            }
+
+            // 生成相邻框的数据，框边缘是外扩的， 上面的框边缘都是原始的，不经过外扩的数据
+            var connectBounds = ConnectedBoxBound.MakeRelatedBoundary(blockBounds);
+            return connectBounds;
+        }
+
+        /// <summary>
         ///  计算curves的外包边界
         /// </summary>
         /// <param name="curves"></param>
@@ -592,6 +1319,59 @@ namespace ThRoomBoundary
             foreach (var lineNode in lineNodes)
             {
                 var line = lineNode.CurLine;
+                var pxHead = line.StartPoint;
+                var pxEnd = line.EndPoint;
+                var ptS = new XY(pxHead.X, pxHead.Y);
+                var ptE = new XY(pxEnd.X, pxEnd.Y);
+                ptLst.Add(ptS);
+                ptLst.Add(ptE);
+            }
+
+            var leftBottom = new XY(ptLst[0].X, ptLst[0].Y);
+            var rightTop = new XY(ptLst[0].X, ptLst[0].Y);
+            for (int i = 1; i < ptLst.Count; i++)
+            {
+                if (leftBottom.X > ptLst[i].X)
+                    leftBottom.X = ptLst[i].X;
+                if (leftBottom.Y > ptLst[i].Y)
+                    leftBottom.Y = ptLst[i].Y;
+
+                if (rightTop.X < ptLst[i].X)
+                    rightTop.X = ptLst[i].X;
+                if (rightTop.Y < ptLst[i].Y)
+                    rightTop.Y = ptLst[i].Y;
+            }
+
+            var pt1 = new Point2d(leftBottom.X, leftBottom.Y);
+            var pt3 = new Point2d(rightTop.X, rightTop.Y);
+            var pt2 = new Point2d(pt3.X, pt1.Y);
+            var pt4 = new Point2d(pt1.X, pt3.Y);
+
+            var line1 = new LineSegment2d(pt1, pt2);
+            var line2 = new LineSegment2d(pt2, pt3);
+            var line3 = new LineSegment2d(pt3, pt4);
+            var line4 = new LineSegment2d(pt4, pt1);
+            boundLines.Add(line1);
+            boundLines.Add(line2);
+            boundLines.Add(line3);
+            boundLines.Add(line4);
+            return boundLines;
+        }
+
+        /// <summary>
+        ///  计算外包边界
+        /// </summary>
+        /// <param name="line2ds"></param>
+        /// <returns></returns>
+        public static List<LineSegment2d> GetBoundFromLine2ds(List<LineSegment2d> line2ds)
+        {
+            if (line2ds == null || line2ds.Count == 0)
+                return null;
+
+            var boundLines = new List<LineSegment2d>();
+            var ptLst = new List<XY>();
+            foreach (var line in line2ds)
+            {
                 var pxHead = line.StartPoint;
                 var pxEnd = line.EndPoint;
                 var ptS = new XY(pxHead.X, pxHead.Y);
@@ -681,6 +1461,16 @@ namespace ThRoomBoundary
             return false;
         }
 
+        public static bool ValidCurve(Curve curve, List<string> layerNames)
+        {
+            foreach (var layerName in layerNames)
+            {
+                if (curve.Layer == layerName)
+                    return true;
+            }
+
+            return false;
+        }
         /// <summary>
         /// 是否是有效的curve
         /// </summary>
@@ -931,9 +1721,12 @@ namespace ThRoomBoundary
             if (bound == null)
                 return false;
 
+
             var srcLine2ds = GetRectFromBound(bound);
             if (IsLinesIntersectWithLines(srcLine2ds, rectLines) || CommonUtils.OutLoopContainsInnerLoop(rectLines, srcLine2ds))
+            {
                 return true;
+            }
 
             return false;
         }
@@ -972,19 +1765,40 @@ namespace ThRoomBoundary
             return false;
         }
 
-        public static List<LineSegment2d> GetRectFromBound(Extents3d bound)
+        /// <summary>
+        /// 可扩展的矩形范围， vector 为空值时， 则是原始的范围
+        /// </summary>
+        /// <param name="bound"></param>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        public static List<LineSegment2d> GetRectFromBound(Extents3d bound, Vector3d? vector = null)
         {
-            var minPoint = bound.MinPoint - new Vector3d(300, 300, 0);
-            var maxPoint = bound.MaxPoint + new Vector3d(300, 300, 0);
+            Point3d minPoint;
+            Point3d maxPoint;
+            if (vector != null)
+            {
+                minPoint = bound.MinPoint - vector.Value;
+                maxPoint = bound.MaxPoint + vector.Value;
+            }
+            else
+            {
+                minPoint = bound.MinPoint;
+                maxPoint = bound.MaxPoint;
+            }
+
             var recPt1 = new Point2d(minPoint.X, minPoint.Y);
             var recPt2 = new Point2d(maxPoint.X, minPoint.Y);
             var recPt3 = new Point2d(maxPoint.X, maxPoint.Y);
             var recPt4 = new Point2d(minPoint.X, maxPoint.Y);
             var lines = new List<LineSegment2d>();
-            lines.Add(new LineSegment2d(recPt1, recPt2));
-            lines.Add(new LineSegment2d(recPt2, recPt3));
-            lines.Add(new LineSegment2d(recPt3, recPt4));
-            lines.Add(new LineSegment2d(recPt4, recPt1));
+            if (!CommonUtils.IsAlmostNearZero(recPt1.GetDistanceTo(recPt2), 1e-4))
+                lines.Add(new LineSegment2d(recPt1, recPt2));
+            if (!CommonUtils.IsAlmostNearZero(recPt2.GetDistanceTo(recPt3), 1e-4))
+                lines.Add(new LineSegment2d(recPt2, recPt3));
+            if (!CommonUtils.IsAlmostNearZero(recPt3.GetDistanceTo(recPt4), 1e-4))
+                lines.Add(new LineSegment2d(recPt3, recPt4));
+            if (!CommonUtils.IsAlmostNearZero(recPt4.GetDistanceTo(recPt1), 1e-4))
+                lines.Add(new LineSegment2d(recPt4, recPt1));
             return lines;
         }
         /// <summary>
@@ -1042,7 +1856,7 @@ namespace ThRoomBoundary
                         closeLayerNames.Add(layer.Name);
                     }
 
-                    if (layer.Name.Contains("AE-WALL")|| layer.Name.Contains("AD-NAME-ROOM")
+                    if (layer.Name.Contains("AE-WALL") || layer.Name.Contains("AD-NAME-ROOM")
                          || layer.Name.Contains("AE-STRU") || layer.Name.Contains("S_COLU"))
                     {
                         allCurveLayers.Add(layer.Name);

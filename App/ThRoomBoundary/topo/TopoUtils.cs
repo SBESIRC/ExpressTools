@@ -121,7 +121,6 @@ namespace ThRoomBoundary.topo
         public static List<RoomDataPolyline> MakeSrcProfiles(List<Curve> curves, List<LineSegment2d> rectLines = null)
         {
             var lines = TesslateCurve2Lines(curves);
-            //ThRoomUtils.DrawCurvesAdd(lines);
             var profiles = TopoSearch.MakeSrcProfileLoops(lines, rectLines);
 
             // 二维转化为三维
@@ -298,6 +297,67 @@ namespace ThRoomBoundary.topo
         }
 
         /// <summary>
+        /// 数据打撒成直线段
+        /// </summary>
+        /// <param name="curves"></param>
+        /// <returns></returns>
+        public static List<LineSegment2d> TesslateCurve2Lines(Curve curve)
+        {
+            var lines = new List<LineSegment2d>();
+            if (curve is Line)
+            {
+                var line = curve as Line;
+                var ptS = line.StartPoint;
+                var ptE = line.EndPoint;
+                var lineSegment2d = new LineSegment2d(new Point2d(ptS.X, ptS.Y), new Point2d(ptE.X, ptE.Y));
+                lines.Add(lineSegment2d);
+            }
+            else if (curve is Arc)
+            {
+                var arc = curve as Arc;
+                var polyline = arc.Spline.ToPolyline();
+                var lineNodes = Polyline2dLines(polyline as Polyline);
+                if (lineNodes != null)
+                    lines.AddRange(lineNodes);
+            }
+            else if (curve is Circle)
+            {
+                var circle = curve as Circle;
+                var spline = circle.Spline;
+                var polyline = spline.ToPolyline();
+                var lineNodes = Polyline2dLines(polyline as Polyline);
+                if (lineNodes != null)
+                    lines.AddRange(lineNodes);
+            }
+            else if (curve is Ellipse)
+            {
+                var ellipse = curve as Ellipse;
+                var polyline = ellipse.Spline.ToPolyline();
+                var lineNodes = Polyline2dLines(polyline as Polyline);
+                if (lineNodes != null)
+                    lines.AddRange(lineNodes);
+            }
+            else if (curve is Polyline)
+            {
+                var lineNodes = Polyline2dLines(curve as Polyline);
+                if (lineNodes != null)
+                    lines.AddRange(lineNodes);
+            }
+            else if (curve is Spline)
+            {
+                var polyline = (curve as Spline).ToPolyline();
+                if (polyline is Polyline)
+                {
+                    var lineNodes = Polyline2dLines(polyline as Polyline);
+                    if (lineNodes != null)
+                        lines.AddRange(lineNodes);
+                }
+            }
+
+            return lines;
+        }
+
+        /// <summary>
         /// 多段线转换为直线
         /// </summary>
         /// <param name="polyline"></param>
@@ -364,6 +424,78 @@ namespace ThRoomBoundary.topo
                                 arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
                             var pline = arc.Spline.ToPolyline();
                             var lineNodes = Polyline2Lines(pline as Polyline);
+                            if (lineNodes != null)
+                                lines.AddRange(lineNodes);
+                        }
+                    }
+                }
+            }
+
+            return lines;
+        }
+
+        public static List<LineSegment2d> Polyline2dLines(Polyline polyline)
+        {
+            if (polyline == null)
+                return null;
+
+            var lines = new List<LineSegment2d>();
+            if (polyline.Closed)
+            {
+                for (int i = 0; i < polyline.NumberOfVertices; i++)
+                {
+                    var bulge = polyline.GetBulgeAt(i);
+                    if (CommonUtils.IsAlmostNearZero(bulge))
+                    {
+                        var line2d = polyline.GetLineSegment2dAt(i);
+                        lines.Add(line2d);
+                    }
+                    else
+                    {
+                        var type = polyline.GetSegmentType(i);
+                        if (type == SegmentType.Arc)
+                        {
+                            var arc3d = polyline.GetArcSegmentAt(i);
+                            var normal = arc3d.Normal;
+                            var axisZ = Vector3d.ZAxis;
+                            var arc = new Arc();
+                            if (normal.IsEqualTo(Vector3d.ZAxis.Negate()))
+                                arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
+                            else
+                                arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
+                            var pline = arc.Spline.ToPolyline();
+                            var lineNodes = Polyline2dLines(pline as Polyline);
+                            if (lineNodes != null)
+                                lines.AddRange(lineNodes);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int j = 0; j < polyline.NumberOfVertices - 1; j++)
+                {
+                    var bulge = polyline.GetBulgeAt(j);
+                    if (CommonUtils.IsAlmostNearZero(bulge))
+                    {
+                        var line2d = polyline.GetLineSegment2dAt(j);
+                        lines.Add(line2d);
+                    }
+                    else
+                    {
+                        var type = polyline.GetSegmentType(j);
+                        if (type == SegmentType.Arc)
+                        {
+                            var arc3d = polyline.GetArcSegmentAt(j);
+                            var normal = arc3d.Normal;
+                            var axisZ = Vector3d.ZAxis;
+                            var arc = new Arc();
+                            if (normal.IsEqualTo(Vector3d.ZAxis.Negate()))
+                                arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
+                            else
+                                arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
+                            var pline = arc.Spline.ToPolyline();
+                            var lineNodes = Polyline2dLines(pline as Polyline);
                             if (lineNodes != null)
                                 lines.AddRange(lineNodes);
                         }

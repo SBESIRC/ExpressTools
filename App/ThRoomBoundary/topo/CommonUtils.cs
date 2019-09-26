@@ -42,7 +42,7 @@ namespace ThRoomBoundary.topo
         /// <returns></returns>
         public static bool PtInLoop(List<TopoEdge> loop, Point2d pt)
         {
-            Point2d end = new Point2d(pt.X + 100000, pt.Y);
+            Point2d end = new Point2d(pt.X + 100000000000, pt.Y);
             LineSegment2d intersectLine = new LineSegment2d(pt, end);
             var ptLst = new List<Point2d>();
 
@@ -77,7 +77,7 @@ namespace ThRoomBoundary.topo
 
         public static bool PtInLoop(List<LineSegment2d> loop, Point2d pt)
         {
-            Point2d end = new Point2d(pt.X + 100000, pt.Y);
+            Point2d end = new Point2d(pt.X + 100000000000, pt.Y);
             LineSegment2d intersectLine = new LineSegment2d(pt, end);
             var ptLst = new List<Point2d>();
 
@@ -273,6 +273,12 @@ namespace ThRoomBoundary.topo
             return false;
         }
 
+        public static bool Point3dIsEqualPoint3d(Point3d ptFirst, Point3d ptSecond, double tolerance = 1e-6)
+        {
+            if (ptFirst.DistanceTo(ptSecond) < tolerance)
+                return true;
+            return false;
+        }
         /// <summary>
         /// 两个顶点相加
         /// </summary>

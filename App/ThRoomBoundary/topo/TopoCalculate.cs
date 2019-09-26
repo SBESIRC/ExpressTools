@@ -700,7 +700,6 @@ namespace ThRoomBoundary.topo
         {
             List<LineNode> removeLineNodes = null;
             CommonUtils.RemoveCollinearLines(lineNodes, out removeLineNodes);
-            //ThRoomUtils.DrawCurvesAdd(removeLineNodes);
             if (removeLineNodes == null)
                 return null;
             var topoCal = new TopoCalculate(removeLineNodes);
@@ -1109,7 +1108,7 @@ namespace ThRoomBoundary.topo
                             m_geneLines.Add(new LineNode(newLine, layer));
                         }
                     }
-                    catch (Exception ex)
+                    catch
                     {
 
                     }
@@ -1365,7 +1364,7 @@ namespace ThRoomBoundary.topo
             for (int i = 0; i < m_coEdges.Count; i++)
             {
                 var curEdge = m_coEdges[i];
-                if (curEdge.IsErase/* || curEdge.CoLine.LayerName.Contains("AE-WALL")*/)
+                if (curEdge.IsErase)
                     continue;
 
                 var curLine = curEdge.CoLine.CurLine;
@@ -1391,7 +1390,6 @@ namespace ThRoomBoundary.topo
                         }
                         else if (CommonUtils.IsPointOnSegment(nextLinePtS, curLine, 1e-3) && CommonUtils.IsPointOnSegment(nextLinePtE, curLine, 1e-3)) // 完全包含线nextLine
                         {
-                            //if (!nextEdge.CoLine.LayerName.Contains("AE-WALL"))
                             nextEdge.IsErase = true;
 
                         }
