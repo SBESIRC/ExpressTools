@@ -1648,12 +1648,12 @@ namespace ThRoomBoundary
                     {
                         if (!CommonUtils.IsAlmostNearZero(room.RoomPolyline.Area, 2600000))
                         {
-                            var area = (int)room.RoomPolyline.Area;
+                            var area = (int)(room.RoomPolyline.Area * 1e-6);
                             var pos = room.Pos;
                             var dbText = new DBText();
                             if (textId != ObjectId.Null)
                                 dbText.TextStyleId = textId;
-                            dbText.TextString = area.ToString();
+                            dbText.TextString = area.ToString() + "m²";
                             dbText.Position = pos;
                             dbText.Height = 200;
                             dbText.Thickness = 1;
@@ -1676,14 +1676,14 @@ namespace ThRoomBoundary
         {
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
-            PromptPointOptions ppo = new PromptPointOptions("请框选需要生成房间线的范围");
+            PromptPointOptions ppo = new PromptPointOptions("\n请框选需要生成房间线的范围");
             ppo.AllowNone = false;
             PromptPointResult ppr = ed.GetPoint(ppo);
             if (ppr.Status != PromptStatus.OK)
                 return null;
 
             Point3d first = ppr.Value;
-            PromptCornerOptions pco = new PromptCornerOptions(string.Empty, first);
+            PromptCornerOptions pco = new PromptCornerOptions("\n框选结束", first);
             ppr = ed.GetCorner(pco);
             if (ppr.Status != PromptStatus.OK)
                 return null;
@@ -1850,11 +1850,11 @@ namespace ThRoomBoundary
                 var closeLayerNames = new List<string>();
                 foreach (var layer in layers)
                 {
-                    if (!layer.Name.Contains("AE-DOOR-INSD") && !layer.Name.Contains("AE-WALL") && !layer.Name.Contains("AE-WIND") && !layer.Name.Contains("AD-NAME-ROOM")
-                         && !layer.Name.Contains("AE-STRU") && !layer.Name.Contains("S_COLU") && !layer.Name.Contains("天华面积框线"))
-                    {
-                        closeLayerNames.Add(layer.Name);
-                    }
+                    //if (!layer.Name.Contains("AE-DOOR-INSD") && !layer.Name.Contains("AE-WALL") && !layer.Name.Contains("AE-WIND") && !layer.Name.Contains("AD-NAME-ROOM")
+                    //     && !layer.Name.Contains("AE-STRU") && !layer.Name.Contains("S_COLU") && !layer.Name.Contains("天华面积框线"))
+                    //{
+                    //    closeLayerNames.Add(layer.Name);
+                    //}
 
                     if (layer.Name.Contains("AE-WALL") || layer.Name.Contains("AD-NAME-ROOM")
                          || layer.Name.Contains("AE-STRU") || layer.Name.Contains("S_COLU"))
