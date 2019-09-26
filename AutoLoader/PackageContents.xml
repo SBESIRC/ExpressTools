@@ -50,6 +50,15 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
+    <!--Assembly App, DgnLsPurge, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/DgnLsPurge.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="AutoCAD DGN Hotfix for AutoCAD 2016" AppName="DgnLsPurge" AppType=".NET">
+            <Commands GroupName="">
+                <Command Global="DGNPURGE" Local="DGNPURGE" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
     <!--Assembly App, ThParking, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
@@ -68,10 +77,10 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
-    <!--Assembly App, ThParking, 2015 version-->
+    <!--Assembly App, ThParking, 2016 version-->
     <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.0" SeriesMax="R20.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2015/ThParking.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="ThParking" AppType=".NET">
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThParking.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="ThParking" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCNU" Global="THCNU" />
             </Commands>
@@ -99,10 +108,10 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
-    <!--Assembly App, CUI, 2015 version-->
+    <!--Assembly App, CUI, 2016 version-->
     <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.0" SeriesMax="R20.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2015/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
@@ -130,6 +139,16 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
+    <!--Assembly App, ThAreaFrame, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThAreaFrame.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for frame area." AppName="ThAreaFrame" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THBAC" Local="THBAC" />
+                <Command Global="THTET" Local="THTET" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
     <!--Assembly App, ThAreaFrameConfig, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
@@ -150,6 +169,16 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
+    <!--Assembly App, ThAreaFrameConfig, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThAreaFrameConfig.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for frame area configuration dialog" AppName="ThAreaFrameConfig" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THBPS" Local="THBPS" />
+                <Command Global="THSPS" Local="THSPS" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
     <!--Assembly App, ThElectricalSysDiagram, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
@@ -163,6 +192,15 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
         <ComponentEntry ModuleName="./Contents/Win64/2014/ThElectricalSysDiagram.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for electrical system diagram." AppName="ThElectricalSysDiagram" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THBEE" Local="THBEE" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThElectricalSysDiagram, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThElectricalSysDiagram.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for electrical system diagram." AppName="ThElectricalSysDiagram" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THBEE" Local="THBEE" />
             </Commands>
@@ -188,6 +226,17 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
+    <!--Assembly App, ThAnalytics, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThAnalytics.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for user behavior analysis." AppName="ThAnalytics" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THDAS" Local="THDAS" />
+                <Command Global="THDAE" Local="THDAE" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    
     <!--Assembly App, ThAutoUpdate, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
@@ -203,6 +252,17 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
         <ComponentEntry ModuleName="./Contents/Win64/2014/ThAutoUpdate.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto update." AppName="ThAutoUpdate" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THUPT" Local="THUPT" />
+                <Command Global="THENV" Local="THENV" />
+                <Command Global="THVER" Local="THVER" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThAutoUpdate, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThAutoUpdate.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto update." AppName="ThAutoUpdate" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THUPT" Local="THUPT" />
                 <Command Global="THENV" Local="THENV" />
@@ -228,7 +288,16 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
-	<!--Assembly App, ThPlot, 2012 version-->
+    <!--Assembly App, ThElectrical, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThElectrical.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for electrical cabinet drawing." AppName="ThElectrical" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THLDC" Local="THLDC" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThPlot, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
         <ComponentEntry ModuleName="./Contents/Win64/2012/ThPlot.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for plotting." AppName="ThPlot" AppType=".NET">
@@ -246,8 +315,16 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
-	
-	<!--Assembly App, ThRoomBoundary, 2012 version-->
+    <!--Assembly App, ThPlot, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThPlot.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for plotting." AppName="ThPlot" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THBPP" Local="THBPP" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThRoomBoundary, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
         <ComponentEntry ModuleName="./Contents/Win64/2012/ThRoomBoundary.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for Room Boundary." AppName="ThRoomBoundary" AppType=".NET">
@@ -256,10 +333,19 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
-	<!--Assembly App, ThPlot, 2014 version-->
+    <!--Assembly App, ThRoomBoundary, 2014 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
         <ComponentEntry ModuleName="./Contents/Win64/2014/ThRoomBoundary.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for Room Boundary." AppName="ThRoomBoundary" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THABC" Local="THABC" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThRoomBoundary, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThRoomBoundary.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for Room Boundary." AppName="ThRoomBoundary" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THABC" Local="THABC" />
             </Commands>
