@@ -35,6 +35,7 @@ namespace THColumnInfo
             this._polyline = polyline;
             this._searchFields = searchFields;
             this.ColumnInfs = new ColumnInf();
+            this.ColumnInfs.CurrentHandle = polyline.Handle.ToString();
         }
         public void Collect()
         {
@@ -90,11 +91,11 @@ namespace THColumnInfo
                     Point2d startPt = polyline2ds[j];
                     Point2d endPt = polyline2ds[j+1];
                     Vector2d vec = startPt.GetVectorTo(endPt);
-                    if (vec.IsCodirectionalTo(Vector2d.XAxis))
+                    if (vec.IsCodirectionalTo(Vector2d.XAxis) || vec.Negate().IsCodirectionalTo(Vector2d.XAxis))
                     {
                         xDirList.Add(startPt.GetDistanceTo(endPt));
                     }
-                    else if (vec.IsCodirectionalTo(Vector2d.YAxis))
+                    else if (vec.IsCodirectionalTo(Vector2d.YAxis) || vec.Negate().IsCodirectionalTo(Vector2d.YAxis))
                     {
                         yDirList.Add(startPt.GetDistanceTo(endPt));
                     }
@@ -104,8 +105,9 @@ namespace THColumnInfo
             yDirList = yDirList.OrderByDescending(i => i).ToList();
 
             double length = xDirList[0];
-            xDirList = xDirList.Where(i => i == xDirList[0]).Select(i => i).ToList();
-            yDirList = yDirList.Where(i => i == yDirList[0]).Select(i => i).ToList();
+            xDirList = xDirList.Where(i => Math.Abs(i - length)<=5.0).Select(i => i).ToList();
+            length = yDirList[0];
+            yDirList = yDirList.Where(i => Math.Abs(i - length)<=5.0).Select(i => i).ToList();
             this.ColumnInfs.XIronNum = xDirList.Count; //XIronNum
             this.ColumnInfs.YIronNum = yDirList.Count; //YIronNum
         }
@@ -137,13 +139,13 @@ namespace THColumnInfo
                     angle = angle % 180.0;
                     if (Math.Abs(angle - 0.0) < 1.0 || Math.Abs(angle - 180.0) < 1.0)
                     {
-                        this.ColumnInfs.XIronSpec = firstText.TextString;
-                        this.ColumnInfs.YIronSpec = secondText.TextString;
+                        this.ColumnInfs.XIronSpec = BaseFunction.TransferSpecialChar(firstText.TextString);
+                        this.ColumnInfs.YIronSpec = BaseFunction.TransferSpecialChar(secondText.TextString);
                     }
                     else
                     {
-                        this.ColumnInfs.XIronSpec = secondText.TextString;
-                        this.ColumnInfs.YIronSpec = firstText.TextString;
+                        this.ColumnInfs.XIronSpec = BaseFunction.TransferSpecialChar(secondText.TextString);
+                        this.ColumnInfs.YIronSpec = BaseFunction.TransferSpecialChar(firstText.TextString);
                     }
                 }
                 else if (dbTexts.Count == 1)
@@ -151,11 +153,11 @@ namespace THColumnInfo
                     double angle = BaseFunction.RadToAng(dbTexts[0].Rotation);
                     if (Math.Abs(angle - 0.0) < 1.0 || Math.Abs(angle - 180.0) < 1.0)
                     {
-                        this.ColumnInfs.XIronSpec = dbTexts[0].TextString;
+                        this.ColumnInfs.XIronSpec = BaseFunction.TransferSpecialChar(dbTexts[0].TextString);
                     }
                     else if (Math.Abs(angle - 90.0) < 1.0 || Math.Abs(angle - 270) < 1.0)
                     {
-                        this.ColumnInfs.YIronSpec = dbTexts[0].TextString;
+                        this.ColumnInfs.YIronSpec = BaseFunction.TransferSpecialChar(dbTexts[0].TextString);
                     }
                 }
             }
@@ -168,25 +170,18 @@ namespace THColumnInfo
             List<DBText> dBTexts = new List<DBText>();
             foreach (var item in this.markLeaderLines)
             {
-                int i = 0, x = 0, y = 0;
-                while (i < 4)
+                int i = 0, x = 0;
+                while (i < 2)
                 {
-                    switch (i)
+                    if(i == 0)
                     {
-                        case 0:
-                            x = 1; y = 1;
-                            break;
-                        case 1:
-                            x = -1; y = 1;
-                            break;
-                        case 2:
-                            x = -1; y = -1;
-                            break;
-                        case 3:
-                            x = 1; y = -1;
-                            break;
+                        x = 1;
                     }
-                    dBTexts = GetTexts(item.Value, this._searchFields.ZhuJiZhongMarkTextSize * y, item.Key.Length * x);
+                    else
+                    {
+                        x = -1;
+                    }
+                    dBTexts = GetTexts(item.Value, this._searchFields.ZhuJiZhongMarkTextSize, item.Key.Length * x);
                     if (dBTexts.Count > 0)
                     {
                         if (dBTexts.Count > 1)
@@ -196,14 +191,8 @@ namespace THColumnInfo
                             {
                                 this.ColumnInfs.Code = dBTexts[dBTexts.Count - 1].TextString; //柱子编号
                                 this.ColumnInfs.Spec = dBTexts[dBTexts.Count - 2].TextString;  //柱子规格
-                                this.ColumnInfs.CornerIronSpec = dBTexts[dBTexts.Count - 3].TextString; //四角钢筋规格
-                                this.ColumnInfs.NeiborGuJinHeightSpec = dBTexts[dBTexts.Count - 4].TextString;
-
-                                //打印
-                                Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage("\n" + this.ColumnInfs.Code);
-                                Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage("\n" + this.ColumnInfs.Spec);
-                                Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage("\n" + this.ColumnInfs.CornerIronSpec);
-                                Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage("\n" + this.ColumnInfs.NeiborGuJinHeightSpec);
+                                this.ColumnInfs.CornerIronSpec =BaseFunction.TransferSpecialChar(dBTexts[dBTexts.Count - 3].TextString); //四角钢筋规格
+                                this.ColumnInfs.NeiborGuJinHeightSpec = BaseFunction.TransferSpecialChar(dBTexts[dBTexts.Count - 4].TextString);
                             }
                         }
                         else if (dBTexts.Count == 1)
@@ -220,34 +209,61 @@ namespace THColumnInfo
                 }
             }
         }
-        private List<DBText> GetTexts(Point3d pt, double textSize, double lineLength)
+        /// <summary>
+        /// 获取一点旁边的文字
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <param name="textSize"></param>
+        /// <param name="lineLength"></param>
+        /// <param name="textNum"></param>
+        /// <returns></returns>
+        private List<DBText> GetTexts(Point3d pt, double textSize, double lineLength,int textNum=6)
         {
-            List<DBText> findTexts = new List<DBText>();
-            int i = 1;
-            Point3d pt1 = pt;
-            Point3d pt2 = pt1;
-            while (true && i < 7)
-            {
-                pt2 = new Point3d(pt1.X + lineLength, pt1.Y + textSize * i++, pt1.Z);
-                TypedValue[] tvs = new TypedValue[]
-                    {
+            List<DBText> findTexts = new List<DBText>();            
+            Point3d ptUp = pt, ptDown = pt;
+            Point3d minPt = Point3d.Origin,maxPt = Point3d.Origin;
+            List <ObjectId> findDbTextIds = new List<ObjectId>();
+            TypedValue[] tvs = new TypedValue[]
+                   {
                     new TypedValue((int)DxfCode.LayerName,_searchFields.ZhuJiZhongMarkLayerName),
                     new TypedValue((int)DxfCode.Start,"TEXT")
-                    };
-                SelectionFilter sf = new SelectionFilter(tvs);
+                   };
+            SelectionFilter sf = new SelectionFilter(tvs);
+            ptUp = new Point3d(pt.X + lineLength, pt.Y + textSize * textNum, pt.Z);
+            ptDown = new Point3d(pt.X + lineLength, pt.Y - textSize * textNum, pt.Z);
+            minPt = new Point3d(Math.Min(pt.X, ptUp.X), Math.Min(pt.Y, ptUp.Y), pt.Z);
+            maxPt = new Point3d(Math.Max(pt.X, ptUp.X), Math.Max(pt.Y, ptUp.Y), pt.Z);
 
-                PromptSelectionResult psr = Application.DocumentManager.MdiActiveDocument.Editor.SelectCrossingWindow(pt1, pt2, sf);
-                if (psr.Status == PromptStatus.OK)
-                {
-                    List<ObjectId> objIds = psr.Value.GetObjectIds().ToList();
-                    List<DBText> dBTexts = objIds.Select(j => ThColumnInfDbUtils.GetEntity(Application.DocumentManager.MdiActiveDocument.Database, j) as DBText).ToList();
-                    findTexts = dBTexts.Where(j => Math.Abs(j.Position.X - pt.X) <= 5.0).Select(j => j).ToList();
-                    List<DBText> findCodeRes = findTexts.Where(j => j.TextString.Contains("KZ")).Select(j => j).ToList();
-                    if (findCodeRes != null && findCodeRes.Count > 0)
-                    {
-                        break;
-                    }
-                }
+            PromptSelectionResult psr = Application.DocumentManager.MdiActiveDocument.Editor.SelectCrossingWindow(minPt, maxPt, sf);
+            if (psr.Status == PromptStatus.OK)
+            {
+                findDbTextIds.AddRange(psr.Value.GetObjectIds().ToList());
+            }
+            minPt = new Point3d(Math.Min(pt.X, ptDown.X), Math.Min(pt.Y, ptDown.Y), pt.Z);
+            maxPt = new Point3d(Math.Max(pt.X, ptDown.X), Math.Max(pt.Y, ptDown.Y), pt.Z);
+            psr = Application.DocumentManager.MdiActiveDocument.Editor.SelectCrossingWindow(minPt, maxPt, sf);
+            if (psr.Status == PromptStatus.OK)
+            {
+                findDbTextIds.AddRange(psr.Value.GetObjectIds().ToList());
+            }
+
+            List<DBText> dBTexts = findDbTextIds.Select(j => ThColumnInfDbUtils.GetEntity(Application.DocumentManager.MdiActiveDocument.Database, j) as DBText).ToList();
+            List<DBText> findCodeRes = dBTexts.Where(j => j.TextString.Contains("KZ")).Select(j => j).ToList();
+            if(findCodeRes.Count==0)
+            {
+                return findTexts;
+            }
+            DBText codeText = findCodeRes.OrderBy(j => Math.Abs(j.Position.X - pt.X)).First();
+            double textLength = codeText.GeometricExtents.MaxPoint.X - codeText.GeometricExtents.MinPoint.X;
+
+            minPt = new Point3d(codeText.GeometricExtents.MinPoint.X, codeText.GeometricExtents.MaxPoint.Y- textNum * textSize,pt.Z);
+            maxPt = new Point3d(codeText.GeometricExtents.MinPoint.X+textLength, codeText.GeometricExtents.MaxPoint.Y, pt.Z);
+            PromptSelectionResult psr1 = Application.DocumentManager.MdiActiveDocument.Editor.SelectCrossingWindow(minPt, maxPt, sf);
+            if (psr1.Status == PromptStatus.OK)
+            {
+                List<ObjectId> newTextIds= psr1.Value.GetObjectIds().ToList();
+                List<DBText> newDbTexts = newTextIds.Select(j => ThColumnInfDbUtils.GetEntity(Application.DocumentManager.MdiActiveDocument.Database, j) as DBText).ToList();
+                findTexts = newDbTexts.Where(j => Math.Abs(j.Position.X - codeText.Position.X) <= 5.0).Select(j => j).ToList();
             }
             return findTexts;
         }
@@ -352,9 +368,5 @@ namespace THColumnInfo
             return linePtDic;
         }
     }
-    public enum ErrorMsg
-    {
-        CodeEmpty,
-
-    }
 }
+    

@@ -8,6 +8,136 @@ namespace THColumnInfo
 {
     public class BaseFunction
     {
+        public static string TransferSpecialChar(string content)
+        {
+            if (string.IsNullOrEmpty(content))
+            {
+                return "";
+            }
+            content=content.Replace("%%130", "A");
+            content = content.Replace("%%131", "B");
+            content = content.Replace("%%132", "C");
+            content = content.Replace("%%133", "D");    
+            
+            //int index = 1;
+            //string res = "";
+            //while (index>=0)
+            //{
+            //    index = content.IndexOf("%%132");
+            //    if (index<0)
+            //    {
+            //        break;
+            //    }                
+            //    res += content.Substring(0, index);
+            //    content = content.Substring(index + 2);
+            //    if (content[0] >= '0' && content[0] <= '9')
+            //    {
+            //        string num = "";
+            //        for (int i = 0; i < 3; i++)
+            //        {
+            //            num += content[i];
+            //        }
+            //        char ss =(char)(Convert.ToInt32(num));
+            //        content = ss + content.Substring(3);
+            //    }
+            //}
+            //if (res=="")
+            //{
+            //    res = content;
+            //}
+            return content;
+        }
+        /// <summary>
+        /// 字符串转Unicode
+        /// </summary>
+        /// <param name="source">源字符串</param>
+        /// <returns>Unicode编码后的字符串</returns>
+        public static string String2Unicode(string source)
+        {
+            var bytes = Encoding.Unicode.GetBytes(source);
+            var stringBuilder = new StringBuilder();
+            for (var i = 0; i < bytes.Length; i += 2)
+            {
+                stringBuilder.AppendFormat("\\u{0:x2}{1:x2}", bytes[i + 1], bytes[i]);
+            }
+            return stringBuilder.ToString();
+        }
+        /// <summary>  
+        /// 字符串转为UniCode码字符串  
+        /// </summary>  
+        /// <param name="s"></param>  
+        /// <returns></returns>  
+        public static string StringToUnicode(string s)
+        {
+            char[] charbuffers = s.ToCharArray();
+            byte[] buffer;
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < charbuffers.Length; i++)
+            {
+                buffer = System.Text.Encoding.Unicode.GetBytes(charbuffers[i].ToString());
+                sb.Append(String.Format("\\u{0:X2}{1:X2}", buffer[1], buffer[0]));
+            }
+            return sb.ToString();
+        }
+        /// <summary>  
+        /// Unicode字符串转为正常字符串  
+        /// </summary>  
+        /// <param name="srcText"></param>  
+        /// <returns></returns>  
+        public static string UnicodeToString(string srcText)
+        {
+            string dst = "";
+            string src = srcText;
+            int len = srcText.Length / 6;
+            for (int i = 0; i <= len - 1; i++)
+            {
+                string str = "";
+                str = src.Substring(0, 6).Substring(2);
+                src = src.Substring(6);
+                byte[] bytes = new byte[2];
+                bytes[1] = byte.Parse(int.Parse(str.Substring(0, 2), System.Globalization.NumberStyles.HexNumber).ToString());
+                bytes[0] = byte.Parse(int.Parse(str.Substring(2, 2), System.Globalization.NumberStyles.HexNumber).ToString());
+                dst += Encoding.Unicode.GetString(bytes);
+            }
+            return dst;
+        }
+        /// <summary>
+        /// 检查点是否在矩形盒子里
+        /// </summary>
+        /// <param name="pt">检查点</param>
+        /// <param name="leftDownPt">左下角点</param>
+        /// <param name="rightUpPt">右上角点</param>
+        /// <returns></returns>
+        public static bool CheckPtInBox(Point3d pt, Point3d leftDownPt,Point3d rightUpPt)
+        {
+            bool isIn = false;
+            if ((pt.X >= leftDownPt.X && pt.X <= rightUpPt.X) &&
+                (pt.Y >= leftDownPt.Y && pt.Y <= rightUpPt.Y) &&
+                (pt.Z >= leftDownPt.Z && pt.Z <= rightUpPt.Z)
+                )
+            {
+                isIn = true;
+            }
+            return isIn;
+        }
+        /// <summary>
+        /// 检查点在矩形框内
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <param name="leftDownPt"></param>
+        /// <param name="rightUpPt"></param>
+        /// <returns></returns>
+        public static bool CheckPtRectangle(Point3d pt, Point3d leftDownPt, Point3d rightUpPt)
+        {
+            bool isIn = false;
+            if ((pt.X >= leftDownPt.X && pt.X <= rightUpPt.X) &&
+                (pt.Y >= leftDownPt.Y && pt.Y <= rightUpPt.Y) 
+                )
+            {
+                isIn = true;
+            }
+            return isIn;
+        }
         /// <summary>
         /// 弧度转角度
         /// </summary>
@@ -35,6 +165,42 @@ namespace THColumnInfo
         public static Point3d GetMidPt(Point3d pt1, Point3d pt2)
         {
             return new Point3d((pt1.X+pt2.X)/2.0, (pt1.Y + pt2.Y) / 2.0, (pt1.Z + pt2.Z) / 2.0);
+        }
+        /// <summary>
+        /// 获取ErrorMsg各项中文翻译
+        /// </summary>
+        /// <param name="errorMsg"></param>
+        /// <returns></returns>
+        public static string GetErrorMsg(ErrorMsg errorMsg)
+        {
+            string inf = "";
+            switch(errorMsg)
+                {
+                case ErrorMsg.CodeEmpty:
+                    inf = "柱编号缺失";
+                    break;
+                case ErrorMsg.InfNotCompleted:
+                    inf = "参数识别不全";
+                    break;
+                default:
+                    inf = "数据正确";
+                    break;
+            }
+            return inf;
+        }
+        /// <summary>
+        /// 获取柱子编号中文翻译
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static string GetColumnCodeChinese(string code)
+        {
+            string res = "";
+            if(code.ToUpper().Contains("KZ"))
+            {
+                res = "框架柱";
+            }
+            return res;
         }
 
     }

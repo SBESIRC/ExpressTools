@@ -18,5 +18,21 @@ namespace THColumnInfo
             }
             return entity;
         }
+        public static ObjectId GetObjId(string strHandle,Database db)
+        {
+            ObjectId id = ObjectId.Null;
+            try
+            {
+                Handle handle = new Handle();
+                Int64 nHandle = Convert.ToInt64(strHandle, 16);
+                handle = new Handle(nHandle);
+                id = db.GetObjectId(false, handle, 0);
+            }
+            catch (System.FormatException)
+            {
+            }
+            return id;
+        }       
+ 
     }
 }
