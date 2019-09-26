@@ -44,10 +44,13 @@
     <BitmapImage x:Key="THSPS" UriSource="Images/THSPS.ico"/>
     <BitmapImage x:Key="THCSP" UriSource="Images/THCSP.ico"/>
     <BitmapImage x:Key="THTET" UriSource="Images/THTET.ico"/>
+    <BitmapImage x:Key="THFET" UriSource="Images/THFET.ico"/>
+    <BitmapImage x:Key="THABC" UriSource="Images/THABC.ico"/>
     <BitmapImage x:Key="THLDC" UriSource="Images/THLDC.ico"/>
     <BitmapImage x:Key="THBPT" UriSource="Images/THBPT.ico"/>
     <BitmapImage x:Key="THBPD" UriSource="Images/THBPD.ico"/>
     <BitmapImage x:Key="THBPP" UriSource="Images/THBPP.ico"/>
+    <BitmapImage x:Key="THSVM" UriSource="Images/THSVM.ico"/>
     <BitmapImage x:Key="THUPT" UriSource="Images/THUPT.ico"/>
 
 
@@ -452,8 +455,36 @@
                     </adw:RibbonButton.ToolTip>
                 </adw:RibbonButton>
 
+            <adw:RibbonButton  Name="消防疏散表" Text = "消防疏散表"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THFET}"
+                                    Image="{StaticResource THFET}"               
+                                    CommandParameter="THFET">
+               <adw:RibbonButton.ToolTip>
+                  <adw:RibbonToolTip  
+                    Title="消防疏散表"
+                            Command="THFET"
+                    Content="统计商业/地库各防火分区面积，自动计算应有疏散距离，并生成表格"/>
+               </adw:RibbonButton.ToolTip>
+            </adw:RibbonButton>
 
-            </adw:RibbonPanelSource>
+            <adw:RibbonButton  Name="房间面积框线" Text = "房间面积框线"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THABC}"
+                                    Image="{StaticResource THABC}"               
+                                    CommandParameter="THABC">
+               <adw:RibbonButton.ToolTip>
+                  <adw:RibbonToolTip  
+                    Title="房间面积框线"
+                            Command="THABC"
+                    Content="自动生成屏幕选择范围内所有房间的框线，且可选择插入面积值"/>
+               </adw:RibbonButton.ToolTip>
+            </adw:RibbonButton>
+               
+               
+         </adw:RibbonPanelSource>
         </adw:RibbonPanel>
 
         
@@ -540,21 +571,23 @@
                         </adw:RibbonButton.ToolTip>
                     </adw:RibbonButton>
                     <adw:RibbonRowBreak/>
-                    <adw:RibbonButton  Name="批量导出DWF" Text = "批量导出DWF"
+
+
+               <adw:RibbonButton  Name="批量导出DWF" Text = "批量导出DWF"
                                     ShowImage="True" ShowText="True" 
                                     Size="Standard"
                                     LargeImage="{StaticResource THBPD}"
                                     Image="{StaticResource THBPD}"               
                                     CommandParameter="THBPD">
-                        <adw:RibbonButton.ToolTip>
-                            <adw:RibbonToolTip  
+                  <adw:RibbonButton.ToolTip>
+                     <adw:RibbonToolTip  
                     Title="批量导出DWF"
                             Command="THBPD"
                     Content="选择需要批量打印的天华图框，将图纸批量打印为DWF文件，读取图框中的图纸编号重命名相应DWF文件"/>
-                        </adw:RibbonButton.ToolTip>
-                    </adw:RibbonButton>
-
-                    <adw:RibbonRowBreak/>
+                  </adw:RibbonButton.ToolTip>
+               </adw:RibbonButton>
+               <adw:RibbonRowBreak/>
+                   
                     <adw:RibbonButton   Name="批量打印PPT" Text = "批量打印PPT"
                                     ShowImage="True" ShowText="True" 
                                     Size="Standard"
@@ -568,8 +601,29 @@
                     Content="选择需要批量打印的PPT框线，将图纸批量打印为单个PPT文件，读取打印窗口框线与PPT框线的位置完成PPT内图片的定位"/>
                         </adw:RibbonButton.ToolTip>
                     </adw:RibbonButton>
+                   
                 </adw:RibbonRowPanel>
-            </adw:RibbonPanelSource>
+
+
+            <adw:RibbonRowPanel>
+               <adw:RibbonButton  Name="版次信息修改" Text = "版次信息修改"
+                                    ShowImage="True" ShowText="True" 
+                                    Size="Standard"
+                                    LargeImage="{StaticResource THSVM}"
+                                    Image="{StaticResource THSVM}"               
+                                    CommandParameter="THSVM">
+                  <adw:RibbonButton.ToolTip>
+                     <adw:RibbonToolTip  
+                    Title="版次信息修改"
+                            Command="THSVM"
+                    Content="批量修改图框内的版次信息或出图日期"/>
+                  </adw:RibbonButton.ToolTip>
+               </adw:RibbonButton>
+
+            </adw:RibbonRowPanel>
+               
+               
+         </adw:RibbonPanelSource>
         </adw:RibbonPanel>
 
 

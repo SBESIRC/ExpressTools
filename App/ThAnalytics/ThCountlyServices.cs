@@ -56,6 +56,8 @@ namespace ThAnalytics
             {"THSPS", "天华总体规整"},
             {"THBAC", "单体面积总汇"},
             {"THTET", "综合经济技术指标表"},
+            {"THFET", "消防疏散表"},
+            {"THABC", "房间面积框线"},
             
             // 系统详图
             {"THLDC", "配电箱系统图修改"},
@@ -67,6 +69,7 @@ namespace ThAnalytics
             {"THBPT", "批量打印PDF"},
             {"THBPD", "批量打印DWF"},
             {"THBPP", "批量打印PPT"},
+            {"THSVM", "版次信息修改"},
             
             // 文字表格
             {"THMTC", "文字内容刷"}

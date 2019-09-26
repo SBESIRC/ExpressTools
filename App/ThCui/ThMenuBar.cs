@@ -136,7 +136,9 @@ namespace TianHua.AutoCAD.ThCui
                       new ThCommandInfo("天华单体规整 <THBPS>", "THBPS", "将建筑单体各层平面图中代表各区域的多段线图元设置到相应的图层，以供生成单体面积汇总表所用",true),
                       new ThCommandInfo("单体面积汇总 <THBAC>", "THBAC", "汇总单体每层各区域建筑面积和计容面积",true),
                       new ThCommandInfo("天华总平规整 <THSPS>", "THSPS", "将总平面图中代表各区域的多段线图元设置到相应的图层，以供生成综合经济技术指标表所用",true),
-                      new ThCommandInfo("综合经济技术指标表 <THTET>", "THTET", "汇总总平面及各单体各区域建筑面积和计容面积，形成综合经济技术指标表",true)
+                      new ThCommandInfo("综合经济技术指标表 <THTET>", "THTET", "汇总总平面及各单体各区域建筑面积和计容面积，形成综合经济技术指标表",true),
+                      new ThCommandInfo("消防疏散表 <THFET>", "THFET", "统计商业/地库各防火分区面积，自动计算应有疏散距离，并生成表格",true),
+                      new ThCommandInfo("房间面积框线 <THABC>", "THABC", "自动生成屏幕选择范围内所有房间的框线，且可选择插入面积值",true)
                 };
                 kps.ForEach(kp =>
                 {
@@ -163,7 +165,8 @@ namespace TianHua.AutoCAD.ThCui
                     new ThCommandInfo("DGN清理 <DGNPURGE>", "DGNPURGE", "清理图纸中多余DGN对象，含多余的DGN线型、注释比例等",true),
                     new ThCommandInfo("批量打印PDF <THBPT>", "THBPT", "选择需要批量打印的天华图框，将图纸批量打印为PDF文件，读取图框中的图纸编号重命名相应PDF文件",true),
                     new ThCommandInfo("批量导出DWF <THBPD>", "THBPD", "选择需要批量打印的天华图框，将图纸批量打印为DWF文件，读取图框中的图纸编号重命名相应DWF文件",true),
-                    new ThCommandInfo("批量打印PPT <THBPP>", "THBPP", "选择需要批量打印的PPT框线，将图纸批量打印为单个PPT文件，读取打印窗口框线与PPT框线的位置完成PPT内图片的定位",true)
+                    new ThCommandInfo("批量打印PPT <THBPP>", "THBPP", "选择需要批量打印的PPT框线，将图纸批量打印为单个PPT文件，读取打印窗口框线与PPT框线的位置完成PPT内图片的定位",true),
+                    new ThCommandInfo("版次信息修改 <THSVM>", "THSVM", "批量修改图框内的版次信息或出图日期",true)
                 };
                 kps.ForEach(kp =>
                 {
