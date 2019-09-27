@@ -162,7 +162,11 @@ namespace TianHua.AutoCAD.ThCui
                 kps = new List<ThCommandInfo> {
                     new ThCommandInfo("批量缩放 <THMSC>", "THMSC", "对多个选择对象以各自的开始点（插入点）为基准点进行批量比例缩放",false),
                     new ThCommandInfo("Z值归零 <THZ0>", "THZ0", "将模型空间内所有对象Z值归零，使之处于同一平面",true),
+#if ACAD2012 || ACAD2014
                     new ThCommandInfo("DGN清理 <DGNPURGE>", "DGNPURGE", "清理图纸中多余DGN对象，含多余的DGN线型、注释比例等",true),
+#else
+                    new ThCommandInfo("DGN清理 <DGNPURGE>", "PURGE", "清理图纸中多余DGN对象，含多余的DGN线型、注释比例等",true),
+#endif
                     new ThCommandInfo("批量打印PDF <THBPT>", "THBPT", "选择需要批量打印的天华图框，将图纸批量打印为PDF文件，读取图框中的图纸编号重命名相应PDF文件",true),
                     new ThCommandInfo("批量导出DWF <THBPD>", "THBPD", "选择需要批量打印的天华图框，将图纸批量打印为DWF文件，读取图框中的图纸编号重命名相应DWF文件",true),
                     new ThCommandInfo("批量打印PPT <THBPP>", "THBPP", "选择需要批量打印的PPT框线，将图纸批量打印为单个PPT文件，读取打印窗口框线与PPT框线的位置完成PPT内图片的定位",true),
