@@ -23,5 +23,8 @@ namespace ThAreaFrameConfig.Presenter
 
         // 创建商业防火分区填充
         void OnCreateFCCommerceFills(List<ThFireCompartment> compartments);
+
+        // 拾取防火分区外轮廓线图层
+        bool OnSetFCCommerceLayer(ThFCCommerceSettings settings, string key);
     }
 }

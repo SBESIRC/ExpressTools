@@ -44,5 +44,10 @@ namespace ThAreaFrameConfig.Presenter
         {
             this.CreateFCCommerceFills(compartments);
         }
+
+        public bool OnSetFCCommerceLayer(ThFCCommerceSettings settings, string key)
+        {
+            return this.PickAreaFrameLayer(settings, key);
+        }
     }
 }

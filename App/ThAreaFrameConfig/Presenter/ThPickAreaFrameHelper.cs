@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Diagnostics;
 using AcHelper;
 using DotNetARX;
 using Linq2Acad;
@@ -8,7 +9,6 @@ using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using System.Collections.Generic;
 using ThAreaFrameConfig.Model;
-using Autodesk.AutoCAD.Colors;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -124,6 +124,51 @@ namespace ThAreaFrameConfig.Presenter
                             ++compartment.Index;
                         }
 
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+        }
+
+        public static bool PickAreaFrameLayer(this IThFireCompartmentPresenterCallback presenterCallback,
+            ThFCCommerceSettings settings, 
+            string key)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
+                    // Cancel active selection session
+                    //  https://through-the-interface.typepad.com/through_the_interface/2006/08/cancelling_an_a.html
+                    Active.Editor.PostCommand("CANCELCMD");
+
+                    // SelectionFilter
+                    //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
+                    TypedValue[] filterlist = new TypedValue[1];
+                    // 支持的框线类型
+                    filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
+                    // 支持单选
+                    PromptSelectionOptions options = new PromptSelectionOptions()
+                    {
+                        SingleOnly = true,
+                        SinglePickInSpace = true
+                    };
+                    var entSelected = Active.Editor.GetSelection(options, new SelectionFilter(filterlist));
+                    if (entSelected.Status == PromptStatus.OK)
+                    {
+                        Debug.Assert(entSelected.Value.GetObjectIds().Count() == 1);
+                        ObjectId objId = entSelected.Value.GetObjectIds().ElementAt(0);
+                        settings.Layers[key] = acadDatabase.Element<Entity>(objId).Layer;
                         return true;
                     }
 

@@ -73,14 +73,23 @@ namespace ThAreaFrameConfig.Model
             {
                 SubKey = 13,
                 Storey = 1,
+                Density = ThFCCommerceSettings.OccupantDensity.Middle,
                 Resistance = ThFCCommerceSettings.FireResistance.Level1,
                 Layers = new Dictionary<string, string>()
                 {
-                    { "INNERFRAME", "AD-INDX"},
-                    { "OUTERFRAME", "AD-AREA-DIVD" }
-                },
-                GenerateHatch = false,
+                    { "INNERFRAME", "0"},
+                    { "OUTERFRAME", "0" }
+                }
             };
+
+            if (Layers.Contains("AD-AREA-DIVD"))
+            {
+                settings.Layers["OUTERFRAME"] = "AD-AREA-DIVD";
+            }
+            if (Layers.Contains("AD-INDX"))
+            {
+                settings.Layers["INNERFRAME"] = "AD-INDX";
+            }
 
             string layer = settings.Layers["OUTERFRAME"];
             string islandLayer = settings.Layers["INNERFRAME"];

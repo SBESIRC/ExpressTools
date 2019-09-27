@@ -39,10 +39,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button_pick_inner_frame = new System.Windows.Forms.Button();
             this.comboBox_inner_frame = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_pick_outer_frame = new System.Windows.Forms.Button();
             this.comboBox_outer_frame = new System.Windows.Forms.ComboBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -98,6 +98,7 @@
             this.comboBox_density.Name = "comboBox_density";
             this.comboBox_density.Size = new System.Drawing.Size(115, 22);
             this.comboBox_density.TabIndex = 7;
+            this.comboBox_density.SelectedIndexChanged += new System.EventHandler(this.comboBox_density_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -127,6 +128,7 @@
             this.comboBox_fire_resistance.Name = "comboBox_fire_resistance";
             this.comboBox_fire_resistance.Size = new System.Drawing.Size(116, 22);
             this.comboBox_fire_resistance.TabIndex = 4;
+            this.comboBox_fire_resistance.SelectedIndexChanged += new System.EventHandler(this.comboBox_fire_resistance_SelectedIndexChanged);
             // 
             // textBox_sub_key
             // 
@@ -175,7 +177,7 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.button2);
+            this.groupBox4.Controls.Add(this.button_pick_inner_frame);
             this.groupBox4.Controls.Add(this.comboBox_inner_frame);
             this.groupBox4.Location = new System.Drawing.Point(7, 81);
             this.groupBox4.Name = "groupBox4";
@@ -184,14 +186,15 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "指定防火分区内框扣除图层";
             // 
-            // button2
+            // button_pick_inner_frame
             // 
-            this.button2.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
-            this.button2.Location = new System.Drawing.Point(195, 24);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(28, 27);
-            this.button2.TabIndex = 1;
-            this.button2.UseVisualStyleBackColor = true;
+            this.button_pick_inner_frame.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
+            this.button_pick_inner_frame.Location = new System.Drawing.Point(195, 24);
+            this.button_pick_inner_frame.Name = "button_pick_inner_frame";
+            this.button_pick_inner_frame.Size = new System.Drawing.Size(28, 27);
+            this.button_pick_inner_frame.TabIndex = 1;
+            this.button_pick_inner_frame.UseVisualStyleBackColor = true;
+            this.button_pick_inner_frame.Click += new System.EventHandler(this.button_pick_inner_frame_Click);
             // 
             // comboBox_inner_frame
             // 
@@ -200,10 +203,11 @@
             this.comboBox_inner_frame.Name = "comboBox_inner_frame";
             this.comboBox_inner_frame.Size = new System.Drawing.Size(170, 22);
             this.comboBox_inner_frame.TabIndex = 0;
+            this.comboBox_inner_frame.SelectionChangeCommitted += new System.EventHandler(this.comboBox_inner_frame_SelectionChangeCommitted);
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.button_pick_outer_frame);
             this.groupBox3.Controls.Add(this.comboBox_outer_frame);
             this.groupBox3.Location = new System.Drawing.Point(7, 21);
             this.groupBox3.Name = "groupBox3";
@@ -212,14 +216,15 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "指定防火分区外框线图层";
             // 
-            // button1
+            // button_pick_outer_frame
             // 
-            this.button1.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
-            this.button1.Location = new System.Drawing.Point(195, 21);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(28, 27);
-            this.button1.TabIndex = 1;
-            this.button1.UseVisualStyleBackColor = true;
+            this.button_pick_outer_frame.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
+            this.button_pick_outer_frame.Location = new System.Drawing.Point(195, 21);
+            this.button_pick_outer_frame.Name = "button_pick_outer_frame";
+            this.button_pick_outer_frame.Size = new System.Drawing.Size(28, 27);
+            this.button_pick_outer_frame.TabIndex = 1;
+            this.button_pick_outer_frame.UseVisualStyleBackColor = true;
+            this.button_pick_outer_frame.Click += new System.EventHandler(this.button_pick_outer_frame_Click);
             // 
             // comboBox_outer_frame
             // 
@@ -228,6 +233,7 @@
             this.comboBox_outer_frame.Name = "comboBox_outer_frame";
             this.comboBox_outer_frame.Size = new System.Drawing.Size(170, 22);
             this.comboBox_outer_frame.TabIndex = 0;
+            this.comboBox_outer_frame.SelectionChangeCommitted += new System.EventHandler(this.comboBox_outer_frame_SelectionChangeCommitted);
             // 
             // groupBox5
             // 
@@ -431,9 +437,9 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ComboBox comboBox_outer_frame;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button_pick_inner_frame;
         private System.Windows.Forms.ComboBox comboBox_inner_frame;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_pick_outer_frame;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label6;

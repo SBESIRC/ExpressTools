@@ -39,8 +39,7 @@ namespace ThAreaFrameConfig.Model
                     { "INNERFRAME", "AD-INDX"},
                     { "OUTERFRAME", "AD-AREA-DIVD" }
                 },
-                Compartments = new List<ThFireCompartment>(),
-                GenerateHatch = false,
+                Compartments = new List<ThFireCompartment>()
             };
         }
 

@@ -106,13 +106,13 @@ namespace ThAreaFrameConfig.Presenter
         {
             if (compartment.Storey >= 4)
             {
-                switch(settings.PfValue)
+                switch(settings.Density)
                 {
-                    case ThFCCommerceSettings.Density.Low:
+                    case ThFCCommerceSettings.OccupantDensity.Low:
                         return 0.30;
-                    case ThFCCommerceSettings.Density.Middle:
+                    case ThFCCommerceSettings.OccupantDensity.Middle:
                         return (0.30 + 0.42) / 2.0;
-                    case ThFCCommerceSettings.Density.High:
+                    case ThFCCommerceSettings.OccupantDensity.High:
                         return 0.42;
                     default:
                         return 0.00;
@@ -120,13 +120,13 @@ namespace ThAreaFrameConfig.Presenter
             }
             else if (compartment.Storey == 3)
             {
-                switch (settings.PfValue)
+                switch (settings.Density)
                 {
-                    case ThFCCommerceSettings.Density.Low:
+                    case ThFCCommerceSettings.OccupantDensity.Low:
                         return 0.39;
-                    case ThFCCommerceSettings.Density.Middle:
+                    case ThFCCommerceSettings.OccupantDensity.Middle:
                         return (0.39 + 0.54) / 2.0;
-                    case ThFCCommerceSettings.Density.High:
+                    case ThFCCommerceSettings.OccupantDensity.High:
                         return 0.54;
                     default:
                         return 0.00;
@@ -134,13 +134,13 @@ namespace ThAreaFrameConfig.Presenter
             }
             else if (compartment.Storey > 0)
             {
-                switch (settings.PfValue)
+                switch (settings.Density)
                 {
-                    case ThFCCommerceSettings.Density.Low:
+                    case ThFCCommerceSettings.OccupantDensity.Low:
                         return 0.43;
-                    case ThFCCommerceSettings.Density.Middle:
+                    case ThFCCommerceSettings.OccupantDensity.Middle:
                         return (0.43 + 0.60) / 2.0;
-                    case ThFCCommerceSettings.Density.High:
+                    case ThFCCommerceSettings.OccupantDensity.High:
                         return 0.60;
                     default:
                         return 0.00;

@@ -90,27 +90,16 @@ namespace ThAreaFrameConfig.WinForms
             // 耐火等级
             comboBox_fire_resistance.SelectedIndex = (int)Settings.Resistance;
 
+            // 人员密度
+            comboBox_density.SelectedIndex = (int)Settings.Density;
+
             // 指定外框线图层
             comboBox_outer_frame.DataSource = DbRepository.Layers;
-            if (DbRepository.Layers.Contains(Settings.Layers["OUTERFRAME"]))
-            {
-                comboBox_outer_frame.SelectedItem = Settings.Layers["OUTERFRAME"];
-            }
-            else
-            {
-                comboBox_outer_frame.SelectedItem = "0";
-            }
+            comboBox_outer_frame.SelectedItem = Settings.Layers["OUTERFRAME"];
 
             // 指定内框线图层
             comboBox_inner_frame.DataSource = DbRepository.Layers;
-            if (DbRepository.Layers.Contains(Settings.Layers["INNERFRAME"]))
-            {
-                comboBox_inner_frame.SelectedItem = Settings.Layers["INNERFRAME"];
-            }
-            else
-            {
-                comboBox_inner_frame.SelectedItem = "0";
-            }
+            comboBox_inner_frame.SelectedItem = Settings.Layers["INNERFRAME"];
         }
 
         private void gridView_fire_compartment_CustomUnboundColumnData(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDataEventArgs e)
@@ -340,6 +329,46 @@ namespace ThAreaFrameConfig.WinForms
         {
             var compartments = Compartments.Where(o => o.IsDefined).ToList();
             Presenter.OnCreateFCCommerceFills(compartments);
+        }
+
+        private void button_pick_outer_frame_Click(object sender, EventArgs e)
+        {
+            if (Presenter.OnSetFCCommerceLayer(Settings, "OUTERFRAME"))
+            {
+                comboBox_outer_frame.SelectedItem = Settings.Layers["OUTERFRAME"];
+            }
+        }
+
+        private void button_pick_inner_frame_Click(object sender, EventArgs e)
+        {
+            if (Presenter.OnSetFCCommerceLayer(Settings, "INNERFRAME"))
+            {
+                comboBox_inner_frame.SelectedItem = Settings.Layers["INNERFRAME"];
+            }
+        }
+
+        private void comboBox_outer_frame_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox control = sender as System.Windows.Forms.ComboBox;
+            Settings.Layers["OUTERFRAME"] = control.SelectedItem as string;
+        }
+
+        private void comboBox_inner_frame_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox control = sender as System.Windows.Forms.ComboBox;
+            Settings.Layers["INNERFRAME"] = control.SelectedItem as string;
+        }
+
+        private void comboBox_fire_resistance_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox control = sender as System.Windows.Forms.ComboBox;
+            Settings.Resistance = (ThFCCommerceSettings.FireResistance)control.SelectedIndex;
+        }
+
+        private void comboBox_density_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox control = sender as System.Windows.Forms.ComboBox;
+            Settings.Density = (ThFCCommerceSettings.OccupantDensity)control.SelectedIndex;
         }
     }
 }

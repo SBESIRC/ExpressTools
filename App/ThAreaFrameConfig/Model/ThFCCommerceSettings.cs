@@ -6,7 +6,12 @@ namespace ThAreaFrameConfig.Model
 {
     public class ThFCCommerceSettings
     {
-        public enum Density { Low, Middle, High }
+        public enum OccupantDensity
+        {
+            Low = 0,
+            Middle = 1,
+            High = 2
+        }
         public enum FireResistance
         {
             Level1 = 0,
@@ -18,6 +23,7 @@ namespace ThAreaFrameConfig.Model
         // 建筑信息
         public UInt16 SubKey { get; set; }
         public UInt16 Storey { get; set; }
+        public OccupantDensity Density { get; set; }
         public FireResistance Resistance { get; set; }
 
         // 图层
@@ -25,11 +31,5 @@ namespace ThAreaFrameConfig.Model
 
         // 防火分区
         public List<ThFireCompartment> Compartments { get; set; }
-
-        // 是否生成防火分区填充
-        public bool GenerateHatch { get; set; }
-
-        // 人员密度
-        public Density PfValue { get; set; }
     }
 }
