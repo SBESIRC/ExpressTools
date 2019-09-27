@@ -4,6 +4,7 @@ using System.Diagnostics;
 using AcHelper;
 using DotNetARX;
 using Linq2Acad;
+using NFox.Cad.Collections;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
@@ -43,17 +44,13 @@ namespace ThAreaFrameConfig.Presenter
                     Active.Editor.PostCommand("CANCELCMD");
 
                     // SelectionFilter
-                    //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
-                    TypedValue[] filterlist = new TypedValue[2];
-                    // 支持的面积框线类型
-                    filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
-                    // 过滤掉在锁定图层的面积框线
-                    var layers = new List<string>();
-                    acadDatabase.Layers
-                        .Where(o => o.IsLocked == false)
-                        .ForEach(o => layers.Add(o.Name));
-                    filterlist[1] = new TypedValue(8, string.Join(",", layers));
-                    var entSelected = Active.Editor.GetSelection(new SelectionFilter(filterlist));
+                    PromptSelectionOptions options = new PromptSelectionOptions()
+                    {
+                        AllowDuplicates = false,
+                        RejectObjectsOnLockedLayers = true,
+                    };
+                    var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "CIRCLE,LWPOLYLINE");
+                    var entSelected = Active.Editor.GetSelection(filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {
                         foreach (var objId in entSelected.Value.GetObjectIds())
@@ -106,13 +103,15 @@ namespace ThAreaFrameConfig.Presenter
                     Active.Editor.PostCommand("CANCELCMD");
 
                     // SelectionFilter
-                    //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
-                    TypedValue[] filterlist = new TypedValue[2];
-                    // 支持的框线类型
-                    filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
-                    // 只拾取指定图层上的框线
-                    filterlist[1] = new TypedValue(8, layer);
-                    var entSelected = Active.Editor.GetSelection(new SelectionFilter(filterlist));
+                    PromptSelectionOptions options = new PromptSelectionOptions()
+                    {
+                        AllowDuplicates = false,
+                        RejectObjectsOnLockedLayers = true,
+                    };
+                    var filterlist = OpFilter.Bulid(
+                        o => o.Dxf((int)DxfCode.Start) == "CIRCLE,LWPOLYLINE" &
+                        o.Dxf((int)DxfCode.LayerName) == layer);
+                    var entSelected = Active.Editor.GetSelection(filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {
                         foreach (var objId in entSelected.Value.GetObjectIds())
@@ -153,17 +152,14 @@ namespace ThAreaFrameConfig.Presenter
                     Active.Editor.PostCommand("CANCELCMD");
 
                     // SelectionFilter
-                    //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
-                    TypedValue[] filterlist = new TypedValue[1];
-                    // 支持的框线类型
-                    filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
-                    // 支持单选
                     PromptSelectionOptions options = new PromptSelectionOptions()
                     {
                         SingleOnly = true,
-                        SinglePickInSpace = true
+                        SinglePickInSpace = true,
+                        RejectObjectsOnLockedLayers = true
                     };
-                    var entSelected = Active.Editor.GetSelection(options, new SelectionFilter(filterlist));
+                    var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "CIRCLE,LWPOLYLINE");
+                    var entSelected = Active.Editor.GetSelection(options, filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {
                         Debug.Assert(entSelected.Value.GetObjectIds().Count() == 1);
@@ -198,22 +194,16 @@ namespace ThAreaFrameConfig.Presenter
                     Active.Editor.PostCommand("CANCELCMD");
 
                     // SelectionFilter
-                    //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
-                    TypedValue[] filterlist = new TypedValue[2];
-                    // 支持的框线类型
-                    filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
-                    // 支持的框线图层
-                    filterlist[1] = new TypedValue(8, settings.Layers["OUTERFRAME"]);
-                    var entSelected = Active.Editor.GetSelection(new SelectionFilter(filterlist));
+                    var filterlist = OpFilter.Bulid(
+                        o => o.Dxf((int)DxfCode.Start) == "CIRCLE,LWPOLYLINE" &
+                        o.Dxf((int)DxfCode.LayerName) == settings.Layers["OUTERFRAME"] &
+                        o.Dxf((int)DxfCode.ExtendedDataRegAppName) == ThCADCommon.RegAppName_AreaFrame_FireCompartment);
+                    var entSelected = Active.Editor.GetSelection(filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {
                         foreach(var objId in entSelected.Value.GetObjectIds())
                         {
-                            var compartment = objId.CreateCommerceFireCompartment(settings.Layers["INNERFRAME"]);
-                            if (compartment != null)
-                            {
-                                compartments.Add(compartment);
-                            }
+                            compartments.Add(objId.CreateCommerceFireCompartment(settings.Layers["INNERFRAME"]));
                         }
 
                         return true;
