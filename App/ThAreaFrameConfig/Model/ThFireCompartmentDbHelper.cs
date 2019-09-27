@@ -10,6 +10,7 @@ using AcHelper;
 using DotNetARX;
 using Linq2Acad;
 using GeometryExtensions;
+using System.Diagnostics;
 
 namespace ThAreaFrameConfig.Model
 {
@@ -295,6 +296,40 @@ namespace ThAreaFrameConfig.Model
                     //
                     return obj;
                 }
+            }
+        }
+
+        public static ThFireCompartment CreateCommerceFireCompartment(this ObjectId frameId, string islandLayer)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(frameId.Database))
+            {
+                TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
+                if (valueList == null)
+                {
+                    return null;
+                }
+                var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                if (!handles.Any())
+                {
+                    return null;
+                }
+
+                // 获取防火分区编号
+                Debug.Assert(handles.Count() == 2);
+                var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                string[] tokens = Regex.Split(acadDatabase.Element<MText>(objId).Contents, @"\\P");
+                ThFireCompartment compartment = new ThFireCompartment(tokens[0]);
+                compartment.Frames.Add(CreateFireCompartmentAreaFrame(frameId, islandLayer));
+
+                // 是否自动灭火系统
+                var properties = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger16);
+                if (properties.Any())
+                {
+                    Debug.Assert(properties.Count() == 1);
+                    compartment.SelfExtinguishingSystem = Convert.ToBoolean(properties.ElementAt(0).Value);
+                }
+
+                return compartment;
             }
         }
 

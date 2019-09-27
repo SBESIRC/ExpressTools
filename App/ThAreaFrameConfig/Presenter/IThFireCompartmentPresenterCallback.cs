@@ -26,5 +26,8 @@ namespace ThAreaFrameConfig.Presenter
 
         // 拾取防火分区外轮廓线图层
         bool OnSetFCCommerceLayer(ThFCCommerceSettings settings, string key);
+
+        // 拾取防火分区并合并
+        bool OnMergePickedFireCompartments(ThFCCommerceSettings settings);
     }
 }

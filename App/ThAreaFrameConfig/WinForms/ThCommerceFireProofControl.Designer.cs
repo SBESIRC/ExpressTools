@@ -45,7 +45,7 @@
             this.button_pick_outer_frame = new System.Windows.Forms.Button();
             this.comboBox_outer_frame = new System.Windows.Forms.ComboBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.label_merge_compartment = new System.Windows.Forms.Label();
             this.gridControl_fire_compartment = new DevExpress.XtraGrid.GridControl();
             this.gridView_fire_compartment = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn_number = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -56,7 +56,7 @@
             this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
-            this.button3 = new System.Windows.Forms.Button();
+            this.button_merge = new System.Windows.Forms.Button();
             this.button_create_table = new System.Windows.Forms.Button();
             this.button_create_fill = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -237,9 +237,9 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.label6);
+            this.groupBox5.Controls.Add(this.label_merge_compartment);
             this.groupBox5.Controls.Add(this.gridControl_fire_compartment);
-            this.groupBox5.Controls.Add(this.button3);
+            this.groupBox5.Controls.Add(this.button_merge);
             this.groupBox5.Location = new System.Drawing.Point(5, 158);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(483, 289);
@@ -247,14 +247,14 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "防火分区表";
             // 
-            // label6
+            // label_merge_compartment
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(40, 261);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(115, 14);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "点击合并防火分区：";
+            this.label_merge_compartment.AutoSize = true;
+            this.label_merge_compartment.Location = new System.Drawing.Point(40, 261);
+            this.label_merge_compartment.Name = "label_merge_compartment";
+            this.label_merge_compartment.Size = new System.Drawing.Size(115, 14);
+            this.label_merge_compartment.TabIndex = 1;
+            this.label_merge_compartment.Text = "点击合并防火分区：";
             // 
             // gridControl_fire_compartment
             // 
@@ -369,14 +369,15 @@
             this.repositoryItemHyperLinkEdit1.AutoHeight = false;
             this.repositoryItemHyperLinkEdit1.Name = "repositoryItemHyperLinkEdit1";
             // 
-            // button3
+            // button_merge
             // 
-            this.button3.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
-            this.button3.Location = new System.Drawing.Point(6, 255);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(28, 27);
-            this.button3.TabIndex = 0;
-            this.button3.UseVisualStyleBackColor = true;
+            this.button_merge.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
+            this.button_merge.Location = new System.Drawing.Point(6, 255);
+            this.button_merge.Name = "button_merge";
+            this.button_merge.Size = new System.Drawing.Size(28, 27);
+            this.button_merge.TabIndex = 0;
+            this.button_merge.UseVisualStyleBackColor = true;
+            this.button_merge.Click += new System.EventHandler(this.button_merge_Click);
             // 
             // button_create_table
             // 
@@ -441,8 +442,8 @@
         private System.Windows.Forms.ComboBox comboBox_inner_frame;
         private System.Windows.Forms.Button button_pick_outer_frame;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button_merge;
+        private System.Windows.Forms.Label label_merge_compartment;
         private DevExpress.XtraGrid.GridControl gridControl_fire_compartment;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView_fire_compartment;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn_number;

@@ -177,6 +177,53 @@ namespace ThAreaFrameConfig.Presenter
             }
         }
 
+        public static bool PickedFireCompartments(this IThFireCompartmentPresenterCallback presenterCallback,
+            ThFCCommerceSettings settings,
+            ref List<ThFireCompartment> compartments)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
+                    // Cancel active selection session
+                    //  https://through-the-interface.typepad.com/through_the_interface/2006/08/cancelling_an_a.html
+                    Active.Editor.PostCommand("CANCELCMD");
+
+                    // SelectionFilter
+                    //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
+                    TypedValue[] filterlist = new TypedValue[2];
+                    // 支持的框线类型
+                    filterlist[0] = new TypedValue(0, "CIRCLE,LWPOLYLINE");
+                    // 支持的框线图层
+                    filterlist[1] = new TypedValue(8, settings.Layers["OUTERFRAME"]);
+                    var entSelected = Active.Editor.GetSelection(new SelectionFilter(filterlist));
+                    if (entSelected.Status == PromptStatus.OK)
+                    {
+                        foreach(var objId in entSelected.Value.GetObjectIds())
+                        {
+                            var compartment = objId.CreateCommerceFireCompartment(settings.Layers["INNERFRAME"]);
+                            if (compartment != null)
+                            {
+                                compartments.Add(compartment);
+                            }
+                        }
+
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+        }
+
         public static bool CreateFCCommerceFills(this IThFireCompartmentPresenterCallback presenterCallback,
             List<ThFireCompartment> compartments)
         {

@@ -52,6 +52,7 @@ namespace ThAreaFrameConfig.WinForms
             DbRepository.AppendDefaultFireCompartment();
             gridControl_fire_compartment.DataSource = Settings.Compartments;
             gridControl_fire_compartment.RefreshDataSource();
+            label_merge_compartment.Text = MergedCompartmentCountString();
         }
 
         public void InitializeGridControl()
@@ -61,6 +62,13 @@ namespace ThAreaFrameConfig.WinForms
             DbRepository.AppendDefaultFireCompartment();
             gridControl_fire_compartment.DataSource = Settings.Compartments;
             gridControl_fire_compartment.RefreshDataSource();
+            label_merge_compartment.Text = MergedCompartmentCountString();
+        }
+
+        private string MergedCompartmentCountString()
+        {
+            int count = Settings.Compartments.Where(o => o.IsMerged).Count();
+            return string.Format("点击合并防火分区：已建立合并关系{0}个", count);
         }
 
         public void InitializeDataBindings()
@@ -369,6 +377,15 @@ namespace ThAreaFrameConfig.WinForms
         {
             System.Windows.Forms.ComboBox control = sender as System.Windows.Forms.ComboBox;
             Settings.Density = (ThFCCommerceSettings.OccupantDensity)control.SelectedIndex;
+        }
+
+        private void button_merge_Click(object sender, EventArgs e)
+        {
+            if (Presenter.OnMergePickedFireCompartments(Settings))
+            {
+                // 更新界面
+                this.Reload();
+            }
         }
     }
 }

@@ -25,6 +25,13 @@ namespace ThAreaFrameConfig.Presenter
             return ThFireCompartmentDbHelper.MergeFireCompartment(compartments);
         }
 
+        public bool OnMergePickedFireCompartments(ThFCCommerceSettings settings)
+        {
+            List<ThFireCompartment> compartments = new List<ThFireCompartment>();
+            this.PickedFireCompartments(settings, ref compartments);
+            return ThFireCompartmentDbHelper.MergeFireCompartment(compartments);
+        }
+
         public bool OnModifyFireCompartment(ThFireCompartment compartment)
         {
             return ThFireCompartmentDbHelper.ModifyFireCompartment(compartment);
