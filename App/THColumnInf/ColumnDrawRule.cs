@@ -21,6 +21,9 @@ namespace THColumnInfo
         }
         public override bool WorldDraw(Drawable drawable, WorldDraw wd)
         {
+#if ACAD2012
+            return drawable.WorldDraw(wd);
+#else
             acdb.Polyline2d polyline2d = drawable as acdb.Polyline2d;
             //if (DrawableOverruleController.handleList.IndexOf(polyline2d.ObjectId.Handle.ToString())<0)
             //{
@@ -72,6 +75,7 @@ namespace THColumnInfo
             wd.Geometry.Polygon(pts);
             hatch.WorldDraw(wd);
             return true;
+#endif
         }
         public override bool IsApplicable(RXObject overruledSubject)
         {
