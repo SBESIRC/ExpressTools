@@ -128,7 +128,7 @@ Task Sign {
 }
 
 # $buildType build for ThCADPluginInstaller
-Task Compile.Installer -Depends Requires.BuildType, Compile.Assembly.R18, Compile.Assembly.R19, Sign {
+Task Compile.Installer -Depends Requires.BuildType, Compile.Assembly.R18, Compile.Assembly.R19, Compile.Assembly.R20, Sign {
     if ($buildType -eq $null) {
         throw "No build type specified"
     }
