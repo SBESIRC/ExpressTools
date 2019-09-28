@@ -47,7 +47,7 @@ namespace ThAreaFrameConfig.Model
                                 // 修改防火分区标识文字
                                 ObjectId objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
                                 var text = acadDatabase.Element<MText>(objId, true);
-                                text.Contents = frame.Frame.CommerceTextContent(compartment);
+                                text.Contents = compartment.CommerceTextContent();
 
                                 // TODO:
                                 //  修改防火分区文字框线
@@ -209,21 +209,12 @@ namespace ThAreaFrameConfig.Model
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                // 根据面积框线轮廓创建“区域”
-                //  https://www.keanw.com/2015/08/getting-the-centroid-of-an-autocad-region-using-net.html
-                DBObjectCollection curves = new DBObjectCollection()
-                    {
-                        acadDatabase.Element<Curve>(frame)
-                    };
-                DBObjectCollection regions = Region.CreateFromCurves(curves);
-                Region region = regions[0] as Region;
-
                 // 创建防火分区文字
                 //  https://www.keanw.com/2015/08/fitting-autocad-text-into-a-selected-space-using-net.html
                 MText mText = new MText()
                 {
-                    Location = region.Centroid(),
-                    Contents = frame.OldIdPtr.CommerceTextContent(compartment)
+                    Contents = compartment.CommerceTextContent(),
+                    Location = frame.FireCompartmentAreaFrameCentroid()
                 };
                 ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
 
@@ -245,11 +236,11 @@ namespace ThAreaFrameConfig.Model
 
                 // 关联面积框线和防火分区
                 TypedValueList valueList = new TypedValueList
-                    {
-                        { (int)DxfCode.ExtendedDataHandle, textId.Handle },
-                        { (int)DxfCode.ExtendedDataHandle, bboxId.Handle },
-                        { (int)DxfCode.ExtendedDataInteger16, compartment.SelfExtinguishingSystem }
-                    };
+                {
+                    { (int)DxfCode.ExtendedDataHandle, textId.Handle },
+                    { (int)DxfCode.ExtendedDataHandle, bboxId.Handle },
+                    { (int)DxfCode.ExtendedDataInteger16, compartment.SelfExtinguishingSystem }
+                };
                 frame.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment, valueList);
 
                 return true;
