@@ -261,6 +261,26 @@ namespace ThAreaFrameConfig.Model
             return frame.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment) != null;
         }
 
+        public static Point3d FireCompartmentAreaFrameCentroid(this ObjectId frameId)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(frameId.Database))
+            {
+                // 根据面积框线轮廓创建“区域”
+                //  https://www.keanw.com/2015/08/getting-the-centroid-of-an-autocad-region-using-net.html
+                DBObjectCollection curves = new DBObjectCollection()
+                {
+                    acadDatabase.Element<Curve>(frameId)
+                };
+                DBObjectCollection regions = Region.CreateFromCurves(curves);
+                if (regions[0] is Region region)
+                {
+                    return region.Centroid();
+                }
+
+                return Point3d.Origin;
+            }
+        }
+
         public static ThFireCompartmentAreaFrame CreateFireCompartmentAreaFrame(this ObjectId frame, string islandLayer)
         {
             var obj = new ThFireCompartmentAreaFrame()

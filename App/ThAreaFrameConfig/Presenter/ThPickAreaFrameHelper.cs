@@ -10,6 +10,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using System.Collections.Generic;
 using ThAreaFrameConfig.Model;
+using Autodesk.AutoCAD.Geometry;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -114,10 +115,24 @@ namespace ThAreaFrameConfig.Presenter
                     var entSelected = Active.Editor.GetSelection(filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {
+                        // 根据面积框线的质心，按照顺时针方向排序
+                        Point3dCollection centroids = new Point3dCollection();
+                        Dictionary<Point3d, ObjectId> frameDict = new Dictionary<Point3d, ObjectId>();
                         foreach (var objId in entSelected.Value.GetObjectIds())
                         {
+                            Point3d centroid = objId.FireCompartmentAreaFrameCentroid();
+                            if (centroid != Point3d.Origin)
+                            {
+                                centroids.Add(centroid);
+                                frameDict[centroid] = objId;
+                            }
+                        }
+                        ThPoint3dComparer comparer = new ThPoint3dComparer(centroids.CenterPoint());
+                        var sortedFrameDicts = new SortedDictionary<Point3d, ObjectId>(frameDict,comparer);
+                        foreach(var item in sortedFrameDicts)
+                        {
                             // 创建防火分区
-                            objId.CreateFireCompartmentAreaFrame(compartment);
+                            item.Value.CreateFireCompartmentAreaFrame(compartment);
 
                             // 下一个防火分区序号
                             ++compartment.Index;
