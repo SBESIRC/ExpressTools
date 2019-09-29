@@ -271,6 +271,7 @@ namespace ThAreaFrameConfig.Model
                 //  https://www.keanw.com/2015/08/fitting-autocad-text-into-a-selected-space-using-net.html
                 MText mText = new MText()
                 {
+                    Attachment = AttachmentPoint.MiddleCenter,
                     Contents = compartment.CommerceTextContent(),
                     Location = frame.FireCompartmentAreaFrameCentroid()
                 };
