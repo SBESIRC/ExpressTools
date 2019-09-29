@@ -19,7 +19,7 @@ namespace ThAreaFrameConfig.Presenter
         static readonly List<Tuple<string, HatchPatternType, int>> Hathes = new List<Tuple<string, HatchPatternType, int>>()
         {
             new Tuple<string, HatchPatternType, int>("ANSI31",   HatchPatternType.PreDefined,    500),
-            new Tuple<string, HatchPatternType, int>("松散材料",  HatchPatternType.PreDefined,    500),
+            new Tuple<string, HatchPatternType, int>("STARS",    HatchPatternType.PreDefined,    500),
             new Tuple<string, HatchPatternType, int>("CROSS",    HatchPatternType.PreDefined,    500),
             new Tuple<string, HatchPatternType, int>("ANSI37",   HatchPatternType.PreDefined,    800)
         };
@@ -250,9 +250,9 @@ namespace ThAreaFrameConfig.Presenter
                     // 按<子键，楼层>分组，在同一组内填充
                     foreach (var group in compartments.GroupBy(o => new { o.Subkey, o.Storey }))
                     {
+                        int index = 0;
                         foreach (var compartment in group)
                         {
-                            int index = 0;
                             foreach (var frame in compartment.Frames)
                             {
                                 try
@@ -285,13 +285,15 @@ namespace ThAreaFrameConfig.Presenter
 
                                     // 重新生成Hatch纹理
                                     hatch.EvaluateHatch(true);
-
-                                    ++index;
                                 }
                                 catch
                                 {
                                     // 不知道什么原因，对于有些孤岛，AppendLoop()会抛"InvalidInput"异常
                                     // 在找到真正的原因之前，通过try...catch...捕捉异常。
+                                }
+                                finally
+                                {
+                                    index++;
                                 }
                             }
                         }
