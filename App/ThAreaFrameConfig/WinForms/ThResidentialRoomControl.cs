@@ -377,8 +377,10 @@ namespace ThAreaFrameConfig.WinForms
             using (var dlg = new ThResidentialStoreyDialog(""))
             {
                 dlg.Text = "增加层";
-                if (DialogResult.OK != dlg.ShowDialog())
+                if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
+                {
                     return;
+                }
 
                 if (DbRepository.Storey(dlg.Storey) != null)
                 {
@@ -429,8 +431,10 @@ namespace ThAreaFrameConfig.WinForms
             using (var dlg = new ThResidentialStoreyDialog(storey))
             {
                 dlg.Text = "修改层";
-                if (DialogResult.OK != dlg.ShowDialog())
+                if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
+                {
                     return;
+                }
 
                 // 更新图纸
                 foreach (var room in CurrentStorey.Rooms)

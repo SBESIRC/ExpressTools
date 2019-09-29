@@ -296,7 +296,7 @@ namespace ThAreaFrameConfig.WinForms
             using (var dlg = new ThResidentialStoreyDialog(""))
             {
                 dlg.Text = "增加层";
-                if (DialogResult.OK != dlg.ShowDialog())
+                if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
                     return;
 
                 // 楼层是否已经存在
@@ -343,8 +343,10 @@ namespace ThAreaFrameConfig.WinForms
             using (var dlg = new ThResidentialStoreyDialog(storey))
             {
                 dlg.Text = "修改层";
-                if (DialogResult.OK != dlg.ShowDialog())
+                if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
+                {
                     return;
+                }
 
                 // 更新图纸
                 foreach (var aoccupancy in CurrentStorey.AOccupancies)
