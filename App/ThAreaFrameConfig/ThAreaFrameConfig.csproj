@@ -152,6 +152,12 @@
     <Compile Include="WinForms\ThCommerceFireProofControl.Designer.cs">
       <DependentUpon>ThCommerceFireProofControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinForms\ThFireCompartmentModifyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\ThFireCompartmentModifyDialog.Designer.cs">
+      <DependentUpon>ThFireCompartmentModifyDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinForms\ThFireProofingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -245,6 +251,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\ThCommerceFireProofControl.resx">
       <DependentUpon>ThCommerceFireProofControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\ThFireCompartmentModifyDialog.resx">
+      <DependentUpon>ThFireCompartmentModifyDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\ThFireProofingDialog.resx">
       <DependentUpon>ThFireProofingDialog.cs</DependentUpon>

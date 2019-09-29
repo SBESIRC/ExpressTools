@@ -71,6 +71,64 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
+        public static bool ModifyFireCompartments(List<ThFireCompartment> compartments)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
+                    foreach(var compartment in compartments)
+                    {
+                        foreach (var frame in compartment.Frames)
+                        {
+                            ObjectId frameId = new ObjectId(frame.Frame);
+                            TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
+                            if (valueList == null)
+                            {
+                                frameId.CreateFireCompartmentAreaFrame(compartment);
+                            }
+                            else
+                            {
+                                var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                                if (handles.Any())
+                                {
+                                    // 修改防火分区标识文字
+                                    ObjectId objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                                    var text = acadDatabase.Element<MText>(objId, true);
+                                    text.Contents = compartment.CommerceTextContent();
+
+                                    // TODO:
+                                    //  修改防火分区文字框线
+                                }
+
+                                // 其他属性（是否自动灭火系统）
+                                var properties = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger16);
+                                if (properties.Any())
+                                {
+                                    frameId.ModXData(
+                                        ThCADCommon.RegAppName_AreaFrame_FireCompartment,
+                                        DxfCode.ExtendedDataInteger16,
+                                        properties.ElementAt(0).Value,
+                                        compartment.SelfExtinguishingSystem);
+
+                                }
+                            }
+                        }
+                    }
+
+                    return true;
+                }
+            }
+        }
+
         // 规整防火分区
         //  合并后防火分区的编号不再连续，规整后防火分区的编号保存连续
         public static void NormalizeFireCompartments(List<ThFireCompartment> compartments)

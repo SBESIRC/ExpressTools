@@ -11,6 +11,7 @@ namespace ThAreaFrameConfig.Presenter
 
         // 修改防火分区
         bool OnModifyFireCompartment(ThFireCompartment compartment);
+        bool OnModifyFireCompartments(List<ThFireCompartment> compartments);
 
         // 合并防火分区
         bool OnMergeFireCompartments(List<ThFireCompartment> compartments);

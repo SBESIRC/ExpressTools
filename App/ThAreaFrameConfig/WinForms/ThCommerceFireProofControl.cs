@@ -9,6 +9,8 @@ using DevExpress.Utils.Menu;
 using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Grid;
 using Autodesk.AutoCAD.Runtime;
+using AcHelper;
+using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace ThAreaFrameConfig.WinForms
 {
@@ -247,6 +249,7 @@ namespace ThAreaFrameConfig.WinForms
                     e.Menu.Items.Clear();
                     e.Menu.Items.Add(CreateMergeMenuItem(view, e.HitInfo.RowHandle));
                     e.Menu.Items.Add(CreateDeleteMenuItem(view, e.HitInfo.RowHandle));
+                    e.Menu.Items.Add(CreateModifyMenuItem(view, e.HitInfo.RowHandle));
                 }
             }
         }
@@ -262,6 +265,14 @@ namespace ThAreaFrameConfig.WinForms
         DXMenuItem CreateDeleteMenuItem(GridView view, int rowHandle)
         {
             return new DXMenuItem("删除", new EventHandler(OnDeleteFireCompartmentsClick))
+            {
+                Tag = new RowInfo(view, rowHandle)
+            };
+        }
+
+        DXMenuItem CreateModifyMenuItem(GridView view, int rowHandle)
+        {
+            return new DXMenuItem("修改", new EventHandler(OnModifyFireCompartmentsClick))
             {
                 Tag = new RowInfo(view, rowHandle)
             };
@@ -324,6 +335,56 @@ namespace ThAreaFrameConfig.WinForms
                 {
                     // 更新界面
                     this.Reload();
+                }
+            }
+        }
+
+        void OnModifyFireCompartmentsClick(object sender, EventArgs e)
+        {
+            DXMenuItem menuItem = sender as DXMenuItem;
+            if (menuItem.Tag is RowInfo ri)
+            {
+                using (var dlg = new ThFireCompartmentModifyDialog())
+                {
+#if ACAD2012
+                    if (DialogResult.OK != AcadApp.ShowModalDialog(dlg))
+                        return;
+#else
+                    if (DialogResult.OK != AcadApp.ShowModalDialog(Active.Document.Window.Handle, dlg))
+                        return;
+#endif
+
+                    // 更新图纸
+                    // 支持多选
+                    var compartments = new List<ThFireCompartment>();
+                    foreach (var handle in ri.View.GetSelectedRows())
+                    {
+                        var compartment = ri.View.GetRow(handle) as ThFireCompartment;
+                        if (compartment.IsDefined)
+                        {
+                            bool bModified = false;
+                            if (dlg.Storey != null && dlg.Storey.Value != 0)
+                            {
+                                bModified = true;
+                                compartment.Storey = dlg.Storey.Value;
+                            }
+                            if (dlg.SelfExtinguishingSystem != null)
+                            {
+                                bModified = true;
+                                compartment.SelfExtinguishingSystem = dlg.SelfExtinguishingSystem.Value;
+                            }
+                            if (bModified)
+                            {
+                                compartments.Add(compartment);
+                            }
+                        }
+                    }
+
+                    if (Presenter.OnModifyFireCompartments(compartments))
+                    {
+                        // 更新界面
+                        this.Reload();
+                    }
                 }
             }
         }
