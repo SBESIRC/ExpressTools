@@ -346,13 +346,8 @@ namespace ThAreaFrameConfig.WinForms
             {
                 using (var dlg = new ThFireCompartmentModifyDialog())
                 {
-#if ACAD2012
-                    if (DialogResult.OK != AcadApp.ShowModalDialog(dlg))
+                    if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
                         return;
-#else
-                    if (DialogResult.OK != AcadApp.ShowModalDialog(Active.Document.Window.Handle, dlg))
-                        return;
-#endif
 
                     // 更新图纸
                     // 支持多选

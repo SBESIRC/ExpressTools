@@ -54,6 +54,8 @@
             this.textBox_storey.Name = "textBox_storey";
             this.textBox_storey.Size = new System.Drawing.Size(159, 22);
             this.textBox_storey.TabIndex = 1;
+            this.textBox_storey.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_storey_Validating);
+            this.textBox_storey.Validated += new System.EventHandler(this.textBox_storey_Validated);
             // 
             // label2
             // 
@@ -81,9 +83,10 @@
             // 
             // button_cancel
             // 
-            this.button_cancel.Location = new System.Drawing.Point(70, 69);
+            this.button_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.button_cancel.Location = new System.Drawing.Point(169, 69);
             this.button_cancel.Name = "button_cancel";
-            this.button_cancel.Size = new System.Drawing.Size(75, 23);
+            this.button_cancel.Size = new System.Drawing.Size(60, 23);
             this.button_cancel.TabIndex = 4;
             this.button_cancel.Text = "取消";
             this.button_cancel.UseVisualStyleBackColor = true;
@@ -91,9 +94,9 @@
             // button_ok
             // 
             this.button_ok.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button_ok.Location = new System.Drawing.Point(154, 69);
+            this.button_ok.Location = new System.Drawing.Point(103, 69);
             this.button_ok.Name = "button_ok";
-            this.button_ok.Size = new System.Drawing.Size(75, 23);
+            this.button_ok.Size = new System.Drawing.Size(60, 23);
             this.button_ok.TabIndex = 5;
             this.button_ok.Text = "确定";
             this.button_ok.UseVisualStyleBackColor = true;

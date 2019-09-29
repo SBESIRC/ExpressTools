@@ -45,5 +45,41 @@ namespace ThAreaFrameConfig.WinForms
         {
             InitializeComponent();
         }
+
+        private void textBox_storey_Validating(object sender, CancelEventArgs e)
+        {
+            if (!ValidStorey(textBox_storey.Text))
+            {
+                // Cancel the event and select the text to be corrected by the user.
+                e.Cancel = true;
+                textBox_storey.Select(0, textBox_storey.Text.Length);
+
+                // Set the ErrorProvider error with the text to display. 
+                this.errorProvider1.SetError(textBox_storey, "请输入正确的楼层格式");
+            }
+        }
+
+        private void textBox_storey_Validated(object sender, EventArgs e)
+        {
+            // If all conditions have been met, clear the ErrorProvider of errors.
+            errorProvider1.SetError(textBox_storey, "");
+        }
+
+        private bool ValidStorey(string storey)
+        {
+            var floors = new List<int>();
+
+            // 匹配数字
+            string pattern = @"^-?[0-9]+$";
+            Match m = Regex.Match(storey, pattern);
+            while (m.Success)
+            {
+                floors.Add(Int16.Parse(m.Value));
+
+                m = m.NextMatch();
+            }
+
+            return floors.Count > 0;
+        }
     }
 }
