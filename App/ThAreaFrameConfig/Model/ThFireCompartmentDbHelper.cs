@@ -293,6 +293,13 @@ namespace ThAreaFrameConfig.Model
                 bbox.CreatePolyline(points);
                 ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
 
+                // 图层
+                string layer = "AD-NUMB";
+                LayerTools.AddLayer(acadDatabase.Database, layer);
+                LayerTools.SetLayerColor(acadDatabase.Database, layer, 205);
+                bbox.Layer = layer;
+                mText.Layer = layer;
+
                 // 关联面积框线和防火分区
                 TypedValueList valueList = new TypedValueList
                 {

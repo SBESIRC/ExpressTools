@@ -255,26 +255,26 @@ namespace ThAreaFrameConfig.Presenter
                             int index = 0;
                             foreach (var frame in compartment.Frames)
                             {
-                                // 填充面积框线
-                                Hatch hatch = new Hatch();
-                                ObjectId objId = acadDatabase.ModelSpace.Add(hatch);
-                                hatch.SetHatchPattern(Hathes[index % 4].Item2, Hathes[index % 4].Item1);
-                                hatch.PatternScale = Hathes[index % 4].Item3;
-                                hatch.Associative = true;
-
-                                // 图层
-                                string layer = "AE-PATN-MATE";
-                                LayerTools.AddLayer(acadDatabase.Database, layer);
-                                LayerTools.SetLayerColor(acadDatabase.Database, layer, 8);
-                                hatch.Layer = layer;
-
-                                // 外圈轮廓
-                                ObjectIdCollection objIdColl = new ObjectIdCollection();
-                                objIdColl.Add(new ObjectId(frame.Frame));
-                                hatch.AppendLoop(HatchLoopTypes.Outermost, objIdColl);
-
                                 try
                                 {
+                                    // 填充面积框线
+                                    Hatch hatch = new Hatch();
+                                    ObjectId objId = acadDatabase.ModelSpace.Add(hatch);
+                                    hatch.SetHatchPattern(Hathes[index % 4].Item2, Hathes[index % 4].Item1);
+                                    hatch.PatternScale = Hathes[index % 4].Item3;
+                                    hatch.Associative = true;
+
+                                    // 图层
+                                    string layer = "AE-PATN-MATE";
+                                    LayerTools.AddLayer(acadDatabase.Database, layer);
+                                    LayerTools.SetLayerColor(acadDatabase.Database, layer, 8);
+                                    hatch.Layer = layer;
+
+                                    // 外圈轮廓
+                                    ObjectIdCollection objIdColl = new ObjectIdCollection();
+                                    objIdColl.Add(new ObjectId(frame.Frame));
+                                    hatch.AppendLoop(HatchLoopTypes.Outermost, objIdColl);
+
                                     // 孤岛
                                     objIdColl.Clear();
                                     foreach (var item in frame.IslandFrames)
@@ -282,17 +282,17 @@ namespace ThAreaFrameConfig.Presenter
                                         objIdColl.Add(new ObjectId(item));
                                     }
                                     hatch.AppendLoop(HatchLoopTypes.Default, objIdColl);
+
+                                    // 重新生成Hatch纹理
+                                    hatch.EvaluateHatch(true);
+
+                                    ++index;
                                 }
                                 catch
                                 {
                                     // 不知道什么原因，对于有些孤岛，AppendLoop()会抛"InvalidInput"异常
                                     // 在找到真正的原因之前，通过try...catch...捕捉异常。
                                 }
-
-                                // 重新生成Hatch纹理
-                                hatch.EvaluateHatch(true);
-
-                                ++index;
                             }
                         }
                     }
