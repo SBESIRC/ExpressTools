@@ -51,7 +51,7 @@ namespace ThAreaFrameConfig.Presenter
                         using (new WriteEnabler(table))
                         {
                             // "子项编号"
-                            table.Cells[2, 0].Value = engine.Subkey;
+                            table.Cells[2, 0].Value = (int)engine.Subkey;
 
                             int column = 1;
                             int dataRow = 2;
