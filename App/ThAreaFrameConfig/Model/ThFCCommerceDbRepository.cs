@@ -65,6 +65,10 @@ namespace ThAreaFrameConfig.Model
             string islandLayer = settings.Layers["INNERFRAME"];
             settings.Compartments = database.CommerceFireCompartments(layer, islandLayer);
             ThFireCompartmentDbHelper.NormalizeFireCompartments(settings.Compartments);
+            for(int i = 0; i < settings.Compartments.Count; i++)
+            {
+                settings.Compartments[i].Number = i + 1;
+            }
         }
 
         private void ConstructFireCompartments()
