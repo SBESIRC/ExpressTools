@@ -165,6 +165,7 @@ namespace ThPlot
         public static readonly double PI = 3.1415926535898;
         public static readonly double PPTWIDTH = 1010;
         public static readonly double PPTHEIGHT = 755;
+        public static readonly string PAGELAYER = "天华页码";
 
         // 绘图，用于测试点的位置
         public static void DrawPointWithTransaction(Point3d drawPoint)
@@ -1160,7 +1161,7 @@ namespace ThPlot
             var pptIdLst = GetObjectIdFromLayer(userData.PPTLayer);
             var pptTextIdLst = GetTextIdFromLayer(userData.PrintTextLayer);
             var pptMTextIdLst = GetMTextIdFromLayer(userData.PrintTextLayer);
-            var pageTextIdLst = GetTextIdFromLayer(userData.PPTLayer);
+            var pageTextIdLst = GetTextIdFromLayer(ThPlotData.PAGELAYER);
             var imagePolylineLst = new List<Polyline>();
             var pptPolylineLst = new List<Polyline>();
             var pptTextLst = new List<DBText>();
@@ -1504,25 +1505,23 @@ namespace ThPlot
             var pt2 = new Point2d(pt3.X, pt1.Y);
             var pt4 = new Point2d(pt1.X, pt3.Y);
             line1 = new Line(new Point3d(pt1.X, pt1.Y, 0), new Point3d(pt3.X, pt3.Y, 0));
-            line1.Color = Color.FromRgb(255, 255, 0);
+            line1.Color = Color.FromRgb(255, 0, 0);
             line2 = new Line(new Point3d(pt2.X, pt2.Y, 0), new Point3d(pt4.X, pt4.Y, 0));
-            line2.Color = Color.FromRgb(255, 255, 0);
+            line2.Color = Color.FromRgb(255, 0, 0);
             var minLength = (lineWidth < lineHeight) ? lineWidth : lineHeight;
 
             dbText.Height = 0.5 * minLength;
-            dbText.Color = Color.FromRgb(255, 255, 0);
+            dbText.Color = Color.FromRgb(255, 0, 0);
             var textwidth = dbText.WidthFactor * dbText.Height * 0.5;
             dbText.Position = new Point3d(centerX - textwidth, centerY - 0.5 *dbText.Height, 0);
-
             if (textStyleId != ObjectId.Null)
                 dbText.TextStyleId = textStyleId;
-
             using (AcadDatabase acad = AcadDatabase.Active())
             {
                 Autodesk.AutoCAD.GraphicsInterface.TransientManager tm = Autodesk.AutoCAD.GraphicsInterface.TransientManager.CurrentTransientManager;
-                tm.AddTransient(dbText, Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode.Highlight, 128, intCol);
-                tm.AddTransient(line1, Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode.Highlight, 128, intCol);
-                tm.AddTransient(line2, Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode.Highlight, 128, intCol);
+                tm.AddTransient(dbText, Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode.DirectTopmost, 128, intCol);
+                tm.AddTransient(line1, Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode.DirectTopmost, 128, intCol);
+                tm.AddTransient(line2, Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode.DirectTopmost, 128, intCol);
             }
 
             dbCollection.Add(dbText);

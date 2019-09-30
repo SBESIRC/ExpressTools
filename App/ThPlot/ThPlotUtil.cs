@@ -196,7 +196,7 @@ namespace ThPlot
                 if (HorizontalPrint(window))
                     psv.SetPlotRotation(plotSetting, PlotRotation.Degrees000);
                 psv.SetPlotCentered(plotSetting, true);
-                
+
                 psv.SetPlotConfigurationName(plotSetting, "DWG To PDF.pc3", "ISO_A4_(297.00_x_210.00_MM)");
                 psv.SetPlotPaperUnits(plotSetting, PlotPaperUnit.Millimeters);
                 plotInfo.OverrideSettings = plotSetting;
@@ -366,7 +366,11 @@ namespace ThPlot
                     double xImageRatioPos = 0;
                     double yImageRatioPos = 0;
 
-                    var textAngle = relatedData[i].PptTextLst.First().Rotation / ThPlotData.PI * 180;
+                    double textAngle = 0;
+                    if (relatedData[i].PptTextLst == null || relatedData[i].PptTextLst.Count == 0)
+                        textAngle = 0;
+                    else
+                        textAngle = relatedData[i].PptTextLst.First().Rotation / ThPlotData.PI * 180;
                     textAngle = StandardAngle(textAngle);
                     double pictureRotateWidth = 620;
                     double pictureRotateHeight = 350;

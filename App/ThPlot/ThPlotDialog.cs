@@ -14,6 +14,7 @@ using System.IO;
 using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 using Autodesk.AutoCAD.EditorInput;
 using NFox.Cad.Collections;
+using Autodesk.AutoCAD.Colors;
 
 namespace ThPlot
 {
@@ -37,7 +38,7 @@ namespace ThPlot
         private static string strTemplatePPTLayer = "天华PPT框线";
         private static string strTemplateImageLayer = "天华打印窗口线";
         private static string strTemplateTextLayer = "天华PPT文字";
-        
+
         private Document doc = AcadApp.DocumentManager.MdiActiveDocument;
         private string DwgFileName;
         private int indexPage = 0;
@@ -175,50 +176,34 @@ namespace ThPlot
             try
             {
                 string layer = comboPPTLayer.SelectedItem as string;
+                PromptSelectionResult result;
+                PromptSelectionOptions options = new PromptSelectionOptions()
+                {
+                    AllowDuplicates = false,
+                    RejectObjectsOnLockedLayers = true,
+                };
+
+                var filterlist = OpFilter.Bulid(
+                    o => o.Dxf((int)DxfCode.Start) == "LWPOLYLINE" &
+                    o.Dxf((int)DxfCode.LayerName) == layer);
+
                 if (radioSelectPrint.Checked) // 一个一个选择PPT框线
                 {
                     using (EditorUserInteraction inter = Active.Editor.StartUserInteraction(this))
                     {
                         using (AcadDatabase db = AcadDatabase.Active())
                         {
-                            PromptSelectionResult result;
+                            CreateLayer(ThPlotData.PAGELAYER);
                             do
                             {
-                                PromptSelectionOptions options = new PromptSelectionOptions()
-                                {
-                                    AllowDuplicates = false,
-                                    RejectObjectsOnLockedLayers = true,
-                                };
-                                var filterlist = OpFilter.Bulid(
-                                    o => o.Dxf((int)DxfCode.Start) == "LWPOLYLINE" &
-                                    o.Dxf((int)DxfCode.LayerName) == layer);
                                 result = Active.Editor.GetSelection(options, filterlist);
                                 if (result.Status == PromptStatus.OK)
                                 {
                                     // 收集PPT图层框线 进行排版等插入页码处理
                                     var pptLines = new List<Polyline>();
-                                    foreach (var objId in result.Value.GetObjectIds())
-                                    {
-                                        var pLine = db.Element<Polyline>(objId);
-                                        pptLines.Add(pLine);
-                                    }
+                                    CollectPLines(result, pptLines);
 
-                                    var pageWithProfiles = ThPlotData.CalculateProfileWithPages(pptLines, SelectDir.LEFT2RIGHTUP2DOWN, ref indexPage);
-
-                                    // 插入页码处理
-                                    foreach (var pageWithProfile in pageWithProfiles)
-                                    {
-                                        var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
-                                        ThPlotData.ShowPageText(previewLst, pageWithProfile.Profile, dbText, textStyleId);
-                                        var objectId = db.ModelSpace.Add(dbText);
-                                        db.ModelSpace.Element(objectId, true).Layer = pageWithProfile.Profile.Layer;
-                                    }
-
-                                    lblSelectCount.Text = indexPage.ToString();
-                                    var findCount = pageWithProfiles.Count;
-                                    string CommndLineTip = "找到" + findCount.ToString() + "个，总计" + indexPage.ToString() + "个";
-                                    Active.WriteMessage(CommndLineTip);
-                                    
+                                    CalculatePagesAndInsert(pptLines, SelectDir.LEFT2RIGHTUP2DOWN, ref indexPage, ThPlotData.PAGELAYER);
                                 }
                             } while (result.Status == PromptStatus.OK);
                         }
@@ -230,41 +215,16 @@ namespace ThPlot
                     {
                         using (AcadDatabase db = AcadDatabase.Active())
                         {
-                            PromptSelectionOptions options = new PromptSelectionOptions()
-                            {
-                                AllowDuplicates = false,
-                                RejectObjectsOnLockedLayers = true,
-                            };
-                            var filterlist = OpFilter.Bulid(
-                                o => o.Dxf((int)DxfCode.Start) == "LWPOLYLINE" &
-                                o.Dxf((int)DxfCode.LayerName) == layer);
-                            PromptSelectionResult result = Active.Editor.GetSelection(options, filterlist);
+                            result = Active.Editor.GetSelection(options, filterlist);
                             if (result.Status == PromptStatus.OK)
                             {
+                                CreateLayer(ThPlotData.PAGELAYER);
                                 // 收集PPT图层框线 进行排版等插入页码处理
                                 var pptLines = new List<Polyline>();
-                                foreach (var objId in result.Value.GetObjectIds())
-                                {
-                                    var pLine = db.Element<Polyline>(objId);
-                                    pptLines.Add(pLine);
-                                }
+                                CollectPLines(result, pptLines);
 
                                 SelectDir dir = (radioLeft2Right.Checked == true) ? SelectDir.LEFT2RIGHTUP2DOWN : SelectDir.UP2DOWNLEFT2RIGHT;
-                                var pageWithProfiles = ThPlotData.CalculateProfileWithPages(pptLines, dir, ref indexPage);
-
-                                // 插入页码处理
-                                foreach (var pageWithProfile in pageWithProfiles)
-                                {
-                                    var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
-                                    ThPlotData.ShowPageText(previewLst, pageWithProfile.Profile, dbText, textStyleId);
-                                    var objectId = db.ModelSpace.Add(dbText);
-                                    db.ModelSpace.Element(objectId, true).Layer = pageWithProfile.Profile.Layer;
-                                }
-
-                                lblSelectCount.Text = indexPage.ToString();
-                                var findCount = pageWithProfiles.Count;
-                                string CommndLineTip = "找到" + findCount.ToString() + "个，总计" + indexPage.ToString() + "个";
-                                Active.WriteMessage(CommndLineTip);
+                                CalculatePagesAndInsert(pptLines, dir, ref indexPage, ThPlotData.PAGELAYER);
                             }
                         }
                     }
@@ -273,6 +233,78 @@ namespace ThPlot
             catch
             {
 
+            }
+        }
+
+        private void CollectPLines(PromptSelectionResult result, List<Polyline> polylines)
+        {
+            using (var db = AcadDatabase.Active())
+            {
+                foreach (var objId in result.Value.GetObjectIds())
+                {
+                    var pLine = db.Element<Polyline>(objId);
+                    polylines.Add(pLine);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 插入页码
+        /// </summary>
+        /// <param name="polylines"></param>
+        /// <param name="dir"></param>
+        /// <param name="indexPage"></param>
+        private void CalculatePagesAndInsert(List<Polyline> polylines, SelectDir dir, ref int indexPage, string layerName)
+        {
+            var pageWithProfiles = ThPlotData.CalculateProfileWithPages(polylines, dir, ref indexPage);
+
+            var doc = Application.DocumentManager.MdiActiveDocument;
+            var database = doc.Database;
+
+                // 插入页码处理
+            using (var db = AcadDatabase.Active())
+            {
+                foreach (var pageWithProfile in pageWithProfiles)
+                {
+                    var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
+                    ThPlotData.ShowPageText(previewLst, pageWithProfile.Profile, dbText, textStyleId);
+                    dbText.ColorIndex = 256;
+                    var objectId = db.ModelSpace.Add(dbText);
+                    db.ModelSpace.Element(objectId, true).Layer = layerName;
+                    using (var tr = database.TransactionManager.StartTransaction())
+                    {
+                        database.TransactionManager.QueueForGraphicsFlush();
+                    }
+                }
+            }
+
+            lblSelectCount.Text = indexPage.ToString();
+            var findCount = pageWithProfiles.Count;
+            string CommndLineTip = "找到" + findCount.ToString() + "个，总计" + indexPage.ToString() + "个";
+            Active.WriteMessage(CommndLineTip);
+        }
+
+        private void CreateLayer(string layerName)
+        {
+            using (var db = AcadDatabase.Active())
+            {
+                var layers = db.Layers;
+                LayerTableRecord layerRecord = null;
+                foreach (var layer in layers)
+                {
+                    if (layer.Name.Equals(layerName))
+                    {
+                        return;
+                    }
+                }
+
+                // 创建新的图层
+                if (layerRecord == null)
+                {
+                    layerRecord = db.Layers.Create(layerName);
+                    layerRecord.Color = Color.FromRgb(0, 255, 0);
+                    layerRecord.IsPlottable = false;
+                }
             }
         }
 
