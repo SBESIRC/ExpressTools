@@ -280,10 +280,10 @@ namespace ThAreaFrameConfig.Model
                 ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
 
                 // 设置文字样式
-                if (acadDatabase.TextStyles.Contains("TH-STYLE1"))
-                {
-                    mText.TextStyleId = acadDatabase.TextStyles.Element("TH-STYLE1").ObjectId;
-                }
+                mText.TextStyleId = acadDatabase.Database.CreateFCNoteTextStyle();
+
+                // 设置文字图层
+                mText.LayerId = acadDatabase.Database.CreateFCNoteTextLayer();
 
                 // 创建防火分区文字框线
                 Polyline bbox = new Polyline()
@@ -293,7 +293,6 @@ namespace ThAreaFrameConfig.Model
 
                 // 通过建立ECS来方便计算文字框线的位置
                 //  https://spiderinnet1.typepad.com/blog/2013/11/autocad-net-matrix-transformations-worldtoplane.html
-                //  https://spiderinnet1.typepad.com/blog/2014/06/autocad-net-matrix-transformations-ocs-ecs-vs-wcsucs-pt-1-circle-center.html
                 Plane plane = new Plane(mText.Location, mText.Normal);
                 Matrix3d ecs2world = Matrix3d.WorldToPlane(plane).Inverse();
                 // 顶点顺序
@@ -320,11 +319,7 @@ namespace ThAreaFrameConfig.Model
                 bbox.ConstantWidth = 150;
 
                 // 设置图层
-                string layer = "AD-NUMB";
-                LayerTools.AddLayer(acadDatabase.Database, layer);
-                LayerTools.SetLayerColor(acadDatabase.Database, layer, 205);
-                bbox.Layer = layer;
-                mText.Layer = layer;
+                bbox.LayerId = acadDatabase.Database.CreateFCNoteTextLayer();
 
                 // 关联面积框线和防火分区
                 TypedValueList valueList = new TypedValueList

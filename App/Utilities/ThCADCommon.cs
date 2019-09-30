@@ -1,4 +1,7 @@
-﻿namespace TianHua.AutoCAD.Utility.ExtensionTools
+﻿using System;
+using System.IO;
+
+namespace TianHua.AutoCAD.Utility.ExtensionTools
 {
     public class ThCADCommon
     {
@@ -11,5 +14,21 @@
 
         // Fire Compartment
         public static readonly string RegAppName_AreaFrame_FireCompartment = "THCAD_FC";
+
+        // Support 路径
+        public static string SupportPath()
+        {
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Support");
+        }
+
+        // Standard style 路径
+        public static string StandardStylePath()
+        {
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Standards\Style");
+        }
     }
 }
