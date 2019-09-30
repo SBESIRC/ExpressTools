@@ -35,11 +35,7 @@ namespace ThAreaFrameConfig.Model
                     {
                         ObjectId frameId = new ObjectId(frame.Frame);
                         TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
-                        if (valueList == null)
-                        {
-                            frameId.CreateFireCompartmentAreaFrame(compartment);
-                        }
-                        else
+                        if (valueList != null)
                         {
                             var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
                             if (handles.Any())
@@ -48,9 +44,6 @@ namespace ThAreaFrameConfig.Model
                                 ObjectId objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
                                 var text = acadDatabase.Element<MText>(objId, true);
                                 text.Contents = compartment.CommerceTextContent();
-
-                                // TODO:
-                                //  修改防火分区文字框线
                             }
 
                             // 其他属性（是否自动灭火系统）
@@ -70,63 +63,14 @@ namespace ThAreaFrameConfig.Model
                 }
             }
         }
-
         public static bool ModifyFireCompartments(List<ThFireCompartment> compartments)
         {
-            using (Active.Document.LockDocument())
+            foreach (var compartment in compartments)
             {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    // set focus to AutoCAD
-                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
-#if ACAD2012
-                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
-#else
-                    Active.Document.Window.Focus();
-#endif
-
-                    foreach(var compartment in compartments)
-                    {
-                        foreach (var frame in compartment.Frames)
-                        {
-                            ObjectId frameId = new ObjectId(frame.Frame);
-                            TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
-                            if (valueList == null)
-                            {
-                                frameId.CreateFireCompartmentAreaFrame(compartment);
-                            }
-                            else
-                            {
-                                var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
-                                if (handles.Any())
-                                {
-                                    // 修改防火分区标识文字
-                                    ObjectId objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
-                                    var text = acadDatabase.Element<MText>(objId, true);
-                                    text.Contents = compartment.CommerceTextContent();
-
-                                    // TODO:
-                                    //  修改防火分区文字框线
-                                }
-
-                                // 其他属性（是否自动灭火系统）
-                                var properties = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger16);
-                                if (properties.Any())
-                                {
-                                    frameId.ModXData(
-                                        ThCADCommon.RegAppName_AreaFrame_FireCompartment,
-                                        DxfCode.ExtendedDataInteger16,
-                                        properties.ElementAt(0).Value,
-                                        compartment.SelfExtinguishingSystem);
-
-                                }
-                            }
-                        }
-                    }
-
-                    return true;
-                }
+                ModifyFireCompartment(compartment);
             }
+
+            return true;
         }
 
         // 规整防火分区
@@ -212,6 +156,108 @@ namespace ThAreaFrameConfig.Model
             return true;
         }
 
+        // 更新防火分区序号
+        public static bool UpdateFireCompartment(ThFireCompartment compartment)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    //
+                }
+            }
+
+            //
+            return false;
+        }
+
+        // 创建防火分区
+        public static bool CreateFireCompartment(ThFireCompartment compartment)
+        {
+            using (Active.Document.LockDocument())
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    // set focus to AutoCAD
+                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                    Active.Document.Window.Focus();
+#endif
+
+                    foreach (var frame in compartment.Frames)
+                    {
+                        ObjectId frameId = new ObjectId(frame.Frame);
+
+                        // 创建防火分区文字
+                        MText mText = new MText()
+                        {
+                            TextHeight = 1100,
+                            LineSpaceDistance = 1800,
+                            Attachment = AttachmentPoint.MiddleCenter,
+                            Contents = compartment.CommerceTextContent(),
+                            Location = frameId.FireCompartmentAreaFrameCentroid().Value
+                        };
+                        ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
+
+                        // 设置文字样式
+                        mText.TextStyleId = acadDatabase.Database.CreateFCNoteTextStyle();
+
+                        // 设置文字图层
+                        mText.LayerId = acadDatabase.Database.CreateFCNoteTextLayer();
+
+                        // 创建防火分区文字框线
+                        Polyline bbox = new Polyline()
+                        {
+                            Closed = true
+                        };
+
+                        // 通过建立ECS来方便计算文字框线的位置
+                        //  https://spiderinnet1.typepad.com/blog/2013/11/autocad-net-matrix-transformations-worldtoplane.html
+                        Plane plane = new Plane(mText.Location, mText.Normal);
+                        Matrix3d ecs2world = Matrix3d.WorldToPlane(plane).Inverse();
+                        // 顶点顺序
+                        //  (0)-----(1)
+                        //   |       |
+                        //   |       |
+                        //   |       |
+                        //  (3)-----(2)
+                        Point3dCollection points = new Point3dCollection()
+                        {
+                            // 左上角点
+                            new Point3d(-5000, 2000, 1),
+                            // 右上角点
+                            new Point3d(5000, 2000, 1),
+                            // 右下角点
+                            new Point3d(5000, -2000, 1),
+                            // 左下角点
+                            new Point3d(-5000, -2000, 1)
+                        };
+                        bbox.CreatePolyline(points.TransformBy(ecs2world));
+                        ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
+
+                        // 设置全局宽度
+                        bbox.ConstantWidth = 150;
+
+                        // 设置图层
+                        bbox.LayerId = acadDatabase.Database.CreateFCNoteTextLayer();
+
+                        // 关联面积框线和防火分区
+                        TypedValueList valueList = new TypedValueList
+                        {
+                            { (int)DxfCode.ExtendedDataHandle, textId.Handle },
+                            { (int)DxfCode.ExtendedDataHandle, bboxId.Handle },
+                            { (int)DxfCode.ExtendedDataInteger16, compartment.SelfExtinguishingSystem }
+                        };
+                        frameId.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment, valueList);
+                    }
+
+                    return true;
+                }
+            }
+        }
+
         // 合并商业防火分区
         public static bool MergeFireCompartment(List<ThFireCompartment> compartments)
         {
@@ -263,77 +309,6 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
-        public static bool CreateFireCompartmentAreaFrame(this ObjectId frame, ThFireCompartment compartment)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            {
-                // 创建防火分区文字
-                //  https://www.keanw.com/2015/08/fitting-autocad-text-into-a-selected-space-using-net.html
-                MText mText = new MText()
-                {
-                    TextHeight = 1100,
-                    LineSpaceDistance = 1800,
-                    Attachment = AttachmentPoint.MiddleCenter,
-                    Contents = compartment.CommerceTextContent(),
-                    Location = frame.FireCompartmentAreaFrameCentroid().Value
-                };
-                ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
-
-                // 设置文字样式
-                mText.TextStyleId = acadDatabase.Database.CreateFCNoteTextStyle();
-
-                // 设置文字图层
-                mText.LayerId = acadDatabase.Database.CreateFCNoteTextLayer();
-
-                // 创建防火分区文字框线
-                Polyline bbox = new Polyline()
-                {
-                    Closed = true
-                };
-
-                // 通过建立ECS来方便计算文字框线的位置
-                //  https://spiderinnet1.typepad.com/blog/2013/11/autocad-net-matrix-transformations-worldtoplane.html
-                Plane plane = new Plane(mText.Location, mText.Normal);
-                Matrix3d ecs2world = Matrix3d.WorldToPlane(plane).Inverse();
-                // 顶点顺序
-                //  (0)-----(1)
-                //   |       |
-                //   |       |
-                //   |       |
-                //  (3)-----(2)
-                Point3dCollection points = new Point3dCollection()
-                {
-                    // 左上角点
-                    new Point3d(-5000, 2000, 1),
-                    // 右上角点
-                    new Point3d(5000, 2000, 1),
-                    // 右下角点
-                    new Point3d(5000, -2000, 1),
-                    // 左下角点
-                    new Point3d(-5000, -2000, 1)
-                };
-                bbox.CreatePolyline(points.TransformBy(ecs2world));
-                ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
-
-                // 设置全局宽度
-                bbox.ConstantWidth = 150;
-
-                // 设置图层
-                bbox.LayerId = acadDatabase.Database.CreateFCNoteTextLayer();
-
-                // 关联面积框线和防火分区
-                TypedValueList valueList = new TypedValueList
-                {
-                    { (int)DxfCode.ExtendedDataHandle, textId.Handle },
-                    { (int)DxfCode.ExtendedDataHandle, bboxId.Handle },
-                    { (int)DxfCode.ExtendedDataInteger16, compartment.SelfExtinguishingSystem }
-                };
-                frame.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment, valueList);
-
-                return true;
-            }
-        }
-
         public static bool IsFireCompartmentAreaFrame(this ObjectId frame)
         {
             return frame.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment) != null;
@@ -368,18 +343,16 @@ namespace ThAreaFrameConfig.Model
 
         public static ThFireCompartmentAreaFrame CreateFireCompartmentAreaFrame(this ObjectId frame, string islandLayer)
         {
-            var obj = new ThFireCompartmentAreaFrame()
-            {
-                Frame = frame.OldIdPtr,
-                IslandFrames = new List<IntPtr>()
-            };
-
             using (Active.Document.LockDocument())
             {
-                //
                 using (AcadDatabase acadDatabase = AcadDatabase.Use(frame.Database))
                 {
-                    //
+                    var obj = new ThFireCompartmentAreaFrame()
+                    {
+                        Frame = frame.OldIdPtr,
+                        IslandFrames = new List<IntPtr>()
+                    };
+
                     var curve = acadDatabase.Element<Polyline>(frame);
 
                     // SelectionFilter
@@ -404,7 +377,7 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
-        public static ThFireCompartment CreateCommerceFireCompartment(this ObjectId frameId, string islandLayer)
+        public static ThFireCompartment LoadCommerceFireCompartment(this ObjectId frameId, string islandLayer)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(frameId.Database))
             {
@@ -438,7 +411,7 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
-        public static List<ThFireCompartment> CommerceFireCompartments(this Database database, string layer, string islandLayer)
+        public static List<ThFireCompartment> LoadCommerceFireCompartments(this Database database, string layer, string islandLayer)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {

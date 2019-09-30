@@ -63,7 +63,7 @@ namespace ThAreaFrameConfig.Model
         {
             string layer = settings.Layers["OUTERFRAME"];
             string islandLayer = settings.Layers["INNERFRAME"];
-            settings.Compartments = database.CommerceFireCompartments(layer, islandLayer);
+            settings.Compartments = database.LoadCommerceFireCompartments(layer, islandLayer);
             ThFireCompartmentDbHelper.NormalizeFireCompartments(settings.Compartments);
             for(int i = 0; i < settings.Compartments.Count; i++)
             {
@@ -97,7 +97,7 @@ namespace ThAreaFrameConfig.Model
 
             string layer = settings.Layers["OUTERFRAME"];
             string islandLayer = settings.Layers["INNERFRAME"];
-            settings.Compartments = database.CommerceFireCompartments(layer, islandLayer);
+            settings.Compartments = database.LoadCommerceFireCompartments(layer, islandLayer);
         }
     }
 }

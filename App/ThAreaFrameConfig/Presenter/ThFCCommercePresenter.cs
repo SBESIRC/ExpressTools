@@ -34,12 +34,22 @@ namespace ThAreaFrameConfig.Presenter
 
         public bool OnModifyFireCompartment(ThFireCompartment compartment)
         {
-            return ThFireCompartmentDbHelper.ModifyFireCompartment(compartment);
+            if (ThFireCompartmentDbHelper.DeleteFireCompartment(compartment))
+            {
+                return ThFireCompartmentDbHelper.CreateFireCompartment(compartment);
+            }
+
+            return false;
         }
 
         public bool OnModifyFireCompartments(List<ThFireCompartment> compartments)
         {
-            return ThFireCompartmentDbHelper.ModifyFireCompartments(compartments);
+            foreach(var compartment in compartments)
+            {
+                OnModifyFireCompartment(compartment);
+            }
+
+            return true;
         }
 
         public bool OnPickAreaFrames(ThFireCompartment compartment, string layer, string islandLayer)

@@ -188,8 +188,16 @@ namespace ThAreaFrameConfig.WinForms
             }
 
             ThFireCompartment compartment = view.GetRow(e.RowHandle) as ThFireCompartment;
+            // 计算编号索引
+            var compartments = Settings.Compartments.Where(
+                o => o.IsDefined &&
+                o.Subkey == compartment.Subkey &&
+                o.Storey == compartment.Storey);
+            // 由于编号索引是连续的，下一个索引即为个数+1
+            compartment.Index = (UInt16)(compartments.Count() + 1);
             if (compartment.IsDefined)
             {
+                // 修改图纸
                 if (Presenter.OnModifyFireCompartment(compartment))
                 {
                     // 更新界面
@@ -198,15 +206,6 @@ namespace ThAreaFrameConfig.WinForms
             }
             else
             {
-                // 计算编号索引
-                var compartments = Settings.Compartments.Where(
-                    o => o.IsDefined &&
-                    o.Subkey == compartment.Subkey &&
-                    o.Storey == compartment.Storey);
-
-                // 由于编号索引是连续的，下一个索引即为个数+1
-                compartment.Index = (UInt16)(compartments.Count() + 1);
-
                 // 刷新Row
                 view.RefreshRow(e.RowHandle);
             }
@@ -351,7 +350,7 @@ namespace ThAreaFrameConfig.WinForms
 
                     // 更新图纸
                     // 支持多选
-                    var compartments = new List<ThFireCompartment>();
+                    var modifiedCompartments = new List<ThFireCompartment>();
                     foreach (var handle in ri.View.GetSelectedRows())
                     {
                         var compartment = ri.View.GetRow(handle) as ThFireCompartment;
@@ -370,12 +369,24 @@ namespace ThAreaFrameConfig.WinForms
                             }
                             if (bModified)
                             {
-                                compartments.Add(compartment);
+                                modifiedCompartments.Add(compartment);
                             }
                         }
                     }
 
-                    if (Presenter.OnModifyFireCompartments(compartments))
+                    // 计算编号索引
+                    // 由于编号索引是连续的，下一个索引即为个数+1
+                    foreach (var compartment in modifiedCompartments)
+                    {
+                        var compartments = Settings.Compartments.Where(
+                            o => o.IsDefined &&
+                            o.Subkey == compartment.Subkey &&
+                            o.Storey == compartment.Storey);
+                        compartment.Index = (UInt16)(compartments.Count() + 1);
+                    }
+
+                    // 修改图纸并刷新界面
+                    if (Presenter.OnModifyFireCompartments(modifiedCompartments))
                     {
                         // 更新界面
                         this.Reload();
