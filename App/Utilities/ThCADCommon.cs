@@ -30,5 +30,13 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
                 Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
                 @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Standards\Style");
         }
+
+        // Resources 路径
+        public static string ResourcePath()
+        {
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Resources");
+        }
     }
 }

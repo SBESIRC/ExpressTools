@@ -1,17 +1,15 @@
-﻿using Autodesk.AutoCAD.Runtime;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.PlottingServices;
-using AcHelper;
 using Linq2Acad;
-using System.Linq;
-using System.Collections.Generic;
 using DotNetARX;
-using System;
-using Autodesk.AutoCAD.Colors;
-using System.IO;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThPlot
 {
@@ -1452,10 +1450,7 @@ namespace ThPlot
 
                 using (var db = AcadDatabase.Active())
                 {
-                    var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                               @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Support",
-                               @"图层框线示例.dwg");
-
+                    var filePath = Path.Combine(ThCADCommon.SupportPath(), "图层框线示例.dwg");
                     db.Database.ImportBlocksFromDwg(filePath);
                     var insertobjId = db.ModelSpace.ObjectId.InsertBlockReference("0", "图层框线示例", insertPoint, new Scale3d(1, 1, 1), 0);
                     using (Transaction dataGetTrans = db.Database.TransactionManager.StartTransaction())
