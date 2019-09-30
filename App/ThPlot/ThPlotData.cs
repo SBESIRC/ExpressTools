@@ -1060,13 +1060,13 @@ namespace ThPlot
             var heightRatio = 2000.0 / 27000;
             var profileHeight = rightTopPos.Y - leftBottomPos.Y;
             dbText.Height = heightRatio * profileHeight;
-
+            dbText.Justify = AttachmentPoint.BottomRight;
             // 设置字体样式
             var textId = GetIdFromSymbolTable();
             if (textId != ObjectId.Null)
                 dbText.TextStyleId = textId;
 
-            dbText.Position = new Point3d(rightBottomPos.X - 2500 - dbText.Height, rightBottomPos.Y + 1000 + dbText.Height, 0);
+            dbText.AlignmentPoint = new Point3d(rightBottomPos.X - 300, rightBottomPos.Y + 300, 0);
             return dbText;
         }
 
