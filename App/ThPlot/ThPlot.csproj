@@ -18,6 +18,7 @@
     <Reference Include="PdfiumLight">
       <HintPath>..\ThirdPartyLibs\PdfiumLight\0.0.4\Debug\PdfiumLight.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />

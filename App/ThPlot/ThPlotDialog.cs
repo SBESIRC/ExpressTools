@@ -12,15 +12,32 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.Runtime;
 using System.IO;
 using Application = Autodesk.AutoCAD.ApplicationServices.Application;
+using Autodesk.AutoCAD.EditorInput;
+using NFox.Cad.Collections;
 
 namespace ThPlot
 {
     public partial class ThPlotDialog : Form
     {
         public UserSelectData UserData = new UserSelectData();
+
+        private DBObjectCollection previewLst = new DBObjectCollection(); // 界面预览数据
+        private ObjectId textStyleId; // 文字显示样式
+        // 进程内记忆功能
         private static string strPPTLayer = null;
         private static string strImageLayer = null;
         private static string strTextLayer = null;
+
+        // 打印样式， 图片质量， 选择打印方式
+        public static string strPrintStyle = null;
+        public static UserSelectData.ImageQuality imageQuality = UserSelectData.ImageQuality.IMAGEUNKOWN;
+        public static UserSelectData.SelectWay selectWay = UserSelectData.SelectWay.SELECTUNKNOWN;
+
+        public static bool bTemplateFileUse = false;
+        private static string strTemplatePPTLayer = "天华PPT框线";
+        private static string strTemplateImageLayer = "天华打印窗口线";
+        private static string strTemplateTextLayer = "天华PPT文字";
+        
         private Document doc = AcadApp.DocumentManager.MdiActiveDocument;
         private string DwgFileName;
         private int indexPage = 0;
@@ -29,6 +46,7 @@ namespace ThPlot
         {
             InitializeComponent();
             InitializeControlValue();
+            textStyleId = ThPlotData.GetIdFromSymbolTable();
         }
 
         // 初始化控件值
@@ -44,10 +62,37 @@ namespace ThPlot
                     comboPrintTextLayer.Items.Add(layer);
                 }
 
-                comboPPTLayer.SelectedIndex = 0;
-                comboPrintImage.SelectedIndex = 0;
-                comboPrintTextLayer.SelectedIndex = 0;
+                // 手动选择的图层信息优先级更高
+                if (bTemplateFileUse && strPPTLayer == null)
+                {
+                    comboPPTLayer.SelectedItem = strTemplatePPTLayer;
+                    comboPrintImage.SelectedItem = strTemplateImageLayer;
+                    comboPrintTextLayer.SelectedItem = strTemplateTextLayer;
+                }
+                else
+                {
+                    comboPPTLayer.SelectedIndex = 0;
+                    comboPrintImage.SelectedIndex = 0;
+                    comboPrintTextLayer.SelectedIndex = 0;
+                }
             }
+
+            // 如果图纸中有保存的插入图纸层
+            if (layerNames.Contains("天华PPT框线"))
+            {
+                comboPPTLayer.SelectedItem = "天华PPT框线";
+            }
+
+            if (layerNames.Contains("天华打印窗口线"))
+            {
+                comboPrintImage.SelectedItem = "天华打印窗口线";
+            }
+
+            if (layerNames.Contains("天华PPT文字"))
+            {
+                comboPrintTextLayer.SelectedItem = "天华PPT文字";
+            }
+
 
             if (strPPTLayer != null)
                 comboPPTLayer.SelectedItem = strPPTLayer;
@@ -55,6 +100,27 @@ namespace ThPlot
                 comboPrintImage.SelectedItem = strImageLayer;
             if (strTextLayer != null)
                 comboPrintTextLayer.SelectedItem = strTextLayer;
+
+            // 打印样式 ， 照片质量， 选择打印方式
+            if (imageQuality != UserSelectData.ImageQuality.IMAGEUNKOWN)
+            {
+                if (imageQuality == UserSelectData.ImageQuality.IMAGELOWER)
+                    radioImageLower.Checked = true;
+                else if (imageQuality == UserSelectData.ImageQuality.IMAGEMEDIUM)
+                    radioImageMedium.Checked = true;
+                else
+                    radioImageHigher.Checked = true;
+            }
+
+            if (selectWay != UserSelectData.SelectWay.SELECTUNKNOWN)
+            {
+                if (selectWay == UserSelectData.SelectWay.SINGLESELECT)
+                    radioSelectPrint.Checked = true;
+                else if (selectWay == UserSelectData.SelectWay.RECTSELECTLEFTRIGHT)
+                    radioLeft2Right.Checked = true;
+                else if (selectWay == UserSelectData.SelectWay.RECTSELECTUPDOWN)
+                    radioTop2Down.Checked = true;
+            }
 
             var fullName = doc.Name;
             var fullNameExtensionPos = fullName.LastIndexOf(@".");
@@ -98,6 +164,9 @@ namespace ThPlot
                 plotSetting.CopyFrom(layoutObj);
                 comboPrintStyle.SelectedItem = plotSetting.CurrentStyleSheet;
             }
+
+            if (strPrintStyle != null)
+                comboPrintStyle.SelectedItem = strPrintStyle;
         }
 
         // 选择需要批量打印框线
@@ -105,74 +174,99 @@ namespace ThPlot
         {
             try
             {
+                string layer = comboPPTLayer.SelectedItem as string;
                 if (radioSelectPrint.Checked) // 一个一个选择PPT框线
                 {
-                    while (true)
+                    using (EditorUserInteraction inter = Active.Editor.StartUserInteraction(this))
                     {
                         using (AcadDatabase db = AcadDatabase.Active())
                         {
-                            var totalPlines = Active.Database.GetSelection<Polyline>();
-                            if (totalPlines == null || totalPlines.Count == 0)
-                                return;
-
-                            var pptLines = new List<Polyline>();
-
-                            // 收集PPT图层框线 进行排版等插入页码处理
-                            foreach (var pLine in totalPlines)
+                            PromptSelectionResult result;
+                            do
                             {
-                                if (pLine.Layer.Equals(comboPPTLayer.SelectedItem as string))
-                                    pptLines.Add(pLine);
-                            }
+                                PromptSelectionOptions options = new PromptSelectionOptions()
+                                {
+                                    AllowDuplicates = false,
+                                    RejectObjectsOnLockedLayers = true,
+                                };
+                                var filterlist = OpFilter.Bulid(
+                                    o => o.Dxf((int)DxfCode.Start) == "LWPOLYLINE" &
+                                    o.Dxf((int)DxfCode.LayerName) == layer);
+                                result = Active.Editor.GetSelection(options, filterlist);
+                                if (result.Status == PromptStatus.OK)
+                                {
+                                    // 收集PPT图层框线 进行排版等插入页码处理
+                                    var pptLines = new List<Polyline>();
+                                    foreach (var objId in result.Value.GetObjectIds())
+                                    {
+                                        var pLine = db.Element<Polyline>(objId);
+                                        pptLines.Add(pLine);
+                                    }
 
-                            if (pptLines.Count == 0)
-                                return;
+                                    var pageWithProfiles = ThPlotData.CalculateProfileWithPages(pptLines, SelectDir.LEFT2RIGHTUP2DOWN, ref indexPage);
 
-                            var pageWithProfiles = ThPlotData.CalculateProfileWithPages(pptLines, SelectDir.LEFT2RIGHTUP2DOWN, ref indexPage);
+                                    // 插入页码处理
+                                    foreach (var pageWithProfile in pageWithProfiles)
+                                    {
+                                        var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
+                                        ThPlotData.ShowPageText(previewLst, pageWithProfile.Profile, dbText, textStyleId);
+                                        var objectId = db.ModelSpace.Add(dbText);
+                                        db.ModelSpace.Element(objectId, true).Layer = pageWithProfile.Profile.Layer;
+                                    }
 
-                            // 插入页码处理
-                            foreach (var pageWithProfile in pageWithProfiles)
-                            {
-                                var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
-                                var objectId = db.ModelSpace.Add(dbText);
-                                db.ModelSpace.Element(objectId, true).Layer = pageWithProfile.Profile.Layer;
-                            }
-
-                            lblSelectCount.Text = indexPage.ToString();
-                            var findCount = pageWithProfiles.Count;
-                            string CommndLineTip = "找到" + findCount.ToString() + "个，总计" + indexPage.ToString() + "个";
-                            Active.WriteMessage(CommndLineTip);
+                                    lblSelectCount.Text = indexPage.ToString();
+                                    var findCount = pageWithProfiles.Count;
+                                    string CommndLineTip = "找到" + findCount.ToString() + "个，总计" + indexPage.ToString() + "个";
+                                    Active.WriteMessage(CommndLineTip);
+                                    
+                                }
+                            } while (result.Status == PromptStatus.OK);
                         }
                     }
                 }
                 else // 框选， 左右、上下 或者上下/左右
                 {
-                    using (AcadDatabase db = AcadDatabase.Active())
+                    using (EditorUserInteraction inter = Active.Editor.StartUserInteraction(this))
                     {
-                        var totalPlines = Active.Database.GetSelection<Polyline>();
-                        var pptLines = new List<Polyline>();
-
-                        // 收集PPT图层框线 进行排版等插入页码处理
-                        foreach (var pLine in totalPlines)
+                        using (AcadDatabase db = AcadDatabase.Active())
                         {
-                            if (pLine.Layer.Equals(comboPPTLayer.SelectedItem as string))
-                                pptLines.Add(pLine);
+                            PromptSelectionOptions options = new PromptSelectionOptions()
+                            {
+                                AllowDuplicates = false,
+                                RejectObjectsOnLockedLayers = true,
+                            };
+                            var filterlist = OpFilter.Bulid(
+                                o => o.Dxf((int)DxfCode.Start) == "LWPOLYLINE" &
+                                o.Dxf((int)DxfCode.LayerName) == layer);
+                            PromptSelectionResult result = Active.Editor.GetSelection(options, filterlist);
+                            if (result.Status == PromptStatus.OK)
+                            {
+                                // 收集PPT图层框线 进行排版等插入页码处理
+                                var pptLines = new List<Polyline>();
+                                foreach (var objId in result.Value.GetObjectIds())
+                                {
+                                    var pLine = db.Element<Polyline>(objId);
+                                    pptLines.Add(pLine);
+                                }
+
+                                SelectDir dir = (radioLeft2Right.Checked == true) ? SelectDir.LEFT2RIGHTUP2DOWN : SelectDir.UP2DOWNLEFT2RIGHT;
+                                var pageWithProfiles = ThPlotData.CalculateProfileWithPages(pptLines, dir, ref indexPage);
+
+                                // 插入页码处理
+                                foreach (var pageWithProfile in pageWithProfiles)
+                                {
+                                    var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
+                                    ThPlotData.ShowPageText(previewLst, pageWithProfile.Profile, dbText, textStyleId);
+                                    var objectId = db.ModelSpace.Add(dbText);
+                                    db.ModelSpace.Element(objectId, true).Layer = pageWithProfile.Profile.Layer;
+                                }
+
+                                lblSelectCount.Text = indexPage.ToString();
+                                var findCount = pageWithProfiles.Count;
+                                string CommndLineTip = "找到" + findCount.ToString() + "个，总计" + indexPage.ToString() + "个";
+                                Active.WriteMessage(CommndLineTip);
+                            }
                         }
-
-                        SelectDir dir = (radioLeft2Right.Checked == true) ? SelectDir.LEFT2RIGHTUP2DOWN : SelectDir.UP2DOWNLEFT2RIGHT;
-                        var pageWithProfiles = ThPlotData.CalculateProfileWithPages(pptLines, dir, ref indexPage);
-
-                        // 插入页码处理
-                        foreach (var pageWithProfile in pageWithProfiles)
-                        {
-                            var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
-                            var objectId = db.ModelSpace.Add(dbText);
-                            db.ModelSpace.Element(objectId, true).Layer = pageWithProfile.Profile.Layer;
-                        }
-
-                        lblSelectCount.Text = indexPage.ToString();
-                        var findCount = pageWithProfiles.Count;
-                        string CommndLineTip = "找到" + findCount.ToString() + "个，总计" + indexPage.ToString() + "个";
-                        Active.WriteMessage(CommndLineTip);
                     }
                 }
             }
@@ -244,6 +338,26 @@ namespace ThPlot
             else
                 UserData.ImageQua = UserSelectData.ImageQuality.IMAGEHIGHER;
 
+
+            strPrintStyle = UserData.PrintStyle;
+            imageQuality = UserData.ImageQua;
+            if (radioSelectPrint.Checked)
+                UserData.SelectStyle = UserSelectData.SelectWay.SINGLESELECT;
+            if (radioLeft2Right.Checked)
+                UserData.SelectStyle = UserSelectData.SelectWay.RECTSELECTLEFTRIGHT;
+            if (radioTop2Down.Checked)
+                UserData.SelectStyle = UserSelectData.SelectWay.RECTSELECTUPDOWN;
+            selectWay = UserData.SelectStyle;
+
+            using (AcadDatabase acad = AcadDatabase.Active())
+            {
+                Autodesk.AutoCAD.GraphicsInterface.TransientManager tm = Autodesk.AutoCAD.GraphicsInterface.TransientManager.CurrentTransientManager;
+                foreach (DBObject obj in previewLst)
+                {
+                    tm.EraseTransient(obj, new IntegerCollection());
+                    obj.Dispose();
+                }
+            }
         }
 
         private void btnOpen_Click(object sender, EventArgs e)

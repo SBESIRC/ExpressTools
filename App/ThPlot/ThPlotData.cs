@@ -121,11 +121,22 @@ namespace ThPlot
     /// </summary>
     public class UserSelectData
     {
+        // DPI设置
         public enum ImageQuality
         {
+            IMAGEUNKOWN = -1,
             IMAGELOWER = 0,
             IMAGEMEDIUM,
             IMAGEHIGHER
+        }
+
+        // 选择方式
+        public enum SelectWay
+        {
+            SELECTUNKNOWN = -1,
+            SINGLESELECT = 0,
+            RECTSELECTLEFTRIGHT,
+            RECTSELECTUPDOWN
         }
 
         public UserSelectData()
@@ -145,6 +156,8 @@ namespace ThPlot
         public string PrintOutPath { get; set; }    // 输出位置路径
         public ImageQuality ImageQua { get; set; }  // 输出图片质量
         public bool InsertTemplateFile { get; set; } // 插入模板文件
+
+        public SelectWay SelectStyle { get; set; } // 选择框选方式
     }
 
     public class ThPlotData
@@ -1439,9 +1452,9 @@ namespace ThPlot
 
                 using (var db = AcadDatabase.Active())
                 {
-                     var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                                @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Support",
-                                @"图层框线示例.dwg");
+                    var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                               @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Support",
+                               @"图层框线示例.dwg");
 
                     db.Database.ImportBlocksFromDwg(filePath);
                     var insertobjId = db.ModelSpace.ObjectId.InsertBlockReference("0", "图层框线示例", insertPoint, new Scale3d(1, 1, 1), 0);
@@ -1461,6 +1474,7 @@ namespace ThPlot
                             }
                         }
 
+                        ThPlotDialog.bTemplateFileUse = true;
                         dataGetTrans.Commit();
                     }
                 }
@@ -1469,6 +1483,56 @@ namespace ThPlot
             {
 
             }
+        }
+
+        /// <summary>
+        /// 显示页码
+        /// </summary>
+        /// <param name="dbCollection"></param>
+        public static void ShowPageText(DBObjectCollection dbCollection, Polyline polyline, DBText srcText, ObjectId textStyleId)
+        {
+            var dbText = new DBText();
+            Line line1 = null;
+            Line line2 = null;
+            IntegerCollection intCol = new IntegerCollection();
+
+            dbText.TextString = srcText.TextString;
+            double lineWidth = 0;
+            double lineHeight = 0;
+            var windowData = CalculateProfileTwoEdge(polyline, ref lineWidth, ref lineHeight);
+            double centerX = 0;
+            double centerY = 0;
+            var pt1 = windowData.LeftBottomPoint;
+            var pt3 = windowData.RightTopPoint;
+            centerX = 0.5 * (pt1.X + pt3.X);
+            centerY = 0.5 * (pt1.Y + pt3.Y);
+            var pt2 = new Point2d(pt3.X, pt1.Y);
+            var pt4 = new Point2d(pt1.X, pt3.Y);
+            line1 = new Line(new Point3d(pt1.X, pt1.Y, 0), new Point3d(pt3.X, pt3.Y, 0));
+            line1.Color = Color.FromRgb(255, 255, 0);
+            line2 = new Line(new Point3d(pt2.X, pt2.Y, 0), new Point3d(pt4.X, pt4.Y, 0));
+            line2.Color = Color.FromRgb(255, 255, 0);
+            var minLength = (lineWidth < lineHeight) ? lineWidth : lineHeight;
+
+            dbText.Height = 0.5 * minLength;
+            dbText.Color = Color.FromRgb(255, 255, 0);
+            var textwidth = dbText.WidthFactor * dbText.Height * 0.5;
+            dbText.Position = new Point3d(centerX - textwidth, centerY - 0.5 *dbText.Height, 0);
+
+            if (textStyleId != ObjectId.Null)
+                dbText.TextStyleId = textStyleId;
+
+            using (AcadDatabase acad = AcadDatabase.Active())
+            {
+                Autodesk.AutoCAD.GraphicsInterface.TransientManager tm = Autodesk.AutoCAD.GraphicsInterface.TransientManager.CurrentTransientManager;
+                tm.AddTransient(dbText, Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode.Highlight, 128, intCol);
+                tm.AddTransient(line1, Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode.Highlight, 128, intCol);
+                tm.AddTransient(line2, Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode.Highlight, 128, intCol);
+            }
+
+            dbCollection.Add(dbText);
+            dbCollection.Add(line1);
+            dbCollection.Add(line2);
         }
     }
 }

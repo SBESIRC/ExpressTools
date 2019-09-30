@@ -284,10 +284,12 @@
             // radioTop2Down
             // 
             this.radioTop2Down.AutoSize = true;
+            this.radioTop2Down.Checked = true;
             this.radioTop2Down.Location = new System.Drawing.Point(17, 66);
             this.radioTop2Down.Name = "radioTop2Down";
             this.radioTop2Down.Size = new System.Drawing.Size(83, 16);
             this.radioTop2Down.TabIndex = 2;
+            this.radioTop2Down.TabStop = true;
             this.radioTop2Down.Text = "上下，左右";
             this.radioTop2Down.UseVisualStyleBackColor = true;
             // 
@@ -304,12 +306,10 @@
             // radioSelectPrint
             // 
             this.radioSelectPrint.AutoSize = true;
-            this.radioSelectPrint.Checked = true;
             this.radioSelectPrint.Location = new System.Drawing.Point(17, 21);
             this.radioSelectPrint.Name = "radioSelectPrint";
             this.radioSelectPrint.Size = new System.Drawing.Size(71, 16);
             this.radioSelectPrint.TabIndex = 0;
-            this.radioSelectPrint.TabStop = true;
             this.radioSelectPrint.Text = "选择顺序";
             this.radioSelectPrint.UseVisualStyleBackColor = true;
             // 
