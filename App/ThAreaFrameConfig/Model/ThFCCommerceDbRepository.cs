@@ -75,7 +75,7 @@ namespace ThAreaFrameConfig.Model
         {
             settings = new ThFCCommerceSettings()
             {
-                SubKey = 13,
+                SubKey = 1,
                 Storey = 1,
                 Density = ThFCCommerceSettings.OccupantDensity.Middle,
                 Resistance = ThFCCommerceSettings.FireResistance.Level1,
