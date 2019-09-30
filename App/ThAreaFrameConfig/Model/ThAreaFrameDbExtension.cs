@@ -112,6 +112,46 @@ namespace ThAreaFrameConfig.Model
             //}
         }
 
+        public static double EvacuationWidth(this IntPtr frame)
+        {
+            if (frame == (IntPtr)0)
+            {
+                return 0.0;
+            }
+
+            ObjectId objId = new ObjectId(frame);
+            if (objId.IsErased)
+            {
+                return 0.0;
+            }
+
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(objId.Database))
+            {
+                var note = acadDatabase.Element<DBText>(objId);
+                return ThFireCompartmentUtil.EvacuationWidth(note.TextString);
+            }
+        }
+
+        public static UInt16 EmergencyExit(this IntPtr frame)
+        {
+            if (frame == (IntPtr)0)
+            {
+                return 0;
+            }
+
+            ObjectId objId = new ObjectId(frame);
+            if (objId.IsErased)
+            {
+                return 0;
+            }
+
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(objId.Database))
+            {
+                var note = acadDatabase.Element<DBText>(objId);
+                return ThFireCompartmentUtil.EmergencyExit(note.TextString);
+            }
+        }
+
         public static List<ThOutdoorParkingSpace> OutdoorParkingSpaces(this Database database)
         {
             var spaces = new List<ThOutdoorParkingSpace>();

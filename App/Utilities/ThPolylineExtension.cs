@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
  
 namespace TianHua.AutoCAD.Utility.ExtensionTools
@@ -55,6 +56,17 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
                         return null;
                 }
             }
+        }
+
+        public static Point3dCollection Vertices(this Polyline pLine)
+        {
+            //https://keanw.com/2007/04/iterating_throu.html
+            Point3dCollection vertices = new Point3dCollection();
+            for (int i = 0; i < pLine.NumberOfVertices; i++)
+            {
+                vertices.Add(pLine.GetPoint3dAt(i));
+            }
+            return vertices;
         }
     }
 

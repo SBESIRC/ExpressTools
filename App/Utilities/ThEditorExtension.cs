@@ -1,4 +1,6 @@
 ﻿using DotNetARX;
+using Linq2Acad;
+using AcHelper;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
@@ -16,24 +18,33 @@ namespace Autodesk.AutoCAD.EditorInput
         // Select object inside a polyline
         //  https://forums.autodesk.com/t5/net/select-object-inside-a-polyline/td-p/6018866
         public static PromptSelectionResult SelectByPolyline(this Editor ed, 
-            Polyline pline, 
-            PolygonSelectionMode mode, 
-            params TypedValue[] filter)
+            ObjectId plineObjId, 
+            PolygonSelectionMode mode,
+            SelectionFilter filter)
         {
-            Point3dCollection polygon = new Point3dCollection();
-            for (int i = 0; i < pline.NumberOfVertices; i++)
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(plineObjId.Database))
             {
-                polygon.Add(pline.GetPoint3dAt(i));
+                // 保存当前view
+                ViewTableRecord view = ed.GetCurrentView();
+
+                // zoom到pline
+                Active.Editor.ZoomObject(plineObjId);
+
+                // 计算选择范围
+                var pline = acadDatabase.Element<Polyline>(plineObjId);
+                Point3dCollection points = pline.Vertices();
+
+                // 选择
+                PromptSelectionResult result;
+                if (mode == PolygonSelectionMode.Crossing)
+                    result = ed.SelectCrossingPolygon(points, filter);
+                else
+                    result = ed.SelectWindowPolygon(points, filter);
+
+                // 恢复view
+                ed.SetCurrentView(view);
+                return result;
             }
-            PromptSelectionResult result;
-            ViewTableRecord view = ed.GetCurrentView();
-            ed.ZoomObject(pline.ObjectId);
-            if (mode == PolygonSelectionMode.Crossing)
-                result = ed.SelectCrossingPolygon(polygon, new SelectionFilter(filter));
-            else
-                result = ed.SelectWindowPolygon(polygon, new SelectionFilter(filter));
-            ed.SetCurrentView(view);
-            return result;
         }
 
         public static void ZoomObject(this Editor ed, ObjectId entId)

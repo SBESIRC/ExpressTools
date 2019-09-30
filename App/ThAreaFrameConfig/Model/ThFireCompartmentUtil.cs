@@ -42,5 +42,27 @@ namespace ThAreaFrameConfig.Model
             index = UInt16.Parse(match.Groups[3].Value);
             return true;
         }
+
+        public static double EvacuationWidth(this string note)
+        {
+            Match match = Regex.Match(note, @"^有效疏散密度([0-9]+)m$");
+            if (!match.Success)
+            {
+                return 0.0;
+            }
+
+            return double.Parse(match.Groups[1].Value);
+        }
+
+        public static UInt16 EmergencyExit(this string note)
+        {
+            Match match = Regex.Match(note, @"^安全出口([0-9]+)$");
+            if (!match.Success)
+            {
+                return 0;
+            }
+
+            return UInt16.Parse(match.Groups[1].Value);
+        }
     }
 }

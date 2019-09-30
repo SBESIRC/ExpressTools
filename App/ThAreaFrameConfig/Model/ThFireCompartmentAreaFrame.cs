@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ThAreaFrameConfig.Model
+{
+    [Serializable()]
+    public class ThFireCompartmentAreaFrame
+    {
+        // 面积框线
+        public IntPtr Frame { get; set; }
+
+        // 内框孤岛框线
+        public List<IntPtr> IslandFrames { get; set; }
+
+        // 有效疏散宽度
+        public List<IntPtr> EvacuationWidthNotes { get; set; }
+
+        // 安全出口
+        public List<IntPtr> EmergencyExitNotes { get; set; }
+
+        // 面积
+        public double Area
+        {
+            get
+            {
+                double area = Frame.Area();
+                IslandFrames.ForEach(o => area -= o.Area());
+                return area;
+            }
+        }
+
+        // 疏散密度
+        public double EvacuationDensity
+        {
+            get
+            {
+                double density = 0.0;
+                EvacuationWidthNotes.ForEach(o => density += o.EvacuationWidth());
+                return density;
+            }
+        }
+
+        // 安全出口
+        public UInt16 EmergencyExit
+        {
+            get
+            {
+                UInt16 count = 0;
+                EmergencyExitNotes.ForEach(o => o += o.EmergencyExit());
+                return count;
+            }
+        }
+
+        // 状态
+        public bool IsDefined
+        {
+            get
+            {
+                return Frame != (IntPtr)0;
+            }
+        }
+    }
+}

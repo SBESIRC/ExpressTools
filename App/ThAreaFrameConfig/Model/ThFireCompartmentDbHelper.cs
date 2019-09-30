@@ -11,6 +11,7 @@ using DotNetARX;
 using Linq2Acad;
 using GeometryExtensions;
 using System.Diagnostics;
+using NFox.Cad.Collections;
 
 namespace ThAreaFrameConfig.Model
 {
@@ -350,24 +351,58 @@ namespace ThAreaFrameConfig.Model
                     var obj = new ThFireCompartmentAreaFrame()
                     {
                         Frame = frame.OldIdPtr,
-                        IslandFrames = new List<IntPtr>()
+                        IslandFrames = new List<IntPtr>(),
+                        EmergencyExitNotes = new List<IntPtr>(),
+                        EvacuationWidthNotes = new List<IntPtr>()
                     };
 
-                    var curve = acadDatabase.Element<Polyline>(frame);
-
-                    // SelectionFilter
-                    //  https://adndevblog.typepad.com/autocad/2012/06/editorselectall-with-entity-and-layer-selection-filter.html
-                    TypedValue[] filterlist = new TypedValue[2];
-                    // 支持的面积框线类型
-                    filterlist[0] = new TypedValue(0, "LWPOLYLINE");
-                    // 过滤掉在锁定图层的面积框线
-                    filterlist[1] = new TypedValue(8, islandLayer);
-                    PromptSelectionResult psr = Active.Editor.SelectByPolyline(curve, PolygonSelectionMode.Window, filterlist);
+                    // 拾取内部孤岛轮廓
+                    var filterlist = OpFilter.Bulid(
+                        o => o.Dxf((int)DxfCode.Start) == "LWPOLYLINE" &
+                        o.Dxf((int)DxfCode.LayerName) == islandLayer);
+                    PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                        frame,
+                        PolygonSelectionMode.Window, 
+                        filterlist);
                     if (psr.Status == PromptStatus.OK)
                     {
                         foreach (ObjectId objId in psr.Value.GetObjectIds())
                         {
                             obj.IslandFrames.Add(objId.OldIdPtr);
+                        }
+                    }
+
+                    // 拾取有效疏散宽度
+                    filterlist = OpFilter.Bulid(
+                        o => o.Dxf((int)DxfCode.Start) == "TEXT" &
+                        o.Dxf((int)DxfCode.Text) == "有效疏散宽度*" &
+                        o.Dxf((int)DxfCode.LayerName) == islandLayer);
+                    psr = Active.Editor.SelectByPolyline(
+                        frame,
+                        PolygonSelectionMode.Window,
+                        filterlist);
+                    if (psr.Status == PromptStatus.OK)
+                    {
+                        foreach (ObjectId objId in psr.Value.GetObjectIds())
+                        {
+                            obj.EvacuationWidthNotes.Add(objId.OldIdPtr);
+                        }
+                    }
+
+                    // 拾取安全出口
+                    filterlist = OpFilter.Bulid(
+                        o => o.Dxf((int)DxfCode.Start) == "TEXT" &
+                        o.Dxf((int)DxfCode.Text) == "安全出口*" &
+                        o.Dxf((int)DxfCode.LayerName) == islandLayer);
+                    psr = Active.Editor.SelectByPolyline(
+                        frame,
+                        PolygonSelectionMode.Window,
+                        filterlist);
+                    if (psr.Status == PromptStatus.OK)
+                    {
+                        foreach (ObjectId objId in psr.Value.GetObjectIds())
+                        {
+                            obj.EmergencyExitNotes.Add(objId.OldIdPtr);
                         }
                     }
 
