@@ -125,7 +125,7 @@ namespace ThAreaFrameConfig.WinForms
             if (e.IsGetData)
             {
                 ThFireCompartment compartment = e.Row as ThFireCompartment;
-                e.Value = (compartment.IsDefined || compartment.Storey == 0) ? "" : "选择";
+                e.Value = compartment.IsDefined ? "" : "选择";
             }
         }
 
@@ -146,7 +146,7 @@ namespace ThAreaFrameConfig.WinForms
 
             GridView gridView = sender as GridView;
             ThFireCompartment compartment = gridView.GetRow(e.RowHandle) as ThFireCompartment;
-            if (!compartment.IsDefined)
+            if (!compartment.IsDefined && compartment.Storey > 0)
             {
                 // 面积框线图层名
                 string layer = Settings.Layers["OUTERFRAME"];
