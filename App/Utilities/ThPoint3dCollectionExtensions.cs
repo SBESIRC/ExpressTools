@@ -90,5 +90,15 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             Array.Sort(points, new ThPoint3dComparer(center));
             return new Point3dCollection(points);
         }
+
+        public static Point3dCollection TransformBy(this Point3dCollection points, Matrix3d leftSide)
+        {
+            var newPoints = new Point3dCollection();
+            foreach(Point3d point in points)
+            {
+                newPoints.Add(point.TransformBy(leftSide));
+            }
+            return newPoints;
+        }
     }
 }

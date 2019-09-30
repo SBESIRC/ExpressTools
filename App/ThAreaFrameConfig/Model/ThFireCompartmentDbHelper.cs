@@ -271,29 +271,55 @@ namespace ThAreaFrameConfig.Model
                 //  https://www.keanw.com/2015/08/fitting-autocad-text-into-a-selected-space-using-net.html
                 MText mText = new MText()
                 {
+                    TextHeight = 1100,
+                    LineSpaceDistance = 1800,
                     Attachment = AttachmentPoint.MiddleCenter,
                     Contents = compartment.CommerceTextContent(),
                     Location = frame.FireCompartmentAreaFrameCentroid().Value
                 };
                 ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
 
+                // 设置文字样式
+                if (acadDatabase.TextStyles.Contains("TH-STYLE1"))
+                {
+                    mText.TextStyleId = acadDatabase.TextStyles.Element("TH-STYLE1").ObjectId;
+                }
+
                 // 创建防火分区文字框线
                 Polyline bbox = new Polyline()
                 {
-                    Closed = true,
+                    Closed = true
                 };
-                // 变换顶点顺序
-                //  (0)-----(1)     (0)-----(1)
-                //   |       |       |       |
-                //   |       |  ==>  |       |
-                //   |       |       |       |
-                //  (2)-----(3)     (3)-----(2)
-                Point3dCollection points = acadDatabase.Element<MText>(textId).GetBoundingPoints();
-                points.Swap(2, 3);
-                bbox.CreatePolyline(points);
+
+                // 通过建立ECS来方便计算文字框线的位置
+                //  https://spiderinnet1.typepad.com/blog/2013/11/autocad-net-matrix-transformations-worldtoplane.html
+                //  https://spiderinnet1.typepad.com/blog/2014/06/autocad-net-matrix-transformations-ocs-ecs-vs-wcsucs-pt-1-circle-center.html
+                Plane plane = new Plane(mText.Location, mText.Normal);
+                Matrix3d ecs2world = Matrix3d.WorldToPlane(plane).Inverse();
+                // 顶点顺序
+                //  (0)-----(1)
+                //   |       |
+                //   |       |
+                //   |       |
+                //  (3)-----(2)
+                Point3dCollection points = new Point3dCollection()
+                {
+                    // 左上角点
+                    new Point3d(-5000, 2000, 1),
+                    // 右上角点
+                    new Point3d(5000, 2000, 1),
+                    // 右下角点
+                    new Point3d(5000, -2000, 1),
+                    // 左下角点
+                    new Point3d(-5000, -2000, 1)
+                };
+                bbox.CreatePolyline(points.TransformBy(ecs2world));
                 ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
 
-                // 图层
+                // 设置全局宽度
+                bbox.ConstantWidth = 150;
+
+                // 设置图层
                 string layer = "AD-NUMB";
                 LayerTools.AddLayer(acadDatabase.Database, layer);
                 LayerTools.SetLayerColor(acadDatabase.Database, layer, 205);
