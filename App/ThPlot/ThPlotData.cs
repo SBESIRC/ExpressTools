@@ -1149,6 +1149,72 @@ namespace ThPlot
         }
 
         /// <summary>
+        /// 计算打印顺序
+        /// </summary>
+        /// <param name="userData"></param>
+        /// <param name="srcRelatedDatas"></param>
+        /// <returns></returns>
+        public static List<RelatedData> ReCalculatePrintSequence(UserSelectData userData, List<RelatedData> srcRelatedDatas)
+        {
+            if (userData.SelectStyle == UserSelectData.SelectWay.SELECTUNKNOWN || userData.SelectStyle == UserSelectData.SelectWay.SINGLESELECT)
+                return srcRelatedDatas;
+
+            SelectDir dir = SelectDir.UP2DOWNLEFT2RIGHT;
+            if (userData.SelectStyle == UserSelectData.SelectWay.RECTSELECTLEFTRIGHT)
+                dir = SelectDir.LEFT2RIGHTUP2DOWN;
+
+
+            var polylines = new List<Polyline>();
+            foreach (var pptData in srcRelatedDatas)
+            {
+                polylines.Add(pptData.PptPolyline);
+            }
+
+            int pageCount = 0;
+            // 匹配重置页码
+            var pageWithProfiles = ThPlotData.CalculateProfileWithPages(polylines, dir, ref pageCount);
+            foreach (var pptData in srcRelatedDatas)
+            {
+                for (int i = 0; i < pageWithProfiles.Count; i++)
+                {
+                    if (IsSamePolyline(pptData, pageWithProfiles[i]))
+                    {
+                        pptData.PageText.TextString = (i + 1).ToString();
+                        break;
+                    }
+                }
+            }
+
+            srcRelatedDatas.Sort((s1, s2) =>
+            {
+                var num1 = int.Parse(s1.PageText.TextString);
+                var num2 = int.Parse(s2.PageText.TextString);
+                return num1.CompareTo(num2);
+            });
+
+            srcRelatedDatas.Reverse();
+            return srcRelatedDatas;
+        }
+
+        public static bool IsSamePolyline(RelatedData relatedData, PageWithProfile pageWithProfile)
+        {
+            var polylineFir = relatedData.PptPolyline;
+            var ptLstFir = GetPolylinePoints(polylineFir);
+            var firWindowData = GetEntityPointsWindow(ptLstFir);
+            var firLeftBottomPos = firWindowData.LeftBottomPoint;
+
+            var polylineSec = pageWithProfile.Profile;
+            var ptLstSec = GetPolylinePoints(polylineSec);
+            var secWindowData = GetEntityPointsWindow(ptLstSec);
+            var secLeftBottomPos = secWindowData.LeftBottomPoint;
+
+            if (firLeftBottomPos.GetDistanceTo(secLeftBottomPos) < 100)
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
         /// 生成数据的相关关系，Image框， PPT框，ppt文字 页码文字
         /// </summary>
         /// <returns></returns>

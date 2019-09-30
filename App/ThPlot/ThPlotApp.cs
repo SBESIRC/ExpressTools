@@ -32,6 +32,7 @@ namespace ThPlot
                 return;
             }
 
+            // 插入模板文件
             UserSelectData userData = thPlotForm.UserData;
             if (userData.InsertTemplateFile)
             {
@@ -39,9 +40,16 @@ namespace ThPlot
                 return;
             }
                 
-
             // 获取图层中的窗口
-            var relatedDataLst = ThPlotData.MakeRelatedData(userData);
+            var relatedDataFir = ThPlotData.MakeRelatedData(userData);
+            if (relatedDataFir == null)
+                return;
+
+            // 重置打印顺序
+            relatedDataFir.RemoveAll(p => (
+                p.ImagePolyline == null || p.PptPolyline == null
+                ));
+            var relatedDataLst = ThPlotData.ReCalculatePrintSequence(userData, relatedDataFir);
             if (relatedDataLst == null)
                 return;
 
