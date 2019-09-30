@@ -120,11 +120,11 @@ namespace ThAreaFrameConfig.Presenter
                         Dictionary<Point3d, ObjectId> frameDict = new Dictionary<Point3d, ObjectId>();
                         foreach (var objId in entSelected.Value.GetObjectIds())
                         {
-                            Point3d centroid = objId.FireCompartmentAreaFrameCentroid();
-                            if (centroid != Point3d.Origin)
+                            Point3d? centroid = objId.FireCompartmentAreaFrameCentroid();
+                            if (centroid != null)
                             {
-                                centroids.Add(centroid);
-                                frameDict[centroid] = objId;
+                                centroids.Add(centroid.Value);
+                                frameDict[centroid.Value] = objId;
                             }
                         }
                         ThPoint3dComparer comparer = new ThPoint3dComparer(centroids.CenterPoint());
@@ -288,8 +288,10 @@ namespace ThAreaFrameConfig.Presenter
                                 }
                                 catch
                                 {
-                                    // 不知道什么原因，对于有些孤岛，AppendLoop()会抛"InvalidInput"异常
-                                    // 在找到真正的原因之前，通过try...catch...捕捉异常。
+                                    // 由于绘图精度或者绘图不规范，面积框线处于“假闭合”的状态。
+                                    // 在放大很多倍的情况下，多段线和起点和终点并不完全重合。
+                                    // 在这样的情况下，对于有些孤岛，AppendLoop()会抛"InvalidInput"异常。
+                                    // 这里通过捕捉异常，忽略孤岛，保证Hatch仍然可以正确创建。
                                 }
                                 finally
                                 {

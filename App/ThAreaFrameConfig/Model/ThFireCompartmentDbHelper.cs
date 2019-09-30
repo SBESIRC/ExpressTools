@@ -273,7 +273,7 @@ namespace ThAreaFrameConfig.Model
                 {
                     Attachment = AttachmentPoint.MiddleCenter,
                     Contents = compartment.CommerceTextContent(),
-                    Location = frame.FireCompartmentAreaFrameCentroid()
+                    Location = frame.FireCompartmentAreaFrameCentroid().Value
                 };
                 ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
 
@@ -318,23 +318,30 @@ namespace ThAreaFrameConfig.Model
             return frame.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment) != null;
         }
 
-        public static Point3d FireCompartmentAreaFrameCentroid(this ObjectId frameId)
+        public static Point3d? FireCompartmentAreaFrameCentroid(this ObjectId frameId)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(frameId.Database))
             {
-                // 根据面积框线轮廓创建“区域”
-                //  https://www.keanw.com/2015/08/getting-the-centroid-of-an-autocad-region-using-net.html
-                DBObjectCollection curves = new DBObjectCollection()
+                try
                 {
-                    acadDatabase.Element<Curve>(frameId)
-                };
-                DBObjectCollection regions = Region.CreateFromCurves(curves);
-                if (regions[0] is Region region)
-                {
+                    // 根据面积框线轮廓创建“区域”
+                    //  https://www.keanw.com/2015/08/getting-the-centroid-of-an-autocad-region-using-net.html
+                    DBObjectCollection curves = new DBObjectCollection()
+                    {
+                        acadDatabase.Element<Curve>(frameId)
+                    };
+                    DBObjectCollection regions = Region.CreateFromCurves(curves);
+                    Region region = regions[0] as Region;
                     return region.Centroid();
                 }
-
-                return Point3d.Origin;
+                catch
+                {
+                    // 由于绘图精度或者绘图不规范，面积框线处于“假闭合”的状态。
+                    // 在放大很多倍的情况下，多段线和起点和终点并不完全重合。
+                    // 在这样的情况下，CreateFromCurves()会抛出异常。
+                    // 这里通过捕捉异常，返回null表示“失败”。
+                    return null;
+                }
             }
         }
 
