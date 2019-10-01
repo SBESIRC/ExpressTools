@@ -14,7 +14,7 @@ using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace ThAreaFrameConfig.WinForms
 {
-    public partial class ThCommerceFireProofControl : XtraUserControl, IFCCommerceView
+    public partial class ThCommerceFireProofControl : XtraUserControl, IFireCompartmentView
     {
         private BindingSource bindingSource;
         private ThFCCommercePresenter Presenter;

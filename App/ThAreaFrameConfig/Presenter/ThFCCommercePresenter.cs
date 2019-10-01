@@ -6,9 +6,9 @@ namespace ThAreaFrameConfig.Presenter
 {
     public class ThFCCommercePresenter : IThFireCompartmentPresenter, IThFireCompartmentPresenterCallback
     {
-        private readonly IFCCommerceView compartmentView;
+        private readonly IFireCompartmentView compartmentView;
 
-        public ThFCCommercePresenter(IFCCommerceView view)
+        public ThFCCommercePresenter(IFireCompartmentView view)
         {
             compartmentView = view;
         }
