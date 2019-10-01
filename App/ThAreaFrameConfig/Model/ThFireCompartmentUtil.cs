@@ -45,7 +45,7 @@ namespace ThAreaFrameConfig.Model
 
         public static double EvacuationWidth(this string note)
         {
-            Match match = Regex.Match(note, @"^有效疏散密度([0-9]+)m$");
+            Match match = Regex.Match(note, @"^有效疏散宽度([0-9]+)m$");
             if (!match.Success)
             {
                 return 0.0;

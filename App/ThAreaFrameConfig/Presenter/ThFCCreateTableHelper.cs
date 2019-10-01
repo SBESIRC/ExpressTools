@@ -88,10 +88,10 @@ namespace ThAreaFrameConfig.Presenter
                                     100.00);
 
                                 // "实际疏散密度（m）"
-                                table.Cells[dataRow, column++].SetDensityValue(0.00);
+                                table.Cells[dataRow, column++].SetDensityValue(compartment.EvacuationDensity);
 
                                 // "安全出口数量（个）"
-                                table.Cells[dataRow, column++].Value = 0;
+                                table.Cells[dataRow, column++].Value = (int)compartment.EmergencyExit;
 
                                 // "是否设置自动灭火系统"
                                 table.Cells[dataRow, column++].Value = compartment.SelfExtinguishingSystem ? "是" : "否";

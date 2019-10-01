@@ -142,6 +142,30 @@ namespace ThAreaFrameConfig.Model
             }
         }
 
+        // 疏散密度
+        public double EvacuationDensity
+        {
+            get
+            {
+                double density = 0.0;
+                Frames.Where(o => o.IsDefined)
+                    .ToList()
+                    .ForEach(o => density += o.EvacuationDensity);
+                return density;
+            }
+        }
+
+        // 安全出口
+        public UInt16 EmergencyExit
+        {
+            get
+            {
+                return Frames.Where(o => o.IsDefined)
+                    .ToList()
+                    .Max(o => o.EmergencyExit);
+            }
+        }
+
         // 是否合并
         public bool IsMerged
         {

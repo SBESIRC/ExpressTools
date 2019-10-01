@@ -47,9 +47,7 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
-                UInt16 count = 0;
-                EmergencyExitNotes.ForEach(o => o += o.EmergencyExit());
-                return count;
+                return EmergencyExitNotes.Max(o => o.EmergencyExit());
             }
         }
 
