@@ -9,6 +9,12 @@ namespace ThAreaFrameConfig.Model
     [Serializable()]
     public class ThFireCompartment : IEquatable<ThFireCompartment>, IComparable<ThFireCompartment>
     {
+        public enum FCType
+        {
+            FCCommerce,
+            FCUnderGroundParking
+        }
+
         // 序号
         public int Number { get; set; }
 
@@ -181,6 +187,18 @@ namespace ThAreaFrameConfig.Model
             get
             {
                 return Frames.Where(o => o.IsDefined).Count() > 0;
+            }
+        }
+
+        // 类型
+        public FCType Type
+        {
+            get
+            {
+                // 根据subkey的值：
+                //  零：地下车库
+                //  正整数：商业
+                return (Subkey == 0) ? FCType.FCUnderGroundParking : FCType.FCCommerce;
             }
         }
     }

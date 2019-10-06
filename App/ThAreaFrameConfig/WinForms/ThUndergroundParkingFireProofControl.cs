@@ -79,5 +79,63 @@ namespace ThAreaFrameConfig.WinForms
             comboBox_inner_frame.DataSource = DbRepository.Layers;
             comboBox_inner_frame.SelectedItem = Settings.Layers["INNERFRAME"];
         }
+
+        private void gridView_fire_compartment_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
+        {
+            if (e.Column.FieldName == "Area" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+            {
+                double area = Convert.ToDouble(e.Value);
+                e.DisplayText = Converter.DistanceToString(area, DistanceUnitFormat.Decimal, 2);
+            }
+        }
+
+        private void gridView_fire_compartment_CustomUnboundColumnData(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDataEventArgs e)
+        {
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+            if (e.Column.FieldName != "gridColumn_pick")
+            {
+                return;
+            }
+            if (e.IsGetData)
+            {
+                ThFireCompartment compartment = e.Row as ThFireCompartment;
+                e.Value = compartment.IsDefined ? "" : "选择";
+            }
+        }
+
+        private void gridView_fire_compartment_RowClick(object sender, RowClickEventArgs e)
+        {
+            if (!(sender is GridView view))
+            {
+                return;
+            }
+            if (e.HitInfo.Column == null)
+            {
+                return;
+            }
+            if (e.HitInfo.Column.FieldName != "gridColumn_pick")
+            {
+                return;
+            }
+
+            GridView gridView = sender as GridView;
+            ThFireCompartment compartment = gridView.GetRow(e.RowHandle) as ThFireCompartment;
+            if (!compartment.IsDefined && compartment.Storey > 0)
+            {
+                // 面积框线图层名
+                string layer = Settings.Layers["OUTERFRAME"];
+                string islandLayer = Settings.Layers["INNERFRAME"];
+
+                // 选取面积框线
+                if (Presenter.OnPickAreaFrames(compartment, layer, islandLayer))
+                {
+                    // 更新界面
+                    this.Reload();
+                }
+            }
+        }
     }
 }

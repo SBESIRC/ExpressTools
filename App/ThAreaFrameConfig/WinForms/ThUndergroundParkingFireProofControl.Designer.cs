@@ -40,14 +40,14 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.gridControl_fire_compartment = new DevExpress.XtraGrid.GridControl();
             this.gridView_fire_compartment = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.button_create_table = new System.Windows.Forms.Button();
-            this.button_create_fill = new System.Windows.Forms.Button();
             this.gridColumn_number = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_storey = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_serial_number = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_area = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn_pick = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
+            this.button_create_table = new System.Windows.Forms.Button();
+            this.button_create_fill = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -177,24 +177,9 @@
             this.gridView_fire_compartment.GridControl = this.gridControl_fire_compartment;
             this.gridView_fire_compartment.Name = "gridView_fire_compartment";
             this.gridView_fire_compartment.OptionsView.ShowGroupPanel = false;
-            // 
-            // button_create_table
-            // 
-            this.button_create_table.Location = new System.Drawing.Point(370, 389);
-            this.button_create_table.Name = "button_create_table";
-            this.button_create_table.Size = new System.Drawing.Size(113, 23);
-            this.button_create_table.TabIndex = 6;
-            this.button_create_table.Text = "生成防火分区表";
-            this.button_create_table.UseVisualStyleBackColor = true;
-            // 
-            // button_create_fill
-            // 
-            this.button_create_fill.Location = new System.Drawing.Point(236, 389);
-            this.button_create_fill.Name = "button_create_fill";
-            this.button_create_fill.Size = new System.Drawing.Size(128, 23);
-            this.button_create_fill.TabIndex = 7;
-            this.button_create_fill.Text = "生成防火分区填充";
-            this.button_create_fill.UseVisualStyleBackColor = true;
+            this.gridView_fire_compartment.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_fire_compartment_RowClick);
+            this.gridView_fire_compartment.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView_fire_compartment_CustomUnboundColumnData);
+            this.gridView_fire_compartment.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridView_fire_compartment_CustomColumnDisplayText);
             // 
             // gridColumn_number
             // 
@@ -251,6 +236,24 @@
             this.repositoryItemHyperLinkEdit1.AutoHeight = false;
             this.repositoryItemHyperLinkEdit1.LinkColor = System.Drawing.Color.Blue;
             this.repositoryItemHyperLinkEdit1.Name = "repositoryItemHyperLinkEdit1";
+            // 
+            // button_create_table
+            // 
+            this.button_create_table.Location = new System.Drawing.Point(370, 389);
+            this.button_create_table.Name = "button_create_table";
+            this.button_create_table.Size = new System.Drawing.Size(113, 23);
+            this.button_create_table.TabIndex = 6;
+            this.button_create_table.Text = "生成防火分区表";
+            this.button_create_table.UseVisualStyleBackColor = true;
+            // 
+            // button_create_fill
+            // 
+            this.button_create_fill.Location = new System.Drawing.Point(236, 389);
+            this.button_create_fill.Name = "button_create_fill";
+            this.button_create_fill.Size = new System.Drawing.Size(128, 23);
+            this.button_create_fill.TabIndex = 7;
+            this.button_create_fill.Text = "生成防火分区填充";
+            this.button_create_fill.UseVisualStyleBackColor = true;
             // 
             // ThUndergroundParkingFireProofControl
             // 
