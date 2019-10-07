@@ -3,45 +3,45 @@ using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThAreaFrame
 {
     class ThAreaFrameResidentCalculator : IThAreaFrameCalculator
     {
         private readonly Database database;
+        private readonly ThAreaFrameRoof roof;
         private readonly ResidentialBuilding building;
         public ResidentialBuilding Building => building;
+        public ThAreaFrameRoof Roof => roof;
         public Database Database => database;
 
-        public ThAreaFrameResidentCalculator(ResidentialBuilding building, Database database)
+        public ThAreaFrameResidentCalculator(
+            ResidentialBuilding building,
+            ThAreaFrameRoof roof,
+            Database database)
         {
             this.database = database;
             this.building = building;
+            this.roof = roof;
         }
 
-        public static IThAreaFrameCalculator Calculator(ResidentialBuilding building, Database database)
+        public static IThAreaFrameCalculator Calculator(
+            ResidentialBuilding building,
+            ThAreaFrameRoof roof,
+            Database database)
         {
-            return new ThAreaFrameResidentCalculator(building, database);
+            return new ThAreaFrameResidentCalculator(building, roof, database);
         }
 
-        public double AreaOfAboveGround(double roofArea)
-        {
-            double area = 0.0;
-            for (int storey = 1; storey <= AboveGroundStoreyNumber(); storey++)
-            {
-                area += AreaOfFloor(storey, false);
-            }
-            return area + roofArea;
-        }
-
-        public double AreaOfCapacityBuilding(double roofArea)
+        public double AreaOfCapacityBuilding(bool far/*Floor Area Ratio*/ = false)
         {
             double area = 0.0;
             for (int storey = 1; storey <= AboveGroundStoreyNumber(); storey++)
             {
-                area += AreaOfFloor(storey, true);
+                area += AreaOfFloor(storey, far);
             }
-            return area + roofArea;
+            return area;
         }
 
         public double AreaOfFloor(int floor, bool far = false)
@@ -52,6 +52,16 @@ namespace ThAreaFrame
             area += AreaOfBaywindows(floor, far);
             area += AreaOfMiscellaneous(floor, far);
             return area;
+        }
+
+        public double AreaOfRoof(bool far = false)
+        {
+            if (roof != null)
+            {
+                double ratio = far ? double.Parse(roof.floorAreaRatio) : double.Parse(roof.areaRatio);
+                return ThAreaFrameDbUtils.SumOfArea(Database, roof.layer) * ratio;
+            }
+            return 0.0;
         }
 
         public List<double> AreaOfStandardStoreys(bool far = false)
@@ -66,12 +76,22 @@ namespace ThAreaFrame
             return areas;
         }
 
-        public double AreaOfUnderGround()
+        public double AreaOfUnderGround(bool far = false)
         {
             double area = 0.0;
             for (int storey = 1; storey <= UnderGroundStoreyNumber(); storey++)
             {
-                area += AreaOfFloor(-storey, false);
+                area += AreaOfFloor(-storey, far);
+            }
+            return area;
+        }
+
+        public double AreaOfAboveGround(bool far = false)
+        {
+            double area = 0.0;
+            for (int storey = 1; storey <= AboveGroundStoreyNumber(); storey++)
+            {
+                area += AreaOfFloor(storey, far);
             }
             return area;
         }
@@ -96,10 +116,22 @@ namespace ThAreaFrame
             {
                 foreach (var balcony in room.balconies)
                 {
-                    double ratio = far ? double.Parse(balcony.floorAreaRatio) : double.Parse(balcony.areaRatio);
-                    area += (ThAreaFrameDbUtils.SumOfArea(Database, balcony.layer) * ratio
-                        / ThAreaFrameDbUtils.CountOfDwelling(Database, balcony.dwellingID)
-                        * ThAreaFrameDbUtils.CountOfAreaFrames(Database, room.dwelling.layer));
+                    if (balcony.version == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
+                    {
+                        double ratio = far ? double.Parse(balcony.floorAreaRatio) : double.Parse(balcony.areaRatio);
+                        area += (ThAreaFrameDbUtils.SumOfArea(Database, balcony.layer) * ratio
+                            / ThAreaFrameDbUtils.CountOfDwelling(Database, balcony.dwellingID)
+                            * ThAreaFrameDbUtils.CountOfAreaFrames(Database, room.dwelling.layer));
+                    }
+                    else if (balcony.version == ThCADCommon.RegAppName_AreaFrame_Version)
+                    {
+                        double ratio = far ? double.Parse(balcony.floorAreaRatio) : double.Parse(balcony.areaRatio);
+                        area += ThAreaFrameDbUtils.SumOfArea(Database, balcony.layer) * ratio;
+                    }
+                    else
+                    {
+                        throw new NotSupportedException();
+                    }
                 }
             }
             return area;
@@ -113,10 +145,22 @@ namespace ThAreaFrame
             {
                 foreach (var baywindow in room.baywindows)
                 {
-                    double ratio = far ? double.Parse(baywindow.floorAreaRatio) : double.Parse(baywindow.areaRatio);
-                    area += (ThAreaFrameDbUtils.SumOfArea(Database, baywindow.layer) * ratio
-                        / ThAreaFrameDbUtils.CountOfDwelling(Database, baywindow.dwellingID)
-                        * ThAreaFrameDbUtils.CountOfAreaFrames(Database, room.dwelling.layer));
+                    if (baywindow.version == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
+                    {
+                        double ratio = far ? double.Parse(baywindow.floorAreaRatio) : double.Parse(baywindow.areaRatio);
+                        area += (ThAreaFrameDbUtils.SumOfArea(Database, baywindow.layer) * ratio
+                            / ThAreaFrameDbUtils.CountOfDwelling(Database, baywindow.dwellingID)
+                            * ThAreaFrameDbUtils.CountOfAreaFrames(Database, room.dwelling.layer));
+                    }
+                    else if (baywindow.version == ThCADCommon.RegAppName_AreaFrame_Version)
+                    {
+                        double ratio = far ? double.Parse(baywindow.floorAreaRatio) : double.Parse(baywindow.areaRatio);
+                        area += ThAreaFrameDbUtils.SumOfArea(Database, baywindow.layer) * ratio;
+                    }
+                    else
+                    {
+                        throw new NotSupportedException();
+                    }
                 }
             }
             return area;
@@ -130,10 +174,22 @@ namespace ThAreaFrame
             {
                 foreach (var item in room.miscellaneous)
                 {
-                    double ratio = far ? double.Parse(item.floorAreaRatio) : double.Parse(item.areaRatio);
-                    area += (ThAreaFrameDbUtils.SumOfArea(Database, item.layer) * ratio
-                        / ThAreaFrameDbUtils.CountOfDwelling(Database, item.dwellingID)
-                        * ThAreaFrameDbUtils.CountOfAreaFrames(Database, room.dwelling.layer));
+                    if (item.version == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
+                    {
+                        double ratio = far ? double.Parse(item.floorAreaRatio) : double.Parse(item.areaRatio);
+                        area += (ThAreaFrameDbUtils.SumOfArea(Database, item.layer) * ratio
+                            / ThAreaFrameDbUtils.CountOfDwelling(Database, item.dwellingID)
+                            * ThAreaFrameDbUtils.CountOfAreaFrames(Database, room.dwelling.layer));
+                    }
+                    else if (item.version == ThCADCommon.RegAppName_AreaFrame_Version)
+                    {
+                        double ratio = far ? double.Parse(item.floorAreaRatio) : double.Parse(item.areaRatio);
+                        area += ThAreaFrameDbUtils.SumOfArea(Database, item.layer) * ratio;
+                    }
+                    else
+                    {
+                        throw new NotSupportedException();
+                    }
                 }
             }
             return area;

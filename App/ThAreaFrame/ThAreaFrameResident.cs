@@ -51,47 +51,111 @@ namespace ThAreaFrame
         public static ResidentialAreaUnit Balcony(string name)
         {
             string[] tokens = name.Split('_');
-            ResidentialAreaUnit unit = new ResidentialAreaUnit(name)
+            if (tokens.Last() == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
             {
-                type = tokens[0],
-                areaType = tokens[1],
-                areaRatio = tokens[2],
-                floorAreaRatio = tokens[3],
-                dwellingID = tokens[4],
-                publicAreaID = tokens[5],
-                version = tokens[6]
-            };
-            return unit;
+                ResidentialAreaUnit unit = new ResidentialAreaUnit(name)
+                {
+                    type = tokens[0],
+                    areaType = tokens[1],
+                    areaRatio = tokens[2],
+                    floorAreaRatio = tokens[3],
+                    dwellingID = tokens[4],
+                    publicAreaID = tokens[5],
+                    version = tokens[6]
+                };
+                return unit;
+            }
+            if (tokens.Last() == ThCADCommon.RegAppName_AreaFrame_Version)
+            {
+                ResidentialAreaUnit unit = new ResidentialAreaUnit(name)
+                {
+                    type = tokens[0],
+                    areaType = tokens[1],
+                    areaRatio = tokens[2],
+                    floorAreaRatio = tokens[3],
+                    dwellingID = tokens[4],
+                    storeys = tokens[5],
+                    publicAreaID = tokens[6],
+                    version = tokens[7]
+                };
+                return unit;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
 
         public static ResidentialAreaUnit Baywindow(string name)
         {
             string[] tokens = name.Split('_');
-            ResidentialAreaUnit unit = new ResidentialAreaUnit(name)
+            if (tokens.Last() == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
             {
-                type = tokens[0],
-                areaType = tokens[1],
-                areaRatio = tokens[2],
-                floorAreaRatio = tokens[3],
-                dwellingID = tokens[4],
-                version = tokens[5]
-            };
-            return unit;
+                ResidentialAreaUnit unit = new ResidentialAreaUnit(name)
+                {
+                    type = tokens[0],
+                    areaType = tokens[1],
+                    areaRatio = tokens[2],
+                    floorAreaRatio = tokens[3],
+                    dwellingID = tokens[4],
+                    version = tokens[5]
+                };
+                return unit;
+            }
+            else if (tokens.Last() == ThCADCommon.RegAppName_AreaFrame_Version)
+            {
+                ResidentialAreaUnit unit = new ResidentialAreaUnit(name)
+                {
+                    type = tokens[0],
+                    areaType = tokens[1],
+                    areaRatio = tokens[2],
+                    floorAreaRatio = tokens[3],
+                    dwellingID = tokens[4],
+                    storeys = tokens[5],
+                    version = tokens[6]
+                };
+                return unit;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
 
         public static ResidentialAreaUnit Miscellaneous(string name)
         {
             string[] tokens = name.Split('_');
-            ResidentialAreaUnit unit = new ResidentialAreaUnit(name)
+            if (tokens.Last() == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
             {
-                type = tokens[0],
-                areaType = tokens[1],
-                areaRatio = tokens[2],
-                floorAreaRatio = tokens[3],
-                dwellingID = tokens[4],
-                version = tokens[5]
-            };
-            return unit;
+                ResidentialAreaUnit unit = new ResidentialAreaUnit(name)
+                {
+                    type = tokens[0],
+                    areaType = tokens[1],
+                    areaRatio = tokens[2],
+                    floorAreaRatio = tokens[3],
+                    dwellingID = tokens[4],
+                    version = tokens[5]
+                };
+                return unit;
+            }
+            else if (tokens.Last() == ThCADCommon.RegAppName_AreaFrame_Version)
+            {
+                ResidentialAreaUnit unit = new ResidentialAreaUnit(name)
+                {
+                    type = tokens[0],
+                    areaType = tokens[1],
+                    areaRatio = tokens[2],
+                    floorAreaRatio = tokens[3],
+                    dwellingID = tokens[4],
+                    storeys = tokens[5],
+                    version = tokens[6]
+                };
+                return unit;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
     }
 
@@ -182,30 +246,60 @@ namespace ThAreaFrame
             var balconies = names.Where(n => n.StartsWith(@"住宅构件_阳台"));
             foreach (string item in balconies)
             {
-                var unit = ResidentialAreaUnit.Balcony(item);
-                var room = building.rooms.Where(b => b.dwelling.dwellingID == unit.dwellingID)
-                                        .FirstOrDefault();
-                room.balconies.Add(unit);
+                var component = ResidentialAreaUnit.Balcony(item);
+                if (component.version == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
+                {
+                    var room = building.rooms.Where(b => b.dwelling.dwellingID == component.dwellingID)
+                        .FirstOrDefault();
+                    room.balconies.Add(component);
+                }
+                else if (component.version == ThCADCommon.RegAppName_AreaFrame_Version)
+                {
+                    var room = building.rooms.Where(
+                        o => o.dwelling.storeys == component.storeys &&
+                        o.dwelling.dwellingID == component.dwellingID).First();
+                    room.balconies.Add(component);
+                }
             }
 
             // 飘窗
             var baywindows = names.Where(n => n.StartsWith(@"住宅构件_飘窗"));
             foreach (string item in baywindows)
             {
-                var unit = ResidentialAreaUnit.Baywindow(item);
-                var room = building.rooms.Where(b => b.dwelling.dwellingID == unit.dwellingID)
-                                        .FirstOrDefault();
-                room.baywindows.Add(unit);
+                var component = ResidentialAreaUnit.Baywindow(item);
+                if (component.version == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
+                {
+                    var room = building.rooms.Where(b => b.dwelling.dwellingID == component.dwellingID)
+                        .FirstOrDefault();
+                    room.baywindows.Add(component);
+                }
+                else if (component.version == ThCADCommon.RegAppName_AreaFrame_Version)
+                {
+                    var room = building.rooms.Where(
+                        o => o.dwelling.storeys == component.storeys &&
+                        o.dwelling.dwellingID == component.dwellingID).First();
+                    room.baywindows.Add(component);
+                }
             }
 
             // 其他构件
             var miscellaneous = names.Where(n => n.StartsWith(@"住宅构件_其他构件"));
             foreach (string item in miscellaneous)
             {
-                var unit = ResidentialAreaUnit.Miscellaneous(item);
-                var room = building.rooms.Where(b => b.dwelling.dwellingID == unit.dwellingID)
-                                        .FirstOrDefault();
-                room.miscellaneous.Add(unit);
+                var component = ResidentialAreaUnit.Miscellaneous(item);
+                if (component.version == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
+                {
+                    var room = building.rooms.Where(b => b.dwelling.dwellingID == component.dwellingID)
+                        .FirstOrDefault();
+                    room.miscellaneous.Add(component);
+                }
+                else if (component.version == ThCADCommon.RegAppName_AreaFrame_Version)
+                {
+                    var room = building.rooms.Where(
+                        o => o.dwelling.storeys == component.storeys &&
+                        o.dwelling.dwellingID == component.dwellingID).First();
+                    room.miscellaneous.Add(component);
+                }
             }
 
             return building;

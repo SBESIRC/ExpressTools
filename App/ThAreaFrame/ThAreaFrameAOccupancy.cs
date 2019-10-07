@@ -198,20 +198,43 @@ namespace ThAreaFrame
         public static ThAreaFrameAOccupancy Miscellaneous(string name)
         {
             string[] tokens = name.Split('_');
-            ThAreaFrameAOccupancy miscellaneous = new ThAreaFrameAOccupancy(name)
+            if (tokens.Last() == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
             {
-                type                = tokens[0],
-                areaType            = tokens[1],
-                component           = tokens[2],
-                occupancyType       = tokens[3],
-                category            = tokens[4],
-                areaRatio           = tokens[5],
-                floorAreaRatio      = tokens[6],
-                storeys             = tokens[7],
-                version             = tokens[8]
+                ThAreaFrameAOccupancy miscellaneous = new ThAreaFrameAOccupancy(name)
+                {
+                    type = tokens[0],
+                    areaType = tokens[1],
+                    component = tokens[2],
+                    occupancyType = tokens[3],
+                    category = tokens[4],
+                    areaRatio = tokens[5],
+                    floorAreaRatio = tokens[6],
+                    storeys = tokens[7],
+                    version = tokens[8]
 
-            };
-            return miscellaneous;
+                };
+                return miscellaneous;
+            }
+            else if (tokens.Last() == ThCADCommon.RegAppName_AreaFrame_Version)
+            {
+                ThAreaFrameAOccupancy miscellaneous = new ThAreaFrameAOccupancy(name)
+                {
+                    type = tokens[0],
+                    areaType = tokens[1],
+                    occupancyType = tokens[2],
+                    category = tokens[3],
+                    areaRatio = tokens[4],
+                    floorAreaRatio = tokens[5],
+                    storeys = tokens[6],
+                    version = tokens[7]
+
+                };
+                return miscellaneous;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
 
         // 是否在指定楼层
@@ -236,45 +259,39 @@ namespace ThAreaFrame
             var building = new AOccupancyBuilding();
 
             // 主体
-            var main = names.Where(n => n.StartsWith(@"附属公建_主体"));
-            if (main.Any())
+            foreach(var name in names.Where(n => n.StartsWith(@"附属公建_主体"))) 
             {
-                building.aOccupancies.Add(ThAreaFrameAOccupancy.Main(main.ElementAt(0)));
+                building.aOccupancies.Add(ThAreaFrameAOccupancy.Main(name));
             }
 
             // 阳台
-            var balcony = names.Where(n => n.StartsWith(@"附属公建_阳台"));
-            if (balcony.Any())
+            foreach(var name in names.Where(n => n.StartsWith(@"附属公建_阳台")))
             {
-                building.aOccupancies.Add(ThAreaFrameAOccupancy.Balcony(balcony.ElementAt(0)));
+                building.aOccupancies.Add(ThAreaFrameAOccupancy.Balcony(name));
             }
 
             // 架空
-            var stilt = names.Where(n => n.StartsWith(@"附属公建_架空"));
-            if (stilt.Any())
+            foreach(var name in names.Where(n => n.StartsWith(@"附属公建_架空")))
             {
-                building.aOccupancies.Add(ThAreaFrameAOccupancy.Stilt(stilt.ElementAt(0)));
+                building.aOccupancies.Add(ThAreaFrameAOccupancy.Stilt(name));
             }
 
             // 飘窗
-            var baywindow = names.Where(n => n.StartsWith(@"附属公建_飘窗"));
-            if (baywindow.Any())
+            foreach(var name in names.Where(n => n.StartsWith(@"附属公建_飘窗")))
             {
-                building.aOccupancies.Add(ThAreaFrameAOccupancy.Baywindow(baywindow.ElementAt(0)));
+                building.aOccupancies.Add(ThAreaFrameAOccupancy.Baywindow(name));
             }
 
             // 雨棚
-            var rainshed = names.Where(n => n.StartsWith(@"附属公建_雨棚"));
-            if (rainshed.Any())
+            foreach(var name in names.Where(n => n.StartsWith(@"附属公建_雨棚")))
             {
-                building.aOccupancies.Add(ThAreaFrameAOccupancy.Rainshed(rainshed.ElementAt(0)));
+                building.aOccupancies.Add(ThAreaFrameAOccupancy.Rainshed(name));
             }
 
             // 附属其他构件
-            var misc = names.Where(n => n.StartsWith(@"附属公建_附属其他构件"));
-            if (misc.Any())
+            foreach(var name in names.Where(n => n.StartsWith(@"附属公建_附属其他构件")))
             {
-                building.aOccupancies.Add(ThAreaFrameAOccupancy.Miscellaneous(misc.ElementAt(0)));
+                building.aOccupancies.Add(ThAreaFrameAOccupancy.Miscellaneous(name));
             }
 
             // 返回

@@ -191,8 +191,11 @@ namespace ThAreaFrame
                         // 出屋面楼梯间及屋顶机房计容面积
                         table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfRoof(true));
 
-                        // 计容面积
-                        table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfCapacityBuilding(engine.AreaOfRoof(true)));
+                        // 楼栋计容面积
+                        //  公式：∑(x层住宅计容面积)+∑(x层公建计容面积)+∑(住宅楼梯间计容面积)+∑(公建楼梯间计容面积)
+                        table.Cells[dataRow, column++].SetAreaValue(
+                            engine.AreaOfCapacityBuilding(true) + 
+                            engine.AreaOfRoof(true));
 
                         // 地下楼层
                         foreach(int storey in engine.UnderGroundStoreyCollection)
@@ -205,6 +208,7 @@ namespace ThAreaFrame
                         column += driver.UnderGroundStoreyCollection.Count;
 
                         // 地下建筑面积
+                        //  公式：∑(x层住宅建筑面积)+∑(x层公建建筑面积)
                         table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfUnderGround());
 
                         // 楼栋基底面积
@@ -214,8 +218,12 @@ namespace ThAreaFrame
                         table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfStilt());
 
                         // "总建筑面积（不含架空层）"
-                        table.Cells[dataRow, column++].SetAreaValue(engine.AreaOfAboveGround(engine.AreaOfRoof(false)) 
-                            + engine.AreaOfUnderGround());
+                        //  公式：∑(x层住宅建筑面积)+∑(x层公建建筑面积)+∑(住宅楼梯间建筑面积)+∑(公建楼梯间建筑面积)-∑(x层公建架空建筑面积)
+                        table.Cells[dataRow, column++].SetAreaValue(
+                            engine.AreaOfAboveGround() + 
+                            engine.AreaOfUnderGround() +
+                            engine.AreaOfRoof() -
+                            engine.AreaOfStilt());
 
                         // 重置开始列
                         column = 0;

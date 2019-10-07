@@ -117,23 +117,25 @@ namespace ThAreaFrame
         }
 
         // 地上计容建筑面积（住宅）
+        //  公式：∑(∑(住宅x层计容面积)+∑(∑(住宅楼梯间PL线面积x计容系数))
         public double ResidentAreaOfAboveGround()
         {
             double area = 0.0;
             foreach (ThAreaFrameEngine engine in engines)
             {
-                area += engine.ResidentAreaOfAboveGround(engine.AreaOfRoof(false));
+                area += engine.ResidentAreaOfAboveGround() + engine.AreaOfRoof();
             }
             return area;
         }
 
         // 地上计容建筑面积（商业）
+        //  公式：∑(∑(公建x层计容面积)+∑(∑(公建楼梯间PL线面积x计容系数))
         public double AOccupancyAreaOfAboveGround()
         {
             double area = 0.0;
             foreach (ThAreaFrameEngine engine in engines)
             {
-                area += engine.AOccupancyAreaOfAboveGround(engine.AreaOfRoof(false));
+                area += engine.AOccupancyAreaOfAboveGround() + engine.AreaOfRoof();
             }
             return area;
         }
@@ -150,6 +152,7 @@ namespace ThAreaFrame
         }
 
         // "地下室主楼建筑面积"
+        //  公式：∑(∑(x层住宅建筑面积))+∑(∑(x层公建建筑面积))
         public double AreaOfUnderGround()
         {
             double area = 0.0;

@@ -10,16 +10,16 @@ namespace ThAreaFrame
     class ThAreaFrameEngine : IDisposable, IComparable<ThAreaFrameEngine>
     {
         private Database database;
-        private ThAreaFrameRoof roof;
+        private List<ThAreaFrameRoof> roofs;
         private ResidentialBuilding building;
         private ThAreaFrameFoundation foundation;
         private AOccupancyBuilding aOccupancyBuilding;
         private ThAreaFrameRoofGreenSpace roofGreenSpace;
         private Dictionary<string, IThAreaFrameCalculator> calculators;
+        public List<ThAreaFrameRoof> Roofs { get => roofs; set => roofs = value; }
         public ResidentialBuilding Building { get => building; set => building = value; }
         public ThAreaFrameFoundation Foundation { get => foundation; set => foundation = value; }
         public Database Database { get => database; set => database = value; }
-        public ThAreaFrameRoof Roof { get => roof; set => roof = value; }
         public ThAreaFrameRoofGreenSpace RoofGreenSpace { get => roofGreenSpace; set => roofGreenSpace = value; }
         public AOccupancyBuilding AOccupancyBuilding { get => aOccupancyBuilding; set => aOccupancyBuilding = value; }
         public Dictionary<string, IThAreaFrameCalculator> Calculators { get => calculators; set => calculators = value; }
@@ -68,25 +68,30 @@ namespace ThAreaFrame
             var building = ResidentialBuilding.CreateWithLayers(residentialNames.ToArray());
             var foundation = ThAreaFrameFoundation.Foundation(foundationNames.FirstOrDefault());
             var aOccupancyBuilding = AOccupancyBuilding.CreateWithLayers(aOccupancyNames.ToArray());
-            var roof = roofNames.Any() ? ThAreaFrameRoof.Roof(roofNames.FirstOrDefault()) : null;
             var roofGreenSpace = roofGreenSpaceNames.Any() ? ThAreaFrameRoofGreenSpace.RoofOfGreenSpace(roofGreenSpaceNames.FirstOrDefault()) : null;
             ThAreaFrameEngine engine = new ThAreaFrameEngine()
             {
-                roof = roof,
                 building = building,
                 foundation = foundation,
                 roofGreenSpace = roofGreenSpace,
                 database = acadDatabase.Database,
                 aOccupancyBuilding = aOccupancyBuilding,
+                roofs = new List<ThAreaFrameRoof>(),
                 calculators = new Dictionary<string, IThAreaFrameCalculator>()
             };
+            foreach (var name in roofNames)
+            {
+                engine.roofs.Add(ThAreaFrameRoof.Roof(name));
+            }
             if (building.Validate())
             {
-                engine.Calculators.Add("住宅构件", ThAreaFrameResidentCalculator.Calculator(building, acadDatabase.Database));
+                var roof = engine.roofs.Where(o => o.category == "住宅").FirstOrDefault();
+                engine.Calculators.Add("住宅构件", ThAreaFrameResidentCalculator.Calculator(building, roof, acadDatabase.Database));
             }
             if (aOccupancyBuilding.Validate())
             {
-                engine.Calculators.Add("附属公建", ThAreaFrameAOccupancyCalculator.Calculator(aOccupancyBuilding, acadDatabase.Database));
+                var roof = engine.roofs.Where(o => o.category == "公建").FirstOrDefault();
+                engine.Calculators.Add("附属公建", ThAreaFrameAOccupancyCalculator.Calculator(aOccupancyBuilding, roof, acadDatabase.Database));
             }
             return engine;
         }
@@ -121,17 +126,6 @@ namespace ThAreaFrame
             return (foundation.useInArea == @"是") ? ThAreaFrameDbUtils.SumOfArea(Database, foundation.layer) : 0.0;
         }
 
-        // 出屋面楼梯间及屋顶机房计容面积
-        public double AreaOfRoof(bool far/*Floor Area Ratio*/ = false)
-        {
-            if (roof != null)
-            {
-                double ratio = far ? double.Parse(roof.floorAreaRatio) : double.Parse(roof.areaRatio);
-                return ThAreaFrameDbUtils.SumOfArea(Database, roof.layer) * ratio;
-            }
-            return 0.0;
-        }
-
         // 屋顶绿化
         public double AreaOfRoofGreenSpace()
         {
@@ -161,44 +155,74 @@ namespace ThAreaFrame
         }
 
         // 计容面积
-        public double AreaOfCapacityBuilding(double roofArea)
+        public double AreaOfCapacityBuilding(bool far/*Floor Area Ratio*/ = false)
         {
             double area = 0.0;
             if (Building.Validate())
             {
-                area += Calculators["住宅构件"].AreaOfCapacityBuilding(roofArea);
+                area += Calculators["住宅构件"].AreaOfCapacityBuilding(far);
             }
             if (AOccupancyBuilding.Validate())
             {
-                area += Calculators["附属公建"].AreaOfCapacityBuilding(roofArea);
+                area += Calculators["附属公建"].AreaOfCapacityBuilding(far);
+            }
+            return area;
+        }
+
+        // 出屋面楼梯间及屋顶机房计容面积
+        public double AreaOfRoof(bool far/*Floor Area Ratio*/ = false)
+        {
+            double area = 0.0;
+            if (Building.Validate())
+            {
+                area += Calculators["住宅构件"].AreaOfRoof(far);
+            }
+            if (AOccupancyBuilding.Validate())
+            {
+                area += Calculators["附属公建"].AreaOfRoof(far);
             }
             return area;
         }
 
         // 地下面积
-        public double AreaOfUnderGround()
-        {
-            return ResidentAreaOfUnderGround() + AOccupancyAreaOfUnderGround();
-        }
-
-        // 地下住宅建筑面积
-        public double ResidentAreaOfUnderGround()
+        public double AreaOfUnderGround(bool far/*Floor Area Ratio*/ = false)
         {
             double area = 0.0;
             if (Building.Validate())
             {
-                area += Calculators["住宅构件"].AreaOfUnderGround();
+                area += Calculators["住宅构件"].AreaOfUnderGround(far);
+            }
+            if (AOccupancyBuilding.Validate())
+            {
+                area += Calculators["附属公建"].AreaOfUnderGround(far);
             }
             return area;
         }
 
-        // 地下公建建筑面积
-        public double AOccupancyAreaOfUnderGround()
+        // 地上面积
+        public double AreaOfAboveGround(bool far/*Floor Area Ratio*/ = false)
+        {
+            return ResidentAreaOfAboveGround(far) + AOccupancyAreaOfAboveGround(far);
+        }
+
+        // 地上面积（住宅）
+        public double ResidentAreaOfAboveGround(bool far/*Floor Area Ratio*/ = false)
+        {
+            double area = 0.0;
+            if (Building.Validate())
+            {
+                area += Calculators["住宅构件"].AreaOfAboveGround(far);
+            }
+            return area;
+        }
+
+        // 地上面积（公建）
+        public double AOccupancyAreaOfAboveGround(bool far/*Floor Area Ratio*/ = false)
         {
             double area = 0.0;
             if (AOccupancyBuilding.Validate())
             {
-                area += Calculators["附属公建"].AreaOfUnderGround();
+                area += Calculators["附属公建"].AreaOfAboveGround(far);
             }
             return area;
         }
@@ -214,34 +238,6 @@ namespace ThAreaFrame
             if (AOccupancyBuilding.Validate())
             {
                 area += Calculators["附属公建"].AreaOfStilt();
-            }
-            return area;
-        }
-
-        // 地上建筑面积
-        public double AreaOfAboveGround(double roofArea)
-        {
-            return ResidentAreaOfAboveGround(roofArea) + AOccupancyAreaOfAboveGround(roofArea);
-        }
-
-        // 地上住宅建筑面积
-        public double ResidentAreaOfAboveGround(double roofArea)
-        {
-            double area = 0.0;
-            if (Building.Validate())
-            {
-                area += Calculators["住宅构件"].AreaOfAboveGround(roofArea);
-            }
-            return area;
-        }
-
-        // 地上公建建筑面积
-        public double AOccupancyAreaOfAboveGround(double roofArea)
-        {
-            double area = 0.0;
-            if (AOccupancyBuilding.Validate())
-            {
-                area += Calculators["附属公建"].AreaOfAboveGround(roofArea);
             }
             return area;
         }

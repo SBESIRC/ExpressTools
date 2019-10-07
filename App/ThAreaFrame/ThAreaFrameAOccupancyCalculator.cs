@@ -9,19 +9,28 @@ namespace ThAreaFrame
     class ThAreaFrameAOccupancyCalculator : IThAreaFrameCalculator
     {
         private readonly Database database;
+        private readonly ThAreaFrameRoof roof;
         private readonly AOccupancyBuilding building;
         public Database Database => database;
+        public ThAreaFrameRoof Roof => roof;
         public AOccupancyBuilding Building => building;
 
-        public ThAreaFrameAOccupancyCalculator(AOccupancyBuilding building, Database database)
+        public ThAreaFrameAOccupancyCalculator(
+            AOccupancyBuilding building,
+            ThAreaFrameRoof roof,
+            Database database)
         {
             this.building = building;
             this.database = database;
+            this.roof = roof;
         }
 
-        public static IThAreaFrameCalculator Calculator(AOccupancyBuilding building, Database database)
+        public static IThAreaFrameCalculator Calculator(
+            AOccupancyBuilding building,
+            ThAreaFrameRoof roof,
+            Database database)
         {
-            return new ThAreaFrameAOccupancyCalculator(building, database);
+            return new ThAreaFrameAOccupancyCalculator(building, roof, database);
         }
 
         public int AboveGroundStoreyNumber()
@@ -47,12 +56,36 @@ namespace ThAreaFrame
         public double AreaOfFloor(int floor, bool far = false)
         {
             double area = 0.0;
-            string[] entities = { "主体", "阳台", "飘窗", "雨棚", "附属其他构件" };
-            foreach (string entity in entities)
+            string[] components = { "主体", "阳台", "架空", "飘窗", "雨棚", "附属其他构件" };
+            foreach (string component in components)
             {
-                var aOccupancies = Building.aOccupancies.Where(o => o.areaType == entity && o.IsOnStorey(floor));
-                area += Database.AreaOfEntities(aOccupancies, far);
+                area += AreaOfComponent(component, floor, far);
             }
+            return area;
+        }
+
+        private double AreaOfComponent(string component, int floor, bool far = false)
+        {
+            var aOccupancies = Building.aOccupancies.Where(o => o.areaType == component && o.IsOnStorey(floor));
+            return Database.AreaOfEntities(aOccupancies, far);
+        }
+
+        public double AreaOfStilt()
+        {
+            double area = 0.0;
+
+            // 普通楼层
+            foreach (var storey in OrdinaryStoreyCollection())
+            {
+                area += AreaOfComponent("架空", storey, false);
+            }
+
+            // 标准楼层
+            foreach (List<AOccupancyStorey> storeys in Building.StandardStoreys())
+            {
+                storeys.ForEach(s => area += AreaOfComponent("架空", s.number, false));
+            }
+
             return area;
         }
 
@@ -68,40 +101,44 @@ namespace ThAreaFrame
             return areas;
         }
 
-        public double AreaOfUnderGround()
+        public double AreaOfUnderGround(bool far = false)
         {
             double area = 0.0;
             for (int storey = 1; storey <= UnderGroundStoreyNumber(); storey++)
             {
-                area += AreaOfFloor(-storey, false);
+                area += AreaOfFloor(-storey, far);
             }
             return area;
         }
 
-        public double AreaOfAboveGround(double roofArea)
+        public double AreaOfAboveGround(bool far = false)
         {
             double area = 0.0;
             for (int storey = 1; storey <= AboveGroundStoreyNumber(); storey++)
             {
-                area += AreaOfFloor(storey, false);
+                area += AreaOfFloor(storey, far);
             }
-            return area + roofArea;
+            return area;
         }
 
-        public double AreaOfCapacityBuilding(double roofArea)
+        public double AreaOfCapacityBuilding(bool far/*Floor Area Ratio*/ = false)
         {
             double area = 0.0;
             for (int storey = 1; storey <= AboveGroundStoreyNumber(); storey++)
             {
-                area += AreaOfFloor(storey, true);
+                area += AreaOfFloor(storey, far);
             }
-            return area + roofArea;
+            return area;
         }
 
-        public double AreaOfStilt()
+        public double AreaOfRoof(bool far = false)
         {
-            var aOccupancies = Building.aOccupancies.Where(o => o.areaType == "架空");
-            return Database.AreaOfEntities(aOccupancies);
+            if (roof != null)
+            {
+                double ratio = far ? double.Parse(roof.floorAreaRatio) : double.Parse(roof.areaRatio);
+                return ThAreaFrameDbUtils.SumOfArea(Database, roof.layer) * ratio;
+            }
+            return 0.0;
         }
 
         public IEnumerable<int> OrdinaryStoreyCollection()

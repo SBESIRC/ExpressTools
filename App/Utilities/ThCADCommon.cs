@@ -11,6 +11,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         // Area Frame
         public static readonly string RegAppName_AreaFrame = "THCAD_AF";
         public static readonly string RegAppName_AreaFrame_Version = "V2.2";
+        public static readonly string RegAppName_AreaFrame_Version_Legacy = "V2.1";
 
         // Fire Compartment
         public static readonly string RegAppName_AreaFrame_FireCompartment = "THCAD_FC";

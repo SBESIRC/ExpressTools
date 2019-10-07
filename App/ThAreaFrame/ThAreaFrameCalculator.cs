@@ -10,17 +10,20 @@ namespace ThAreaFrame
         // 楼层总面积
         double AreaOfFloor(int floor, bool far = false);
 
+        // 楼梯间面积
+        double AreaOfRoof(bool far = false);
+
         // 标准楼层面积
         List<double> AreaOfStandardStoreys(bool far = false);
 
-        // 地上建筑面积
-        double AreaOfAboveGround(double roofArea);
+        // 地上面积
+        double AreaOfAboveGround(bool far = false);
 
         // 地下面积
-        double AreaOfUnderGround();
+        double AreaOfUnderGround(bool far = false);
 
         // 计容面积
-        double AreaOfCapacityBuilding(double roofArea);
+        double AreaOfCapacityBuilding(bool far/*Floor Area Ratio*/ = false);
 
         // 架空
         double AreaOfStilt();
