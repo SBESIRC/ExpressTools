@@ -123,7 +123,7 @@ namespace ThAreaFrame
             double area = 0.0;
             foreach (ThAreaFrameEngine engine in engines)
             {
-                area += engine.ResidentAreaOfAboveGround() + engine.AreaOfRoof();
+                area += engine.ResidentAreaOfAboveGround() + engine.ResidentAreaOfRoof();
             }
             return area;
         }
@@ -135,7 +135,7 @@ namespace ThAreaFrame
             double area = 0.0;
             foreach (ThAreaFrameEngine engine in engines)
             {
-                area += engine.AOccupancyAreaOfAboveGround() + engine.AreaOfRoof();
+                area += engine.AOccupancyAreaOfAboveGround() + engine.AOccupancyAreaOfRoof();
             }
             return area;
         }

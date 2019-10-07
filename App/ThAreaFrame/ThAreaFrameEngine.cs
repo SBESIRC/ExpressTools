@@ -172,11 +172,24 @@ namespace ThAreaFrame
         // 出屋面楼梯间及屋顶机房计容面积
         public double AreaOfRoof(bool far/*Floor Area Ratio*/ = false)
         {
+            return ResidentAreaOfRoof(far) + AOccupancyAreaOfRoof(far);
+        }
+
+        // 楼梯间面积（住宅）
+        public double ResidentAreaOfRoof(bool far/*Floor Area Ratio*/ = false)
+        {
             double area = 0.0;
             if (Building.Validate())
             {
                 area += Calculators["住宅构件"].AreaOfRoof(far);
             }
+            return area;
+        }
+
+        // 楼梯间面积（公建）
+        public double AOccupancyAreaOfRoof(bool far/*Floor Area Ratio*/ = false)
+        {
+            double area = 0.0;
             if (AOccupancyBuilding.Validate())
             {
                 area += Calculators["附属公建"].AreaOfRoof(far);
