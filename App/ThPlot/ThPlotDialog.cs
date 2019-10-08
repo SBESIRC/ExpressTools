@@ -261,7 +261,7 @@ namespace ThPlot
             var doc = Application.DocumentManager.MdiActiveDocument;
             var database = doc.Database;
 
-                // 插入页码处理
+            // 插入页码处理
             using (var db = AcadDatabase.Active())
             {
                 foreach (var pageWithProfile in pageWithProfiles)
@@ -269,6 +269,7 @@ namespace ThPlot
                     var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
                     ThPlotData.ShowPageText(previewLst, pageWithProfile.Profile, dbText, textStyleId);
                     dbText.ColorIndex = 256;
+                    dbText.Visible = false;
                     var objectId = db.ModelSpace.Add(dbText);
                     db.ModelSpace.Element(objectId, true).Layer = layerName;
                     using (var tr = database.TransactionManager.StartTransaction())

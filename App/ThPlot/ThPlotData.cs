@@ -271,6 +271,27 @@ namespace ThPlot
             return false;
         }
 
+        public static void InsertPageWithProfiles(List<PageWithProfile> pageWithProfiles, string layerName)
+        {
+            var doc = Application.DocumentManager.MdiActiveDocument;
+            var database = doc.Database;
+
+            using (var db = AcadDatabase.Active())
+            {
+                foreach (var pageWithProfile in pageWithProfiles)
+                {
+                    var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
+                    dbText.ColorIndex = 256;
+                    var objectId = db.ModelSpace.Add(dbText);
+                    db.ModelSpace.Element(objectId, true).Layer = layerName;
+                    using (var tr = database.TransactionManager.StartTransaction())
+                    {
+                        database.TransactionManager.QueueForGraphicsFlush();
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// 根据排版的方向规则给轮廓框线进行编号
         /// </summary>
@@ -1184,6 +1205,22 @@ namespace ThPlot
                     }
                 }
             }
+
+            // 删除原页码
+            using (var db = AcadDatabase.Active())
+            {
+                db.ModelSpace
+                  .OfType<DBText>()
+                  .UpgradeOpen()
+                  .ForEach(br =>
+                  {
+                      if (br.Layer == ThPlotData.PAGELAYER)
+                          br.Erase();
+                  });
+            }
+
+            // 插入页码
+            ThPlotData.InsertPageWithProfiles(pageWithProfiles, ThPlotData.PAGELAYER);
 
             srcRelatedDatas.Sort((s1, s2) =>
             {
