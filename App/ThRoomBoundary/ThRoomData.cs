@@ -1198,6 +1198,8 @@ namespace ThRoomBoundary
                         }
                         catch
                         {
+                            // 有些block炸开的时候会抛出eCannotScaleNonUniformly异常
+                            // 如果这个block 不能炸开，不作处理
                         }
 
                     }
