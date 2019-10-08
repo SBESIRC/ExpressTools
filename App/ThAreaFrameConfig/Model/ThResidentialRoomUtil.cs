@@ -232,6 +232,7 @@ namespace ThAreaFrameConfig.Model
             string[] tokens =
             {
                 "单体楼顶间",
+                roof.Category,
                 String.Format("{0:0.0}", Convert.ToDouble(roof.Coefficient)),
                 String.Format("{0:0.0}", Convert.ToDouble(roof.FARCoefficient)),
                 version,

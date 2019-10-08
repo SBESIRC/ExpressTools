@@ -13,14 +13,8 @@ namespace ThAreaFrameConfig.Model
         // 编号
         public int Number { get; set; }
 
-        // 面积
-        public double Area
-        {
-            get
-            {
-                return Frame.Area();
-            }
-        }
+        // 所属类型
+        public string Category { get; set; }
 
         // 计算系数
         public double Coefficient { get; set; }
@@ -31,7 +25,15 @@ namespace ThAreaFrameConfig.Model
         // 面积框线
         public IntPtr Frame { get; set; }
 
-        
+        // 面积
+        public double Area
+        {
+            get
+            {
+                return Frame.Area();
+            }
+        }
+
         // 状态
         public bool IsDefined
         {

@@ -27,6 +27,7 @@ namespace ThAreaFrameConfig.Model
             {
                 ID = Guid.NewGuid(),
                 Number = roofs.Count + 1,
+                Category = "住宅",
                 Frame = (IntPtr)0,
                 Coefficient = 1.0,
                 FARCoefficient = 1.0

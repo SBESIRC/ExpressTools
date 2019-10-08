@@ -69,9 +69,10 @@ namespace ThAreaFrameConfig.Model
             {
                 ID = Guid.NewGuid(),
                 Number = roofs.Count + 1,
-                Frame = ObjectId.Null.OldIdPtr,
+                Category = "住宅",
                 Coefficient = 1.0,
-                FARCoefficient = 1.0
+                FARCoefficient = 1.0,
+                Frame = ObjectId.Null.OldIdPtr
             });
         }
 

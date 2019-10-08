@@ -246,14 +246,34 @@ namespace ThAreaFrameConfig.Model
                     string[] tokens = name.Split('_');
                     foreach (ObjectId objId in database.AreaFrameLines(name))
                     {
-                        roofs.Add(new ThRoof()
+                        if (tokens.Count() == 4)
                         {
-                            ID = Guid.NewGuid(),
-                            Number = roofs.Count + 1,
-                            Frame = objId.OldIdPtr,
-                            Coefficient = double.Parse(tokens[1]),
-                            FARCoefficient = double.Parse(tokens[2])
-                        });
+                            roofs.Add(new ThRoof()
+                            {
+                                ID = Guid.NewGuid(),
+                                Number = roofs.Count + 1,
+                                Frame = objId.OldIdPtr,
+                                Category = "住宅",
+                                Coefficient = double.Parse(tokens[1]),
+                                FARCoefficient = double.Parse(tokens[2])
+                            });
+                        }
+                        else if (tokens.Count() == 5)
+                        {
+                            roofs.Add(new ThRoof()
+                            {
+                                ID = Guid.NewGuid(),
+                                Number = roofs.Count + 1,
+                                Frame = objId.OldIdPtr,
+                                Category = tokens[1],
+                                Coefficient = double.Parse(tokens[2]),
+                                FARCoefficient = double.Parse(tokens[3])
+                            });
+                        }
+                        else
+                        {
+                            throw new NotSupportedException();
+                        }
                     }
                 }
             }

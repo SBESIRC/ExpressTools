@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ThAreaFrame
 {
-    class ThAreaFrameRoof
+    public class ThAreaFrameRoof
     {
         // 单体楼顶间
         public string type;
@@ -28,15 +28,34 @@ namespace ThAreaFrame
         public static ThAreaFrameRoof Roof(string name)
         {
             string[] tokens = name.Split('_');
-            ThAreaFrameRoof roof = new ThAreaFrameRoof(name)
+            if (tokens.Count() == 4)
             {
-                type = tokens[0],
-                category = "住宅",
-                areaRatio = tokens[1],
-                floorAreaRatio = tokens[2],
-                version = tokens[3]
-            };
-            return roof;
+                ThAreaFrameRoof roof = new ThAreaFrameRoof(name)
+                {
+                    type = tokens[0],
+                    category = "住宅",
+                    areaRatio = tokens[1],
+                    floorAreaRatio = tokens[2],
+                    version = tokens[3]
+                };
+                return roof;
+            }
+            else if (tokens.Count() == 5)
+            {
+                ThAreaFrameRoof roof = new ThAreaFrameRoof(name)
+                {
+                    type = tokens[0],
+                    category = tokens[1],
+                    areaRatio = tokens[2],
+                    floorAreaRatio = tokens[3],
+                    version = tokens[4]
+                };
+                return roof;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
     }
 }

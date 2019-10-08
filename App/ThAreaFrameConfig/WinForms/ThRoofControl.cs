@@ -112,6 +112,7 @@ namespace ThAreaFrameConfig.WinForms
 
             var columns = new List<string>
             {
+                "Category",
                 "Coefficient",
                 "FARCoefficient"
             };
