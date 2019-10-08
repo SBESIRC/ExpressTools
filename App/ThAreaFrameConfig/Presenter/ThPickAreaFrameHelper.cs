@@ -18,10 +18,10 @@ namespace ThAreaFrameConfig.Presenter
     {
         static readonly List<Tuple<string, HatchPatternType, int>> Hathes = new List<Tuple<string, HatchPatternType, int>>()
         {
-            new Tuple<string, HatchPatternType, int>("ANSI31",   HatchPatternType.PreDefined,    500),
-            new Tuple<string, HatchPatternType, int>("STARS",    HatchPatternType.PreDefined,    500),
-            new Tuple<string, HatchPatternType, int>("CROSS",    HatchPatternType.PreDefined,    500),
-            new Tuple<string, HatchPatternType, int>("ANSI37",   HatchPatternType.PreDefined,    800)
+            new Tuple<string, HatchPatternType, int>("ANSI31",   HatchPatternType.PreDefined,    6000),
+            new Tuple<string, HatchPatternType, int>("STARS",    HatchPatternType.PreDefined,    6000),
+            new Tuple<string, HatchPatternType, int>("CROSS",    HatchPatternType.PreDefined,    6000),
+            new Tuple<string, HatchPatternType, int>("ANSI37",   HatchPatternType.PreDefined,    6000)
         };
 
         public static bool PickAreaFrames(this IThAreaFramePresenterCallback presenterCallback, 
