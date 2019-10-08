@@ -36,9 +36,12 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
-                double density = 0.0;
-                EvacuationWidthNotes.ForEach(o => density += o.EvacuationWidth());
-                return density;
+                if (EvacuationWidthNotes.Count == 0)
+                {
+                    return 0.0;
+                }
+
+                return EvacuationWidthNotes.Sum(o => o.EvacuationWidth());
             }
         }
 
@@ -47,6 +50,11 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
+                if (EmergencyExitNotes.Count == 0)
+                {
+                    return 0;
+                }
+
                 return EmergencyExitNotes.Max(o => o.EmergencyExit());
             }
         }
