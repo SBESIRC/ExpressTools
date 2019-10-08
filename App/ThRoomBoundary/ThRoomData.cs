@@ -1182,16 +1182,24 @@ namespace ThRoomBoundary
                     else
                     {
                         DBObjectCollection collection = new DBObjectCollection();
-                        block.Explode(collection);
-                        foreach (var obj in collection)
+
+                        try
                         {
-                            if (obj is Curve)
+                            block.Explode(collection);
+                            foreach (var obj in collection)
                             {
-                                var curve = obj as Curve;
-                                if (ValidLayer(curve.Layer, layerNames))
-                                    blockCurves.Add(curve);
+                                if (obj is Curve)
+                                {
+                                    var curve = obj as Curve;
+                                    if (ValidLayer(curve.Layer, layerNames))
+                                        blockCurves.Add(curve);
+                                }
                             }
                         }
+                        catch
+                        {
+                        }
+
                     }
                 }
 
