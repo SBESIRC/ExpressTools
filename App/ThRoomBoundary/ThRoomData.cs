@@ -532,6 +532,9 @@ namespace ThRoomBoundary
 
     class ThRoomUtils
     {
+        public static readonly string ROOMBOUNDARY = "天华面积框线";
+        public static readonly string ROOMAREAVALUE = "天华房间面积值";
+
         /// <summary>
         /// 门和墙的曲线连接
         /// </summary>
@@ -1250,9 +1253,9 @@ namespace ThRoomBoundary
         public static List<List<LineSegment2d>> GetBoundsFromLayerBlocksAndCurves(List<string> layerNames, List<LineSegment2d> rectLines)
         {
             var blockBounds = new List<List<LineSegment2d>>();
-
             using (var db = AcadDatabase.Active())
             {
+                // 块轮廓
                 var blocks = db.ModelSpace.OfType<BlockReference>();
                 foreach (var block in blocks)
                 {
@@ -1281,19 +1284,23 @@ namespace ThRoomBoundary
 
                 var validCurves = GetValidCurvesFromSelectArea(layerCurves, rectLines);
 
-                foreach (var curve in validCurves)
+                // 线数据处理
+                if (validCurves != null && validCurves.Count != 0)
                 {
-                    if (curve is Line)
+                    foreach (var curve in validCurves)
                     {
-                        var line = curve as Line;
-                        var ptS = new Point2d(line.StartPoint.X, line.StartPoint.Y);
-                        var ptE = new Point2d(line.EndPoint.X, line.EndPoint.Y);
-                        blockBounds.Add(new List<LineSegment2d>() { new LineSegment2d(ptS, ptE) });
-                    }
-                    else
-                    {
-                        var curveBounds = ThRoomUtils.GetRectFromBound(curve.Bounds.Value);
-                        blockBounds.Add(curveBounds);
+                        if (curve is Line)
+                        {
+                            var line = curve as Line;
+                            var ptS = new Point2d(line.StartPoint.X, line.StartPoint.Y);
+                            var ptE = new Point2d(line.EndPoint.X, line.EndPoint.Y);
+                            blockBounds.Add(new List<LineSegment2d>() { new LineSegment2d(ptS, ptE) });
+                        }
+                        else
+                        {
+                            var curveBounds = ThRoomUtils.GetRectFromBound(curve.Bounds.Value);
+                            blockBounds.Add(curveBounds);
+                        }
                     }
                 }
             }
@@ -1617,30 +1624,14 @@ namespace ThRoomBoundary
         /// </summary>
         /// <param name="roomDataPolylines"></param>
         /// <param name="layerName"></param>
-        public static void DisplayRoomProfile(List<RoomDataPolyline> roomDataPolylines, string layerName)
+        public static void DisplayRoomProfile(List<RoomDataPolyline> roomDataPolylines, string boundaryLayerName, string roomAreaValueLayer)
         {
             // 设置字体样式
             var textId = ThRoomUtils.GetIdFromSymbolTable();
             using (var db = AcadDatabase.Active())
             {
-                var layers = db.Layers;
-                LayerTableRecord layerRecord = null;
-                foreach (var layer in layers)
-                {
-                    if (layer.Name.Equals(layerName))
-                    {
-                        layerRecord = db.Layers.Element(layerName);
-                        break;
-                    }
-                }
-
-                // 创建新的图层
-                if (layerRecord == null)
-                {
-                    layerRecord = db.Layers.Create(layerName);
-                    layerRecord.Color = Color.FromRgb(255, 0, 0);
-                    layerRecord.IsPlottable = false;
-                }
+                CreateLayer(boundaryLayerName, Color.FromRgb(255, 0, 0));
+                CreateLayer(roomAreaValueLayer, Color.FromRgb(255, 255, 0));
 
                 foreach (var room in roomDataPolylines)
                 {
@@ -1648,7 +1639,8 @@ namespace ThRoomBoundary
                     {
                         if (!CommonUtils.IsAlmostNearZero(room.RoomPolyline.Area, 2600000))
                         {
-                            var area = (int)(room.RoomPolyline.Area * 1e-6);
+                            var area = (room.RoomPolyline.Area * 1e-6);
+                            area = Math.Round(area, 1);
                             var pos = room.Pos;
                             var dbText = new DBText();
                             if (textId != ObjectId.Null)
@@ -1659,11 +1651,40 @@ namespace ThRoomBoundary
                             dbText.Thickness = 1;
                             dbText.WidthFactor = 1;
                             var objectTextId = db.ModelSpace.Add(dbText);
-                            db.ModelSpace.Element(objectTextId, true).Layer = layerName;
+                            db.ModelSpace.Element(objectTextId, true).Layer = roomAreaValueLayer;
                             var objectPolylineId = db.ModelSpace.Add(room.RoomPolyline);
-                            db.ModelSpace.Element(objectPolylineId, true).Layer = layerName;
+                            db.ModelSpace.Element(objectPolylineId, true).Layer = boundaryLayerName;
                         }
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 创建新的图层
+        /// </summary>
+        /// <param name="allLayers"></param>
+        /// <param name="aimLayer"></param>
+        public static void CreateLayer(string aimLayer, Color color)
+        {
+            LayerTableRecord layerRecord = null;
+            using (var db = AcadDatabase.Active())
+            {
+                foreach (var layer in db.Layers)
+                {
+                    if (layer.Name.Equals(aimLayer))
+                    {
+                        layerRecord = db.Layers.Element(aimLayer);
+                        break;
+                    }
+                }
+
+                // 创建新的图层
+                if (layerRecord == null)
+                {
+                    layerRecord = db.Layers.Create(aimLayer);
+                    layerRecord.Color = color;
+                    layerRecord.IsPlottable = false;
                 }
             }
         }

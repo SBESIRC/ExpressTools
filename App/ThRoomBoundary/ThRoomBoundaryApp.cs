@@ -45,10 +45,6 @@ namespace ThRoomBoundary
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
             PromptKeywordOptions getWhichOptions = new PromptKeywordOptions("\n是否在框线内插入面积值? [YES(Y)/NO(N)]", "YES NO");
-            getWhichOptions.Keywords.Add("YES");
-            getWhichOptions.Keywords.Add("N");
-            getWhichOptions.Keywords.Add("Y");
-            getWhichOptions.Keywords.Add("NO");
             getWhichOptions.Keywords.Default = "YES";
             PromptResult getWhichResult = ed.GetKeywords(getWhichOptions);
             if ((getWhichResult.Status == PromptStatus.OK))
@@ -101,7 +97,7 @@ namespace ThRoomBoundary
                 return;
 
             // 界面显示数据
-            ThRoomUtils.DisplayRoomProfile(roomDatas, "天华面积框线");
+            ThRoomUtils.DisplayRoomProfile(roomDatas, ThRoomUtils.ROOMBOUNDARY, ThRoomUtils.ROOMAREAVALUE);
             Active.WriteMessage("框线生成完成");
         }
     }
