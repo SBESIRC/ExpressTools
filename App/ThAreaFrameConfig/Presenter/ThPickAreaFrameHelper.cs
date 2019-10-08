@@ -294,11 +294,10 @@ namespace ThAreaFrameConfig.Presenter
                                     // 在这样的情况下，对于有些孤岛，AppendLoop()会抛"InvalidInput"异常。
                                     // 这里通过捕捉异常，忽略孤岛，保证Hatch仍然可以正确创建。
                                 }
-                                finally
-                                {
-                                    index++;
-                                }
-                            }
+                            };
+
+                            // 合并防火分区内的所有轮廓线共享一种填充
+                            index++;
                         }
                     }
 

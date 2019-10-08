@@ -53,7 +53,7 @@ namespace ThAreaFrameConfig.Model
 
         public void AppendDefaultFireCompartment()
         {
-            settings.Compartments.Add(new ThFireCompartment(settings.SubKey, 1, 1)
+            settings.Compartments.Add(new ThFireCompartment(settings.SubKey, 1, 0)
             {
                 Number = settings.Compartments.Count + 1
             });
