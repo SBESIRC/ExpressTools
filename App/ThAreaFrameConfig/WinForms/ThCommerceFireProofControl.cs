@@ -408,17 +408,43 @@ namespace ThAreaFrameConfig.WinForms
 
         private void button_pick_outer_frame_Click(object sender, EventArgs e)
         {
+            // 隐藏非模态对话框
+            var dlg = FindForm();
+            if (dlg != null)
+            {
+                dlg.Hide();
+            }
+
             if (Presenter.OnSetFCCommerceLayer(Settings, "OUTERFRAME"))
             {
                 comboBox_outer_frame.SelectedItem = Settings.Layers["OUTERFRAME"];
+            }
+
+            // 恢复非模态对话框
+            if (dlg != null)
+            {
+                dlg.Show();
             }
         }
 
         private void button_pick_inner_frame_Click(object sender, EventArgs e)
         {
+            // 隐藏非模态对话框
+            var dlg = FindForm();
+            if (dlg != null)
+            {
+                dlg.Hide();
+            }
+
             if (Presenter.OnSetFCCommerceLayer(Settings, "INNERFRAME"))
             {
                 comboBox_inner_frame.SelectedItem = Settings.Layers["INNERFRAME"];
+            }
+
+            // 恢复非模态对话框
+            if (dlg != null)
+            {
+                dlg.Show();
             }
         }
 
