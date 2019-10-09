@@ -1,10 +1,15 @@
 ﻿using System;
 using System.IO;
+using Autodesk.AutoCAD.Geometry;
 
 namespace TianHua.AutoCAD.Utility.ExtensionTools
 {
     public class ThCADCommon
     {
+        // Tolerance
+        // Tolerance.Global默认值：new Tolerance(1e-10, 1e-12)
+        public static Tolerance Global_Tolerance = new Tolerance(1e-4, 1e-4);
+
         // RegAppName
         public static readonly string RegAppName = "THCAD";
 

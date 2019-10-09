@@ -1,9 +1,9 @@
-﻿using DotNetARX;
-using Linq2Acad;
+﻿using Linq2Acad;
 using AcHelper;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using GeometryExtensions;
 
 namespace Autodesk.AutoCAD.EditorInput
 {
@@ -31,15 +31,27 @@ namespace Autodesk.AutoCAD.EditorInput
                 Active.Editor.ZoomObject(plineObjId);
 
                 // 计算选择范围
+                // 由于绘图不规范，对于一些“奇异”的多段线，用它作为选择的轮廓线会导致选择失败。
+                // 这里对于已知的情况做一些特殊处理：
+                //  1. 剔除重复顶点
                 var pline = acadDatabase.Element<Polyline>(plineObjId);
                 Point3dCollection points = pline.Vertices();
+                Point3dCollection polygon = new Point3dCollection();
+                for (int i = 0; i < points.Count; i++)
+                {
+                    var pt = points[i];
+                    if (!polygon.Contains(pt, ThCADCommon.Global_Tolerance))
+                    {
+                        polygon.Add(pt);
+                    }
+                }
 
                 // 选择
                 PromptSelectionResult result;
                 if (mode == PolygonSelectionMode.Crossing)
-                    result = ed.SelectCrossingPolygon(points, filter);
+                    result = ed.SelectCrossingPolygon(polygon, filter);
                 else
-                    result = ed.SelectWindowPolygon(points, filter);
+                    result = ed.SelectWindowPolygon(polygon, filter);
 
                 // 恢复view
                 ed.SetCurrentView(view);
