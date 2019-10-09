@@ -185,6 +185,21 @@ namespace ThAreaFrameConfig.WinForms
                 ThResidentialStorey storey = DbRepository.Storeys().Where(o => o.ID == room.StoreyID).First();
                 ThResidentialRoomComponent component = room.Components.Find(o => o.ID == areaFrame.ComponentID);
                 string name = ThResidentialRoomUtil.LayerName(storey, room, component, areaFrame);
+                // “阳台”，“飘窗”和“其他构件”都必须依附于“套内”，在创建他们之前必须保证“套内”已经存在
+                switch (component.Name)
+                {
+                    case "阳台":
+                    case "飘窗":
+                    case "其他构件":
+                        {
+                            if (room.DwellingArea == 0)
+                            {
+                                AcadApp.ShowAlertDialog("请先创建套内！");
+                                return;
+                            }
+                        };
+                        break;
+                };
 
                 // 选取面积框线
                 if (Presenter.OnPickAreaFrames(name))
