@@ -256,25 +256,23 @@ namespace ThAreaFrameConfig.Presenter
                         {
                             foreach (var frame in compartment.Frames)
                             {
+                                // 填充面积框线
+                                Hatch hatch = new Hatch();
+
                                 try
                                 {
-                                    // 填充面积框线
-                                    Hatch hatch = new Hatch();
+                                    hatch.LayerId = acadDatabase.Database.CreateFCFillLayer();
                                     ObjectId objId = acadDatabase.ModelSpace.Add(hatch);
                                     hatch.SetHatchPattern(Hathes[index % 4].Item2, Hathes[index % 4].Item1);
-                                    hatch.PatternScale = Hathes[index % 4].Item3;
                                     hatch.Associative = true;
-
-                                    // 图层
-                                    string layer = "AE-PATN-MATE";
-                                    LayerTools.AddLayer(acadDatabase.Database, layer);
-                                    LayerTools.SetLayerColor(acadDatabase.Database, layer, 8);
-                                    hatch.Layer = layer;
 
                                     // 外圈轮廓
                                     ObjectIdCollection objIdColl = new ObjectIdCollection();
                                     objIdColl.Add(new ObjectId(frame.Frame));
                                     hatch.AppendLoop(HatchLoopTypes.Outermost, objIdColl);
+
+                                    // 重新生成Hatch纹理
+                                    hatch.EvaluateHatch(true);
 
                                     // 孤岛
                                     objIdColl.Clear();
@@ -293,6 +291,13 @@ namespace ThAreaFrameConfig.Presenter
                                     // 在放大很多倍的情况下，多段线和起点和终点并不完全重合。
                                     // 在这样的情况下，对于有些孤岛，AppendLoop()会抛"InvalidInput"异常。
                                     // 这里通过捕捉异常，忽略孤岛，保证Hatch仍然可以正确创建。
+                                }
+                                finally
+                                {
+                                    // 需要重新设置Pattern属性后Pattern才能被正确的应用
+                                    hatch.PatternScale = Hathes[index % 4].Item3;
+                                    hatch.SetHatchPattern(hatch.PatternType, hatch.PatternName);
+                                    hatch.EvaluateHatch(true);
                                 }
                             };
 
