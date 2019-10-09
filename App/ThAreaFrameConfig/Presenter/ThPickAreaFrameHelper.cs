@@ -168,17 +168,17 @@ namespace ThAreaFrameConfig.Presenter
                     Active.Editor.PostCommand("CANCELCMD");
 
                     // SelectionFilter
+                    //  虽然这里比较好的一个工作流程是只允许选取一个实体，获取其所在图层，但是用户习惯还是希望可以框选。
+                    //  框选带来的副作用就是可以选择多个实体。如果这些实体所在不同的图层，该选择哪个图层？
+                    //  这里采用最简单的方案，即选取第一个实体，取其所在图层。
                     PromptSelectionOptions options = new PromptSelectionOptions()
                     {
-                        SingleOnly = true,
-                        SinglePickInSpace = true,
                         RejectObjectsOnLockedLayers = true
                     };
                     var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "CIRCLE,LWPOLYLINE");
                     var entSelected = Active.Editor.GetSelection(options, filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {
-                        Debug.Assert(entSelected.Value.GetObjectIds().Count() == 1);
                         ObjectId objId = entSelected.Value.GetObjectIds().ElementAt(0);
                         settings.Layers[key] = acadDatabase.Element<Entity>(objId).Layer;
                         return true;
