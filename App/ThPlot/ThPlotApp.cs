@@ -25,6 +25,8 @@ namespace ThPlot
         [CommandMethod("TIANHUACAD", "THBPP", CommandFlags.Modal)]
         static public void PlotPageSetup()
         {
+            // 删除对话框中原有的页码显示数据
+            ThPlotData.ErasePageLayerEntity();
             // 启动选择对话框
             var thPlotForm = new ThPlotDialog();
             if (AcadApp.ShowModalDialog(thPlotForm) != DialogResult.OK)
@@ -49,6 +51,7 @@ namespace ThPlot
             relatedDataFir.RemoveAll(p => (
                 p.ImagePolyline == null || p.PptPolyline == null
                 ));
+
             var relatedDataLst = ThPlotData.ReCalculatePrintSequence(userData, relatedDataFir);
             if (relatedDataLst == null)
                 return;

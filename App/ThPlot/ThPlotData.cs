@@ -273,6 +273,8 @@ namespace ThPlot
 
         public static void InsertPageWithProfiles(List<PageWithProfile> pageWithProfiles, string layerName)
         {
+            // 计算最小PPT框高度
+            var minHeight = CalculateMinHeight(pageWithProfiles);
             var doc = Application.DocumentManager.MdiActiveDocument;
             var database = doc.Database;
 
@@ -282,6 +284,7 @@ namespace ThPlot
                 {
                     var dbText = ThPlotData.SetPageTextToProfileCorner(pageWithProfile.Profile, pageWithProfile.PageText);
                     dbText.ColorIndex = 256;
+                    dbText.Height = minHeight / 15;
                     var objectId = db.ModelSpace.Add(dbText);
                     db.ModelSpace.Element(objectId, true).Layer = layerName;
                     using (var tr = database.TransactionManager.StartTransaction())
@@ -1233,6 +1236,39 @@ namespace ThPlot
             return srcRelatedDatas;
         }
 
+        /// <summary>
+        /// 计算多段线的最小高度
+        /// </summary>
+        /// <param name="profiles"></param>
+        /// <returns></returns>
+        public static double CalculateMinHeight(List<PageWithProfile> profiles)
+        {
+            if (profiles == null || profiles.Count == 0)
+                return 0;
+
+            var heights = new List<double>();
+            double lineWidth = 800;
+            double lineHeight = 800;
+            profiles.ForEach(p =>
+            {
+                if (p.Profile != null)
+                {
+                    ThPlotData.CalculateProfileTwoEdge(p.Profile, ref lineWidth, ref lineHeight);
+                    heights.Add(lineHeight);
+                }
+
+            });
+
+            var minValue = heights.Min();
+            return minValue;
+        }
+
+        /// <summary>
+        /// 是否是同一个多段线
+        /// </summary>
+        /// <param name="relatedData"></param>
+        /// <param name="pageWithProfile"></param>
+        /// <returns></returns>
         public static bool IsSamePolyline(RelatedData relatedData, PageWithProfile pageWithProfile)
         {
             var polylineFir = relatedData.PptPolyline;
@@ -1249,6 +1285,30 @@ namespace ThPlot
                 return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// 删除已经选择的页码记录
+        /// </summary>
+        public static void ErasePageLayerEntity()
+        {
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            var pageTextIdLst = GetTextIdFromLayer(ThPlotData.PAGELAYER);
+            if (pageTextIdLst == null || pageTextIdLst.Count == 0)
+                return;
+
+            using (Transaction dataGetTrans = db.TransactionManager.StartTransaction())
+            {
+                foreach (var pageTextId in pageTextIdLst)
+                {
+                    DBText dbPageText = (DBText)dataGetTrans.GetObject(pageTextId, OpenMode.ForWrite);
+                    //dbPageText.UpgradeOpen();
+                    dbPageText.Erase();
+                }
+
+                dataGetTrans.Commit();
+            }
         }
 
         /// <summary>
