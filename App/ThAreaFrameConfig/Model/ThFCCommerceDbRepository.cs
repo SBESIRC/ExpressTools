@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using AcHelper;
-using Autodesk.AutoCAD.Windows.Data;
 using Autodesk.AutoCAD.DatabaseServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
@@ -53,10 +53,30 @@ namespace ThAreaFrameConfig.Model
 
         public void AppendDefaultFireCompartment()
         {
-            settings.Compartments.Add(new ThFireCompartment(settings.SubKey, 1, 0)
+            // 选取最后一个防火分区作为“锚”，新的防火分区为其“下一个”。
+            var compartment = settings.Compartments.LastOrDefault();
+            if (compartment != null)
             {
-                Number = settings.Compartments.Count + 1
-            });
+                // 计算编号索引
+                var compartments = Settings.Compartments.Where(
+                    o => o.IsDefined &&
+                    o.Subkey == compartment.Subkey &&
+                    o.Storey == compartment.Storey);
+                // 由于编号索引是连续的，下一个索引即为个数+1
+                UInt16 index = (UInt16)(compartments.Count() + 1);
+                settings.Compartments.Add(new ThFireCompartment(compartment.Subkey, compartment.Storey, index)
+                {
+                    Number = settings.Compartments.Count + 1
+                });
+            }
+            else
+            {
+                // 第一个防火分区
+                settings.Compartments.Add(new ThFireCompartment(settings.SubKey, 1, 1)
+                {
+                    Number = settings.Compartments.Count + 1
+                });
+            }
         }
 
         public void ReloadFireCompartments()
