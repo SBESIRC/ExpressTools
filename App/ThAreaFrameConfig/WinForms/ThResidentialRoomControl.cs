@@ -15,6 +15,7 @@ using DevExpress.Utils;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.DatabaseServices;
+using ThAreaFrame;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace ThAreaFrameConfig.WinForms
@@ -406,8 +407,25 @@ namespace ThAreaFrameConfig.WinForms
                 // 更新数据源
                 DbRepository.AppendStorey(dlg.Storey);
 
-                // 更新界面
+                // 更新界面 
+                //  TabPage按楼层从低到到排序
                 XtraTabPage page = this.xtraTabControl1.TabPages.Add(dlg.Storey);
+                var newStoreys = new List<int>();
+                newStoreys.AddRange(ThAreaFrameUtils.ParseStoreyString(dlg.Storey));
+                newStoreys.AddRange(ThAreaFrameUtils.ParseStandardStoreyString(dlg.Storey));
+                newStoreys.Sort();
+                for (int i = 0; i < xtraTabControl1.TabPages.Count() - 1; i++)
+                {
+                    var storeys = new List<int>();
+                    var item = xtraTabControl1.TabPages.ElementAt(i);
+                    storeys.AddRange(ThAreaFrameUtils.ParseStoreyString(item.Text));
+                    storeys.AddRange(ThAreaFrameUtils.ParseStandardStoreyString(item.Text));
+                    storeys.Sort();
+                    if (newStoreys.Last() <= storeys.First())
+                    {
+                        this.xtraTabControl1.TabPages.Move(i, page);
+                    }
+                }
                 this.xtraTabControl1.SelectedTabPage = page;
             }
         }
@@ -478,9 +496,26 @@ namespace ThAreaFrameConfig.WinForms
                 DbRepository.AppendStorey(dlg.Storey);
                 DbRepository.RemoveStorey(storey);
 
-                // 更新界面
+                // 更新界面 
+                //  TabPage按楼层从低到到排序
                 XtraTabPage page = this.xtraTabControl1.TabPages.Add(dlg.Storey);
                 this.xtraTabControl1.TabPages.Remove(this.xtraTabControl1.SelectedTabPage, true);
+                var newStoreys = new List<int>();
+                newStoreys.AddRange(ThAreaFrameUtils.ParseStoreyString(dlg.Storey));
+                newStoreys.AddRange(ThAreaFrameUtils.ParseStandardStoreyString(dlg.Storey));
+                newStoreys.Sort();
+                for (int i = 0; i < xtraTabControl1.TabPages.Count() - 1; i++)
+                {
+                    var storeys = new List<int>();
+                    var item = xtraTabControl1.TabPages.ElementAt(i);
+                    storeys.AddRange(ThAreaFrameUtils.ParseStoreyString(item.Text));
+                    storeys.AddRange(ThAreaFrameUtils.ParseStandardStoreyString(item.Text));
+                    storeys.Sort();
+                    if (newStoreys.Last() <= storeys.First())
+                    {
+                        this.xtraTabControl1.TabPages.Move(i, page);
+                    }
+                }
                 this.xtraTabControl1.SelectedTabPage = page;
             }
         }

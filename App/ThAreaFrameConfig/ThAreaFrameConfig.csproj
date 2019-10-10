@@ -313,6 +313,10 @@
       <Project>{5ddfcada-bea4-402c-b3e4-5c7f83c2f09e}</Project>
       <Name>DotNetARX</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ThAreaFrame\ThAreaFrame.csproj">
+      <Project>{f02a753b-4560-493f-9e3c-ae1f3b274e2d}</Project>
+      <Name>ThAreaFrame</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
       <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
       <Name>ExtensionTools</Name>

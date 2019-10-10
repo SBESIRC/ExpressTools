@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ThAreaFrame
 {
-    class ThAreaFrameUtils
+    public class ThAreaFrameUtils
     {
         public static List<int> ParseStoreyString(string str)
         {
