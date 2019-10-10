@@ -183,8 +183,8 @@ namespace ThRoomBoundary.topo
         public static List<RoomDataInner> MakeSrcProfileLoops(List<LineNode> lines, List<LineSegment2d> rectLines = null)
         {
             var search = new TopoSearch(lines);
-
             var loops = TopoSearch.RemoveDuplicate(search.m_srcLoops);
+            ThProgressDialog.SetValue(85);
             var tmpEdgeLoops = search.TransFormProfileLoops(loops);
             if (rectLines == null)
                 return search.ConvertTopoEdges2Curve(tmpEdgeLoops);
@@ -698,8 +698,10 @@ namespace ThRoomBoundary.topo
 
         public static List<List<TopoEdge>> MakeProfileLoop(List<LineNode> lineNodes)
         {
+            ThProgressDialog.SetValue(50);
             List<LineNode> removeLineNodes = null;
             CommonUtils.RemoveCollinearLines(lineNodes, out removeLineNodes);
+            ThProgressDialog.SetValue(60);
             if (removeLineNodes == null)
                 return null;
             var topoCal = new TopoCalculate(removeLineNodes);
@@ -710,6 +712,7 @@ namespace ThRoomBoundary.topo
         {
             m_lines = SrcLines;
             var lineNodes = ScatterLines.MakeNewLines(m_lines);
+            ThProgressDialog.SetValue(70);
             Calculate(lineNodes);
         }
 

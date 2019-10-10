@@ -53,21 +53,25 @@ namespace ThRoomBoundary
                     return;
             }
 
+            ThProgressDialog.ShowProgress();
+            ThProgressDialog.SetValue(5);
+            
             // 获取相关图层中的数据
             // 所有数据
             var allCurves = ThRoomUtils.GetAllCurvesFromLayerNames(allCurveLayers);
             if (allCurves == null || allCurves.Count == 0)
                 return;
-
+            ThProgressDialog.SetValue(10);
             var layerCurves = ThRoomUtils.GetValidCurvesFromSelectArea(allCurves, rectLines);
-
+            ThProgressDialog.SetValue(15);
             // wall 中的数据
             var wallAllCurves = ThRoomUtils.GetAllCurvesFromLayerNames(wallLayers);
             if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
                 return;
 
+
             var wallCurves = ThRoomUtils.GetValidCurvesFromSelectArea(wallAllCurves, rectLines);
-            
+            ThProgressDialog.SetValue(20);
             // door 内门中的数据
             if (arcDoorLayers != null && arcDoorLayers.Count != 0)
             {
@@ -79,6 +83,7 @@ namespace ThRoomBoundary
                     layerCurves.AddRange(doorInsertCurves);
                 }
             }
+            ThProgressDialog.SetValue(30);
 
             // wind 中的数据
             if (windLayers != null && windLayers.Count != 0)
@@ -91,11 +96,13 @@ namespace ThRoomBoundary
                 }
             }
 
+            ThProgressDialog.SetValue(40);
             // 生成轮廓数据
             var roomDatas = TopoUtils.MakeSrcProfiles(layerCurves);
             if (roomDatas == null || roomDatas.Count == 0)
                 return;
 
+            ThProgressDialog.HideProgress();
             // 界面显示数据
             ThRoomUtils.DisplayRoomProfile(roomDatas, ThRoomUtils.ROOMBOUNDARY, ThRoomUtils.ROOMAREAVALUE);
             Active.WriteMessage("框线生成完成");
