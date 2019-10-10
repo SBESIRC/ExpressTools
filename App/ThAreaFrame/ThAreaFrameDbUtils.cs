@@ -48,20 +48,5 @@ namespace ThAreaFrame
                                     .Count();
             }
         }
-
-        // Wblock特定图层中的表到当前图纸
-        public static ObjectId WBlockTable(string drawing, string title)
-        {
-            using (AcadDatabase sideDatabase = AcadDatabase.Open(drawing, DwgOpenMode.ReadOnly))
-            {
-                var tables = sideDatabase.ModelSpace
-                                        .OfType<Table>()
-                                        .Where(e => e.Layer == title);
-                using (AcadDatabase activeDatabase = AcadDatabase.Active())
-                {
-                    return activeDatabase.ModelSpace.Import(tables.FirstOrDefault()).Item.ObjectId;
-                }
-            }
-        }
     }
 }

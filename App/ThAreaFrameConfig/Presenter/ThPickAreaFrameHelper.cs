@@ -148,7 +148,7 @@ namespace ThAreaFrameConfig.Presenter
         }
 
         public static bool PickAreaFrameLayer(this IThFireCompartmentPresenterCallback presenterCallback,
-            ThFCCommerceSettings settings, 
+            ThFireCompartmentSettings settings, 
             string key)
         {
             using (Active.Document.LockDocument())
@@ -190,7 +190,7 @@ namespace ThAreaFrameConfig.Presenter
         }
 
         public static bool PickedFireCompartments(this IThFireCompartmentPresenterCallback presenterCallback,
-            ThFCCommerceSettings settings,
+            ThFireCompartmentSettings settings,
             ref List<ThFireCompartment> compartments)
         {
             using (Active.Document.LockDocument())
@@ -210,10 +210,14 @@ namespace ThAreaFrameConfig.Presenter
                     Active.Editor.PostCommand("CANCELCMD");
 
                     // SelectionFilter
-                    var filterlist = OpFilter.Bulid(
-                        o => o.Dxf((int)DxfCode.Start) == "CIRCLE,LWPOLYLINE" &
-                        o.Dxf((int)DxfCode.LayerName) == settings.Layers["OUTERFRAME"] &
-                        o.Dxf((int)DxfCode.ExtendedDataRegAppName) == ThCADCommon.RegAppName_AreaFrame_FireCompartment);
+                    var filterlist = OpFilter.Bulid(o => 
+                        o.Dxf((int)DxfCode.Start) == "CIRCLE,LWPOLYLINE" &
+                        o.Dxf((int)DxfCode.LayerName) == settings.Layers["OUTERFRAME"] & 
+                        (
+                            o.Dxf((int)DxfCode.ExtendedDataRegAppName) == ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce |
+                            o.Dxf((int)DxfCode.ExtendedDataRegAppName) == ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce
+                        )
+                    );
                     var entSelected = Active.Editor.GetSelection(filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {

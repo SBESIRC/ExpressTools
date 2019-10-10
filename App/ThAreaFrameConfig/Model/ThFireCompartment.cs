@@ -39,13 +39,26 @@ namespace ThAreaFrameConfig.Model
             InitFireCompartment(subKey, storey, index);
         }
 
-        // 构造函数
-        public ThFireCompartment(string sn)
+        public static ThFireCompartment Commerce(string sn)
         {
             Int16 storey = 0;
             UInt16 subKey = 0, index = 0;
-            sn.MatchCommerceSerialNumber(ref subKey, ref storey, ref index);
-            InitFireCompartment(subKey, storey, index);
+            if (!sn.MatchCommerceSerialNumber(ref subKey, ref storey, ref index))
+            {
+                return null;
+            }
+            return new ThFireCompartment(subKey, storey, index);
+        }
+
+        public static ThFireCompartment UnderGroundParking(string sn)
+        {
+            UInt16 index = 0;
+            if (!sn.MatchUndergroundParkingSerialNumber(ref index))
+            {
+                return null;
+            }
+
+            return new ThFireCompartment(0, -1, index);
         }
 
         private void InitFireCompartment(UInt16 subKey, Int16 storey, UInt16 index)
@@ -131,7 +144,18 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
-                return ThFireCompartmentUtil.CommerceSerialNumber(Subkey, Storey, Index);
+                if (Type == FCType.FCCommerce)
+                {
+                    return ThFireCompartmentUtil.CommerceSerialNumber(Subkey, Storey, Index);
+                }
+                else if (Type == FCType.FCUnderGroundParking)
+                {
+                    return ThFireCompartmentUtil.UndergroundParkingSerialNumber(Index);
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
             }
         }
 
@@ -158,6 +182,17 @@ namespace ThAreaFrameConfig.Model
                     .ToList()
                     .ForEach(o => density += o.EvacuationDensity);
                 return density;
+            }
+        }
+
+        // 最远疏散距离
+        public double EvacuationDistance
+        {
+            get
+            {
+                return Frames.Where(o => o.IsDefined)
+                    .ToList()
+                    .Max(o => o.EvacuationDistance);
             }
         }
 

@@ -35,7 +35,7 @@ namespace ThAreaFrameConfig.Model
                     foreach (var frame in compartment.Frames)
                     {
                         ObjectId frameId = new ObjectId(frame.Frame);
-                        TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
+                        TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce);
                         if (valueList != null)
                         {
                             var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
@@ -52,10 +52,35 @@ namespace ThAreaFrameConfig.Model
                             if (properties.Any())
                             {
                                 frameId.ModXData(
-                                    ThCADCommon.RegAppName_AreaFrame_FireCompartment,
+                                    ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce,
                                     DxfCode.ExtendedDataInteger16,
                                     properties.ElementAt(0).Value,
                                     compartment.SelfExtinguishingSystem);
+
+                            }
+                        }
+
+                        valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Parking);
+                        if (valueList != null)
+                        {
+                            var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                            if (handles.Any())
+                            {
+                                // 修改防火分区标识文字
+                                ObjectId objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                                var text = acadDatabase.Element<MText>(objId, true);
+                                text.Contents = compartment.CommerceTextContent();
+                            }
+
+                            // 其他属性（楼层）
+                            var properties = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger16);
+                            if (properties.Any())
+                            {
+                                frameId.ModXData(
+                                    ThCADCommon.RegAppName_AreaFrame_FireCompartment_Parking,
+                                    DxfCode.ExtendedDataInteger16,
+                                    properties.ElementAt(0).Value,
+                                    compartment.Storey);
 
                             }
                         }
@@ -113,21 +138,37 @@ namespace ThAreaFrameConfig.Model
                     foreach (var frame in compartment.Frames)
                     {
                         ObjectId frameId = new ObjectId(frame.Frame);
-                        TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
-                        if (valueList == null)
-                            continue;
-
-                        var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
-                        if (handles.Any())
+                        TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce);
+                        if (valueList != null)
                         {
-                            // 从Object Handle到ObjectId
-                            //  https://through-the-interface.typepad.com/through_the_interface/2007/02/getting_access_.html
-                            textObjIds.Add(acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value));
-                            bboxObjIds.Add(acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(1).Value));
+                            var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                            if (handles.Any())
+                            {
+                                // 从Object Handle到ObjectId
+                                //  https://through-the-interface.typepad.com/through_the_interface/2007/02/getting_access_.html
+                                textObjIds.Add(acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value));
+                                bboxObjIds.Add(acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(1).Value));
+                            }
+
+                            // 删除面积框线XData
+                            frameId.RemoveXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce);
                         }
 
-                        // 删除面积框线XData
-                        frameId.RemoveXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
+                        valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Parking);
+                        if (valueList != null)
+                        {
+                            var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                            if (handles.Any())
+                            {
+                                // 从Object Handle到ObjectId
+                                //  https://through-the-interface.typepad.com/through_the_interface/2007/02/getting_access_.html
+                                textObjIds.Add(acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value));
+                                bboxObjIds.Add(acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(1).Value));
+                            }
+
+                            // 删除面积框线XData
+                            frameId.RemoveXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Parking);
+                        }
                     }
 
                     // 删除防火分区文字
@@ -157,21 +198,6 @@ namespace ThAreaFrameConfig.Model
             return true;
         }
 
-        // 更新防火分区序号
-        public static bool UpdateFireCompartment(ThFireCompartment compartment)
-        {
-            using (Active.Document.LockDocument())
-            {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    //
-                }
-            }
-
-            //
-            return false;
-        }
-
         // 创建防火分区
         public static bool CreateFireCompartment(ThFireCompartment compartment)
         {
@@ -191,67 +217,138 @@ namespace ThAreaFrameConfig.Model
                     {
                         ObjectId frameId = new ObjectId(frame.Frame);
 
-                        // 创建防火分区文字
-                        MText mText = new MText()
+                        if (compartment.Type == ThFireCompartment.FCType.FCCommerce)
                         {
-                            TextHeight = 1100,
-                            LineSpaceDistance = 1800,
-                            Attachment = AttachmentPoint.MiddleCenter,
-                            Contents = compartment.CommerceTextContent(),
-                            Location = frameId.FireCompartmentAreaFrameCentroid().Value
-                        };
-                        ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
+                            // 创建防火分区文字
+                            MText mText = new MText()
+                            {
+                                TextHeight = 1100,
+                                LineSpaceDistance = 1800,
+                                Attachment = AttachmentPoint.MiddleCenter,
+                                Contents = compartment.CommerceTextContent(),
+                                Location = frameId.FireCompartmentAreaFrameCentroid().Value
+                            };
+                            ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
 
-                        // 设置文字样式
-                        mText.TextStyleId = acadDatabase.Database.CreateFCNoteTextStyle();
+                            // 设置文字样式
+                            mText.TextStyleId = acadDatabase.Database.CreateFCNoteTextStyle();
 
-                        // 设置文字图层
-                        mText.LayerId = acadDatabase.Database.CreateFCNoteTextLayer();
+                            // 设置文字图层
+                            mText.LayerId = acadDatabase.Database.CreateFCNoteTextLayer();
 
-                        // 创建防火分区文字框线
-                        Polyline bbox = new Polyline()
+                            // 创建防火分区文字框线
+                            Polyline bbox = new Polyline()
+                            {
+                                Closed = true
+                            };
+
+                            // 通过建立ECS来方便计算文字框线的位置
+                            //  https://spiderinnet1.typepad.com/blog/2013/11/autocad-net-matrix-transformations-worldtoplane.html
+                            Plane plane = new Plane(mText.Location, mText.Normal);
+                            Matrix3d ecs2world = Matrix3d.WorldToPlane(plane).Inverse();
+                            // 顶点顺序
+                            //  (0)-----(1)
+                            //   |       |
+                            //   |       |
+                            //   |       |
+                            //  (3)-----(2)
+                            Point3dCollection points = new Point3dCollection()
+                            {
+                                // 左上角点
+                                new Point3d(-5000, 2000, 1),
+                                // 右上角点
+                                new Point3d(5000, 2000, 1),
+                                // 右下角点
+                                new Point3d(5000, -2000, 1),
+                                // 左下角点
+                                new Point3d(-5000, -2000, 1)
+                            };
+                            bbox.CreatePolyline(points.TransformBy(ecs2world));
+                            ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
+
+                            // 设置全局宽度
+                            bbox.ConstantWidth = 150;
+
+                            // 设置图层
+                            bbox.LayerId = acadDatabase.Database.CreateFCNoteTextLayer();
+
+                            // 关联面积框线和防火分区
+                            TypedValueList valueList = new TypedValueList
+                            {
+                                { (int)DxfCode.ExtendedDataHandle, textId.Handle },
+                                { (int)DxfCode.ExtendedDataHandle, bboxId.Handle },
+                                { (int)DxfCode.ExtendedDataInteger16, compartment.SelfExtinguishingSystem }
+                            };
+                            frameId.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce, valueList);
+                        }
+                        else if (compartment.Type == ThFireCompartment.FCType.FCUnderGroundParking)
                         {
-                            Closed = true
-                        };
+                            // 创建防火分区文字
+                            MText mText = new MText()
+                            {
+                                TextHeight = 750,
+                                LineSpaceDistance = 1200,
+                                Attachment = AttachmentPoint.MiddleCenter,
+                                Contents = compartment.CommerceTextContent(),
+                                Location = frameId.FireCompartmentAreaFrameCentroid().Value
+                            };
+                            ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
 
-                        // 通过建立ECS来方便计算文字框线的位置
-                        //  https://spiderinnet1.typepad.com/blog/2013/11/autocad-net-matrix-transformations-worldtoplane.html
-                        Plane plane = new Plane(mText.Location, mText.Normal);
-                        Matrix3d ecs2world = Matrix3d.WorldToPlane(plane).Inverse();
-                        // 顶点顺序
-                        //  (0)-----(1)
-                        //   |       |
-                        //   |       |
-                        //   |       |
-                        //  (3)-----(2)
-                        Point3dCollection points = new Point3dCollection()
+                            // 设置文字样式
+                            mText.TextStyleId = acadDatabase.Database.CreateFCNoteTextStyle();
+
+                            // 设置文字图层
+                            mText.LayerId = acadDatabase.Database.CreateFCNoteTextLayer();
+
+                            // 创建防火分区文字框线
+                            Polyline bbox = new Polyline()
+                            {
+                                Closed = true
+                            };
+
+                            // 通过建立ECS来方便计算文字框线的位置
+                            //  https://spiderinnet1.typepad.com/blog/2013/11/autocad-net-matrix-transformations-worldtoplane.html
+                            Plane plane = new Plane(mText.Location, mText.Normal);
+                            Matrix3d ecs2world = Matrix3d.WorldToPlane(plane).Inverse();
+                            // 顶点顺序
+                            //  (0)-----(1)
+                            //   |       |
+                            //   |       |
+                            //   |       |
+                            //  (3)-----(2)
+                            Point3dCollection points = new Point3dCollection()
+                            {
+                                // 左上角点
+                                new Point3d(-3500, 1400, 1),
+                                // 右上角点
+                                new Point3d(3500, 1400, 1),
+                                // 右下角点
+                                new Point3d(3500, -1400, 1),
+                                // 左下角点
+                                new Point3d(-3500, -1400, 1)
+                            };
+                            bbox.CreatePolyline(points.TransformBy(ecs2world));
+                            ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
+
+                            // 设置全局宽度
+                            bbox.ConstantWidth = 150;
+
+                            // 设置图层
+                            bbox.LayerId = acadDatabase.Database.CreateFCNoteTextLayer();
+
+                            // 关联面积框线和防火分区
+                            TypedValueList valueList = new TypedValueList
+                            {
+                                { (int)DxfCode.ExtendedDataHandle, textId.Handle },
+                                { (int)DxfCode.ExtendedDataHandle, bboxId.Handle },
+                                { (int)DxfCode.ExtendedDataInteger16, compartment.Storey }
+                            };
+                            frameId.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Parking, valueList);
+                        }
+                        else
                         {
-                            // 左上角点
-                            new Point3d(-5000, 2000, 1),
-                            // 右上角点
-                            new Point3d(5000, 2000, 1),
-                            // 右下角点
-                            new Point3d(5000, -2000, 1),
-                            // 左下角点
-                            new Point3d(-5000, -2000, 1)
-                        };
-                        bbox.CreatePolyline(points.TransformBy(ecs2world));
-                        ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
-
-                        // 设置全局宽度
-                        bbox.ConstantWidth = 150;
-
-                        // 设置图层
-                        bbox.LayerId = acadDatabase.Database.CreateFCNoteTextLayer();
-
-                        // 关联面积框线和防火分区
-                        TypedValueList valueList = new TypedValueList
-                        {
-                            { (int)DxfCode.ExtendedDataHandle, textId.Handle },
-                            { (int)DxfCode.ExtendedDataHandle, bboxId.Handle },
-                            { (int)DxfCode.ExtendedDataInteger16, compartment.SelfExtinguishingSystem }
-                        };
-                        frameId.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment, valueList);
+                            throw new NotSupportedException();
+                        }
                     }
 
                     return true;
@@ -312,7 +409,8 @@ namespace ThAreaFrameConfig.Model
 
         public static bool IsFireCompartmentAreaFrame(this ObjectId frame)
         {
-            return frame.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment) != null;
+            return (frame.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce) != null) ||
+                (frame.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Parking) != null);
         }
 
         public static Point3d? FireCompartmentAreaFrameCentroid(this ObjectId frameId)
@@ -353,7 +451,8 @@ namespace ThAreaFrameConfig.Model
                         Frame = frame.OldIdPtr,
                         IslandFrames = new List<IntPtr>(),
                         EmergencyExitNotes = new List<IntPtr>(),
-                        EvacuationWidthNotes = new List<IntPtr>()
+                        EvacuationWidthNotes = new List<IntPtr>(),
+                        EvacuationDistanceNotes = new List<IntPtr>()
                     };
 
                     // 拾取内部孤岛轮廓
@@ -375,8 +474,7 @@ namespace ThAreaFrameConfig.Model
                     // 拾取有效疏散宽度
                     filterlist = OpFilter.Bulid(
                         o => o.Dxf((int)DxfCode.Start) == "TEXT" &
-                        o.Dxf((int)DxfCode.Text) == "有效疏散宽度*" &
-                        o.Dxf((int)DxfCode.LayerName) == islandLayer);
+                        o.Dxf((int)DxfCode.Text) == "有效疏散宽度*");
                     psr = Active.Editor.SelectByPolyline(
                         frame,
                         PolygonSelectionMode.Window,
@@ -389,11 +487,26 @@ namespace ThAreaFrameConfig.Model
                         }
                     }
 
+                    // 拾取最远疏散距离
+                    filterlist = OpFilter.Bulid(
+                        o => o.Dxf((int)DxfCode.Start) == "TEXT" &
+                        o.Dxf((int)DxfCode.Text) == "最远疏散距离*");
+                    psr = Active.Editor.SelectByPolyline(
+                        frame,
+                        PolygonSelectionMode.Window,
+                        filterlist);
+                    if (psr.Status == PromptStatus.OK)
+                    {
+                        foreach (ObjectId objId in psr.Value.GetObjectIds())
+                        {
+                            obj.EvacuationDistanceNotes.Add(objId.OldIdPtr);
+                        }
+                    }
+
                     // 拾取安全出口
                     filterlist = OpFilter.Bulid(
                         o => o.Dxf((int)DxfCode.Start) == "TEXT" &
-                        o.Dxf((int)DxfCode.Text) == "安全出口*" &
-                        o.Dxf((int)DxfCode.LayerName) == islandLayer);
+                        o.Dxf((int)DxfCode.Text) == "安全出口*");
                     psr = Active.Editor.SelectByPolyline(
                         frame,
                         PolygonSelectionMode.Window,
@@ -416,33 +529,61 @@ namespace ThAreaFrameConfig.Model
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(frameId.Database))
             {
-                TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
-                if (valueList == null)
+                TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce);
+                if (valueList != null)
                 {
-                    return null;
-                }
-                var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
-                if (!handles.Any())
-                {
-                    return null;
+                    var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                    if (!handles.Any())
+                    {
+                        return null;
+                    }
+
+                    // 获取防火分区编号
+                    Debug.Assert(handles.Count() == 2);
+                    var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                    string[] tokens = Regex.Split(acadDatabase.Element<MText>(objId).Contents, @"\\P");
+                    ThFireCompartment compartment = ThFireCompartment.Commerce(tokens[0]);
+                    compartment.Frames.Add(CreateFireCompartmentAreaFrame(frameId, islandLayer));
+
+                    // 是否自动灭火系统
+                    var properties = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger16);
+                    if (properties.Any())
+                    {
+                        Debug.Assert(properties.Count() == 1);
+                        compartment.SelfExtinguishingSystem = Convert.ToBoolean(properties.ElementAt(0).Value);
+                    }
+
+                    return compartment;
                 }
 
-                // 获取防火分区编号
-                Debug.Assert(handles.Count() == 2);
-                var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
-                string[] tokens = Regex.Split(acadDatabase.Element<MText>(objId).Contents, @"\\P");
-                ThFireCompartment compartment = new ThFireCompartment(tokens[0]);
-                compartment.Frames.Add(CreateFireCompartmentAreaFrame(frameId, islandLayer));
-
-                // 是否自动灭火系统
-                var properties = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger16);
-                if (properties.Any())
+                valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Parking);
+                if (valueList != null)
                 {
-                    Debug.Assert(properties.Count() == 1);
-                    compartment.SelfExtinguishingSystem = Convert.ToBoolean(properties.ElementAt(0).Value);
+                    var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                    if (!handles.Any())
+                    {
+                        return null;
+                    }
+
+                    // 获取防火分区编号
+                    Debug.Assert(handles.Count() == 2);
+                    var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                    string[] tokens = Regex.Split(acadDatabase.Element<MText>(objId).Contents, @"\\P");
+                    ThFireCompartment compartment = ThFireCompartment.UnderGroundParking(tokens[0]);
+                    compartment.Frames.Add(CreateFireCompartmentAreaFrame(frameId, islandLayer));
+
+                    //地下停车库楼层
+                    var properties = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger16);
+                    if (properties.Any())
+                    {
+                        Debug.Assert(properties.Count() == 1);
+                        compartment.Storey = Convert.ToInt16(properties.ElementAt(0).Value);
+                    }
+
+                    return compartment;
                 }
 
-                return compartment;
+                return null;
             }
         }
 
@@ -456,48 +597,78 @@ namespace ThAreaFrameConfig.Model
                     .Where(o => o.Layer == layer && o.ObjectId.IsFireCompartmentAreaFrame());
                 foreach (var frame in frames)
                 {
-                    TypedValueList valueList = frame.ObjectId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment);
-                    if (valueList == null)
-                        continue;
-
-                    ThFireCompartment compartment = null;
-                    var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
-                    if (handles.Any())
+                    TypedValueList valueList = frame.ObjectId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce);
+                    if (valueList != null)
                     {
-                        // 获取防火分区编号
-                        var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
-                        string[] tokens = Regex.Split(acadDatabase.Element<MText>(objId).Contents, @"\\P");
-                        compartment = new ThFireCompartment(tokens[0]);
-                        // 考虑合并的情况
-                        if (compartments.Contains(compartment))
+                        ThFireCompartment compartment = null;
+                        var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                        if (handles.Any())
                         {
-                            foreach (var item in compartments.Where(o => o == compartment))
+                            // 获取防火分区编号
+                            var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                            string[] tokens = Regex.Split(acadDatabase.Element<MText>(objId).Contents, @"\\P");
+                            compartment = ThFireCompartment.Commerce(tokens[0]);
+                            // 考虑合并的情况
+                            if (compartments.Contains(compartment))
                             {
-                                item.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId, islandLayer));
+                                foreach (var item in compartments.Where(o => o == compartment))
+                                {
+                                    item.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId, islandLayer));
+                                }
+                            }
+                            else
+                            {
+                                compartment.Number = compartments.Count() + 1;
+                                compartment.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId, islandLayer));
+                                compartments.Add(compartment);
                             }
                         }
-                        else
+
+                        // 是否自动灭火系统
+                        var properties = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger16);
+                        if (properties.Any())
                         {
-                            compartment.Number = compartments.Count() + 1;
-                            compartment.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId, islandLayer));
-                            compartments.Add(compartment);
+                            compartment.SelfExtinguishingSystem = Convert.ToBoolean(properties.ElementAt(0).Value);
                         }
                     }
 
-                    // 是否自动灭火系统
-                    var properties = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger16);
-                    if (properties.Any())
+                    valueList = frame.ObjectId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Parking);
+                    if (valueList != null)
                     {
-                        compartment.SelfExtinguishingSystem = Convert.ToBoolean(properties.ElementAt(0).Value);
+                        ThFireCompartment compartment = null;
+                        var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                        if (handles.Any())
+                        {
+                            // 获取防火分区编号
+                            var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                            string[] tokens = Regex.Split(acadDatabase.Element<MText>(objId).Contents, @"\\P");
+                            compartment = ThFireCompartment.UnderGroundParking(tokens[0]);
+                            // 考虑合并的情况
+                            if (compartments.Contains(compartment))
+                            {
+                                foreach (var item in compartments.Where(o => o == compartment))
+                                {
+                                    item.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId, islandLayer));
+                                }
+                            }
+                            else
+                            {
+                                compartment.Number = compartments.Count() + 1;
+                                compartment.Frames.Add(CreateFireCompartmentAreaFrame(frame.ObjectId, islandLayer));
+                                compartments.Add(compartment);
+                            }
+                        }
+
+                        //地下停车库楼层
+                        var properties = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger16);
+                        if (properties.Any())
+                        {
+                            compartment.Storey = Convert.ToInt16(properties.ElementAt(0).Value);
+                        }
                     }
                 }
                 return compartments;
             }
-        }
-
-        public static List<ThFireCompartment> UnderGroundParkingFireCompartments(this Database database)
-        {
-            return null;
         }
     }
 }

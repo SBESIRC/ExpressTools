@@ -19,16 +19,17 @@ namespace ThAreaFrameConfig.Presenter
         // 删除防火分区
         bool OnDeleteFireCompartments(List<ThFireCompartment> compartments);
 
-        // 创建商业防火分区疏散宽度表
+        // 创建防火分区疏散宽度表
         void OnCreateFCCommerceTable(ThFCCommerceSettings settings);
+        void OnCreateFCUndergroundParkingTable(ThFCUnderGroundParkingSettings settings);
 
-        // 创建商业防火分区填充
-        void OnCreateFCCommerceFills(List<ThFireCompartment> compartments);
+        // 创建防火分区填充
+        void OnCreateFireCompartmentFills(List<ThFireCompartment> compartments);
 
         // 拾取防火分区外轮廓线图层
-        bool OnSetFCCommerceLayer(ThFCCommerceSettings settings, string key);
+        bool OnSetFireCompartmentLayer(ThFireCompartmentSettings settings, string key);
 
         // 拾取防火分区并合并
-        bool OnMergePickedFireCompartments(ThFCCommerceSettings settings);
+        bool OnMergePickedFireCompartments(ThFireCompartmentSettings settings);
     }
 }

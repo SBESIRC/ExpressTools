@@ -5,12 +5,8 @@ using System.Text;
 
 namespace ThAreaFrameConfig.Model
 {
-    public class ThFCUnderGroundParkingSettings
+    public class ThFCUnderGroundParkingSettings : ThFireCompartmentSettings
     {
-        // 图层
-        public Dictionary<string, string> Layers { get; set; }
-
-        // 防火分区
-        public List<ThFireCompartment> Compartments { get; set; }
+        //
     }
 }

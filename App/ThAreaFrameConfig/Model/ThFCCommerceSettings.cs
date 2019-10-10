@@ -4,7 +4,7 @@ using ThAreaFrameConfig.Model;
 
 namespace ThAreaFrameConfig.Model
 {
-    public class ThFCCommerceSettings
+    public class ThFCCommerceSettings : ThFireCompartmentSettings
     {
         public enum OccupantDensity
         {
@@ -25,11 +25,5 @@ namespace ThAreaFrameConfig.Model
         public UInt16 Storey { get; set; }
         public OccupantDensity Density { get; set; }
         public FireResistance Resistance { get; set; }
-
-        // 图层
-        public Dictionary<string, string> Layers { get; set; }
-
-        // 防火分区
-        public List<ThFireCompartment> Compartments { get; set; }
     }
 }

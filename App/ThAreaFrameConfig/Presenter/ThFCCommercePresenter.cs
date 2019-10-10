@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.View;
 
@@ -25,7 +26,7 @@ namespace ThAreaFrameConfig.Presenter
             return ThFireCompartmentDbHelper.MergeFireCompartment(compartments);
         }
 
-        public bool OnMergePickedFireCompartments(ThFCCommerceSettings settings)
+        public bool OnMergePickedFireCompartments(ThFireCompartmentSettings settings)
         {
             List<ThFireCompartment> compartments = new List<ThFireCompartment>();
             this.PickedFireCompartments(settings, ref compartments);
@@ -62,12 +63,17 @@ namespace ThAreaFrameConfig.Presenter
             this.CreateFCCommerceTable(settings);
         }
 
-        public void OnCreateFCCommerceFills(List<ThFireCompartment> compartments)
+        public void OnCreateFireCompartmentFills(List<ThFireCompartment> compartments)
         {
             this.CreateFCCommerceFills(compartments);
         }
 
-        public bool OnSetFCCommerceLayer(ThFCCommerceSettings settings, string key)
+        public void OnCreateFCUndergroundParkingTable(ThFCUnderGroundParkingSettings settings)
+        {
+            throw new NotSupportedException();
+        }
+
+        public bool OnSetFireCompartmentLayer(ThFireCompartmentSettings settings, string key)
         {
             return this.PickAreaFrameLayer(settings, key);
         }

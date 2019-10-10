@@ -54,10 +54,10 @@ namespace ThAreaFrameConfig.Model
         public void AppendDefaultFireCompartment()
         {
             // 选取最后一个防火分区作为“锚”，新的防火分区为其“下一个”。
-            var compartment = settings.Compartments.LastOrDefault();
+            var compartment = Settings.Compartments.LastOrDefault();
             if (compartment != null)
             {
-                // 计算编号索引
+                // 计算编号索引，即同一楼层所有防火分区（商业）下一个
                 var compartments = Settings.Compartments.Where(
                     o => o.IsDefined &&
                     o.Subkey == compartment.Subkey &&
@@ -83,7 +83,8 @@ namespace ThAreaFrameConfig.Model
         {
             string layer = settings.Layers["OUTERFRAME"];
             string islandLayer = settings.Layers["INNERFRAME"];
-            settings.Compartments = database.LoadCommerceFireCompartments(layer, islandLayer);
+            var compartments = database.LoadCommerceFireCompartments(layer, islandLayer);
+            settings.Compartments = compartments.Where(o => o.Type == ThFireCompartment.FCType.FCCommerce).ToList();
             ThFireCompartmentDbHelper.NormalizeFireCompartments(settings.Compartments);
             for(int i = 0; i < settings.Compartments.Count; i++)
             {
@@ -117,7 +118,8 @@ namespace ThAreaFrameConfig.Model
 
             string layer = settings.Layers["OUTERFRAME"];
             string islandLayer = settings.Layers["INNERFRAME"];
-            settings.Compartments = database.LoadCommerceFireCompartments(layer, islandLayer);
+            var compartments = database.LoadCommerceFireCompartments(layer, islandLayer);
+            settings.Compartments = compartments.Where(o => o.Type == ThFireCompartment.FCType.FCCommerce).ToList();
         }
     }
 }

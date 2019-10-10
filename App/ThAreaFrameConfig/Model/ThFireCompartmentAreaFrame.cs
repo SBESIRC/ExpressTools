@@ -20,6 +20,9 @@ namespace ThAreaFrameConfig.Model
         // 安全出口
         public List<IntPtr> EmergencyExitNotes { get; set; }
 
+        // 最远疏散距离
+        public List<IntPtr> EvacuationDistanceNotes { get; set; }
+
         // 面积
         public double Area
         {
@@ -42,6 +45,20 @@ namespace ThAreaFrameConfig.Model
                 }
 
                 return EvacuationWidthNotes.Sum(o => o.EvacuationWidth());
+            }
+        }
+
+        // 最远疏散距离
+        public double EvacuationDistance
+        {
+            get
+            {
+                if (EvacuationDistanceNotes.Count == 0)
+                {
+                    return 0.0;
+                }
+
+                return EvacuationDistanceNotes.Max(o => o.EvacuationDistance());
             }
         }
 

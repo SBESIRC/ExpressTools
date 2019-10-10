@@ -38,7 +38,7 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
-                return "面积（m2）";
+                return "面积（m\u00B2）";
             }
         }
         public string Pick

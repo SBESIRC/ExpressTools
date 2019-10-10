@@ -10,6 +10,7 @@ namespace ThAreaFrameConfig.Presenter
     {
         private const string AreaDataFormat = "%lu2%pr3";
         private const string DensityDataFormat = "%lu2%pr2";
+        private const string DistanceDataFormat = "%lu2%pr2";
         private const string PercentageDataFormat = "%lu2%pr2%ps[,%]%ct8[100]";
         private const double AreaUnitScale = (1.0 / 1000000.0);
 
@@ -25,6 +26,13 @@ namespace ThAreaFrameConfig.Presenter
             c.Value = density;
             c.DataFormat = DensityDataFormat;
             c.DataType = new DataTypeParameter(DataType.Double, UnitType.Unitless);
+        }
+
+        public static void SetDistanceValue(this Cell c, double distance)
+        {
+            c.Value = distance;
+            c.DataFormat = DistanceDataFormat;
+            c.DataType = new DataTypeParameter(DataType.Double, UnitType.Distance);
         }
 
         public static void SetStoreyValue(this Cell c, int storey)
@@ -66,11 +74,11 @@ namespace ThAreaFrameConfig.Presenter
             {
                 "子项编号",
                 "防火分区名称",
-                "面积（m2）（含敞廊面积）",
+                "面积（m\u00B2）（含敞廊面积）",
                 "功能",
                 "位置",
                 "百人疏散宽度（m/百人）",
-                "人员密度（人/m2）",
+                "人员密度（人/m\u00B2）",
                 "应有疏散密度（m）",
                 "实际疏散密度（m）",
                 "安全出口数量（个）",
@@ -111,6 +119,55 @@ namespace ThAreaFrameConfig.Presenter
 
             // "是否设置自动灭火系统"
             table.Cells[2, 10].DataType = new DataTypeParameter(DataType.String, UnitType.Unitless);
+
+            // 创建表单
+            return Active.Database.AddToModelSpace(table);
+        }
+
+
+        public static ObjectId CreateFCUndergroundParkingAreaTable(Point3d position)
+        {
+            Table table = new Table()
+            {
+                Position = position,
+                TableStyle = Active.Database.Tablestyle
+            };
+            table.SetSize(3, 5);
+            table.SetRowHeight(5000);
+            table.SetTextHeight(3000);
+            table.SetColumnWidth(25000);
+            table.SetAlignment(CellAlignment.MiddleCenter);
+            table.GenerateLayout();
+
+            // 第一行：标题
+            table.Cells[0, 0].TextString = "地下车库防火分区疏散宽度表";
+
+            // 第二行：表头
+            string[] headers =
+            {
+                "防火分区名称",
+                "防火分区功能",
+                "防火分区面积\n（m\u00B2）",
+                "最远疏散距离\n（m）",
+                "安全出口个数"
+            };
+            table.Rows[1].Height = 20000;
+            table.SetRowTextString(1, headers);
+
+            // "防火分区名称"
+            table.Cells[2, 0].DataType = new DataTypeParameter(DataType.String, UnitType.Unitless);
+
+            // "防火分区功能"
+            table.Cells[2, 1].DataType = new DataTypeParameter(DataType.String, UnitType.Unitless);
+
+            // "防火分区面积"
+            table.Cells[2, 2].DataType = new DataTypeParameter(DataType.Double, UnitType.Area);
+
+            // "最远疏散距离"
+            table.Cells[2, 3].DataType = new DataTypeParameter(DataType.Double, UnitType.Distance);
+
+            // "安全出口数量"
+            table.Cells[2, 4].DataType = new DataTypeParameter(DataType.Long, UnitType.Unitless);
 
             // 创建表单
             return Active.Database.AddToModelSpace(table);

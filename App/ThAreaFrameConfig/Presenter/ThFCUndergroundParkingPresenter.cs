@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.View;
 
@@ -15,49 +16,66 @@ namespace ThAreaFrameConfig.Presenter
 
         public object UI => compartmentView;
 
-        public void OnCreateFCCommerceFills(List<ThFireCompartment> compartments)
+        public void OnCreateFireCompartmentFills(List<ThFireCompartment> compartments)
         {
-            throw new System.NotImplementedException();
+            this.CreateFCCommerceFills(compartments);
         }
 
         public void OnCreateFCCommerceTable(ThFCCommerceSettings settings)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException();
+        }
+
+        public void OnCreateFCUndergroundParkingTable(ThFCUnderGroundParkingSettings settings)
+        {
+            this.CreateFCUndergroundParkingTable(settings);
         }
 
         public bool OnDeleteFireCompartments(List<ThFireCompartment> compartments)
         {
-            throw new System.NotImplementedException();
+            return ThFireCompartmentDbHelper.DeleteFireCompartments(compartments);
         }
 
         public bool OnMergeFireCompartments(List<ThFireCompartment> compartments)
         {
-            throw new System.NotImplementedException();
+            return ThFireCompartmentDbHelper.MergeFireCompartment(compartments);
         }
 
-        public bool OnMergePickedFireCompartments(ThFCCommerceSettings settings)
+        public bool OnMergePickedFireCompartments(ThFireCompartmentSettings settings)
         {
-            throw new System.NotImplementedException();
+            List<ThFireCompartment> compartments = new List<ThFireCompartment>();
+            this.PickedFireCompartments(settings, ref compartments);
+            return ThFireCompartmentDbHelper.MergeFireCompartment(compartments);
         }
 
         public bool OnModifyFireCompartment(ThFireCompartment compartment)
         {
-            throw new System.NotImplementedException();
+            if (ThFireCompartmentDbHelper.DeleteFireCompartment(compartment))
+            {
+                return ThFireCompartmentDbHelper.CreateFireCompartment(compartment);
+            }
+
+            return false;
         }
 
         public bool OnModifyFireCompartments(List<ThFireCompartment> compartments)
         {
-            throw new System.NotImplementedException();
+            foreach (var compartment in compartments)
+            {
+                OnModifyFireCompartment(compartment);
+            }
+
+            return true;
         }
 
         public bool OnPickAreaFrames(ThFireCompartment compartment, string layer, string islandLayer)
         {
-            throw new System.NotImplementedException();
+            return this.PickAreaFrames(compartment, layer, islandLayer);
         }
 
-        public bool OnSetFCCommerceLayer(ThFCCommerceSettings settings, string key)
+        public bool OnSetFireCompartmentLayer(ThFireCompartmentSettings settings, string key)
         {
-            throw new System.NotImplementedException();
+            return this.PickAreaFrameLayer(settings, key);
         }
     }
 }

@@ -188,7 +188,7 @@ namespace ThAreaFrameConfig.WinForms
             }
 
             ThFireCompartment compartment = view.GetRow(e.RowHandle) as ThFireCompartment;
-            // 计算编号索引
+            // 计算编号索引，即同一楼层所有防火分区（商业）下一个
             var compartments = Settings.Compartments.Where(
                 o => o.IsDefined &&
                 o.Subkey == compartment.Subkey &&
@@ -374,7 +374,7 @@ namespace ThAreaFrameConfig.WinForms
                         }
                     }
 
-                    // 计算编号索引
+                    // 计算编号索引，即同一楼层所有防火分区（商业）下一个
                     // 由于编号索引是连续的，下一个索引即为个数+1
                     foreach (var compartment in modifiedCompartments)
                     {
@@ -403,7 +403,7 @@ namespace ThAreaFrameConfig.WinForms
         private void button_create_fill_Click(object sender, EventArgs e)
         {
             var compartments = Compartments.Where(o => o.IsDefined).ToList();
-            Presenter.OnCreateFCCommerceFills(compartments);
+            Presenter.OnCreateFireCompartmentFills(compartments);
         }
 
         private void button_pick_outer_frame_Click(object sender, EventArgs e)
@@ -415,7 +415,7 @@ namespace ThAreaFrameConfig.WinForms
                 dlg.Hide();
             }
 
-            if (Presenter.OnSetFCCommerceLayer(Settings, "OUTERFRAME"))
+            if (Presenter.OnSetFireCompartmentLayer(Settings, "OUTERFRAME"))
             {
                 comboBox_outer_frame.SelectedItem = Settings.Layers["OUTERFRAME"];
             }
@@ -436,7 +436,7 @@ namespace ThAreaFrameConfig.WinForms
                 dlg.Hide();
             }
 
-            if (Presenter.OnSetFCCommerceLayer(Settings, "INNERFRAME"))
+            if (Presenter.OnSetFireCompartmentLayer(Settings, "INNERFRAME"))
             {
                 comboBox_inner_frame.SelectedItem = Settings.Layers["INNERFRAME"];
             }

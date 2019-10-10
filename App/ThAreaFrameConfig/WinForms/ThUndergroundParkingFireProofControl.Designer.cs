@@ -30,13 +30,13 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button_pick_inner_frame = new System.Windows.Forms.Button();
             this.comboBox_inner_frame = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_pick_outer_frame = new System.Windows.Forms.Button();
             this.comboBox_outer_frame = new System.Windows.Forms.ComboBox();
             this.label_merge_compartment = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
+            this.button_merge = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.gridControl_fire_compartment = new DevExpress.XtraGrid.GridControl();
             this.gridView_fire_compartment = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -70,7 +70,7 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.button2);
+            this.groupBox3.Controls.Add(this.button_pick_inner_frame);
             this.groupBox3.Controls.Add(this.comboBox_inner_frame);
             this.groupBox3.Location = new System.Drawing.Point(227, 24);
             this.groupBox3.Name = "groupBox3";
@@ -79,14 +79,15 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "指定防火分区内框扣除图层";
             // 
-            // button2
+            // button_pick_inner_frame
             // 
-            this.button2.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
-            this.button2.Location = new System.Drawing.Point(177, 22);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(28, 27);
-            this.button2.TabIndex = 1;
-            this.button2.UseVisualStyleBackColor = true;
+            this.button_pick_inner_frame.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
+            this.button_pick_inner_frame.Location = new System.Drawing.Point(177, 22);
+            this.button_pick_inner_frame.Name = "button_pick_inner_frame";
+            this.button_pick_inner_frame.Size = new System.Drawing.Size(28, 27);
+            this.button_pick_inner_frame.TabIndex = 1;
+            this.button_pick_inner_frame.UseVisualStyleBackColor = true;
+            this.button_pick_inner_frame.Click += new System.EventHandler(this.button_pick_inner_frame_Click);
             // 
             // comboBox_inner_frame
             // 
@@ -95,10 +96,11 @@
             this.comboBox_inner_frame.Name = "comboBox_inner_frame";
             this.comboBox_inner_frame.Size = new System.Drawing.Size(160, 22);
             this.comboBox_inner_frame.TabIndex = 0;
+            this.comboBox_inner_frame.SelectionChangeCommitted += new System.EventHandler(this.comboBox_inner_frame_SelectionChangeCommitted);
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.button_pick_outer_frame);
             this.groupBox2.Controls.Add(this.comboBox_outer_frame);
             this.groupBox2.Location = new System.Drawing.Point(8, 24);
             this.groupBox2.Name = "groupBox2";
@@ -107,14 +109,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "指定防火分区外框线图层";
             // 
-            // button1
+            // button_pick_outer_frame
             // 
-            this.button1.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
-            this.button1.Location = new System.Drawing.Point(177, 22);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(28, 27);
-            this.button1.TabIndex = 1;
-            this.button1.UseVisualStyleBackColor = true;
+            this.button_pick_outer_frame.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
+            this.button_pick_outer_frame.Location = new System.Drawing.Point(177, 22);
+            this.button_pick_outer_frame.Name = "button_pick_outer_frame";
+            this.button_pick_outer_frame.Size = new System.Drawing.Size(28, 27);
+            this.button_pick_outer_frame.TabIndex = 1;
+            this.button_pick_outer_frame.UseVisualStyleBackColor = true;
+            this.button_pick_outer_frame.Click += new System.EventHandler(this.button_pick_outer_frame_Click);
             // 
             // comboBox_outer_frame
             // 
@@ -123,6 +126,7 @@
             this.comboBox_outer_frame.Name = "comboBox_outer_frame";
             this.comboBox_outer_frame.Size = new System.Drawing.Size(160, 22);
             this.comboBox_outer_frame.TabIndex = 0;
+            this.comboBox_outer_frame.SelectionChangeCommitted += new System.EventHandler(this.comboBox_outer_frame_SelectionChangeCommitted);
             // 
             // label_merge_compartment
             // 
@@ -133,20 +137,21 @@
             this.label_merge_compartment.TabIndex = 1;
             this.label_merge_compartment.Text = "点击合并防火分区：";
             // 
-            // button3
+            // button_merge
             // 
-            this.button3.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
-            this.button3.Location = new System.Drawing.Point(6, 237);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(28, 27);
-            this.button3.TabIndex = 0;
-            this.button3.UseVisualStyleBackColor = true;
+            this.button_merge.Image = global::ThAreaFrameConfig.Properties.Resources.pick_object;
+            this.button_merge.Location = new System.Drawing.Point(6, 237);
+            this.button_merge.Name = "button_merge";
+            this.button_merge.Size = new System.Drawing.Size(28, 27);
+            this.button_merge.TabIndex = 0;
+            this.button_merge.UseVisualStyleBackColor = true;
+            this.button_merge.Click += new System.EventHandler(this.button_merge_Click);
             // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.label_merge_compartment);
             this.groupBox5.Controls.Add(this.gridControl_fire_compartment);
-            this.groupBox5.Controls.Add(this.button3);
+            this.groupBox5.Controls.Add(this.button_merge);
             this.groupBox5.Location = new System.Drawing.Point(5, 113);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(478, 270);
@@ -178,8 +183,12 @@
             this.gridView_fire_compartment.Name = "gridView_fire_compartment";
             this.gridView_fire_compartment.OptionsView.ShowGroupPanel = false;
             this.gridView_fire_compartment.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_fire_compartment_RowClick);
+            this.gridView_fire_compartment.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridView_fire_compartment_PopupMenuShowing);
+            this.gridView_fire_compartment.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView_fire_compartment_CellValueChanged);
+            this.gridView_fire_compartment.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView_fire_compartment_CellValueChanging);
             this.gridView_fire_compartment.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView_fire_compartment_CustomUnboundColumnData);
             this.gridView_fire_compartment.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridView_fire_compartment_CustomColumnDisplayText);
+            this.gridView_fire_compartment.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridView_fire_compartment_ValidatingEditor);
             // 
             // gridColumn_number
             // 
@@ -245,6 +254,7 @@
             this.button_create_table.TabIndex = 6;
             this.button_create_table.Text = "生成防火分区表";
             this.button_create_table.UseVisualStyleBackColor = true;
+            this.button_create_table.Click += new System.EventHandler(this.button_create_table_Click);
             // 
             // button_create_fill
             // 
@@ -254,6 +264,7 @@
             this.button_create_fill.TabIndex = 7;
             this.button_create_fill.Text = "生成防火分区填充";
             this.button_create_fill.UseVisualStyleBackColor = true;
+            this.button_create_fill.Click += new System.EventHandler(this.button_create_fill_Click);
             // 
             // ThUndergroundParkingFireProofControl
             // 
@@ -282,12 +293,12 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox comboBox_outer_frame;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_pick_outer_frame;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button_pick_inner_frame;
         private System.Windows.Forms.ComboBox comboBox_inner_frame;
         private System.Windows.Forms.Label label_merge_compartment;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button_merge;
         private System.Windows.Forms.GroupBox groupBox5;
         private DevExpress.XtraGrid.GridControl gridControl_fire_compartment;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView_fire_compartment;
