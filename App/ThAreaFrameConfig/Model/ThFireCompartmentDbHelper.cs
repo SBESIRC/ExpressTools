@@ -99,22 +99,48 @@ namespace ThAreaFrameConfig.Model
             return true;
         }
 
-        // 规整防火分区
+        // 规整商业防火分区
         //  合并后防火分区的编号不再连续，规整后防火分区的编号保存连续
         public static void NormalizeFireCompartments(List<ThFireCompartment> compartments)
         {
+            // 防火分区必须是同一类型
+            var enumerator = compartments.Select(o => o.Type).Distinct();
+            if (enumerator.Count() != 1)
+            {
+                return;
+            }
+
             // 按照"子键"，“楼层”， “编号”排序
             compartments.Sort();
-
-            // 按<子键，楼层>分组，在同一组内重新编号
-            foreach (var group in compartments.GroupBy(o => new { o.Subkey, o.Storey }))
+            if (enumerator.First() == ThFireCompartment.FCType.FCCommerce)
             {
-                UInt16 index = 0;
-                foreach(var compartment in group)
+                // 按<子键，楼层>分组，在同一组内重新编号
+                foreach (var group in compartments.GroupBy(o => new { o.Subkey, o.Storey }))
                 {
-                    compartment.Index = ++index;
-                    ModifyFireCompartment(compartment);
+                    UInt16 index = 0;
+                    foreach (var compartment in group)
+                    {
+                        compartment.Index = ++index;
+                        ModifyFireCompartment(compartment);
+                    }
                 }
+            }
+            else if (enumerator.First() == ThFireCompartment.FCType.FCUnderGroundParking)
+            {
+                // 按子键分组，在同一组内重新编号
+                foreach (var group in compartments.GroupBy(o => new { o.Subkey }))
+                {
+                    UInt16 index = 0;
+                    foreach (var compartment in group)
+                    {
+                        compartment.Index = ++index;
+                        ModifyFireCompartment(compartment);
+                    }
+                }
+            }
+            else 
+            {
+                throw new NotSupportedException();
             }
         }
 
