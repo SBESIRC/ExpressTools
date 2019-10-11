@@ -68,6 +68,20 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             }
             return vertices;
         }
+
+        public static bool IsClosed(this Polyline pLine, Tolerance tolerance)
+        {            
+            // 最少三个顶点才能形成一个闭环
+            var vertices = pLine.Vertices();
+            if (vertices.Count < 3)
+            {
+                return false;
+            }
+
+            // 比较第一个顶点和最后一个顶点，若他们重合，则多段线闭合；否则不闭合
+            var enumerator = vertices.Cast<Point3d>();
+            return enumerator.First().IsEqualTo(enumerator.Last(), tolerance);
+        }
     }
 
     public interface IDisposableCollection<T> : ICollection<T>, IDisposable

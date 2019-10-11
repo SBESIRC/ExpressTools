@@ -20,8 +20,7 @@ namespace ThAreaFrameConfig.Presenter
         bool OnDeleteFireCompartments(List<ThFireCompartment> compartments);
 
         // 创建防火分区疏散宽度表
-        void OnCreateFCCommerceTable(ThFCCommerceSettings settings);
-        void OnCreateFCUndergroundParkingTable(ThFCUnderGroundParkingSettings settings);
+        void OnCreateFireCompartmentTable(ThFireCompartmentSettings settings);
 
         // 创建防火分区填充
         void OnCreateFireCompartmentFills(List<ThFireCompartment> compartments);

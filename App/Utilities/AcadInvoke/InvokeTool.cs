@@ -34,6 +34,14 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         public static extern System.IntPtr acdbEntGet(ref ads_name ename);
 #endif
 
+#if ACAD2012
+        [DllImport("acad.exe", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "acedTextBox")]
+        public static extern System.IntPtr acedTextBox(IntPtr rb, double[] point1, double[] point2);
+#else
+        [DllImport("accore.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "acedTextBox")]
+        public static extern System.IntPtr acedTextBox(IntPtr rb, double[] point1, double[] point2);
+#endif
+
         public static System.Collections.Generic.List<object> acdbEntGetObjects(this
             ObjectId id, short dxfcode)
         {

@@ -135,9 +135,6 @@
     <Compile Include="BlockTool.cs" />
     <Compile Include="CompareTool.cs" />
     <Compile Include="COMTool.cs" />
-    <Compile Include="EnumDescriptionAttribute.cs" />
-    <Compile Include="EnumHelper.cs" />
-    <Compile Include="EnumTool.cs" />
     <Compile Include="JiHe.cs" />
     <Compile Include="LinqTool.cs" />
     <Compile Include="NullableParser.cs" />

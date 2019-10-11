@@ -21,14 +21,12 @@ namespace ThAreaFrameConfig.Presenter
             this.CreateFCCommerceFills(compartments);
         }
 
-        public void OnCreateFCCommerceTable(ThFCCommerceSettings settings)
+        public void OnCreateFireCompartmentTable(ThFireCompartmentSettings settings)
         {
-            throw new NotSupportedException();
-        }
-
-        public void OnCreateFCUndergroundParkingTable(ThFCUnderGroundParkingSettings settings)
-        {
-            this.CreateFCUndergroundParkingTable(settings);
+            if (settings is ThFCUnderGroundParkingSettings parkingSettings)
+            {
+                this.CreateFCUndergroundParkingTable(parkingSettings);
+            }
         }
 
         public bool OnDeleteFireCompartments(List<ThFireCompartment> compartments)

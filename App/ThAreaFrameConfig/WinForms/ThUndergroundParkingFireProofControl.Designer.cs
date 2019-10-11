@@ -181,6 +181,13 @@
             this.gridColumn_pick});
             this.gridView_fire_compartment.GridControl = this.gridControl_fire_compartment;
             this.gridView_fire_compartment.Name = "gridView_fire_compartment";
+            this.gridView_fire_compartment.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView_fire_compartment.OptionsCustomization.AllowFilter = false;
+            this.gridView_fire_compartment.OptionsCustomization.AllowGroup = false;
+            this.gridView_fire_compartment.OptionsCustomization.AllowQuickHideColumns = false;
+            this.gridView_fire_compartment.OptionsCustomization.AllowSort = false;
+            this.gridView_fire_compartment.OptionsDetail.EnableMasterViewMode = false;
+            this.gridView_fire_compartment.OptionsSelection.MultiSelect = true;
             this.gridView_fire_compartment.OptionsView.ShowGroupPanel = false;
             this.gridView_fire_compartment.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_fire_compartment_RowClick);
             this.gridView_fire_compartment.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridView_fire_compartment_PopupMenuShowing);

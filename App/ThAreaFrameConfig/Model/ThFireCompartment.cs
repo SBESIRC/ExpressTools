@@ -164,11 +164,9 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
-                double area = 0.0;
-                Frames.Where(o => o.IsDefined)
+                return Frames.Where(o => o.IsDefined)
                     .ToList()
-                    .ForEach(o => area += o.Area);
-                return area;
+                    .Sum(o => o.Area);
             }
         }
 
@@ -177,11 +175,9 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
-                double density = 0.0;
-                Frames.Where(o => o.IsDefined)
+                return Frames.Where(o => o.IsDefined)
                     .ToList()
-                    .ForEach(o => density += o.EvacuationDensity);
-                return density;
+                    .Sum(o => o.EvacuationDensity);
             }
         }
 
@@ -230,10 +226,18 @@ namespace ThAreaFrameConfig.Model
         {
             get
             {
-                // 根据subkey的值：
-                //  零：地下车库
-                //  正整数：商业
-                return (Subkey == 0) ? FCType.FCUnderGroundParking : FCType.FCCommerce;
+                if ((Subkey == 0) && (Storey < 0))
+                {
+                    return FCType.FCUnderGroundParking;
+                }
+                else if ((Subkey > 0) && (Storey > 0))
+                {
+                    return FCType.FCCommerce;
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
             }
         }
     }

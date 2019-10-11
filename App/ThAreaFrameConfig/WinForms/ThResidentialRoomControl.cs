@@ -355,7 +355,12 @@ namespace ThAreaFrameConfig.WinForms
             DXMenuItem menuItem = sender as DXMenuItem;
             if (menuItem.Tag is RowInfo ri)
             {
-                this.CurrentStorey.Rooms.Add(ThResidentialRoomUtil.DefaultResidentialRoom(this.CurrentStorey.ID));
+                //  下一个户型标识(HTx+1)
+                var rooms = CurrentStorey.Rooms.Where(o => o.Identifier.StartsWith("HT")).ToList();
+                var identifiers = rooms.Select(o => o.Identifier).ToList();
+                identifiers.Sort(new NaturalStringComparer());
+                var identifier = ThResidentialRoomUtil.NextDefaultRoomIdentifier(identifiers.Last());
+                CurrentStorey.Rooms.Add(ThResidentialRoomUtil.DefaultResidentialRoom(CurrentStorey.ID, identifier));
                 gridControl_room.RefreshDataSource();
                 RefreshGridControl();
             }

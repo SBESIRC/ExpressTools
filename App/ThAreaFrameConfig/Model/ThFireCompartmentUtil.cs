@@ -42,13 +42,6 @@ namespace ThAreaFrameConfig.Model
             return string.Format("防火分区{0}", value.NumberToChinese());
         }
 
-        public static string UpdateCommerceSerialNumber(this string contents, UInt16 subKey, Int16 storey, UInt16 index)
-        {
-            string[] tokens = Regex.Split(contents, @"\\P");
-            tokens[0] = CommerceSerialNumber(subKey, storey, index);
-            return tokens[0] + "\\P" + tokens[1];
-        }
-
         public static bool MatchCommerceSerialNumber(this string sn, ref UInt16 subKey, ref Int16 storey, ref UInt16 index)
         {
             Match match = Regex.Match(sn, @"^FC-([0-9]+)-FL(-?[0-9]+)-([0-9]+)$");

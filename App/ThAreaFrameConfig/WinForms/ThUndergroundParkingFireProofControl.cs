@@ -193,10 +193,10 @@ namespace ThAreaFrameConfig.WinForms
             {
                 case "Storey":
                     {
-                        if (!int.TryParse(e.Value.ToString(), out int value))
+                        if (!int.TryParse(e.Value.ToString(), out int value) || (value >= 0))
                         {
                             e.Valid = false;
-                            e.ErrorText = "请输入整数";
+                            e.ErrorText = "请输入负整数";
                         }
 
                     }
@@ -440,7 +440,7 @@ namespace ThAreaFrameConfig.WinForms
 
         private void button_create_table_Click(object sender, EventArgs e)
         {
-            Presenter.OnCreateFCUndergroundParkingTable(Settings);
+            Presenter.OnCreateFireCompartmentTable(Settings);
         }
     }
 }

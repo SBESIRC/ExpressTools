@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace ThAreaFrameConfig.Model
 {
@@ -350,7 +351,7 @@ namespace ThAreaFrameConfig.Model
             return storey;
         }
 
-        public static ThResidentialRoom DefaultResidentialRoom(Guid storeyID)
+        public static ThResidentialRoom DefaultResidentialRoom(Guid storeyID, string identifier = "HT1")
         {
             Guid roomId = Guid.NewGuid();
             ThResidentialRoom room = new ThResidentialRoom()
@@ -358,7 +359,7 @@ namespace ThAreaFrameConfig.Model
                 ID = roomId,
                 StoreyID = storeyID,
                 Name = "A",
-                Identifier = "HT1",
+                Identifier = identifier,
                 Components = new List<ThResidentialRoomComponent>()
                 {
                     ThResidentialRoomComponent.Dwelling(roomId),
@@ -438,6 +439,17 @@ namespace ThAreaFrameConfig.Model
                 Floors = null,
                 Frame = (IntPtr)0
             });
+        }
+
+        public static string NextDefaultRoomIdentifier(string identifier)
+        {
+            Match match = Regex.Match(identifier, @"^HT(\d+)$");
+            if (!match.Success)
+            {
+                return null;
+            }
+
+            return string.Format("HT{0}", int.Parse(match.Groups[1].Value) + 1);
         }
     }
 }

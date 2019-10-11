@@ -58,19 +58,17 @@ namespace ThAreaFrameConfig.Presenter
             return this.PickAreaFrames(compartment, layer, islandLayer);
         }
 
-        public void OnCreateFCCommerceTable(ThFCCommerceSettings settings)
-        {
-            this.CreateFCCommerceTable(settings);
-        }
-
         public void OnCreateFireCompartmentFills(List<ThFireCompartment> compartments)
         {
             this.CreateFCCommerceFills(compartments);
         }
 
-        public void OnCreateFCUndergroundParkingTable(ThFCUnderGroundParkingSettings settings)
+        public void OnCreateFireCompartmentTable(ThFireCompartmentSettings settings)
         {
-            throw new NotSupportedException();
+            if (settings is ThFCCommerceSettings commerceSettings)
+            {
+                this.CreateFCCommerceTable(commerceSettings);
+            }
         }
 
         public bool OnSetFireCompartmentLayer(ThFireCompartmentSettings settings, string key)

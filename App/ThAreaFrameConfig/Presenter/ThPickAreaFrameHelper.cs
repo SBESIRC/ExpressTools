@@ -134,12 +134,13 @@ namespace ThAreaFrameConfig.Presenter
                     var sortedFrameDicts = new SortedDictionary<Point3d, ObjectId>(frameDict, comparer);
                     foreach (var item in sortedFrameDicts)
                     {
-                        // 创建防火分区
+                        // 为每个面积框线创建一个防火分区
                         compartment.Frames.Add(item.Value.CreateFireCompartmentAreaFrame(islandLayer));
                         ThFireCompartmentDbHelper.CreateFireCompartment(compartment);
 
                         // 更新防火分区序号
                         ++compartment.Index;
+                        compartment.Frames.Clear();
                     }
 
                     return true;
@@ -214,7 +215,7 @@ namespace ThAreaFrameConfig.Presenter
                         o.Dxf((int)DxfCode.Start) == "CIRCLE,LWPOLYLINE" &
                         o.Dxf((int)DxfCode.LayerName) == settings.Layers["OUTERFRAME"] & 
                         (
-                            o.Dxf((int)DxfCode.ExtendedDataRegAppName) == ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce |
+                            o.Dxf((int)DxfCode.ExtendedDataRegAppName) == ThCADCommon.RegAppName_AreaFrame_FireCompartment_Parking |
                             o.Dxf((int)DxfCode.ExtendedDataRegAppName) == ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce
                         )
                     );

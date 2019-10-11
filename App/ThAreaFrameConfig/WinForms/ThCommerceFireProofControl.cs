@@ -397,7 +397,7 @@ namespace ThAreaFrameConfig.WinForms
 
         private void button_create_table_Click(object sender, EventArgs e)
         {
-            Presenter.OnCreateFCCommerceTable(Settings);
+            Presenter.OnCreateFireCompartmentTable(Settings);
         }
 
         private void button_create_fill_Click(object sender, EventArgs e)
