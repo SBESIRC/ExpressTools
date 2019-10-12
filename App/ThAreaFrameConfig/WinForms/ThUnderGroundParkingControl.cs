@@ -171,7 +171,22 @@ namespace ThAreaFrameConfig.WinForms
                 ThUnderGroundParking parking = view.GetRow(info.RowHandle) as ThUnderGroundParking;
                 if (parking.IsDefined)
                 {
-                    Presenter.OnHighlightAreaFrames(parking.Frames.ToArray());
+                    foreach(var item in DbRepository.Parkings)
+                    {
+                        if (!item.IsDefined)
+                        {
+                            continue;
+                        }
+
+                        if (item.ID == parking.ID)
+                        {
+                            Presenter.OnHighlightAreaFrames(item.Frames.ToArray());
+                        }
+                        else
+                        {
+                            Presenter.OnUnhighlightAreaFrames(item.Frames.ToArray());
+                        }
+                    }
                 }
             }
         }

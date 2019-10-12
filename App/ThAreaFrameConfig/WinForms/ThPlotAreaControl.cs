@@ -170,7 +170,22 @@ namespace ThAreaFrameConfig.WinForms
                 ThPlotSpace space = view.GetRow(info.RowHandle) as ThPlotSpace;
                 if (space.IsDefined)
                 {
-                    Presenter.OnHighlightAreaFrame(space.Frame);
+                    foreach (var item in DbRepository.Spaces)
+                    {
+                        if (!item.IsDefined)
+                        {
+                            continue;
+                        }
+
+                        if (item.ID == space.ID)
+                        {
+                            Presenter.OnHighlightAreaFrame(item.Frame);
+                        }
+                        else
+                        {
+                            Presenter.OnUnhighlightAreaFrame(item.Frame);
+                        }
+                    }
                 }
             }
         }

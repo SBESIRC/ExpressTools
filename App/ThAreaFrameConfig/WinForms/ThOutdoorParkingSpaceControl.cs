@@ -173,7 +173,22 @@ namespace ThAreaFrameConfig.WinForms
                 ThOutdoorParkingSpace space = view.GetRow(info.RowHandle) as ThOutdoorParkingSpace;
                 if (space.IsDefined)
                 {
-                    Presenter.OnHighlightAreaFrames(space.Frames.ToArray());
+                    foreach (var item in DbRepository.Spaces)
+                    {
+                        if (!item.IsDefined)
+                        {
+                            continue;
+                        }
+
+                        if (item.ID == space.ID)
+                        {
+                            Presenter.OnHighlightAreaFrames(item.Frames.ToArray());
+                        }
+                        else
+                        {
+                            Presenter.OnUnhighlightAreaFrames(item.Frames.ToArray());
+                        }
+                    }
                 }
             }
         }

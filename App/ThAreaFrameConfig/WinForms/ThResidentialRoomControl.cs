@@ -549,7 +549,28 @@ namespace ThAreaFrameConfig.WinForms
                 ThResidentialAreaFrame areaFrame = view.GetRow(info.RowHandle) as ThResidentialAreaFrame;
                 if (areaFrame.IsDefined)
                 {
-                    Presenter.OnHighlightAreaFrame(areaFrame.Frame);
+                    foreach (var room in CurrentStorey.Rooms)
+                    {
+                        foreach (var component in room.Components)
+                        {
+                            foreach (var item in component.AreaFrames)
+                            {
+                                if (!item.IsDefined)
+                                {
+                                    continue;
+                                }
+
+                                if (item.ID == areaFrame.ID)
+                                {
+                                    Presenter.OnHighlightAreaFrame(item.Frame);
+                                }
+                                else
+                                {
+                                    Presenter.OnUnhighlightAreaFrame(item.Frame);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

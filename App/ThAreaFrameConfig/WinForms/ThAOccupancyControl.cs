@@ -509,7 +509,22 @@ namespace ThAreaFrameConfig.WinForms
                 var aoccupancy = view.GetRow(info.RowHandle) as ThAOccupancy;
                 if (aoccupancy.IsDefined)
                 {
-                    Presenter.OnHighlightAreaFrame(aoccupancy.Frame);
+                    foreach (var item in CurrentStorey.AOccupancies)
+                    {
+                        if (!item.IsDefined)
+                        {
+                            continue;
+                        }
+
+                        if (item.ID == aoccupancy.ID)
+                        {
+                            Presenter.OnHighlightAreaFrame(item.Frame);
+                        }
+                        else
+                        {
+                            Presenter.OnUnhighlightAreaFrame(item.Frame);
+                        }
+                    }
                 }
             }
         }

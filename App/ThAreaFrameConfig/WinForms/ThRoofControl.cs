@@ -185,7 +185,22 @@ namespace ThAreaFrameConfig.WinForms
                 ThRoof roof = view.GetRow(info.RowHandle) as ThRoof;
                 if (roof.IsDefined)
                 {
-                    Presenter.OnHighlightAreaFrame(roof.Frame);
+                    foreach(var item in DbRepository.Roofs)
+                    {
+                        if (!item.IsDefined)
+                        {
+                            continue;
+                        }
+
+                        if (item.ID == roof.ID)
+                        {
+                            Presenter.OnHighlightAreaFrame(item.Frame);
+                        }
+                        else
+                        {
+                            Presenter.OnUnhighlightAreaFrame(item.Frame);
+                        }
+                    }
                 }
             }
         }
