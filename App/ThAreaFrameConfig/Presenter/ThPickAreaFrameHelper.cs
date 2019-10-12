@@ -288,15 +288,15 @@ namespace ThAreaFrameConfig.Presenter
                                     hatch.EvaluateHatch(true);
 
                                     // 孤岛
-                                    objIdColl.Clear();
                                     foreach (var item in frame.IslandFrames)
                                     {
+                                        objIdColl.Clear();
                                         objIdColl.Add(new ObjectId(item));
-                                    }
-                                    hatch.AppendLoop(HatchLoopTypes.Default, objIdColl);
+                                        hatch.AppendLoop(HatchLoopTypes.Default, objIdColl);
 
-                                    // 重新生成Hatch纹理
-                                    hatch.EvaluateHatch(true);
+                                        // 重新生成Hatch纹理
+                                        hatch.EvaluateHatch(true);
+                                    }
                                 }
                                 catch
                                 {
