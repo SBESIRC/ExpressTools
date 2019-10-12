@@ -455,7 +455,7 @@
                     </adw:RibbonButton.ToolTip>
                 </adw:RibbonButton>
 
-            <adw:RibbonButton  Name="消防疏散表" Text = "消防疏散表"
+            <adw:RibbonButton  Name="防火分区疏散表" Text = "防火分区疏散表"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
                                     LargeImage="{StaticResource THFET}"
@@ -463,7 +463,7 @@
                                     CommandParameter="THFET">
                <adw:RibbonButton.ToolTip>
                   <adw:RibbonToolTip  
-                    Title="消防疏散表"
+                    Title="防火分区疏散表"
                             Command="THFET"
                     Content="统计商业/地库各防火分区面积，自动计算应有疏散距离，并生成表格"/>
                </adw:RibbonButton.ToolTip>

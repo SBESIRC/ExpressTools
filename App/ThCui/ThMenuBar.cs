@@ -137,7 +137,7 @@ namespace TianHua.AutoCAD.ThCui
                       new ThCommandInfo("单体面积汇总 <THBAC>", "THBAC", "汇总单体每层各区域建筑面积和计容面积",true),
                       new ThCommandInfo("天华总平规整 <THSPS>", "THSPS", "将总平面图中代表各区域的多段线图元设置到相应的图层，以供生成综合经济技术指标表所用",true),
                       new ThCommandInfo("综合经济技术指标表 <THTET>", "THTET", "汇总总平面及各单体各区域建筑面积和计容面积，形成综合经济技术指标表",true),
-                      new ThCommandInfo("消防疏散表 <THFET>", "THFET", "统计商业/地库各防火分区面积，自动计算应有疏散距离，并生成表格",true),
+                      new ThCommandInfo("防火分区疏散表 <THFET>", "THFET", "统计商业/地库各防火分区面积，自动计算应有疏散距离，并生成表格",true),
                       new ThCommandInfo("房间面积框线 <THABC>", "THABC", "自动生成屏幕选择范围内所有房间的框线，且可选择插入面积值",true)
                 };
                 kps.ForEach(kp =>
