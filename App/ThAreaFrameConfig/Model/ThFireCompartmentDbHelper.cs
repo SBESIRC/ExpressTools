@@ -110,10 +110,11 @@ namespace ThAreaFrameConfig.Model
                 return;
             }
 
-            // 按照"子键"，“楼层”， “编号”排序
-            compartments.Sort();
             if (enumerator.First() == ThFireCompartment.FCType.FCCommerce)
             {
+                // 按照"子键"，“楼层”， “编号”排序
+                compartments.Sort();
+
                 // 按<子键，楼层>分组，在同一组内重新编号
                 foreach (var group in compartments.GroupBy(o => new { o.Subkey, o.Storey }))
                 {
@@ -124,9 +125,15 @@ namespace ThAreaFrameConfig.Model
                         ModifyFireCompartment(compartment);
                     }
                 }
+
+                // 按照"子键"，“楼层”， “编号”排序
+                compartments.Sort();
             }
             else if (enumerator.First() == ThFireCompartment.FCType.FCUnderGroundParking)
             {
+                // 按照"子键"，“楼层”， “编号”排序
+                compartments.Sort();
+
                 // 按子键分组，在同一组内重新编号
                 foreach (var group in compartments.GroupBy(o => new { o.Subkey }))
                 {
@@ -137,6 +144,9 @@ namespace ThAreaFrameConfig.Model
                         ModifyFireCompartment(compartment);
                     }
                 }
+
+                // 按照"子键"，“楼层”， “编号”排序
+                compartments.Sort();
             }
             else 
             {

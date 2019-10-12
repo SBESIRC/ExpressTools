@@ -117,7 +117,7 @@ namespace ThAreaFrameConfig.Model
             if (this.Storey != other.Storey)
             {
                 // 考虑到地下楼层，按绝对值比较
-                Math.Abs(Storey).CompareTo(Math.Abs(other.Storey));
+                return Math.Abs(Storey).CompareTo(Math.Abs(other.Storey));
             }
 
             // 在楼层相等的情况下，继续比较编号
