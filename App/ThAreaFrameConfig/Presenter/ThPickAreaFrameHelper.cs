@@ -210,6 +210,14 @@ namespace ThAreaFrameConfig.Presenter
                     //  https://through-the-interface.typepad.com/through_the_interface/2006/08/cancelling_an_a.html
                     Active.Editor.PostCommand("CANCELCMD");
 
+                    // PromptSelectionOptions
+                    PromptSelectionOptions options = new PromptSelectionOptions()
+                    {
+                        AllowDuplicates = false,
+                        RejectObjectsOnLockedLayers = true,
+                        MessageForAdding = "选择需要合并的防火分区框线"
+                    };
+
                     // SelectionFilter
                     var filterlist = OpFilter.Bulid(o => 
                         o.Dxf((int)DxfCode.Start) == "CIRCLE,LWPOLYLINE" &
@@ -219,7 +227,7 @@ namespace ThAreaFrameConfig.Presenter
                             o.Dxf((int)DxfCode.ExtendedDataRegAppName) == ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce
                         )
                     );
-                    var entSelected = Active.Editor.GetSelection(filterlist);
+                    var entSelected = Active.Editor.GetSelection(options, filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {
                         foreach(var objId in entSelected.Value.GetObjectIds())
