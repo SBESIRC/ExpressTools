@@ -75,7 +75,7 @@ namespace ThAreaFrameConfig.Presenter
                                 table.Cells[dataRow, column++].SetStoreyValue(compartment.Storey);
 
                                 // "百人疏散宽度（m/百人）"
-                                table.Cells[dataRow, column++].SetDensityValue(engine.EvacuationDensity(compartment));
+                                table.Cells[dataRow, column++].SetDensityValue(engine.EvacuationDensity());
 
                                 // "人员密度（人/m2）"
                                 table.Cells[dataRow, column++].SetDensityValue(engine.OccupantDensity(compartment));
@@ -83,7 +83,7 @@ namespace ThAreaFrameConfig.Presenter
                                 // "应有疏散密度（m）"
                                 table.Cells[dataRow, column++].SetDensityValue(
                                     compartment.Area *
-                                    engine.EvacuationDensity(compartment) *
+                                    engine.EvacuationDensity() *
                                     engine.OccupantDensity(compartment) /
                                     100.00);
 

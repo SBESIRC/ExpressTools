@@ -34,22 +34,22 @@ namespace ThAreaFrameConfig.Presenter
         }
 
         // "百人疏散宽度（m/百人）"
-        public double EvacuationDensity(ThFireCompartment compartment)
+        public double EvacuationDensity()
         {
                 switch (settings.Resistance)
                 {
                 case ThFCCommerceSettings.FireResistance.Level1:
                 case ThFCCommerceSettings.FireResistance.Level2:
                 {
-                    if (compartment.Storey >= 4)
+                    if (settings.Storey >= 4)
                     {
                         return 1.00;
                     }
-                    else if (compartment.Storey == 3)
+                    else if (settings.Storey == 3)
                     {
                         return 0.75;
                     }
-                    else if (compartment.Storey > 0)
+                    else if (settings.Storey > 0)
                     {
                         return 0.65;
                     }
@@ -68,7 +68,7 @@ namespace ThAreaFrameConfig.Presenter
                     {
                         return 1.00;
                     }
-                    else if (compartment.Storey > 0)
+                    else if (settings.Storey > 0)
                     {
                         return 0.75;
                     }
@@ -87,7 +87,7 @@ namespace ThAreaFrameConfig.Presenter
                     {
                         return 0.00;
                     }
-                    else if (compartment.Storey > 0)
+                    else if (settings.Storey > 0)
                     {
                         return 1.00;
                     }
