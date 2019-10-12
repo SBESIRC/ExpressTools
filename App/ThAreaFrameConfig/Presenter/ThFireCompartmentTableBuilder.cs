@@ -8,7 +8,7 @@ namespace ThAreaFrameConfig.Presenter
 {
     public static class ThAreaFrameTable
     {
-        private const string AreaDataFormat = "%lu2%pr3";
+        private const string AreaDataFormat = "%lu2%pr2";
         private const string DensityDataFormat = "%lu2%pr2";
         private const string DistanceDataFormat = "%lu2%pr2";
         private const string PercentageDataFormat = "%lu2%pr2%ps[,%]%ct8[100]";

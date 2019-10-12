@@ -13,7 +13,7 @@ namespace ThAreaFrame
 {
     public static class ThAreaFrameTable
     {
-        private const string AreaDataFormat = "%lu2%pr3";
+        private const string AreaDataFormat = "%lu2%pr2";
         private const string PercentageDataFormat = "%lu2%pr2%ps[,%]%ct8[100]";
         private const double AreaUnitScale = (1.0 / 1000000.0);
 
