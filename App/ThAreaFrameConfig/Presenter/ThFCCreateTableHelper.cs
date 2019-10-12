@@ -66,7 +66,8 @@ namespace ThAreaFrameConfig.Presenter
                                 table.Cells[dataRow, column++].Value = compartment.SerialNumber;
 
                                 // "面积（m2）（含敞廊面积）"
-                                table.Cells[dataRow, column++].SetAreaValue(compartment.Area, 1.00);
+                                double value = Math.Round(compartment.Area, 2, MidpointRounding.AwayFromZero);
+                                table.Cells[dataRow, column++].SetAreaValue(value, 1.00);
 
                                 // "功能"
                                 table.Cells[dataRow, column++].Value = "商业";
@@ -75,17 +76,19 @@ namespace ThAreaFrameConfig.Presenter
                                 table.Cells[dataRow, column++].SetStoreyValue(compartment.Storey);
 
                                 // "百人疏散宽度（m/百人）"
-                                table.Cells[dataRow, column++].SetDensityValue(engine.EvacuationDensity());
+                                value = Math.Round(engine.EvacuationDensity(), 2, MidpointRounding.AwayFromZero);
+                                table.Cells[dataRow, column++].SetDensityValue(value);
 
                                 // "人员密度（人/m2）"
-                                table.Cells[dataRow, column++].SetDensityValue(engine.OccupantDensity(compartment));
+                                value = Math.Round(engine.OccupantDensity(compartment), 2, MidpointRounding.AwayFromZero);
+                                table.Cells[dataRow, column++].SetDensityValue(value);
 
                                 // "应有疏散密度（m）"
-                                table.Cells[dataRow, column++].SetDensityValue(
-                                    compartment.Area *
-                                    engine.EvacuationDensity() *
-                                    engine.OccupantDensity(compartment) /
-                                    100.00);
+                                value = Math.Round(compartment.Area, 2, MidpointRounding.AwayFromZero) *
+                                    Math.Round(engine.EvacuationDensity(), 2, MidpointRounding.AwayFromZero) *
+                                    Math.Round(engine.OccupantDensity(compartment), 2, MidpointRounding.AwayFromZero) /
+                                    100.00;
+                                table.Cells[dataRow, column++].SetDensityValue(Math.Round(value, 2, MidpointRounding.AwayFromZero));
 
                                 // "实际疏散密度（m）"
                                 table.Cells[dataRow, column++].SetDensityValue(compartment.EvacuationDensity);
@@ -163,7 +166,8 @@ namespace ThAreaFrameConfig.Presenter
                                 table.Cells[dataRow, column++].Value = "车库";
 
                                 // "防火分区面积"
-                                table.Cells[dataRow, column++].SetAreaValue(compartment.Area, 1.00);
+                                double value = Math.Round(compartment.Area, 2, MidpointRounding.AwayFromZero);
+                                table.Cells[dataRow, column++].SetAreaValue(value, 1.00);
 
                                 // "最远疏散距离"
                                 table.Cells[dataRow, column++].SetDistanceValue(compartment.EvacuationDistance);
