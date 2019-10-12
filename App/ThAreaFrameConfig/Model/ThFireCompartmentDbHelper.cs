@@ -396,7 +396,7 @@ namespace ThAreaFrameConfig.Model
             // 往”最小“的防火分区合并，即往第一个防火分区合并
             for(int i = 1; i < compartments.Count; i++)
             {
-                MergeFireCompartment(compartments[0], compartments[1]);
+                MergeFireCompartment(compartments[0], compartments[i]);
             }
 
             // 修改目标防火分区
