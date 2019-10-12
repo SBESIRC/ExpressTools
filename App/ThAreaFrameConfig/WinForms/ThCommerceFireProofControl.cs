@@ -397,6 +397,13 @@ namespace ThAreaFrameConfig.WinForms
 
         private void button_create_table_Click(object sender, EventArgs e)
         {
+            // 检查“地上层数”
+            if (Settings.Storey == 0)
+            {
+                AcadApp.ShowAlertDialog("请先输入地上层数！");
+                return;
+            }
+
             Presenter.OnCreateFireCompartmentTable(Settings);
         }
 

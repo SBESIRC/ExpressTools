@@ -32,7 +32,7 @@ namespace ThAreaFrameConfig.Model
             settings = new ThFCCommerceSettings()
             {
                 SubKey = 13,
-                Storey = 1,
+                Storey = 0,
                 Resistance = ThFCCommerceSettings.FireResistance.Level2,
                 Layers = new Dictionary<string, string>()
                 {
