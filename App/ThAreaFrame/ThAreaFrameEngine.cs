@@ -82,6 +82,16 @@ namespace ThAreaFrame
             foreach (var name in roofNames)
             {
                 engine.roofs.Add(ThAreaFrameRoof.Roof(name));
+                // 兼容V2.2版本旧实现
+                //  V2.2版本旧实现中“单体楼顶间”并未包含“住宅”或者“公建”信息，默认为“公建”。
+                //  对于只有“公建”的图纸，需要把“单体楼顶间”调整为“公建”。
+                if (!building.Validate() && aOccupancyBuilding.Validate())
+                {
+                    foreach(var roof in engine.roofs)
+                    {
+                        roof.category = "公建";
+                    }
+                }
             }
             if (building.Validate())
             {
