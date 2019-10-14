@@ -14,7 +14,7 @@ namespace ThAreaFrame
         // 停车类型
         public string parkingCategory;
 
-        // 车场/车位层数
+        // 车场层数
         public string multiple;
 
         // 所属层

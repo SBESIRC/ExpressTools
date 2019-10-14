@@ -12,7 +12,7 @@ namespace ThAreaFrame
         // 车场车位
         public string type;
 
-        // 实体名
+        // 室外车场
         public string entity;
 
         // 车场类型
@@ -21,7 +21,7 @@ namespace ThAreaFrame
         // 停车类型
         public string parkingCategory;
 
-        // 车场/车位层数
+        // 车场层数
         public string multiple;
 
         // 地坪标高
@@ -66,7 +66,7 @@ namespace ThAreaFrame
                     parkingCategory = tokens[3],
                     multiple = tokens[4],
                     elevation = tokens[5],
-                    version = tokens[6],
+                    version = tokens[6]
                 };
                 return space;
             }
