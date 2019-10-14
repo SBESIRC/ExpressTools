@@ -79,7 +79,9 @@ namespace ThAreaFrame
             int count = 0;
             foreach(string name in names.Where(n => n.StartsWith(@"车场车位_室外车场_露天车场_小型汽车")))
             {
-                count += ThAreaFrameDbUtils.CountOfAreaFrames(database, name);
+                // 车场层数
+                var space = ThAreaFrameOutdoorParkingSpace.Space(name);
+                count += ThAreaFrameDbUtils.CountOfAreaFrames(database, name) * int.Parse(space.multiple);
             }
             return count;
         }

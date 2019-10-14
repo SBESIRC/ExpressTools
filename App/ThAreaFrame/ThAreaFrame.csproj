@@ -41,7 +41,9 @@
     <Compile Include="ThAreaFrameDriver.cs" />
     <Compile Include="ThAreaFrameEngine.cs" />
     <Compile Include="ThAreaFrameFoundation.cs" />
+    <Compile Include="ThAreaFrameIndoorParkingSpace.cs" />
     <Compile Include="ThAreaFrameMasterEngine.cs" />
+    <Compile Include="ThAreaFrameOutdoorParkingSpace.cs" />
     <Compile Include="ThAreaFrameParkingGarageEngine.cs" />
     <Compile Include="ThAreaFrameResident.cs" />
     <Compile Include="ThAreaFrameResidentCalculator.cs" />
