@@ -6,7 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:TianHua.AutoCAD.Parking"
         mc:Ignorable="d"
-        Title="车位编号设定"  Height="350" Width="500" Name="winCheWei" ResizeMode="NoResize" Background="{x:Static SystemColors.ControlBrush}">
+        Title="车位编号设定"  Height="370" Width="500" Name="winCheWei" ResizeMode="NoResize" Background="{x:Static SystemColors.ControlBrush}">
     <Window.Resources>
 
 
