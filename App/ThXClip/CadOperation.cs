@@ -9,11 +9,74 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.DatabaseServices.Filters;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using Autodesk.AutoCAD.Internal;
 
 namespace ThXClip
 {
     public class CadOperation
     {
+        /// <summary>
+        /// 获取直线外的一点在直线上的垂足点
+        /// </summary>
+        /// <param name="lineSp"></param>
+        /// <param name="lineEp"></param>
+        /// <param name="pt"></param>
+        /// <returns></returns>
+        public static Point3d GetOrthoPtOnLine(Point3d lineSp,Point3d lineEp,Point3d pt)
+        {
+            Vector3d lineVec = lineSp.GetVectorTo(lineEp);
+            Plane plane = new Plane(lineSp, lineVec);
+            Matrix3d ucsMt = Matrix3d.WorldToPlane(plane);
+            Matrix3d wcsMt = Matrix3d.PlaneToWorld(plane);
+            Point3d newPt=pt.TransformBy(ucsMt);
+            newPt = new Point3d(0, 0, newPt.Z);
+            newPt=newPt.TransformBy(wcsMt);
+            plane.Dispose();
+            return newPt;
+        }
+        /// <summary>
+        /// 判断点与线的关系
+        /// </summary>
+        /// <param name="lineSp"></param>
+        /// <param name="lineEp"></param>
+        /// <param name="checkPt"></param>
+        /// <returns></returns>
+        public static List<PtAndLinePos> JudgePtAndLineRelation(Point3d lineSp, Point3d lineEp, Point3d checkPt)
+        {
+            List<PtAndLinePos> posList = new List<PtAndLinePos>();
+            Vector3d lineVec = lineSp.GetVectorTo(lineEp);
+            Plane plane = new Plane(lineSp, lineVec);
+            Matrix3d ucsMt = Matrix3d.WorldToPlane(plane);
+            Matrix3d wcsMt = Matrix3d.PlaneToWorld(plane);
+            Point3d newPt = checkPt.TransformBy(ucsMt);
+            if(newPt.X>0 || newPt.Y>0)
+            {
+                posList.Add(PtAndLinePos.Outer);
+            }
+            else
+            {
+                if(newPt.DistanceTo(Point3d.Origin)==0.0)
+                {
+                    posList.Add(PtAndLinePos.StartPort);
+                    posList.Add(PtAndLinePos.In);
+                }
+                else if (newPt.DistanceTo(Point3d.Origin) == lineVec.Length)
+                {
+                    posList.Add(PtAndLinePos.EndPort);
+                    posList.Add(PtAndLinePos.In);
+                }
+                else if(newPt.DistanceTo(Point3d.Origin) > 0.0 && newPt.DistanceTo(Point3d.Origin) < lineVec.Length)
+                {
+                    posList.Add(PtAndLinePos.In);
+                }
+                else
+                {
+                    posList.Add(PtAndLinePos.Extend);
+                }
+            }
+            plane.Dispose();
+            return posList;
+        }        
         public static void NewUCS(string ucsName,Point3d origin ,Vector3d xVec,Vector3d yVec)
         {
             // Get the current document and database, and start a transaction
@@ -144,11 +207,31 @@ namespace ThXClip
             Vector3d newVec1= vec1.TransformBy(mt);
             Vector3d newVec2 = vec2.TransformBy(mt);
             double res = newVec1.X * newVec2.Y - newVec2.X * newVec1.Y;
-            if (res <= 0)
+            if (res > 0) //若结果为正,向量b在a的逆时针方向
             {
                 return true;
             }
-            else
+            else //b在a的顺时针方向
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 判断b向量与a向量是逆时针
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool JudgeTwoVectorIsAnticlockwise(Vector2d a, Vector2d b)
+        {
+            //a = (x1,y1) b = (x2,y2) a×b = x1y2 - x2y1 
+            //若结果为0，则a与b共线
+            double res = a.X * b.Y - b.X * a.Y;
+            if (res > 0) //若结果为正,向量b在a的逆时针方向
+            {
+                return true;
+            }
+            else //b在a的顺时针方向
             {
                 return false;
             }
@@ -160,29 +243,29 @@ namespace ThXClip
             arc.Radius = cenPt.DistanceTo(arcSp);
             double angle1 = AngleFromXAxis(cenPt, arcSp);
             double angle2 = AngleFromXAxis(cenPt, arcEp);
-            if(angle1< angle2)
-            {
-                arc.StartAngle = angle1;
-                arc.StartAngle = angle2;
-            }
-            else
-            {
-                arc.StartAngle = angle2;
-                arc.StartAngle = angle1;
-            }
+            arc.StartAngle = angle1;
+            arc.EndAngle = angle2;
             return arc;
         }
         public static double AngleFromXAxis(Point3d pt1, Point3d pt2)
         {
-            Vector2d vector = new Vector2d(pt1.X-pt2.X,pt1.Y-pt2.Y);
+            Vector2d vector = new Vector2d(pt2.X-pt1.X,pt2.Y-pt1.Y);
             return vector.Angle;
         }
-        public static double AngleFromXAxisOther(Point3d pt1, Point3d pt2)
+        public static List<Point3d> SortArcPts(List<Point3d> pts, Point3d centPt)
         {
-            Point2d newPt1 = new Point2d(pt1.X, pt1.Y);
-            Point2d newPt2 = new Point2d(pt2.X, pt2.Y);
-            Vector2d vec = newPt1.GetVectorTo(newPt2);
-            return vec.Angle;
+            List<Point3d> sortPts = new List<Point3d>();
+            Dictionary<Point3d, double> ptAngDic = new Dictionary<Point3d, double>();
+            foreach (Point3d pt in pts)
+            {
+                double ang = CadOperation.AngleFromXAxis(centPt, pt);
+                if(!ptAngDic.ContainsKey(pt))
+                {
+                    ptAngDic.Add(pt, ang);
+                }
+            }
+            sortPts = ptAngDic.OrderBy(i => i.Value).Select(i => i.Key).ToList();
+            return sortPts;
         }
         /// <summary>
         /// 弧度转角度
@@ -231,6 +314,35 @@ namespace ThXClip
             else
                 result = ed.SelectWindowPolygon(polygon);
             ed.SetCurrentView(view);
+            return result;
+        }
+        public static PromptSelectionResult SelectByRectangle(Editor ed,
+            Point3d pt1, Point3d pt2, PolygonSelectionMode mode)
+        {
+            Point3dCollection polygon = new Point3dCollection();
+            double minX = Math.Min(pt1.X, pt2.X);
+            double minY = Math.Min(pt1.Y, pt2.Y);
+            double minZ = Math.Min(pt1.Z, pt2.Z);
+
+            double maxX = Math.Max(pt1.X, pt2.X);
+            double maxY = Math.Max(pt1.Y, pt2.Y);
+            double maxZ = Math.Max(pt1.Z, pt2.Z);
+            polygon.Add(new Point3d(minX, minY, minZ));
+            polygon.Add(new Point3d(maxX, minY, minZ));
+            polygon.Add(new Point3d(maxX, maxY, minZ));
+            polygon.Add(new Point3d(minX, maxY, minZ));
+
+            Polyline3d polyline = new Polyline3d(Poly3dType.SimplePoly,polygon,true);
+            List<ObjectId> objectIds= CadOperation.AddToBlockTable(polyline);
+            PromptSelectionResult result;
+            ViewTableRecord view = ed.GetCurrentView();
+            ed.ZoomObject(objectIds[0]);
+            if (mode == PolygonSelectionMode.Crossing)
+                result = ed.SelectCrossingPolygon(polygon);
+            else
+                result = ed.SelectWindowPolygon(polygon);
+            ed.SetCurrentView(view);
+            CadOperation.EraseObjIds(objectIds[0]);
             return result;
         }
         /// <summary>
@@ -443,7 +555,8 @@ namespace ThXClip
                 }
             }
             catch (System.Exception ex)
-            {                
+            {
+                throw ex;
             }
             return boundPts;
         }
@@ -621,26 +734,38 @@ namespace ThXClip
         /// </summary>
         /// <param name="pts"></param>
         /// <returns></returns>
-        public static Polyline CreatePolyline(Point2dCollection pts)
+        public static Polyline CreatePolyline(Point2dCollection pts,bool isClosed=true)
         {
             Polyline polyline = new Polyline();
             if(pts.Count==2)
             {
                 Point2d minPt = pts[0];
                 Point2d maxPt = pts[1];
-                double minX = Math.Min(pts[0].X, pts[1].X);
-                double minY = Math.Min(pts[0].Y, pts[1].Y);
-                double maxX = Math.Max(pts[0].X, pts[1].X);
-                double maxY = Math.Max(pts[0].Y, pts[1].Y);
-                pts = new Point2dCollection();
-                pts.Add(new Point2d(minX, minY));
-                pts.Add(new Point2d(maxX, minY));
-                pts.Add(new Point2d(maxX, maxY));
-                pts.Add(new Point2d(minX, maxY));
+                Vector2d vec= minPt.GetVectorTo(maxPt);
+                if(vec.IsParallelTo(Vector2d.XAxis) || vec.IsParallelTo(Vector2d.YAxis))
+                {
+                    isClosed = false;                    
+                }
+                else
+                {
+                    double minX = Math.Min(pts[0].X, pts[1].X);
+                    double minY = Math.Min(pts[0].Y, pts[1].Y);
+                    double maxX = Math.Max(pts[0].X, pts[1].X);
+                    double maxY = Math.Max(pts[0].Y, pts[1].Y);
+                    pts = new Point2dCollection();
+                    pts.Add(new Point2d(minX, minY));
+                    pts.Add(new Point2d(maxX, minY));
+                    pts.Add(new Point2d(maxX, maxY));
+                    pts.Add(new Point2d(minX, maxY));
+                }
             }
             for(int i=0;i<pts.Count;i++)
             {
                 polyline.AddVertexAt(i, pts[i], 0, 0, 0);
+            }
+            if(isClosed)
+            {
+                polyline.Closed = true;
             }
             return polyline;
         }
@@ -716,5 +841,239 @@ namespace ThXClip
             double bulge= Math.Tan((ang) / 4.0); 
             return bulge;
         }
+        public static double GetBulge(Point2d cenPt, Point2d arcSp, Point2d arcEp)
+        {
+            Vector2d startVec = cenPt.GetVectorTo(arcSp);
+            Vector2d endVec = cenPt.GetVectorTo(arcEp);
+            double ang = endVec.Angle - startVec.Angle;
+            if(ang<0)
+            {
+                ang = 2 * Math.PI + ang;
+            }
+            bool res= JudgeTwoVectorIsAnticlockwise(startVec, endVec);
+            if(!res) //逆时针
+            {
+                ang = ang-2*Math.PI;
+            }           
+            double bulge = Math.Tan((ang) / 4.0);
+            return bulge;
+        }
+        /// <summary>
+        /// 插入图块
+        /// </summary>
+        /// <param name="layer"></param>
+        /// <param name="blockName"></param>
+        /// <param name="position"></param>
+        /// <param name="scale"></param>
+        /// <param name="rotateAngle"></param>
+        /// <returns></returns>
+        public static ObjectId InsertBlockReference(string layer, string blockName, Point3d position, Scale3d scale, double rotateAngle)
+        {
+            ObjectId blockRefId= ObjectId.Null;//存储要插入的块参照的Id
+            Document doc = GetMdiActiveDocument();
+            Database db = doc.Database;//获取数据库对象
+            using (Transaction trans=db.TransactionManager.StartTransaction())
+            {
+                BlockTable bt = trans.GetObject(db.BlockTableId,OpenMode.ForRead) as BlockTable; //以读的方式打开块表
+                if (bt.Has(blockName))
+                {
+                    //以写的方式打开空间（模型空间或图纸空间）
+                    BlockTableRecord modelSpace = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace],OpenMode.ForWrite);
+                    //创建一个块参照并设置插入点
+                    BlockReference br = new BlockReference(position, bt[blockName]);
+                    br.ScaleFactors = scale;//设置块参照的缩放比例
+                    br.Layer = layer;//设置块参照的层名
+                    br.Rotation = rotateAngle;//设置块参照的旋转角度
+                    ObjectId btrId = bt[blockName];//获取块表记录的Id
+                                                   //打开块表记录
+                    BlockTableRecord record = (BlockTableRecord)trans.GetObject(btrId, OpenMode.ForRead);
+                    //添加可缩放性支持
+                    if (record.Annotative == AnnotativeStates.True)
+                    {
+                        ObjectContextCollection contextCollection = db.ObjectContextManager.GetContextCollection("ACDB_ANNOTATIONSCALES");
+                        ObjectContexts.AddContext(br, contextCollection.GetContext("1:1"));
+                    }
+                    blockRefId = modelSpace.AppendEntity(br);//在空间中加入创建的块参照
+                    trans.AddNewlyCreatedDBObject(br, true);//通知事务处理加入创建的块参照
+                    modelSpace.DowngradeOpen();
+                }
+                trans.Commit();
+            }
+            return blockRefId;//返回添加的块参照的Id
+        }
+        public static List<ObjectId> AddToBlockTable(params Entity[] entities)
+        {
+            List<ObjectId> objIds = new List<ObjectId>();//存储要插入的块参照的Id
+            Document doc = GetMdiActiveDocument();
+            Database db = doc.Database;//获取数据库对象
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                BlockTable bt = trans.GetObject(db.BlockTableId, OpenMode.ForRead) as BlockTable; //以读的方式打开块表
+                BlockTableRecord modelSpace = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
+                modelSpace.UpgradeOpen();
+                for (int i=0;i<entities.Length;i++)
+                {
+                    objIds.Add(modelSpace.AppendEntity(entities[i]));
+                    trans.AddNewlyCreatedDBObject(entities[i], true);
+                }
+                modelSpace.DowngradeOpen();
+                trans.Commit();
+            }            
+            return objIds;
+        }
+        public static void EraseObjIds(params ObjectId[] objIds)
+        {
+            Document doc = GetMdiActiveDocument();
+            Database db = doc.Database;//获取数据库对象
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                for (int i = 0; i < objIds.Length; i++)
+                {
+                    if(objIds[i].IsErased)
+                    {
+                        continue;
+                    }
+                    DBObject dbObj = trans.GetObject(objIds[i], OpenMode.ForWrite);
+                    dbObj.Erase();
+                }
+                trans.Commit();
+            }
+        }
+        /// <summary>
+        /// 修复多段线上被分割的点
+        /// </summary>
+        /// <param name="restSegments"></param>
+        /// <param name="polyline"></param>
+        /// <returns></returns>
+        public static List<Polyline> RepairPolylineRestCurve(List<SegmentSplitInf> restSegments, Polyline polyline)
+        {
+            List<Polyline> polylines = new List<Polyline>();
+            restSegments = restSegments.OrderBy(i => i.Index).ToList(); //按多段线索引排序
+            List<List<SegmentSplitInf>> resortSegments = new List<List<SegmentSplitInf>>();
+            for (int i = 0; i < restSegments.Count; i++)
+            {
+                List<SegmentSplitInf> subSegment = new List<SegmentSplitInf>();
+                if (i == 0)
+                {
+                    if (restSegments[restSegments.Count - 1].EndPoint.DistanceTo(restSegments[i].StartPoint) <= 1.0)
+                    {
+                        subSegment.Add(restSegments[restSegments.Count - 1]);
+                        restSegments.RemoveAt(restSegments.Count - 1);
+                    }
+                }
+                subSegment.Add(restSegments[i]);
+                int j = i;
+                for (; j < restSegments.Count-1; j++)
+                {
+                    if (restSegments[j].EndPoint.DistanceTo(restSegments[j+1].StartPoint) <= 1.0)
+                    {
+                        subSegment.Add(restSegments[j+1]);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                resortSegments.Add(subSegment);
+                i = j;
+            }
+            for (int i = 0; i < resortSegments.Count; i++)
+            {
+                Polyline newPolyline = new Polyline();
+                int k = 0;
+                for (int j = 0; j < resortSegments[i].Count; j++)
+                {
+                    SegmentSplitInf segmentSplitInf = resortSegments[i][j];
+                    double headSW = polyline.GetStartWidthAt(segmentSplitInf.Index); //起始线起点宽度
+                    double headEW = polyline.GetStartWidthAt(segmentSplitInf.Index + 1); //起始线终点宽度
+                    Point2d splitPtSp = new Point2d(segmentSplitInf.StartPoint.X, segmentSplitInf.StartPoint.Y);
+                    Point2d splitPtEp = new Point2d(segmentSplitInf.EndPoint.X, segmentSplitInf.EndPoint.Y);
+                    if (segmentSplitInf.ST == SegmentType.Line)
+                    {
+                        newPolyline.AddVertexAt(k++, splitPtSp, 0.0, headSW, headEW);
+                    }
+                    else if (segmentSplitInf.ST == SegmentType.Arc)
+                    {
+                        CircularArc2d circularArc2D = polyline.GetArcSegment2dAt(segmentSplitInf.Index);
+                        double arcBulge = CadOperation.GetBulge(circularArc2D.Center, splitPtSp, splitPtEp);
+                        newPolyline.AddVertexAt(k++, splitPtSp, arcBulge, headSW, headEW);
+                    }
+                    if (j == resortSegments[i].Count - 1)
+                    {
+                        newPolyline.AddVertexAt(k++, splitPtEp, 0.0, 0.0, 0.0);
+                    }
+                }
+                polylines.Add(newPolyline);
+            }
+            return polylines;
+        }
+        public static Point3d GetArcTopPt(Point3d cenPt, Point3d arcSp, Point3d arcEp)
+        {
+            Point3d arcTopPt = Point3d.Origin;
+            double startAngle = CadOperation.AngleFromXAxis(cenPt, arcSp);
+            double endAngle = CadOperation.AngleFromXAxis(cenPt, arcEp);
+            double jiaJiao = endAngle - startAngle;
+            jiaJiao = (jiaJiao + Math.PI * 2.0) % (Math.PI * 2.0);
+            double radius = cenPt.DistanceTo(arcSp);
+            Point3d midPt = CadOperation.GetMidPt(arcSp, arcEp);
+            if (jiaJiao <= Math.PI)
+            {
+                arcTopPt = CadOperation.GetExtentPt(cenPt, midPt, radius);
+            }
+            else
+            {
+                arcTopPt = CadOperation.GetExtentPt(cenPt, midPt, -1.0 * radius);
+            }
+            return arcTopPt;
+        }
+        public static List<Entity> Explode(BlockReference br)
+        {
+            List<Entity> entities = new List<Entity>();
+            DBObjectCollection collection = new DBObjectCollection();
+            br.Explode(collection);
+            foreach (DBObject obj in collection)
+            {
+                if (obj is BlockReference)
+                {
+                    var newBr = obj as BlockReference;
+                    var childEnts = Explode(newBr);
+                    if (childEnts != null)
+                    {
+                        entities.AddRange(childEnts);
+                    }
+                }
+                else if (obj is Entity)
+                {
+                    entities.Add(obj as Entity);
+                }
+            }
+            return entities;
+        }
+    }
+    /// <summary>
+    /// 线与直线的关系
+    /// </summary>
+    public enum PtAndLinePos
+    {
+        /// <summary>
+        /// 起始端
+        /// </summary>
+        StartPort,
+        /// <summary>
+        /// 终点端
+        /// </summary>
+        EndPort,
+        /// <summary>
+        /// 线内
+        /// </summary>
+        In,
+        /// <summary>
+        /// 延伸
+        /// </summary>
+        Extend,
+        /// <summary>
+        /// 外部
+        /// </summary>
+        Outer
     }
 }

@@ -18,13 +18,16 @@ namespace ThXClip
         /// </summary>
         public Point2dCollection Pts { get; set; } = new Point2dCollection();
         /// <summary>
-        /// Xclip默认修剪内部
+        /// Xclip默认保留内部
         /// </summary>
-        public bool TrimInside { get; set; } = true;
+        public bool KeepInternal { get; set; } = false;
         /// <summary>
-        /// 嵌套块(从里到外)
+        /// 块名
         /// </summary>
-        public List<ObjectId> NestedBlockIds { get; set; } = new List<ObjectId>(); 
+        public string BlockName { get; set; } = "";
+        /// <summary>
+        /// 块路径
+        /// </summary>
+        public List<string> BlockPath { get; set; } = new List<string>();
     }
-
 }

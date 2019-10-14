@@ -13,27 +13,14 @@ namespace ThXClip
     public class AnalyseRelation
     {
         private List<ObjectId> _objIds = new List<ObjectId>();
-        private List<XClipInfo> xclipInfs = new List<XClipInfo>();
-        private List<WipeOutInfo> wipeOutInfs = new List<WipeOutInfo>();
+        private List<ObjectId> _modelWipeOutIds = new List<ObjectId>();
+
+        private List<XClipInfo> _xclipInfs = new List<XClipInfo>();
+        private List<DraworderInf> _blkWipeOuts = new List<DraworderInf>(); //
+        private List<DraworderInf> _drawOrderinfs = new List<DraworderInf>();
         private Document _document;
-        private Database _database;
         const string filterDictName = "ACAD_FILTER";
         const string spatialName = "SPATIAL";
-
-        private ObjectId _modelSpaceId = ObjectId.Null;
-
-        private List<DrawOrderInfo> drawOrderInfos = new List<DrawOrderInfo>();
-        /// <summary>
-        /// 获取所选物体的绘制顺序
-        /// </summary>
-        
-        public List<DrawOrderInfo> DrawOrderInfos
-        {
-            get
-            {
-                return drawOrderInfos;
-            }
-        }
         /// <summary>
         /// 获取块上所用的XClip信息
         /// </summary>
@@ -41,117 +28,134 @@ namespace ThXClip
         {
             get
             {
-                return xclipInfs;
+                return _xclipInfs;
             }
+        }
+        public List<ObjectId> ObjIds
+        {
+            get { return _objIds; }
         }
         /// <summary>
-        /// 获取块上使用的WipeOut信息
+        /// ModelSpace中的WipeOut
         /// </summary>
-        public List<WipeOutInfo> WipeOutInfs
+        public List<ObjectId> ModelWipeOutIds
         {
-            get
-            {
-                return wipeOutInfs;
-            }
+            get{ return _modelWipeOutIds; } 
         }
-        public AnalyseRelation(List<ObjectId> objectIds)
+        public List<DraworderInf> BlkWipeOuts
+        {
+            get { return _blkWipeOuts; }
+        }
+        public List<DraworderInf> DrawOrderinfs
+        {
+            get { return _drawOrderinfs; }
+        }
+        public AnalyseRelation(List<ObjectId> objectIds, List<ObjectId> modelWipeOutIds)
         {
             this._objIds = objectIds;
+            this._modelWipeOutIds = modelWipeOutIds;
             _document = CadOperation.GetMdiActiveDocument();
-            _database = _document.Database;
         }
+        /// <summary>
+        /// 传入的块与Wipeout在ModelSpace的先后绘制顺序
+        /// </summary>
+        public Dictionary<ObjectId, int> ModelSpaceDrawOrderDic { get; set; } = new Dictionary<ObjectId, int>();
         public void Analyse()
         {
-            using (Transaction trans = _database.TransactionManager.StartTransaction())
+            using (Transaction trans = _document.TransactionManager.StartTransaction())
             {
-                BlockTable bt = trans.GetObject(_database.BlockTableId, OpenMode.ForRead) as BlockTable;
+                BlockTable bt = trans.GetObject(_document.Database.BlockTableId, OpenMode.ForRead) as BlockTable;
                 BlockTableRecord btr = trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead) as BlockTableRecord;
-                _modelSpaceId = btr.Id;
                 DrawOrderTable dot = trans.GetObject(btr.DrawOrderTableId, OpenMode.ForRead) as DrawOrderTable;
                 ObjectIdCollection ocids = dot.GetFullDrawOrder(0);
-                Dictionary<ObjectId, int> passObjIdSortDic = GetDrawOrderIndex(this._objIds, ocids); //用户所选的物体绘制顺序
-                foreach (var item in passObjIdSortDic)
+                this._objIds.ForEach(i => this.ModelSpaceDrawOrderDic.Add(i, ocids.IndexOf(i)));
+                this._modelWipeOutIds.ForEach(i => this.ModelSpaceDrawOrderDic.Add(i, ocids.IndexOf(i)));
+                btr.UpgradeOpen();
+                for (int i = 0; i < this._objIds.Count; i++)
                 {
-                    DrawOrderInfo drawOrderInfo = new DrawOrderInfo();
-                    drawOrderInfo.Id = item.Key;
-                    drawOrderInfo.DrawIndex = item.Value;
-                    drawOrderInfo.ParentBlkId = btr.Id;
-                    drawOrderInfo.BlockName = btr.Name;
-                    DBObject dBObject = trans.GetObject(item.Key, OpenMode.ForRead);
-                    drawOrderInfo.TypeName = dBObject.GetType().Name;
-                    this.drawOrderInfos.Add(drawOrderInfo);
-                    if (dBObject is BlockReference)
+                    BlockReference br = trans.GetObject(this._objIds[i], OpenMode.ForRead) as BlockReference;
+                    if (br == null)
                     {
-                        BlockReference br = dBObject as BlockReference;                       
-                        XClipInfo xClipInfo = RetrieveXClipBoundary(br);
-                        if (xClipInfo.AttachBlockId != ObjectId.Null)
-                        {
-                            this.xclipInfs.Add(xClipInfo);
-                        }
-                        FindDrawOrder(br);
+                        continue;
                     }
-                    else if (dBObject is Wipeout)
+                    List<EntInf> entities = Explode(br,br.Name);
+                    entities.ForEach(j => j.BlockPath.Reverse());
+                    List<XClipInfo> currentXClipInfos = RetrieveXClipBoundary(br, br.Name);
+                    currentXClipInfos.ForEach(j => j.BlockPath.Reverse());
+                    if (currentXClipInfos != null && currentXClipInfos.Count>0)
                     {
-                        WipeOutInfo wipeOutInfo = new WipeOutInfo();
-                        wipeOutInfo.Id = item.Key;
-                        Wipeout wipeout = dBObject as Wipeout;
-                        wipeOutInfo.Pts = wipeout.GetClipBoundary();
-                        wipeOutInfo.BlkId = btr.Id;
-                        this.wipeOutInfs.Add(wipeOutInfo);
+                        this._xclipInfs.AddRange(currentXClipInfos);                       
                     }
+                    this._xclipInfs.ForEach(j => j.AttachBlockId = br.Id);
+                    entities.ForEach(j => btr.AppendEntity(j.Ent));
+                    entities.ForEach(j => trans.AddNewlyCreatedDBObject(j.Ent, true));
+                    entities.ForEach(j => j.Ent.Visible = false);
+                    this._drawOrderinfs.AddRange(entities.Select(j => GenerateDoi(j,this._objIds[i])).ToList());
                 }
+                btr.DowngradeOpen();
+                ObjectIdCollection ocids1 = dot.GetFullDrawOrder(0);
+                _drawOrderinfs.ForEach(i => i.DrawIndex = ocids1.IndexOf(i.Id));
                 trans.Commit();
             }
-            AnalyseWipeOutPreDrawInfs();
-            AnalyseXclipPreDrawInfs();
+           this._blkWipeOuts=this._drawOrderinfs.Where(i => i.TypeName.ToUpper() == "WIPEOUT").Select(i => i).ToList(); //把WipeOut给收集下来
+           this._drawOrderinfs = this._drawOrderinfs.Where(i => i.TypeName.ToUpper() != "WIPEOUT").Select(i => i).ToList(); //把WipeOut从DraworderInf中移除
         }
-        private Dictionary<ObjectId, int> GetDrawOrderIndex(List<ObjectId> objIds,ObjectIdCollection ocids)
+        private List<EntInf> Explode(BlockReference br,string preBlkName)
         {
-            Dictionary<ObjectId, int> dic = new Dictionary<ObjectId, int>();
-            foreach (ObjectId objId in objIds)
+            List<EntInf> entities = new List<EntInf>();
+            DBObjectCollection collection = new DBObjectCollection();
+            br.Explode(collection);
+            List<string> currentLayBlkNames = new List<string>();
+            string blkName = "";
+            foreach (DBObject obj in collection)
             {
-                dic.Add(objId, ocids.IndexOf(objId));
-            }
-            return dic;
-        }
-        private void FindDrawOrder(BlockReference br)
-        {
-            Transaction _trans = _database.TransactionManager.TopTransaction;
-            BlockTableRecord btr = _trans.GetObject(br.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
-            var dotSource =(DrawOrderTable)_trans.GetObject(btr.DrawOrderTableId, OpenMode.ForRead, true);
-            ObjectIdCollection srcDotIds = new ObjectIdCollection();
-            srcDotIds = dotSource.GetFullDrawOrder(0);
-            foreach (ObjectId objectId in srcDotIds)
-            {
-                DBObject dBObject = _trans.GetObject(objectId, OpenMode.ForRead);
-                DrawOrderInfo drawOrderInfo = new DrawOrderInfo();
-                drawOrderInfo.Id = objectId;
-                drawOrderInfo.DrawIndex = srcDotIds.IndexOf(objectId);
-                drawOrderInfo.ParentBlkId = br.Id;
-                drawOrderInfo.BlockName = btr.Name;
-                drawOrderInfo.TypeName = dBObject.GetType().Name;
-                this.drawOrderInfos.Add(drawOrderInfo);
-                if (dBObject is BlockReference)
+                if (obj is BlockReference)
                 {
-                    BlockReference br1 = dBObject as BlockReference;
-                    BlockTableRecord btr1 = _trans.GetObject(br1.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
-                    XClipInfo xClipInfo = RetrieveXClipBoundary(br1);
-                    if (xClipInfo.AttachBlockId != ObjectId.Null)
+                    var newBr = obj as BlockReference;
+                    if(currentLayBlkNames.IndexOf(newBr.Name)<0)
                     {
-                        this.xclipInfs.Add(xClipInfo);
+                        blkName = newBr.Name;
                     }
-                    FindDrawOrder(br1);
+                    else
+                    {
+                        blkName = SetBlkName(currentLayBlkNames, newBr.Name);
+                    }
+                    currentLayBlkNames.Add(newBr.Name);
+                    var childEnts = Explode(newBr, blkName);
+                    if (childEnts != null)
+                    {
+                        entities.AddRange(childEnts);
+                    }
                 }
-                else if (dBObject is Wipeout)
+                else if (obj is Entity)
                 {
-                    WipeOutInfo wipeOutInfo = new WipeOutInfo();
-                    wipeOutInfo.Id = objectId;
-                    Wipeout wipeout = dBObject as Wipeout;
-                    wipeOutInfo.Pts = wipeout.GetClipBoundary();
-                    wipeOutInfo.BlkId = br.Id;
-                    this.wipeOutInfs.Add(wipeOutInfo);
+                    entities.Add(new EntInf() { Ent = obj as Entity, BlockName = br.Name });
                 }
             }
+            entities.ForEach(i => i.BlockPath.Add(preBlkName));
+            return entities;
+        }
+        private string SetBlkName(List<string> blkNameList,string blkName)
+        {
+            string newBlkName = blkName;
+            int i = 1;
+            while(blkNameList.IndexOf(newBlkName)>=0) //有此块名
+            {
+                newBlkName = blkName + i.ToString().PadLeft(3, '0');
+            }            
+            return newBlkName;
+        }
+        private DraworderInf GenerateDoi(EntInf entInf,ObjectId blkId)
+        {
+            DraworderInf draworderInf = new DraworderInf();
+            draworderInf.Id = entInf.Ent.Id;
+            draworderInf.BlockId = blkId;
+            draworderInf.TypeName = entInf.Ent.GetType().Name;
+            draworderInf.BlockName = entInf.BlockName;
+            draworderInf.BlockPath = entInf.BlockPath;
+            DBObject dbObj = entInf.Ent.Clone() as DBObject;
+            draworderInf.DbObjs.Add(dbObj);
+            return draworderInf;
         }
         /// <summary>
         /// 检测块中是否有XClip
@@ -160,7 +164,7 @@ namespace ThXClip
         /// <returns></returns>
         private XClipInfo RetrieveXClipBoundary(BlockReference blockRef)
         {
-            Transaction _trans = _database.TransactionManager.TopTransaction;
+            Transaction _trans = _document.Database.TransactionManager.TopTransaction;
             XClipInfo xClipInfo = new XClipInfo();
             if (blockRef != null && blockRef.ExtensionDictionary != ObjectId.Null)
             {
@@ -176,12 +180,20 @@ namespace ThXClip
                         // SpatialFilter object called SPATIAL
                         if (fildict.Contains(spatialName))
                         {
-                            var fil = _trans.GetObject(fildict.GetAt(spatialName), OpenMode.ForRead) as SpatialFilter;
+                            SpatialFilter fil = _trans.GetObject(fildict.GetAt(spatialName), OpenMode.ForRead) as SpatialFilter;
                             if (fil != null)
                             {
+                                xClipInfo.BlockName = blockRef.Name;
                                 xClipInfo.AttachBlockId = blockRef.Id;
-                                xClipInfo.Pts = fil.Definition.GetPoints();
-                                xClipInfo.TrimInside = true;
+                                Point2dCollection pts = new Point2dCollection();
+                                foreach (Point2d pt in fil.Definition.GetPoints())
+                                {
+                                    Point3d tempPt = new Point3d(pt.X, pt.Y, 0.0);
+                                    tempPt = tempPt.TransformBy(fil.OriginalInverseBlockTransform);
+                                    pts.Add(new Point2d(tempPt.X, tempPt.Y));
+                                }
+                                xClipInfo.Pts = pts;
+                                xClipInfo.KeepInternal = false; //等找到设置内、外部的属性后，再修改此值
                             }
                         }
                     }
@@ -189,42 +201,127 @@ namespace ThXClip
             }
             return xClipInfo;
         }
-
-        #region---------分析每一个WipeOut前面绘制的物体----------
-        private void AnalyseWipeOutPreDrawInfs()
+        private List<XClipInfo> RetrieveXClipBoundary(BlockReference br,string preBlkName)
         {
-            foreach(WipeOutInfo wipeOutInfo in this.wipeOutInfs)
+            List<XClipInfo> xClipInfos = new List<XClipInfo>();           
+            Transaction trans = _document.Database.TransactionManager.TopTransaction;
+            XClipInfo xClipInf = RetrieveXClipBoundary(br); //得到当前块下如果有BlockReference的物体信息
+            if(xClipInf.Pts.Count>0)
             {
-                List<ObjectId> blockIds = new List<ObjectId>() { };
-                TraverseDrawOrderInfo(wipeOutInfo.BlkId,ref blockIds);
-                blockIds.Remove(this._modelSpaceId);
-                wipeOutInfo.NestedBlockIds = blockIds;
+                xClipInfos.Add(xClipInf);
             }
+            List<string> currentLayBlkNames = new List<string>();
+            string blkName = "";
+            BlockTableRecord btr = trans.GetObject(br.BlockTableRecord,OpenMode.ForRead) as BlockTableRecord;
+            foreach (var id in btr)
+            {
+                DBObject dbObj=  trans.GetObject(id, OpenMode.ForRead); 
+                if(dbObj is BlockReference)
+                {
+                    BlockReference currentBr = dbObj as BlockReference;                  
+                    if (currentLayBlkNames.IndexOf(currentBr.Name) < 0)
+                    {
+                        blkName = currentBr.Name;
+                    }
+                    else
+                    {
+                        blkName = SetBlkName(currentLayBlkNames, currentBr.Name);
+                    }
+                    currentLayBlkNames.Add(currentBr.Name);                   
+                    List<XClipInfo> subXClipInfs = RetrieveXClipBoundary(currentBr, blkName);
+                    if(subXClipInfs!=null && subXClipInfs.Count>0)
+                    {
+                        xClipInfos.AddRange(subXClipInfs);
+                    }
+                }
+            }
+            if (xClipInfos != null && xClipInfos.Count > 0)
+            {
+                for (int i = 0; i < xClipInfos.Count; i++)
+                {
+                    if (xClipInfos[i].Pts.Count == 0)
+                    {
+                        continue;
+                    }
+                    Point2dCollection pts = new Point2dCollection();
+                    foreach (Point2d pt in xClipInfos[i].Pts)
+                    {
+                        Point3d tempPt = new Point3d(pt.X, pt.Y, 0.0);
+                        tempPt = tempPt.TransformBy(br.BlockTransform);
+                        pts.Add(new Point2d(tempPt.X, tempPt.Y));
+                    }
+                    xClipInfos[i].Pts = pts;
+                }
+            }
+            xClipInfos.ForEach(i => i.BlockPath.Add(preBlkName));
+            return xClipInfos;
         }
-        private void AnalyseXclipPreDrawInfs()
+        public List<DraworderInf> GetWipeOutPreDrawOrderInfs(ObjectId wpId)
         {
-            foreach (XClipInfo xClipInfo in this.xclipInfs)
+            List<DraworderInf> preDrawInfs = new List<DraworderInf>();
+            if(this.ModelSpaceDrawOrderDic.ContainsKey(wpId))
             {
-                List<ObjectId> blockIds = new List<ObjectId>() { };
-                TraverseDrawOrderInfo(xClipInfo.AttachBlockId, ref blockIds);
-                blockIds.Remove(this._modelSpaceId);
-                xClipInfo.NestedBlockIds = blockIds;
+                int drawOrderIndex = this.ModelSpaceDrawOrderDic[wpId];
+                List<ObjectId> preDrawBlks= this.ModelSpaceDrawOrderDic.Where(i => i.Value < drawOrderIndex).Select(i => i.Key).ToList();
+                preDrawInfs= this._drawOrderinfs.Where(i => preDrawBlks.IndexOf(i.BlockId) >= 0).Select(i => i).ToList();
             }
+            return preDrawInfs;
+        }
+        public List<DraworderInf> GetWipeOutPreDrawOrderInfs(DraworderInf wpDoi)
+        {
+            List<DraworderInf> preDrawInfs = new List<DraworderInf>();
+            preDrawInfs = this._drawOrderinfs.Where(i => i.DrawIndex< wpDoi.DrawIndex).Select(i => i).ToList();
+            return preDrawInfs;
         }
         /// <summary>
-        /// 遍历分析当前的DrawOrderInfo列表
+        /// 删除传入的块，以及从块中炸开的并提交到ModelSpace中的实体
         /// </summary>
-        /// <param name="wipeOutInfo"></param>
-        private void TraverseDrawOrderInfo(ObjectId blkId,ref List<ObjectId> objectIds)
+        public void EraseBlockAndItsExplodedObjs()
         {
-           objectIds.Add(blkId);
-            //List<DrawOrderInfo> parentDrawOrderInfs = this.drawOrderInfos.Where(i => i.ParentBlkId == blkId).Select(i => i).ToList(); //获取在同一块中所有的物体
-            List<DrawOrderInfo> drawOrderInfs =this.drawOrderInfos.Where(i => i.Id == blkId).Select(i => i).ToList(); 
-           if (drawOrderInfs != null && drawOrderInfs.Count>0)
-           {
-                TraverseDrawOrderInfo(drawOrderInfs[0].ParentBlkId,ref objectIds);
-           }
+            using (Transaction trans=this._document.Database.TransactionManager.StartTransaction())
+            {
+                for(int i=0;i<this._drawOrderinfs.Count;i++)
+                {
+                   Entity ent= trans.GetObject(this._drawOrderinfs[i].Id, OpenMode.ForWrite) as Entity;
+                   ent.Erase();
+                }
+                for (int i = 0; i < this._blkWipeOuts.Count; i++)
+                {
+                    Entity ent = trans.GetObject(this._blkWipeOuts[i].Id, OpenMode.ForWrite) as Entity;
+                    ent.Erase();
+                }
+                for(int i=0;i<this._objIds.Count;i++)
+                {
+                    BlockReference br= trans.GetObject(this._objIds[i], OpenMode.ForWrite) as BlockReference;
+                    br.Erase();
+                }
+                trans.Commit();
+            }
         }
-        #endregion
+        public List<DraworderInf> GetXClipDrawOrderInfs(XClipInfo xClipInfo)
+        {
+            List<DraworderInf> draworderInfs = new List<DraworderInf>();
+            //把所属同一个父块的
+            List<DraworderInf> firstFilterDraworderInfs =this.DrawOrderinfs.Where(i=>i.BlockId==xClipInfo.AttachBlockId).Select(i=>i).ToList();
+            draworderInfs=firstFilterDraworderInfs.Where(i => CompareListIsSubOfOther(xClipInfo.BlockPath, i.BlockPath)).Select(i => i).ToList();
+            return draworderInfs;
+        }
+        private bool CompareListIsSubOfOther(List<string> firstList,List<string> secondList)
+        {            
+            if(secondList.Count< firstList.Count)
+            {
+                return false;
+            }
+            bool res = true;
+            for (int i=0;i<firstList.Count;i++)
+            {
+                if(firstList[i]!= secondList[i])
+                {
+                    res = false;
+                    break;
+                }
+            }
+            return res;
+        }
     }
 }

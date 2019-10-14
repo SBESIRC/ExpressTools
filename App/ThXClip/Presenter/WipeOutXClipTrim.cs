@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autodesk.AutoCAD.Geometry;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThXClip
 {
@@ -23,7 +24,8 @@ namespace ThXClip
         Polyline3d,
         Xline,
         Spline,
-        Line
+        Line,
+        Ray
     }
     /// <summary>
     /// 修剪WipeOut
@@ -31,149 +33,385 @@ namespace ThXClip
     public class WipeOutXClipTrim
     {
         private AnalyseRelation _analyzeRelation;
-        private Dictionary<ObjectId, Explosion> _blockRefExplodeDic = new Dictionary<ObjectId, Explosion>();
         private Document _document;
         //用于记录模型空间中Curve被修剪后，对应的关系
-        private List<ModelObjInfo> modelObjInfos = new List<ModelObjInfo>();
-
-        public WipeOutXClipTrim(AnalyseRelation analyseRelation, Dictionary<ObjectId, Explosion> blockRefExplodeDic)
+        private Dictionary<string, Point3d> _blkNamePosDic = new Dictionary<string, Point3d>();
+        private string _blockNamePrefix = "WipeoutXClip-";
+        private int layerIndex = 2;
+        private int padTotalWidth = 4;
+        public Dictionary<string, Point3d> BlkNamePosDic
+        {
+            get { return _blkNamePosDic;}
+        }
+        public WipeOutXClipTrim(AnalyseRelation analyseRelation)
         {
             _analyzeRelation= analyseRelation;
-            _blockRefExplodeDic = blockRefExplodeDic;
             _document = CadOperation.GetMdiActiveDocument();
         }
         public void StartTrim()
         {
-            Init();
-            for (int i = 0; i < this._analyzeRelation.WipeOutInfs.Count; i++)
+            for (int i = 0; i < this._analyzeRelation.ModelWipeOutIds.Count; i++)
             {
-                WipeOutInfo wipeOutInfo = this._analyzeRelation.WipeOutInfs[i];
-                OperationWipeOut(wipeOutInfo);
+                List<DraworderInf> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.ModelWipeOutIds[i]);
+                Point2dCollection boundaryPts = GetWipeOutBoundaryPts(this._analyzeRelation.ModelWipeOutIds[i]);
+                OperationWipeOut(boundaryPts, preDrawDoi);
+
+            }
+            for (int i = 0; i < this._analyzeRelation.BlkWipeOuts.Count; i++)
+            {
+                List<DraworderInf> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.BlkWipeOuts[i]);
+                Point2dCollection boundaryPts = GetWipeOutBoundaryPts(this._analyzeRelation.BlkWipeOuts[i].Id);
+                OperationWipeOut(boundaryPts, preDrawDoi);
             }
             for (int i = 0; i < this._analyzeRelation.XclipInfs.Count; i++)
             {
-                XClipInfo xClipInfo = this._analyzeRelation.XclipInfs[i];
-                OperationXClip(xClipInfo);
+                OperationXClip(this._analyzeRelation.XclipInfs[i]);
             }
-        }
-        private void Init()
-        {
-           List<ObjectId> objIds= _analyzeRelation.DrawOrderInfos.Where(i=>i.BlockName.ToUpper()=="MODELSPACE").Select(i=>i.Id).ToList();
-           for(int i=0;i< objIds.Count;i++)
+            string blockName = "";
+            //List<Point3d> cornerPts=GetHandleObjsCornerPts();
+            //if(cornerPts.Count==2)
+            //{
+            //    this._blkOriginPt = CadOperation.GetMidPt(cornerPts[0], cornerPts[1]);
+            //}
+            using (Transaction trans = _document.Database.TransactionManager.StartTransaction())
             {
-                modelObjInfos.Add(new ModelObjInfo() {Id= objIds[i], DbObjs= new DBObjectCollection()});
-            }
-        }
-        private void OperationWipeOut(WipeOutInfo wipeOutInfo)
-        {
-            List<DrawOrderInfo> drawOrderInfos = new List<DrawOrderInfo>();
-            TraverseDrawOrderInfo(wipeOutInfo.BlkId, ref drawOrderInfos); //获取WipeOut之前的DrawOrders
-            ObjectId outermostBlkRefId = wipeOutInfo.NestedBlockIds[wipeOutInfo.NestedBlockIds.Count - 1]; //获取Wipeout所在块的BlkRefId
-            if (this._blockRefExplodeDic.ContainsKey(outermostBlkRefId))
-            {
-                Explosion explosion = this._blockRefExplodeDic[outermostBlkRefId]; //获取
-                TrimWipeOutWithCurve(wipeOutInfo, drawOrderInfos, explosion);
-            }
-        }
-        /// <summary>
-        /// WipeOut
-        /// </summary>
-        /// <param name="wipeOutInfo">WipeOut 对象信息</param>
-        /// <param name="drawOrderInfos"> wipeout之前的DrawOrder Object 信息</param>
-        /// <param name="explosion"></param>
-        private void TrimWipeOutWithCurve(WipeOutInfo wipeOutInfo, List<DrawOrderInfo> drawOrderInfos, Explosion explosion)
-        {
-            using (Transaction trans=_document.Database.TransactionManager.StartTransaction())
-            {
-                Wipeout wipeout = trans.GetObject(wipeOutInfo.Id,OpenMode.ForRead) as Wipeout; //
-                CurveType curveType = CurveType.NotSupport;
-                for(int i=0;i<drawOrderInfos.Count; i++)
+                BlockTable bt = trans.GetObject(_document.Database.BlockTableId, OpenMode.ForRead) as BlockTable;
+                bt.UpgradeOpen();
+                foreach (var objId in this._analyzeRelation.ObjIds)
                 {
-                    DBObject dbObj = trans.GetObject(drawOrderInfos[i].Id,OpenMode.ForRead);
-                    if(!(dbObj is Curve))
+                    BlockTableRecord btr = new BlockTableRecord();
+                    BlockReference br = trans.GetObject(objId, OpenMode.ForRead) as BlockReference;
+                    Point3d blkOriginPt = br.Position;
+                    blockName = _blockNamePrefix + "0001";
+                    Vector3d vec = blkOriginPt - Point3d.Origin;
+                    Matrix3d moveMt = Matrix3d.Displacement(vec);
+                    while (bt.Has(blockName))
                     {
-                        continue;
-                    }
-                    curveType = GetDbObjType(dbObj);
-                    if(curveType == CurveType.NotSupport)
-                    {
-                        continue;
-                    }
-                    DBObjectCollection dbObjs = new DBObjectCollection();
-                    DBObjectCollection handledDbObjs = new DBObjectCollection();
-                    if (drawOrderInfos[i].BlockName.ToUpper()=="MODELSPACE")
-                    {
-                        dbObjs = this.modelObjInfos.Where(j => j.Id == drawOrderInfos[i].Id).Select(j => j.DbObjs).FirstOrDefault();
-                        if(dbObjs.Count==0)
+                        if (layerIndex >= 1 && layerIndex <= 9999)
                         {
-                            dbObjs.Add(dbObj); //对于模型空间中的物体，初始用其本身去处理
-                        }                        
+                            padTotalWidth = 4;
+                        }
+                        else if (layerIndex >= 10000 && layerIndex <= 99999)
+                        {
+                            padTotalWidth = 5;
+                        }
+                        else if (layerIndex >= 100000 && layerIndex <= 999999)
+                        {
+                            padTotalWidth = 6;
+                        }
+                        else if (layerIndex >= 1000000 && layerIndex <= 9999999)
+                        {
+                            padTotalWidth = 7;
+                        }
+                        else if (layerIndex >= 10000000 && layerIndex <= 99999999)
+                        {
+                            padTotalWidth = 8;
+                        }
+                        blockName = _blockNamePrefix + layerIndex.ToString().PadLeft(padTotalWidth, '0');
+                        layerIndex++;
                     }
-                    else
+                    btr.Name = blockName;
+                    List<DraworderInf> currentBlkObjs = this._analyzeRelation.DrawOrderinfs.
+                        Where(i => i.BlockId == objId).Select(i => i).ToList();
+                    for (int i = 0; i < currentBlkObjs.Count; i++)
                     {
-                        BlockRefObjSort blkRefObjSort = explosion.BlockExpodeMapping.Where
-                        (j => j.Id == drawOrderInfos[i].Id).Select(j => j).FirstOrDefault();
-                        dbObjs = blkRefObjSort.DbObjs;
+                        Entity ent = _document.TransactionManager.TopTransaction.GetObject(currentBlkObjs[i].Id, OpenMode.ForRead) as Entity;
+                        EntPropertyInf entPropertyInf = new EntPropertyInf() { Layer = ent.Layer, ColorIndex = ent.ColorIndex, Lw = ent.LineWeight };
+                        for (int j = 0; j < currentBlkObjs[i].DbObjs.Count; j++)
+                        {
+                            DBObject dbObj = currentBlkObjs[i].DbObjs[j];
+                            if (dbObj is Entity)
+                            {
+                                Entity entity = dbObj as Entity;
+                                if(!entity.Visible)
+                                {
+                                    entity.Visible = true;
+                                }
+                                PubilcFunction.ChangeEntityProperty(entity, entPropertyInf);
+                                if (entity is Dimension)
+                                {
+                                    entity.TransformBy(moveMt);
+                                }
+                                btr.AppendEntity(entity);
+                            }
+                        }
                     }
-                    for(int j=0;j< dbObjs.Count;j++)
+                    bt.Add(btr);
+                    trans.AddNewlyCreatedDBObject(btr, true);
+                    this.BlkNamePosDic.Add(blockName, blkOriginPt);
+                }
+                bt.DowngradeOpen();
+                trans.Commit();
+            }
+        }
+        private Point2dCollection GetWipeOutBoundaryPts(ObjectId wpId,bool needTransform=true)
+        {
+            Point2dCollection newPts = new Point2dCollection();
+            using (Transaction trans = this._document.Database.TransactionManager.StartTransaction())
+            {
+                Wipeout wp = trans.GetObject(wpId, OpenMode.ForRead) as Wipeout;
+                Point2dCollection pts = wp.GetClipBoundary();
+                Matrix3d mt = wp.PixelToModelTransform;
+                if (pts.Count == 2)
+                {
+                    double minX = Math.Min(pts[0].X, pts[1].X);
+                    double maxX = Math.Max(pts[0].X, pts[1].X);
+                    double minY = Math.Min(pts[0].Y, pts[1].Y);
+                    double maxY = Math.Max(pts[0].Y, pts[1].Y);
+                    newPts.Add(new Point2d(minX, minY));
+                    newPts.Add(new Point2d(maxX, minY));
+                    newPts.Add(new Point2d(maxX, maxY));
+                    newPts.Add(new Point2d(minX, maxY));
+                }
+                else
+                {
+                    newPts = pts;
+                }
+                if(true)
+                {
+                    Point2dCollection tempPts = new Point2dCollection();
+                    foreach(Point2d pt in newPts)
                     {
-                        curveType= GetDbObjType(dbObjs[i]);
+                        Point3d newPt = new Point3d(pt.X,pt.Y,0.0);
+                        newPt= newPt.TransformBy(mt);
+                        tempPts.Add(new Point2d(newPt.X, newPt.Y));
+                    }
+                    newPts = tempPts;
+                }
+                trans.Commit();
+            }
+            return newPts;
+        }
+        private void OperationWipeOut(Point2dCollection wipeOutBoundaryPts, List<DraworderInf> preDrawDois)
+        {              
+            wipeOutBoundaryPts = TransWipeOutBoundaryPts(wipeOutBoundaryPts);
+            CurveType curveType = CurveType.NotSupport;
+            for (int i = 0; i < preDrawDois.Count; i++)
+            {
+                DBObjectCollection handledDbObjs = new DBObjectCollection();
+                DBObjectCollection dbObjs = preDrawDois[i].DbObjs;
+                curveType = GetDbObjType(preDrawDois[i].TypeName);
+                if (curveType == CurveType.NotSupport)
+                {
+                    #region----------暂时不处理----------
+                    //for (int j = 0; j < dbObjs.Count; j++)
+                    //{
+                    //    Entity ent = dbObjs[j] as Entity;
+                    //    if (ent != null)
+                    //    {
+                    //        Point3dCollection intersectPts = new Point3dCollection();
+                    //        Polyline polyline = CadOperation.CreatePolyline(wipeOutBoundaryPts);
+                    //        polyline.BoundingBoxIntersectWith(ent, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
+                    //        bool keepEnt = true;
+                    //        if (intersectPts == null || intersectPts.Count == 0) //没有交点
+                    //        {
+                    //            if (ent.Bounds != null && ent.Bounds.HasValue)
+                    //            {
+                    //                Point3d midPt = CadOperation.GetMidPt(ent.Bounds.Value.MinPoint, ent.Bounds.Value.MaxPoint);
+                    //                if (CadOperation.IsPointInPolyline(wipeOutBoundaryPts, new Point2d(midPt.X, midPt.Y)))
+                    //                {
+                    //                    keepEnt = false;
+                    //                }
+                    //            }
+                    //            else
+                    //            {
+                    //                if(ent is Dimension)
+                    //                {
+                    //                   Entity cloneEnt= ent.Clone() as Entity;
+                    //                   List<ObjectId> entIds= CadOperation.AddToBlockTable(cloneEnt);
+                    //                    polyline.BoundingBoxIntersectWith(ent, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
+                    //                }
+                    //            }
+                    //        }
+                    //        else if (intersectPts != null && intersectPts.Count > 0)
+                    //        {
+                    //            keepEnt = false;
+                    //        }
+                    //        if (keepEnt)
+                    //        {                                    
+                    //            handledDbObjs.Add(dbObjs[j]);
+                    //        }
+                    //    }
+                    //}
+                    #endregion
+                }
+                else
+                {
+                    for (int j = 0; j < dbObjs.Count; j++)
+                    {
+                        curveType = GetDbObjType(dbObjs[j]);
                         DBObjectCollection subDbObjs = new DBObjectCollection();
                         switch (curveType)
                         {
                             case CurveType.Line:
-                                Line line = dbObjs[i] as Line;
-                                subDbObjs = line.XClip(TransWipeOutBoundaryPts(wipeOutInfo.Pts));
+                                Line line = dbObjs[j] as Line;
+                                subDbObjs = line.XClip(wipeOutBoundaryPts);
                                 break;
                             case CurveType.Circle:
-                                Circle circle = dbObjs[i] as Circle;
-                                subDbObjs = circle.XClip(TransWipeOutBoundaryPts(wipeOutInfo.Pts));
+                                Circle circle = dbObjs[j] as Circle;
+                                subDbObjs = circle.XClip(wipeOutBoundaryPts);
                                 break;
                             case CurveType.Arc:
-                                Arc arc = dbObjs[i] as Arc;
-                                subDbObjs = arc.XClip(TransWipeOutBoundaryPts(wipeOutInfo.Pts)); 
+                                Arc arc = dbObjs[j] as Arc;
+                                subDbObjs = arc.XClip(wipeOutBoundaryPts);
                                 break;
                             case CurveType.Ellipse:
-                                Ellipse ellipse = dbObjs[i] as Ellipse;
-                                subDbObjs = ellipse.XClip(TransWipeOutBoundaryPts(wipeOutInfo.Pts));
+                                Ellipse ellipse = dbObjs[j] as Ellipse;
+                                subDbObjs = ellipse.XClip(wipeOutBoundaryPts);
                                 break;
                             case CurveType.Xline:
-                                Xline xline = dbObjs[i] as Xline;
-                                subDbObjs = xline.XClip(TransWipeOutBoundaryPts(wipeOutInfo.Pts));
+                                Xline xline = dbObjs[j] as Xline;
+                                subDbObjs = xline.XClip(wipeOutBoundaryPts);
                                 break;
                             case CurveType.Spline:
-                                Spline spline = dbObjs[i] as Spline;
-                                subDbObjs = spline.XClip(TransWipeOutBoundaryPts(wipeOutInfo.Pts));
+                                Spline spline = dbObjs[j] as Spline;
+                                subDbObjs = spline.XClip(wipeOutBoundaryPts);
                                 break;
                             case CurveType.Polyline:
-                                Polyline polyline = dbObjs[i] as Polyline;
-                                subDbObjs = polyline.XClip(TransWipeOutBoundaryPts(wipeOutInfo.Pts));
+                                Polyline polyline = dbObjs[j] as Polyline;
+                                subDbObjs = polyline.XClip(wipeOutBoundaryPts);
                                 break;
                             case CurveType.Polyline2d:
-                                Polyline2d polyline2d = dbObjs[i] as Polyline2d;
-                                subDbObjs = polyline2d.XClip(TransWipeOutBoundaryPts(wipeOutInfo.Pts));
+                                Polyline2d polyline2d = dbObjs[j] as Polyline2d;
+                                subDbObjs = polyline2d.XClip(wipeOutBoundaryPts);
                                 break;
                             case CurveType.Polyline3d:
-                                Polyline3d polyline3d = dbObjs[i] as Polyline3d;
-                                subDbObjs = polyline3d.XClip(TransWipeOutBoundaryPts(wipeOutInfo.Pts));
+                                Polyline3d polyline3d = dbObjs[j] as Polyline3d;
+                                subDbObjs = polyline3d.XClip(wipeOutBoundaryPts);
                                 break;
                         }
-                        foreach(DBObject newDbObj in subDbObjs)
+                        foreach (DBObject newDbObj in subDbObjs)
                         {
                             handledDbObjs.Add(newDbObj);
                         }
                     }
-                    if (drawOrderInfos[i].BlockName.ToUpper() == "MODELSPACE")
+                }
+                _analyzeRelation.DrawOrderinfs.Where
+                    (j => j.Id == preDrawDois[i].Id).Select(j => j).FirstOrDefault().DbObjs = handledDbObjs;
+            }
+        }
+        private List<string> GetBlockNames(ObjectId blkId,string blkName,bool isCompared=true)
+        {
+            List<string> blkNames = new List<string>();
+            Transaction trans = _document.TransactionManager.TopTransaction;
+            BlockReference br = trans.GetObject(blkId,OpenMode.ForRead) as BlockReference;
+            if(isCompared)
+            {
+                if(br.Name == blkName)
+                {
+                    blkNames.Add(br.Name);
+                    isCompared = false;
+                }
+            }
+            else
+            {
+                blkNames.Add(br.Name);
+            }            
+            BlockTableRecord btr = trans.GetObject(br.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
+            foreach (var id in btr)
+            {
+                BlockReference newBr = trans.GetObject(id,OpenMode.ForRead) as BlockReference;
+                if (newBr == null)
+                {
+                    continue;
+                }
+                List<string> subNames = new List<string>();
+                if (isCompared)
+                {
+                    if (newBr.Name == blkName)
                     {
-                        this.modelObjInfos.Where(j => j.Id == drawOrderInfos[i].Id).Select(j => j).FirstOrDefault().DbObjs= handledDbObjs;
-                    }
-                    else
-                    {
-                        explosion.BlockExpodeMapping.Where
-                        (j => j.Id == drawOrderInfos[i].Id).Select(j => j).FirstOrDefault().DbObjs= handledDbObjs;
+                        isCompared = false;
+                        subNames = GetBlockNames(newBr.Id, blkName, isCompared);
+                        if (subNames != null && subNames.Count > 0)
+                        {
+                            blkNames.AddRange(subNames);
+                        }
+                        break;
                     }
                 }
-                trans.Commit();
+                else
+                {
+                    subNames = GetBlockNames(newBr.Id, blkName, isCompared);
+                    if (subNames != null && subNames.Count > 0)
+                    {
+                        blkNames.AddRange(subNames);
+                    }
+                }
+            }
+            if(blkNames.Count>0)
+            {
+                blkNames = blkNames.Distinct().ToList();
+            }            
+            return blkNames;
+        }
+        private void OperationXClip(XClipInfo xClipInfo)
+        {
+            Point2dCollection xClipEdgePts = TransWipeOutBoundaryPts(xClipInfo.Pts);
+            List<DraworderInf> needHandleDrawDois = _analyzeRelation.GetXClipDrawOrderInfs(xClipInfo);
+            CurveType curveType = CurveType.NotSupport;
+            for (int i = 0; i < needHandleDrawDois.Count; i++)
+            {
+                curveType = GetDbObjType(needHandleDrawDois[i].TypeName);
+                if (curveType == CurveType.NotSupport)
+                {
+                    continue;
+                }
+                DBObjectCollection handledDbObjs = new DBObjectCollection();
+                DBObjectCollection dbObjs = needHandleDrawDois[i].DbObjs;
+                for (int j = 0; j < dbObjs.Count; j++)
+                {
+                    curveType = GetDbObjType(dbObjs[j]);
+                    DBObjectCollection subDbObjs = new DBObjectCollection();
+                    switch (curveType)
+                    {
+                        case CurveType.Line:
+                            Line line = dbObjs[j] as Line;
+                            subDbObjs = line.XClip(xClipEdgePts, xClipInfo.KeepInternal);
+                            break;
+                        case CurveType.Circle:
+                            Circle circle = dbObjs[j] as Circle;
+                            subDbObjs = circle.XClip(xClipEdgePts, xClipInfo.KeepInternal);
+                            break;
+                        case CurveType.Arc:
+                            Arc arc = dbObjs[j] as Arc;
+                            subDbObjs = arc.XClip(xClipEdgePts, xClipInfo.KeepInternal);
+                            break;
+                        case CurveType.Ellipse:
+                            Ellipse ellipse = dbObjs[j] as Ellipse;
+                            subDbObjs = ellipse.XClip(xClipEdgePts, xClipInfo.KeepInternal);
+                            break;
+                        case CurveType.Xline:
+                            Xline xline = dbObjs[j] as Xline;
+                            subDbObjs = xline.XClip(xClipEdgePts, xClipInfo.KeepInternal);
+                            break;
+                        case CurveType.Spline:
+                            Spline spline = dbObjs[j] as Spline;
+                            subDbObjs = spline.XClip(xClipEdgePts, xClipInfo.KeepInternal);
+                            break;
+                        case CurveType.Polyline:
+                            Polyline polyline = dbObjs[j] as Polyline;
+                            subDbObjs = polyline.XClip(xClipEdgePts, xClipInfo.KeepInternal);
+                            break;
+                        case CurveType.Polyline2d:
+                            Polyline2d polyline2d = dbObjs[j] as Polyline2d;
+                            subDbObjs = polyline2d.XClip(xClipEdgePts, xClipInfo.KeepInternal);
+                            break;
+                        case CurveType.Polyline3d:
+                            Polyline3d polyline3d = dbObjs[j] as Polyline3d;
+                            subDbObjs = polyline3d.XClip(xClipEdgePts, xClipInfo.KeepInternal);
+                            break;
+                        case CurveType.Ray:
+                            Ray ray = dbObjs[j] as Ray;
+                            subDbObjs = ray.XClip(xClipEdgePts, xClipInfo.KeepInternal);
+                            break;
+                    }
+                    foreach (DBObject newDbObj in subDbObjs)
+                    {
+                        handledDbObjs.Add(newDbObj);
+                    }
+                }
+                _analyzeRelation.DrawOrderinfs.Where
+                        (j => j.Id == needHandleDrawDois[i].Id).Select(j => j).FirstOrDefault().DbObjs = handledDbObjs;
             }
         }
         private Point2dCollection TransWipeOutBoundaryPts(Point2dCollection pts)
@@ -193,6 +431,42 @@ namespace ThXClip
                 newBoundaryPts = pts;
             }
             return newBoundaryPts;
+        }
+        private CurveType GetDbObjType(string typeName)
+        {
+            CurveType curveType = CurveType.NotSupport;
+            typeName = typeName.ToUpper();
+            switch(typeName)
+            {
+                case "LINE":
+                    curveType = CurveType.Line;
+                    break;
+                case "CIRCLE":
+                    curveType = CurveType.Circle;
+                    break;
+                case "ARC":
+                    curveType = CurveType.Arc;
+                    break;
+                case "ELLIPSE":
+                    curveType = CurveType.Ellipse;
+                    break;
+                case "XLINE":
+                    curveType = CurveType.Xline;
+                    break;
+                case "SPLINE":
+                    curveType = CurveType.Spline;
+                    break;
+                case "POLYLINE":
+                    curveType = CurveType.Polyline;
+                    break;
+                case "POLYLINE2d":
+                    curveType = CurveType.Polyline2d;
+                    break;
+                case "POLYLINE3d":
+                    curveType = CurveType.Polyline3d;
+                    break;
+            }
+            return curveType;
         }
         private CurveType GetDbObjType(DBObject dbObj)
         {
@@ -234,21 +508,6 @@ namespace ThXClip
                 curveType = CurveType.Polyline3d;
             }
             return curveType;
-        }
-        private void OperationXClip(XClipInfo xClipInfo)
-        {
-           
-        }
-        private void TraverseDrawOrderInfo(ObjectId id, ref List<DrawOrderInfo> drawOrderInfos)
-        {
-            DrawOrderInfo currentDrawOrderInf = _analyzeRelation.DrawOrderInfos.Where(i => i.Id == id).Select(i => i).FirstOrDefault();
-            List<DrawOrderInfo> newDrawOrderInfs = _analyzeRelation.DrawOrderInfos.Where(i => i.ParentBlkId == currentDrawOrderInf.ParentBlkId
-            && i.DrawIndex< currentDrawOrderInf.DrawIndex).Select(i => i).ToList();
-            if (newDrawOrderInfs != null && newDrawOrderInfs.Count > 0)
-            {
-                drawOrderInfos.AddRange(newDrawOrderInfs);
-                TraverseDrawOrderInfo(currentDrawOrderInf.ParentBlkId, ref drawOrderInfos);
-            }
         }
     }
 }

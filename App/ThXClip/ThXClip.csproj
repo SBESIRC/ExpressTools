@@ -25,15 +25,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\ModelObjInfo.cs" />
+    <Compile Include="Model\DraworderInf.cs" />
+    <Compile Include="PubilcFunction.cs" />
+    <Compile Include="ThCurveXClipExtension.cs" />
     <Compile Include="Presenter\AnalyseRelation.cs" />
     <Compile Include="CadOperation.cs" />
-    <Compile Include="Presenter\Explosion.cs" />
-    <Compile Include="Model\DrawOrderInfo.cs" />
-    <Compile Include="Model\WipeOutInfo.cs" />
     <Compile Include="Model\XClipInfo.cs" />
     <Compile Include="Presenter\WipeOutXClipTrim.cs" />
-    <Compile Include="ThCurveXclipExtension.cs" />
     <Compile Include="ThXClipApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThXclipDbUtils.cs" />
