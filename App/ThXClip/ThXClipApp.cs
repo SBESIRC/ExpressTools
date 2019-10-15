@@ -29,7 +29,7 @@ namespace ThXClip
     }
     public class ThXclipCommands
     {
-        [CommandMethod("TIANHUACAD", "ThXClip", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THXLP", CommandFlags.Modal)]
         public void ThXClip()
         {
             List<ObjectId> selObjIds = CadOperation.GetSelectObjects(); //选择要处理的块
