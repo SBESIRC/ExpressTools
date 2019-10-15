@@ -183,6 +183,24 @@ namespace ThXClip
                             SpatialFilter fil = _trans.GetObject(fildict.GetAt(spatialName), OpenMode.ForRead) as SpatialFilter;
                             if (fil != null)
                             {
+                                bool acadVerBiggerThan2015 =PublicFunction.IsGreaterThanOrEqualTo(2015); //判断Cad版本是否是Cad2015以上
+                                bool isInverted = false; //边界是否为反向裁剪
+#if acadVerBiggerThan2015
+ isInverted = fil.Inverted;
+#elif (!acadVerBiggerThan2015)
+
+                                XmDwgFiler xmDwgFiler = new XmDwgFiler();
+                                fil.DwgOut(xmDwgFiler);
+                                var f = xmDwgFiler.UInt16List[1];
+                                if (f != 1)
+                                {
+                                    isInverted = false;
+                                }
+                                else
+                                {
+                                    isInverted = true;
+                                }
+#endif
                                 xClipInfo.BlockName = blockRef.Name;
                                 xClipInfo.AttachBlockId = blockRef.Id;
                                 Point2dCollection pts = new Point2dCollection();
@@ -193,7 +211,14 @@ namespace ThXClip
                                     pts.Add(new Point2d(tempPt.X, tempPt.Y));
                                 }
                                 xClipInfo.Pts = pts;
-                                xClipInfo.KeepInternal = false; //等找到设置内、外部的属性后，再修改此值
+                                if(isInverted)
+                                {
+                                    xClipInfo.KeepInternal = false; 
+                                }
+                                else
+                                {
+                                    xClipInfo.KeepInternal = true;
+                                }
                             }
                         }
                     }
