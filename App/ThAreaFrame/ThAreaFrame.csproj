@@ -42,6 +42,7 @@
     <Compile Include="ThAreaFrameEngine.cs" />
     <Compile Include="ThAreaFrameFoundation.cs" />
     <Compile Include="ThAreaFrameIndoorParkingSpace.cs" />
+    <Compile Include="ThAreaFrameIEnumerableExtension.cs" />
     <Compile Include="ThAreaFrameMasterEngine.cs" />
     <Compile Include="ThAreaFrameOutdoorParkingSpace.cs" />
     <Compile Include="ThAreaFrameParkingGarageEngine.cs" />
@@ -49,6 +50,8 @@
     <Compile Include="ThAreaFrameResidentCalculator.cs" />
     <Compile Include="ThAreaFrameRoof.cs" />
     <Compile Include="ThAreaFrameRoofGreenSpace.cs" />
+    <Compile Include="ThAreaFrameStorey.cs" />
+    <Compile Include="ThAreaFrameStoreyManager.cs" />
     <Compile Include="ThAreaFrameTableBuilder.cs" />
     <Compile Include="ThAreaFrameUtils.cs" />
     <Page Include="MainWindow.xaml">

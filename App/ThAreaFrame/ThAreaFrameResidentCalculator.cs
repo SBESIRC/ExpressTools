@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
@@ -62,18 +61,6 @@ namespace ThAreaFrame
                 return ThAreaFrameDbUtils.SumOfArea(Database, roof.layer) * ratio;
             }
             return 0.0;
-        }
-
-        public List<double> AreaOfStandardStoreys(bool far = false)
-        {
-            var areas = new List<double>();
-            foreach (List<ResidentialStorey> storeys in building.StandardStoreys())
-            {
-                double area = 0.0;
-                storeys.ForEach(s => area += AreaOfFloor(s.number, far));
-                areas.Add(area / storeys.Count);
-            }
-            return areas;
         }
 
         public double AreaOfUnderGround(bool far = false)
@@ -222,12 +209,17 @@ namespace ThAreaFrame
 
         public IEnumerable<int> OrdinaryStoreyCollection()
         {
-            return building.OrdinaryStoreys().Select(o => o.number);
+            return Building.OrdinaryStoreys().Select(o => o.number);
+        }
+
+        public IEnumerable<int> StandardStoreyCollection()
+        {
+            return Building.StandardStoreys().Select(o => o.number);
         }
 
         public IEnumerable<int> UnderGroundStoreyCollection()
         {
-            return building.UnderGroundStoreys().Select(o => o.number);
+            return Building.UnderGroundStoreys().Select(o => o.number);
         }
     }
 }

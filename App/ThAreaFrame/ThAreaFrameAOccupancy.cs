@@ -1,34 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using System.Collections.Generic;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThAreaFrame
 {
-    // 公建楼层
-    public class AOccupancyStorey : IEquatable<AOccupancyStorey>
-    {
-        public int number;
-        public bool standard;
-
-        #region Equality
-        public bool Equals(AOccupancyStorey other)
-        {
-            if (other == null) return false;
-            return (this.number == other.number) && (this.standard == other.standard);
-        }
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as AOccupancyStorey);
-        }
-        public override int GetHashCode()
-        {
-            return new { number, standard }.GetHashCode();
-        }
-        #endregion
-    }
-
     // 公建实体
     public class ThAreaFrameAOccupancy
     {
@@ -79,11 +55,12 @@ namespace ThAreaFrame
                     storeyCollection = new List<AOccupancyStorey>();
                     foreach (int number in ThAreaFrameUtils.ParseStoreyString(this.storeys))
                     {
-                        storeyCollection.Add(new AOccupancyStorey { number = number, standard = false });
+                        storeyCollection.Add(new AOccupancyStorey { tag = 'c', number = number, standard = false });
                     }
                     foreach (int number in ThAreaFrameUtils.ParseStandardStoreyString(this.storeys))
                     {
                         storeyCollection.Where(s => s.number == number).ForEach(s => s.standard = true);
+                        storeyCollection.Where(s => s.number == number).ForEach(s => s.tag = storeys.First());
                     }
                 }
 
@@ -304,39 +281,35 @@ namespace ThAreaFrame
         }
 
         // 所有标准楼层
-        public List<List<AOccupancyStorey>> StandardStoreys()
+        public List<AOccupancyStorey> StandardStoreys()
         {
-            return Storeys().Where(s => s.Count > 1).ToList();
+            return Storeys().Where(o => o.standard == true && o.number > 0).ToList();
         }
 
         // 所有普通楼层
         public List<AOccupancyStorey> OrdinaryStoreys()
         {
-            var storeys = new List<AOccupancyStorey>();
-            foreach (var item in Storeys().Where(s => (s.Count == 1) && (s[0].number > 0)))
-            {
-                storeys = storeys.Union(item).ToList();
-            }
-            return storeys;
+            return Storeys().Where(o => o.standard == false && o.number > 0).ToList();
         }
 
         // 所有地下楼层
         public List<AOccupancyStorey> UnderGroundStoreys()
         {
-            var storeys = new List<AOccupancyStorey>();
-            foreach (var item in Storeys().Where(s => (s.Count == 1) && (s[0].number < 0)))
-            {
-                storeys = storeys.Union(item).ToList();
-            }
-            return storeys;
+            return Storeys().Where(o => o.number < 0).ToList();
+        }
+
+        // 所有地上楼层
+        public List<AOccupancyStorey> AboveGroundStoreys()
+        {
+            return Storeys().Where(o => o.number > 0).ToList();
         }
 
         // 所有楼层
-        private List<List<AOccupancyStorey>> Storeys()
+        public List<AOccupancyStorey> Storeys()
         {
             var storeys = new List<List<AOccupancyStorey>>();
             aOccupancies.Where(o => o.areaType == "主体").ForEach(o => storeys.Add(o.StoreyCollection));
-            return storeys.Distinct().ToList();
+            return storeys.SelectMany(o => o).ToList();
         }
     }
 }

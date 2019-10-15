@@ -1,10 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using AcHelper;
-using AcHelper.Wrappers;
+using System.Collections.Generic;
 
 namespace ThAreaFrame
 {
@@ -38,7 +34,14 @@ namespace ThAreaFrame
         {
             get
             {
-                return OrdinaryAOccupancyStoreys().Select(o => o.number).Union(OrdinaryStoreys().Select(o => o.number)).OrderBy(i => i).ToList();
+                var storeys = new List<int>();
+                foreach (ThAreaFrameEngine engine in engines)
+                {
+                    storeys = storeys.Union(engine.OrdinaryStoreyCollection).ToList();
+                }
+
+                // 对于地上楼层，按照楼层数升序排列
+                return storeys.OrderBy(o => o).ToList();
             }
         }
 
@@ -46,74 +49,21 @@ namespace ThAreaFrame
         {
             get
             {
-                return UnderGroundStoreys().Select(o => o.number).Union(UnderGroundAOccupancyStoreys().Select(o => o.number)).OrderBy(i => i).ToList();
-            }
-        }
+                var storeys = new List<int>();
+                foreach (ThAreaFrameEngine engine in engines)
+                {
+                    storeys = storeys.Union(engine.UnderGroundStoreyCollection).ToList();
+                }
 
-        // 普通楼层
-        public List<ResidentialStorey> OrdinaryStoreys()
-        {
-            List<ResidentialStorey> storeys = new List<ResidentialStorey>();
-            foreach(ThAreaFrameEngine engine in engines)
-            {
-                storeys = storeys.Union(engine.Building.OrdinaryStoreys()).ToList();
+                // 对于地下楼层，按照楼层数降序排列
+                return storeys.OrderBy(o => Math.Abs(o)).ToList();
             }
-            return storeys;
         }
 
         // 标准楼层
         public int StandardStoreyCount()
         {
-            int count = 0;
-            foreach (ThAreaFrameEngine engine in engines)
-            {
-                count = Math.Max(count, engine.StandardStoreyCount);
-            }
-            return count;
-        }
-
-        // 地下楼层
-        public List<ResidentialStorey> UnderGroundStoreys()
-        {
-            List<ResidentialStorey> storeys = new List<ResidentialStorey>();
-            foreach (ThAreaFrameEngine engine in engines)
-            {
-                storeys = storeys.Union(engine.Building.UnderGroundStoreys()).ToList();
-            }
-            return storeys;
-        }
-
-        // 公建普通楼层
-        public List<AOccupancyStorey> OrdinaryAOccupancyStoreys()
-        {
-            List<AOccupancyStorey> storeys = new List<AOccupancyStorey>();
-            foreach (ThAreaFrameEngine engine in engines)
-            {
-                storeys = storeys.Union(engine.AOccupancyBuilding.OrdinaryStoreys()).ToList();
-            }
-            return storeys;
-        }
-
-        // 公建标准楼层
-        public int StandardAOccupancyStoreyCount()
-        {
-            int count = 0;
-            foreach (ThAreaFrameEngine engine in engines)
-            {
-                count = Math.Max(count, engine.AOccupancyBuilding.StandardStoreys().Count);
-            }
-            return count;
-        }
-
-        // 公建地下楼层
-        public List<AOccupancyStorey> UnderGroundAOccupancyStoreys()
-        {
-            List<AOccupancyStorey> storeys = new List<AOccupancyStorey>();
-            foreach (ThAreaFrameEngine engine in engines)
-            {
-                storeys = storeys.Union(engine.AOccupancyBuilding.UnderGroundStoreys()).ToList();
-            }
-            return storeys;
+            return engines.Max(o => o.StandardStoreyCollections.Count);
         }
 
         // 地上计容建筑面积（住宅）
@@ -143,68 +93,38 @@ namespace ThAreaFrame
         // "架空部分建筑面积（非计容）"
         public double AreaOfStilt()
         {
-            double area = 0.0;
-            foreach (ThAreaFrameEngine engine in engines)
-            {
-                area += engine.AreaOfStilt();
-            }
-            return area;
+            return engines.Sum(o => o.AreaOfStilt());
         }
 
         // "地下室主楼建筑面积"
         //  公式：∑(∑(x层住宅建筑面积))+∑(∑(x层公建建筑面积))
         public double AreaOfUnderGround()
         {
-            double area = 0.0;
-            foreach (ThAreaFrameEngine engine in engines)
-            {
-                area += engine.AreaOfUnderGround();
-            }
-            return area;
+            return engines.Sum(o => o.AreaOfUnderGround());
         }
 
         // "建筑基底面积"
         public double AreaOfFoundation()
         {
-            double area = 0.0;
-            foreach (ThAreaFrameEngine engine in engines)
-            {
-                area += engine.AreaOfFoundation();
-            }
-            return area;
+            return engines.Sum(o => o.AreaOfFoundation());
         }
 
         // 屋顶绿化
         public double AreaOfRoofGreenSpace()
         {
-            double area = 0.0;
-            foreach (ThAreaFrameEngine engine in engines)
-            {
-                area += engine.AreaOfRoofGreenSpace();
-            }
-            return area;
+            return engines.Sum(o => o.AreaOfRoofGreenSpace());
         }
 
         // 室内停车场面积
         public double AreaOfParkingGarage()
         {
-            double area = 0.0;
-            foreach (ThAreaFrameParkingGarageEngine engine in parkingGarageEngines)
-            {
-                area += engine.AreaOfParkingGarage();
-            }
-            return area;
+            return parkingGarageEngines.Sum(o => o.AreaOfParkingGarage());
         }
 
         // 地下停车位个数
         public int CountOfUnderGroundParkingSlot()
         {
-            int count = 0;
-            foreach (ThAreaFrameParkingGarageEngine engine in parkingGarageEngines)
-            {
-                count += engine.CountOfUnderGroundParkingSlot();
-            }
-            return count;
+            return parkingGarageEngines.Sum(o => o.CountOfUnderGroundParkingSlot());
         }
     }
 }

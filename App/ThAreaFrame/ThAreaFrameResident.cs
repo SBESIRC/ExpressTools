@@ -159,29 +159,6 @@ namespace ThAreaFrame
         }
     }
 
-    // 住宅楼层
-    public class ResidentialStorey : IEquatable<ResidentialStorey>
-    {
-        public int number;
-        public bool standard;
-
-        #region Equality
-        public bool Equals(ResidentialStorey other)
-        {
-            if (other == null) return false;
-            return (this.number == other.number) && (this.standard == other.standard);
-        }
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as ResidentialStorey);
-        }
-        public override int GetHashCode()
-        {
-            return new { number, standard }.GetHashCode();
-        }
-        #endregion
-    }
-
     // 住宅户型
     public class ResidentialRoom
     {
@@ -207,11 +184,12 @@ namespace ThAreaFrame
             var storeys = new List<ResidentialStorey>();
             foreach (int number in ThAreaFrameUtils.ParseStoreyString(dwelling.storeys))
             {
-                storeys.Add(new ResidentialStorey { number = number, standard = false });
+                storeys.Add(new ResidentialStorey { tag = 'c', number = number, standard = false });
             }
             foreach (int number in ThAreaFrameUtils.ParseStandardStoreyString(dwelling.storeys))
             {
                 storeys.Where(s => s.number == number).ForEach(s => s.standard = true);
+                storeys.Where(s => s.number == number).ForEach(s => s.tag = dwelling.storeys.First());
             }
             return storeys;
         }
@@ -325,38 +303,34 @@ namespace ThAreaFrame
         }
 
         // 所有标准楼层
-        public List<List<ResidentialStorey>> StandardStoreys()
+        public List<ResidentialStorey> StandardStoreys()
         {
-            return Storeys().Where(s => s.Count > 1).ToList();
+            return Storeys().Where(o => o.standard == true && o.number > 0).ToList();
         }
 
         // 所有普通楼层
         public List<ResidentialStorey> OrdinaryStoreys()
         {
-            var storeys = new List<ResidentialStorey>();
-            foreach(var item in Storeys().Where(s => (s.Count == 1) && (s[0].number > 0)))
-            {
-                storeys = storeys.Union(item).ToList();
-            }
-            return storeys;
+            return Storeys().Where(o => o.standard == false && o.number > 0).ToList();
         }
 
         // 所有地下楼层
         public List<ResidentialStorey> UnderGroundStoreys()
         {
-            var storeys = new List<ResidentialStorey>();
-            foreach (var item in Storeys().Where(s => (s.Count == 1) && (s[0].number < 0)))
-            {
-                storeys = storeys.Union(item).ToList();
-            }
-            return storeys;
+            return Storeys().Where(o => o.number < 0).ToList();
         }
 
-        private List<List<ResidentialStorey>> Storeys()
+        // 所有地上楼层
+        public List<ResidentialStorey> AboveGroundStoreys()
+        {
+            return Storeys().Where(o => o.number > 0).ToList();
+        }
+
+        public List<ResidentialStorey> Storeys()
         {
             var storeys = new List<List<ResidentialStorey>>();
             rooms.ForEach(r => storeys.Add(r.Storeys()));
-            return storeys.Distinct().ToList();
+            return storeys.SelectMany(o => o).ToList();
         }
     }
 }

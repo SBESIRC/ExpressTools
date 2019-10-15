@@ -13,9 +13,6 @@ namespace ThAreaFrame
         // 楼梯间面积
         double AreaOfRoof(bool far = false);
 
-        // 标准楼层面积
-        List<double> AreaOfStandardStoreys(bool far = false);
-
         // 地上面积
         double AreaOfAboveGround(bool far = false);
 
@@ -36,6 +33,9 @@ namespace ThAreaFrame
 
         // 普通楼层
         IEnumerable<int> OrdinaryStoreyCollection();
+
+        // 标准楼层
+        IEnumerable<int> StandardStoreyCollection();
 
         // 地下楼层
         IEnumerable<int> UnderGroundStoreyCollection();

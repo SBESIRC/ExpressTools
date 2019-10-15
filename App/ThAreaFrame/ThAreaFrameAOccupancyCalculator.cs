@@ -1,7 +1,5 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrame
@@ -79,26 +77,13 @@ namespace ThAreaFrame
             {
                 area += AreaOfComponent("架空", storey, false);
             }
-
             // 标准楼层
-            foreach (List<AOccupancyStorey> storeys in Building.StandardStoreys())
+            foreach(var storey in StandardStoreyCollection())
             {
-                storeys.ForEach(s => area += AreaOfComponent("架空", s.number, false));
+                area += AreaOfComponent("架空", storey, false);
             }
 
             return area;
-        }
-
-        public List<double> AreaOfStandardStoreys(bool far = false)
-        {
-            var areas = new List<double>();
-            foreach (List<AOccupancyStorey> storeys in Building.StandardStoreys())
-            {
-                double area = 0.0;
-                storeys.ForEach(s => area += AreaOfFloor(s.number, far));
-                areas.Add(area / storeys.Count);
-            }
-            return areas;
         }
 
         public double AreaOfUnderGround(bool far = false)
@@ -144,6 +129,11 @@ namespace ThAreaFrame
         public IEnumerable<int> OrdinaryStoreyCollection()
         {
             return Building.OrdinaryStoreys().Select(o => o.number);
+        }
+
+        public IEnumerable<int> StandardStoreyCollection()
+        {
+            return Building.StandardStoreys().Select(o => o.number);
         }
 
         public IEnumerable<int> UnderGroundStoreyCollection()

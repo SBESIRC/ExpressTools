@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Linq2Acad;
 using Autodesk.AutoCAD.DatabaseServices;
 
@@ -15,6 +14,7 @@ namespace ThAreaFrame
         private ThAreaFrameFoundation foundation;
         private AOccupancyBuilding aOccupancyBuilding;
         private ThAreaFrameRoofGreenSpace roofGreenSpace;
+        private ThAreaFrameStoreyManager storeyManager;
         private Dictionary<string, IThAreaFrameCalculator> calculators;
         public List<ThAreaFrameRoof> Roofs { get => roofs; set => roofs = value; }
         public ResidentialBuilding Building { get => building; set => building = value; }
@@ -77,7 +77,8 @@ namespace ThAreaFrame
                 database = acadDatabase.Database,
                 aOccupancyBuilding = aOccupancyBuilding,
                 roofs = new List<ThAreaFrameRoof>(),
-                calculators = new Dictionary<string, IThAreaFrameCalculator>()
+                calculators = new Dictionary<string, IThAreaFrameCalculator>(),
+                storeyManager = new ThAreaFrameStoreyManager(building, aOccupancyBuilding)
             };
             foreach (var name in roofNames)
             {
@@ -144,15 +145,6 @@ namespace ThAreaFrame
                 return ThAreaFrameDbUtils.SumOfArea(Database, roofGreenSpace.layer) * double.Parse(roofGreenSpace.coefficient);
             }
             return 0.0;
-        }
-
-        // 标准楼层个数
-        public int StandardStoreyCount
-        {
-            get
-            {
-                return (Building.StandardStoreys().Count + AOccupancyBuilding.StandardStoreys().Count);
-            }
         }
 
         // 地上层数
@@ -269,32 +261,15 @@ namespace ThAreaFrame
         {
             get
             {
-                IEnumerable<int> resident = null;
-                IEnumerable<int> aOccupancy = null;
-                if (Building.Validate())
-                {
-                    resident = Calculators["住宅构件"].OrdinaryStoreyCollection();
-                }
-                if (AOccupancyBuilding.Validate())
-                {
-                    aOccupancy = Calculators["附属公建"].OrdinaryStoreyCollection();
-                }
-                if ((resident != null) && (aOccupancy != null))
-                {
-                    return aOccupancy.Union(resident).ToList();
-                }
-                else if (resident != null)
-                {
-                    return resident.ToList();
-                }
-                else if (aOccupancy != null)
-                {
-                    return aOccupancy.ToList();
-                }
-                else
-                {
-                    return null;
-                }
+                return storeyManager.OrdinaryStoreyCollection;
+            }
+        }
+
+        public List<List<int>> StandardStoreyCollections
+        {
+            get
+            {
+                return storeyManager.StandardStoreyCollections;
             }
         }
 
@@ -302,33 +277,7 @@ namespace ThAreaFrame
         {
             get
             {
-                IEnumerable<int> resident = null;
-                IEnumerable<int> aOccupancy = null;
-                if (Building.Validate())
-                {
-                    resident = Calculators["住宅构件"].UnderGroundStoreyCollection();
-                }
-                if (AOccupancyBuilding.Validate())
-                {
-                    aOccupancy = Calculators["附属公建"].UnderGroundStoreyCollection();
-                }
-                if ((resident != null) && (aOccupancy != null))
-                {
-                    return aOccupancy.Union(resident).ToList();
-                }
-                else if (resident != null)
-                {
-                    return resident.ToList();
-                }
-                else if (aOccupancy != null)
-                {
-                    return aOccupancy.ToList();
-                }
-                else
-                {
-                    return null;
-                }
-
+                return storeyManager.UnderGroundStoreyCollection;
             }
         }
 
@@ -344,6 +293,28 @@ namespace ThAreaFrame
                 area += Calculators["附属公建"].AreaOfFloor(floor, far);
             }
             return area;
+        }
+
+        public List<double> AreaOfStandardStoreys(bool far = false)
+        {
+            List<double> areas = new List<double>();
+            foreach(var storeys in StandardStoreyCollections)
+            {
+                double area = 0.0;
+                foreach(var storey in storeys)
+                {
+                    if (Building.Validate())
+                    {
+                        area += Calculators["住宅构件"].AreaOfFloor(storey, far);
+                    }
+                    if (AOccupancyBuilding.Validate())
+                    {
+                        area += Calculators["附属公建"].AreaOfFloor(storey, far);
+                    }
+                }
+                areas.Add(area);
+            }
+            return areas;
         }
     }
 }
