@@ -402,17 +402,27 @@ namespace ThAreaFrame
             ThAreaFrameDriver driver = new ThAreaFrameDriver();
             foreach (string dwg in dwgs)
             {
-                using (AcadDatabase acadDatabase = AcadDatabase.Open(dwg, DwgOpenMode.ReadOnly, true))
+                try
                 {
-                    driver.engines.Add(ThAreaFrameEngine.Engine(acadDatabase.Database));
-                    driver.parkingGarageEngines.Add(ThAreaFrameParkingGarageEngine.Engine(acadDatabase.Database));
+                    using (AcadDatabase acadDatabase = AcadDatabase.Open(dwg, DwgOpenMode.ReadOnly, true))
+                    {
+                        driver.engines.Add(ThAreaFrameEngine.Engine(acadDatabase.Database));
+                        driver.parkingGarageEngines.Add(ThAreaFrameParkingGarageEngine.Engine(acadDatabase.Database));
+                    }
                 }
+                catch
+                {
+                    // 打开图纸文件失败（例如图纸已经打开），会抛出异常。
+                    // 我们可以忽略这个图纸文件。
+                }
+                finally
+                {
+                    // 更新进度条
+                    pm.MeterProgress();
 
-                // 更新进度条
-                pm.MeterProgress();
-
-                // 让CAD在长时间任务处理时任然能接收消息
-                Application.DoEvents();
+                    // 让CAD在长时间任务处理时任然能接收消息
+                    Application.DoEvents();
+                }
             }
 
             // 停止进度条更新
