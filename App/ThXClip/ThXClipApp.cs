@@ -29,7 +29,11 @@ namespace ThXClip
     }
     public class ThXclipCommands
     {
+<<<<<<< HEAD
         [CommandMethod("TIANHUACAD", "THXLP", CommandFlags.Modal)]
+=======
+        [CommandMethod("TIANHUACAD", "ThXClip", CommandFlags.Modal)]
+>>>>>>> XClipdebug
         public void ThXClip()
         {
             List<ObjectId> selObjIds = CadOperation.GetSelectObjects(); //选择要处理的块
@@ -95,6 +99,31 @@ namespace ThXClip
                     Point3d.Origin, new Scale3d(1.0, 1.0, 1.0), 0.0);
             }
             analyseRelation.EraseBlockAndItsExplodedObjs();
+<<<<<<< HEAD
         }   
+=======
+        }
+        [CommandMethod("TIANHUACAD", "ThSpline", CommandFlags.Modal)]        
+        public void ThSpline()
+        {
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Point3dCollection pts = new Point3dCollection();
+            pts.Add(new Point3d(1, 1, 0));
+            pts.Add(new Point3d(5, 5, 0));
+            pts.Add(new Point3d(10, 0, 0));
+
+            Vector3d startTan = new Vector3d(0.5, 0.5, 0);
+            Vector3d endTan = new Vector3d(0.5, 0.5, 0);
+            Spline acSpline = new Spline(pts, startTan, endTan, 4, 0);
+            using (Transaction trans=doc.TransactionManager.StartTransaction())
+            {
+                BlockTable bt = trans.GetObject(doc.Database.BlockTableId,OpenMode.ForRead) as BlockTable;
+                BlockTableRecord btr = trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead) as BlockTableRecord;
+                btr.AppendEntity(acSpline);
+                trans.AddNewlyCreatedDBObject(acSpline, true);
+                trans.Commit();
+            }
+        }
+>>>>>>> XClipdebug
     }
 }
