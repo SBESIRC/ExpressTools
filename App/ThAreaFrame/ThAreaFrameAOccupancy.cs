@@ -222,7 +222,7 @@ namespace ThAreaFrame
     }
 
     // 公建建筑
-    public class AOccupancyBuilding
+    public class AOccupancyBuilding : IThAreaFrameBuilding
     {
         public List<ThAreaFrameAOccupancy> aOccupancies;
 
@@ -280,28 +280,37 @@ namespace ThAreaFrame
             return aOccupancies.Count > 0;
         }
 
-        // 所有标准楼层
+
+        public int UppermostStorey
+        {
+            get
+            {
+                return Storeys().Max(o => o.number);
+            }
+        }
+
+        // 所有地上标准楼层
         public List<AOccupancyStorey> StandardStoreys()
         {
-            return Storeys().Where(o => o.standard == true && o.number > 0).ToList();
+            return AboveGroundStoreys().Where(o => o.standard == true).ToList();
         }
 
-        // 所有普通楼层
+        // 所有地上普通楼层
         public List<AOccupancyStorey> OrdinaryStoreys()
         {
-            return Storeys().Where(o => o.standard == false && o.number > 0).ToList();
-        }
-
-        // 所有地下楼层
-        public List<AOccupancyStorey> UnderGroundStoreys()
-        {
-            return Storeys().Where(o => o.number < 0).ToList();
+            return AboveGroundStoreys().Where(o => o.standard == false).ToList();
         }
 
         // 所有地上楼层
         public List<AOccupancyStorey> AboveGroundStoreys()
         {
             return Storeys().Where(o => o.number > 0).ToList();
+        }
+
+        // 所有地下楼层
+        public List<AOccupancyStorey> UnderGroundStoreys()
+        {
+            return Storeys().Where(o => o.number < 0).ToList();
         }
 
         // 所有楼层

@@ -6,24 +6,6 @@ namespace ThAreaFrame
 {
     public class ThAreaFrameStoreyManager
     {
-        public enum StoreyType
-        {
-            // 无效楼层
-            STInvalid,
-            // 标准住宅
-            STResidentStandard,
-            // 标准公建
-            STAOccupancyStandard,
-            // 标准混合体
-            STCompositeStandard,
-            // 普通住宅
-            STResidentOrdinay,
-            // 普通公建
-            STAOccupancyOrdinay,
-            // 普通混合体
-            STCompositeOrdinay
-        }
-
         // 住宅楼层
         private readonly List<ResidentialStorey> residentialStoreys;
         // 公建楼层
@@ -46,9 +28,9 @@ namespace ThAreaFrame
             compositeStoreys = new List<CompositeStorey>();
             if (residential.Validate() && aOccupancy.Validate())
             {
-                int uppermostStorey = Math.Max(residentialStoreys.Max(o => o.number), aOccupancyStoreys.Max(o => o.number));
-
-                // 从1层开始合并复合楼层
+                // TODO:
+                //  从1层开始合并复合楼层，暂时不考虑地下楼层的情况
+                int uppermostStorey = Math.Max(residential.UppermostStorey, aOccupancy.UppermostStorey);
                 for (int i = 1; i <= uppermostStorey; i++)
                 {
                     var residentialStorey = residentialStoreys.Where(o => o.number == i);

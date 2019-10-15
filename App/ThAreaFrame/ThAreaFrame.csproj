@@ -31,6 +31,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IThAreaFrameBuilding.cs" />
     <Compile Include="ThAreaFrameAOccupancyCalculator.cs" />
     <Compile Include="ThAreaFrameCalculator.cs" />
     <Compile Include="ThAreaFrameAOccupancy.cs" />

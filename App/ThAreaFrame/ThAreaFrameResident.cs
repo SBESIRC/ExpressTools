@@ -196,7 +196,7 @@ namespace ThAreaFrame
     }
 
     // 住宅楼栋
-    public class ResidentialBuilding
+    public class ResidentialBuilding : IThAreaFrameBuilding
     {
         public List<ResidentialRoom> rooms;
 
@@ -288,6 +288,14 @@ namespace ThAreaFrame
             return rooms.Count > 0;
         }
 
+        public int UppermostStorey
+        {
+            get
+            {
+                return Storeys().Max(o => o.number);
+            }
+        }
+
         public List<ResidentialRoom> RoomsOnStorey(int floor)
         {
             var roomsOnFloor = new List<ResidentialRoom>();
@@ -302,28 +310,28 @@ namespace ThAreaFrame
             return roomsOnFloor;
         }
 
-        // 所有标准楼层
+        // 所有地上标准楼层
         public List<ResidentialStorey> StandardStoreys()
         {
-            return Storeys().Where(o => o.standard == true && o.number > 0).ToList();
+            return AboveGroundStoreys().Where(o => o.standard == true).ToList();
         }
 
-        // 所有普通楼层
+        // 所有地上普通楼层
         public List<ResidentialStorey> OrdinaryStoreys()
         {
-            return Storeys().Where(o => o.standard == false && o.number > 0).ToList();
-        }
-
-        // 所有地下楼层
-        public List<ResidentialStorey> UnderGroundStoreys()
-        {
-            return Storeys().Where(o => o.number < 0).ToList();
+            return AboveGroundStoreys().Where(o => o.standard == false).ToList();
         }
 
         // 所有地上楼层
         public List<ResidentialStorey> AboveGroundStoreys()
         {
             return Storeys().Where(o => o.number > 0).ToList();
+        }
+
+        // 所有地下楼层
+        public List<ResidentialStorey> UnderGroundStoreys()
+        {
+            return Storeys().Where(o => o.number < 0).ToList();
         }
 
         public List<ResidentialStorey> Storeys()
