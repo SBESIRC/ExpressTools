@@ -25,8 +25,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="XmDwgFiler.cs" />
     <Compile Include="Model\DraworderInf.cs" />
-    <Compile Include="PubilcFunction.cs" />
+    <Compile Include="PublicFunction.cs" />
     <Compile Include="ThCurveXClipExtension.cs" />
     <Compile Include="Presenter\AnalyseRelation.cs" />
     <Compile Include="CadOperation.cs" />

@@ -127,7 +127,7 @@ namespace ThXClip
                                 {
                                     entity.Visible = true;
                                 }
-                                PubilcFunction.ChangeEntityProperty(entity, entPropertyInf);
+                                PublicFunction.ChangeEntityProperty(entity, entPropertyInf);
                                 if (entity is Dimension)
                                 {
                                     entity.TransformBy(moveMt);
