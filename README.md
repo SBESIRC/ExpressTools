@@ -102,6 +102,8 @@ We use AutoLoader for deployment, for detail information, check these links:
 
 # Github 
 
+[Github help](https://help.github.com/cn)
+
 [Git Tutorials](https://www.atlassian.com/git/tutorials)
 
 [Github Bootcamp](https://help.github.com/en#dotcom)

@@ -54,21 +54,28 @@ namespace ThRoomBoundary
             }
 
             ThProgressDialog.ShowProgress();
-            ThProgressDialog.SetValue(5);
-            
+
+            // 图元预处理
+            var removeEntityLst = ThRoomUtils.PreProcess(rectLines);
+            ThProgressDialog.SetValue(12);
             // 获取相关图层中的数据
             // 所有数据
             var allCurves = ThRoomUtils.GetAllCurvesFromLayerNames(allCurveLayers);
             if (allCurves == null || allCurves.Count == 0)
+            {
+                ThProgressDialog.HideProgress();
                 return;
-            ThProgressDialog.SetValue(10);
+            }
+            ThProgressDialog.SetValue(14);
             var layerCurves = ThRoomUtils.GetValidCurvesFromSelectArea(allCurves, rectLines);
-            ThProgressDialog.SetValue(15);
+            ThProgressDialog.SetValue(16);
             // wall 中的数据
             var wallAllCurves = ThRoomUtils.GetAllCurvesFromLayerNames(wallLayers);
             if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
+            {
+                ThProgressDialog.HideProgress();
                 return;
-
+            }
 
             var wallCurves = ThRoomUtils.GetValidCurvesFromSelectArea(wallAllCurves, rectLines);
             ThProgressDialog.SetValue(20);
@@ -83,6 +90,7 @@ namespace ThRoomBoundary
                     layerCurves.AddRange(doorInsertCurves);
                 }
             }
+
             ThProgressDialog.SetValue(30);
 
             // wind 中的数据
@@ -100,8 +108,12 @@ namespace ThRoomBoundary
             // 生成轮廓数据
             var roomDatas = TopoUtils.MakeSrcProfiles(layerCurves);
             if (roomDatas == null || roomDatas.Count == 0)
+            {
+                ThProgressDialog.HideProgress();
                 return;
+            }
 
+            ThRoomUtils.PostProcess(removeEntityLst);
             ThProgressDialog.HideProgress();
             // 界面显示数据
             ThRoomUtils.DisplayRoomProfile(roomDatas, ThRoomUtils.ROOMBOUNDARY, ThRoomUtils.ROOMAREAVALUE);
