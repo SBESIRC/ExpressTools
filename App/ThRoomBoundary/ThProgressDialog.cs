@@ -34,6 +34,7 @@ namespace ThRoomBoundary
         public static void ShowProgress()
         {
             var progress = ThProgressDialog.Instance;
+            progress.m_progressBar.Value = 5;
             progress.Show();
         }
 

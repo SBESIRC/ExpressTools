@@ -3,11 +3,13 @@ using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
+using DotNetARX;
 using Linq2Acad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AcHelper;
 using ThRoomBoundary.topo;
 
 namespace ThRoomBoundary
@@ -534,6 +536,279 @@ namespace ThRoomBoundary
     {
         public static readonly string ROOMBOUNDARY = "天华面积框线";
         public static readonly string ROOMAREAVALUE = "天华房间面积值";
+
+        public static bool IsValidBlockReference(BlockReference block, List<LineSegment2d> rectLines)
+        {
+            var blockCurves = GetCurvesFromBlock(block);
+            var lines = GetBoundFromCurves(blockCurves);
+            if (lines == null || lines.Count == 0)
+                return false;
+
+            if (CommonUtils.OutLoopContainsInnerLoop(rectLines, lines) || IsLinesIntersectWithLines(lines, rectLines))
+                return true;
+
+            return false;
+        }
+
+        public static List<Entity> PreProcessCurDwg(List<LineSegment2d> rectLines)
+        {
+            var resEntityLst = new List<Entity>();
+            // 本图纸数据块处理
+            using (var db = AcadDatabase.Active())
+            {
+                var blockRefs = db.CurrentSpace.OfType<BlockReference>().Where(p => p.Visible).ToList();
+                foreach (var blockReference in blockRefs)
+                {
+                    var layerId = blockReference.LayerId;
+                    if (layerId == null)
+                        continue;
+
+                    LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(layerId);
+                    if (layerTableRecord.IsOff)
+                        continue;
+
+                    var blockId = blockReference.BlockTableRecord;
+                    var blockRefRecord = db.Element<BlockTableRecord>(blockId);
+                    if (blockRefRecord.IsFromExternalReference)
+                        continue;
+
+                    if (!IsValidBlockReference(blockReference, rectLines))
+                        continue;
+
+                    var entityLst = GetEntityFromBlock(blockReference);
+                    if (entityLst != null && entityLst.Count > 1)
+                    {
+                        foreach (var entity in entityLst)
+                        {
+                            if (!entity.Equals(blockReference))
+                            {
+                                db.CurrentSpace.Add(entity);
+                                resEntityLst.Add(entity);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return resEntityLst;
+        }
+
+        public static List<Entity> PreProcessXREF(List<LineSegment2d> rectLines)
+        {
+            var resEntityLst = new List<Entity>();
+            // 外部参照
+            using (var db = AcadDatabase.Active())
+            {
+                var refs = db.XRefs;
+                foreach (var xblock in refs)
+                {
+                    if (xblock.Block.XrefStatus == XrefStatus.Resolved)
+                    {
+                        BlockTableRecord blockTableRecord = xblock.Block;
+                        List<BlockReference> blockReferences = blockTableRecord.GetAllBlockReferences(true, true).ToList();
+                        for (int i = 0; i < blockReferences.Count(); i++)
+                        {
+                            var blockReference = blockReferences[i];
+                            if (!IsValidBlockReference(blockReference, rectLines))
+                                continue;
+
+                            var entityLst = GetEntityFromBlock(blockReference);
+                            if (entityLst != null && entityLst.Count != 0)
+                            {
+                                foreach (var entity in entityLst)
+                                {
+                                    if (!entity.Equals(blockReference))
+                                    {
+                                        db.CurrentSpace.Add(entity);
+                                        resEntityLst.Add(entity);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return resEntityLst;
+        }
+
+        /// <summary>
+        /// 图纸预处理
+        /// </summary>
+        public static List<Entity> PreProcess(List<LineSegment2d> rectLines)
+        {
+            var resEntityLst = new List<Entity>();
+            var curEntityLst = PreProcessCurDwg(rectLines);
+            if (curEntityLst.Count != 0)
+                resEntityLst.AddRange(curEntityLst);
+            var xRefEntityLst = PreProcessXREF(rectLines);
+            if (xRefEntityLst.Count != 0)
+                resEntityLst.AddRange(xRefEntityLst);
+            return resEntityLst;
+        }
+
+        public static void PostProcess(List<Entity> removeEntityLst)
+        {
+            using (var db = AcadDatabase.Active())
+            {
+                if (removeEntityLst != null && removeEntityLst.Count != 0)
+                {
+                    foreach (var entity in removeEntityLst)
+                    {
+                        var openEntity = db.Element<Entity>(entity.Id, true);
+                        openEntity.Erase(true);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 一个块中是否有多3个图层
+        /// </summary>
+        /// <param name="dbCollection"></param>
+        /// <returns></returns>
+        public static bool IsCanExplode(DBObjectCollection dbCollection)
+        {
+            var layerNames = new List<string>();
+            foreach (var obj in dbCollection)
+            {
+                if (obj is Curve)
+                {
+                    var curve = obj as Curve;
+                    if (curve.Visible)
+                    {
+                        var layerName = curve.Layer;
+                        if (!layerNames.Contains(layerName))
+                        {
+                            layerNames.Add(layerName);
+                            if (layerNames.Count > 3)
+                                return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 是否含有块
+        /// </summary>
+        /// <param name="dbCollection"></param>
+        /// <returns></returns>
+        public static bool IsHasBlockReference(DBObjectCollection dbCollection)
+        {
+            if (dbCollection == null || dbCollection.Count == 0)
+                return false;
+
+            foreach (var obj in dbCollection)
+            {
+                if (obj is BlockReference)
+                {
+                    var curBlock = obj as BlockReference;
+                    if (curBlock.Visible)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 判断单个能否炸开，以及返回的数据
+        /// </summary>
+        /// <param name="block"></param>
+        /// <param name="childReferences"></param>
+        /// <returns></returns>
+        public static List<Entity> FromSingleBlock(BlockReference block, ref List<BlockReference> childReferences)
+        {
+            if (block == null)
+                return null;
+
+            var entityLst = new List<Entity>();
+            try
+            {
+                var dbCollection = new DBObjectCollection();
+                block.Explode(dbCollection);
+
+                if (IsHasBlockReference(dbCollection)) // 内部包含块
+                {
+                    foreach (var obj in dbCollection)
+                    {
+                        if (obj is Entity)
+                        {
+                            if (obj is BlockReference)
+                            {
+                                var childBlock = obj as BlockReference;
+                                if (childBlock.Visible)
+                                    childReferences.Add(childBlock);
+                            }
+                            else
+                            {
+                                var entity = obj as Entity;
+                                if (entity.Visible)
+                                    entityLst.Add(entity);
+                            }
+                        }
+                    }
+                }
+                else if (IsCanExplode(dbCollection)) // 内部不包含块且曲线所在的图层名包含3个以上
+                {
+                    foreach (var obj in dbCollection)
+                    {
+                        if (obj is Entity)
+                        {
+                            var entity = obj as Entity;
+                            if (entity.Visible)
+                                entityLst.Add(entity);
+                        }
+                    }
+                }
+                else // 内部不包含块且曲线所在的图层名小于3个图层
+                {
+                    // 此时这个块不被炸开作为一个整体。
+                    if (block.Visible)
+                        entityLst.Add(block);
+                }
+            }
+            catch
+            {
+                return null;
+            }
+
+            return entityLst;
+        }
+
+        /// <summary>
+        /// 从block单个数据
+        /// </summary>
+        /// <param name="block"></param>
+        /// <returns></returns>
+        public static List<Entity> GetEntityFromBlock(BlockReference block)
+        {
+            if (block == null || !block.Visible)
+                return null;
+
+            var entityLst = new List<Entity>();
+            var blockReferences = new List<BlockReference>();
+            blockReferences.Add(block);
+            while (blockReferences.Count > 0)
+            {
+                var curBlock = blockReferences.First();
+                blockReferences.RemoveAt(0);
+
+                if (curBlock.Visible)
+                {
+                    var entitysInBlock = FromSingleBlock(curBlock, ref blockReferences);
+                    if (entitysInBlock != null && entitysInBlock.Count != 0)
+                    {
+                        entityLst.AddRange(entitysInBlock);
+                    }
+                }
+            }
+
+            return entityLst;
+        }
 
         /// <summary>
         /// 门和墙的曲线连接
