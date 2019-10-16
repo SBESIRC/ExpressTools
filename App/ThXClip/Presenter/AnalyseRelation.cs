@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices.Filters;
 
@@ -16,8 +14,8 @@ namespace ThXClip
         private List<ObjectId> _modelWipeOutIds = new List<ObjectId>();
 
         private List<XClipInfo> _xclipInfs = new List<XClipInfo>();
-        private List<DraworderInf> _blkWipeOuts = new List<DraworderInf>(); //
-        private List<DraworderInf> _drawOrderinfs = new List<DraworderInf>();
+        private List<DraworderInfo> _blkWipeOuts = new List<DraworderInfo>(); //
+        private List<DraworderInfo> _drawOrderinfs = new List<DraworderInfo>();
         private Document _document;
         const string filterDictName = "ACAD_FILTER";
         const string spatialName = "SPATIAL";
@@ -42,11 +40,11 @@ namespace ThXClip
         {
             get{ return _modelWipeOutIds; } 
         }
-        public List<DraworderInf> BlkWipeOuts
+        public List<DraworderInfo> BlkWipeOuts
         {
             get { return _blkWipeOuts; }
         }
-        public List<DraworderInf> DrawOrderinfs
+        public List<DraworderInfo> DrawOrderinfs
         {
             get { return _drawOrderinfs; }
         }
@@ -145,9 +143,9 @@ namespace ThXClip
             }            
             return newBlkName;
         }
-        private DraworderInf GenerateDoi(EntInf entInf,ObjectId blkId)
+        private DraworderInfo GenerateDoi(EntInf entInf,ObjectId blkId)
         {
-            DraworderInf draworderInf = new DraworderInf();
+            DraworderInfo draworderInf = new DraworderInfo();
             draworderInf.Id = entInf.Ent.Id;
             draworderInf.BlockId = blkId;
             draworderInf.TypeName = entInf.Ent.GetType().Name;
@@ -272,9 +270,9 @@ namespace ThXClip
             xClipInfos.ForEach(i => i.BlockPath.Add(preBlkName));
             return xClipInfos;
         }
-        public List<DraworderInf> GetWipeOutPreDrawOrderInfs(ObjectId wpId)
+        public List<DraworderInfo> GetWipeOutPreDrawOrderInfs(ObjectId wpId)
         {
-            List<DraworderInf> preDrawInfs = new List<DraworderInf>();
+            List<DraworderInfo> preDrawInfs = new List<DraworderInfo>();
             if(this.ModelSpaceDrawOrderDic.ContainsKey(wpId))
             {
                 int drawOrderIndex = this.ModelSpaceDrawOrderDic[wpId];
@@ -283,9 +281,9 @@ namespace ThXClip
             }
             return preDrawInfs;
         }
-        public List<DraworderInf> GetWipeOutPreDrawOrderInfs(DraworderInf wpDoi)
+        public List<DraworderInfo> GetWipeOutPreDrawOrderInfs(DraworderInfo wpDoi)
         {
-            List<DraworderInf> preDrawInfs = new List<DraworderInf>();
+            List<DraworderInfo> preDrawInfs = new List<DraworderInfo>();
             preDrawInfs = this._drawOrderinfs.Where(i => i.DrawIndex< wpDoi.DrawIndex).Select(i => i).ToList();
             return preDrawInfs;
         }
@@ -314,11 +312,11 @@ namespace ThXClip
                 trans.Commit();
             }
         }
-        public List<DraworderInf> GetXClipDrawOrderInfs(XClipInfo xClipInfo)
+        public List<DraworderInfo> GetXClipDrawOrderInfs(XClipInfo xClipInfo)
         {
-            List<DraworderInf> draworderInfs = new List<DraworderInf>();
+            List<DraworderInfo> draworderInfs = new List<DraworderInfo>();
             //把所属同一个父块的
-            List<DraworderInf> firstFilterDraworderInfs =this.DrawOrderinfs.Where(i=>i.BlockId==xClipInfo.AttachBlockId).Select(i=>i).ToList();
+            List<DraworderInfo> firstFilterDraworderInfs =this.DrawOrderinfs.Where(i=>i.BlockId==xClipInfo.AttachBlockId).Select(i=>i).ToList();
             draworderInfs=firstFilterDraworderInfs.Where(i => CompareListIsSubOfOther(xClipInfo.BlockPath, i.BlockPath)).Select(i => i).ToList();
             return draworderInfs;
         }

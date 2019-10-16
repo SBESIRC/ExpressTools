@@ -25,7 +25,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\DraworderInf.cs" />
+    <Compile Include="Model\DraworderInfo.cs" />
     <Compile Include="ThXClipUtils.cs" />
     <Compile Include="ThXClipCurveExtension.cs" />
     <Compile Include="Presenter\AnalyseRelation.cs" />

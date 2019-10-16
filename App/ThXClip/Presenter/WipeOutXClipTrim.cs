@@ -52,14 +52,14 @@ namespace ThXClip
         {
             for (int i = 0; i < this._analyzeRelation.ModelWipeOutIds.Count; i++)
             {
-                List<DraworderInf> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.ModelWipeOutIds[i]);
+                List<DraworderInfo> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.ModelWipeOutIds[i]);
                 Point2dCollection boundaryPts = GetWipeOutBoundaryPts(this._analyzeRelation.ModelWipeOutIds[i]);
                 OperationWipeOut(boundaryPts, preDrawDoi);
 
             }
             for (int i = 0; i < this._analyzeRelation.BlkWipeOuts.Count; i++)
             {
-                List<DraworderInf> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.BlkWipeOuts[i]);
+                List<DraworderInfo> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.BlkWipeOuts[i]);
                 Point2dCollection boundaryPts = GetWipeOutBoundaryPts(this._analyzeRelation.BlkWipeOuts[i].Id);
                 OperationWipeOut(boundaryPts, preDrawDoi);
             }
@@ -111,12 +111,12 @@ namespace ThXClip
                         layerIndex++;
                     }
                     btr.Name = blockName;
-                    List<DraworderInf> currentBlkObjs = this._analyzeRelation.DrawOrderinfs.
+                    List<DraworderInfo> currentBlkObjs = this._analyzeRelation.DrawOrderinfs.
                         Where(i => i.BlockId == objId).Select(i => i).ToList();
                     for (int i = 0; i < currentBlkObjs.Count; i++)
                     {
                         Entity ent = _document.TransactionManager.TopTransaction.GetObject(currentBlkObjs[i].Id, OpenMode.ForRead) as Entity;
-                        EntPropertyInf entPropertyInf = new EntPropertyInf() { Layer = ent.Layer, ColorIndex = ent.ColorIndex, Lw = ent.LineWeight };
+                        EntPropertyInfo entPropertyInf = new EntPropertyInfo() { Layer = ent.Layer, ColorIndex = ent.ColorIndex, Lw = ent.LineWeight };
                         for (int j = 0; j < currentBlkObjs[i].DbObjs.Count; j++)
                         {
                             DBObject dbObj = currentBlkObjs[i].DbObjs[j];
@@ -182,7 +182,7 @@ namespace ThXClip
             }
             return newPts;
         }
-        private void OperationWipeOut(Point2dCollection wipeOutBoundaryPts, List<DraworderInf> preDrawDois)
+        private void OperationWipeOut(Point2dCollection wipeOutBoundaryPts, List<DraworderInfo> preDrawDois)
         {              
             wipeOutBoundaryPts = TransWipeOutBoundaryPts(wipeOutBoundaryPts);
             CurveType curveType = CurveType.NotSupport;
@@ -347,7 +347,7 @@ namespace ThXClip
         private void OperationXClip(XClipInfo xClipInfo)
         {
             Point2dCollection xClipEdgePts = TransWipeOutBoundaryPts(xClipInfo.Pts);
-            List<DraworderInf> needHandleDrawDois = _analyzeRelation.GetXClipDrawOrderInfs(xClipInfo);
+            List<DraworderInfo> needHandleDrawDois = _analyzeRelation.GetXClipDrawOrderInfs(xClipInfo);
             CurveType curveType = CurveType.NotSupport;
             for (int i = 0; i < needHandleDrawDois.Count; i++)
             {

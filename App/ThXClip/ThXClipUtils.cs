@@ -9,7 +9,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThXClip
 {    
-    public class EntPropertyInf
+    public class EntPropertyInfo
     {
         public string Layer { get; set; }
         public int ColorIndex { get; set;}
@@ -34,7 +34,7 @@ namespace ThXClip
             }
         }
 
-        public static void ChangeEntityProperty(Entity ent, EntPropertyInf entPropertyInf)
+        public static void ChangeEntityProperty(Entity ent, EntPropertyInfo entPropertyInf)
         {
             ent.Layer = entPropertyInf.Layer;
             ent.ColorIndex = entPropertyInf.ColorIndex;

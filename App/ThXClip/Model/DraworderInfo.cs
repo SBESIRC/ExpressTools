@@ -10,7 +10,7 @@ namespace ThXClip
     /// <summary>
     /// 块炸开后的物体结构顺序
     /// </summary>
-    public class DraworderInf
+    public class DraworderInfo
     {
         /// <summary>
         /// 提交到模型空间的Id
