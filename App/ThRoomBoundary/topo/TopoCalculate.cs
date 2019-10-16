@@ -698,10 +698,10 @@ namespace ThRoomBoundary.topo
 
         public static List<List<TopoEdge>> MakeProfileLoop(List<LineNode> lineNodes)
         {
-            ThProgressDialog.SetValue(50);
+            ThProgressDialog.SetValue(60);
             List<LineNode> removeLineNodes = null;
             CommonUtils.RemoveCollinearLines(lineNodes, out removeLineNodes);
-            ThProgressDialog.SetValue(60);
+            ThProgressDialog.SetValue(65);
             if (removeLineNodes == null)
                 return null;
             var topoCal = new TopoCalculate(removeLineNodes);
