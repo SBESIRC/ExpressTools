@@ -639,9 +639,11 @@ namespace ThRoomBoundary
         {
             var resEntityLst = new List<Entity>();
             var curEntityLst = PreProcessCurDwg(rectLines);
+            ThProgressDialog.SetValue(8);
             if (curEntityLst.Count != 0)
                 resEntityLst.AddRange(curEntityLst);
             var xRefEntityLst = PreProcessXREF(rectLines);
+            ThProgressDialog.SetValue(10);
             if (xRefEntityLst.Count != 0)
                 resEntityLst.AddRange(xRefEntityLst);
             return resEntityLst;

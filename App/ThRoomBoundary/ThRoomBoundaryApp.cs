@@ -62,14 +62,20 @@ namespace ThRoomBoundary
             // 所有数据
             var allCurves = ThRoomUtils.GetAllCurvesFromLayerNames(allCurveLayers);
             if (allCurves == null || allCurves.Count == 0)
+            {
+                ThProgressDialog.HideProgress();
                 return;
+            }
             ThProgressDialog.SetValue(14);
             var layerCurves = ThRoomUtils.GetValidCurvesFromSelectArea(allCurves, rectLines);
             ThProgressDialog.SetValue(16);
             // wall 中的数据
             var wallAllCurves = ThRoomUtils.GetAllCurvesFromLayerNames(wallLayers);
             if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
+            {
+                ThProgressDialog.HideProgress();
                 return;
+            }
 
             var wallCurves = ThRoomUtils.GetValidCurvesFromSelectArea(wallAllCurves, rectLines);
             ThProgressDialog.SetValue(20);
@@ -102,7 +108,10 @@ namespace ThRoomBoundary
             // 生成轮廓数据
             var roomDatas = TopoUtils.MakeSrcProfiles(layerCurves);
             if (roomDatas == null || roomDatas.Count == 0)
+            {
+                ThProgressDialog.HideProgress();
                 return;
+            }
 
             ThRoomUtils.PostProcess(removeEntityLst);
             ThProgressDialog.HideProgress();
