@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThXClip
 {
@@ -166,6 +167,22 @@ namespace ThXClip
             Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
             Point3dCollection intersectPts = new Point3dCollection();
             polyline.IntersectWith(spline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
+            if(intersectPts.Count>0)
+            {
+                int index=intersectPts.IndexOf(spline.StartPoint);
+                if(index>=0)
+                {
+                    intersectPts.RemoveAt(index);
+                }
+                if(intersectPts.Count > 0)
+                {
+                    index = intersectPts.IndexOf(spline.EndPoint);
+                    if (index >= 0)
+                    {
+                        intersectPts.RemoveAt(index);
+                    }
+                }
+            }
             if (intersectPts == null || intersectPts.Count == 0)
             {
                 if (ThXClipCadOperation.IsPointInPolyline(pts, spline.StartPoint))  //圆心在pts范围内
@@ -186,13 +203,128 @@ namespace ThXClip
                 }
                 return dBObjects;
             }
-            else
+            else if(intersectPts.Count==1)
             {
-                //暂时不支持
-                Entity ent = spline.Clone() as Entity;
-                dBObjects.Add(ent);
-                return dBObjects;
+                Point3d checkPt = Point3d.Origin;
+                bool isPortPt = false;
+                if(intersectPts[0].DistanceTo(spline.StartPoint) <= 0.1)
+                {
+                    checkPt = spline.EndPoint;
+                    isPortPt = true;
+                }
+                else if(intersectPts[0].DistanceTo(spline.EndPoint) <= 0.1)
+                {
+                    checkPt = spline.StartPoint;
+                    isPortPt = true;
+                }
+                if(isPortPt)
+                {
+                    if(ThXClipCadOperation.IsPointInPolyline(pts,checkPt)) //判断Spline是否在Polyline里面
+                    {
+                        if(keepInternal)
+                        {
+                            Entity ent = spline.Clone() as Entity;
+                            dBObjects.Add(ent);
+                        }
+                    }
+                    else
+                    {
+                        if(!keepInternal)
+                        {
+                            Entity ent = spline.Clone() as Entity;
+                            dBObjects.Add(ent);
+                        }
+                    }
+                    return dBObjects;
+                }
             }
+            DBObjectCollection splitCurves = new DBObjectCollection();
+            DBObjectCollection needSplitCurves = new DBObjectCollection();
+            needSplitCurves.Add(spline);
+            foreach (Point3d pt in intersectPts)
+            {
+                Point3dCollection splitPts = new Point3dCollection();
+                splitPts.Add(pt);
+                foreach (DBObject dbObj in needSplitCurves)
+                {
+                    if (dbObj is Spline)
+                    {
+                        Point3d lineSp = pt + Vector3d.XAxis.MultiplyBy(-0.5);
+                        Point3d lineEp = pt + Vector3d.XAxis.MultiplyBy(0.5);
+                        Line line = new Line(lineSp, lineEp);
+                        Spline currentSpline = dbObj as Spline;
+                        Point3dCollection tempCollection = new Point3dCollection();
+                        line.IntersectWith(currentSpline, Intersect.OnBothOperands, tempCollection, IntPtr.Zero, IntPtr.Zero);
+                        if (tempCollection == null || tempCollection.Count==0)
+                        {
+                            splitCurves.Add(currentSpline);
+                            continue;
+                        }
+                        DBObjectCollection dbObjs = currentSpline.GetSplitCurves(splitPts);
+                        foreach(DBObject splitDbObj in dbObjs)
+                        {
+                            splitCurves.Add(splitDbObj);
+                        }
+                    }
+                }
+                needSplitCurves = new DBObjectCollection();
+                needSplitCurves = splitCurves;
+                splitCurves = new DBObjectCollection();
+            }
+            List<Spline> splines = new List<Spline>();
+            foreach(DBObject dbObj in needSplitCurves)
+            {
+                if(dbObj is Spline)
+                {
+                    Spline currentSpline = dbObj as Spline;
+                    splines.Add(currentSpline);
+                }
+            }
+            List<Spline> uniqueSplines = new List<Spline>();
+            while (splines.Count>0)
+            {
+                Spline currentSpline = splines[0];
+                uniqueSplines.Add(currentSpline);
+                splines.RemoveAt(0);
+                splines= splines.Where(i => (!(i.StartPoint.IsEqualTo(currentSpline.StartPoint, ThCADCommon.Global_Tolerance) &&
+                i.EndPoint.IsEqualTo(currentSpline.EndPoint, ThCADCommon.Global_Tolerance)) ||
+                (i.StartPoint.IsEqualTo(currentSpline.EndPoint, ThCADCommon.Global_Tolerance) &&
+                i.EndPoint.IsEqualTo(currentSpline.StartPoint, ThCADCommon.Global_Tolerance)))).Select(i => i).ToList(); //把break后，具有相同位置的过滤掉
+            }
+            foreach(Spline currentSpline in uniqueSplines)
+            {
+                Point3d checkPt = Point3d.Origin;
+                if(currentSpline.NumControlPoints>1)
+                {
+                    checkPt = ThXClipCadOperation.GetExtentPt(currentSpline.StartPoint, currentSpline.GetControlPointAt(1), 1.0); //起点到第2个控制点，延长1mm,找到一个检查点
+                }
+                int numberFitPoints = currentSpline.NumFitPoints;
+                for (int i=0;i< numberFitPoints;i++)
+                {
+                    Point3d fitPoint = currentSpline.GetFitPointAt(i);
+                    if (!fitPoint.IsEqualTo(currentSpline.StartPoint,ThCADCommon.Global_Tolerance) &&
+                        !fitPoint.IsEqualTo(currentSpline.EndPoint, ThCADCommon.Global_Tolerance))
+                    {
+                        checkPt = fitPoint;
+                        break;
+                    }
+                }
+                if(ThXClipCadOperation.IsPointInPolyline(pts,checkPt))
+                {
+                    if(keepInternal)
+                    {
+                        dBObjects.Add(currentSpline);
+                    }
+                }
+                else
+                {
+                    if (!keepInternal)
+                    {
+                        dBObjects.Add(currentSpline);
+                    }
+                }
+            }
+            return dBObjects;
         }
         /// <summary>
         /// 修剪Xline
