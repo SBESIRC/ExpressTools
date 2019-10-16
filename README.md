@@ -7,6 +7,12 @@ Win10 + Visual Studio 2017 Community
 
 WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
+# C# code styles
+
+[C# Coding Conventions](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)
+
+[The Official raywenderlich.com C# Style Guide](https://github.com/raywenderlich/c-sharp-style-guide)
+
 # Debug tips
 
 [Public symbols for AutoCAD 2012](https://www.keanw.com/2011/06/public-symbols-for-autocad-2012.html)
