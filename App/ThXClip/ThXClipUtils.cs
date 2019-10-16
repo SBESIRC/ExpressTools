@@ -15,24 +15,25 @@ namespace ThXClip
         public int ColorIndex { get; set;}
         public LineWeight Lw { get; set; }
     }
-    public class PublicFunction
+    public class ThXClipUtils
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="acadEdition">如2008,2009,2010...</param>
-        /// <returns></returns>
-        public static bool IsGreaterThanOrEqualTo(int acadEdition)
+        public static bool IsGreaterThanOrEqualTo(int major, int minor)
         {
-            bool res = false;
             Version version = Application.Version;
-            int major = version.Major;
-            if(version.Major > 19 || (version.Major==19 && version.Minor==2))
+            if (version.Major > major)
             {
-                res = true;
+                return true;
             }
-            return res;
+            else if (version.Major == major)
+            {
+                return version.Minor >= minor;
+            }
+            else
+            {
+                return false;
+            }
         }
+
         public static void ChangeEntityProperty(Entity ent, EntPropertyInf entPropertyInf)
         {
             ent.Layer = entPropertyInf.Layer;

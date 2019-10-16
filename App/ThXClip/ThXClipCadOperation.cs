@@ -13,7 +13,7 @@ using Autodesk.AutoCAD.Internal;
 
 namespace ThXClip
 {
-    public class CadOperation
+    public class ThXClipCadOperation
     {
         /// <summary>
         /// 获取直线外的一点在直线上的垂足点
@@ -258,7 +258,7 @@ namespace ThXClip
             Dictionary<Point3d, double> ptAngDic = new Dictionary<Point3d, double>();
             foreach (Point3d pt in pts)
             {
-                double ang = CadOperation.AngleFromXAxis(centPt, pt);
+                double ang = ThXClipCadOperation.AngleFromXAxis(centPt, pt);
                 if(!ptAngDic.ContainsKey(pt))
                 {
                     ptAngDic.Add(pt, ang);
@@ -333,7 +333,7 @@ namespace ThXClip
             polygon.Add(new Point3d(minX, maxY, minZ));
 
             Polyline3d polyline = new Polyline3d(Poly3dType.SimplePoly,polygon,true);
-            List<ObjectId> objectIds= CadOperation.AddToBlockTable(polyline);
+            List<ObjectId> objectIds= ThXClipCadOperation.AddToBlockTable(polyline);
             PromptSelectionResult result;
             ViewTableRecord view = ed.GetCurrentView();
             ed.ZoomObject(objectIds[0]);
@@ -342,7 +342,7 @@ namespace ThXClip
             else
                 result = ed.SelectWindowPolygon(polygon);
             ed.SetCurrentView(view);
-            CadOperation.EraseObjIds(objectIds[0]);
+            ThXClipCadOperation.EraseObjIds(objectIds[0]);
             return result;
         }
         /// <summary>
@@ -995,7 +995,7 @@ namespace ThXClip
                     else if (segmentSplitInf.ST == SegmentType.Arc)
                     {
                         CircularArc2d circularArc2D = polyline.GetArcSegment2dAt(segmentSplitInf.Index);
-                        double arcBulge = CadOperation.GetBulge(circularArc2D.Center, splitPtSp, splitPtEp);
+                        double arcBulge = ThXClipCadOperation.GetBulge(circularArc2D.Center, splitPtSp, splitPtEp);
                         newPolyline.AddVertexAt(k++, splitPtSp, arcBulge, headSW, headEW);
                     }
                     if (j == resortSegments[i].Count - 1)
@@ -1010,19 +1010,19 @@ namespace ThXClip
         public static Point3d GetArcTopPt(Point3d cenPt, Point3d arcSp, Point3d arcEp)
         {
             Point3d arcTopPt = Point3d.Origin;
-            double startAngle = CadOperation.AngleFromXAxis(cenPt, arcSp);
-            double endAngle = CadOperation.AngleFromXAxis(cenPt, arcEp);
+            double startAngle = ThXClipCadOperation.AngleFromXAxis(cenPt, arcSp);
+            double endAngle = ThXClipCadOperation.AngleFromXAxis(cenPt, arcEp);
             double jiaJiao = endAngle - startAngle;
             jiaJiao = (jiaJiao + Math.PI * 2.0) % (Math.PI * 2.0);
             double radius = cenPt.DistanceTo(arcSp);
-            Point3d midPt = CadOperation.GetMidPt(arcSp, arcEp);
+            Point3d midPt = ThXClipCadOperation.GetMidPt(arcSp, arcEp);
             if (jiaJiao <= Math.PI)
             {
-                arcTopPt = CadOperation.GetExtentPt(cenPt, midPt, radius);
+                arcTopPt = ThXClipCadOperation.GetExtentPt(cenPt, midPt, radius);
             }
             else
             {
-                arcTopPt = CadOperation.GetExtentPt(cenPt, midPt, -1.0 * radius);
+                arcTopPt = ThXClipCadOperation.GetExtentPt(cenPt, midPt, -1.0 * radius);
             }
             return arcTopPt;
         }

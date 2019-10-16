@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.Geometry;
 
 namespace ThXClip
 {
-    public static class ThCurveXClipExtension
+    public static class ThXClipCurveExtension
     {
         /// <summary>
         /// 修剪Arc
@@ -19,12 +19,12 @@ namespace ThXClip
         public static DBObjectCollection XClip(this Arc arc, Point2dCollection pts, bool keepInternal = false)
         {
             DBObjectCollection dBObjects = new DBObjectCollection();
-            Polyline polyline = CadOperation.CreatePolyline(pts);
+            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
             Point3dCollection intersectPts = new Point3dCollection();
             arc.IntersectWith(polyline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
             if (intersectPts == null || intersectPts.Count == 0) //无交点，
             {
-                if (CadOperation.IsPointInPolyline(pts, arc.Center))  //圆心在pts范围内
+                if (ThXClipCadOperation.IsPointInPolyline(pts, arc.Center))  //圆心在pts范围内
                 {
                     if (keepInternal)
                     {
@@ -47,8 +47,8 @@ namespace ThXClip
                 if (intersectPts[0].DistanceTo(arc.StartPoint) <= 1.0 ||
                     intersectPts[0].DistanceTo(arc.EndPoint) <= 1.0)
                 {
-                    Point3d arcTopPt = CadOperation.GetArcTopPt(arc.Center, arc.StartPoint, arc.EndPoint);
-                    if (CadOperation.IsPointInPolyline(pts, arcTopPt))  //弧顶在pts范围内
+                    Point3d arcTopPt = ThXClipCadOperation.GetArcTopPt(arc.Center, arc.StartPoint, arc.EndPoint);
+                    if (ThXClipCadOperation.IsPointInPolyline(pts, arcTopPt))  //弧顶在pts范围内
                     {
                         if (keepInternal)
                         {
@@ -79,7 +79,7 @@ namespace ThXClip
             sortPts.Insert(0, arc.StartPoint);
             intersectPtList.ForEach(i => sortPts.Add(i));
             sortPts.Add(arc.EndPoint);
-            sortPts = CadOperation.SortArcPts(sortPts, arc.Center);
+            sortPts = ThXClipCadOperation.SortArcPts(sortPts, arc.Center);
             List<List<Point3d>> ptPair = new List<List<Point3d>>();
             for (int i = 0; i < sortPts.Count - 1; i++)
             {
@@ -87,8 +87,8 @@ namespace ThXClip
                 {
                     continue;
                 }
-                Point3d arcTopPt = CadOperation.GetArcTopPt(arc.Center, sortPts[i], sortPts[i + 1]);
-                if (CadOperation.IsPointInPolyline(pts, arcTopPt))
+                Point3d arcTopPt = ThXClipCadOperation.GetArcTopPt(arc.Center, sortPts[i], sortPts[i + 1]);
+                if (ThXClipCadOperation.IsPointInPolyline(pts, arcTopPt))
                 {
                     if (keepInternal)
                     {
@@ -121,8 +121,8 @@ namespace ThXClip
                     }
                 }
                 i = num;
-                double startAngle = CadOperation.AngleFromXAxis(arc.Center, startPt);
-                double endAngle = CadOperation.AngleFromXAxis(arc.Center, endPt);
+                double startAngle = ThXClipCadOperation.AngleFromXAxis(arc.Center, startPt);
+                double endAngle = ThXClipCadOperation.AngleFromXAxis(arc.Center, endPt);
                 Arc newArc = new Arc(arc.Center, arc.Radius, startAngle, endAngle);
                 dBObjects.Add(newArc);
             }
@@ -163,12 +163,12 @@ namespace ThXClip
             {
                 return dBObjects;
             }
-            Polyline polyline = CadOperation.CreatePolyline(pts);
+            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
             Point3dCollection intersectPts = new Point3dCollection();
             polyline.IntersectWith(spline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
             if (intersectPts == null || intersectPts.Count == 0)
             {
-                if (CadOperation.IsPointInPolyline(pts, spline.StartPoint))  //圆心在pts范围内
+                if (ThXClipCadOperation.IsPointInPolyline(pts, spline.StartPoint))  //圆心在pts范围内
                 {
                     if (keepInternal)
                     {
@@ -203,7 +203,7 @@ namespace ThXClip
         public static DBObjectCollection XClip(this Xline xline, Point2dCollection pts, bool keepInternal = false)
         {
             DBObjectCollection dBObjects = new DBObjectCollection();
-            Polyline polyline = CadOperation.CreatePolyline(pts);
+            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
             Point3dCollection intersectPts = new Point3dCollection();
             polyline.IntersectWith(xline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
             if (intersectPts == null || intersectPts.Count <= 1) //现在Polyline外面
@@ -229,8 +229,8 @@ namespace ThXClip
             List<List<Point3d>> ptPair = new List<List<Point3d>>();
             for (int i = 0; i < points.Count - 1; i++)
             {
-                Point3d pt = CadOperation.GetMidPt(points[i], points[i + 1]);
-                if (CadOperation.IsPointInPolyline(pts, pt))
+                Point3d pt = ThXClipCadOperation.GetMidPt(points[i], points[i + 1]);
+                if (ThXClipCadOperation.IsPointInPolyline(pts, pt))
                 {
                     if (keepInternal)
                     {
@@ -289,7 +289,7 @@ namespace ThXClip
         public static DBObjectCollection XClip(this Ray ray, Point2dCollection pts, bool keepInternal = false)
         {
             DBObjectCollection dBObjects = new DBObjectCollection();
-            Polyline polyline = CadOperation.CreatePolyline(pts);
+            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
             Point3dCollection intersectPts = new Point3dCollection();
             polyline.IntersectWith(ray, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
 
@@ -317,8 +317,8 @@ namespace ThXClip
             List<List<Point3d>> ptPair = new List<List<Point3d>>();
             for (int i = 0; i < points.Count - 1; i++)
             {
-                Point3d pt = CadOperation.GetMidPt(points[i], points[i + 1]);
-                if (CadOperation.IsPointInPolyline(pts, pt))
+                Point3d pt = ThXClipCadOperation.GetMidPt(points[i], points[i + 1]);
+                if (ThXClipCadOperation.IsPointInPolyline(pts, pt))
                 {
                     if (keepInternal)
                     {
@@ -375,12 +375,12 @@ namespace ThXClip
         public static DBObjectCollection XClip(this Circle circle, Point2dCollection pts, bool keepInternal = false)
         {
             DBObjectCollection dBObjects = new DBObjectCollection();
-            Polyline polyline = CadOperation.CreatePolyline(pts);
+            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
             Point3dCollection intersectPts = new Point3dCollection();
             circle.IntersectWith(polyline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
             if (intersectPts == null || intersectPts.Count == 0) //无交点，
             {
-                if (CadOperation.IsPointInPolyline(pts, circle.Center))  //圆心在pts范围内
+                if (ThXClipCadOperation.IsPointInPolyline(pts, circle.Center))  //圆心在pts范围内
                 {
                     if (keepInternal)
                     {
@@ -401,7 +401,7 @@ namespace ThXClip
             Dictionary<Point3d,double> intersPtAngDic = new Dictionary<Point3d, double>();
             foreach (Point3d pt in intersectPts)
             {
-                double angle = CadOperation.AngleFromXAxis(circle.Center, pt);               
+                double angle = ThXClipCadOperation.AngleFromXAxis(circle.Center, pt);               
                 if (!intersPtAngDic.ContainsKey(pt))
                 {
                     intersPtAngDic.Add(pt, angle);
@@ -415,8 +415,8 @@ namespace ThXClip
                 {
                     continue;
                 }
-                Point3d arcTopPt = CadOperation.GetArcTopPt(circle.Center, sortPts[i], sortPts[i + 1]);
-                if (CadOperation.IsPointInPolyline(pts, arcTopPt))
+                Point3d arcTopPt = ThXClipCadOperation.GetArcTopPt(circle.Center, sortPts[i], sortPts[i + 1]);
+                if (ThXClipCadOperation.IsPointInPolyline(pts, arcTopPt))
                 {
                     if (keepInternal)
                     {
@@ -449,17 +449,17 @@ namespace ThXClip
                     }
                 }
                 i = num;
-                double startAngle = CadOperation.AngleFromXAxis(circle.Center,startPt);
-                double endAngle = CadOperation.AngleFromXAxis(circle.Center, endPt);    
+                double startAngle = ThXClipCadOperation.AngleFromXAxis(circle.Center,startPt);
+                double endAngle = ThXClipCadOperation.AngleFromXAxis(circle.Center, endPt);    
                 Arc arc = new Arc(circle.Center,circle.Radius, startAngle, endAngle); //逆时针
                 dBObjects.Add(arc);
             }
-            Point3d newArcTopPt = CadOperation.GetArcTopPt(circle.Center, sortPts[sortPts.Count - 1], sortPts[0]);
-            if (!CadOperation.IsPointInPolyline(pts, newArcTopPt)) //假设弧形顶点不在WipeOut里面，则保留此弧段
+            Point3d newArcTopPt = ThXClipCadOperation.GetArcTopPt(circle.Center, sortPts[sortPts.Count - 1], sortPts[0]);
+            if (!ThXClipCadOperation.IsPointInPolyline(pts, newArcTopPt)) //假设弧形顶点不在WipeOut里面，则保留此弧段
             {
                 if(!keepInternal)
                 {
-                    Arc arc = CadOperation.CreateArc(circle.Center, sortPts[sortPts.Count - 1], sortPts[0]);
+                    Arc arc = ThXClipCadOperation.CreateArc(circle.Center, sortPts[sortPts.Count - 1], sortPts[0]);
                     dBObjects.Add(arc);
                 }
             }
@@ -467,7 +467,7 @@ namespace ThXClip
             {
                 if (keepInternal)
                 {
-                    Arc arc = CadOperation.CreateArc(circle.Center, sortPts[sortPts.Count - 1], sortPts[0]);
+                    Arc arc = ThXClipCadOperation.CreateArc(circle.Center, sortPts[sortPts.Count - 1], sortPts[0]);
                     dBObjects.Add(arc);
                 }
             }
@@ -482,12 +482,12 @@ namespace ThXClip
         public static DBObjectCollection XClip(this Ellipse ellipse, Point2dCollection pts, bool keepInternal = false)
         {
             DBObjectCollection dBObjects = new DBObjectCollection();
-            Polyline polyline = CadOperation.CreatePolyline(pts);
+            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
             Point3dCollection intersectPts = new Point3dCollection();
             ellipse.IntersectWith(polyline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
             if (intersectPts == null || intersectPts.Count == 0)
             {
-                if (CadOperation.IsPointInPolyline(pts, ellipse.Center))  //圆心在pts范围内
+                if (ThXClipCadOperation.IsPointInPolyline(pts, ellipse.Center))  //圆心在pts范围内
                 {
                     if (keepInternal) //保留内部
                     {
@@ -522,7 +522,7 @@ namespace ThXClip
                     {
                         checkPt = ellipse.StartPoint;
                     }
-                    if (CadOperation.IsPointInPolyline(pts, checkPt)) //弧在闭合圈内
+                    if (ThXClipCadOperation.IsPointInPolyline(pts, checkPt)) //弧在闭合圈内
                     {
                         if (keepInternal)
                         {
@@ -578,7 +578,7 @@ namespace ThXClip
                 double para = ellipse.GetParameterAtAngle(midAng);
                 Point3d ellipseTopPt = ellipse.GetPointAtParameter(para);
                 ynDraw = false;
-                if (CadOperation.IsPointInPolyline(pts, ellipseTopPt))
+                if (ThXClipCadOperation.IsPointInPolyline(pts, ellipseTopPt))
                 {
                     if (keepInternal)
                         ynDraw = true;
@@ -603,7 +603,7 @@ namespace ThXClip
                 double midAng = (angs[angs.Count-1] + angs[0]) / 2.0;
                 double para = ellipse.GetParameterAtAngle(midAng);
                 Point3d ellipseTopPt = ellipse.GetPointAtParameter(para);
-                if (CadOperation.IsPointInPolyline(pts, ellipseTopPt))
+                if (ThXClipCadOperation.IsPointInPolyline(pts, ellipseTopPt))
                 {
                     if (keepInternal)
                         ynDraw = true;
@@ -646,7 +646,7 @@ namespace ThXClip
                 double endPara = ellipse.GetParameterAtPoint(endPt);
                 double startAngle = ellipse.GetAngleAtParameter(startPara);
                 double endAngle = ellipse.GetAngleAtParameter(endPara);
-                bool isAnticlockWise = CadOperation.JudgeTwoVectorIsAnticlockwise(startVec, endVec);
+                bool isAnticlockWise = ThXClipCadOperation.JudgeTwoVectorIsAnticlockwise(startVec, endVec);
                 Ellipse newEllipse = new Ellipse();
                 if (isAnticlockWise)
                 {
@@ -671,7 +671,7 @@ namespace ThXClip
         public static DBObjectCollection XClip(this Line line, Point2dCollection pts, bool keepInternal = false)
         {           
             DBObjectCollection dBObjects = new DBObjectCollection();
-            Polyline polyline = CadOperation.CreatePolyline(pts);
+            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
             Point3dCollection intersectPts = new Point3dCollection();
             polyline.IntersectWith(line, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
             List<Point3d> points = new List<Point3d>();
@@ -687,7 +687,7 @@ namespace ThXClip
             }
             if (points.Count == 0)
             {
-                if (CadOperation.IsPointInPolyline(pts, CadOperation.GetMidPt(line.StartPoint ,line.EndPoint))) //线在曲线内
+                if (ThXClipCadOperation.IsPointInPolyline(pts, ThXClipCadOperation.GetMidPt(line.StartPoint ,line.EndPoint))) //线在曲线内
                 {
                     if (keepInternal)
                     {
@@ -717,8 +717,8 @@ namespace ThXClip
                     continue;
                 }
                 ynDraw = false;
-                Point3d pt = CadOperation.GetMidPt(points[i], points[i + 1]);
-                if (CadOperation.IsPointInPolyline(pts, pt))
+                Point3d pt = ThXClipCadOperation.GetMidPt(points[i], points[i + 1]);
+                if (ThXClipCadOperation.IsPointInPolyline(pts, pt))
                 {
                     if (keepInternal) //保留里面
                         ynDraw = true;
@@ -765,13 +765,13 @@ namespace ThXClip
         public static DBObjectCollection XClip(this Polyline polyline, Point2dCollection pts, bool keepInternal = false)
         {           
             DBObjectCollection dBObjects = new DBObjectCollection();
-            Polyline clipBoundaryPline = CadOperation.CreatePolyline(pts);
+            Polyline clipBoundaryPline = ThXClipCadOperation.CreatePolyline(pts);
             Point3dCollection intersectPts = new Point3dCollection();
             polyline.IntersectWith(clipBoundaryPline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
             if (intersectPts == null || intersectPts.Count == 0)
             {
                 Point3d firstPt = polyline.GetPoint3dAt(0);
-                if (CadOperation.IsPointInPolyline(pts, firstPt)) //线在曲线内
+                if (ThXClipCadOperation.IsPointInPolyline(pts, firstPt)) //线在曲线内
                 {
                     if (keepInternal)
                     {
@@ -793,7 +793,7 @@ namespace ThXClip
             Dictionary<Point3d, int> ptSegmentIndexDic = new Dictionary<Point3d, int>();
             foreach (Point3d point in intersectPts)
             {
-                int index = CadOperation.GetPointOnPolylineSegment(polyline, point);
+                int index = ThXClipCadOperation.GetPointOnPolylineSegment(polyline, point);
                 if (index >= 0)
                 {
                     if (!ptSegmentIndexDic.ContainsKey(point))
@@ -940,7 +940,7 @@ namespace ThXClip
                 }
                 if (restSegments.Count > 0)
                 {
-                    List<Polyline> polylines =CadOperation.RepairPolylineRestCurve(restSegments, polyline);
+                    List<Polyline> polylines =ThXClipCadOperation.RepairPolylineRestCurve(restSegments, polyline);
                     polylines.ForEach(i => dBObjects.Add(i));
                 }
             }
@@ -980,7 +980,7 @@ namespace ThXClip
                     CircularArc2d circularArc2D = polyline.GetArcSegment2dAt(addPolylineInf.HeadSplitIndex);
                     Point2d cenPt = circularArc2D.Center;
                     Point2d arcEp = circularArc2D.EndPoint;
-                    double arcBulge = CadOperation.GetBulge(cenPt, splitPt2d, arcEp);
+                    double arcBulge = ThXClipCadOperation.GetBulge(cenPt, splitPt2d, arcEp);
                     newPolyline.AddVertexAt(j++, splitPt2d, arcBulge, headSW, headEW);
                 }
             }
@@ -1008,7 +1008,7 @@ namespace ThXClip
                     CircularArc2d circularArc2D = polyline.GetArcSegment2dAt(addPolylineInf.TailSplitIndex);
                     Point2d cenPt = circularArc2D.Center;
                     Point2d arcSp = circularArc2D.StartPoint;
-                    double arcBulge = CadOperation.GetBulge(cenPt, arcSp, splitPt2d);
+                    double arcBulge = ThXClipCadOperation.GetBulge(cenPt, arcSp, splitPt2d);
                     newPolyline.AddVertexAt(j++, arcSp, arcBulge, tailSW, tailEW);
                     newPolyline.AddVertexAt(j++, splitPt2d, 0.0, 0.0, 0.0);
                 }
@@ -1034,8 +1034,8 @@ namespace ThXClip
             List<List<Point3d>> ptPair = new List<List<Point3d>>();
             for (int i = 0; i < points.Count - 1; i++)
             {
-                Point3d pt = CadOperation.GetMidPt(points[i], points[i + 1]);
-                if (CadOperation.IsPointInPolyline(pts, pt)) //线在多段线内
+                Point3d pt = ThXClipCadOperation.GetMidPt(points[i], points[i + 1]);
+                if (ThXClipCadOperation.IsPointInPolyline(pts, pt)) //线在多段线内
                 {
                     if (!keepInternal)
                         continue;
@@ -1095,8 +1095,8 @@ namespace ThXClip
             Dictionary<Point3d, Point3d> ptDic = new Dictionary<Point3d, Point3d>();
             foreach (Point3d pt in splitPts)
             {
-                Point3d orthoPt = CadOperation.GetOrthoPtOnLine(arc.StartPoint, arc.EndPoint, pt);
-                List<PtAndLinePos> ptPoses = CadOperation.JudgePtAndLineRelation(arc.StartPoint, arc.EndPoint, orthoPt);
+                Point3d orthoPt = ThXClipCadOperation.GetOrthoPtOnLine(arc.StartPoint, arc.EndPoint, pt);
+                List<PtAndLinePos> ptPoses = ThXClipCadOperation.JudgePtAndLineRelation(arc.StartPoint, arc.EndPoint, orthoPt);
                 if (ptPoses.Count == 1 && ptPoses.IndexOf(PtAndLinePos.In) >= 0 && !ptDic.ContainsKey(pt)) //判断交点在线内
                 {
                     ptDic.Add(pt, orthoPt);
@@ -1108,8 +1108,8 @@ namespace ThXClip
             List<List<Point3d>> ptPair = new List<List<Point3d>>();
             for (int i = 0; i < points.Count - 1; i++)
             {
-                Point3d pt = CadOperation.GetMidPt(points[i], points[i + 1]);
-                if (CadOperation.IsPointInPolyline(pts, pt)) //如果分段在WipeOut内
+                Point3d pt = ThXClipCadOperation.GetMidPt(points[i], points[i + 1]);
+                if (ThXClipCadOperation.IsPointInPolyline(pts, pt)) //如果分段在WipeOut内
                 {
                     if (!keepInternal)
                         continue;

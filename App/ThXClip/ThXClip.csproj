@@ -25,17 +25,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="XmDwgFiler.cs" />
     <Compile Include="Model\DraworderInf.cs" />
-    <Compile Include="PublicFunction.cs" />
-    <Compile Include="ThCurveXClipExtension.cs" />
+    <Compile Include="ThXClipUtils.cs" />
+    <Compile Include="ThXClipCurveExtension.cs" />
     <Compile Include="Presenter\AnalyseRelation.cs" />
-    <Compile Include="CadOperation.cs" />
+    <Compile Include="ThXClipCadOperation.cs" />
     <Compile Include="Model\XClipInfo.cs" />
     <Compile Include="Presenter\WipeOutXClipTrim.cs" />
     <Compile Include="ThXClipApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThXclipDbUtils.cs" />
+    <Compile Include="ThXClipDbUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">

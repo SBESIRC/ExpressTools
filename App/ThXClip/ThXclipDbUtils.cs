@@ -7,7 +7,7 @@ using Linq2Acad;
 
 namespace ThXClip
 {
-    public class ThXclipDbUtils
+    public class ThXClipDbUtils
     {
         /// <summary>
         /// 获取对象

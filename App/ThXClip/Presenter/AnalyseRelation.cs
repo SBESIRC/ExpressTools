@@ -54,7 +54,7 @@ namespace ThXClip
         {
             this._objIds = objectIds;
             this._modelWipeOutIds = modelWipeOutIds;
-            _document = CadOperation.GetMdiActiveDocument();
+            _document = ThXClipCadOperation.GetMdiActiveDocument();
         }
         /// <summary>
         /// 传入的块与Wipeout在ModelSpace的先后绘制顺序
@@ -183,23 +183,13 @@ namespace ThXClip
                             SpatialFilter fil = _trans.GetObject(fildict.GetAt(spatialName), OpenMode.ForRead) as SpatialFilter;
                             if (fil != null)
                             {
-                                bool acadVerBiggerThan2015 =PublicFunction.IsGreaterThanOrEqualTo(2015); //判断Cad版本是否是Cad2015以上
-                                bool isInverted = false; //边界是否为反向裁剪
-#if acadVerBiggerThan2015
- isInverted = fil.Inverted;
-#elif (!acadVerBiggerThan2015)
 
-                                XmDwgFiler xmDwgFiler = new XmDwgFiler();
-                                fil.DwgOut(xmDwgFiler);
-                                var f = xmDwgFiler.UInt16List[1];
-                                if (f != 1)
-                                {
-                                    isInverted = false;
-                                }
-                                else
-                                {
-                                    isInverted = true;
-                                }
+                                bool isInverted = true;
+#if ACAD2012 || ACAD2014
+                                isInverted = true;
+
+#else
+                                isInverted = fil.Inverted;
 #endif
                                 xClipInfo.BlockName = blockRef.Name;
                                 xClipInfo.AttachBlockId = blockRef.Id;

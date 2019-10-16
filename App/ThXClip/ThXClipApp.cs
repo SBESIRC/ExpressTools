@@ -29,14 +29,10 @@ namespace ThXClip
     }
     public class ThXclipCommands
     {
-<<<<<<< HEAD
         [CommandMethod("TIANHUACAD", "THXLP", CommandFlags.Modal)]
-=======
-        [CommandMethod("TIANHUACAD", "ThXClip", CommandFlags.Modal)]
->>>>>>> XClipdebug
         public void ThXClip()
         {
-            List<ObjectId> selObjIds = CadOperation.GetSelectObjects(); //选择要处理的块
+            List<ObjectId> selObjIds = ThXClipCadOperation.GetSelectObjects(); //选择要处理的块
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
             //判断所选块上的Wipeout 或模型中单独绘制了WipeOut影响了所选的块，都要处理
@@ -69,7 +65,7 @@ namespace ThXClip
                                 minPt = new Point3d(minPt.X-5, minPt.Y, minPt.Z);
                                 maxPt = new Point3d(maxPt.X+5, maxPt.Y, maxPt.Z);
                             }
-                            PromptSelectionResult psr = CadOperation.SelectByRectangle(ed, minPt,
+                            PromptSelectionResult psr = ThXClipCadOperation.SelectByRectangle(ed, minPt,
                                 maxPt, PolygonSelectionMode.Crossing);
                             if (psr.Status == PromptStatus.OK)
                             {
@@ -95,14 +91,13 @@ namespace ThXClip
             foreach(var blkItem in wipeOutXClipTrim.BlkNamePosDic)
             {
                 // 插入图块
-                CadOperation.InsertBlockReference("0", blkItem.Key,
+                ThXClipCadOperation.InsertBlockReference("0", blkItem.Key,
                     Point3d.Origin, new Scale3d(1.0, 1.0, 1.0), 0.0);
             }
             analyseRelation.EraseBlockAndItsExplodedObjs();
-<<<<<<< HEAD
-        }   
-=======
+
         }
+
         [CommandMethod("TIANHUACAD", "ThSpline", CommandFlags.Modal)]        
         public void ThSpline()
         {
@@ -124,6 +119,5 @@ namespace ThXClip
                 trans.Commit();
             }
         }
->>>>>>> XClipdebug
     }
 }

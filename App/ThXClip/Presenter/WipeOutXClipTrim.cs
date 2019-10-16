@@ -46,7 +46,7 @@ namespace ThXClip
         public WipeOutXClipTrim(AnalyseRelation analyseRelation)
         {
             _analyzeRelation= analyseRelation;
-            _document = CadOperation.GetMdiActiveDocument();
+            _document = ThXClipCadOperation.GetMdiActiveDocument();
         }
         public void StartTrim()
         {
@@ -127,7 +127,7 @@ namespace ThXClip
                                 {
                                     entity.Visible = true;
                                 }
-                                PublicFunction.ChangeEntityProperty(entity, entPropertyInf);
+                                ThXClipUtils.ChangeEntityProperty(entity, entPropertyInf);
                                 if (entity is Dimension)
                                 {
                                     entity.TransformBy(moveMt);
