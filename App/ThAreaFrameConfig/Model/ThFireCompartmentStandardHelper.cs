@@ -15,52 +15,19 @@ namespace ThAreaFrameConfig.Model
         public static ObjectId CreateFCNoteTextStyle(this Database database)
         {
             string dwg = Path.Combine(ThCADCommon.StandardStylePath(), TemplateName);
-            using (var sourceDb = AcadDatabase.Open(dwg, DwgOpenMode.ReadOnly))
-            { 
-                using(var activeDb = AcadDatabase.Active())
-                {
-                    if (!activeDb.TextStyles.Contains(TextStyleName))
-                    {
-                        activeDb.TextStyles.Add(sourceDb.TextStyles.Element(TextStyleName));
-                    }
-
-                    return activeDb.TextStyles.Element(TextStyleName).ObjectId;
-                }
-            }
+            return database.ImportSymbolTableRecord<TextStyleTable>(dwg, TextStyleName);
         }
 
         public static ObjectId CreateFCNoteTextLayer(this Database database)
         {
             string dwg = Path.Combine(ThCADCommon.StandardStylePath(), TemplateName);
-            using (var sourceDb = AcadDatabase.Open(dwg, DwgOpenMode.ReadOnly))
-            {
-                using (var activeDb = AcadDatabase.Active())
-                {
-                    if (!activeDb.Layers.Contains(TextLayerName))
-                    {
-                        activeDb.Layers.Add(sourceDb.Layers.Element(TextLayerName));
-                    }
-
-                    return activeDb.Layers.Element(TextLayerName).ObjectId;
-                }
-            }
+            return database.ImportSymbolTableRecord<LayerTable>(dwg, TextLayerName);
         }
 
         public static ObjectId CreateFCFillLayer(this Database database)
         {
             string dwg = Path.Combine(ThCADCommon.StandardStylePath(), TemplateName);
-            using (var sourceDb = AcadDatabase.Open(dwg, DwgOpenMode.ReadOnly))
-            {
-                using (var activeDb = AcadDatabase.Active())
-                {
-                    if (!activeDb.Layers.Contains(FillLayerName))
-                    {
-                        activeDb.Layers.Add(sourceDb.Layers.Element(FillLayerName));
-                    }
-
-                    return activeDb.Layers.Element(FillLayerName).ObjectId;
-                }
-            }
+            return database.ImportSymbolTableRecord<LayerTable>(dwg, FillLayerName);
         }
     }
 }

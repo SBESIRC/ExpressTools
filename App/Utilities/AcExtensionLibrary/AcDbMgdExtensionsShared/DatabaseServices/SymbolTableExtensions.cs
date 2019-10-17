@@ -103,9 +103,76 @@ namespace Autodesk.AutoCAD.DatabaseServices
             }
         }
 
-       // Author: Gile
-       // Source: http://www.theswamp.org/index.php?topic=42539.msg477455#msg477455
+        // Author: Gile
+        // Source: http://www.theswamp.org/index.php?topic=42539.msg477455#msg477455
+        // Use the overloaded Database constructor with explicit arguments (false, true) 
+        // which is preferable with ReadDwgfile() method.
+        //  https://adndevblog.typepad.com/autocad/2012/07/using-readdwgfile-with-net-attachxref-or-objectarx-acdbattachxref.html
 
+        public static ObjectId ImportSymbolTableRecord<T>(this Database targetDb, string sourceFile, string recordName)
+            where T : SymbolTable
+        {
+            using (Database sourceDb = new Database(false, true))
+            {
+                sourceDb.ReadDwgFile(sourceFile, System.IO.FileShare.Read, false, "");
+                ObjectId sourceTableId, targetTableId;
+                switch (typeof(T).Name)
+                {
+                    case "BlockTable":
+                        sourceTableId = sourceDb.BlockTableId;
+                        targetTableId = targetDb.BlockTableId;
+                        break;
+                    case "DimStyleTable":
+                        sourceTableId = sourceDb.DimStyleTableId;
+                        targetTableId = targetDb.DimStyleTableId;
+                        break;
+                    case "LayerTable":
+                        sourceTableId = sourceDb.LayerTableId;
+                        targetTableId = targetDb.LayerTableId;
+                        break;
+                    case "LinetypeTable":
+                        sourceTableId = sourceDb.LinetypeTableId;
+                        targetTableId = targetDb.LinetypeTableId;
+                        break;
+                    case "RegAppTable":
+                        sourceTableId = sourceDb.RegAppTableId;
+                        targetTableId = targetDb.RegAppTableId;
+                        break;
+                    case "TextStyleTable":
+                        sourceTableId = sourceDb.TextStyleTableId;
+                        targetTableId = targetDb.TextStyleTableId;
+                        break;
+                    case "UcsTable":
+                        sourceTableId = sourceDb.UcsTableId;
+                        targetTableId = targetDb.UcsTableId;
+                        break;
+                    case "ViewTable":
+                        sourceTableId = sourceDb.ViewportTableId;
+                        targetTableId = targetDb.ViewportTableId;
+                        break;
+                    case "ViewportTable":
+                        sourceTableId = sourceDb.ViewportTableId;
+                        targetTableId = targetDb.ViewportTableId;
+                        break;
+                    default:
+                        throw new ArgumentException("Requires a concrete type derived from SymbolTable");
+                }
+
+                using (Transaction tr = sourceDb.TransactionManager.StartTransaction())
+                {
+                    T sourceTable = (T)tr.GetObject(sourceTableId, OpenMode.ForRead);
+                    if (!sourceTable.Has(recordName))
+                        return ObjectId.Null;
+                    ObjectIdCollection idCol = new ObjectIdCollection();
+                    ObjectId sourceTableRecordId = sourceTable[recordName];
+                    idCol.Add(sourceTableRecordId);
+                    IdMapping idMap = new IdMapping();
+                    sourceDb.WblockCloneObjects(idCol, targetTableId, idMap, DuplicateRecordCloning.Ignore, false);
+                    tr.Commit();
+                    return idMap[sourceTableRecordId].Value;
+                }
+            }
+        }
 
         ///// <summary>
         ///// Imports the symbol table record.
