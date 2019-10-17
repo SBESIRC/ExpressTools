@@ -1,10 +1,7 @@
-﻿using Autodesk.AutoCAD.Internal;
+﻿using System;
 using Autodesk.AutoCAD.Runtime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 [assembly: CommandClass(typeof(ThElectricalSysDiagram.ThElectricalSysDiagramCommands))]
 [assembly: ExtensionApplication(typeof(ThElectricalSysDiagram.ThElectricalSysDiagramApp))]
@@ -28,9 +25,7 @@ namespace ThElectricalSysDiagram
         public void BlockExchangeCmd()
         {
             //将程序有效期验证为3个月，一旦超过时限，要求用户更新，不进行命令注册
-            var usualDate = new DateTime(2019, 8, 15);
-            var dateTime = DateTime.Today;
-            if ((dateTime - usualDate).Days > 62)
+            if ((DateTime.Today - ThCADCommon.Global_Expire_Start_Date).Days > ThCADCommon.Global_Expire_Duration)
             {
                 return;
             }

@@ -553,10 +553,12 @@ namespace ThRoomBoundary
         public static List<Entity> PreProcessCurDwg(List<LineSegment2d> rectLines)
         {
             var resEntityLst = new List<Entity>();
+            double progressPos = 5;
             // 本图纸数据块处理
             using (var db = AcadDatabase.Active())
             {
                 var blockRefs = db.CurrentSpace.OfType<BlockReference>().Where(p => p.Visible).ToList();
+                var incre = 10.0 / blockRefs.Count;
                 foreach (var blockReference in blockRefs)
                 {
                     var layerId = blockReference.LayerId;
@@ -571,10 +573,12 @@ namespace ThRoomBoundary
                     var blockRefRecord = db.Element<BlockTableRecord>(blockId);
                     if (blockRefRecord.IsFromExternalReference)
                         continue;
-
+                    progressPos += 0.4;
+                    ThProgressDialog.SetValue((int)incre);
                     if (!IsValidBlockReference(blockReference, rectLines))
                         continue;
-
+                    progressPos += incre;
+                    ThProgressDialog.SetValue((int)incre);
                     var entityLst = GetEntityFromBlock(blockReference);
                     if (entityLst != null && entityLst.Count > 1)
                     {
@@ -597,21 +601,29 @@ namespace ThRoomBoundary
         {
             var resEntityLst = new List<Entity>();
             // 外部参照
+            double progressPos = 17;
             using (var db = AcadDatabase.Active())
             {
                 var refs = db.XRefs;
+                var incre = 10.0 / refs.Count();
+                
                 foreach (var xblock in refs)
                 {
                     if (xblock.Block.XrefStatus == XrefStatus.Resolved)
                     {
+                        
                         BlockTableRecord blockTableRecord = xblock.Block;
                         List<BlockReference> blockReferences = blockTableRecord.GetAllBlockReferences(true, true).ToList();
                         for (int i = 0; i < blockReferences.Count(); i++)
                         {
                             var blockReference = blockReferences[i];
+                            progressPos += 0.4;
+                            ThProgressDialog.SetValue((int)incre);
                             if (!IsValidBlockReference(blockReference, rectLines))
                                 continue;
 
+                            progressPos += incre;
+                            ThProgressDialog.SetValue((int)progressPos);
                             var entityLst = GetEntityFromBlock(blockReference);
                             if (entityLst != null && entityLst.Count != 0)
                             {
@@ -639,11 +651,11 @@ namespace ThRoomBoundary
         {
             var resEntityLst = new List<Entity>();
             var curEntityLst = PreProcessCurDwg(rectLines);
-            ThProgressDialog.SetValue(8);
+
             if (curEntityLst.Count != 0)
                 resEntityLst.AddRange(curEntityLst);
             var xRefEntityLst = PreProcessXREF(rectLines);
-            ThProgressDialog.SetValue(10);
+
             if (xRefEntityLst.Count != 0)
                 resEntityLst.AddRange(xRefEntityLst);
             return resEntityLst;
