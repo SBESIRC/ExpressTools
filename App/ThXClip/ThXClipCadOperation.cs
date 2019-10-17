@@ -15,6 +15,93 @@ namespace ThXClip
 {
     public class ThXClipCadOperation
     {
+        public static void UnlockedLayers(List<string> layerNameList)
+        {
+            if (layerNameList == null || layerNameList.Count == 0)
+            {
+                return;
+            }
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans=doc.TransactionManager.StartTransaction())
+            {
+                LayerTable lt = trans.GetObject(doc.Database.LayerTableId,OpenMode.ForRead) as LayerTable;
+                foreach(string layerName in layerNameList)
+                {
+                    if(string.IsNullOrEmpty(layerName))
+                    {
+                        continue;
+                    }
+                    if(lt.Has(layerName))
+                    {
+                        LayerTableRecord ltr = trans.GetObject(lt[layerName],OpenMode.ForRead) as LayerTableRecord;
+                        if(ltr.IsLocked)
+                        {
+                            ltr.UpgradeOpen();
+                            ltr.IsLocked = false;
+                            ltr.DowngradeOpen();
+                        }
+                    }
+                }
+                trans.Commit();
+            }
+        }
+
+        /// <summary>
+        /// 返回被锁定的层
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> UnlockedAllLayers()
+        {
+            List<string> lockedLayerNames = new List<string>();
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
+            {
+                LayerTable lt = trans.GetObject(doc.Database.LayerTableId, OpenMode.ForRead) as LayerTable;
+                foreach (var id in lt)
+                {
+                    LayerTableRecord ltr = trans.GetObject(id, OpenMode.ForRead) as LayerTableRecord;
+                    if (ltr.IsLocked)
+                    {
+                        ltr.UpgradeOpen();
+                        ltr.IsLocked = false;
+                        lockedLayerNames.Add(ltr.Name);
+                        ltr.DowngradeOpen();
+                    }
+                }
+                trans.Commit();
+            }
+            return lockedLayerNames;
+        }
+        public static void LockedLayers(List<string> layerNameList)
+        {
+            if(layerNameList==null || layerNameList.Count==0)
+            {
+                return;
+            }
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
+            {
+                LayerTable lt = trans.GetObject(doc.Database.LayerTableId, OpenMode.ForRead) as LayerTable;
+                foreach (string layerName in layerNameList)
+                {
+                    if (string.IsNullOrEmpty(layerName))
+                    {
+                        continue;
+                    }
+                    if (lt.Has(layerName))
+                    {
+                        LayerTableRecord ltr = trans.GetObject(lt[layerName], OpenMode.ForRead) as LayerTableRecord;
+                        if (!ltr.IsLocked)
+                        {
+                            ltr.UpgradeOpen();
+                            ltr.IsLocked = true;
+                            ltr.DowngradeOpen();
+                        }
+                    }
+                }
+                trans.Commit();
+            }
+        }
         /// <summary>
         /// 获取直线外的一点在直线上的垂足点
         /// </summary>

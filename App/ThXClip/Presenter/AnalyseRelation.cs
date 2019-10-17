@@ -77,6 +77,7 @@ namespace ThXClip
                         continue;
                     }
                     List<EntInf> entities = Explode(br,br.Name);
+                    entities=entities.Where(j => j.Ent.Visible && JudgeEntityInsPointedType(j.Ent)).Select(j => j).ToList();
                     entities.ForEach(j => j.BlockPath.Reverse());
                     List<XClipInfo> currentXClipInfos = RetrieveXClipBoundary(br, br.Name);
                     currentXClipInfos.ForEach(j => j.BlockPath.Reverse());
@@ -97,6 +98,44 @@ namespace ThXClip
             }
            this._blkWipeOuts=this._drawOrderinfs.Where(i => i.TypeName.ToUpper() == "WIPEOUT").Select(i => i).ToList(); //把WipeOut给收集下来
            this._drawOrderinfs = this._drawOrderinfs.Where(i => i.TypeName.ToUpper() != "WIPEOUT").Select(i => i).ToList(); //把WipeOut从DraworderInf中移除
+        }
+        /// <summary>
+        /// 判断实体是否是指定类型
+        /// </summary>
+        /// <param name="ent"></param>
+        /// <returns></returns>
+        private bool JudgeEntityInsPointedType(Entity ent)
+        {
+            bool res = false;
+            if(ent.GetType()==typeof(Line))
+            {
+                res = true;
+            }
+            else if(ent.GetType() == typeof(Circle))
+            {
+                res = true;
+            }
+            else if (ent.GetType() == typeof(Arc))
+            {
+                res = true;
+            }
+            else if (ent.GetType() == typeof(Ellipse))
+            {
+                res = true;
+            }
+            else if (ent.GetType() == typeof(Spline))
+            {
+                res = true;
+            }
+            else if (ent.GetType() == typeof(Polyline))
+            {
+                res = true;
+            }
+            else if(ent.GetType() == typeof(Wipeout))
+            {
+                res = true;
+            }
+            return res;
         }
         private List<EntInf> Explode(BlockReference br,string preBlkName)
         {

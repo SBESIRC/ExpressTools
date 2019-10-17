@@ -82,6 +82,11 @@ namespace ThXClip
                 }
                 trans.Commit();
             }
+            List<string> lockedLayerNames = new List<string>();
+            if(selObjIds.Count>0)
+            {
+                lockedLayerNames=ThXClipCadOperation.UnlockedAllLayers(); //解锁所有的层
+            } 
             //分析传入的物体之间的 Draworder关系及对块进行炸开处理
             AnalyseRelation analyseRelation = new AnalyseRelation(selObjIds, OnBlkWipeOutIds);
             analyseRelation.Analyse();
@@ -95,7 +100,7 @@ namespace ThXClip
                     Point3d.Origin, new Scale3d(1.0, 1.0, 1.0), 0.0);
             }
             analyseRelation.EraseBlockAndItsExplodedObjs();
-
+            ThXClipCadOperation.LockedLayers(lockedLayerNames);
         }
 
         [CommandMethod("TIANHUACAD", "ThSpline", CommandFlags.Modal)]        

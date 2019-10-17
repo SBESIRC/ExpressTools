@@ -24,6 +24,5 @@ namespace ThXClip
             }
             return entity;
         }
-
     }
 }
