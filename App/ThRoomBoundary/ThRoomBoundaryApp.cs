@@ -30,16 +30,16 @@ namespace ThRoomBoundary
             List<string> arcDoorLayers = null;
             List<string> windLayers = null;
             var allCurveLayers = ThRoomUtils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers);
-            if (allCurveLayers == null || allCurveLayers.Count == 0)
-                return;
-
-            if (wallLayers == null || wallLayers.Count == 0)
-                return;
 
             // 选择框线生成
             var rectLines = ThRoomUtils.GetSelectRectLines();
-            if (rectLines == null || rectLines.Count == 0)
+            if (rectLines == null || rectLines.Count == 0 
+               || wallLayers == null || wallLayers.Count == 0 
+               || allCurveLayers == null || allCurveLayers.Count == 0)
+            {
+                Active.WriteMessage("选择框线范围内不含有房间围护结构，程序退出");
                 return;
+            }
 
             // 是否插入面积值
             Document doc = Application.DocumentManager.MdiActiveDocument;
