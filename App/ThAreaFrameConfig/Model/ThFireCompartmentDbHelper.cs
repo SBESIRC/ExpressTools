@@ -253,6 +253,22 @@ namespace ThAreaFrameConfig.Model
                     {
                         ObjectId frameId = new ObjectId(frame.Frame);
 
+                        // 创建一个基于面积框线“质心”的UCS，
+                        // 并创建一个从UCS到此UCS之间的创建一个坐标系统变换矩阵，
+                        // 将位于WCS中的图元转换到另外一个坐标系统
+                        // 在坐标系统转换过程中图元的位置相对于坐标系统保持不变
+                        var insertPt = frameId.FireCompartmentAreaFrameCentroid().Value;
+                        var coordinate = Active.Editor.CurrentUserCoordinateSystem.CoordinateSystem3d;
+                        var transform = Matrix3d.AlignCoordinateSystem(
+                            Point3d.Origin,
+                            Vector3d.XAxis,
+                            Vector3d.YAxis,
+                            Vector3d.ZAxis,
+                            insertPt,
+                            coordinate.Xaxis,
+                            coordinate.Yaxis,
+                            coordinate.Zaxis);
+
                         if (compartment.Type == ThFireCompartment.FCType.FCCommerce)
                         {
                             // 创建防火分区文字
@@ -262,9 +278,10 @@ namespace ThAreaFrameConfig.Model
                                 LineSpaceDistance = 1800,
                                 Attachment = AttachmentPoint.MiddleCenter,
                                 Contents = compartment.CommerceTextContent(),
-                                Location = frameId.FireCompartmentAreaFrameCentroid().Value
+                                Location = new Point3d(0, 0, 0)
                             };
                             ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
+                            mText.TransformBy(transform);
 
                             // 设置文字样式
                             mText.TextStyleId = acadDatabase.Database.CreateFCNoteTextStyle();
@@ -279,13 +296,10 @@ namespace ThAreaFrameConfig.Model
                             };
 
                             // 通过建立ECS来方便计算文字框线的位置
-                            //  https://spiderinnet1.typepad.com/blog/2013/11/autocad-net-matrix-transformations-worldtoplane.html
-                            Plane plane = new Plane(mText.Location, mText.Normal);
-                            Matrix3d ecs2world = Matrix3d.WorldToPlane(plane).Inverse();
                             // 顶点顺序
                             //  (0)-----(1)
                             //   |       |
-                            //   |       |
+                            //   |  (c)  |
                             //   |       |
                             //  (3)-----(2)
                             Point3dCollection points = new Point3dCollection()
@@ -299,8 +313,9 @@ namespace ThAreaFrameConfig.Model
                                 // 左下角点
                                 new Point3d(-5000, -2000, 1)
                             };
-                            bbox.CreatePolyline(points.TransformBy(ecs2world));
+                            bbox.CreatePolyline(points);
                             ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
+                            bbox.TransformBy(transform);
 
                             // 设置全局宽度
                             bbox.ConstantWidth = 150;
@@ -326,9 +341,10 @@ namespace ThAreaFrameConfig.Model
                                 LineSpaceDistance = 1200,
                                 Attachment = AttachmentPoint.MiddleCenter,
                                 Contents = compartment.CommerceTextContent(),
-                                Location = frameId.FireCompartmentAreaFrameCentroid().Value
+                                Location = new Point3d(0, 0, 0)
                             };
                             ObjectId textId = acadDatabase.ModelSpace.Add(mText, true);
+                            mText.TransformBy(transform);
 
                             // 设置文字样式
                             mText.TextStyleId = acadDatabase.Database.CreateFCNoteTextStyle();
@@ -343,13 +359,10 @@ namespace ThAreaFrameConfig.Model
                             };
 
                             // 通过建立ECS来方便计算文字框线的位置
-                            //  https://spiderinnet1.typepad.com/blog/2013/11/autocad-net-matrix-transformations-worldtoplane.html
-                            Plane plane = new Plane(mText.Location, mText.Normal);
-                            Matrix3d ecs2world = Matrix3d.WorldToPlane(plane).Inverse();
                             // 顶点顺序
                             //  (0)-----(1)
                             //   |       |
-                            //   |       |
+                            //   |  (c)  |
                             //   |       |
                             //  (3)-----(2)
                             Point3dCollection points = new Point3dCollection()
@@ -363,8 +376,9 @@ namespace ThAreaFrameConfig.Model
                                 // 左下角点
                                 new Point3d(-3500, -1400, 1)
                             };
-                            bbox.CreatePolyline(points.TransformBy(ecs2world));
+                            bbox.CreatePolyline(points);
                             ObjectId bboxId = acadDatabase.ModelSpace.Add(bbox, true);
+                            bbox.TransformBy(transform);
 
                             // 设置全局宽度
                             bbox.ConstantWidth = 150;
