@@ -15,6 +15,23 @@ namespace ThXClip
 {
     public class ThXClipCadOperation
     {
+        public static void Dispose(List<DBObject> dbObjs)
+        {
+            for(int i=0;i<dbObjs.Count;i++)
+            {
+                if (dbObjs[i]!=null)
+                {
+                    dbObjs[i].Dispose();
+                }
+            }
+        }
+        public static void Dispose(DBObject dbObj)
+        {
+            if (dbObj != null)
+            {
+                dbObj.Dispose();
+            }
+        }
         public static void UnlockedLayers(List<string> layerNameList)
         {
             if (layerNameList == null || layerNameList.Count == 0)
@@ -403,6 +420,49 @@ namespace ThXClip
             ed.SetCurrentView(view);
             return result;
         }
+        public static Point2dCollection GetNoRepeatedPtCollection(Point2dCollection pts)
+        {
+            Point2dCollection resPts = new Point2dCollection();
+            foreach(Point2d pt in pts)
+            {
+                if(resPts.IndexOf(pt)<0)
+                {
+                    resPts.Add(pt);
+                }
+            }
+            return resPts;
+        }
+        public static Point3dCollection GetNoRepeatedPtCollection(Point3dCollection pts)
+        {
+            Point3dCollection resPts = new Point3dCollection();
+            foreach (Point3d pt in pts)
+            {
+                if (resPts.IndexOf(pt) < 0)
+                {
+                    resPts.Add(pt);
+                }
+            }
+            return resPts;
+        }
+        public static PromptSelectionResult SelectByPolyline(Editor ed,
+            Polyline pline,
+            PolygonSelectionMode mode, SelectionFilter filter)
+        {
+            Point3dCollection polygon = new Point3dCollection();
+            for (int i = 0; i < pline.NumberOfVertices; i++)
+            {
+                polygon.Add(pline.GetPoint3dAt(i));
+            }
+            PromptSelectionResult result;
+            ViewTableRecord view = ed.GetCurrentView();
+            ed.ZoomObject(pline.ObjectId);
+            if (mode == PolygonSelectionMode.Crossing)
+                result = ed.SelectCrossingPolygon(polygon, filter);
+            else
+                result = ed.SelectWindowPolygon(polygon, filter);
+            ed.SetCurrentView(view);
+            return result;
+        }
         public static PromptSelectionResult SelectByRectangle(Editor ed,
             Point3d pt1, Point3d pt2, PolygonSelectionMode mode)
         {
@@ -448,6 +508,42 @@ namespace ThXClip
                 objIds = psr.Value.GetObjectIds().ToList();
             }
             return objIds;
+        }
+        /// <summary>
+        /// 把点转到直线上
+        /// </summary>
+        /// <param name="lineSp"></param>
+        /// <param name="lineEp"></param>
+        /// <param name="transPt"></param>
+        /// <param name="isSucess"></param>
+        /// <param name="isInLine"></param>
+        /// <returns></returns>
+        public static Point3d TransPtToLine(Point3d lineSp,Point3d lineEp,Point3d transPt,out bool isSucess,out bool isInLine)
+        {
+            Point3d resPt = transPt;
+            isSucess = true;
+            isInLine = true;
+             if (lineSp.IsEqualTo(lineEp, ThCADCommon.Global_Tolerance))
+            {
+                isSucess = false;
+                isInLine = false;
+            }
+             else
+            {
+                Vector3d vec = lineSp.GetVectorTo(lineEp);
+                Plane plane = new Plane(lineSp, vec);
+                Matrix3d wcsToUcs = Matrix3d.WorldToPlane(plane);
+                Matrix3d ucsToWcs = Matrix3d.PlaneToWorld(plane);
+                transPt = transPt.TransformBy(wcsToUcs);
+                if(!(transPt.Z>0 && transPt.Z< vec.Length))
+                {
+                    isInLine = false;
+                }                
+                transPt = new Point3d(0,0, transPt.Z);
+                resPt = transPt.TransformBy(ucsToWcs);
+                plane.Dispose();
+            }
+            return resPt;
         }
         public static Document GetMdiActiveDocument()
         {
@@ -1025,74 +1121,6 @@ namespace ThXClip
                 }
                 trans.Commit();
             }
-        }
-        /// <summary>
-        /// 修复多段线上被分割的点
-        /// </summary>
-        /// <param name="restSegments"></param>
-        /// <param name="polyline"></param>
-        /// <returns></returns>
-        public static List<Polyline> RepairPolylineRestCurve(List<SegmentSplitInf> restSegments, Polyline polyline)
-        {
-            List<Polyline> polylines = new List<Polyline>();
-            restSegments = restSegments.OrderBy(i => i.Index).ToList(); //按多段线索引排序
-            List<List<SegmentSplitInf>> resortSegments = new List<List<SegmentSplitInf>>();
-            for (int i = 0; i < restSegments.Count; i++)
-            {
-                List<SegmentSplitInf> subSegment = new List<SegmentSplitInf>();
-                if (i == 0)
-                {
-                    if (restSegments[restSegments.Count - 1].EndPoint.DistanceTo(restSegments[i].StartPoint) <= 1.0)
-                    {
-                        subSegment.Add(restSegments[restSegments.Count - 1]);
-                        restSegments.RemoveAt(restSegments.Count - 1);
-                    }
-                }
-                subSegment.Add(restSegments[i]);
-                int j = i;
-                for (; j < restSegments.Count-1; j++)
-                {
-                    if (restSegments[j].EndPoint.DistanceTo(restSegments[j+1].StartPoint) <= 1.0)
-                    {
-                        subSegment.Add(restSegments[j+1]);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                resortSegments.Add(subSegment);
-                i = j;
-            }
-            for (int i = 0; i < resortSegments.Count; i++)
-            {
-                Polyline newPolyline = new Polyline();
-                int k = 0;
-                for (int j = 0; j < resortSegments[i].Count; j++)
-                {
-                    SegmentSplitInf segmentSplitInf = resortSegments[i][j];
-                    double headSW = polyline.GetStartWidthAt(segmentSplitInf.Index); //起始线起点宽度
-                    double headEW = polyline.GetStartWidthAt(segmentSplitInf.Index + 1); //起始线终点宽度
-                    Point2d splitPtSp = new Point2d(segmentSplitInf.StartPoint.X, segmentSplitInf.StartPoint.Y);
-                    Point2d splitPtEp = new Point2d(segmentSplitInf.EndPoint.X, segmentSplitInf.EndPoint.Y);
-                    if (segmentSplitInf.ST == SegmentType.Line)
-                    {
-                        newPolyline.AddVertexAt(k++, splitPtSp, 0.0, headSW, headEW);
-                    }
-                    else if (segmentSplitInf.ST == SegmentType.Arc)
-                    {
-                        CircularArc2d circularArc2D = polyline.GetArcSegment2dAt(segmentSplitInf.Index);
-                        double arcBulge = ThXClipCadOperation.GetBulge(circularArc2D.Center, splitPtSp, splitPtEp);
-                        newPolyline.AddVertexAt(k++, splitPtSp, arcBulge, headSW, headEW);
-                    }
-                    if (j == resortSegments[i].Count - 1)
-                    {
-                        newPolyline.AddVertexAt(k++, splitPtEp, 0.0, 0.0, 0.0);
-                    }
-                }
-                polylines.Add(newPolyline);
-            }
-            return polylines;
         }
         public static Point3d GetArcTopPt(Point3d cenPt, Point3d arcSp, Point3d arcEp)
         {

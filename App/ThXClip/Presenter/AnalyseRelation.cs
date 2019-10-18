@@ -88,7 +88,7 @@ namespace ThXClip
                     this._xclipInfs.ForEach(j => j.AttachBlockId = br.Id);
                     entities.ForEach(j => btr.AppendEntity(j.Ent));
                     entities.ForEach(j => trans.AddNewlyCreatedDBObject(j.Ent, true));
-                    entities.ForEach(j => j.Ent.Visible = false);
+                    //entities.ForEach(j => j.Ent.Visible = false);
                     this._drawOrderinfs.AddRange(entities.Select(j => GenerateDoi(j,this._objIds[i])).ToList());
                 }
                 btr.DowngradeOpen();

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autodesk.AutoCAD.Geometry;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using Autodesk.AutoCAD.EditorInput;
 
 namespace ThXClip
 {
@@ -50,22 +51,88 @@ namespace ThXClip
         }
         public void StartTrim()
         {
-            for (int i = 0; i < this._analyzeRelation.ModelWipeOutIds.Count; i++)
+            int debugNum1 = 0;
+            TypedValue[] tvs = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Line,Circle,Arc,Ellipse,LWPolyline,Polyline,Spline") };
+            SelectionFilter sf = new SelectionFilter(tvs);
+            try
             {
-                List<DraworderInfo> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.ModelWipeOutIds[i]);
-                Point2dCollection boundaryPts = GetWipeOutBoundaryPts(this._analyzeRelation.ModelWipeOutIds[i]);
-                OperationWipeOut(boundaryPts, preDrawDoi);
-
+                for (int i = 0; i < this._analyzeRelation.ModelWipeOutIds.Count; i++)
+                {
+                    debugNum1 = i;
+                    Point2dCollection boundaryPts = GetWipeOutBoundaryPts(this._analyzeRelation.ModelWipeOutIds[i]);
+                    boundaryPts = ThXClipCadOperation.GetNoRepeatedPtCollection(boundaryPts);
+                    Polyline wipeOutPolyline = ThXClipCadOperation.CreatePolyline(boundaryPts);
+                    ThXClipCadOperation.AddToBlockTable(wipeOutPolyline);
+                    PromptSelectionResult psr= ThXClipCadOperation.SelectByPolyline(_document.Editor, wipeOutPolyline, 
+                        Autodesk.AutoCAD.EditorInput.PolygonSelectionMode.Crossing,sf);
+                    List<IntPtr> intPtrs = new List<IntPtr>();
+                    if (psr.Status == PromptStatus.OK)
+                    {
+                        intPtrs = psr.Value.GetObjectIds().Select(j => j.OldIdPtr).ToList();//获取当前WipeOut查找的物体
+                    }                   
+                    List<DraworderInfo> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.ModelWipeOutIds[i]);
+                    preDrawDoi = preDrawDoi.Where(j => intPtrs.IndexOf(j.Id.OldIdPtr) >= 0).Select(j => j).ToList();
+                    ThXClipCadOperation.EraseObjIds(wipeOutPolyline.ObjectId);
+                    OperationWipeOut(boundaryPts, preDrawDoi);
+                }
             }
-            for (int i = 0; i < this._analyzeRelation.BlkWipeOuts.Count; i++)
+            catch (System.Exception ex)
             {
-                List<DraworderInfo> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.BlkWipeOuts[i]);
-                Point2dCollection boundaryPts = GetWipeOutBoundaryPts(this._analyzeRelation.BlkWipeOuts[i].Id);
-                OperationWipeOut(boundaryPts, preDrawDoi);
+                System.Windows.MessageBox.Show("函数名：StartTrim；+执行到第" + debugNum1 + "次循环！");
             }
-            for (int i = 0; i < this._analyzeRelation.XclipInfs.Count; i++)
+            int debugNum2 = 0;
+            try
             {
-                OperationXClip(this._analyzeRelation.XclipInfs[i]);
+                for (int i = 0; i < this._analyzeRelation.BlkWipeOuts.Count; i++)
+                {
+                    debugNum2 = i;
+                    List<DraworderInfo> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.BlkWipeOuts[i]);
+                    Point2dCollection boundaryPts = GetWipeOutBoundaryPts(this._analyzeRelation.BlkWipeOuts[i].Id);
+                    boundaryPts = ThXClipCadOperation.GetNoRepeatedPtCollection(boundaryPts);
+                    Polyline wipeOutPolyline = ThXClipCadOperation.CreatePolyline(boundaryPts);
+                    ThXClipCadOperation.AddToBlockTable(wipeOutPolyline);
+                    PromptSelectionResult psr = ThXClipCadOperation.SelectByPolyline(_document.Editor, wipeOutPolyline,
+                        Autodesk.AutoCAD.EditorInput.PolygonSelectionMode.Crossing);
+                    List<IntPtr> intPtrs = new List<IntPtr>();
+                    if (psr.Status == PromptStatus.OK)
+                    {
+                        intPtrs = psr.Value.GetObjectIds().Select(j => j.OldIdPtr).ToList();//获取当前WipeOut查找的物体
+                    }                    
+                    preDrawDoi = preDrawDoi.Where(j => intPtrs.IndexOf(j.Id.OldIdPtr) >= 0).Select(j => j).ToList();
+                    ThXClipCadOperation.EraseObjIds(wipeOutPolyline.ObjectId);
+                    OperationWipeOut(boundaryPts, preDrawDoi);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                System.Windows.MessageBox.Show("函数名：StartTrim；+执行到第" + debugNum2 + "次循环！");
+            }
+            int debugNum3 = 0;
+            try
+            {
+                for (int i = 0; i < this._analyzeRelation.XclipInfs.Count; i++)
+                {
+                    debugNum3 = i;
+                    Point2dCollection xClipEdgePts = TransWipeOutBoundaryPts(this._analyzeRelation.XclipInfs[i].Pts);
+                    xClipEdgePts = ThXClipCadOperation.GetNoRepeatedPtCollection(xClipEdgePts);
+                    Polyline xClipPolyline = ThXClipCadOperation.CreatePolyline(xClipEdgePts);
+                    ThXClipCadOperation.AddToBlockTable(xClipPolyline);                   
+                    PromptSelectionResult psr = ThXClipCadOperation.SelectByPolyline(_document.Editor, xClipPolyline,
+                         Autodesk.AutoCAD.EditorInput.PolygonSelectionMode.Crossing,sf);
+                    List<IntPtr> intPtrs = new List<IntPtr>();
+                    if (psr.Status == PromptStatus.OK)
+                    {
+                        intPtrs = psr.Value.GetObjectIds().Select(j => j.OldIdPtr).ToList();//获取当前WipeOut查找的物体
+                    }
+                    List<DraworderInfo> needHandleDrawDois = _analyzeRelation.GetXClipDrawOrderInfs(this._analyzeRelation.XclipInfs[i]);
+                    needHandleDrawDois = needHandleDrawDois.Where(j => intPtrs.IndexOf(j.Id.OldIdPtr) >= 0).Select(j => j).ToList();
+                    ThXClipCadOperation.EraseObjIds(xClipPolyline.ObjectId);
+                    OperationXClip(xClipEdgePts, needHandleDrawDois, this._analyzeRelation.XclipInfs[i].KeepInternal);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                System.Windows.MessageBox.Show("函数名：StartTrim；+执行到第" + debugNum3 + "次循环！");
             }
             string blockName = "";
             //List<Point3d> cornerPts=GetHandleObjsCornerPts();
@@ -183,60 +250,26 @@ namespace ThXClip
             return newPts;
         }
         private void OperationWipeOut(Point2dCollection wipeOutBoundaryPts, List<DraworderInfo> preDrawDois)
-        {              
-            wipeOutBoundaryPts = TransWipeOutBoundaryPts(wipeOutBoundaryPts);
-            CurveType curveType = CurveType.NotSupport;
-            for (int i = 0; i < preDrawDois.Count; i++)
+        {
+            int debugNum = 0;
+            try
             {
-                DBObjectCollection handledDbObjs = new DBObjectCollection();
-                DBObjectCollection dbObjs = preDrawDois[i].DbObjs;
-                curveType = GetDbObjType(preDrawDois[i].TypeName);
-                if (curveType == CurveType.NotSupport)
+                wipeOutBoundaryPts = TransWipeOutBoundaryPts(wipeOutBoundaryPts);
+                CurveType curveType = CurveType.NotSupport;
+                for (int i = 0; i < preDrawDois.Count; i++)
                 {
-                    #region----------暂时不处理----------
-                    //for (int j = 0; j < dbObjs.Count; j++)
-                    //{
-                    //    Entity ent = dbObjs[j] as Entity;
-                    //    if (ent != null)
-                    //    {
-                    //        Point3dCollection intersectPts = new Point3dCollection();
-                    //        Polyline polyline = CadOperation.CreatePolyline(wipeOutBoundaryPts);
-                    //        polyline.BoundingBoxIntersectWith(ent, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-                    //        bool keepEnt = true;
-                    //        if (intersectPts == null || intersectPts.Count == 0) //没有交点
-                    //        {
-                    //            if (ent.Bounds != null && ent.Bounds.HasValue)
-                    //            {
-                    //                Point3d midPt = CadOperation.GetMidPt(ent.Bounds.Value.MinPoint, ent.Bounds.Value.MaxPoint);
-                    //                if (CadOperation.IsPointInPolyline(wipeOutBoundaryPts, new Point2d(midPt.X, midPt.Y)))
-                    //                {
-                    //                    keepEnt = false;
-                    //                }
-                    //            }
-                    //            else
-                    //            {
-                    //                if(ent is Dimension)
-                    //                {
-                    //                   Entity cloneEnt= ent.Clone() as Entity;
-                    //                   List<ObjectId> entIds= CadOperation.AddToBlockTable(cloneEnt);
-                    //                    polyline.BoundingBoxIntersectWith(ent, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-                    //                }
-                    //            }
-                    //        }
-                    //        else if (intersectPts != null && intersectPts.Count > 0)
-                    //        {
-                    //            keepEnt = false;
-                    //        }
-                    //        if (keepEnt)
-                    //        {                                    
-                    //            handledDbObjs.Add(dbObjs[j]);
-                    //        }
-                    //    }
-                    //}
-                    #endregion
-                }
-                else
-                {
+                    debugNum = i;
+                    DBObjectCollection handledDbObjs = new DBObjectCollection();
+                    DBObjectCollection dbObjs = preDrawDois[i].DbObjs;
+                    curveType = GetDbObjType(preDrawDois[i].TypeName);
+                    if(curveType == CurveType.NotSupport)
+                    {
+                        continue;
+                    }
+                    if (curveType == CurveType.NotSupport)
+                    {
+                        continue;
+                    }
                     for (int j = 0; j < dbObjs.Count; j++)
                     {
                         curveType = GetDbObjType(dbObjs[j]);
@@ -259,7 +292,7 @@ namespace ThXClip
                                 Ellipse ellipse = dbObjs[j] as Ellipse;
                                 subDbObjs = ellipse.XClip(wipeOutBoundaryPts);
                                 break;
-                            case CurveType.Xline:
+                            case CurveType.Xline: //暂不支持
                                 Xline xline = dbObjs[j] as Xline;
                                 subDbObjs = xline.XClip(wipeOutBoundaryPts);
                                 break;
@@ -285,9 +318,13 @@ namespace ThXClip
                             handledDbObjs.Add(newDbObj);
                         }
                     }
+                    _analyzeRelation.DrawOrderinfs.Where
+                        (j => j.Id == preDrawDois[i].Id).Select(j => j).FirstOrDefault().DbObjs = handledDbObjs;
                 }
-                _analyzeRelation.DrawOrderinfs.Where
-                    (j => j.Id == preDrawDois[i].Id).Select(j => j).FirstOrDefault().DbObjs = handledDbObjs;
+            }
+            catch(System.Exception ex)
+            {
+                System.Windows.MessageBox.Show("函数名：OperationWipeOut；+执行到第"+ debugNum+"次循环！");
             }
         }
         private List<string> GetBlockNames(ObjectId blkId,string blkName,bool isCompared=true)
@@ -344,74 +381,82 @@ namespace ThXClip
             }            
             return blkNames;
         }
-        private void OperationXClip(XClipInfo xClipInfo)
+        private void OperationXClip(Point2dCollection xClipEdgePts, List<DraworderInfo> needHandleDrawDois,bool keepInternal=false)
         {
-            Point2dCollection xClipEdgePts = TransWipeOutBoundaryPts(xClipInfo.Pts);
-            List<DraworderInfo> needHandleDrawDois = _analyzeRelation.GetXClipDrawOrderInfs(xClipInfo);
-            CurveType curveType = CurveType.NotSupport;
-            for (int i = 0; i < needHandleDrawDois.Count; i++)
+            int debugNum = 0;
+            try
             {
-                curveType = GetDbObjType(needHandleDrawDois[i].TypeName);
-                if (curveType == CurveType.NotSupport)
+               
+                CurveType curveType = CurveType.NotSupport;
+                for (int i = 0; i < needHandleDrawDois.Count; i++)
                 {
-                    continue;
-                }
-                DBObjectCollection handledDbObjs = new DBObjectCollection();
-                DBObjectCollection dbObjs = needHandleDrawDois[i].DbObjs;
-                for (int j = 0; j < dbObjs.Count; j++)
-                {
-                    curveType = GetDbObjType(dbObjs[j]);
-                    DBObjectCollection subDbObjs = new DBObjectCollection();
-                    switch (curveType)
+                    debugNum = i;
+                    curveType = GetDbObjType(needHandleDrawDois[i].TypeName);
+                    if (curveType == CurveType.NotSupport)
                     {
-                        case CurveType.Line:
-                            Line line = dbObjs[j] as Line;
-                            subDbObjs = line.XClip(xClipEdgePts, xClipInfo.KeepInternal);
-                            break;
-                        case CurveType.Circle:
-                            Circle circle = dbObjs[j] as Circle;
-                            subDbObjs = circle.XClip(xClipEdgePts, xClipInfo.KeepInternal);
-                            break;
-                        case CurveType.Arc:
-                            Arc arc = dbObjs[j] as Arc;
-                            subDbObjs = arc.XClip(xClipEdgePts, xClipInfo.KeepInternal);
-                            break;
-                        case CurveType.Ellipse:
-                            Ellipse ellipse = dbObjs[j] as Ellipse;
-                            subDbObjs = ellipse.XClip(xClipEdgePts, xClipInfo.KeepInternal);
-                            break;
-                        case CurveType.Xline:
-                            Xline xline = dbObjs[j] as Xline;
-                            subDbObjs = xline.XClip(xClipEdgePts, xClipInfo.KeepInternal);
-                            break;
-                        case CurveType.Spline:
-                            Spline spline = dbObjs[j] as Spline;
-                            subDbObjs = spline.XClip(xClipEdgePts, xClipInfo.KeepInternal);
-                            break;
-                        case CurveType.Polyline:
-                            Polyline polyline = dbObjs[j] as Polyline;
-                            subDbObjs = polyline.XClip(xClipEdgePts, xClipInfo.KeepInternal);
-                            break;
-                        case CurveType.Polyline2d:
-                            Polyline2d polyline2d = dbObjs[j] as Polyline2d;
-                            subDbObjs = polyline2d.XClip(xClipEdgePts, xClipInfo.KeepInternal);
-                            break;
-                        case CurveType.Polyline3d:
-                            Polyline3d polyline3d = dbObjs[j] as Polyline3d;
-                            subDbObjs = polyline3d.XClip(xClipEdgePts, xClipInfo.KeepInternal);
-                            break;
-                        case CurveType.Ray:
-                            Ray ray = dbObjs[j] as Ray;
-                            subDbObjs = ray.XClip(xClipEdgePts, xClipInfo.KeepInternal);
-                            break;
+                        continue;
                     }
-                    foreach (DBObject newDbObj in subDbObjs)
+                    DBObjectCollection handledDbObjs = new DBObjectCollection();
+                    DBObjectCollection dbObjs = needHandleDrawDois[i].DbObjs;
+                    for (int j = 0; j < dbObjs.Count; j++)
                     {
-                        handledDbObjs.Add(newDbObj);
+                        curveType = GetDbObjType(dbObjs[j]);
+                        DBObjectCollection subDbObjs = new DBObjectCollection();
+                        switch (curveType)
+                        {
+                            case CurveType.Line:
+                                Line line = dbObjs[j] as Line;
+                                subDbObjs = line.XClip(xClipEdgePts, keepInternal);
+                                break;
+                            case CurveType.Circle:
+                                Circle circle = dbObjs[j] as Circle;
+                                subDbObjs = circle.XClip(xClipEdgePts, keepInternal);
+                                break;
+                            case CurveType.Arc:
+                                Arc arc = dbObjs[j] as Arc;
+                                subDbObjs = arc.XClip(xClipEdgePts, keepInternal);
+                                break;
+                            case CurveType.Ellipse:
+                                Ellipse ellipse = dbObjs[j] as Ellipse;
+                                subDbObjs = ellipse.XClip(xClipEdgePts, keepInternal);
+                                break;
+                            case CurveType.Xline:
+                                Xline xline = dbObjs[j] as Xline;
+                                subDbObjs = xline.XClip(xClipEdgePts, keepInternal);
+                                break;
+                            case CurveType.Spline:
+                                Spline spline = dbObjs[j] as Spline;
+                                subDbObjs = spline.XClip(xClipEdgePts, keepInternal);
+                                break;
+                            case CurveType.Polyline:
+                                Polyline polyline = dbObjs[j] as Polyline;
+                                subDbObjs = polyline.XClip(xClipEdgePts, keepInternal);
+                                break;
+                            case CurveType.Polyline2d:
+                                Polyline2d polyline2d = dbObjs[j] as Polyline2d;
+                                subDbObjs = polyline2d.XClip(xClipEdgePts, keepInternal);
+                                break;
+                            case CurveType.Polyline3d:
+                                Polyline3d polyline3d = dbObjs[j] as Polyline3d;
+                                subDbObjs = polyline3d.XClip(xClipEdgePts, keepInternal);
+                                break;
+                            case CurveType.Ray:
+                                Ray ray = dbObjs[j] as Ray;
+                                subDbObjs = ray.XClip(xClipEdgePts, keepInternal);
+                                break;
+                        }
+                        foreach (DBObject newDbObj in subDbObjs)
+                        {
+                            handledDbObjs.Add(newDbObj);
+                        }
                     }
+                    _analyzeRelation.DrawOrderinfs.Where
+                            (j => j.Id == needHandleDrawDois[i].Id).Select(j => j).FirstOrDefault().DbObjs = handledDbObjs;
                 }
-                _analyzeRelation.DrawOrderinfs.Where
-                        (j => j.Id == needHandleDrawDois[i].Id).Select(j => j).FirstOrDefault().DbObjs = handledDbObjs;
+            }
+            catch(System.Exception)
+            {
+                System.Windows.MessageBox.Show("函数名：OperationXClip；+执行到第" + debugNum + "次循环！");
             }
         }
         private Point2dCollection TransWipeOutBoundaryPts(Point2dCollection pts)

@@ -20,58 +20,90 @@ namespace ThXClip
         public static DBObjectCollection XClip(this Arc arc, Point2dCollection pts, bool keepInternal = false)
         {
             DBObjectCollection dBObjects = new DBObjectCollection();
+            if (arc == null)
+            {
+                return dBObjects;
+            }
             Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
             Point3dCollection intersectPts = new Point3dCollection();
             arc.IntersectWith(polyline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
+            polyline.Dispose(); 
+            if(intersectPts!=null && intersectPts.Count>0)
+            {
+                int index = intersectPts.IndexOf(arc.StartPoint);
+                if (index >= 0)
+                {
+                    intersectPts.RemoveAt(index);
+                }
+                index = intersectPts.IndexOf(arc.EndPoint);
+                if (index >= 0)
+                {
+                    intersectPts.RemoveAt(index);
+                }
+            }
             if (intersectPts == null || intersectPts.Count == 0) //无交点，
             {
                 if (ThXClipCadOperation.IsPointInPolyline(pts, arc.Center))  //圆心在pts范围内
                 {
                     if (keepInternal)
                     {
-                        Entity ent = arc.Clone() as Entity;
-                        dBObjects.Add(ent);
+                        dBObjects.Add(arc);
+                    }
+                    else
+                    {
+                        arc.Dispose();
                     }
                 }
                 else
                 {
                     if (!keepInternal)
                     {
-                        Entity ent = arc.Clone() as Entity;
-                        dBObjects.Add(ent);
+                        dBObjects.Add(arc);
+                    }
+                    else
+                    {
+                        arc.Dispose();
                     }
                 }
                 return dBObjects;
             }
             else if (intersectPts.Count == 1)
             {
-                if (intersectPts[0].DistanceTo(arc.StartPoint) <= 1.0 ||
-                    intersectPts[0].DistanceTo(arc.EndPoint) <= 1.0)
+                if (intersectPts[0].IsEqualTo(arc.StartPoint,ThCADCommon.Global_Tolerance)||
+                    intersectPts[0].IsEqualTo(arc.EndPoint, ThCADCommon.Global_Tolerance))
                 {
                     Point3d arcTopPt = ThXClipCadOperation.GetArcTopPt(arc.Center, arc.StartPoint, arc.EndPoint);
                     if (ThXClipCadOperation.IsPointInPolyline(pts, arcTopPt))  //弧顶在pts范围内
                     {
                         if (keepInternal)
                         {
-                            Entity ent = arc.Clone() as Entity;
-                            dBObjects.Add(ent);
+                            dBObjects.Add(arc);
+                        }
+                        else
+                        {
+                            arc.Dispose();
                         }
                     }
                     else
                     {
                         if (!keepInternal)
                         {
-                            Entity ent = arc.Clone() as Entity;
-                            dBObjects.Add(ent);
+                            dBObjects.Add(arc);
+                        }
+                        else
+                        {
+                            arc.Dispose();
                         }
                     }
+                    intersectPts.Dispose();
                     return dBObjects;
                 }
             }
             List<Point3d> intersectPtList = new List<Point3d>();
             foreach (Point3d pt in intersectPts)
             {
-                if (pt.DistanceTo(arc.StartPoint) > 1.0 && pt.DistanceTo(arc.EndPoint) > 1.0)
+                if (!(pt.IsEqualTo(arc.StartPoint,ThCADCommon.Global_Tolerance) ||
+                    pt.IsEqualTo(arc.StartPoint, ThCADCommon.Global_Tolerance)))
                 {
                     intersectPtList.Add(pt);
                 }
@@ -81,51 +113,842 @@ namespace ThXClip
             intersectPtList.ForEach(i => sortPts.Add(i));
             sortPts.Add(arc.EndPoint);
             sortPts = ThXClipCadOperation.SortArcPts(sortPts, arc.Center);
-            List<List<Point3d>> ptPair = new List<List<Point3d>>();
-            for (int i = 0; i < sortPts.Count - 1; i++)
+            bool isClockWise = ThXClipCadOperation.JudgeTwoVectorIsAnticlockwise(arc.Center.GetVectorTo(arc.StartPoint),
+                arc.Center.GetVectorTo(arc.EndPoint)); //逆时针
+            if(!isClockWise)
             {
-                if (sortPts[i].DistanceTo(sortPts[i + 1]) <= 1.0)
+                sortPts.Reverse();
+            }
+            intersectPts.Dispose(); //释放交点
+            Point3dCollection sortIntersecPts = new Point3dCollection();
+            sortPts.ForEach(i=> sortIntersecPts.Add(i));
+            List<Curve> splitCurves = new List<Curve>(); 
+            if(sortIntersecPts.Count>0)
+            {
+                DBObjectCollection dBObjs = arc.GetSplitCurves(sortIntersecPts);
+                if (dBObjs.Count == 0)
                 {
-                    continue;
+                    splitCurves.Add(arc);
                 }
-                Point3d arcTopPt = ThXClipCadOperation.GetArcTopPt(arc.Center, sortPts[i], sortPts[i + 1]);
+                else
+                {
+                    foreach (DBObject dbObj in dBObjs)
+                    {
+                        splitCurves.Add(dbObj as Curve);
+                    }
+                }
+            }
+            else
+            {
+                splitCurves.Add(arc);
+            }
+            //List<Curve> splitCurves = SplitCurves(arc, intersectPts);
+            if(splitCurves.Count>1) //说明arc被分割成多段
+            {
+                arc.Dispose();
+            }
+            for(int i=0;i< splitCurves.Count; i++)
+            {
+                Arc currentArc = splitCurves[i] as Arc;
+                Point3d arcTopPt = ThXClipCadOperation.GetArcTopPt(currentArc.Center, currentArc.StartPoint, currentArc.EndPoint);
                 if (ThXClipCadOperation.IsPointInPolyline(pts, arcTopPt))
                 {
                     if (keepInternal)
                     {
-                        ptPair.Add(new List<Point3d> { sortPts[i], sortPts[i + 1] });
+                        dBObjects.Add(splitCurves[i]);
+                    }
+                    else
+                    {
+                        currentArc.Dispose();
                     }
                 }
                 else
                 {
                     if (!keepInternal)
                     {
-                        ptPair.Add(new List<Point3d> { sortPts[i], sortPts[i + 1] });
-                    }
-                }
-            }
-            for (int i = 0; i < ptPair.Count; i++)
-            {
-                Point3d startPt = ptPair[i][0];
-                Point3d endPt = ptPair[i][1];
-                int num = i;
-                for (int j = i + 1; j < ptPair.Count; j++)
-                {
-                    if (ptPair[j][0].DistanceTo(endPt) <= 1.0)
-                    {
-                        endPt = ptPair[j][1];
-                        num = j;
+                        dBObjects.Add(splitCurves[i]);
                     }
                     else
                     {
+                        currentArc.Dispose();
+                    }
+                }
+            }
+            return dBObjects;
+        }
+        /// <summary>
+        /// 修剪Spline
+        /// </summary>
+        /// <param name="ellipse"></param>
+        /// <param name="pts"></param>
+        /// <returns></returns>
+        public static DBObjectCollection XClip(this Spline spline, Point2dCollection pts, bool keepInternal = false)
+        {
+            DBObjectCollection dBObjects = new DBObjectCollection();
+            if (spline == null)
+            {
+                return dBObjects;
+            }
+            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
+            Point3dCollection intersectPts = new Point3dCollection();
+            polyline.IntersectWith(spline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
+            polyline.Dispose();
+            if (intersectPts!=null && intersectPts.Count > 0)
+            {
+                int index = intersectPts.IndexOf(spline.StartPoint);
+                if (index >= 0)
+                {
+                    intersectPts.RemoveAt(index);
+                }
+                if (intersectPts.Count > 0)
+                {
+                    index = intersectPts.IndexOf(spline.EndPoint);
+                    if (index >= 0)
+                    {
+                        intersectPts.RemoveAt(index);
+                    }
+                }
+            }
+            if (intersectPts == null || intersectPts.Count == 0)
+            {
+                if (ThXClipCadOperation.IsPointInPolyline(pts, spline.StartPoint))  //圆心在pts范围内
+                {
+                    if (keepInternal)
+                    {
+                        dBObjects.Add(spline);
+                    }
+                    else
+                    {
+                        spline.Dispose();
+                    }
+                }
+                else
+                {
+                    if (!keepInternal)
+                    {
+                        dBObjects.Add(spline);
+                    }
+                    else
+                    {
+                        spline.Dispose();
+                    }
+                }
+                return dBObjects;
+            }
+            else if (intersectPts.Count == 1)
+            {
+                Point3d checkPt = Point3d.Origin;
+                bool isPortPt = false;
+                if (intersectPts[0].IsEqualTo(spline.StartPoint,ThCADCommon.Global_Tolerance))
+                {
+                    checkPt = spline.EndPoint;
+                    isPortPt = true;
+                }
+                else if (intersectPts[0].IsEqualTo(spline.EndPoint, ThCADCommon.Global_Tolerance))
+                {
+                    checkPt = spline.StartPoint;
+                    isPortPt = true;
+                }
+                if (isPortPt)
+                {
+                    if (ThXClipCadOperation.IsPointInPolyline(pts, checkPt)) //判断Spline是否在Polyline里面
+                    {
+                        if (keepInternal)
+                        {
+                            dBObjects.Add(spline);
+                        }
+                        else
+                        {
+                            spline.Dispose();
+                        }
+                    }
+                    else
+                    {
+                        if (!keepInternal)
+                        {
+                            dBObjects.Add(spline);
+                        }
+                        else
+                        {
+                            spline.Dispose();
+                        }
+                    }
+                    intersectPts.Dispose();
+                    return dBObjects;
+                }
+            }
+            List<Curve> splitCurves = SplitCurves(spline, intersectPts);
+            if(splitCurves.Count>1)
+            {
+                spline.Dispose();
+            }
+            for (int i=0; i< splitCurves.Count;i++)
+            {
+                Point3d checkPt = Point3d.Origin;
+                Spline currentSpline = splitCurves[i] as Spline;
+                if (currentSpline.NumControlPoints > 1)
+                {
+                    checkPt = ThXClipCadOperation.GetExtentPt(currentSpline.StartPoint, currentSpline.GetControlPointAt(1), 1.0); //起点到第2个控制点，延长1mm,找到一个检查点
+                }
+                int numberFitPoints = currentSpline.NumFitPoints;
+                for (int j = 0; j < numberFitPoints; j++)
+                {
+                    Point3d fitPoint = currentSpline.GetFitPointAt(j);
+                    if (!fitPoint.IsEqualTo(currentSpline.StartPoint, ThCADCommon.Global_Tolerance) &&
+                        !fitPoint.IsEqualTo(currentSpline.EndPoint, ThCADCommon.Global_Tolerance))
+                    {
+                        checkPt = fitPoint;
                         break;
                     }
                 }
-                i = num;
-                double startAngle = ThXClipCadOperation.AngleFromXAxis(arc.Center, startPt);
-                double endAngle = ThXClipCadOperation.AngleFromXAxis(arc.Center, endPt);
-                Arc newArc = new Arc(arc.Center, arc.Radius, startAngle, endAngle);
-                dBObjects.Add(newArc);
+                if (ThXClipCadOperation.IsPointInPolyline(pts, checkPt))
+                {
+                    if (keepInternal)
+                    {
+                        dBObjects.Add(currentSpline);
+                    }
+                    else
+                    {
+                        currentSpline.Dispose();
+                    }
+                }
+                else
+                {
+                    if (!keepInternal)
+                    {
+                        dBObjects.Add(currentSpline);
+                    }
+                    else
+                    {
+                        currentSpline.Dispose();
+                    }
+                }
+            }
+            return dBObjects;
+        }
+        /// <summary>
+        /// 修剪圆
+        /// </summary>
+        /// <param name="ellipse"></param>
+        /// <param name="pts"></param>
+        /// <returns></returns>
+        public static DBObjectCollection XClip(this Circle circle, Point2dCollection pts, bool keepInternal = false)
+        {
+            DBObjectCollection dBObjects = new DBObjectCollection();
+            if (circle == null)
+            {
+                return dBObjects;
+            }
+            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
+            Point3dCollection intersectPts = new Point3dCollection();
+            circle.IntersectWith(polyline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
+            polyline.Dispose();
+            if (intersectPts == null || intersectPts.Count <= 1) //无交点，或一个交点
+            {
+                if (ThXClipCadOperation.IsPointInPolyline(pts, circle.Center))  //圆心在pts范围内
+                {
+                    if (keepInternal)
+                    {
+                        dBObjects.Add(circle);
+                    }
+                    else
+                    {
+                        circle.Dispose();
+                    }
+                }
+                else
+                {
+                    if (!keepInternal)
+                    {
+                        dBObjects.Add(circle);
+                    }
+                    else
+                    {
+                        circle.Dispose();
+                    }
+                }
+                if(intersectPts!=null)
+                {
+                    intersectPts.Dispose();
+                }
+                return dBObjects;
+            }
+            Dictionary<Point3d, double> intersPtAngDic = new Dictionary<Point3d, double>();
+            foreach (Point3d pt in intersectPts)
+            {
+                double angle = ThXClipCadOperation.AngleFromXAxis(circle.Center, pt);
+                if (!intersPtAngDic.ContainsKey(pt))
+                {
+                    intersPtAngDic.Add(pt, angle);
+                }
+            }
+            intersectPts.Dispose();
+            List<Curve> splitCurves = new List<Curve>();
+            List<Point3d> sortPts = intersPtAngDic.OrderBy(i => i.Value).Select(i => i.Key).ToList();
+            if(sortPts.Count>1)
+            {
+                Point3dCollection sortIntersecPts = new Point3dCollection();
+                sortPts.ForEach(i=> sortIntersecPts.Add(i));
+                DBObjectCollection splitDbObjs= circle.GetSplitCurves(sortIntersecPts);
+                foreach(DBObject dbObj in splitDbObjs)
+                {
+                    splitCurves.Add(dbObj as Curve);
+                }
+            }
+            else
+            {
+                splitCurves.Add(circle);
+            }
+            if(splitCurves.Count>1)
+            {
+                circle.Dispose();
+            }
+            if(splitCurves==null || splitCurves.Count==0) //没有分割
+            {
+                if (ThXClipCadOperation.IsPointInPolyline(pts, circle.Center))  //圆心在pts范围内
+                {
+                    if (keepInternal)
+                    {
+                        dBObjects.Add(circle);
+                    }
+                    else
+                    {
+                        circle.Dispose();
+                    }
+                }
+                else
+                {
+                    if (!keepInternal)
+                    {
+                        dBObjects.Add(circle);
+                    }
+                    else
+                    {
+                        circle.Dispose();
+                    }
+                }
+                return dBObjects;
+            }
+            for (int i = 0; i < splitCurves.Count; i++)
+            {
+                Point3d checkPt = Point3d.Origin;
+                if(splitCurves[i] is Arc)
+                {
+                    Arc currentArc = splitCurves[i] as Arc;
+                    checkPt = ThXClipCadOperation.GetArcTopPt(currentArc.Center, currentArc.StartPoint, currentArc.EndPoint);
+                }
+                else if(splitCurves[i] is Circle)
+                {
+                    Circle currentCircle= splitCurves[i] as Circle;
+                    checkPt = currentCircle.Center;
+                }
+                else
+                {
+                    splitCurves[i].Dispose();
+                    continue;
+                }
+                if (ThXClipCadOperation.IsPointInPolyline(pts, checkPt))
+                {
+                    if (keepInternal)
+                    {
+                        dBObjects.Add(splitCurves[i]);
+                    }
+                    else
+                    {
+                        splitCurves[i].Dispose();
+                    }
+                }
+                else
+                {
+                    if (!keepInternal) //保留外部
+                    {
+                        dBObjects.Add(splitCurves[i]);
+                    }
+                    else
+                    {
+                        splitCurves[i].Dispose();
+                    }
+                }
+            }
+            return dBObjects;
+        }
+        /// <summary>
+        /// 修剪椭圆
+        /// </summary>
+        /// <param name="ellipse"></param>
+        /// <param name="pts"></param>
+        /// <returns></returns>
+        public static DBObjectCollection XClip(this Ellipse ellipse, Point2dCollection pts, bool keepInternal = false)
+        {
+            DBObjectCollection dBObjects = new DBObjectCollection();
+            if(ellipse==null)
+            {
+                return dBObjects;
+            }
+            double ellipseJiaJiao = ellipse.EndAngle - ellipse.StartAngle;
+            bool isCompletedEllipse = false;
+            if (ellipseJiaJiao == Math.PI * 2) //完整的椭圆
+            {
+                isCompletedEllipse = true;
+            }
+            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
+            Point3dCollection intersectPts = new Point3dCollection();
+            ellipse.IntersectWith(polyline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
+            polyline.Dispose();
+            bool isGoOn = true;
+            if(intersectPts == null || intersectPts.Count == 0)
+            {
+                isGoOn = false;
+            }
+            else if(intersectPts.Count == 1 && isCompletedEllipse)
+            {
+                isGoOn = false;
+            }
+            else if(intersectPts.Count == 1 && isCompletedEllipse==false)
+            {
+                if (intersectPts[0].IsEqualTo(ellipse.StartPoint, ThCADCommon.Global_Tolerance) ||
+                   intersectPts[0].IsEqualTo(ellipse.EndPoint, ThCADCommon.Global_Tolerance))
+                {
+                    isGoOn = false;
+                }
+            }
+            if (isGoOn==false)
+            {
+                if (ThXClipCadOperation.IsPointInPolyline(pts, ellipse.Center))  //圆心在pts范围内
+                {
+                    if (keepInternal) //保留内部
+                    {
+                        dBObjects.Add(ellipse);
+                    }
+                    else
+                    {
+                        ellipse.Dispose();
+                    }
+                }
+                else
+                {
+                    if (!keepInternal) //保留外部
+                    {
+                        dBObjects.Add(ellipse);
+                    }
+                    else
+                    {
+                        ellipse.Dispose();
+                    }
+                }
+                return dBObjects;
+            }
+            Dictionary<double, Point3d> ptAngDic = new Dictionary<double, Point3d>();
+            List<Point3d> sortPts = new List<Point3d>();
+            if(!isCompletedEllipse)
+            {
+                ptAngDic.Add(ellipse.StartAngle, ellipse.StartPoint);
+                ptAngDic.Add(ellipse.EndAngle, ellipse.EndPoint);
+            }
+            foreach (Point3d pt in intersectPts)
+            {
+                double para = ellipse.GetParameterAtPoint(pt);
+                double ang = ellipse.GetAngleAtParameter(para);
+                if(!ptAngDic.ContainsKey(ang))
+                {
+                    ptAngDic.Add(ang, pt);
+                }
+            }
+            sortPts= ptAngDic.OrderBy(i => i.Key).Select(i=>i.Value).ToList();
+            if (!isCompletedEllipse)
+            {
+                if (sortPts.IndexOf(ellipse.StartPoint) != 0)
+                {
+                    sortPts.Reverse();
+                }
+            }
+            intersectPts.Dispose();
+            Point3dCollection sortIntersecPts = new Point3dCollection();
+            sortPts.ForEach(i => sortIntersecPts.Add(i));
+            List<Curve> splitCurves = new List<Curve>();
+            if(isCompletedEllipse)
+            {
+                if(sortIntersecPts.Count<=1)
+                {
+                    splitCurves.Add(ellipse);
+                }
+                else
+                {
+                    DBObjectCollection dbObjs = ellipse.GetSplitCurves(sortIntersecPts);
+                    foreach (DBObject dbObj in dbObjs)
+                    {
+                        splitCurves.Add(dbObj as Ellipse);
+                    }
+                }
+            }
+            else
+            {
+                splitCurves= SplitCurves(ellipse, intersectPts);
+                if(splitCurves==null  || splitCurves.Count==1)
+                {
+                    splitCurves.Add(ellipse);
+                }
+            }
+            if(splitCurves.Count>1)
+            {
+                ellipse.Dispose();
+            }
+            for (int i = 0; i < splitCurves.Count; i++)
+            {
+                Point3d checkPt = Point3d.Origin;
+                Ellipse currentEllipse = splitCurves[i] as Ellipse;
+                if(currentEllipse==null)
+                {
+                    continue;
+                }
+                double midAng = (currentEllipse.StartAngle + currentEllipse.EndAngle) / 2.0;
+                double para = currentEllipse.GetParameterAtAngle(midAng);
+                Point3d ellipseTopPt = currentEllipse.GetPointAtParameter(para);
+                if (ThXClipCadOperation.IsPointInPolyline(pts, ellipseTopPt))
+                {
+                    if (keepInternal)
+                    {
+                        dBObjects.Add(currentEllipse);
+                    }
+                    else
+                    {
+                        currentEllipse.Dispose();
+                    }
+                }
+                else
+                {
+                    if (!keepInternal)
+                    {
+                        dBObjects.Add(currentEllipse);
+                    }
+                    else
+                    {
+                        currentEllipse.Dispose();
+                    }
+                }
+            }
+            return dBObjects;
+        }
+        /// <summary>
+        /// 修剪线
+        /// </summary>
+        /// <param name="ellipse"></param>
+        /// <param name="pts"></param>
+        /// <returns></returns>
+        public static DBObjectCollection XClip(this Line line, Point2dCollection pts, bool keepInternal = false)
+        {
+            DBObjectCollection dBObjects = new DBObjectCollection();
+            if (line == null)
+            {
+                return dBObjects;
+            }
+            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
+            Point3dCollection intersectPts = new Point3dCollection();
+            polyline.IntersectWith(line, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
+            polyline.Dispose();
+            if (intersectPts==null || intersectPts.Count == 0) //无交点
+            {
+                if (ThXClipCadOperation.IsPointInPolyline(pts, ThXClipCadOperation.GetMidPt(line.StartPoint, line.EndPoint))) //线在曲线内
+                {
+                    if (keepInternal)
+                    {
+                        dBObjects.Add(line);
+                    }
+                    else
+                    {
+                        line.Dispose();
+                    }
+                }
+                else
+                {
+                    if (!keepInternal)
+                    {
+                        dBObjects.Add(line);
+                    }
+                    else
+                    {
+                        line.Dispose();
+                    }
+                }
+                if(intersectPts!=null)
+                {
+                    intersectPts.Dispose();
+                }
+                return dBObjects;
+            }
+            List<Point3d> sortPts = new List<Point3d>();
+            foreach(Point3d interPt in intersectPts)
+            {
+                if(interPt.IsEqualTo(line.StartPoint,ThCADCommon.Global_Tolerance) ||
+                   interPt.IsEqualTo(line.EndPoint, ThCADCommon.Global_Tolerance))
+                {
+                    continue;
+                }
+                else
+                {
+                    bool isSuccess = true;
+                    bool isInLine = true;
+                    Point3d newPt = ThXClipCadOperation.TransPtToLine(line.StartPoint, line.EndPoint, interPt,out isSuccess,out isInLine);
+                    if(isInLine && isSuccess)
+                    {
+                        sortPts.Add(newPt);
+                    }
+                }
+            }
+            List<Curve> splitCurves = new List<Curve>();
+            if (sortPts.Count>0)
+            {
+                sortPts = sortPts.OrderBy(i => i.DistanceTo(line.StartPoint)).ToList();
+                Point3dCollection sortIntersectPts = new Point3dCollection();
+                sortPts.ForEach(i => sortIntersectPts.Add(i));
+                DBObjectCollection dbObjs = line.GetSplitCurves(sortIntersectPts);
+                foreach (DBObject dbObj in dbObjs)
+                {
+                    splitCurves.Add(dbObj as Curve);
+                }
+            }
+            else
+            {
+                splitCurves.Add(line);
+            }
+            if (splitCurves != null && splitCurves.Count > 1)
+            {
+                line.Dispose();
+            }
+            for (int i = 0; i < splitCurves.Count; i++)
+            {
+                Line currentLine = splitCurves[i] as Line;
+                Point3d midPt = ThXClipCadOperation.GetMidPt(currentLine.StartPoint, currentLine.EndPoint);
+                if (ThXClipCadOperation.IsPointInPolyline(pts, midPt))
+                {
+                    if (keepInternal) //保留里面
+                    {
+                        dBObjects.Add(currentLine);
+                    }
+                     else
+                    {
+                        currentLine.Dispose();
+                    }
+                }
+                else
+                {
+                    if (!keepInternal)
+                    {
+                        dBObjects.Add(currentLine);
+                    }
+                    else
+                    {
+                        currentLine.Dispose();
+                    }
+                }
+            }
+            return dBObjects;
+        }
+        /// <summary>
+        /// 修剪Polyline
+        /// </summary>
+        /// <param name="ellipse"></param>
+        /// <param name="pts"></param>
+        /// <returns></returns>
+        public static DBObjectCollection XClip(this Polyline polyline, Point2dCollection pts, bool keepInternal = false)
+        {
+            DBObjectCollection dBObjects = new DBObjectCollection();
+            if(polyline==null)
+            {
+                return dBObjects;
+            }
+            Polyline clipBoundaryPline = ThXClipCadOperation.CreatePolyline(pts);
+            Point3dCollection intersectPts = new Point3dCollection();
+            polyline.IntersectWith(clipBoundaryPline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
+            clipBoundaryPline.Dispose();
+            bool isGoOn = true;
+            if (intersectPts == null || intersectPts.Count == 0)
+            {
+                isGoOn = false;
+            }
+            if(isGoOn==false)
+            {
+                Polyline wpPolyline = ThXClipCadOperation.CreatePolyline(pts);
+                for(int i=0;i<polyline.NumberOfVertices;i++)
+                {
+                    Point3d firstPt = polyline.GetPoint3dAt(i);
+                    if (!ThXClipCadOperation.IsPointOnPolyline(wpPolyline, firstPt)) //检查点不在裁剪边界上
+                    {
+                        if (ThXClipCadOperation.IsPointInPolyline(pts, firstPt)) //线在曲线内
+                        {
+                            if (keepInternal)
+                            {
+                                dBObjects.Add(polyline);
+                            }
+                            else
+                            {
+                                polyline.Dispose();
+                            }
+                        }
+                        else
+                        {
+                            if (!keepInternal)
+                            {
+                                dBObjects.Add(polyline);
+                            }
+                            else
+                            {
+                                polyline.Dispose();
+                            }
+                        }
+                        break;
+                    }
+                }
+                if (intersectPts != null)
+                {
+                    intersectPts.Dispose();
+                }
+                wpPolyline.Dispose();
+                return dBObjects;
+            }
+            //获取交点在Polyline上哪些分段上
+            Dictionary<Point3d, int> ptSegmentIndexDic = new Dictionary<Point3d, int>();
+            foreach (Point3d point in intersectPts)
+            {
+                int index = ThXClipCadOperation.GetPointOnPolylineSegment(polyline, point);
+                if (index >= 0)
+                {
+                    if (!ptSegmentIndexDic.ContainsKey(point))
+                    {
+                        ptSegmentIndexDic.Add(point, index);
+                    }
+                }
+            }
+            List<int> setmentIndexList= ptSegmentIndexDic.OrderBy(i => i.Value).Select(i => i.Value).ToList();
+            setmentIndexList = setmentIndexList.Distinct().ToList();
+            Dictionary<int, List<Point3d>> breakPtDic = new Dictionary<int, List<Point3d>>();
+            foreach(int segmentIndex in setmentIndexList)
+            {
+                List<Point3d> segmentPtList = ptSegmentIndexDic.Where(i => i.Value == segmentIndex).Select(i => i.Key).ToList();
+                breakPtDic.Add(segmentIndex, segmentPtList);
+            }
+            List<Point3d> sortPts = new List<Point3d>();
+            foreach(var dicItem in breakPtDic)
+            {
+                List<Point3d> segmentPts = dicItem.Value;
+                if (segmentPts.Count<=1)
+                {
+                    sortPts.AddRange(segmentPts);
+                    continue;
+                }
+                SegmentType st = polyline.GetSegmentType(dicItem.Key);
+                if (st== SegmentType.Line)
+                {
+                    LineSegment3d lineSegment3D = polyline.GetLineSegmentAt(dicItem.Key);
+                    segmentPts=segmentPts.OrderBy(i => i.DistanceTo(lineSegment3D.StartPoint)).ToList();
+                    sortPts.AddRange(segmentPts);
+                }
+                else if(st == SegmentType.Arc)
+                {
+                    CircularArc3d circularArc3D = polyline.GetArcSegmentAt(dicItem.Key);
+                    bool isClockWise=ThXClipCadOperation.JudgeTwoVectorIsAnticlockwise(circularArc3D.Center.GetVectorTo(circularArc3D.StartPoint),
+                        circularArc3D.Center.GetVectorTo(circularArc3D.EndPoint));
+                    Dictionary<double, Point3d> ptAngDic = new Dictionary<double, Point3d>();
+                    foreach(Point3d pt in segmentPts)
+                    {
+                        double angle = ThXClipCadOperation.AngleFromXAxis(circularArc3D.Center, pt);
+                        if(!ptAngDic.ContainsKey(angle))
+                        {
+                            ptAngDic.Add(angle, pt);
+                        }                        
+                    }
+                    List<Point3d> arcSortPts= ptAngDic.OrderBy(i => i).Select(i => i.Value).ToList();
+                    if(!isClockWise)
+                    {
+                        arcSortPts.Reverse();
+                    }
+                    sortPts.AddRange(arcSortPts);
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            List<Curve> splitCurves = new List<Curve>();
+            Point3dCollection sortIntersecPts = new Point3dCollection();
+            sortPts.ForEach(i => sortIntersecPts.Add(i));
+            if(sortIntersecPts.Count>0)
+            {
+                DBObjectCollection dbObjs = polyline.GetSplitCurves(sortIntersecPts);
+                if (dbObjs.Count == 0)
+                {
+                    splitCurves.Add(polyline);
+                }
+                foreach (DBObject dbObj in dbObjs)
+                {
+                    splitCurves.Add(dbObj as Curve);
+                }
+            }
+            else
+            {
+                splitCurves.Add(polyline);
+            }
+            if(splitCurves.Count>1)
+            {
+                polyline.Dispose();
+            }
+            for (int i = 0; i < splitCurves.Count; i++)
+            {
+                Polyline currentPolyline = splitCurves[i] as Polyline;
+                if(currentPolyline==null)
+                {
+                    continue;
+                }
+                bool doMark = true;
+                int j = 0;
+                Point3d checkPt = Point3d.Origin;
+                while (doMark)
+                {
+                    SegmentType st = currentPolyline.GetSegmentType(j);
+                    if (st == SegmentType.Line)
+                    {
+                        LineSegment3d lineSegment = currentPolyline.GetLineSegmentAt(j);
+                        if (!lineSegment.StartPoint.IsEqualTo(lineSegment.EndPoint, ThCADCommon.Global_Tolerance))
+                        {
+                            checkPt = ThXClipCadOperation.GetMidPt(lineSegment.StartPoint, lineSegment.EndPoint);
+                            break;
+                        }
+                    }
+                    else if (st == SegmentType.Arc)
+                    {
+                        CircularArc3d circularArc3d = currentPolyline.GetArcSegmentAt(j);
+                        if (!circularArc3d.StartPoint.IsEqualTo(circularArc3d.EndPoint, ThCADCommon.Global_Tolerance))
+                        {
+                            checkPt = ThXClipCadOperation.GetArcTopPt(circularArc3d.Center, circularArc3d.StartPoint, circularArc3d.EndPoint);
+                            break;
+                        }
+                    }
+                    j++;
+                }
+                if (ThXClipCadOperation.IsPointInPolyline(pts, checkPt))
+                {
+                    if (keepInternal)
+                    {
+                        dBObjects.Add(currentPolyline);
+                    }
+                    else
+                    {
+                        currentPolyline.Dispose(); //丢弃
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (!keepInternal)
+                    {
+                        dBObjects.Add(currentPolyline);
+                    }
+                    else
+                    {
+                        currentPolyline.Dispose();
+                        continue;
+                    }
+                }
             }
             return dBObjects;
         }
@@ -149,181 +972,6 @@ namespace ThXClip
         public static DBObjectCollection XClip(this Polyline3d polyline3d, Point2dCollection pts, bool keepInternal = false)
         {
             DBObjectCollection dBObjects = new DBObjectCollection();
-            return dBObjects;
-        }
-        /// <summary>
-        /// 修剪Spline
-        /// </summary>
-        /// <param name="ellipse"></param>
-        /// <param name="pts"></param>
-        /// <returns></returns>
-        public static DBObjectCollection XClip(this Spline spline, Point2dCollection pts, bool keepInternal = false)
-        {
-            DBObjectCollection dBObjects = new DBObjectCollection();
-            if (spline == null)
-            {
-                return dBObjects;
-            }
-            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
-            Point3dCollection intersectPts = new Point3dCollection();
-            polyline.IntersectWith(spline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-            if(intersectPts.Count>0)
-            {
-                int index=intersectPts.IndexOf(spline.StartPoint);
-                if(index>=0)
-                {
-                    intersectPts.RemoveAt(index);
-                }
-                if(intersectPts.Count > 0)
-                {
-                    index = intersectPts.IndexOf(spline.EndPoint);
-                    if (index >= 0)
-                    {
-                        intersectPts.RemoveAt(index);
-                    }
-                }
-            }
-            if (intersectPts == null || intersectPts.Count == 0)
-            {
-                if (ThXClipCadOperation.IsPointInPolyline(pts, spline.StartPoint))  //圆心在pts范围内
-                {
-                    if (keepInternal)
-                    {
-                        Entity ent = spline.Clone() as Entity;
-                        dBObjects.Add(ent);
-                    }
-                }
-                else
-                {
-                    if (!keepInternal)
-                    {
-                        Entity ent = spline.Clone() as Entity;
-                        dBObjects.Add(ent);
-                    }
-                }
-                return dBObjects;
-            }
-            else if(intersectPts.Count==1)
-            {
-                Point3d checkPt = Point3d.Origin;
-                bool isPortPt = false;
-                if(intersectPts[0].DistanceTo(spline.StartPoint) <= 0.1)
-                {
-                    checkPt = spline.EndPoint;
-                    isPortPt = true;
-                }
-                else if(intersectPts[0].DistanceTo(spline.EndPoint) <= 0.1)
-                {
-                    checkPt = spline.StartPoint;
-                    isPortPt = true;
-                }
-                if(isPortPt)
-                {
-                    if(ThXClipCadOperation.IsPointInPolyline(pts,checkPt)) //判断Spline是否在Polyline里面
-                    {
-                        if(keepInternal)
-                        {
-                            Entity ent = spline.Clone() as Entity;
-                            dBObjects.Add(ent);
-                        }
-                    }
-                    else
-                    {
-                        if(!keepInternal)
-                        {
-                            Entity ent = spline.Clone() as Entity;
-                            dBObjects.Add(ent);
-                        }
-                    }
-                    return dBObjects;
-                }
-            }
-            DBObjectCollection splitCurves = new DBObjectCollection();
-            DBObjectCollection needSplitCurves = new DBObjectCollection();
-            needSplitCurves.Add(spline);
-            foreach (Point3d pt in intersectPts)
-            {
-                Point3dCollection splitPts = new Point3dCollection();
-                splitPts.Add(pt);
-                foreach (DBObject dbObj in needSplitCurves)
-                {
-                    if (dbObj is Spline)
-                    {
-                        Point3d lineSp = pt + Vector3d.XAxis.MultiplyBy(-0.5);
-                        Point3d lineEp = pt + Vector3d.XAxis.MultiplyBy(0.5);
-                        Line line = new Line(lineSp, lineEp);
-                        Spline currentSpline = dbObj as Spline;
-                        Point3dCollection tempCollection = new Point3dCollection();
-                        line.IntersectWith(currentSpline, Intersect.OnBothOperands, tempCollection, IntPtr.Zero, IntPtr.Zero);
-                        if (tempCollection == null || tempCollection.Count==0)
-                        {
-                            splitCurves.Add(currentSpline);
-                            continue;
-                        }
-                        DBObjectCollection dbObjs = currentSpline.GetSplitCurves(splitPts);
-                        foreach(DBObject splitDbObj in dbObjs)
-                        {
-                            splitCurves.Add(splitDbObj);
-                        }
-                    }
-                }
-                needSplitCurves = new DBObjectCollection();
-                needSplitCurves = splitCurves;
-                splitCurves = new DBObjectCollection();
-            }
-            List<Spline> splines = new List<Spline>();
-            foreach(DBObject dbObj in needSplitCurves)
-            {
-                if(dbObj is Spline)
-                {
-                    Spline currentSpline = dbObj as Spline;
-                    splines.Add(currentSpline);
-                }
-            }
-            List<Spline> uniqueSplines = new List<Spline>();
-            while (splines.Count>0)
-            {
-                Spline currentSpline = splines[0];
-                uniqueSplines.Add(currentSpline);
-                splines.RemoveAt(0);
-                splines= splines.Where(i => (!(i.StartPoint.IsEqualTo(currentSpline.StartPoint, ThCADCommon.Global_Tolerance) &&
-                i.EndPoint.IsEqualTo(currentSpline.EndPoint, ThCADCommon.Global_Tolerance)) ||
-                (i.StartPoint.IsEqualTo(currentSpline.EndPoint, ThCADCommon.Global_Tolerance) &&
-                i.EndPoint.IsEqualTo(currentSpline.StartPoint, ThCADCommon.Global_Tolerance)))).Select(i => i).ToList(); //把break后，具有相同位置的过滤掉
-            }
-            foreach(Spline currentSpline in uniqueSplines)
-            {
-                Point3d checkPt = Point3d.Origin;
-                if(currentSpline.NumControlPoints>1)
-                {
-                    checkPt = ThXClipCadOperation.GetExtentPt(currentSpline.StartPoint, currentSpline.GetControlPointAt(1), 1.0); //起点到第2个控制点，延长1mm,找到一个检查点
-                }
-                int numberFitPoints = currentSpline.NumFitPoints;
-                for (int i=0;i< numberFitPoints;i++)
-                {
-                    Point3d fitPoint = currentSpline.GetFitPointAt(i);
-                    if (!fitPoint.IsEqualTo(currentSpline.StartPoint,ThCADCommon.Global_Tolerance) &&
-                        !fitPoint.IsEqualTo(currentSpline.EndPoint, ThCADCommon.Global_Tolerance))
-                    {
-                        checkPt = fitPoint;
-                        break;
-                    }
-                }
-                if(ThXClipCadOperation.IsPointInPolyline(pts,checkPt))
-                {
-                    if(keepInternal)
-                    {
-                        dBObjects.Add(currentSpline);
-                    }
-                }
-                else
-                {
-                    if (!keepInternal)
-                    {
-                        dBObjects.Add(currentSpline);
-                    }
-                }
-            }
             return dBObjects;
         }
         /// <summary>
@@ -499,866 +1147,105 @@ namespace ThXClip
             return dBObjects;
         }
         /// <summary>
-        /// 修剪圆
+        ///按传入的点分割曲线
         /// </summary>
-        /// <param name="ellipse"></param>
-        /// <param name="pts"></param>
+        /// <param name="curve"></param>
+        /// <param name="intersectPts"></param>
         /// <returns></returns>
-        public static DBObjectCollection XClip(this Circle circle, Point2dCollection pts, bool keepInternal = false)
+        private static List<Curve> SplitCurves(Curve curve, Point3dCollection intersectPts)
         {
-            DBObjectCollection dBObjects = new DBObjectCollection();
-            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
-            Point3dCollection intersectPts = new Point3dCollection();
-            circle.IntersectWith(polyline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-            if (intersectPts == null || intersectPts.Count == 0) //无交点，
+            if (curve == null || intersectPts == null || intersectPts.Count == 0)
             {
-                if (ThXClipCadOperation.IsPointInPolyline(pts, circle.Center))  //圆心在pts范围内
-                {
-                    if (keepInternal)
-                    {
-                        Entity ent = circle.Clone() as Entity;
-                        dBObjects.Add(ent);
-                    }
-                }
-                else
-                {
-                    if (!keepInternal)
-                    {
-                        Entity ent = circle.Clone() as Entity;
-                        dBObjects.Add(ent);
-                    }                   
-                }
-                return dBObjects;
+                return new List<Curve>();
             }            
-            Dictionary<Point3d,double> intersPtAngDic = new Dictionary<Point3d, double>();
+            DBObjectCollection splitCurves = new DBObjectCollection();
+            DBObjectCollection needSplitCurves = new DBObjectCollection();
+            needSplitCurves.Add(curve);
             foreach (Point3d pt in intersectPts)
             {
-                double angle = ThXClipCadOperation.AngleFromXAxis(circle.Center, pt);               
-                if (!intersPtAngDic.ContainsKey(pt))
+                Point3dCollection splitPts = new Point3dCollection();
+                splitPts.Add(pt);
+                //以下判断分割的点与要被分割的曲线是否相交
+                Line horLine = new Line(pt + Vector3d.XAxis.MultiplyBy(-0.5), pt + Vector3d.XAxis.MultiplyBy(0.5));
+                Line verLine = new Line(pt + Vector3d.YAxis.MultiplyBy(-0.5), pt + Vector3d.YAxis.MultiplyBy(0.5));
+                for (int i = 0; i < needSplitCurves.Count; i++)
                 {
-                    intersPtAngDic.Add(pt, angle);
+                    Curve currentCurve = needSplitCurves[i] as Curve;
+                    if (currentCurve == null)
+                    {
+                        continue;
+                    }
+                    Point3dCollection tempCollection1 = new Point3dCollection();
+                    Point3dCollection tempCollection2 = new Point3dCollection();
+                    horLine.IntersectWith(currentCurve, Intersect.OnBothOperands, tempCollection1, IntPtr.Zero, IntPtr.Zero);
+                    verLine.IntersectWith(currentCurve, Intersect.OnBothOperands, tempCollection2, IntPtr.Zero, IntPtr.Zero);
+                    if (!((tempCollection1 != null && tempCollection1.Count > 0) ||
+                        (tempCollection2 != null && tempCollection2.Count > 0)
+                        ))//没有交点,不往下分割
+                    {
+                        splitCurves.Add(currentCurve);
+                        continue;
+                    }
+                    if(tempCollection1!=null)
+                    {
+                        tempCollection1.Dispose();
+                    }
+                    if (tempCollection2 != null)
+                    {
+                        tempCollection2.Dispose();
+                    }
+                    DBObjectCollection dbObjs = currentCurve.GetSplitCurves(splitPts);
+                    if (dbObjs != null && dbObjs.Count > 1) //被分割的曲线已被成功分割
+                    {
+                        currentCurve.Dispose();
+                    }
+                    foreach (DBObject splitDbObj in dbObjs)
+                    {
+                        splitCurves.Add(splitDbObj);
+                    }
                 }
+                horLine.Dispose();
+                horLine.Dispose();
+                splitPts.Dispose();
+                needSplitCurves = new DBObjectCollection();
+                needSplitCurves = splitCurves;
+                splitCurves = new DBObjectCollection();
             }
-            List<Point3d> sortPts = intersPtAngDic.OrderBy(i=>i.Value).Select(i=>i.Key).ToList();
-            List<List<Point3d>> ptPair = new List<List<Point3d>>();
-            for (int i = 0; i < sortPts.Count - 1; i++)
+            List<Curve> curves = new List<Curve>();
+            foreach (DBObject dbObj in needSplitCurves)
             {
-                if (sortPts[i].DistanceTo(sortPts[i + 1]) <= 1.0)
+                Curve currentCurve = dbObj as Curve;
+                if (currentCurve == null)
                 {
                     continue;
                 }
-                Point3d arcTopPt = ThXClipCadOperation.GetArcTopPt(circle.Center, sortPts[i], sortPts[i + 1]);
-                if (ThXClipCadOperation.IsPointInPolyline(pts, arcTopPt))
-                {
-                    if (keepInternal)
-                    {
-                        ptPair.Add(new List<Point3d> { sortPts[i], sortPts[i + 1] });
-                    }
-                }
-                else
-                {
-                    if (!keepInternal) //保留外部
-                    {
-                        ptPair.Add(new List<Point3d> { sortPts[i], sortPts[i + 1] });
-                    }
-                }
+                curves.Add(currentCurve);
             }
-            for (int i = 0; i < ptPair.Count; i++)
+            List<Curve> uniqueCurves = new List<Curve>();
+            while (curves.Count > 0)
             {
-                Point3d startPt = ptPair[i][0];
-                Point3d endPt = ptPair[i][1];
-                int num = i;
-                for (int j = i + 1; j < ptPair.Count; j++)
-                {
-                    if (ptPair[j][0].DistanceTo(endPt) <= 1.0)
-                    {
-                        endPt = ptPair[j][1];
-                        num = j;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                i = num;
-                double startAngle = ThXClipCadOperation.AngleFromXAxis(circle.Center,startPt);
-                double endAngle = ThXClipCadOperation.AngleFromXAxis(circle.Center, endPt);    
-                Arc arc = new Arc(circle.Center,circle.Radius, startAngle, endAngle); //逆时针
-                dBObjects.Add(arc);
-            }
-            Point3d newArcTopPt = ThXClipCadOperation.GetArcTopPt(circle.Center, sortPts[sortPts.Count - 1], sortPts[0]);
-            if (!ThXClipCadOperation.IsPointInPolyline(pts, newArcTopPt)) //假设弧形顶点不在WipeOut里面，则保留此弧段
-            {
-                if(!keepInternal)
-                {
-                    Arc arc = ThXClipCadOperation.CreateArc(circle.Center, sortPts[sortPts.Count - 1], sortPts[0]);
-                    dBObjects.Add(arc);
-                }
-            }
-            else //弧在闭合线内
-            {
-                if (keepInternal)
-                {
-                    Arc arc = ThXClipCadOperation.CreateArc(circle.Center, sortPts[sortPts.Count - 1], sortPts[0]);
-                    dBObjects.Add(arc);
-                }
-            }
-            return dBObjects;
-        }
-        /// <summary>
-        /// 修剪椭圆
-        /// </summary>
-        /// <param name="ellipse"></param>
-        /// <param name="pts"></param>
-        /// <returns></returns>
-        public static DBObjectCollection XClip(this Ellipse ellipse, Point2dCollection pts, bool keepInternal = false)
-        {
-            DBObjectCollection dBObjects = new DBObjectCollection();
-            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
-            Point3dCollection intersectPts = new Point3dCollection();
-            ellipse.IntersectWith(polyline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-            if (intersectPts == null || intersectPts.Count == 0)
-            {
-                if (ThXClipCadOperation.IsPointInPolyline(pts, ellipse.Center))  //圆心在pts范围内
-                {
-                    if (keepInternal) //保留内部
-                    {
-                        Entity ent = ellipse.Clone() as Entity;
-                        dBObjects.Add(ent);
-                    }
-                }
-                else
-                {
-                    if (!keepInternal) //保留外部
-                    {
-                        Entity ent = ellipse.Clone() as Entity;
-                        dBObjects.Add(ent);
-                    }
-                }
-            }
-            else if (intersectPts.Count == 1)
-            {
-                if(intersectPts[0].DistanceTo(ellipse.StartPoint) <= 1.0 ||
-                   intersectPts[0].DistanceTo(ellipse.EndPoint) <= 1.0)
-                {
-                    Point3d checkPt = Point3d.Origin;
-                    if (ellipse.StartPoint.DistanceTo(ellipse.EndPoint) <= 1.0)
-                    {
-                        checkPt = ellipse.Center;
-                    }
-                    else if (intersectPts[0].DistanceTo(ellipse.StartPoint) <= 1.0)
-                    {
-                        checkPt = ellipse.EndPoint;
-                    }
-                    else
-                    {
-                        checkPt = ellipse.StartPoint;
-                    }
-                    if (ThXClipCadOperation.IsPointInPolyline(pts, checkPt)) //弧在闭合圈内
-                    {
-                        if (keepInternal)
-                        {
-                            Entity ent = ellipse.Clone() as Entity;
-                            dBObjects.Add(ent);                           
-                        }
-                    }
-                    else
-                    {
-                        if (!keepInternal)
-                        {
-                            Entity ent = ellipse.Clone() as Entity;
-                            dBObjects.Add(ent);                            
-                        }
-                    }
-                    return dBObjects; //不做任何操作
-                }
-            }
-            List<double> angs = new List<double>();            
-            double ellipseJiaJiao=ellipse.EndAngle - ellipse.StartAngle;
-            bool isCompletedEllipse = false;
-            if(ellipseJiaJiao==Math.PI*2) //完整的椭圆
-            {
-                isCompletedEllipse = true;
-            }
-            if(!isCompletedEllipse)
-            {
-                angs.Add(ellipse.StartAngle);
-                angs.Add(ellipse.EndAngle);
-            }
-            foreach (Point3d pt in intersectPts)
-            {
-                double para = ellipse.GetParameterAtPoint(pt);
-                double ang = ellipse.GetAngleAtParameter(para);
-                if (angs.IndexOf(ang) < 0)
-                {
-                    angs.Add(ang);
-                }
-            }
-            angs = angs.OrderBy(i => i).ToList();
-            if(!isCompletedEllipse)
-            {
-                if(angs.IndexOf(ellipse.StartAngle)!=0)
-                {
-                   angs.Reverse();
-                }
-            }
-            List<List<Point3d>> ptPair = new List<List<Point3d>>();
-            bool ynDraw = false;
-            for (int i = 0; i < angs.Count - 1; i++)
-            {
-                double midAng = (angs[i] + angs[i + 1]) / 2.0;
-                double para = ellipse.GetParameterAtAngle(midAng);
-                Point3d ellipseTopPt = ellipse.GetPointAtParameter(para);
-                ynDraw = false;
-                if (ThXClipCadOperation.IsPointInPolyline(pts, ellipseTopPt))
-                {
-                    if (keepInternal)
-                        ynDraw = true;
-                }
-                else
-                {
-                    if (!keepInternal)
-                        ynDraw = true;
-                }
-                if(ynDraw)
-                {
-                    double startPara = ellipse.GetParameterAtAngle(angs[i]);
-                    double endPara = ellipse.GetParameterAtAngle(angs[i + 1]);
-                    Point3d startPt = ellipse.GetPointAtParameter(startPara);
-                    Point3d endPt = ellipse.GetPointAtParameter(endPara);
-                    ptPair.Add(new List<Point3d> { startPt, endPt });
-                }
-            }
-            if(isCompletedEllipse)
-            {
-                ynDraw = false;
-                double midAng = (angs[angs.Count-1] + angs[0]) / 2.0;
-                double para = ellipse.GetParameterAtAngle(midAng);
-                Point3d ellipseTopPt = ellipse.GetPointAtParameter(para);
-                if (ThXClipCadOperation.IsPointInPolyline(pts, ellipseTopPt))
-                {
-                    if (keepInternal)
-                        ynDraw = true;
-                }
-                else
-                {
-                    if (!keepInternal)
-                        ynDraw = true;
-                }
-                if(ynDraw)
-                {
-                    double startPara = ellipse.GetParameterAtAngle(angs[angs.Count - 1]);
-                    double endPara = ellipse.GetParameterAtAngle(angs[0]);
-                    Point3d startPt = ellipse.GetPointAtParameter(startPara);
-                    Point3d endPt = ellipse.GetPointAtParameter(endPara);
-                    ptPair.Add(new List<Point3d> { startPt, endPt });
-                }
-            }
-            for (int i = 0; i < ptPair.Count; i++)
-            {
-                Point3d startPt = ptPair[i][0];
-                Point3d endPt = ptPair[i][1];
-                int num = i;
-                for (int j = i + 1; j < ptPair.Count; j++)
-                {
-                    if (ptPair[j][0].DistanceTo(endPt) <= 1.0)
-                    {
-                        endPt = ptPair[j][1];
-                        num = j;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                i = num;
-                Vector3d startVec = ellipse.Center.GetVectorTo(startPt);
-                Vector3d endVec = ellipse.Center.GetVectorTo(endPt);
-                double startPara = ellipse.GetParameterAtPoint(startPt);
-                double endPara = ellipse.GetParameterAtPoint(endPt);
-                double startAngle = ellipse.GetAngleAtParameter(startPara);
-                double endAngle = ellipse.GetAngleAtParameter(endPara);
-                bool isAnticlockWise = ThXClipCadOperation.JudgeTwoVectorIsAnticlockwise(startVec, endVec);
-                Ellipse newEllipse = new Ellipse();
-                if (isAnticlockWise)
-                {
-                    newEllipse = new Ellipse(ellipse.Center, ellipse.Normal,
-                    ellipse.MajorAxis, ellipse.RadiusRatio, startAngle, endAngle);
-                }
-                else
-                {
-                    newEllipse = new Ellipse(ellipse.Center, ellipse.Normal,
-                    ellipse.MajorAxis, ellipse.RadiusRatio, endAngle, startAngle);
-                }  
-                dBObjects.Add(newEllipse);
-            }
-            return dBObjects;
-        }
-        /// <summary>
-        /// 修剪线
-        /// </summary>
-        /// <param name="ellipse"></param>
-        /// <param name="pts"></param>
-        /// <returns></returns>
-        public static DBObjectCollection XClip(this Line line, Point2dCollection pts, bool keepInternal = false)
-        {           
-            DBObjectCollection dBObjects = new DBObjectCollection();
-            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
-            Point3dCollection intersectPts = new Point3dCollection();
-            polyline.IntersectWith(line, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-            List<Point3d> points = new List<Point3d>();
-            if(intersectPts!=null)
-            {
-                foreach (Point3d pt in intersectPts)
-                {
-                    if (pt.DistanceTo(line.StartPoint) > 1.0 && pt.DistanceTo(line.EndPoint) > 1.0)
-                    {
-                        points.Add(pt);
-                    }
-                }
-            }
-            if (points.Count == 0)
-            {
-                if (ThXClipCadOperation.IsPointInPolyline(pts, ThXClipCadOperation.GetMidPt(line.StartPoint ,line.EndPoint))) //线在曲线内
-                {
-                    if (keepInternal)
-                    {
-                        Line newLine = line.Clone() as Line;
-                        dBObjects.Add(newLine);
-                    }
-                }
-                else
-                {
-                    if (!keepInternal)
-                    {
-                        Entity ent = line.Clone() as Entity;
-                        dBObjects.Add(ent);
-                    }             
-                }
-                return dBObjects;
-            }
-            points.Insert(0,line.StartPoint);
-            points.Add(line.EndPoint);
-            points = points.OrderBy(i => i.DistanceTo(line.StartPoint)).ToList();
-            List<List<Point3d>> ptPair = new List<List<Point3d>>();
-            bool ynDraw = false;
-            for (int i = 0; i < points.Count - 1; i++)
-            {
-                if (points[i].DistanceTo(points[i + 1]) <= 1.0)
-                {
-                    continue;
-                }
-                ynDraw = false;
-                Point3d pt = ThXClipCadOperation.GetMidPt(points[i], points[i + 1]);
-                if (ThXClipCadOperation.IsPointInPolyline(pts, pt))
-                {
-                    if (keepInternal) //保留里面
-                        ynDraw = true;
-                }
-                else
-                {
-                    if (!keepInternal)
-                        ynDraw = true;
-                }
-                if(ynDraw)
-                {
-                    ptPair.Add(new List<Point3d> { points[i], points[i + 1] });
-                }
-            }
-            for (int i = 0; i < ptPair.Count; i++)
-            {
-                Point3d startPt = ptPair[i][0];
-                Point3d endPt = ptPair[i][1];
-                int num = i;
-                for (int j = i + 1; j < ptPair.Count; j++)
-                {
-                    if (ptPair[j][0].DistanceTo(endPt) <= 1.0)
-                    {
-                        endPt = ptPair[j][1];
-                        num = j;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                i = num;
-                Line newLine = new Line(startPt, endPt);                       
-                dBObjects.Add(newLine);
-            }
-            return dBObjects;
-        }
-        /// <summary>
-        /// 修剪Polyline
-        /// </summary>
-        /// <param name="ellipse"></param>
-        /// <param name="pts"></param>
-        /// <returns></returns>
-        public static DBObjectCollection XClip(this Polyline polyline, Point2dCollection pts, bool keepInternal = false)
-        {           
-            DBObjectCollection dBObjects = new DBObjectCollection();
-            Polyline clipBoundaryPline = ThXClipCadOperation.CreatePolyline(pts);
-            Point3dCollection intersectPts = new Point3dCollection();
-            polyline.IntersectWith(clipBoundaryPline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-            if (intersectPts == null || intersectPts.Count == 0)
-            {
-                Point3d firstPt = polyline.GetPoint3dAt(0);
-                if (ThXClipCadOperation.IsPointInPolyline(pts, firstPt)) //线在曲线内
-                {
-                    if (keepInternal)
-                    {
-                        Polyline newPolyLine = polyline.Clone() as Polyline;
-                        dBObjects.Add(newPolyLine);
-                    }
-                }
-                else
-                {
-                    if (!keepInternal)
-                    {
-                        Polyline newPolyLine = polyline.Clone() as Polyline;
-                        dBObjects.Add(newPolyLine);
-                    }
-                }
-                return dBObjects;
-            }
-            //获取交点在Polyline上哪些分段上
-            Dictionary<Point3d, int> ptSegmentIndexDic = new Dictionary<Point3d, int>();
-            foreach (Point3d point in intersectPts)
-            {
-                int index = ThXClipCadOperation.GetPointOnPolylineSegment(polyline, point);
-                if (index >= 0)
-                {
-                    if (!ptSegmentIndexDic.ContainsKey(point))
-                    {
-                        ptSegmentIndexDic.Add(point, index);
-                    }
-                }
-            }
-            //拆分多段线
-            List<SegmentSplitInf> segmentSplitInfs = new List<SegmentSplitInf>();
-            for (int i = 0; i < polyline.NumberOfVertices; i++)
-            {
-                List<Point3d> splitPts = ptSegmentIndexDic.Where(j => j.Value == i).Select(j => j.Key).ToList();
-                if (splitPts == null || splitPts.Count == 0)
-                {
-                    continue;
-                }
-                SegmentType st = polyline.GetSegmentType(i);
-                bool headHasCurve = true;
-                bool endHasCurve = true;
-                List<List<Point3d>> splitPoints = new List<List<Point3d>>();
-                if (st == SegmentType.Line)
-                {
-                    LineSegment3d line = polyline.GetLineSegmentAt(i);
-                    splitPoints = GetLineSplits(line, pts, splitPts, out headHasCurve, out endHasCurve, keepInternal);
-                }
-                else if (st == SegmentType.Arc)
-                {
-                    CircularArc3d arc = polyline.GetArcSegmentAt(i);
-                    splitPoints = GetArcSplits(arc, pts, splitPts, out headHasCurve, out endHasCurve, keepInternal);
-                }
-                for (int j = 0; j < splitPoints.Count; j++)
-                {
-                    SegmentSplitInf segmentSplitInf = new SegmentSplitInf();
-                    segmentSplitInf.Index = i;
-                    segmentSplitInf.ST = st;
-                    if (headHasCurve && j == 0)
-                    {
-                        segmentSplitInf.IsHead = true;
-                    }
-                    if (endHasCurve && j == splitPoints.Count - 1)
-                    {
-                        segmentSplitInf.IsTail = true;
-                    }
-                    segmentSplitInf.StartPoint = splitPoints[j][0];
-                    segmentSplitInf.EndPoint = splitPoints[j][1];
-                    segmentSplitInfs.Add(segmentSplitInf);
-                }
-            }
-            List<AddPolylineInf> addPolylineInfs = new List<AddPolylineInf>();
-            for (int i = 0; i < polyline.NumberOfVertices; i++)
-            {
-                List<SegmentSplitInf> findRes1 = segmentSplitInfs.Where(k => k.Index == i).Select(k => k).ToList();
-                if (findRes1 != null && findRes1.Count > 0)  //判断Polyline的分段是否有分割点，如果有过滤掉
-                {
-                    continue;
-                }
-                AddPolylineInf addPolylineInf = new AddPolylineInf();
-                addPolylineInf.SegmentStartIndex = i;
-                addPolylineInf.SegmentEndIndex = i;
-                int j = i;
-                for (; j < polyline.NumberOfVertices; j++)
-                {
-                    List<SegmentSplitInf> findRes2 = segmentSplitInfs.Where(k => k.Index == j).Select(k => k).ToList();
-                    if (findRes2 != null && findRes2.Count > 0) //Polyline的分段是否有分割点，如果有,则把和之前、后续分段追加到连续的线段上
-                    {
-                        addPolylineInf.TailSplitIndex = j;
+                Curve currentCurve = curves[0];
+                uniqueCurves.Add(currentCurve);
+                curves.RemoveAt(0);
+                List<Curve> repeatedOBjs =
+                    curves.Where(i => (i.StartPoint.IsEqualTo(currentCurve.StartPoint, ThCADCommon.Global_Tolerance) &&
+                 i.EndPoint.IsEqualTo(currentCurve.EndPoint, ThCADCommon.Global_Tolerance)) ||
+                 (i.StartPoint.IsEqualTo(currentCurve.EndPoint, ThCADCommon.Global_Tolerance) &&
+                 i.EndPoint.IsEqualTo(currentCurve.StartPoint, ThCADCommon.Global_Tolerance))).Select(i => i).ToList();
 
-                        SegmentSplitInf headTempSsi = null;
-                        int headSplitIndex = -1;
-                        if (addPolylineInf.SegmentStartIndex == 0)
-                        {
-                            headSplitIndex = polyline.NumberOfVertices - 1;
-                        }
-                        else
-                        {
-                            headSplitIndex = addPolylineInf.SegmentStartIndex - 1;
-                        }
-                        headTempSsi = segmentSplitInfs.Where(k => k.Index == headSplitIndex && k.IsTail).Select(k => k).FirstOrDefault();
-                        if (headTempSsi != null) //表示首段前有分段
-                        {
-                            headTempSsi.IsUsed = true;
-                            addPolylineInf.HeadSplitIndex = headSplitIndex;
-                            addPolylineInf.HeadSplitPt = headTempSsi.StartPoint;
-                            if (headTempSsi.ST == SegmentType.Line)
-                            {
-                                addPolylineInf.HeadIsLine = true;
-                            }
-                            else
-                            {
-                                addPolylineInf.HeadIsLine = false;
-                            }
-                        }
-                        SegmentSplitInf tailTempSsi = null;
-                        int tailSplitIndex = -1;
-                        if (addPolylineInf.SegmentEndIndex == polyline.NumberOfVertices - 1)
-                        {
-                            tailSplitIndex = 0;
-                        }
-                        else
-                        {
-                            tailSplitIndex = addPolylineInf.SegmentEndIndex + 1;
-                        }
-                        tailTempSsi = segmentSplitInfs.Where(k => k.Index == tailSplitIndex && k.IsHead).Select(k => k).FirstOrDefault();
-                        if (tailTempSsi != null) //表示首段前有分段
-                        {
-                            tailTempSsi.IsUsed = true;
-                            addPolylineInf.TailSplitIndex = tailSplitIndex;
-                            addPolylineInf.TailSplitPt = tailTempSsi.EndPoint;
-                            if (tailTempSsi.ST == SegmentType.Line)
-                            {
-                                addPolylineInf.TailIsLine = true;
-                            }
-                            else
-                            {
-                                addPolylineInf.TailIsLine = false;
-                            }
-                        }
-                        i = j;
-                        break;
-                    }
-                    else
-                    {
-                        addPolylineInf.SegmentEndIndex = j;
-                    }
-                }
-                addPolylineInfs.Add(addPolylineInf);
-            }
-            List<SegmentSplitInf> restSegments = segmentSplitInfs.Where(k => k.IsUsed == false).Select(k => k).ToList();
-            if (addPolylineInfs.Count == 0 && restSegments.Count == 0) //无分段
-            {
-                Polyline newPolyline = polyline.Clone() as Polyline;
-                dBObjects.Add(newPolyline);
-            }
-            else
-            {
-                for (int i = 0; i < addPolylineInfs.Count; i++)
+                curves = curves.Where(i => (!(i.StartPoint.IsEqualTo(currentCurve.StartPoint, ThCADCommon.Global_Tolerance) &&
+                 i.EndPoint.IsEqualTo(currentCurve.EndPoint, ThCADCommon.Global_Tolerance)) ||
+                 (i.StartPoint.IsEqualTo(currentCurve.EndPoint, ThCADCommon.Global_Tolerance) &&
+                 i.EndPoint.IsEqualTo(currentCurve.StartPoint, ThCADCommon.Global_Tolerance)))).Select(i => i).ToList(); //把break后，具有相同位置的过滤掉
+                if (repeatedOBjs != null && repeatedOBjs.Count > 0) //把重复的Spline删除
                 {
-                    Polyline newPolyline = AddSplitSegmengtToPolyline(polyline, addPolylineInfs[i]);
-                    if (newPolyline != null && newPolyline.Length > 0.0)
+                    for (int i = 0; i < repeatedOBjs.Count; i++)
                     {
-                        dBObjects.Add(newPolyline);
+                        repeatedOBjs[i].Dispose();
                     }
                 }
-                if (restSegments.Count > 0)
-                {
-                    List<Polyline> polylines =ThXClipCadOperation.RepairPolylineRestCurve(restSegments, polyline);
-                    polylines.ForEach(i => dBObjects.Add(i));
-                }
             }
-            return dBObjects;
+            return uniqueCurves;
         }
-        /// <summary>
-        /// 原始线
-        /// </summary>
-        /// <param name="polyline"></param>
-        /// <param name="segmentIndexes"></param>
-        /// <param name="headsplitPt"></param>
-        /// <param name="tailsplitPt"></param>
-        /// <param name="headSplitIndex"></param>
-        /// <param name="tailSplitIndex"></param>
-        /// <param name="headIsLine"></param>
-        /// <param name="tailIsLine"></param>
-        /// <returns></returns>
-        private static Polyline AddSplitSegmengtToPolyline(Polyline polyline, AddPolylineInf addPolylineInf)
-        {
-            Polyline newPolyline = new Polyline();
-            if (polyline == null || addPolylineInf == null)
-            {
-                return null;
-            }
-            int j = 0;
-            if (addPolylineInf.HeadIsLine != null) //头部需要添加物体
-            {
-                double headSW = polyline.GetStartWidthAt(addPolylineInf.HeadSplitIndex); //起始线起点宽度
-                double headEW = polyline.GetStartWidthAt(addPolylineInf.HeadSplitIndex + 1); //起始线终点宽度
-                Point2d splitPt2d = new Point2d(addPolylineInf.HeadSplitPt.X, addPolylineInf.HeadSplitPt.Y);
-                if (addPolylineInf.HeadIsLine == true)
-                {
-                    newPolyline.AddVertexAt(j++, splitPt2d, 0.0, headSW, headEW);
-                }
-                else
-                {
-                    CircularArc2d circularArc2D = polyline.GetArcSegment2dAt(addPolylineInf.HeadSplitIndex);
-                    Point2d cenPt = circularArc2D.Center;
-                    Point2d arcEp = circularArc2D.EndPoint;
-                    double arcBulge = ThXClipCadOperation.GetBulge(cenPt, splitPt2d, arcEp);
-                    newPolyline.AddVertexAt(j++, splitPt2d, arcBulge, headSW, headEW);
-                }
-            }
-            for (int i = addPolylineInf.SegmentStartIndex; i <= addPolylineInf.SegmentEndIndex; i++)
-            {
-                double bulge = polyline.GetBulgeAt(i);
-                double startWidth = polyline.GetStartWidthAt(i);
-                double endWidth = polyline.GetStartWidthAt(i + 1);
-                Point2d pt = polyline.GetPoint2dAt(i);
-                newPolyline.AddVertexAt(j++, pt, bulge, startWidth, endWidth);
-            }
-            if (addPolylineInf.TailIsLine != null) //尾部需要添加物体
-            {
-                double tailSW = polyline.GetStartWidthAt(addPolylineInf.TailSplitIndex); //起始线起点宽度
-                double tailEW = polyline.GetStartWidthAt(addPolylineInf.TailSplitIndex + 1); //起始线终点宽度
-                Point2d splitPt2d = new Point2d(addPolylineInf.TailSplitPt.X, addPolylineInf.TailSplitPt.Y);
-                if (addPolylineInf.TailIsLine == true)
-                {
-                    Point2d startPt = polyline.GetPoint2dAt(addPolylineInf.TailSplitIndex);
-                    newPolyline.AddVertexAt(j++, startPt, 0.0, tailSW, tailEW);
-                    newPolyline.AddVertexAt(j++, splitPt2d, 0.0, 0.0, 0.0);
-                }
-                else
-                {
-                    CircularArc2d circularArc2D = polyline.GetArcSegment2dAt(addPolylineInf.TailSplitIndex);
-                    Point2d cenPt = circularArc2D.Center;
-                    Point2d arcSp = circularArc2D.StartPoint;
-                    double arcBulge = ThXClipCadOperation.GetBulge(cenPt, arcSp, splitPt2d);
-                    newPolyline.AddVertexAt(j++, arcSp, arcBulge, tailSW, tailEW);
-                    newPolyline.AddVertexAt(j++, splitPt2d, 0.0, 0.0, 0.0);
-                }
-            }
-            return newPolyline;
-        }
-        private static List<List<Point3d>> GetLineSplits(LineSegment3d line, Point2dCollection pts, List<Point3d> splitPts,
-            out bool headHasCurve, out bool endHasCurve, bool keepInternal = false)
-        {
-            List<List<Point3d>> returnLinePts = new List<List<Point3d>>();
-            splitPts = splitPts.Where(i => i.DistanceTo(line.StartPoint) > 1.0 && i.DistanceTo(line.EndPoint) > 1.0).Select(i => i).ToList();
-            List<Point3d> points = new List<Point3d>();
-            headHasCurve = false;
-            endHasCurve = false;
-            points.Add(line.StartPoint);
-            if (splitPts != null && splitPts.Count > 0)
-            {
-                points.AddRange(splitPts);
-            }
-            points.Add(line.EndPoint);
-            points = points.OrderBy(j => j.DistanceTo(line.StartPoint)).ToList();
-
-            List<List<Point3d>> ptPair = new List<List<Point3d>>();
-            for (int i = 0; i < points.Count - 1; i++)
-            {
-                Point3d pt = ThXClipCadOperation.GetMidPt(points[i], points[i + 1]);
-                if (ThXClipCadOperation.IsPointInPolyline(pts, pt)) //线在多段线内
-                {
-                    if (!keepInternal)
-                        continue;
-                }
-                else //线在外面 
-                {
-                    if (keepInternal) //保留里面
-                        continue;
-                }
-                if (i == 0)
-                {
-                    if (points[i + 1].DistanceTo(line.StartPoint) >= 1.0 &&
-                        points[i + 1].DistanceTo(line.EndPoint) >= 1.0)
-                    {
-                        headHasCurve = true;
-                    }
-                }
-                else if (i == points.Count - 2)
-                {
-                    if (points[i].DistanceTo(line.StartPoint) >= 2.0 &&
-                        points[i].DistanceTo(line.EndPoint) >= 2.0)
-                    {
-                        endHasCurve = true;
-                    }
-                }
-                ptPair.Add(new List<Point3d> { points[i], points[i + 1] });
-            }
-            for (int i = 0; i < ptPair.Count; i++)
-            {
-                Point3d startPt = ptPair[i][0];
-                Point3d endPt = ptPair[i][1];
-                int num = i;
-                for (int j = i + 1; j < ptPair.Count; j++)
-                {
-                    if (ptPair[j][0].DistanceTo(endPt) <= 1.0)
-                    {
-                        endPt = ptPair[j][1];
-                        num = j;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                i = num;
-                returnLinePts.Add(new List<Point3d> { startPt, endPt });
-            }
-            return returnLinePts;
-        }
-        private static List<List<Point3d>> GetArcSplits(CircularArc3d arc, Point2dCollection pts, List<Point3d> splitPts,
-            out bool headHasCurve, out bool endHasCurve, bool keepInternal = false)
-        {
-            List<List<Point3d>> returnLinePts = new List<List<Point3d>>();
-            headHasCurve = false;
-            endHasCurve = false;
-            splitPts = splitPts.Where(i => i.DistanceTo(arc.StartPoint) > 1.0 && i.DistanceTo(arc.EndPoint) > 1.0).Select(i => i).ToList();
-            Dictionary<Point3d, Point3d> ptDic = new Dictionary<Point3d, Point3d>();
-            foreach (Point3d pt in splitPts)
-            {
-                Point3d orthoPt = ThXClipCadOperation.GetOrthoPtOnLine(arc.StartPoint, arc.EndPoint, pt);
-                List<PtAndLinePos> ptPoses = ThXClipCadOperation.JudgePtAndLineRelation(arc.StartPoint, arc.EndPoint, orthoPt);
-                if (ptPoses.Count == 1 && ptPoses.IndexOf(PtAndLinePos.In) >= 0 && !ptDic.ContainsKey(pt)) //判断交点在线内
-                {
-                    ptDic.Add(pt, orthoPt);
-                }
-            }
-            List<Point3d> points = ptDic.OrderBy(i => i.Value.DistanceTo(arc.StartPoint)).Select(i => i.Key).ToList();
-            points.Insert(0, arc.StartPoint);
-            points.Add(arc.EndPoint);
-            List<List<Point3d>> ptPair = new List<List<Point3d>>();
-            for (int i = 0; i < points.Count - 1; i++)
-            {
-                Point3d pt = ThXClipCadOperation.GetMidPt(points[i], points[i + 1]);
-                if (ThXClipCadOperation.IsPointInPolyline(pts, pt)) //如果分段在WipeOut内
-                {
-                    if (!keepInternal)
-                        continue;
-                }
-                else //如果分段在WipeOut外
-                {
-                    if (keepInternal)
-                        continue;
-                }
-                if (i == 0)
-                {
-                    if (points[i + 1].DistanceTo(arc.StartPoint) >= 1.0 &&
-                        points[i + 1].DistanceTo(arc.EndPoint) >= 1.0)
-                    {
-                        headHasCurve = true;
-                    }
-                }
-                else if (i == points.Count - 2)
-                {
-                    if (points[i].DistanceTo(arc.StartPoint) >= 1.0 &&
-                        points[i].DistanceTo(arc.EndPoint) >= 1.0)
-                    {
-                        endHasCurve = true;
-                    }
-                }
-                ptPair.Add(new List<Point3d> { points[i], points[i + 1] });
-            }
-            for (int i = 0; i < ptPair.Count; i++)
-            {
-                Point3d startPt = ptPair[i][0];
-                Point3d endPt = ptPair[i][1];
-                int num = i;
-                for (int j = i + 1; j < ptPair.Count; j++)
-                {
-                    if (ptPair[j][0].DistanceTo(endPt) <= 1.0)
-                    {
-                        endPt = ptPair[j][1];
-                        num = j;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                i = num;
-                returnLinePts.Add(new List<Point3d> { startPt, endPt });
-            }
-            return returnLinePts;
-        }
-    }
-    public class SegmentSplitInf
-    {
-        /// <summary>
-        /// 在Polyline上的哪一段
-        /// </summary>
-        public int Index { get; set; }
-        /// <summary>
-        /// 分割的起点
-        /// </summary>
-        public Point3d StartPoint { get; set; }
-        /// <summary>
-        /// 分割的终点
-        /// </summary>
-        public Point3d EndPoint { get; set; }
-        /// <summary>
-        /// 此段是头部吗
-        /// </summary>
-        public bool IsHead { get; set; } = false;
-        /// <summary>
-        /// 此段是尾部吗
-        /// </summary>
-        public bool IsTail { get; set; } = false;
-        /// <summary>
-        /// 是否被使用
-        /// </summary>
-        public bool IsUsed { get; set; } = false;
-        /// <summary>
-        /// 线段类型
-        /// </summary>
-        public SegmentType ST { get; set; }
-    }
-    class AddPolylineInf
-    {
-        //假设 一个闭合有四个顶点的多段线，在编号3段和2段有分割点
-        //SegmentStartIndex=0,SegmentEndIndex=1,要把三段分割的一部分（如果有）和2段分割的一部分（如果有）附加上{0,1}
-
-        /// <summary>
-        /// Polyline连续的分段起始索引
-        /// </summary>
-        public int SegmentStartIndex { get; set; }
-        /// <summary>
-        /// Polyline连续的分段起始索引
-        /// </summary>
-        public int SegmentEndIndex { get; set; }
-        /// <summary>
-        /// Polyline连续段的第一段是否有分割点
-        /// </summary>
-        public Point3d HeadSplitPt { get; set; }
-        /// <summary>
-        /// Polyline连续段的最后一段是否有分割点
-        /// </summary>
-        public Point3d TailSplitPt { get; set; }
-        /// <summary>
-        /// 连续分段头部有分割点的索引
-        /// </summary>
-        public int HeadSplitIndex { get; set; }
-        /// <summary>
-        /// 连续分段尾部有分割点的索引
-        /// </summary>
-        public int TailSplitIndex { get; set; }
-        /// <summary>
-        /// 头部是线，还是圆弧，如果为空，表示头部无分割点
-        /// </summary>
-        public bool? HeadIsLine { get; set; }
-        /// <summary>
-        /// 尾部是线，还是圆弧，如果为空，表示尾部无分割点
-        /// </summary>
-        public bool? TailIsLine { get; set; }
     }
 }

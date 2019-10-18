@@ -27,9 +27,11 @@ namespace ThXClip
             //throw new NotImplementedException();
         }
     }
+    public delegate void ThXClipFinishHandler(ThXclipCommands sender,bool result);
     public class ThXclipCommands
     {
-        [CommandMethod("TIANHUACAD", "THXLP", CommandFlags.Modal)]
+        public event ThXClipFinishHandler WorkFinished;
+        [CommandMethod("TIANHUACAD", "THXLP", CommandFlags.Modal)]        
         public void ThXClip()
         {
             List<ObjectId> selObjIds = ThXClipCadOperation.GetSelectObjects(); //选择要处理的块
@@ -86,21 +88,36 @@ namespace ThXClip
             if(selObjIds.Count>0)
             {
                 lockedLayerNames=ThXClipCadOperation.UnlockedAllLayers(); //解锁所有的层
-            } 
+            }
+            //ThXclipProgressBar progressBar = new ThXclipProgressBar();
+            //progressBar.Register(this);
+            //progressBar.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
+            //progressBar.Show();
             //分析传入的物体之间的 Draworder关系及对块进行炸开处理
             AnalyseRelation analyseRelation = new AnalyseRelation(selObjIds, OnBlkWipeOutIds);
-            analyseRelation.Analyse();
-            //修剪WipeOut和XClip
-            WipeOutXClipTrim wipeOutXClipTrim = new WipeOutXClipTrim(analyseRelation);
-            wipeOutXClipTrim.StartTrim();
-            foreach(var blkItem in wipeOutXClipTrim.BlkNamePosDic)
+            try
             {
-                // 插入图块
-                ThXClipCadOperation.InsertBlockReference("0", blkItem.Key,
-                    Point3d.Origin, new Scale3d(1.0, 1.0, 1.0), 0.0);
+                analyseRelation.Analyse();
+                //修剪WipeOut和XClip
+                WipeOutXClipTrim wipeOutXClipTrim = new WipeOutXClipTrim(analyseRelation);
+                wipeOutXClipTrim.StartTrim();
+                foreach (var blkItem in wipeOutXClipTrim.BlkNamePosDic)
+                {
+                    // 插入图块
+                    ThXClipCadOperation.InsertBlockReference("0", blkItem.Key,
+                        Point3d.Origin, new Scale3d(1.0, 1.0, 1.0), 0.0);
+                }
             }
-            analyseRelation.EraseBlockAndItsExplodedObjs();
-            ThXClipCadOperation.LockedLayers(lockedLayerNames);
+            catch(System.Exception ex)
+            {
+                ed.WriteLine(ex.Message);
+            }
+            finally
+            {
+                analyseRelation.EraseBlockAndItsExplodedObjs();
+                ThXClipCadOperation.LockedLayers(lockedLayerNames);
+                //WorkFinished(this, true);
+            }
         }
     }
 }
