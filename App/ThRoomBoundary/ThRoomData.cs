@@ -1923,14 +1923,16 @@ namespace ThRoomBoundary
         /// </summary>
         /// <param name="roomDataPolylines"></param>
         /// <param name="layerName"></param>
-        public static void DisplayRoomProfile(List<RoomDataPolyline> roomDataPolylines, string boundaryLayerName, string roomAreaValueLayer)
+        public static void DisplayRoomProfile(List<RoomDataPolyline> roomDataPolylines, string boundaryLayerName, string roomAreaValueLayer, bool bInsertAreaValue)
         {
             // 设置字体样式
             var textId = ThRoomUtils.GetIdFromSymbolTable();
             using (var db = AcadDatabase.Active())
             {
                 CreateLayer(boundaryLayerName, Color.FromRgb(255, 0, 0));
-                CreateLayer(roomAreaValueLayer, Color.FromRgb(255, 255, 0));
+
+                if (bInsertAreaValue)
+                    CreateLayer(roomAreaValueLayer, Color.FromRgb(255, 255, 0));
 
                 foreach (var room in roomDataPolylines)
                 {
@@ -1938,21 +1940,25 @@ namespace ThRoomBoundary
                     {
                         if (!CommonUtils.IsAlmostNearZero(room.RoomPolyline.Area, 2600000))
                         {
-                            var area = (room.RoomPolyline.Area * 1e-6);
-                            area = Math.Round(area, 1);
-                            var pos = room.Pos;
-                            var dbText = new DBText();
-                            if (textId != ObjectId.Null)
-                                dbText.TextStyleId = textId;
-                            dbText.TextString = area.ToString() + "m²";
-                            dbText.Position = pos;
-                            dbText.Height = 200;
-                            dbText.Thickness = 1;
-                            dbText.WidthFactor = 1;
-                            var objectTextId = db.ModelSpace.Add(dbText);
-                            db.ModelSpace.Element(objectTextId, true).Layer = roomAreaValueLayer;
                             var objectPolylineId = db.ModelSpace.Add(room.RoomPolyline);
                             db.ModelSpace.Element(objectPolylineId, true).Layer = boundaryLayerName;
+
+                            if (bInsertAreaValue)
+                            {
+                                var area = (room.RoomPolyline.Area * 1e-6);
+                                area = Math.Round(area, 1);
+                                var pos = room.Pos;
+                                var dbText = new DBText();
+                                if (textId != ObjectId.Null)
+                                    dbText.TextStyleId = textId;
+                                dbText.TextString = area.ToString() + "m²";
+                                dbText.Position = pos;
+                                dbText.Height = 200;
+                                dbText.Thickness = 1;
+                                dbText.WidthFactor = 1;
+                                var objectTextId = db.ModelSpace.Add(dbText);
+                                db.ModelSpace.Element(objectTextId, true).Layer = roomAreaValueLayer;
+                            }
                         }
                     }
                 }

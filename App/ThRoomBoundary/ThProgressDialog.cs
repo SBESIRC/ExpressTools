@@ -22,7 +22,7 @@ namespace ThRoomBoundary
         {
             get
             {
-                if (instance == null)
+                if (instance == null || instance.Handle == null)
                 {
                     instance = new ThProgressDialog();
                 }
@@ -33,9 +33,16 @@ namespace ThRoomBoundary
 
         public static void ShowProgress()
         {
-            var progress = ThProgressDialog.Instance;
-            progress.m_progressBar.Value = 5;
-            progress.Show();
+            try
+            {
+                var progress = ThProgressDialog.Instance;
+                progress.m_progressBar.Value = 5;
+                progress.Show();
+            }
+            catch
+            {
+                // 避免出现某些操作，异常崩溃，用户体验差 
+            }
         }
 
         /// <summary>
@@ -44,15 +51,39 @@ namespace ThRoomBoundary
         /// <param name="value"></param>
         public static void SetValue(int value)
         {
-            var progress = ThProgressDialog.Instance;
-            progress.m_progressBar.Value = value;
-            progress.Refresh();
+            try
+            {
+                var progress = ThProgressDialog.Instance;
+                progress.m_progressBar.Value = value;
+                progress.Refresh();
+            }
+            catch
+            {
+                // 避免出现某些操作，异常崩溃， 
+            }
         }
 
         public static void HideProgress()
         {
-            var progress = ThProgressDialog.Instance;
-            progress.Hide();
+            try
+            {
+                var progress = ThProgressDialog.Instance;
+                progress.Hide();
+            }
+            catch
+            {
+                // 避免出现某些操作，异常崩溃， 
+            }
+
+        }
+
+        private void ThProgressDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+            }
         }
     }
 }
