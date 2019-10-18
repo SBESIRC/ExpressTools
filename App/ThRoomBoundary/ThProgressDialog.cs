@@ -77,14 +77,13 @@ namespace ThRoomBoundary
 
         }
 
-        /// <summary>
-        /// 重写close方法
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnClosing(CancelEventArgs e)
+        private void ThProgressDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Hide();
-            e.Cancel = true;
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+            }
         }
     }
 }
