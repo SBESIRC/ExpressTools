@@ -52,7 +52,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "正在计算面积框线...";
             this.ResumeLayout(false);
-
         }
 
         #endregion

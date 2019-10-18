@@ -47,10 +47,11 @@ namespace ThRoomBoundary
             PromptKeywordOptions getWhichOptions = new PromptKeywordOptions("\n是否在框线内插入面积值? [YES(Y)/NO(N)]", "YES NO");
             getWhichOptions.Keywords.Default = "YES";
             PromptResult getWhichResult = ed.GetKeywords(getWhichOptions);
+            bool bInsertAreaValue = true;
             if ((getWhichResult.Status == PromptStatus.OK))
             {
                 if (getWhichResult.StringResult != "YES")
-                    return;
+                    bInsertAreaValue = false;
             }
 
             ThProgressDialog.ShowProgress();
@@ -116,7 +117,7 @@ namespace ThRoomBoundary
             ThRoomUtils.PostProcess(removeEntityLst);
             ThProgressDialog.HideProgress();
             // 界面显示数据
-            ThRoomUtils.DisplayRoomProfile(roomDatas, ThRoomUtils.ROOMBOUNDARY, ThRoomUtils.ROOMAREAVALUE);
+            ThRoomUtils.DisplayRoomProfile(roomDatas, ThRoomUtils.ROOMBOUNDARY, ThRoomUtils.ROOMAREAVALUE, bInsertAreaValue);
             Active.WriteMessage("框线生成完成");
         }
     }
