@@ -27,6 +27,7 @@ namespace ThMirror
         {
             DBObject result = base.DeepClone(dbObject, ownerObject, idMap, isPrimary);
 
+            // 过滤需要处理的处理块引用
             if (dbObject.ObjectId.IsBlockReferenceContainText())
             {
                 if (idMap[dbObject.ObjectId] != null)
@@ -36,8 +37,9 @@ namespace ThMirror
                     {
                         using (AcadDatabase acadDatabase = AcadDatabase.Active())
                         {
+                            // 记录镜像后的生成的块引用及其嵌套结构
                             var blockReference = acadDatabase.Element<BlockReference>(targetId);
-                            ThMirrorEngine.Instance.Targets.Add(new ThMirrorData(blockReference));
+                            ThMirrorEngine.Instance.Targets.Add(targetId, new ThMirrorData(blockReference));
                         }
                     }
                 }

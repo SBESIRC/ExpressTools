@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using AcHelper;
+﻿using System.Collections.Generic;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThMirror
 {
     public class ThMirrorEngine
     {
-        private List<ThMirrorData> sources;
-        private List<ThMirrorData> targets;
-        public List<ThMirrorData> Sources { get => sources; set => sources = value; }
-        public List<ThMirrorData> Targets { get => targets; set => targets = value; }
+        private Dictionary<ObjectId, ThMirrorData> sources;
+        private Dictionary<ObjectId, ThMirrorData> targets;
+        public Dictionary<ObjectId, ThMirrorData> Sources { get => sources; set => sources = value; }
+        public Dictionary<ObjectId, ThMirrorData> Targets { get => targets; set => targets = value; }
+
 
         //==============SINGLETON============
         //fourth version from:
@@ -20,8 +20,8 @@ namespace ThMirror
         static ThMirrorEngine() { }
         internal ThMirrorEngine()
         {
-            Sources = new List<ThMirrorData>();
-            Targets = new List<ThMirrorData>();
+            Sources = new Dictionary<ObjectId, ThMirrorData>();
+            Targets = new Dictionary<ObjectId, ThMirrorData>();
         }
         public static ThMirrorEngine Instance { get { return instance; } }
 
@@ -31,14 +31,12 @@ namespace ThMirror
         public void Start()
         {
             ThMirrorOverruleManager.Instance.Register();
-            ThMirrorEditorReactor.Instance.SubscribeToEditor();
         }
 
         // 停止引擎
         public void Stop()
         {
             ThMirrorOverruleManager.Instance.UnRegister();
-            ThMirrorEditorReactor.Instance.UnsubscribeToEditor();
         }
     }
 }

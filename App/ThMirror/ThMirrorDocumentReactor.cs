@@ -52,10 +52,13 @@ namespace ThMirror
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
-                    foreach(var mirrorData in ThMirrorEngine.Instance.Targets)
+                    foreach(var item in ThMirrorEngine.Instance.Targets)
                     {
+                        var mirrorData = item.Value;
+                        var mirrorBlockReference = item.Key;
+
                         // 创建新的块定义
-                        var blockName = mirrorData.blockRefenceId.NextMirroredBlockName();
+                        var blockName = mirrorData.blockId.NextMirroredBlockName();
                         var blockEntities = new List<Entity>();
 
                         // 图元从WCS到MCS转换
@@ -74,10 +77,10 @@ namespace ThMirror
                         var blockId = acadDatabase.Database.AddBlockTableRecord(blockName, blockEntities);
                         var layer = acadDatabase.Layers.Element(mirrorData.layerId).Name;
                         mirrorData.blockTransform.DecomposeBlockTransform(out Point3d insertPt, out double rotation, out Scale3d scale);
-                        mirrorData.ownerId.InsertBlockReference(layer, blockName, insertPt, scale, rotation);
+                        acadDatabase.ModelSpace.ObjectId.InsertBlockReference(layer, blockName, insertPt, scale, rotation);
 
                         // 删除旧的块引用
-                        acadDatabase.Element<BlockReference>(mirrorData.blockRefenceId, true).Erase();
+                        acadDatabase.Element<BlockReference>(mirrorBlockReference, true).Erase();
                     };
 
                     // 镜像命令结束后，“清零”所有数据

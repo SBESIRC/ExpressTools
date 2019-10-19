@@ -10,19 +10,15 @@ namespace ThMirror
 {
     public static class ThMirrorDbUtils
     {
-        public static bool IsBlockReferenceContainText(this ObjectId objId)
+        public static bool IsBlockReferenceContainText(this ObjectId blockReferenceId)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 try
                 {
-                    var blockReference = acadDatabase.Element<BlockReference>(objId);
+                    // 块定义
+                    var blockReference = acadDatabase.Element<BlockReference>(blockReferenceId);
                     var blockTableRecord = acadDatabase.Element<BlockTableRecord>(blockReference.BlockTableRecord);
-
-                    if (blockReference == null || blockTableRecord == null)
-                    {
-                        return false;
-                    }
 
                     // 暂时不支持动态块，外部参照，覆盖
                     if (blockTableRecord.IsDynamicBlock ||
@@ -73,14 +69,13 @@ namespace ThMirror
             }
         }
 
-        public static string NextMirroredBlockName(this ObjectId objId)
+        public static string NextMirroredBlockName(this ObjectId blockId)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 try
                 {
-                    var blockReference = acadDatabase.Element<BlockReference>(objId);
-                    var blockName = blockReference.GetEffectiveName();
+                    var blockName = acadDatabase.Element<BlockTableRecord>(blockId).Name;
                     var blockCount = acadDatabase.Blocks.Where(o => o.Name.StartsWith(blockName + "_mirror_")).Count();
                     return string.Format("{0}_mirror_{1}", blockName, blockCount + 1);
                 }
