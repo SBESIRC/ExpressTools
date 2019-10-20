@@ -1,10 +1,12 @@
 ﻿using System;
-using AcHelper;
 using System.Linq;
+using System.Collections.Generic;
 using Linq2Acad;
-using Autodesk.AutoCAD.EditorInput;
+using DotNetARX;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Runtime;
+using TianHua.AutoCAD.Utility.ExtensionTools;
+using Autodesk.AutoCAD.Geometry;
 
 namespace ThMirror
 {
@@ -83,6 +85,93 @@ namespace ThMirror
                 {
                     return null;
                 }
+            }
+        }
+
+        public static void ReplaceBlockReferenceWithMirrorData(ThMirrorData mirrorData)
+        {
+            // 将块引用“炸开”后经过变换后的图元按照原来的块结构重新组合成新的块。
+            // 使用“Post Order Depth First Traversal”算法:
+            //  https://blogs.msdn.microsoft.com/daveremy/2010/03/16/non-recursive-post-order-depth-first-traversal-in-c/
+            //       a
+            //   b    c    d
+            // e  f  g    h i
+            // dfs: efbgchida
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                foreach (var item in mirrorData.nestedBlockReferences)
+                {
+                    ReplaceBlockReferenceWithMirrorData(item);
+                }
+
+                // 若mirrorData是叶子节点（没有嵌套块的块引用）
+                if (mirrorData.nestedBlockReferences.Count == 0)
+                {
+                    // 创建一个新的块定义
+                    CreateBlockWithMirrorData(mirrorData);
+                }
+                else
+                {
+                    // 若mirrorData不是是叶子节点（有嵌套块的块引用）
+                    //  用新的块定义替换原来的块引用
+                    try
+                    {
+                        foreach (var item in mirrorData.nestedBlockReferences)
+                        {
+                            var layer = acadDatabase.Layers.Element(item.layerId).Name;
+                            var blockName = acadDatabase.Element<BlockTableRecord>(item.mirroredBlockId).Name;
+                            item.blockTransform.DecomposeBlockTransform(out Point3d insertPt, out double rotation, out Scale3d scale);
+                            var blockReference = item.blockId.CreateBlockReference(layer, blockName, insertPt, scale, rotation);
+                            blockReference.TransformBy(item.nestedBlockTransform);
+                            mirrorData.blockEntities.Add(blockReference);
+                        }
+                        mirrorData.nestedBlockReferences.Clear();
+                    }
+                    catch
+                    {
+                        //
+                    }
+                }
+            }
+        }
+
+        public static void InsertBlockReferenceWithMirrorData(ThMirrorData mirrorData)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                // 创建一个新的块定义
+                CreateBlockWithMirrorData(mirrorData);
+
+                var layer = acadDatabase.Layers.Element(mirrorData.layerId).Name;
+                var blockName = acadDatabase.Element<BlockTableRecord>(mirrorData.mirroredBlockId).Name;
+                mirrorData.blockTransform.DecomposeBlockTransform(out Point3d insertPt, out double rotation, out Scale3d scale);
+                acadDatabase.ModelSpace.ObjectId.InsertBlockReference(layer, blockName, insertPt, scale, rotation);
+            }
+        }
+
+        public static void CreateBlockWithMirrorData(ThMirrorData mirrorData)
+        {
+            // 若ThMirrorData代表一个叶子节点（没有嵌套块的块引用）
+            //  根据这些图元创建一个新的块定义
+            //      1：这些图元处于WCS中
+            //      2.新的块名为“原块名_mirror_<index>”，其中“index”为下一个可用的索引
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var blockName = mirrorData.blockId.NextMirroredBlockName();
+                var blockEntities = new List<Entity>();
+
+                // 图元从WCS到MCS转换
+                //  https://spiderinnet1.typepad.com/blog/2014/02/autocad-net-add-entity-in-model-space-to-block.html
+                var transform = mirrorData.blockTransform.Inverse();
+                foreach (DBObject dbObj in mirrorData.blockEntities)
+                {
+                    var entity = dbObj as Entity;
+                    entity.TransformBy(transform);
+                    blockEntities.Add(entity);
+                }
+
+                // 创建块定义
+                mirrorData.mirroredBlockId = acadDatabase.Database.AddBlockTableRecord(blockName, blockEntities);
             }
         }
     }

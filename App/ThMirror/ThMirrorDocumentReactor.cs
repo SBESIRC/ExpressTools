@@ -57,27 +57,11 @@ namespace ThMirror
                         var mirrorData = item.Value;
                         var mirrorBlockReference = item.Key;
 
-                        // 创建新的块定义
-                        var blockName = mirrorData.blockId.NextMirroredBlockName();
-                        var blockEntities = new List<Entity>();
+                        // 处理镜像对象
+                        ThMirrorDbUtils.ReplaceBlockReferenceWithMirrorData(mirrorData);
 
-                        // 图元从WCS到MCS转换
-                        //  https://spiderinnet1.typepad.com/blog/2014/02/autocad-net-add-entity-in-model-space-to-block.html
-                        var transform = mirrorData.blockTransform.Inverse();
-                        foreach (DBObject dbObj in mirrorData.blockEntities)
-                        {
-                            if (dbObj is Entity entity)
-                            {
-                                entity.TransformBy(transform);
-                                blockEntities.Add(entity);
-                            }
-                        }
-
-                        // 插入新的块引用
-                        var blockId = acadDatabase.Database.AddBlockTableRecord(blockName, blockEntities);
-                        var layer = acadDatabase.Layers.Element(mirrorData.layerId).Name;
-                        mirrorData.blockTransform.DecomposeBlockTransform(out Point3d insertPt, out double rotation, out Scale3d scale);
-                        acadDatabase.ModelSpace.ObjectId.InsertBlockReference(layer, blockName, insertPt, scale, rotation);
+                        // 创建新的块引用
+                        ThMirrorDbUtils.InsertBlockReferenceWithMirrorData(mirrorData);
 
                         // 删除旧的块引用
                         acadDatabase.Element<BlockReference>(mirrorBlockReference, true).Erase();

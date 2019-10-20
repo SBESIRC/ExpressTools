@@ -15,8 +15,14 @@ namespace ThMirror
         // 块引用所在的块
         public ObjectId blockId;
 
+        // 镜像后创建的块
+        public ObjectId mirroredBlockId;
+
         // MCS to WCS 变换
         public Matrix3d blockTransform;
+
+        //  MCS to WCS 变换（嵌套）
+        public Matrix3d nestedBlockTransform;
 
         // 块引用子实体集合（不包含嵌套块）
         public DBObjectCollection blockEntities;
@@ -24,14 +30,16 @@ namespace ThMirror
         // 嵌套块
         public List<ThMirrorData> nestedBlockReferences;
 
-        public ThMirrorData(BlockReference blockReference)
+        public ThMirrorData(BlockReference blockReference, Matrix3d mat)
         {
             blockEntities = new DBObjectCollection();
             nestedBlockReferences = new List<ThMirrorData>();
 
             layerId = blockReference.LayerId;
+            mirroredBlockId = ObjectId.Null;
             blockId = blockReference.BlockTableRecord;
             blockTransform = blockReference.BlockTransform;
+            nestedBlockTransform = blockTransform.PreMultiplyBy(mat);
             DBObjectCollection entitySet = new DBObjectCollection();
             blockReference.Explode(entitySet);
             foreach (DBObject dbObj in entitySet)
@@ -39,7 +47,7 @@ namespace ThMirror
                 if (dbObj is BlockReference nestedBlockReference)
                 {
                     // 嵌套块引用
-                    nestedBlockReferences.Add(new ThMirrorData(nestedBlockReference));
+                    nestedBlockReferences.Add(new ThMirrorData(nestedBlockReference, nestedBlockTransform));
                 }
                 else if (dbObj is Entity nestedEntity)
                 {

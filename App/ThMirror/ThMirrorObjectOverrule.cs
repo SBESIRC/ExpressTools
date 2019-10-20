@@ -1,6 +1,7 @@
 ﻿using System;
 using Linq2Acad;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThMirror
@@ -39,7 +40,7 @@ namespace ThMirror
                         {
                             // 记录镜像后的生成的块引用及其嵌套结构
                             var blockReference = acadDatabase.Element<BlockReference>(targetId);
-                            ThMirrorEngine.Instance.Targets.Add(targetId, new ThMirrorData(blockReference));
+                            ThMirrorEngine.Instance.Targets.Add(targetId, new ThMirrorData(blockReference, Matrix3d.Identity));
                         }
                     }
                 }
