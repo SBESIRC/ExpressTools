@@ -12,16 +12,16 @@ namespace ThMirror
         // 块引用所在的图层
         public ObjectId layerId;
 
-        // 块引用所在的块
+        // 块引用所对应的块
         public ObjectId blockId;
 
         // 镜像后创建的块
         public ObjectId mirroredBlockId;
 
-        // MCS to WCS 变换
+        // MCS to Owner Block Space 变换
         public Matrix3d blockTransform;
 
-        //  MCS to WCS 变换（嵌套）
+        //  MCS to WCS 变换
         public Matrix3d nestedBlockTransform;
 
         // 块引用子实体集合（不包含嵌套块）

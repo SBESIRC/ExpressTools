@@ -120,8 +120,10 @@ namespace ThMirror
                         {
                             var layer = acadDatabase.Layers.Element(item.layerId).Name;
                             var blockName = acadDatabase.Element<BlockTableRecord>(item.mirroredBlockId).Name;
-                            item.blockTransform.DecomposeBlockTransform(out Point3d insertPt, out double rotation, out Scale3d scale);
-                            var blockReference = item.blockId.CreateBlockReference(layer, blockName, insertPt, scale, rotation);
+                            var blockReference = new BlockReference(new Point3d(0, 0, 0), item.mirroredBlockId)
+                            {
+                                Layer = layer
+                            };
                             blockReference.TransformBy(item.nestedBlockTransform);
                             mirrorData.blockEntities.Add(blockReference);
                         }
