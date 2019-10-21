@@ -58,6 +58,14 @@ namespace ThMirror
                         {
                             return true;
                         }
+
+                        if (id.ObjectClass == RXClass.GetClass(typeof(BlockReference)))
+                        {
+                            if (IsBlockReferenceContainText(id))
+                            {
+                                return true;
+                            }
+                        }
                     }
 
                     // 没有文字图元
