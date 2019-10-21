@@ -38,20 +38,7 @@ namespace ThMirror
 
         private static void Editor_SelectionAdded(object sender, SelectionAddedEventArgs e)
         {
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            {
-                foreach (var objId in e.AddedObjects.GetObjectIds())
-                {
-                    // 仅处理带有文字的块
-                    if (!objId.IsBlockReferenceContainText())
-                    {
-                        continue;
-                    }
-                   
-                    var blockReference = acadDatabase.Element<BlockReference>(objId);
-                    ThMirrorEngine.Instance.Sources.Add(new ThMirrorData(blockReference));
-                }
-            }
+            throw new NotImplementedException();
         }
     }
 }

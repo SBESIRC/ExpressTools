@@ -52,32 +52,19 @@ namespace ThMirror
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
-                    foreach(var mirrorData in ThMirrorEngine.Instance.Targets)
+                    foreach(var item in ThMirrorEngine.Instance.Targets)
                     {
-                        // 创建新的块定义
-                        var blockName = mirrorData.blockRefenceId.NextMirroredBlockName();
-                        var blockEntities = new List<Entity>();
+                        var mirrorData = item.Value;
+                        var mirrorBlockReference = item.Key;
 
-                        // 图元从WCS到MCS转换
-                        //  https://spiderinnet1.typepad.com/blog/2014/02/autocad-net-add-entity-in-model-space-to-block.html
-                        var transform = mirrorData.blockTransform.Inverse();
-                        foreach (DBObject dbObj in mirrorData.blockEntities)
-                        {
-                            if (dbObj is Entity entity)
-                            {
-                                entity.TransformBy(transform);
-                                blockEntities.Add(entity);
-                            }
-                        }
+                        // 处理镜像对象
+                        ThMirrorDbUtils.ReplaceBlockReferenceWithMirrorData(mirrorData);
 
-                        // 插入新的块引用
-                        var blockId = acadDatabase.Database.AddBlockTableRecord(blockName, blockEntities);
-                        var layer = acadDatabase.Layers.Element(mirrorData.layerId).Name;
-                        mirrorData.blockTransform.DecomposeBlockTransform(out Point3d insertPt, out double rotation, out Scale3d scale);
-                        mirrorData.ownerId.InsertBlockReference(layer, blockName, insertPt, scale, rotation);
+                        // 创建新的块引用
+                        ThMirrorDbUtils.InsertBlockReferenceWithMirrorData(mirrorData);
 
                         // 删除旧的块引用
-                        acadDatabase.Element<BlockReference>(mirrorData.blockRefenceId, true).Erase();
+                        acadDatabase.Element<BlockReference>(mirrorBlockReference, true).Erase();
                     };
 
                     // 镜像命令结束后，“清零”所有数据

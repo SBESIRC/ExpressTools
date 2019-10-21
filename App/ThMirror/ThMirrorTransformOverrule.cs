@@ -30,21 +30,26 @@ namespace ThMirror
             base.TransformBy(entity, transform);
             if (entity.ObjectId.IsValid)
             {
-                foreach(var mirrorData in ThMirrorEngine.Instance.Targets)
+                if (ThMirrorEngine.Instance.Targets.ContainsKey(entity.ObjectId))
                 {
-                    if (mirrorData.blockRefenceId != entity.ObjectId)
-                    {
-                        continue;
-                    }
-
-                    foreach (DBObject obj in mirrorData.blockEntities)
-                    {
-                        if (obj is Entity ent)
-                        {
-                            ent.TransformBy(transform);
-                        }
-                    }
+                    TransformBy(ThMirrorEngine.Instance.Targets[entity.ObjectId], transform);
                 }
+            }
+        }
+
+        private void TransformBy(ThMirrorData mirrorData, Matrix3d transform)
+        {
+            // 处理子实体
+            foreach (DBObject obj in mirrorData.blockEntities)
+            {
+                var entity = obj as Entity;
+                entity.TransformBy(transform);
+            }
+
+            // 处理嵌套块
+            foreach (var item in mirrorData.nestedBlockReferences)
+            {
+                TransformBy(item, transform);
             }
         }
 
