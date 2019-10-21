@@ -149,8 +149,10 @@ namespace ThMirror
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                // 创建一个新的块定义
-                CreateBlockWithMirrorData(mirrorData);
+                if (mirrorData.mirroredBlockId.IsNull)
+                {
+                    CreateBlockWithMirrorData(mirrorData);
+                }
 
                 var layer = acadDatabase.Layers.Element(mirrorData.layerId).Name;
                 var blockName = acadDatabase.Element<BlockTableRecord>(mirrorData.mirroredBlockId).Name;
