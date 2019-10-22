@@ -29,32 +29,6 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
                 line3[2]);
         }
 
-        public static BlockReference CreateBlockReference(this ObjectId spaceId, string layer, string blockName, Point3d position, Scale3d scale, double rotateAngle)
-        {
-            Database db = spaceId.Database;//获取数据库对象
-            //以读的方式打开块表
-            BlockTable bt = (BlockTable)db.BlockTableId.GetObject(OpenMode.ForRead);
-            //如果没有blockName表示的块，则程序返回
-            if (!bt.Has(blockName)) return null;
-            //以写的方式打开空间（模型空间或图纸空间）
-            BlockTableRecord space = (BlockTableRecord)spaceId.GetObject(OpenMode.ForWrite);
-            //创建一个块参照并设置插入点
-            BlockReference br = new BlockReference(position, bt[blockName]);
-            br.ScaleFactors = scale;//设置块参照的缩放比例
-            br.Layer = layer;//设置块参照的层名
-            br.Rotation = rotateAngle;//设置块参照的旋转角度
-            ObjectId btrId = bt[blockName];//获取块表记录的Id
-            //打开块表记录
-            BlockTableRecord record = (BlockTableRecord)btrId.GetObject(OpenMode.ForRead);
-            //添加可缩放性支持
-            if (record.Annotative == AnnotativeStates.True)
-            {
-                ObjectContextCollection contextCollection = db.ObjectContextManager.GetContextCollection("ACDB_ANNOTATIONSCALES");
-                ObjectContexts.AddContext(br, contextCollection.GetContext("1:1"));
-            }
-            return br;
-        }
-
         /// <summary>
         ///Created thanks to the help of many @the Swamp.org.
         ///Intended to change the displayed insertion point of simple 2D blocks in ModelSpace(not sure how it affects dynamic or more complex blocks).

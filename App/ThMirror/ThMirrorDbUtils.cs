@@ -36,6 +36,18 @@ namespace ThMirror
                         return false;
                     }
 
+                    // 忽略带有属性的块
+                    if (blockTableRecord.HasAttributeDefinitions)
+                    {
+                        return false;
+                    }
+
+                    // 忽略不可“炸开”的块
+                    if (!blockTableRecord.Explodable)
+                    {
+                        return false;
+                    }
+
                     // 搜寻块中是否有文字图元
                     foreach (ObjectId id in blockTableRecord)
                     {
@@ -57,6 +69,14 @@ namespace ThMirror
                         if (id.ObjectClass == RXClass.GetClass(typeof(Dimension)))
                         {
                             return true;
+                        }
+
+                        if (id.ObjectClass == RXClass.GetClass(typeof(BlockReference)))
+                        {
+                            if (IsBlockReferenceContainText(id))
+                            {
+                                return true;
+                            }
                         }
                     }
 
@@ -120,8 +140,10 @@ namespace ThMirror
                         {
                             var layer = acadDatabase.Layers.Element(item.layerId).Name;
                             var blockName = acadDatabase.Element<BlockTableRecord>(item.mirroredBlockId).Name;
-                            item.blockTransform.DecomposeBlockTransform(out Point3d insertPt, out double rotation, out Scale3d scale);
-                            var blockReference = item.blockId.CreateBlockReference(layer, blockName, insertPt, scale, rotation);
+                            var blockReference = new BlockReference(new Point3d(0, 0, 0), item.mirroredBlockId)
+                            {
+                                Layer = layer
+                            };
                             blockReference.TransformBy(item.nestedBlockTransform);
                             mirrorData.blockEntities.Add(blockReference);
                         }
@@ -139,8 +161,10 @@ namespace ThMirror
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                // 创建一个新的块定义
-                CreateBlockWithMirrorData(mirrorData);
+                if (mirrorData.mirroredBlockId.IsNull)
+                {
+                    CreateBlockWithMirrorData(mirrorData);
+                }
 
                 var layer = acadDatabase.Layers.Element(mirrorData.layerId).Name;
                 var blockName = acadDatabase.Element<BlockTableRecord>(mirrorData.mirroredBlockId).Name;
