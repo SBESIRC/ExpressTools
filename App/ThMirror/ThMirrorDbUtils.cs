@@ -36,6 +36,18 @@ namespace ThMirror
                         return false;
                     }
 
+                    // 忽略带有属性的块
+                    if (blockTableRecord.HasAttributeDefinitions)
+                    {
+                        return false;
+                    }
+
+                    // 忽略不可“炸开”的块
+                    if (!blockTableRecord.Explodable)
+                    {
+                        return false;
+                    }
+
                     // 搜寻块中是否有文字图元
                     foreach (ObjectId id in blockTableRecord)
                     {
