@@ -15,6 +15,23 @@ namespace ThXClip
 {
     public class ThXClipCadOperation
     {
+        public static Tolerance Global_Tolerance = new Tolerance(1e-1, 1e-1);
+        public static bool IsGreaterThanOrEqualTo(int major, int minor)
+        {
+            Version version = Application.Version;
+            if (version.Major > major)
+            {
+                return true;
+            }
+            else if (version.Major == major)
+            {
+                return version.Minor >= minor;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public static void Dispose(List<DBObject> dbObjs)
         {
             for(int i=0;i<dbObjs.Count;i++)
@@ -420,24 +437,104 @@ namespace ThXClip
             ed.SetCurrentView(view);
             return result;
         }
+        public static PromptSelectionResult SelectByPolyline(Editor ed, Point3dCollection polygon,
+           PolygonSelectionMode mode)
+        {
+            PromptSelectionResult result;
+            if (mode == PolygonSelectionMode.Crossing)
+                result = ed.SelectCrossingPolygon(polygon);
+            else
+                result = ed.SelectWindowPolygon(polygon);
+            return result;
+        }
+        public static PromptSelectionResult SelectByPolyline(Editor ed, Point2dCollection polygon,
+    PolygonSelectionMode mode)
+        {
+            PromptSelectionResult result;
+            Point3dCollection pts = new Point3dCollection();
+            foreach(Point2d pt in polygon)
+            {
+                pts.Add(new Point3d(pt.X,pt.Y, 0));
+            }
+            if (mode == PolygonSelectionMode.Crossing)
+                result = ed.SelectCrossingPolygon(pts);
+            else
+                result = ed.SelectWindowPolygon(pts);
+            return result;
+        }
+        public static List<Point3d> GetNoRepeatedPtList(List<Point3d> ptList)
+        {
+            List<Point3d> newPtList = new List<Point3d>();
+            foreach(Point3d pt in ptList)
+            {
+                List<Point3d> resList=newPtList.Where(i => i.IsEqualTo(pt, ThXClipCadOperation.Global_Tolerance)).Select(i => i).ToList();
+                if (resList==null || resList.Count==0)
+                {
+                    newPtList.Add(pt);
+                }
+            }
+            return newPtList;
+        }
         public static Point2dCollection GetNoRepeatedPtCollection(Point2dCollection pts)
         {
             Point2dCollection resPts = new Point2dCollection();
-            foreach(Point2d pt in pts)
+            foreach (Point2d pt in pts)
             {
-                if(resPts.IndexOf(pt)<0)
+                bool isExisted = false;
+                for(int i=0;i< resPts.Count;i++)
+                {
+                    if(resPts[i].IsEqualTo(pt, ThXClipCadOperation.Global_Tolerance))
+                    {
+                        isExisted = true;
+                        break;
+                    }
+                }
+                if(!isExisted)
                 {
                     resPts.Add(pt);
                 }
             }
             return resPts;
         }
+        public static List<int> PointIndex(Point3dCollection pts,Point3d pt)
+        {
+            List<int> indexList = new List<int>();
+            for(int i=0;i< pts.Count;i++)
+            {
+                if(pts[i].IsEqualTo(pt, ThXClipCadOperation.Global_Tolerance))
+                {
+                    indexList.Add(i);
+                }
+            }
+            return indexList;
+        }
+        public static List<int> PointIndex(List<Point3d> pts, Point3d pt)
+        {
+            List<int> indexList = new List<int>();
+            for (int i = 0; i < pts.Count; i++)
+            {
+                if (pts[i].IsEqualTo(pt, ThXClipCadOperation.Global_Tolerance))
+                {
+                    indexList.Add(i);
+                }
+            }
+            return indexList;
+        }
         public static Point3dCollection GetNoRepeatedPtCollection(Point3dCollection pts)
         {
             Point3dCollection resPts = new Point3dCollection();
             foreach (Point3d pt in pts)
             {
-                if (resPts.IndexOf(pt) < 0)
+                bool isExisted = false;
+                for (int i = 0; i < resPts.Count; i++)
+                {
+                    if (resPts[i].IsEqualTo(pt, ThXClipCadOperation.Global_Tolerance))
+                    {
+                        isExisted = true;
+                        break;
+                    }
+                }
+                if (!isExisted)
                 {
                     resPts.Add(pt);
                 }
@@ -463,8 +560,34 @@ namespace ThXClip
             ed.SetCurrentView(view);
             return result;
         }
-        public static PromptSelectionResult SelectByRectangle(Editor ed,
-            Point3d pt1, Point3d pt2, PolygonSelectionMode mode)
+        public static PromptSelectionResult SelectByPolyline(Editor ed,
+    Point3dCollection polygon,
+    PolygonSelectionMode mode, SelectionFilter filter)
+        {
+            PromptSelectionResult result;
+            if (mode == PolygonSelectionMode.Crossing)
+                result = ed.SelectCrossingPolygon(polygon, filter);
+            else
+                result = ed.SelectWindowPolygon(polygon, filter);
+            return result;
+        }
+        public static PromptSelectionResult SelectByPolyline(Editor ed,
+   Point2dCollection polygon,
+   PolygonSelectionMode mode, SelectionFilter filter)
+        {
+            PromptSelectionResult result;
+            Point3dCollection pts = new Point3dCollection();
+            foreach(Point2d pt in polygon)
+            {
+                pts.Add(new Point3d(pt.X,pt.Y,0.0));
+            }
+            if (mode == PolygonSelectionMode.Crossing)
+                result = ed.SelectCrossingPolygon(pts, filter);
+            else
+                result = ed.SelectWindowPolygon(pts, filter);
+            return result;
+        }
+        public static PromptSelectionResult SelectByRectangle(Editor ed,Point3d pt1, Point3d pt2, PolygonSelectionMode mode)
         {
             Point3dCollection polygon = new Point3dCollection();
             double minX = Math.Min(pt1.X, pt2.X);
@@ -478,19 +601,56 @@ namespace ThXClip
             polygon.Add(new Point3d(maxX, minY, minZ));
             polygon.Add(new Point3d(maxX, maxY, minZ));
             polygon.Add(new Point3d(minX, maxY, minZ));
-
-            Polyline3d polyline = new Polyline3d(Poly3dType.SimplePoly,polygon,true);
-            List<ObjectId> objectIds= ThXClipCadOperation.AddToBlockTable(polyline);
             PromptSelectionResult result;
-            ViewTableRecord view = ed.GetCurrentView();
-            ed.ZoomObject(objectIds[0]);
             if (mode == PolygonSelectionMode.Crossing)
                 result = ed.SelectCrossingPolygon(polygon);
             else
                 result = ed.SelectWindowPolygon(polygon);
-            ed.SetCurrentView(view);
-            ThXClipCadOperation.EraseObjIds(objectIds[0]);
             return result;
+        }
+        public static void ZoomObject(Editor ed, Point3dCollection pts)
+        {
+            Point3dCollection polygon = new Point3dCollection();
+            foreach (Point3d pt in pts)
+            {
+                if(polygon.IndexOf(pt)<0)
+                {
+                    polygon.Add(pt);
+                }
+            }
+            if(polygon.Count<2)
+            {
+                return;
+            }
+            if(polygon.Count==2)
+            {
+                Point3d pt1 = polygon[0];
+                Point3d pt2 = polygon[1];
+                double minX = Math.Min(pt1.X, pt2.X);
+                double minY = Math.Min(pt1.Y, pt2.Y);
+                double minZ = Math.Min(pt1.Z, pt2.Z);
+
+                double maxX = Math.Max(pt1.X, pt2.X);
+                double maxY = Math.Max(pt1.Y, pt2.Y);
+                double maxZ = Math.Max(pt1.Z, pt2.Z);
+
+                polygon = new Point3dCollection();
+                polygon.Add(new Point3d(minX, minY, minZ));
+                polygon.Add(new Point3d(maxX, minY, minZ));
+                polygon.Add(new Point3d(maxX, maxY, minZ));
+                polygon.Add(new Point3d(minX, maxY, minZ));
+            }           
+            Polyline3d polyline = new Polyline3d(Poly3dType.SimplePoly, polygon, true);
+            List<ObjectId> objectIds = ThXClipCadOperation.AddToBlockTable(polyline);
+            ed.ZoomObject(objectIds[0]);
+            EraseObjIds(objectIds[0]);
+        }
+        public static void ZoomObject(Editor ed, Point3d minPt,Point3d maxPt)
+        {
+            Point3dCollection pts = new Point3dCollection();
+            pts.Add(minPt);
+            pts.Add(maxPt);
+            ZoomObject(ed, pts);
         }
         /// <summary>
         /// 让用户选择要处理的问题
@@ -867,7 +1027,7 @@ namespace ThXClip
 
                 if (seg != null)
                 {
-                    if(seg.IsOn(pt))
+                    if(seg.IsOn(pt,ThCADCommon.Global_Tolerance))
                     {
                         index = i;
                         break;
@@ -1141,6 +1301,11 @@ namespace ThXClip
             }
             return arcTopPt;
         }
+        /// <summary>
+        /// 炸块
+        /// </summary>
+        /// <param name="br"></param>
+        /// <returns></returns>
         public static List<Entity> Explode(BlockReference br)
         {
             List<Entity> entities = new List<Entity>();
@@ -1163,6 +1328,74 @@ namespace ThXClip
                 }
             }
             return entities;
+        }
+        /// <summary>
+        /// 获取传入物体范围的对角点
+        /// </summary>
+        /// <param name="objIds"></param>
+        /// <returns></returns>
+        public static List<Point3d> GetObjBoundingPoints(List<ObjectId> objIds)
+        {
+            List<Point3d> boundingPoints = new List<Point3d>();
+            Document doc = GetMdiActiveDocument();
+            List<Point3d> minPtList = new List<Point3d>();
+            List<Point3d> maxPtList = new List<Point3d>();
+            using (Transaction trans=doc.TransactionManager.StartTransaction())
+            {
+                for(int i=0;i<objIds.Count;i++)
+                {
+                   DBObject dbObj=  trans.GetObject(objIds[i],OpenMode.ForRead);
+                   if(dbObj.Bounds!=null && dbObj.Bounds.HasValue)
+                    {
+                        minPtList.Add(dbObj.Bounds.Value.MinPoint);
+                        maxPtList.Add(dbObj.Bounds.Value.MaxPoint);
+                    }
+                }
+                trans.Commit();
+            }
+            if(minPtList.Count>0 && maxPtList.Count>0)
+            {
+                double minX = minPtList.OrderBy(i => i.X).Select(i=>i.X).FirstOrDefault();
+                double minY = minPtList.OrderBy(i => i.Y).Select(i => i.Y).FirstOrDefault();
+                double minZ = minPtList.OrderBy(i => i.Z).Select(i => i.Z).FirstOrDefault();
+
+                double maxX = maxPtList.OrderBy(i => i.X).Select(i => i.X).FirstOrDefault();
+                double maxY = maxPtList.OrderBy(i => i.Y).Select(i => i.Y).FirstOrDefault();
+                double maxZ = maxPtList.OrderBy(i => i.Z).Select(i => i.Z).FirstOrDefault();
+
+                boundingPoints.Add(new Point3d(minX, minY, minZ));
+                boundingPoints.Add(new Point3d(maxX, maxY, maxZ));
+            }
+            return boundingPoints;
+        }
+        /// <summary>
+        /// 炸块到模型空间
+        /// </summary>
+        /// <param name="br"></param>
+        /// <returns></returns>
+        public static List<Entity> ExplodeToModelSpace(BlockReference br)
+        {
+            List<Entity> ents = new List<Entity>();
+            DBObjectCollection dBObjectCollection = new DBObjectCollection();
+            br.Explode(dBObjectCollection);
+            foreach (DBObject dbObj in dBObjectCollection)
+            {
+                if (dbObj is BlockReference)
+                {
+                    BlockReference newBr = dbObj as BlockReference;
+                    List<Entity> subEnts = ExplodeToModelSpace(newBr);
+                    if (subEnts.Count > 0)
+                    {
+                        ents.AddRange(subEnts);
+                    }
+                }
+                else if (dbObj is Entity)
+                {
+                    Entity ent = dbObj as Entity;
+                    ents.Add(ent);
+                }
+            }
+            return ents;
         }
     }
     /// <summary>

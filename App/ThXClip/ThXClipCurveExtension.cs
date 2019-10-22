@@ -125,6 +125,7 @@ namespace ThXClip
             List<Curve> splitCurves = new List<Curve>(); 
             if(sortIntersecPts.Count>0)
             {
+                sortIntersecPts = ThXClipCadOperation.GetNoRepeatedPtCollection(sortIntersecPts);
                 DBObjectCollection dBObjs = arc.GetSplitCurves(sortIntersecPts);
                 if (dBObjs.Count == 0)
                 {
@@ -277,6 +278,7 @@ namespace ThXClip
                     return dBObjects;
                 }
             }
+            intersectPts = ThXClipCadOperation.GetNoRepeatedPtCollection(intersectPts);
             List<Curve> splitCurves = SplitCurves(spline, intersectPts);
             if(splitCurves.Count>1)
             {
@@ -389,6 +391,7 @@ namespace ThXClip
             {
                 Point3dCollection sortIntersecPts = new Point3dCollection();
                 sortPts.ForEach(i=> sortIntersecPts.Add(i));
+                sortIntersecPts = ThXClipCadOperation.GetNoRepeatedPtCollection(sortIntersecPts);
                 DBObjectCollection splitDbObjs= circle.GetSplitCurves(sortIntersecPts);
                 foreach(DBObject dbObj in splitDbObjs)
                 {
@@ -574,6 +577,7 @@ namespace ThXClip
                 }
                 else
                 {
+                    sortIntersecPts = ThXClipCadOperation.GetNoRepeatedPtCollection(sortIntersecPts);
                     DBObjectCollection dbObjs = ellipse.GetSplitCurves(sortIntersecPts);
                     foreach (DBObject dbObj in dbObjs)
                     {
@@ -583,7 +587,8 @@ namespace ThXClip
             }
             else
             {
-                splitCurves= SplitCurves(ellipse, intersectPts);
+                intersectPts= ThXClipCadOperation.GetNoRepeatedPtCollection(intersectPts);
+                splitCurves = SplitCurves(ellipse, intersectPts);
                 if(splitCurves==null  || splitCurves.Count==1)
                 {
                     splitCurves.Add(ellipse);
@@ -701,6 +706,7 @@ namespace ThXClip
                 sortPts = sortPts.OrderBy(i => i.DistanceTo(line.StartPoint)).ToList();
                 Point3dCollection sortIntersectPts = new Point3dCollection();
                 sortPts.ForEach(i => sortIntersectPts.Add(i));
+                sortIntersectPts = ThXClipCadOperation.GetNoRepeatedPtCollection(sortIntersectPts);
                 DBObjectCollection dbObjs = line.GetSplitCurves(sortIntersectPts);
                 foreach (DBObject dbObj in dbObjs)
                 {
@@ -757,11 +763,59 @@ namespace ThXClip
             {
                 return dBObjects;
             }
-            Polyline clipBoundaryPline = ThXClipCadOperation.CreatePolyline(pts);
-            Point3dCollection intersectPts = new Point3dCollection();
-            polyline.IntersectWith(clipBoundaryPline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-            clipBoundaryPline.Dispose();
-            bool isGoOn = true;
+            List<Point3d> polylinePts = new List<Point3d>();
+            for (int i = 0; i < polyline.NumberOfVertices; i++)
+            {
+                polylinePts.Add(polyline.GetPoint3dAt(i));
+            }            
+            Point3dCollection intersectPts = GetIntersPoint(polyline,pts);
+            if (intersectPts!=null)
+            {
+                intersectPts = ThXClipCadOperation.GetNoRepeatedPtCollection(intersectPts);
+            }
+            bool isGoOn = true;            
+            bool closed = polyline.Closed;
+            if (polylinePts[0].IsEqualTo(polylinePts[polyline.NumberOfVertices - 1], ThCADCommon.Global_Tolerance)) //如果多段线的起点和终点相同
+            {
+                if (!closed)
+                {
+                    closed = true;
+                }
+            }
+            if (intersectPts.Count==1)
+            {
+                if(closed)
+                {
+                    isGoOn = false;
+                }
+                else
+                {
+                    List<int> ptIndexes = ThXClipCadOperation.PointIndex(polylinePts, intersectPts[0]);
+                    if(ptIndexes.Count > 0)
+                    {
+                        if (ptIndexes[0] == 0 || ptIndexes[0] == polyline.NumberOfVertices - 1)
+                        {
+                            isGoOn = false;
+                        }
+                    }
+                }
+            }
+            else if (intersectPts.Count==2)
+            {
+                List<int> firstPtIndexes = ThXClipCadOperation.PointIndex(polylinePts, intersectPts[0]);
+                List<int> secondPtIndexes = ThXClipCadOperation.PointIndex(polylinePts, intersectPts[1]);
+                if(closed==false && firstPtIndexes.Count>0 && secondPtIndexes.Count>0)
+                {
+                    if(firstPtIndexes[0]==0 && secondPtIndexes[0] == polyline.NumberOfVertices-1)
+                    {
+                        isGoOn = false;
+                    }
+                    else if(secondPtIndexes[0] == 0 && firstPtIndexes[0] == polyline.NumberOfVertices - 1)
+                    {
+                        isGoOn = false;
+                    }
+                }
+            }
             if (intersectPts == null || intersectPts.Count == 0)
             {
                 isGoOn = false;
@@ -825,6 +879,7 @@ namespace ThXClip
             foreach(int segmentIndex in setmentIndexList)
             {
                 List<Point3d> segmentPtList = ptSegmentIndexDic.Where(i => i.Value == segmentIndex).Select(i => i.Key).ToList();
+                segmentPtList = ThXClipCadOperation.GetNoRepeatedPtList(segmentPtList);
                 breakPtDic.Add(segmentIndex, segmentPtList);
             }
             List<Point3d> sortPts = new List<Point3d>();
@@ -857,7 +912,7 @@ namespace ThXClip
                             ptAngDic.Add(angle, pt);
                         }                        
                     }
-                    List<Point3d> arcSortPts= ptAngDic.OrderBy(i => i).Select(i => i.Value).ToList();
+                    List<Point3d> arcSortPts= ptAngDic.OrderBy(i => i.Key).Select(i => i.Value).ToList();
                     if(!isClockWise)
                     {
                         arcSortPts.Reverse();
@@ -872,7 +927,8 @@ namespace ThXClip
             List<Curve> splitCurves = new List<Curve>();
             Point3dCollection sortIntersecPts = new Point3dCollection();
             sortPts.ForEach(i => sortIntersecPts.Add(i));
-            if(sortIntersecPts.Count>0)
+            sortIntersecPts = ThXClipCadOperation.GetNoRepeatedPtCollection(sortIntersecPts);
+            if (sortIntersecPts.Count>0)
             {
                 DBObjectCollection dbObjs = polyline.GetSplitCurves(sortIntersecPts);
                 if (dbObjs.Count == 0)
@@ -881,7 +937,33 @@ namespace ThXClip
                 }
                 foreach (DBObject dbObj in dbObjs)
                 {
-                    splitCurves.Add(dbObj as Curve);
+                    Polyline splitPolyline = dbObj as Polyline;
+                    bool isValid = false;
+                    for(int i=0;i< splitPolyline.NumberOfVertices;i++)
+                    {
+                        if(splitPolyline.GetSegmentType(i) == SegmentType.Line)
+                        {
+                          LineSegment3d tempLine=  splitPolyline.GetLineSegmentAt(i);
+                            if(tempLine.Length>0.0)
+                            {
+                                isValid = true;
+                                break;
+                            }
+                        }
+                        else if(splitPolyline.GetSegmentType(i) == SegmentType.Arc)
+                        {
+                           CircularArc3d tempArc= splitPolyline.GetArcSegmentAt(i);
+                            if (tempArc.EndAngle!=tempArc.StartAngle)
+                            {
+                                isValid = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(isValid)
+                    {
+                        splitCurves.Add(dbObj as Curve);
+                    }
                 }
             }
             else
@@ -902,7 +984,7 @@ namespace ThXClip
                 bool doMark = true;
                 int j = 0;
                 Point3d checkPt = Point3d.Origin;
-                while (doMark)
+                while (doMark && j< currentPolyline.NumberOfVertices)
                 {
                     SegmentType st = currentPolyline.GetSegmentType(j);
                     if (st == SegmentType.Line)
@@ -1246,6 +1328,46 @@ namespace ThXClip
                 }
             }
             return uniqueCurves;
+        }
+        /// <summary>
+        /// 返回曲线和XClip边界实际相交点
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <param name="pts"></param>
+        /// <returns></returns>
+        private static Point3dCollection GetIntersPoint(Curve curve, Point2dCollection pts)
+        {
+            Point3dCollection actualIntersPts = new Point3dCollection(); //实际交点   
+            Point3dCollection intersectPts = new Point3dCollection();
+            Plane plane = new Plane(Point3d.Origin, Vector3d.ZAxis);
+            Polyline clipBoundaryPline = ThXClipCadOperation.CreatePolyline(pts);
+            clipBoundaryPline.IntersectWith(curve, Intersect.OnBothOperands, plane, intersectPts, IntPtr.Zero, IntPtr.Zero);
+            clipBoundaryPline.Dispose();
+            plane.Dispose();
+            if (intersectPts != null && intersectPts.Count > 0)
+            {
+                foreach (Point3d intersPt in intersectPts)
+                {
+                    Line verticalLine = new Line(intersPt, new Point3d(intersPt.X, intersPt.Y, intersPt.Z + 1000));
+                    Point3dCollection currentIntersectPts = new Point3dCollection();
+                    verticalLine.IntersectWith(curve, Intersect.ExtendThis, currentIntersectPts, IntPtr.Zero, IntPtr.Zero);
+                    if (currentIntersectPts != null)
+                    {
+                        foreach (Point3d currentIntersect in currentIntersectPts)
+                        {
+                            actualIntersPts.Add(currentIntersect);
+                        }
+                    }
+                    verticalLine.Dispose();
+                    currentIntersectPts.Dispose();
+                }
+                intersectPts.Dispose();
+            }
+            if (actualIntersPts!=null && actualIntersPts.Count>0)
+            {
+                actualIntersPts = ThXClipCadOperation.GetNoRepeatedPtCollection(actualIntersPts);
+            }
+            return actualIntersPts;
         }
     }
 }

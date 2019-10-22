@@ -35,8 +35,23 @@ namespace ThXClip
         public void ThXClip()
         {
             List<ObjectId> selObjIds = ThXClipCadOperation.GetSelectObjects(); //选择要处理的块
+            if(selObjIds.Count==0)
+            {
+                return;
+            }
+            DateTime startTime = DateTime.Now.ToLocalTime();
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
+            ViewTableRecord view = ed.GetCurrentView();
+            List<Point3d> boundPtList = ThXClipCadOperation.GetObjBoundingPoints(selObjIds);
+            if(boundPtList.Count==2)
+            {
+                Point3d minPt = boundPtList[0];
+                Point3d maxPt = boundPtList[1];
+                minPt = new Point3d(minPt.X-5, minPt.Y-5, minPt.Z);
+                maxPt = new Point3d(maxPt.X + 5, maxPt.Y + 5, minPt.Z);
+                ThXClipCadOperation.ZoomObject(ed, minPt, maxPt);
+            }
             //判断所选块上的Wipeout 或模型中单独绘制了WipeOut影响了所选的块，都要处理
             //以下是获取附着在所选块上的WipeOut集合
             List<ObjectId> OnBlkWipeOutIds = new List<ObjectId>();
@@ -46,7 +61,6 @@ namespace ThXClip
                 BlockTable bt = (BlockTable)trans.GetObject(doc.Database.BlockTableId, OpenMode.ForRead);
                 //以写方式打开模型空间块表记录.
                 BlockTableRecord btr = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
-                
                 for (int i = 0; i < selObjIds.Count; i++)
                 {
                     DBObject dbObj = trans.GetObject(selObjIds[i], OpenMode.ForRead);
@@ -55,20 +69,8 @@ namespace ThXClip
                         BlockReference br = dbObj as BlockReference;
                         if(br.Bounds!=null && br.Bounds.HasValue) //获取所选块，是否有在模型空间绘制的WipeOut影响了它
                         {
-                            Point3d minPt = br.Bounds.Value.MinPoint;
-                            Point3d maxPt = br.Bounds.Value.MaxPoint;
-                            if(minPt.GetVectorTo(maxPt).IsParallelTo(Vector3d.XAxis))
-                            {
-                                minPt = new Point3d(minPt.X,minPt.Y-5,minPt.Z);
-                                maxPt = new Point3d(maxPt.X, maxPt.Y + 5, maxPt.Z);
-                            }
-                            else if (minPt.GetVectorTo(maxPt).IsParallelTo(Vector3d.YAxis))
-                            {
-                                minPt = new Point3d(minPt.X-5, minPt.Y, minPt.Z);
-                                maxPt = new Point3d(maxPt.X+5, maxPt.Y, maxPt.Z);
-                            }
-                            PromptSelectionResult psr = ThXClipCadOperation.SelectByRectangle(ed, minPt,
-                                maxPt, PolygonSelectionMode.Crossing);
+                            PromptSelectionResult psr = ThXClipCadOperation.SelectByRectangle(ed, br.Bounds.Value.MinPoint,
+                                br.Bounds.Value.MaxPoint, PolygonSelectionMode.Crossing);
                             if (psr.Status == PromptStatus.OK)
                             {
                                 List<ObjectId> wipeOutIds = psr.Value.GetObjectIds().Where(j => trans.GetObject(j, OpenMode.ForRead) is Wipeout
@@ -88,7 +90,7 @@ namespace ThXClip
             if(selObjIds.Count>0)
             {
                 lockedLayerNames=ThXClipCadOperation.UnlockedAllLayers(); //解锁所有的层
-            }
+            }            
             //ThXclipProgressBar progressBar = new ThXclipProgressBar();
             //progressBar.Register(this);
             //progressBar.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
@@ -107,6 +109,10 @@ namespace ThXClip
                     ThXClipCadOperation.InsertBlockReference("0", blkItem.Key,
                         Point3d.Origin, new Scale3d(1.0, 1.0, 1.0), 0.0);
                 }
+                DateTime endTime = DateTime.Now.ToLocalTime();
+                string usedTime= ThXClipUtils.ExecDateDiff(startTime, endTime);
+                ed.WriteMessage("\n裁剪完毕，总耗时：" + usedTime);
+                System.Windows.MessageBox.Show("Over");
             }
             catch(System.Exception ex)
             {
@@ -114,6 +120,7 @@ namespace ThXClip
             }
             finally
             {
+                ed.SetCurrentView(view);
                 analyseRelation.EraseBlockAndItsExplodedObjs();
                 ThXClipCadOperation.LockedLayers(lockedLayerNames);
                 //WorkFinished(this, true);
