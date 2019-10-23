@@ -46,6 +46,12 @@
             <Component Id="CMP_Autoloader_PackageContents_Lisp_VersionModify" Guid="{40D25D80-E266-463B-8B44-FBC5D030DFE6}" Win64="yes">
               <File Id="FILE_Autoloader_PackageContents_Lisp_VersionModify" Source="$(var.AutoloaderContentsPath)\VersionModify.lsp" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_IntersectUtils" Guid="{936E2004-83AC-45F3-8D5B-41A8890F8995}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Lisp_IntersectUtils" Source="$(var.AutoloaderContentsPath)\IntersectUtils.lsp" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_BreakLines" Guid="{818138D7-C459-4814-9286-F9ECA76279D5}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Lisp_BreakLines" Source="$(var.AutoloaderContentsPath)\BreakLines.lsp" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -64,6 +70,8 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BatchPlot_PDF" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BatchPlot_DWF" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_VersionModify" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_IntersectUtils" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BreakLines" />
         </ComponentGroup>
     </Fragment>
 </Wix>
