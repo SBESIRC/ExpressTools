@@ -269,19 +269,39 @@ namespace ThAreaFrameConfig.Presenter
                         {
                             foreach (var frame in compartment.Frames)
                             {
+                                ObjectId frameId = new ObjectId(frame.Frame);
+                                TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill);
+                                if (valueList != null)
+                                {
+                                    var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                                    if (handles.Any())
+                                    {
+                                        // 获取防火分区填充
+                                        var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                                        if (objId.IsValid)
+                                        {
+                                            continue;
+                                        }
+
+                                        // 断开旧填充的连接，创建新的填充
+                                        frameId.RemoveXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill);
+                                    }
+                                }
+
                                 // 填充面积框线
                                 Hatch hatch = new Hatch();
+                                ObjectId hatchId = ObjectId.Null;
 
                                 try
                                 {
                                     hatch.LayerId = acadDatabase.Database.CreateFCFillLayer();
-                                    ObjectId objId = acadDatabase.ModelSpace.Add(hatch);
+                                    hatchId = acadDatabase.ModelSpace.Add(hatch);
                                     hatch.SetHatchPattern(Hathes[index % 4].Item2, Hathes[index % 4].Item1);
                                     hatch.Associative = true;
 
                                     // 外圈轮廓
                                     ObjectIdCollection objIdColl = new ObjectIdCollection();
-                                    objIdColl.Add(new ObjectId(frame.Frame));
+                                    objIdColl.Add(frameId);
                                     hatch.AppendLoop(HatchLoopTypes.Outermost, objIdColl);
 
                                     // 重新生成Hatch纹理
@@ -311,6 +331,13 @@ namespace ThAreaFrameConfig.Presenter
                                     hatch.PatternScale = Hathes[index % 4].Item3;
                                     hatch.SetHatchPattern(hatch.PatternType, hatch.PatternName);
                                     hatch.EvaluateHatch(true);
+
+                                    // 关联面积框线和填充
+                                    valueList = new TypedValueList
+                                    {
+                                        { (int)DxfCode.ExtendedDataHandle, hatchId.Handle }
+                                    };
+                                    frameId.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill, valueList);
                                 }
                             };
 

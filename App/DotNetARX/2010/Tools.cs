@@ -196,9 +196,16 @@ namespace DotNetARX
         /// <returns>返回实体的ObjectId</returns>
         public static ObjectId HandleToObjectId(this Database db, string handleString)
         {
-            Handle handle=new Handle(Convert.ToInt64(handleString, 16));
-            ObjectId id=db.GetObjectId(false, handle, 0);
-            return id;
+            try
+            {
+                Handle handle = new Handle(Convert.ToInt64(handleString, 16));
+                ObjectId id = db.GetObjectId(false, handle, 0);
+                return id;
+            }
+            catch
+            {
+                return ObjectId.Null;
+            }
         }
 
         /// <summary>
