@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThXClip"
         mc:Ignorable="d"
-        Title="" Height="80" Width="500">
+        Title="" Height="100" Width="500">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="500"></ColumnDefinition>            
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"></RowDefinition>            
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
-        <ProgressBar HorizontalAlignment="Left" Height="60" Margin="0,0,0,0" Name="pb_import" VerticalAlignment="Top" Width="500"></ProgressBar>
+        <ProgressBar HorizontalAlignment="Left" Grid.Row="0" Height="40" Margin="0,0,0,0" Name="pb_import" 
+                     VerticalAlignment="Top" Width="500" Minimum="0" Maximum="100" Value="{Binding Percentage}"></ProgressBar>
+        <Label Name="showTip" HorizontalAlignment="Left" Grid.Row="1"  Height="40" Margin="0,0,0,0" Content="{Binding Tip}"></Label>
     </Grid> 
 </Window>

@@ -72,15 +72,11 @@ namespace ThXClip
                 }
                 catch (System.Exception ex)
                 {
-                    System.Windows.MessageBox.Show("函数名：StartTrim；+执行到第" + i + "次循环！");
+                    ThXClipUtils.WriteException(ex, "ModelWipeOut: 执行到第 " + i + " 条记录！");
                 }
             }            
             for (int i = 0; i < this._analyzeRelation.BlkWipeOuts.Count; i++)
             {
-                if (i==519)   //调试语句
-                {
-                    int ccc = 0;
-                }
                 List<DraworderInfo> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.BlkWipeOuts[i]);
                 Point2dCollection boundaryPts = GetWipeOutBoundaryPts(this._analyzeRelation.BlkWipeOuts[i].Id);
                 boundaryPts = ThXClipCadOperation.GetNoRepeatedPtCollection(boundaryPts);
@@ -98,15 +94,11 @@ namespace ThXClip
                 }
                 catch (System.Exception ex)
                 {
-                    System.Windows.MessageBox.Show("函数名：StartTrim；+执行到第" + i + "次循环！");
+                    ThXClipUtils.WriteException(ex, "BlockWipeOut: 执行到第 " + i + " 条记录！");
                 }
             }
             for (int i = 0; i < this._analyzeRelation.XclipInfs.Count; i++)
             {
-                if (i == 140) //调试语句
-                {
-                    int ccc = 0;
-                }
                 Point2dCollection xClipEdgePts = TransWipeOutBoundaryPts(this._analyzeRelation.XclipInfs[i].Pts);
                 xClipEdgePts = ThXClipCadOperation.GetNoRepeatedPtCollection(xClipEdgePts);
                 PromptSelectionResult psr = ThXClipCadOperation.SelectByPolyline(_document.Editor, xClipEdgePts,
@@ -124,10 +116,10 @@ namespace ThXClip
                 }
                 catch (System.Exception ex)
                 {
-                    System.Windows.MessageBox.Show("函数名：StartTrim；+执行到第" + i + "次循环！");
+                    ThXClipUtils.WriteException(ex, "XClip: 执行到第 " + i+ " 条记录！");
                 }
             }
-            
+            //以下是创建块
             string blockName = "";
             using (Transaction trans = _document.Database.TransactionManager.StartTransaction())
             {

@@ -10,6 +10,7 @@ using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices.Filters;
 using DotNetARX;
+using System.Threading;
 
 [assembly: CommandClass(typeof(ThXClip.ThXclipCommands))]
 [assembly: ExtensionApplication(typeof(ThXClip.ThXClipApp))]
@@ -30,6 +31,7 @@ namespace ThXClip
     public delegate void ThXClipFinishHandler(ThXclipCommands sender,bool result);
     public class ThXclipCommands
     {
+        public static ThXclipProgressBar progressBar;
         public event ThXClipFinishHandler WorkFinished;
         [CommandMethod("TIANHUACAD", "THXLP", CommandFlags.Modal)]        
         public void ThXClip()
@@ -112,11 +114,11 @@ namespace ThXClip
                 DateTime endTime = DateTime.Now.ToLocalTime();
                 string usedTime= ThXClipUtils.ExecDateDiff(startTime, endTime);
                 ed.WriteMessage("\n裁剪完毕，总耗时：" + usedTime);
-                System.Windows.MessageBox.Show("Over");
+                System.Windows.MessageBox.Show("裁剪完毕！");
             }
             catch(System.Exception ex)
             {
-                ed.WriteLine(ex.Message);
+                ThXClipUtils.WriteException(ex);
             }
             finally
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -19,50 +20,113 @@ namespace ThXClip
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class ThXclipProgressBar : Window
+    public partial class ThXclipProgressBar : Window, INotifyPropertyChanged
     {
+        private BackgroundWorker bgworker = new BackgroundWorker();
+        public BackgroundWorker Bgworker
+        {
+            get
+            {
+                return bgworker;
+            }
+        }
+        private int percentage = 0;
+        public int Percentage
+        {
+            get
+            {
+                return percentage;
+            }
+            set
+            {
+                percentage = value;
+                NotifyPropertyChanged("StopProgress");
+            }
+        }
+        private string tip = "";
+        public string Tip
+        {
+            get
+            {
+                return tip;
+            }
+            set
+            {
+                tip = value;
+                NotifyPropertyChanged("Tip");
+            }
+        }
+
         public ThXclipProgressBar()
         {
             InitializeComponent();
-            this.SetValue(1000);
-        }
-        private void SetValue(int count)
-        {
-            for(int i=0;i<count;i++)
-            {
-                BeginImport(i);
-            }
+            //ProgressBegin();
+            InitWork();           
         }
         void Store_ThXClipWorkFinshed(ThXclipCommands thXClipApp, bool res)
         {
             if (res)
-            {
-                BeginImport(1000);
+            {     
                 this.Close();
-            }
-              
+            }              
         }
         public void Register(ThXclipCommands thXClipCmd)
         {
             thXClipCmd.WorkFinished += Store_ThXClipWorkFinshed;
         }
-
-        private delegate void UpdateProgressBarDelegate(System.Windows.DependencyProperty dp, Object value);
-        private void BeginImport(int i)
+        private void ProgressBegin()
         {
-            pb_import.Maximum = 1000;
-            pb_import.Value = 0;
-            UpdateProgressBarDelegate updatePbDelegate = new UpdateProgressBarDelegate(pb_import.SetValue);
             Thread thread = new Thread(new ThreadStart(() =>
             {
-                Dispatcher.Invoke(updatePbDelegate, System.Windows.Threading.DispatcherPriority.Background, new object[] { System.Windows.Controls.ProgressBar.ValueProperty, Convert.ToDouble(i + 1) });
-                Thread.Sleep(100);
+                int i = 1;
+                while (i<=101)
+                {
+                    i = i % 101;
+                    this.pb_import.Dispatcher.BeginInvoke((ThreadStart)delegate { this.pb_import.Value = i++; });
+                    Thread.Sleep(100);
+                }
             }));
             thread.Start();
+        }
+        /// <summary>
+        /// 初始化bgwork
+        /// </summary>
+        private void InitWork()
+        {
+            bgworker.WorkerReportsProgress = true;
+            bgworker.DoWork += new DoWorkEventHandler(DoWork);
+            bgworker.ProgressChanged += new ProgressChangedEventHandler(BgworkChange);
+        }
+        private void DoWork(object sender, DoWorkEventArgs e)
+        {
+            //for(int i = 1;i<101;i++)
+            //{
+            //    bgworker.ReportProgress(i);
+            //    Thread.Sleep(100);
+            //    if(i==100)
+            //    {
+            //        i = 0;
+            //    }
+            //}
+        }
+        /// <summary>
+        ///改变进度条的值
+        /// </summary>
+        private void BgworkChange(object sender, ProgressChangedEventArgs e)
+        {
+            this.pb_import.Value = e.ProgressPercentage;
         }
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

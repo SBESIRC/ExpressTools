@@ -24,10 +24,7 @@ namespace ThXClip
             {
                 return dBObjects;
             }
-            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
-            Point3dCollection intersectPts = new Point3dCollection();
-            arc.IntersectWith(polyline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-            polyline.Dispose(); 
+            Point3dCollection intersectPts = GetIntersPoint(arc,pts);           
             if(intersectPts!=null && intersectPts.Count>0)
             {
                 int index = intersectPts.IndexOf(arc.StartPoint);
@@ -189,11 +186,8 @@ namespace ThXClip
             if (spline == null)
             {
                 return dBObjects;
-            }
-            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
-            Point3dCollection intersectPts = new Point3dCollection();
-            polyline.IntersectWith(spline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-            polyline.Dispose();
+            }          
+            Point3dCollection intersectPts = GetIntersPoint(spline,pts);            
             if (intersectPts!=null && intersectPts.Count > 0)
             {
                 int index = intersectPts.IndexOf(spline.StartPoint);
@@ -341,10 +335,7 @@ namespace ThXClip
             {
                 return dBObjects;
             }
-            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
-            Point3dCollection intersectPts = new Point3dCollection();
-            circle.IntersectWith(polyline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-            polyline.Dispose();
+            Point3dCollection intersectPts = GetIntersPoint(circle, pts);
             if (intersectPts == null || intersectPts.Count <= 1) //无交点，或一个交点
             {
                 if (ThXClipCadOperation.IsPointInPolyline(pts, circle.Center))  //圆心在pts范围内
@@ -490,14 +481,11 @@ namespace ThXClip
             }
             double ellipseJiaJiao = ellipse.EndAngle - ellipse.StartAngle;
             bool isCompletedEllipse = false;
-            if (ellipseJiaJiao == Math.PI * 2) //完整的椭圆
+            if (Math.Abs(Math.Abs(ThXClipCadOperation.RadToAng(ellipseJiaJiao))-360)<=0.00001) //完整的椭圆
             {
                 isCompletedEllipse = true;
             }
-            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
-            Point3dCollection intersectPts = new Point3dCollection();
-            ellipse.IntersectWith(polyline, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-            polyline.Dispose();
+            Point3dCollection intersectPts = GetIntersPoint(ellipse,pts);            
             bool isGoOn = true;
             if(intersectPts == null || intersectPts.Count == 0)
             {
@@ -646,11 +634,8 @@ namespace ThXClip
             if (line == null)
             {
                 return dBObjects;
-            }
-            Polyline polyline = ThXClipCadOperation.CreatePolyline(pts);
-            Point3dCollection intersectPts = new Point3dCollection();
-            polyline.IntersectWith(line, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
-            polyline.Dispose();
+            }            
+            Point3dCollection intersectPts = GetIntersPoint(line, pts);
             if (intersectPts==null || intersectPts.Count == 0) //无交点
             {
                 if (ThXClipCadOperation.IsPointInPolyline(pts, ThXClipCadOperation.GetMidPt(line.StartPoint, line.EndPoint))) //线在曲线内
@@ -769,10 +754,6 @@ namespace ThXClip
                 polylinePts.Add(polyline.GetPoint3dAt(i));
             }            
             Point3dCollection intersectPts = GetIntersPoint(polyline,pts);
-            if (intersectPts!=null)
-            {
-                intersectPts = ThXClipCadOperation.GetNoRepeatedPtCollection(intersectPts);
-            }
             bool isGoOn = true;            
             bool closed = polyline.Closed;
             if (polylinePts[0].IsEqualTo(polylinePts[polyline.NumberOfVertices - 1], ThCADCommon.Global_Tolerance)) //如果多段线的起点和终点相同
