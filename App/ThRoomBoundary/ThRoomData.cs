@@ -3,6 +3,7 @@ using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 using DotNetARX;
 using Linq2Acad;
 using System;
@@ -550,7 +551,7 @@ namespace ThRoomBoundary
             return false;
         }
 
-        public static List<Entity> PreProcessCurDwg(List<LineSegment2d> rectLines)
+        public static List<Entity> PreProcessCurDwg(List<LineSegment2d> rectLines, List<string> validLayers)
         {
             var resEntityLst = new List<Entity>();
             double progressPos = 5;
@@ -562,7 +563,7 @@ namespace ThRoomBoundary
                 foreach (var blockReference in blockRefs)
                 {
                     var layerId = blockReference.LayerId;
-                    if (layerId == null)
+                    if (layerId == null || !layerId.IsValid)
                         continue;
 
                     LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(layerId);
@@ -584,7 +585,7 @@ namespace ThRoomBoundary
                     {
                         foreach (var entity in entityLst)
                         {
-                            if (!entity.Equals(blockReference))
+                            if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers))
                             {
                                 db.CurrentSpace.Add(entity);
                                 resEntityLst.Add(entity);
@@ -597,7 +598,20 @@ namespace ThRoomBoundary
             return resEntityLst;
         }
 
-        public static List<Entity> PreProcessXREF(List<LineSegment2d> rectLines)
+        public static bool IsValidLayer(Entity entity, List<string> validLayers)
+        {
+            if (validLayers.Count == 0)
+                return false;
+
+            foreach (var layer in validLayers)
+            {
+                if (entity.Layer.Contains(layer))
+                    return true;
+            }
+            return false;
+        }
+
+        public static List<Entity> PreProcessXREF(List<LineSegment2d> rectLines, List<string> validLayers)
         {
             var resEntityLst = new List<Entity>();
             // 外部参照
@@ -606,12 +620,12 @@ namespace ThRoomBoundary
             {
                 var refs = db.XRefs;
                 var incre = 10.0 / refs.Count();
-                
+
                 foreach (var xblock in refs)
                 {
                     if (xblock.Block.XrefStatus == XrefStatus.Resolved)
                     {
-                        
+                        ObjectIdCollection idCollection = new ObjectIdCollection();
                         BlockTableRecord blockTableRecord = xblock.Block;
                         List<BlockReference> blockReferences = blockTableRecord.GetAllBlockReferences(true, true).ToList();
                         for (int i = 0; i < blockReferences.Count(); i++)
@@ -631,8 +645,40 @@ namespace ThRoomBoundary
                                 {
                                     if (!entity.Equals(blockReference))
                                     {
-                                        db.CurrentSpace.Add(entity);
-                                        resEntityLst.Add(entity);
+                                        try
+                                        {
+                                            if (entity is DBText || entity is MText)
+                                            {
+                                                continue;
+                                            }
+                                            if (entity is BlockReference && IsValidLayer(entity, validLayers))
+                                            {
+                                                var reference= entity as BlockReference;
+                                                var dbCollection = new DBObjectCollection();
+                                                reference.Explode(dbCollection);
+                                                foreach (var part in dbCollection)
+                                                {
+                                                    if (part is DBText || part is MText)
+                                                    {
+                                                        continue;
+                                                    }
+                                                    else if (part is Entity)
+                                                    {
+                                                        var partEntity = part as Entity;
+                                                        partEntity.Layer = reference.Layer;
+                                                        db.CurrentSpace.Add(partEntity);
+                                                        resEntityLst.Add(partEntity);
+                                                    }
+                                                }
+                                            }
+                                            else if (IsValidLayer(entity, validLayers))
+                                            {
+                                                db.CurrentSpace.Add(entity);
+                                                resEntityLst.Add(entity);
+                                            }
+                                        }
+                                        catch
+                                        { }
                                     }
                                 }
                             }
@@ -647,15 +693,15 @@ namespace ThRoomBoundary
         /// <summary>
         /// 图纸预处理
         /// </summary>
-        public static List<Entity> PreProcess(List<LineSegment2d> rectLines)
+        public static List<Entity> PreProcess(List<LineSegment2d> rectLines, List<string> validLayers)
         {
             var resEntityLst = new List<Entity>();
-            var curEntityLst = PreProcessCurDwg(rectLines);
+            var curEntityLst = PreProcessCurDwg(rectLines, validLayers);
 
             if (curEntityLst.Count != 0)
                 resEntityLst.AddRange(curEntityLst);
-            var xRefEntityLst = PreProcessXREF(rectLines);
 
+            var xRefEntityLst = PreProcessXREF(rectLines , validLayers);
             if (xRefEntityLst.Count != 0)
                 resEntityLst.AddRange(xRefEntityLst);
             return resEntityLst;
@@ -2164,12 +2210,13 @@ namespace ThRoomBoundary
         /// <summary>
         /// 打开需要显示的图层
         /// </summary>
-        public static List<string> ShowThLayers(out List<string> wallLayers, out List<string> doorLayers, out List<string> windLayers)
+        public static List<string> ShowThLayers(out List<string> wallLayers, out List<string> doorLayers, out List<string> windLayers, out List<string> allValidLayers)
         {
             var allCurveLayers = new List<string>();
             wallLayers = new List<string>();
             doorLayers = new List<string>();
             windLayers = new List<string>();
+            allValidLayers = new List<string>();
             using (var db = AcadDatabase.Active())
             {
                 var layers = db.Layers;
@@ -2197,6 +2244,13 @@ namespace ThRoomBoundary
                     if (layer.Name.Contains("AE-WIND"))
                         windLayers.Add(layer.Name);
                 }
+
+                allValidLayers.Add("AE-WALL");
+                allValidLayers.Add("AD-NAME-ROOM");
+                allValidLayers.Add("AE-STRU");
+                allValidLayers.Add("S_COLU");
+                allValidLayers.Add("AE-DOOR-INSD");
+                allValidLayers.Add("AE-WIND");
 
                 foreach (var lName in closeLayerNames)
                 {

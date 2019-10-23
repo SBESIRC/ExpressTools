@@ -29,7 +29,8 @@ namespace ThRoomBoundary
             List<string> wallLayers = null;
             List<string> arcDoorLayers = null;
             List<string> windLayers = null;
-            var allCurveLayers = ThRoomUtils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers);
+            List<string> validLayers = null;
+            var allCurveLayers = ThRoomUtils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers);
 
             // 选择框线生成
             var rectLines = ThRoomUtils.GetSelectRectLines();
@@ -57,7 +58,8 @@ namespace ThRoomBoundary
             ThProgressDialog.ShowProgress();
 
             // 图元预处理
-            var removeEntityLst = ThRoomUtils.PreProcess(rectLines);
+            var removeEntityLst = ThRoomUtils.PreProcess(rectLines, validLayers);
+
             ThProgressDialog.SetValue(30);
             // 获取相关图层中的数据
             // 所有数据
