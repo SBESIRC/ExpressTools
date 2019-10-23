@@ -656,6 +656,14 @@ namespace ThAreaFrameConfig.Model
                         {
                             // 获取防火分区编号
                             var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                            if (objId.IsNull || objId.IsErased)
+                            {
+                                // 若防火分区编号出错，则断开“关联”。
+                                // 断开“关联”后，此框线将不再被标识为防火分区。
+                                frame.ObjectId.RemoveXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Commerce);
+
+                                continue;
+                            }
                             string[] tokens = Regex.Split(acadDatabase.Element<MText>(objId).Contents, @"\\P");
                             compartment = ThFireCompartment.Commerce(tokens[0]);
                             // 考虑合并的情况
@@ -691,6 +699,15 @@ namespace ThAreaFrameConfig.Model
                         {
                             // 获取防火分区编号
                             var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                            if (objId.IsNull || objId.IsErased)
+                            {
+                                // 若防火分区编号出错，则断开“关联”。
+                                // 断开“关联”后，此框线将不再被标识为防火分区。
+                                frame.ObjectId.RemoveXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Parking);
+
+                                continue;
+                            }
+
                             string[] tokens = Regex.Split(acadDatabase.Element<MText>(objId).Contents, @"\\P");
                             compartment = ThFireCompartment.UnderGroundParking(tokens[0]);
                             // 考虑合并的情况
