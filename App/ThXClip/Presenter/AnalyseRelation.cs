@@ -97,7 +97,7 @@ namespace ThXClip
                 trans.Commit();
             }
            this._blkWipeOuts=this._drawOrderinfs.Where(i => i.TypeName.ToUpper() == "WIPEOUT").Select(i => i).ToList(); //把WipeOut给收集下来
-           this._drawOrderinfs = this._drawOrderinfs.Where(i => i.TypeName.ToUpper() != "WIPEOUT").Select(i => i).ToList(); //把WipeOut从DraworderInf中移除
+           this._drawOrderinfs = this._drawOrderinfs.Where(i => i.TypeName.ToUpper() != "WIPEOUT").Select(i => i).ToList(); //把WipeOut从DraworderInf中移除         
         }
         /// <summary>
         /// 判断实体是否是指定类型

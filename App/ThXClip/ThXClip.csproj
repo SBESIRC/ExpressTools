@@ -39,9 +39,7 @@
     <Compile Include="ThXClipApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThXClipDbUtils.cs" />
-    <Compile Include="View\ProgressBar.xaml.cs">
-      <DependentUpon>ProgressBar.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="View\ProgressDialog.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
@@ -52,13 +50,6 @@
       <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
       <Name>ExtensionTools</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Page Include="View\ProgressBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
@@ -83,6 +74,12 @@
   <ItemGroup>
     <PackageReference Include="Serilog" Version="2.9.1-dev-01141" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\ProgressDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

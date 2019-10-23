@@ -11,6 +11,7 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices.Filters;
 using DotNetARX;
 using System.Threading;
+using System.ComponentModel;
 
 [assembly: CommandClass(typeof(ThXClip.ThXclipCommands))]
 [assembly: ExtensionApplication(typeof(ThXClip.ThXClipApp))]
@@ -31,13 +32,11 @@ namespace ThXClip
     public delegate void ThXClipFinishHandler(ThXclipCommands sender,bool result);
     public class ThXclipCommands
     {
-        public static ThXclipProgressBar progressBar;
-        public event ThXClipFinishHandler WorkFinished;
-        [CommandMethod("TIANHUACAD", "THXLP", CommandFlags.Modal)]        
+        [CommandMethod("TIANHUACAD", "THXLP", CommandFlags.Modal)]
         public void ThXClip()
         {
             List<ObjectId> selObjIds = ThXClipCadOperation.GetSelectObjects(); //选择要处理的块
-            if(selObjIds.Count==0)
+            if (selObjIds.Count == 0)
             {
                 return;
             }
@@ -46,11 +45,11 @@ namespace ThXClip
             Editor ed = doc.Editor;
             ViewTableRecord view = ed.GetCurrentView();
             List<Point3d> boundPtList = ThXClipCadOperation.GetObjBoundingPoints(selObjIds);
-            if(boundPtList.Count==2)
+            if (boundPtList.Count == 2)
             {
                 Point3d minPt = boundPtList[0];
                 Point3d maxPt = boundPtList[1];
-                minPt = new Point3d(minPt.X-5, minPt.Y-5, minPt.Z);
+                minPt = new Point3d(minPt.X - 5, minPt.Y - 5, minPt.Z);
                 maxPt = new Point3d(maxPt.X + 5, maxPt.Y + 5, minPt.Z);
                 ThXClipCadOperation.ZoomObject(ed, minPt, maxPt);
             }
@@ -69,7 +68,7 @@ namespace ThXClip
                     if (dbObj is BlockReference)
                     {
                         BlockReference br = dbObj as BlockReference;
-                        if(br.Bounds!=null && br.Bounds.HasValue) //获取所选块，是否有在模型空间绘制的WipeOut影响了它
+                        if (br.Bounds != null && br.Bounds.HasValue) //获取所选块，是否有在模型空间绘制的WipeOut影响了它
                         {
                             PromptSelectionResult psr = ThXClipCadOperation.SelectByRectangle(ed, br.Bounds.Value.MinPoint,
                                 br.Bounds.Value.MaxPoint, PolygonSelectionMode.Crossing);
@@ -79,7 +78,7 @@ namespace ThXClip
                                   && OnBlkWipeOutIds.IndexOf(j) < 0).Select(j => j).ToList();
                                 if (wipeOutIds != null && wipeOutIds.Count > 0)
                                 {
-                                    wipeOutIds=wipeOutIds.Where(j => OnBlkWipeOutIds.IndexOf(j) < 0).Select(j => j).ToList();
+                                    wipeOutIds = wipeOutIds.Where(j => OnBlkWipeOutIds.IndexOf(j) < 0).Select(j => j).ToList();
                                     OnBlkWipeOutIds.AddRange(wipeOutIds);
                                 }
                             }
@@ -89,14 +88,10 @@ namespace ThXClip
                 trans.Commit();
             }
             List<string> lockedLayerNames = new List<string>();
-            if(selObjIds.Count>0)
+            if (selObjIds.Count > 0)
             {
-                lockedLayerNames=ThXClipCadOperation.UnlockedAllLayers(); //解锁所有的层
+                lockedLayerNames = ThXClipCadOperation.UnlockedAllLayers(); //解锁所有的层
             }            
-            //ThXclipProgressBar progressBar = new ThXclipProgressBar();
-            //progressBar.Register(this);
-            //progressBar.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
-            //progressBar.Show();
             //分析传入的物体之间的 Draworder关系及对块进行炸开处理
             AnalyseRelation analyseRelation = new AnalyseRelation(selObjIds, OnBlkWipeOutIds);
             try
@@ -105,18 +100,10 @@ namespace ThXClip
                 //修剪WipeOut和XClip
                 WipeOutXClipTrim wipeOutXClipTrim = new WipeOutXClipTrim(analyseRelation);
                 wipeOutXClipTrim.StartTrim();
-                foreach (var blkItem in wipeOutXClipTrim.BlkNamePosDic)
-                {
-                    // 插入图块
-                    ThXClipCadOperation.InsertBlockReference("0", blkItem.Key,
-                        Point3d.Origin, new Scale3d(1.0, 1.0, 1.0), 0.0);
-                }
-                DateTime endTime = DateTime.Now.ToLocalTime();
-                string usedTime= ThXClipUtils.ExecDateDiff(startTime, endTime);
-                ed.WriteMessage("\n裁剪完毕，总耗时：" + usedTime);
+                wipeOutXClipTrim.GenerateBlockThenInsert();
                 System.Windows.MessageBox.Show("裁剪完毕！");
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
                 ThXClipUtils.WriteException(ex);
             }

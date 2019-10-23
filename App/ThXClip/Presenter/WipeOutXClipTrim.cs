@@ -119,6 +119,9 @@ namespace ThXClip
                     ThXClipUtils.WriteException(ex, "XClip: 执行到第 " + i+ " 条记录！");
                 }
             }
+        }
+        public void GenerateBlockThenInsert()
+        {
             //以下是创建块
             string blockName = "";
             using (Transaction trans = _document.Database.TransactionManager.StartTransaction())
@@ -171,7 +174,7 @@ namespace ThXClip
                             if (dbObj is Entity)
                             {
                                 Entity entity = dbObj as Entity;
-                                if(!entity.Visible)
+                                if (!entity.Visible)
                                 {
                                     entity.Visible = true;
                                 }
@@ -190,6 +193,12 @@ namespace ThXClip
                 }
                 bt.DowngradeOpen();
                 trans.Commit();
+            }
+            foreach (var blkItem in this.BlkNamePosDic)
+            {
+                // 插入图块
+                ThXClipCadOperation.InsertBlockReference("0", blkItem.Key,
+                    Point3d.Origin, new Scale3d(1.0, 1.0, 1.0), 0.0);
             }
         }
         private Point2dCollection GetWipeOutBoundaryPts(ObjectId wpId,bool needTransform=true)
