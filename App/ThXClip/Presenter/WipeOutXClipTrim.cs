@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Autodesk.AutoCAD.Geometry;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Runtime;
 
 namespace ThXClip
 {
@@ -53,6 +54,11 @@ namespace ThXClip
         {
             TypedValue[] tvs = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Line,Circle,Arc,Ellipse,LWPolyline,Polyline,Spline") };
             SelectionFilter sf = new SelectionFilter(tvs);
+            ProgressMeter pm = new ProgressMeter();
+            pm.Start(@"开始裁剪...");
+            int limitLength= this._analyzeRelation.ModelWipeOutIds.Count+ this._analyzeRelation.BlkWipeOuts.Count+
+                 this._analyzeRelation.XclipInfs.Count;
+            pm.SetLimit(limitLength);
             for (int i = 0; i < this._analyzeRelation.ModelWipeOutIds.Count; i++)
             {
                 Point2dCollection boundaryPts = GetWipeOutBoundaryPts(this._analyzeRelation.ModelWipeOutIds[i]);
@@ -73,6 +79,14 @@ namespace ThXClip
                 catch (System.Exception ex)
                 {
                     ThXClipUtils.WriteException(ex, "ModelWipeOut: 执行到第 " + i + " 条记录！");
+                }
+                finally
+                {
+                    // 更新进度条
+                    pm.MeterProgress();
+
+                    // 让CAD在长时间任务处理时任然能接收消息
+                    System.Windows.Forms.Application.DoEvents();
                 }
             }            
             for (int i = 0; i < this._analyzeRelation.BlkWipeOuts.Count; i++)
@@ -96,6 +110,14 @@ namespace ThXClip
                 {
                     ThXClipUtils.WriteException(ex, "BlockWipeOut: 执行到第 " + i + " 条记录！");
                 }
+                finally
+                {
+                    // 更新进度条
+                    pm.MeterProgress();
+
+                    // 让CAD在长时间任务处理时任然能接收消息
+                    System.Windows.Forms.Application.DoEvents();
+                }
             }
             for (int i = 0; i < this._analyzeRelation.XclipInfs.Count; i++)
             {
@@ -118,7 +140,16 @@ namespace ThXClip
                 {
                     ThXClipUtils.WriteException(ex, "XClip: 执行到第 " + i+ " 条记录！");
                 }
+                finally
+                {
+                    // 更新进度条
+                    pm.MeterProgress();
+
+                    // 让CAD在长时间任务处理时任然能接收消息
+                    System.Windows.Forms.Application.DoEvents();
+                }
             }
+            pm.Stop();
         }
         public void GenerateBlockThenInsert()
         {
