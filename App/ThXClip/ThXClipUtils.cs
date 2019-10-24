@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Autodesk.AutoCAD.DatabaseServices;
-using Serilog;
+using NLog;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThXClip
@@ -33,11 +33,12 @@ namespace ThXClip
         }
         public static void WriteException(System.Exception exception, string specialText = "")
         {
-            string fileName = Guid.NewGuid() + "_" + DateTime.Now.ToString("s") + ".log";
+            //string fileName = Guid.NewGuid() + "_" + DateTime.Now.ToString("s") + ".log";
+            string fileName = Guid.NewGuid() + ".log";
             string basePath = System.IO.Path.GetTempPath();
-            if (!Directory.Exists(basePath + "\\ThXlpLog"))
+            if (!Directory.Exists(basePath + "ThXlpLog"))
             {
-                Directory.CreateDirectory(basePath + "\\ThXlpLog");
+                Directory.CreateDirectory(basePath + "ThXlpLog");
             }
             string text = string.Empty;
             if (exception != null)
@@ -52,17 +53,26 @@ namespace ThXClip
                 text += "               " + "Source: " + exception.Source + Environment.NewLine;
                 text += "               " + "StackTrace: " + exception.StackTrace + Environment.NewLine;
             }
-            if (!string.IsNullOrEmpty(text))
+            if(string.IsNullOrEmpty(text))
             {
-                Log.Logger = new LoggerConfiguration()
-       .MinimumLevel.Error()
-       .WriteTo.File(basePath + "\\ThXlpLog\\" + fileName,
-           rollingInterval: RollingInterval.Day,
-           rollOnFileSizeLimit: true)
-       .CreateLogger();
-                Log.Error(text);
-                Log.CloseAndFlush();
+                return;
             }
+            LogConfig(basePath+ "ThXlpLog\\" + fileName);
+            NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+            Logger.Error(text);
+        }
+        private static void LogConfig(string fileName)
+        {
+            var config = new NLog.Config.LoggingConfiguration();
+            // Targets where to log to: File and Console
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = fileName };
+            //var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+
+            // Rules for mapping loggers to targets            
+            //config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
+            // Apply config           
+            NLog.LogManager.Configuration = config;
         }
     }
 }
