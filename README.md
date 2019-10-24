@@ -29,6 +29,11 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [Querying AutoCAD objects of a particular type using .NET](https://www.keanw.com/2013/04/querying-autocad-objects-of-a-particular-type-using-net.html)
 
+[Dynamic .NET in AutoCAD 2013](https://through-the-interface.typepad.com/through_the_interface/2012/02/dynamic-net-in-autocad-2013.html)
+
+## Database
+[Using ReadDwgFile with .NET AttachXRef or ObjectARX acdbAttachXRef](https://adndevblog.typepad.com/autocad/2012/07/using-readdwgfile-with-net-attachxref-or-objectarx-acdbattachxref.html)
+
 ## Geometry
 
 ### Boundary
