@@ -59,23 +59,27 @@ namespace ThRoomBoundary
 
             // 图元预处理
             var removeEntityLst = ThRoomUtils.PreProcess(rectLines, validLayers);
-
+          
             ThProgressDialog.SetValue(30);
             // 获取相关图层中的数据
             // 所有数据
             var allCurves = ThRoomUtils.GetAllCurvesFromLayerNames(allCurveLayers);
+
             if (allCurves == null || allCurves.Count == 0)
             {
+                ThRoomUtils.PostProcess(removeEntityLst);
                 ThProgressDialog.HideProgress();
                 return;
             }
             ThProgressDialog.SetValue(31);
             var layerCurves = ThRoomUtils.GetValidCurvesFromSelectArea(allCurves, rectLines);
+            
             ThProgressDialog.SetValue(32);
             // wall 中的数据
             var wallAllCurves = ThRoomUtils.GetAllCurvesFromLayerNames(wallLayers);
             if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
             {
+                ThRoomUtils.PostProcess(removeEntityLst);
                 ThProgressDialog.HideProgress();
                 return;
             }
@@ -87,7 +91,6 @@ namespace ThRoomBoundary
             {
                 var doorBounds = ThRoomUtils.GetBoundsFromLayerBlocksAndCurves(arcDoorLayers, rectLines);
                 var doorInsertCurves = ThRoomUtils.InsertDoorRelatedCurveDatas(doorBounds, wallCurves, arcDoorLayers.First());
-
                 if (doorInsertCurves != null && doorInsertCurves.Count != 0)
                 {
                     layerCurves.AddRange(doorInsertCurves);
@@ -100,7 +103,9 @@ namespace ThRoomBoundary
             if (windLayers != null && windLayers.Count != 0)
             {
                 var windBounds = ThRoomUtils.GetBoundsFromLayerBlocksAndCurves(windLayers, rectLines);
+
                 var windInsertCurves = ThRoomUtils.InsertDoorRelatedCurveDatas(windBounds, wallCurves, windLayers.First());
+                
                 if (windInsertCurves != null && windInsertCurves.Count != 0)
                 {
                     layerCurves.AddRange(windInsertCurves);
@@ -112,6 +117,7 @@ namespace ThRoomBoundary
             var roomDatas = TopoUtils.MakeSrcProfiles(layerCurves);
             if (roomDatas == null || roomDatas.Count == 0)
             {
+                ThRoomUtils.PostProcess(removeEntityLst);
                 ThProgressDialog.HideProgress();
                 return;
             }

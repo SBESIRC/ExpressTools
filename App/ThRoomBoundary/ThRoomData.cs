@@ -540,7 +540,7 @@ namespace ThRoomBoundary
 
         public static bool IsValidBlockReference(BlockReference block, List<LineSegment2d> rectLines)
         {
-            var blockCurves = GetCurvesFromBlock(block);
+            var blockCurves = GetCurvesFromBlock(block, false);
             var lines = GetBoundFromCurves(blockCurves);
             if (lines == null || lines.Count == 0)
                 return false;
@@ -585,6 +585,7 @@ namespace ThRoomBoundary
                     {
                         foreach (var entity in entityLst)
                         {
+                            // 除了块，其余的可以用图层确定是否收集，块的图层内部数据也可能符合要求
                             if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers))
                             {
                                 db.CurrentSpace.Add(entity);
@@ -602,6 +603,8 @@ namespace ThRoomBoundary
         {
             if (validLayers.Count == 0)
                 return false;
+            if (entity is BlockReference)
+                return true;
 
             foreach (var layer in validLayers)
             {
@@ -651,9 +654,10 @@ namespace ThRoomBoundary
                                             {
                                                 continue;
                                             }
-                                            if (entity is BlockReference && IsValidLayer(entity, validLayers))
+                                            if (entity is BlockReference)
                                             {
-                                                var reference= entity as BlockReference;
+                                                // 块里面的数据可能是有效单元， 剔除文字的影响
+                                                var reference = entity as BlockReference;
                                                 var dbCollection = new DBObjectCollection();
                                                 reference.Explode(dbCollection);
                                                 foreach (var part in dbCollection)
@@ -701,7 +705,7 @@ namespace ThRoomBoundary
             if (curEntityLst.Count != 0)
                 resEntityLst.AddRange(curEntityLst);
 
-            var xRefEntityLst = PreProcessXREF(rectLines , validLayers);
+            var xRefEntityLst = PreProcessXREF(rectLines, validLayers);
             if (xRefEntityLst.Count != 0)
                 resEntityLst.AddRange(xRefEntityLst);
             return resEntityLst;
@@ -1494,7 +1498,6 @@ namespace ThRoomBoundary
                     {
                         if (p.Layer == layerName)
                             return true;
-
                     }
 
                     return false;
@@ -1536,10 +1539,8 @@ namespace ThRoomBoundary
                             // 有些block炸开的时候会抛出eCannotScaleNonUniformly异常
                             // 如果这个block 不能炸开，不作处理
                         }
-
                     }
                 }
-
             }
 
             Document doc = Application.DocumentManager.MdiActiveDocument;
@@ -1551,7 +1552,6 @@ namespace ThRoomBoundary
                 foreach (var curveId in curveIds)
                 {
                     Curve curve = (Curve)dataGetTrans.GetObject(curveId, OpenMode.ForRead);
-
                     curves.Add((Curve)curve.Clone());
                 }
             }
@@ -1770,26 +1770,31 @@ namespace ThRoomBoundary
         /// </summary>
         /// <param name="block"></param>
         /// <returns></returns>
-        public static List<Curve> GetCurvesFromBlock(BlockReference block)
+        public static List<Curve> GetCurvesFromBlock(BlockReference block, bool bSetLayer = true)
         {
             DBObjectCollection collection = new DBObjectCollection();
             block.Explode(collection);
             var blockCurves = new List<Curve>();
-            foreach (var obj in collection)
+            using (var db = AcadDatabase.Active())
             {
-                if (obj is Curve)
+                foreach (var obj in collection)
                 {
-                    var curve = obj as Curve;
-                    curve.Layer = block.Layer;
-                    blockCurves.Add(curve);
-                }
-                else if (obj is BlockReference)
-                {
-                    var blockReference = obj as BlockReference;
-                    blockReference.Layer = block.Layer;
-                    var childCurves = GetCurvesFromBlock(blockReference);
-                    if (childCurves.Count != 0)
-                        blockCurves.AddRange(childCurves);
+                    if (obj is Curve)
+                    {
+                        var curve = obj as Curve;
+                        if (bSetLayer)
+                            curve.Layer = block.Layer;
+                        blockCurves.Add(curve);
+                    }
+                    else if (obj is BlockReference)
+                    {
+                        var blockReference = obj as BlockReference;
+                        if (bSetLayer)
+                            blockReference.Layer = block.Layer;
+                        var childCurves = GetCurvesFromBlock(blockReference, bSetLayer);
+                        if (childCurves.Count != 0)
+                            blockCurves.AddRange(childCurves);
+                    }
                 }
             }
 
