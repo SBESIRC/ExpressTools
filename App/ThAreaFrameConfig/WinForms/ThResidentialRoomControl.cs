@@ -205,8 +205,14 @@ namespace ThAreaFrameConfig.WinForms
                 // 选取面积框线
                 if (Presenter.OnPickAreaFrames(name))
                 {
+                    // 保存当前的滚动条位置
+                    int topRowIndex = gdv_room.TopRowIndex;
+
                     // 更新界面
                     this.Reload();
+
+                    // 恢复到刷新前的滚动条位置
+                    gdv_room.TopRowIndex = topRowIndex;
                 }
             }
         }
