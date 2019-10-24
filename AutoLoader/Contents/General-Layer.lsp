@@ -42,10 +42,13 @@
     (setq rules (strcat *pluginContentPath* "\\Standards\\Layer\\Process.csv"))
     (if (setq data (LM:readcsv rules))
         (progn
+			; set all non-standard layers to color 9 
+			(command "._-layer" "color" 9 "*" "")
+            ; set all standard layers (include xrefs)
             (foreach line data
                 (setq name      (nth 2 line))
                 (setq color     (nth index line))
-                (command "._-layer" "color" color name "")
+                (command "._-layer" "color" color (strcat name "," (strcat "*" "|" name "*")) "")
             )
             (layerstate-save "½¨Öþµ×Í¼" 255 nil)
             (princ)
