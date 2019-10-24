@@ -15,11 +15,6 @@ namespace ThAreaFrameConfig.Presenter
 
         public object UI => roomView;
 
-        public void OnHandleAcadException(Exception e)
-        {
-            this.HandleAcadException(e);
-        }
-
         public void OnHighlightAreaFrame(IntPtr areaFrame)
         {
             this.HighlightAreaFrame(areaFrame);

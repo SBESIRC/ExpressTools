@@ -22,9 +22,6 @@ namespace ThAreaFrameConfig.Presenter
         // 删除面积框线图层
         void OnDeleteAreaFrameLayer(string name);
 
-        // 处理异常
-        void OnHandleAcadException(Exception e);
-
         // 高亮面积框线
         void OnHighlightAreaFrame(IntPtr areaFrame);
         void OnHighlightAreaFrames(IntPtr[] areaFrames);

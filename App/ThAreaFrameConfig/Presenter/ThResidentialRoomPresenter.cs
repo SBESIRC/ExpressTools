@@ -35,11 +35,6 @@ namespace ThAreaFrameConfig.Presenter
             this.RenameAreaFrameLayer(newName, areaFrames);
         }
 
-        public void OnHandleAcadException(System.Exception e)
-        {
-            this.HandleAcadException(e);
-        }
-
         public void OnHighlightAreaFrame(IntPtr areaFrame)
         {
             this.HighlightAreaFrame(areaFrame);

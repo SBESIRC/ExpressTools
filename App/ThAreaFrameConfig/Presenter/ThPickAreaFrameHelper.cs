@@ -607,10 +607,5 @@ namespace ThAreaFrameConfig.Presenter
                 }
             }
         }
-
-        public static void HandleAcadException(this IThAreaFramePresenterCallback presenterCallback, System.Exception e)
-        {
-            Active.Editor.Write(e.ToString());
-        }
     }
 }

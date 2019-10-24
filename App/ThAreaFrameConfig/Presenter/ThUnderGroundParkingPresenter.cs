@@ -15,11 +15,6 @@ namespace ThAreaFrameConfig.Presenter
 
         public object UI => roomView;
 
-        public void OnHandleAcadException(Exception e)
-        {
-            this.HandleAcadException(e);
-        }
-
         public bool OnPickAreaFrames(string name)
         {
             return this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigLayer);

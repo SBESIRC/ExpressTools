@@ -30,11 +30,6 @@ namespace ThAreaFrameConfig.Presenter
             this.DeleteAreaFrames(areaFrames);
         }
 
-        public void OnHandleAcadException(Exception e)
-        {
-            this.HandleAcadException(e);
-        }
-
         public void OnHighlightAreaFrame(IntPtr areaFrame)
         {
             this.HighlightAreaFrame(areaFrame);
