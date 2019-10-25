@@ -245,9 +245,6 @@ namespace ThAreaFrameConfig.WinForms
 
                 // 更新面积框线图层名
                 Presenter.OnMoveAreaFrameToLayer(name, areaFrame.Frame);
-
-                // 更新界面
-                this.Reload();
             }
         }
 
