@@ -6,29 +6,28 @@ namespace ThAreaFrame
 {
     class ThAreaFrameAOccupancyCalculator : IThAreaFrameCalculator
     {
-        private readonly Database database;
         private readonly ThAreaFrameRoof roof;
         private readonly AOccupancyBuilding building;
-        public Database Database => database;
+        private readonly IThAreaFrameDataSource dataSource;
         public ThAreaFrameRoof Roof => roof;
         public AOccupancyBuilding Building => building;
 
         public ThAreaFrameAOccupancyCalculator(
             AOccupancyBuilding building,
             ThAreaFrameRoof roof,
-            Database database)
+            IThAreaFrameDataSource dataSource)
         {
-            this.building = building;
-            this.database = database;
             this.roof = roof;
+            this.building = building;
+            this.dataSource = dataSource;
         }
 
         public static IThAreaFrameCalculator Calculator(
             AOccupancyBuilding building,
             ThAreaFrameRoof roof,
-            Database database)
+            IThAreaFrameDataSource dataSource)
         {
-            return new ThAreaFrameAOccupancyCalculator(building, roof, database);
+            return new ThAreaFrameAOccupancyCalculator(building, roof, dataSource);
         }
 
         public int AboveGroundStoreyNumber()
@@ -64,8 +63,14 @@ namespace ThAreaFrame
 
         private double AreaOfComponent(string component, int floor, bool far = false)
         {
+            double area = 0.0;
             var aOccupancies = Building.aOccupancies.Where(o => o.areaType == component && o.IsOnStorey(floor));
-            return Database.AreaOfEntities(aOccupancies, far);
+            foreach (var aOccupancy in aOccupancies)
+            {
+                double ratio = far ? double.Parse(aOccupancy.floorAreaRatio) : double.Parse(aOccupancy.areaRatio);
+                area += dataSource.SumOfArea(aOccupancy.layer) * ratio;
+            }
+            return area;
         }
 
         public double AreaOfStilt()
@@ -121,7 +126,7 @@ namespace ThAreaFrame
             if (roof != null)
             {
                 double ratio = far ? double.Parse(roof.floorAreaRatio) : double.Parse(roof.areaRatio);
-                return ThAreaFrameDbUtils.SumOfArea(Database, roof.layer) * ratio;
+                return dataSource.SumOfArea(roof.layer) * ratio;
             }
             return 0.0;
         }

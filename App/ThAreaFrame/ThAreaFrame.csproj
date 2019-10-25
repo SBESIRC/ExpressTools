@@ -32,12 +32,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IThAreaFrameBuilding.cs" />
+    <Compile Include="IThAreaFrameDataSource.cs" />
     <Compile Include="ThAreaFrameAOccupancyCalculator.cs" />
     <Compile Include="ThAreaFrameCalculator.cs" />
     <Compile Include="ThAreaFrameAOccupancy.cs" />
-    <Compile Include="ThAreaFrameAOccupancyDatabaseExtension.cs" />
     <Compile Include="ThAreaFrameApp.cs" />
     <Compile Include="ThAreaFrameCommon.cs" />
+    <Compile Include="ThAreaFrameDbDataSource.cs" />
     <Compile Include="ThAreaFrameDbUtils.cs" />
     <Compile Include="ThAreaFrameDriver.cs" />
     <Compile Include="ThAreaFrameEngine.cs" />
