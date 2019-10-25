@@ -60,7 +60,7 @@ namespace ThAreaFrame.Test
             };
 
             AOccupancyBuilding building = AOccupancyBuilding.CreateWithLayers(aOccupancies);
-            Assert.AreEqual(building.StandardStoreys().Count, 1);
+            Assert.AreEqual(building.StandardStoreys().Count, 4);
             Assert.AreEqual(building.OrdinaryStoreys().Count, 2);
         }
     }

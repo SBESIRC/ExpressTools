@@ -16,7 +16,7 @@ namespace ThAreaFrame.Test
             {
                 dwelling = ResidentialAreaUnit.Dwelling(@"住宅构件_套内_1_1_A_A1_c1_PUB1_V2.1")
             };
-            var expected = new List<ResidentialStorey>() { new ResidentialStorey { number = 1, standard = false  } };
+            var expected = new List<ResidentialStorey>() { new ResidentialStorey { number = 1, standard = false , tag = 'c'} };
             Assert.IsTrue(room.Storeys().SequenceEqual(expected));
         }
 
@@ -28,16 +28,16 @@ namespace ThAreaFrame.Test
                 dwelling = ResidentialAreaUnit.Dwelling(@"住宅构件_套内_1_1_A_A1_c1^10_PUB1_V2.1")
             };
             var expected = new List<ResidentialStorey>(){
-                new ResidentialStorey { number = 1,     standard    = true  },
-                new ResidentialStorey { number = 2,     standard    = true  },
-                new ResidentialStorey { number = 3,     standard    = true  },
-                new ResidentialStorey { number = 4,     standard    = true  },
-                new ResidentialStorey { number = 5,     standard    = true  },
-                new ResidentialStorey { number = 6,     standard    = true  },
-                new ResidentialStorey { number = 7,     standard    = true  },
-                new ResidentialStorey { number = 8,     standard    = true  },
-                new ResidentialStorey { number = 9,     standard    = true  },
-                new ResidentialStorey { number = 10,    standard    = true  }
+                new ResidentialStorey { number = 1,     standard    = true  , tag = 'c' },
+                new ResidentialStorey { number = 2,     standard    = true  , tag = 'c' },
+                new ResidentialStorey { number = 3,     standard    = true  , tag = 'c' },
+                new ResidentialStorey { number = 4,     standard    = true  , tag = 'c' },
+                new ResidentialStorey { number = 5,     standard    = true  , tag = 'c' },
+                new ResidentialStorey { number = 6,     standard    = true  , tag = 'c' },
+                new ResidentialStorey { number = 7,     standard    = true  , tag = 'c' },
+                new ResidentialStorey { number = 8,     standard    = true  , tag = 'c' },
+                new ResidentialStorey { number = 9,     standard    = true  , tag = 'c' },
+                new ResidentialStorey { number = 10,    standard    = true  , tag = 'c' }
             };
             Assert.IsTrue(room.Storeys().SequenceEqual(expected));
         }
@@ -50,11 +50,11 @@ namespace ThAreaFrame.Test
                 dwelling = ResidentialAreaUnit.Dwelling(@"住宅构件_套内_1_1_A_A1_o1^10_PUB1_V2.1")
             };
             var expected = new List<ResidentialStorey>() {
-                new ResidentialStorey { number = 2,     standard    = true  },
-                new ResidentialStorey { number = 4,     standard    = true  },
-                new ResidentialStorey { number = 6,     standard    = true  },
-                new ResidentialStorey { number = 8,     standard    = true  },
-                new ResidentialStorey { number = 10,    standard    = true  }
+                new ResidentialStorey { number = 2,     standard    = true  , tag = 'o' },
+                new ResidentialStorey { number = 4,     standard    = true  , tag = 'o' },
+                new ResidentialStorey { number = 6,     standard    = true  , tag = 'o' },
+                new ResidentialStorey { number = 8,     standard    = true  , tag = 'o' },
+                new ResidentialStorey { number = 10,    standard    = true  , tag = 'o' }
             };
             Assert.IsTrue(room.Storeys().SequenceEqual(expected));
         }
@@ -67,11 +67,11 @@ namespace ThAreaFrame.Test
                 dwelling = ResidentialAreaUnit.Dwelling(@"住宅构件_套内_1_1_A_A1_j1^10_PUB1_V2.1")
             };
             var expected = new List<ResidentialStorey>() {
-                new ResidentialStorey { number = 1,     standard    = true  },
-                new ResidentialStorey { number = 3,     standard    = true  },
-                new ResidentialStorey { number = 5,     standard    = true  },
-                new ResidentialStorey { number = 7,     standard    = true  },
-                new ResidentialStorey { number = 9,     standard    = true  }
+                new ResidentialStorey { number = 1,     standard    = true  , tag = 'j' },
+                new ResidentialStorey { number = 3,     standard    = true  , tag = 'j' },
+                new ResidentialStorey { number = 5,     standard    = true  , tag = 'j' },
+                new ResidentialStorey { number = 7,     standard    = true  , tag = 'j' },
+                new ResidentialStorey { number = 9,     standard    = true  , tag = 'j' }
             };
             Assert.IsTrue(room.Storeys().SequenceEqual(expected));
         }
@@ -90,7 +90,7 @@ namespace ThAreaFrame.Test
                 "住宅构件_阳台_1.0_1.0_HT5__V2.1"
             };
             var building = ResidentialBuilding.CreateWithLayers(layers);
-            Assert.AreEqual(building.StandardStoreys().Count, 1);
+            Assert.AreEqual(building.StandardStoreys().Count, 3);
             Assert.AreEqual(building.OrdinaryStoreys().Count, 3);
 
             // 户型
@@ -127,7 +127,7 @@ namespace ThAreaFrame.Test
                 "住宅构件_阳台_0.5_0.5_HT1_c3^9__V2.2"
             };
             var building = ResidentialBuilding.CreateWithLayers(layers);
-            Assert.AreEqual(building.StandardStoreys().Count, 1);
+            Assert.AreEqual(building.StandardStoreys().Count, 7);
             Assert.AreEqual(building.OrdinaryStoreys().Count, 3);
 
             // 户型
