@@ -6,7 +6,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrame
 {
-    class ThAreaFrameEngine : IDisposable, IComparable<ThAreaFrameEngine>
+    public class ThAreaFrameEngine : IDisposable, IComparable<ThAreaFrameEngine>
     {
         private IThAreaFrameDataSource dataSource;
         private List<ThAreaFrameRoof> roofs;
