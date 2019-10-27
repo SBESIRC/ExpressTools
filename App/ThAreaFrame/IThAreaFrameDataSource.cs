@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThAreaFrame
 {
-    public interface IThAreaFrameDataSource
+    public interface IThAreaFrameDataSource : IDisposable
     {
         // 获取特定图层中所有面积框线的面积总和
         double SumOfArea(string layer);
@@ -16,5 +16,8 @@ namespace ThAreaFrame
 
         // 获取特定套内的套数
         int CountOfDwelling(string dwellingID);
+
+        // 图层
+        List<string> Layers();
     }
 }

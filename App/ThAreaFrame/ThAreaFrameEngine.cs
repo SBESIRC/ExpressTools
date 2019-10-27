@@ -23,31 +23,59 @@ namespace ThAreaFrame
         private AOccupancyBuilding AOccupancyBuilding { get => aOccupancyBuilding; set => aOccupancyBuilding = value; }
         private Dictionary<string, IThAreaFrameCalculator> Calculators { get => calculators; set => calculators = value; }
 
-        // 构造函数 (current database)
-        public static ThAreaFrameEngine Engine()
+        // 构造函数
+        public static ThAreaFrameEngine Engine(IThAreaFrameDataSource ds)
         {
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            var names = ds.Layers();
+            var roofNames = names.Where(n => n.StartsWith(@"单体楼顶间"));
+            var foundationNames = names.Where(n => n.StartsWith(@"单体基底"));
+            var residentialNames = names.Where(n => n.StartsWith(@"住宅构件"));
+            var aOccupancyNames = names.Where(n => n.StartsWith(@"附属公建"));
+            var roofGreenSpaceNames = names.Where(n => n.StartsWith(@"屋顶构件_屋顶绿地"));
+            if (!foundationNames.Any())
             {
-                return EngineInternal(acadDatabase);
+                return null;
             }
-        }
-
-        // 构造函数 (side database)
-        public static ThAreaFrameEngine Engine(string fileName)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Open(fileName, DwgOpenMode.ReadOnly, true))
+            var building = ResidentialBuilding.CreateWithLayers(residentialNames.ToArray());
+            var foundation = ThAreaFrameFoundation.Foundation(foundationNames.FirstOrDefault());
+            var aOccupancyBuilding = AOccupancyBuilding.CreateWithLayers(aOccupancyNames.ToArray());
+            var roofGreenSpace = roofGreenSpaceNames.Any() ? ThAreaFrameRoofGreenSpace.RoofOfGreenSpace(roofGreenSpaceNames.FirstOrDefault()) : null;
+            ThAreaFrameEngine engine = new ThAreaFrameEngine()
             {
-                return EngineInternal(acadDatabase);
-            }
-        }
-
-        // 构造函数 (side database)
-        public static ThAreaFrameEngine Engine(Database database)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+                dataSource = ds,
+                building = building,
+                foundation = foundation,
+                roofGreenSpace = roofGreenSpace,
+                aOccupancyBuilding = aOccupancyBuilding,
+                roofs = new List<ThAreaFrameRoof>(),
+                calculators = new Dictionary<string, IThAreaFrameCalculator>(),
+                storeyManager = new ThAreaFrameStoreyManager(building, aOccupancyBuilding)
+            };
+            foreach (var name in roofNames)
             {
-                return EngineInternal(acadDatabase);
+                engine.roofs.Add(ThAreaFrameRoof.Roof(name));
+                // 兼容V2.2版本旧实现
+                //  V2.2版本旧实现中“单体楼顶间”并未包含“住宅”或者“公建”信息，默认为“公建”。
+                //  对于只有“公建”的图纸，需要把“单体楼顶间”调整为“公建”。
+                if (!building.Validate() && aOccupancyBuilding.Validate())
+                {
+                    foreach (var roof in engine.roofs)
+                    {
+                        roof.category = "公建";
+                    }
+                }
             }
+            if (building.Validate())
+            {
+                var roof = engine.roofs.Where(o => o.category == "住宅").FirstOrDefault();
+                engine.Calculators.Add("住宅构件", ThAreaFrameResidentCalculator.Calculator(building, roof, engine.dataSource));
+            }
+            if (aOccupancyBuilding.Validate())
+            {
+                var roof = engine.roofs.Where(o => o.category == "公建").FirstOrDefault();
+                engine.Calculators.Add("附属公建", ThAreaFrameAOccupancyCalculator.Calculator(aOccupancyBuilding, roof, engine.dataSource));
+            }
+            return engine;
         }
 
         // 构造函数 (AcadDatabase wrapper)

@@ -7,17 +7,19 @@ namespace ThAreaFrame
     class ThAreaFrameDriver : IDisposable
     {
         public List<ThAreaFrameEngine> engines;
+        public List<IThAreaFrameDataSource> dataSources;
         public List<ThAreaFrameParkingGarageEngine> parkingGarageEngines;
 
         public ThAreaFrameDriver()
         {
             engines = new List<ThAreaFrameEngine>();
+            dataSources = new List<IThAreaFrameDataSource>();
             parkingGarageEngines = new List<ThAreaFrameParkingGarageEngine>();
         }
 
         // Dispose()函数
         public void Dispose()
-        {
+        { 
             foreach(ThAreaFrameEngine engine in engines)
             {
                 engine.Dispose();
@@ -26,6 +28,11 @@ namespace ThAreaFrame
             foreach(ThAreaFrameParkingGarageEngine engine in parkingGarageEngines)
             {
                 engine.Dispose();
+            }
+
+            foreach(IThAreaFrameDataSource ds in dataSources)
+            {
+                ds.Dispose();
             }
         }
 
