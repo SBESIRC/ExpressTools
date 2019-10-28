@@ -340,5 +340,41 @@ namespace ThAreaFrame.Test
             // 架空面积
             Assert.AreEqual(engine.AreaOfStilt(), 75);
         }
+
+        [Test]
+        public void MasterArea()
+        {
+            var ds = Substitute.For<IThAreaFrameDataSource>();
+            ds.Layers().Returns(new List<string>()
+            {
+                "车场车位_室外车场_露天车场_小型汽车_2__V2.2",
+                "用地_公共绿地__V2.2",
+                "用地_规划净用地_500__V2.2"
+            });
+
+            // "规划净用地面积"
+            ds.SumOfArea("用地_公共绿地__V2.2").Returns(1000);
+            ds.SumOfArea("用地_规划净用地_500__V2.2").Returns(5000);
+            ds.CountOfAreaFrames("车场车位_室外车场_露天车场_小型汽车_2__V2.2").Returns(10);
+
+
+            // 引擎
+            var engine = ThAreaFrameMasterEngine.Engine(ds);
+
+            // "规划净用地面积"
+            Assert.AreEqual(engine.AreaOfPlanning(), 5000);
+
+            // "地上停车位（个）"
+            Assert.AreEqual(engine.CountOfAboveGroundParkingLot(), 20);
+
+            // 公共绿地
+            Assert.AreEqual(engine.AreaOfGreenSpace(), 1000);
+
+            // "居住户数"
+            Assert.AreEqual(engine.CountOfHousehold(), 500);
+
+            // "居住人数"
+            Assert.AreEqual(engine.CountOfHouseholdPopulation(), (int)(500 * 3.2));
+        }
     }
 }

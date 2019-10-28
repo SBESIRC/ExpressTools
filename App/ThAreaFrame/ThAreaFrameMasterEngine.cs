@@ -7,40 +7,17 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrame
 {
-    class ThAreaFrameMasterEngine : IDisposable
+    public class ThAreaFrameMasterEngine : IDisposable
     {
-        private Database database;
         private List<string> names;
-        public Database Database { get => database; set => database = value; }
-        public List<string> Names { get => names; set => names = value; }
+        private IThAreaFrameDataSource dataSource;
 
-        // 构造函数 (current database)
-        public static ThAreaFrameMasterEngine Engine()
+        public static ThAreaFrameMasterEngine Engine(IThAreaFrameDataSource ds)
         {
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            {
-                return EngineInternal(acadDatabase);
-            }
-        }
-
-        // 构造函数 (side database)
-        public static ThAreaFrameMasterEngine Engine(string fileName)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Open(fileName, DwgOpenMode.ReadOnly, true))
-            {
-                return EngineInternal(acadDatabase);
-            }
-        }
-
-        // 构造函数 (AcadDatabase wrapper)
-        private static ThAreaFrameMasterEngine EngineInternal(AcadDatabase acadDatabase)
-        {
-            var names = new List<string>();
-            acadDatabase.Layers.ForEachDbObject(l => names.Add(l.Name));
             ThAreaFrameMasterEngine engine = new ThAreaFrameMasterEngine()
             {
-                names = names,
-                database = acadDatabase.Database,
+                dataSource = ds,
+                names = ds.Layers()
             };
             return engine;
         }
@@ -48,10 +25,7 @@ namespace ThAreaFrame
         // Dispose()函数
         public void Dispose()
         {
-            if (!database.IsDisposed)
-            {
-                database.Dispose();
-            }
+            //
         }
 
         public double AreaOfPlanning()
@@ -59,7 +33,7 @@ namespace ThAreaFrame
             double area = 0.0;
             foreach(string name in names.Where(n => n.StartsWith(@"用地_规划净用地")))
             {
-                area += ThAreaFrameDbUtils.SumOfArea(database, name);
+                area += dataSource.SumOfArea(name);
             }
             return area;
         }
@@ -69,7 +43,7 @@ namespace ThAreaFrame
             double area = 0.0;
             foreach (string name in names.Where(n => n.StartsWith(@"用地_公共绿地")))
             {
-                area += ThAreaFrameDbUtils.SumOfArea(database, name);
+                area += dataSource.SumOfArea(name);
             }
             return area;
         }
@@ -81,7 +55,7 @@ namespace ThAreaFrame
             {
                 // 车场层数
                 var space = ThAreaFrameOutdoorParkingSpace.Space(name);
-                count += ThAreaFrameDbUtils.CountOfAreaFrames(database, name) * int.Parse(space.multiple);
+                count += dataSource.CountOfAreaFrames(name)* int.Parse(space.multiple);
             }
             return count;
         }

@@ -10,19 +10,22 @@ namespace ThAreaFrame
 {
     public class ThAreaFrameDbDataSource : IThAreaFrameDataSource
     {
+        private readonly bool bSideDb;
         private readonly Database database;
-        public ThAreaFrameDbDataSource(Database db)
+        public ThAreaFrameDbDataSource(Database db, bool sideDb = true)
         {
             database = db;
+            bSideDb = sideDb;
         }
 
         public void Dispose()
         {
-            // DataSource“拥有”这些Database
-            // 这些Database都是以side database的形式打开
-            if (!database.IsDisposed)
+            if (bSideDb)
             {
-                database.Dispose();
+                if (!database.IsDisposed)
+                {
+                    database.Dispose();
+                }
             }
         }
 

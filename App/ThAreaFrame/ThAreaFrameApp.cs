@@ -285,7 +285,8 @@ namespace ThAreaFrame
             }
 
             // 创建总和面积引擎
-            ThAreaFrameMasterEngine engine = ThAreaFrameMasterEngine.Engine();
+            var ds = new ThAreaFrameDbDataSource(Active.Database, false);
+            ThAreaFrameMasterEngine engine = ThAreaFrameMasterEngine.Engine(ds);
 
             // 创建表单
             Point3d position = pr.Value.TransformBy(ed.CurrentUserCoordinateSystem);
