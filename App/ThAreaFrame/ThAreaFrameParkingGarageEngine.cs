@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrame
 {
-    class ThAreaFrameParkingGarageEngine : IDisposable
+    public class ThAreaFrameParkingGarageEngine : IDisposable
     {
         private List<string> names;
         private IThAreaFrameDataSource dataSource;

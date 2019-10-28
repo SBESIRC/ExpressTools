@@ -71,48 +71,48 @@ namespace ThAreaFrame.Test
             ds.SumOfArea("单体基底_1_1#_住宅_10_1_____是__V2.2").Returns(200);
 
             // 引擎
-            var engine = ThAreaFrameEngine.Engine(ds);
+            using (var engine = ThAreaFrameEngine.Engine(ds))
+            {
+                // 一楼面积
+                Assert.AreEqual(engine.AreaOfFloor(1, true), 230);
+                Assert.AreEqual(engine.AreaOfFloor(1, false), 250);
 
-            // 一楼面积
-            Assert.AreEqual(engine.AreaOfFloor(1, true), 230);
-            Assert.AreEqual(engine.AreaOfFloor(1, false), 250);
+                // 二楼面积
+                Assert.AreEqual(engine.AreaOfFloor(2, true), 210);
+                Assert.AreEqual(engine.AreaOfFloor(2, false), 220);
 
-            // 二楼面积
-            Assert.AreEqual(engine.AreaOfFloor(2, true), 210);
-            Assert.AreEqual(engine.AreaOfFloor(2, false), 220);
+                // 标准面积
+                Assert.AreEqual(engine.AreaOfFloor(3, true), 210);
+                Assert.AreEqual(engine.AreaOfFloor(3, false), 220);
 
-            // 标准面积
-            Assert.AreEqual(engine.AreaOfFloor(3, true), 210);
-            Assert.AreEqual(engine.AreaOfFloor(3, false), 220);
+                // 十楼面积
+                Assert.AreEqual(engine.AreaOfFloor(10, true), 210);
+                Assert.AreEqual(engine.AreaOfFloor(10, false), 220);
 
-            // 十楼面积
-            Assert.AreEqual(engine.AreaOfFloor(10, true), 210);
-            Assert.AreEqual(engine.AreaOfFloor(10, false), 220);
-
-            // 地下一层面积
-            Assert.AreEqual(engine.AreaOfFloor(-1, true), 0);
-            Assert.AreEqual(engine.AreaOfFloor(-1, false), 200);
+                // 地下一层面积
+                Assert.AreEqual(engine.AreaOfFloor(-1, true), 0);
+                Assert.AreEqual(engine.AreaOfFloor(-1, false), 200);
 
 
-            // 建筑面积
-            Assert.AreEqual(engine.AreaOfAboveGround() + 
-                engine.AreaOfUnderGround() +
-                engine.AreaOfRoof() -
-                engine.AreaOfStilt(),
-                2450
-                );
+                // 建筑面积
+                Assert.AreEqual(engine.AreaOfAboveGround() +
+                    engine.AreaOfUnderGround() +
+                    engine.AreaOfRoof() -
+                    engine.AreaOfStilt(),
+                    2450
+                    );
 
-            // 计容面积
-            Assert.AreEqual(engine.AreaOfCapacityBuilding(true) + engine.AreaOfRoof(true), 2140);
+                // 计容面积
+                Assert.AreEqual(engine.AreaOfCapacityBuilding(true) + engine.AreaOfRoof(true), 2140);
 
-            // 绿地面积
-            Assert.AreEqual(engine.AreaOfRoofGreenSpace(), 10);
+                // 绿地面积
+                Assert.AreEqual(engine.AreaOfRoofGreenSpace(), 10);
 
-            // 楼梯间
-            Assert.AreEqual(engine.AreaOfRoof(true), 20);
-            Assert.AreEqual(engine.AreaOfRoof(false), 20);
+                // 楼梯间
+                Assert.AreEqual(engine.AreaOfRoof(true), 20);
+                Assert.AreEqual(engine.AreaOfRoof(false), 20);
+            }
         }
-
 
         [Test]
         public void AOccupancyArea()
@@ -173,45 +173,46 @@ namespace ThAreaFrame.Test
             ds.SumOfArea("单体基底_3_3#_公建_6_1_____是__V2.2").Returns(200);
 
             // 引擎
-            var engine = ThAreaFrameEngine.Engine(ds);
+            using (var engine = ThAreaFrameEngine.Engine(ds))
+            {
+                // 一楼面积
+                Assert.AreEqual(engine.AreaOfFloor(1, true), 255);
+                Assert.AreEqual(engine.AreaOfFloor(1, false), 275);
 
-            // 一楼面积
-            Assert.AreEqual(engine.AreaOfFloor(1, true), 255);
-            Assert.AreEqual(engine.AreaOfFloor(1, false), 275);
+                // 标准面积
+                Assert.AreEqual(engine.AreaOfFloor(2, true), 235);
+                Assert.AreEqual(engine.AreaOfFloor(2, false), 245);
 
-            // 标准面积
-            Assert.AreEqual(engine.AreaOfFloor(2, true), 235);
-            Assert.AreEqual(engine.AreaOfFloor(2, false), 245);
+                // 六楼面积
+                Assert.AreEqual(engine.AreaOfFloor(6, true), 235);
+                Assert.AreEqual(engine.AreaOfFloor(6, false), 245);
 
-            // 六楼面积
-            Assert.AreEqual(engine.AreaOfFloor(6, true), 235);
-            Assert.AreEqual(engine.AreaOfFloor(6, false), 245);
-
-            // 地下一层面积
-            Assert.AreEqual(engine.AreaOfFloor(-1, true), 0);
-            Assert.AreEqual(engine.AreaOfFloor(-1, false), 200);
+                // 地下一层面积
+                Assert.AreEqual(engine.AreaOfFloor(-1, true), 0);
+                Assert.AreEqual(engine.AreaOfFloor(-1, false), 200);
 
 
-            // 建筑面积
-            Assert.AreEqual(engine.AreaOfAboveGround() +
-                engine.AreaOfUnderGround() +
-                engine.AreaOfRoof() -
-                engine.AreaOfStilt(),
-                1570
-                );
+                // 建筑面积
+                Assert.AreEqual(engine.AreaOfAboveGround() +
+                    engine.AreaOfUnderGround() +
+                    engine.AreaOfRoof() -
+                    engine.AreaOfStilt(),
+                    1570
+                    );
 
-            // 计容面积
-            Assert.AreEqual(engine.AreaOfCapacityBuilding(true) + engine.AreaOfRoof(true), 1450);
+                // 计容面积
+                Assert.AreEqual(engine.AreaOfCapacityBuilding(true) + engine.AreaOfRoof(true), 1450);
 
-            // 绿地面积
-            Assert.AreEqual(engine.AreaOfRoofGreenSpace(), 10);
+                // 绿地面积
+                Assert.AreEqual(engine.AreaOfRoofGreenSpace(), 10);
 
-            // 楼梯间
-            Assert.AreEqual(engine.AreaOfRoof(true), 20);
-            Assert.AreEqual(engine.AreaOfRoof(false), 20);
+                // 楼梯间
+                Assert.AreEqual(engine.AreaOfRoof(true), 20);
+                Assert.AreEqual(engine.AreaOfRoof(false), 20);
 
-            // 架空面积
-            Assert.AreEqual(engine.AreaOfStilt(), 150);
+                // 架空面积
+                Assert.AreEqual(engine.AreaOfStilt(), 150);
+            }
         }
 
         [Test]
@@ -300,45 +301,46 @@ namespace ThAreaFrame.Test
             ds.SumOfArea("单体基底_3_3#_公建_6_1_____是__V2.2").Returns(200);
 
             // 引擎
-            var engine = ThAreaFrameEngine.Engine(ds);
+            using (var engine = ThAreaFrameEngine.Engine(ds))
+            {
+                // 一楼面积
+                Assert.AreEqual(engine.AreaOfFloor(1, true), 242.5);
+                Assert.AreEqual(engine.AreaOfFloor(1, false), 262.5);
 
-            // 一楼面积
-            Assert.AreEqual(engine.AreaOfFloor(1, true), 242.5);
-            Assert.AreEqual(engine.AreaOfFloor(1, false), 262.5);
+                // 标准面积
+                Assert.AreEqual(engine.AreaOfFloor(2, true), 222.5);
+                Assert.AreEqual(engine.AreaOfFloor(2, false), 232.5);
 
-            // 标准面积
-            Assert.AreEqual(engine.AreaOfFloor(2, true), 222.5);
-            Assert.AreEqual(engine.AreaOfFloor(2, false), 232.5);
+                // 六楼面积
+                Assert.AreEqual(engine.AreaOfFloor(6, true), 222.5);
+                Assert.AreEqual(engine.AreaOfFloor(6, false), 232.5);
 
-            // 六楼面积
-            Assert.AreEqual(engine.AreaOfFloor(6, true), 222.5);
-            Assert.AreEqual(engine.AreaOfFloor(6, false), 232.5);
-
-            // 地下一层面积
-            Assert.AreEqual(engine.AreaOfFloor(-1, true), 0);
-            Assert.AreEqual(engine.AreaOfFloor(-1, false), 200);
+                // 地下一层面积
+                Assert.AreEqual(engine.AreaOfFloor(-1, true), 0);
+                Assert.AreEqual(engine.AreaOfFloor(-1, false), 200);
 
 
-            // 建筑面积
-            Assert.AreEqual(engine.AreaOfAboveGround() +
-                engine.AreaOfUnderGround() +
-                engine.AreaOfRoof() -
-                engine.AreaOfStilt(),
-                1570
-                );
+                // 建筑面积
+                Assert.AreEqual(engine.AreaOfAboveGround() +
+                    engine.AreaOfUnderGround() +
+                    engine.AreaOfRoof() -
+                    engine.AreaOfStilt(),
+                    1570
+                    );
 
-            // 计容面积
-            Assert.AreEqual(engine.AreaOfCapacityBuilding(true) + engine.AreaOfRoof(true), 1375);
+                // 计容面积
+                Assert.AreEqual(engine.AreaOfCapacityBuilding(true) + engine.AreaOfRoof(true), 1375);
 
-            // 绿地面积
-            Assert.AreEqual(engine.AreaOfRoofGreenSpace(), 10);
+                // 绿地面积
+                Assert.AreEqual(engine.AreaOfRoofGreenSpace(), 10);
 
-            // 楼梯间
-            Assert.AreEqual(engine.AreaOfRoof(true), 20);
-            Assert.AreEqual(engine.AreaOfRoof(false), 20);
+                // 楼梯间
+                Assert.AreEqual(engine.AreaOfRoof(true), 20);
+                Assert.AreEqual(engine.AreaOfRoof(false), 20);
 
-            // 架空面积
-            Assert.AreEqual(engine.AreaOfStilt(), 75);
+                // 架空面积
+                Assert.AreEqual(engine.AreaOfStilt(), 75);
+            }
         }
 
         [Test]
@@ -357,24 +359,47 @@ namespace ThAreaFrame.Test
             ds.SumOfArea("用地_规划净用地_500__V2.2").Returns(5000);
             ds.CountOfAreaFrames("车场车位_室外车场_露天车场_小型汽车_2__V2.2").Returns(10);
 
-
             // 引擎
-            var engine = ThAreaFrameMasterEngine.Engine(ds);
+            using (var engine = ThAreaFrameMasterEngine.Engine(ds))
+            {
+                // "规划净用地面积"
+                Assert.AreEqual(engine.AreaOfPlanning(), 5000);
 
-            // "规划净用地面积"
-            Assert.AreEqual(engine.AreaOfPlanning(), 5000);
+                // "地上停车位（个）"
+                Assert.AreEqual(engine.CountOfAboveGroundParkingLot(), 20);
 
-            // "地上停车位（个）"
-            Assert.AreEqual(engine.CountOfAboveGroundParkingLot(), 20);
+                // 公共绿地
+                Assert.AreEqual(engine.AreaOfGreenSpace(), 1000);
 
-            // 公共绿地
-            Assert.AreEqual(engine.AreaOfGreenSpace(), 1000);
+                // "居住户数"
+                Assert.AreEqual(engine.CountOfHousehold(), 500);
 
-            // "居住户数"
-            Assert.AreEqual(engine.CountOfHousehold(), 500);
+                // "居住人数"
+                Assert.AreEqual(engine.CountOfHouseholdPopulation(), (int)(500 * 3.2));
+            }
+        }
 
-            // "居住人数"
-            Assert.AreEqual(engine.CountOfHouseholdPopulation(), (int)(500 * 3.2));
+        [Test]
+        public void UnderGroundParkingArea()
+        {
+            var ds = Substitute.For<IThAreaFrameDataSource>();
+            ds.Layers().Returns(new List<string>()
+            {
+                "单体车位_小型汽车_2_-1_V2.2",
+                "附属公建_主体_室内停车库__1.0_1.0_1_c1__V2.2",
+            });
+
+            ds.SumOfArea("附属公建_主体_室内停车库__1.0_1.0_1_c1__V2.2").Returns(1200);
+            ds.CountOfAreaFrames("单体车位_小型汽车_2_-1_V2.2").Returns(10);
+
+            using (var engine = ThAreaFrameParkingGarageEngine.Engine(ds))
+            {
+                // 室内停车场面积
+                Assert.AreEqual(engine.AreaOfParkingGarage(), 1200);
+
+                // 地下停车位个数
+                Assert.AreEqual(engine.CountOfUnderGroundParkingSlot(), 20);
+            }
         }
     }
 }
