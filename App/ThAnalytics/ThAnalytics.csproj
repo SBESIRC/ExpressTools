@@ -32,8 +32,8 @@
     <Compile Include="SDK\APIMessage.cs" />
     <Compile Include="SDK\FuncMac.cs" />
     <Compile Include="SDK\InitiConnection.cs" />
-    <Compile Include="SDK\JsonHelper.cs" />
     <Compile Include="SDK\Segmentation.cs" />
+    <Compile Include="SDK\SegmentationItem.cs" />
     <Compile Include="SDK\Sessions.cs" />
     <Compile Include="SDK\THConfig.cs" />
     <Compile Include="SDK\THRecordingService.cs" />
@@ -42,6 +42,7 @@
     <Compile Include="ThADPServices.cs" />
     <Compile Include="ThAnalyticsApp.cs" />
     <Compile Include="ThCountlyServices.cs" />
+    <Compile Include="ThCybrosService.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
@@ -72,6 +73,7 @@
   </Choose>
   <ItemGroup>
     <PackageReference Include="Countly" Version="19.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThIdentity\ThIdentity.csproj">

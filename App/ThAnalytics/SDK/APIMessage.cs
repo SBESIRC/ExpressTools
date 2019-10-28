@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Net;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace THRecordingService
 {
@@ -28,7 +29,7 @@ namespace THRecordingService
                 _User.username = _Username;
                 _User.password = _Password;
                 _SignIn.user = _User;
-                string _PostData = JsonHelper.Serialize(_SignIn);
+                string _PostData = JsonConvert.SerializeObject(_SignIn);
                 byte[] _Data = Encoding.UTF8.GetBytes(_PostData);
                 _Reuest.ContentLength = _Data.Length; //请求长度
                 using (Stream _ReStream = _Reuest.GetRequestStream()) //获取

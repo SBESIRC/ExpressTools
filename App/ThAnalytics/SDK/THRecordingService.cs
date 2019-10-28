@@ -1,4 +1,6 @@
 ﻿using System;
+using Newtonsoft.Json;
+
 
 namespace THRecordingService
 {
@@ -35,7 +37,7 @@ namespace THRecordingService
                 if (_Str == string.Empty) { throw new InvalidOperationException(" 初始化信息失败！'SignIn'"); }
                 m_ToKen = _Str;
                 var _UserInfo = APIMessage.CADUserInfo(m_ToKen);
-                m_UserDetails = JsonHelper.Deserialize<UserDetails>(_UserInfo);
+                m_UserDetails = JsonConvert.DeserializeObject<UserDetails>(_UserInfo);
                 return true;
             }
             catch
@@ -55,14 +57,12 @@ namespace THRecordingService
                 Ssessions.mac_address = FuncMac.GetNetCardMacAddress();
                 Ssessions.operation = "Begin";
                 Ssessions.session = m_Guid;
-                APIMessage.CADSession(m_ToKen, JsonHelper.Serialize(Ssessions));
-
+                APIMessage.CADSession(m_ToKen, JsonConvert.SerializeObject(Ssessions));
             }
             catch
             {
-
+                //
             }
-
         }
 
         public static void SessionEnd()
@@ -75,13 +75,11 @@ namespace THRecordingService
                 Ssessions.mac_address = FuncMac.GetNetCardMacAddress();
                 Ssessions.operation = "End";
                 Ssessions.session = m_Guid;
-                APIMessage.CADSession(m_ToKen, JsonHelper.Serialize(Ssessions));
-
-
+                APIMessage.CADSession(m_ToKen, JsonConvert.SerializeObject(Ssessions));
             }
             catch
             {
-
+                //
             }
         }
 
@@ -95,16 +93,12 @@ namespace THRecordingService
                 _InitiConnection.cmd_seconds = Duration;
                 _InitiConnection.session_id = m_Guid;
                 _InitiConnection.cmd_data = _Segmentation;
-                var _Json = JsonHelper.Serialize(_InitiConnection);
-                APIMessage.CADOperation(m_ToKen, _Json);
+                APIMessage.CADOperation(m_ToKen, JsonConvert.SerializeObject(_InitiConnection));
             }
             catch
             {
+                //
             }
         }
-
-
-
-
     }
 }
