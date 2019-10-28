@@ -7,49 +7,17 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThAreaFrame
 {
-    class ThAreaFrameParkingGarageEngine
+    class ThAreaFrameParkingGarageEngine : IDisposable
     {
-        private Database database;
         private List<string> names;
-        public Database Database { get => database; set => database = value; }
-        public List<string> Names { get => names; set => names = value; }
+        private IThAreaFrameDataSource dataSource;
 
-        // 构造函数 (current database)
-        public static ThAreaFrameParkingGarageEngine Engine()
+        public static ThAreaFrameParkingGarageEngine Engine(IThAreaFrameDataSource ds)
         {
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            {
-                return EngineInternal(acadDatabase);
-            }
-        }
-
-        // 构造函数 (side database)
-        public static ThAreaFrameParkingGarageEngine Engine(string fileName)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Open(fileName, DwgOpenMode.ReadOnly, true))
-            {
-                return EngineInternal(acadDatabase);
-            }
-        }
-
-        // 构造函数 (side database)
-        public static ThAreaFrameParkingGarageEngine Engine(Database database)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
-            {
-                return EngineInternal(acadDatabase);
-            }
-        }
-
-        // 构造函数 (AcadDatabase wrapper)
-        private static ThAreaFrameParkingGarageEngine EngineInternal(AcadDatabase acadDatabase)
-        {
-            var names = new List<string>();
-            acadDatabase.Layers.ForEachDbObject(l => names.Add(l.Name));
             ThAreaFrameParkingGarageEngine engine = new ThAreaFrameParkingGarageEngine()
             {
-                names = names,
-                database = acadDatabase.Database,
+                dataSource = ds,
+                names = ds.Layers()
             };
             return engine;
         }
@@ -57,10 +25,7 @@ namespace ThAreaFrame
         // Dispose()函数
         public void Dispose()
         {
-            if (!database.IsDisposed)
-            {
-                database.Dispose();
-            }
+            //
         }
 
         // 室内停车场面积
@@ -69,7 +34,7 @@ namespace ThAreaFrame
             double area = 0.0;
             foreach (string name in names.Where(n => n.StartsWith(@"附属公建_主体_室内停车库")))
             {
-                area += ThAreaFrameDbUtils.SumOfArea(database, name);
+                area += dataSource.SumOfArea(name);
             }
             return area;
         }
@@ -82,7 +47,7 @@ namespace ThAreaFrame
             {
                 // 车场层数
                 var space = ThAreaFrameIndoorParkingSpace.Space(name);
-                count += ThAreaFrameDbUtils.CountOfAreaFrames(database, name) * int.Parse(space.multiple);
+                count += dataSource.CountOfAreaFrames(name) * int.Parse(space.multiple);
             }
             return count;
         }

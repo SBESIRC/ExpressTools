@@ -8,29 +8,28 @@ namespace ThAreaFrame
 {
     class ThAreaFrameResidentCalculator : IThAreaFrameCalculator
     {
-        private readonly Database database;
+        private readonly IThAreaFrameDataSource dataSource;
         private readonly ThAreaFrameRoof roof;
         private readonly ResidentialBuilding building;
         public ResidentialBuilding Building => building;
         public ThAreaFrameRoof Roof => roof;
-        public Database Database => database;
 
         public ThAreaFrameResidentCalculator(
             ResidentialBuilding building,
             ThAreaFrameRoof roof,
-            Database database)
+            IThAreaFrameDataSource dataSource)
         {
-            this.database = database;
-            this.building = building;
             this.roof = roof;
+            this.building = building;
+            this.dataSource = dataSource;
         }
 
         public static IThAreaFrameCalculator Calculator(
             ResidentialBuilding building,
             ThAreaFrameRoof roof,
-            Database database)
+            IThAreaFrameDataSource dataSource)
         {
-            return new ThAreaFrameResidentCalculator(building, roof, database);
+            return new ThAreaFrameResidentCalculator(building, roof, dataSource);
         }
 
         public double AreaOfCapacityBuilding(bool far/*Floor Area Ratio*/ = false)
@@ -58,7 +57,7 @@ namespace ThAreaFrame
             if (roof != null)
             {
                 double ratio = far ? double.Parse(roof.floorAreaRatio) : double.Parse(roof.areaRatio);
-                return ThAreaFrameDbUtils.SumOfArea(Database, roof.layer) * ratio;
+                return dataSource.SumOfArea(roof.layer) * ratio;
             }
             return 0.0;
         }
@@ -90,7 +89,7 @@ namespace ThAreaFrame
             foreach (var room in building.RoomsOnStorey(floor))
             {
                 double ratio = far ? double.Parse(room.dwelling.floorAreaRatio) : double.Parse(room.dwelling.areaRatio);
-                area += (ThAreaFrameDbUtils.SumOfArea(Database, room.dwelling.layer) * ratio);
+                area += dataSource.SumOfArea(room.dwelling.layer) * ratio;
             }
             return area;
         }
@@ -106,14 +105,14 @@ namespace ThAreaFrame
                     if (balcony.version == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
                     {
                         double ratio = far ? double.Parse(balcony.floorAreaRatio) : double.Parse(balcony.areaRatio);
-                        area += (ThAreaFrameDbUtils.SumOfArea(Database, balcony.layer) * ratio
-                            / ThAreaFrameDbUtils.CountOfDwelling(Database, balcony.dwellingID)
-                            * ThAreaFrameDbUtils.CountOfAreaFrames(Database, room.dwelling.layer));
+                        area += dataSource.SumOfArea(balcony.layer) * ratio
+                            / dataSource.CountOfDwelling(balcony.dwellingID)
+                            * dataSource.CountOfAreaFrames(room.dwelling.layer);
                     }
                     else if (balcony.version == ThCADCommon.RegAppName_AreaFrame_Version)
                     {
                         double ratio = far ? double.Parse(balcony.floorAreaRatio) : double.Parse(balcony.areaRatio);
-                        area += ThAreaFrameDbUtils.SumOfArea(Database, balcony.layer) * ratio;
+                        area += dataSource.SumOfArea(balcony.layer) * ratio;
                     }
                     else
                     {
@@ -135,14 +134,14 @@ namespace ThAreaFrame
                     if (baywindow.version == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
                     {
                         double ratio = far ? double.Parse(baywindow.floorAreaRatio) : double.Parse(baywindow.areaRatio);
-                        area += (ThAreaFrameDbUtils.SumOfArea(Database, baywindow.layer) * ratio
-                            / ThAreaFrameDbUtils.CountOfDwelling(Database, baywindow.dwellingID)
-                            * ThAreaFrameDbUtils.CountOfAreaFrames(Database, room.dwelling.layer));
+                        area += dataSource.SumOfArea(baywindow.layer) * ratio
+                            / dataSource.CountOfDwelling(baywindow.dwellingID)
+                            * dataSource.CountOfAreaFrames(room.dwelling.layer);
                     }
                     else if (baywindow.version == ThCADCommon.RegAppName_AreaFrame_Version)
                     {
                         double ratio = far ? double.Parse(baywindow.floorAreaRatio) : double.Parse(baywindow.areaRatio);
-                        area += ThAreaFrameDbUtils.SumOfArea(Database, baywindow.layer) * ratio;
+                        area += dataSource.SumOfArea(baywindow.layer) * ratio;
                     }
                     else
                     {
@@ -164,14 +163,14 @@ namespace ThAreaFrame
                     if (item.version == ThCADCommon.RegAppName_AreaFrame_Version_Legacy)
                     {
                         double ratio = far ? double.Parse(item.floorAreaRatio) : double.Parse(item.areaRatio);
-                        area += (ThAreaFrameDbUtils.SumOfArea(Database, item.layer) * ratio
-                            / ThAreaFrameDbUtils.CountOfDwelling(Database, item.dwellingID)
-                            * ThAreaFrameDbUtils.CountOfAreaFrames(Database, room.dwelling.layer));
+                        area += dataSource.SumOfArea(item.layer) * ratio
+                            / dataSource.CountOfDwelling(item.dwellingID)
+                            * dataSource.CountOfAreaFrames(room.dwelling.layer);
                     }
                     else if (item.version == ThCADCommon.RegAppName_AreaFrame_Version)
                     {
                         double ratio = far ? double.Parse(item.floorAreaRatio) : double.Parse(item.areaRatio);
-                        area += ThAreaFrameDbUtils.SumOfArea(Database, item.layer) * ratio;
+                        area += dataSource.SumOfArea(item.layer) * ratio;
                     }
                     else
                     {

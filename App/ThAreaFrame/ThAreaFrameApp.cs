@@ -406,8 +406,10 @@ namespace ThAreaFrame
                 {
                     using (AcadDatabase acadDatabase = AcadDatabase.Open(dwg, DwgOpenMode.ReadOnly, true))
                     {
-                        driver.engines.Add(ThAreaFrameEngine.Engine(acadDatabase.Database));
-                        driver.parkingGarageEngines.Add(ThAreaFrameParkingGarageEngine.Engine(acadDatabase.Database));
+                        var dataSource = new ThAreaFrameDbDataSource(acadDatabase.Database);
+                        driver.dataSources.Add(dataSource);
+                        driver.engines.Add(ThAreaFrameEngine.Engine(dataSource));
+                        driver.parkingGarageEngines.Add(ThAreaFrameParkingGarageEngine.Engine(dataSource));
                     }
                 }
                 catch
