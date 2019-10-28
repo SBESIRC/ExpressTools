@@ -80,7 +80,7 @@ namespace ThAnalytics
 
         public void UnInitialize()
         {
-            throw new NotImplementedException();
+            //
         }
 
         public void StartSession()

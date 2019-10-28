@@ -68,8 +68,8 @@ namespace THRecordingService
         public static string GetIpAddress()
         {
             string _HostName = Dns.GetHostName();   //获取本机名
-
-            IPHostEntry localhost = Dns.GetHostByName(_HostName);     
+     
+            IPHostEntry localhost = Dns.GetHostEntry(_HostName);     
 
             IPAddress localaddr = localhost.AddressList[0];
 
