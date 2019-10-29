@@ -9,9 +9,12 @@ namespace ThAnalytics.SDK
 {
     public static class APIMessage
     {
-        public static THConfig m_Config = new THConfig() { AppVersion = "V1.0", ServerUrl = @"https://cybros.thape.com.cn", SSOUrl = @"https://sso.thape.com.cn/users/sign_in" };
-
-        //public static fmMsg m_fm = new fmMsg();
+        public static THConfig m_Config = new THConfig()
+        {
+            AppVersion = "V1.0",
+            ServerUrl = @"https://cybros.thape.com.cn",
+            SSOUrl = @"https://sso.thape.com.cn/users/sign_in"
+        };
 
         public static string SignIn(string _Username, string _Password)
         {
@@ -124,7 +127,6 @@ namespace ThAnalytics.SDK
 
         }
 
-
         public static async Task<bool> CADSession(string _Token, string _PostData)
         {
 
@@ -151,7 +153,6 @@ namespace ThAnalytics.SDK
                 }
             }
         }
-
 
         public static async Task<bool> CADOperation(string _Token, string _PostData)
         {
@@ -180,9 +181,6 @@ namespace ThAnalytics.SDK
                 }
             }
         }
-
-
-
     }
 }
 

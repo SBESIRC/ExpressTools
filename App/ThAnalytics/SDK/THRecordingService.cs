@@ -6,18 +6,9 @@ namespace ThAnalytics.SDK
 {
     public class THRecordingService
     {
-        private static readonly THRecordingService instance = new THRecordingService();
-        static THRecordingService() { }
-        internal THRecordingService() { }
-        public static THRecordingService Instance { get { return instance; } }
-
         public static string m_ToKen = string.Empty;
-
         public static string m_Guid = Guid.NewGuid().ToString();
-
         public static UserDetails m_UserDetails = new UserDetails();
-
-
 
         public static void InitCfg(string _ServerUrl, string _SSOURL, string _AppVersion)
         {
@@ -25,7 +16,6 @@ namespace ThAnalytics.SDK
             APIMessage.m_Config.SSOUrl = _SSOURL;
             APIMessage.m_Config.AppVersion = _AppVersion;
         }
-
 
         public static void InitCfg(THConfig _Config) { APIMessage.m_Config = _Config; }
 
@@ -46,6 +36,25 @@ namespace ThAnalytics.SDK
             }
         }
 
+        public static bool SignIn(string _Token)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(_Token))
+                {
+                    return false;
+                }
+
+                m_ToKen = _Token;
+                var _UserInfo = APIMessage.CADUserInfo(m_ToKen);
+                m_UserDetails = JsonConvert.DeserializeObject<UserDetails>(_UserInfo);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         public static void SessionBegin()
         {

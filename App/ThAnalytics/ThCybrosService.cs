@@ -75,7 +75,7 @@ namespace ThAnalytics
 
         public void Initialize()
         {
-            THRecordingService.SignIn("dongshichong", "thapeSH2019");
+            THRecordingService.SignIn(Properties.Settings.Default.Token);
         }
 
         public void UnInitialize()
