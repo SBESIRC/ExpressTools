@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows;
-using Autodesk.AutoCAD.Internal;
-using Autodesk.AutoCAD.Runtime;
 using Autodesk.Windows;
+using ThAnalytics.Identity;
 using WinApp = System.Windows.Application;
 
 namespace TianHua.AutoCAD.ThCui
@@ -12,7 +11,6 @@ namespace TianHua.AutoCAD.ThCui
         //调用资源字典
         ResourceDictionary resourceDictionary = (ResourceDictionary)WinApp.LoadComponent(new Uri("/ThCui;component/ThRibbonDictionary.xaml", UriKind.Relative));
 
-        public int Count { get; set; }//标记第几次创建
         public RibbonTab CreateRibbon()
         {
             //获取由XAML定义的选项卡
@@ -106,7 +104,11 @@ namespace TianHua.AutoCAD.ThCui
         /// </summary>
         public void Login()
         {
-            ShowAllRibbon(ComponentManager.Ribbon.ActiveTab);
+            ThAnalyticsLogMgr.Login();
+            if (ThAnalyticsLogMgr.IsLogged())
+            {
+                ShowAllRibbon(ComponentManager.Ribbon.ActiveTab);
+            }
         }
 
         /// <summary>
@@ -114,7 +116,11 @@ namespace TianHua.AutoCAD.ThCui
         /// </summary>
         public void Logout()
         {
-            CloseTabRibbon();
+            ThAnalyticsLogMgr.Logout();
+            if (!ThAnalyticsLogMgr.IsLogged())
+            {
+                CloseTabRibbon();
+            }
         }
 
         /// <summary>

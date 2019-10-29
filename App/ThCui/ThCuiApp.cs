@@ -5,6 +5,7 @@ using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.ApplicationServices.PreferencesFiles;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using ThAnalytics.Identity;
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -158,11 +159,9 @@ namespace TianHua.AutoCAD.ThCui
             if (theTab != null)
             {
                 theTab.IsVisible = true;
-                ribbons.Count++;
             }
 
-            //如果是第一次创建完毕后，仅呈现登录模块
-            if (ribbons.Count == 1)
+            if (!ThAnalyticsLogMgr.IsLogged())
             {
                 ribbons.CloseTabRibbon();
             }

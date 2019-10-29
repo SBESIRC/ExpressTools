@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Collections;
-using System.Windows.Forms;
+using System.Text.RegularExpressions;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.ApplicationServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
-using System.Text.RegularExpressions;
-using ThAnalytics.SDK;
 
-[assembly: CommandClass(typeof(ThAnalytics.ThAnalyticsCommands))]
 [assembly: ExtensionApplication(typeof(ThAnalytics.ThAnalyticsApp))]
 
 namespace ThAnalytics
@@ -262,28 +259,5 @@ namespace ThAnalytics
         {
         }
 
-    }
-
-    public class ThAnalyticsCommands
-    {
-        [CommandMethod("TIANHUACAD", "THLogin", CommandFlags.Modal)]
-        public void THLogin()
-        {
-            using (var dlg = new ThAnalyticsLoginDlg())
-            {
-                if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
-                {
-                    return;
-                }
-
-                if (THRecordingService.SignIn(dlg.User, dlg.Password))
-                {
-                    Properties.Settings.Default.Token = THRecordingService.m_ToKen;
-                    Properties.Settings.Default.Save();
-                }
-
-                return;
-            }
-        }
     }
 }

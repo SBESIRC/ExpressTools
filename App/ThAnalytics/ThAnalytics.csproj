@@ -54,6 +54,7 @@
     <Compile Include="ThAnalyticsLoginDlg.Designer.cs">
       <DependentUpon>ThAnalyticsLoginDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="ThAnalyticsLogMgr.cs" />
     <Compile Include="ThCountlyServices.cs" />
     <Compile Include="ThCybrosService.cs" />
   </ItemGroup>
