@@ -1,6 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
-
 
 namespace ThAnalytics.SDK
 {
@@ -23,11 +21,14 @@ namespace ThAnalytics.SDK
         {
             try
             {
-                var _Str = APIMessage.SignIn(_Username, _Password);
-                if (_Str == string.Empty) { throw new InvalidOperationException(" 初始化信息失败！'SignIn'"); }
-                m_ToKen = _Str;
-                var _UserInfo = APIMessage.CADUserInfo(m_ToKen);
-                m_UserDetails = JsonConvert.DeserializeObject<UserDetails>(_UserInfo);
+                var _Token = APIMessage.SignIn(_Username, _Password);
+                if (string.IsNullOrEmpty(_Token))
+                {
+                    return false;
+                }
+
+                m_ToKen = _Token;
+                m_UserDetails = APIMessage.CADUserInfo(m_ToKen);
                 return true;
             }
             catch
@@ -46,8 +47,7 @@ namespace ThAnalytics.SDK
                 }
 
                 m_ToKen = _Token;
-                var _UserInfo = APIMessage.CADUserInfo(m_ToKen);
-                m_UserDetails = JsonConvert.DeserializeObject<UserDetails>(_UserInfo);
+                m_UserDetails = APIMessage.CADUserInfo(m_ToKen);
                 return true;
             }
             catch
@@ -58,56 +58,35 @@ namespace ThAnalytics.SDK
 
         public static void SessionBegin()
         {
-            try
+            APIMessage.CADSession(m_ToKen, new Sessions()
             {
-                if (m_ToKen == string.Empty) { throw new InvalidOperationException(" 初始化信息失败！'SessionBegin'"); }
-                Sessions Ssessions = new Sessions();
-                Ssessions.ip_address = FuncMac.GetIpAddress();
-                Ssessions.mac_address = FuncMac.GetNetCardMacAddress();
-                Ssessions.operation = "Begin";
-                Ssessions.session = m_Guid;
-                APIMessage.CADSession(m_ToKen, JsonConvert.SerializeObject(Ssessions));
-            }
-            catch
-            {
-                //
-            }
+                session = m_Guid,
+                operation = "Begin",
+                ip_address = FuncMac.GetIpAddress(),
+                mac_address = FuncMac.GetNetCardMacAddress(),
+            });
         }
 
         public static void SessionEnd()
         {
-            try
+            APIMessage.CADSession(m_ToKen, new Sessions()
             {
-                if (m_ToKen == string.Empty) { throw new InvalidOperationException(" 初始化信息失败！'SessionEnd'"); }
-                Sessions Ssessions = new Sessions();
-                Ssessions.ip_address = FuncMac.GetIpAddress();
-                Ssessions.mac_address = FuncMac.GetNetCardMacAddress();
-                Ssessions.operation = "End";
-                Ssessions.session = m_Guid;
-                APIMessage.CADSession(m_ToKen, JsonConvert.SerializeObject(Ssessions));
-            }
-            catch
-            {
-                //
-            }
+                session = m_Guid,
+                operation = "End",
+                ip_address = FuncMac.GetIpAddress(),
+                mac_address = FuncMac.GetNetCardMacAddress(),
+            });
         }
 
         public static void RecordEvent(string CmdName, int Duration, Segmentation _Segmentation)
         {
-            try
+            APIMessage.CADOperation(m_ToKen, new InitiConnection()
             {
-                if (m_ToKen == string.Empty) { throw new InvalidOperationException(" 事件调用失败！'RecordEvent'"); }
-                InitiConnection _InitiConnection = new InitiConnection();
-                _InitiConnection.cmd_name = CmdName;
-                _InitiConnection.cmd_seconds = Duration;
-                _InitiConnection.session_id = m_Guid;
-                _InitiConnection.cmd_data = _Segmentation;
-                APIMessage.CADOperation(m_ToKen, JsonConvert.SerializeObject(_InitiConnection));
-            }
-            catch
-            {
-                //
-            }
+                cmd_name = CmdName,
+                cmd_seconds = Duration,
+                session_id = m_Guid,
+                cmd_data = _Segmentation
+            });
         }
     }
 }
