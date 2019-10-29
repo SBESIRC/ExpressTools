@@ -8,7 +8,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace THRecordingService
+namespace ThAnalytics.SDK
 {
     public static class FuncMac
     {

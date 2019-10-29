@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 
 
-namespace THRecordingService
+namespace ThAnalytics.SDK
 {
     public class THRecordingService
     {

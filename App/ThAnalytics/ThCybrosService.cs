@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using THRecordingService;
+using ThAnalytics.SDK;
 
 namespace ThAnalytics
 {
@@ -75,7 +75,7 @@ namespace ThAnalytics
 
         public void Initialize()
         {
-            THRecordingService.THRecordingService.SignIn("dongshichong", "thapeSH2019");
+            THRecordingService.SignIn("dongshichong", "thapeSH2019");
         }
 
         public void UnInitialize()
@@ -85,12 +85,12 @@ namespace ThAnalytics
 
         public void StartSession()
         {
-            THRecordingService.THRecordingService.SessionBegin();
+            THRecordingService.SessionBegin();
         }
 
         public void EndSession()
         {
-            THRecordingService.THRecordingService.SessionEnd();
+            THRecordingService.SessionEnd();
         }
 
         public void RecordCommandEvent(string cmdName, double duration)
@@ -101,7 +101,7 @@ namespace ThAnalytics
             {
                 segmentation.Add("功能", thcommanfunctiondict[cmdName]);
             }
-            THRecordingService.THRecordingService.RecordEvent("CAD命令使用", (int)duration, segmentation);
+            THRecordingService.RecordEvent("CAD命令使用", (int)duration, segmentation);
         }
 
         public void RecordTHCommandEvent(string cmdName, double duration)
@@ -111,7 +111,7 @@ namespace ThAnalytics
                 Segmentation thsegmentation = new Segmentation();
                 thsegmentation.Add("名称", cmdName);
                 thsegmentation.Add("功能", thcommanfunctiondict[cmdName]);
-                THRecordingService.THRecordingService.RecordEvent("天华命令使用", (int)duration, thsegmentation);
+                THRecordingService.RecordEvent("天华命令使用", (int)duration, thsegmentation);
             }
         }
 
@@ -120,7 +120,7 @@ namespace ThAnalytics
             Segmentation segmentation = new Segmentation();
             segmentation.Add("名称", sysverName);
             segmentation.Add("值", sysverValue);
-            THRecordingService.THRecordingService.RecordEvent("CAD系统变量", 0, segmentation);
+            THRecordingService.RecordEvent("CAD系统变量", 0, segmentation);
         }
     }
 }

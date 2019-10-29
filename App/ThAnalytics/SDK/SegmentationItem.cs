@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace THRecordingService
+namespace ThAnalytics.SDK
 {
     /// <summary>
     /// Holds data about segmentation value

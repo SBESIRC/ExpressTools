@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace THRecordingService
+namespace ThAnalytics.SDK
 {
     public static class APIMessage
     {
