@@ -102,7 +102,8 @@ namespace ThAnalytics
             "HELP",
             "LAYON",
             "SELECT",
-            "XATTACH"
+            "XATTACH",
+            "NETLOAD"
         };
 
         private readonly Hashtable commandhashtable = new Hashtable();
