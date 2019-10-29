@@ -68,8 +68,7 @@ namespace THRecordingService
             request.Method = "GET";
 
             string postData = "{}";
-            ASCIIEncoding encoding = new ASCIIEncoding();
-            byte[] byte1 = encoding.GetBytes(postData);
+            byte[] byte1 = Encoding.UTF8.GetBytes(postData);
             request.ContentLength = byte1.Length;
             Stream newStream = request.GetRequestStream();
             newStream.Write(byte1, 0, byte1.Length);
@@ -98,8 +97,7 @@ namespace THRecordingService
                 _Request.Headers.Add("JWT-AUD", "CAD");
                 string _PostData = "{}";
                 _Request.Method = "OPTIONS";
-                ASCIIEncoding encoding = new ASCIIEncoding();
-                byte[] _Byte = encoding.GetBytes(_PostData);
+                byte[] _Byte = Encoding.UTF8.GetBytes(_PostData);
                 _Request.ContentLength = _Byte.Length;
                 Stream _NewStream = _Request.GetRequestStream();
                 _NewStream.Write(_Byte, 0, _Byte.Length);
@@ -138,8 +136,7 @@ namespace THRecordingService
             _Request.Headers.Add("Authorization", _Token);
             _Request.Headers.Add("JWT-AUD", "CAD");
             _Request.Method = "POST";
-            ASCIIEncoding _Encoding = new ASCIIEncoding();
-            byte[] _Byte = _Encoding.GetBytes(_PostData);
+            byte[] _Byte = Encoding.UTF8.GetBytes(_PostData);
             _Request.ContentLength = _Byte.Length;
             Stream _Stream = _Request.GetRequestStream();
             _Stream.Write(_Byte, 0, _Byte.Length);
@@ -166,11 +163,9 @@ namespace THRecordingService
             _Request.ContentType = "application/json";
             _Request.Headers.Add("Authorization", _Token);
             _Request.Headers.Add("JWT-AUD", "CAD");
-
             _Request.Method = "POST";
 
-            ASCIIEncoding _Encoding = new ASCIIEncoding();
-            byte[] _Byte = _Encoding.GetBytes(_PostData);
+            byte[] _Byte = Encoding.UTF8.GetBytes(_PostData);
             _Request.ContentLength = _Byte.Length;
             Stream _Stream = _Request.GetRequestStream();
             _Stream.Write(_Byte, 0, _Byte.Length);
