@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ThAnalytics
+namespace TianHua.AutoCAD.ThCui
 {
-    public partial class ThAnalyticsLoginDlg : Form
+    public partial class ThLoginDlg : Form
     {
         public string User
         {
@@ -28,7 +28,7 @@ namespace ThAnalytics
             }
         }
 
-        public ThAnalyticsLoginDlg()
+        public ThLoginDlg()
         {
             InitializeComponent();
         }

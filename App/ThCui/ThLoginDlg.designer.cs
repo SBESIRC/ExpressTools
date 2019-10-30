@@ -1,6 +1,6 @@
-﻿namespace ThAnalytics
+﻿namespace TianHua.AutoCAD.ThCui
 {
-    partial class ThAnalyticsLoginDlg
+    partial class ThLoginDlg
     {
         /// <summary>
         /// Required designer variable.

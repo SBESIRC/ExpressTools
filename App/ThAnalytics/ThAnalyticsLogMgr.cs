@@ -11,22 +11,12 @@ namespace ThAnalytics.Identity
             return THRecordingService.SignIn(Properties.Settings.Default.Token);
         }
 
-        public static void Login()
+        public static void Login(string user, string password)
         {
             if (!IsLogged())
             {
-                using (var dlg = new ThAnalyticsLoginDlg())
+                if (THRecordingService.SignIn(user, password))
                 {
-                    if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
-                    {
-                        return;
-                    }
-
-                    if (!THRecordingService.SignIn(dlg.User, dlg.Password))
-                    {
-                        return;
-                    }
-
                     // 开启会话
                     THRecordingService.SessionBegin();
 

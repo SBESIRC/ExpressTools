@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Forms;
 using Autodesk.Windows;
 using ThAnalytics.Identity;
 using WinApp = System.Windows.Application;
+using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -104,7 +106,17 @@ namespace TianHua.AutoCAD.ThCui
         /// </summary>
         public void Login()
         {
-            ThAnalyticsLogMgr.Login();
+            using (var dlg = new ThLoginDlg())
+            {
+                if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
+                {
+                    return;
+                }
+
+                ThAnalyticsLogMgr.Login(dlg.User, dlg.Password);
+            }
+
+            // 更新Ribbon
             if (ThAnalyticsLogMgr.IsLogged())
             {
                 ShowAllRibbon(ComponentManager.Ribbon.ActiveTab);
@@ -117,6 +129,8 @@ namespace TianHua.AutoCAD.ThCui
         public void Logout()
         {
             ThAnalyticsLogMgr.Logout();
+
+            // 更新Ribbon
             if (!ThAnalyticsLogMgr.IsLogged())
             {
                 CloseTabRibbon();
