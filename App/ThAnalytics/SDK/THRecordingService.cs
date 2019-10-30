@@ -4,9 +4,9 @@ namespace ThAnalytics.SDK
 {
     public class THRecordingService
     {
-        public static string m_ToKen = string.Empty;
+        public static string m_ToKen = null;
+        public static UserDetails m_UserDetails = null;
         public static string m_Guid = Guid.NewGuid().ToString();
-        public static UserDetails m_UserDetails = new UserDetails();
 
         public static void InitCfg(string _ServerUrl, string _SSOURL, string _AppVersion)
         {
@@ -29,7 +29,7 @@ namespace ThAnalytics.SDK
 
                 m_ToKen = _Token;
                 m_UserDetails = APIMessage.CADUserInfo(m_ToKen);
-                return true;
+                return (m_ToKen != null) && (m_UserDetails != null);
             }
             catch
             {
@@ -48,7 +48,7 @@ namespace ThAnalytics.SDK
 
                 m_ToKen = _Token;
                 m_UserDetails = APIMessage.CADUserInfo(m_ToKen);
-                return true;
+                return (m_ToKen != null) && (m_UserDetails != null);
             }
             catch
             {

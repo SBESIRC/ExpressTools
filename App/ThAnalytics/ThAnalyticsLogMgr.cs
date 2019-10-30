@@ -8,7 +8,7 @@ namespace ThAnalytics.Identity
     {
         public static bool IsLogged()
         {
-            return !string.IsNullOrEmpty(Properties.Settings.Default.Token);
+            return THRecordingService.SignIn(Properties.Settings.Default.Token);
         }
 
         public static void Login()

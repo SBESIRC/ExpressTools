@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Linq;
 using RestSharp;
 
@@ -47,6 +48,11 @@ namespace ThAnalytics.SDK
             request.AddHeader("Authorization", _Token);
             request.AddBody("{}");
             var response = client.Execute<UserDetails>(request);
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                // Token无效
+                return null;
+            }
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
