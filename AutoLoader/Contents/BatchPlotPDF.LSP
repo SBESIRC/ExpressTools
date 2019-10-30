@@ -5,8 +5,8 @@
     (print)
   )
   (cond
-    ((or (= s "A") (= s "a")) (C:LP))
-    ((or (= s "P") (= s "p")) (C:LPP))
+    ((or (= s "A") (= s "a")) (C:LPPDF))
+    ((or (= s "P") (= s "p")) (C:LPPPDF))
   )
   (princ)
 )
@@ -386,7 +386,7 @@
 )
 
 
-(DEFUN C:LP()
+(DEFUN C:LPPDF()
   (defun *error*(msg)
       (SETVAR "OSMODE" #OS)
       (SETVAR "BACKGROUNDPLOT" #BGP)    
@@ -462,7 +462,7 @@
 )
 
 
-(DEFUN C:LPP()
+(DEFUN C:LPPPDF()
   (defun *error*(msg)
       (SETVAR "OSMODE" #OS)
       (SETVAR "BACKGROUNDPLOT" #BGP)    
