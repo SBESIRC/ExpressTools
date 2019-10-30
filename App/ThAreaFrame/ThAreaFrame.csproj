@@ -39,7 +39,6 @@
     <Compile Include="ThAreaFrameApp.cs" />
     <Compile Include="ThAreaFrameCommon.cs" />
     <Compile Include="ThAreaFrameDbDataSource.cs" />
-    <Compile Include="ThAreaFrameDbUtils.cs" />
     <Compile Include="ThAreaFrameDriver.cs" />
     <Compile Include="ThAreaFrameEngine.cs" />
     <Compile Include="ThAreaFrameFoundation.cs" />
