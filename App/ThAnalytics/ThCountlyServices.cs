@@ -106,21 +106,16 @@ namespace ThAnalytics
             {
                 Countly.UserDetails.Name = userProfile.Name;
                 Countly.UserDetails.Email = userProfile.Mail;
-                if (userProfile.Accountname != null)
+                try
                 {
                     Countly.UserDetails.Custom.Add("accountname", userProfile.Accountname);
-                }
-                if (userProfile.Title != null)
-                {
                     Countly.UserDetails.Custom.Add("title", userProfile.Title);
-                }
-                if (userProfile.Company != null)
-                {
                     Countly.UserDetails.Custom.Add("company", userProfile.Company);
-                }
-                if (userProfile.Department != null)
-                {
                     Countly.UserDetails.Custom.Add("department", userProfile.Department);
+                }
+                catch
+                {
+                    //
                 }
             }
         }
