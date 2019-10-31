@@ -104,10 +104,10 @@ namespace ThAnalytics
         {
             if (userProfile.IsDomainUser())
             {
-                Countly.UserDetails.Name = userProfile.Name;
-                Countly.UserDetails.Email = userProfile.Mail;
                 try
                 {
+                    Countly.UserDetails.Name = userProfile.Name;
+                    Countly.UserDetails.Email = userProfile.Mail;
                     Countly.UserDetails.Custom.Add("accountname", userProfile.Accountname);
                     Countly.UserDetails.Custom.Add("title", userProfile.Title);
                     Countly.UserDetails.Custom.Add("company", userProfile.Company);
