@@ -13,7 +13,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <Import Project="..\TIANHUA.CSharp.General.net45.targets" />
+  <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -81,9 +81,9 @@
       <Project>{5ddfcada-bea4-402c-b3e4-5c7f83c2f09e}</Project>
       <Name>DotNetARX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ThAnalytics\ThAnalytics.csproj">
-      <Project>{edf8eb87-5032-47ef-a922-23760bda3d42}</Project>
-      <Name>ThAnalytics</Name>
+    <ProjectReference Include="..\ThIdentity\ThIdentity.csproj">
+      <Project>{f089c903-64d4-4620-9d68-81cad9ed3e44}</Project>
+      <Name>ThIdentity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
       <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>

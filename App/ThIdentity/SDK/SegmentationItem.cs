@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace ThAnalytics.SDK
+namespace ThIdentity.SDK
 {
     /// <summary>
     /// Holds data about segmentation value

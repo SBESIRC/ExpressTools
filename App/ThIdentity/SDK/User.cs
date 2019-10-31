@@ -4,25 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThAnalytics.SDK
+namespace ThIdentity.SDK
 {
-    public  class Sessions
+    public class User
     {
         /// <summary>
         /// 
         /// </summary>
-        public string session { get; set; }
+        public string username { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public string operation { get; set; }
+        public string password { get; set; }
+    }
+
+    public class SignIn
+    {
         /// <summary>
         /// 
         /// </summary>
-        public string ip_address { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string mac_address { get; set; }
+        public User user { get; set; }
     }
 }

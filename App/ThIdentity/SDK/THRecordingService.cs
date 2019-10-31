@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ThAnalytics.SDK
+namespace ThIdentity.SDK
 {
     public class THRecordingService
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ThAnalytics.SDK;
+using ThIdentity.SDK;
 
 namespace ThAnalytics
 {
@@ -75,7 +75,8 @@ namespace ThAnalytics
 
         public void Initialize()
         {
-            THRecordingService.SignIn(Properties.Settings.Default.Token);
+            // 用户认证
+            ThIdentityService.Login();
         }
 
         public void UnInitialize()

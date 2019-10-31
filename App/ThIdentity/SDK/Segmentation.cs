@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace ThAnalytics.SDK
+namespace ThIdentity.SDK
 {
     /// <summary>
     /// Holds an array of segmentation values

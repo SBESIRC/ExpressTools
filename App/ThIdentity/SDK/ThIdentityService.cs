@@ -1,16 +1,20 @@
-﻿using System.Windows.Forms;
-using ThAnalytics.SDK;
-using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
-
-namespace ThAnalytics.Identity
+﻿
+namespace ThIdentity.SDK
 {
-    public class ThAnalyticsLogMgr
+    public class ThIdentityService
     {
         public static bool IsLogged()
         {
             return THRecordingService.SignIn(Properties.Settings.Default.Token);
         }
 
+        // 使用Token登录
+        public static void Login()
+        {
+            THRecordingService.SignIn(Properties.Settings.Default.Token);
+        }
+
+        // 使用AD域账号和密码登录
         public static void Login(string user, string password)
         {
             if (!IsLogged())

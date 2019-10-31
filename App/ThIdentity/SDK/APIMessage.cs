@@ -3,7 +3,7 @@ using System.Net;
 using System.Linq;
 using RestSharp;
 
-namespace ThAnalytics.SDK
+namespace ThIdentity.SDK
 {
     public static class APIMessage
     {

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Forms;
 using Autodesk.Windows;
-using ThAnalytics.Identity;
+using ThIdentity.SDK;
 using WinApp = System.Windows.Application;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
@@ -113,11 +113,17 @@ namespace TianHua.AutoCAD.ThCui
                     return;
                 }
 
-                ThAnalyticsLogMgr.Login(dlg.User, dlg.Password);
+                ThIdentityService.Login(dlg.User, dlg.Password);
+            }
+
+            // 开启DA会话
+            if (ThIdentityService.IsLogged())
+            {
+                THRecordingService.SessionBegin();
             }
 
             // 更新Ribbon
-            if (ThAnalyticsLogMgr.IsLogged())
+            if (ThIdentityService.IsLogged())
             {
                 ShowAllRibbon(ComponentManager.Ribbon.ActiveTab);
             }
@@ -128,10 +134,16 @@ namespace TianHua.AutoCAD.ThCui
         /// </summary>
         public void Logout()
         {
-            ThAnalyticsLogMgr.Logout();
+            // 结束DA会话
+            if (ThIdentityService.IsLogged())
+            {
+                THRecordingService.SessionEnd();
+            }
+
+            ThIdentityService.Logout();
 
             // 更新Ribbon
-            if (!ThAnalyticsLogMgr.IsLogged())
+            if (!ThIdentityService.IsLogged())
             {
                 CloseTabRibbon();
             }

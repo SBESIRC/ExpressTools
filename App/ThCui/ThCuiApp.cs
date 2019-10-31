@@ -5,7 +5,7 @@ using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.ApplicationServices.PreferencesFiles;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using ThAnalytics.Identity;
+using ThIdentity.SDK;
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -161,7 +161,8 @@ namespace TianHua.AutoCAD.ThCui
                 theTab.IsVisible = true;
             }
 
-            if (!ThAnalyticsLogMgr.IsLogged())
+            // 根据用户登录状态调整天华Ribbon
+            if (!ThIdentityService.IsLogged())
             {
                 ribbons.CloseTabRibbon();
             }

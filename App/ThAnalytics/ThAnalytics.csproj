@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
-  <Import Project="..\TIANHUA.CSharp.General.net45.targets" />
+  <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -31,24 +31,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="SDK\APIMessage.cs" />
-    <Compile Include="SDK\FuncMac.cs" />
-    <Compile Include="SDK\InitiConnection.cs" />
-    <Compile Include="SDK\Segmentation.cs" />
-    <Compile Include="SDK\SegmentationItem.cs" />
-    <Compile Include="SDK\Sessions.cs" />
-    <Compile Include="SDK\THConfig.cs" />
-    <Compile Include="SDK\THRecordingService.cs" />
-    <Compile Include="SDK\User.cs" />
-    <Compile Include="SDK\UserDetails.cs" />
     <Compile Include="ThADPServices.cs" />
     <Compile Include="ThAnalyticsApp.cs" />
-    <Compile Include="ThAnalyticsLogMgr.cs" />
     <Compile Include="ThCountlyServices.cs" />
     <Compile Include="ThCybrosService.cs" />
   </ItemGroup>
@@ -81,20 +65,12 @@
   </Choose>
   <ItemGroup>
     <PackageReference Include="Countly" Version="19.2.1" />
-    <PackageReference Include="RestSharp" Version="105.2.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThIdentity\ThIdentity.csproj">
       <Project>{f089c903-64d4-4620-9d68-81cad9ed3e44}</Project>
       <Name>ThIdentity</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
