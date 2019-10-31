@@ -185,6 +185,14 @@ namespace ThAnalytics
 
         private void Document_LispWillStart(object sender, LispWillStartEventArgs e)
         {
+            // 特殊情况（C:THZ0）
+            if (Regex.Match(e.FirstLine, @"^\([cC]:THZ0\)$").Success)
+            {
+                ThCountlyServices.Instance.RecordTHCommandEvent(e.FirstLine.Substring(3, e.FirstLine.Length - 4), 0);
+                return;
+            }
+
+            // 正常情况（C:THXXX）
             string pattern = @"^\([cC]:TH[A-Z]{3,}\)$";
             if (Regex.Match(e.FirstLine, pattern).Success)
             {
