@@ -171,6 +171,7 @@ namespace ThAreaFrameConfig.Model
 
                     List<ObjectId> textObjIds = new List<ObjectId>();
                     List<ObjectId> bboxObjIds = new List<ObjectId>();
+                    List<ObjectId> fillObjIds = new List<ObjectId>();
                     foreach (var frame in compartment.Frames)
                     {
                         ObjectId frameId = new ObjectId(frame.Frame);
@@ -205,6 +206,19 @@ namespace ThAreaFrameConfig.Model
                             // 删除面积框线XData
                             frameId.RemoveXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Parking);
                         }
+
+                        valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill);
+                        if (valueList != null)
+                        {
+                            var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                            if (handles.Any())
+                            {
+                                fillObjIds.Add(acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value));
+                            }
+
+                            // 删除填充XData
+                            frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill);
+                        }
                     }
 
                     // 删除防火分区文字
@@ -215,6 +229,12 @@ namespace ThAreaFrameConfig.Model
 
                     // 删除防火分区文字框线
                     foreach (var objId in bboxObjIds.Distinct())
+                    {
+                        acadDatabase.ModelSpace.Element(objId, true).Erase();
+                    }
+
+                    // 删除防火分区填充
+                    foreach(var objId in fillObjIds.Distinct())
                     {
                         acadDatabase.ModelSpace.Element(objId, true).Erase();
                     }
