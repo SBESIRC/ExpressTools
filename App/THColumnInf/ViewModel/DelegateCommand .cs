@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace THColumnInfo
+namespace ThColumnInfo
 {
     public class DelegateCommand : ICommand
     {

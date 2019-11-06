@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Autodesk.AutoCAD.Runtime;
-using THColumnInfo.View;
+using ThColumnInfo.View;
 
-namespace THColumnInfo
+namespace ThColumnInfo
 {
     public class ColumnDrawRule:DrawableOverrule
     {

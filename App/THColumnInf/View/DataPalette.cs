@@ -5,7 +5,7 @@ using System.Text;
 using Autodesk.AutoCAD.Windows;
 using Autodesk.AutoCAD.ApplicationServices;
 
-namespace THColumnInfo.View
+namespace ThColumnInfo.View
 {
    public class DataPalette
     {

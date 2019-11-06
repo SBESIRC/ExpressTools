@@ -5,9 +5,9 @@ using System.Text;
 using Linq2Acad;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace THColumnInfo
+namespace ThColumnInfo
 {
-    public class ThColumnInfDbUtils
+    public class ThColumnInfoDbUtils
     {
         public static Entity GetEntity(Database database,ObjectId objId)
         {

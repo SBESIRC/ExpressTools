@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace THColumnInfo.View
+namespace ThColumnInfo.View
 {
     public class CheckPalette
     {

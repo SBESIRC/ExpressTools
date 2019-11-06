@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace THColumnInfo.View
+namespace ThColumnInfo.View
 {
     public partial class DataResult : UserControl
     {
@@ -69,18 +69,18 @@ namespace THColumnInfo.View
             {
                 return;
             }
-            ColumnInf columnInf = this.dataGridView1.Rows[e.RowIndex].Tag as ColumnInf;
-            if(columnInf==null)
-            {
-                return;
-            }
-            List<string> handles = columnInf.Handles.Distinct().ToList();
-            if (handles.IndexOf(columnInf.CurrentHandle) < 0)
-            {
-                handles.Add(columnInf.CurrentHandle);
-            }
-            DrawableOverruleController.RemoveDrawableRule(); //先移除，再附加
-            DrawableOverruleController.ShowHatchForColumn(handles);
+            //ColumnInf columnInf = this.dataGridView1.Rows[e.RowIndex].Tag as ColumnInf;
+            //if(columnInf==null)
+            //{
+            //    return;
+            //}
+            //List<string> handles = columnInf.Handles.Distinct().ToList();
+            //if (handles.IndexOf(columnInf.CurrentHandle) < 0)
+            //{
+            //    handles.Add(columnInf.CurrentHandle);
+            //}
+            //DrawableOverruleController.RemoveDrawableRule(); //先移除，再附加
+            //DrawableOverruleController.ShowHatchForColumn(handles);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace ThXClip
             TypedValue[] tvs = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Line,Circle,Arc,Ellipse,LWPolyline,Polyline,Spline") };
             SelectionFilter sf = new SelectionFilter(tvs);
             ProgressMeter pm = new ProgressMeter();
-            pm.Start(@"开始裁剪...");
+            pm.Start(@"正在裁剪...");
             int limitLength= this._analyzeRelation.ModelWipeOutIds.Count+ this._analyzeRelation.BlkWipeOuts.Count+
                  this._analyzeRelation.XclipInfs.Count;
             pm.SetLimit(limitLength);

@@ -4,49 +4,10 @@ using System.Linq;
 using System.Text;
 using Autodesk.AutoCAD.Geometry;
 
-namespace THColumnInfo
+namespace ThColumnInfo
 {
     public class BaseFunction
     {
-        public static string TransferSpecialChar(string content)
-        {
-            if (string.IsNullOrEmpty(content))
-            {
-                return "";
-            }
-            content=content.Replace("%%130", "A");
-            content = content.Replace("%%131", "B");
-            content = content.Replace("%%132", "C");
-            content = content.Replace("%%133", "D");    
-            
-            //int index = 1;
-            //string res = "";
-            //while (index>=0)
-            //{
-            //    index = content.IndexOf("%%132");
-            //    if (index<0)
-            //    {
-            //        break;
-            //    }                
-            //    res += content.Substring(0, index);
-            //    content = content.Substring(index + 2);
-            //    if (content[0] >= '0' && content[0] <= '9')
-            //    {
-            //        string num = "";
-            //        for (int i = 0; i < 3; i++)
-            //        {
-            //            num += content[i];
-            //        }
-            //        char ss =(char)(Convert.ToInt32(num));
-            //        content = ss + content.Substring(3);
-            //    }
-            //}
-            //if (res=="")
-            //{
-            //    res = content;
-            //}
-            return content;
-        }
         /// <summary>
         /// 字符串转Unicode
         /// </summary>
@@ -202,6 +163,5 @@ namespace THColumnInfo
             }
             return res;
         }
-
     }
 }

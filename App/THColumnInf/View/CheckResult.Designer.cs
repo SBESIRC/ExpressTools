@@ -1,4 +1,4 @@
-﻿namespace THColumnInfo.View
+﻿namespace ThColumnInfo.View
 {
     partial class CheckResult
     {

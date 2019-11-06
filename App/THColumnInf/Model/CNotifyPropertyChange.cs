@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace THColumnInfo
+namespace ThColumnInfo
 {
     /// <summary>
     /// 主要封装了绑定的属性改变时的通知函数

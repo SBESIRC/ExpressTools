@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using THColumnInfo.Controller;
 
-namespace THColumnInfo
+namespace ThColumnInfo
 {
     public class SearchFieldVM: CNotifyPropertyChange
     {
@@ -18,7 +17,7 @@ namespace THColumnInfo
             {
                 m_UIController = new UIController(m_UIModel);
             }
-            this._layerNameList = CadOperation.GetLayerNameList();
+            this._layerNameList = ThColumnInfoUtils.GetLayerNameList();
         }
         private List<string> _layerNameList = new List<string>();
 

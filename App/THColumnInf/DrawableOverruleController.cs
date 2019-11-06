@@ -8,14 +8,14 @@ using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.Runtime;
 
-namespace THColumnInfo
+namespace ThColumnInfo
 {
     public class DrawableOverruleController
     {
         public static ColumnDrawRule _columnDrawRule;
         public static void ShowHatchForColumn(List<string> handles)
         {
-            List<ObjectId> objIds = handles.Select(i => ThColumnInfDbUtils.GetObjId(i, Application.DocumentManager.MdiActiveDocument.Database)).ToList();
+            List<ObjectId> objIds = handles.Select(i => ThColumnInfoDbUtils.GetObjId(i, Application.DocumentManager.MdiActiveDocument.Database)).ToList();
             if (_columnDrawRule==null)
             {
                 _columnDrawRule = new ColumnDrawRule();                
