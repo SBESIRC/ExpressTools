@@ -217,7 +217,7 @@ namespace ThAreaFrameConfig.Model
                             }
 
                             // 删除填充XData
-                            frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill);
+                            frameId.RemoveXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill);
                         }
                     }
 
