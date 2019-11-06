@@ -65,15 +65,6 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Debug" Guid="{F4051B11-7C47-4EE2-9D3A-CA3FB150E2B6}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Debug" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2012\DgnLsPurge.dll" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Electrical_Debug" Guid="{DDB28F2C-CF8A-4D5C-A472-98B50FA3BC33}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R18_Electrical_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThElectrical.dll" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Interactivity_Debug" Guid="{634B141F-4988-4E11-87F3-6F15F181EC7A}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R18_Interactivity_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\System.Windows.Interactivity.dll" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Interactions_Debug" Guid="{237C3B84-D9F6-491F-8A25-24F7C1146C4C}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R18_Interactions_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\Microsoft.Expression.Interactions.dll" />
-          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Debug" Guid="{8B4E89D6-A186-4B9A-AD02-F0202E696D39}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThAreaFrameConfig.dll" />
           </Component>
@@ -211,15 +202,6 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Debug" Guid="{965B685D-9183-4CCB-9705-F297793C77F6}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Debug" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2014\DgnLsPurge.dll" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Electrical_Debug" Guid="{8869E5A5-7F0B-4DA6-A85D-B065F21EF5DA}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R19_Electrical_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThElectrical.dll" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Interactivity_Debug" Guid="{65740FC0-7CAA-48F8-A512-D33B37966FAF}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R19_Interactivity_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\System.Windows.Interactivity.dll" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Interactions_Debug" Guid="{C4F1D1E2-200F-4AE9-9B4C-BBA57A78A986}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R19_Interactions_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\Microsoft.Expression.Interactions.dll" />
-          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Debug" Guid="{88763928-E2BF-45C3-A75D-E0CA8DC55B9B}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThAreaFrameConfig.dll" />
           </Component>
@@ -353,15 +335,6 @@
         </Component>
         <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Debug" Guid="{fe070f01-942c-4d63-b448-a1ab62f9bb22}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\$(var.ThElectricalSysDiagram.TargetFileName)" />
-        </Component>
-        <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Electrical_Debug" Guid="{c5eaa63d-f827-4072-a93e-a250583dace1}" Win64="yes">
-          <File Id="FILE_Autoloader_Contents_App_Win64_R20_Electrical_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThElectrical.dll" />
-        </Component>
-        <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Interactivity_Debug" Guid="{53fd6e46-9b8d-4dfc-a4f4-ec39445ad3da}" Win64="yes">
-          <File Id="FILE_Autoloader_Contents_App_Win64_R20_Interactivity_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\System.Windows.Interactivity.dll" />
-        </Component>
-        <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Interactions_Debug" Guid="{2e4d82d7-0049-46ed-8ab2-e5742db4939b}" Win64="yes">
-          <File Id="FILE_Autoloader_Contents_App_Win64_R20_Interactions_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\Microsoft.Expression.Interactions.dll" />
         </Component>
         <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Debug" Guid="{9334b1bd-7974-4c92-a193-33e36375d21f}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThAreaFrameConfig.dll" />
@@ -501,15 +474,6 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" Guid="{1B317CB9-7CBD-4938-A390-A7D1F274275F}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2012\DgnLsPurge.dll" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Electrical_Release" Guid="{E56CC9FC-7CF1-4CE8-9D71-C8EA792F772B}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R18_Electrical_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThElectrical.dll" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Interactivity_Release" Guid="{79F58896-0C61-402B-A68C-705FD1531369}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R18_Interactivity_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\System.Windows.Interactivity.dll" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Interactions_Release" Guid="{F4A929B4-D8E4-445E-89D0-2535DE36F620}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R18_Interactions_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Microsoft.Expression.Interactions.dll" />
-          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Release" Guid="{3AC8A833-3D51-4D30-BF11-FE4D67AD3D9B}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThAreaFrameConfig.dll" />
           </Component>
@@ -647,15 +611,6 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" Guid="{3BEDE9E4-D57D-4F63-9D34-7382C82629D9}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2014\DgnLsPurge.dll" />
           </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Electrical_Release" Guid="{7704F4DD-9111-4E2A-BC5D-54BE8E019BAD}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R19_Electrical_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThElectrical.dll" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Interactivity_Release" Guid="{CB6CB6C9-7540-41E8-946A-B3EA37413A8C}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R19_Interactivity_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\System.Windows.Interactivity.dll" />
-          </Component>
-          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Interactions_Release" Guid="{A78649B3-25C6-46CE-BCEE-A34744947B31}" Win64="yes">
-            <File Id="FILE_Autoloader_Contents_App_Win64_R19_Interactions_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Microsoft.Expression.Interactions.dll" />
-          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Release" Guid="{057CDDA6-BA3C-421E-985B-A4460CB42BEF}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThAreaFrameConfig.dll" />
           </Component>
@@ -790,15 +745,6 @@
         <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Release" Guid="{1500fb8a-3087-44a7-9626-272b3a756f40}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\$(var.ThElectricalSysDiagram.TargetFileName)" />
         </Component>
-        <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Electrical_Release" Guid="{d2d22513-b3b3-4c16-bbf8-cec707873fa0}" Win64="yes">
-          <File Id="FILE_Autoloader_Contents_App_Win64_R20_Electrical_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThElectrical.dll" />
-        </Component>
-        <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Interactivity_Release" Guid="{2476cbe9-a901-422f-b902-98672026eace}" Win64="yes">
-          <File Id="FILE_Autoloader_Contents_App_Win64_R20_Interactivity_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\System.Windows.Interactivity.dll" />
-        </Component>
-        <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Interactions_Release" Guid="{6891d423-4914-44cf-96bf-6a8e5a707d63}" Win64="yes">
-          <File Id="FILE_Autoloader_Contents_App_Win64_R20_Interactions_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Microsoft.Expression.Interactions.dll" />
-        </Component>
         <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Release" Guid="{d3be03a0-3806-4b6f-b9b4-dae86441a33a}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThAreaFrameConfig.dll" />
         </Component>
@@ -900,9 +846,6 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Electrical_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Interactivity_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Interactions_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Utils_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Data_Debug" />
@@ -947,9 +890,6 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Electrical_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Interactivity_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Interactions_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Utils_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Data_Debug" />
@@ -993,9 +933,6 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThLicense_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThResourceLibrary_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Electrical_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Interactivity_Debug" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Interactions_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Utils_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Data_Debug" />
@@ -1041,9 +978,6 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Electrical_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Interactivity_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Interactions_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Utils_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Data_Release" />
@@ -1088,9 +1022,6 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Electrical_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Interactivity_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Interactions_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Utils_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Data_Release" />
@@ -1134,9 +1065,6 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThLicense_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThResourceLibrary_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Electrical_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Interactivity_Release" />
-        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Interactions_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Utils_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Data_Release" />

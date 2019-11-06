@@ -146,18 +146,6 @@ namespace TianHua.AutoCAD.ThCui
                     cs.AddMacro(kp.Name, marco + kp.Command + " ", id + kp.Command, kp.HelpString, imageFolderPath + kp.Command + kp.Suffix);
                 });
 
-                menuModify = thMenu.AddSubMenu(-1, "系统详图", "ID_THMenu_XiTongXiangTu");
-                kps = new List<ThCommandInfo> {
-
-                      new ThCommandInfo("配电箱系统图修改 <THLDC>", "THLDC", "识别图纸系统图中各配电箱的回路、开关型号等相关信息。修改回路功率值，回路和配电箱其他参数自动更新",true)
-                };
-                kps.ForEach(kp =>
-                {
-                    menuModify.AddMenuItem(-1, kp.Name, id + kp.Command);
-                    cs.AddMacro(kp.Name, marco + kp.Command + " ", id + kp.Command, kp.HelpString, imageFolderPath + kp.Command + kp.Suffix);
-                });
-
-
                 menuModify = thMenu.AddSubMenu(-1, "辅助工具", "ID_THMenu_FuZhuGongJu");
                 kps = new List<ThCommandInfo> {
                     new ThCommandInfo("批量缩放 <THMSC>", "THMSC", "对多个选择对象以各自的开始点（插入点）为基准点进行批量比例缩放",false),

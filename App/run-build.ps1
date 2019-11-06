@@ -40,8 +40,6 @@ Task Compile.Assembly.R18 -Depends Requires.MSBuild {
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:rebuild
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration=$buildType /t:restore
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration=$buildType /t:rebuild
-            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThElectrical\ThElectrical.csproj" /p:Configuration=$buildType /t:restore
-            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThElectrical\ThElectrical.csproj" /p:Configuration=$buildType /t:rebuild
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration=$buildType /t:restore
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration=$buildType /t:rebuild
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThPlot\ThPlot.csproj" /p:Configuration=$buildType /t:restore
@@ -74,8 +72,6 @@ Task Compile.Assembly.R19 -Depends Requires.MSBuild {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThElectrical\ThElectrical.csproj" /p:Configuration="${buildType}-NET40" /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThElectrical\ThElectrical.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThPlot\ThPlot.csproj" /p:Configuration="${buildType}-NET40" /t:restore
@@ -108,8 +104,6 @@ Task Compile.Assembly.R20 -Depends Requires.MSBuild {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration="${buildType}-NET45" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration="${buildType}-NET45" /t:rebuild
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThElectrical\ThElectrical.csproj" /p:Configuration="${buildType}-NET45" /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThElectrical\ThElectrical.csproj" /p:Configuration="${buildType}-NET45" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration="${buildType}-NET45" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration="${buildType}-NET45" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThPlot\ThPlot.csproj" /p:Configuration="${buildType}-NET45" /t:restore
@@ -152,7 +146,6 @@ Task Compile.Installer -Depends Requires.BuildType, Compile.Assembly.R18, Compil
         & $msbuildExe /verbosity:minimal ".\ThIdentity\ThIdentity.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration=$buildType /t:restore
-        & $msbuildExe /verbosity:minimal ".\ThElectrical\ThElectrical.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThElectricalSysDiagram\ThElectricalSysDiagram.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThPlot\ThPlot.csproj" /p:Configuration=$buildType /t:restore

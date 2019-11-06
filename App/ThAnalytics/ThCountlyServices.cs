@@ -59,9 +59,6 @@ namespace ThAnalytics
             {"THFET", "消防疏散表"},
             {"THABC", "房间面积框线"},
             
-            // 系统详图
-            {"THLDC", "配电箱系统图修改"},
-            
             // 辅助工具
             {"THMSC", "批量缩放"},
             {"THZ0", "Z值归零"},
