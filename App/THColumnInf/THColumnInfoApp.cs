@@ -55,9 +55,13 @@ namespace ThColumnInfo
                 //让用户指定柱子的位置
                 ThDrawColumns thDrawColumns = new ThDrawColumns(dbDataSource.ColumnInfs);
                 thDrawColumns.Draw();
-                //位置确定后，关联本地柱子
-                ThRelateColumn thRelateColumn = new ThRelateColumn(dataSource.ColumnInfs, thDrawColumns.ColumnRelateInfs);
-                thRelateColumn.Relate();
+                if(thDrawColumns.IsGoOn)
+                {
+                    //位置确定后，关联本地柱子
+                    ThRelateColumn thRelateColumn = new ThRelateColumn(dataSource.ColumnInfs, thDrawColumns.ColumnRelateInfs);
+                    thRelateColumn.Relate();
+                }
+                
             }
             catch(System.Exception ex)
             {

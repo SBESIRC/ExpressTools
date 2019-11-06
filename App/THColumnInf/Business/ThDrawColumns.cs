@@ -20,6 +20,14 @@ namespace ThColumnInfo
         private List<List<DrawColumnInf>> xyColumns = new List<List<DrawColumnInf>>(); //按XY坐标排序
         private List<Polyline> columnEnts = new List<Polyline>();
         private List<KeyValuePair<DrawColumnInf, Polyline>> keyValuePairs = new List<KeyValuePair<DrawColumnInf, Polyline>>();
+        private bool isGoOn = true;
+        public bool IsGoOn
+        {
+            get
+            {
+                return isGoOn;
+            }
+        }
         /// <summary>
         /// 获取数据库信息在模型中摆放的位置
         /// </summary>
@@ -125,26 +133,64 @@ namespace ThColumnInfo
                 return;
             }
             Document doc = ThColumnInfoUtils.GetMdiActiveDocument();
-            using (Transaction trans= doc.TransactionManager.StartTransaction())
+            bool doMark = true;
+            Point3d basePt = Point3d.Origin;
+            while (doMark)
             {
-                BlockTable bt = trans.GetObject(doc.Database.BlockTableId,OpenMode.ForRead) as BlockTable;
-                BlockTableRecord btr = trans.GetObject(bt[BlockTableRecord.ModelSpace],OpenMode.ForRead) as BlockTableRecord;
-                ThColumnJig thColumnJig = new ThColumnJig(this.columnEnts);
+                ThColumnJig thColumnJig = new ThColumnJig(this.columnEnts, basePt);
                 PromptResult jigRes = doc.Editor.Drag(thColumnJig);
-                if(jigRes.Status==PromptStatus.OK)
+                if (jigRes.Status == PromptStatus.OK)
                 {
-                    //Matrix3d moveMt = Matrix3d.Displacement(Point3d.Origin.GetVectorTo(thColumnJig.Position));
-                    //this.columnEnts.ForEach(i => i.TransformBy(moveMt)); //把基点移动到原点
-                    btr.UpgradeOpen();
-                    this.columnEnts.ForEach(i=>btr.AppendEntity(i));
-                    this.columnEnts.ForEach(i => trans.AddNewlyCreatedDBObject(i, true));
-                    btr.DowngradeOpen();
+                    doMark = false;
+                    this.isGoOn = true;
+                    break;
                 }
-                trans.Commit();
+                else if(jigRes.Status == PromptStatus.Keyword)
+                {
+                    if(thColumnJig.KeyWord=="R")
+                    {
+                        List<Entity> ents = this.columnEnts.Select(i => i.Clone() as Entity).ToList();
+                        using (Transaction trans = doc.TransactionManager.StartTransaction())
+                        {
+                            BlockTable bt = trans.GetObject(doc.Database.BlockTableId, OpenMode.ForRead) as BlockTable;
+                            BlockTableRecord btr = trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead) as BlockTableRecord;
+                            btr.UpgradeOpen();
+                            ents.ForEach(i => btr.AppendEntity(i));
+                            ents.ForEach(i => trans.AddNewlyCreatedDBObject(i, true));
+                            btr.DowngradeOpen();
+                            trans.Commit();
+                        }
+                        PromptPointOptions ppo = new PromptPointOptions("\n请选择重置的基点");
+                        ppo.AllowArbitraryInput = false;
+                        ppo.AllowNone = false;
+                        PromptPointResult ppr= doc.Editor.GetPoint(ppo);
+                        if(ppr.Status==PromptStatus.OK)
+                        {
+                            basePt = ppr.Value;                
+                        }
+                        if(ents!=null && ents.Count>0)
+                        {
+                            ThColumnInfoUtils.EraseObjIds(ents.Select(i => i.ObjectId).ToArray());
+                        }
+                    }
+                    else if(thColumnJig.KeyWord == "E")
+                    {
+                        doMark = false;
+                        this.isGoOn = false;
+                        break;
+                    }
+                }
+                else if(jigRes.Status == PromptStatus.Cancel)
+                {
+                    doMark = false;
+                    this.isGoOn = false;
+                    break;
+                }
             }
             //必须赋值完后，方可释放上面的柱子实体
             keyValuePairs.ForEach(i => this.ColumnRelateInfs.Add(new ColumnRelateInf()
             { DbColumnInf = i.Key, InModelPts = GetPolylinePts(i.Value)}));
+            this.columnEnts.ForEach(i => i.Dispose()); //释放已绘制的柱子
         }
     }
 }
