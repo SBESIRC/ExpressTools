@@ -34,47 +34,21 @@ namespace ThSpray
             return false;
         }
 
-        /// <summary>
-        /// 计算点在环内
-        /// </summary>
-        /// <param name="loop"></param>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-        public static bool PtInLoop(List<TopoEdge> loop, Point2d pt)
+        public static Arc CreateArc(Point3d startPoint, Point3d centerPoint, Point3d endPoint, double radius)
         {
-            Point2d end = new Point2d(pt.X + 100000000000, pt.Y);
-            LineSegment2d intersectLine = new LineSegment2d(pt, end);
-            var ptLst = new List<Point2d>();
-
-            foreach (var edge in loop)
-            {
-                LineSegment2d line = new LineSegment2d(edge.Start, edge.End);
-                var intersectPts = line.IntersectWith(intersectLine);
-                if (intersectPts != null && intersectPts.Count() == 1)
-                {
-                    var nPt = intersectPts.First();
-                    bool bInLst = false;
-                    foreach (var curpt in ptLst)
-                    {
-                        if (CommonUtils.Point2dIsEqualPoint2d(nPt, curpt))
-                        {
-                            bInLst = true;
-                            break;
-                        }
-                    }
-
-                    if (!bInLst)
-                        ptLst.Add(nPt);
-                }
-
-            }
-
-            if (ptLst.Count % 2 == 1)
-                return true;
-            else
-                return false;
+            Vector2d startVector = new Vector2d(startPoint.X - centerPoint.X, startPoint.Y - centerPoint.Y);
+            Vector2d endVector = new Vector2d(endPoint.X - centerPoint.X, endPoint.Y - centerPoint.Y);
+            var arc = new Arc(centerPoint, radius, startVector.Angle, endVector.Angle);
+            return arc;
         }
 
+        public static Arc CreateArcReverse(Point3d startPoint, Point3d centerPoint, Point3d endPoint, double radius, Vector3d normal)
+        {
+            Vector2d startVector = new Vector2d(startPoint.X - centerPoint.X, startPoint.Y - centerPoint.Y);
+            Vector2d endVector = new Vector2d(endPoint.X - centerPoint.X, endPoint.Y - centerPoint.Y);
+            var arc = new Arc(centerPoint, normal, radius, startVector.Angle, endVector.Angle);
+            return arc;
+        }
         public static bool PtInLoop(List<LineSegment2d> loop, Point2d pt)
         {
             Point2d end = new Point2d(pt.X + 100000000000, pt.Y);
@@ -109,41 +83,6 @@ namespace ThSpray
             else
                 return false;
         }
-        /// <summary>
-        /// outerEdge是否包含innerEdge
-        /// </summary>
-        /// <param name="outerEdge"></param>
-        /// <param name="innerEdge"></param>
-        /// <returns></returns>
-        public static bool OutLoopContainsInnerLoop(List<TopoEdge> outerEdge, List<TopoEdge> innerEdge)
-        {
-            bool bIn = true;
-            foreach (var edge in innerEdge)
-            {
-                var pt = edge.Start;
-                if (!PtInLoop(outerEdge, pt))
-                {
-                    bIn = false;
-                    break;
-                }
-            }
-            return bIn;
-        }
-
-        public static bool OutLoopContainsInnerLoop(List<LineSegment2d> outerprofile, List<TopoEdge> innerEdge)
-        {
-            bool bIn = true;
-            foreach (var edge in innerEdge)
-            {
-                var pt = edge.Start;
-                if (!PtInLoop(outerprofile, pt))
-                {
-                    bIn = false;
-                    break;
-                }
-            }
-            return bIn;
-        }
 
         public static bool OutLoopContainsInnerLoop(List<LineSegment2d> outerprofile, List<LineSegment2d> innerEdge)
         {
@@ -171,8 +110,8 @@ namespace ThSpray
 
             foreach (var edge in loop)
             {
-                Point2d start = edge.Start;
-                Point2d end = edge.End;
+                Point2d start = new Point2d(edge.Start.X, edge.Start.Y);
+                Point2d end = new Point2d(edge.End.X, edge.End.Y);
                 area += 0.5 * (start.X * end.Y - start.Y * end.X);
             }
 
@@ -205,10 +144,10 @@ namespace ThSpray
         /// <returns></returns>
         public static Point2d CalculateTopoEdgePos(List<TopoEdge> edges)
         {
-            var pt = edges.First().Start;
+            var pt = new Point2d(edges.First().Start.X, edges.First().Start.Y);
             for (int j = 1; j < edges.Count; j++)
             {
-                pt = CommonUtils.Point2dAddPoint2d(pt, edges[j].Start);
+                pt = CommonUtils.Point2dAddPoint2d(pt, new Point2d(edges[j].Start.X, edges[j].Start.Y));
             }
 
             var ptCen = pt / edges.Count;
@@ -234,7 +173,11 @@ namespace ThSpray
         /// <returns></returns>
         public static int HashKey(Point2d point)
         {
-            return ((int)(point.X * 50) % HashMapCount);
+            var posX = point.X;
+            if (posX > 1E6)
+                posX = posX * 1e-5;
+            long index = ((long)(posX * 50) % HashMapCount);
+            return (int)index;
         }
 
         /// <summary>
@@ -268,6 +211,11 @@ namespace ThSpray
         /// <returns></returns>
         public static bool Point2dIsEqualPoint2d(Point2d ptFirst, Point2d ptSecond, double tolerance = 1e-6)
         {
+            if (ptFirst.GetDistanceTo(new Point2d(0, 0)) > 1e7)
+            {
+                ptFirst = new Point2d(ptFirst.X * 1e-4, ptFirst.Y * 1e-4);
+                ptSecond = new Point2d(ptSecond.X * 1e-4, ptSecond.Y * 1e-4);
+            }
             if (ptFirst.GetDistanceTo(ptSecond) < tolerance)
                 return true;
             return false;
@@ -293,25 +241,25 @@ namespace ThSpray
             return new Point2d(res.X, res.Y);
         }
 
-        /// <summary>
-        /// 点在线段上面
-        /// </summary>
-        /// <param name="point"></param>
-        /// <param name="line"></param>
-        /// <param name="tole"></param>
-        /// <returns></returns>
-        public static bool IsPointOnSegment(Point2d point, TopoEdge line, double tole = 1e-8)
-        {
-            var ptS = line.Start;
-            var ptE = line.End;
-            var lengthS = (ptS - point).Length;
-            var lengthE = (ptE - point).Length;
-            var lengthDiff = lengthS + lengthE - (ptS - ptE).Length;
-            if (CommonUtils.IsAlmostNearZero(lengthDiff, tole))
-                return true;
+        ///// <summary>
+        ///// 点在线段上面
+        ///// </summary>
+        ///// <param name="point"></param>
+        ///// <param name="line"></param>
+        ///// <param name="tole"></param>
+        ///// <returns></returns>
+        //public static bool IsPointOnSegment(Point2d point, TopoEdge line, double tole = 1e-8)
+        //{
+        //    var ptS = line.Start;
+        //    var ptE = line.End;
+        //    var lengthS = (ptS - point).Length;
+        //    var lengthE = (ptE - point).Length;
+        //    var lengthDiff = lengthS + lengthE - (ptS - ptE).Length;
+        //    if (CommonUtils.IsAlmostNearZero(lengthDiff, tole))
+        //        return true;
 
-            return false;
-        }
+        //    return false;
+        //}
 
         /// <summary>
         /// 点在线段上面
@@ -368,6 +316,34 @@ namespace ThSpray
             return new LineSegment2d(ptSadd, ptEadd);
         }
 
+        public static Line LineAddVector(Line line, Vector2d vec)
+        {
+            var moveVec = new Vector3d(vec.X, vec.Y, 0);
+            var ptS = line.StartPoint;
+            var ptE = line.EndPoint;
+            var ptSadd = ptS + moveVec;
+            var ptEadd = ptE + moveVec;
+            return new Line(ptSadd, ptEadd);
+        }
+
+        public static Point3d ptAddVector(Point3d pt, Vector2d vec)
+        {
+            var moveVec = new Vector3d(vec.X, vec.Y, 0);
+            var ptRes = pt + moveVec;
+            return ptRes;
+        }
+
+        public static Arc ArcAddVector(Arc arc, Vector2d vec)
+        {
+            var ptS = ptAddVector(arc.StartPoint, vec);
+            var ptE = ptAddVector(arc.EndPoint, vec);
+            var ptCenter = ptAddVector(arc.Center, vec);
+            Vector2d startVector = new Vector2d(ptS.X - ptCenter.X, ptS.Y - ptCenter.Y);
+            Vector2d endVector = new Vector2d(ptE.X - ptCenter.X, ptE.Y - ptCenter.Y);
+            var resArc = new Arc(ptCenter, arc.Radius, startVector.Angle, endVector.Angle);
+            return resArc;
+        }
+
         /// <summary>
         /// 平移
         /// </summary>
@@ -383,13 +359,43 @@ namespace ThSpray
             return new LineSegment2d(ptSadd, ptEadd);
         }
 
-        public static TopoEdge LineDecVector(TopoEdge edge, Vector2d vec)
+        public static TopoEdge LineDecVector(TopoEdge edge, Vector2d srcVec)
         {
-            var ptS = edge.Start;
-            var ptE = edge.End;
-            var ptSadd = ptS - vec;
-            var ptEadd = ptE - vec;
-            return new TopoEdge(ptSadd, ptEadd, CommonUtils.Vector2XY(ptEadd - ptSadd));
+            var vec = new Vector3d(srcVec.X, srcVec.Y, 0);
+
+            if (edge.IsLine)
+            {
+                var ptS = edge.Start;
+                var ptE = edge.End;
+                var ptSadd = ptS - vec;
+                var ptEadd = ptE - vec;
+                var line = new Line(ptSadd, ptEadd);
+                var dir = line.GetFirstDerivative(ptSadd);
+                // 直线是真实的数据
+                return new TopoEdge(ptSadd, ptEadd, line, edge.StartDir, edge.EndDir);
+            }
+            else
+            {
+                var arc = edge.SrcCurve as Arc;
+                var ptS = arc.StartPoint;
+                var ptE = arc.EndPoint;
+                var ptSadd = ptS - vec;
+                var ptEadd = ptE - vec;
+                var radius = arc.Radius;
+                var ptCenter = arc.Center;
+                var ptCenterAdd = ptCenter - vec;
+                var tmpArc = CommonUtils.CreateArc(ptSadd, ptCenterAdd, ptEadd, radius);
+                if (CommonUtils.Point2dIsEqualPoint2d(new Point2d(ptS.X, ptS.Y), new Point2d(edge.Start.X, edge.Start.Y)))
+                {
+                    return new TopoEdge(ptSadd, ptEadd, tmpArc, edge.StartDir, edge.EndDir);
+                }
+                else if (CommonUtils.Point2dIsEqualPoint2d(new Point2d(ptS.X, ptS.Y), new Point2d(edge.End.X, edge.End.Y)))
+                {
+                    return new TopoEdge(ptEadd, ptSadd, tmpArc, edge.StartDir, edge.EndDir);
+                }
+            }
+
+            return null;
         }
 
         public static Line LineDecVector(Line line, Vector3d vec)
@@ -401,7 +407,7 @@ namespace ThSpray
             return new Line(ptSadd, ptEadd);
         }
 
-        public static XY Vector2XY(Vector2d vec)
+        public static XY Vector2XY(Vector3d vec)
         {
             return new XY(vec.X, vec.Y);
         }

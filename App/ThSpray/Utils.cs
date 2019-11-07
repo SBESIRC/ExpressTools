@@ -48,6 +48,66 @@ namespace ThSpray
             return curves;
         }
 
+        public static void CreateGroup(List<Curve> curves, string groupName, string showName)
+        {
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+            Utils.CreateLayer(showName, Color.FromRgb(255, 0, 0));
+
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                // Get the group dictionary from the drawing
+                DBDictionary gd = (DBDictionary)tr.GetObject(db.GroupDictionaryId, OpenMode.ForRead);
+                string grpName = "";
+                string inputGrpName = "";
+                Random random = new Random();
+                int value = random.Next(100000000);
+
+                do
+                {
+                    inputGrpName = groupName + value;
+                    try
+                    {
+                        if (gd.Contains(inputGrpName))
+                            ed.WriteMessage("\nA group with this name already exists.");
+                        else
+                            grpName = inputGrpName;
+                    }
+                    catch
+                    {
+                        ed.WriteMessage("\nInvalid group name.");
+                    }
+                } while (grpName == "");
+
+                // Create our new group...
+                Group grp = new Group("Profile group", true);
+                var color = Color.FromRgb(255, 255, 0);
+                grp.SetColor(color);
+                // Add the new group to the dictionary
+                gd.UpgradeOpen();
+                ObjectId grpId = gd.SetAt(grpName, grp);
+                tr.AddNewlyCreatedDBObject(grp, true);
+                // Open the model-space
+                BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+                BlockTableRecord ms = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
+                // Add some lines to the group to form a square
+                // (the entities belong to the model-space)
+
+                ObjectIdCollection ids = new ObjectIdCollection();
+                foreach (Entity ent in curves)
+                {
+                    ent.Layer = showName;
+                    ObjectId id = ms.AppendEntity(ent);
+                    ids.Add(id);
+                    tr.AddNewlyCreatedDBObject(ent, true);
+                }
+
+                grp.InsertAt(0, ids);
+                tr.Commit();
+            }
+        }
+
         /// <summary>
         /// 创建新的图层
         /// </summary>
@@ -116,9 +176,12 @@ namespace ThSpray
         /// <param name="layerName"></param>
         public static void DrawProfile(List<Curve> curves, string LayerName)
         {
+            if (curves == null || curves.Count == 0)
+                return;
+
             using (var db = AcadDatabase.Active())
             {
-                CreateLayer(LayerName, Color.FromRgb(255, 255, 0));
+                CreateLayer(LayerName, Color.FromRgb(255, 0, 0));
 
                 foreach (var curve in curves)
                 {

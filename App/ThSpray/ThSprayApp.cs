@@ -27,14 +27,10 @@ namespace ThSpray
             Active.WriteMessage("SPray");
             // 获取图层中的所有线
             var allcurves = Utils.GetAllCurves();
-            //Utils.DrawProfile(allcurves, "test");
-            // 拓扑 轮廓计算
 
-            var noCalCurves = new List<Curve>();
-            var curvesLst = TopoUtils.MakeSrcProfiles(allcurves, out noCalCurves);
-            Utils.DrawProfile(noCalCurves, "test");
-            // 界面显示
-            Utils.ShowCurves(curvesLst);
+            // 拓扑 轮廓计算
+            var profileCurves = new List<Curve>();
+            var polylines = TopoUtils.MakeSrcProfiles(allcurves);
         }
     }
 }
