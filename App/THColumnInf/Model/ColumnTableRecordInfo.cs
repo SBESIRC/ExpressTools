@@ -27,7 +27,6 @@ namespace ThColumnInfo
     /// </summary>
     public class ColumnTableRecordInfo
     {
-        private string reinforcePattern = @"\d+[\s]{0,}[%]{2}132{1}[\s]{0,}\d+";
         private string hoopReinforcePattern = @"([%]{2}132){1}[\s]{0,}\d+[@]{1}[\s]{0,}\d+([\s]{0,}[/]{1}[\s]{0,}\d+)?";
         /// <summary>
         /// 柱号(KZ1)

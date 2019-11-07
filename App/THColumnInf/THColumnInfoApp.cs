@@ -63,7 +63,7 @@ namespace ThColumnInfo
                 }
                 
             }
-            catch(System.Exception ex)
+            catch
             {
             }            
         }
