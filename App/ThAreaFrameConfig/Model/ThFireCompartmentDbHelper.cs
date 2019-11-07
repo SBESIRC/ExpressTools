@@ -489,17 +489,25 @@ namespace ThAreaFrameConfig.Model
             {
                 try
                 {
-                    // 根据面积框线轮廓创建“区域”
-                    //  https://www.keanw.com/2015/08/getting-the-centroid-of-an-autocad-region-using-net.html
-                    var dbObj = acadDatabase.Element<Curve>(frameId);
-                    using (DBObjectCollection curves = new DBObjectCollection())
-                    {
-                        curves.Add(dbObj);
-                        using (DBObjectCollection regions = Region.CreateFromCurves(curves))
-                        {
-                            return ((Region)regions[0]).Centroid();
-                        }
-                    }
+                    //// 根据面积框线轮廓创建“区域”
+                    ////  https://www.keanw.com/2015/08/getting-the-centroid-of-an-autocad-region-using-net.html
+                    //var dbObj = acadDatabase.Element<Curve>(frameId);
+                    //using (DBObjectCollection curves = new DBObjectCollection())
+                    //{
+                    //    curves.Add(dbObj);
+                    //    using (DBObjectCollection regions = Region.CreateFromCurves(curves))
+                    //    {
+                    //        return ((Region)regions[0]).Centroid();
+                    //    }
+                    //}
+
+                    // 计算框线的“质心”有两种方式：
+                    //  1. Region.Centroid()
+                    //  2. Mathematical solution
+                    // Region.CreateFromCurves()并不稳定
+                    // 这里采用“纯数学”方式计算质心
+                    var pline = acadDatabase.Element<Polyline>(frameId);
+                    return pline.Centroid();
                 }
                 catch
                 {
