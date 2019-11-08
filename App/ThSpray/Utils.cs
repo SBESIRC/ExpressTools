@@ -16,6 +16,7 @@ namespace ThSpray
 {
     class Utils
     {
+        public static int INDEX = 0;
         /// <summary>
         /// 获取所有curves
         /// </summary>
@@ -48,8 +49,9 @@ namespace ThSpray
             return curves;
         }
 
-        public static void CreateGroup(List<Curve> curves, string groupName, string showName)
+        public static void CreateGroup(List<List<TopoEdge>> topoEdges, string groupName, string showName)
         {
+            
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
             Editor ed = doc.Editor;
@@ -59,51 +61,61 @@ namespace ThSpray
             {
                 // Get the group dictionary from the drawing
                 DBDictionary gd = (DBDictionary)tr.GetObject(db.GroupDictionaryId, OpenMode.ForRead);
-                string grpName = "";
-                string inputGrpName = "";
-                Random random = new Random();
-                int value = random.Next(100000000);
 
-                do
+                foreach (var loop in topoEdges)
                 {
-                    inputGrpName = groupName + value;
-                    try
+                    var loopcurves = new List<Curve>();
+                    foreach (var edge in loop)
                     {
-                        if (gd.Contains(inputGrpName))
-                            ed.WriteMessage("\nA group with this name already exists.");
-                        else
-                            grpName = inputGrpName;
+                        loopcurves.Add(edge.SrcCurve);
                     }
-                    catch
+
+                    //Random random = new Random();
+                    //int value = random.Next(100000000);
+                    Utils.INDEX++;
+                    string grpName = groupName + Utils.INDEX;
+                    //do
+                    //{
+                    //    inputGrpName = groupName + value;
+                    //    try
+                    //    {
+                    //        if (gd.Contains(inputGrpName))
+                    //            ed.WriteMessage("\nA group with this name already exists.");
+                    //        else
+                    //            grpName = inputGrpName;
+                    //    }
+                    //    catch
+                    //    {
+                    //        ed.WriteMessage("\nInvalid group name.");
+                    //    }
+                    //} while (grpName == "");
+
+                    // Create our new group...
+                    Group grp = new Group("Profile group", true);
+                    var color = Color.FromRgb(255, 255, 0);
+                    grp.SetColor(color);
+                    // Add the new group to the dictionary
+                    gd.UpgradeOpen();
+                    ObjectId grpId = gd.SetAt(grpName, grp);
+                    tr.AddNewlyCreatedDBObject(grp, true);
+                    // Open the model-space
+                    BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+                    BlockTableRecord ms = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
+                    // Add some lines to the group to form a square
+                    // (the entities belong to the model-space)
+
+                    ObjectIdCollection ids = new ObjectIdCollection();
+                    foreach (Entity ent in loopcurves)
                     {
-                        ed.WriteMessage("\nInvalid group name.");
+                        ent.Layer = showName;
+                        ObjectId id = ms.AppendEntity(ent);
+                        ids.Add(id);
+                        tr.AddNewlyCreatedDBObject(ent, true);
                     }
-                } while (grpName == "");
 
-                // Create our new group...
-                Group grp = new Group("Profile group", true);
-                var color = Color.FromRgb(255, 255, 0);
-                grp.SetColor(color);
-                // Add the new group to the dictionary
-                gd.UpgradeOpen();
-                ObjectId grpId = gd.SetAt(grpName, grp);
-                tr.AddNewlyCreatedDBObject(grp, true);
-                // Open the model-space
-                BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
-                BlockTableRecord ms = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
-                // Add some lines to the group to form a square
-                // (the entities belong to the model-space)
-
-                ObjectIdCollection ids = new ObjectIdCollection();
-                foreach (Entity ent in curves)
-                {
-                    ent.Layer = showName;
-                    ObjectId id = ms.AppendEntity(ent);
-                    ids.Add(id);
-                    tr.AddNewlyCreatedDBObject(ent, true);
+                    grp.InsertAt(0, ids);
                 }
 
-                grp.InsertAt(0, ids);
                 tr.Commit();
             }
         }

@@ -251,29 +251,30 @@ namespace ThSpray
                 return null;
 
             var polylines = new List<Curve>();
-            foreach (var loop in topoLoops)
-            {
-                var curves = new List<Curve>();
-                foreach (var edge in loop)
-                {
-                    curves.Add(edge.SrcCurve);
-                }
+            Utils.CreateGroup(topoLoops, "profile", "profileShow");
+            //foreach (var loop in topoLoops)
+            //{
+            //    var curves = new List<Curve>();
+            //    foreach (var edge in loop)
+            //    {
+            //        curves.Add(edge.SrcCurve);
+            //    }
 
-                //Utils.DrawProfile(curves, "d");
-                Utils.CreateGroup(curves, "profile", "profileShow");
-                //var edges = AdjustDir(loop);
-                //Polyline profile = Convert2Polyline(edges);
-                //if (profile != null)
-                //{
-                //    polylines.Add(profile);
-                //    var curves = new List<Curve>();
-                //    foreach (var edge in loop)
-                //    {
-                //        curves.Add(edge.SrcCurve);
-                //    }
-                //    Utils.DrawProfile(curves, "7");
-                //}
-            }
+            //    //Utils.DrawProfile(curves, "d");
+                 
+            //    //var edges = AdjustDir(loop);
+            //    //Polyline profile = Convert2Polyline(edges);
+            //    //if (profile != null)
+            //    //{
+            //    //    polylines.Add(profile);
+            //    //    var curves = new List<Curve>();
+            //    //    foreach (var edge in loop)
+            //    //    {
+            //    //        curves.Add(edge.SrcCurve);
+            //    //    }
+            //    //    Utils.DrawProfile(curves, "7");
+            //    //}
+            //}
 
             return polylines;
         }
@@ -810,6 +811,10 @@ namespace ThSpray
                 for (int j = i + 1; j < m_ScatterNodes.Count; j++)
                 {
                     var nextCurve = m_ScatterNodes[j].srcCurve;
+
+                    if (!IntersectValid(curCurve, nextCurve))
+                        continue;
+
                     var ptLst = new Point3dCollection();
                     curCurve.IntersectWith(nextCurve, Intersect.OnBothOperands, ptLst, (IntPtr)0, (IntPtr)0);
                     if (ptLst.Count != 0)
@@ -826,6 +831,25 @@ namespace ThSpray
             }
         }
 
+        private bool IntersectValid(Curve firstCurve, Curve secCurve)
+        {
+            var boundFirst = firstCurve.Bounds.Value;
+            var boundSec = secCurve.Bounds.Value;
+            var firLeftX = boundFirst.MinPoint.X;
+            var firLeftY = boundFirst.MinPoint.Y;
+            var firRightX = boundFirst.MaxPoint.X;
+            var firRightY = boundFirst.MaxPoint.Y;
+
+            var secLeftX = boundSec.MinPoint.X;
+            var secLeftY = boundSec.MinPoint.Y;
+            var secRightX = boundSec.MaxPoint.X;
+            var secRightY = boundSec.MaxPoint.Y;
+
+            if (Math.Min(firRightX, secRightX) >= Math.Max(firLeftX, secLeftX)
+                && Math.Min(firRightY, secRightY) >= Math.Max(firLeftY, secLeftY))
+                return true;
+            return false;
+        }
         /// <summary>
         /// 排序
         /// </summary>
