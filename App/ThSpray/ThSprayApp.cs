@@ -21,7 +21,7 @@ namespace ThSpray
         {
         }
 
-        [CommandMethod("SPray", "SPray", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "SPRAY", CommandFlags.Modal)]
         static public void TestBoundary()
         {
             Active.WriteMessage("SPray");

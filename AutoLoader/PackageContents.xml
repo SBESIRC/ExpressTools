@@ -330,6 +330,33 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
+	    <!--Assembly App, ThSpray, 2012 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
+        <ComponentEntry ModuleName="./Contents/Win64/2012/ThSpray.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for spray." AppName="ThSpray" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="SPRAY" Local="SPRAY" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+	    <!--Assembly App, ThSpray, 2014 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2014/ThSpray.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for Spray." AppName="ThSpray" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="SPRAY" Local="SPRAY" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+	    <!--Assembly App, ThSpray, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThSpray.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for spray." AppName="ThSpray" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="SPRAY" Local="SPRAY" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
     <!--Assembly App, ThRoomBoundary, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
