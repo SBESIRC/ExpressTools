@@ -821,35 +821,111 @@ namespace ThSpray
                     {
                         foreach (Point3d pt in ptLst)
                         {
-                            if (!m_ScatterNodes[i].ptLst.Contains(pt))
+                            //if (!m_ScatterNodes[i].ptLst.Contains(pt))
                                 m_ScatterNodes[i].ptLst.Add(pt);
-                            if (!m_ScatterNodes[j].ptLst.Contains(pt))
+                            //if (!m_ScatterNodes[j].ptLst.Contains(pt))
                                 m_ScatterNodes[j].ptLst.Add(pt);
                         }
                     }
+                }
+
+                m_ScatterNodes[i].ptLst.Distinct();
+            }
+        }
+
+        private void CalculateLineBoundary(Line line, ref double leftX, ref double leftY, ref double rightX, ref double rightY)
+        {
+            var startPt = line.StartPoint;
+            var endPt = line.EndPoint;
+            if (CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 0.5) || CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 1.5))
+            {
+                leftX = rightX = startPt.X;
+                if (startPt.Y <= endPt.Y)
+                {
+                    leftY = startPt.Y;
+                    rightY = endPt.Y;
+                }
+                else
+                {
+                    leftY = endPt.Y;
+                    rightY = startPt.Y;
+                }
+            }
+            else
+            {
+                // 非垂直
+                if (startPt.X <= endPt.X)
+                {
+                    leftX = startPt.X;
+                    rightX = endPt.X;
+                }
+                else
+                {
+                    rightX = startPt.X;
+                    leftX = endPt.X;
+                }
+
+                if (startPt.Y <= endPt.Y)
+                {
+                    leftY = startPt.Y;
+                    rightY = endPt.Y;
+                }
+                else
+                {
+                    rightY = startPt.Y;
+                    leftY = endPt.Y;
                 }
             }
         }
 
         private bool IntersectValid(Curve firstCurve, Curve secCurve)
         {
-            var boundFirst = firstCurve.Bounds.Value;
-            var boundSec = secCurve.Bounds.Value;
-            var firLeftX = boundFirst.MinPoint.X;
-            var firLeftY = boundFirst.MinPoint.Y;
-            var firRightX = boundFirst.MaxPoint.X;
-            var firRightY = boundFirst.MaxPoint.Y;
+            // first
+            double firLeftX = 0;
+            double firLeftY = 0;
+            double firRightX = 0;
+            double firRightY = 0;
 
-            var secLeftX = boundSec.MinPoint.X;
-            var secLeftY = boundSec.MinPoint.Y;
-            var secRightX = boundSec.MaxPoint.X;
-            var secRightY = boundSec.MaxPoint.Y;
+            // second
+            double secLeftX = 0;
+            double secLeftY = 0;
+            double secRightX = 0;
+            double secRightY = 0;
+            if (firstCurve is Arc)
+            {
+                var boundFirst = firstCurve.Bounds.Value;
+                firLeftX = boundFirst.MinPoint.X;
+                firLeftY = boundFirst.MinPoint.Y;
+                firRightX = boundFirst.MaxPoint.X;
+                firRightY = boundFirst.MaxPoint.Y;
+            }
+            else
+            {
+                var firLine = firstCurve as Line;
+                CalculateLineBoundary(firLine, ref firLeftX, ref firLeftY, ref firRightX, ref firRightY);
+            }
+
+            if (secCurve is Arc)
+            {
+                var boundSec = secCurve.Bounds.Value;
+                secLeftX = boundSec.MinPoint.X;
+                secLeftY = boundSec.MinPoint.Y;
+                secRightX = boundSec.MaxPoint.X;
+                secRightY = boundSec.MaxPoint.Y;
+            }
+            else
+            {
+                var secLine = secCurve as Line;
+                CalculateLineBoundary(secLine, ref secLeftX, ref secLeftY, ref secRightX, ref secRightY);
+            }
 
             if (Math.Min(firRightX, secRightX) >= Math.Max(firLeftX, secLeftX)
                 && Math.Min(firRightY, secRightY) >= Math.Max(firLeftY, secLeftY))
                 return true;
+
             return false;
         }
+
         /// <summary>
         /// 排序
         /// </summary>
@@ -893,13 +969,6 @@ namespace ThSpray
                 arcs = arcs.OrderBy(s => s.TotalAngle).ToList();
             }
 
-            var drawCurves = new List<Curve>();
-            foreach (var drawarc in arcs)
-            {
-                drawCurves.Add(drawarc);
-            }
-
-            //Utils.DrawProfile(drawCurves, "drawCurves");
             var resPtLst = new List<Point3d>();
 
             if (arcs.Count == 0)
@@ -938,7 +1007,7 @@ namespace ThSpray
                             break;
 
                         var nextPoint = ptLst[i + 1];
-                        if ((curPoint - nextPoint).Length > 1e-3)
+                        if ((curPoint - nextPoint).Length > 1e-4)
                         {
                             if (bFlag)
                             {
@@ -947,11 +1016,6 @@ namespace ThSpray
                             }
                             else
                             {
-                                //if ((curPoint - nextPoint).Length < 100.0)
-                                //{
-                                //    var newLine = new Line(curPoint, nextPoint);
-                                //}
-
                                 var srcArc = scatterNode.srcCurve as Arc;
                                 var radius = srcArc.Radius;
                                 var ptCenter = srcArc.Center;
