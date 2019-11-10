@@ -20,13 +20,8 @@ namespace ThSpray
         {
             var srcClosedCurves = new List<Curve>();  //单个闭合
             var calCurves = new List<Curve>();
-            //IntersectCurves.MakeIntersectCurves(curves, ref srcClosedCurves, ref calCurves);
             var tmpCurves = TesslateCurve(curves);
             var profiles = TopoSearch.MakeSrcProfileLoops(tmpCurves);
-
-            //Utils.DrawProfile(srcClosedCurves, "profile");
-            //if (srcClosedCurves.Count != 0 && profiles != null)
-            //    profiles.AddRange(srcClosedCurves);
             return profiles;
         }
 

@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.Colors;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,14 @@ namespace ThSpray
         private XY m_StartDir = null;
         private XY m_EndDir = null;
         private bool m_bUse = false;
+
+        public List<TopoEdge> nextEdges = new List<TopoEdge>();
+
+        public bool ValidEdge
+        {
+            get;
+            set;
+        }
 
         public Curve SrcCurve
         {
@@ -45,6 +54,7 @@ namespace ThSpray
             m_EndDir = endDir;
             SrcCurve = srcCurve;
             IsLine = (srcCurve is Line);
+            ValidEdge = true;
         }
 
         public TopoEdge Pair
@@ -198,8 +208,8 @@ namespace ThSpray
         public static List<Curve> MakeSrcProfileLoops(List<Curve> curves)
         {
             var search = new TopoSearch(curves);
-            var loops = TopoSearch.RemoveDuplicate(search.m_srcLoops);
-            var tmpEdgeLoops = search.TransFormProfileLoops(loops);
+            //var loops = TopoSearch.RemoveDuplicate(search.m_srcLoops);
+            var tmpEdgeLoops = search.TransFormProfileLoops(search.m_srcLoops);
             return search.ConvertTopoEdges2Curve(tmpEdgeLoops);
         }
 
@@ -251,31 +261,12 @@ namespace ThSpray
                 return null;
 
             var polylines = new List<Curve>();
-            Utils.CreateGroup(topoLoops, "profile", "profileShow");
-            //foreach (var loop in topoLoops)
-            //{
-            //    var curves = new List<Curve>();
-            //    foreach (var edge in loop)
-            //    {
-            //        curves.Add(edge.SrcCurve);
-            //    }
-
-            //    //Utils.DrawProfile(curves, "d");
-                 
-            //    //var edges = AdjustDir(loop);
-            //    //Polyline profile = Convert2Polyline(edges);
-            //    //if (profile != null)
-            //    //{
-            //    //    polylines.Add(profile);
-            //    //    var curves = new List<Curve>();
-            //    //    foreach (var edge in loop)
-            //    //    {
-            //    //        curves.Add(edge.SrcCurve);
-            //    //    }
-            //    //    Utils.DrawProfile(curves, "7");
-            //    //}
-            //}
-
+            foreach (var loop in topoLoops)
+            {
+                Polyline profile = ConvertLoop2Polyline(loop);
+                if (profile != null)
+                    polylines.Add(profile);
+            }
             return polylines;
         }
 
@@ -307,100 +298,36 @@ namespace ThSpray
             return null;
         }
 
-        /// <summary>
-        /// 转化为多段线
-        /// </summary>
-        /// <param name="topoEdges"></param>
-        /// <returns></returns>
-        public static Polyline Convert2Polyline(List<TopoEdge> topoEdges)
+        public static Polyline ConvertLoop2Polyline(List<TopoEdge> topoEdges)
         {
-            if (topoEdges.Count != 7)
+            if (topoEdges == null || topoEdges.Count == 0)
                 return null;
+
             var polyline = new Polyline();
             polyline.Closed = true;
-            int arcIndex = -1;
-            var firstArcEdge = GetFirstArcEdge(topoEdges, ref arcIndex);
-
-            if (firstArcEdge == null)
+            for (int i = 0; i < topoEdges.Count; i++)
             {
-                for (int i = 0; i < topoEdges.Count; i++)
+                var edge = topoEdges[i];
+                if (edge.IsLine)
                 {
-                    var curEdge = topoEdges[i];
-                    var point = (curEdge.SrcCurve as Line).StartPoint;
-                    polyline.AddVertexAt(i, new Point2d(point.X, point.Y), 0, 0, 0);
+                    polyline.AddVertexAt(i, new Point2d(edge.Start.X, edge.Start.Y), 0, 0, 0);
                 }
-            }
-            else
-            {
-                int curIndex = arcIndex + 1; // 当前下一个
-                int vertexIndex = 0;
-                Point2d polylineEndPoint = new Point2d();
-
-                // 第一个节点
-                var arcFirst = topoEdges[arcIndex].SrcCurve as Arc;
-                var bulgeFirst = Math.Tan(arcFirst.TotalAngle / 4.0);
-                var arcStartPtFirst = new Point2d(arcFirst.StartPoint.X, arcFirst.StartPoint.Y);
-                polyline.AddVertexAt(0, arcStartPtFirst, bulgeFirst, 0, 0);
-                polylineEndPoint = new Point2d(arcFirst.EndPoint.X, arcFirst.EndPoint.Y);
-
-                // 后面的节点
-                while (true)
+                else
                 {
-                    vertexIndex++;
-                    curIndex = curIndex % topoEdges.Count;
-                    if (curIndex == arcIndex)
+                    Arc arc = edge.SrcCurve as Arc;
+                    double bulge = 0;
+                    if (CommonUtils.Point3dIsEqualPoint3d(arc.StartPoint, edge.Start))
                     {
-                        break;
-                    }
-
-                    var curEdge = topoEdges[curIndex];
-
-                    if (curEdge.IsLine)
-                    {
-                        try
-                        {
-                            // line
-                            var line = curEdge.SrcCurve as Line;
-                            var ptS = new Point2d(line.StartPoint.X, line.StartPoint.Y);
-                            var ptE = new Point2d(line.EndPoint.X, line.EndPoint.Y);
-                            if (CommonUtils.Point2dIsEqualPoint2d(polylineEndPoint, ptS, 1e-1))
-                            {
-                                polyline.AddVertexAt(vertexIndex, ptS, 0, 0, 0);
-                                polylineEndPoint = ptE;
-                            }
-                            else if (CommonUtils.Point2dIsEqualPoint2d(polylineEndPoint, ptE, 1e-1))
-                            {
-                                polyline.AddVertexAt(vertexIndex, ptE, 0, 0, 0);
-                                polylineEndPoint = ptS;
-                            }
-                            else
-                            {
-                                var p1 = polylineEndPoint;
-                                var p2 = ptS;
-                                var p3 = ptE;
-                                int i = 0;
-                            }
-                        }
-                        catch
-                        {
-                            var p1 = polylineEndPoint;
-                            int i = 0;
-                        }
+                        bulge = Math.Tan(arc.TotalAngle / 4.0);
                     }
                     else
                     {
-                        // arc
-                        var arc = curEdge.SrcCurve as Arc;
-                        var bulge = Math.Tan(arc.TotalAngle / 4.0);
-                        var arcStartPt = new Point2d(arc.StartPoint.X, arc.StartPoint.Y);
-                        polyline.AddVertexAt(vertexIndex, arcStartPt, bulge, 0, 0);
-                        polylineEndPoint = new Point2d(arc.EndPoint.X, arc.EndPoint.Y);
+                        bulge = -Math.Tan(arc.TotalAngle / 4.0);
                     }
 
-                    curIndex++;
+                    polyline.AddVertexAt(i, new Point2d(edge.Start.X, edge.Start.Y), bulge, 0, 0);
                 }
             }
-
             return polyline;
         }
 
@@ -453,6 +380,17 @@ namespace ThSpray
             return topoLoops;
         }
 
+        public static List<List<TopoEdge>> PostProcessProfiles(List<List<TopoEdge>> srcEdgeLoops)
+        {
+            if (srcEdgeLoops == null)
+                return null;
+            if (srcEdgeLoops.Count == 1)
+                return srcEdgeLoops;
+
+            var edgeLoops = new List<List<TopoEdge>>();
+
+            return edgeLoops;
+        }
         /// <summary>
         /// 删除重复边
         /// </summary>
@@ -497,7 +435,7 @@ namespace ThSpray
 
             return edgeLoops;
         }
-        
+
         // assiatant function
         public static List<TopoEdge> ConvertEdges(List<TopoEdge> srcEdges)
         {
@@ -576,7 +514,7 @@ namespace ThSpray
         {
             m_curves = SrcCurves;
             var curves = ScatterCurves.MakeNewCurves(m_curves);
-            //Utils.DrawProfile(curves, "scatter");
+            //Utils.DrawProfile(curves, "scatter", Color.FromRgb(255, 255, 0));
             //return;
             Calculate(curves);
         }
@@ -600,6 +538,13 @@ namespace ThSpray
 
                 BuildOneLoop(m_topoEdges[i]);
             }
+
+            PostProcessLoop();
+        }
+
+        private void PostProcessLoop()
+        {
+            m_ProfileLoop.RemoveAll(p => IsMaxProfile(p));
         }
 
         /// <summary>
@@ -609,7 +554,7 @@ namespace ThSpray
         /// <returns></returns>
         private TopoEdge GetNextEdgeInMaps(TopoEdge edge)
         {
-            var tailPoint = new Point2d(edge.End.X, edge.End.Y);
+            var tailPoint = edge.End;
             int hashKey = CommonUtils.HashKey(tailPoint);
             var adjTopoEdges = m_hashMap[hashKey];
             if (adjTopoEdges.Count == 0)
@@ -623,22 +568,34 @@ namespace ThSpray
             for (int i = 0; i < adjTopoEdges.Count; i++)
             {
                 var curEdge = adjTopoEdges[i];
-                var curPtHead = new Point2d(curEdge.Start.X, curEdge.Start.Y);
-                var curPtTail = new Point2d(curEdge.End.X, curEdge.End.Y);
-
-                var edgeCurve = edge.SrcCurve;
-                var edgeMidPoint = edgeCurve.GetPointAtParameter((edgeCurve.StartParam + edgeCurve.EndParam) * 0.5);
-                var curEdgeCurve = curEdge.SrcCurve;
-                var curEdgeMidPoint = curEdgeCurve.GetPointAtParameter((curEdgeCurve.StartParam + curEdgeCurve.EndParam) * 0.5);
-                if (curEdge.IsUse || (CommonUtils.Point2dIsEqualPoint2d(headPoint, curPtTail, 1e-1) && CommonUtils.Point2dIsEqualPoint2d(tailPoint, curPtHead, 1e-1) 
-                    && CommonUtils.Point2dIsEqualPoint2d(new Point2d(edgeMidPoint.X, edgeMidPoint.Y), new Point2d(curEdgeMidPoint.X, curEdgeMidPoint.Y), 1e-1)))
+                var curPtHead = curEdge.Start;
+                if (curEdge.IsUse)
+                {
+                    if (CommonUtils.Point3dIsEqualPoint3d(tailPoint, curPtHead, 1e-1))
+                    {
+                        edge.nextEdges.Add(curEdge);
+                    }
                     continue;
+                }
+                //var curPtTail = new Point2d(curEdge.End.X, curEdge.End.Y);
+                //var edgeCurve = edge.SrcCurve;
+                //var edgeMidPoint = edgeCurve.GetPointAtParameter((edgeCurve.StartParam + edgeCurve.EndParam) * 0.5);
+                //var curEdgeCurve = curEdge.SrcCurve;
+                //var curEdgeMidPoint = curEdgeCurve.GetPointAtParameter((curEdgeCurve.StartParam + curEdgeCurve.EndParam) * 0.5);
+                //if ((CommonUtils.Point2dIsEqualPoint2d(headPoint, curPtTail, 1e-1) && CommonUtils.Point2dIsEqualPoint2d(tailPoint, curPtHead, 1e-1) 
+                //    && CommonUtils.Point2dIsEqualPoint2d(new Point2d(edgeMidPoint.X, edgeMidPoint.Y), new Point2d(curEdgeMidPoint.X, curEdgeMidPoint.Y), 1e-1)))
+                //    continue;
+                if (curEdge.Pair == edge)
+                {
+                    continue;
+                }
 
-                if (CommonUtils.Point2dIsEqualPoint2d(tailPoint, curPtHead, 1e-1))
+                if (CommonUtils.Point3dIsEqualPoint3d(tailPoint, curPtHead, 1e-1))
                 {
                     var clockEdge = new ClockWiseMatch(curEdge);
                     clockEdge.Angle = curEndDir.CalAngle(clockEdge.StartDir);
                     clockWiseMatchs.Add(clockEdge);
+                    edge.nextEdges.Add(curEdge);
                 }
             }
 
@@ -659,6 +616,8 @@ namespace ThSpray
             if (polys.Count == 0)
                 return;
             polys.Last().Pair.IsUse = true;
+            polys.Last().ValidEdge = false;
+            polys.Last().Pair.ValidEdge = false;
             polys.RemoveAt(polys.Count - 1);
         }
 
@@ -686,7 +645,7 @@ namespace ThSpray
                 var first = polys.First();
                 var last = polys.Last();
 
-                if (polys.Count > 1 && CommonUtils.Point2dIsEqualPoint2d(new Point2d(first.Start.X, first.Start.Y), new Point2d(last.End.X, last.End.Y), 1e-1))
+                if (polys.Count > 1 && CommonUtils.Point3dIsEqualPoint3d(first.Start, last.End, 1e-1))
                 {
                     m_ProfileLoop.Add(polys);
                     break;
@@ -696,8 +655,7 @@ namespace ThSpray
                 for (int i = 0; i < polys.Count - 1; i++)
                 {
                     var Cedge = polys[i];
-                    var point = new Point2d(Cedge.End.X, Cedge.End.Y);
-                    if (CommonUtils.Point2dIsEqualPoint2d(point, new Point2d(last.End.X, last.End.Y), 1e-1))
+                    if (CommonUtils.Point3dIsEqualPoint3d(Cedge.End, last.End, 1e-1))
                     {
                         var k = i + 1;
                         var nEraseindex = k;
@@ -716,6 +674,41 @@ namespace ThSpray
                     }
                 }
             }
+        }
+
+        private bool IsMaxProfile(List<TopoEdge> loop)
+        {
+            var clockWiseMatchs = new List<ClockWiseMatch>();
+            for (int i = 0; i < loop.Count - 1; i++)
+            {
+                var curEdge = loop[i];
+                var nextEdge = loop[(i + 1)];
+                curEdge.nextEdges.RemoveAll(s => s.ValidEdge == false);
+                var curValidEdges = curEdge.nextEdges;
+
+                var curEndDir = curEdge.EndDir;
+                clockWiseMatchs.Clear();
+                foreach (var validEdge in curValidEdges)
+                {
+                    var clockEdge = new ClockWiseMatch(validEdge);
+                    clockEdge.Angle = curEndDir.CalAngle(clockEdge.StartDir);
+                    clockWiseMatchs.Add(clockEdge);
+                }
+
+                TopoEdge maxAngleEdge = null;
+                if (clockWiseMatchs.Count != 0)
+                {
+                    clockWiseMatchs.Sort((s1, s2) => { return s1.Angle.CompareTo(s2.Angle); });
+                    maxAngleEdge = clockWiseMatchs.First().TopoEdge;
+
+                    if (maxAngleEdge != nextEdge)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 
@@ -821,15 +814,11 @@ namespace ThSpray
                     {
                         foreach (Point3d pt in ptLst)
                         {
-                            //if (!m_ScatterNodes[i].ptLst.Contains(pt))
-                                m_ScatterNodes[i].ptLst.Add(pt);
-                            //if (!m_ScatterNodes[j].ptLst.Contains(pt))
-                                m_ScatterNodes[j].ptLst.Add(pt);
+                            m_ScatterNodes[i].ptLst.Add(pt);
+                            m_ScatterNodes[j].ptLst.Add(pt);
                         }
                     }
                 }
-
-                m_ScatterNodes[i].ptLst.Distinct();
             }
         }
 
@@ -878,6 +867,18 @@ namespace ThSpray
             }
         }
 
+        private void CalculateArcBoundary(Arc arc, ref double leftX, ref double leftY, ref double rightX, ref double rightY)
+        {
+            var ptCenter = arc.Center;
+            var radius = arc.Radius;
+            var leftPoint = arc.Center + new Vector3d(-1, 0, 0) * radius;
+            var rightPoint = arc.Center + new Vector3d(1, 0, 0) * radius;
+            leftX = leftPoint.X;
+            leftY = leftPoint.Y - radius;
+            rightX = rightPoint.X;
+            rightY = rightPoint.Y + radius;
+        }
+
         private bool IntersectValid(Curve firstCurve, Curve secCurve)
         {
             // first
@@ -893,11 +894,8 @@ namespace ThSpray
             double secRightY = 0;
             if (firstCurve is Arc)
             {
-                var boundFirst = firstCurve.Bounds.Value;
-                firLeftX = boundFirst.MinPoint.X;
-                firLeftY = boundFirst.MinPoint.Y;
-                firRightX = boundFirst.MaxPoint.X;
-                firRightY = boundFirst.MaxPoint.Y;
+                var firstArc = firstCurve as Arc;
+                CalculateArcBoundary(firstArc, ref firLeftX, ref firLeftY, ref firRightX, ref firRightY);
             }
             else
             {
@@ -907,11 +905,8 @@ namespace ThSpray
 
             if (secCurve is Arc)
             {
-                var boundSec = secCurve.Bounds.Value;
-                secLeftX = boundSec.MinPoint.X;
-                secLeftY = boundSec.MinPoint.Y;
-                secRightX = boundSec.MaxPoint.X;
-                secRightY = boundSec.MaxPoint.Y;
+                var secArc = secCurve as Arc;
+                CalculateArcBoundary(secArc, ref secLeftX, ref secLeftY, ref secRightX, ref secRightY);
             }
             else
             {
@@ -926,6 +921,21 @@ namespace ThSpray
             return false;
         }
 
+        private void SortLineNode(ScatterNode lineCode)
+        {
+            var line = lineCode.srcCurve as Line;
+            var ptLst = lineCode.ptLst;
+            var ptFirst = ptLst.First();
+            if (CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 0.5) || CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 1.5))
+            {
+                ptLst.Sort((s1, s2) => { return (Math.Abs(s1.Y - ptFirst.Y)).CompareTo(Math.Abs(s2.Y - ptFirst.Y)); });
+            }
+            else
+            {
+                ptLst.Sort((s1, s2) => { return Math.Abs((s1.X - ptFirst.X)).CompareTo(Math.Abs(s2.X - ptFirst.X)); });
+            }
+        }
+
         /// <summary>
         /// 排序
         /// </summary>
@@ -935,9 +945,7 @@ namespace ThSpray
             {
                 if (scatterNode.IsLine)
                 {
-                    var ptLst = scatterNode.ptLst;
-                    var ptFirst = ptLst.First();
-                    ptLst.Sort((s1, s2) => { return s1.DistanceTo(ptFirst).CompareTo(s2.DistanceTo(ptFirst)); });
+                    SortLineNode(scatterNode);
                 }
                 else
                 {
@@ -946,47 +954,11 @@ namespace ThSpray
             }
         }
 
-        private static void SortArcNode(ScatterNode scatterNode)
+        private void SortArcNode(ScatterNode scatterNode)
         {
             var ptLst = scatterNode.ptLst;
             var arc = scatterNode.srcCurve as Arc;
-            var ptArcS = ptLst.ElementAt(0);
-            ptLst.RemoveAt(0);
-            var ptArcE = ptLst.ElementAt(0);
-            ptLst.RemoveAt(0);
-            var arcs = new List<Arc>();
-
-            if (ptLst.Count > 0)
-            {
-                var ptCenter = arc.Center;
-                var radius = arc.Radius;
-                foreach (var pt in ptLst)
-                {
-                    var arcNode = CommonUtils.CreateArc(ptArcS, ptCenter, pt, radius);
-                    arcs.Add(arcNode);
-                }
-
-                arcs = arcs.OrderBy(s => s.TotalAngle).ToList();
-            }
-
-            var resPtLst = new List<Point3d>();
-
-            if (arcs.Count == 0)
-            {
-                resPtLst.Add(ptArcS);
-                resPtLst.Add(ptArcE);
-            }
-            else
-            {
-                resPtLst.Add(ptArcS);
-                foreach (var resArc in arcs)
-                {
-                    resPtLst.Add(resArc.EndPoint);
-                }
-                resPtLst.Add(ptArcE);
-            }
-
-            scatterNode.ptLst = resPtLst;
+            scatterNode.ptLst = ptLst.OrderBy(s => arc.GetParameterAtPoint(s)).ToList();
         }
 
         /// <summary>
@@ -1056,7 +1028,7 @@ namespace ThSpray
         public void Add(TopoEdge edgeItem)
         {
             var point = edgeItem.Start;
-            int key = CommonUtils.HashKey(new Point2d(point.X, point.Y));
+            int key = CommonUtils.HashKey(point);
             m_hashMapEdges[key].Add(edgeItem);
         }
     }

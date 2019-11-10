@@ -31,6 +31,7 @@ namespace ThSpray
             // 拓扑 轮廓计算
             var profileCurves = new List<Curve>();
             var polylines = TopoUtils.MakeSrcProfiles(allcurves);
+            Utils.DrawProfile(polylines, "re");
         }
     }
 }

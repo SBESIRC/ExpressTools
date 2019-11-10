@@ -51,7 +51,7 @@ namespace ThSpray
 
         public static void CreateGroup(List<List<TopoEdge>> topoEdges, string groupName, string showName)
         {
-            
+
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
             Editor ed = doc.Editor;
@@ -186,14 +186,17 @@ namespace ThSpray
         /// </summary>
         /// <param name="roomDataPolylines"></param>
         /// <param name="layerName"></param>
-        public static void DrawProfile(List<Curve> curves, string LayerName)
+        public static void DrawProfile(List<Curve> curves, string LayerName, Color color = null)
         {
             if (curves == null || curves.Count == 0)
                 return;
 
             using (var db = AcadDatabase.Active())
             {
-                CreateLayer(LayerName, Color.FromRgb(255, 0, 0));
+                if (color == null)
+                    CreateLayer(LayerName, Color.FromRgb(255, 0, 0));
+                else
+                    CreateLayer(LayerName, color);
 
                 foreach (var curve in curves)
                 {

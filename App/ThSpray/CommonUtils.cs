@@ -171,12 +171,12 @@ namespace ThSpray
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static int HashKey(Point2d point)
+        public static int HashKey(Point3d point)
         {
             var posX = point.X;
-            if (posX > 1E6)
-                posX = posX * 1e-5;
-            long index = ((long)(posX * 50) % HashMapCount);
+            if (posX > 1E8)
+                posX = posX * 1e-7;
+            long index = ((long)(posX * 10) % HashMapCount);
             return (int)index;
         }
 
@@ -211,22 +211,25 @@ namespace ThSpray
         /// <returns></returns>
         public static bool Point2dIsEqualPoint2d(Point2d ptFirst, Point2d ptSecond, double tolerance = 1e-6)
         {
-            if (ptFirst.GetDistanceTo(new Point2d(0, 0)) > 1e7)
-            {
-                ptFirst = new Point2d(ptFirst.X * 1e-4, ptFirst.Y * 1e-4);
-                ptSecond = new Point2d(ptSecond.X * 1e-4, ptSecond.Y * 1e-4);
-            }
-            if (ptFirst.GetDistanceTo(ptSecond) < tolerance)
+            //if (ptFirst.GetDistanceTo(new Point2d(0, 0)) > 1e7)
+            //{
+            //    ptFirst = new Point2d(ptFirst.X * 1e-4, ptFirst.Y * 1e-4);
+            //    ptSecond = new Point2d(ptSecond.X * 1e-4, ptSecond.Y * 1e-4);
+            //}
+            if (CommonUtils.IsAlmostNearZero(ptFirst.X - ptSecond.X, tolerance)
+                && CommonUtils.IsAlmostNearZero(ptFirst.Y - ptSecond.Y, tolerance))
                 return true;
             return false;
         }
 
         public static bool Point3dIsEqualPoint3d(Point3d ptFirst, Point3d ptSecond, double tolerance = 1e-6)
         {
-            if (ptFirst.DistanceTo(ptSecond) < tolerance)
+            if (CommonUtils.IsAlmostNearZero(ptFirst.X - ptSecond.X, tolerance)
+                && CommonUtils.IsAlmostNearZero(ptFirst.Y - ptSecond.Y, tolerance))
                 return true;
             return false;
         }
+
         /// <summary>
         /// 两个顶点相加
         /// </summary>
@@ -385,11 +388,11 @@ namespace ThSpray
                 var ptCenter = arc.Center;
                 var ptCenterAdd = ptCenter - vec;
                 var tmpArc = CommonUtils.CreateArc(ptSadd, ptCenterAdd, ptEadd, radius);
-                if (CommonUtils.Point2dIsEqualPoint2d(new Point2d(ptS.X, ptS.Y), new Point2d(edge.Start.X, edge.Start.Y)))
+                if (CommonUtils.Point3dIsEqualPoint3d(ptS, edge.Start))
                 {
                     return new TopoEdge(ptSadd, ptEadd, tmpArc, edge.StartDir, edge.EndDir);
                 }
-                else if (CommonUtils.Point2dIsEqualPoint2d(new Point2d(ptS.X, ptS.Y), new Point2d(edge.End.X, edge.End.Y)))
+                else if (CommonUtils.Point3dIsEqualPoint3d(ptS, edge.End))
                 {
                     return new TopoEdge(ptEadd, ptSadd, tmpArc, edge.StartDir, edge.EndDir);
                 }
