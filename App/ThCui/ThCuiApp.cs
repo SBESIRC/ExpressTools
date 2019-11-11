@@ -2,6 +2,7 @@
 using Autodesk.Windows;
 using Autodesk.AutoCAD.Internal;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.ApplicationServices.PreferencesFiles;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
@@ -40,6 +41,9 @@ namespace TianHua.AutoCAD.ThCui
                 //注册命令
                 RegisterCommands();
 
+                //定制Preferences
+                OverridePreferences(true);
+
                 //创建自定义Ribbon
                 //  https://www.theswamp.org/index.php?topic=44440.0
                 ThRibbonHelper.OnRibbonFound(this.CreateRibbon);
@@ -58,6 +62,9 @@ namespace TianHua.AutoCAD.ThCui
             //  Unloading those dependents;
             //  Un-subscribing to those events;
             //  Etc.
+
+            //恢复Preferences
+            OverridePreferences(false);
         }
 
         private void LoadPartialCui()
@@ -90,6 +97,24 @@ namespace TianHua.AutoCAD.ThCui
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLS_GLOBAL_NAME);
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLI_GLOBAL_NAME);
 
+        }
+
+        private void OverridePreferences(bool bOverride = true)
+        {
+#if ACAD2016
+            var path = ThCADCommon.PlottersPath();
+            var printerConfigPath = new PrinterConfigPath(AcadApp.Preferences);
+            if (bOverride && !printerConfigPath.Contains(path))
+            {
+                printerConfigPath.Add(path);
+                printerConfigPath.SaveChanges();
+            }
+            else if (!bOverride && printerConfigPath.Contains(path))
+            {
+                printerConfigPath.Remove(path);
+                printerConfigPath.SaveChanges();
+            }
+#endif
         }
 
         private void RemoveRibbon()
