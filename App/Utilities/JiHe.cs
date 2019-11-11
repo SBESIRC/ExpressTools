@@ -2,12 +2,13 @@
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Interop.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
+#if !ACAD2018
+    using Autodesk.AutoCAD.Interop.Common;
+#endif
 
 namespace TianHua.AutoCAD.Utility.ExtensionTools
 {
@@ -1082,6 +1083,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         /// <returns></returns>
         public static Point3dCollection GetBoundaryPoints<T>(this T ent) where T : Entity
         {
+#if !ACAD2018
             //调用com的GetBoundingBox求出角点
             var comEnt = ent.AcadObject as AcadEntity;
 
@@ -1092,7 +1094,9 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             comEnt.GetBoundingBox(out argspl1[0], out argspl1[1]);
 
             return new Point3dCollection() { new Point3d((double[])argspl1[0]), new Point3d((double[])argspl1[1]) };
+#else
+            throw new NotImplementedException();
+#endif
         }
-
     }
 }

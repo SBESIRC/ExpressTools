@@ -24,6 +24,9 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
 #elif ACAD2016
         [DllImport("acdb20.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "?acdbGetAdsName@@YA?AW4ErrorStatus@Acad@@AEAY01_JVAcDbObjectId@@@Z")]
         public static extern int acdbGetAdsName(ref ads_name name, ObjectId objId);
+#elif ACAD2018
+        [DllImport("acdb22.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "?acdbGetAdsName@@YA?AW4ErrorStatus@Acad@@AEAY01_JVAcDbObjectId@@@Z")]
+        public static extern int acdbGetAdsName(ref ads_name name, ObjectId objId);
 #endif
 
 #if ACAD2012
