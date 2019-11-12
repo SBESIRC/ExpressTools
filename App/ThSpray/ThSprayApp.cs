@@ -21,12 +21,18 @@ namespace ThSpray
         {
         }
 
-        [CommandMethod("TIANHUACAD", "SPRAY", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "TopoSearch", CommandFlags.Modal)]
         static public void TestBoundary()
         {
-            Active.WriteMessage("SPray");
             // 获取图层中的所有线
             var allcurves = Utils.GetAllCurves();
+            //var point = new Point3d(25204.6072597596, 27744.9386472017, 0);
+            //foreach (var curve in allcurves)
+            //{
+            //    var arc = curve as Arc;
+            //    CommonUtils.IsPointOnArc(point, arc);
+            //}
+            //return;
 
             // 拓扑 轮廓计算
             var profileCurves = new List<Curve>();

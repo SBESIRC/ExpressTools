@@ -84,19 +84,251 @@ namespace ThSpray
                 return false;
         }
 
+        // assiatant function
+        public static List<TopoEdge> ConvertEdges(List<TopoEdge> srcEdges)
+        {
+            if (srcEdges == null || srcEdges.Count == 0)
+                return null;
+
+            var resEdges = new List<TopoEdge>();
+            foreach (var edge in srcEdges)
+            {
+                if (edge.IsLine)
+                {
+                    resEdges.Add(edge);
+                }
+                else
+                {
+                    var arc = edge.SrcCurve as Arc;
+                    var startPoint = arc.StartPoint;
+                    var endPoint = arc.EndPoint;
+                    var center = arc.Center;
+                    var radius = arc.Radius;
+                    var midPoint = arc.GetPointAtParameter((arc.StartParam + arc.EndParam) * 0.5);
+                    var topoEdge1 = new TopoEdge(edge.Start, midPoint, null);
+                    var topoEdge2 = new TopoEdge(midPoint, edge.End, null);
+                    resEdges.Add(topoEdge1);
+                    resEdges.Add(topoEdge2);
+                }
+            }
+
+            return resEdges;
+        }
+
+        public static void CalculateLineBoundary(Line line, ref double leftX, ref double leftY, ref double rightX, ref double rightY)
+        {
+            var startPt = line.StartPoint;
+            var endPt = line.EndPoint;
+            if (CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 0.5) || CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 1.5))
+            {
+                leftX = rightX = startPt.X;
+                if (startPt.Y <= endPt.Y)
+                {
+                    leftY = startPt.Y;
+                    rightY = endPt.Y;
+                }
+                else
+                {
+                    leftY = endPt.Y;
+                    rightY = startPt.Y;
+                }
+            }
+            else
+            {
+                // 非垂直
+                if (startPt.X <= endPt.X)
+                {
+                    leftX = startPt.X;
+                    rightX = endPt.X;
+                }
+                else
+                {
+                    rightX = startPt.X;
+                    leftX = endPt.X;
+                }
+
+                if (startPt.Y <= endPt.Y)
+                {
+                    leftY = startPt.Y;
+                    rightY = endPt.Y;
+                }
+                else
+                {
+                    rightY = startPt.Y;
+                    leftY = endPt.Y;
+                }
+            }
+        }
+
+        public static void CalculateArcBoundary(Arc arc, ref double leftX, ref double leftY, ref double rightX, ref double rightY)
+        {
+            var ptCenter = arc.Center;
+            var radius = arc.Radius;
+            var leftPoint = arc.Center + new Vector3d(-1, 0, 0) * radius;
+            var rightPoint = arc.Center + new Vector3d(1, 0, 0) * radius;
+            leftX = leftPoint.X;
+            leftY = leftPoint.Y - radius;
+            rightX = rightPoint.X;
+            rightY = rightPoint.Y + radius;
+        }
+
+        public static bool IntersectValid(Curve firstCurve, Curve secCurve)
+        {
+            // first
+            double firLeftX = 0;
+            double firLeftY = 0;
+            double firRightX = 0;
+            double firRightY = 0;
+
+            // second
+            double secLeftX = 0;
+            double secLeftY = 0;
+            double secRightX = 0;
+            double secRightY = 0;
+            if (firstCurve is Arc)
+            {
+                var firstArc = firstCurve as Arc;
+                CalculateArcBoundary(firstArc, ref firLeftX, ref firLeftY, ref firRightX, ref firRightY);
+            }
+            else
+            {
+                var firLine = firstCurve as Line;
+                CalculateLineBoundary(firLine, ref firLeftX, ref firLeftY, ref firRightX, ref firRightY);
+            }
+
+            if (secCurve is Arc)
+            {
+                var secArc = secCurve as Arc;
+                CalculateArcBoundary(secArc, ref secLeftX, ref secLeftY, ref secRightX, ref secRightY);
+            }
+            else
+            {
+                var secLine = secCurve as Line;
+                CalculateLineBoundary(secLine, ref secLeftX, ref secLeftY, ref secRightX, ref secRightY);
+            }
+
+            if (Math.Min(firRightX, secRightX) >= Math.Max(firLeftX, secLeftX)
+                && Math.Min(firRightY, secRightY) >= Math.Max(firLeftY, secLeftY))
+                return true;
+
+            return false;
+        }
+
         public static bool OutLoopContainsInnerLoop(List<LineSegment2d> outerprofile, List<LineSegment2d> innerEdge)
         {
-            bool bIn = true;
             foreach (var edge in innerEdge)
             {
                 var pt = edge.StartPoint;
                 if (!PtInLoop(outerprofile, pt))
                 {
-                    bIn = false;
-                    break;
+                    return false;
                 }
             }
-            return bIn;
+            return true;
+        }
+
+        public static bool OutLoopContainsInnerLoop(List<TopoEdge> outerprofile, List<TopoEdge> innerProfile)
+        {
+            foreach (var edge in innerProfile)
+            {
+                var pt = edge.Start;
+                if (!PtInLoop(outerprofile, pt))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool OutLoopContainInnerLoop(List<TopoEdge> outerprofile, List<TopoEdge> innerProfile)
+        {
+            int pointInCount = 0;
+            foreach (var edge in innerProfile)
+            {
+                var pt = edge.Start;
+                bool IsEdgePoint = false;
+
+                foreach (var outerEdge in outerprofile)
+                {
+                    if (CommonUtils.IsPointOnSegment(pt, outerEdge))
+                    {
+                        pointInCount++;
+                        IsEdgePoint = true;
+                        break;
+                    }
+                }
+
+                if (IsEdgePoint == false)
+                {
+                    if (PtInLoop(outerprofile, pt))
+                        return true;
+                }
+            }
+
+            if (pointInCount == innerProfile.Count)
+                return true;
+            else
+                return false;
+        }
+
+        public static bool PtInLoop(List<TopoEdge> loop, Point3d pt)
+        {
+            var ptLst = new List<Point2d>();
+            // first
+            double firLeftX = 0;
+            double firLeftY = 0;
+            double firRightX = 0;
+            double firRightY = 0;
+            foreach (var edge in loop)
+            {
+                Point2d end = new Point2d(pt.X + 100000000000, pt.Y);
+
+                var curLine = new Line(pt, new Point3d(end.X, end.Y, 0));
+
+                if (edge.IsLine)
+                {
+                    var firLine = edge.SrcCurve as Line;
+                    CalculateLineBoundary(firLine, ref firLeftX, ref firLeftY, ref firRightX, ref firRightY);
+
+                }
+                else
+                {
+                    var firstArc = edge.SrcCurve as Arc;
+                    CalculateArcBoundary(firstArc, ref firLeftX, ref firLeftY, ref firRightX, ref firRightY);
+                }
+
+                if (firRightX < pt.X || firRightY < pt.Y || firLeftY > pt.Y)
+                    continue;
+                //if (!CommonUtils.IntersectValid(curLine, edge.SrcCurve))
+                //    continue;
+
+                LineSegment2d intersectLine = new LineSegment2d(new Point2d(pt.X, pt.Y), end);
+                LineSegment2d line = new LineSegment2d(new Point2d(edge.Start.X, edge.Start.Y), new Point2d(edge.End.X, edge.End.Y));
+                var intersectPts = line.IntersectWith(intersectLine);
+                if (intersectPts != null && intersectPts.Count() == 1)
+                {
+                    var nPt = intersectPts.First();
+                    bool bInLst = false;
+                    foreach (var curpt in ptLst)
+                    {
+                        if (CommonUtils.Point2dIsEqualPoint2d(nPt, curpt))
+                        {
+                            bInLst = true;
+                            break;
+                        }
+                    }
+
+                    if (!bInLst)
+                        ptLst.Add(nPt);
+                }
+
+            }
+
+            if (ptLst.Count % 2 == 1)
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
@@ -110,9 +342,7 @@ namespace ThSpray
 
             foreach (var edge in loop)
             {
-                Point2d start = new Point2d(edge.Start.X, edge.Start.Y);
-                Point2d end = new Point2d(edge.End.X, edge.End.Y);
-                area += 0.5 * (start.X * end.Y - start.Y * end.X);
+                area += 0.5 * (edge.Start.X * edge.End.Y - edge.Start.Y * edge.End.X);
             }
 
             return area;
@@ -244,6 +474,14 @@ namespace ThSpray
             return new Point2d(res.X, res.Y);
         }
 
+        public static Point3d Point3dAddPoint3d(Point3d ptFirst, Point3d ptSecond)
+        {
+            XY ptFir = new XY(ptFirst.X, ptFirst.Y);
+            XY ptSec = new XY(ptSecond.X, ptSecond.Y);
+            var res = ptFir + ptSec;
+            return new Point3d(res.X, res.Y, 0);
+        }
+
         ///// <summary>
         ///// 点在线段上面
         ///// </summary>
@@ -282,6 +520,62 @@ namespace ThSpray
                 return true;
 
             return false;
+        }
+
+        public static bool IsPointOnLine(Point3d pt, Line line, double tole = 1e-8)
+        {
+            var startPt = line.StartPoint;
+            var endPt = line.EndPoint;
+
+            if (CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 0.5) || CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 1.5))
+            {
+                var y1 = Math.Abs(pt.Y - startPt.Y);
+                var y2 = Math.Abs(pt.Y - endPt.Y);
+                if (CommonUtils.IsAlmostNearZero((y1 + y2 - line.Length), tole))
+                    return true;
+            }
+            else
+            {
+                // 非垂直
+                var y1 = Math.Abs(pt.Y - startPt.Y);
+                var y2 = Math.Abs(pt.Y - endPt.Y);
+                var vertical = Math.Abs(endPt.Y - startPt.Y) - (y1 + y2);
+                var x1 = Math.Abs(pt.X - startPt.X);
+                var x2 = Math.Abs(pt.X - endPt.X);
+                var horizontal = Math.Abs(endPt.X - startPt.X) - (x1 + x2);
+                if (CommonUtils.IsAlmostNearZero(vertical, tole) && CommonUtils.IsAlmostNearZero(horizontal, tole))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsPointOnArc(Point3d point, Arc arc, double tole = 1e-8)
+        {
+            try
+            {
+                var param = arc.GetParameterAtPoint(point);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool IsPointOnSegment(Point3d point, TopoEdge edge, double tole = 1e-8)
+        {
+            if (edge.IsLine)
+            {
+                var line = edge.SrcCurve as Line;
+                return CommonUtils.IsPointOnLine(point, line, tole);
+            }
+            else
+            {
+                var arc = edge.SrcCurve as Arc;
+                return CommonUtils.IsPointOnArc(point, arc, tole);
+            }
         }
 
         /// <summary>
