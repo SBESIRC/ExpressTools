@@ -21,6 +21,15 @@ Task Requires.MSBuild {
     Write-Host "Found MSBuild here: $msbuildExe"
 }
 
+Task Requires.Dotfuscator {
+    $script:dotfuscatorCli = resolve-path "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\Extensions\PreEmptiveSolutions\DotfuscatorCE\dotfuscatorCLI.exe"
+    
+    if ($dotfuscatorCli -ne $null)
+    {
+        Write-Host "Found dotfuscatorCLI here: $dotfuscatorCli"
+    }
+}
+
 # Release build for AutoCAD R18
 Task Compile.Assembly.R18 -Depends Requires.MSBuild {
     exec { 
@@ -53,6 +62,14 @@ Task Compile.Assembly.R18 -Depends Requires.MSBuild {
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThMirror\ThMirror.csproj" /p:Configuration=$buildType /t:restore
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThMirror\ThMirror.csproj" /p:Configuration=$buildType /t:rebuild
     }
+}
+
+Task Dotfuscator.Assembly.R18 -Depends Requires.Dotfuscator, Compile.Assembly.R18 {
+	if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
+		exec {
+			& $dotfuscatorCli ".\dotfuscator_config_${buildType}.xml"
+		}	
+	}
 }
 
 # $buildType build for AutoCAD R19
@@ -89,6 +106,14 @@ Task Compile.Assembly.R19 -Depends Requires.MSBuild {
     }
 }
 
+Task Dotfuscator.Assembly.R19 -Depends Requires.Dotfuscator, Compile.Assembly.R19 {
+	if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
+		exec {
+			& $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET40.xml"
+		}	
+	}
+}
+
 # $buildType build for AutoCAD R20
 Task Compile.Assembly.R20 -Depends Requires.MSBuild {
     exec { 
@@ -123,6 +148,14 @@ Task Compile.Assembly.R20 -Depends Requires.MSBuild {
     }
 }
 
+Task Dotfuscator.Assembly.R20 -Depends Requires.Dotfuscator, Compile.Assembly.R20 {
+	if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
+		exec {
+			& $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET45.xml"
+		}	
+	}
+}
+
 Task Requires.BuildType {
     if ($buildType -eq $null) {
         throw "No build type specified"
@@ -139,8 +172,9 @@ Task Sign {
     }
 }
 
+# temporarily disable code sign
 # $buildType build for ThCADPluginInstaller
-Task Compile.Installer -Depends Requires.BuildType, Compile.Assembly.R18, Compile.Assembly.R19, Compile.Assembly.R20, Sign {
+Task Compile.Installer -Depends Requires.BuildType, Dotfuscator.Assembly.R18, Dotfuscator.Assembly.R19, Dotfuscator.Assembly.R20 {
     if ($buildType -eq $null) {
         throw "No build type specified"
     }
