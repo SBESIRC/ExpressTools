@@ -20,8 +20,6 @@ namespace ThSpray
         private XY m_EndDir = null;
         private bool m_bUse = false;
 
-        public List<TopoEdge> nextEdges = new List<TopoEdge>();
-
         public bool ValidEdge
         {
             get;
@@ -96,15 +94,12 @@ namespace ThSpray
             Vector3d curveDir;
             Vector3d curveDirReverse;
 
-            var drawCurves = new List<Curve>();
             if (srcCurve is Line)
             {
                 var srcLine = srcCurve as Line;
                 curveDir = srcLine.GetFirstDerivative(ptS).GetNormal();
-                drawCurves.Add(new Line(ptS, ptS + curveDir * 10));
 
                 curveDirReverse = curveDir.Negate();
-                drawCurves.Add(new Line(ptE, ptE + curveDirReverse * 10));
                 curEdge = new TopoEdge(ptS, ptE, srcCurve, CommonUtils.Vector2XY(curveDir), CommonUtils.Vector2XY(curveDir));
                 var clone = srcCurve.Clone() as Line;
                 clone.ReverseCurve();
@@ -115,23 +110,12 @@ namespace ThSpray
                 var srcArc = srcCurve as Arc;
                 var arcDirS = srcArc.GetFirstDerivative(ptS).GetNormal();
                 var arcDirE = srcArc.GetFirstDerivative(ptE).GetNormal();
-                drawCurves.Add(new Line(ptS, ptS + arcDirS * 10));
-                drawCurves.Add(new Line(ptE, ptE + arcDirE * 10));
 
                 var arcDirRevS = arcDirE.Negate();
                 var arcDirRevE = arcDirS.Negate();
-
-                drawCurves.Add(new Line(ptE, ptE + arcDirRevS * 10));
-                drawCurves.Add(new Line(ptS, ptS + arcDirRevE * 10));
                 curEdge = new TopoEdge(ptS, ptE, srcCurve, CommonUtils.Vector2XY(arcDirS), CommonUtils.Vector2XY(arcDirE));
-                //Utils.DrawProfile(new List<Curve>() { srcCurve }, "topoEdgeSrc");
-                //var clone = CommonUtils.CreateArcReverse(srcArc.EndPoint, srcArc.Center, srcArc.StartPoint, srcArc.Radius, new Vector3d(0, 0, -1));
-                //Utils.DrawProfile(new List<Curve>() { srcCurve }, "topoEdgeSrc");
                 pairEdge = new TopoEdge(ptE, ptS, srcCurve.Clone() as Arc, CommonUtils.Vector2XY(arcDirRevS), CommonUtils.Vector2XY(arcDirRevE));
             }
-
-            var polyline = new Polyline();
-            //Utils.DrawProfile(drawCurves, "topoEdge");
 
             curEdge.Pair = pairEdge;
             pairEdge.Pair = curEdge;
@@ -143,9 +127,9 @@ namespace ThSpray
     class TopoSearch
     {
         private BoundBoxPlane m_planeBox = null;
-        private List<List<TopoEdge>> m_srcLoops = null;
+        private List<Profile> m_srcLoops = null;
 
-        public List<List<TopoEdge>> SrcLoops
+        public List<Profile> SrcLoops
         {
             get { return m_srcLoops; }
         }
@@ -166,13 +150,13 @@ namespace ThSpray
                 set;
             }
 
-            public Point2d CenterPoint
+            public Point3d CenterPoint
             {
                 get;
                 set;
             }
 
-            public ProductLoop(List<TopoEdge> edegs, double area, Point2d point)
+            public ProductLoop(List<TopoEdge> edegs, double area, Point3d point)
             {
                 this.OneLoop = edegs;
                 this.LoopArea = area;
@@ -188,7 +172,7 @@ namespace ThSpray
                     return y == null;
 
                 return CommonUtils.IsAlmostNearZero(Math.Abs(x.LoopArea) - Math.Abs(y.LoopArea), 0.1)
-                && CommonUtils.Point2dIsEqualPoint2d(x.CenterPoint, y.CenterPoint);
+                && CommonUtils.Point3dIsEqualPoint3d(x.CenterPoint, y.CenterPoint);
             }
 
             public int GetHashCode(ProductLoop pro)
@@ -239,7 +223,6 @@ namespace ThSpray
                     var transCurve = MoveTransform(curve, trans);
                     curvesTrans.Add(transCurve);
                 }
-                //Utils.DrawProfile(curvesTrans, "test");
                 m_srcLoops = TopoCalculate.MakeProfileLoop(curvesTrans);
             }
             else
@@ -352,32 +335,43 @@ namespace ThSpray
         }
 
         // 坐标转换处理
-        private List<List<TopoEdge>> TransFormProfileLoops(List<List<TopoEdge>> loops)
+        private List<List<TopoEdge>> TransFormProfileLoops(List<Profile> loops)
         {
             if (loops == null || loops.Count == 0)
             {
                 return null;
             }
 
+            var resEdgesLoop = new List<List<TopoEdge>>();
             if (!m_planeBox.IsTranslation())
-                return loops;
+            {
+                foreach (var profile in loops)
+                {
+                    if (profile.IsValid)
+                    {
+                        resEdgesLoop.Add(profile.TopoEdges);
+                    }
+                }
+                return resEdgesLoop;
+            }
 
             var transValue = m_planeBox.TransValue;
-            var topoLoops = new List<List<TopoEdge>>();
 
             foreach (var loop in loops)
             {
-                var loopEdge = new List<TopoEdge>();
-                foreach (var edge in loop)
+                var loopProfile = new List<TopoEdge>();
+                if (loop.IsValid)
                 {
-                    var transEdge = CommonUtils.LineDecVector(edge, transValue);
-                    loopEdge.Add(transEdge);
+                    foreach (var edge in loop.TopoEdges)
+                    {
+                        var transEdge = CommonUtils.LineDecVector(edge, transValue);
+                        loopProfile.Add(transEdge);
+                    }
                 }
-
-                topoLoops.Add(loopEdge);
+                resEdgesLoop.Add(loopProfile);
             }
 
-            return topoLoops;
+            return resEdgesLoop;
         }
 
         public static List<List<TopoEdge>> PostProcessProfiles(List<List<TopoEdge>> srcEdgeLoops)
@@ -396,95 +390,74 @@ namespace ThSpray
         /// </summary>
         /// <param name="srcEdgeLoops"></param>
         /// <returns></returns>
-        public static List<List<TopoEdge>> RemoveDuplicate(List<List<TopoEdge>> srcEdgeLoops)
+        public static List<Profile> RemoveDuplicate(List<Profile> srcEdgeLoops)
         {
             if (srcEdgeLoops == null)
                 return null;
             if (srcEdgeLoops.Count == 1)
                 return srcEdgeLoops;
 
-            var edgeLoops = new List<List<TopoEdge>>();
             var proLoops = new List<ProductLoop>();
             for (int i = 0; i < srcEdgeLoops.Count; i++)
             {
-                var curLoop = srcEdgeLoops[i];
-                ConvertEdges(curLoop);
+                var curLoop = srcEdgeLoops[i].TopoEdges;
+                var resEdges = CommonUtils.ConvertEdges(curLoop);
                 var pt3d = curLoop.First().Start;
-                var pt = new Point2d(pt3d.X, pt3d.Y);
-                for (int j = 1; j < curLoop.Count; j++)
+                for (int j = 1; j < resEdges.Count; j++)
                 {
-                    var curPt = curLoop[j].Start;
-                    pt = CommonUtils.Point2dAddPoint2d(new Point2d(pt.X, pt.Y), new Point2d(curPt.X, curPt.Y));
+                    var curPt = resEdges[j].Start;
+                    pt3d = CommonUtils.Point3dAddPoint3d(pt3d, curPt);
                 }
 
-                var ptCen = pt / curLoop.Count;
-                if (ptCen.GetDistanceTo(new Point2d(0, 0)) > 1e7)
-                    ptCen = new Point2d(ptCen.X * 1e-6, ptCen.Y * 1e-6);
+                var ptCen = pt3d / resEdges.Count;
+                //if (ptCen.GetDistanceTo(new Point3d(0, 0)) > 1e7)
+                //    ptCen = new Point2d(ptCen.X * 1e-6, ptCen.Y * 1e-6);
 
-                var curLoopArea = CommonUtils.CalcuLoopArea(curLoop);
-                if (Math.Abs(curLoopArea) > 1e7)
-                    curLoopArea *= 1e-6;
-                proLoops.Add(new ProductLoop(srcEdgeLoops[i], curLoopArea, ptCen));
+                var curLoopArea = CommonUtils.CalcuLoopArea(resEdges);
+                //if (Math.Abs(curLoopArea) > 1e7)
+                //    curLoopArea *= 1e-6;
+                proLoops.Add(new ProductLoop(srcEdgeLoops[i].TopoEdges, curLoopArea, ptCen));
             }
 
             var tmpLoop = proLoops.Distinct(new ProductLoopCom()).ToList();
+            var resProfileLoops = new List<Profile>();
             foreach (var loop in tmpLoop)
             {
-                edgeLoops.Add(loop.OneLoop);
+                resProfileLoops.Add(new Profile(loop.OneLoop, true));
             }
 
-            return edgeLoops;
+            return resProfileLoops;
         }
+    }
 
-        // assiatant function
-        public static List<TopoEdge> ConvertEdges(List<TopoEdge> srcEdges)
+    public class Profile
+    {
+        public Profile(List<TopoEdge> loop, bool bValid)
         {
-            if (srcEdges == null || srcEdges.Count == 0)
-                return null;
-
-            var resEdges = new List<TopoEdge>();
-            foreach (var edge in srcEdges)
-            {
-                if (edge.IsLine)
-                {
-                    resEdges.Add(edge);
-                }
-                else
-                {
-                    var arc = edge.SrcCurve as Arc;
-                    var startPoint = arc.StartPoint;
-                    var endPoint = arc.EndPoint;
-                    var center = arc.Center;
-                    var radius = arc.Radius;
-                    var midPoint = arc.GetPointAtParameter((arc.StartParam + arc.EndParam) * 0.5);
-                    var arc1 = CommonUtils.CreateArc(startPoint, center, midPoint, radius);
-                    var arc2 = CommonUtils.CreateArc(midPoint, center, endPoint, radius);
-                    if (CommonUtils.Point3dIsEqualPoint3d(edge.Start, arc.StartPoint))
-                    {
-                        var topoEdge1 = new TopoEdge(edge.Start, midPoint, arc1);
-                        var topoEdge2 = new TopoEdge(midPoint, edge.End, arc2);
-                        resEdges.Add(topoEdge1);
-                        resEdges.Add(topoEdge2);
-                    }
-                    else
-                    {
-                        var topoEdge3 = new TopoEdge(edge.Start, midPoint, arc2);
-                        var topoEdge4 = new TopoEdge(midPoint, edge.End, arc1);
-                        resEdges.Add(topoEdge3);
-                        resEdges.Add(topoEdge4);
-                    }
-                    //var line1 = new Line(midPoint, midPoint + new Vector3d(1, 0, 0) * 100);
-                    //var line2 = new Line(midPoint, midPoint + new Vector3d(0, 1, 0) * 100);
-                    //var curves = new List<Curve>();
-                    //curves.Add(line1);
-                    //curves.Add(line2);
-                    //Utils.DrawProfile(curves, "dd");
-                }
-
-            }
-
-            return resEdges;
+            TopoEdges = loop;
+            IsValid = bValid;
         }
+
+        public Profile()
+        {
+            TopoEdges = new List<TopoEdge>();
+            IsValid = true;
+        }
+
+        public XY leftBottomPoint; // 左边界
+        public XY rightTopPoint;   // 右边界
+
+        public List<TopoEdge> TopoEdges
+        {
+            get;
+            set;
+        } = null;
+
+        public bool IsValid
+        {
+            get;
+            set;
+        } = true;
     }
 
     /// <summary>
@@ -495,13 +468,13 @@ namespace ThSpray
         private List<Curve> m_curves = null;
         private List<TopoEdge> m_topoEdges = new List<TopoEdge>();
         private HashMap m_hashMap = new HashMap();
-        private List<List<TopoEdge>> m_ProfileLoop = new List<List<TopoEdge>>();
-        public List<List<TopoEdge>> ProfileLoops
+        private List<Profile> m_ProfileLoop = new List<Profile>();
+        public List<Profile> ProfileLoops
         {
             get { return m_ProfileLoop; }
         }
 
-        public static List<List<TopoEdge>> MakeProfileLoop(List<Curve> curves)
+        public static List<Profile> MakeProfileLoop(List<Curve> curves)
         {
             if (curves == null || curves.Count == 0)
                 return null;
@@ -539,14 +512,103 @@ namespace ThSpray
                 BuildOneLoop(m_topoEdges[i]);
             }
 
+            m_ProfileLoop = TopoSearch.RemoveDuplicate(m_ProfileLoop);
+            CalculateBound();
             PostProcessLoop();
+        }
+
+        private void CalculateBound()
+        {
+            var ptLst = new List<Point3d>();
+            foreach (var loopProfile in m_ProfileLoop)
+            {
+                ptLst.Clear();
+                var curLoop = loopProfile.TopoEdges;
+                for (int i = 0; i < curLoop.Count; i++)
+                {
+                    var curEdge = curLoop[i];
+                    if (curEdge.IsLine)
+                    {
+                        ptLst.Add(curEdge.Start);
+                        ptLst.Add(curEdge.End);
+                    }
+                    else
+                    {
+                        var arc = curEdge.SrcCurve as Arc;
+                        var ptCenter = arc.Center;
+                        var radius = arc.Radius;
+                        var leftPoint = arc.Center + new Vector3d(-1, 0, 0) * radius;
+                        var rightPoint = arc.Center + new Vector3d(1, 0, 0) * radius;
+                        var leftX = leftPoint.X;
+                        var leftY = leftPoint.Y - radius;
+                        var rightX = rightPoint.X;
+                        var rightY = rightPoint.Y + radius;
+                        ptLst.Add(new Point3d(leftX, leftY, 0));
+                        ptLst.Add(new Point3d(rightX, rightY, 0));
+                    }
+                }
+
+                var leftBottom = new XY(ptLst[0].X, ptLst[0].Y);
+                var rightTop = new XY(ptLst[0].X, ptLst[0].Y);
+                for (int i = 1; i < ptLst.Count; i++)
+                {
+                    if (leftBottom.X > ptLst[i].X)
+                        leftBottom.X = ptLst[i].X;
+                    if (leftBottom.Y > ptLst[i].Y)
+                        leftBottom.Y = ptLst[i].Y;
+
+                    if (rightTop.X < ptLst[i].X)
+                        rightTop.X = ptLst[i].X;
+                    if (rightTop.Y < ptLst[i].Y)
+                        rightTop.Y = ptLst[i].Y;
+                }
+
+                loopProfile.leftBottomPoint = leftBottom;
+                loopProfile.rightTopPoint = rightTop;
+            }
         }
 
         private void PostProcessLoop()
         {
-            m_ProfileLoop.RemoveAll(p => IsMaxProfile(p));
+            for (int i = 0; i < m_ProfileLoop.Count; i++)
+            {
+                var curProfile = m_ProfileLoop[i];
+                for (int j = 0; j < m_ProfileLoop.Count; j++)
+                {
+                    if (i == j)
+                        continue;
+
+                    var nextProfile = m_ProfileLoop[j];
+                    if (!IntersectValid(curProfile, nextProfile))
+                        continue;
+
+                    var resEdges = CommonUtils.ConvertEdges(nextProfile.TopoEdges);
+                    if (CommonUtils.OutLoopContainInnerLoop(curProfile.TopoEdges, resEdges))
+                    {
+                        curProfile.IsValid = false;
+                        break;
+                    }
+                }
+            }
         }
 
+        private bool IntersectValid(Profile profileFir, Profile profileSec)
+        {
+            var firLeftX = profileFir.leftBottomPoint.X;
+            var firLeftY = profileFir.leftBottomPoint.Y;
+            var firRightX = profileFir.rightTopPoint.X;
+            var firRightY = profileFir.rightTopPoint.Y;
+
+            var secLeftX = profileSec.leftBottomPoint.X;
+            var secLeftY = profileSec.leftBottomPoint.Y;
+            var secRightX = profileSec.rightTopPoint.X;
+            var secRightY = profileSec.rightTopPoint.Y;
+            if (Math.Min(firRightX, secRightX) >= Math.Max(firLeftX, secLeftX)
+                && Math.Min(firRightY, secRightY) >= Math.Max(firLeftY, secLeftY))
+                return true;
+
+            return false;
+        }
         /// <summary>
         /// 获取下一条有效边
         /// </summary>
@@ -571,10 +633,6 @@ namespace ThSpray
                 var curPtHead = curEdge.Start;
                 if (curEdge.IsUse)
                 {
-                    if (CommonUtils.Point3dIsEqualPoint3d(tailPoint, curPtHead, 1e-1))
-                    {
-                        edge.nextEdges.Add(curEdge);
-                    }
                     continue;
                 }
                 //var curPtTail = new Point2d(curEdge.End.X, curEdge.End.Y);
@@ -595,7 +653,6 @@ namespace ThSpray
                     var clockEdge = new ClockWiseMatch(curEdge);
                     clockEdge.Angle = curEndDir.CalAngle(clockEdge.StartDir);
                     clockWiseMatchs.Add(clockEdge);
-                    edge.nextEdges.Add(curEdge);
                 }
             }
 
@@ -647,7 +704,7 @@ namespace ThSpray
 
                 if (polys.Count > 1 && CommonUtils.Point3dIsEqualPoint3d(first.Start, last.End, 1e-1))
                 {
-                    m_ProfileLoop.Add(polys);
+                    m_ProfileLoop.Add(new Profile(polys, true));
                     break;
                 }
 
@@ -667,48 +724,13 @@ namespace ThSpray
 
                         if (edgeLoop.Count > 1)
                         {
-                            m_ProfileLoop.Add(edgeLoop);
+                            m_ProfileLoop.Add(new Profile(edgeLoop, true));
                         }
                         var nEraseCnt = polys.Count - nEraseindex;
                         polys.RemoveRange(nEraseindex, nEraseCnt);
                     }
                 }
             }
-        }
-
-        private bool IsMaxProfile(List<TopoEdge> loop)
-        {
-            var clockWiseMatchs = new List<ClockWiseMatch>();
-            for (int i = 0; i < loop.Count - 1; i++)
-            {
-                var curEdge = loop[i];
-                var nextEdge = loop[(i + 1)];
-                curEdge.nextEdges.RemoveAll(s => s.ValidEdge == false);
-                var curValidEdges = curEdge.nextEdges;
-
-                var curEndDir = curEdge.EndDir;
-                clockWiseMatchs.Clear();
-                foreach (var validEdge in curValidEdges)
-                {
-                    var clockEdge = new ClockWiseMatch(validEdge);
-                    clockEdge.Angle = curEndDir.CalAngle(clockEdge.StartDir);
-                    clockWiseMatchs.Add(clockEdge);
-                }
-
-                TopoEdge maxAngleEdge = null;
-                if (clockWiseMatchs.Count != 0)
-                {
-                    clockWiseMatchs.Sort((s1, s2) => { return s1.Angle.CompareTo(s2.Angle); });
-                    maxAngleEdge = clockWiseMatchs.First().TopoEdge;
-
-                    if (maxAngleEdge != nextEdge)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
         }
     }
 
@@ -805,7 +827,7 @@ namespace ThSpray
                 {
                     var nextCurve = m_ScatterNodes[j].srcCurve;
 
-                    if (!IntersectValid(curCurve, nextCurve))
+                    if (!CommonUtils.IntersectValid(curCurve, nextCurve))
                         continue;
 
                     var ptLst = new Point3dCollection();
@@ -820,105 +842,6 @@ namespace ThSpray
                     }
                 }
             }
-        }
-
-        private void CalculateLineBoundary(Line line, ref double leftX, ref double leftY, ref double rightX, ref double rightY)
-        {
-            var startPt = line.StartPoint;
-            var endPt = line.EndPoint;
-            if (CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 0.5) || CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 1.5))
-            {
-                leftX = rightX = startPt.X;
-                if (startPt.Y <= endPt.Y)
-                {
-                    leftY = startPt.Y;
-                    rightY = endPt.Y;
-                }
-                else
-                {
-                    leftY = endPt.Y;
-                    rightY = startPt.Y;
-                }
-            }
-            else
-            {
-                // 非垂直
-                if (startPt.X <= endPt.X)
-                {
-                    leftX = startPt.X;
-                    rightX = endPt.X;
-                }
-                else
-                {
-                    rightX = startPt.X;
-                    leftX = endPt.X;
-                }
-
-                if (startPt.Y <= endPt.Y)
-                {
-                    leftY = startPt.Y;
-                    rightY = endPt.Y;
-                }
-                else
-                {
-                    rightY = startPt.Y;
-                    leftY = endPt.Y;
-                }
-            }
-        }
-
-        private void CalculateArcBoundary(Arc arc, ref double leftX, ref double leftY, ref double rightX, ref double rightY)
-        {
-            var ptCenter = arc.Center;
-            var radius = arc.Radius;
-            var leftPoint = arc.Center + new Vector3d(-1, 0, 0) * radius;
-            var rightPoint = arc.Center + new Vector3d(1, 0, 0) * radius;
-            leftX = leftPoint.X;
-            leftY = leftPoint.Y - radius;
-            rightX = rightPoint.X;
-            rightY = rightPoint.Y + radius;
-        }
-
-        private bool IntersectValid(Curve firstCurve, Curve secCurve)
-        {
-            // first
-            double firLeftX = 0;
-            double firLeftY = 0;
-            double firRightX = 0;
-            double firRightY = 0;
-
-            // second
-            double secLeftX = 0;
-            double secLeftY = 0;
-            double secRightX = 0;
-            double secRightY = 0;
-            if (firstCurve is Arc)
-            {
-                var firstArc = firstCurve as Arc;
-                CalculateArcBoundary(firstArc, ref firLeftX, ref firLeftY, ref firRightX, ref firRightY);
-            }
-            else
-            {
-                var firLine = firstCurve as Line;
-                CalculateLineBoundary(firLine, ref firLeftX, ref firLeftY, ref firRightX, ref firRightY);
-            }
-
-            if (secCurve is Arc)
-            {
-                var secArc = secCurve as Arc;
-                CalculateArcBoundary(secArc, ref secLeftX, ref secLeftY, ref secRightX, ref secRightY);
-            }
-            else
-            {
-                var secLine = secCurve as Line;
-                CalculateLineBoundary(secLine, ref secLeftX, ref secLeftY, ref secRightX, ref secRightY);
-            }
-
-            if (Math.Min(firRightX, secRightX) >= Math.Max(firLeftX, secLeftX)
-                && Math.Min(firRightY, secRightY) >= Math.Max(firLeftY, secLeftY))
-                return true;
-
-            return false;
         }
 
         private void SortLineNode(ScatterNode lineCode)
