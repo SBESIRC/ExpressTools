@@ -49,9 +49,9 @@ namespace ThColumnInfo
                 IDataSource dataSource = new ExtractColumnPosition(firstPt, secondPt, ExtractColumnDetailInfoMode.InSitu);
                 dataSource.Extract(); 
                 //获取数据库的信息
-                string dbPath = @"D:\1111\dtlmodel.ydb";
+                string dbPath = @"C:\Users\liuguangsheng\AppData\Roaming\eSpace_Desktop\UserData\liuguangsheng\ReceiveFile\实例 - Send 1023\实例 - Send 1023\A3#楼 - 伪原位\计算模型\施工图\dtlmodel.ydb";
                 IDatabaseDataSource dbDataSource = new ExtractYjkColumnInfo(dbPath);
-                dbDataSource.Extract(1);
+                dbDataSource.Extract(4);
                 //让用户指定柱子的位置
                 ThDrawColumns thDrawColumns = new ThDrawColumns(dbDataSource.ColumnInfs);
                 thDrawColumns.Draw();
@@ -61,7 +61,6 @@ namespace ThColumnInfo
                     ThRelateColumn thRelateColumn = new ThRelateColumn(dataSource.ColumnInfs, thDrawColumns.ColumnRelateInfs);
                     thRelateColumn.Relate();
                 }
-                
             }
             catch(System.Exception ex)
             {

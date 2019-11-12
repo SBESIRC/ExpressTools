@@ -32,7 +32,7 @@ namespace ThXClip
     public delegate void ThXClipFinishHandler(ThXclipCommands sender,bool result);
     public class ThXclipCommands
     {
-        [CommandMethod("TIANHUACAD", "THXLP", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THXLP", CommandFlags.Modal | CommandFlags.UsePickSet)]
         public void ThXClip()
         {
             List<ObjectId> selObjIds = ThXClipCadOperation.GetSelectObjects(); //选择要处理的块
@@ -114,6 +114,70 @@ namespace ThXClip
                 ThXClipCadOperation.LockedLayers(lockedLayerNames);
                 //WorkFinished(this, true);
             }
+        }
+        [CommandMethod("RetrieveXClipBoundary", CommandFlags.Modal | CommandFlags.UsePickSet)]
+        public static void RetrieveXClipBoundary_Method()
+        {
+            Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
+            try
+            {
+                if (ed.SelectImplied().Status != PromptStatus.OK) throw new System.Exception("Nothing has been pre-selected!");
+
+                RXClass BlockReferenceRXClass = RXClass.GetClass(typeof(BlockReference));
+                using (Transaction tr = Application.DocumentManager.MdiActiveDocument.TransactionManager.StartTransaction())
+                {
+                    foreach (ObjectId id in ed.SelectImplied().Value.GetObjectIds())
+                    {
+                        if (id.ObjectClass == BlockReferenceRXClass)
+                        {
+                            BlockReference blkRef = (BlockReference)tr.GetObject(id, OpenMode.ForRead);
+                            if (blkRef.ExtensionDictionary != ObjectId.Null)
+                            {
+                                DBDictionary extdict = (DBDictionary)tr.GetObject(blkRef.ExtensionDictionary, OpenMode.ForRead);
+                                if (extdict.Contains("ACAD_FILTER"))
+                                {
+                                    DBDictionary dict = (DBDictionary)tr.GetObject(extdict.GetAt("ACAD_FILTER"), OpenMode.ForRead);
+                                    if (dict.Contains("SPATIAL"))
+                                    {
+                                        SpatialFilter filter = (SpatialFilter)tr.GetObject(dict.GetAt("SPATIAL"), OpenMode.ForRead);
+                                        DrawPolygon(blkRef.Database, filter.Definition.Normal, filter.ClipSpaceToWorldCoordinateSystemTransform, filter.Definition.GetPoints());
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    tr.Commit();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ed.WriteMessage(Environment.NewLine + ex.Message);
+            }
+        }
+
+        public static ObjectId DrawPolygon(Database db, Vector3d normal, Matrix3d mat, Point2dCollection vertices)
+        {
+            ObjectId ret = ObjectId.Null;
+
+            Transaction tr = db.TransactionManager.TopTransaction;
+            BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite);
+            using (Polyline pl = new Polyline())
+            {
+                pl.SetDatabaseDefaults();
+                pl.ColorIndex = 3;
+                pl.Closed = true;
+                for (int i = 0; i < vertices.Count; i++)
+                {
+                    pl.AddVertexAt(0, vertices[i], 0, 0, 0);
+                }
+                pl.TransformBy(mat);
+                btr.AppendEntity(pl);
+                tr.AddNewlyCreatedDBObject(pl, true);
+                ret = pl.ObjectId;
+            }
+
+            return ret;
         }
     }
 }

@@ -10,12 +10,79 @@ using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.DatabaseServices.Filters;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using Autodesk.AutoCAD.Internal;
+using GeometryExtensions;
+using Autodesk.AutoCAD.Interop.Common;
 
 namespace ThXClip
 {
     public class ThXClipCadOperation
     {
         public static Tolerance Global_Tolerance = new Tolerance(1e-1, 1e-1);
+        public static List<List<Point3d>> GetLoopCurvePts(List<Curve> curves)
+        {
+            List<List<Point3d>> ptList = new List<List<Point3d>>();
+            while (curves.Count>0)
+            {
+                ptList.Add(new List<Point3d> { curves[0].StartPoint, curves[0].EndPoint });
+                curves.RemoveAt(0);
+                for (int i=0;i< curves.Count;i++)
+                {
+                    bool preEpCloseNextSp = ptList[ptList.Count - 1][1].DistanceTo(curves[i].StartPoint) <= 1.0 ? true : false;
+                    bool preEpCloseNextEp = ptList[ptList.Count - 1][1].DistanceTo(curves[i].EndPoint) <= 1.0 ? true : false;
+                    if(preEpCloseNextSp || preEpCloseNextEp)
+                    {
+                        if (preEpCloseNextSp)
+                        {
+                            ptList.Add(new List<Point3d> { curves[i].StartPoint, curves[i].EndPoint });
+                        }
+                        else if (preEpCloseNextEp)
+                        {
+                            ptList.Add(new List<Point3d> { curves[i].EndPoint, curves[i].StartPoint });
+                        }
+                        curves.RemoveAt(i);
+                        i = -1;
+                    }
+                }
+                if(curves.Count>0 || ptList[ptList.Count-1][1].DistanceTo(ptList[0][0])>2.0) //
+                {
+                    ptList = new List<List<Point3d>>();
+                    break;
+                }
+            }
+            return ptList;
+        }
+        public static Region CreateRegion(Polyline polyline)
+        {
+            //if(polyline.ObjectId==ObjectId.Null)
+            //{
+            //    AddToBlockTable(polyline);
+            //}
+            using (var pline3d = new Polyline3d(Poly3dType.SimplePoly, polyline.Vertices(), true))
+            {
+                using (DBObjectCollection curves = new DBObjectCollection())
+                {
+                    curves.Add(pline3d);
+                    using (DBObjectCollection regions = Region.CreateFromCurves(curves))
+                    {
+                        return (Region)regions[0];
+                    }
+                }
+            }
+        }
+
+        public static bool IsClosestToCurve(Curve curve,Point3d pt,double range)
+        {
+            Point3d closePt= curve.GetClosestPointTo(pt,true);
+            if(closePt==null)
+            {
+                return false;
+            }
+            if(closePt.DistanceTo(pt)<=range)
+            {
+                return true;
+            }
+            return false;
+        }
         public static bool IsGreaterThanOrEqualTo(int major, int minor)
         {
             Version version = Application.Version;
@@ -1396,6 +1463,45 @@ namespace ThXClip
                 }
             }
             return ents;
+        }
+        public static Point2dCollection GetWipeOutBoundaryPts(ObjectId wpId, bool needTransform = true)
+        {
+            Point2dCollection newPts = new Point2dCollection();
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans = doc.Database.TransactionManager.StartTransaction())
+            {
+                Wipeout wp = trans.GetObject(wpId, OpenMode.ForRead) as Wipeout;
+                Point2dCollection pts = wp.GetClipBoundary();
+                Matrix3d mt = wp.PixelToModelTransform;
+                if (pts.Count == 2)
+                {
+                    double minX = Math.Min(pts[0].X, pts[1].X);
+                    double maxX = Math.Max(pts[0].X, pts[1].X);
+                    double minY = Math.Min(pts[0].Y, pts[1].Y);
+                    double maxY = Math.Max(pts[0].Y, pts[1].Y);
+                    newPts.Add(new Point2d(minX, minY));
+                    newPts.Add(new Point2d(maxX, minY));
+                    newPts.Add(new Point2d(maxX, maxY));
+                    newPts.Add(new Point2d(minX, maxY));
+                }
+                else
+                {
+                    newPts = pts;
+                }
+                if (true)
+                {
+                    Point2dCollection tempPts = new Point2dCollection();
+                    foreach (Point2d pt in newPts)
+                    {
+                        Point3d newPt = new Point3d(pt.X, pt.Y, 0.0);
+                        newPt = newPt.TransformBy(mt);
+                        tempPts.Add(new Point2d(newPt.X, newPt.Y));
+                    }
+                    newPts = tempPts;
+                }
+                trans.Commit();
+            }
+            return newPts;
         }
     }
     /// <summary>

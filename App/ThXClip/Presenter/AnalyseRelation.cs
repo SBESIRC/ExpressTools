@@ -13,7 +13,7 @@ namespace ThXClip
         private List<ObjectId> _objIds = new List<ObjectId>();
         private List<ObjectId> _modelWipeOutIds = new List<ObjectId>();
 
-        private List<XClipInfo> _xclipInfs = new List<XClipInfo>();
+        private Dictionary<ObjectId, List<XClipInfo>> blockXClips = new Dictionary<ObjectId, List<XClipInfo>>();
         private List<DraworderInfo> _blkWipeOuts = new List<DraworderInfo>(); //
         private List<DraworderInfo> _drawOrderinfs = new List<DraworderInfo>();
         private Document _document;
@@ -22,11 +22,11 @@ namespace ThXClip
         /// <summary>
         /// 获取块上所用的XClip信息
         /// </summary>
-        public List<XClipInfo> XclipInfs
+        public Dictionary<ObjectId, List<XClipInfo>> BlockXClips
         {
             get
             {
-                return _xclipInfs;
+                return blockXClips;
             }
         }
         public List<ObjectId> ObjIds
@@ -80,12 +80,13 @@ namespace ThXClip
                     entities=entities.Where(j => j.Ent.Visible && JudgeEntityInsPointedType(j.Ent)).Select(j => j).ToList();
                     entities.ForEach(j => j.BlockPath.Reverse());
                     List<XClipInfo> currentXClipInfos = RetrieveXClipBoundary(br, br.Name);
-                    currentXClipInfos.ForEach(j => j.BlockPath.Reverse());
                     if (currentXClipInfos != null && currentXClipInfos.Count>0)
                     {
-                        this._xclipInfs.AddRange(currentXClipInfos);                       
+                        currentXClipInfos.ForEach(j => j.BlockPath.Reverse());
+                        currentXClipInfos.ForEach(j => j.AttachBlockId = br.Id);
+                        currentXClipInfos=currentXClipInfos.OrderBy(j => j.BlockPath.Count).ToList(); //把层级从小到大排序
+                        this.blockXClips.Add(this._objIds[i], currentXClipInfos);                
                     }
-                    this._xclipInfs.ForEach(j => j.AttachBlockId = br.Id);
                     entities.ForEach(j => btr.AppendEntity(j.Ent));
                     entities.ForEach(j => trans.AddNewlyCreatedDBObject(j.Ent, true));
                     //entities.ForEach(j => j.Ent.Visible = false);
@@ -230,11 +231,13 @@ namespace ThXClip
 #endif
                                 xClipInfo.BlockName = blockRef.Name;
                                 xClipInfo.AttachBlockId = blockRef.Id;
+                                xClipInfo.Pts = fil.Definition.GetPoints();
                                 Point2dCollection pts = new Point2dCollection();
                                 foreach (Point2d pt in fil.Definition.GetPoints())
                                 {
                                     Point3d tempPt = new Point3d(pt.X, pt.Y, 0.0);
-                                    tempPt = tempPt.TransformBy(fil.OriginalInverseBlockTransform);
+                                    tempPt = tempPt.TransformBy(fil.ClipSpaceToWorldCoordinateSystemTransform); //从Ucs到Wcs
+                                    tempPt = tempPt.TransformBy(fil.OriginalInverseBlockTransform); //转到当前块定义中的坐标点
                                     pts.Add(new Point2d(tempPt.X, tempPt.Y));
                                 }
                                 xClipInfo.Pts = pts;
@@ -358,6 +361,19 @@ namespace ThXClip
             List<DraworderInfo> firstFilterDraworderInfs =this.DrawOrderinfs.Where(i=>i.BlockId==xClipInfo.AttachBlockId).Select(i=>i).ToList();
             draworderInfs=firstFilterDraworderInfs.Where(i => CompareListIsSubOfOther(xClipInfo.BlockPath, i.BlockPath)).Select(i => i).ToList();
             return draworderInfs;
+        }
+        /// <summary>
+        /// 获取XClip所在块的WipeOut及嵌套块下的所有WipeOut
+        /// </summary>
+        /// <param name="xClipInfo"></param>
+        /// <returns></returns>
+        public List<DraworderInfo> GetXClipAccessoryWipeOuts(XClipInfo xClipInfo)
+        {
+            List<DraworderInfo> wipeOutDis = new List<DraworderInfo>();
+            //把所属同一个父块的
+            List<DraworderInfo> firstFilterDraworderInfs = this.BlkWipeOuts.Where(i => i.BlockId == xClipInfo.AttachBlockId).Select(i => i).ToList();
+            wipeOutDis = firstFilterDraworderInfs.Where(i => CompareListIsSubOfOther(xClipInfo.BlockPath, i.BlockPath)).Select(i => i).ToList();
+            return wipeOutDis;
         }
         private bool CompareListIsSubOfOther(List<string> firstList,List<string> secondList)
         {            

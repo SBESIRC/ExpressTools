@@ -72,7 +72,8 @@ namespace ThColumnInfo
         {
             Polyline polyline = new Polyline();
             Point3d pt = new Point3d(drawColumnInf.X+ drawColumnInf.EccX, drawColumnInf.Y + drawColumnInf.EccY, 0.0);
-            Matrix3d rotateMt = Matrix3d.Rotation(drawColumnInf.Rotation, Vector3d.ZAxis, Point3d.Origin);
+            double rotateAng = ThColumnInfoUtils.AngToRad(drawColumnInf.Rotation);
+            Matrix3d rotateMt = Matrix3d.Rotation(rotateAng, Vector3d.ZAxis, Point3d.Origin);
             string spec = drawColumnInf.Spec;
             if(!string.IsNullOrEmpty(drawColumnInf.Spec))
             {
