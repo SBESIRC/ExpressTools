@@ -4,10 +4,80 @@
   <input>
     <loadpaths />
     <asmlist>
-      <inputassembly refid="FBBC9B36-FD1E-4BB8-911F-59C4E6C99523">
+      <inputassembly refid="{FBBC9B36-FD1E-4BB8-911F-59C4E6C99523}">
         <option>honoroas</option>
         <option>stripoa</option>
         <file dir="${configdir}\build\bin\Release-NET40" name="ThCui.dll" />
+      </inputassembly>
+      <inputassembly refid="{4BA5A52F-FF61-4757-A93E-6154DA996FB5}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThParking.dll" />
+      </inputassembly>
+      <inputassembly refid="{3D20E105-F27C-454F-BC60-0E2666DF43D2}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThAreaFrame.dll" />
+      </inputassembly>
+      <inputassembly refid="{FCF80453-4CC1-4148-88F4-7EC96E96DA8A}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThAnalytics.dll" />
+      </inputassembly>
+      <inputassembly refid="{8F836F1C-CE33-423B-8EDB-156C2CE69DD0}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThIdentity.dll" />
+      </inputassembly>
+      <inputassembly refid="{5D1353CF-49A2-41BA-97FA-4E22AD20FC68}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThLicense.dll" />
+      </inputassembly>
+      <inputassembly refid="{DAE3EF08-2708-4545-B04A-6972730C3174}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThAutoUpdate.dll" />
+      </inputassembly>
+      <inputassembly refid="{CB84E0B0-EBB5-41C6-8F99-83AB07EE410B}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThAreaFrameConfig.dll" />
+      </inputassembly>
+      <inputassembly refid="{F17634F1-13BB-4038-8158-14B27B51CEE6}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThElectricalSysDiagram.dll" />
+      </inputassembly>
+      <inputassembly refid="{C73E5960-0EE1-4753-8B11-B3D6FCD08C07}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThPlot.dll" />
+      </inputassembly>
+      <inputassembly refid="{D9BC55A2-0508-4345-9F9D-BB94CAFFC64B}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThSpray.dll" />
+      </inputassembly>
+      <inputassembly refid="{0B4509E7-5CED-447B-9C10-F5717C502007}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThRoomBoundary.dll" />
+      </inputassembly>
+      <inputassembly refid="{8D65437F-87E4-4321-B18A-E7FDFC36DCDA}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThXClip.dll" />
+      </inputassembly>
+      <inputassembly refid="{DD7FFAFA-BD18-4235-977F-0D1069B1DB87}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThMirror.dll" />
+      </inputassembly>
+      <inputassembly refid="{9B9ADDA3-A9CA-40CA-88AD-8119A06C6ADD}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET40" name="ThMirror.dll" />
       </inputassembly>
     </asmlist>
   </input>

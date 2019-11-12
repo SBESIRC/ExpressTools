@@ -4,10 +4,80 @@
   <input>
     <loadpaths />
     <asmlist>
-      <inputassembly refid="F3F5DFC4-E4A7-46B7-B484-A0B4336B2265">
+      <inputassembly refid="{F3F5DFC4-E4A7-46B7-B484-A0B4336B2265}">
         <option>honoroas</option>
         <option>stripoa</option>
         <file dir="${configdir}\build\bin\Release" name="ThCui.dll" />
+      </inputassembly>
+      <inputassembly refid="{DB594F4F-4803-4847-A2F4-7697A0E51871}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThParking.dll" />
+      </inputassembly>
+      <inputassembly refid="{50DF99EA-8DCB-434F-8527-B3B930450E67}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThAreaFrame.dll" />
+      </inputassembly>
+      <inputassembly refid="{27B66092-C669-453D-A02B-74F0B9E69F6F}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThAnalytics.dll" />
+      </inputassembly>
+      <inputassembly refid="{84F50B0B-DF7E-481C-ADF7-3047636EBF0A}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThIdentity.dll" />
+      </inputassembly>
+      <inputassembly refid="{87BEB346-80CC-4E96-82B0-B5B028CD5E07}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThLicense.dll" />
+      </inputassembly>
+      <inputassembly refid="{32D52CC2-6A64-4D97-B19A-7703730DFF40}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThAutoUpdate.dll" />
+      </inputassembly>
+      <inputassembly refid="{68F3BE81-1E2A-4F0B-972B-E0763031E8E6}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThAreaFrameConfig.dll" />
+      </inputassembly>
+      <inputassembly refid="{F06EC386-36E3-401B-A971-74928157C0BD}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThElectricalSysDiagram.dll" />
+      </inputassembly>
+      <inputassembly refid="{576E37FE-CFC8-47BB-A81A-503D86BB4808}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThPlot.dll" />
+      </inputassembly>
+      <inputassembly refid="{95FF797F-7D51-463A-BEC5-722ED63187BB}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThSpray.dll" />
+      </inputassembly>
+      <inputassembly refid="{2F53A521-6729-4FBB-835A-8D0219CF2491}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThRoomBoundary.dll" />
+      </inputassembly>
+      <inputassembly refid="{0329CC6A-66AE-4839-B434-0756E863EB2A}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThXClip.dll" />
+      </inputassembly>
+      <inputassembly refid="{9D91AF63-C929-4C12-A55A-D58EDDF0483D}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThMirror.dll" />
+      </inputassembly>
+      <inputassembly refid="{60AB8C1C-2F14-4A39-96C8-AE308C141261}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release" name="ThMirror.dll" />
       </inputassembly>
     </asmlist>
   </input>
