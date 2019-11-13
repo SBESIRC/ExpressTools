@@ -51,7 +51,7 @@ namespace ThAreaFrameConfig.Presenter
                         RejectObjectsOnLockedLayers = true,
                     };
                     var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "CIRCLE,LWPOLYLINE");
-                    var entSelected = Active.Editor.GetSelection(filterlist);
+                    var entSelected = Active.Editor.GetSelection(options, filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {
                         foreach (var objId in entSelected.Value.GetObjectIds())
@@ -112,7 +112,7 @@ namespace ThAreaFrameConfig.Presenter
                     var filterlist = OpFilter.Bulid(
                         o => o.Dxf((int)DxfCode.Start) == "CIRCLE,LWPOLYLINE" &
                         o.Dxf((int)DxfCode.LayerName) == layer);
-                    var entSelected = Active.Editor.GetSelection(filterlist);
+                    var entSelected = Active.Editor.GetSelection(options, filterlist);
                     if (entSelected.Status != PromptStatus.OK)
                     {
                         return false;
