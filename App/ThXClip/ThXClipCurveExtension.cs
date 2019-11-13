@@ -746,6 +746,7 @@ namespace ThXClip
         /// <returns></returns>
         public static DBObjectCollection XClip(this Wipeout wipeout, Point2dCollection pts, bool keepInternal = false)
         {
+#if ACAD_ABOVE_2012
             DBObjectCollection dBObjects = new DBObjectCollection();
             var doc = ThXClipCadOperation.GetMdiActiveDocument();
             if (wipeout == null)
@@ -846,6 +847,11 @@ namespace ThXClip
                 ThXClipUtils.WriteException(ex);
             }
             return dBObjects;
+#else
+            // Curve.CreateFromGeCurve() was introduced in AutoCAD 2013
+            // https://adndevblog.typepad.com/autocad/2012/04/converting-geometry-objects-to-database-entity.html
+            throw new NotImplementedException();
+#endif
         }
 
         private static IntersectType GetXClipWithWipeOut(Point2dCollection xclipEdgePts, Wipeout wp)
