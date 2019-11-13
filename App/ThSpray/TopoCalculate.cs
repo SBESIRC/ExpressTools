@@ -635,14 +635,6 @@ namespace ThSpray
                 {
                     continue;
                 }
-                //var curPtTail = new Point2d(curEdge.End.X, curEdge.End.Y);
-                //var edgeCurve = edge.SrcCurve;
-                //var edgeMidPoint = edgeCurve.GetPointAtParameter((edgeCurve.StartParam + edgeCurve.EndParam) * 0.5);
-                //var curEdgeCurve = curEdge.SrcCurve;
-                //var curEdgeMidPoint = curEdgeCurve.GetPointAtParameter((curEdgeCurve.StartParam + curEdgeCurve.EndParam) * 0.5);
-                //if ((CommonUtils.Point2dIsEqualPoint2d(headPoint, curPtTail, 1e-1) && CommonUtils.Point2dIsEqualPoint2d(tailPoint, curPtHead, 1e-1) 
-                //    && CommonUtils.Point2dIsEqualPoint2d(new Point2d(edgeMidPoint.X, edgeMidPoint.Y), new Point2d(curEdgeMidPoint.X, curEdgeMidPoint.Y), 1e-1)))
-                //    continue;
                 if (curEdge.Pair == edge)
                 {
                     continue;

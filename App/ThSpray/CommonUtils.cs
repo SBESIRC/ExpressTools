@@ -300,12 +300,25 @@ namespace ThSpray
 
                 if (firRightX < pt.X || firRightY < pt.Y || firLeftY > pt.Y)
                     continue;
-                //if (!CommonUtils.IntersectValid(curLine, edge.SrcCurve))
-                //    continue;
 
                 LineSegment2d intersectLine = new LineSegment2d(new Point2d(pt.X, pt.Y), end);
-                LineSegment2d line = new LineSegment2d(new Point2d(edge.Start.X, edge.Start.Y), new Point2d(edge.End.X, edge.End.Y));
-                var intersectPts = line.IntersectWith(intersectLine);
+                Point2d[] intersectPts;
+                if (edge.IsLine)
+                {
+                    LineSegment2d line = new LineSegment2d(new Point2d(edge.Start.X, edge.Start.Y), new Point2d(edge.End.X, edge.End.Y));
+                    intersectPts = line.IntersectWith(intersectLine);
+                }
+                else
+                {
+                    var arc3d = edge.SrcCurve as Arc;
+                    var startPt = arc3d.StartPoint;
+                    var endPt = arc3d.EndPoint;
+                    var midPoint = arc3d.GetPointAtParameter((arc3d.StartParam + arc3d.EndParam) * 0.5);
+                    var arc = new CircularArc2d(new Point2d(startPt.X, startPt.Y), new Point2d(midPoint.X, midPoint.Y), new Point2d(endPt.X, endPt.Y));
+
+                    intersectPts = arc.IntersectWith(intersectLine);
+                }
+                
                 if (intersectPts != null && intersectPts.Count() == 1)
                 {
                     var nPt = intersectPts.First();
