@@ -217,7 +217,7 @@ namespace ThAreaFrameConfig.Model
                             }
 
                             // 删除填充XData
-                            frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill);
+                            frameId.RemoveXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill);
                         }
                     }
 
@@ -491,20 +491,26 @@ namespace ThAreaFrameConfig.Model
                 {
                     // 根据面积框线轮廓创建“区域”
                     //  https://www.keanw.com/2015/08/getting-the-centroid-of-an-autocad-region-using-net.html
-                    DBObjectCollection curves = new DBObjectCollection()
+                    var dbObj = acadDatabase.Element<Curve>(frameId);
+                    using (DBObjectCollection curves = new DBObjectCollection())
                     {
-                        acadDatabase.Element<Curve>(frameId)
-                    };
-                    DBObjectCollection regions = Region.CreateFromCurves(curves);
-                    Region region = regions[0] as Region;
-                    return region.Centroid();
+                        dbObj.Explode(curves);
+                        using (DBObjectCollection regions = Region.CreateFromCurves(curves))
+                        {
+                            return ((Region)regions[0]).Centroid();
+                        }
+                    }
+
+                    //// 计算框线的“质心”有两种方式：
+                    ////  1. Region.Centroid()
+                    ////  2. Mathematical solution
+                    //// Region.CreateFromCurves()并不稳定
+                    //// 这里采用“纯数学”方式计算质心
+                    //var pline = acadDatabase.Element<Polyline>(frameId);
+                    //return pline.Centroid();
                 }
                 catch
                 {
-                    // 由于绘图精度或者绘图不规范，面积框线处于“假闭合”的状态。
-                    // 在放大很多倍的情况下，多段线和起点和终点并不完全重合。
-                    // 在这样的情况下，CreateFromCurves()会抛出异常。
-                    // 这里通过捕捉异常，返回null表示“失败”。
                     return null;
                 }
             }

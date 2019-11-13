@@ -21,6 +21,15 @@ Task Requires.MSBuild {
     Write-Host "Found MSBuild here: $msbuildExe"
 }
 
+Task Requires.Dotfuscator {
+    $script:dotfuscatorCli = resolve-path "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\Extensions\PreEmptiveSolutions\DotfuscatorCE\dotfuscatorCLI.exe"
+    
+    if ($dotfuscatorCli -ne $null)
+    {
+        Write-Host "Found dotfuscatorCLI here: $dotfuscatorCli"
+    }
+}
+
 # Release build for AutoCAD R18
 Task Compile.Assembly.R18 -Depends Requires.MSBuild {
     exec { 
@@ -40,12 +49,12 @@ Task Compile.Assembly.R18 -Depends Requires.MSBuild {
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:rebuild
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration=$buildType /t:restore
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration=$buildType /t:rebuild
-            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThElectrical\ThElectrical.csproj" /p:Configuration=$buildType /t:restore
-            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThElectrical\ThElectrical.csproj" /p:Configuration=$buildType /t:rebuild
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration=$buildType /t:restore
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration=$buildType /t:rebuild
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThPlot\ThPlot.csproj" /p:Configuration=$buildType /t:restore
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThPlot\ThPlot.csproj" /p:Configuration=$buildType /t:rebuild
+		    & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThSpray\ThSpray.csproj" /p:Configuration=$buildType /t:restore
+            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThSpray\ThSpray.csproj" /p:Configuration=$buildType /t:rebuild
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThRoomBoundary\ThRoomBoundary.csproj" /p:Configuration=$buildType /t:restore
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThRoomBoundary\ThRoomBoundary.csproj" /p:Configuration=$buildType /t:rebuild
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThXClip\ThXClip.csproj" /p:Configuration=$buildType /t:restore
@@ -53,6 +62,14 @@ Task Compile.Assembly.R18 -Depends Requires.MSBuild {
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThMirror\ThMirror.csproj" /p:Configuration=$buildType /t:restore
             & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThMirror\ThMirror.csproj" /p:Configuration=$buildType /t:rebuild
     }
+}
+
+Task Dotfuscator.Assembly.R18 -Depends Requires.Dotfuscator, Compile.Assembly.R18 {
+	if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
+		exec {
+			& $dotfuscatorCli ".\dotfuscator_config_${buildType}.xml"
+		}	
+	}
 }
 
 # $buildType build for AutoCAD R19
@@ -74,12 +91,12 @@ Task Compile.Assembly.R19 -Depends Requires.MSBuild {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThElectrical\ThElectrical.csproj" /p:Configuration="${buildType}-NET40" /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThElectrical\ThElectrical.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThPlot\ThPlot.csproj" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThPlot\ThPlot.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
+		& $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThSpray\ThSpray.csproj" /p:Configuration="${buildType}-NET40" /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThSpray\ThSpray.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThRoomBoundary\ThRoomBoundary.csproj" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThRoomBoundary\ThRoomBoundary.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThXClip\ThXClip.csproj" /p:Configuration="${buildType}-NET40" /t:restore
@@ -87,6 +104,14 @@ Task Compile.Assembly.R19 -Depends Requires.MSBuild {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThMirror\ThMirror.csproj" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThMirror\ThMirror.csproj" /p:Configuration="${buildType}-NET40" /t:rebuild
     }
+}
+
+Task Dotfuscator.Assembly.R19 -Depends Requires.Dotfuscator, Compile.Assembly.R19 {
+	if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
+		exec {
+			& $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET40.xml"
+		}	
+	}
 }
 
 # $buildType build for AutoCAD R20
@@ -108,12 +133,12 @@ Task Compile.Assembly.R20 -Depends Requires.MSBuild {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration="${buildType}-NET45" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration="${buildType}-NET45" /t:rebuild
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThElectrical\ThElectrical.csproj" /p:Configuration="${buildType}-NET45" /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThElectrical\ThElectrical.csproj" /p:Configuration="${buildType}-NET45" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration="${buildType}-NET45" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration="${buildType}-NET45" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThPlot\ThPlot.csproj" /p:Configuration="${buildType}-NET45" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThPlot\ThPlot.csproj" /p:Configuration="${buildType}-NET45" /t:rebuild
+		& $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThSpray\ThSpray.csproj" /p:Configuration="${buildType}-NET45" /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThSpray\ThSpray.csproj" /p:Configuration="${buildType}-NET45" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThRoomBoundary\ThRoomBoundary.csproj" /p:Configuration="${buildType}-NET45" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThRoomBoundary\ThRoomBoundary.csproj" /p:Configuration="${buildType}-NET45" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThXClip\ThXClip.csproj" /p:Configuration="${buildType}-NET45" /t:restore
@@ -121,6 +146,14 @@ Task Compile.Assembly.R20 -Depends Requires.MSBuild {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThMirror\ThMirror.csproj" /p:Configuration="${buildType}-NET45" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThMirror\ThMirror.csproj" /p:Configuration="${buildType}-NET45" /t:rebuild
     }
+}
+
+Task Dotfuscator.Assembly.R20 -Depends Requires.Dotfuscator, Compile.Assembly.R20 {
+	if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
+		exec {
+			& $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET45.xml"
+		}	
+	}
 }
 
 Task Requires.BuildType {
@@ -139,8 +172,9 @@ Task Sign {
     }
 }
 
+# temporarily disable code sign
 # $buildType build for ThCADPluginInstaller
-Task Compile.Installer -Depends Requires.BuildType, Compile.Assembly.R18, Compile.Assembly.R19, Compile.Assembly.R20, Sign {
+Task Compile.Installer -Depends Requires.BuildType, Dotfuscator.Assembly.R18, Dotfuscator.Assembly.R19, Dotfuscator.Assembly.R20 {
     if ($buildType -eq $null) {
         throw "No build type specified"
     }
@@ -152,10 +186,10 @@ Task Compile.Installer -Depends Requires.BuildType, Compile.Assembly.R18, Compil
         & $msbuildExe /verbosity:minimal ".\ThIdentity\ThIdentity.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThLicense\ThLicense.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThAutoUpdate\ThAutoUpdate.csproj" /p:Configuration=$buildType /t:restore
-        & $msbuildExe /verbosity:minimal ".\ThElectrical\ThElectrical.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThAreaFrameConfig\ThAreaFrameConfig.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThElectricalSysDiagram\ThElectricalSysDiagram.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThPlot\ThPlot.csproj" /p:Configuration=$buildType /t:restore
+		& $msbuildExe /verbosity:minimal ".\ThSpray\ThSpray.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThRoomBoundary\ThRoomBoundary.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThXClip\ThXClip.csproj" /p:Configuration=$buildType /t:restore
         & $msbuildExe /verbosity:minimal ".\ThMirror\ThMirror.csproj" /p:Configuration=$buildType /t:restore

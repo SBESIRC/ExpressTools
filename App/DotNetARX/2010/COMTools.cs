@@ -837,8 +837,8 @@ namespace DotNetARX
             /// </summary>
             public static string PageSetupOverridesTemplateFile
             {
-                get { return (string)Preferences.GetProperties("Files", "ageSetupOverridesTemplateFile"); }
-                set { Preferences.SetProperties("Files", "ageSetupOverridesTemplateFile", value); }
+                get { return (string)Preferences.GetProperties("Files", "PageSetupOverridesTemplateFile"); }
+                set { Preferences.SetProperties("Files", "PageSetupOverridesTemplateFile", value); }
             }
 
             /// <summary>
@@ -846,8 +846,8 @@ namespace DotNetARX
             /// </summary>
             public static string PlotLogFilePath
             {
-                get { return (string)Preferences.GetProperties("Files", "lotLogFilePath"); }
-                set { Preferences.SetProperties("Files", "lotLogFilePath", value); }
+                get { return (string)Preferences.GetProperties("Files", "PlotLogFilePath"); }
+                set { Preferences.SetProperties("Files", "PlotLogFilePath", value); }
             }
 
             /// <summary>
@@ -855,8 +855,8 @@ namespace DotNetARX
             /// </summary>
             public static string PostScriptPrologFile
             {
-                get { return (string)Preferences.GetProperties("Files", "ostScriptPrologFile"); }
-                set { Preferences.SetProperties("Files", "ostScriptPrologFile", value); }
+                get { return (string)Preferences.GetProperties("Files", "PostScriptPrologFile"); }
+                set { Preferences.SetProperties("Files", "PostScriptPrologFile", value); }
             }
 
             /// <summary>
@@ -864,8 +864,8 @@ namespace DotNetARX
             /// </summary>
             public static string PrinterConfigPath
             {
-                get { return (string)Preferences.GetProperties("Files", "rinterConfigPath"); }
-                set { Preferences.SetProperties("Files", "rinterConfigPath", value); }
+                get { return (string)Preferences.GetProperties("Files", "PrinterConfigPath"); }
+                set { Preferences.SetProperties("Files", "PrinterConfigPath", value); }
             }
 
             /// <summary>
@@ -873,8 +873,8 @@ namespace DotNetARX
             /// </summary>
             public static string PrinterDescPath
             {
-                get { return (string)Preferences.GetProperties("Files", "rinterDescPath"); }
-                set { Preferences.SetProperties("Files", "rinterDescPath", value); }
+                get { return (string)Preferences.GetProperties("Files", "PrinterDescPath"); }
+                set { Preferences.SetProperties("Files", "PrinterDescPath", value); }
             }
 
             /// <summary>
@@ -882,8 +882,8 @@ namespace DotNetARX
             /// </summary>
             public static string PrinterStyleSheetPath
             {
-                get { return (string)Preferences.GetProperties("Files", "rinterStyleSheetPath"); }
-                set { Preferences.SetProperties("Files", "rinterStyleSheetPath", value); }
+                get { return (string)Preferences.GetProperties("Files", "PrinterStyleSheetPath"); }
+                set { Preferences.SetProperties("Files", "PrinterStyleSheetPath", value); }
             }
 
             /// <summary>
@@ -891,8 +891,8 @@ namespace DotNetARX
             /// </summary>
             public static string PrintFile
             {
-                get { return (string)Preferences.GetProperties("Files", "rintFile"); }
-                set { Preferences.SetProperties("Files", "rintFile", value); }
+                get { return (string)Preferences.GetProperties("Files", "PrintFile"); }
+                set { Preferences.SetProperties("Files", "PrintFile", value); }
             }
 
             /// <summary>
@@ -900,8 +900,8 @@ namespace DotNetARX
             /// </summary>
             public static string PrintSpoolerPath
             {
-                get { return (string)Preferences.GetProperties("Files", "rintSpoolerPath"); }
-                set { Preferences.SetProperties("Files", "rintSpoolerPath", value); }
+                get { return (string)Preferences.GetProperties("Files", "PrintSpoolerPath"); }
+                set { Preferences.SetProperties("Files", "PrintSpoolerPath", value); }
             }
 
             /// <summary>
@@ -909,8 +909,8 @@ namespace DotNetARX
             /// </summary>
             public static string PrintSpoolExecutable
             {
-                get { return (string)Preferences.GetProperties("Files", "rintSpoolExecutable"); }
-                set { Preferences.SetProperties("Files", "rintSpoolExecutable", value); }
+                get { return (string)Preferences.GetProperties("Files", "PrintSpoolExecutable"); }
+                set { Preferences.SetProperties("Files", "PrintSpoolExecutable", value); }
             }
 
             /// <summary>

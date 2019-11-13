@@ -62,7 +62,7 @@ namespace ThColumnInfo
                     thRelateColumn.Relate();
                 }
             }
-            catch(System.Exception ex)
+            catch
             {
             }            
         }

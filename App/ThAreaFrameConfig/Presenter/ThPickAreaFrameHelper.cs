@@ -248,52 +248,52 @@ namespace ThAreaFrameConfig.Presenter
         {
             using (Active.Document.LockDocument())
             {
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    // set focus to AutoCAD
-                    //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+                // set focus to AutoCAD
+                //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
 #if ACAD2012
                     Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
 #else
-                    Active.Document.Window.Focus();
+                Active.Document.Window.Focus();
 #endif
 
-                    // 按照"子键"，“楼层”， “编号”排序
-                    compartments.Sort();
+                // 按照"子键"，“楼层”， “编号”排序
+                compartments.Sort();
 
-                    // 按<子键，楼层>分组，在同一组内填充
-                    foreach (var group in compartments.GroupBy(o => new { o.Subkey, o.Storey }))
+                // 按<子键，楼层>分组，在同一组内填充
+                foreach (var group in compartments.GroupBy(o => new { o.Subkey, o.Storey }))
+                {
+                    int index = 0;
+                    foreach (var compartment in group)
                     {
-                        int index = 0;
-                        foreach (var compartment in group)
+                        foreach (var frame in compartment.Frames)
                         {
-                            foreach (var frame in compartment.Frames)
+                            using (AcadDatabase acadDatabase = AcadDatabase.Active())
                             {
-                                ObjectId frameId = new ObjectId(frame.Frame);
-                                TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill);
-                                if (valueList != null)
-                                {
-                                    var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
-                                    if (handles.Any())
-                                    {
-                                        // 获取防火分区填充
-                                        var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
-                                        if (objId.IsValid)
-                                        {
-                                            continue;
-                                        }
-
-                                        // 断开旧填充的连接，创建新的填充
-                                        frameId.RemoveXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill);
-                                    }
-                                }
-
-                                // 填充面积框线
-                                Hatch hatch = new Hatch();
-                                ObjectId hatchId = ObjectId.Null;
-
                                 try
                                 {
+                                    ObjectId frameId = new ObjectId(frame.Frame);
+                                    TypedValueList valueList = frameId.GetXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill);
+                                    if (valueList != null)
+                                    {
+                                        var handles = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataHandle);
+                                        if (handles.Any())
+                                        {
+                                            // 获取防火分区填充
+                                            var objId = acadDatabase.Database.HandleToObjectId((string)handles.ElementAt(0).Value);
+                                            if (objId.IsValid)
+                                            {
+                                                continue;
+                                            }
+
+                                            // 断开旧填充的连接，创建新的填充
+                                            frameId.RemoveXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill);
+                                        }
+                                    }
+
+                                    // 填充面积框线
+                                    Hatch hatch = new Hatch();
+                                    ObjectId hatchId = ObjectId.Null;
+
                                     hatch.LayerId = acadDatabase.Database.CreateFCFillLayer();
                                     hatchId = acadDatabase.ModelSpace.Add(hatch);
                                     hatch.SetHatchPattern(Hathes[index % 4].Item2, Hathes[index % 4].Item1);
@@ -317,16 +317,7 @@ namespace ThAreaFrameConfig.Presenter
                                         // 重新生成Hatch纹理
                                         hatch.EvaluateHatch(true);
                                     }
-                                }
-                                catch
-                                {
-                                    // 由于绘图精度或者绘图不规范，面积框线处于“假闭合”的状态。
-                                    // 在放大很多倍的情况下，多段线和起点和终点并不完全重合。
-                                    // 在这样的情况下，对于有些孤岛，AppendLoop()会抛"InvalidInput"异常。
-                                    // 这里通过捕捉异常，忽略孤岛，保证Hatch仍然可以正确创建。
-                                }
-                                finally
-                                {
+
                                     // 需要重新设置Pattern属性后Pattern才能被正确的应用
                                     hatch.PatternScale = Hathes[index % 4].Item3;
                                     hatch.SetHatchPattern(hatch.PatternType, hatch.PatternName);
@@ -339,15 +330,26 @@ namespace ThAreaFrameConfig.Presenter
                                     };
                                     frameId.AddXData(ThCADCommon.RegAppName_AreaFrame_FireCompartment_Fill, valueList);
                                 }
-                            };
+                                catch
+                                {
+                                    // 由于绘图精度或者绘图不规范，面积框线处于“假闭合”的状态。
+                                    // 在放大很多倍的情况下，多段线和起点和终点并不完全重合。
+                                    // 对于有“瑕疵”的面积框线，AppendLoop()会抛"InvalidInput"异常。
+                                    // 这里通过捕捉异常，回撤所有修改
+                                    acadDatabase.DiscardChanges();
 
-                            // 合并防火分区内的所有轮廓线共享一种填充
-                            index++;
-                        }
+                                    // 输出提示信息
+                                    Active.Editor.WriteLine("创建填充失败，面积框线存在未知错误！");
+                                }
+                            }
+                        };
+
+                        // 合并防火分区内的所有轮廓线共享一种填充
+                        index++;
                     }
-
-                    return true;
                 }
+
+                return true;
             }
         }
 

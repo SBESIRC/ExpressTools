@@ -21,20 +21,23 @@ namespace ThSpray
         {
         }
 
-        [CommandMethod("SPray", "SPray", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "TopoSearch", CommandFlags.Modal)]
         static public void TestBoundary()
         {
-            Active.WriteMessage("SPray");
             // 获取图层中的所有线
             var allcurves = Utils.GetAllCurves();
-            //Utils.DrawProfile(allcurves, "test");
-            // 拓扑 轮廓计算
+            //var point = new Point3d(25204.6072597596, 27744.9386472017, 0);
+            //foreach (var curve in allcurves)
+            //{
+            //    var arc = curve as Arc;
+            //    CommonUtils.IsPointOnArc(point, arc);
+            //}
+            //return;
 
-            var noCalCurves = new List<Curve>();
-            var curvesLst = TopoUtils.MakeSrcProfiles(allcurves, out noCalCurves);
-            Utils.DrawProfile(noCalCurves, "test");
-            // 界面显示
-            Utils.ShowCurves(curvesLst);
+            // 拓扑 轮廓计算
+            var profileCurves = new List<Curve>();
+            var polylines = TopoUtils.MakeSrcProfiles(allcurves);
+            Utils.DrawProfile(polylines, "re");
         }
     }
 }

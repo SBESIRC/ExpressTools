@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE dotfuscator SYSTEM "http://www.preemptive.com/dotfuscator/dtd/dotfuscator_v2.4.dtd">
+<dotfuscator version="2.3">
+  <input>
+    <loadpaths />
+    <asmlist>
+      <inputassembly refid="{21D57C06-1471-4D1A-98CC-47DE6BC082CE}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThCui.dll" />
+      </inputassembly>
+      <inputassembly refid="{E54BCCB1-A5AD-4B58-B83E-C99BC47622C7}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThParking.dll" />
+      </inputassembly>
+      <inputassembly refid="{2D3A05F0-D2CB-47A3-B3C4-A96A37B91ADC}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThAreaFrame.dll" />
+      </inputassembly>
+      <inputassembly refid="{8EAAED5F-5AFF-489D-A1BB-029FDE0E4144}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThAnalytics.dll" />
+      </inputassembly>
+      <inputassembly refid="{D3675AE5-9D31-48A2-ADF9-40FF6E18AF32}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThIdentity.dll" />
+      </inputassembly>
+      <inputassembly refid="{5659B1F8-BBF2-424C-B801-EE641B9FACC2}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThLicense.dll" />
+      </inputassembly>
+      <inputassembly refid="{D22667A4-A59E-412E-97AB-C610508B5AB9}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThAutoUpdate.dll" />
+      </inputassembly>
+      <inputassembly refid="{E77341BA-075B-4EF7-9B05-D5AF00FBEA7B}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThAreaFrameConfig.dll" />
+      </inputassembly>
+      <inputassembly refid="{947AE787-4E78-4D79-9754-6B030877FF3D}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThElectricalSysDiagram.dll" />
+      </inputassembly>
+      <inputassembly refid="{1672B9FA-E9FB-4E46-A3F4-98339C31FA40}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThPlot.dll" />
+      </inputassembly>
+      <inputassembly refid="{7254F6D6-5642-4509-9130-C5464665AC4F}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThSpray.dll" />
+      </inputassembly>
+      <inputassembly refid="{97BE603B-B6F2-4A56-AE4B-717B8432EE2A}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThRoomBoundary.dll" />
+      </inputassembly>
+      <inputassembly refid="{A442E1D5-B0D9-4F6B-BADD-BC4E148ACE1D}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThXClip.dll" />
+      </inputassembly>
+      <inputassembly refid="{336117DA-5C72-4062-90FB-EEA5EFF74A60}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThMirror.dll" />
+      </inputassembly>
+      <inputassembly refid="{D5276B00-FE73-415A-A72D-AB4927DC0FBE}">
+        <option>honoroas</option>
+        <option>stripoa</option>
+        <file dir="${configdir}\build\bin\Release-NET45" name="ThMirror.dll" />
+      </inputassembly>
+    </asmlist>
+  </input>
+  <output>
+    <file dir="${configdir}\build\bin\Release-NET45\Dotfuscated" />
+  </output>
+  <renaming>
+    <option>xmlserialization</option>
+    <mapping>
+      <mapoutput overwrite="true">
+        <file dir="${configdir}\build\bin\Release-NET45\Dotfuscated" name="Map.xml" />
+      </mapoutput>
+    </mapping>
+    <referencerulelist>
+      <referencerule rulekey="{2B7E7C8C-A39A-4db8-9DFC-6AFD38509061}" />
+      <referencerule rulekey="{229FD6F8-5BCC-427b-8F72-A7A413ECDF1A}" />
+      <referencerule rulekey="{7D9C8B02-2383-420f-8740-A9760394C2C1}" />
+    </referencerulelist>
+  </renaming>
+  <sos mergeruntime="true">
+    <option>version:v4</option>
+    <option>dontsendtamper</option>
+  </sos>
+  <extattributes>
+    <extattribute name="PreEmptive.Attributes.InsertTamperCheckAttribute">
+      <codetransformlist>
+        <codetransform name="analytics" />
+      </codetransformlist>
+      <type name="DotfuscatorCommunitySample.Hello">
+        <method name="VerifyTampering" signature="void()" />
+      </type>
+      <propertylist>
+        <property name="Action" value="None" />
+        <property name="ActionProbability" value="1" />
+        <property name="ApplicationNotificationSinkName" value="OnTamperVerified" />
+        <property name="ApplicationNotificationSinkOwner" value="" />
+        <property name="ApplicationNotificationSinkElement" value="Method" />
+        <property name="ExtendedKeySourceName" value="" />
+        <property name="ExtendedKeySourceOwner" value="" />
+        <property name="ExtendedKeySourceElement" value="None" />
+        <property name="ExtendedKeyMethodArguments" value="" />
+      </propertylist>
+    </extattribute>
+    <extattribute name="PreEmptive.Attributes.DebuggingCheckAttribute">
+      <codetransformlist>
+        <codetransform name="analytics" />
+      </codetransformlist>
+      <type name="DotfuscatorCommunitySample.Hello">
+        <method name="VerifyDebugging" signature="void()" />
+      </type>
+      <propertylist>
+        <property name="Action" value="None" />
+        <property name="ActionProbability" value="1" />
+        <property name="ApplicationNotificationSinkName" value="OnDebuggingVerified" />
+        <property name="ApplicationNotificationSinkOwner" value="" />
+        <property name="ApplicationNotificationSinkElement" value="Method" />
+        <property name="ExtendedKeySourceName" value="" />
+        <property name="ExtendedKeySourceOwner" value="" />
+        <property name="ExtendedKeySourceElement" value="None" />
+        <property name="ExtendedKeyMethodArguments" value="" />
+      </propertylist>
+    </extattribute>
+  </extattributes>
+  <smartobfuscation>
+    <smartobfuscationreport verbosity="all" overwrite="false" />
+  </smartobfuscation>
+</dotfuscator>

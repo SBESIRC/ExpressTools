@@ -30,25 +30,33 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         // Support 路径
         public static string SupportPath()
         {
-            return Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Support");
+            return Path.Combine(ContentsPath(), "Support");
         }
 
         // Standard style 路径
         public static string StandardStylePath()
         {
-            return Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Standards\Style");
+            return Path.Combine(ContentsPath(), "Standards", "Style");
         }
 
         // Resources 路径
-        public static string ResourcePath()
+        public static string ResourcesPath()
+        {
+            return Path.Combine(ContentsPath(), "Resources");
+        }
+
+        // Plotters 路径
+        public static string PlottersPath()
+        {
+            return Path.Combine(ContentsPath(), "Plotters");
+        }
+
+        // Contents 路径
+        private static string ContentsPath()
         {
             return Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents\Resources");
+                @"Autodesk\ApplicationPlugins\ThCADPlugin.bundle\Contents");
         }
     }
 }

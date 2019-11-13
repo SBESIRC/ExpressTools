@@ -70,6 +70,13 @@
         <PackageReference Include="AutoCAD-2016.Net.Interop.x86" Version="1.0.0" />
       </ItemGroup>
     </When>
+    <When Condition="$(DefineConstants.Contains('ACAD2018'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET" Version="22.0.0" />
+        <PackageReference Include="AutoCAD.NET.Core" Version="22.0.0" />
+        <PackageReference Include="AutoCAD.NET.Model" Version="22.0.0" />
+      </ItemGroup>
+    </When>
   </Choose>
   <ItemGroup>
     <PackageReference Include="NetOffice.PowerPoint.Net40" Version="1.7.4.4" />

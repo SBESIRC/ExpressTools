@@ -2,12 +2,9 @@
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Interop.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace TianHua.AutoCAD.Utility.ExtensionTools
 {
@@ -1072,27 +1069,5 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             }
 
         }
-
-
-        /// <summary>
-        /// 求外接矩形角点
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ent"></param>
-        /// <returns></returns>
-        public static Point3dCollection GetBoundaryPoints<T>(this T ent) where T : Entity
-        {
-            //调用com的GetBoundingBox求出角点
-            var comEnt = ent.AcadObject as AcadEntity;
-
-            object[] argspl1 = new object[2];
-            argspl1[0] = new VariantWrapper(0);
-            argspl1[1] = new VariantWrapper(0);
-
-            comEnt.GetBoundingBox(out argspl1[0], out argspl1[1]);
-
-            return new Point3dCollection() { new Point3d((double[])argspl1[0]), new Point3d((double[])argspl1[1]) };
-        }
-
     }
 }

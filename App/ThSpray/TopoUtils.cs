@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DotNetARX;
+using Linq2Acad;
 
 namespace ThSpray
 {
@@ -15,15 +16,12 @@ namespace ThSpray
         /// </summary>
         /// <param name="lines"></param>
         /// <returns></returns>
-        public static List<List<Curve>> MakeSrcProfiles(List<Curve> curves, out List<Curve> srcClosedCurves)
+        public static List<Curve> MakeSrcProfiles(List<Curve> curves)
         {
-            srcClosedCurves = new List<Curve>();  //单个闭合
+            var srcClosedCurves = new List<Curve>();  //单个闭合
             var calCurves = new List<Curve>();
-            IntersectCurves.MakeIntersectCurves(curves, ref srcClosedCurves, ref calCurves);
-            //Utils.DrawProfile(srcClosedCurves, "p2");
-            var lines = TesslateCurve2Lines(calCurves);
-
-            var profiles = TopoSearch.MakeSrcProfileLoops(lines);
+            var tmpCurves = TesslateCurve(curves);
+            var profiles = TopoSearch.MakeSrcProfileLoops(tmpCurves);
             return profiles;
         }
 
@@ -79,12 +77,15 @@ namespace ThSpray
                 for (int i = 0; i < useCurves.Count(); i++)
                 {
                     var firCurve = useCurves[i];
-                    if (firCurve.curveIntersect)
+                    if (firCurve.curveIntersect || !firCurve.curCurve.Closed)
                         continue;
 
                     // 当前的都需要和后面的进行比较
-                    for (int j = i + 1; j < useCurves.Count(); j++)
+                    for (int j = 0; j < useCurves.Count(); j++)
                     {
+                        if (i == j)
+                            continue;
+
                         var secCurve = useCurves[j];
                         if (Intersect(firCurve, secCurve))
                         {
@@ -112,13 +113,7 @@ namespace ThSpray
             {
                 Point3dCollection ptLst = new Point3dCollection();
                 firCurve.curCurve.IntersectWith(secCurve.curCurve, Autodesk.AutoCAD.DatabaseServices.Intersect.OnBothOperands, ptLst, new System.IntPtr(0), new System.IntPtr(0));
-
-                Point3dCollection ptEndPtLst = new Point3dCollection();
-                ptEndPtLst.Add(firCurve.curCurve.StartPoint);
-                ptEndPtLst.Add(firCurve.curCurve.EndPoint);
-                ptEndPtLst.Add(secCurve.curCurve.StartPoint);
-                ptEndPtLst.Add(secCurve.curCurve.EndPoint);
-                if (ptLst.Count != 0 && PointsValid(ptLst, ptEndPtLst))
+                if (ptLst.Count != 0)
                 {
                     return true;
                 }
@@ -173,50 +168,40 @@ namespace ThSpray
             return outLines;
         }
 
-        ///// <summary>
-        ///// Arc 离散为直线
-        ///// </summary>
-        ///// <param name="arc"></param>
-        ///// <returns></returns>
-        //public static List<LineSegment2d> Arc2LineSegment2ds(Arc arc)
-        //{
-
-        //}
+        public static List<Arc> Circle2Arcs(Circle circle)
+        {
+            var arcs = new List<Arc>();
+            var arc1 = new Arc(circle.Center, circle.Radius, 0, Math.PI);
+            var arc2 = new Arc(circle.Center, circle.Radius, Math.PI, Math.PI * 2);
+            arcs.Add(arc1);
+            arcs.Add(arc2);
+            return arcs;
+        }
 
         /// <summary>
-        /// 数据打撒成直线段
+        /// 数据打撒
         /// </summary>
         /// <param name="curves"></param>
         /// <returns></returns>
-        public static List<LineSegment2d> TesslateCurve2Lines(List<Curve> curves)
+        public static List<Curve> TesslateCurve(List<Curve> curves)
         {
-            var lines = new List<LineSegment2d>();
+            var lines = new List<Curve>();
             foreach (var curve in curves)
             {
                 if (curve is Line)
                 {
-                    var line = curve as Line;
-                    var ptS = line.StartPoint;
-                    var ptE = line.EndPoint;
-                    var lineSegment2d = new LineSegment2d(new Point2d(ptS.X, ptS.Y), new Point2d(ptE.X, ptE.Y));
-                    lines.Add(lineSegment2d);
+                    lines.Add(curve);
                 }
                 else if (curve is Arc)
                 {
-                    var arc = curve as Arc;
-                    var polyline = arc.Spline.ToPolyline();
-                    var lineNodes = Polyline2dLines(polyline as Polyline);
-                    if (lineNodes != null)
-                        lines.AddRange(lineNodes);
+                    lines.Add(curve);
                 }
                 else if (curve is Circle)
                 {
                     var circle = curve as Circle;
-                    var spline = circle.Spline;
-                    var polyline = spline.ToPolyline();
-                    var lineNodes = Polyline2dLines(polyline as Polyline);
-                    if (lineNodes != null)
-                        lines.AddRange(lineNodes);
+                    var arcs = Circle2Arcs(circle);
+                    if (arcs != null)
+                        lines.AddRange(arcs);
                 }
                 else if (curve is Ellipse)
                 {
@@ -247,12 +232,12 @@ namespace ThSpray
             return lines;
         }
 
-        public static List<LineSegment2d> Polyline2dLines(Polyline polyline)
+        public static List<Curve> Polyline2dLines(Polyline polyline)
         {
             if (polyline == null)
                 return null;
 
-            var lines = new List<LineSegment2d>();
+            var lines = new List<Curve>();
             if (polyline.Closed)
             {
                 for (int i = 0; i < polyline.NumberOfVertices; i++)
@@ -260,8 +245,8 @@ namespace ThSpray
                     var bulge = polyline.GetBulgeAt(i);
                     if (CommonUtils.IsAlmostNearZero(bulge))
                     {
-                        var line2d = polyline.GetLineSegment2dAt(i);
-                        lines.Add(line2d);
+                        LineSegment3d line3d = polyline.GetLineSegmentAt(i);
+                        lines.Add(new Line(line3d.StartPoint, line3d.EndPoint));
                     }
                     else
                     {
@@ -276,10 +261,7 @@ namespace ThSpray
                                 arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
                             else
                                 arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
-                            var pline = arc.Spline.ToPolyline();
-                            var lineNodes = Polyline2dLines(pline as Polyline);
-                            if (lineNodes != null)
-                                lines.AddRange(lineNodes);
+                            lines.Add(arc);
                         }
                     }
                 }
@@ -293,8 +275,8 @@ namespace ThSpray
                         var bulge = polyline.GetBulgeAt(j);
                         if (CommonUtils.IsAlmostNearZero(bulge))
                         {
-                            var line2d = polyline.GetLineSegment2dAt(j);
-                            lines.Add(line2d);
+                            LineSegment3d line3d = polyline.GetLineSegmentAt(j);
+                            lines.Add(new Line(line3d.StartPoint, line3d.EndPoint));
                         }
                         else
                         {
@@ -309,10 +291,7 @@ namespace ThSpray
                                     arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
                                 else
                                     arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
-                                var pline = arc.Spline.ToPolyline();
-                                var lineNodes = Polyline2dLines(pline as Polyline);
-                                if (lineNodes != null)
-                                    lines.AddRange(lineNodes);
+                                lines.Add(arc);
                             }
                         }
                     }

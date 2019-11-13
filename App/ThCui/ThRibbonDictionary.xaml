@@ -455,58 +455,37 @@
                     </adw:RibbonButton.ToolTip>
                 </adw:RibbonButton>
 
-            <adw:RibbonButton  Name="防火分区疏散表" Text = "防火分区疏散表"
+                <adw:RibbonButton  Name="防火分区疏散表" Text = "防火分区疏散表"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
                                     LargeImage="{StaticResource THFET}"
                                     Image="{StaticResource THFET}"               
                                     CommandParameter="THFET">
-               <adw:RibbonButton.ToolTip>
-                  <adw:RibbonToolTip  
+                    <adw:RibbonButton.ToolTip>
+                        <adw:RibbonToolTip  
                     Title="防火分区疏散表"
                             Command="THFET"
                     Content="统计商业/地库各防火分区面积，自动计算应有疏散距离，并生成表格"/>
-               </adw:RibbonButton.ToolTip>
-            </adw:RibbonButton>
+                    </adw:RibbonButton.ToolTip>
+                </adw:RibbonButton>
 
-            <adw:RibbonButton  Name="房间面积框线" Text = "房间面积框线"
+                <adw:RibbonButton  Name="房间面积框线" Text = "房间面积框线"
                                     ShowImage="True" ShowText="True" 
                                     Orientation="Vertical" Size="Large"
                                     LargeImage="{StaticResource THABC}"
                                     Image="{StaticResource THABC}"               
                                     CommandParameter="THABC">
-               <adw:RibbonButton.ToolTip>
-                  <adw:RibbonToolTip  
+                    <adw:RibbonButton.ToolTip>
+                        <adw:RibbonToolTip  
                     Title="房间面积框线"
                             Command="THABC"
                     Content="自动生成屏幕选择范围内所有房间的框线，且可选择插入面积值"/>
-               </adw:RibbonButton.ToolTip>
-            </adw:RibbonButton>
-               
-               
-         </adw:RibbonPanelSource>
-        </adw:RibbonPanel>
-
-        
-        <adw:RibbonPanel>
-            <adw:RibbonPanelSource Title="系统详图">
-                <adw:RibbonButton  Name="配电箱系统图修改" Text = "配电箱&#xD;系统图修改"
-                                    ShowImage="True" ShowText="True" 
-                                    Orientation="Vertical" Size="Large"
-                                    LargeImage="{StaticResource THLDC}"
-                                    Image="{StaticResource THLDC}"               
-                                    CommandParameter="THLDC">
-                    <adw:RibbonButton.ToolTip>
-                        <adw:RibbonToolTip  
-                    Title="配电箱系统图修改"
-                            Command="THLDC"
-                    Content="识别图纸系统图中各配电箱的回路、开关型号等相关信息。修改回路功率值，回路和配电箱其他参数自动更新"/>
                     </adw:RibbonButton.ToolTip>
                 </adw:RibbonButton>
 
+
             </adw:RibbonPanelSource>
         </adw:RibbonPanel>
-
 
         <adw:RibbonPanel>
             <adw:RibbonPanelSource Title="辅助工具">

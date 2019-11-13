@@ -740,7 +740,7 @@ namespace ThColumnInfo
                     this.ColumnTableRecordInfos = gscdi.ColuTabRecordInfs;
                 }
             }
-            catch (System.Exception ex)
+            catch
             {
             }
             finally
