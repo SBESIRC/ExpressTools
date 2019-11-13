@@ -966,7 +966,7 @@ namespace ThXClip
             }
             catch (System.Exception ex)
             {
-                throw ex;
+                ThXClipUtils.WriteException(ex);
             }
             return boundPts;
         }
