@@ -51,6 +51,18 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             return Path.Combine(ContentsPath(), "Plotters");
         }
 
+        // PrinterDescPath 路径
+        public static string PrinterDescPath()
+        {
+            return Path.Combine(ContentsPath(), "Plotters", "PMP Files");
+        }
+
+        // PrinterStyleSheetPath 路径
+        public static string PrinterStyleSheetPath()
+        {
+            return Path.Combine(ContentsPath(), "Plotters", "Plot Styles");
+        }
+
         // Contents 路径
         private static string ContentsPath()
         {

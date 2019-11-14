@@ -101,7 +101,7 @@ namespace TianHua.AutoCAD.ThCui
 
         private void OverridePreferences(bool bOverride = true)
         {
-#if ACAD2016
+#if ACAD_ABOVE_2014
             var path = ThCADCommon.PlottersPath();
             var printerConfigPath = new PrinterConfigPath(AcadApp.Preferences);
             if (bOverride && !printerConfigPath.Contains(path))
@@ -113,6 +113,19 @@ namespace TianHua.AutoCAD.ThCui
             {
                 printerConfigPath.Remove(path);
                 printerConfigPath.SaveChanges();
+            }
+
+            path = ThCADCommon.PrinterDescPath();
+            var printerDescPath = new PrinterDescPath(AcadApp.Preferences);
+            if (bOverride && !printerDescPath.Contains(path))
+            {
+                printerDescPath.Add(path);
+                printerDescPath.SaveChanges();
+            }
+            else if (!bOverride && printerDescPath.Contains(path))
+            {
+                printerDescPath.Remove(path);
+                printerDescPath.SaveChanges();
             }
 #endif
         }
