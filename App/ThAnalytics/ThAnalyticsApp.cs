@@ -110,7 +110,6 @@ namespace ThAnalytics
         public void Initialize()
         {
             ThCybrosService.Instance.Initialize();
-            ThCountlyServices.Instance.Initialize();
             AcadApp.Idle += new EventHandler(Application_OnIdle);
         }
 
@@ -123,7 +122,6 @@ namespace ThAnalytics
 
             //end the user session
             ThCybrosService.Instance.EndSession();
-            ThCountlyServices.Instance.EndSession();
         }
 
         private void Application_OnIdle(object sender, EventArgs e)
@@ -137,7 +135,6 @@ namespace ThAnalytics
 
             //start the user session
             ThCybrosService.Instance.StartSession();
-            ThCountlyServices.Instance.StartSession();
         }
 
         private void AddAppEventHandler()
@@ -152,7 +149,7 @@ namespace ThAnalytics
 
         private void AcadApp_SystemVariableChanged(object sender, SystemVariableChangedEventArgs e)
         {
-            ThCountlyServices.Instance.RecordSysVerEvent(e.Name, AcadApp.GetSystemVariable(e.Name).ToString());
+            ThCybrosService.Instance.RecordSysVerEvent(e.Name, AcadApp.GetSystemVariable(e.Name).ToString());
         }
 
         private void AddCommandHandler()
@@ -191,7 +188,7 @@ namespace ThAnalytics
             // 特殊情况（C:THZ0）
             if (Regex.Match(e.FirstLine, @"^\([cC]:THZ0\)$").Success)
             {
-                ThCountlyServices.Instance.RecordTHCommandEvent(e.FirstLine.Substring(3, e.FirstLine.Length - 4), 0);
+                ThCybrosService.Instance.RecordTHCommandEvent(e.FirstLine.Substring(3, e.FirstLine.Length - 4), 0);
                 return;
             }
 
@@ -200,7 +197,6 @@ namespace ThAnalytics
             if (Regex.Match(e.FirstLine, pattern).Success)
             {
                 ThCybrosService.Instance.RecordTHCommandEvent(e.FirstLine.Substring(3, e.FirstLine.Length - 4), 0);
-                ThCountlyServices.Instance.RecordTHCommandEvent(e.FirstLine.Substring(3, e.FirstLine.Length - 4), 0);
             }
         }
 
@@ -233,8 +229,6 @@ namespace ThAnalytics
                 Stopwatch sw = (Stopwatch)commandhashtable[e.GlobalCommandName];
                 ThCybrosService.Instance.RecordCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
                 ThCybrosService.Instance.RecordTHCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
-                ThCountlyServices.Instance.RecordCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
-                ThCountlyServices.Instance.RecordTHCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
                 commandhashtable.Remove(e.GlobalCommandName);
             }
         }
