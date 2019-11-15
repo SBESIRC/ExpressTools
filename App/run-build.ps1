@@ -88,9 +88,9 @@ Task Requires.BuildType {
 
 Task Sign {
     exec { 
-        cd Sign
+        Push-Location Sign
         .\sign.ps1
-        cd ..
+        Pop-Location
     }
 }
 
