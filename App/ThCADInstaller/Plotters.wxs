@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variable.wxi ?>
+  <Fragment>
+    <DirectoryRef Id="DIR_Autoloader_Contents_Plotters">
+      <Component Id="CMP_Autoloader_PackageContents_Plotters_DWG2PDF_2010" Guid="{38B67335-BC70-400C-95A3-1C3FB814375E}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Plotters_DWG2PDF_2010" Source="$(var.AutoloaderContentsPath)\Plotters\DWG To PDF 2010.pc3" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_Plotters_DWG2PDF_2012" Guid="{134221B9-6BFB-41E0-A645-70D41C080FEF}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Plotters_DWG2PDF_2012" Source="$(var.AutoloaderContentsPath)\Plotters\DWG To PDF 08-13.pc3" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_Plotters_PMPFiles">
+      <Component Id="CMP_Autoloader_PackageContents_Plotters_PMPFiles_DWG2PDF_2010" Guid="{E1DB9A1F-AC52-4B1D-98B1-2BD5156DC563}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Plotters_PMPFiles_DWG2PDF_2010" Source="$(var.AutoloaderContentsPath)\Plotters\PMP Files\DWG To PDF 2010.pmp" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_Plotters_PMPFiles_DWG2PDF_2012" Guid="{8414CA56-A02C-43B8-81F9-6E4A2D5B3D5B}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Plotters_PMPFiles_DWG2PDF_2012" Source="$(var.AutoloaderContentsPath)\Plotters\PMP Files\DWG To PDF 2012.pmp" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="ProductComponentsPlotters">
+      <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_DWG2PDF_2010" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_DWG2PDF_2012" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_PMPFiles_DWG2PDF_2010" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_PMPFiles_DWG2PDF_2012" />
+    </ComponentGroup>
+  </Fragment>
+</Wix>

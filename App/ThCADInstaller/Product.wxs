@@ -16,6 +16,7 @@
             <ComponentGroupRef Id="ProductComponentsToolpalette" />
             <ComponentGroupRef Id="ProductComponentsAppWin64" />
             <ComponentGroupRef Id="ProductComponentsResources" />
+            <ComponentGroupRef Id="ProductComponentsPlotters" />
         </Feature>
         <UIRef Id="WixUI_Minimal"/>
         <WixVariable Id="WixUILicenseRtf" Value="License_zh-CN.rtf" />
@@ -34,6 +35,9 @@
                                 <Directory Id="DIR_Autoloader_Contents_Standards" Name="Standards">
                                     <Directory Id="DIR_Autoloader_Contents_Standards_Layer" Name="Layer" />
                                     <Directory Id="DIR_Autoloader_Contents_Standards_Style" Name="Style" />
+                                </Directory>
+                                <Directory Id="DIR_Autoloader_Contents_Plotters" Name="Plotters">
+                                    <Directory Id="DIR_Autoloader_Contents_Plotters_PMPFiles" Name="PMP Files" />
                                 </Directory>
                             </Directory>
                             </Directory>
