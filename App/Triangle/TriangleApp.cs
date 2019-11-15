@@ -24,6 +24,7 @@ namespace Triangle
         [CommandMethod("TriangleTest", "TriangleTest", CommandFlags.Modal)]
         static public void TestTriangle()
         {
+            var curves = Utils.GetAllCurves();
             Active.WriteMessage("TriangleTest");
         }
     }
