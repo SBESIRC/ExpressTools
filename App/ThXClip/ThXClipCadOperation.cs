@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.DatabaseServices.Filters;
-using TianHua.AutoCAD.Utility.ExtensionTools;
 using Autodesk.AutoCAD.Internal;
-using GeometryExtensions;
-using Autodesk.AutoCAD.Interop.Common;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThXClip
 {
@@ -51,22 +48,21 @@ namespace ThXClip
             }
             return ptList;
         }
-        public static Region CreateRegion(Polyline polyline)
+
+        public static Region CreateRegion(Curve polyline)
         {
-            //if(polyline.ObjectId==ObjectId.Null)
-            //{
-            //    AddToBlockTable(polyline);
-            //}
-            using (var pline3d = new Polyline3d(Poly3dType.SimplePoly, polyline.Vertices(), true))
+            try
             {
                 using (DBObjectCollection curves = new DBObjectCollection())
                 {
-                    curves.Add(pline3d);
-                    using (DBObjectCollection regions = Region.CreateFromCurves(curves))
-                    {
-                        return (Region)regions[0];
-                    }
+                    polyline.Explode(curves);
+                    DBObjectCollection regions = Region.CreateFromCurves(curves);
+                    return (Region)regions[0];
                 }
+            }
+            catch
+            {
+                return null;
             }
         }
 
