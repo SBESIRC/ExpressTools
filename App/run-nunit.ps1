@@ -6,39 +6,32 @@ Task Debug.Build {
     $script:buildType = "Debug"
 }
 
-Task Requires.MSBuild {
-    # Visual Studio 2017 Community
-    $script:msbuildExe = resolve-path "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe"
-
-    if ($msbuildExe -eq $null)
-    {
-        throw "Failed to find MSBuild"
-    }
-    Write-Host "Found MSBuild here: $msbuildExe"
-}
-
 Task Requires.XUnitConsole {
 
-    $script:xunitExe =
-        resolve-path "C:\Users\$env:UserName\.nuget\packages\nunit.consolerunner\3.10.0\tools\nunit3-console.exe"
+    $script:xunitExe = Resolve-Path "$env:USERPROFILE\.nuget\packages\nunit.consolerunner\3.10.0\tools\nunit3-console.exe"
 
-    if ($xunitExe -eq $null)
+    if ($xunitExe -ne $null) {
+        Write-Host "Found XUnit.Console here: $xunitExe"
+    }
+}
+
+Task Requires.GallioConsole {
+    $Script:gallioExe = Resolve-Path "$env:USERPROFILE\.nuget\packages\galliobundle\3.4.14\bin\Gallio.Echo.exe"
+
+    if ($gallioExe -ne $null)
     {
-        throw "Failed to find XUnit.Console.exe"
-    }
-
-    Write-Host "Found XUnit.Console here: $xunitExe"
-}
-
-Task Compile.Installer.Test -Depends Requires.MSBuild, Requires.XUnitConsole  {
-    exec { 
-            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThAreaFrame.Test\ThAreaFrame.Test.csproj" /p:Configuration=$buildType /t:restore
-            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\ThAreaFrame.Test\ThAreaFrame.Test.csproj" /p:Configuration=$buildType /t:rebuild
+        Write-Host "Found Gallio Echo here: $gallioExe"
     }
 }
 
-Task Unit.Tests -Depends Requires.XUnitConsole, Compile.Installer.Test {
+Task Unit.Tests -Depends Requires.XUnitConsole {
     exec {
         & $xunitExe ".\build\bin\$buildType\ThAreaFrame.Test.dll"
+    }
+}
+
+Task Gallio.Tests -Depends Requires.GallioConsole {
+    Exec {
+        & $gallioExe ".\build\bin\$buildType\ThXClip.Test.dll" /r:AutoCAD
     }
 }
