@@ -46,8 +46,8 @@ Invoke-psake .\run-build.ps1 -Task release.build, Compile.Installer
 **usage**  
 Invoke-psake .\run-nunit.ps1 -Task "${buildType}.Build", Unit.Tests  
 **example**  
-Invoke-psake .\run-nunit.ps1 -Task release.Build, Unit.Tests
-Invoke-psake .\run-nunit.ps1 -Task release.Build, Gallio.Tests
+Invoke-psake .\run-nunit.ps1 -Task release.Build, Unit.Tests  
+Invoke-psake .\run-nunit.ps1 -Task release.Build, Gallio.Tests  
 
 ### run-harness(Install paske)  
 **usage**  
