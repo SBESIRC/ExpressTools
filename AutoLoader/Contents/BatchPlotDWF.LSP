@@ -155,7 +155,7 @@
 ;**************END**************
 
 
-(DEFUN LP_SUB(SS_NAME)
+(DEFUN LPDWF_SUB(SS_NAME)
   (SETQ &STR_PAPER (LIST         (LIST "A0L2"      '(841 1635)    "UserDefinedMetric (871.00 x 1675.00毫米)")
                 (LIST "A0L1"      '(841 1486)    "UserDefinedMetric (871.00 x 1516.00毫米)")
                 (LIST "A0L"      '(841 1189)    "UserDefinedMetric (871.00 x 1219.00毫米)")                
@@ -545,7 +545,7 @@
         (SETQ     SS_TUKUANG    (SSGET "X" '((2 . "*_THAPE_*,*目录*") (410 . "Model"))))
         (setq i 0)
         (while (ssname ss_tukuang i)
-            (lp_sub (ssname ss_tukuang i))
+            (lpdwf_sub (ssname ss_tukuang i))
             (setq i (1+ i))
         )
           
@@ -564,7 +564,7 @@
                     (COMMAND "LAYOUT" "S" LAYOUT_NAME)
                       (setq i 0)
                     (while (ssname ss_tukuang i)
-                        (lp_sub (ssname ss_tukuang i))
+                        (lpdwf_sub (ssname ss_tukuang i))
                         (setq i (1+ i))
                     )
                 );ENDPROGN
@@ -613,7 +613,7 @@
                     (SETQ     LAYOUT_NAME    (lgm_GETDXFVALUE ENT_N 410))
                       (setq i 0)
                     (while (ssname ss_tukuang i)
-                        (lp_sub (ssname ss_tukuang i))
+                        (lpdwf_sub (ssname ss_tukuang i))
                         (setq i (1+ i))
                     )
                 );ENDPROGN
