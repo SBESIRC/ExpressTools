@@ -1173,6 +1173,29 @@ namespace ThPlot
         }
 
         /// <summary>
+        /// 前者在后者图元的内部 返回true
+        /// </summary>
+        /// <param name="relatedData"></param>
+        /// <param name="polyline"></param>
+        /// <returns></returns>
+        public static bool EntityContainsEntity(Polyline pptPolyline, RelatedData relatedData)
+        {
+            var curImagePolyline = relatedData.ImagePolyline;
+            var ptLst = GetPolylinePointLst(pptPolyline);
+
+            foreach (var pt in ptLst)
+            {
+                if (!PointInnerEntity(curImagePolyline, pt))
+                {
+                    return false;
+                }
+            }
+
+            relatedData.PptPolyline = pptPolyline;
+            return true;
+        }
+
+        /// <summary>
         /// 计算打印顺序
         /// </summary>
         /// <param name="userData"></param>
@@ -1393,7 +1416,8 @@ namespace ThPlot
                     var curImagePolyline = relatedData.ImagePolyline;
                     foreach (var pptPolyline in pptPolylineLst)
                     {
-                        if (BoundaryIntersectWithBound(relatedData, pptPolyline) || EntityContainsEntity(relatedData, pptPolyline))
+                        if (BoundaryIntersectWithBound(relatedData, pptPolyline) || EntityContainsEntity(relatedData, pptPolyline)
+                            || EntityContainsEntity(pptPolyline, relatedData))
                         {
                             break;
                         }

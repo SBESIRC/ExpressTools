@@ -52,6 +52,9 @@ namespace ThPlot
                 p.ImagePolyline == null || p.PptPolyline == null
                 ));
 
+            if (relatedDataFir.Count == 0)
+                return;
+
             var relatedDataLst = ThPlotData.ReCalculatePrintSequence(userData, relatedDataFir);
             if (relatedDataLst == null)
                 return;
