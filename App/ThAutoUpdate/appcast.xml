@@ -9,12 +9,12 @@
             <sparkle:releaseNotesLink>
                 http://49.234.60.227/AI/thcad/ReleaseNote/release-note.md
             </sparkle:releaseNotesLink>
-            <pubDate>Thu, 17 Oct 2019 10:58:22 +0800</pubDate>
+            <pubDate>Tue, 19 Nov 2019 14:27:43 +0800</pubDate>
             <enclosure url="http://49.234.60.227/AI/thcad/Release/ThCADInstaller.v1.4.3.msi"
                        sparkle:version="1.4.3"
-                       length="47998209"
+                       length="47830932"
                        type="application/octet-stream"
-                       sparkle:dsaSignature="e5C3QCAQWKU459F4/ge4Nlegi8UXtbVcvLi+0vgRe8WnfgPCLIRNeA==" />
+                       sparkle:dsaSignature="YT05iNcw+69NiabuJNeCijl3ExG4rdeC73u4gRLBGHJYxX1DSe4LFw==" />
         </item>
     </channel>
 </rss>
