@@ -18,10 +18,21 @@ namespace ThSpray
         /// <returns></returns>
         public static List<Curve> MakeSrcProfiles(List<Curve> curves)
         {
-            var srcClosedCurves = new List<Curve>();  //单个闭合
-            var calCurves = new List<Curve>();
             var tmpCurves = TesslateCurve(curves);
             var profiles = TopoSearch.MakeSrcProfileLoops(tmpCurves);
+            return profiles;
+        }
+
+        public static List<Curve> MakeProfileFromPoint(List<Curve> srcCurves, Point3d pt)
+        {
+            var profileCalcu = new CalcuContainPointProfile(srcCurves, pt);
+            var relatedCurves = profileCalcu.DoCalRelatedCurves();
+
+            if (relatedCurves == null)
+                return null;
+
+            var tmpCurves = TesslateCurve(relatedCurves);
+            var profiles = TopoSearch.MakeSrcProfileLoopsFromPoint(tmpCurves, pt);
             return profiles;
         }
 

@@ -26,18 +26,21 @@ namespace ThSpray
         {
             // 获取图层中的所有线
             var allcurves = Utils.GetAllCurves();
-            //var point = new Point3d(25204.6072597596, 27744.9386472017, 0);
-            //foreach (var curve in allcurves)
-            //{
-            //    var arc = curve as Arc;
-            //    CommonUtils.IsPointOnArc(point, arc);
-            //}
-            //return;
 
-            // 拓扑 轮廓计算
-            var profileCurves = new List<Curve>();
-            var polylines = TopoUtils.MakeSrcProfiles(allcurves);
-            Utils.DrawProfile(polylines, "re");
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Editor ed = doc.Editor;
+            PromptPointOptions ppo = new PromptPointOptions("\n请点击");
+            ppo.AllowNone = false;
+            PromptPointResult ppr = ed.GetPoint(ppo);
+            if (ppr.Status != PromptStatus.OK)
+                return;
+
+            var pickPoint = ppr.Value;
+            var polylines = TopoUtils.MakeProfileFromPoint(allcurves, pickPoint);
+            Utils.DrawProfile(polylines, "图论拓扑");
+            //// 拓扑 轮廓计算
+            //var polylines = TopoUtils.MakeSrcProfiles(allcurves);
+            //Utils.DrawProfile(polylines, "re");
         }
     }
 }
