@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Net;
+using System.IO;
+using System.Diagnostics;
 using Autodesk.Windows;
 using Autodesk.AutoCAD.Internal;
 using Autodesk.AutoCAD.Runtime;
@@ -13,6 +16,8 @@ namespace TianHua.AutoCAD.ThCui
         const string CMD_GROUPNAME = "TIANHUACAD";
         const string CMD_THCADLOGIN_GLOBAL_NAME = "THCADLOGIN";
         const string CMD_THCADLOGOUT_GLOBAL_NAME = "THCADLOGOUT";
+        const string CMD_THT20PLUGINV4_GLOBAL_NAME = "THT20PLUGINV4";
+        const string CMD_THT20PLUGINV5_GLOBAL_NAME = "THT20PLUGINV5";
         const string CMD_THHLP_GLOBAL_NAME = "THHLP";
         const string CMD_THBLS_GLOBAL_NAME = "THBLS";
         const string CMD_THBLI_GLOBAL_NAME = "THBLI";
@@ -87,6 +92,10 @@ namespace TianHua.AutoCAD.ThCui
 
             //注册工具选项板开关命令
             Utils.AddCommand(CMD_GROUPNAME, CMD_THBLI_GLOBAL_NAME, CMD_THBLI_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(toolPalette.ShowToolPalette));
+
+            //注册下载T20天正插件命令
+            Utils.AddCommand(CMD_GROUPNAME, CMD_THT20PLUGINV4_GLOBAL_NAME, CMD_THT20PLUGINV4_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(DownloadT20PlugInV4));
+            Utils.AddCommand(CMD_GROUPNAME, CMD_THT20PLUGINV5_GLOBAL_NAME, CMD_THT20PLUGINV5_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(DownloadT20PlugInV5));
         }
 
         public void UnregisterCommands()
@@ -96,7 +105,8 @@ namespace TianHua.AutoCAD.ThCui
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THHLP_GLOBAL_NAME);
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLS_GLOBAL_NAME);
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLI_GLOBAL_NAME);
-
+            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THT20PLUGINV4_GLOBAL_NAME);
+            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THT20PLUGINV5_GLOBAL_NAME);
         }
 
         private void OverridePreferences(bool bOverride = true)
@@ -176,6 +186,68 @@ namespace TianHua.AutoCAD.ThCui
             AcadApp.ShowModalDialog(toolPalette);
         }
 
+        /// <summary>
+        /// 下载T20天正插件
+        /// </summary>
+        public void DownloadT20PlugInV4()
+        {
+            DownloadT20PlugInWorker("T20-PlugIn", "V4.0");
+        }
 
+        public void DownloadT20PlugInV5()
+        {
+            DownloadT20PlugInWorker("T20-PlugIn", "V5.0");
+        }
+
+        private void DownloadT20PlugInWorker(string appName, string appVersion)
+        {
+            string fileName = string.Format("{0} {1}.exe", appName, appVersion);
+            Uri downloadUri = new Uri(string.Join("/", ThCADCommon.ServerUrl, "Release", fileName));
+            string downloadFile = Path.Combine(Path.GetTempPath(), fileName);
+
+            try
+            {
+                var wc = new WebClient();
+                var dlg = new ThT20PlugInDownloadDlg(appName, appVersion);
+                dlg.FormClosing += (o, e) =>
+                {
+                    // 在下载中关闭进度条窗口，取消下载
+                    if ((wc != null) && wc.IsBusy)
+                    {
+                        wc.CancelAsync();
+                    }
+                };
+                wc.DownloadProgressChanged += (o, e) =>
+                {
+                    // 在下载中更新进度条窗口
+                    dlg.OnDownloadProgressChanged(o, e);
+                };
+                wc.DownloadFileCompleted += (o, e) => {
+                    // 取消下载
+                    if (e.Cancelled)
+                    {
+                        return;
+                    }
+                    // 下载完成
+                    if (e.Error == null)
+                    {
+                        // 关闭进度条窗口
+                        dlg.Close();
+
+                        // 执行下载安装程序
+                        if (File.Exists(downloadFile))
+                        {
+                            Process.Start(downloadFile);
+                        }
+                    }
+                };
+
+                AcadApp.ShowModelessDialog(dlg);
+                wc.DownloadFileAsync(downloadUri, downloadFile);
+            }
+            catch
+            {
+            }
+        }
     }
 }

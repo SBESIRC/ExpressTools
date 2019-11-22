@@ -27,6 +27,9 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         public static readonly string RegAppName_AreaFrame_FireCompartment_Parking = "THCAD_FC_P";
         public static readonly string RegAppName_AreaFrame_FireCompartment_Commerce = "THCAD_FC_C";
 
+        // Download server
+        public static readonly string ServerUrl = "http://49.234.60.227/AI/thcad";
+
         // Support 路径
         public static string SupportPath()
         {

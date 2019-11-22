@@ -14,7 +14,7 @@ $script:date = "${weekdayshort}, ${day} ${enmonth} ${year} ${hour}:${minute}:${s
 
 $commond_parameter_missing = "please ckeck your commond and use commond like:<.\shellname> <*NetSparkle_DSA.priv> <*appcast.xml> <*.html/*.md> <*.msi>"
 
-if ($releasemsi -eq $null)
+if ($null -eq $releasemsi)
 {
     Write-Host $commond_parameter_missing
     return
@@ -25,7 +25,7 @@ elseif (-not ($releasemsi -like "*.msi"))
     return
 }
 $script:msilength = (Get-Item $releasemsi).length
-if ($dsapriv -eq $null)
+if ($null -eq $dsapriv)
 {
     $dsapriv = ".\ThAutoUpdate\NetSparkle_DSA.priv"
 }
@@ -34,7 +34,7 @@ elseif (-not ($dsapriv -like "*NetSparkle_DSA.priv"))
     Write-Host "Dsa priv file name wrong"
     return
 }
-if ($appcast -eq $null)
+if ($null -eq $appcast)
 {
     $appcast = ".\ThAutoUpdate\appcast.xml"
 }
@@ -43,7 +43,7 @@ elseif (-not ($appcast -like "*appcast.xml"))
     Write-Host "Appcast.xml priv file name wrong"
     return
 }
-if ($releasenote -eq $null)
+if ($null -eq $releasenote)
 {
     $releasenote = ".\ThAutoUpdate\release-note.md"
 }
@@ -56,7 +56,7 @@ elseif (-not (($releasenote -like "*.html") -or ($releasenote -like "*.md")))
 #sign msi
 $script:dsafile = $appcast + ".dsa"
 $script:DSAHelperExe = resolve-path "C:\Users\${env:UserName}\.nuget\packages\netsparkle.new.tools\0.16.6\tools\NetSparkle.DSAHelper.exe"
-if ($DSAHelperExe -eq $null)
+if ($null -eq $DSAHelperExe)
 {
     Write-Host "Failed to find DSAHelper"
     return
@@ -75,11 +75,11 @@ $script:date_old = "<pubDate>.*</pubDate>"
 $script:date_new = "<pubDate>$date</pubDate>"
 
 #change dsasignicure in appcast.xml
-(type $appcast) -replace ($sparklesige_old, $sparklesige_new)|out-file $appcast -encoding utf8
+(Get-Content $appcast) -replace ($sparklesige_old, $sparklesige_new)|out-file $appcast -encoding utf8
 Write-Host "Change appcast dsaSignature completely"
-(type $appcast) -replace ($length_old, $length_new)|out-file $appcast -encoding utf8
+(Get-Content $appcast) -replace ($length_old, $length_new)|out-file $appcast -encoding utf8
 Write-Host "Change appcast msi length completely"
-(type $appcast) -replace ($date_old, $date_new)|out-file $appcast -encoding utf8
+(Get-Content $appcast) -replace ($date_old, $date_new)|out-file $appcast -encoding utf8
 Write-Host "Change appcast pubdate completely"
 
 #sign appcast
@@ -88,7 +88,7 @@ Write-Host "Sign ($appcast) completely"
 
 #publish to server
 $script:pscpexe = resolve-path "C:\Program Files\PuTTY\pscp.exe"
-if ($pscpexe -eq $null)
+if ($null -eq $pscpexe)
 {
     Write-Host "Failed to find pscp"
     return
