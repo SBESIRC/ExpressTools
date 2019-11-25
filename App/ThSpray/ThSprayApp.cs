@@ -35,6 +35,7 @@ namespace ThSpray
             if (ppr.Status != PromptStatus.OK)
                 return;
 
+
             var pickPoint = ppr.Value;
             var polylines = TopoUtils.MakeProfileFromPoint(allcurves, pickPoint);
             Utils.DrawProfile(polylines, "图论拓扑");
