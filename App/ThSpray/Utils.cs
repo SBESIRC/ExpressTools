@@ -206,6 +206,26 @@ namespace ThSpray
             }
         }
 
+        // 绘图，用于测试点的位置
+        public static void DrawLinesWithTransaction(List<TopoEdge> edges)
+        {
+            if (edges == null || edges.Count == 0)
+                return;
+            using (AcadDatabase acad = AcadDatabase.Active())
+            {
+                Document doc = Application.DocumentManager.MdiActiveDocument;
+                foreach (var edge in edges)
+                {
+                    var ptS = edge.Start;
+                    var ptE = edge.End;
+                    var line = new Line(new Point3d(ptS.X, ptS.Y, 0), new Point3d(ptE.X, ptE.Y, 0));
+                    line.Color = Color.FromRgb(0, 255, 255);
+                    // 添加到modelSpace中
+                    AcHelper.DocumentExtensions.AddEntity<Line>(doc, line);
+                }
+            }
+        }
+
         /// <summary>
         /// 格式转换
         /// </summary>

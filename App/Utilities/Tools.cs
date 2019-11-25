@@ -212,5 +212,30 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             // 返回计算结果。
             return result;
         }
+
+        public static string NumBytesToUserReadableString(long numBytes)
+        {
+            if (numBytes > 1024)
+            {
+                double numBytesDecimal = numBytes;
+                // Put in KB
+                numBytesDecimal /= 1024;
+                if (numBytesDecimal > 1024)
+                {
+                    // Put in MB
+                    numBytesDecimal /= 1024;
+                    if (numBytesDecimal > 1024)
+                    {
+                        // Put in GB
+                        numBytesDecimal /= 1024;
+                        return numBytesDecimal.ToString("F2") + " GB";
+                    }
+                    return numBytesDecimal.ToString("F2") + " MB";
+                }
+                return numBytesDecimal.ToString("F2") + " KB";
+            }
+            return numBytes.ToString();
+        }
+
     }
 }
