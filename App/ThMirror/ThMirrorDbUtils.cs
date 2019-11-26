@@ -18,9 +18,26 @@ namespace ThMirror
             {
                 try
                 {
-                    // 块定义
                     var blockReference = acadDatabase.Element<BlockReference>(blockReferenceId);
-                    var blockTableRecord = acadDatabase.Element<BlockTableRecord>(blockReference.BlockTableRecord);
+                    return blockReference.IsBlockReferenceContainText();
+                }
+                catch
+                {
+                    // 图元不是块引用
+                    return false;
+                }
+            }
+        }
+
+        public static bool IsBlockReferenceContainText(this BlockReference blockReference)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                try
+                {
+                    // 对于动态块，BlockReference.Name返回的可能是一个匿名块的名字（*Uxxx）
+                    // 对于这样的动态块，我们并不需要访问到它的“原始”动态块定义，我们只关心它“真实”的块定义
+                    var blockTableRecord = acadDatabase.Blocks.Element(blockReference.Name);
 
                     // 暂时不支持动态块，外部参照，覆盖
                     if (blockTableRecord.IsDynamicBlock ||
