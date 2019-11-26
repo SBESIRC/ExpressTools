@@ -200,7 +200,6 @@ namespace ThSpray
         public static List<Curve> MakeSrcProfileLoopsFromPoint(List<Curve> curves, Point3d pt)
         {
             var search = new TopoSearch(curves, pt);
-            //var loops = TopoSearch.RemoveDuplicate(search.m_srcLoops);
             var tmpEdgeLoops = search.TransFormProfileLoops(search.m_srcLoops);
             return search.ConvertTopoEdges2Curve(tmpEdgeLoops);
         }
@@ -583,8 +582,8 @@ namespace ThSpray
                 }
 
                 var curveBound = new CurveBound(curve, true);
-                curveBound.leftBottomPoint = new XY(leftX, leftY);
-                curveBound.rightTopPoint = new XY(rightX, rightY);
+                curveBound.leftBottomPoint = new XY(leftX - 0.01, leftY - 0.01);
+                curveBound.rightTopPoint = new XY(rightX + 0.01, rightY + 0.01);
                 curveBoundLst.Add(curveBound);
                 if (curve.Equals(rightCurve))
                     rightCurveBound = curveBound;
@@ -675,12 +674,11 @@ namespace ThSpray
 
             var rightCurveBound = CalculateCurveBound(srcCurves, rightCurve);
             var nearCurves = CalcuRelatedCurvesFromCurve(rightCurveBound);
-            //Utils.DrawProfile(nearCurves, "re");
-            //return;
             var scatterCurves = ScatterCurves.MakeNewCurves(nearCurves);
             rightCurve = CalcuRightCurve(scatterCurves);
             if (rightCurve == null)
                 return;
+
             TopoEdge startEdge = null;
             foreach (var curve in scatterCurves)
             {
@@ -735,8 +733,11 @@ namespace ThSpray
 
                 if (polys.Count > 1 && CommonUtils.Point3dIsEqualPoint3d(first.Start, last.End, 1e-1))
                 {
-                    m_ProfileLoop.Add(new Profile(polys, true));
-                    break;
+                    if (CommonUtils.CalcuLoopArea(polys) > 10000)
+                    {
+                        m_ProfileLoop.Add(new Profile(polys, true));
+                        break;
+                    }
                 }
 
                 // 摘除环，继续寻找
@@ -753,7 +754,7 @@ namespace ThSpray
                             edgeLoop.Add(polys[k]);
                         }
 
-                        if (edgeLoop.Count > 1)
+                        if (edgeLoop.Count > 1 && CommonUtils.CalcuLoopArea(polys) > 10000)
                         {
                             m_ProfileLoop.Add(new Profile(edgeLoop, true));
                         }
@@ -955,22 +956,19 @@ namespace ThSpray
         {
             m_curves = SrcCurves;
             var curves = ScatterCurves.MakeNewCurves(m_curves);
-            //Utils.DrawProfile(curves, "scatter", Color.FromRgb(255, 255, 0));
-            //return;
             Calculate(curves);
         }
 
         private TopoCalculate(List<Curve> SrcCurves, Point3d pt)
         {
             m_curves = SrcCurves;
-            //var curves = ScatterCurves.MakeNewCurves(m_curves);
 
             var profileCalcu = new CalcuContainPointProfile(m_curves, pt);
             profileCalcu.DoCal();
             var outEdges = profileCalcu.Profile;
 
             m_ProfileLoop.Add(new Profile(outEdges, true));
-            //Utils.DrawLinesWithTransaction(outEdges);
+            Utils.DrawLinesWithTransaction(outEdges, "profile");
         }
 
 
