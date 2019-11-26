@@ -24,24 +24,69 @@ namespace ThSpray
         [CommandMethod("TIANHUACAD", "TopoSearch", CommandFlags.Modal)]
         static public void TestBoundary()
         {
-            // 获取图层中的所有线
-            var allcurves = Utils.GetAllCurves();
+            //打开需要的图层
+            List<string> wallLayers = null;
+            List<string> arcDoorLayers = null;
+            List<string> windLayers = null;
+            List<string> validLayers = null;
+            var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers);
+
+            // 获取相关图层中的数据
+            // 所有数据
+            var allCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);
+            if (allCurves == null || allCurves.Count == 0)
+            {
+                return;
+            }
+
+            // wall 中的数据
+            var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
+            if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
+            {
+                return;
+            }
+
+            // door 内门中的数据
+            if (arcDoorLayers != null && arcDoorLayers.Count != 0)
+            {
+                var doorBounds = Utils.GetBoundsFromLayerBlocksAndCurves(arcDoorLayers);
+                var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, wallAllCurves, arcDoorLayers.First());
+                if (doorInsertCurves != null && doorInsertCurves.Count != 0)
+                {
+                    allCurves.AddRange(doorInsertCurves);
+                }
+            }
+
+            // wind 中的数据
+            if (windLayers != null && windLayers.Count != 0)
+            {
+                var windBounds = Utils.GetBoundsFromLayerBlocksAndCurves(windLayers);
+
+                var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, windLayers.First());
+
+                if (windInsertCurves != null && windInsertCurves.Count != 0)
+                {
+                    allCurves.AddRange(windInsertCurves);
+                }
+            }
+
+            allCurves = TopoUtils.TesslateCurve(allCurves);
+            allCurves = CommonUtils.RemoveCollinearLines(allCurves);
 
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
-            PromptPointOptions ppo = new PromptPointOptions("\n请点击");
-            ppo.AllowNone = false;
-            PromptPointResult ppr = ed.GetPoint(ppo);
-            if (ppr.Status != PromptStatus.OK)
-                return;
+            while (true)
+            {
+                PromptPointOptions ppo = new PromptPointOptions("\n请点击");
+                ppo.AllowNone = false;
+                PromptPointResult ppr = ed.GetPoint(ppo);
+                if (ppr.Status != PromptStatus.OK)
+                    return;
 
-
-            var pickPoint = ppr.Value;
-            var polylines = TopoUtils.MakeProfileFromPoint(allcurves, pickPoint);
-            Utils.DrawProfile(polylines, "图论拓扑");
-            //// 拓扑 轮廓计算
-            //var polylines = TopoUtils.MakeSrcProfiles(allcurves);
-            //Utils.DrawProfile(polylines, "re");
+                var pickPoint = ppr.Value;
+                var polylines = TopoUtils.MakeProfileFromPoint(allCurves, pickPoint);
+                Utils.DrawProfile(polylines, "sd");
+            }
         }
     }
 }
