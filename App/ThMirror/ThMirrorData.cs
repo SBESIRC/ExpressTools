@@ -47,7 +47,14 @@ namespace ThMirror
                 if (dbObj is BlockReference nestedBlockReference)
                 {
                     // 嵌套块引用
-                    nestedBlockReferences.Add(new ThMirrorData(nestedBlockReference, nestedBlockTransform));
+                    if (nestedBlockReference.IsBlockReferenceContainText())
+                    {
+                        nestedBlockReferences.Add(new ThMirrorData(nestedBlockReference, nestedBlockTransform));
+                    }
+                    else
+                    {
+                        blockEntities.Add(dbObj);
+                    }
                 }
                 else if (dbObj is Entity nestedEntity)
                 {
