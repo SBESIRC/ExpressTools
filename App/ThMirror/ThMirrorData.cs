@@ -30,6 +30,9 @@ namespace ThMirror
         // 嵌套块
         public List<ThMirrorData> nestedBlockReferences;
 
+
+        // ThMirrorData记录块引用的嵌套结构，暂时不记录块定义的插入点
+        // Entity.Explode()将子实体置于WCS中，所以后面还原的块定义的插入点都是原点
         public ThMirrorData(BlockReference blockReference, Matrix3d mat)
         {
             blockEntities = new DBObjectCollection();
@@ -49,7 +52,7 @@ namespace ThMirror
                     // 嵌套块引用
                     if (nestedBlockReference.IsBlockReferenceContainText())
                     {
-                        nestedBlockReferences.Add(new ThMirrorData(nestedBlockReference, nestedBlockTransform));
+                        nestedBlockReferences.Add(new ThMirrorData(nestedBlockReference, mat));
                     }
                     else
                     {
