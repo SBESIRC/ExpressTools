@@ -53,10 +53,20 @@ namespace ThMirror
                         return false;
                     }
 
-                    // 忽略带有属性的块
+                    // 带有属性的块
                     if (blockTableRecord.HasAttributeDefinitions)
                     {
-                        return false;
+                        // 如果块引用有“非常量”属性，在Explode()的过程中会被转换成AttributeDefinition
+                        // 由于暂时我们无法很好的处理AttributeDefinition，这里就不支持这种块引用
+                        // CAD自带的效率工具中的“Burst”可以很好的解决这个问题，但是我们不能保证它的安装
+                        //  https://adndevblog.typepad.com/autocad/2012/07/constant-and-non-constant-block-attributes.html
+                        if (blockReference.AttributeCollection.Count != 0)
+                        {
+                            return false;
+                        }
+
+                        // 对于“常量”属性，在后面重组块定义的过程中会丢失掉
+                        // 如果需要保持“常量”属性，需要先保存常量属性定义，在后面重组块定义的过程中重建他们
                     }
 
                     // 忽略不可“炸开”的块
