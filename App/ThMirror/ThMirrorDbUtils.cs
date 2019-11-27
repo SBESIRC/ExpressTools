@@ -78,27 +78,24 @@ namespace ThMirror
                     // 搜寻块中是否有文字图元
                     foreach (ObjectId id in blockTableRecord)
                     {
-                        if (id.ObjectClass == RXClass.GetClass(typeof(DBText)))
+                        // 使用DxfName去获取对象类型有很好的效率优势
+                        //  https://spiderinnet1.typepad.com/blog/2012/04/various-ways-to-check-object-types-in-autocad-net.html
+                        if (id.ObjectClass.DxfName == "TEXT")
                         {
                             return true;
                         }
 
-                        if (id.ObjectClass == RXClass.GetClass(typeof(MText)))
+                        if (id.ObjectClass.DxfName == "MTEXT")
                         {
                             return true;
                         }
 
-                        if (id.ObjectClass == RXClass.GetClass(typeof(MLeader)))
+                        if (id.ObjectClass.DxfName == "LEADER")
                         {
                             return true;
                         }
 
-                        if (id.ObjectClass == RXClass.GetClass(typeof(Dimension)))
-                        {
-                            return true;
-                        }
-
-                        if (id.ObjectClass == RXClass.GetClass(typeof(BlockReference)))
+                        if (id.ObjectClass.DxfName == "INSERT")
                         {
                             if (IsBlockReferenceContainText(id))
                             {
