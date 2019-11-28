@@ -107,5 +107,59 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             AcadApp.UpdateScreen();
             Utils.PostCommandPrompt();
         }
+
+        public static Entity ConvertAttributeReferenceToText(this AttributeReference attributeReference)
+        {
+            Entity textVersionOfAttributeReference;
+
+            if (attributeReference.IsMTextAttribute)
+            {
+                MText mText = (MText)attributeReference.MTextAttribute.Clone();
+                textVersionOfAttributeReference = mText;
+            }
+            else
+            {
+                DBText dbText = new DBText();
+                dbText.Thickness = attributeReference.Thickness;
+
+                // 从块属性复制属性
+                dbText.SetPropertiesFrom(attributeReference);
+                //if (attributeReference.LayerId == database.LayerZero)
+                //    dbText.LayerId = blockReference.LayerId;
+                //else
+                //    dbText.LayerId = attributeReference.LayerId;
+
+                //if (attributeReference.ColorIndex == EntityColorIndex_ByBlock)
+                //    dbText.ColorIndex = blockReference.ColorIndex;
+                //else
+                //    dbText.ColorIndex = attributeReference.ColorIndex;
+
+                //if (attributeReference.Linetype.ToUpper() == "BYBLOCK")
+                //    dbText.LinetypeId = blockReference.LinetypeId;
+                //else
+                //    dbText.LinetypeId = attributeReference.LinetypeId;
+
+                dbText.Height = attributeReference.Height;
+                dbText.TextString = attributeReference.TextString;
+                dbText.Rotation = attributeReference.Rotation;
+                dbText.Oblique = attributeReference.Oblique;
+                dbText.TextStyleId = attributeReference.TextStyleId;
+                dbText.IsMirroredInX = attributeReference.IsMirroredInX;
+                dbText.IsMirroredInY = attributeReference.IsMirroredInY;
+                dbText.HorizontalMode = attributeReference.HorizontalMode;
+                dbText.VerticalMode = attributeReference.VerticalMode;
+
+                if (attributeReference.AlignmentPoint.Y != 0.0)
+                    dbText.AlignmentPoint = attributeReference.AlignmentPoint;
+
+                dbText.Position = attributeReference.Position;
+                dbText.Normal = attributeReference.Normal;
+                dbText.WidthFactor = attributeReference.WidthFactor;
+
+                textVersionOfAttributeReference = dbText;
+            }
+
+            return textVersionOfAttributeReference;
+        }
     }
 }
