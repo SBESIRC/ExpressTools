@@ -108,58 +108,57 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             Utils.PostCommandPrompt();
         }
 
+        // MatchProperties
+        //  https://forums.autodesk.com/t5/net/burst-blocks/td-p/8402180
+        private static DBText MatchPropertiesFrom(DBText source)
+        {
+            var text = new DBText
+            {
+                Normal = source.Normal,
+                Thickness = source.Thickness,
+                Oblique = source.Oblique,
+                Rotation = source.Rotation,
+                Height = source.Height,
+                WidthFactor = source.WidthFactor,
+                TextString = source.TextString,
+                TextStyleId = source.TextStyleId,
+                IsMirroredInX = source.IsMirroredInX,
+                IsMirroredInY = source.IsMirroredInY,
+                HorizontalMode = source.HorizontalMode,
+                VerticalMode = source.VerticalMode,
+                Position = source.Position
+            };
+            if (source.Justify != AttachmentPoint.BaseLeft)
+            {
+                text.Justify = source.Justify;
+                text.AlignmentPoint = source.AlignmentPoint;
+            }
+            text.SetPropertiesFrom(source);
+            return text;
+        }
+
         public static Entity ConvertAttributeReferenceToText(this AttributeReference attributeReference)
         {
-            Entity textVersionOfAttributeReference;
-
             if (attributeReference.IsMTextAttribute)
             {
-                MText mText = (MText)attributeReference.MTextAttribute.Clone();
-                textVersionOfAttributeReference = mText;
+                return (MText)attributeReference.MTextAttribute.Clone();
             }
             else
             {
-                DBText dbText = new DBText();
-                dbText.Thickness = attributeReference.Thickness;
-
-                // 从块属性复制属性
-                dbText.SetPropertiesFrom(attributeReference);
-                //if (attributeReference.LayerId == database.LayerZero)
-                //    dbText.LayerId = blockReference.LayerId;
-                //else
-                //    dbText.LayerId = attributeReference.LayerId;
-
-                //if (attributeReference.ColorIndex == EntityColorIndex_ByBlock)
-                //    dbText.ColorIndex = blockReference.ColorIndex;
-                //else
-                //    dbText.ColorIndex = attributeReference.ColorIndex;
-
-                //if (attributeReference.Linetype.ToUpper() == "BYBLOCK")
-                //    dbText.LinetypeId = blockReference.LinetypeId;
-                //else
-                //    dbText.LinetypeId = attributeReference.LinetypeId;
-
-                dbText.Height = attributeReference.Height;
-                dbText.TextString = attributeReference.TextString;
-                dbText.Rotation = attributeReference.Rotation;
-                dbText.Oblique = attributeReference.Oblique;
-                dbText.TextStyleId = attributeReference.TextStyleId;
-                dbText.IsMirroredInX = attributeReference.IsMirroredInX;
-                dbText.IsMirroredInY = attributeReference.IsMirroredInY;
-                dbText.HorizontalMode = attributeReference.HorizontalMode;
-                dbText.VerticalMode = attributeReference.VerticalMode;
-
-                if (attributeReference.AlignmentPoint.Y != 0.0)
-                    dbText.AlignmentPoint = attributeReference.AlignmentPoint;
-
-                dbText.Position = attributeReference.Position;
-                dbText.Normal = attributeReference.Normal;
-                dbText.WidthFactor = attributeReference.WidthFactor;
-
-                textVersionOfAttributeReference = dbText;
+                return MatchPropertiesFrom(attributeReference);
             }
+        }
 
-            return textVersionOfAttributeReference;
+        public static Entity ConvertAttributeDefinitionToText(this AttributeDefinition attributeDefinition)
+        {
+            if (attributeDefinition.IsMTextAttributeDefinition)
+            {
+                return (MText)attributeDefinition.MTextAttributeDefinition.Clone();
+            }
+            else
+            {
+                return MatchPropertiesFrom(attributeDefinition);
+            }
         }
     }
 }
