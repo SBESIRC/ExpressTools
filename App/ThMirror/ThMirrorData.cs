@@ -31,8 +31,14 @@ namespace ThMirror
         public List<ThMirrorData> nestedBlockReferences;
 
 
-        // ThMirrorData记录块引用的嵌套结构，暂时不记录块定义的插入点
-        // Entity.Explode()将子实体置于WCS中，所以后面还原的块定义的插入点都是原点
+        // ThMirrorData记录块引用的嵌套结构
+        // nestedBlockTransform记录块引用相对于WCS的变换
+        // Entity.Explode()将子实体置于WCS中，我们需要使用nestedBlockTransform将新创建的块引用转换到WCS
+        // 在根据新创建的块引用创建新的块定义时，我们需要使用nestedBlockTransform.Inverse()将块定义的子实体转换到MCS
+        // 这样新创建的块定义将保持原有的插入点
+        //  https://spiderinnet1.typepad.com/blog/2013/10/autocad-net-matrix-transformations-recreate-exact-geometries-of-insert-blockreference.html
+        //  https://spiderinnet1.typepad.com/blog/2013/10/recursively-recreate-blockreference-geometries-with-proper-matrix-transformations-regardless-of-insert-nested-levels.html
+        //  https://spiderinnet1.typepad.com/blog/2014/02/autocad-net-add-entity-in-model-space-to-block.html
         public ThMirrorData(BlockReference blockReference, Matrix3d mat)
         {
             blockEntities = new DBObjectCollection();
@@ -52,7 +58,7 @@ namespace ThMirror
                     // 嵌套块引用
                     if (nestedBlockReference.IsBlockReferenceContainText())
                     {
-                        nestedBlockReferences.Add(new ThMirrorData(nestedBlockReference, mat));
+                        nestedBlockReferences.Add(new ThMirrorData(nestedBlockReference, nestedBlockTransform));
                     }
                     else
                     {
