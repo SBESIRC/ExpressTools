@@ -213,7 +213,7 @@ namespace ThMirror
 
                 // 图元从WCS到MCS转换
                 //  https://spiderinnet1.typepad.com/blog/2014/02/autocad-net-add-entity-in-model-space-to-block.html
-                var transform = mirrorData.blockTransform.Inverse();
+                var transform = mirrorData.nestedBlockTransform.Inverse();
                 foreach (DBObject dbObj in mirrorData.blockEntities)
                 {
                     var entity = dbObj as Entity;
