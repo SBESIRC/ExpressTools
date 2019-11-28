@@ -17,6 +17,13 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         // RegAppName
         public static readonly string RegAppName = "THCAD";
 
+        // DxfName
+        public static readonly string DxfName_Text      = "TEXT";
+        public static readonly string DxfName_MText     = "MTEXT";
+        public static readonly string DxfName_Leader    = "LEADER";
+        public static readonly string DxfName_Insert    = "INSERT";
+        public static readonly string DxfName_Dimension = "DIMENSION";
+
         // Area Frame
         public static readonly string RegAppName_AreaFrame = "THCAD_AF";
         public static readonly string RegAppName_AreaFrame_Version = "V2.2";
