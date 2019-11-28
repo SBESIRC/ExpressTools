@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using Linq2Acad;
 using DotNetARX;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Runtime;
-using TianHua.AutoCAD.Utility.ExtensionTools;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.DatabaseServices;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThMirror
 {
@@ -80,22 +78,27 @@ namespace ThMirror
                     {
                         // 使用DxfName去获取对象类型有很好的效率优势
                         //  https://spiderinnet1.typepad.com/blog/2012/04/various-ways-to-check-object-types-in-autocad-net.html
-                        if (id.ObjectClass.DxfName == "TEXT")
+                        if (id.ObjectClass.DxfName == ThCADCommon.DxfName_Text)
                         {
                             return true;
                         }
 
-                        if (id.ObjectClass.DxfName == "MTEXT")
+                        if (id.ObjectClass.DxfName == ThCADCommon.DxfName_MText)
                         {
                             return true;
                         }
 
-                        if (id.ObjectClass.DxfName == "LEADER")
+                        if (id.ObjectClass.DxfName == ThCADCommon.DxfName_Leader)
                         {
                             return true;
                         }
 
-                        if (id.ObjectClass.DxfName == "INSERT")
+                        if (id.ObjectClass.DxfName == ThCADCommon.DxfName_Dimension)
+                        {
+                            return true;
+                        }
+
+                        if (id.ObjectClass.DxfName == ThCADCommon.DxfName_Insert)
                         {
                             if (IsBlockReferenceContainText(id))
                             {
@@ -215,6 +218,10 @@ namespace ThMirror
                 {
                     var entity = dbObj as Entity;
                     entity.TransformBy(transform);
+                    if (entity is Dimension dim)
+                    {
+                        dim.RecomputeDimensionBlock(true);
+                    }
                     blockEntities.Add(entity);
                 }
 
