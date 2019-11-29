@@ -78,7 +78,7 @@
 ;;  - Added option to specify block name at command-line.               ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:abb ( / *error* blk obj ins sel tmp )
+(defun c:thabb ( / *error* blk obj ins sel tmp )
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))
@@ -220,7 +220,7 @@
 ;;  Author:  Lee Mac, Copyright © 2010  -  www.lee-mac.com              ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:abbe ( / *error* enx sel )
+(defun c:thabbe ( / *error* enx sel )
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))
@@ -288,7 +288,7 @@
 ;;  Author:  Lee Mac, Copyright © 2010  -  www.lee-mac.com              ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:abbs ( / *error* inc rot sel )
+(defun c:thabbs ( / *error* inc rot sel )
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))
@@ -665,14 +665,6 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(princ
-    (strcat
-        "\n:: AutoBlockBreak.lsp | Version 1.8 | \\U+00A9 Lee Mac "
-        (menucmd "m=$(edtime,0,yyyy)")
-        " www.lee-mac.com ::"
-        "\n:: \"ABB\" - Insert & Break | \"ABBE\"/\"ABBS\" - Break Existing ::"
-    )
-)
 (princ)
 
 ;;----------------------------------------------------------------------;;
