@@ -52,6 +52,9 @@
             <Component Id="CMP_Autoloader_PackageContents_Lisp_BreakLines" Guid="{818138D7-C459-4814-9286-F9ECA76279D5}" Win64="yes">
               <File Id="FILE_Autoloader_PackageContents_Lisp_BreakLines" Source="$(var.AutoloaderContentsPath)\BreakLines.lsp" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_AutoBlockBreak" Guid="{53F579F6-E9FA-4BDA-9E2A-50AA79DABD4E}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Lisp_AutoBlockBreak" Source="$(var.AutoloaderContentsPath)\AutoBlockBreak.lsp" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -72,6 +75,7 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_VersionModify" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_IntersectUtils" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BreakLines" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_AutoBlockBreak" />
         </ComponentGroup>
     </Fragment>
 </Wix>
