@@ -1,5 +1,4 @@
 ﻿using System;
-using Linq2Acad;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Internal;
 using Autodesk.AutoCAD.EditorInput;
@@ -159,59 +158,6 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             else
             {
                 return MatchPropertiesFrom(attributeDefinition);
-            }
-        }
-
-        // mimic the Burst command
-        //  https://adndevblog.typepad.com/autocad/2015/06/programmatically-mimic-the-burst-command.html
-        public static void Burst(this BlockReference blockReference, DBObjectCollection blockEntities)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            {
-                // 对于动态块，BlockReference.Name返回的可能是一个匿名块的名字（*Uxxx）
-                // 对于这样的动态块，我们并不需要访问到它的“原始”动态块定义，我们只关心它“真实”的块定义
-                var blockTableRecord = acadDatabase.Blocks.Element(blockReference.Name);
-
-                // 如果没有属性定义，执行正常的Explode()操作
-                if (!blockTableRecord.HasAttributeDefinitions)
-                {
-                    blockReference.Explode(blockEntities);
-                    return;
-                }
-
-                // 先检查常量（可见）属性
-                foreach (var attDef in blockTableRecord.GetAttributeDefinitions())
-                {
-                    if (attDef.Constant && !attDef.Invisible)
-                    {
-                        blockEntities.Add(attDef.ConvertAttributeDefinitionToText());
-                    }
-                }
-
-                // 再检查非常量（可见）属性
-                foreach (ObjectId attRefId in blockReference.AttributeCollection)
-                {
-                    var attRef = acadDatabase.Element<AttributeReference>(attRefId);
-                    if (!attRef.Invisible)
-                    {
-                        blockEntities.Add(attRef.ConvertAttributeReferenceToText());
-                    }
-                }
-
-                // Explode块引用，忽略属性定义
-                using (DBObjectCollection dbObjs = new DBObjectCollection())
-                {
-                    blockReference.Explode(dbObjs);
-                    foreach (Entity dbObj in dbObjs)
-                    {
-                        if (dbObj is AttributeDefinition)
-                        {
-                            continue;
-                        }
-
-                        blockEntities.Add(dbObj);
-                    }
-                }
             }
         }
     }

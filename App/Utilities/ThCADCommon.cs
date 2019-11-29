@@ -23,7 +23,6 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         public static readonly string DxfName_Leader    = "LEADER";
         public static readonly string DxfName_Insert    = "INSERT";
         public static readonly string DxfName_Dimension = "DIMENSION";
-        public static readonly string DxfName_Attdef    = "ATTDEF";
 
         // Area Frame
         public static readonly string RegAppName_AreaFrame = "THCAD_AF";
