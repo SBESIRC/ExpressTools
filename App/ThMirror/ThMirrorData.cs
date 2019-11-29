@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
-using Linq2Acad;
-using DotNetARX;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThMirror
 {
@@ -49,31 +48,33 @@ namespace ThMirror
             blockId = blockReference.BlockTableRecord;
             blockTransform = blockReference.BlockTransform;
             nestedBlockTransform = blockTransform.PreMultiplyBy(mat);
-            DBObjectCollection entitySet = new DBObjectCollection();
-            blockReference.Explode(entitySet);
-            foreach (DBObject dbObj in entitySet)
+            using (DBObjectCollection entitySet = new DBObjectCollection())
             {
-                if (dbObj is BlockReference nestedBlockReference)
+                blockReference.Burst(entitySet);
+                foreach (DBObject dbObj in entitySet)
                 {
-                    // 嵌套块引用
-                    if (nestedBlockReference.IsBlockReferenceContainText())
+                    if (dbObj is BlockReference nestedBlockReference)
                     {
-                        nestedBlockReferences.Add(new ThMirrorData(nestedBlockReference, nestedBlockTransform));
+                        // 嵌套块引用
+                        if (nestedBlockReference.IsBlockReferenceContainText())
+                        {
+                            nestedBlockReferences.Add(new ThMirrorData(nestedBlockReference, nestedBlockTransform));
+                        }
+                        else
+                        {
+                            blockEntities.Add(dbObj);
+                        }
+                    }
+                    else if (dbObj is Entity nestedEntity)
+                    {
+                        // 收录到子实体集合
+                        blockEntities.Add(nestedEntity);
                     }
                     else
                     {
-                        blockEntities.Add(dbObj);
+                        // 不支持非图形实体
+                        throw new NotSupportedException();
                     }
-                }
-                else if (dbObj is Entity nestedEntity)
-                {
-                    // 收录到子实体集合
-                    blockEntities.Add(nestedEntity);
-                }
-                else
-                {
-                    // 不支持非图形实体
-                    throw new NotSupportedException();
                 }
             }
         }

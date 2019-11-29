@@ -30,7 +30,7 @@ namespace ThMirror
         //      1. 多层嵌套块
         //      2. 动态块
         //      3. 外部参照(Xref）
-        [CommandMethod("TIANHUACAD", "THMIR", CommandFlags.Transparent)]
+        [CommandMethod("TIANHUACAD", "THMIRROR", CommandFlags.Transparent)]
         public void ThMirror()
         {
             // 注册命令事件
