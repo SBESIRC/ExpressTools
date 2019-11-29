@@ -28,87 +28,108 @@ namespace ThColumnInfo
         {
             Vector3d vec = this.tableLeftDownCornerPt.GetVectorTo(this.tableRightUpCornerPt);
             Point3d cenPt = this.tableLeftDownCornerPt+vec.GetNormal().MultiplyBy(this.extendPointRatio*vec.Length);
-            bool findRes = false;
-            cenPt = FindInvalidCenPt(cenPt, out findRes);
-            List<TableCellInfo> sameColumnCells = GetSameColumnCells(cenPt, null);
-            sameColumnCells = sameColumnCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(i.BoundaryPts[0], i.BoundaryPts[2]).Y).ToList(); //对同一列的记录进行排序(从上到下)
-            List<List<TableCellInfo>> tableCells = new List<List<TableCellInfo>>();
-            int totalRow = sameColumnCells.Count;
-            List<double> xValueList = new List<double>();
-            foreach (TableCellInfo tableCellInfo in sameColumnCells)
+            List<ObjectId> needHideObjIds = new List<ObjectId>();
+            try
             {
-                if (tableCellInfo.BoundaryPts.Count != 4)
+                List<string> tableLayerNames = base.GetTableLayerName();
+                if (tableLayerNames != null && tableLayerNames.Count > 0)
                 {
-                    continue;
+                    needHideObjIds = base.GetNeedHideObjIds(tableLayerNames);
+                    ThColumnInfoUtils.ShowObjIds(needHideObjIds, false);
                 }
-                double diagonalLine = tableCellInfo.BoundaryPts[0].DistanceTo(tableCellInfo.BoundaryPts[2]);
-                Point3d findCenPt = ThColumnInfoUtils.GetExtendPt(tableCellInfo.BoundaryPts[0], tableCellInfo.BoundaryPts[2], this.extendPointRatio* diagonalLine);
-                List<TableCellInfo> sameRowCells = GetSameRowCells(findCenPt, null, tableCellInfo.RowHeight);
-                sameRowCells = sameRowCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(i.BoundaryPts[0], i.BoundaryPts[2]).X).ToList(); //对同一行的记录进行排序
-                tableCells.Add(sameRowCells);
-                List<double> tempXvalues = sameRowCells.Select(i => ThColumnInfoUtils.GetMidPt(i.BoundaryPts[0], i.BoundaryPts[2]).X).ToList();
-                for (int i = 0; i < tempXvalues.Count; i++)
+                bool findRes = false;
+                cenPt = FindInvalidCenPt(cenPt, out findRes);
+                List<TableCellInfo> sameColumnCells = GetSameColumnCells(cenPt, null);
+                sameColumnCells = sameColumnCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(i.BoundaryPts[0], i.BoundaryPts[2]).Y).ToList(); //对同一列的记录进行排序(从上到下)
+                List<List<TableCellInfo>> tableCells = new List<List<TableCellInfo>>();
+                int totalRow = sameColumnCells.Count;
+                List<double> xValueList = new List<double>();
+                foreach (TableCellInfo tableCellInfo in sameColumnCells)
                 {
-                    List<double> tempValues = xValueList.Where(j => Math.Abs(j - tempXvalues[i]) <= 2.0).Select(j => j).ToList();
-                    if (tempValues == null || tempValues.Count == 0)
+                    if (tableCellInfo.BoundaryPts.Count != 4)
                     {
-                        xValueList.Add(tempXvalues[i]);
+                        continue;
+                    }
+                    double diagonalLine = tableCellInfo.BoundaryPts[0].DistanceTo(tableCellInfo.BoundaryPts[2]);
+                    Point3d findCenPt = ThColumnInfoUtils.GetExtendPt(tableCellInfo.BoundaryPts[0], tableCellInfo.BoundaryPts[2], this.extendPointRatio * diagonalLine);
+                    List<TableCellInfo> sameRowCells = GetSameRowCells(findCenPt, null, tableCellInfo.RowHeight);
+                    sameRowCells = sameRowCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(i.BoundaryPts[0], i.BoundaryPts[2]).X).ToList(); //对同一行的记录进行排序
+                    tableCells.Add(sameRowCells);
+                    List<double> tempXvalues = sameRowCells.Select(i => ThColumnInfoUtils.GetMidPt(i.BoundaryPts[0], i.BoundaryPts[2]).X).ToList();
+                    for (int i = 0; i < tempXvalues.Count; i++)
+                    {
+                        List<double> tempValues = xValueList.Where(j => Math.Abs(j - tempXvalues[i]) <= 2.0).Select(j => j).ToList();
+                        if (tempValues == null || tempValues.Count == 0)
+                        {
+                            xValueList.Add(tempXvalues[i]);
+                        }
                     }
                 }
-            }
-            for (int i = 0; i < tableCells.Count; i++)
-            {
-                tableCells[i].ForEach(j => j.Row = i);
-            }
-            int totalColumn = tableCells.OrderByDescending(i => i.Count).Select(i => i.Count).First();
-            //提取数据单元格
-            xValueList = xValueList.OrderBy(i => i).ToList();
-            Dictionary<double, List<TableCellInfo>> columnHeightCells = new Dictionary<double, List<TableCellInfo>>(); //行转成列
-            for (int m = 0; m < xValueList.Count; m++)
-            {
-                List<TableCellInfo> columnCells = new List<TableCellInfo>();
                 for (int i = 0; i < tableCells.Count; i++)
                 {
-                    TableCellInfo tableCellInfo = tableCells[i].Where(j => Math.Abs(ThColumnInfoUtils.GetMidPt(j.BoundaryPts[0],
-                         j.BoundaryPts[2]).X - xValueList[m]) <= 2.0).Select(j => j).FirstOrDefault();
-                    columnCells.Add(tableCellInfo);
+                    tableCells[i].ForEach(j => j.Row = i);
                 }
-                columnCells.ForEach(i => i.Column = m);
-                columnHeightCells.Add(xValueList[m], columnCells);
-            }
-            this.dataColumnCells = columnHeightCells.Where(i => i.Value.Count == totalRow).Select(i => i.Value).ToList(); //具有相同列数的数据单元格
-            this.headColumnCells = columnHeightCells.Where(i => i.Value.Count != totalRow).Select(i => i.Value).ToList();
-            this.headColumnCells = this.headColumnCells.Select(i => GetNoRepeatedCells(i)).ToList();
-            if (this.headColumnCells.Count > 0)
-            {
-                Dictionary<int, double> rowHeightDic = new Dictionary<int, double>();
-                for (int i = 0; i < headColumnCells[0].Count; i++)
+                int totalColumn = tableCells.OrderByDescending(i => i.Count).Select(i => i.Count).First();
+                //提取数据单元格
+                xValueList = xValueList.OrderBy(i => i).ToList();
+                Dictionary<double, List<TableCellInfo>> columnHeightCells = new Dictionary<double, List<TableCellInfo>>(); //行转成列
+                for (int m = 0; m < xValueList.Count; m++)
                 {
-                    rowHeightDic.Add(i, headColumnCells[0][i].RowHeight);
-                }
-                Dictionary<int, double> columnWidthDic = new Dictionary<int, double>();
-                for (int i = 0; i < headColumnCells.Count; i++)
-                {
-                    columnWidthDic.Add(i, headColumnCells[i][0].ColumnWidth);
-                }
-                for (int i = 0; i < headColumnCells.Count; i++)
-                {
-                    for (int j = 0; i < headColumnCells[i].Count; j++)
+                    List<TableCellInfo> columnCells = new List<TableCellInfo>();
+                    for (int i = 0; i < tableCells.Count; i++)
                     {
-                        TableCellInfo cellInfo = headColumnCells[i][j];
-                        int columnSpan = GetColumnSpan(cellInfo.Column, cellInfo.ColumnWidth, columnWidthDic);
-                        int rowSpan = GetRowSpan(cellInfo.Row, cellInfo.RowHeight, rowHeightDic);
-                        cellInfo.RowSpan = rowSpan;
-                        cellInfo.ColumnSpan = columnSpan;
+                        TableCellInfo tableCellInfo = tableCells[i].Where(j => Math.Abs(ThColumnInfoUtils.GetMidPt(j.BoundaryPts[0],
+                             j.BoundaryPts[2]).X - xValueList[m]) <= 2.0).Select(j => j).FirstOrDefault();
+                        columnCells.Add(tableCellInfo);
+                    }
+                    columnCells.ForEach(i => i.Column = m);
+                    columnHeightCells.Add(xValueList[m], columnCells);
+                }
+                this.dataColumnCells = columnHeightCells.Where(i => i.Value.Count == totalRow).Select(i => i.Value).ToList(); //具有相同列数的数据单元格
+                this.headColumnCells = columnHeightCells.Where(i => i.Value.Count != totalRow).Select(i => i.Value).ToList();
+                this.headColumnCells = this.headColumnCells.Select(i => GetNoRepeatedCells(i)).ToList();
+                if (this.headColumnCells.Count > 0)
+                {
+                    Dictionary<int, double> rowHeightDic = new Dictionary<int, double>();
+                    for (int i = 0; i < headColumnCells[0].Count; i++)
+                    {
+                        rowHeightDic.Add(i, headColumnCells[0][i].RowHeight);
+                    }
+                    Dictionary<int, double> columnWidthDic = new Dictionary<int, double>();
+                    for (int i = 0; i < headColumnCells.Count; i++)
+                    {
+                        columnWidthDic.Add(i, headColumnCells[i][0].ColumnWidth);
+                    }
+                    for (int i = 0; i < headColumnCells.Count; i++)
+                    {
+                        for (int j = 0; i < headColumnCells[i].Count; j++)
+                        {
+                            TableCellInfo cellInfo = headColumnCells[i][j];
+                            int columnSpan = GetColumnSpan(cellInfo.Column, cellInfo.ColumnWidth, columnWidthDic);
+                            int rowSpan = GetRowSpan(cellInfo.Row, cellInfo.RowHeight, rowHeightDic);
+                            cellInfo.RowSpan = rowSpan;
+                            cellInfo.ColumnSpan = columnSpan;
+                        }
+                    }
+                }
+                else
+                {
+                    if (dataColumnCells.Count > 0)
+                    {
+                        this.headColumnCells.Add(dataColumnCells[0]);
+                        this.dataColumnCells.RemoveAt(0);
                     }
                 }
             }
-            else
+            catch(System.Exception ex)
             {
-                if (dataColumnCells.Count > 0)
+                ThColumnInfoUtils.WriteException(ex);
+            }
+            finally
+            {
+                if (needHideObjIds != null && needHideObjIds.Count > 0)
                 {
-                    this.headColumnCells.Add(dataColumnCells[0]);
-                    this.dataColumnCells.RemoveAt(0);
+                    ThColumnInfoUtils.ShowObjIds(needHideObjIds, true);
                 }
             }
             GetHeadCellText(); //先把表头的数据拿到
