@@ -1,6 +1,10 @@
 ﻿using AcHelper;
+using Linq2Acad;
 using DotNetARX;
+using NFox.Cad.Collections;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThMirror
 {
@@ -33,6 +37,29 @@ namespace ThMirror
 
             // 异步运行“镜像”命令
             Active.Editor.PostCommand("_.MIRROR ");
+        }
+
+        [CommandMethod("TIANHUACAD", "THBST", CommandFlags.Modal)]
+        public void ThBurst()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                PromptSelectionOptions options = new PromptSelectionOptions()
+                {
+                    AllowDuplicates = false,
+                    RejectObjectsOnLockedLayers = true,
+                };
+                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "INSERT");
+                var entSelected = Active.Editor.GetSelection(options, filterlist);
+                if (entSelected.Status == PromptStatus.OK)
+                {
+                    foreach (var objId in entSelected.Value.GetObjectIds())
+                    {
+                        var blockEntities = new DBObjectCollection();
+                        var blockReference = acadDatabase.Element<BlockReference>(objId);
+                    }
+                }
+            }
         }
     }
 }

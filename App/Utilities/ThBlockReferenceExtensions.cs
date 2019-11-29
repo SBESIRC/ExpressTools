@@ -107,5 +107,58 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             AcadApp.UpdateScreen();
             Utils.PostCommandPrompt();
         }
+
+        // MatchProperties
+        //  https://forums.autodesk.com/t5/net/burst-blocks/td-p/8402180
+        private static DBText MatchPropertiesFrom(DBText source)
+        {
+            var text = new DBText
+            {
+                Normal = source.Normal,
+                Thickness = source.Thickness,
+                Oblique = source.Oblique,
+                Rotation = source.Rotation,
+                Height = source.Height,
+                WidthFactor = source.WidthFactor,
+                TextString = source.TextString,
+                TextStyleId = source.TextStyleId,
+                IsMirroredInX = source.IsMirroredInX,
+                IsMirroredInY = source.IsMirroredInY,
+                HorizontalMode = source.HorizontalMode,
+                VerticalMode = source.VerticalMode,
+                Position = source.Position
+            };
+            if (source.Justify != AttachmentPoint.BaseLeft)
+            {
+                text.Justify = source.Justify;
+                text.AlignmentPoint = source.AlignmentPoint;
+            }
+            text.SetPropertiesFrom(source);
+            return text;
+        }
+
+        public static Entity ConvertAttributeReferenceToText(this AttributeReference attributeReference)
+        {
+            if (attributeReference.IsMTextAttribute)
+            {
+                return (MText)attributeReference.MTextAttribute.Clone();
+            }
+            else
+            {
+                return MatchPropertiesFrom(attributeReference);
+            }
+        }
+
+        public static Entity ConvertAttributeDefinitionToText(this AttributeDefinition attributeDefinition)
+        {
+            if (attributeDefinition.IsMTextAttributeDefinition)
+            {
+                return (MText)attributeDefinition.MTextAttributeDefinition.Clone();
+            }
+            else
+            {
+                return MatchPropertiesFrom(attributeDefinition);
+            }
+        }
     }
 }

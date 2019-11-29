@@ -17,6 +17,13 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         // RegAppName
         public static readonly string RegAppName = "THCAD";
 
+        // DxfName
+        public static readonly string DxfName_Text      = "TEXT";
+        public static readonly string DxfName_MText     = "MTEXT";
+        public static readonly string DxfName_Leader    = "LEADER";
+        public static readonly string DxfName_Insert    = "INSERT";
+        public static readonly string DxfName_Dimension = "DIMENSION";
+
         // Area Frame
         public static readonly string RegAppName_AreaFrame = "THCAD_AF";
         public static readonly string RegAppName_AreaFrame_Version = "V2.2";
@@ -26,6 +33,9 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         public static readonly string RegAppName_AreaFrame_FireCompartment_Fill = "THCAD_FCFill";
         public static readonly string RegAppName_AreaFrame_FireCompartment_Parking = "THCAD_FC_P";
         public static readonly string RegAppName_AreaFrame_FireCompartment_Commerce = "THCAD_FC_C";
+
+        // Download server
+        public static readonly string ServerUrl = "http://49.234.60.227/AI/thcad";
 
         // Support 路径
         public static string SupportPath()

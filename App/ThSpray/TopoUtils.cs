@@ -18,10 +18,19 @@ namespace ThSpray
         /// <returns></returns>
         public static List<Curve> MakeSrcProfiles(List<Curve> curves)
         {
-            var srcClosedCurves = new List<Curve>();  //单个闭合
-            var calCurves = new List<Curve>();
             var tmpCurves = TesslateCurve(curves);
             var profiles = TopoSearch.MakeSrcProfileLoops(tmpCurves);
+            return profiles;
+        }
+
+        public static List<Curve> MakeProfileFromPoint(List<Curve> srcCurves, Point3d pt)
+        {
+            var profileCalcu = new CalcuContainPointProfile(srcCurves, pt);
+            var relatedCurves = profileCalcu.DoCalRelatedCurves();
+            if (relatedCurves == null)
+                return null;
+
+            var profiles = TopoSearch.MakeSrcProfileLoopsFromPoint(relatedCurves, pt);
             return profiles;
         }
 
@@ -185,23 +194,23 @@ namespace ThSpray
         /// <returns></returns>
         public static List<Curve> TesslateCurve(List<Curve> curves)
         {
-            var lines = new List<Curve>();
+            var outCurves = new List<Curve>();
             foreach (var curve in curves)
             {
                 if (curve is Line)
                 {
-                    lines.Add(curve);
+                    outCurves.Add(curve);
                 }
                 else if (curve is Arc)
                 {
-                    lines.Add(curve);
+                    outCurves.Add(curve);
                 }
                 else if (curve is Circle)
                 {
                     var circle = curve as Circle;
                     var arcs = Circle2Arcs(circle);
                     if (arcs != null)
-                        lines.AddRange(arcs);
+                        outCurves.AddRange(arcs);
                 }
                 else if (curve is Ellipse)
                 {
@@ -209,13 +218,13 @@ namespace ThSpray
                     var polyline = ellipse.Spline.ToPolyline();
                     var lineNodes = Polyline2dLines(polyline as Polyline);
                     if (lineNodes != null)
-                        lines.AddRange(lineNodes);
+                        outCurves.AddRange(lineNodes);
                 }
                 else if (curve is Polyline)
                 {
                     var lineNodes = Polyline2dLines(curve as Polyline);
                     if (lineNodes != null)
-                        lines.AddRange(lineNodes);
+                        outCurves.AddRange(lineNodes);
                 }
                 else if (curve is Spline)
                 {
@@ -224,12 +233,12 @@ namespace ThSpray
                     {
                         var lineNodes = Polyline2dLines(polyline as Polyline);
                         if (lineNodes != null)
-                            lines.AddRange(lineNodes);
+                            outCurves.AddRange(lineNodes);
                     }
                 }
             }
 
-            return lines;
+            return outCurves;
         }
 
         public static List<Curve> Polyline2dLines(Polyline polyline)
