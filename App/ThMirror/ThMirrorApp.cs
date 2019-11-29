@@ -5,6 +5,7 @@ using NFox.Cad.Collections;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThMirror
 {
@@ -39,7 +40,11 @@ namespace ThMirror
             Active.Editor.PostCommand("_.MIRROR ");
         }
 
-        [CommandMethod("TIANHUACAD", "THBST", CommandFlags.Modal)]
+        // 天华Burst
+        //  模拟CAD自带的效率工具中提供的Burst命令
+        //  具体参考了下面这些文档：
+        //      https://adndevblog.typepad.com/autocad/2015/06/programmatically-mimic-the-burst-command.html
+        [CommandMethod("TIANHUACAD", "THBURST", CommandFlags.Modal)]
         public void ThBurst()
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
@@ -49,7 +54,7 @@ namespace ThMirror
                     AllowDuplicates = false,
                     RejectObjectsOnLockedLayers = true,
                 };
-                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "INSERT");
+                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == ThCADCommon.DxfName_Insert);
                 var entSelected = Active.Editor.GetSelection(options, filterlist);
                 if (entSelected.Status == PromptStatus.OK)
                 {
@@ -57,6 +62,16 @@ namespace ThMirror
                     {
                         var blockEntities = new DBObjectCollection();
                         var blockReference = acadDatabase.Element<BlockReference>(objId);
+                        blockReference.Burst(blockEntities);
+                        foreach(DBObject dbObj in blockEntities)
+                        {
+                            if (dbObj is Entity entObj)
+                            {
+                                acadDatabase.ModelSpace.Add(entObj, true);
+                            }
+                        }
+                        blockReference.UpgradeOpen();
+                        blockReference.Erase();
                     }
                 }
             }
