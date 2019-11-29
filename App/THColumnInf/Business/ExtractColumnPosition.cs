@@ -13,6 +13,7 @@ namespace ThColumnInfo
 {
     public enum ExtractColumnDetailInfoMode
     {
+        None,
         /// <summary>
         /// 二维表
         /// </summary>
@@ -35,7 +36,7 @@ namespace ThColumnInfo
         private Point3d rangePt1 = Point3d.Origin;
         private Point3d rangePt2 = Point3d.Origin;
         private Document doc;
-        private ExtractColumnDetailInfoMode extractColumnDetailInfoMode= ExtractColumnDetailInfoMode.Regular;
+        private ExtractColumnDetailInfoMode extractColumnDetailInfoMode = ExtractColumnDetailInfoMode.None;
         private List<List<Point3d>> allColumnBoundaryPts = new List<List<Point3d>>();
         private double columnOffsetRatio = 0.1;
         private double findBHSideMiddleTextOffsetDisRatio = 0.2; //查找范围由柱子长边和短边之和的一半再乘以这个比例，用于查找柱子B边和H边偏移的文字
@@ -43,15 +44,14 @@ namespace ThColumnInfo
         private SelectionFilter polylineSf;
         private SelectionFilter textSf;
         private double textSize = 0.0;
-    
-        public ExtractColumnPosition(Point3d rangePt1, Point3d rangePt2, ExtractColumnDetailInfoMode extractColumnDetailInfoMode)           
+
+        public ExtractColumnPosition(Point3d rangePt1, Point3d rangePt2)
         {
             this.rangePt1 = rangePt1;
             this.rangePt2 = rangePt2;
             ResetRangePt();
-            this.extractColumnDetailInfoMode = extractColumnDetailInfoMode;
             this.doc = ThColumnInfoUtils.GetMdiActiveDocument();
-            TypedValue[] tvs1 = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Polyline,LWPOLYLINE")}; //后期根据需要再追加搜索条件
+            TypedValue[] tvs1 = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Polyline,LWPOLYLINE") }; //后期根据需要再追加搜索条件
             TypedValue[] tvs2 = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Text") }; //后期根据需要再追加搜索条件
             this.polylineSf = new SelectionFilter(tvs1);
             this.textSf = new SelectionFilter(tvs2);
@@ -59,31 +59,31 @@ namespace ThColumnInfo
         }
         private void GetTextSize()
         {
-           PromptSelectionResult psr= this.doc.Editor.SelectAll(this.textSf);
-            if(psr.Status==PromptStatus.OK)
+            PromptSelectionResult psr = this.doc.Editor.SelectAll(this.textSf);
+            if (psr.Status == PromptStatus.OK)
             {
                 List<ObjectId> textObjIds = psr.Value.GetObjectIds().ToList();
                 List<double> textSizes = textObjIds.Select(i => (ThColumnInfoDbUtils.GetEntity(this.doc.Database, i) as DBText).Height).ToList();
                 List<double> diffs = textSizes.Distinct().ToList();
                 Dictionary<double, int> textSizeDic = new Dictionary<double, int>();
-                foreach(double textSizeV in diffs)
+                foreach (double textSizeV in diffs)
                 {
-                    List<double> tempList= textSizes.Where(i => i == textSizeV).Select(i => i).ToList();
+                    List<double> tempList = textSizes.Where(i => i == textSizeV).Select(i => i).ToList();
                     textSizeDic.Add(textSizeV, tempList.Count);
                 }
-                this.textSize= textSizeDic.OrderByDescending(i => i.Value).Select(i => i.Key).FirstOrDefault();
+                this.textSize = textSizeDic.OrderByDescending(i => i.Value).Select(i => i.Key).FirstOrDefault();
             }
             else
             {
-               object textSizeV= Application.GetSystemVariable("TextSize");
-               if(textSizeV!=null)
+                object textSizeV = Application.GetSystemVariable("TextSize");
+                if (textSizeV != null)
                 {
-                   if(textSizeV.GetType()==typeof(string))
+                    if (textSizeV.GetType() == typeof(string))
                     {
                         string value = textSizeV as string;
                         this.textSize = Convert.ToDouble(value);
                     }
-                   else if(textSizeV.GetType() == typeof(double))
+                    else if (textSizeV.GetType() == typeof(double))
                     {
                         this.textSize = (double)textSizeV;
                     }
@@ -102,13 +102,13 @@ namespace ThColumnInfo
         public void Extract()
         {
             ExtractTableInfo(); //如果不是原位图纸，提取一下柱表信息
-            this.blkRefs= GetXRefColumn(); //获取两点范围内找到的柱子
-            if(this.blkRefs.Count==0)
+            this.blkRefs = GetXRefColumn(); //获取两点范围内找到的柱子
+            if (this.blkRefs.Count == 0)
             {
                 return;
             }
             this.allColumnBoundaryPts = new List<List<Point3d>>();
-            using (Transaction trans=this.doc.TransactionManager.StartTransaction())
+            using (Transaction trans = this.doc.TransactionManager.StartTransaction())
             {
                 for (int i = 0; i < blkRefs.Count; i++)
                 {
@@ -122,41 +122,45 @@ namespace ThColumnInfo
         }
         private void FindColumnInfo()
         {
-            string columnCode = "";
-            for(int i=0;i< this.allColumnBoundaryPts.Count;i++)
+            for (int i = 0; i < this.allColumnBoundaryPts.Count; i++)
             {
-                columnCode = ""; //初始化
                 ColumnInf columnInfo = new ColumnInf();
-                columnInfo.Points = this.allColumnBoundaryPts[i];
                 Dictionary<Line, Point3d> searchLineDic = GetLeaderLine(this.allColumnBoundaryPts[i]);
-                foreach(var lineItem in searchLineDic)
+                foreach (var lineItem in searchLineDic)
                 {
-                    columnCode= GetColumnCode(lineItem.Key, lineItem.Value);
-                    if(!string.IsNullOrEmpty(columnCode))
+                    GetColumnInf(columnInfo,lineItem.Key, lineItem.Value);
+                    if (!string.IsNullOrEmpty(columnInfo.Code))
                     {
+                        columnInfo.Points = this.allColumnBoundaryPts[i];
                         break;
                     }
                 }
-                columnInfo.Code = columnCode;
-                this.ColumnInfs.Add(columnInfo);
+                if (!string.IsNullOrEmpty(columnInfo.Code))
+                {
+                    this.ColumnInfs.Add(columnInfo);
+                }
             }
         }
         /// <summary>
-        /// 获取柱子的编号
+        /// 获取柱子的信息
         /// </summary>
         /// <param name="line">柱子伸出来的线</param>
         /// <param name="searchPt">用于查找的点</param>
         /// <returns></returns>
-        private string GetColumnCode(Line line,Point3d searchPt)
+        private void GetColumnInf(ColumnInf columnInf,Line line, Point3d searchPt)
         {
-            string columnCode = "";
-            Point3d pt1 = new Point3d(searchPt.X-this.searchColumnPolylineDis, searchPt.Y - this.searchColumnPolylineDis, searchPt.Z);
+            string columnCode = ""; 
+            string antiSeismicGrade = ""; //抗震等级
+            Point3d pt1 = new Point3d(searchPt.X - this.searchColumnPolylineDis, searchPt.Y - this.searchColumnPolylineDis, searchPt.Z);
             Point3d pt2 = new Point3d(searchPt.X + this.searchColumnPolylineDis, searchPt.Y + this.searchColumnPolylineDis, searchPt.Z);
-            PromptSelectionResult psr= ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, pt1, pt2, PolygonSelectionMode.Crossing, this.polylineSf);
+            Point3d filterPt1 = pt1.TransformBy(this.doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            Point3d filterPt2 = pt2.TransformBy(this.doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, filterPt1, filterPt2, 
+                PolygonSelectionMode.Crossing, this.polylineSf);
             if (psr.Status == PromptStatus.OK)
             {
                 List<ObjectId> polylineObjIds = psr.Value.GetObjectIds().ToList();
-                List<Polyline> polylines = polylineObjIds.Select(i=>ThColumnInfoDbUtils.GetEntity(this.doc.Database,i) as Polyline).ToList();
+                List<Polyline> polylines = polylineObjIds.Select(i => ThColumnInfoDbUtils.GetEntity(this.doc.Database, i) as Polyline).ToList();
                 polylines = polylines.OrderByDescending(i => i.Area).ToList();
                 for (int i = 0; i < polylines.Count; i++)
                 {
@@ -165,22 +169,22 @@ namespace ThColumnInfo
                     {
                         polylinePts.Add(polylines[i].GetPoint3dAt(j));
                     }
-                    Dictionary<Line,Point3d>  hooplingReinforceLeaderLines=  GetLeaderLine(polylinePts);
-                    if(hooplingReinforceLeaderLines.Count==0)
+                    Dictionary<Line, Point3d> hooplingReinforceLeaderLines = GetLeaderLine(polylinePts);
+                    if (hooplingReinforceLeaderLines.Count == 0)
                     {
                         continue;
                     }
-                    List<Line> leaderLines= hooplingReinforceLeaderLines.Where(j => j.Key.ObjectId == line.ObjectId).Select(j => j.Key).ToList();
-                    if (leaderLines!=null && hooplingReinforceLeaderLines.Count>1) //找到传入的Line,又找到另外一个线
+                    List<Line> leaderLines = hooplingReinforceLeaderLines.Where(j => j.Key.ObjectId == line.ObjectId).Select(j => j.Key).ToList();
+                    if (leaderLines != null && hooplingReinforceLeaderLines.Count > 1) //找到传入的Line,又找到另外一个线
                     {
-                        foreach(var item in hooplingReinforceLeaderLines)
+                        foreach (var item in hooplingReinforceLeaderLines)
                         {
-                            if(item.Key.ObjectId== line.ObjectId)
+                            if (item.Key.ObjectId == line.ObjectId)
                             {
                                 continue;
                             }
                             List<DBText> dBTexts = GetMarkTexts(item.Key, item.Value); //获取集中标注的文字，用于提取信息
-                            if(dBTexts.Count==0)
+                            if (dBTexts.Count == 0)
                             {
                                 continue;
                             }
@@ -193,13 +197,13 @@ namespace ThColumnInfo
                             }
                         }
                     }
-                    if(!string.IsNullOrEmpty(columnCode))
+                    if (!string.IsNullOrEmpty(columnCode))
                     {
                         break;
                     }
                 }
-            }    
-            if(string.IsNullOrEmpty(columnCode))
+            }
+            if (string.IsNullOrEmpty(columnCode) || string.IsNullOrEmpty(antiSeismicGrade))
             {
                 List<DBText> dBTexts = GetMarkTexts(line, searchPt);
                 for (int i = 0; i < dBTexts.Count; i++)
@@ -208,14 +212,29 @@ namespace ThColumnInfo
                     {
                         continue;
                     }
-                    if (dBTexts[i].TextString.ToUpper().Contains("KZ")) //如果没有原位标注，则只查找柱号
+                    if(string.IsNullOrEmpty(columnCode))
                     {
-                        columnCode = dBTexts[i].TextString;
+                        if (dBTexts[i].TextString.ToUpper().Contains("KZ")) //如果没有原位标注，则只查找柱号
+                        {
+                            columnCode = dBTexts[i].TextString;
+                        }
+                    }
+                    if(string.IsNullOrEmpty(antiSeismicGrade))
+                    {
+                        if (dBTexts[i].TextString.ToUpper().Contains("抗震")) 
+                        {
+                            antiSeismicGrade = dBTexts[i].TextString;
+                        }
+                    }
+                    if(!string.IsNullOrEmpty(columnCode) && 
+                        !string.IsNullOrEmpty(antiSeismicGrade))
+                    {
                         break;
                     }
                 }
             }
-            return columnCode;
+            columnInf.Code = columnCode;
+            columnInf.AntiSeismicGrade = antiSeismicGrade;
         }
         /// <summary>
         /// 获取一点旁边的文字(含柱号的文字，下方有5个左右)
@@ -237,7 +256,10 @@ namespace ThColumnInfo
                 pt2 = ThColumnInfoUtils.GetExtendPt(leaderLine.StartPoint, leaderLine.EndPoint, -1.5 * this.textSize);
             }
             List<ObjectId> findDbTextIds = new List<ObjectId>();
-            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor,pt1,pt2,PolygonSelectionMode.Crossing,this.textSf);
+            Point3d filterPt1 = pt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            Point3d filterPt2 = pt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, 
+                filterPt1, filterPt2, PolygonSelectionMode.Crossing,this.textSf);
             if (psr.Status == PromptStatus.OK)
             {
                 findDbTextIds=psr.Value.GetObjectIds().ToList();
@@ -260,7 +282,9 @@ namespace ThColumnInfo
 
                 Point3d searchPt1 = new Point3d(minX, minY, minZ);
                 Point3d searchPt2 = new Point3d(maxX, maxY + 5*this.textSize, minZ);
-                psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, searchPt1, searchPt2, PolygonSelectionMode.Crossing, this.textSf);
+                Point3d filterPt3 = searchPt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+                Point3d filterPt4 = searchPt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+                psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, filterPt3, filterPt4, PolygonSelectionMode.Crossing, this.textSf);
                 if(psr.Status==PromptStatus.OK)
                 {
                     findDbTextIds= psr.Value.GetObjectIds().ToList();
@@ -271,7 +295,9 @@ namespace ThColumnInfo
                 {
                     searchPt1 = new Point3d(maxX, maxY, minZ);
                     searchPt2 = new Point3d(minX, minY - 5 * this.textSize, minZ);
-                    psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, searchPt1, searchPt2, PolygonSelectionMode.Crossing, this.textSf);
+                    Point3d filterPt5 = searchPt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+                    Point3d filterPt6 = searchPt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+                    psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, filterPt5, filterPt6, PolygonSelectionMode.Crossing, this.textSf);
                     if(psr.Status==PromptStatus.OK)
                     {
                         findDbTextIds = psr.Value.GetObjectIds().ToList();
@@ -287,7 +313,9 @@ namespace ThColumnInfo
             DBText codeText = findCodeRes.OrderBy(j => Math.Abs(j.Position.X - pt.X)).First();
             pt1 = codeText.Bounds.Value.MinPoint;
             pt2 = new Point3d(codeText.Bounds.Value.MaxPoint.X, pt1.Y - 5 * this.textSize, pt1.Z);
-            psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, pt1, pt2, PolygonSelectionMode.Crossing, this.textSf);
+            Point3d filterPt7 = pt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            Point3d filterPt8 = pt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, filterPt7, filterPt8, PolygonSelectionMode.Crossing, this.textSf);
             if (psr.Status == PromptStatus.OK)
             {
                 List<ObjectId> newTextIds = psr.Value.GetObjectIds().ToList();
@@ -326,8 +354,10 @@ namespace ThColumnInfo
 
             Point3d pt1 = new Point3d(minX- offsetDis, minY- offsetDis, minZ);
             Point3d pt2 = new Point3d(maxX + offsetDis, maxY + offsetDis, minZ);
+            Point3d fiterPt1 = pt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            Point3d fiterPt2 = pt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
             PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(doc.Editor,
-                           pt1, pt2, PolygonSelectionMode.Crossing, this.textSf);
+                           fiterPt1, fiterPt2, PolygonSelectionMode.Crossing, this.textSf);
             Dictionary<TextRotation, DBText> sideTextDic = new Dictionary<TextRotation, DBText>(); //存储文字
             if (psr.Status==PromptStatus.OK)
             {
@@ -335,8 +365,9 @@ namespace ThColumnInfo
                 List<DBText> sideTexts = objIds.Select(i => ThColumnInfoDbUtils.GetEntity(this.doc.Database, i) as DBText).ToList();
                 sideTextDic=  GetValidHoopReinforce(sideTexts, minX, minY, maxX, maxY); //查找柱子外框边的两个文字
             }
-            psr = ThColumnInfoUtils.SelectByRectangle(doc.Editor,
-                           new Point3d(minX, minY, minZ), new Point3d(maxX, maxY, minZ), PolygonSelectionMode.Window, this.polylineSf);
+            Point3d fiterPt3 = new Point3d(minX, minY, minZ).TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            Point3d fiterPt4 = new Point3d(maxX, maxY, minZ).TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            psr = ThColumnInfoUtils.SelectByRectangle(doc.Editor,fiterPt3, fiterPt4, PolygonSelectionMode.Window, this.polylineSf);
             int bSideNum=0, hSideNum=0;
             string typeNubmer = "";
             if (psr.Status ==PromptStatus.OK)
@@ -355,13 +386,14 @@ namespace ThColumnInfo
             string hEdgeSideMiddleReinforcement = "";
             string allLongitudinalReinforcement = "";
             string tempReinforcement = "";
+            string antiSeismicGrade = "";
             for (int i = 0; i < dBTexts.Count; i++)
             {
                 if (string.IsNullOrEmpty(dBTexts[i].TextString))
                 {
                     continue;
                 }
-                if (dBTexts[i].TextString.ToUpper().Contains("KZ"))
+                if (ThColumnInfoUtils.IsColumnCode(dBTexts[i].TextString.ToUpper()))
                 {
                     ctri.Code = dBTexts[i].TextString;
                 }
@@ -377,6 +409,13 @@ namespace ThColumnInfo
                 else if (new ColumnTableRecordInfo().ValidateHoopReinforcement(dBTexts[i].TextString))
                 {
                     ctri.HoopReinforcement = dBTexts[i].TextString;
+                }
+                else if(dBTexts[i].TextString.Contains("抗震"))
+                {
+                    if(string.IsNullOrEmpty(ctri.Remark))
+                    {
+                        antiSeismicGrade = dBTexts[i].TextString;
+                    }
                 }
             }
             ctri.HoopReinforcementTypeNumber = typeNubmer;
@@ -606,8 +645,7 @@ namespace ThColumnInfo
             double yMin = boundaryPts.OrderBy(i => i.Y).Select(i => i.Y).First();
             double yMax = boundaryPts.OrderByDescending(i => i.Y).Select(i => i.Y).First();
             Point3d pt1 = new Point3d(xMin, yMin, 0.0);
-            Point3d pt2 = new Point3d(xMax, yMax, 0.0);
-            Point3d cenPt = ThColumnInfoUtils.GetMidPt(pt1, pt2);            
+            Point3d pt2 = new Point3d(xMax, yMax, 0.0);      
             double length = pt1.DistanceTo(pt2);
             pt1=ThColumnInfoUtils.GetExtendPt(pt1, pt2, this.columnOffsetRatio * length * -1.0);
             pt2 = ThColumnInfoUtils.GetExtendPt(pt2, pt1, this.columnOffsetRatio * length * -1.0);
@@ -620,8 +658,12 @@ namespace ThColumnInfo
             offsetRecPts.Add(new Point3d(pt2.X,pt1.Y,0.0));
             offsetRecPts.Add(pt2);
             offsetRecPts.Add(new Point3d(pt1.X, pt2.Y, 0.0));
+
+            Point3d filterPt1 = pt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            Point3d filterPt2 = pt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
             SelectionFilter sf = new SelectionFilter(tvs);
-            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, pt1, pt2,PolygonSelectionMode.Crossing,sf); 
+            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, 
+                filterPt1, filterPt2, PolygonSelectionMode.Crossing,sf); 
             List<Line> lines = new List<Line>();
             if (psr.Status == PromptStatus.OK)
             {
@@ -692,19 +734,23 @@ namespace ThColumnInfo
         }
         private void ExtractTableInfo()
         {
-            if(this.extractColumnDetailInfoMode==ExtractColumnDetailInfoMode.InSitu)
-            {
-                return;
-            }
             Point3d firstPt = Point3d.Origin;
             Point3d secondPt = Point3d.Origin;
-            PromptPointResult ppr1 = this.doc.Editor.GetPoint("\n请选择表格外框线的左下角点");
+            PromptPointOptions ppo1 = new PromptPointOptions("\n请选择表格外框线的左下角点[原位(I)]");
+            ppo1.Keywords.Add("i");
+            PromptPointResult ppr1 = this.doc.Editor.GetPoint(ppo1);
+            if(ppr1.StringResult=="i" || ppr1.StringResult == "I")
+            {
+                this.extractColumnDetailInfoMode = ExtractColumnDetailInfoMode.InSitu;
+                return;
+            }
             if (ppr1.Status == PromptStatus.OK)
             {
                 firstPt = ppr1.Value;
             }
             else
             {
+
                 return;
             }
             PromptPointResult ppr2 = this.doc.Editor.GetCorner("\n请选择表格外框线的右上角点", ppr1.Value);
@@ -727,7 +773,66 @@ namespace ThColumnInfo
             }
             try
             {
-                if(this.extractColumnDetailInfoMode==ExtractColumnDetailInfoMode.Regular)
+                bool hasDimension = false, hasText = false, hasPolyline = false;
+                bool hasLine = false;
+                PromptSelectionResult psr1 = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, firstPt, secondPt, PolygonSelectionMode.Crossing);                
+                if (psr1.Status==PromptStatus.OK)
+                {
+                    List<ObjectId> seleObjIds = psr1.Value.GetObjectIds().ToList();
+                    using (Transaction trans = doc.TransactionManager.StartTransaction())
+                    {
+                        for (int i = 0; i < seleObjIds.Count; i++)
+                        {
+                            Entity ent = trans.GetObject(seleObjIds[i], OpenMode.ForRead) as Entity;
+                            if (ent == null)
+                            {
+                                continue;
+                            }
+                            if (ent is Dimension)
+                            {
+                                if (!hasDimension)
+                                {
+                                    hasDimension = true;
+                                }
+                            }
+                            if (ent is DBText || ent is MText)
+                            {
+                                if (!hasText)
+                                {
+                                    hasText = true;
+                                }
+                            }
+                            if (ent is Polyline)
+                            {
+                                if (!hasPolyline)
+                                {
+                                    hasPolyline = true;
+                                }
+                            }
+                            if (ent is Line)
+                            {
+                                if (!hasLine)
+                                {
+                                    hasLine = true;
+                                }
+                            }
+                            if (hasDimension && hasText && hasPolyline)
+                            {
+                                this.extractColumnDetailInfoMode = ExtractColumnDetailInfoMode.Graphic;
+                                break;
+                            }
+                        }
+                        trans.Commit();
+                    }   
+                }
+                if(this.extractColumnDetailInfoMode == ExtractColumnDetailInfoMode.None)
+                {
+                    if(hasText && (hasLine || hasPolyline))
+                    {
+                        this.extractColumnDetailInfoMode = ExtractColumnDetailInfoMode.Regular;
+                    }
+                }
+                if (this.extractColumnDetailInfoMode==ExtractColumnDetailInfoMode.Regular)
                 {
                     DataStyleColumnDetailInfo dscdi = new DataStyleColumnDetailInfo(firstPt, secondPt);
                     dscdi.Extract();
@@ -740,8 +845,9 @@ namespace ThColumnInfo
                     this.ColumnTableRecordInfos = gscdi.ColuTabRecordInfs;
                 }
             }
-            catch
+            catch(System.Exception ex)
             {
+                ThColumnInfoUtils.WriteException(ex);
             }
             finally
             {
@@ -770,7 +876,7 @@ namespace ThColumnInfo
                 else if(dbObj is Polyline)
                 {
                     Polyline polyline = dbObj as Polyline;
-                    if(polyline.Layer.ToUpper().Contains("S_COLU"))
+                    if(polyline.Layer.ToUpper().Contains("S_COLU")) //根据图层名来搜索
                     {
                         List<Point3d> polylinePts = new List<Point3d>();
                         for(int i=0;i<polyline.NumberOfVertices;i++)
@@ -797,8 +903,10 @@ namespace ThColumnInfo
             List<BlockReference> brs = new List<BlockReference>();
             TypedValue[] tvs = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Insert") };
             SelectionFilter sf = new SelectionFilter(tvs);
-            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, this.rangePt1,
-                this.rangePt2, PolygonSelectionMode.Crossing, sf);
+            Point3d cornerPt1 = this.rangePt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            Point3d cornerPt2 = this.rangePt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, cornerPt1,
+                cornerPt2, PolygonSelectionMode.Crossing, sf);
             ObjectId[] insertObjIds = new ObjectId[] { };
             if (psr.Status == PromptStatus.OK)
             {

@@ -8,12 +8,30 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Linq2Acad;
 using System.Text;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using System.IO;
+using NLog;
+using System.Text.RegularExpressions;
 
 namespace ThColumnInfo
 {
     public class ThColumnInfoUtils
     {
         public static Tolerance tolerance = new Tolerance(1e-2, 1e-2);
+        public static bool IsColumnCode(string content)
+        {
+            //具体判断等有规则后再完善
+            List<string> codes = new List<string> {"KZ","ZHZ","XZ","LZ","QZ" };
+            if(string.IsNullOrEmpty(content))
+            {
+                return false;
+            }
+            var res=codes.Where(i => content.IndexOf(i) == 0).Select(i => i).ToList();
+            if(res!=null && res.Count>0)
+            {
+                return true;
+            }
+            return false;
+        }
         public static bool IsPointOnPolyline(Polyline pl, Point3d pt)
         {
             bool isOn = false;
@@ -96,19 +114,33 @@ namespace ThColumnInfo
         {
             return ang / 180.0 * Math.PI;
         }
+        /// <summary>
+        /// 纯数字
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static bool IsNumeric(string str) //接收一个string类型的参数,保存到str里
         {
             if (str == null || str.Length == 0)    //验证这个参数是否为空
                 return false;                           //是，就返回False
             ASCIIEncoding ascii = new ASCIIEncoding();//new ASCIIEncoding 的实例
             byte[] bytestr = ascii.GetBytes(str);         //把string类型的参数保存到数组里
+            int count = 0;
             foreach (byte c in bytestr)                   //遍历这个数组里的内容
             {
-                if (c < 48 || c > 57)                          //判断是否为数字
+                if(c==46)
+                {
+                    count++;
+                }
+                else if (c < 48 || c > 57)                          //判断是否为数字
                 {
                     return false;                              //不是，就返回False
                 }
             }
+            if(count>1)
+            {
+                return false;
+            }            
             return true;                                        //是，就返回True
         }
         /// <summary>
@@ -468,6 +500,7 @@ namespace ThColumnInfo
         public static PromptSelectionResult SelectByRectangle(Editor ed, Point3d pt1, Point3d pt2, PolygonSelectionMode mode, SelectionFilter filter=null)
         {
             Point3dCollection polygon = new Point3dCollection();
+
             double minX = Math.Min(pt1.X, pt2.X);
             double minY = Math.Min(pt1.Y, pt2.Y);
             double minZ = Math.Min(pt1.Z, pt2.Z);
@@ -510,15 +543,15 @@ namespace ThColumnInfo
             var doc = GetMdiActiveDocument();
             using (Transaction trans=doc.TransactionManager.StartTransaction())
             {
-                for(int i=0;i< objIds.Length;i++)
+                for (int i = 0; i < objIds.Length; i++)
                 {
-                    DBObject dbobj = trans.GetObject(objIds[i],OpenMode.ForRead);
-                    if(dbobj is Entity)
+                    DBObject dbobj = trans.GetObject(objIds[i], OpenMode.ForRead);
+                    if (dbobj is Entity)
                     {
                         Entity ent = dbobj as Entity;
                         if (isShow)
                         {
-                            if(!ent.Visible)
+                            if (!ent.Visible)
                             {
                                 ent.UpgradeOpen();
                                 ent.Visible = true;
@@ -545,6 +578,119 @@ namespace ThColumnInfo
             {
                 ShowObjIds(objIds.ToArray(), isShow);
             }
+        }
+        /// <summary>
+        /// 返回被锁定的层
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> UnlockedAllLayers()
+        {
+            List<string> lockedLayerNames = new List<string>();
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
+            {
+                LayerTable lt = trans.GetObject(doc.Database.LayerTableId, OpenMode.ForRead) as LayerTable;
+                foreach (var id in lt)
+                {
+                    LayerTableRecord ltr = trans.GetObject(id, OpenMode.ForRead) as LayerTableRecord;
+                    if (ltr.IsLocked)
+                    {
+                        ltr.UpgradeOpen();
+                        ltr.IsLocked = false;
+                        lockedLayerNames.Add(ltr.Name);
+                        ltr.DowngradeOpen();
+                    }
+                }
+                trans.Commit();
+            }
+            return lockedLayerNames;
+        }
+        public static void LockedLayers(List<string> layerNameList)
+        {
+            if (layerNameList == null || layerNameList.Count == 0)
+            {
+                return;
+            }
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
+            {
+                LayerTable lt = trans.GetObject(doc.Database.LayerTableId, OpenMode.ForRead) as LayerTable;
+                foreach (string layerName in layerNameList)
+                {
+                    if (string.IsNullOrEmpty(layerName))
+                    {
+                        continue;
+                    }
+                    if (lt.Has(layerName))
+                    {
+                        LayerTableRecord ltr = trans.GetObject(lt[layerName], OpenMode.ForRead) as LayerTableRecord;
+                        if (!ltr.IsLocked)
+                        {
+                            ltr.UpgradeOpen();
+                            ltr.IsLocked = true;
+                            ltr.DowngradeOpen();
+                        }
+                    }
+                }
+                trans.Commit();
+            }
+        }
+        public static void WriteException(System.Exception exception, string specialText = "")
+        {
+            //string fileName = Guid.NewGuid() + "_" + DateTime.Now.ToString("s") + ".log";
+            string fileName = Guid.NewGuid() + ".log";
+            string basePath = System.IO.Path.GetTempPath();
+            if (!Directory.Exists(basePath + "ThXlpLog"))
+            {
+                Directory.CreateDirectory(basePath + "ThXlpLog");
+            }
+            string text = string.Empty;
+            if (exception != null)
+            {
+                Type exceptionType = exception.GetType();
+                if (!string.IsNullOrEmpty(specialText))
+                {
+                    text = text + specialText + Environment.NewLine;
+                }
+                text += "Exception: " + exceptionType.Name + Environment.NewLine;
+                text += "               " + "Message: " + exception.Message + Environment.NewLine;
+                text += "               " + "Source: " + exception.Source + Environment.NewLine;
+                text += "               " + "StackTrace: " + exception.StackTrace + Environment.NewLine;
+            }
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+            LogConfig(basePath + "ThXlpLog\\" + fileName);
+            NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+            Logger.Error(text);
+        }
+        private static void LogConfig(string fileName)
+        {
+            var config = new NLog.Config.LoggingConfiguration();
+            // Targets where to log to: File and Console
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = fileName };
+            //var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+
+            // Rules for mapping loggers to targets            
+            //config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
+            // Apply config           
+            NLog.LogManager.Configuration = config;
+        }
+        public static List<int> GetDatas(string str)
+        {
+            List<int> values = new List<int>();
+            string pattern = "[-]?\\d+";
+            MatchCollection matches= Regex.Matches(str, pattern);
+            foreach(var match in matches)
+            {
+                if (!string.IsNullOrEmpty(match.ToString()))
+                {
+                    values.Add(Convert.ToInt32(match.ToString()));
+                }
+            }
+            return values;
         }
     }
 }

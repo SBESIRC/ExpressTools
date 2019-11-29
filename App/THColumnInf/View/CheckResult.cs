@@ -294,20 +294,6 @@ namespace ThColumnInfo.View
 
         private void btnSet_Click(object sender, EventArgs e)
         {
-            SearchFields searchFields = new SearchFields()
-            {
-                ColumnRangeLayerName = "砼柱",
-                ZhuGuJingLayerName = "柱箍筋",
-                ZhuJiZhongMarkLayerName = "柱集中标注",
-                ZhuSizeMark = "柱尺寸标注",
-                ZhuYuanWeiMarkLayerName = "柱原位标注",
-                ZhuMarkLeaderLayerName = "柱标注引线"
-            };
-            SearchFieldVM searchFieldVM = new SearchFieldVM(searchFields);
-            MainWindow setWindow = new MainWindow(searchFieldVM);
-            setWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            setWindow.ShowDialog();
-            _searchFields = searchFieldVM.m_UIModel;
         }       
     }
 }

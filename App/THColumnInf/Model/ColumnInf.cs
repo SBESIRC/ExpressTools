@@ -17,6 +17,11 @@ namespace ThColumnInfo
         /// 柱子对角点（左下角和右上角）
         /// </summary>
         public List<Point3d> Points { get; set; } = new List<Point3d>();
+        /// <summary>
+        /// 抗震等级
+        /// </summary>
+        public string AntiSeismicGrade { get; set; } = "";
+
     }
     class ColumnInfCompare : IComparer<ColumnInf>
     {

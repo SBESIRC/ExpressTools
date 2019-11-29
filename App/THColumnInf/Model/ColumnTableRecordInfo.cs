@@ -129,16 +129,24 @@ namespace ThColumnInfo
                     byte[] buffers = Encoding.UTF32.GetBytes(content);
                     int a = 0;
                     int startIndex = -1;
-                    for(int i=0;i< buffers.Length; i++)
+                    bool isNumberOr132 = true; //只允许数字和132符号
+                    for(int i=0;i< buffers.Length; i=i+4)
                     {
-                        if(buffers[i]== 132)
+                        if((buffers[i]>=48 && buffers[i] <= 57) || buffers[i]==132 || buffers[i]==32)
                         {
-                            startIndex = i;
-                            a++;
-                            break;
+                            if (buffers[i] == 132)
+                            {
+                                startIndex = i;
+                                a++;
+                            }
                         }
+                        else
+                        {
+                            isNumberOr132 = false;
+                            break;
+                        }                        
                     }
-                    if(a==1 && startIndex>0 && startIndex< buffers.Length-1)
+                    if(isNumberOr132 && a == 1 && startIndex>0 && startIndex< buffers.Length-1)
                     {
                         return true;
                     }
