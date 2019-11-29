@@ -137,6 +137,19 @@ namespace TianHua.AutoCAD.ThCui
                 printerDescPath.Remove(path);
                 printerDescPath.SaveChanges();
             }
+
+            path = ThCADCommon.PrinterStyleSheetPath();
+            var printerStyleSheetPath = new PrinterStyleSheetPath(AcadApp.Preferences);
+            if (bOverride && !printerStyleSheetPath.Contains(path))
+            {
+                printerStyleSheetPath.Add(path);
+                printerStyleSheetPath.SaveChanges();
+            }
+            else if (!bOverride && printerStyleSheetPath.Contains(path))
+            {
+                printerStyleSheetPath.Remove(path);
+                printerStyleSheetPath.SaveChanges();
+            }
 #endif
         }
 
