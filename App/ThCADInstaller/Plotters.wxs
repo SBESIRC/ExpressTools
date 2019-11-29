@@ -24,6 +24,11 @@
         <File Id="FILE_Autoloader_PackageContents_Plotters_PMPFiles_DWG2DWF_2019" Source="$(var.AutoloaderContentsPath)\Plotters\PMP Files\DWF6 ePlot 2019.pmp" KeyPath="yes" />
       </Component>
     </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_Plotters_PlotStyles">
+      <Component Id="CMP_Autoloader_PackageContents_Plotters_PlotStyles_HPLOTTER" Guid="{BC524B9D-F925-4225-AFE5-9E8F823F424E}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Plotters_PlotStyles_HPLOTTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\H-PLOTTER.ctb" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
   </Fragment>
   <Fragment>
     <ComponentGroup Id="ProductComponentsPlotters">
@@ -33,6 +38,7 @@
       <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_PMPFiles_DWG2PDF_2010" />
       <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_PMPFiles_DWG2PDF_2012" />
       <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_PMPFiles_DWG2DWF_2019" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_PlotStyles_HPLOTTER" />
     </ComponentGroup>
   </Fragment>
 </Wix>

@@ -38,6 +38,7 @@
                                 </Directory>
                                 <Directory Id="DIR_Autoloader_Contents_Plotters" Name="Plotters">
                                     <Directory Id="DIR_Autoloader_Contents_Plotters_PMPFiles" Name="PMP Files" />
+                                    <Directory Id="DIR_Autoloader_Contents_Plotters_PlotStyles" Name="Plot Styles" />
                                 </Directory>
                             </Directory>
                             </Directory>
