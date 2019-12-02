@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Collections.Generic;
-using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.PlottingServices;
@@ -8,151 +10,15 @@ using PowerPoint = NetOffice.PowerPointApi;
 using NetOffice.OfficeApi.Tools;
 using NetOffice.OfficeApi.Enums;
 using NetOffice.PowerPointApi.Enums;
-using System.IO;
 using static ThPlot.ThPlotData;
-using System.Threading;
-using System.Diagnostics;
-using AcHelper;
-using System.Linq;
+using Linq2Acad;
 using PdfiumLight;
-using Autodesk.AutoCAD.Geometry;
+using DotNetARX;
 
 namespace ThPlot
 {
     public class ThPlotUtil
     {
-        public static void PlotWithNamedPlotSettings(string settingName, string outputFilePath, string printStyle = null)
-        {
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
-
-            using (Transaction plotTrans = db.TransactionManager.StartTransaction())
-            {
-                // 获取当前文档中设置的布局方式
-                LayoutManager layoutManager = LayoutManager.Current;
-                ObjectId layoutId = layoutManager.GetLayoutId(layoutManager.CurrentLayout);
-                Layout layoutObj = (Layout)plotTrans.GetObject(layoutId, OpenMode.ForRead);
-                DBDictionary plotSettingsDic = (DBDictionary)plotTrans.GetObject(db.PlotSettingsDictionaryId, OpenMode.ForRead);
-                if (!plotSettingsDic.Contains(settingName))
-                {
-                    return;
-                }
-
-                // 获取设置ID
-                ObjectId plotSettingId = plotSettingsDic.GetAt(settingName);
-                // 模型或者布局
-                bool bModel = layoutObj.ModelType;
-                PlotSettings plotSettings = plotTrans.GetObject(plotSettingId, OpenMode.ForRead) as PlotSettings;
-                if (plotSettings.ModelType != bModel)
-                {
-                    return;
-                }
-
-                object backgroundPlot = Application.GetSystemVariable("BACKGROUNDPLOT");
-                Application.SetSystemVariable("BACKGROUNDPLOT", 0);
-
-                PlotInfo plotInfo = new PlotInfo();
-                plotInfo.Layout = layoutObj.ObjectId;
-                plotInfo.OverrideSettings = plotSettings;
-                PlotInfoValidator piv = new PlotInfoValidator();
-                piv.Validate(plotInfo);
-
-                // 开始打印
-                using (var plotEngine = PlotFactory.CreatePublishEngine())
-                {
-                    // 打印到文档.
-                    plotEngine.BeginPlot(null, null);
-                    plotEngine.BeginDocument(plotInfo, doc.Name, null, 1, true, outputFilePath);
-
-                    // 打印页
-                    PlotPageInfo ppi = new PlotPageInfo();
-                    plotEngine.BeginPage(ppi, plotInfo, true, null);
-                    plotEngine.BeginGenerateGraphics(null);
-                    plotEngine.EndGenerateGraphics(null);
-
-                    // 页结束
-                    plotEngine.EndPage(null);
-
-                    // 文档结束
-                    plotEngine.EndDocument(null);
-
-                    // plot结束
-                    plotEngine.EndPlot(null);
-                }
-
-                plotTrans.Commit();
-                Application.SetSystemVariable("BACKGROUNDPLOT", backgroundPlot);
-            }
-        }
-
-        /// <summary>
-        /// 打印窗口操作 使用CAD中的PlotSetting信息设置
-        /// </summary>
-        /// <param name="window"></param>
-        /// <param name="outputFilePath"></param>
-        /// <param name="printStyle"></param>
-        public static void PlotWithWindow(Extents2d window, string outputFilePath, string printStyle)
-        {
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
-
-            using (Transaction plotTrans = db.TransactionManager.StartTransaction())
-            {
-                // 获取当前文档中设置的布局方式
-                LayoutManager layoutManager = LayoutManager.Current;
-                ObjectId layoutId = layoutManager.GetLayoutId(layoutManager.CurrentLayout);
-                Layout layoutObj = (Layout)plotTrans.GetObject(layoutId, OpenMode.ForRead);
-
-                object backgroundPlot = Application.GetSystemVariable("BACKGROUNDPLOT");
-                Application.SetSystemVariable("BACKGROUNDPLOT", 0);
-
-                PlotInfo plotInfo = new PlotInfo();
-                plotInfo.Layout = layoutObj.ObjectId;
-
-                // 使用预定义的PlotSetting
-                PlotSettings plotSetting = new PlotSettings(layoutObj.ModelType);
-                plotSetting.CopyFrom(layoutObj);
-
-                // 设置打印窗口等信息
-                PlotSettingsValidator psv = PlotSettingsValidator.Current;
-                psv.RefreshLists(plotSetting);
-                psv.SetCurrentStyleSheet(plotSetting, printStyle);
-                psv.SetPlotWindowArea(plotSetting, window);
-
-                psv.SetPlotType(plotSetting, Autodesk.AutoCAD.DatabaseServices.PlotType.Window);
-                plotInfo.OverrideSettings = plotSetting;
-                PlotInfoValidator piv = new PlotInfoValidator();
-                piv.Validate(plotInfo);
-
-                // 开始打印
-                using (var plotEngine = PlotFactory.CreatePublishEngine())
-                {
-                    // 打印到文档.
-                    plotEngine.BeginPlot(null, null);
-                    plotEngine.BeginDocument(plotInfo, doc.Name, null, 1, true, outputFilePath);
-
-                    // 打印页
-                    PlotPageInfo ppi = new PlotPageInfo();
-                    plotEngine.BeginPage(ppi, plotInfo, true, null);
-                    plotEngine.BeginGenerateGraphics(null);
-                    plotEngine.EndGenerateGraphics(null);
-
-                    // 页结束
-                    plotEngine.EndPage(null);
-
-                    // 文档结束
-                    plotEngine.EndDocument(null);
-
-                    // plot结束
-                    plotEngine.EndPlot(null);
-                }
-
-                Application.SetSystemVariable("BACKGROUNDPLOT", backgroundPlot);
-            }
-        }
-
         /// <summary>
         /// 打印窗口操作 使用自定义的打印窗口设置
         /// </summary>
@@ -161,22 +27,13 @@ namespace ThPlot
         /// <param name="printStyle"></param>
         public static void PlotWithWindowWithSelfPlot(Extents2d window, string outputFilePath, string printStyle)
         {
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
-
-            using (Transaction plotTrans = db.TransactionManager.StartTransaction())
-            {
-                // 获取当前文档中设置的布局方式
-                LayoutManager layoutManager = LayoutManager.Current;
-                ObjectId layoutId = layoutManager.GetLayoutId(layoutManager.CurrentLayout);
-                Layout layoutObj = (Layout)plotTrans.GetObject(layoutId, OpenMode.ForRead);
-
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            { 
                 object backgroundPlot = Application.GetSystemVariable("BACKGROUNDPLOT");
                 Application.SetSystemVariable("BACKGROUNDPLOT", 0);
 
-                PlotInfo plotInfo = new PlotInfo();
-                plotInfo.Layout = layoutObj.ObjectId;
+                // 获取当前文档中设置的布局方式
+                Layout layoutObj = acadDatabase.Layouts.Element(LayoutManager.Current.CurrentLayout);
 
                 // 使用预定义的PlotSetting
                 PlotSettings plotSetting = new PlotSettings(layoutObj.ModelType);
@@ -204,32 +61,10 @@ namespace ThPlot
                 // 打印偏移-居中打印
                 psv.SetPlotCentered(plotSetting, true);
 
-                // 验证打印设置
-                plotInfo.OverrideSettings = plotSetting;
-                PlotInfoValidator piv = new PlotInfoValidator();
-                piv.Validate(plotInfo);
-
                 // 开始打印
                 using (var plotEngine = PlotFactory.CreatePublishEngine())
                 {
-                    // 打印到文档.
-                    plotEngine.BeginPlot(null, null);
-                    plotEngine.BeginDocument(plotInfo, doc.Name, null, 1, true, outputFilePath);
-
-                    // 打印页
-                    PlotPageInfo ppi = new PlotPageInfo();
-                    plotEngine.BeginPage(ppi, plotInfo, true, null);
-                    plotEngine.BeginGenerateGraphics(null);
-                    plotEngine.EndGenerateGraphics(null);
-
-                    // 页结束
-                    plotEngine.EndPage(null);
-
-                    // 文档结束
-                    plotEngine.EndDocument(null);
-
-                    // plot结束
-                    plotEngine.EndPlot(null);
+                    plotEngine.Plot(layoutObj, plotSetting, outputFilePath, 1, false, false, true);
                 }
 
                 Application.SetSystemVariable("BACKGROUNDPLOT", backgroundPlot);
