@@ -182,23 +182,29 @@ namespace ThPlot
                 PlotSettings plotSetting = new PlotSettings(layoutObj.ModelType);
                 plotSetting.CopyFrom(layoutObj);
 
-                // 设置打印窗口等信息
+                // 获取当前打印设置验证类
                 PlotSettingsValidator psv = PlotSettingsValidator.Current;
+                var plotDevices = psv.GetPlotDeviceList();
+                // 更新打印设备、图纸尺寸和打印样式表信息
+                psv.SetPlotConfigurationName(plotSetting, "DWG To PDF.pc3", "ISO_full_bleed_A2_(420.00_x_594.00_MM)");
                 psv.RefreshLists(plotSetting);
                 psv.SetCurrentStyleSheet(plotSetting, printStyle);
-                psv.SetPlotWindowArea(plotSetting, window);
-                psv.SetPlotType(plotSetting, Autodesk.AutoCAD.DatabaseServices.PlotType.Window);
 
                 // 自定义打印信息
+                // 设置打印窗口等信息
+                psv.SetPlotWindowArea(plotSetting, window);
+                psv.SetPlotType(plotSetting, Autodesk.AutoCAD.DatabaseServices.PlotType.Window);
+                // 打印比例-布满图纸
                 psv.SetUseStandardScale(plotSetting, true);
                 psv.SetStdScaleType(plotSetting, StdScaleType.ScaleToFit);
-                psv.SetPlotRotation(plotSetting, PlotRotation.Degrees090);
+                // 图形方向（默认是横向）
+                psv.SetPlotRotation(plotSetting, PlotRotation.Degrees000);
                 if (HorizontalPrint(window))
-                    psv.SetPlotRotation(plotSetting, PlotRotation.Degrees000);
+                    psv.SetPlotRotation(plotSetting, PlotRotation.Degrees090);
+                // 打印偏移-居中打印
                 psv.SetPlotCentered(plotSetting, true);
 
-                psv.SetPlotConfigurationName(plotSetting, "DWG To PDF.pc3", "ISO_A4_(297.00_x_210.00_MM)");
-                psv.SetPlotPaperUnits(plotSetting, PlotPaperUnit.Millimeters);
+                // 验证打印设置
                 plotInfo.OverrideSettings = plotSetting;
                 PlotInfoValidator piv = new PlotInfoValidator();
                 piv.Validate(plotInfo);

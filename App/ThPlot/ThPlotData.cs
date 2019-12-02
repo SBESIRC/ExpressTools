@@ -160,8 +160,8 @@ namespace ThPlot
 
     public class ThPlotData
     {
-        private static readonly double A4PAGEPORTRAITRATIO = 297.0 / 210.0;
-        private static readonly double A4PAGELANDSCAPERATIO = 210.0 / 297.0;
+        private static readonly double A2PAPERLANDSCAPERATIO = 594.00 / 420.00;
+
         public static readonly double PI = 3.1415926535898;
         public static readonly double PPTWIDTH = 1010;
         public static readonly double PPTHEIGHT = 755;
@@ -884,12 +884,7 @@ namespace ThPlot
             double width = 0;
             double height = 0;
             ThPlotUtil.GetWindowDataWidthAndHeight(windowData, ref width, ref height);
-            if (width < height)
-            {
-                return A4PAGEPORTRAITRATIO;
-            }
-
-            return A4PAGELANDSCAPERATIO;
+            return (width < height) ? A2PAPERLANDSCAPERATIO : (1.00 / A2PAPERLANDSCAPERATIO);
         }
 
         /// <summary>
