@@ -95,7 +95,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>通气帽系统</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -194,7 +194,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>通气帽平面</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -293,7 +293,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>立管检查口</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -392,7 +392,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>2019_0311_182735</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -496,7 +496,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>洗脸盆排水</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -712,7 +712,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>蹲式大便器排水</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -965,7 +965,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>坐便器排水</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1072,7 +1072,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>地漏系统</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1330,7 +1330,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>不带存水弯小便器</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1588,7 +1588,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>自带存水弯小便器</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1840,7 +1840,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>洗涤盆排水</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -2098,7 +2098,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>浴盆排水S弯</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -2356,7 +2356,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>浴盆排水P弯</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -2614,7 +2614,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>浴盆下排水</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -2800,7 +2800,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>清扫口平面</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>

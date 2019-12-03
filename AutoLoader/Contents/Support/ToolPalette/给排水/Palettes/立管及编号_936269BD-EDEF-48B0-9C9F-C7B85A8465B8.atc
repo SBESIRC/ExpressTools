@@ -95,7 +95,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>立管及编号</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -194,7 +194,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>生活给水</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -293,7 +293,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>排水系统</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -392,7 +392,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>消防系统</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -491,7 +491,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>中水、冷却水</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -590,7 +590,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>饮用水系统</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -689,7 +689,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>提资引用图层</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -788,7 +788,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>图框说明</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -872,7 +872,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>套管留洞</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -971,7 +971,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>管道与钢套管、防水套管尺寸对照表</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>0.6</Scale>
@@ -1070,7 +1070,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>人防管道与钢套管、防水套管尺寸对照表</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>0.6</Scale>
@@ -1169,7 +1169,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>自喷管径对照表（国标）</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>0.64</Scale>
@@ -1268,7 +1268,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>二星级绿色住宅建筑设计专篇(给排水）</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>

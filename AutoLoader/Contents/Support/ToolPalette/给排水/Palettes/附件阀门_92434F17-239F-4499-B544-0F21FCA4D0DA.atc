@@ -80,7 +80,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>电接点压力表</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -164,7 +164,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>压力联动装置</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -248,7 +248,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>压力表</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -332,7 +332,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>电子流量计</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -416,7 +416,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>闸阀</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -505,7 +505,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>薄膜式液位控制阀</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -676,7 +676,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>消声止回阀</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -760,7 +760,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>止回阀</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -844,7 +844,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>温度计</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -928,7 +928,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>真空表</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1012,7 +1012,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>蝶阀</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1096,7 +1096,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>可曲绕橡胶接头</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1180,7 +1180,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>遥控信号阀</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1264,7 +1264,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>Y型过滤器</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1348,7 +1348,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>球阀</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <SourceFile>给排水模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
