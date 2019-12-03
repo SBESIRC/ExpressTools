@@ -95,7 +95,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>DJF-1(P)</BlockName>
-                    <SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile>
+                    <SourceFile>暖通模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -194,7 +194,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>DJF-1(剖面)</BlockName>
-                    <SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile>
+                    <SourceFile>暖通模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -298,7 +298,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>RFP型1000</BlockName>
-                    <SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile>
+                    <SourceFile>暖通模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -479,7 +479,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>LWP型油网滤尘器(管式)</BlockName>
-                    <SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile>
+                    <SourceFile>暖通模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -670,7 +670,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>LWP-大于4片</BlockName>
-                    <SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile>
+                    <SourceFile>暖通模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -936,7 +936,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>PS-D250</BlockName>
-                    <SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile>
+                    <SourceFile>暖通模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1043,7 +1043,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>人防手动密闭阀</BlockName>
-                    <SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile>
+                    <SourceFile>暖通模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1234,7 +1234,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>人防插板阀</BlockName>
-                    <SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile>
+                    <SourceFile>暖通模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1481,7 +1481,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>1</BlockTypeEx>
                     <BlockName>人防风量调节阀</BlockName>
-                    <SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile>
+                    <SourceFile>暖通模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
