@@ -1,1 +1,82 @@
-<Catalog FileRevision="18.2.0" Revision="18.2.1" option="0"><ItemID idValue="{6442ECC1-5F16-49C3-B89E-3999B89C34B7}"/><Properties><ItemName>Tool Palettes Window</ItemName><Images option="0"/><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><CustomData><Translation status="1"/></CustomData><Source/><Tools/><Palettes><Palette Revision="18.2.1" option="0"><ItemID idValue="{33F0C528-33C6-4B3A-9157-AD638E313400}"/><Url href="Palettes\阀门_33F0C528-33C6-4B3A-9157-AD638E313400.atc"/><Properties><ItemName>阀门-天华暖通</ItemName><Images option="0"/></Properties><Source/></Palette><Palette Revision="18.2.1" option="0"><ItemID idValue="{1DF3A4E7-EA4B-40C8-8161-126A27054388}"/><Url href="Palettes\风口_1DF3A4E7-EA4B-40C8-8161-126A27054388.atc"/><Properties><ItemName>风口-天华暖通</ItemName><Images option="0"/></Properties><Source/></Palette><Palette Revision="18.2.1" option="0"><ItemID idValue="{23BA6E43-BB4E-4798-958D-AC898E616F40}"/><Url href="Palettes\文字_23BA6E43-BB4E-4798-958D-AC898E616F40.atc"/><Properties><ItemName>文字-天华暖通</ItemName><Images option="0"/></Properties><Source/></Palette><Palette Revision="18.2.1" option="0"><ItemID idValue="{6309342D-12A4-47F8-AACD-9876D3F48FAC}"/><Url href="Palettes\设备_6309342D-12A4-47F8-AACD-9876D3F48FAC.atc"/><Properties><ItemName>设备-天华暖通</ItemName><Images option="0"/></Properties><Source/></Palette><Palette Revision="18.2.1" option="0"><ItemID idValue="{9BD003F7-68CF-422D-A9ED-8E1D3CF9F6DA}"/><Url href="Palettes\附件_9BD003F7-68CF-422D-A9ED-8E1D3CF9F6DA.atc"/><Properties><ItemName>附件-天华暖通</ItemName><Images option="0"/></Properties><Source/></Palette><Palette Revision="18.2.1" option="0"><ItemID idValue="{4968E8C3-2183-4E83-8DA4-50CCD22B14EF}"/><Url href="Palettes\水配件_4968E8C3-2183-4E83-8DA4-50CCD22B14EF.atc"/><Properties><ItemName>水配件-天华暖通</ItemName><Images option="0"/></Properties><Source/></Palette><Palette Revision="18.2.1" option="0"><ItemID idValue="{3FE6C548-A3CC-44BF-841E-CBD24ABF63E0}"/><Url href="Palettes\人防设备_3FE6C548-A3CC-44BF-841E-CBD24ABF63E0.atc"/><Properties><ItemName>人防设备-天华暖通</ItemName><Images option="0"/></Properties><Source/></Palette></Palettes><Packages/><Categories/><StockTools/><Catalogs/></Catalog>
+<Catalog FileRevision="18.2.0" Revision="18.2.1" option="0">
+    <ItemID idValue="{6442ECC1-5F16-49C3-B89E-3999B89C34B7}"/>
+    <Properties>
+        <ItemName>Tool Palettes Window</ItemName>
+        <Images option="0"/>
+        <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+    </Properties>
+    <CustomData>
+        <Translation status="1"/>
+    </CustomData>
+    <Source/>
+    <Tools/>
+    <Palettes>
+        <Palette Revision="18.2.1" option="0">
+            <ItemID idValue="{33F0C528-33C6-4B3A-9157-AD638E313400}"/>
+            <Url href="Palettes\阀门_33F0C528-33C6-4B3A-9157-AD638E313400.atc"/>
+            <Properties>
+                <ItemName>阀门-天华暖通</ItemName>
+                <Images option="0"/>
+            </Properties>
+            <Source/>
+        </Palette>
+        <Palette Revision="18.2.1" option="0">
+            <ItemID idValue="{1DF3A4E7-EA4B-40C8-8161-126A27054388}"/>
+            <Url href="Palettes\风口_1DF3A4E7-EA4B-40C8-8161-126A27054388.atc"/>
+            <Properties>
+                <ItemName>风口-天华暖通</ItemName>
+                <Images option="0"/>
+            </Properties>
+            <Source/>
+        </Palette>
+        <Palette Revision="18.2.1" option="0">
+            <ItemID idValue="{23BA6E43-BB4E-4798-958D-AC898E616F40}"/>
+            <Url href="Palettes\文字_23BA6E43-BB4E-4798-958D-AC898E616F40.atc"/>
+            <Properties>
+                <ItemName>文字-天华暖通</ItemName>
+                <Images option="0"/>
+            </Properties>
+            <Source/>
+        </Palette>
+        <Palette Revision="18.2.1" option="0">
+            <ItemID idValue="{6309342D-12A4-47F8-AACD-9876D3F48FAC}"/>
+            <Url href="Palettes\设备_6309342D-12A4-47F8-AACD-9876D3F48FAC.atc"/>
+            <Properties>
+                <ItemName>设备-天华暖通</ItemName>
+                <Images option="0"/>
+            </Properties>
+            <Source/>
+        </Palette>
+        <Palette Revision="18.2.1" option="0">
+            <ItemID idValue="{9BD003F7-68CF-422D-A9ED-8E1D3CF9F6DA}"/>
+            <Url href="Palettes\附件_9BD003F7-68CF-422D-A9ED-8E1D3CF9F6DA.atc"/>
+            <Properties>
+                <ItemName>附件-天华暖通</ItemName>
+                <Images option="0"/>
+            </Properties>
+            <Source/>
+        </Palette>
+        <Palette Revision="18.2.1" option="0">
+            <ItemID idValue="{4968E8C3-2183-4E83-8DA4-50CCD22B14EF}"/>
+            <Url href="Palettes\水配件_4968E8C3-2183-4E83-8DA4-50CCD22B14EF.atc"/>
+            <Properties>
+                <ItemName>水配件-天华暖通</ItemName>
+                <Images option="0"/>
+            </Properties>
+            <Source/>
+        </Palette>
+        <Palette Revision="18.2.1" option="0">
+            <ItemID idValue="{3FE6C548-A3CC-44BF-841E-CBD24ABF63E0}"/>
+            <Url href="Palettes\人防设备_3FE6C548-A3CC-44BF-841E-CBD24ABF63E0.atc"/>
+            <Properties>
+                <ItemName>人防设备-天华暖通</ItemName>
+                <Images option="0"/>
+            </Properties>
+            <Source/>
+        </Palette>
+    </Palettes>
+    <Packages/>
+    <Categories/>
+    <StockTools/>
+    <Catalogs/>
+</Catalog>
