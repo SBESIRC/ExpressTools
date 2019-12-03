@@ -156,6 +156,40 @@ namespace TianHua.AutoCAD.ThCui
                 printerStyleSheetPath.Remove(path);
                 printerStyleSheetPath.SaveChanges();
             }
+#else
+            // 在CAD 2012和2014中，通过上面Preferences的方式注册搜索路径的方式不能成功
+            // 这里采用一个变通办法，即把相应的文件拷贝到Roamable路径中 
+            var roamableRootPath = (string)AcadApp.GetSystemVariable("ROAMABLEROOTPREFIX");
+            var roamableRootPlottersPath = Path.Combine(roamableRootPath, "Plotters");
+            foreach (var file in Directory.GetFiles(ThCADCommon.PlottersPath(), "*.pc3"))
+            {
+                var plotter = Path.GetFileName(file);
+                var plotterPath = Path.Combine(roamableRootPlottersPath, plotter);
+                if (bOverride)
+                {
+                    File.Copy(file, plotterPath, true);
+                }
+            }
+
+            foreach(var file in Directory.GetFiles(ThCADCommon.PrinterDescPath(), "*.pmp"))
+            {
+                var printerDesc = Path.GetFileName(file);
+                var printerDescPath = Path.Combine(roamableRootPlottersPath, printerDesc);
+                if (bOverride)
+                {
+                    File.Copy(file, printerDescPath, true);
+                }
+            }
+
+            foreach(var file in Directory.GetFiles(ThCADCommon.PrinterStyleSheetPath(), "*.ctb"))
+            {
+                var printerStyleSheet = Path.GetFileName(file);
+                var printerStyleSheetPath = Path.Combine(roamableRootPlottersPath, printerStyleSheet);
+                if (bOverride)
+                {
+                    File.Copy(file, printerStyleSheetPath, true);
+                }
+            }
 #endif
         }
 
