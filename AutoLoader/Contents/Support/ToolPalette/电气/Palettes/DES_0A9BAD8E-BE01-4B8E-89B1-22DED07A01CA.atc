@@ -80,7 +80,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>材料表</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -161,7 +161,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>修改标注</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -242,7 +242,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>线路标注</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -323,7 +323,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>设备灯具桥架</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -404,7 +404,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>变电所设备</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -485,7 +485,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>配电箱系统回路</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>

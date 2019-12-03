@@ -80,7 +80,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A0L_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -161,7 +161,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A0L1_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -242,7 +242,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A0L2_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -323,7 +323,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A1L_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -404,7 +404,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A1L1_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -485,7 +485,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A1L2_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -566,7 +566,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A1L4_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -647,7 +647,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A1L5_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -728,7 +728,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A2L_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -809,7 +809,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A2L1_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -890,7 +890,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A2L2_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -971,7 +971,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A3L_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1052,7 +1052,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A3变更单_inner(1)</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
@@ -1133,7 +1133,7 @@
                     <BlockType>1</BlockType>
                     <BlockTypeEx>0</BlockTypeEx>
                     <BlockName>THAPE_A4PREV_inner</BlockName>
-                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile>
+                    <SourceFile>电气模块.dwg</SourceFile>
                     <InsertAs>1</InsertAs>
                     <XrefType>0</XrefType>
                     <Scale>1</Scale>
