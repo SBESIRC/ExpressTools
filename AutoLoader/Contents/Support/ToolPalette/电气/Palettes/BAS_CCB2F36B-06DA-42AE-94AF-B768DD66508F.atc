@@ -1,1 +1,500 @@
-<Palette FileRevision="18.2.0" Revision="18.2.1" option="0"><ItemID idValue="{CCB2F36B-06DA-42AE-94AF-B768DD66508F}"/><Properties><ItemName>BAS-天华电气</ItemName><Images option="0"/><Time createdUniversalDateTime="2019-04-16T05:47:01" modifiedUniversalDateTime="2019-04-16T05:47:01"/></Properties><CustomData><Translation status="1"/></CustomData><Source/><Tools><Tool Revision="18.2.1" option="31"><ItemID idValue="{7E169B19-C7E9-4773-94A8-36E9C7BB34D1}"/><Properties><ItemName>出入口控制系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\出入口控制系统32.PNG"/><Image cx="64" cy="64" src="Images\出入口控制系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="TRUE"/></BasicPropInfo></Color><Layer><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="TRUE" valueType="3" value="0"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="TRUE" valueType="2" value="0"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>出入口控制系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{3E56E0B4-D74F-4045-83D7-7A9FFB8392AD}"/><Properties><ItemName>入侵报警系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\入侵报警系统32.PNG"/><Image cx="64" cy="64" src="Images\入侵报警系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="TRUE"/></BasicPropInfo></Color><Layer><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="TRUE" valueType="3" value="0"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="TRUE" valueType="2" value="0"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>入侵报警系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{BC6A1312-0173-45A5-AFCC-ECA6F3EA9CC1}"/><Properties><ItemName>视频安防监控系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\视频安防监控系统32.PNG"/><Image cx="64" cy="64" src="Images\视频安防监控系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="TRUE"/></BasicPropInfo></Color><Layer><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="TRUE" valueType="3" value="0"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="TRUE" valueType="2" value="0"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>视频安防监控系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{36C673ED-E78F-4A55-B488-76C964FC1C22}"/><Properties><ItemName>巡查系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\巡查系统32.PNG"/><Image cx="64" cy="64" src="Images\巡查系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="TRUE"/></BasicPropInfo></Color><Layer><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="TRUE" valueType="3" value="0"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="TRUE" valueType="2" value="0"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>巡查系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{55FEA489-CB32-4AE4-A559-C1AE37AA9686}"/><Properties><ItemName>远程抄表系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\远程抄表系统32.PNG"/><Image cx="64" cy="64" src="Images\远程抄表系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="TRUE"/></BasicPropInfo></Color><Layer><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="TRUE" valueType="3" value="0"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="TRUE" valueType="2" value="0"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>远程抄表系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{52A05B20-4142-46AA-A7C6-E45823DBA2A9}"/><Properties><ItemName>建筑设备自动化系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\建筑设备自动化系统32.PNG"/><Image cx="64" cy="64" src="Images\建筑设备自动化系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="TRUE"/></BasicPropInfo></Color><Layer><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="TRUE" valueType="3" value="0"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="TRUE" valueType="2" value="0"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>建筑设备自动化系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool></Tools></Palette>
+<Palette FileRevision="18.2.0" Revision="18.2.1" option="0">
+    <ItemID idValue="{CCB2F36B-06DA-42AE-94AF-B768DD66508F}"/>
+    <Properties>
+        <ItemName>BAS-天华电气</ItemName>
+        <Images option="0"/>
+        <Time createdUniversalDateTime="2019-04-16T05:47:01" modifiedUniversalDateTime="2019-04-16T05:47:01"/>
+    </Properties>
+    <CustomData>
+        <Translation status="1"/>
+    </CustomData>
+    <Source/>
+    <Tools>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{7E169B19-C7E9-4773-94A8-36E9C7BB34D1}"/>
+            <Properties>
+                <ItemName>出入口控制系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\出入口控制系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\出入口控制系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE"/>
+                        </BasicPropInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="3" value="0"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="2" value="0"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>出入口控制系统</BlockName>
+                    <SourceFile>电气模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{3E56E0B4-D74F-4045-83D7-7A9FFB8392AD}"/>
+            <Properties>
+                <ItemName>入侵报警系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\入侵报警系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\入侵报警系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE"/>
+                        </BasicPropInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="3" value="0"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="2" value="0"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>入侵报警系统</BlockName>
+                    <SourceFile>电气模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{BC6A1312-0173-45A5-AFCC-ECA6F3EA9CC1}"/>
+            <Properties>
+                <ItemName>视频安防监控系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\视频安防监控系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\视频安防监控系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE"/>
+                        </BasicPropInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="3" value="0"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="2" value="0"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>视频安防监控系统</BlockName>
+                    <SourceFile>电气模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{36C673ED-E78F-4A55-B488-76C964FC1C22}"/>
+            <Properties>
+                <ItemName>巡查系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\巡查系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\巡查系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE"/>
+                        </BasicPropInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="3" value="0"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="2" value="0"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>巡查系统</BlockName>
+                    <SourceFile>电气模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{55FEA489-CB32-4AE4-A559-C1AE37AA9686}"/>
+            <Properties>
+                <ItemName>远程抄表系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\远程抄表系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\远程抄表系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE"/>
+                        </BasicPropInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="3" value="0"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="2" value="0"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>远程抄表系统</BlockName>
+                    <SourceFile>电气模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{52A05B20-4142-46AA-A7C6-E45823DBA2A9}"/>
+            <Properties>
+                <ItemName>建筑设备自动化系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\建筑设备自动化系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\建筑设备自动化系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE"/>
+                        </BasicPropInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="3" value="0"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="2" value="0"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>建筑设备自动化系统</BlockName>
+                    <SourceFile>电气模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+    </Tools>
+</Palette>

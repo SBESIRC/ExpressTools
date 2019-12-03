@@ -1,1 +1,2553 @@
-<Palette FileRevision="18.2.0" Revision="18.2.1" option="0"><ItemID idValue="{4968E8C3-2183-4E83-8DA4-50CCD22B14EF}"/><Properties><ItemName>水配件-天华暖通</ItemName><Images option="0"/><Time createdUniversalDateTime="2019-03-07T03:26:42" modifiedUniversalDateTime="2019-03-07T03:26:42"/></Properties><Source/><Tools><Tool Revision="18.2.1" option="31"><ItemID idValue="{AE1E4913-0827-46F9-8EBA-EF619A5FF224}"/><Properties><ItemName>活接头</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\活接头32.PNG"/><Image cx="64" cy="64" src="Images\活接头64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-PIPE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-PIPE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557121"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>活接头</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{8F3AF509-F200-4D83-9F41-B122EA4FB0F7}"/><Properties><ItemName>固定支架</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\固定支架32.PNG"/><Image cx="64" cy="64" src="Images\固定支架64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-PIPE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-PIPE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557121"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>固定支架</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{A9782E34-AEF2-45D3-9A05-5ABE39E92550}"/><Properties><ItemName>固定支架P</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\固定支架P32.PNG"/><Image cx="64" cy="64" src="Images\固定支架P64.PNG"/></Images><Overlay><Images option="0"><Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/></Images></Overlay><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-PIPE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-PIPE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557121"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>1</BlockTypeEx><BlockName>固定支架P</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode><ObjectInfo><Objects><Object objectId="140687612551504"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140687612551904"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140687612551904"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140687612551920"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140687612551920"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="10" objectId="140687612551936"/><Entry keyName="6" objectId="140687612551952"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140687612551936"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>6895636</Long></Resbuf><Resbuf restype="1071"><Long>9291323</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="40"><Real>0</Real></Resbuf></Resbufs></BaseData></ObjectData></Object><Object objectId="140687612551952"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>18597260</Long></Resbuf><Resbuf restype="1071"><Long>25303744</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="10"><Point><X>3.725290298461914e-009</X><Y>0</Y><Z>0</Z></Point></Resbuf><Resbuf restype="10"><Point><X>1565.916024440899</X><Y>0</Y><Z>0</Z></Point></Resbuf><Resbuf restype="10"><Point><X>0</X><Y>0</Y><Z>-1</Z></Point></Resbuf></Resbufs></BaseData></ObjectData></Object></Objects><BlockReference><Object objectId="140687612551472"><AcRxClassInfo className="AcDbBlockReference"/><ObjectData><ExtensionDictionary><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AcDbBlockRepresentation" objectId="140687612551504"/></Entries></Dictionary></ExtensionDictionary></ObjectData></Object></BlockReference></ObjectInfo></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{969D2178-DCB2-4640-92F5-FD56B5ADF117}"/><Properties><ItemName>导向支架</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\导向支架32.PNG"/><Image cx="64" cy="64" src="Images\导向支架64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-PIPE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-PIPE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557121"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>导向支架</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{77B4CBD5-5DF0-498C-B023-9B501D72A3B0}"/><Properties><ItemName>金属软管</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\金属软管32.PNG"/><Image cx="64" cy="64" src="Images\金属软管64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557123"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>金属软管</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{52CD3C01-8E95-4D62-AD04-19AB882C0307}"/><Properties><ItemName>橡胶软管</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\橡胶软管32.PNG"/><Image cx="64" cy="64" src="Images\橡胶软管64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557123"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>橡胶软管</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{35E6281F-AF0A-415C-8BDA-FF4240A2A3CF}"/><Properties><ItemName>Y型过滤器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\Y型过滤器32.PNG"/><Image cx="64" cy="64" src="Images\Y型过滤器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557123"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>Y型过滤器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{C67FC1AB-7804-4541-AFA9-080E704C3856}"/><Properties><ItemName>波纹管补偿器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\波纹管补偿器32.PNG"/><Image cx="64" cy="64" src="Images\波纹管补偿器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557123"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>波纹管补偿器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{FF08DB7D-2DE9-4841-B232-A29F8E4DA537}"/><Properties><ItemName>疏水器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\疏水器32.PNG"/><Image cx="64" cy="64" src="Images\疏水器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557123"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>疏水器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{6E38B648-BFF0-4CB2-9262-48EF24336EF4}"/><Properties><ItemName>水泵</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\水泵32.PNG"/><Image cx="64" cy="64" src="Images\水泵64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-EQUP-PUMP"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-EQUP-PUMP</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>水泵</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{4C71C1AD-1315-4C30-855C-ED10DCB2C675}"/><Properties><ItemName>直通型（或反冲型）除污器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\直通型（或反冲型）除污器32.PNG"/><Image cx="64" cy="64" src="Images\直通型（或反冲型）除污器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>直通型（或反冲型）除污器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{D2008FC7-1FC2-48DD-86FA-E950882CF804}"/><Properties><ItemName>除污器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\除污器32.PNG"/><Image cx="64" cy="64" src="Images\除污器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>除污器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{E75847E3-52FF-4AD7-90C6-D1F63B3D0211}"/><Properties><ItemName>弯头除污器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\弯头除污器32.PNG"/><Image cx="64" cy="64" src="Images\弯头除污器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>弯头除污器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{C1C45103-5FA7-46D4-BC84-684072312A7F}"/><Properties><ItemName>离子静电水处理器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\离子静电水处理器32.PNG"/><Image cx="64" cy="64" src="Images\离子静电水处理器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>离子静电水处理器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{44F4F90B-7B73-4674-8825-1AB997D94408}"/><Properties><ItemName>散热器及手动放气阀</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\散热器及手动放气阀32.PNG"/><Image cx="64" cy="64" src="Images\散热器及手动放气阀64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>散热器及手动放气阀</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{BF39C7C1-4D1A-4FD9-A11F-788382402E64}"/><Properties><ItemName>散热器及温控阀</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\散热器及温控阀32.PNG"/><Image cx="64" cy="64" src="Images\散热器及温控阀64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>散热器及温控阀</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{4AA9BDD4-26F6-4366-A9B1-E641B6612E12}"/><Properties><ItemName>压力表</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\压力表32.PNG"/><Image cx="64" cy="64" src="Images\压力表64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>压力表</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{76A22F9C-E0CD-4D78-8971-F5DEAEBE2B36}"/><Properties><ItemName>温度计</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\温度计32.PNG"/><Image cx="64" cy="64" src="Images\温度计64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>温度计</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{D03B0FBB-24E9-4C31-8A38-AF57A9CF5145}"/><Properties><ItemName>温度传感器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\温度传感器32.PNG"/><Image cx="64" cy="64" src="Images\温度传感器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557123"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>温度传感器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{BDD37440-9169-4427-A1AF-56C7F07D139E}"/><Properties><ItemName>湿度传感器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\湿度传感器32.PNG"/><Image cx="64" cy="64" src="Images\湿度传感器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557123"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>湿度传感器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{876C30AB-3E4F-4A6F-95AE-66CBD2C8F51D}"/><Properties><ItemName>压力传感器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\压力传感器32.PNG"/><Image cx="64" cy="64" src="Images\压力传感器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557123"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>压力传感器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{8D1501B1-3C75-459B-B230-37144F4581B4}"/><Properties><ItemName>压差传感器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\压差传感器32.PNG"/><Image cx="64" cy="64" src="Images\压差传感器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557123"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>压差传感器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{E5DA43F8-F1A8-4DD3-89AE-AFAD16EAFFAB}"/><Properties><ItemName>流量传感器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\流量传感器32.PNG"/><Image cx="64" cy="64" src="Images\流量传感器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557123"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>流量传感器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{EB1DE197-6101-4047-A9D2-A30694BB368B}"/><Properties><ItemName>控制器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\控制器32.PNG"/><Image cx="64" cy="64" src="Images\控制器64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557123"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>控制器</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool></Tools></Palette>
+<Palette FileRevision="18.2.0" Revision="18.2.1" option="0">
+    <ItemID idValue="{4968E8C3-2183-4E83-8DA4-50CCD22B14EF}"/>
+    <Properties>
+        <ItemName>水配件-天华暖通</ItemName>
+        <Images option="0"/>
+        <Time createdUniversalDateTime="2019-03-07T03:26:42" modifiedUniversalDateTime="2019-03-07T03:26:42"/>
+    </Properties>
+    <Source/>
+    <Tools>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{AE1E4913-0827-46F9-8EBA-EF619A5FF224}"/>
+            <Properties>
+                <ItemName>活接头</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\活接头32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\活接头64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-PIPE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-PIPE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557121"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>活接头</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{8F3AF509-F200-4D83-9F41-B122EA4FB0F7}"/>
+            <Properties>
+                <ItemName>固定支架</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\固定支架32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\固定支架64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-PIPE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-PIPE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557121"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>固定支架</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{A9782E34-AEF2-45D3-9A05-5ABE39E92550}"/>
+            <Properties>
+                <ItemName>固定支架P</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\固定支架P32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\固定支架P64.PNG"/>
+                </Images>
+                <Overlay>
+                    <Images option="0">
+                        <Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/>
+                    </Images>
+                </Overlay>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-PIPE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-PIPE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557121"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>1</BlockTypeEx>
+                    <BlockName>固定支架P</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                    <ObjectInfo>
+                        <Objects>
+                            <Object objectId="140687612551504">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140687612551904"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140687612551904">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140687612551920"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140687612551920">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries><Entry keyName="10" objectId="140687612551936"/><Entry keyName="6" objectId="140687612551952"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140687612551936">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071"><Long>6895636</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071"><Long>9291323</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70"><Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70"><Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="40"><Real>0</Real>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140687612551952">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071"><Long>18597260</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071"><Long>25303744</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70"><Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70"><Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10"><Point><X>3.725290298461914e-009</X><Y>0</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>1565.916024440899</X><Y>0</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>0</X><Y>0</Y><Z>-1</Z>
+                                                </Point>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                        </Objects>
+                        <BlockReference>
+                            <Object objectId="140687612551472">
+                                <AcRxClassInfo className="AcDbBlockReference"/>
+                                <ObjectData>
+                                    <ExtensionDictionary>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AcDbBlockRepresentation" objectId="140687612551504"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </ExtensionDictionary>
+                                </ObjectData>
+                            </Object>
+                        </BlockReference>
+                    </ObjectInfo>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{969D2178-DCB2-4640-92F5-FD56B5ADF117}"/>
+            <Properties>
+                <ItemName>导向支架</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\导向支架32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\导向支架64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-PIPE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-PIPE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557121"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>导向支架</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{77B4CBD5-5DF0-498C-B023-9B501D72A3B0}"/>
+            <Properties>
+                <ItemName>金属软管</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\金属软管32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\金属软管64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557123"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>金属软管</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{52CD3C01-8E95-4D62-AD04-19AB882C0307}"/>
+            <Properties>
+                <ItemName>橡胶软管</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\橡胶软管32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\橡胶软管64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557123"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>橡胶软管</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{35E6281F-AF0A-415C-8BDA-FF4240A2A3CF}"/>
+            <Properties>
+                <ItemName>Y型过滤器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\Y型过滤器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\Y型过滤器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557123"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>Y型过滤器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{C67FC1AB-7804-4541-AFA9-080E704C3856}"/>
+            <Properties>
+                <ItemName>波纹管补偿器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\波纹管补偿器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\波纹管补偿器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557123"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>波纹管补偿器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{FF08DB7D-2DE9-4841-B232-A29F8E4DA537}"/>
+            <Properties>
+                <ItemName>疏水器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\疏水器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\疏水器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557123"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>疏水器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{6E38B648-BFF0-4CB2-9262-48EF24336EF4}"/>
+            <Properties>
+                <ItemName>水泵</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\水泵32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\水泵64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-EQUP-PUMP"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-EQUP-PUMP</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>水泵</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{4C71C1AD-1315-4C30-855C-ED10DCB2C675}"/>
+            <Properties>
+                <ItemName>直通型（或反冲型）除污器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\直通型（或反冲型）除污器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\直通型（或反冲型）除污器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>直通型（或反冲型）除污器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{D2008FC7-1FC2-48DD-86FA-E950882CF804}"/>
+            <Properties>
+                <ItemName>除污器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\除污器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\除污器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>除污器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{E75847E3-52FF-4AD7-90C6-D1F63B3D0211}"/>
+            <Properties>
+                <ItemName>弯头除污器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\弯头除污器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\弯头除污器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>弯头除污器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{C1C45103-5FA7-46D4-BC84-684072312A7F}"/>
+            <Properties>
+                <ItemName>离子静电水处理器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\离子静电水处理器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\离子静电水处理器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>离子静电水处理器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{44F4F90B-7B73-4674-8825-1AB997D94408}"/>
+            <Properties>
+                <ItemName>散热器及手动放气阀</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\散热器及手动放气阀32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\散热器及手动放气阀64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>散热器及手动放气阀</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{BF39C7C1-4D1A-4FD9-A11F-788382402E64}"/>
+            <Properties>
+                <ItemName>散热器及温控阀</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\散热器及温控阀32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\散热器及温控阀64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>散热器及温控阀</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{4AA9BDD4-26F6-4366-A9B1-E641B6612E12}"/>
+            <Properties>
+                <ItemName>压力表</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\压力表32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\压力表64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>压力表</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{76A22F9C-E0CD-4D78-8971-F5DEAEBE2B36}"/>
+            <Properties>
+                <ItemName>温度计</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\温度计32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\温度计64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-EQUP-ELSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-EQUP-ELSE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>温度计</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{D03B0FBB-24E9-4C31-8A38-AF57A9CF5145}"/>
+            <Properties>
+                <ItemName>温度传感器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\温度传感器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\温度传感器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557123"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>温度传感器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{BDD37440-9169-4427-A1AF-56C7F07D139E}"/>
+            <Properties>
+                <ItemName>湿度传感器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\湿度传感器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\湿度传感器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557123"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>湿度传感器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{876C30AB-3E4F-4A6F-95AE-66CBD2C8F51D}"/>
+            <Properties>
+                <ItemName>压力传感器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\压力传感器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\压力传感器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557123"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>压力传感器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{8D1501B1-3C75-459B-B230-37144F4581B4}"/>
+            <Properties>
+                <ItemName>压差传感器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\压差传感器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\压差传感器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557123"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>压差传感器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{E5DA43F8-F1A8-4DD3-89AE-AFAD16EAFFAB}"/>
+            <Properties>
+                <ItemName>流量传感器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\流量传感器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\流量传感器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557123"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>流量传感器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{EB1DE197-6101-4047-A9D2-A30694BB368B}"/>
+            <Properties>
+                <ItemName>控制器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\控制器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\控制器64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="h-papp-valv"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>h-papp-valv</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557123"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>控制器</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+    </Tools>
+</Palette>

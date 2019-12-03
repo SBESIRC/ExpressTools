@@ -1,1 +1,500 @@
-<Palette FileRevision="18.2.0" Revision="18.2.1" option="0"><ItemID idValue="{7FCCA241-7C73-4758-B812-3C44C247EE25}"/><Properties><ItemName>LITE-天华电气</ItemName><Images option="0"/><Time createdUniversalDateTime="2019-04-16T05:46:11" modifiedUniversalDateTime="2019-04-16T05:46:11"/></Properties><CustomData><Translation status="1"/></CustomData><Source/><Tools><Tool Revision="18.2.1" option="31"><ItemID idValue="{EFCE2A14-5E01-412F-B51D-BF6803650CE2}"/><Properties><ItemName>开关面板一</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\开关面板一32.PNG"/><Image cx="64" cy="64" src="Images\开关面板一64.PNG"/></Images><Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="TRUE"/></BasicPropInfo></Color><Layer><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="TRUE" valueType="3" value="0"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="TRUE" valueType="2" value="0"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>开关面板一</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{D0A11D8F-F271-4D07-8B00-A4F2DCDC4F9C}"/><Properties><ItemName>开关面板二</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\开关面板二32.PNG"/><Image cx="64" cy="64" src="Images\开关面板二64.PNG"/></Images><Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="TRUE"/></BasicPropInfo></Color><Layer><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="TRUE" valueType="3" value="0"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="TRUE" valueType="2" value="0"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>开关面板二</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{CEE942BF-7BBD-463D-9BBE-E55A4FCCEE59}"/><Properties><ItemName>灯具一</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\灯具一32.PNG"/><Image cx="64" cy="64" src="Images\灯具一64.PNG"/></Images><Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="TRUE"/></BasicPropInfo></Color><Layer><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="TRUE" valueType="3" value="0"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="TRUE" valueType="2" value="0"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>灯具一</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{DD43F389-5E88-4AF4-B7C5-7EF7DA50DD86}"/><Properties><ItemName>灯具二</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\灯具二32.PNG"/><Image cx="64" cy="64" src="Images\灯具二64.PNG"/></Images><Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="TRUE"/></BasicPropInfo></Color><Layer><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="TRUE" valueType="3" value="0"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="TRUE" valueType="2" value="0"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>灯具二</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{FBFBDA56-3D02-475D-AF13-0B2DA2848262}"/><Properties><ItemName>消防应急灯</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\消防应急灯32.PNG"/><Image cx="64" cy="64" src="Images\消防应急灯64.PNG"/></Images><Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="TRUE"/></BasicPropInfo></Color><Layer><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="TRUE" valueType="3" value="0"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="TRUE" valueType="2" value="0"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>消防应急灯</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{21581398-946B-4B58-A25E-F66E9B1F1CE8}"/><Properties><ItemName>精装修工程照明预埋</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\精装修工程照明预埋32.PNG"/><Image cx="64" cy="64" src="Images\精装修工程照明预埋64.PNG"/></Images><Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="TRUE"/></BasicPropInfo></Color><Layer><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="TRUE" valueType="3" value="0"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="TRUE" valueType="2" value="0"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>精装修工程照明预埋</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\电气\电气模块-分类20190411.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool></Tools></Palette>
+<Palette FileRevision="18.2.0" Revision="18.2.1" option="0">
+    <ItemID idValue="{7FCCA241-7C73-4758-B812-3C44C247EE25}"/>
+    <Properties>
+        <ItemName>LITE-天华电气</ItemName>
+        <Images option="0"/>
+        <Time createdUniversalDateTime="2019-04-16T05:46:11" modifiedUniversalDateTime="2019-04-16T05:46:11"/>
+    </Properties>
+    <CustomData>
+        <Translation status="1"/>
+    </CustomData>
+    <Source/>
+    <Tools>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{EFCE2A14-5E01-412F-B51D-BF6803650CE2}"/>
+            <Properties>
+                <ItemName>开关面板一</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\开关面板一32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\开关面板一64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE"/>
+                        </BasicPropInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="3" value="0"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="2" value="0"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>开关面板一</BlockName>
+                    <SourceFile>电气模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{D0A11D8F-F271-4D07-8B00-A4F2DCDC4F9C}"/>
+            <Properties>
+                <ItemName>开关面板二</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\开关面板二32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\开关面板二64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE"/>
+                        </BasicPropInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="3" value="0"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="2" value="0"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>开关面板二</BlockName>
+                    <SourceFile>电气模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{CEE942BF-7BBD-463D-9BBE-E55A4FCCEE59}"/>
+            <Properties>
+                <ItemName>灯具一</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\灯具一32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\灯具一64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE"/>
+                        </BasicPropInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="3" value="0"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="2" value="0"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>灯具一</BlockName>
+                    <SourceFile>电气模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{DD43F389-5E88-4AF4-B7C5-7EF7DA50DD86}"/>
+            <Properties>
+                <ItemName>灯具二</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\灯具二32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\灯具二64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE"/>
+                        </BasicPropInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="3" value="0"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="2" value="0"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>灯具二</BlockName>
+                    <SourceFile>电气模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{FBFBDA56-3D02-475D-AF13-0B2DA2848262}"/>
+            <Properties>
+                <ItemName>消防应急灯</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\消防应急灯32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\消防应急灯64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE"/>
+                        </BasicPropInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="3" value="0"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="2" value="0"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>消防应急灯</BlockName>
+                    <SourceFile>电气模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{21581398-946B-4B58-A25E-F66E9B1F1CE8}"/>
+            <Properties>
+                <ItemName>精装修工程照明预埋</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\精装修工程照明预埋32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\精装修工程照明预埋64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-25T07:05:13" modifiedUniversalDateTime="2019-03-25T07:05:13"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE"/>
+                        </BasicPropInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="3" value="0"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="2" value="0"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>精装修工程照明预埋</BlockName>
+                    <SourceFile>电气模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+    </Tools>
+</Palette>

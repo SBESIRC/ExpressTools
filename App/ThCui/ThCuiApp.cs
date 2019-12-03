@@ -111,6 +111,12 @@ namespace TianHua.AutoCAD.ThCui
 
         private void OverridePreferences(bool bOverride = true)
         {
+            OverrideSupportPathPreferences(bOverride);
+            OverridePrinterPathPreferences(bOverride);
+        }
+
+        private void OverridePrinterPathPreferences(bool bOverride = true)
+        {
 #if ACAD_ABOVE_2014
             var path = ThCADCommon.PlottersPath();
             var printerConfigPath = new PrinterConfigPath(AcadApp.Preferences);
@@ -151,6 +157,31 @@ namespace TianHua.AutoCAD.ThCui
                 printerStyleSheetPath.SaveChanges();
             }
 #endif
+        }
+
+        private void OverrideSupportPathPreferences(bool bOverride = true)
+        {
+            // ATC文件中的"SourceFile"指向一个图纸，这个图纸提供了ATC文件中的块定义
+            // 为了能正确的正确的部署ATC文件以及其引用的图纸，不建议为"SourceFile"指定一个绝对路径
+            // 一个更好的做法是：
+            //  1. 在"SourceFile"中只指定图纸名
+            //  2. 将图纸的路径添加到"支持文件搜索路径"中
+            // 剩下的就交给CAD去根据"支持文件搜索路径"指定的路径来寻找图纸
+            // https://knowledge.autodesk.com/support/autocad/troubleshooting/caas/sfdcarticles/sfdcarticles/Using-Source-File-field-for-tool-palette-block-data.html
+            var supportPath = new SupportPath(AcadApp.Preferences);
+            foreach (var item in new string[] { "电气", "给排水", "暖通" })
+            {
+                var path = Path.Combine(ThCADCommon.SupportPath(), "ToolPalette", item);
+                if (bOverride && !supportPath.Contains(path))
+                {
+                    supportPath.Add(path);
+                }
+                else if (!bOverride && supportPath.Contains(path))
+                {
+                    supportPath.Remove(path);
+                }
+            }
+            supportPath.SaveChanges();
         }
 
         private void RemoveRibbon()

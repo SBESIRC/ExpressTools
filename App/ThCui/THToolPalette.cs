@@ -1,17 +1,13 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
-using DotNetARX;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using TianHua.AutoCAD.Utility.ExtensionTools;
-using AcadPreferences = DotNetARX.Preferences;
+using System.Collections.Generic;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.ApplicationServices.PreferencesFiles;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -22,8 +18,6 @@ namespace TianHua.AutoCAD.ThCui
             InitializeComponent();
         }
 
-        //安装路径
-        string path = @"";
         //记录可加载和已加载的数量
         int sourceCount = 0;
         int currentCount = 0;
@@ -38,24 +32,22 @@ namespace TianHua.AutoCAD.ThCui
             btnSave.Enabled = false;
 
             //找到工具选项版的路径
-            path = GetAppResourcePath();
-            //MessageBox.Show(path);
+            string path = GetAppResourcePath();
             DirectoryInfo root = new DirectoryInfo(path);
-
 
             //找到已经加载的，显示再菜单中
             var addedPathes = root.GetDirectories().Join(GetAllToolPath(), d => d.FullName, p => p, (d, p) => p);
             foreach (var item in addedPathes)
             {
-                var name = item.ToString().Split('\\').Last();
-                lstCurrent.Items.Add(name);
+                var directory = new DirectoryInfo(item);
+                lstCurrent.Items.Add(directory.Name);
             }
             //将未加载的显示在起始菜单中
             var sourcePathes = root.GetDirectories().Select(d => d.FullName).Except(addedPathes);
             foreach (var item in sourcePathes)
             {
-                var name = item.ToString().Split('\\').Last();
-                lstSource.Items.Add(name);
+                var directory = new DirectoryInfo(item);
+                lstSource.Items.Add(directory.Name);
             }
 
             UpdateCount();
@@ -73,30 +65,6 @@ namespace TianHua.AutoCAD.ThCui
         }
 
         /// <summary>
-        /// 将安装包中的atc文件数据源路径进行更新
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="formalDwgPath"></param>
-        /// <param name="currentDwgPath"></param>
-        private static void UpdateDwgPath(string path, string currentDwgPath)
-        {
-            //原始的面板数据源地址
-            //var formalDwgPath = @"C:\Program Files\ToolPalette\ToolPalette.dwg";
-
-            //遍历所有的atc文件，并将数据源关联路径设置为安装所在路径
-            DirectoryInfo root = new DirectoryInfo(path);
-            var files = root.GetFiles().Where(f => f.FullName.Contains(".atc"));
-            foreach (var item in files)
-            {
-                //MessageBox.Show(item.FullName);
-                string strContent = File.ReadAllText(item.FullName);
-                strContent = Regex.Replace(strContent, @"<SourceFile>.*?</SourceFile>", @"<SourceFile>" + currentDwgPath + @"</SourceFile>");
-                //strContent = strContent.Replace(formalDwgPath, currentDwgPath);
-                File.WriteAllText(item.FullName, strContent);
-            }
-        }
-
-        /// <summary>
         /// 加载指定工具选项板
         /// </summary>
         /// <param name="sender"></param>
@@ -105,19 +73,6 @@ namespace TianHua.AutoCAD.ThCui
         {
             if (lstSource.SelectedItem != null)
             {
-                ////获取所选专业
-                //var major = lstSource.SelectedItem.ToString();
-
-                ////安装包数据源地址,允许在此路径下，以任意名称命名的dwg文件为数据源
-                ////var currentDwgPath = path + major + @"\ToolPalette.dwg";
-                //var currentDwgPath = new DirectoryInfo(path + major).GetFiles(@"*.dwg").First().FullName;
-
-                ////更新安装包内数据源地址
-                //UpdateDwgPath(path + major + @"\Palettes\", currentDwgPath);
-
-                ////为系统添加工具选项板路径
-                //AddToolPath(path + major);
-
                 //修改界面显示
                 lstCurrent.Items.Add(lstSource.SelectedItem);
                 lstSource.Items.Remove(lstSource.SelectedItem);
@@ -135,10 +90,9 @@ namespace TianHua.AutoCAD.ThCui
         /// </summary>
         private List<string> GetAllToolPath()
         {
-            return AcadPreferences.Files.ToolPalettePath.Replace(@"/", @"\").Split(';').ToList();
+            var paths = new ToolPalettePath(AcadApp.Preferences);
+            return paths.GetPaths().ToList();
         }
-
-
 
         /// <summary>
         /// 为系统添加工具选项板路径
@@ -146,7 +100,12 @@ namespace TianHua.AutoCAD.ThCui
         /// <param name="currentDwgPath"></param>
         private void AddToolPath(string currentDwgPath)
         {
-            AcadPreferences.Files.ToolPalettePath += ";" + currentDwgPath;
+            var paths = new ToolPalettePath(AcadApp.Preferences);
+            if (!paths.Contains(currentDwgPath))
+            {
+                paths.Add(currentDwgPath);
+                paths.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -155,8 +114,12 @@ namespace TianHua.AutoCAD.ThCui
         /// <param name="currentDwgPath"></param>
         private void DeleteToolPath(string currentDwgPath)
         {
-            //如果此路径为最后一个，则少删除一个分号，否则多删除一个分号
-            AcadPreferences.Files.ToolPalettePath = AcadPreferences.Files.ToolPalettePath.EndsWith(currentDwgPath) ? AcadPreferences.Files.ToolPalettePath.Replace(currentDwgPath, "") : AcadPreferences.Files.ToolPalettePath.Replace(currentDwgPath + ";", "");
+            var paths = new ToolPalettePath(AcadApp.Preferences);
+            if (paths.Contains(currentDwgPath))
+            {
+                paths.Remove(currentDwgPath);
+                paths.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -168,17 +131,6 @@ namespace TianHua.AutoCAD.ThCui
         {
             if (lstCurrent.SelectedItem != null)
             {
-                ////获取所选专业
-                //var major = lstCurrent.SelectedItem.ToString();
-                ////安装包数据源地址
-                //var currentDwgPath = new DirectoryInfo(path + major).GetFiles(@"*.dwg").First().FullName;
-
-                //////更新安装包内数据源地址
-                ////UpdateDwgPath(path, currentDwgPath);
-
-                ////为系统删除工具选项板路径
-                //DeleteToolPath(path + major);
-
                 lstSource.Items.Add(lstCurrent.SelectedItem);
                 lstCurrent.Items.Remove(lstCurrent.SelectedItem);
 
@@ -200,17 +152,6 @@ namespace TianHua.AutoCAD.ThCui
             foreach (var item in lstSource.Items)
             {
                 lstCurrent.Items.Add(item);
-
-                ////获取所选专业
-                //var major = item.ToString();
-                ////安装包数据源地址
-                //var currentDwgPath = new DirectoryInfo(path + major).GetFiles(@"*.dwg").First().FullName;
-
-                ////更新安装包内数据源地址
-                //UpdateDwgPath(path + major + @"\Palettes\", currentDwgPath);
-
-                ////为系统添加工具选项板路径
-                //AddToolPath(path + major);
             }
             lstCurrent.SelectedIndex = 0;
             lstSource.Items.Clear();
@@ -226,17 +167,6 @@ namespace TianHua.AutoCAD.ThCui
             foreach (var item in lstCurrent.Items)
             {
                 lstSource.Items.Add(item);
-
-                ////获取所选专业
-                //var major = item.ToString();
-                ////安装包数据源地址
-                //var currentDwgPath = new DirectoryInfo(path + major).GetFiles(@"*.dwg").First().FullName;
-
-                ////更新安装包内数据源地址
-                //UpdateDwgPath(path, currentDwgPath);
-
-                ////为系统删除工具选项板路径
-                //DeleteToolPath(path + major);
             }
 
             lstSource.SelectedIndex = 0;
@@ -254,10 +184,7 @@ namespace TianHua.AutoCAD.ThCui
         /// <returns></returns>
         public string GetAppResourcePath()
         {
-            //获取appdata放置插件的路径
-            var bundleName = @"ThCADPlugin.bundle";
-            var destDirName = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\Autodesk\ApplicationPlugins\" + bundleName;
-            return destDirName + @"\Contents\Support\ToolPalette\";
+            return Path.Combine(ThCADCommon.SupportPath(), "ToolPalette");
         }
 
         private void lstSource_SelectedIndexChanged(object sender, EventArgs e)
@@ -286,8 +213,7 @@ namespace TianHua.AutoCAD.ThCui
         private void btnSave_Click(object sender, EventArgs e)
         {
             //获取已有的加载情况，进行比对
-
-            path = GetAppResourcePath();
+            string path = GetAppResourcePath();
             DirectoryInfo root = new DirectoryInfo(path);
 
             //找到原来已经加载的
@@ -304,14 +230,8 @@ namespace TianHua.AutoCAD.ThCui
 
                 foreach (var major in majors)
                 {
-                    //安装包数据源地址
-                    var currentDwgPath = new DirectoryInfo(path + major).GetFiles(@"*.dwg").First().FullName;
-
-                    //更新安装包内数据源地址
-                    UpdateDwgPath(path + major + @"\Palettes\", currentDwgPath);
-
                     //为系统添加工具选项板路径
-                    AddToolPath(path + major);
+                    AddToolPath(Path.Combine(path, major));
                 }
             }
             //否则，对少掉的进行卸载
@@ -321,15 +241,8 @@ namespace TianHua.AutoCAD.ThCui
 
                 foreach (var major in majors)
                 {
-                    //安装包数据源地址
-                    var currentDwgPath = new DirectoryInfo(path + major).GetFiles(@"*.dwg").First().FullName;
-
-                    //更新安装包内数据源地址
-                    UpdateDwgPath(path, currentDwgPath);
-
-                    //MessageBox.Show(path+major);
                     //为系统删除工具选项板路径
-                    DeleteToolPath(path + major);
+                    DeleteToolPath(Path.Combine(path, major));
                 }
             }
 
@@ -337,7 +250,6 @@ namespace TianHua.AutoCAD.ThCui
             btnSave.Enabled = false;
             //更新计数
             UpdateCount();
-            //MessageBox.Show("天华图库已经重新配置，请重启CAD后生效！");
         }
 
         /// <summary>
