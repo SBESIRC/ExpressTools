@@ -1,1 +1,2129 @@
-<Palette FileRevision="18.2.0" Revision="18.2.1" option="0"><ItemID idValue="{51DE532C-26A7-4716-B8F9-475459F1D0A7}"/><Properties><ItemName>自喷系统-天华给排水</ItemName><Images option="0"/><Time createdUniversalDateTime="2019-03-11T10:37:17" modifiedUniversalDateTime="2019-03-11T10:37:17"/></Properties><Source/><Tools><Tool Revision="18.2.1" option="31"><ItemID idValue="{305BD2CE-1664-4436-AD01-CE8E6D95ED3C}"/><Properties><ItemName>信号阀＋水流指示器</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\信号阀＋水流指示器32.PNG"/><Image cx="64" cy="64" src="Images\信号阀＋水流指示器64.PNG"/></Images><Overlay><Images option="0"><Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/></Images></Overlay><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>1</BlockTypeEx><BlockName>信号阀＋水流指示器</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode><ObjectInfo><Objects><Object objectId="140689895043360"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140689895044288"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895044288"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140689895044304"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895044304"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="1" objectId="140689895044320"/><Entry keyName="5" objectId="140689895044336"/><Entry keyName="6" objectId="140689895044352"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895044320"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>50242585</Long></Resbuf><Resbuf restype="1071"><Long>68333042</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>76</Long></Resbuf><Resbuf restype="10"><Point><X>58032.00125227088</X><Y>-11322.37767510855</Y><Z>0</Z></Point></Resbuf><Resbuf restype="10"><Point><X>58634.19428457389</X><Y>-11322.37767510855</Y><Z>0</Z></Point></Resbuf><Resbuf restype="10"><Point><X>0</X><Y>0</Y><Z>-1</Z></Point></Resbuf><Resbuf restype="10"><Point><X>58634.19428457389</X><Y>-11322.37767510855</Y><Z>0</Z></Point></Resbuf></Resbufs></BaseData></ObjectData></Object><Object objectId="140689895044336"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>4195796</Long></Resbuf><Resbuf restype="1071"><Long>5656503</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>76</Long></Resbuf><Resbuf restype="10"><Point><X>58032.00125227088</X><Y>-11322.37767510855</Y><Z>0</Z></Point></Resbuf></Resbufs></BaseData></ObjectData></Object><Object objectId="140689895044352"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>135625452</Long></Resbuf><Resbuf restype="1071"><Long>184556386</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>76</Long></Resbuf><Resbuf restype="10"><Point><X>58394.35283525555</X><Y>-11089.31112870175</Y><Z>0</Z></Point></Resbuf><Resbuf restype="1"><Text><![CDATA[2]]></Text></Resbuf></Resbufs></BaseData></ObjectData></Object></Objects><BlockReference><Object objectId="140689895043328"><AcRxClassInfo className="AcDbBlockReference"/><ObjectData><ExtensionDictionary><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AcDbBlockRepresentation" objectId="140689895043360"/></Entries></Dictionary></ExtensionDictionary></ObjectData></Object></BlockReference></ObjectInfo></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{3F81BD33-842E-4EF4-991A-19DB7BB25E0B}"/><Properties><ItemName>减压孔板</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\减压孔板32.PNG"/><Image cx="64" cy="64" src="Images\减压孔板64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-HYDT-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-HYDT-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>减压孔板</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{25C952EC-36EB-4F1D-8979-754B62B2680D}"/><Properties><ItemName>喷头</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\喷头32.PNG"/><Image cx="64" cy="64" src="Images\喷头64.PNG"/></Images><Overlay><Images option="0"><Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/></Images></Overlay><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>1</BlockTypeEx><BlockName>喷头</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode><ObjectInfo><Objects><Object objectId="140689895043360"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140689895043696"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895043696"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140689895043712"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895043712"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="1" objectId="140689895043728"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895043728"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>135625452</Long></Resbuf><Resbuf restype="1071"><Long>184556386</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="10"><Point><X>208.9515200851311</X><Y>35.29436318798981</Y><Z>0</Z></Point></Resbuf><Resbuf restype="1"><Text><![CDATA[下喷]]></Text></Resbuf></Resbufs></BaseData></ObjectData></Object></Objects><BlockReference><Object objectId="140689895043328"><AcRxClassInfo className="AcDbBlockReference"/><ObjectData><ExtensionDictionary><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AcDbBlockRepresentation" objectId="140689895043360"/></Entries></Dictionary></ExtensionDictionary></ObjectData></Object></BlockReference></ObjectInfo></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{4602032B-96B5-4123-BC91-C866BE96175E}"/><Properties><ItemName>喷头系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\喷头系统32.PNG"/><Image cx="64" cy="64" src="Images\喷头系统64.PNG"/></Images><Overlay><Images option="0"><Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/></Images></Overlay><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>1</BlockTypeEx><BlockName>喷头系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode><ObjectInfo><Objects><Object objectId="140689895543072"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140689895543664"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895543664"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140689895543680"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895543680"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="1" objectId="140689895543696"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895543696"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>135625452</Long></Resbuf><Resbuf restype="1071"><Long>184556386</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>76</Long></Resbuf><Resbuf restype="10"><Point><X>748.7420386023877</X><Y>140.9289916862035</Y><Z>0</Z></Point></Resbuf><Resbuf restype="1"><Text><![CDATA[下喷闭式]]></Text></Resbuf></Resbufs></BaseData></ObjectData></Object></Objects><BlockReference><Object objectId="140689895543040"><AcRxClassInfo className="AcDbBlockReference"/><ObjectData><ExtensionDictionary><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AcDbBlockRepresentation" objectId="140689895543072"/></Entries></Dictionary></ExtensionDictionary></ObjectData></Object></BlockReference></ObjectInfo></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{E4C6F84B-A842-4927-BAC7-783B5DB4B9C7}"/><Properties><ItemName>湿式报警阀平面</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\湿式报警阀平面32.PNG"/><Image cx="64" cy="64" src="Images\湿式报警阀平面64.PNG"/></Images><Overlay><Images option="0"><Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/></Images></Overlay><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>1</BlockTypeEx><BlockName>湿式报警阀平面</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode><ObjectInfo><Objects><Object objectId="140689895043360"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140689895043744"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895043744"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140689895043760"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895043760"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="1" objectId="140689895043776"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895043776"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>135625452</Long></Resbuf><Resbuf restype="1071"><Long>184556386</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>76</Long></Resbuf><Resbuf restype="10"><Point><X>306.7308222388383</X><Y>153.4990326749394</Y><Z>0</Z></Point></Resbuf><Resbuf restype="1"><Text><![CDATA[湿式报警阀]]></Text></Resbuf></Resbufs></BaseData></ObjectData></Object></Objects><BlockReference><Object objectId="140689895043328"><AcRxClassInfo className="AcDbBlockReference"/><ObjectData><ExtensionDictionary><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AcDbBlockRepresentation" objectId="140689895043360"/></Entries></Dictionary></ExtensionDictionary></ObjectData></Object></BlockReference></ObjectInfo></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{1D4E55A7-A97F-4209-A102-0A404DABBF71}"/><Properties><ItemName>湿式报警阀系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\湿式报警阀系统32.PNG"/><Image cx="64" cy="64" src="Images\湿式报警阀系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>湿式报警阀系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{D33D5056-A566-4069-9248-9180A618C7FC}"/><Properties><ItemName>水力警铃</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\水力警铃32.PNG"/><Image cx="64" cy="64" src="Images\水力警铃64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>水力警铃</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{0FB377E8-C127-4FBC-B37D-1097FD923C91}"/><Properties><ItemName>末端试水装置详图</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\末端试水装置详图32.PNG"/><Image cx="64" cy="64" src="Images\末端试水装置详图64.PNG"/></Images><Overlay><Images option="0"><Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/></Images></Overlay><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>1</BlockTypeEx><BlockName>末端试水装置详图</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode><ObjectInfo><Objects><Object objectId="140689895555360"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140689895557328"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895557328"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140689895557344"/><Entry keyName="ACAD_ENHANCEDBLOCKHISTORY" objectId="140689895557408"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895557344"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="11" objectId="140689895557360"/><Entry keyName="12" objectId="140689895557376"/><Entry keyName="7" objectId="140689895557392"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140689895557360"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>6887019</Long></Resbuf><Resbuf restype="1071"><Long>9372877</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="10"><Point><X>73.10088158401781</X><Y>961</Y><Z>0</Z></Point></Resbuf><Resbuf restype="10"><Point><X>73.1008815840173</X><Y>-1917.077491237258</Y><Z>0</Z></Point></Resbuf><Resbuf restype="10"><Point><X>0</X><Y>0</Y><Z>-1</Z></Point></Resbuf><Resbuf restype="70"><Long>0</Long></Resbuf></Resbufs></BaseData></ObjectData></Object><Object objectId="140689895557376"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>575085</Long></Resbuf><Resbuf restype="1071"><Long>763560</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="70"><Long>0</Long></Resbuf><Resbuf restype="70"><Long>0</Long></Resbuf></Resbufs></BaseData></ObjectData></Object><Object objectId="140689895557392"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>135625452</Long></Resbuf><Resbuf restype="1071"><Long>184556386</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="10"><Point><X>-1516.696708406904</X><Y>1726.651447629439</Y><Z>0</Z></Point></Resbuf><Resbuf restype="1"><Text><![CDATA[末端试水装置－上喷式]]></Text></Resbuf></Resbufs></BaseData></ObjectData></Object><Object objectId="140689895557408"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1070"><Long>3</Long></Resbuf><Resbuf restype="1071"><Long>7</Long></Resbuf><Resbuf restype="300"><Text><![CDATA[可见性]]></Text></Resbuf><Resbuf restype="1"><Text><![CDATA[末端试水装置－上喷式]]></Text></Resbuf></Resbufs></BaseData></ObjectData></Object></Objects><BlockReference><Object objectId="140689895555328"><AcRxClassInfo className="AcDbBlockReference"/><ObjectData><ExtensionDictionary><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AcDbBlockRepresentation" objectId="140689895555360"/></Entries></Dictionary></ExtensionDictionary></ObjectData></Object></BlockReference></ObjectInfo></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{0B1D348E-C6B3-4EE0-A6E0-27341164EFF0}"/><Properties><ItemName>末端试水装置平面</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\末端试水装置平面32.PNG"/><Image cx="64" cy="64" src="Images\末端试水装置平面64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>末端试水装置平面</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{2D039609-962F-455F-9D64-8D761661D7C2}"/><Properties><ItemName>自动扫描射水高空水炮灭火装置</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\自动扫描射水高空水炮灭火装置32.PNG"/><Image cx="64" cy="64" src="Images\自动扫描射水高空水炮灭火装置64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>自动扫描射水高空水炮灭火装置</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{81D9DE9A-CB65-452F-875D-FBEF2FD987A7}"/><Properties><ItemName>自动扫描射水高空水炮灭火装置系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\自动扫描射水高空水炮灭火装置系统32.PNG"/><Image cx="64" cy="64" src="Images\自动扫描射水高空水炮灭火装置系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>自动扫描射水高空水炮灭火装置系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>0.8999999999068677</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{1146FE59-B904-49C2-836C-D625A29338FA}"/><Properties><ItemName>大空间智能灭火装置</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\大空间智能灭火装置32.PNG"/><Image cx="64" cy="64" src="Images\大空间智能灭火装置64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>大空间智能灭火装置</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{31DAE512-DAD2-4A6B-9313-1C90E5BBF9F8}"/><Properties><ItemName>大空间智能灭火装置系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\大空间智能灭火装置系统32.PNG"/><Image cx="64" cy="64" src="Images\大空间智能灭火装置系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>大空间智能灭火装置系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{0AEEC209-9BBA-4086-A348-22A4B7B4A338}"/><Properties><ItemName>消防炮</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\消防炮32.PNG"/><Image cx="64" cy="64" src="Images\消防炮64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>消防炮</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>0.7999999998137355</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{E2FF4A3C-EB0C-4913-87F5-FC14C06C4D32}"/><Properties><ItemName>消防炮系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\消防炮系统32.PNG"/><Image cx="64" cy="64" src="Images\消防炮系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>消防炮系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool></Tools></Palette>
+<Palette FileRevision="18.2.0" Revision="18.2.1" option="0">
+    <ItemID idValue="{51DE532C-26A7-4716-B8F9-475459F1D0A7}"/>
+    <Properties>
+        <ItemName>自喷系统-天华给排水</ItemName>
+        <Images option="0"/>
+        <Time createdUniversalDateTime="2019-03-11T10:37:17" modifiedUniversalDateTime="2019-03-11T10:37:17"/>
+    </Properties>
+    <Source/>
+    <Tools>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{305BD2CE-1664-4436-AD01-CE8E6D95ED3C}"/>
+            <Properties>
+                <ItemName>信号阀＋水流指示器</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\信号阀＋水流指示器32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\信号阀＋水流指示器64.PNG"/>
+                </Images>
+                <Overlay>
+                    <Images option="0">
+                        <Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/>
+                    </Images>
+                </Overlay>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>1</BlockTypeEx>
+                    <BlockName>信号阀＋水流指示器</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                    <ObjectInfo>
+                        <Objects>
+                            <Object objectId="140689895043360">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140689895044288"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895044288">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140689895044304"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895044304">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries><Entry keyName="1" objectId="140689895044320"/><Entry keyName="5" objectId="140689895044336"/><Entry keyName="6" objectId="140689895044352"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895044320">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071"><Long>50242585</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071"><Long>68333042</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70"><Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70"><Long>76</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10"><Point><X>58032.00125227088</X><Y>-11322.37767510855</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>58634.19428457389</X><Y>-11322.37767510855</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>0</X><Y>0</Y><Z>-1</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>58634.19428457389</X><Y>-11322.37767510855</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895044336">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>4195796</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>5656503</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>76</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>58032.00125227088</X><Y>-11322.37767510855</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895044352">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>135625452</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>184556386</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>76</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>58394.35283525555</X><Y>-11089.31112870175</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="1">
+                                                <Text><![CDATA[2]]>
+                                                </Text>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                        </Objects>
+                        <BlockReference>
+                            <Object objectId="140689895043328">
+                                <AcRxClassInfo className="AcDbBlockReference"/>
+                                <ObjectData>
+                                    <ExtensionDictionary>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AcDbBlockRepresentation" objectId="140689895043360"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </ExtensionDictionary>
+                                </ObjectData>
+                            </Object>
+                        </BlockReference>
+                    </ObjectInfo>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{3F81BD33-842E-4EF4-991A-19DB7BB25E0B}"/>
+            <Properties>
+                <ItemName>减压孔板</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\减压孔板32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\减压孔板64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-HYDT-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-HYDT-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>减压孔板</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{25C952EC-36EB-4F1D-8979-754B62B2680D}"/>
+            <Properties>
+                <ItemName>喷头</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\喷头32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\喷头64.PNG"/>
+                </Images>
+                <Overlay>
+                    <Images option="0">
+                        <Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/>
+                    </Images>
+                </Overlay>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>1</BlockTypeEx>
+                    <BlockName>喷头</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                    <ObjectInfo>
+                        <Objects>
+                            <Object objectId="140689895043360">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AppDataCache" objectId="140689895043696"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895043696">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140689895043712"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895043712">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="1" objectId="140689895043728"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895043728">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>135625452</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>184556386</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>208.9515200851311</X><Y>35.29436318798981</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="1">
+                                                <Text><![CDATA[下喷]]>
+                                                </Text>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                        </Objects>
+                        <BlockReference>
+                            <Object objectId="140689895043328">
+                                <AcRxClassInfo className="AcDbBlockReference"/>
+                                <ObjectData>
+                                    <ExtensionDictionary>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AcDbBlockRepresentation" objectId="140689895043360"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </ExtensionDictionary>
+                                </ObjectData>
+                            </Object>
+                        </BlockReference>
+                    </ObjectInfo>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{4602032B-96B5-4123-BC91-C866BE96175E}"/>
+            <Properties>
+                <ItemName>喷头系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\喷头系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\喷头系统64.PNG"/>
+                </Images>
+                <Overlay>
+                    <Images option="0">
+                        <Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/>
+                    </Images>
+                </Overlay>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>1</BlockTypeEx>
+                    <BlockName>喷头系统</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                    <ObjectInfo>
+                        <Objects>
+                            <Object objectId="140689895543072">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AppDataCache" objectId="140689895543664"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895543664">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140689895543680"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895543680">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="1" objectId="140689895543696"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895543696">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>135625452</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>184556386</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>76</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>748.7420386023877</X><Y>140.9289916862035</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="1">
+                                                <Text><![CDATA[下喷闭式]]>
+                                                </Text>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                        </Objects>
+                        <BlockReference>
+                            <Object objectId="140689895543040">
+                                <AcRxClassInfo className="AcDbBlockReference"/>
+                                <ObjectData>
+                                    <ExtensionDictionary>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AcDbBlockRepresentation" objectId="140689895543072"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </ExtensionDictionary>
+                                </ObjectData>
+                            </Object>
+                        </BlockReference>
+                    </ObjectInfo>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{E4C6F84B-A842-4927-BAC7-783B5DB4B9C7}"/>
+            <Properties>
+                <ItemName>湿式报警阀平面</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\湿式报警阀平面32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\湿式报警阀平面64.PNG"/>
+                </Images>
+                <Overlay>
+                    <Images option="0">
+                        <Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/>
+                    </Images>
+                </Overlay>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>1</BlockTypeEx>
+                    <BlockName>湿式报警阀平面</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                    <ObjectInfo>
+                        <Objects>
+                            <Object objectId="140689895043360">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AppDataCache" objectId="140689895043744"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895043744">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140689895043760"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895043760">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="1" objectId="140689895043776"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895043776">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>135625452</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>184556386</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>76</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>306.7308222388383</X><Y>153.4990326749394</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="1">
+                                                <Text><![CDATA[湿式报警阀]]>
+                                                </Text>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                        </Objects>
+                        <BlockReference>
+                            <Object objectId="140689895043328">
+                                <AcRxClassInfo className="AcDbBlockReference"/>
+                                <ObjectData>
+                                    <ExtensionDictionary>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AcDbBlockRepresentation" objectId="140689895043360"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </ExtensionDictionary>
+                                </ObjectData>
+                            </Object>
+                        </BlockReference>
+                    </ObjectInfo>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{1D4E55A7-A97F-4209-A102-0A404DABBF71}"/>
+            <Properties>
+                <ItemName>湿式报警阀系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\湿式报警阀系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\湿式报警阀系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>湿式报警阀系统</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{D33D5056-A566-4069-9248-9180A618C7FC}"/>
+            <Properties>
+                <ItemName>水力警铃</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\水力警铃32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\水力警铃64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>水力警铃</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{0FB377E8-C127-4FBC-B37D-1097FD923C91}"/>
+            <Properties>
+                <ItemName>末端试水装置详图</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\末端试水装置详图32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\末端试水装置详图64.PNG"/>
+                </Images>
+                <Overlay>
+                    <Images option="0">
+                        <Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/>
+                    </Images>
+                </Overlay>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>1</BlockTypeEx>
+                    <BlockName>末端试水装置详图</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                    <ObjectInfo>
+                        <Objects>
+                            <Object objectId="140689895555360">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AppDataCache" objectId="140689895557328"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895557328">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140689895557344"/>
+                                                <Entry keyName="ACAD_ENHANCEDBLOCKHISTORY" objectId="140689895557408"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895557344">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="11" objectId="140689895557360"/>
+                                                <Entry keyName="12" objectId="140689895557376"/>
+                                                <Entry keyName="7" objectId="140689895557392"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895557360">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>6887019</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>9372877</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>73.10088158401781</X><Y>961</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>73.1008815840173</X><Y>-1917.077491237258</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>0</X><Y>0</Y><Z>-1</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>0</Long>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895557376">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>575085</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>763560</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>0</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>0</Long>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895557392">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>135625452</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>184556386</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>-1516.696708406904</X><Y>1726.651447629439</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="1">
+                                                <Text><![CDATA[末端试水装置－上喷式]]>
+                                                </Text>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140689895557408">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1070">
+                                                <Long>3</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>7</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="300">
+                                                <Text><![CDATA[可见性]]>
+                                                </Text>
+                                            </Resbuf>
+                                            <Resbuf restype="1">
+                                                <Text><![CDATA[末端试水装置－上喷式]]>
+                                                </Text>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                        </Objects>
+                        <BlockReference>
+                            <Object objectId="140689895555328">
+                                <AcRxClassInfo className="AcDbBlockReference"/>
+                                <ObjectData>
+                                    <ExtensionDictionary>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AcDbBlockRepresentation" objectId="140689895555360"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </ExtensionDictionary>
+                                </ObjectData>
+                            </Object>
+                        </BlockReference>
+                    </ObjectInfo>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{0B1D348E-C6B3-4EE0-A6E0-27341164EFF0}"/>
+            <Properties>
+                <ItemName>末端试水装置平面</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\末端试水装置平面32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\末端试水装置平面64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>末端试水装置平面</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{2D039609-962F-455F-9D64-8D761661D7C2}"/>
+            <Properties>
+                <ItemName>自动扫描射水高空水炮灭火装置</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\自动扫描射水高空水炮灭火装置32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\自动扫描射水高空水炮灭火装置64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>自动扫描射水高空水炮灭火装置</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{81D9DE9A-CB65-452F-875D-FBEF2FD987A7}"/>
+            <Properties>
+                <ItemName>自动扫描射水高空水炮灭火装置系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\自动扫描射水高空水炮灭火装置系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\自动扫描射水高空水炮灭火装置系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>自动扫描射水高空水炮灭火装置系统</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>0.8999999999068677</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{1146FE59-B904-49C2-836C-D625A29338FA}"/>
+            <Properties>
+                <ItemName>大空间智能灭火装置</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\大空间智能灭火装置32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\大空间智能灭火装置64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>大空间智能灭火装置</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{31DAE512-DAD2-4A6B-9313-1C90E5BBF9F8}"/>
+            <Properties>
+                <ItemName>大空间智能灭火装置系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\大空间智能灭火装置系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\大空间智能灭火装置系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>大空间智能灭火装置系统</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{0AEEC209-9BBA-4086-A348-22A4B7B4A338}"/>
+            <Properties>
+                <ItemName>消防炮</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\消防炮32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\消防炮64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>消防炮</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>0.7999999998137355</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{E2FF4A3C-EB0C-4913-87F5-FC14C06C4D32}"/>
+            <Properties>
+                <ItemName>消防炮系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\消防炮系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\消防炮系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-FRPT-SPRL-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-FRPT-SPRL-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>消防炮系统</BlockName>
+                    <SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+    </Tools>
+</Palette>
