@@ -1,1 +1,1283 @@
-<Palette FileRevision="18.2.0" Revision="18.2.1" option="0"><ItemID idValue="{936269BD-EDEF-48B0-9C9F-C7B85A8465B8}"/><Properties><ItemName>立管及编号-天华给排水</ItemName><Images option="0"/><Time createdUniversalDateTime="2019-03-11T09:37:35" modifiedUniversalDateTime="2019-03-11T09:37:35"/></Properties><Source/><Tools><Tool Revision="18.2.1" option="31"><ItemID idValue="{FABC0275-7EB6-4563-98B1-D4C5E9E29C2C}"/><Properties><ItemName>立管及编号</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\立管及编号32.PNG"/><Image cx="64" cy="64" src="Images\立管及编号64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-11T17:43:29"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-DRAI-NOTE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-DRAI-NOTE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557170"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>立管及编号</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{E15912A2-367E-4DB7-9DD2-2E88B92A496A}"/><Properties><ItemName>生活给水</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\生活给水32.PNG"/><Image cx="64" cy="64" src="Images\生活给水64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-WSUP-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-WSUP-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557160"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>生活给水</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{1EB16931-F536-4AC5-B51B-D93A671B118B}"/><Properties><ItemName>排水系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\排水系统32.PNG"/><Image cx="64" cy="64" src="Images\排水系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-RAIN-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-RAIN-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557180"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>排水系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{D3E508F6-2854-461B-BA3E-F34896CE4BB4}"/><Properties><ItemName>消防系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\消防系统32.PNG"/><Image cx="64" cy="64" src="Images\消防系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-NOTE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-NOTE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557160"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>消防系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{049FF654-464A-489A-89C8-B6CC4E1BA52E}"/><Properties><ItemName>中水、冷却水</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\中水、冷却水32.PNG"/><Image cx="64" cy="64" src="Images\中水、冷却水64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-NOTE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-NOTE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557160"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>中水、冷却水</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{69468692-24F2-46BB-AC31-EFF182676DF4}"/><Properties><ItemName>饮用水系统</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\饮用水系统32.PNG"/><Image cx="64" cy="64" src="Images\饮用水系统64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-DRIN-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-DRIN-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557330"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>饮用水系统</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{4C038EBC-94FA-4C31-8DB2-24A70F3B1507}"/><Properties><ItemName>提资引用图层</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\提资引用图层32.PNG"/><Image cx="64" cy="64" src="Images\提资引用图层64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-BUSH"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-BUSH</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557351"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>提资引用图层</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{2851F68D-3FDB-4C4E-9121-3B3180C6EB69}"/><Properties><ItemName>图框说明</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\图框说明32.PNG"/><Image cx="64" cy="64" src="Images\图框说明64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-NOTE"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-NOTE</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557160"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>图框说明</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{61966E48-09C0-4F97-B3EA-A38D6A959ECA}"/><Properties><ItemName>套管留洞</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\套管留洞32.PNG"/><Image cx="64" cy="64" src="Images\套管留洞64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="0"/></BasicPropInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>套管留洞</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{CC42704F-0E5B-49B5-B06B-7FF75C624360}"/><Properties><ItemName>管道与钢套管、防水套管尺寸对照表</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\管道与钢套管、防水套管尺寸对照表32.PNG"/><Image cx="64" cy="64" src="Images\管道与钢套管、防水套管尺寸对照表64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-DRIN-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-DRIN-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557330"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>管道与钢套管、防水套管尺寸对照表</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>0.6</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{3B604B85-DCEF-4D58-A23B-72B1BD40CC66}"/><Properties><ItemName>人防管道与钢套管、防水套管尺寸对照表</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\人防管道与钢套管、防水套管尺寸对照表32.PNG"/><Image cx="64" cy="64" src="Images\人防管道与钢套管、防水套管尺寸对照表64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-DRIN-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-DRIN-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557330"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>人防管道与钢套管、防水套管尺寸对照表</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>0.6</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{B2357839-4229-4C56-B4D0-549FC886C62C}"/><Properties><ItemName>自喷管径对照表（国标）</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\自喷管径对照表（国标）32.PNG"/><Image cx="64" cy="64" src="Images\自喷管径对照表（国标）64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-DRIN-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-DRIN-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557330"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>自喷管径对照表（国标）</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>0.64</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{43D506B9-D117-4221-B039-2A64DB15BAFF}"/><Properties><ItemName>二星级绿色住宅建筑设计专篇(给排水）</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\二星级绿色住宅建筑设计专篇(给排水）32.PNG"/><Image cx="64" cy="64" src="Images\二星级绿色住宅建筑设计专篇(给排水）64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="W-DRIN-EQPM"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>W-DRIN-EQPM</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557330"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>二星级绿色住宅建筑设计专篇(给排水）</BlockName><SourceFile>E:\天华CAD插件测试版4\Data\天华图块集\给排水\111.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool></Tools></Palette>
+<Palette FileRevision="18.2.0" Revision="18.2.1" option="0">
+    <ItemID idValue="{936269BD-EDEF-48B0-9C9F-C7B85A8465B8}"/>
+    <Properties>
+        <ItemName>立管及编号-天华给排水</ItemName>
+        <Images option="0"/>
+        <Time createdUniversalDateTime="2019-03-11T09:37:35" modifiedUniversalDateTime="2019-03-11T09:37:35"/>
+    </Properties>
+    <Source/>
+    <Tools>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{FABC0275-7EB6-4563-98B1-D4C5E9E29C2C}"/>
+            <Properties>
+                <ItemName>立管及编号</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\立管及编号32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\立管及编号64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-11T17:43:29"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-DRAI-NOTE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-DRAI-NOTE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557170"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>立管及编号</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{E15912A2-367E-4DB7-9DD2-2E88B92A496A}"/>
+            <Properties>
+                <ItemName>生活给水</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\生活给水32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\生活给水64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-WSUP-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-WSUP-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557160"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>生活给水</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{1EB16931-F536-4AC5-B51B-D93A671B118B}"/>
+            <Properties>
+                <ItemName>排水系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\排水系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\排水系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-RAIN-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-RAIN-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557180"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>排水系统</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{D3E508F6-2854-461B-BA3E-F34896CE4BB4}"/>
+            <Properties>
+                <ItemName>消防系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\消防系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\消防系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-NOTE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-NOTE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557160"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>消防系统</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{049FF654-464A-489A-89C8-B6CC4E1BA52E}"/>
+            <Properties>
+                <ItemName>中水、冷却水</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\中水、冷却水32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\中水、冷却水64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-NOTE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-NOTE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557160"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>中水、冷却水</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{69468692-24F2-46BB-AC31-EFF182676DF4}"/>
+            <Properties>
+                <ItemName>饮用水系统</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\饮用水系统32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\饮用水系统64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-DRIN-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-DRIN-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557330"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>饮用水系统</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{4C038EBC-94FA-4C31-8DB2-24A70F3B1507}"/>
+            <Properties>
+                <ItemName>提资引用图层</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\提资引用图层32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\提资引用图层64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-BUSH"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-BUSH</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557351"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>提资引用图层</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{2851F68D-3FDB-4C4E-9121-3B3180C6EB69}"/>
+            <Properties>
+                <ItemName>图框说明</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\图框说明32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\图框说明64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-NOTE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-NOTE</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557160"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>图框说明</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{61966E48-09C0-4F97-B3EA-A38D6A959ECA}"/>
+            <Properties>
+                <ItemName>套管留洞</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\套管留洞32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\套管留洞64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="0"/>
+                        </BasicPropInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>套管留洞</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{CC42704F-0E5B-49B5-B06B-7FF75C624360}"/>
+            <Properties>
+                <ItemName>管道与钢套管、防水套管尺寸对照表</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\管道与钢套管、防水套管尺寸对照表32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\管道与钢套管、防水套管尺寸对照表64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-DRIN-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-DRIN-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557330"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>管道与钢套管、防水套管尺寸对照表</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>0.6</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{3B604B85-DCEF-4D58-A23B-72B1BD40CC66}"/>
+            <Properties>
+                <ItemName>人防管道与钢套管、防水套管尺寸对照表</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\人防管道与钢套管、防水套管尺寸对照表32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\人防管道与钢套管、防水套管尺寸对照表64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-DRIN-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-DRIN-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557330"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>人防管道与钢套管、防水套管尺寸对照表</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>0.6</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{B2357839-4229-4C56-B4D0-549FC886C62C}"/>
+            <Properties>
+                <ItemName>自喷管径对照表（国标）</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\自喷管径对照表（国标）32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\自喷管径对照表（国标）64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-DRIN-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-DRIN-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557330"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>自喷管径对照表（国标）</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>0.64</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{43D506B9-D117-4221-B039-2A64DB15BAFF}"/>
+            <Properties>
+                <ItemName>二星级绿色住宅建筑设计专篇(给排水）</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\二星级绿色住宅建筑设计专篇(给排水）32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\二星级绿色住宅建筑设计专篇(给排水）64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T03:40:55" modifiedUniversalDateTime="2019-03-06T03:40:55"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="W-DRIN-EQPM"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>W-DRIN-EQPM</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557330"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>二星级绿色住宅建筑设计专篇(给排水）</BlockName>
+                    <SourceFile>给排水模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+    </Tools>
+</Palette>

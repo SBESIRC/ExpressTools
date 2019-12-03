@@ -1,1 +1,1580 @@
-<Palette FileRevision="18.2.0" Revision="18.2.1" option="0"><ItemID idValue="{3FE6C548-A3CC-44BF-841E-CBD24ABF63E0}"/><Properties><ItemName>人防设备-天华暖通</ItemName><Images option="0"/><Time createdUniversalDateTime="2019-03-07T03:29:26" modifiedUniversalDateTime="2019-03-11T15:19:48"/></Properties><Source/><Tools><Tool Revision="18.2.1" option="31"><ItemID idValue="{071D4B01-561C-4F57-BC24-1A30450DA054}"/><Properties><ItemName>DJF-1(P)</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\DJF-1(P)32.PNG"/><Image cx="64" cy="64" src="Images\DJF-1(P)64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>DJF-1(P)</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{0FAEB0C3-9D5E-46DF-8A66-6878432F6F4A}"/><Properties><ItemName>DJF-1(剖面)</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\DJF-1(剖面)32.PNG"/><Image cx="64" cy="64" src="Images\DJF-1(剖面)64.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>DJF-1(剖面)</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{5168AC29-BBCA-4050-92E9-18DD53935CC8}"/><Properties><ItemName>RFP型1000</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\RFP型100032.PNG"/><Image cx="64" cy="64" src="Images\RFP型100064.PNG"/></Images><Overlay><Images option="0"><Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/></Images></Overlay><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>1</BlockTypeEx><BlockName>RFP型1000</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode><ObjectInfo><Objects><Object objectId="140686348218704"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140686348221216"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348221216"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140686348221232"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348221232"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="5" objectId="140686348221248"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348221248"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>135625452</Long></Resbuf><Resbuf restype="1071"><Long>184556386</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="10"><Point><X>0</X><Y>0</Y><Z>0</Z></Point></Resbuf><Resbuf restype="1"><Text><![CDATA[平面]]></Text></Resbuf></Resbufs></BaseData></ObjectData></Object></Objects><BlockReference><Object objectId="140686348218672"><AcRxClassInfo className="AcDbBlockReference"/><ObjectData><ExtensionDictionary><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AcDbBlockRepresentation" objectId="140686348218704"/></Entries></Dictionary></ExtensionDictionary></ObjectData></Object></BlockReference></ObjectInfo></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{EBCC2493-C7D2-4C08-BBA8-6F295A3364AC}"/><Properties><ItemName>LWP型油网滤尘器(管式)</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\LWP型油网滤尘器(管式)32.PNG"/><Image cx="64" cy="64" src="Images\LWP型油网滤尘器(管式)64.PNG"/></Images><Overlay><Images option="0"><Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/></Images></Overlay><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>1</BlockTypeEx><BlockName>LWP型油网滤尘器(管式)</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode><ObjectInfo><Objects><Object objectId="140686348226896"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140686348227968"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348227968"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140686348227984"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348227984"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="1" objectId="140686348228000"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348228000"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>135625452</Long></Resbuf><Resbuf restype="1071"><Long>184556386</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="10"><Point><X>0</X><Y>0</Y><Z>0</Z></Point></Resbuf><Resbuf restype="1"><Text><![CDATA[平面、立面]]></Text></Resbuf></Resbufs></BaseData></ObjectData></Object></Objects><BlockReference><Object objectId="140686348226864"><AcRxClassInfo className="AcDbBlockReference"/><ObjectData><ExtensionDictionary><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AcDbBlockRepresentation" objectId="140686348226896"/></Entries></Dictionary></ExtensionDictionary></ObjectData></Object></BlockReference></ObjectInfo></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{B3D371FB-0C51-484C-9650-99343D1E1D1C}"/><Properties><ItemName>LWP-大于4片</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\LWP-大于4片32.PNG"/><Image cx="64" cy="64" src="Images\LWP-大于4片64.PNG"/></Images><Overlay><Images option="0"><Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/></Images></Overlay><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>1</BlockTypeEx><BlockName>LWP-大于4片</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode><ObjectInfo><Objects><Object objectId="140686348218704"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140686348219264"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348219264"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140686348219280"/><Entry keyName="ACAD_ENHANCEDBLOCKHDATA" objectId="140686348219328"/><Entry keyName="ACAD_ENHANCEDBLOCKHISTORY" objectId="140686348219344"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348219280"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="11" objectId="140686348219296"/><Entry keyName="2" objectId="140686348219312"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348219296"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>135625452</Long></Resbuf><Resbuf restype="1071"><Long>184556386</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="10"><Point><X>0</X><Y>0</Y><Z>0</Z></Point></Resbuf><Resbuf restype="1"><Text><![CDATA[平面]]></Text></Resbuf></Resbufs></BaseData></ObjectData></Object><Object objectId="140686348219312"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>18597260</Long></Resbuf><Resbuf restype="1071"><Long>25303744</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="10"><Point><X>265</X><Y>0</Y><Z>0</Z></Point></Resbuf><Resbuf restype="10"><Point><X>265</X><Y>1530</Y><Z>0</Z></Point></Resbuf><Resbuf restype="10"><Point><X>0</X><Y>0</Y><Z>-1</Z></Point></Resbuf></Resbufs></BaseData></ObjectData></Object><Object objectId="140686348219328"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="FALSE"/></BaseData></ObjectData></Object><Object objectId="140686348219344"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1070"><Long>3</Long></Resbuf><Resbuf restype="1071"><Long>3</Long></Resbuf><Resbuf restype="300"><Text><![CDATA[GRIPLOC]]></Text></Resbuf><Resbuf restype="11"><Point><X>0</X><Y>1020</Y><Z>0</Z></Point></Resbuf><Resbuf restype="1071"><Long>11</Long></Resbuf><Resbuf restype="300"><Text><![CDATA[可见性1]]></Text></Resbuf><Resbuf restype="1"><Text><![CDATA[平面]]></Text></Resbuf></Resbufs></BaseData></ObjectData></Object></Objects><BlockReference><Object objectId="140686348218672"><AcRxClassInfo className="AcDbBlockReference"/><ObjectData><ExtensionDictionary><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AcDbBlockRepresentation" objectId="140686348218704"/></Entries></Dictionary></ExtensionDictionary></ObjectData></Object></BlockReference></ObjectInfo></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{6582B283-ACCF-45E4-B00B-2C1C34ACB889}"/><Properties><ItemName>PS-D250</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\PS-D25032.PNG"/><Image cx="64" cy="64" src="Images\PS-D25064.PNG"/></Images><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>0</BlockTypeEx><BlockName>PS-D250</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{DC805B22-651F-408F-AF15-FC1D5EE3A71C}"/><Properties><ItemName>人防手动密闭阀</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\人防手动密闭阀32.PNG"/><Image cx="64" cy="64" src="Images\人防手动密闭阀64.PNG"/></Images><Overlay><Images option="0"><Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/></Images></Overlay><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>1</BlockTypeEx><BlockName>人防手动密闭阀</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode><ObjectInfo><Objects><Object objectId="140686348218704"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140686348219152"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348219152"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140686348219168"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348219168"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="1" objectId="140686348219184"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348219184"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>135625452</Long></Resbuf><Resbuf restype="1071"><Long>184556386</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="10"><Point><X>0</X><Y>0</Y><Z>0</Z></Point></Resbuf><Resbuf restype="1"><Text><![CDATA[D441]]></Text></Resbuf></Resbufs></BaseData></ObjectData></Object></Objects><BlockReference><Object objectId="140686348218672"><AcRxClassInfo className="AcDbBlockReference"/><ObjectData><ExtensionDictionary><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AcDbBlockRepresentation" objectId="140686348218704"/></Entries></Dictionary></ExtensionDictionary></ObjectData></Object></BlockReference></ObjectInfo></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{8BDED298-02AF-47F5-9F52-CE17276CC164}"/><Properties><ItemName>人防插板阀</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\人防插板阀32.PNG"/><Image cx="64" cy="64" src="Images\人防插板阀64.PNG"/></Images><Overlay><Images option="0"><Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/></Images></Overlay><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>1</BlockTypeEx><BlockName>人防插板阀</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode><ObjectInfo><Objects><Object objectId="140686348226896"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140686348227312"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348227312"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140686348227328"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348227328"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="12" objectId="140686348227344"/><Entry keyName="19" objectId="140686348227360"/><Entry keyName="20" objectId="140686348227376"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348227344"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>18597260</Long></Resbuf><Resbuf restype="1071"><Long>25303744</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="10"><Point><X>0</X><Y>220.5</Y><Z>0</Z></Point></Resbuf><Resbuf restype="10"><Point><X>0</X><Y>-300.121720590847</Y><Z>0</Z></Point></Resbuf><Resbuf restype="10"><Point><X>0</X><Y>0</Y><Z>-1</Z></Point></Resbuf></Resbufs></BaseData></ObjectData></Object><Object objectId="140686348227360"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>6895636</Long></Resbuf><Resbuf restype="1071"><Long>9291323</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="40"><Real>0</Real></Resbuf></Resbufs></BaseData></ObjectData></Object><Object objectId="140686348227376"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>6895636</Long></Resbuf><Resbuf restype="1071"><Long>9291323</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="40"><Real>0</Real></Resbuf></Resbufs></BaseData></ObjectData></Object></Objects><BlockReference><Object objectId="140686348226864"><AcRxClassInfo className="AcDbBlockReference"/><ObjectData><ExtensionDictionary><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AcDbBlockRepresentation" objectId="140686348226896"/></Entries></Dictionary></ExtensionDictionary></ObjectData></Object></BlockReference></ObjectInfo></Block></Data></Tool><Tool Revision="18.2.1" option="31"><ItemID idValue="{BBC8FCF0-8D47-4D58-9DA3-02BB7C9C60FF}"/><Properties><ItemName>人防风量调节阀</ItemName><Images option="0"><Image cx="32" cy="32" src="Images\人防风量调节阀32.PNG"/><Image cx="64" cy="64" src="Images\人防风量调节阀64.PNG"/></Images><Overlay><Images option="0"><Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/></Images></Overlay><Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/></Properties><Source/><ToolType>1</ToolType><StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/><Data><GeneralProperties><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3221225472"/></CreateInfo></Color><Layer><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/></BasicPropInfo><CreateInfo><LayerTableRecord isNotPlotted="FALSE" lineWeight="-3"><SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/></BasicPropInfo></Linetype><Color><BasicPropInfo><PropValue unspecified="FALSE"/></BasicPropInfo><CreateInfo><AcCmColor mRGB="3271557124"/></CreateInfo></Color></LayerTableRecord></CreateInfo></Layer><Linetype><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Linetype><LinetypeScale><BasicPropInfo><PropValue unspecified="FALSE" valueType="3" value="1"/></BasicPropInfo></LinetypeScale><PlotStyle><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></PlotStyle><LineWeight><BasicPropInfo><PropValue unspecified="FALSE" valueType="2" value="-1"/></BasicPropInfo></LineWeight><Transparency><BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="ByLayer"/></BasicPropInfo></Transparency><Textstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Textstyle><Dimstyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Dimstyle><Tablestyle><BasicPropInfo><PropValue unspecified="TRUE" valueType="1"/></BasicPropInfo></Tablestyle></GeneralProperties><Block><BlockType>1</BlockType><BlockTypeEx>1</BlockTypeEx><BlockName>人防风量调节阀</BlockName><SourceFile>D:\XiAnTianHua\XiAnTianHua\StartUp\Data\天华图块集\暖通\天华图例.dwg</SourceFile><InsertAs>1</InsertAs><XrefType>0</XrefType><Scale>1</Scale><AuxiliaryScale>NONE</AuxiliaryScale><Rotation>0</Rotation><PromptRotation>0</PromptRotation><Explode>0</Explode><ObjectInfo><Objects><Object objectId="140686348218704"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140686348219248"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348219248"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140686348219264"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348219264"><AcRxClassInfo className="AcDbDictionary"/><ObjectData><BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="1" objectId="140686348219280"/></Entries></Dictionary></BaseData></ObjectData></Object><Object objectId="140686348219280"><AcRxClassInfo className="AcDbXrecord"/><ObjectData><BaseData><Xrecord mergeStyle="1"/><Resbufs><Resbuf restype="1071"><Long>135625452</Long></Resbuf><Resbuf restype="1071"><Long>184556386</Long></Resbuf><Resbuf restype="70"><Long>25</Long></Resbuf><Resbuf restype="70"><Long>104</Long></Resbuf><Resbuf restype="10"><Point><X>0</X><Y>0</Y><Z>0</Z></Point></Resbuf><Resbuf restype="1"><Text><![CDATA[D441]]></Text></Resbuf></Resbufs></BaseData></ObjectData></Object></Objects><BlockReference><Object objectId="140686348218672"><AcRxClassInfo className="AcDbBlockReference"/><ObjectData><ExtensionDictionary><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AcDbBlockRepresentation" objectId="140686348218704"/></Entries></Dictionary></ExtensionDictionary></ObjectData></Object></BlockReference></ObjectInfo></Block></Data></Tool></Tools></Palette>
+<Palette FileRevision="18.2.0" Revision="18.2.1" option="0">
+    <ItemID idValue="{3FE6C548-A3CC-44BF-841E-CBD24ABF63E0}"/>
+    <Properties>
+        <ItemName>人防设备-天华暖通</ItemName>
+        <Images option="0"/>
+        <Time createdUniversalDateTime="2019-03-07T03:29:26" modifiedUniversalDateTime="2019-03-11T15:19:48"/>
+    </Properties>
+    <Source/>
+    <Tools>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{071D4B01-561C-4F57-BC24-1A30450DA054}"/>
+            <Properties>
+                <ItemName>DJF-1(P)</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\DJF-1(P)32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\DJF-1(P)64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>DJF-1(P)</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{0FAEB0C3-9D5E-46DF-8A66-6878432F6F4A}"/>
+            <Properties>
+                <ItemName>DJF-1(剖面)</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\DJF-1(剖面)32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\DJF-1(剖面)64.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>DJF-1(剖面)</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{5168AC29-BBCA-4050-92E9-18DD53935CC8}"/>
+            <Properties>
+                <ItemName>RFP型1000</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\RFP型100032.PNG"/>
+                    <Image cx="64" cy="64" src="Images\RFP型100064.PNG"/>
+                </Images>
+                <Overlay>
+                    <Images option="0">
+                        <Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/>
+                    </Images>
+                </Overlay>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo><PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo><PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo><AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>1</BlockTypeEx>
+                    <BlockName>RFP型1000</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                    <ObjectInfo>
+                        <Objects>
+                            <Object objectId="140686348218704">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData><Dictionary treatElementsAsHard="TRUE"><Entries><Entry keyName="AppDataCache" objectId="140686348221216"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348221216">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries><Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140686348221232"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348221232">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries><Entry keyName="5" objectId="140686348221248"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348221248">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071"><Long>135625452</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071"><Long>184556386</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70"><Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70"><Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10"><Point><X>0</X><Y>0</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="1">
+                                                <Text><![CDATA[平面]]>
+                                                </Text>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                        </Objects>
+                        <BlockReference>
+                            <Object objectId="140686348218672">
+                                <AcRxClassInfo className="AcDbBlockReference"/>
+                                <ObjectData>
+                                    <ExtensionDictionary>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AcDbBlockRepresentation" objectId="140686348218704"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </ExtensionDictionary>
+                                </ObjectData>
+                            </Object>
+                        </BlockReference>
+                    </ObjectInfo>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{EBCC2493-C7D2-4C08-BBA8-6F295A3364AC}"/>
+            <Properties>
+                <ItemName>LWP型油网滤尘器(管式)</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\LWP型油网滤尘器(管式)32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\LWP型油网滤尘器(管式)64.PNG"/>
+                </Images>
+                <Overlay>
+                    <Images option="0">
+                        <Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/>
+                    </Images>
+                </Overlay>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>1</BlockTypeEx>
+                    <BlockName>LWP型油网滤尘器(管式)</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                    <ObjectInfo>
+                        <Objects>
+                            <Object objectId="140686348226896">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AppDataCache" objectId="140686348227968"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348227968">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140686348227984"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348227984">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="1" objectId="140686348228000"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348228000">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>135625452</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>184556386</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>0</X><Y>0</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="1">
+                                                <Text><![CDATA[平面、立面]]>
+                                                </Text>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                        </Objects>
+                        <BlockReference>
+                            <Object objectId="140686348226864">
+                                <AcRxClassInfo className="AcDbBlockReference"/>
+                                <ObjectData>
+                                    <ExtensionDictionary>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AcDbBlockRepresentation" objectId="140686348226896"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </ExtensionDictionary>
+                                </ObjectData>
+                            </Object>
+                        </BlockReference>
+                    </ObjectInfo>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{B3D371FB-0C51-484C-9650-99343D1E1D1C}"/>
+            <Properties>
+                <ItemName>LWP-大于4片</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\LWP-大于4片32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\LWP-大于4片64.PNG"/>
+                </Images>
+                <Overlay>
+                    <Images option="0">
+                        <Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/>
+                    </Images>
+                </Overlay>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>1</BlockTypeEx>
+                    <BlockName>LWP-大于4片</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                    <ObjectInfo>
+                        <Objects>
+                            <Object objectId="140686348218704">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AppDataCache" objectId="140686348219264"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348219264">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140686348219280"/>
+                                                <Entry keyName="ACAD_ENHANCEDBLOCKHDATA" objectId="140686348219328"/>
+                                                <Entry keyName="ACAD_ENHANCEDBLOCKHISTORY" objectId="140686348219344"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348219280">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="11" objectId="140686348219296"/>
+                                                <Entry keyName="2" objectId="140686348219312"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348219296">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>135625452</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>184556386</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>0</X><Y>0</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="1">
+                                                <Text><![CDATA[平面]]>
+                                                </Text>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348219312">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>18597260</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>25303744</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>265</X><Y>0</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>265</X><Y>1530</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>0</X><Y>0</Y><Z>-1</Z>
+                                                </Point>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348219328">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="FALSE"/>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348219344">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1070">
+                                                <Long>3</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>3</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="300">
+                                                <Text><![CDATA[GRIPLOC]]>
+                                                </Text>
+                                            </Resbuf>
+                                            <Resbuf restype="11">
+                                                <Point><X>0</X><Y>1020</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>11</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="300">
+                                                <Text><![CDATA[可见性1]]>
+                                                </Text>
+                                            </Resbuf>
+                                            <Resbuf restype="1">
+                                                <Text><![CDATA[平面]]>
+                                                </Text>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                        </Objects>
+                        <BlockReference>
+                            <Object objectId="140686348218672">
+                                <AcRxClassInfo className="AcDbBlockReference"/>
+                                <ObjectData>
+                                    <ExtensionDictionary>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AcDbBlockRepresentation" objectId="140686348218704"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </ExtensionDictionary>
+                                </ObjectData>
+                            </Object>
+                        </BlockReference>
+                    </ObjectInfo>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{6582B283-ACCF-45E4-B00B-2C1C34ACB889}"/>
+            <Properties>
+                <ItemName>PS-D250</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\PS-D25032.PNG"/>
+                    <Image cx="64" cy="64" src="Images\PS-D25064.PNG"/>
+                </Images>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>0</BlockTypeEx>
+                    <BlockName>PS-D250</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{DC805B22-651F-408F-AF15-FC1D5EE3A71C}"/>
+            <Properties>
+                <ItemName>人防手动密闭阀</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\人防手动密闭阀32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\人防手动密闭阀64.PNG"/>
+                </Images>
+                <Overlay>
+                    <Images option="0">
+                        <Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/>
+                    </Images>
+                </Overlay>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>1</BlockTypeEx>
+                    <BlockName>人防手动密闭阀</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                    <ObjectInfo>
+                        <Objects>
+                            <Object objectId="140686348218704">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AppDataCache" objectId="140686348219152"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348219152">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140686348219168"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348219168">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="1" objectId="140686348219184"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348219184">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>135625452</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>184556386</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>0</X><Y>0</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="1">
+                                                <Text><![CDATA[D441]]>
+                                                </Text>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                        </Objects>
+                        <BlockReference>
+                            <Object objectId="140686348218672">
+                                <AcRxClassInfo className="AcDbBlockReference"/>
+                                <ObjectData>
+                                    <ExtensionDictionary>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AcDbBlockRepresentation" objectId="140686348218704"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </ExtensionDictionary>
+                                </ObjectData>
+                            </Object>
+                        </BlockReference>
+                    </ObjectInfo>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{8BDED298-02AF-47F5-9F52-CE17276CC164}"/>
+            <Properties>
+                <ItemName>人防插板阀</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\人防插板阀32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\人防插板阀64.PNG"/>
+                </Images>
+                <Overlay>
+                    <Images option="0">
+                        <Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/>
+                    </Images>
+                </Overlay>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>1</BlockTypeEx>
+                    <BlockName>人防插板阀</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                    <ObjectInfo>
+                        <Objects>
+                            <Object objectId="140686348226896">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AppDataCache" objectId="140686348227312"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348227312">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140686348227328"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348227328">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="12" objectId="140686348227344"/>
+                                                <Entry keyName="19" objectId="140686348227360"/>
+                                                <Entry keyName="20" objectId="140686348227376"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348227344">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>18597260</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>25303744</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>0</X><Y>220.5</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>0</X><Y>-300.121720590847</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>0</X><Y>0</Y><Z>-1</Z>
+                                                </Point>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348227360">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>6895636</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>9291323</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="40">
+                                                <Real>0</Real>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348227376">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>6895636</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>9291323</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="40">
+                                                <Real>0</Real>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                        </Objects>
+                        <BlockReference>
+                            <Object objectId="140686348226864">
+                                <AcRxClassInfo className="AcDbBlockReference"/>
+                                <ObjectData>
+                                    <ExtensionDictionary>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AcDbBlockRepresentation" objectId="140686348226896"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </ExtensionDictionary>
+                                </ObjectData>
+                            </Object>
+                        </BlockReference>
+                    </ObjectInfo>
+                </Block>
+            </Data>
+        </Tool>
+        <Tool Revision="18.2.1" option="31">
+            <ItemID idValue="{BBC8FCF0-8D47-4D58-9DA3-02BB7C9C60FF}"/>
+            <Properties>
+                <ItemName>人防风量调节阀</ItemName>
+                <Images option="0">
+                    <Image cx="32" cy="32" src="Images\人防风量调节阀32.PNG"/>
+                    <Image cx="64" cy="64" src="Images\人防风量调节阀64.PNG"/>
+                </Images>
+                <Overlay>
+                    <Images option="0">
+                        <Image cx="16" cy="16" resource="IDB_DYNAMIC_BLOCK" src="AcTcToolsRes.dll"/>
+                    </Images>
+                </Overlay>
+                <Time createdUniversalDateTime="2019-03-06T02:54:22" modifiedUniversalDateTime="2019-03-06T02:54:22"/>
+            </Properties>
+            <Source/>
+            <ToolType>1</ToolType>
+            <StockToolRef idValue="{C9AB9290-FC5A-458B-AEB4-BDF9BE6A5E55}"/>
+            <Data>
+                <GeneralProperties>
+                    <Color>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <AcCmColor mRGB="3221225472"/>
+                        </CreateInfo>
+                    </Color>
+                    <Layer>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="H-DUAL-FBOX"/>
+                        </BasicPropInfo>
+                        <CreateInfo>
+                            <LayerTableRecord isNotPlotted="FALSE" lineWeight="-3">
+                                <SymbolTableNameRecord>H-DUAL-FBOX</SymbolTableNameRecord>
+                                <Linetype>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE" valueType="1" value="Continuous"/>
+                                    </BasicPropInfo>
+                                </Linetype>
+                                <Color>
+                                    <BasicPropInfo>
+                                        <PropValue unspecified="FALSE"/>
+                                    </BasicPropInfo>
+                                    <CreateInfo>
+                                        <AcCmColor mRGB="3271557124"/>
+                                    </CreateInfo>
+                                </Color>
+                            </LayerTableRecord>
+                        </CreateInfo>
+                    </Layer>
+                    <Linetype>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Linetype>
+                    <LinetypeScale>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="3" value="1"/>
+                        </BasicPropInfo>
+                    </LinetypeScale>
+                    <PlotStyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </PlotStyle>
+                    <LineWeight>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="2" value="-1"/>
+                        </BasicPropInfo>
+                    </LineWeight>
+                    <Transparency>
+                        <BasicPropInfo>
+                            <PropValue unspecified="FALSE" valueType="1" value="ByLayer"/>
+                        </BasicPropInfo>
+                    </Transparency>
+                    <Textstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Textstyle>
+                    <Dimstyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Dimstyle>
+                    <Tablestyle>
+                        <BasicPropInfo>
+                            <PropValue unspecified="TRUE" valueType="1"/>
+                        </BasicPropInfo>
+                    </Tablestyle>
+                </GeneralProperties>
+                <Block>
+                    <BlockType>1</BlockType>
+                    <BlockTypeEx>1</BlockTypeEx>
+                    <BlockName>人防风量调节阀</BlockName>
+                    <SourceFile>暖通模块.dwg</SourceFile>
+                    <InsertAs>1</InsertAs>
+                    <XrefType>0</XrefType>
+                    <Scale>1</Scale>
+                    <AuxiliaryScale>NONE</AuxiliaryScale>
+                    <Rotation>0</Rotation>
+                    <PromptRotation>0</PromptRotation>
+                    <Explode>0</Explode>
+                    <ObjectInfo>
+                        <Objects>
+                            <Object objectId="140686348218704">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AppDataCache" objectId="140686348219248"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348219248">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="ACAD_ENHANCEDBLOCKDATA" objectId="140686348219264"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348219264">
+                                <AcRxClassInfo className="AcDbDictionary"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="1" objectId="140686348219280"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                            <Object objectId="140686348219280">
+                                <AcRxClassInfo className="AcDbXrecord"/>
+                                <ObjectData>
+                                    <BaseData>
+                                        <Xrecord mergeStyle="1"/>
+                                        <Resbufs>
+                                            <Resbuf restype="1071">
+                                                <Long>135625452</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="1071">
+                                                <Long>184556386</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>25</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="70">
+                                                <Long>104</Long>
+                                            </Resbuf>
+                                            <Resbuf restype="10">
+                                                <Point><X>0</X><Y>0</Y><Z>0</Z>
+                                                </Point>
+                                            </Resbuf>
+                                            <Resbuf restype="1">
+                                                <Text><![CDATA[D441]]>
+                                                </Text>
+                                            </Resbuf>
+                                        </Resbufs>
+                                    </BaseData>
+                                </ObjectData>
+                            </Object>
+                        </Objects>
+                        <BlockReference>
+                            <Object objectId="140686348218672">
+                                <AcRxClassInfo className="AcDbBlockReference"/>
+                                <ObjectData>
+                                    <ExtensionDictionary>
+                                        <Dictionary treatElementsAsHard="TRUE">
+                                            <Entries>
+                                                <Entry keyName="AcDbBlockRepresentation" objectId="140686348218704"/>
+                                            </Entries>
+                                        </Dictionary>
+                                    </ExtensionDictionary>
+                                </ObjectData>
+                            </Object>
+                        </BlockReference>
+                    </ObjectInfo>
+                </Block>
+            </Data>
+        </Tool>
+    </Tools>
+</Palette>
