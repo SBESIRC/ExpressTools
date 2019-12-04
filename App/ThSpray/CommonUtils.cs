@@ -727,9 +727,7 @@ namespace ThSpray
         public static int HashKey(Point3d point)
         {
             var posX = point.X;
-            if (posX > 1E8)
-                posX = posX * 1e-7;
-            long index = (((long)(posX * 23) + HashMapCount) % HashMapCount);
+            long index = ((long)(posX * 23)) % HashMapCount;
             return (int)index;
         }
 
