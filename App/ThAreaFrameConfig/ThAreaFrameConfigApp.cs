@@ -7,6 +7,7 @@ using ThAreaFrameConfig.Model;
 using ThAreaFrameConfig.ViewModel;
 using AcHelper;
 using Linq2Acad;
+using ThAreaFrameConfig.Command;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace ThAreaFrameConfig
@@ -44,5 +45,15 @@ namespace ThAreaFrameConfig
             ThFireProofingDialog dlg = new ThFireProofingDialog();
             AcadApp.ShowModelessDialog(dlg);
         }
+
+        #region 内部命令
+        [CommandMethod("TIANHUACAD", "*THCREATAREAFRAME", CommandFlags.Session | CommandFlags.Interruptible)]
+        public void  ThCreateAreaFrame()
+        {
+            var name = ThCreateAreaFrameCmdHandler.LayerName;
+            ThCreateAreaFrameCmdHandler.Handler.Execute(new object[] { name });
+        }
+        #endregion
+
     }
 }

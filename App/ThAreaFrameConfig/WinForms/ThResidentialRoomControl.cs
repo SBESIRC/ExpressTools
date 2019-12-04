@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using ThAreaFrameConfig.View;
 using ThAreaFrameConfig.Model;
+using ThAreaFrameConfig.Command;
 using ThAreaFrameConfig.Presenter;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Base;
@@ -15,12 +16,17 @@ using DevExpress.Utils;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.DatabaseServices;
-using ThAreaFrame;
+using Autodesk.AutoCAD.ApplicationServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using ThAreaFrame;
+using AcHelper;
 
 namespace ThAreaFrameConfig.WinForms
 {
-    public partial class ThResidentialRoomControl : DevExpress.XtraEditors.XtraUserControl, IResidentialRoomView, IAreaFrameDatabaseReactor
+    public partial class ThResidentialRoomControl : DevExpress.XtraEditors.XtraUserControl, 
+        IResidentialRoomView, 
+        IAreaFrameDatabaseReactor,
+        IAreaFrameDocumentReactor
     {
         private ThResidentialRoomPresenter Presenter;
         private ThResidentialRoomDbRepository DbRepository;
@@ -203,17 +209,7 @@ namespace ThAreaFrameConfig.WinForms
                 };
 
                 // 选取面积框线
-                if (Presenter.OnPickAreaFrames(name))
-                {
-                    // 保存当前的滚动条位置
-                    int topRowIndex = gdv_room.TopRowIndex;
-
-                    // 更新界面
-                    this.Reload();
-
-                    // 恢复到刷新前的滚动条位置
-                    gdv_room.TopRowIndex = topRowIndex;
-                }
+                Presenter.OnPickAreaFrames(name);
             }
         }
 
@@ -704,6 +700,8 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
+        #region IAreaFrameDatabaseReactor
+
         public void RegisterAreaFrameModifiedEvent()
         {
             DbRepository.RegisterAreaFrameModifiedEvent(OnAreaFrameModified);
@@ -747,5 +745,81 @@ namespace ThAreaFrameConfig.WinForms
             // 更新界面
             this.Reload();
         }
+
+        #endregion
+
+        #region IAreaFrameDocumentReactor
+
+        public void RegisterCommandWillStartEvent()
+        {
+            Active.Document.CommandWillStart += OnAreaFrameCommandWillStart;
+        }
+
+        public void UnRegisterCommandWillStartEvent()
+        {
+            Active.Document.CommandWillStart -= OnAreaFrameCommandWillStart;
+        }
+
+        public void RegisterCommandEndedEvent()
+        {
+            Active.Document.CommandEnded += OnAreaFrameCommandEnded;
+        }
+
+        public void UnRegisterCommandEndedEvent()
+        {
+            Active.Document.CommandEnded -= OnAreaFrameCommandEnded;
+        }
+
+        public void RegisterCommandFailedEvent()
+        {
+            Active.Document.CommandFailed += OnAreaFrameCommandFailed;
+        }
+
+        public void UnRegisterCommandFailedEvent()
+        {
+            Active.Document.CommandFailed -= OnAreaFrameCommandFailed;
+        }
+
+        public void RegisterCommandCancelledEvent()
+        {
+            Active.Document.CommandCancelled += OnAreaFrameCommandCancelled;
+        }
+
+        public void UnRegisterCommandCancelledEvent()
+        {
+            Active.Document.CommandCancelled -= OnAreaFrameCommandCancelled;
+        }
+
+        private void OnAreaFrameCommandWillStart(object sender, CommandEventArgs e)
+        {
+        }
+
+        private void OnAreaFrameCommandEnded(object sender, CommandEventArgs e)
+        {
+            if (e.GlobalCommandName == "*THCREATAREAFRAME")
+            {
+                if (ThCreateAreaFrameCmdHandler.Handler.Success)
+                {
+                    // 保存当前的滚动条位置
+                    int topRowIndex = gdv_room.TopRowIndex;
+
+                    // 更新界面
+                    this.Reload();
+
+                    // 恢复到刷新前的滚动条位置
+                    gdv_room.TopRowIndex = topRowIndex;
+                }
+            }
+        }
+
+        private void OnAreaFrameCommandFailed(object sender, CommandEventArgs e)
+        {
+        }
+
+        private void OnAreaFrameCommandCancelled(object sender, CommandEventArgs e)
+        {
+        }
+
+        #endregion
     }
 }
