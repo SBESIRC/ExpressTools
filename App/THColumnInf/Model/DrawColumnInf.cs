@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ThColumnInfo
 {
+    /// <summary>
+    /// 需要绘制的柱子信息
+    /// </summary>
     public class DrawColumnInf
     {
         /// <summary>
@@ -14,6 +17,10 @@ namespace ThColumnInfo
         public int JtID { get; set; }
         /// <summary>
         /// 自然层号
+        /// </summary>
+        public int FloorID { get; set; }
+        /// <summary>
+        /// 标准层号
         /// </summary>
         public int StdFlrID { get; set; }
         /// <summary>

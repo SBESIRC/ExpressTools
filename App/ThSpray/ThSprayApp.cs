@@ -31,11 +31,34 @@ namespace ThSpray
             List<string> validLayers = null;
             var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers);
 
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Editor ed = doc.Editor;
+            var pickPoints = new List<Point3d>();
+            var objCollect = new DBObjectCollection();
+            // 预览标记
+            var previewCurves = new List<Curve>();
+            while (true)
+            {
+                PromptPointOptions ppo = new PromptPointOptions("\n请点击");
+                ppo.AllowNone = false;
+                PromptPointResult ppr = ed.GetPoint(ppo);
+                if (ppr.Status != PromptStatus.OK)
+                    break;
+
+                var pickPoint = ppr.Value;
+                pickPoints.Add(pickPoint);
+                Utils.DrawPreviewPoint(objCollect, pickPoint);
+            }
+
+            // 图元预处理
+            var removeEntityLst = Utils.PreProcess(validLayers);
+
             // 获取相关图层中的数据
             // 所有数据
             var allCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);
             if (allCurves == null || allCurves.Count == 0)
             {
+                Utils.PostProcess(removeEntityLst);
                 return;
             }
 
@@ -43,6 +66,7 @@ namespace ThSpray
             var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
             if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
             {
+                Utils.PostProcess(removeEntityLst);
                 return;
             }
 
@@ -73,20 +97,14 @@ namespace ThSpray
             allCurves = TopoUtils.TesslateCurve(allCurves);
             allCurves = CommonUtils.RemoveCollinearLines(allCurves);
 
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            Editor ed = doc.Editor;
-            while (true)
+            foreach (var pt in pickPoints)
             {
-                PromptPointOptions ppo = new PromptPointOptions("\n请点击");
-                ppo.AllowNone = false;
-                PromptPointResult ppr = ed.GetPoint(ppo);
-                if (ppr.Status != PromptStatus.OK)
-                    return;
-
-                var pickPoint = ppr.Value;
-                var polylines = TopoUtils.MakeProfileFromPoint(allCurves, pickPoint);
+                var polylines = TopoUtils.MakeProfileFromPoint(allCurves, pt);
                 Utils.DrawProfile(polylines, "sd");
             }
+            
+            Utils.PostProcess(removeEntityLst);
+            Utils.ErasePreviewPoint(objCollect);
         }
     }
 }

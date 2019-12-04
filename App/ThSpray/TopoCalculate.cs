@@ -775,6 +775,8 @@ namespace ThSpray
             var tailPoint = edge.End;
             int hashKey = CommonUtils.HashKey(tailPoint);
             var adjTopoEdges = m_hashMap[hashKey];
+            adjTopoEdges.AddRange(m_hashMap[(hashKey - 1 + CommonUtils.HashMapCount) % CommonUtils.HashMapCount]);
+            adjTopoEdges.AddRange(m_hashMap[(hashKey + 1) % CommonUtils.HashMapCount]);
             if (adjTopoEdges.Count == 0)
             {
                 return null;
@@ -967,8 +969,9 @@ namespace ThSpray
             profileCalcu.DoCal();
             var outEdges = profileCalcu.Profile;
 
+            if (outEdges == null)
+                return;
             m_ProfileLoop.Add(new Profile(outEdges, true));
-            Utils.DrawLinesWithTransaction(outEdges, "profile");
         }
 
 

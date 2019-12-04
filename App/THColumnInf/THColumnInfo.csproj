@@ -30,6 +30,31 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\CalculationInfo.cs" />
+    <Compile Include="Model\FloorInfo.cs" />
+    <Compile Include="Model\ParameterSetInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Validate\Model\AngularReinforcementNumModel.cs" />
+    <Compile Include="Validate\Rules\AllVerDirIronReinRatioBigThanFivePerRule.cs" />
+    <Compile Include="Validate\Rules\AngularReinforcementDiaRule.cs" />
+    <Compile Include="Validate\Rules\AngularReinforcementNumRule.cs" />
+    <Compile Include="Validate\Rules\AxialCompressionRatioRule.cs" />
+    <Compile Include="Validate\Rules\IRule.cs" />
+    <Compile Include="Validate\Rules\ColumnSectionRule.cs" />
+    <Compile Include="Validate\Model\AllVerDirIronReinRatioBigThanFivePerModel.cs" />
+    <Compile Include="Validate\Model\AngularReinforcementDiaModel.cs" />
+    <Compile Include="Validate\Model\AxialCompressionRatioModel.cs" />
+    <Compile Include="Validate\Model\ColumnSectionModel.cs" />
+    <Compile Include="Validate\Model\ValidateModel.cs" />
+    <Compile Include="Validate\Model\VerDirForceIronModel.cs" />
+    <Compile Include="Validate\Model\VerDirIronClearSpaceModel.cs" />
+    <Compile Include="Validate\ThConverter.cs" />
+    <Compile Include="Validate\Rules\VerDirForceIronDiaRule.cs" />
+    <Compile Include="Validate\Rules\VerDirIronClearSpaceRule.cs" />
     <Compile Include="Tools\BaseFunction.cs" />
     <Compile Include="ColumnDrawRule.cs" />
     <Compile Include="Business\ExtractBase.cs" />
@@ -39,8 +64,6 @@
     <Compile Include="Business\IDataSource.cs" />
     <Compile Include="Business\IDatabaseDataSource.cs" />
     <Compile Include="Model\ColumnInf.cs" />
-    <Compile Include="Controller\BaseController.cs" />
-    <Compile Include="Controller\UIController.cs" />
     <Compile Include="Model\CNotifyPropertyChange.cs" />
     <Compile Include="Model\ColumnRelateInf.cs" />
     <Compile Include="Model\TableCellInfo.cs" />
@@ -48,7 +71,10 @@
     <Compile Include="Business\ThColumnJig.cs" />
     <Compile Include="Business\ThDrawColumns.cs" />
     <Compile Include="Business\ThRelateColumn.cs" />
-    <Compile Include="ViewModel\DelegateCommand .cs" />
+    <Compile Include="Validate\ThCalculationValidate.cs" />
+    <Compile Include="Validate\ThNoCalculationValidate.cs" />
+    <Compile Include="ViewModel\CalculationInfoVM.cs" />
+    <Compile Include="Commands\DelegateCommand .cs" />
     <Compile Include="DrawableOverruleController.cs" />
     <Compile Include="Model\ColumnTableRecordInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,7 +83,6 @@
     <Compile Include="THColumnInfoApp.cs" />
     <Compile Include="Tools\ThColumnInfoUtils.cs" />
     <Compile Include="Business\DataStyleColumnDetailInfo.cs" />
-    <Compile Include="ViewModel\SearchFieldVM.cs" />
     <Compile Include="View\CheckPalette.cs" />
     <Compile Include="View\CheckResult.cs">
       <SubType>UserControl</SubType>
@@ -72,7 +97,7 @@
     <Compile Include="View\DataResult.Designer.cs">
       <DependentUpon>DataResult.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\MainWindow.xaml.cs" />
+    <Compile Include="View\ImportCalculation.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
@@ -92,9 +117,15 @@
       <DependentUpon>DataResult.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Page Include="View\MainWindow.xaml">
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\ImportCalculation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
