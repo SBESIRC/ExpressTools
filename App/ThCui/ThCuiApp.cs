@@ -8,6 +8,7 @@ using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.ApplicationServices.PreferencesFiles;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using ThLicense;
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -38,7 +39,7 @@ namespace TianHua.AutoCAD.ThCui
             //  Etc.
 
             //将程序有效期验证为3个月，一旦超过时限，要求用户更新，不进行命令注册
-            if ((DateTime.Today - ThCADCommon.Global_Expire_Start_Date).Days <= ThCADCommon.Global_Expire_Duration)
+            if (!ThLicenseService.Instance.IsExpired())
             {
                 //装载局部CUI文件
                 LoadPartialCui();

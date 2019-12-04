@@ -10,6 +10,10 @@ namespace ThLicense
 {
     public class ThLicenseService
     {
+        // Expire start date
+        public static int Global_Expire_Duration = 90;
+        public static DateTime Global_Expire_Start_Date = new DateTime(2019, 10, 15);
+
         //==============SINGLETON============
         //fourth version from:
         //http://csharpindepth.com/Articles/General/Singleton.aspx
@@ -25,6 +29,12 @@ namespace ThLicense
         {
             ThUserProfile identity = new ThUserProfile();
             return identity.IsDomainUser();
+        }
+
+        public bool IsExpired()
+        {
+            TimeSpan timeSpan = DateTime.Today - Global_Expire_Start_Date;
+            return timeSpan.Days > Global_Expire_Duration;
         }
     }
 }

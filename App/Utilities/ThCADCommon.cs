@@ -10,10 +10,6 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         // Tolerance.Global默认值：new Tolerance(1e-10, 1e-12)
         public static Tolerance Global_Tolerance = new Tolerance(1e-4, 1e-4);
 
-        // Expire start date
-        public static int Global_Expire_Duration = 90;
-        public static DateTime Global_Expire_Start_Date = new DateTime(2019, 10, 15);
-
         // RegAppName
         public static readonly string RegAppName = "THCAD";
 
