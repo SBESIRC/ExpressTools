@@ -107,7 +107,7 @@ namespace ThAreaFrameConfig.WinForms
                 {
                     LayerCreator = ThResidentialRoomDbUtil.ConfigOutdoorParkingSpaceLayer
                 };
-                ThCreateAreaFrameCmdHandler.ExecuteFromCommandLine("*THCREATAREAFRAME");
+                ThCreateAreaFrameCmdHandler.ExecuteFromCommandLine("*THCREATEAREAFRAME");
             }
         }
 
@@ -402,7 +402,7 @@ namespace ThAreaFrameConfig.WinForms
 
         private void OnAreaFrameCommandEnded(object sender, CommandEventArgs e)
         {
-            if (e.GlobalCommandName == "*THCREATAREAFRAME")
+            if (e.GlobalCommandName == "*THCREATEAREAFRAME")
             {
                 if (ThCreateAreaFrameCmdHandler.Handler.Success)
                 {

@@ -49,7 +49,7 @@ namespace ThAreaFrameConfig
         #region 内部命令
         // 这些内部命令是用来支持Command-based event handler
         // 即在非模态对话框中通过异步执行命令的方式完成界面上的操作
-        [CommandMethod("TIANHUACAD", "*THCREATAREAFRAME", CommandFlags.Session)]
+        [CommandMethod("TIANHUACAD", "*THCREATEAREAFRAME", CommandFlags.Session)]
         public void  ThCreateAreaFrame()
         {
             ThCreateAreaFrameCmdHandler.Handler.Execute();
