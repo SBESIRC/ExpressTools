@@ -209,7 +209,12 @@ namespace ThAreaFrameConfig.WinForms
                 };
 
                 // 选取面积框线
-                Presenter.OnPickAreaFrames(name);
+                ThCreateAreaFrameCmdHandler.LayerName = name;
+                ThCreateAreaFrameCmdHandler.Handler = new ThCreateAreaFrameCommand()
+                {
+                    LayerCreator = ThResidentialRoomDbUtil.ConfigLayer
+                };
+                ThCreateAreaFrameCmdHandler.ExecuteFromCommandLine("*THCREATAREAFRAME");
             }
         }
 
@@ -800,14 +805,7 @@ namespace ThAreaFrameConfig.WinForms
             {
                 if (ThCreateAreaFrameCmdHandler.Handler.Success)
                 {
-                    // 保存当前的滚动条位置
-                    int topRowIndex = gdv_room.TopRowIndex;
-
-                    // 更新界面
-                    this.Reload();
-
-                    // 恢复到刷新前的滚动条位置
-                    gdv_room.TopRowIndex = topRowIndex;
+                    AcadApp.Idle += Application_OnIdle;
                 }
             }
         }

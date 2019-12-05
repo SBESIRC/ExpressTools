@@ -1,9 +1,6 @@
 ﻿using System;
-using DotNetARX;
-using AcHelper;
 using System.Collections.Generic;
 using ThAreaFrameConfig.View;
-using ThAreaFrameConfig.Command;
 
 namespace ThAreaFrameConfig.Presenter
 {
@@ -20,13 +17,7 @@ namespace ThAreaFrameConfig.Presenter
 
         public bool OnPickAreaFrames(string name)
         {
-            ThCreateAreaFrameCmdHandler.LayerName = name;
-            ThCreateAreaFrameCmdHandler.Handler = new ThCreateAreaFrameCommand()
-            {
-                LayerCreator = ThResidentialRoomDbUtil.ConfigLayer
-            };
-            ThCreateAreaFrameCmdHandler.ExecuteFromCommandLine("*THCREATAREAFRAME");
-            return true;
+            return this.PickAreaFrames(name, ThResidentialRoomDbUtil.ConfigLayer);
         }
 
         public bool OnAdjustAreaFrames(Dictionary<string, string> parameters)
