@@ -25,6 +25,9 @@ namespace ThAreaFrameConfig.WinForms
             EnableAreaFrameErasedEvent(e.OldPage, false);
             EnableAreaFrameErasedEvent(e.Page, true);
 
+            EnableAreaFrameCommandEvent(e.OldPage, false);
+            EnableAreaFrameCommandEvent(e.Page, true);
+
             // 刷新当前页面
             Reload(e.Page);
         }
@@ -33,6 +36,7 @@ namespace ThAreaFrameConfig.WinForms
         {
             EnableAreaFrameModifiedEvent(this.tabPane1.SelectedPage, false);
             EnableAreaFrameErasedEvent(this.tabPane1.SelectedPage, false);
+            EnableAreaFrameCommandEvent(this.tabPane1.SelectedPage, false);
         }
 
         private void Reload(INavigationPageBase pageBase)
@@ -42,6 +46,30 @@ namespace ThAreaFrameConfig.WinForms
                 if (page.Controls[0] is IThAreaFrameView view)
                 {
                     view.Reload();
+                }
+            }
+        }
+
+        private void EnableAreaFrameCommandEvent(INavigationPageBase pageBase, bool enable)
+        {
+            if (pageBase is TabNavigationPage page)
+            {
+                if (page.Controls[0] is IAreaFrameDocumentReactor reactor)
+                {
+                    if (enable)
+                    {
+                        reactor.RegisterCommandWillStartEvent();
+                        reactor.RegisterCommandEndedEvent();
+                        reactor.RegisterCommandFailedEvent();
+                        reactor.RegisterCommandCancelledEvent();
+                    }
+                    else
+                    {
+                        reactor.UnRegisterCommandWillStartEvent();
+                        reactor.UnRegisterCommandEndedEvent();
+                        reactor.UnRegisterCommandFailedEvent();
+                        reactor.UnRegisterCommandCancelledEvent();
+                    }
                 }
             }
         }
