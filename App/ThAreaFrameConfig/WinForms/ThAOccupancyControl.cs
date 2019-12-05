@@ -234,17 +234,23 @@ namespace ThAreaFrameConfig.WinForms
             }
 
             ThAOccupancy aoccupancy = view.GetRow(e.RowHandle) as ThAOccupancy;
+            // 面积框线图层名
+            ThAOccupancyStorey storey = DbRepository.Storeys.Where(o => o.ID == aoccupancy.StoreyID).First();
+            string newName = ThResidentialRoomUtil.LayerName(storey, aoccupancy);
             if (aoccupancy.IsDefined)
             {
-                // 面积框线图层名
-                ThAOccupancyStorey storey = DbRepository.Storeys.Where(o => o.ID == aoccupancy.StoreyID).First();
-                string name = ThResidentialRoomUtil.LayerName(storey, aoccupancy);
-
                 // 更新面积框线图层名
-                Presenter.OnMoveAreaFrameToLayer(name, aoccupancy.Frame);
+                Presenter.OnMoveAreaFrameToLayer(newName, aoccupancy.Frame);
 
                 // 更新界面
                 this.Reload();
+            }
+            else
+            {
+                if (ThCreateAreaFrameCmdHandler.Handler != null)
+                {
+                    ThCreateAreaFrameCmdHandler.LayerName = newName;
+                }
             }
         }
 

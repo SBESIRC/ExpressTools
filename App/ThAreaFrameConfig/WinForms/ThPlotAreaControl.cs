@@ -127,16 +127,22 @@ namespace ThAreaFrameConfig.WinForms
             }
 
             ThPlotSpace space = view.GetRow(e.RowHandle) as ThPlotSpace;
+            // 面积框线图层名
+            string newName = ThResidentialRoomUtil.LayerName(space);
             if (space.IsDefined)
             {
-                // 面积框线图层名
-                string name = ThResidentialRoomUtil.LayerName(space);
-
                 // 更新面积框线图层名
-                Presenter.OnMoveAreaFrameToLayer(name, space.Frame);
+                Presenter.OnMoveAreaFrameToLayer(newName, space.Frame);
 
                 // 更新界面
                 this.Reload();
+            }
+            else
+            {
+                if (ThCreateAreaFrameCmdHandler.Handler != null)
+                {
+                    ThCreateAreaFrameCmdHandler.LayerName = newName;
+                }
             }
         }
 

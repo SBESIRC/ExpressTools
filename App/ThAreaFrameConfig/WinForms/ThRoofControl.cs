@@ -135,16 +135,22 @@ namespace ThAreaFrameConfig.WinForms
             }
 
             ThRoof roof = view.GetRow(e.RowHandle) as ThRoof;
+            // 面积框线图层名
+            string newName = ThResidentialRoomUtil.LayerName(roof);
             if (roof.IsDefined)
             {
-                // 面积框线图层名
-                string name = ThResidentialRoomUtil.LayerName(roof);
-
                 // 更新面积框线图层名
-                Presenter.OnMoveAreaFrameToLayer(name, roof.Frame);
+                Presenter.OnMoveAreaFrameToLayer(newName, roof.Frame);
 
                 // 更新界面
                 this.Reload();
+            }
+            else
+            {
+                if (ThCreateAreaFrameCmdHandler.Handler != null)
+                {
+                    ThCreateAreaFrameCmdHandler.LayerName = newName;
+                }
             }
         }
 

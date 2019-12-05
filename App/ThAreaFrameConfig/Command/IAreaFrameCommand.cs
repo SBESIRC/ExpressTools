@@ -3,9 +3,8 @@
 namespace ThAreaFrameConfig.Command
 {
     // 扩展IAcadCommand以支持参数
-    public interface ICreateAreaFrameCommand : IAcadCommand
+    public interface IAreaFrameCommand : IAcadCommand
     {
         bool Success { get; }
-        void Execute(object[] parameters);
     }
 }
