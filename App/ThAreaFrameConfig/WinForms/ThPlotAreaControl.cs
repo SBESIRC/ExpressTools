@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using ThAreaFrameConfig.View;
-using ThAreaFrameConfig.Presenter;
 using ThAreaFrameConfig.Model;
+using ThAreaFrameConfig.Command;
+using ThAreaFrameConfig.Presenter;
 using DevExpress.Utils;
 using DevExpress.Utils.Menu;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.ApplicationServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using AcHelper;
 
 namespace ThAreaFrameConfig.WinForms
 {
-    public partial class ThPlotAreaControl : DevExpress.XtraEditors.XtraUserControl, IPlotSpaceView, IAreaFrameDatabaseReactor
+    public partial class ThPlotAreaControl : DevExpress.XtraEditors.XtraUserControl, 
+        IPlotSpaceView, 
+        IAreaFrameDatabaseReactor,
+        IAreaFrameDocumentReactor
     {
         private ThPlotSpacePresenter Presenter;
         private ThPlotSpaceDbRepository DbRepository;
@@ -95,11 +101,12 @@ namespace ThAreaFrameConfig.WinForms
                 string name = ThResidentialRoomUtil.LayerName(space);
 
                 // 选取面积框线
-                if (Presenter.OnPickAreaFrames(name))
+                ThCreateAreaFrameCmdHandler.LayerName = name;
+                ThCreateAreaFrameCmdHandler.Handler = new ThCreateAreaFrameCommand()
                 {
-                    // 更新界面
-                    this.Reload();
-                }
+                    LayerCreator = ThResidentialRoomDbUtil.ConfigPlotSpaceLayer
+                };
+                ThCreateAreaFrameCmdHandler.ExecuteFromCommandLine("*THCREATAREAFRAME");
             }
         }
 
@@ -290,6 +297,8 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
+        #region IAreaFrameDatabaseReactor
+
         public void RegisterAreaFrameModifiedEvent()
         {
             DbRepository.RegisterAreaFrameModifiedEvent(OnAreaFrameModified);
@@ -333,5 +342,74 @@ namespace ThAreaFrameConfig.WinForms
             // 更新界面
             this.Reload();
         }
+
+        #endregion
+
+        #region IAreaFrameDocumentReactor
+
+        public void RegisterCommandWillStartEvent()
+        {
+            Active.Document.CommandWillStart += OnAreaFrameCommandWillStart;
+        }
+
+        public void UnRegisterCommandWillStartEvent()
+        {
+            Active.Document.CommandWillStart -= OnAreaFrameCommandWillStart;
+        }
+
+        public void RegisterCommandEndedEvent()
+        {
+            Active.Document.CommandEnded += OnAreaFrameCommandEnded;
+        }
+
+        public void UnRegisterCommandEndedEvent()
+        {
+            Active.Document.CommandEnded -= OnAreaFrameCommandEnded;
+        }
+
+        public void RegisterCommandFailedEvent()
+        {
+            Active.Document.CommandFailed += OnAreaFrameCommandFailed;
+        }
+
+        public void UnRegisterCommandFailedEvent()
+        {
+            Active.Document.CommandFailed -= OnAreaFrameCommandFailed;
+        }
+
+        public void RegisterCommandCancelledEvent()
+        {
+            Active.Document.CommandCancelled += OnAreaFrameCommandCancelled;
+        }
+
+        public void UnRegisterCommandCancelledEvent()
+        {
+            Active.Document.CommandCancelled -= OnAreaFrameCommandCancelled;
+        }
+
+        private void OnAreaFrameCommandWillStart(object sender, CommandEventArgs e)
+        {
+        }
+
+        private void OnAreaFrameCommandEnded(object sender, CommandEventArgs e)
+        {
+            if (e.GlobalCommandName == "*THCREATAREAFRAME")
+            {
+                if (ThCreateAreaFrameCmdHandler.Handler.Success)
+                {
+                    AcadApp.Idle += Application_OnIdle;
+                }
+            }
+        }
+
+        private void OnAreaFrameCommandFailed(object sender, CommandEventArgs e)
+        {
+        }
+
+        private void OnAreaFrameCommandCancelled(object sender, CommandEventArgs e)
+        {
+        }
+
+        #endregion
     }
 }

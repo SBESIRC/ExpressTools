@@ -10,6 +10,7 @@ namespace AcHelper.Commands
     {
         private const string WHITESPACE = " ";
         private const string NEWLINE = "\n";
+        private const string ESCAPECHARACTERS = "\x03\x03";
 
         /// <summary>
         /// Executes the given <see cref="IAcadCommand"/>IAcadCommand class as a command.
@@ -54,6 +55,7 @@ namespace AcHelper.Commands
 
             // Prepare Command and potential parameters.
             StringBuilder executeBuilder = new StringBuilder(cmd);
+            executeBuilder.Insert(0, ESCAPECHARACTERS);
             executeBuilder.Append(NEWLINE);
             string execute = cmd;
             execute += NEWLINE;
