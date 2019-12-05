@@ -1,0 +1,8 @@
+<?xmlversion="1.0"encoding="utf-8"?>
+<ApplicationPackage SchemaVersion="1.0" AutodeskProduct="AutoCAD" Name="Minimal LISP" Description="An AutoCAD LISP Only program" AppVersion="1.0.0" HelpFile="" Author="" Icon="">
+    <CompanyDetails Name="" Url="" Email="" />
+    <Components Description="Runtime parts">
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R19.1" />
+        <ComponentEntry AppName="" Version="1.0.0" ModuleName="" PerDocument="True" />
+    </Components>
+</ApplicationPackage>

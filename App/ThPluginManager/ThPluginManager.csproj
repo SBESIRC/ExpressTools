@@ -64,5 +64,12 @@
     <PackageReference Include="NuGet.Packaging" Version="4.5.0" />
     <PackageReference Include="NuGet.Protocol" Version="4.5.0" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Template\ThAutoloaderBundle.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Template\ThNuGetPackage.nuspec" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
