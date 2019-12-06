@@ -145,6 +145,17 @@ namespace TianHua.AutoCAD.ThCui
                     menuModify.AddMenuItem(-1, kp.Name, id + kp.Command);
                     cs.AddMacro(kp.Name, marco + kp.Command + " ", id + kp.Command, kp.HelpString, imageFolderPath + kp.Command + kp.Suffix);
                 });
+
+                menuModify = thMenu.AddSubMenu(-1, "文字表格", "ID_THMenu_WenZiBiaoGe");
+                kps = new List<ThCommandInfo> {
+                    new ThCommandInfo("文字内容刷 <THMTC>", "THMTC", "将目标文字内容替换为源文字内容",false)
+                };
+                kps.ForEach(kp =>
+                {
+                    menuModify.AddMenuItem(-1, kp.Name, id + kp.Command);
+                    cs.AddMacro(kp.Name, marco + kp.Command + " ", id + kp.Command, kp.HelpString, imageFolderPath + kp.Command + kp.Suffix);
+                });
+
                 menuModify = thMenu.AddSubMenu(-1, "辅助工具", "ID_THMenu_FuZhuGongJu");
                 kps = new List<ThCommandInfo> {
                     new ThCommandInfo("批量缩放 <THMSC>", "THMSC", "对多个选择对象以各自的开始点（插入点）为基准点进行批量比例缩放",false),
@@ -166,7 +177,7 @@ namespace TianHua.AutoCAD.ThCui
                     menuModify.AddMenuItem(-1, kp.Name, id + kp.Command);
                     cs.AddMacro(kp.Name, marco + kp.Command + " ", id + kp.Command, kp.HelpString, imageFolderPath + kp.Command + kp.Suffix);
                 });
-                menuModify = menuModify.AddSubMenu(-1, "天正看图插件", "ID_THMenu_TZLOOK");
+                menuModify = thMenu.AddSubMenu(-1, "第三方支持", "ID_THMenu_TZLOOK");
                 kps = new List<ThCommandInfo> {
                     new ThCommandInfo("T20V4.0 <T20V4.0>", "T20V4.0", "",true),
                     new ThCommandInfo("T20V5.0 <T20V5.0>", "T20V5.0", "",true),
@@ -177,15 +188,6 @@ namespace TianHua.AutoCAD.ThCui
                     cs.AddMacro(kp.Name, marco + kp.Command + " ", id + kp.Command, kp.HelpString, imageFolderPath + kp.Command + kp.Suffix);
                 });
 
-                menuModify = thMenu.AddSubMenu(-1, "文字表格", "ID_THMenu_WenZiBiaoGe");
-                kps = new List<ThCommandInfo> {
-                    new ThCommandInfo("文字内容刷 <THMTC>", "THMTC", "将目标文字内容替换为源文字内容",false)
-                };
-                kps.ForEach(kp =>
-                {
-                    menuModify.AddMenuItem(-1, kp.Name, id + kp.Command);
-                    cs.AddMacro(kp.Name, marco + kp.Command + " ", id + kp.Command, kp.HelpString, imageFolderPath + kp.Command + kp.Suffix);
-                });
                 {
                     var cmdkp = new ThCommandInfo("帮助文档 <THHLP>", "THHLP", "获取帮助文档", false);
                     cs.AddMacro(cmdkp.Name, marco + cmdkp.Command + " ", id + cmdkp.Command, cmdkp.HelpString, imageFolderPath + cmdkp.Command + cmdkp.Suffix);
