@@ -551,7 +551,31 @@
             </adw:RibbonPanelSource>
         </adw:RibbonPanel>
 
-        <adw:RibbonPanel>
+      <adw:RibbonPanel>
+         <adw:RibbonPanelSource Title="文字表格">
+            <adw:RibbonRowPanel>
+               <adw:RibbonButton  Id="ID_BtnWenZiShua" Name="文字内容刷" Text = "文字内容刷"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THMTC}"
+                                    Image="{StaticResource THMTC}"               
+                                    CommandParameter="THMTC">
+                  <adw:RibbonButton.ToolTip>
+                     <adw:RibbonToolTip  
+                    Title="文字内容刷"
+                            Command="THMTC"
+                    Content="将目标文字内容替换为源文字内容"/>
+                  </adw:RibbonButton.ToolTip>
+               </adw:RibbonButton>
+
+            </adw:RibbonRowPanel>
+
+
+         </adw:RibbonPanelSource>
+      </adw:RibbonPanel>
+       
+
+      <adw:RibbonPanel>
             <adw:RibbonPanelSource Title="辅助工具">
                 <adw:RibbonRowPanel>
                     <adw:RibbonButton Id="ID_BtnSuoFang" Name="批量缩放" Text = "批量缩放"
@@ -695,6 +719,12 @@
             </adw:RibbonRowPanel>
 
 
+         </adw:RibbonPanelSource>
+        </adw:RibbonPanel>
+
+
+      <adw:RibbonPanel>
+         <adw:RibbonPanelSource Title="第三方支持">
             <adw:RibbonRowPanel>
                <adw:RibbonSplitButton Text="天正看图插件" IsSplit="True" IsSynchronizedWithCurrentItem="False"
                                         ShowImage="True" ShowText="True"
@@ -737,33 +767,8 @@
 
 
          </adw:RibbonPanelSource>
-        </adw:RibbonPanel>
-
-
-        <adw:RibbonPanel>
-            <adw:RibbonPanelSource Title="文字表格">
-                <adw:RibbonRowPanel>
-                    <adw:RibbonButton  Id="ID_BtnWenZiShua" Name="文字内容刷" Text = "文字内容刷"
-                                    ShowImage="True" ShowText="True" 
-                                    Orientation="Vertical" Size="Large"
-                                    LargeImage="{StaticResource THMTC}"
-                                    Image="{StaticResource THMTC}"               
-                                    CommandParameter="THMTC">
-                        <adw:RibbonButton.ToolTip>
-                            <adw:RibbonToolTip  
-                    Title="文字内容刷"
-                            Command="THMTC"
-                    Content="将目标文字内容替换为源文字内容"/>
-                        </adw:RibbonButton.ToolTip>
-                    </adw:RibbonButton>
-
-                </adw:RibbonRowPanel>
-
-
-            </adw:RibbonPanelSource>
-        </adw:RibbonPanel>
-
-
-    </adw:RibbonTab>
+      </adw:RibbonPanel>
+       
+   </adw:RibbonTab>
 </ResourceDictionary>
 
