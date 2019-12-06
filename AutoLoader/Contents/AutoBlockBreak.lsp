@@ -78,7 +78,7 @@
 ;;  - Added option to specify block name at command-line.               ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:thabb ( / *error* blk obj ins sel tmp )
+(defun c:thbbr ( / *error* blk obj ins sel tmp )
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))
@@ -220,7 +220,7 @@
 ;;  Author:  Lee Mac, Copyright © 2010  -  www.lee-mac.com              ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:thabbe ( / *error* enx sel )
+(defun c:thbbe ( / *error* enx sel )
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))
@@ -288,7 +288,7 @@
 ;;  Author:  Lee Mac, Copyright © 2010  -  www.lee-mac.com              ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:thabbs ( / *error* inc rot sel )
+(defun c:thbbs ( / *error* inc rot sel )
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))
