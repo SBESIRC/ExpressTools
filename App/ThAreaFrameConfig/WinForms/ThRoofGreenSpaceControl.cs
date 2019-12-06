@@ -112,7 +112,7 @@ namespace ThAreaFrameConfig.WinForms
                 {
                     LayerCreator = ThResidentialRoomDbUtil.ConfigLayer
                 };
-                ThCreateAreaFrameCmdHandler.ExecuteFromCommandLine("*THCREATAREAFRAME");
+                ThCreateAreaFrameCmdHandler.ExecuteFromCommandLine("*THCREATEAREAFRAME");
             }
         }
 
@@ -133,16 +133,22 @@ namespace ThAreaFrameConfig.WinForms
             }
 
             ThRoofGreenSpace roofGreenSpace = view.GetRow(e.RowHandle) as ThRoofGreenSpace;
+            // 面积框线图层名
+            string newName = ThResidentialRoomUtil.LayerName(roofGreenSpace);
             if (roofGreenSpace.IsDefined)
-            {
-                // 面积框线图层名
-                string name = ThResidentialRoomUtil.LayerName(roofGreenSpace);
-
+            { 
                 // 更新面积框线图层名
-                Presenter.OnMoveAreaFrameToLayer(name, roofGreenSpace.Frame);
+                Presenter.OnMoveAreaFrameToLayer(newName, roofGreenSpace.Frame);
 
                 // 更新界面
                 this.Reload();
+            }
+            else
+            {
+                if (ThCreateAreaFrameCmdHandler.Handler != null)
+                {
+                    ThCreateAreaFrameCmdHandler.LayerName = newName;
+                }
             }
         }
 
@@ -395,7 +401,7 @@ namespace ThAreaFrameConfig.WinForms
 
         private void OnAreaFrameCommandEnded(object sender, CommandEventArgs e)
         {
-            if (e.GlobalCommandName == "*THCREATAREAFRAME")
+            if (e.GlobalCommandName == "*THCREATEAREAFRAME")
             {
                 if (ThCreateAreaFrameCmdHandler.Handler.Success)
                 {
