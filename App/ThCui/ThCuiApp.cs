@@ -37,7 +37,7 @@ namespace TianHua.AutoCAD.ThCui
             //  Loading some dependents explicitly which are not taken care of automatically;
             //  Subscribing to some events which are important for the whole session;
             //  Etc.
-            new ThMenuBar().CreateThMenu();
+
             //将程序有效期验证为3个月，一旦超过时限，要求用户更新，不进行命令注册
             if (!ThLicenseService.Instance.IsExpired())
             {

@@ -1,20 +1,14 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.Customization;
-using Autodesk.AutoCAD.Runtime;
+﻿using System;
 using System.IO;
-using AcHelper;
-using DotNetARX;
-using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Windows;
 using Autodesk.AutoCAD.Customization;
-using TianHua.AutoCAD.Utility.ExtensionTools;
+using Autodesk.AutoCAD.ApplicationServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using AcHelper;
+using DotNetARX;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace TianHua.AutoCAD.ThCui
 {
