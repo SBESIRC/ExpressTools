@@ -21,7 +21,7 @@ namespace ThSpray
         {
         }
 
-        [CommandMethod("TIANHUACAD", "TopoSearch", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THSPC", CommandFlags.Modal)]
         static public void TestBoundary()
         {
             //打开需要的图层
