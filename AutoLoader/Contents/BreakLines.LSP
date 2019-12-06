@@ -1,11 +1,12 @@
 ;; 天华AI研究中心
 ;; 2019.10.23 更新：在原来的基础上支持多选
-(defun c:THBKL(/ DIST ENT1 ENT2 X1 X2 X3 X4 Y1 Y2 Y3 Y4 B1 B2 SP INT BASEP1 BASEP2 EDGE1 EDGE2) 
+;; 2019.12.06 更新：把命令提示翻译成中文
+(defun c:THLTR(/ DIST ENT1 ENT2 X1 X2 X3 X4 Y1 Y2 Y3 Y4 B1 B2 SP INT BASEP1 BASEP2 EDGE1 EDGE2) 
   (setq VAR2 (getvar"cmdecho"))
   (setvar "cmdecho" 1)
   (command "ucs" "")
   
-  (princ "\nEnter the distance between:<")
+  (princ "\n输入断线距离:<")
   (prin1 LASTD)
   (princ ">")
   (setq DIST (getdist))
@@ -13,10 +14,10 @@
       (if (= LASTD nil) (setq DIST 100) (setq DIST LASTD))
   )
   
-  (prompt "\nSelce the lines below:")
+  (prompt "\n选择下方管线:")
   (if (setq BLOWLINES (ssget "_:L" '((0 . "LINE,LWPolyline"))))
         (progn
-              (prompt "\nSelce the lines above:")
+              (prompt "\n选择上方管线:")
               (if (setq ABOVELINES (ssget "_:L" '((0 . "LINE,LWPolyline"))))
                     (progn
                             (setq i 0)

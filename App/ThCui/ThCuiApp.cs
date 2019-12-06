@@ -17,8 +17,8 @@ namespace TianHua.AutoCAD.ThCui
         const string CMD_GROUPNAME = "TIANHUACAD";
         const string CMD_THCADLOGIN_GLOBAL_NAME = "THCADLOGIN";
         const string CMD_THCADLOGOUT_GLOBAL_NAME = "THCADLOGOUT";
-        const string CMD_THT20PLUGINV4_GLOBAL_NAME = "THT20PLUGINV4";
-        const string CMD_THT20PLUGINV5_GLOBAL_NAME = "THT20PLUGINV5";
+        const string CMD_THT20PLUGINV4_GLOBAL_NAME = "T20V4";
+        const string CMD_THT20PLUGINV5_GLOBAL_NAME = "T20V5";
         const string CMD_THHLP_GLOBAL_NAME = "THHLP";
         const string CMD_THBLS_GLOBAL_NAME = "THBLS";
         const string CMD_THBLI_GLOBAL_NAME = "THBLI";
