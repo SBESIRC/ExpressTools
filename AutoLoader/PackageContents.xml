@@ -98,6 +98,8 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
                 <Command Local="THBLS" Global="THBLS" />
+                <Command Local="T20V4" Global="T20V4" />
+                <Command Local="T20V5" Global="T20V5" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -109,6 +111,8 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
                 <Command Local="THBLS" Global="THBLS" />
+                <Command Local="T20V4" Global="T20V4" />
+                <Command Local="T20V5" Global="T20V5" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -120,6 +124,8 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
                 <Command Local="THBLS" Global="THBLS" />
+                <Command Local="T20V4" Global="T20V4" />
+                <Command Local="T20V5" Global="T20V5" />
             </Commands>
         </ComponentEntry>
     </Components>
