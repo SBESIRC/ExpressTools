@@ -31,6 +31,9 @@ namespace ThAnalytics
             {"THBLI", "图块集"},
             {"THBLS", "图块集配置"},
             {"THBEE", "提电气块转换"},
+            {"THBBR", "插块断线"},
+            {"THBBE", "选块断线"},
+            {"THBBS", "全选断线"},
             
             // 标注工具
             {"THCNU", "车位编号"},
@@ -67,7 +70,10 @@ namespace ThAnalytics
             {"THBPD", "批量打印DWF"},
             {"THBPP", "批量打印PPT"},
             {"THSVM", "版次信息修改"},
-            
+            {"THLTR", "管线断线"},
+            {"THMIR", "文字块镜像"},
+            {"T20V4", "获取天正看图T20V4.0插件"},
+            {"T20V5", "获取天正看图T20V5.0插件"},
             // 文字表格
             {"THMTC", "文字内容刷"}
         };
