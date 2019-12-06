@@ -31,6 +31,11 @@
     <BitmapImage x:Key="THLPE" UriSource="Images/THLPE.ico"/>
     <BitmapImage x:Key="THLPP" UriSource="Images/THLPP.ico"/>
 
+    <BitmapImage x:Key="BLOCKSPLIT" UriSource="Images/BLOCKSPLIT.ico"/>
+    <BitmapImage x:Key="THBBR" UriSource="Images/THBBR.ico"/>
+    <BitmapImage x:Key="THBBE" UriSource="Images/THBBE.ico"/>
+    <BitmapImage x:Key="THBBS" UriSource="Images/THBBS.ico"/>
+   
     <BitmapImage x:Key="TH_NuanTongTuCeng" UriSource="Images/TH_NuanTongTuCeng.ico"/>
     <BitmapImage x:Key="THMLK" UriSource="Images/THMLK.ico"/>
     <BitmapImage x:Key="THMUK" UriSource="Images/THMUK.ico"/>
@@ -40,6 +45,10 @@
     <BitmapImage x:Key="THBAC" UriSource="Images/THBAC.ico"/>
     <BitmapImage x:Key="DGNPURGE" UriSource="Images/DGNPURGE.ico"/>
 
+    <BitmapImage x:Key="TZLOOK" UriSource="Images/TZLOOK.ico"/>
+    <BitmapImage x:Key="T20V4" UriSource="Images/T20V4.0.ico"/>
+    <BitmapImage x:Key="T20V5" UriSource="Images/T20V5.0.ico"/>
+   
     <BitmapImage x:Key="THBPS" UriSource="Images/THBPS.ico"/>
     <BitmapImage x:Key="THSPS" UriSource="Images/THSPS.ico"/>
     <BitmapImage x:Key="THCSP" UriSource="Images/THCSP.ico"/>
@@ -51,6 +60,8 @@
     <BitmapImage x:Key="THBPD" UriSource="Images/THBPD.ico"/>
     <BitmapImage x:Key="THBPP" UriSource="Images/THBPP.ico"/>
     <BitmapImage x:Key="THSVM" UriSource="Images/THSVM.ico"/>
+    <BitmapImage x:Key="THLTR" UriSource="Images/THLTR.ico"/>
+    <BitmapImage x:Key="THMIR" UriSource="Images/THMIR.ico"/>
     <BitmapImage x:Key="THUPT" UriSource="Images/THUPT.ico"/>
 
 
@@ -156,7 +167,60 @@
                     </adw:RibbonButton.ToolTip>
                 </adw:RibbonButton>
 
-            </adw:RibbonPanelSource>
+
+            <adw:RibbonSplitButton Text="图块断线" IsSplit="True" IsSynchronizedWithCurrentItem="False"
+                                        ShowImage="True" ShowText="True"
+                                        Orientation="Vertical" Size="Large"
+                                       LargeImage="{StaticResource BLOCKSPLIT}"
+                                        >
+               <adw:RibbonSplitButton.ToolTip>
+                  <adw:RibbonToolTip  
+                    Title="图块断线"
+                    Content="提供多种图块断线的功能"/>
+               </adw:RibbonSplitButton.ToolTip>
+
+               <adw:RibbonButton Name="插块断线" Text = "插块断线"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THBBR}"
+                                    Image="{StaticResource THBBR}"
+                                CommandParameter="THBBR">
+                  <adw:RibbonButton.ToolTip>
+                     <adw:RibbonToolTip  
+                    Title="插块断线"
+                    Content="将选择的图块插入到直线/多段线时自动断线"/>
+                  </adw:RibbonButton.ToolTip>
+               </adw:RibbonButton>
+
+               <adw:RibbonButton Name="选块断线" Text = "选块断线"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THBBE}"
+                                    Image="{StaticResource THBBE}"
+                                CommandParameter="THBBE">
+                  <adw:RibbonButton.ToolTip>
+                     <adw:RibbonToolTip  
+                    Title="选块断线"
+                    Content="点选单个图块，根据所需断线的切线方向自动调整图块角度且完成断线"/>
+                  </adw:RibbonButton.ToolTip>
+               </adw:RibbonButton>
+
+               <adw:RibbonButton Name="全选断线" Text = "全选断线"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource THBBS}"
+                                    Image="{StaticResource THBBS}"
+                                CommandParameter="THBBS">
+                  <adw:RibbonButton.ToolTip>
+                     <adw:RibbonToolTip  
+                    Title="全选断线"
+                    Content="批量选择需要断线的图块，根据各自所需断线的切线方向自动调整图块角度且完成断线"/>
+                  </adw:RibbonButton.ToolTip>
+               </adw:RibbonButton>
+
+            </adw:RibbonSplitButton>
+
+         </adw:RibbonPanelSource>
         </adw:RibbonPanel>
 
         <adw:RibbonPanel>
@@ -598,10 +662,80 @@
                     Content="批量修改图框内的版次信息或出图日期"/>
                   </adw:RibbonButton.ToolTip>
                </adw:RibbonButton>
+               <adw:RibbonRowBreak/>
 
+               <adw:RibbonButton   Name="管线断线" Text = "管线断线"
+                                    ShowImage="True" ShowText="True" 
+                                    Size="Standard"
+                                    LargeImage="{StaticResource THLTR}"
+                                    Image="{StaticResource THLTR}"               
+                                    CommandParameter="THLTR">
+                  <adw:RibbonButton.ToolTip>
+                     <adw:RibbonToolTip  
+                    Title="管线断线"
+                            Command="THLTR"
+                    Content="批量处理管线断线"/>
+                  </adw:RibbonButton.ToolTip>
+               </adw:RibbonButton>
+               <adw:RibbonRowBreak/>
+
+               <adw:RibbonButton   Name="文字块镜像" Text = "文字块镜像"
+                                    ShowImage="True" ShowText="True" 
+                                    Size="Standard"
+                                    LargeImage="{StaticResource THMIR}"
+                                    Image="{StaticResource THMIR}"               
+                                    CommandParameter="THMIR">
+                  <adw:RibbonButton.ToolTip>
+                     <adw:RibbonToolTip  
+                    Title="文字块镜像"
+                            Command="THMIR"
+                    Content="镜像含文字块，使文字不反向"/>
+                  </adw:RibbonButton.ToolTip>
+               </adw:RibbonButton>
             </adw:RibbonRowPanel>
-               
-               
+
+
+            <adw:RibbonRowPanel>
+               <adw:RibbonSplitButton Text="天正看图插件" IsSplit="True" IsSynchronizedWithCurrentItem="False"
+                                        ShowImage="True" ShowText="True"
+                                        Orientation="Vertical" Size="Large"
+                                       LargeImage="{StaticResource TZLOOK}"
+                                        >
+                  <adw:RibbonSplitButton.ToolTip>
+                     <adw:RibbonToolTip  
+                    Title="天正看图插件"
+                    Content="天正看图插件"/>
+                  </adw:RibbonSplitButton.ToolTip>
+
+                  <adw:RibbonButton Name="获取天正看图T20V4.0插件" Text = "获取天正看图T20V4.0插件"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource T20V4}"
+                                    Image="{StaticResource T20V4}"
+                                CommandParameter="T20V4">
+                     <adw:RibbonButton.ToolTip>
+                        <adw:RibbonToolTip  
+                    Title="获取天正看图T20V4.0插件"
+                    Content="获取天正看图T20V4.0插件"/>
+                     </adw:RibbonButton.ToolTip>
+                  </adw:RibbonButton>
+
+                  <adw:RibbonButton Name="获取天正看图T20V5.0插件" Text = "获取天正看图T20V5.0插件"
+                                    ShowImage="True" ShowText="True" 
+                                    Orientation="Vertical" Size="Large"
+                                    LargeImage="{StaticResource T20V5}"
+                                    Image="{StaticResource T20V5}"
+                                CommandParameter="T20V5">
+                     <adw:RibbonButton.ToolTip>
+                        <adw:RibbonToolTip  
+                    Title="获取天正看图T20V5.0插件"
+                    Content="获取天正看图T20V5.0插件"/>
+                     </adw:RibbonButton.ToolTip>
+                  </adw:RibbonButton>
+               </adw:RibbonSplitButton>
+            </adw:RibbonRowPanel>
+
+
          </adw:RibbonPanelSource>
         </adw:RibbonPanel>
 

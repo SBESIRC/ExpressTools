@@ -182,6 +182,19 @@
     <Resource Include="Images\THFET.ico" />
     <Resource Include="Images\THSVM.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\T20V4.0.ico" />
+    <Resource Include="Images\T20V5.0.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BLOCKSPLIT.ico" />
+    <Resource Include="Images\THBBE.ico" />
+    <Resource Include="Images\THBBR.ico" />
+    <Resource Include="Images\THBBS.ico" />
+    <Resource Include="Images\THLTR.ico" />
+    <Resource Include="Images\THMIR.ico" />
+    <Resource Include="Images\TZLOOK.ico" />
+  </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
       <ItemGroup>
