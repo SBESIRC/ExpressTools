@@ -9,7 +9,7 @@ using ThAreaFrameConfig.Presenter;
 
 namespace ThAreaFrameConfig.Command
 {
-    public class ThCreateAreaFrameCommand : ICreateAreaFrameCommand
+    public class ThCreateAreaFrameCommand : IAreaFrameCommand
     {
         private static PromptStatus Status { get; set; }
         public Func<string, ObjectId> LayerCreator { get; set; }
@@ -24,11 +24,6 @@ namespace ThAreaFrameConfig.Command
 
         public void Execute()
         {
-        }
-
-        public void Execute(object[] parameters)
-        {
-            var name = parameters[0] as string;
             using (Active.Document.LockDocument())
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
@@ -51,6 +46,7 @@ namespace ThAreaFrameConfig.Command
                     var entSelected = Active.Editor.GetSelection(options, filterlist);
                     if ((Status = entSelected.Status) == PromptStatus.OK)
                     {
+                        var name = (string)Active.Document.UserData["LayerName"];
                         foreach (var objId in entSelected.Value.GetObjectIds())
                         {
                             // 复制面积框线

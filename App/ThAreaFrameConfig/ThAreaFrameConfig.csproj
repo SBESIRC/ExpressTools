@@ -48,7 +48,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\ICreateAreaFrameCommand.cs" />
+    <Compile Include="Command\IAreaFrameCommand.cs" />
     <Compile Include="Command\ThCreateAreaFrameCommand.cs" />
     <Compile Include="Command\ThCreateAreaFrameCmdHandler.cs" />
     <Compile Include="Model\IThAOccupancyRepository.cs" />

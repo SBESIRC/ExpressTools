@@ -214,7 +214,7 @@ namespace ThAreaFrameConfig.WinForms
                 {
                     LayerCreator = ThResidentialRoomDbUtil.ConfigLayer
                 };
-                ThCreateAreaFrameCmdHandler.ExecuteFromCommandLine("*THCREATAREAFRAME");
+                ThCreateAreaFrameCmdHandler.ExecuteFromCommandLine("*THCREATEAREAFRAME");
             }
         }
 
@@ -236,16 +236,22 @@ namespace ThAreaFrameConfig.WinForms
             }
 
             ThResidentialAreaFrame areaFrame = (ThResidentialAreaFrame)view.GetRow(e.RowHandle);
+            // 面积框线图层名
+            ThResidentialRoom room = DbRepository.Rooms(this.CurrentStorey).Where(o => o.ID == areaFrame.RoomID).First();
+            ThResidentialStorey storey = DbRepository.Storeys().Where(o => o.ID == room.StoreyID).First();
+            ThResidentialRoomComponent component = room.Components.Find(o => o.ID == areaFrame.ComponentID);
+            string newName = ThResidentialRoomUtil.LayerName(storey, room, component, areaFrame);
             if (areaFrame.IsDefined)
             {
-                // 面积框线图层名
-                ThResidentialRoom room = DbRepository.Rooms(this.CurrentStorey).Where(o => o.ID == areaFrame.RoomID).First();
-                ThResidentialStorey storey = DbRepository.Storeys().Where(o => o.ID == room.StoreyID).First();
-                ThResidentialRoomComponent component = room.Components.Find(o => o.ID == areaFrame.ComponentID);
-                string name = ThResidentialRoomUtil.LayerName(storey, room, component, areaFrame);
-
                 // 更新面积框线图层名
-                Presenter.OnMoveAreaFrameToLayer(name, areaFrame.Frame);
+                Presenter.OnMoveAreaFrameToLayer(newName, areaFrame.Frame);
+            }
+            else
+            {
+                if (ThCreateAreaFrameCmdHandler.Handler != null)
+                {
+                    ThCreateAreaFrameCmdHandler.LayerName = newName;
+                }
             }
         }
 
@@ -801,7 +807,7 @@ namespace ThAreaFrameConfig.WinForms
 
         private void OnAreaFrameCommandEnded(object sender, CommandEventArgs e)
         {
-            if (e.GlobalCommandName == "*THCREATAREAFRAME")
+            if (e.GlobalCommandName == "*THCREATEAREAFRAME")
             {
                 if (ThCreateAreaFrameCmdHandler.Handler.Success)
                 {
