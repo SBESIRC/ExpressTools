@@ -187,8 +187,8 @@
     <Resource Include="Images\TZLOOK.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\THBBE.ico" />
-    <Content Include="Images\THBBR.ico" />
+    <Resource Include="Images\THBBE.ico" />
+    <Resource Include="Images\THBBR.ico" />
     <Resource Include="Images\THBLI.ico" />
     <Resource Include="Images\THBLS.ico" />
     <Resource Include="Images\THCNU.ico" />
