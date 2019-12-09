@@ -61,8 +61,8 @@ namespace TianHua.AutoCAD.ThCui
                 //添加一个子菜单
                 var  menuModify = thMenu.AddSubMenu(-1, "图块图库", "ID_THMenu_TuKuaiTuKu");
                 kps = new List<ThCommandInfo> {
-                    new ThCommandInfo("图块集 <THBLI>", "THBLI", "打开图块集工具选项板",false),
-                    new ThCommandInfo("图块集配置 <THBLS>", "THBLS", "配置各专业图块集",false),
+                    new ThCommandInfo("图块集 <THBLI>", "THBLI", "打开图块集工具选项板",true),
+                    new ThCommandInfo("图块集配置 <THBLS>", "THBLS", "配置各专业图块集",true),
                     new ThCommandInfo("提电气块转换 <THBEE>", "THBEE", "将暖通和给排水专业提资给电气的图块转换为电气专业所需的图块",true)
                 };
                 kps.ForEach(kp =>
@@ -85,7 +85,7 @@ namespace TianHua.AutoCAD.ThCui
 
                 menuModify = thMenu.AddSubMenu(-1, "标注工具", "ID_THMenu_BiaoZhu");
                 kps = new List<ThCommandInfo> {
-                    new ThCommandInfo("车位编号 <THCNU>", "THCNU", "绘制多段线穿过所需编号停车位图块，根据多段线穿过停车位的先后顺序快速生成车位编号:",false),
+                    new ThCommandInfo("车位编号 <THCNU>", "THCNU", "绘制多段线穿过所需编号停车位图块，根据多段线穿过停车位的先后顺序快速生成车位编号:",true),
                     new ThCommandInfo("尺寸避让 <THDTA>", "THDTA", "调整交叉或重叠的标注文字以避免发生位置冲突",true)
                 };
                 kps.ForEach(kp =>
@@ -148,7 +148,7 @@ namespace TianHua.AutoCAD.ThCui
 
                 menuModify = thMenu.AddSubMenu(-1, "文字表格", "ID_THMenu_WenZiBiaoGe");
                 kps = new List<ThCommandInfo> {
-                    new ThCommandInfo("文字内容刷 <THMTC>", "THMTC", "将目标文字内容替换为源文字内容",false)
+                    new ThCommandInfo("文字内容刷 <THMTC>", "THMTC", "将目标文字内容替换为源文字内容",true)
                 };
                 kps.ForEach(kp =>
                 {
@@ -158,7 +158,7 @@ namespace TianHua.AutoCAD.ThCui
 
                 menuModify = thMenu.AddSubMenu(-1, "辅助工具", "ID_THMenu_FuZhuGongJu");
                 kps = new List<ThCommandInfo> {
-                    new ThCommandInfo("批量缩放 <THMSC>", "THMSC", "对多个选择对象以各自的开始点（插入点）为基准点进行批量比例缩放",false),
+                    new ThCommandInfo("批量缩放 <THMSC>", "THMSC", "对多个选择对象以各自的开始点（插入点）为基准点进行批量比例缩放",true),
                     new ThCommandInfo("Z值归零 <THZ0>", "THZ0", "将模型空间内所有对象Z值归零，使之处于同一平面",true),
 #if ACAD2012 || ACAD2014
                     new ThCommandInfo("DGN清理 <DGNPURGE>", "DGNPURGE", "清理图纸中多余DGN对象，含多余的DGN线型、注释比例等",true),

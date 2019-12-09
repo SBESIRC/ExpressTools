@@ -91,11 +91,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\THBLI.png" />
-    <Resource Include="Images\THBLS.png" />
-    <Resource Include="Images\THCNU.png" />
     <Resource Include="Images\THHLP.png" />
-    <Resource Include="Images\THMSC.png" />
     <Resource Include="Images\tianhua.png" />
     <Resource Include="Images\tip_chewei.gif" />
   </ItemGroup>
@@ -104,9 +100,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THMTC.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\THELC.png" />
@@ -188,12 +181,19 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\BLOCKSPLIT.ico" />
-    <Resource Include="Images\THBBE.ico" />
-    <Resource Include="Images\THBBR.ico" />
     <Resource Include="Images\THBBS.ico" />
     <Resource Include="Images\THLTR.ico" />
     <Resource Include="Images\THMIR.ico" />
     <Resource Include="Images\TZLOOK.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\THBBE.ico" />
+    <Content Include="Images\THBBR.ico" />
+    <Resource Include="Images\THBLI.ico" />
+    <Resource Include="Images\THBLS.ico" />
+    <Resource Include="Images\THCNU.ico" />
+    <Resource Include="Images\THMSC.ico" />
+    <Resource Include="Images\THMTC.ico" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">

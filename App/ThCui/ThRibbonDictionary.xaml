@@ -4,14 +4,14 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <BitmapImage x:Key="THCADLOGIN" UriSource="Images/THLOGIN.png" />
-    <BitmapImage x:Key="THCNU" UriSource="Images/THCNU.png"/>
+    <BitmapImage x:Key="THCNU" UriSource="Images/THCNU.ico"/>
     <BitmapImage x:Key="THCADLOGOUT" UriSource="Images/THLOGOUT.png"/>
-    <BitmapImage x:Key="THBLI" UriSource="Images/THBLI.png"/>
-    <BitmapImage x:Key="THBLS" UriSource="Images/THBLS.png"/>
+    <BitmapImage x:Key="THBLI" UriSource="Images/THBLI.ico"/>
+    <BitmapImage x:Key="THBLS" UriSource="Images/THBLS.ico"/>
     <BitmapImage x:Key="tip_THCNU" UriSource="Images/tip_THCNU.gif"/>
     <BitmapImage x:Key="tianhua" UriSource="Images/tianhua.png"/>
-    <BitmapImage x:Key="THMTC" UriSource="Images/THMTC.png"/>
-    <BitmapImage x:Key="THMSC" UriSource="Images/THMSC.png"/>
+    <BitmapImage x:Key="THMTC" UriSource="Images/THMTC.ico"/>
+    <BitmapImage x:Key="THMSC" UriSource="Images/THMSC.ico"/>
     <BitmapImage x:Key="THHLP" UriSource="Images/THHLP.png"/>
 
 
