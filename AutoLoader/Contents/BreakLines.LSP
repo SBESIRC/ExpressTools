@@ -5,6 +5,7 @@
   (setq VAR2 (getvar"cmdecho"))
   (setvar "cmdecho" 1)
   (command "ucs" "")
+  (command "undo" "be")
   
   (princ "\n ‰»Î∂œœﬂæ‡¿Î:<")
   (prin1 LASTD)
@@ -64,6 +65,7 @@
   
   (setvar "cmdecho" VAR2)
   (command "ucs" "p" )
+  (command "undo" "end")
 ) 
 
 (vl-load-com) (princ)
