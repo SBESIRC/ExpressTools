@@ -57,21 +57,29 @@ namespace ThMirror
                         var mirrorData = item.Value;
                         var mirrorBlockReference = item.Key;
 
-                        // 处理镜像对象
-                        ThMirrorDbUtils.ReplaceBlockReferenceWithMirrorData(mirrorData);
+                        try
+                        {
+                            // 处理镜像对象
+                            ThMirrorDbUtils.ReplaceBlockReferenceWithMirrorData(mirrorData);
 
-                        // 创建新的块引用
-                        ThMirrorDbUtils.InsertBlockReferenceWithMirrorData(mirrorData);
+                            // 创建新的块引用
+                            ThMirrorDbUtils.InsertBlockReferenceWithMirrorData(mirrorData);
 
-                        // 删除旧的块引用
-                        acadDatabase.Element<BlockReference>(mirrorBlockReference, true).Erase();
+                            // 删除旧的块引用
+                            acadDatabase.Element<BlockReference>(mirrorBlockReference, true).Erase();
+                        }
+                        catch
+                        {
+                            // 捕捉处理过程中的所有异常
+                        }
                     };
-
-                    // 镜像命令结束后，“清零”所有数据
-                    ThMirrorEngine.Instance.Sources.Clear();
-                    ThMirrorEngine.Instance.Targets.Clear();
                 }
 
+                // 镜像结束后，“清零”所有数据
+                ThMirrorEngine.Instance.Sources.Clear();
+                ThMirrorEngine.Instance.Targets.Clear();
+
+                // 停止镜像处理
                 ThMirrorEngine.Instance.Stop();
                 Instance.UnsubscribeToDoc(Active.Document);
             }
