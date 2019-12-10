@@ -29,7 +29,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry AppName="BatchPlotDwfLisp"                  ModuleName="./Contents/BatchPlotDWF.lsp"        PerDocument="True" />
         <ComponentEntry AppName="VersionModifyLisp"                 ModuleName="./Contents/VersionModify.lsp"       PerDocument="True" />
         <ComponentEntry AppName="BreakLinesLisp"                    ModuleName="./Contents/BreakLines.lsp"          PerDocument="True" />
-        <ComponentEntry AppName="IntersectUtilsLisp"                ModuleName="./Contents/IntersectUtils.lsp"      PerDocument="True" />
+        <ComponentEntry AppName="BreakObjectsUtilsLisp"             ModuleName="./Contents/BreakObjects.lsp"        PerDocument="True" />
         <ComponentEntry AppName="AutoBlockBreak"                    ModuleName="./Contents/AutoBlockBreak.lsp"      PerDocument="True" />
     </Components>
     <Components Description="Partial CUIX parts">
