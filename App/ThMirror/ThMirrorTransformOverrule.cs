@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
+using AcadException = Autodesk.AutoCAD.Runtime.Exception;
 
 namespace ThMirror
 {
@@ -40,10 +39,29 @@ namespace ThMirror
         private void TransformBy(ThMirrorData mirrorData, Matrix3d transform)
         {
             // 处理子实体
+            var unhandledObjs = new DBObjectCollection();
             foreach (DBObject obj in mirrorData.blockEntities)
             {
-                var entity = obj as Entity;
-                entity.TransformBy(transform);
+                try
+                {
+                    var entity = obj as Entity;
+                    entity.TransformBy(transform);
+                }
+                catch(AcadException e)
+                {
+                    // 若文字未找到指定的字体，则会抛出eMissingSymbolTableRec异常
+                    // 对于这样的文字，本身在CAD中就无法显示，这里我们正好可以剔除掉这些文字
+                    if (e.ErrorStatus == ErrorStatus.MissingSymbolTableRecord)
+                    {
+                        unhandledObjs.Add(obj);
+                    }
+                }
+            }
+
+            // 剔除掉未处理子实体
+            foreach(DBObject obj in unhandledObjs)
+            {
+                mirrorData.blockEntities.Remove(obj);
             }
 
             // 处理嵌套块
