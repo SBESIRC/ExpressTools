@@ -14,7 +14,7 @@
            (not (prompt "\n选择上方管线："))
            (setq ss2 (ssget "_:L" '((0 . "LINE,ARC,SPLINE,LWPOLYLINE,POLYLINE,CIRCLE,ELLIPSE"))))
       )
-    (break_with ss2 ss1 nil Bgap) ; ss2break ss1breakwith (flag nil = not to break with self)
+    (break_with ss1 ss2 nil Bgap) ; ss2break ss1breakwith (flag nil = not to break with self)
   )
 
   (setvar "CMDECHO" cmd)
