@@ -13,10 +13,12 @@ namespace ThMirror
     {
         public void Initialize()
         {
+            ThMirrorDocumentCollectionReactor.Instance.Register();
         }
 
         public void Terminate()
         {
+            ThMirrorDocumentCollectionReactor.Instance.UnRegister();
         }
 
         // 天华镜像
@@ -33,11 +35,8 @@ namespace ThMirror
         [CommandMethod("TIANHUACAD", "THMIR", CommandFlags.Transparent)]
         public void ThMirror()
         {
-            // 注册命令事件
-            ThMirrorDocumentReactor.Instance.SubscribeToDoc(Active.Document);
-
-            // 异步运行“镜像”命令
-            Active.Editor.PostCommand("_.MIRROR ");
+            ThMirrorEngine.Instance.Start();
+            Active.Document.SendStringToExecute("_.MIRROR ", true, false, true);
         }
 
         // 天华Burst
