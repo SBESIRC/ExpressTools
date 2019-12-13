@@ -5,9 +5,7 @@ namespace ThMirror
 {
     public class ThMirrorEngine
     {
-        private Dictionary<ObjectId, ThMirrorData> sources;
         private Dictionary<ObjectId, ThMirrorData> targets;
-        public Dictionary<ObjectId, ThMirrorData> Sources { get => sources; set => sources = value; }
         public Dictionary<ObjectId, ThMirrorData> Targets { get => targets; set => targets = value; }
 
 
@@ -20,7 +18,6 @@ namespace ThMirror
         static ThMirrorEngine() { }
         internal ThMirrorEngine()
         {
-            Sources = new Dictionary<ObjectId, ThMirrorData>();
             Targets = new Dictionary<ObjectId, ThMirrorData>();
         }
         public static ThMirrorEngine Instance { get { return instance; } }

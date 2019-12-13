@@ -28,7 +28,7 @@
     <Compile Include="ThMirrorApp.cs" />
     <Compile Include="ThMirrorData.cs" />
     <Compile Include="ThMirrorDbUtils.cs" />
-    <Compile Include="ThMirrorDocumentReactor.cs" />
+    <Compile Include="ThMirrorDocumentCollectionReactor.cs" />
     <Compile Include="ThMirrorEditorReactor.cs" />
     <Compile Include="ThMirrorEngine.cs" />
     <Compile Include="ThMirrorObjectOverrule.cs" />
