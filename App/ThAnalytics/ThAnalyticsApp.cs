@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Collections;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.ApplicationServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
-using System.Text.RegularExpressions;
-
-[assembly: CommandClass(typeof(ThAnalytics.ThAnalyticsCommands))]
-[assembly: ExtensionApplication(typeof(ThAnalytics.ThAnalyticsApp))]
 
 namespace ThAnalytics
 {
     public class ThAnalyticsApp : IExtensionApplication
     {
-        // command name filters
+        // 命令“黑名单”，包括：
+        //  1.最常用的命令
+        //  2.不太重要的天华CAD命令
+        // 这里的命令将不会出现在数据分析中
         private readonly ArrayList filters = new ArrayList {
-            "THDAS",
-            "THDAE",
             "QUIT",
             "OPEN",
             "CLOSE",
@@ -47,6 +45,7 @@ namespace ThAnalytics
             "DIMARC",
             "DIMCONTINUE",
             "XREF",
+            "-XREF",
             "REFEDIT",
             "LAYER",
             "-LAYER",
@@ -77,7 +76,6 @@ namespace ThAnalytics
             "LAYOUT",
             "UNDEFINE",
             "GRIP_STRETCH",
-            "-PURGE",
             "COPYCLIP",
             "LAYOUT_CONTROL",
             "PASTECLIP",
@@ -86,9 +84,9 @@ namespace ThAnalytics
             "EXTERNALREFERENCES",
             "AUDIT",
             "PURGE",
+            "-PURGE",
             "OPTIONS",
             "DRAWORDER",
-            "-XREF",
             "COLOR",
             "LINETYPE",
             "REFCLOSE",
@@ -102,7 +100,9 @@ namespace ThAnalytics
             "HELP",
             "LAYON",
             "SELECT",
-            "XATTACH"
+            "XATTACH",
+            "APPLOAD",
+            "NETLOAD",
         };
 
         private readonly Hashtable commandhashtable = new Hashtable();
@@ -115,10 +115,11 @@ namespace ThAnalytics
 
         public void Terminate()
         {
-            // unhook event handlers
-            RemoveCommandHandler();
+            // unhook DocumentCollection reactors
+            AcadApp.DocumentManager.DocumentLockModeChanged -= DocCollEvent_DocumentLockModeChanged_Handler;
+
             // unhook application event handlers
-            RemoveAppEventHandler();
+            AcadApp.SystemVariableChanged -= AcadApp_SystemVariableChanged;
 
             //end the user session
             ThCountlyServices.Instance.EndSession();
@@ -127,24 +128,15 @@ namespace ThAnalytics
         private void Application_OnIdle(object sender, EventArgs e)
         {
             AcadApp.Idle -= new EventHandler(Application_OnIdle);
-            
+
+            // hook DocumentCollection reactors
+            AcadApp.DocumentManager.DocumentLockModeChanged += DocCollEvent_DocumentLockModeChanged_Handler;
+
             // hook event handlers
-            AddCommandHandler();
-            // hook event handlers
-            AddAppEventHandler();
+            AcadApp.SystemVariableChanged += AcadApp_SystemVariableChanged;
 
             //start the user session
             ThCountlyServices.Instance.StartSession();
-        }
-
-        private void AddAppEventHandler()
-        {
-            AcadApp.SystemVariableChanged += AcadApp_SystemVariableChanged;
-        }
-
-        private void RemoveAppEventHandler()
-        {
-            AcadApp.SystemVariableChanged -= AcadApp_SystemVariableChanged;
         }
 
         private void AcadApp_SystemVariableChanged(object sender, SystemVariableChangedEventArgs e)
@@ -152,325 +144,83 @@ namespace ThAnalytics
             ThCountlyServices.Instance.RecordSysVerEvent(e.Name, AcadApp.GetSystemVariable(e.Name).ToString());
         }
 
-        private void AddCommandHandler()
+        private void DocCollEvent_DocumentLockModeChanged_Handler(object sender, DocumentLockModeChangedEventArgs e)
         {
-            AcadApp.DocumentManager.DocumentCreated += DocumentManager_DocumentCreated;
-
-            foreach (Document d in AcadApp.DocumentManager)
+            if (e.GlobalCommandName.StartsWith("#"))
             {
-                SubscribeToDoc(d);
+                // Unlock状态，可以看做命令结束状态
+                // 剔除掉最前面的“#”
+                var cmdName = e.GlobalCommandName.Substring(1);
+
+                // 过滤""命令
+                // 通常发生在需要“显式”锁文档的场景中
+                if (cmdName == "")
+                {
+                    return;
+                }
+
+                // 过滤“黑名单”里的命令
+                if (filters.Contains(cmdName))
+                {
+                    return;
+                }
+
+                // 这里已经无法知道命令结束的状态（正常结束，取消，失败）
+                // 但是对于数据分析来说，命令结束的状态并不重要
+                // 数据分析关心的是：那些命令被执行过
+                if (commandhashtable.ContainsKey(cmdName))
+                {
+                    Stopwatch sw = (Stopwatch)commandhashtable[cmdName];
+                    ThCountlyServices.Instance.RecordCommandEvent(cmdName, sw.Elapsed.TotalSeconds);
+                    ThCountlyServices.Instance.RecordTHCommandEvent(cmdName, sw.Elapsed.TotalSeconds);
+                    commandhashtable.Remove(cmdName);
+                }
             }
-        }
-
-        private void RemoveCommandHandler()
-        {
-            AcadApp.DocumentManager.DocumentCreated -= DocumentManager_DocumentCreated;
-
-            foreach (Document d in AcadApp.DocumentManager)
+            else
             {
-                UnsubscribeToDoc(d);
+                // Lock状态，可以看做命令开始状态
+                var cmdName = e.GlobalCommandName;
+
+                // 过滤""命令
+                // 通常发生在需要“显式”锁文档的场景中
+                if (cmdName == "")
+                {
+                    return;
+                }
+
+                // 过滤“黑名单”里的命令
+                if (filters.Contains(cmdName))
+                {
+                    return;
+                }
+
+                // 天华Lisp命令都是以“TH”开头
+                // 特殊情况（C:THZ0）
+                if (Regex.Match(cmdName, @"^\([cC]:THZ0\)$").Success)
+                {
+                    var lispCmdName = cmdName.Substring(3, cmdName.Length - 4);
+                    ThCountlyServices.Instance.RecordTHCommandEvent(lispCmdName, 0);
+                    return;
+                }
+
+                // 正常情况（C:THXXX）
+                if (Regex.Match(cmdName, @"^\([cC]:TH[A-Z]{3,}\)$").Success)
+                {
+                    var lispCmdName = cmdName.Substring(3, cmdName.Length - 4);
+                    ThCountlyServices.Instance.RecordTHCommandEvent(cmdName, 0);
+                    return;
+                }
+
+                // 记录命令开始
+                // 有些CAD内部命令可能并不严格遵循开始-》结束的序列
+                // 这些都是怪异的命令，数据分析对这些命令也不感兴趣
+                // 这里我们可以忽略这些“异常”命令
+                if (commandhashtable.ContainsKey(cmdName))
+                {
+                    commandhashtable.Remove(cmdName);
+                }
+                commandhashtable.Add(cmdName, Stopwatch.StartNew());
             }
-        }
-
-        private void SubscribeToDoc(Document d)
-        {
-            d.CommandWillStart += Document_CommandWillStart;
-            d.CommandEnded += Document_CommandEnded;
-            d.CommandCancelled += Document_CommandCancelled;
-            d.CommandFailed += Documet_CommandFailed;
-            d.UnknownCommand += Document_UnknownCommand;
-
-            d.LispWillStart += Document_LispWillStart;
-        }
-
-        private void Document_LispWillStart(object sender, LispWillStartEventArgs e)
-        {
-            // 特殊情况（C:THZ0）
-            if (Regex.Match(e.FirstLine, @"^\([cC]:THZ0\)$").Success)
-            {
-                ThCountlyServices.Instance.RecordTHCommandEvent(e.FirstLine.Substring(3, e.FirstLine.Length - 4), 0);
-                return;
-            }
-
-            // 正常情况（C:THXXX）
-            string pattern = @"^\([cC]:TH[A-Z]{3,}\)$";
-            if (Regex.Match(e.FirstLine, pattern).Success)
-            {
-                ThCountlyServices.Instance.RecordTHCommandEvent(e.FirstLine.Substring(3, e.FirstLine.Length - 4), 0);
-            }
-        }
-
-        private void UnsubscribeToDoc(Document d)
-        {
-            d.CommandWillStart -= Document_CommandWillStart;
-            d.CommandEnded -= Document_CommandEnded;
-            d.CommandCancelled -= Document_CommandCancelled;
-            d.CommandFailed -= Documet_CommandFailed;
-            d.UnknownCommand -= Document_UnknownCommand;
-        }
-
-        private void DocumentManager_DocumentCreated(object sender, DocumentCollectionEventArgs e)
-        {
-            SubscribeToDoc(e.Document);
-        }
-
-        private void Document_CommandWillStart(object sender, CommandEventArgs e)
-        {
-            commandhashtable.Add(e.GlobalCommandName, Stopwatch.StartNew());
-        }
-
-        private void Document_CommandEnded(object sender, CommandEventArgs e)
-        {
-            if (filters.Contains(e.GlobalCommandName))
-                return;
-
-            if (commandhashtable.ContainsKey(e.GlobalCommandName))
-            {
-                Stopwatch sw = (Stopwatch)commandhashtable[e.GlobalCommandName];
-                ThCountlyServices.Instance.RecordCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
-                ThCountlyServices.Instance.RecordTHCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
-                commandhashtable.Remove(e.GlobalCommandName);
-            }
-        }
-
-        private void Document_CommandCancelled(object sender, CommandEventArgs e)
-        {
-            if (commandhashtable.ContainsKey(e.GlobalCommandName))
-            {
-                commandhashtable.Remove(e.GlobalCommandName);
-            }
-        }
-
-        private void Documet_CommandFailed(object sender, CommandEventArgs e)
-        {
-            if (commandhashtable.ContainsKey(e.GlobalCommandName))
-            {
-                commandhashtable.Remove(e.GlobalCommandName);
-            }
-        }
-
-        private void Document_UnknownCommand(object sender, UnknownCommandEventArgs e)
-        {
-        }
-
-    }
-
-    public class ThAnalyticsCommands
-    {
-        // command name filters
-        private readonly ArrayList filters = new ArrayList {
-            "THDAS",
-            "THDAE",
-            "QUIT",
-            "OPEN",
-            "CLOSE",
-            "SAVE",
-            "NEW",
-            "SAVEAS",
-            "UNDO",
-            "MREDO",
-            "LINE",
-            "CIRCLE",
-            "PLINE",
-            "POLYGON",
-            "RECTANG",
-            "ARC",
-            "SPLINE",
-            "ELLIPSE",
-            "INSERT",
-            "BLOCK",
-            "HATCH",
-            "TEXT",
-            "MTEXT",
-            "DDEDIT",
-            "MTEDIT",
-            "BEDIT",
-            "DIST",
-            "DIMLINEAR",
-            "DIMALIGNED",
-            "DIMARC",
-            "DIMCONTINUE",
-            "XREF",
-            "REFEDIT",
-            "LAYER",
-            "-LAYER",
-            "ERASE",
-            "COPY",
-            "COPYBASE",
-            "MIRROR",
-            "OFFSET",
-            "MOVE",
-            "ROTATE",
-            "SCALE",
-            "TRIM",
-            "EXTEND",
-            "BREAK",
-            "FILLET",
-            "EXPLODE",
-            "PROPERTIES",
-            "MATCHPROP",
-            "REGEN",
-            "ZOOM",
-            "CUTCLIP",
-            "AI_SELALL",
-            "FIND",
-            "UCS",
-            "SETVAR",
-            "U",
-            "QSAVE",
-            "LAYOUT",
-            "UNDEFINE",
-            "GRIP_STRETCH",
-            "-PURGE",
-            "COPYCLIP",
-            "LAYOUT_CONTROL",
-            "PASTECLIP",
-            "STRETCH",
-            "PLOT",
-            "EXTERNALREFERENCES",
-            "AUDIT",
-            "PURGE",
-            "OPTIONS",
-            "DRAWORDER",
-            "-XREF",
-            "COLOR",
-            "LINETYPE",
-            "REFCLOSE",
-            "MSPACE",
-            "PSPACE",
-            "GRIP_POPUP",
-            "COMMANDLINE",
-            "LAYOFF",
-            "XOPEN",
-            "DIMSTYLE",
-            "HELP",
-            "LAYON",
-            "SELECT",
-            "XATTACH"
-        };
-
-        private readonly Hashtable commandhashtable = new Hashtable();
-
-        [CommandMethod("TIANHUACAD", "THDAS", CommandFlags.Modal)]
-        public void ThAnalyticsStart()
-        {
-            ThCountlyServices.Instance.Initialize();
-            // hook event handlers
-            AddCommandHandler();
-            // hook event handlers
-            AddAppEventHandler();
-
-            //start the user session
-            ThCountlyServices.Instance.StartSession();
-        }
-
-        [CommandMethod("TIANHUACAD", "THDAE", CommandFlags.Modal)]
-        public void ThAnalyticsEnd()
-        {
-            // unhook event handlers
-            RemoveCommandHandler();
-            // unhook application event handlers
-            RemoveAppEventHandler();
-
-            //end the user session
-            ThCountlyServices.Instance.EndSession();
-        }
-
-        private void AddAppEventHandler()
-        {
-            AcadApp.SystemVariableChanged += AcadApp_SystemVariableChanged;
-        }
-
-        private void RemoveAppEventHandler()
-        {
-            AcadApp.SystemVariableChanged -= AcadApp_SystemVariableChanged;
-        }
-
-        private void AcadApp_SystemVariableChanged(object sender, SystemVariableChangedEventArgs e)
-        {
-            ThCountlyServices.Instance.RecordSysVerEvent(e.Name, AcadApp.GetSystemVariable(e.Name).ToString());
-        }
-
-        private void AddCommandHandler()
-        {
-            AcadApp.DocumentManager.DocumentCreated += DocumentManager_DocumentCreated;
-
-            foreach (Document d in AcadApp.DocumentManager)
-            {
-                SubscribeToDoc(d);
-            }
-        }
-
-        private void RemoveCommandHandler()
-        {
-            AcadApp.DocumentManager.DocumentCreated -= DocumentManager_DocumentCreated;
-
-            foreach (Document d in AcadApp.DocumentManager)
-            {
-                UnsubscribeToDoc(d);
-            }
-        }
-
-        private void SubscribeToDoc(Document d)
-        {
-            d.CommandWillStart += Document_CommandWillStart;
-            d.CommandEnded += Document_CommandEnded;
-            d.CommandCancelled += Document_CommandCancelled;
-            d.CommandFailed += Documet_CommandFailed;
-            d.UnknownCommand += Document_UnknownCommand;
-        }
-
-        private void UnsubscribeToDoc(Document d)
-        {
-            d.CommandWillStart -= Document_CommandWillStart;
-            d.CommandEnded -= Document_CommandEnded;
-            d.CommandCancelled -= Document_CommandCancelled;
-            d.CommandFailed -= Documet_CommandFailed;
-            d.UnknownCommand -= Document_UnknownCommand;
-        }
-
-        private void DocumentManager_DocumentCreated(object sender, DocumentCollectionEventArgs e)
-        {
-            SubscribeToDoc(e.Document);
-        }
-
-        private void Document_CommandWillStart(object sender, CommandEventArgs e)
-        {
-            commandhashtable.Add(e.GlobalCommandName, Stopwatch.StartNew());
-        }
-
-        private void Document_CommandEnded(object sender, CommandEventArgs e)
-        {
-            if (filters.Contains(e.GlobalCommandName))
-                return;
-
-            if (commandhashtable.ContainsKey(e.GlobalCommandName))
-            {
-                Stopwatch sw = (Stopwatch)commandhashtable[e.GlobalCommandName];
-                ThCountlyServices.Instance.RecordCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
-                ThCountlyServices.Instance.RecordTHCommandEvent(e.GlobalCommandName, sw.Elapsed.TotalSeconds);
-                commandhashtable.Remove(e.GlobalCommandName);
-            }
-        }
-
-        private void Document_CommandCancelled(object sender, CommandEventArgs e)
-        {
-            if (commandhashtable.ContainsKey(e.GlobalCommandName))
-            {
-                commandhashtable.Remove(e.GlobalCommandName);
-            }
-        }
-
-        private void Documet_CommandFailed(object sender, CommandEventArgs e)
-        {
-            if (commandhashtable.ContainsKey(e.GlobalCommandName))
-            {
-                commandhashtable.Remove(e.GlobalCommandName);
-            }
-        }
-
-        private void Document_UnknownCommand(object sender, UnknownCommandEventArgs e)
-        {
         }
     }
 }

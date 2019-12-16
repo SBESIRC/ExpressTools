@@ -59,7 +59,7 @@
     </When>
   </Choose>
   <ItemGroup>
-    <PackageReference Include="Countly" Version="19.2.1" />
+    <PackageReference Include="Countly" Version="19.8.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThIdentity\ThIdentity.csproj">
