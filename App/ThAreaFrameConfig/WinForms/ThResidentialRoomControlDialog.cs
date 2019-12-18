@@ -54,21 +54,15 @@ namespace ThAreaFrameConfig.WinForms
         {
             if (pageBase is TabNavigationPage page)
             {
-                if (page.Controls[0] is IAreaFrameDocumentReactor reactor)
+                if (page.Controls[0] is IAreaFrameDocumentCollectionReactor reactor)
                 {
                     if (enable)
                     {
-                        reactor.RegisterCommandWillStartEvent();
-                        reactor.RegisterCommandEndedEvent();
-                        reactor.RegisterCommandFailedEvent();
-                        reactor.RegisterCommandCancelledEvent();
+                        reactor.RegisterDocumentLockModeChangedEvent();
                     }
                     else
                     {
-                        reactor.UnRegisterCommandWillStartEvent();
-                        reactor.UnRegisterCommandEndedEvent();
-                        reactor.UnRegisterCommandFailedEvent();
-                        reactor.UnRegisterCommandCancelledEvent();
+                        reactor.UnRegisterDocumentLockModeChangedEvent();
                     }
                 }
             }

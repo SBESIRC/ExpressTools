@@ -138,7 +138,7 @@
     <Compile Include="Model\ThFCCommerceSettings.cs" />
     <Compile Include="Model\ThUndergroundGarageFireProofSettings.cs" />
     <Compile Include="View\IAOccupancyView.cs" />
-    <Compile Include="View\IAreaFrameDocumentReactor.cs" />
+    <Compile Include="View\IAreaFrameDocumentCollectionReactor.cs" />
     <Compile Include="View\IAreaFrameDatabaseReactor.cs" />
     <Compile Include="View\IFireCompartmentView.cs" />
     <Compile Include="View\IOutdoorParkingSpaceView.cs" />
