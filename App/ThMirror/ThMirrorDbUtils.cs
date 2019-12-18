@@ -10,6 +10,35 @@ namespace ThMirror
 {
     public static class ThMirrorDbUtils
     {
+        private static string[] filters =
+        {
+            // CAD自带文字实体
+            ThCADCommon.DxfName_Text,
+            ThCADCommon.DxfName_MText,
+            ThCADCommon.DxfName_Leader,
+            ThCADCommon.DxfName_Dimension,
+            // 天正文字实体
+            ThCADCommon.DxfName_TCH_Text,
+            ThCADCommon.DxfName_TCH_MText,
+            ThCADCommon.DxfName_TCH_Dimension2,
+            ThCADCommon.DxfName_TCH_Axis_Label,
+            ThCADCommon.DxfName_TCH_Space,
+            ThCADCommon.DxfName_TCH_RadiusDim,
+            ThCADCommon.DxfName_TCH_Coord,
+            ThCADCommon.DxfName_TCH_Arrow,
+            ThCADCommon.DxfName_TCH_MLeader,
+            ThCADCommon.DxfName_TCH_IndexPointer,
+            ThCADCommon.DxfName_TCH_Composing,
+            ThCADCommon.DxfName_TCH_Symb_Section,
+            ThCADCommon.DxfName_TCH_NorthThumb,
+            ThCADCommon.DxfName_TCH_RectStair,
+            ThCADCommon.DxfName_TCH_MultiStair,
+            ThCADCommon.DxfName_TCH_DrawingName,
+            ThCADCommon.DxfName_TCH_DrawingIndex,
+            ThCADCommon.DxfName_TCH_Elevation,
+            ThCADCommon.DxfName_TCH_Opening
+        };
+
         public static bool IsBlockReferenceContainText(this ObjectId blockReferenceId)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
@@ -62,22 +91,7 @@ namespace ThMirror
                     {
                         // 使用DxfName去获取对象类型有很好的效率优势
                         //  https://spiderinnet1.typepad.com/blog/2012/04/various-ways-to-check-object-types-in-autocad-net.html
-                        if (id.ObjectClass.DxfName == ThCADCommon.DxfName_Text)
-                        {
-                            return true;
-                        }
-
-                        if (id.ObjectClass.DxfName == ThCADCommon.DxfName_MText)
-                        {
-                            return true;
-                        }
-
-                        if (id.ObjectClass.DxfName == ThCADCommon.DxfName_Leader)
-                        {
-                            return true;
-                        }
-
-                        if (id.ObjectClass.DxfName == ThCADCommon.DxfName_Dimension)
+                        if (filters.Contains(id.ObjectClass.DxfName))
                         {
                             return true;
                         }
