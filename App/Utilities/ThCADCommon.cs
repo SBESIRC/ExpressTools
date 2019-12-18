@@ -21,6 +21,27 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         public static readonly string DxfName_Dimension = "DIMENSION";
         public static readonly string DxfName_Attdef    = "ATTDEF";
 
+        // Tangent DxfName
+        public static readonly string DxfName_TCH_Text = "TCH_TEXT";
+        public static readonly string DxfName_TCH_MText = "TCH_MTEXT";
+        public static readonly string DxfName_TCH_Dimension2 = "TCH_DIMENSION2";
+        public static readonly string DxfName_TCH_Axis_Label = "TCH_AXIS_LABEL";
+        public static readonly string DxfName_TCH_Space = "TCH_SPACE";
+        public static readonly string DxfName_TCH_RadiusDim = "TCH_RADIUSDIM";
+        public static readonly string DxfName_TCH_Coord = "TCH_COORD";
+        public static readonly string DxfName_TCH_Arrow = "TCH_ARROW";
+        public static readonly string DxfName_TCH_MLeader = "TCH_MULTILEADER";
+        public static readonly string DxfName_TCH_IndexPointer = "TCH_INDEXPOINTER";
+        public static readonly string DxfName_TCH_Composing = "TCH_COMPOSING";
+        public static readonly string DxfName_TCH_Symb_Section = "TCH_SYMB_SECTION";
+        public static readonly string DxfName_TCH_NorthThumb = "TCH_NORTHTHUMB";
+        public static readonly string DxfName_TCH_RectStair = "TCH_RECTSTAIR";
+        public static readonly string DxfName_TCH_MultiStair = "TCH_MULTISTAIR";
+        public static readonly string DxfName_TCH_DrawingName = "TCH_DRAWINGNAME";
+        public static readonly string DxfName_TCH_DrawingIndex = "TCH_DRAWINGINDEX";
+        public static readonly string DxfName_TCH_Elevation = "TCH_ELEVATION";
+        public static readonly string DxfName_TCH_Opening = "TCH_OPENING";
+
         // Area Frame
         public static readonly string RegAppName_AreaFrame = "THCAD_AF";
         public static readonly string RegAppName_AreaFrame_Version = "V2.2";
