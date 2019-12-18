@@ -18,7 +18,7 @@ namespace ThAreaFrameConfig.WinForms
 {
     public partial class ThUnderGroundParkingControl : DevExpress.XtraEditors.XtraUserControl, 
         IUnderGroundParkingView,
-        IAreaFrameDocumentReactor
+        IAreaFrameDocumentCollectionReactor
     {
         private ThUnderGroundParkingPresenter Presenter;
         private ThUnderGroundParkingDbRepository DbRepository;
@@ -322,69 +322,32 @@ namespace ThAreaFrameConfig.WinForms
             return (floors.Count > 0);
         }
 
-        #region IAreaFrameDocumentReactor
+        #region IAreaFrameDocumentCollectionReactor
 
-        public void RegisterCommandWillStartEvent()
+        public void RegisterDocumentLockModeChangedEvent()
         {
-            Active.Document.CommandWillStart += OnAreaFrameCommandWillStart;
+            AcadApp.DocumentManager.DocumentLockModeChanged += DocumentLockModeChangedHandler;
         }
 
-        public void UnRegisterCommandWillStartEvent()
+        public void UnRegisterDocumentLockModeChangedEvent()
         {
-            Active.Document.CommandWillStart -= OnAreaFrameCommandWillStart;
+            AcadApp.DocumentManager.DocumentLockModeChanged -= DocumentLockModeChangedHandler;
         }
 
-        public void RegisterCommandEndedEvent()
+        private void DocumentLockModeChangedHandler(object sender, DocumentLockModeChangedEventArgs e)
         {
-            Active.Document.CommandEnded += OnAreaFrameCommandEnded;
-        }
-
-        public void UnRegisterCommandEndedEvent()
-        {
-            Active.Document.CommandEnded -= OnAreaFrameCommandEnded;
-        }
-
-        public void RegisterCommandFailedEvent()
-        {
-            Active.Document.CommandFailed += OnAreaFrameCommandFailed;
-        }
-
-        public void UnRegisterCommandFailedEvent()
-        {
-            Active.Document.CommandFailed -= OnAreaFrameCommandFailed;
-        }
-
-        public void RegisterCommandCancelledEvent()
-        {
-            Active.Document.CommandCancelled += OnAreaFrameCommandCancelled;
-        }
-
-        public void UnRegisterCommandCancelledEvent()
-        {
-            Active.Document.CommandCancelled -= OnAreaFrameCommandCancelled;
-        }
-
-        private void OnAreaFrameCommandWillStart(object sender, CommandEventArgs e)
-        {
-        }
-
-        private void OnAreaFrameCommandEnded(object sender, CommandEventArgs e)
-        {
-            if (e.GlobalCommandName == "*THCREATEAREAFRAME")
+            if (e.GlobalCommandName == "#*THCREATEAREAFRAME")
             {
+                if (ThCreateAreaFrameCmdHandler.Handler == null)
+                {
+                    return;
+                }
                 if (ThCreateAreaFrameCmdHandler.Handler.Success)
                 {
                     AcadApp.Idle += Application_OnIdle;
+                    ThCreateAreaFrameCmdHandler.Handler = null;
                 }
             }
-        }
-
-        private void OnAreaFrameCommandFailed(object sender, CommandEventArgs e)
-        {
-        }
-
-        private void OnAreaFrameCommandCancelled(object sender, CommandEventArgs e)
-        {
         }
 
         private void Application_OnIdle(object sender, EventArgs e)

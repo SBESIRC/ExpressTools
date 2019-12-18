@@ -26,7 +26,7 @@ namespace ThAreaFrameConfig.WinForms
     public partial class ThResidentialRoomControl : DevExpress.XtraEditors.XtraUserControl, 
         IResidentialRoomView, 
         IAreaFrameDatabaseReactor,
-        IAreaFrameDocumentReactor
+        IAreaFrameDocumentCollectionReactor
     {
         private ThResidentialRoomPresenter Presenter;
         private ThResidentialRoomDbRepository DbRepository;
@@ -711,6 +711,36 @@ namespace ThAreaFrameConfig.WinForms
             }
         }
 
+        #region IAreaFrameDocumentCollectionReactor
+
+        public void RegisterDocumentLockModeChangedEvent()
+        {
+            AcadApp.DocumentManager.DocumentLockModeChanged += DocumentLockModeChangedHandler;
+        }
+
+        public void UnRegisterDocumentLockModeChangedEvent()
+        {
+            AcadApp.DocumentManager.DocumentLockModeChanged -= DocumentLockModeChangedHandler;
+        }
+
+        private void DocumentLockModeChangedHandler(object sender, DocumentLockModeChangedEventArgs e)
+        {
+            if (e.GlobalCommandName == "#*THCREATEAREAFRAME")
+            {
+                if (ThCreateAreaFrameCmdHandler.Handler == null)
+                {
+                    return;
+                }
+                if (ThCreateAreaFrameCmdHandler.Handler.Success)
+                {
+                    AcadApp.Idle += Application_OnIdle;
+                    ThCreateAreaFrameCmdHandler.Handler = null;
+                }
+            }
+        }
+
+        #endregion
+
         #region IAreaFrameDatabaseReactor
 
         public void RegisterAreaFrameModifiedEvent()
@@ -755,73 +785,6 @@ namespace ThAreaFrameConfig.WinForms
 
             // 更新界面
             this.Reload();
-        }
-
-        #endregion
-
-        #region IAreaFrameDocumentReactor
-
-        public void RegisterCommandWillStartEvent()
-        {
-            Active.Document.CommandWillStart += OnAreaFrameCommandWillStart;
-        }
-
-        public void UnRegisterCommandWillStartEvent()
-        {
-            Active.Document.CommandWillStart -= OnAreaFrameCommandWillStart;
-        }
-
-        public void RegisterCommandEndedEvent()
-        {
-            Active.Document.CommandEnded += OnAreaFrameCommandEnded;
-        }
-
-        public void UnRegisterCommandEndedEvent()
-        {
-            Active.Document.CommandEnded -= OnAreaFrameCommandEnded;
-        }
-
-        public void RegisterCommandFailedEvent()
-        {
-            Active.Document.CommandFailed += OnAreaFrameCommandFailed;
-        }
-
-        public void UnRegisterCommandFailedEvent()
-        {
-            Active.Document.CommandFailed -= OnAreaFrameCommandFailed;
-        }
-
-        public void RegisterCommandCancelledEvent()
-        {
-            Active.Document.CommandCancelled += OnAreaFrameCommandCancelled;
-        }
-
-        public void UnRegisterCommandCancelledEvent()
-        {
-            Active.Document.CommandCancelled -= OnAreaFrameCommandCancelled;
-        }
-
-        private void OnAreaFrameCommandWillStart(object sender, CommandEventArgs e)
-        {
-        }
-
-        private void OnAreaFrameCommandEnded(object sender, CommandEventArgs e)
-        {
-            if (e.GlobalCommandName == "*THCREATEAREAFRAME")
-            {
-                if (ThCreateAreaFrameCmdHandler.Handler.Success)
-                {
-                    AcadApp.Idle += Application_OnIdle;
-                }
-            }
-        }
-
-        private void OnAreaFrameCommandFailed(object sender, CommandEventArgs e)
-        {
-        }
-
-        private void OnAreaFrameCommandCancelled(object sender, CommandEventArgs e)
-        {
         }
 
         #endregion
