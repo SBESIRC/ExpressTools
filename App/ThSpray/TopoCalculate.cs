@@ -201,7 +201,7 @@ namespace ThSpray
         {
             var search = new TopoSearch(curves, pt);
             var tmpEdgeLoops = search.TransFormProfileLoops(search.m_srcLoops);
-            return search.ConvertTopoEdges2Curve(tmpEdgeLoops);
+            return search.ConvertTopoEdges2Curves(tmpEdgeLoops);
         }
 
         public static Curve MoveTransform(Curve srcCurve, Vector2d vec)
@@ -267,7 +267,7 @@ namespace ThSpray
         }
 
         /// <summary>
-        /// 转化为CAD中的数据格式
+        /// 转化为CAD中的数据格式, 输出为多段线的集合
         /// </summary>
         /// <param name="topoLoops"></param>
         /// <returns></returns>
@@ -284,6 +284,28 @@ namespace ThSpray
                     polylines.Add(profile);
             }
             return polylines;
+        }
+
+        /// <summary>
+        /// 转化为CAD中的数据格式，点选方式，输入只有一个环
+        /// </summary>
+        /// <param name="topoLoops"></param>
+        /// <returns></returns>
+        private List<Curve> ConvertTopoEdges2Curves(List<List<TopoEdge>> topoLoops)
+        {
+            if (topoLoops == null || topoLoops.Count == 0 || topoLoops.Count != 1)
+                return null;
+
+            var profile = new List<Curve>();
+            foreach (var loop in topoLoops)
+            {
+                foreach (var edge in loop)
+                {
+                    profile.Add(edge.SrcCurve);
+                }
+            }
+
+            return profile;
         }
 
 
