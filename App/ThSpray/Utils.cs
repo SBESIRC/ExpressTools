@@ -263,6 +263,453 @@ namespace ThSpray
             return curves;
         }
 
+        /// <summary>
+        /// 生成房间内所有的可布置轮廓，经过距离裁剪后的轮廓
+        /// </summary>
+        /// <param name="beams"></param>
+        /// <param name="roomCurves"></param>
+        /// <returns></returns>
+        public static List<List<Curve>> MakeValidProfiles(List<Curve> beams, List<Curve> roomCurves)
+        {
+            if (beams == null || beams.Count == 0)
+                return null;
+
+            // 生成相关梁数据
+            var relatedBeams = GetValidBeams(beams, roomCurves);
+
+            // 梁轮廓提取
+            BeamPath.MakeBeamLoop(relatedBeams);
+            var loopLst = new List<List<Curve>>();
+            return loopLst;
+        }
+
+        /// <summary>
+        /// 梁数据生成
+        /// </summary>
+        public class BeamPath
+        {
+            // 梁节点，端点度数计算
+            public class BeamNode
+            {
+                public Curve srcCurve = null;
+                public bool bVlalid = true;
+                public Point3d StartPoint; // 开始点
+                public Point3d EndPoint;   // 结束点
+                public BeamNode(Curve curve, bool valid = true)
+                {
+                    srcCurve = curve;
+                    bVlalid = valid;
+                    StartPoint = srcCurve.StartPoint;
+                    EndPoint = srcCurve.EndPoint;
+                }
+
+                public List<BeamNode> startNodes = new List<BeamNode>();
+                public List<BeamNode> endNodes = new List<BeamNode>();
+                public List<BeamNode> totalNodes = new List<BeamNode>();
+            }
+
+            private List<Curve> srcBeams = null;
+            private List<BeamNode> beamNodes = new List<BeamNode>();
+
+            private List<BeamNode> startBeamNodes = new List<BeamNode>(); // 度数为1的开始点
+
+            public List<List<BeamNode>> unclosedBeamNodes = new List<List<BeamNode>>(); // 开环路径
+            public List<List<BeamNode>> closedBeamNodes = new List<List<BeamNode>>(); // 闭环路径
+
+            public BeamPath(List<Curve> curves)
+            {
+                srcBeams = curves;
+            }
+
+            public static List<List<Curve>> MakeBeamLoop(List<Curve> curves)
+            {
+                var pathCal = new BeamPath(curves);
+                pathCal.Do();
+
+                var unclosedCurves = pathCal.TransCurves(pathCal.unclosedBeamNodes);
+                var closedCurves = pathCal.TransClosedCurves(pathCal.closedBeamNodes);
+
+                if (unclosedCurves != null)
+                        Utils.DrawProfile(unclosedCurves, "unclosed");
+
+                if (closedCurves != null)
+                        Utils.DrawProfile(closedCurves, "closed");
+                return null;
+            }
+
+            public void Do()
+            {
+                CalRelation();
+                SearchFromBeamNodes();
+
+                for (int i = 0; i < beamNodes.Count; i++)
+                {
+                    var curBeamNode = beamNodes[i];
+                    if (curBeamNode.bVlalid == false)
+                        continue;
+
+                    var path = new List<BeamNode>();
+                    SearchFromOneNode(curBeamNode, path, closedBeamNodes);
+                }
+            }
+
+            /// <summary>
+            /// 转闭合多段线
+            /// </summary>
+            /// <param name="beamNodes"></param>
+            /// <param name="bClosed"></param>
+            /// <returns></returns>
+            public List<Curve> TransClosedCurves(List<List<BeamNode>> beamNodes)
+            {
+                if (beamNodes == null || beamNodes.Count == 0)
+                    return null;
+
+                var polys = new List<Curve>();
+
+                for (int i = 0; i < beamNodes.Count; i++)
+                {
+                    var curves = new List<Curve>();
+                    var nodes = beamNodes[i];
+                    if (nodes.Count < 2)
+                        continue;
+
+                    var poly = new Polyline();
+                    poly.Closed = true;
+                    Point3d endPoint = new Point3d(0, 0, 0);
+                    Point3d startPoint = new Point3d(0, 0, 0);
+                    for (int j = 0; j < nodes.Count; j++)
+                    {
+                        var node = nodes[j];
+                        var curve = node.srcCurve;
+                        var curPtS = node.StartPoint;
+                        var curPtE = node.EndPoint;
+                        bool positive = true; // 正数
+                        if (j == 0)
+                        {
+                            var nextNode = nodes[j + 1];
+                            var nextPtS = nextNode.StartPoint;
+                            var nextPtE = nextNode.EndPoint;
+
+                            if (CommonUtils.Point3dIsEqualPoint3d(curPtE, nextPtS, 1E-3) || CommonUtils.Point3dIsEqualPoint3d(curPtE, nextPtE, 1e-3))
+                            {
+                                startPoint = curPtS;
+                                endPoint = curPtE;
+                            }
+                            else if (CommonUtils.Point3dIsEqualPoint3d(curPtS, nextPtS, 1E-3) || CommonUtils.Point3dIsEqualPoint3d(curPtS, nextPtE, 1e-3))
+                            {
+                                startPoint = curPtE;
+                                endPoint = curPtS;
+                                positive = false;
+                            }
+
+                            if (curve is Line)
+                            {
+                                poly.AddVertexAt(j, new Point2d(startPoint.X, startPoint.Y), 0, 0, 0);
+                            }
+                            else if (curve is Arc)
+                            {
+                                var arc = curve as Arc;
+                                var bulge = Math.Tan(arc.TotalAngle / 4.0);
+                                if (positive == false)
+                                    bulge *= -1;
+                                poly.AddVertexAt(j, new Point2d(startPoint.X, startPoint.Y), bulge, 0, 0);
+                            }
+                        }
+                        else
+                        {
+                            if (CommonUtils.Point3dIsEqualPoint3d(endPoint, node.StartPoint, 1e-3))
+                            {
+                                startPoint = node.StartPoint;
+                                endPoint = node.EndPoint;
+                            }
+                            else if (CommonUtils.Point3dIsEqualPoint3d(endPoint, node.EndPoint, 1e-3))
+                            {
+                                startPoint = node.EndPoint;
+                                endPoint = node.StartPoint;
+                                positive = false;
+                            }
+
+                            if (curve is Line)
+                                poly.AddVertexAt(j, new Point2d(startPoint.X, startPoint.Y), 0, 0, 0);
+                            else if (curve is Arc)
+                            {
+                                var arc = curve as Arc;
+                                var bulge = Math.Tan(arc.TotalAngle / 4.0);
+                                if (positive == false)
+                                    bulge *= -1;
+                                poly.AddVertexAt(j, new Point2d(startPoint.X, startPoint.Y), bulge, 0, 0);
+                            }
+                        }
+                    }
+                    polys.Add(poly);
+                }
+
+                return polys;
+            }
+
+
+            /// <summary>
+            /// 转化非闭合多段线
+            /// </summary>
+            /// <param name="beamNodes"></param>
+            /// <returns></returns>
+            public List<Curve> TransCurves(List<List<BeamNode>> beamNodes)
+            {
+                if (beamNodes == null || beamNodes.Count == 0)
+                    return null;
+
+                var polys = new List<Curve>();
+
+                for (int i = 0; i < beamNodes.Count; i++)
+                {
+                    var curves = new List<Curve>();
+                    var nodes = beamNodes[i];
+                    if (nodes.Count < 2)
+                        continue;
+
+                    var poly = new Polyline();
+                    poly.Closed = false;
+                    Point3d endPoint = new Point3d(0, 0, 0);
+                    Point3d startPoint = new Point3d(0, 0, 0);
+                    for (int j = 0; j < nodes.Count; j++)
+                    {
+                        var node = nodes[j];
+                        var curve = node.srcCurve;
+                        if (j == 0)
+                        {
+                            if (node.startNodes.Count == 0)
+                            {
+                                // 尾点连接下一条边，则不需要反向
+                                startPoint = node.StartPoint;
+                                endPoint = node.EndPoint;
+                                if (curve is Line)
+                                    poly.AddVertexAt(j, new Point2d(startPoint.X, startPoint.Y), 0, 0, 0);
+                                else if (curve is Arc)
+                                {
+                                    // 逆时针圆弧
+                                    var arc = curve as Arc;
+                                    var bulge = Math.Tan(arc.TotalAngle / 4.0);
+                                    poly.AddVertexAt(j, new Point2d(startPoint.X, startPoint.Y), bulge, 0, 0);
+                                }
+                            }
+                            else if (node.endNodes.Count == 0)
+                            {
+                                // 原始曲线的开始点连接下一条边，则需要反向
+                                startPoint = node.EndPoint;
+                                endPoint = node.StartPoint;
+                                if (curve is Line)
+                                    poly.AddVertexAt(j, new Point2d(startPoint.X, startPoint.Y), 0, 0, 0);
+                                else if (curve is Arc)
+                                {
+                                    var arc = curve as Arc;
+                                    var bulge = -Math.Tan(arc.TotalAngle / 4.0);
+                                    poly.AddVertexAt(j, new Point2d(startPoint.X, startPoint.Y), bulge, 0, 0);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            bool positive = true; // 负数
+                            if (CommonUtils.Point3dIsEqualPoint3d(endPoint, node.StartPoint, 1e-3))
+                            {
+                                startPoint = node.StartPoint;
+                                endPoint = node.EndPoint;
+                            }
+                            else if (CommonUtils.Point3dIsEqualPoint3d(endPoint, node.EndPoint, 1e-3))
+                            {
+                                startPoint = node.EndPoint;
+                                endPoint = node.StartPoint;
+                                positive = false;
+                            }
+
+                            if (curve is Line)
+                                poly.AddVertexAt(j, new Point2d(startPoint.X, startPoint.Y), 0, 0, 0);
+                            else if (curve is Arc)
+                            {
+                                var arc = curve as Arc;
+                                var bulge = Math.Tan(arc.TotalAngle / 4.0);
+                                if (positive == false)
+                                    bulge *= -1;
+                                poly.AddVertexAt(j, new Point2d(startPoint.X, startPoint.Y), bulge, 0, 0);
+                            }
+
+                            if (j == nodes.Count - 1)
+                            {
+                                poly.AddVertexAt(j + 1, new Point2d(endPoint.X, endPoint.Y), 0, 0, 0);
+                            }
+                        }
+                    }
+                    polys.Add(poly);
+                }
+
+                return polys;
+            }
+
+            public void CalRelation()
+            {
+                foreach (var srcBeam in srcBeams)
+                {
+                    beamNodes.Add(new BeamNode(srcBeam));
+                }
+
+                // 节点的度
+                for (int i = 0; i < beamNodes.Count; i++)
+                {
+                    var curBeamNode = beamNodes[i];
+                    var firPtS = curBeamNode.StartPoint;
+                    var firPtE = curBeamNode.EndPoint;
+
+                    for (int j = i + 1; j < beamNodes.Count; j++)
+                    {
+                        var nextBeamNode = beamNodes[j];
+                        var secPtS = nextBeamNode.StartPoint;
+                        var secPtE = nextBeamNode.EndPoint;
+
+                        if (CommonUtils.Point3dIsEqualPoint3d(firPtS, secPtS, 1E-3))
+                        {
+                            curBeamNode.startNodes.Add(nextBeamNode);
+                            nextBeamNode.startNodes.Add(curBeamNode);
+                        }
+                        else if (CommonUtils.Point3dIsEqualPoint3d(firPtS, secPtE, 1e-3))
+                        {
+                            curBeamNode.startNodes.Add(nextBeamNode);
+                            nextBeamNode.endNodes.Add(curBeamNode);
+                        }
+                        else if (CommonUtils.Point3dIsEqualPoint3d(firPtE, secPtS, 1e-3))
+                        {
+                            curBeamNode.endNodes.Add(nextBeamNode);
+                            nextBeamNode.startNodes.Add(curBeamNode);
+                        }
+                        else if (CommonUtils.Point3dIsEqualPoint3d(firPtE, secPtE, 1e-3))
+                        {
+                            curBeamNode.endNodes.Add(nextBeamNode);
+                            nextBeamNode.endNodes.Add(curBeamNode);
+                        }
+                    }
+
+                    // 度数为1 的点
+                    if (curBeamNode.startNodes.Count == 0 || curBeamNode.endNodes.Count == 0)
+                    {
+                        startBeamNodes.Add(curBeamNode);
+                    }
+
+                    if (curBeamNode.startNodes.Count != 0)
+                        curBeamNode.totalNodes.AddRange(curBeamNode.startNodes);
+                    if (curBeamNode.endNodes.Count != 0)
+                        curBeamNode.totalNodes.AddRange(curBeamNode.endNodes);
+                }
+            }
+
+
+            private void SearchFromBeamNodes()
+            {
+                // 从度数为1的点开始搜索
+                for (int i = 0; i < startBeamNodes.Count; i++)
+                {
+                    var curBeamNode = startBeamNodes[i];
+                    if (curBeamNode.bVlalid == false)
+                        continue;
+
+                    var path = new List<BeamNode>();
+                    SearchFromOneNode(curBeamNode, path, unclosedBeamNodes);
+                }
+            }
+
+            private bool IsEndNode(BeamNode node)
+            {
+                foreach (var viewNode in node.totalNodes)
+                {
+                    if (viewNode.bVlalid)
+                        return false;
+                }
+
+                return true;
+            }
+
+            private void SearchFromOneNode(BeamNode curNode, List<BeamNode> path, List<List<BeamNode>> searchPath)
+            {
+                if (IsEndNode(curNode))
+                {
+                    path.Add(curNode);
+                    curNode.bVlalid = false;
+                    searchPath.Add(path);
+                    return;
+                }
+
+                curNode.bVlalid = false;
+                path.Add(curNode);
+
+                foreach (var node in curNode.totalNodes)
+                {
+                    if (node.bVlalid == false)
+                        continue;
+
+                    var resPath = new List<BeamNode>();
+                    resPath.AddRange(path);
+
+                    SearchFromOneNode(node, resPath, searchPath);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 生成梁的路径
+        /// </summary>
+        /// <param name="srcBeams"></param>
+        /// <returns></returns>
+        public static List<List<LineSegment2d>> MakeBeamPath(List<Curve> srcBeams)
+        {
+            if (srcBeams == null || srcBeams.Count == 0)
+                return null;
+            var tmpCurves = TopoUtils.TesslateCurve(srcBeams);
+
+            BeamPath.MakeBeamLoop(tmpCurves);
+            return null;
+        }
+
+        public static List<Curve> GetValidBeams(List<Curve> beams, List<Curve> roomCurves)
+        {
+            if (beams == null || beams.Count == 0 || roomCurves == null || roomCurves.Count == 0)
+                return null;
+
+            var relatedCurves = new List<Curve>();
+            foreach (var beam in beams)
+            {
+                if (LoopContainCurve(roomCurves, beam) || CurveIntersectWithLoop(beam, roomCurves))
+                    relatedCurves.Add(beam);
+            }
+
+            return relatedCurves;
+        }
+
+
+        public static bool CurveIntersectWithLoop(Curve srcCurve, List<Curve> loop)
+        {
+            foreach (var curve in loop)
+            {
+                if (!CommonUtils.IntersectValid(srcCurve, curve))
+                    continue;
+
+                var ptLst = new Point3dCollection();
+                srcCurve.IntersectWith(curve, Intersect.OnBothOperands, ptLst, (IntPtr)0, (IntPtr)0);
+                if (ptLst.Count != 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool LoopContainCurve(List<Curve> loop, Curve curve)
+        {
+            if (CommonUtils.PtInLoop(loop, curve.StartPoint) && CommonUtils.PtInLoop(loop, curve.EndPoint))
+                return true;
+            else
+                return false;
+        }
+
         public static List<Curve> Line2d2Curve(List<LineSegment2d> line2ds)
         {
             var curves = new List<Curve>();
@@ -1995,13 +2442,14 @@ namespace ThSpray
         /// <summary>
         /// 打开需要显示的图层
         /// </summary>
-        public static List<string> ShowThLayers(out List<string> wallLayers, out List<string> doorLayers, out List<string> windLayers, out List<string> allValidLayers)
+        public static List<string> ShowThLayers(out List<string> wallLayers, out List<string> doorLayers, out List<string> windLayers, out List<string> allValidLayers, out List<string> beamLayers)
         {
             var allCurveLayers = new List<string>();
             wallLayers = new List<string>();
             doorLayers = new List<string>();
             windLayers = new List<string>();
             allValidLayers = new List<string>();
+            beamLayers = new List<string>();
             using (var db = AcadDatabase.Active())
             {
                 var layers = db.Layers;
@@ -2028,6 +2476,9 @@ namespace ThSpray
 
                     if (layer.Name.Contains("AE-WIND"))
                         windLayers.Add(layer.Name);
+
+                    if (layer.Name.Contains("BEAM"))
+                        beamLayers.Add(layer.Name);
                 }
 
                 allValidLayers.Add("AE-WALL");

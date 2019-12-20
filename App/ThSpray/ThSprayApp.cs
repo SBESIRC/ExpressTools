@@ -29,7 +29,8 @@ namespace ThSpray
             List<string> arcDoorLayers = null;
             List<string> windLayers = null;
             List<string> validLayers = null;
-            var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers);
+            List<string> beamLayers = null;
+             var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers);
 
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
@@ -97,10 +98,17 @@ namespace ThSpray
             allCurves = TopoUtils.TesslateCurve(allCurves);
             allCurves = CommonUtils.RemoveCollinearLines(allCurves);
 
+            // 墙偏移1700
+            var beamCurves = Utils.GetAllCurvesFromLayerNames(beamLayers);
             foreach (var pt in pickPoints)
             {
-                var polylines = TopoUtils.MakeProfileFromPoint(allCurves, pt);
-                Utils.DrawProfile(polylines, "sd");
+                var profile = TopoUtils.MakeProfileFromPoint(allCurves, pt);
+                if (profile == null)
+                    continue;
+
+                // 内梁
+                var beamLoopLst = Utils.MakeValidProfiles(beamCurves, profile);
+                //Utils.DrawProfile(profile, "sd");
             }
             
             Utils.PostProcess(removeEntityLst);
