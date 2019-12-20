@@ -30,8 +30,8 @@ namespace ThSpray
             if (relatedCurves == null)
                 return null;
 
-            var profiles = TopoSearch.MakeSrcProfileLoopsFromPoint(relatedCurves, pt);
-            return profiles;
+            var profile = TopoSearch.MakeSrcProfileLoopsFromPoint(relatedCurves, pt);
+            return profile;
         }
 
         class IntersectCurves

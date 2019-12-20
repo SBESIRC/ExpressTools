@@ -290,6 +290,43 @@ namespace ThSpray
                 return false;
         }
 
+        public static bool PtInLoop(List<Curve> loop, Point3d pt)
+        {
+            Point2d end = new Point2d(pt.X + 100000000000, pt.Y);
+            LineSegment2d intersectLine = new LineSegment2d(new Point2d(pt.X, pt.Y), end);
+            var ptLst = new List<Point2d>();
+
+            foreach (var curve in loop)
+            {
+                var ptS = curve.StartPoint;
+                var ptE = curve.EndPoint;
+                LineSegment2d line = new LineSegment2d(new Point2d(ptS.X, ptS.Y), new Point2d(ptE.X, ptE.Y));
+                var intersectPts = line.IntersectWith(intersectLine);
+                if (intersectPts != null && intersectPts.Count() == 1)
+                {
+                    var nPt = intersectPts.First();
+                    bool bInLst = false;
+                    foreach (var curpt in ptLst)
+                    {
+                        if (CommonUtils.Point2dIsEqualPoint2d(nPt, curpt))
+                        {
+                            bInLst = true;
+                            break;
+                        }
+                    }
+
+                    if (!bInLst)
+                        ptLst.Add(nPt);
+                }
+
+            }
+
+            if (ptLst.Count % 2 == 1)
+                return true;
+            else
+                return false;
+        }
+
         // assiatant function
         public static List<TopoEdge> ConvertEdges(List<TopoEdge> srcEdges)
         {
