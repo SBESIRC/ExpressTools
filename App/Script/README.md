@@ -26,7 +26,21 @@ release.ps1 It have no limit of location
 **example**  
 .\publish.ps1 *.msi  
 (Pulling file in powershell as parameters is permited)  
-  
+
+## install
+Firstly, install [psmsi](https://github.com/heaths/psmsi), a Windows Installer PowerShell Module:
+````PowerShell
+Install-Module MSI
+````
+Then, run the following command to install the MSI file:
+````PowerShell
+Install-MSIProduct <path>\ThCADInstaller.msi
+````
+And to run the following command to uninstall the MSI file:
+````PowerShell
+Uninstall-MSIProduct <path>\ThCADInstaller.msi
+````
+
 ## other script(do the percise active)  
 ### bump-version  
 **usage**  
