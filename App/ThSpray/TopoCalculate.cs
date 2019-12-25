@@ -201,7 +201,7 @@ namespace ThSpray
         {
             var search = new TopoSearch(curves, pt);
             var tmpEdgeLoops = search.TransFormProfileLoops(search.m_srcLoops);
-            return search.ConvertTopoEdges2Curves(tmpEdgeLoops);
+            return search.ConvertTopoEdges2Curve(tmpEdgeLoops);
         }
 
         public static Curve MoveTransform(Curve srcCurve, Vector2d vec)

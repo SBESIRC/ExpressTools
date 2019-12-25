@@ -29,6 +29,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TopoCalculate.cs" />
     <Compile Include="TopoUtils.cs" />
+    <Compile Include="TriUtils.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

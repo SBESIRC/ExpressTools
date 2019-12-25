@@ -269,18 +269,94 @@ namespace ThSpray
         /// <param name="beams"></param>
         /// <param name="roomCurves"></param>
         /// <returns></returns>
-        public static List<List<Curve>> MakeValidProfiles(List<Curve> beams, List<Curve> roomCurves)
+        public static List<Curve> MakeValidProfiles(List<Curve> srcBeams, Polyline roomPolyline)
         {
-            if (beams == null || beams.Count == 0)
+            if (srcBeams == null || srcBeams.Count == 0)
                 return null;
 
             // 生成相关梁数据
+            var roomCurves = TopoUtils.Polyline2dLines(roomPolyline);
+            var beams = TopoUtils.TesslateCurve(srcBeams);
             var relatedBeams = GetValidBeams(beams, roomCurves);
+            var offsetPolylines = new List<Curve>();
+            var line2ds = CommonUtils.Polyline2dLines(roomPolyline);
+            if (CommonUtils.CalcuLoopArea(line2ds) < 0)
+                roomPolyline.ReverseCurve();
+            var dbRoom = roomPolyline.GetOffsetCurves(-100);
+            for (int i = 0; i < dbRoom.Count; i++)
+                offsetPolylines.Add(dbRoom[i] as Polyline);
 
             // 梁轮廓提取
-            BeamPath.MakeBeamLoop(relatedBeams);
-            var loopLst = new List<List<Curve>>();
-            return loopLst;
+            var polylines = BeamPath.MakeBeamLoop(relatedBeams, roomCurves);
+
+
+            if (polylines != null && polylines.Count != 0)
+            {
+                foreach (var offset in polylines)
+                {
+                    var poly = offset as Polyline;
+                    var lines = CommonUtils.Polyline2dLines(poly);
+                    if (CommonUtils.CalcuLoopArea(lines) < 0)
+                        poly.ReverseCurve();
+                    var db = poly.GetOffsetCurves(-600);
+                    for (int i = 0; i < db.Count; i++)
+                    {
+                        offsetPolylines.Add(db[i] as Polyline);
+                    }
+                }
+            }
+
+            TriUtils.DrawCurvesAdd(offsetPolylines);
+            return polylines;
+        }
+
+        /// <summary>
+        /// 墙的内部可布置梁轮廓
+        /// </summary>
+        /// <param name="allCurves"></param>
+        /// <param name="roomPolyline"></param>
+        /// <returns></returns>
+        public static List<Curve> MakeInnerProfiles(List<Curve> allCurves, Polyline roomPolyline)
+        {
+            if (allCurves == null || allCurves.Count == 0)
+                return null;
+
+            // 生成相关梁数据
+            var roomCurves = TopoUtils.Polyline2dLines(roomPolyline);
+            var curves = TopoUtils.TesslateCurve(allCurves);
+            var relatedCurves = GetValidBeams(curves, roomCurves);
+
+            // 偏移数据
+            var offsetPolylines = new List<Curve>();
+            var line2ds = CommonUtils.Polyline2dLines(roomPolyline);
+            if (CommonUtils.CalcuLoopArea(line2ds) < 0)
+                roomPolyline.ReverseCurve();
+            var dbRoom = roomPolyline.GetOffsetCurves(1);
+            //var dbRoom = roomPolyline.GetOffsetCurves(-100);
+            for (int i = 0; i < dbRoom.Count; i++)
+                offsetPolylines.Add(dbRoom[i] as Polyline);
+
+            // 梁轮廓内部数据提取
+            var beamLoop = TopoUtils.MakeSrcProfiles(relatedCurves);
+            if (beamLoop != null && beamLoop.Count != 0)
+            {
+                foreach (var offset in beamLoop)
+                {
+                    var poly = offset as Polyline;
+                    var lines = CommonUtils.Polyline2dLines(poly);
+                    if (CommonUtils.CalcuLoopArea(lines) < 0)
+                        poly.ReverseCurve();
+                    var db = poly.GetOffsetCurves(1);
+                    //var db = poly.GetOffsetCurves(-600);
+                    for (int i = 0; i < db.Count; i++)
+                    {
+                        offsetPolylines.Add(db[i] as Polyline);
+                    }
+                }
+            }
+
+            Utils.DrawProfile(offsetPolylines, "offset");
+            return offsetPolylines;
         }
 
         /// <summary>
@@ -321,20 +397,43 @@ namespace ThSpray
                 srcBeams = curves;
             }
 
-            public static List<List<Curve>> MakeBeamLoop(List<Curve> curves)
+            public static List<Curve> MakeBeamLoop(List<Curve> curves, List<Curve> roomCurves)
             {
                 var pathCal = new BeamPath(curves);
                 pathCal.Do();
 
                 var unclosedCurves = pathCal.TransCurves(pathCal.unclosedBeamNodes);
+                // 区域分割生成所需要的内部点
+                var ptLst = SpaceSplit.MakeSplitPoints(unclosedCurves); 
+                if (unclosedCurves != null && unclosedCurves.Count != 0)
+                {
+                    foreach (var poly in unclosedCurves)
+                    {
+                        if (poly is Polyline)
+                        {
+                            var polyCurves = TopoUtils.Polyline2dLines(poly as Polyline);
+                            if (polyCurves != null && polyCurves.Count != 0)
+                                roomCurves.AddRange(polyCurves);
+                        }
+                    }
+                }
+
+                var polylines = new List<Curve>();
                 var closedCurves = pathCal.TransClosedCurves(pathCal.closedBeamNodes);
 
-                if (unclosedCurves != null)
-                        Utils.DrawProfile(unclosedCurves, "unclosed");
+                if (closedCurves != null && closedCurves.Count != 0)
+                    polylines.AddRange(closedCurves);
 
-                if (closedCurves != null)
-                        Utils.DrawProfile(closedCurves, "closed");
-                return null;
+                foreach (var beamPoint in ptLst)
+                {
+                    var profile = TopoUtils.MakeProfileFromPoint(roomCurves, beamPoint);
+                    if (profile != null && profile.Count !=0)
+                    {
+                        polylines.AddRange(profile);
+                    }
+                }
+
+                return polylines;
             }
 
             public void Do()
@@ -652,22 +751,6 @@ namespace ThSpray
             }
         }
 
-
-        /// <summary>
-        /// 生成梁的路径
-        /// </summary>
-        /// <param name="srcBeams"></param>
-        /// <returns></returns>
-        public static List<List<LineSegment2d>> MakeBeamPath(List<Curve> srcBeams)
-        {
-            if (srcBeams == null || srcBeams.Count == 0)
-                return null;
-            var tmpCurves = TopoUtils.TesslateCurve(srcBeams);
-
-            BeamPath.MakeBeamLoop(tmpCurves);
-            return null;
-        }
-
         public static List<Curve> GetValidBeams(List<Curve> beams, List<Curve> roomCurves)
         {
             if (beams == null || beams.Count == 0 || roomCurves == null || roomCurves.Count == 0)
@@ -702,6 +785,28 @@ namespace ThSpray
             return false;
         }
 
+
+        public static bool CurveIntersectWithLoop(Curve srcCurve, List<Curve> loop, out Point3d intersectPt, out Curve intersectCurve)
+        {
+            foreach (var curve in loop)
+            {
+                if (!CommonUtils.IntersectValid(srcCurve, curve))
+                    continue;
+
+                var ptLst = new Point3dCollection();
+                srcCurve.IntersectWith(curve, Intersect.OnBothOperands, ptLst, (IntPtr)0, (IntPtr)0);
+                if (ptLst.Count != 0)
+                {
+                    intersectPt = ptLst[0];
+                    intersectCurve = curve;
+                    return true;
+                }
+            }
+
+            intersectPt = Point3d.Origin;
+            intersectCurve = null;
+            return false;
+        }
         public static bool LoopContainCurve(List<Curve> loop, Curve curve)
         {
             if (CommonUtils.PtInLoop(loop, curve.StartPoint) && CommonUtils.PtInLoop(loop, curve.EndPoint))
@@ -2442,7 +2547,7 @@ namespace ThSpray
         /// <summary>
         /// 打开需要显示的图层
         /// </summary>
-        public static List<string> ShowThLayers(out List<string> wallLayers, out List<string> doorLayers, out List<string> windLayers, out List<string> allValidLayers, out List<string> beamLayers)
+        public static List<string> ShowThLayers(out List<string> wallLayers, out List<string> doorLayers, out List<string> windLayers, out List<string> allValidLayers, out List<string> beamLayers, out List<string> columnLayers)
         {
             var allCurveLayers = new List<string>();
             wallLayers = new List<string>();
@@ -2450,6 +2555,7 @@ namespace ThSpray
             windLayers = new List<string>();
             allValidLayers = new List<string>();
             beamLayers = new List<string>();
+            columnLayers = new List<string>();
             using (var db = AcadDatabase.Active())
             {
                 var layers = db.Layers;
@@ -2479,6 +2585,9 @@ namespace ThSpray
 
                     if (layer.Name.Contains("BEAM"))
                         beamLayers.Add(layer.Name);
+
+                    if (layer.Name.Contains("COLU"))
+                        columnLayers.Add(layer.Name);
                 }
 
                 allValidLayers.Add("AE-WALL");

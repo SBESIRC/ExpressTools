@@ -30,7 +30,8 @@ namespace ThSpray
             List<string> windLayers = null;
             List<string> validLayers = null;
             List<string> beamLayers = null;
-             var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers);
+            List<string> columnLayers = null;
+             var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers, out columnLayers);
 
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
@@ -98,16 +99,25 @@ namespace ThSpray
             allCurves = TopoUtils.TesslateCurve(allCurves);
             allCurves = CommonUtils.RemoveCollinearLines(allCurves);
 
-            // 墙偏移1700
+            // 梁数据
             var beamCurves = Utils.GetAllCurvesFromLayerNames(beamLayers);
+
+            //柱子数据
+            var columnCurves = Utils.GetAllCurvesFromLayerNames(columnLayers);
+            var innerCurves = new List<Curve>();
+            if (beamCurves != null && beamCurves.Count != 0)
+                innerCurves.AddRange(beamCurves);
+            if (columnCurves != null && columnCurves.Count != 0)
+                innerCurves.AddRange(columnCurves);
+
             foreach (var pt in pickPoints)
             {
                 var profile = TopoUtils.MakeProfileFromPoint(allCurves, pt);
-                if (profile == null)
+                if (profile == null || profile.Count == 0)
                     continue;
 
                 // 内梁
-                var beamLoopLst = Utils.MakeValidProfiles(beamCurves, profile);
+                var beamLoopLst = Utils.MakeInnerProfiles(innerCurves, profile.First() as Polyline);
                 //Utils.DrawProfile(profile, "sd");
             }
             
