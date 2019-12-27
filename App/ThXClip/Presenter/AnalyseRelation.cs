@@ -66,9 +66,19 @@ namespace ThXClip
                 BlockTableRecord btr = trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead) as BlockTableRecord;
                 DrawOrderTable dot = trans.GetObject(btr.DrawOrderTableId, OpenMode.ForRead) as DrawOrderTable;
                 ObjectIdCollection ocids = dot.GetFullDrawOrder(0);
+                //把模型中选择的块和WipeOut建立先后顺序
+                this._objIds=this._objIds.OrderBy(i => ocids.IndexOf(i)).ToList();
+                this._modelWipeOutIds= this._modelWipeOutIds.OrderBy(i => ocids.IndexOf(i)).ToList();
                 this._objIds.ForEach(i => this.ModelSpaceDrawOrderDic.Add(i, ocids.IndexOf(i)));
                 this._modelWipeOutIds.ForEach(i => this.ModelSpaceDrawOrderDic.Add(i, ocids.IndexOf(i)));
+                this.ModelSpaceDrawOrderDic=this.ModelSpaceDrawOrderDic.OrderBy(i => i.Value).ToDictionary(p=>p.Key, i=>i.Value);
+                List<ObjectId> modelDrawOrderKeyObjIds = this.ModelSpaceDrawOrderDic.Select(i => i.Key).ToList();
+                for (int i=0;i< modelDrawOrderKeyObjIds.Count; i++)
+                {
+                    this.ModelSpaceDrawOrderDic[modelDrawOrderKeyObjIds[i]] = i + 1;
+                }
                 btr.UpgradeOpen();
+                Dictionary<ObjectId, List<DraworderInfo>> blockDrawOrderInfDic = new Dictionary<ObjectId, List<DraworderInfo>>();
                 for (int i = 0; i < this._objIds.Count; i++)
                 {
                     BlockReference br = trans.GetObject(this._objIds[i], OpenMode.ForRead) as BlockReference;
@@ -76,8 +86,9 @@ namespace ThXClip
                     {
                         continue;
                     }
+                    List<DraworderInfo> draworderInfos = new List<DraworderInfo>();
                     List<EntInf> entities = Explode(br,br.Name);
-                    entities=entities.Where(j => j.Ent.Visible && JudgeEntityInsPointedType(j.Ent)).Select(j => j).ToList();
+                    entities =entities.Where(j => j.Ent.Visible && JudgeEntityInsPointedType(j.Ent)).Select(j => j).ToList();
                     entities.ForEach(j => j.BlockPath.Reverse());
                     List<XClipInfo> currentXClipInfos = RetrieveXClipBoundary(br, br.Name);
                     if (currentXClipInfos != null && currentXClipInfos.Count>0)
@@ -90,11 +101,32 @@ namespace ThXClip
                     entities.ForEach(j => btr.AppendEntity(j.Ent));
                     entities.ForEach(j => trans.AddNewlyCreatedDBObject(j.Ent, true));
                     //entities.ForEach(j => j.Ent.Visible = false);
-                    this._drawOrderinfs.AddRange(entities.Select(j => GenerateDoi(j,this._objIds[i])).ToList());
+                    draworderInfos.AddRange(entities.Select(j => GenerateDoi(j,this._objIds[i])).ToList());
+                    ObjectIdCollection ocids1 = dot.GetFullDrawOrder(0);
+                    draworderInfos.ForEach(j => j.DrawIndex = ocids1.IndexOf(j.Id));
+                    draworderInfos=draworderInfos.OrderBy(j => j.DrawIndex).ToList();
+                    //draworderInfos.ForEach(j => j.BlockId = this._objIds[i]);
+                    blockDrawOrderInfDic.Add(this._objIds[i], draworderInfos);
+                }
+                int maxCount= blockDrawOrderInfDic.OrderByDescending(i => i.Value.Count).First().Value.Count;
+                int containCount = maxCount.ToString().Length + 1;
+                for (int i = 0; i < modelDrawOrderKeyObjIds.Count; i++)
+                {
+                    this.ModelSpaceDrawOrderDic[modelDrawOrderKeyObjIds[i]] = 
+                        this.ModelSpaceDrawOrderDic[modelDrawOrderKeyObjIds[i]]* (int)Math.Pow(10, containCount);
+                }
+                List<ObjectId> blockDrawOrderKeyObjIds = blockDrawOrderInfDic.Select(i => i.Key).ToList();
+                for (int i=0;i< blockDrawOrderKeyObjIds.Count;i++)
+                {
+                    int startNumber = 1;
+                    int preCount = this.ModelSpaceDrawOrderDic[blockDrawOrderKeyObjIds[i]];
+                    for(int j=0;j< blockDrawOrderInfDic[blockDrawOrderKeyObjIds[i]].Count;j++)
+                    {
+                        blockDrawOrderInfDic[blockDrawOrderKeyObjIds[i]][j].DrawIndex = preCount + startNumber++;                        
+                    }
+                    this.DrawOrderinfs.AddRange(blockDrawOrderInfDic[blockDrawOrderKeyObjIds[i]]);
                 }
                 btr.DowngradeOpen();
-                ObjectIdCollection ocids1 = dot.GetFullDrawOrder(0);
-                _drawOrderinfs.ForEach(i => i.DrawIndex = ocids1.IndexOf(i.Id));
                 trans.Commit();
             }
            this._blkWipeOuts=this._drawOrderinfs.Where(i => i.TypeName.ToUpper() == "WIPEOUT").Select(i => i).ToList(); //把WipeOut给收集下来
@@ -150,6 +182,10 @@ namespace ThXClip
                 if (obj is BlockReference)
                 {
                     var newBr = obj as BlockReference;
+                    if(newBr.Visible==false)
+                    {
+                        continue;
+                    }
                     if(currentLayBlkNames.IndexOf(newBr.Name)<0)
                     {
                         blkName = newBr.Name;

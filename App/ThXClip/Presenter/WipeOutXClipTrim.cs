@@ -200,17 +200,17 @@ namespace ThXClip
                     for (int i = 0; i < currentBlkObjs.Count; i++)
                     {
                         Entity ent = _document.TransactionManager.TopTransaction.GetObject(currentBlkObjs[i].Id, OpenMode.ForRead) as Entity;
+                        if(!ent.Visible)
+                        {
+                            continue;
+                        }
                         EntPropertyInfo entPropertyInf = new EntPropertyInfo() { Layer = ent.Layer, ColorIndex = ent.ColorIndex, Lw = ent.LineWeight };
                         for (int j = 0; j < currentBlkObjs[i].DbObjs.Count; j++)
                         {
                             DBObject dbObj = currentBlkObjs[i].DbObjs[j];
                             if (dbObj is Entity)
                             {
-                                Entity entity = dbObj as Entity;
-                                if (!entity.Visible)
-                                {
-                                    entity.Visible = true;
-                                }
+                                Entity entity = dbObj as Entity;   
                                 ThXClipUtils.ChangeEntityProperty(entity, entPropertyInf);
                                 if (entity is Dimension)
                                 {
