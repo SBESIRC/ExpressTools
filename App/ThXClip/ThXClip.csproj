@@ -30,6 +30,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlockReferenceGeometryExtents3d.cs" />
     <Compile Include="Model\DraworderInfo.cs" />
     <Compile Include="ThXClipUtils.cs" />
     <Compile Include="ThXClipCurveExtension.cs" />
