@@ -9,15 +9,18 @@ namespace TianHua.AutoCAD.ThCui
     {
         public string Name { get; set; }
         public string Command { get; set; }
-        public string HelpString { get; set; }
-        public string Suffix { get; set; }
+        public string MacroId
+        {
+            get
+            {
+                return "ID_" + Command;
+            }
+        }
 
-        public ThCommandInfo(string name, string command, string helpString, bool icoSuffix)
+        public ThCommandInfo(string name, string command)
         {
             this.Name = name;
             this.Command = command;
-            this.HelpString = helpString;
-            this.Suffix = icoSuffix ? @".ico" : @".png";
         }
     }
 }

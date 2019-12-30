@@ -17,15 +17,14 @@ namespace TianHua.AutoCAD.ThCui
         const string CMD_GROUPNAME = "TIANHUACAD";
         const string CMD_THCADLOGIN_GLOBAL_NAME = "THCADLOGIN";
         const string CMD_THCADLOGOUT_GLOBAL_NAME = "THCADLOGOUT";
+        const string CMD_THCADUMPCUI_GLOBAL_NAME = "THCADDUMPCUI";
         const string CMD_THT20PLUGINV4_GLOBAL_NAME = "T20V4";
         const string CMD_THT20PLUGINV5_GLOBAL_NAME = "T20V5";
         const string CMD_THHLP_GLOBAL_NAME = "THHLP";
         const string CMD_THBLS_GLOBAL_NAME = "THBLS";
         const string CMD_THBLI_GLOBAL_NAME = "THBLI";
 
-
-        ThMenuBar menuBar = new ThMenuBar();
-        ThRibbons ribbons = new ThRibbons();
+        ThPartialCui partialCui = new ThPartialCui();
         ThToolPalette toolPalette = new ThToolPalette();
 
         public void Initialize()
@@ -41,18 +40,11 @@ namespace TianHua.AutoCAD.ThCui
             //将程序有效期验证为3个月，一旦超过时限，要求用户更新，不进行命令注册
             if (!ThLicenseService.Instance.IsExpired())
             {
-                //装载局部CUI文件
-                LoadPartialCui();
-
                 //注册命令
                 RegisterCommands();
 
                 //定制Preferences
                 OverridePreferences(true);
-
-                //创建自定义Ribbon
-                //  https://www.theswamp.org/index.php?topic=44440.0
-                ThRibbonHelper.OnRibbonFound(this.CreateRibbon);
             }
             else
             {
@@ -71,22 +63,41 @@ namespace TianHua.AutoCAD.ThCui
 
             //恢复Preferences
             OverridePreferences(false);
+
+            //卸载局部CUI文件
+            LoadPartialCui(false);
         }
 
-        private void LoadPartialCui()
+        private void LoadPartialCui(bool bLoad = true)
         {
-            menuBar.LoadThMenu();
+            if (bLoad)
+            {
+                partialCui.Load(Path.Combine(ThCADCommon.ResourcesPath(), ThCADCommon.CuixFile), ThCADCommon.CuixMenuGroup);
+            }
+            else
+            {
+                partialCui.UnLoad(Path.Combine(ThCADCommon.ResourcesPath(), ThCADCommon.CuixFile), ThCADCommon.CuixMenuGroup);
+            }
+        }
+
+        private void CreatePartialCui()
+        {
+            partialCui.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ThCADCommon.CuixFile), ThCADCommon.CuixMenuGroup);
         }
 
         public void RegisterCommands()
         {
             //注册登录命令
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME, CMD_THCADLOGIN_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(ribbons.Login));
+            //Utils.AddCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME, CMD_THCADLOGIN_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnLogIn));
             //注册退出命令
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME, CMD_THCADLOGOUT_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(ribbons.Logout));
+            //Utils.AddCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME, CMD_THCADLOGOUT_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnLogOut));
+
+#if DEBUG
+            Utils.AddCommand(CMD_GROUPNAME, CMD_THCADUMPCUI_GLOBAL_NAME, CMD_THCADUMPCUI_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnDumpCui));
+#endif
 
             //注册帮组和命令
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THHLP_GLOBAL_NAME, CMD_THHLP_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(ribbons.ShowHelpFile));
+            Utils.AddCommand(CMD_GROUPNAME, CMD_THHLP_GLOBAL_NAME, CMD_THHLP_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnHelp));
 
             //注册打开工具选项板配置命令
             Utils.AddCommand(CMD_GROUPNAME, CMD_THBLS_GLOBAL_NAME, CMD_THBLS_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(ShowToolPaletteConfigDialog));
@@ -101,8 +112,8 @@ namespace TianHua.AutoCAD.ThCui
 
         public void UnregisterCommands()
         {
-            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME);
-            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME);
+            //Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME);
+            //Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME);
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THHLP_GLOBAL_NAME);
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLS_GLOBAL_NAME);
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLI_GLOBAL_NAME);
@@ -240,42 +251,26 @@ namespace TianHua.AutoCAD.ThCui
             supportPath.SaveChanges();
         }
 
-        private void RemoveRibbon()
+#if DEBUG
+        private void OnDumpCui()
         {
-            RibbonControl rc = ComponentManager.Ribbon;
-            if (rc == null)
-            {
-                return;
-            }
+            CreatePartialCui();
+        }
+#endif
 
-            RibbonTab tab = rc.FindTab("ID_TabMyRibbon");
-            if (tab != null)
-                rc.Tabs.Remove(tab);
+        private void OnLogIn()
+        {
+            ThRibbonUtils.OpenAllPanels();
         }
 
-        private void CreateRibbon(RibbonControl rc)
+        private void OnLogOut()
         {
-            if (rc.FindTab("ID_TabMyRibbon") == null)
-            {
-                RibbonTab tab = ribbons.CreateRibbon();
-                if (tab != null)
-                {
-                    rc.Tabs.Add(tab);
-                }
-            }
+            ThRibbonUtils.CloseAllPanels();
+        }
 
-            RibbonTab theTab = rc.FindTab("ID_TabMyRibbon");
-            if (theTab != null)
-            {
-                theTab.IsVisible = true;
-                ribbons.Count++;
-            }
-
-            //如果是第一次创建完毕后，仅呈现登录模块
-            if (ribbons.Count == 1)
-            {
-                ribbons.CloseTabRibbon();
-            }
+        private void OnHelp()
+        {
+            Process.Start(ThCADCommon.OnlineHelpUrl);
         }
 
         /// <summary>

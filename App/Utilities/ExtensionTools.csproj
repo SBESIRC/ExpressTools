@@ -135,6 +135,7 @@
     <Compile Include="BlockTool.cs" />
     <Compile Include="CompareTool.cs" />
     <Compile Include="COMTool.cs" />
+    <Compile Include="ThCUITools.cs" />
     <Compile Include="JiHe.cs" />
     <Compile Include="LinqTool.cs" />
     <Compile Include="NullableParser.cs" />

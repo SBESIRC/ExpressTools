@@ -33,8 +33,8 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry AppName="AutoBlockBreak"                    ModuleName="./Contents/AutoBlockBreak.lsp"      PerDocument="True" />
     </Components>
     <Components Description="Partial CUIX parts">
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R19.1" />
-        <ComponentEntry AppName="ThMenubarCuix"                 ModuleName="./Contents/Resources/ThMenubar.cuix" />
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R20.1" />
+        <ComponentEntry AppName="ThCADCuix"                 ModuleName="./Contents/Resources/ThCAD.cuix" />
     </Components>
     <!--Assembly App, DgnLsPurge, 2012 version-->
     <Components>

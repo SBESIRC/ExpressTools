@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8D34FB55-C9CA-4EFD-B5EC-B1FBA05E9583}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ThCuiRes</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;THCUIRES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <NoEntryPoint>true</NoEntryPoint>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;THCUIRES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\AppIcon.ico" />
+    <Image Include="Images\BLOCKSPLIT.ico" />
+    <Image Include="Images\DGNPURGE.ico" />
+    <Image Include="Images\T20V4.0.ico" />
+    <Image Include="Images\T20V5.0.ico" />
+    <Image Include="Images\THABC.ico" />
+    <Image Include="Images\THALC.ico" />
+    <Image Include="Images\THBAC.ico" />
+    <Image Include="Images\THBBE.ico" />
+    <Image Include="Images\THBBR.ico" />
+    <Image Include="Images\THBBS.ico" />
+    <Image Include="Images\THBEE.ico" />
+    <Image Include="Images\THBLI.ico" />
+    <Image Include="Images\THBLS.ico" />
+    <Image Include="Images\THBPD.ico" />
+    <Image Include="Images\THBPP.ico" />
+    <Image Include="Images\THBPS.ico" />
+    <Image Include="Images\THBPT.ico" />
+    <Image Include="Images\THCNU.ico" />
+    <Image Include="Images\THCSP.ico" />
+    <Image Include="Images\THDTA.ico" />
+    <Image Include="Images\THELC.ico" />
+    <Image Include="Images\THFET.ico" />
+    <Image Include="Images\THHLP.ico" />
+    <Image Include="Images\THLDC.ico" />
+    <Image Include="Images\THLOGIN.ico" />
+    <Image Include="Images\THLOGOUT.ico" />
+    <Image Include="Images\THLPE.ico" />
+    <Image Include="Images\THLPM.ico" />
+    <Image Include="Images\THLPP.ico" />
+    <Image Include="Images\THLTR.ico" />
+    <Image Include="Images\THMIR.ico" />
+    <Image Include="Images\THMLC.ico" />
+    <Image Include="Images\THMLK.ico" />
+    <Image Include="Images\THMOF.ico" />
+    <Image Include="Images\THMON.ico" />
+    <Image Include="Images\THMSC.ico" />
+    <Image Include="Images\THMTC.ico" />
+    <Image Include="Images\THMUK.ico" />
+    <Image Include="Images\THPLC.ico" />
+    <Image Include="Images\THSLC.ico" />
+    <Image Include="Images\THSPS.ico" />
+    <Image Include="Images\THSVM.ico" />
+    <Image Include="Images\THTET.ico" />
+    <Image Include="Images\THUKA.ico" />
+    <Image Include="Images\THUPT.ico" />
+    <Image Include="Images\THZ0.ico" />
+    <Image Include="Images\TZLOOK.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
