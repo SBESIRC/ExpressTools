@@ -92,17 +92,17 @@ namespace ThXClip
             //处理ModelSpace中的WipeOut,被其遮挡的物体
             for (int i = 0; i < this._analyzeRelation.ModelWipeOutIds.Count; i++)
             {
+                List<DraworderInfo> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.ModelWipeOutIds[i]);
                 Point2dCollection boundaryPts = ThXClipCadOperation.GetWipeOutBoundaryPts(this._analyzeRelation.ModelWipeOutIds[i]);
                 boundaryPts = ThXClipCadOperation.GetNoRepeatedPtCollection(boundaryPts);
-                PromptSelectionResult psr = ThXClipCadOperation.SelectByPolyline(_document.Editor, boundaryPts,
-                    Autodesk.AutoCAD.EditorInput.PolygonSelectionMode.Crossing, sf);
-                List<IntPtr> intPtrs = new List<IntPtr>();
-                if (psr.Status == PromptStatus.OK)
-                {
-                    intPtrs = psr.Value.GetObjectIds().Select(j => j.OldIdPtr).ToList();//获取当前WipeOut查找的物体
-                }
-                List<DraworderInfo> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.ModelWipeOutIds[i]);
-                preDrawDoi = preDrawDoi.Where(j => intPtrs.IndexOf(j.Id.OldIdPtr) >= 0).Select(j => j).ToList();                
+                //PromptSelectionResult psr = ThXClipCadOperation.SelectByPolyline(_document.Editor, boundaryPts,
+                //    Autodesk.AutoCAD.EditorInput.PolygonSelectionMode.Crossing, sf);
+                //List<IntPtr> intPtrs = new List<IntPtr>();
+                //if (psr.Status == PromptStatus.OK)
+                //{
+                //    intPtrs = psr.Value.GetObjectIds().Select(j => j.OldIdPtr).ToList();//获取当前WipeOut查找的物体
+                //}
+                //preDrawDoi = preDrawDoi.Where(j => intPtrs.IndexOf(j.Id.OldIdPtr) >= 0).Select(j => j).ToList();                
                 try
                 {
                     OperationWipeOut(boundaryPts, preDrawDoi);
@@ -126,14 +126,14 @@ namespace ThXClip
                 List<DraworderInfo> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.BlkWipeOuts[i]);
                 Point2dCollection boundaryPts = ThXClipCadOperation.GetWipeOutBoundaryPts(this._analyzeRelation.BlkWipeOuts[i].Id);
                 boundaryPts = ThXClipCadOperation.GetNoRepeatedPtCollection(boundaryPts);
-                PromptSelectionResult psr = ThXClipCadOperation.SelectByPolyline(_document.Editor, boundaryPts,
-                    Autodesk.AutoCAD.EditorInput.PolygonSelectionMode.Crossing);
-                List<IntPtr> intPtrs = new List<IntPtr>();
-                if (psr.Status == PromptStatus.OK)
-                {
-                    intPtrs = psr.Value.GetObjectIds().Select(j => j.OldIdPtr).ToList();//获取当前WipeOut查找的物体
-                }
-                preDrawDoi = preDrawDoi.Where(j => intPtrs.IndexOf(j.Id.OldIdPtr) >= 0).Select(j => j).ToList();
+                //PromptSelectionResult psr = ThXClipCadOperation.SelectByPolyline(_document.Editor, boundaryPts,
+                //    Autodesk.AutoCAD.EditorInput.PolygonSelectionMode.Crossing);
+                //List<IntPtr> intPtrs = new List<IntPtr>();
+                //if (psr.Status == PromptStatus.OK)
+                //{
+                //    intPtrs = psr.Value.GetObjectIds().Select(j => j.OldIdPtr).ToList();//获取当前WipeOut查找的物体
+                //}
+                //preDrawDoi = preDrawDoi.Where(j => intPtrs.IndexOf(j.Id.OldIdPtr) >= 0).Select(j => j).ToList();
                 try
                 {
                     OperationWipeOut(boundaryPts, preDrawDoi);

@@ -87,7 +87,8 @@ namespace ThXClip
                         continue;
                     }
                     List<DraworderInfo> draworderInfos = new List<DraworderInfo>();
-                    List<EntInf> entities = Explode(br,br.Name);
+                    //List<EntInf> entities = Explode(br,br.Name);
+                    List<EntInf> entities= GetBlockReferenceDrawOrderInfo(br, br.Name);
                     entities =entities.Where(j => j.Ent.Visible && JudgeEntityInsPointedType(j.Ent)).Select(j => j).ToList();
                     entities.ForEach(j => j.BlockPath.Reverse());
                     List<XClipInfo> currentXClipInfos = RetrieveXClipBoundary(br, br.Name);
@@ -207,6 +208,57 @@ namespace ThXClip
                 }
             }
             entities.ForEach(i => i.BlockPath.Add(preBlkName));
+            return entities;
+        }
+        private List<EntInf> GetBlockReferenceDrawOrderInfo(BlockReference br, string preBlkName)
+        {
+            List<EntInf> entities = new List<EntInf>();
+            try
+            {
+                Transaction trans = this._document.TransactionManager.TopTransaction;
+                BlockTableRecord btr = trans.GetObject(br.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
+                DrawOrderTable dot = trans.GetObject(btr.DrawOrderTableId, OpenMode.ForRead) as DrawOrderTable;
+                ObjectIdCollection ocids = dot.GetFullDrawOrder(0);
+                List<string> currentLayBlkNames = new List<string>();
+                string blkName = "";
+                foreach (ObjectId ociId in ocids)
+                {
+                    DBObject dbObj = trans.GetObject(ociId, OpenMode.ForRead);
+                    if (dbObj is BlockReference)
+                    {
+                        var newBr = dbObj as BlockReference;
+                        if (newBr.Visible == false)
+                        {
+                            continue;
+                        }
+                        if (currentLayBlkNames.IndexOf(newBr.Name) < 0)
+                        {
+                            blkName = newBr.Name;
+                        }
+                        else
+                        {
+                            blkName = SetBlkName(currentLayBlkNames, newBr.Name);
+                        }
+                        currentLayBlkNames.Add(newBr.Name);
+                        var childEnts = GetBlockReferenceDrawOrderInfo(newBr, blkName);
+                        if (childEnts != null)
+                        {
+                            entities.AddRange(childEnts);
+                        }
+                    }
+                    else if (dbObj is Entity)
+                    {
+                        Entity ent = dbObj as Entity;
+                        entities.Add(new EntInf() { Ent = ent.Clone() as Entity, BlockName = br.Name });
+                    }
+                }
+                entities.ForEach(i => i.BlockPath.Add(preBlkName));
+                entities.ForEach(i => i.Ent.TransformBy(br.BlockTransform));
+            }
+            catch(System.Exception ex)
+            {
+                ThXClipUtils.WriteException(ex, "GetBlockReferenceDrawOrderInfo");
+            }
             return entities;
         }
         private string SetBlkName(List<string> blkNameList,string blkName)

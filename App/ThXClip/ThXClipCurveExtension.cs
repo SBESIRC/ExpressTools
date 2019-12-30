@@ -508,7 +508,7 @@ namespace ThXClip
             }
             if (isGoOn==false)
             {
-                if (ThXClipCadOperation.IsPointInPolyline(pts, ellipse.Center))  //圆心在pts范围内
+                if (ThXClipCadOperation.IsPointInPolyline(pts, ellipse.StartPoint))  //椭圆端点在pts范围内
                 {
                     if (keepInternal) //保留内部
                     {
