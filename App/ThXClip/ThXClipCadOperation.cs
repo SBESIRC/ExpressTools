@@ -1367,9 +1367,10 @@ namespace ThXClip
         /// <summary>
         /// 炸块
         /// </summary>
-        /// <param name="br"></param>
+        /// <param name="br">块</param>
+        /// <param name="keepUnvisibleEnts">保留隐藏的物体</param>
         /// <returns></returns>
-        public static List<Entity> Explode(BlockReference br)
+        public static List<Entity> Explode(BlockReference br,bool keepUnVisible=true)
         {
             List<Entity> entities = new List<Entity>();
             DBObjectCollection collection = new DBObjectCollection();
@@ -1377,9 +1378,13 @@ namespace ThXClip
             foreach (DBObject obj in collection)
             {
                 if (obj is BlockReference)
-                {
+                {                    
                     var newBr = obj as BlockReference;
-                    var childEnts = Explode(newBr);
+                    if (!keepUnVisible && newBr.Visible==false)
+                    {
+                        continue;
+                    }
+                    var childEnts = Explode(newBr, keepUnVisible);
                     if (childEnts != null)
                     {
                         entities.AddRange(childEnts);
@@ -1387,6 +1392,11 @@ namespace ThXClip
                 }
                 else if (obj is Entity)
                 {
+                    Entity ent = obj as Entity;
+                    if(!keepUnVisible && ent.Visible == false)
+                    {
+                        continue;
+                    }
                     entities.Add(obj as Entity);
                 }
             }

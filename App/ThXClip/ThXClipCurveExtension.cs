@@ -42,7 +42,8 @@ namespace ThXClip
             }
             if (intersectPts == null || intersectPts.Count == 0) //无交点，
             {
-                if (ThXClipCadOperation.IsPointInPolyline(pts, arc.Center))  //圆心在pts范围内
+                if (ThXClipCadOperation.IsPointInPolyline(pts, arc.StartPoint) ||
+                    ThXClipCadOperation.IsPointInPolyline(pts, arc.EndPoint))  //圆心在pts范围内
                 {
                     if (keepInternal)
                     {
@@ -507,7 +508,7 @@ namespace ThXClip
             }
             if (isGoOn==false)
             {
-                if (ThXClipCadOperation.IsPointInPolyline(pts, ellipse.Center))  //圆心在pts范围内
+                if (ThXClipCadOperation.IsPointInPolyline(pts, ellipse.StartPoint))  //椭圆端点在pts范围内
                 {
                     if (keepInternal) //保留内部
                     {
@@ -555,7 +556,7 @@ namespace ThXClip
                     sortPts.Reverse();
                 }
             }
-            intersectPts.Dispose();
+            intersectPts.Clear();
             Point3dCollection sortIntersecPts = new Point3dCollection();
             sortPts.ForEach(i => sortIntersecPts.Add(i));
             List<Curve> splitCurves = new List<Curve>();
@@ -577,8 +578,8 @@ namespace ThXClip
             }
             else
             {
-                intersectPts= ThXClipCadOperation.GetNoRepeatedPtCollection(intersectPts);
-                splitCurves = SplitCurves(ellipse, intersectPts);
+                sortIntersecPts = ThXClipCadOperation.GetNoRepeatedPtCollection(sortIntersecPts);
+                splitCurves = SplitCurves(ellipse, sortIntersecPts);
                 if(splitCurves==null  || splitCurves.Count==1)
                 {
                     splitCurves.Add(ellipse);
