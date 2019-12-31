@@ -56,6 +56,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThIdentity_Debug" Guid="{29739345-5DAC-4064-8DF7-F79DC4EBFC9E}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThIdentity_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThIdentity.dll" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Debug" Guid="{D51021CB-B3A2-47F7-8CBA-3743B99AD54E}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_RestSharp_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\RestSharp.dll" />
+          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThLicense_Debug" Guid="{367B2BB1-805B-453F-A946-87F2D8540652}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThLicense_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThLicense.dll" />
           </Component>
@@ -113,11 +116,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Debug" Guid="{E40F785C-465D-4471-A1FF-4D9F1F4015C5}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThPlot_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThPlot.dll" />
           </Component>
-		   <!-- thSpray -->
-		    <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThSpray_Debug" Guid="{1DF4F0B1-CE43-4004-8955-01D461D0F1D4}" Win64="yes">
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThSpray_Debug" Guid="{1DF4F0B1-CE43-4004-8955-01D461D0F1D4}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThSpray_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThSpray.dll" />
           </Component>
-		  
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Debug" Guid="{F23887CA-62B5-4E12-98D2-9C305CC124C0}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_NetOffice_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\NetOffice.dll" />
           </Component>
@@ -195,6 +196,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThIdentity_Debug" Guid="{7C16BF00-0D5C-4594-9672-7A5641CAB5DB}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThIdentity_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThIdentity.dll" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Debug" Guid="{193DA18D-3477-4499-9A94-0F4FAC2E43DD}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_RestSharp_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\RestSharp.dll" />
+          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThLicense_Debug" Guid="{458359D7-7942-45F0-8349-B1CA3BD69FFB}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThLicense_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThLicense.dll" />
           </Component>
@@ -255,9 +259,7 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Debug" Guid="{B68A9526-D94A-4300-8BD3-F31125527DD3}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThPlot_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThPlot.dll" />
           </Component>
-		  
-		  <!-- Spray -->
-		    <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSpray_Debug" Guid="{BD79D10B-6F9C-4427-9ACE-BF5FDEE5AFB8}" Win64="yes">
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSpray_Debug" Guid="{BD79D10B-6F9C-4427-9ACE-BF5FDEE5AFB8}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThSpray_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThSpray.dll" />
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NetOffice_Debug" Guid="{760F1E68-6FE3-4438-BA61-F19051ACCF3C}" Win64="yes">
@@ -340,6 +342,9 @@
         <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThIdentity_Debug" Guid="{70891068-3cda-48ea-8ed5-a86dceb8d321}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThIdentity_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThIdentity.dll" />
         </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Debug" Guid="{B3572E49-B2F5-4ED8-B3B6-54D79E63EBD5}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_RestSharp_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\RestSharp.dll" />
+          </Component>
         <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThLicense_Debug" Guid="{575129c3-f6f7-44d2-801a-80c3e1e6a220}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThLicense_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThLicense.dll" />
         </Component>
@@ -394,11 +399,9 @@
         <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThPlot_Debug" Guid="{5894a8bb-0333-4df3-bef6-441080945353}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThPlot_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThPlot.dll" />
         </Component>
-		<!-- Spray -->
-		 <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSpray_Debug" Guid="{797D6D86-E424-4ECF-8DE5-EE3511C10F6F}" Win64="yes">
+        <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSpray_Debug" Guid="{797D6D86-E424-4ECF-8DE5-EE3511C10F6F}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThSpray_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThSpray.dll" />
         </Component>
-		
         <Component Id="CMP_Autoloader_Contents_App_Win64_R20_NetOffice_Debug" Guid="{e3ed5cf1-89a3-429e-b7b2-a97d7a4c25c4}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_NetOffice_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\NetOffice.dll" />
         </Component>
@@ -477,6 +480,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThIdentity_Release" Guid="{A9F4CE72-8C50-4688-8D71-39A26BCF03A7}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThIdentity_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThIdentity.dll" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Release" Guid="{20424CB6-527E-4317-8EDB-31D39E28D019}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R18_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\RestSharp.dll" />
+          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThLicense_Release" Guid="{EE7C5016-0B73-440E-846B-350B815230F3}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThLicense.dll" />
           </Component>
@@ -537,12 +543,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Release" Guid="{A60ABDE2-625D-45EE-A6F2-A11B0797C6F9}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThPlot.dll" />
           </Component>
-		  
-		  <!-- Spray -->
-		   <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThSpray_Release" Guid="{25E2EC76-38CF-42B2-B94A-B2A864FEF104}" Win64="yes">
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThSpray_Release" Guid="{25E2EC76-38CF-42B2-B94A-B2A864FEF104}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThSpray_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThSpray.dll" />
           </Component>
-		  
           <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Release" Guid="{15FA6E7C-646F-4078-AC0A-F767C0E6C80F}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R18_NetOffice_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\NetOffice.dll" />
           </Component>
@@ -620,6 +623,9 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThIdentity_Release" Guid="{47256429-1779-4D41-AEF1-A9C5F8BCF306}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThIdentity_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThIdentity.dll" />
           </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Release" Guid="{98166AAB-6287-492A-B284-7E3C5555E38E}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R19_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\RestSharp.dll" />
+          </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThLicense_Release" Guid="{0CA46FA1-9DFC-47D8-BACB-7D51AE6A322A}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThLicense.dll" />
           </Component>
@@ -680,9 +686,7 @@
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Release" Guid="{3679303E-44A2-4F83-BF76-9815AFFEB184}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThPlot.dll" />
           </Component>
-		  
-		  <!-- spray -->
-		   <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSpray_Release" Guid="{3CED37FE-A7D6-48B9-8F45-1AFA27093F73}" Win64="yes">
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSpray_Release" Guid="{3CED37FE-A7D6-48B9-8F45-1AFA27093F73}" Win64="yes">
             <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThSpray_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThSpray.dll" />
           </Component>
           <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NetOffice_Release" Guid="{6122DF94-5847-404F-9785-BC1A193E32A3}" Win64="yes">
@@ -762,6 +766,9 @@
         <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThIdentity_Release" Guid="{fdc5b74f-3ec6-4d5e-bfa0-9ffd84243638}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThIdentity_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThIdentity.dll" />
         </Component>
+          <Component Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Release" Guid="{A9BD8612-1F72-4209-9FE4-4C47BD0E4773}" Win64="yes">
+            <File Id="FILE_Autoloader_Contents_App_Win64_R20_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\RestSharp.dll" />
+          </Component>
         <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThLicense_Release" Guid="{c083976f-5c24-4b2d-a46f-b31f4b867610}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThLicense.dll" />
         </Component>
@@ -819,9 +826,7 @@
         <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThPlot_Release" Guid="{958f0a56-dc2a-4413-8d82-3e1aafee9ea4}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThPlot.dll" />
         </Component>
-		
-		<!-- spray -->
-		 <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSpray_Release" Guid="{B3059A9E-6ABD-43CC-B1B6-BAF731D6CAF0}" Win64="yes">
+        <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSpray_Release" Guid="{B3059A9E-6ABD-43CC-B1B6-BAF731D6CAF0}" Win64="yes">
           <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThSpray_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThSpray.dll" />
         </Component>
         <Component Id="CMP_Autoloader_Contents_App_Win64_R20_NetOffice_Release" Guid="{0c46b184-4115-4c88-abe6-f38e8cd5a7be}" Win64="yes">
@@ -873,6 +878,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Threading_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAnalytics_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThIdentity_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThLicense_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Debug" />
@@ -893,7 +899,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Images_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Debug" />
-		<ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThSpray_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThSpray_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_OfficeApi_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Pdfium_Debug" />
@@ -918,6 +924,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Threading_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAnalytics_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThIdentity_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThLicense_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Debug" />
@@ -938,7 +945,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Images_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Debug" />
-		<ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThSpray_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThSpray_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NetOffice_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_OfficeApi_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Pdfium_Debug" />
@@ -963,6 +970,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Threading_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAnalytics_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThIdentity_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThLicense_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThResourceLibrary_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Debug" />
@@ -982,7 +990,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Images_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_XtraTreeList_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThPlot_Debug" />
-		<ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThSpray_Debug" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThSpray_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NetOffice_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_OfficeApi_Debug" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Pdfium_Debug" />
@@ -1008,6 +1016,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Threading_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAnalytics_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThIdentity_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThLicense_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Release" />
@@ -1028,7 +1037,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Images_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Release" />
-		<ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThSpray_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThSpray_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_OfficeApi_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Pdfium_Release" />
@@ -1053,6 +1062,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Threading_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAnalytics_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThIdentity_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThLicense_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Release" />
@@ -1073,7 +1083,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Images_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Release" />
-		<ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThSpray_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThSpray_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NetOffice_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_OfficeApi_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Pdfium_Release" />
@@ -1098,6 +1108,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Threading_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAnalytics_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThIdentity_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThLicense_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThResourceLibrary_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Release" />
@@ -1117,7 +1128,7 @@
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Images_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_XtraTreeList_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThPlot_Release" />
-		<ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThSpray_Release" />
+        <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThSpray_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NetOffice_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_OfficeApi_Release" />
         <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Pdfium_Release" />

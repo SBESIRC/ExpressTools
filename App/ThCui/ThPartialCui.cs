@@ -55,10 +55,6 @@ namespace TianHua.AutoCAD.ThCui
                 {
                     cs.Save();
                 }
-                if(File.Exists(cuiFile))
-                {
-                    File.Delete(cuiFile);
-                }
             }
             catch
             {

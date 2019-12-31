@@ -1,20 +1,23 @@
 ﻿using System;
-using System.Net;
 using System.IO;
+using System.Net;
 using System.Diagnostics;
+using System.Windows.Forms;
 using Autodesk.Windows;
 using Autodesk.AutoCAD.Internal;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.ApplicationServices.PreferencesFiles;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using ThLicense;
+using ThIdentity.SDK;
 
 namespace TianHua.AutoCAD.ThCui
 {
     public class ThCuiApp : IExtensionApplication
     {
         const string CMD_GROUPNAME = "TIANHUACAD";
+        // 内部命令，用来初始化环境
+        const string CMD_THCADINIT_GLOBAL_NAME = "*THCADINIT";
         const string CMD_THCADLOGIN_GLOBAL_NAME = "THCADLOGIN";
         const string CMD_THCADLOGOUT_GLOBAL_NAME = "THCADLOGOUT";
         const string CMD_THCADUMPCUI_GLOBAL_NAME = "THCADDUMPCUI";
@@ -38,13 +41,22 @@ namespace TianHua.AutoCAD.ThCui
             //  Etc.
 
             //将程序有效期验证为3个月，一旦超过时限，要求用户更新，不进行命令注册
-            if (!ThLicenseService.Instance.IsExpired())
+            if ((DateTime.Today - ThCADCommon.Global_Expire_Start_Date).Days <= ThCADCommon.Global_Expire_Duration)
             {
                 //注册命令
                 RegisterCommands();
 
                 //定制Preferences
                 OverridePreferences(true);
+
+#if DEBUG
+                //  在装载模块时主动装载局部CUIX文件
+                LoadPartialCui(true);
+#endif
+
+                //创建自定义Ribbon
+                //  https://www.theswamp.org/index.php?topic=44440.0
+                ThRibbonHelper.OnRibbonFound(this.SetupRibbon);
             }
             else
             {
@@ -64,8 +76,15 @@ namespace TianHua.AutoCAD.ThCui
             //恢复Preferences
             OverridePreferences(false);
 
-            //卸载局部CUI文件
+#if DEBUG
+            //  在卸载模块时主动卸载局部CUIX文件
             LoadPartialCui(false);
+#endif
+        }
+
+        private void SetupRibbon(RibbonControl rc)
+        {
+            OnThCADInit();
         }
 
         private void LoadPartialCui(bool bLoad = true)
@@ -87,10 +106,12 @@ namespace TianHua.AutoCAD.ThCui
 
         public void RegisterCommands()
         {
+            Utils.AddCommand(CMD_GROUPNAME, CMD_THCADINIT_GLOBAL_NAME, CMD_THCADINIT_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnThCADInit));
+
             //注册登录命令
-            //Utils.AddCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME, CMD_THCADLOGIN_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnLogIn));
+            Utils.AddCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME, CMD_THCADLOGIN_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnLogIn));
             //注册退出命令
-            //Utils.AddCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME, CMD_THCADLOGOUT_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnLogOut));
+            Utils.AddCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME, CMD_THCADLOGOUT_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnLogOut));
 
 #if DEBUG
             Utils.AddCommand(CMD_GROUPNAME, CMD_THCADUMPCUI_GLOBAL_NAME, CMD_THCADUMPCUI_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnDumpCui));
@@ -112,8 +133,8 @@ namespace TianHua.AutoCAD.ThCui
 
         public void UnregisterCommands()
         {
-            //Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME);
-            //Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME);
+            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME);
+            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME);
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THHLP_GLOBAL_NAME);
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLS_GLOBAL_NAME);
             Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLI_GLOBAL_NAME);
@@ -258,14 +279,50 @@ namespace TianHua.AutoCAD.ThCui
         }
 #endif
 
+        private void OnThCADInit()
+        {
+            if (ThRibbonUtils.Tab != null)
+            {
+                if (ThIdentityService.IsLogged())
+                {
+                    ThRibbonUtils.OpenAllPanels();
+                }
+                else
+                {
+                    ThRibbonUtils.CloseAllPanels();
+                }
+            }
+        }
+
         private void OnLogIn()
         {
-            ThRibbonUtils.OpenAllPanels();
+            using (var dlg = new ThLoginDlg())
+            {
+                if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
+                {
+                    return;
+                }
+
+                ThIdentityService.Login(dlg.User, dlg.Password);
+            }
+
+            // 更新Ribbon
+            if (ThIdentityService.IsLogged())
+            {
+                ThRibbonUtils.OpenAllPanels();
+            }
+
         }
 
         private void OnLogOut()
         {
-            ThRibbonUtils.CloseAllPanels();
+            ThIdentityService.Logout();
+
+            // 更新Ribbon
+            if (!ThIdentityService.IsLogged())
+            {
+                ThRibbonUtils.CloseAllPanels();
+            }
         }
 
         private void OnHelp()

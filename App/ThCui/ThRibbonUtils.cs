@@ -1,43 +1,52 @@
-﻿using Autodesk.Windows;
+﻿using System;
+using System.Linq;
+using Autodesk.Windows;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace TianHua.AutoCAD.ThCui
 {
     public class ThRibbonUtils
     {
+        public static RibbonTab Tab
+        {
+            get
+            {
+                if (ComponentManager.Ribbon == null)
+                {
+                    return null;
+                }
+                foreach (RibbonTab tab in ComponentManager.Ribbon.Tabs)
+                {
+                    if (tab.Name == ThCADCommon.RibbonTabName &&
+                        tab.Title == ThCADCommon.RibbonTabTitle)
+                    {
+                        return tab;
+                    }
+                }
+                return null;
+            }
+        }
+
+
         public static void OpenAllPanels()
         {
-            var tab = ComponentManager.Ribbon.ActiveTab;
-            foreach (var panel in tab.Panels)
-            {
-                panel.IsVisible = true;
-                foreach (var item in panel.Source.Items)
-                {
-                    item.IsVisible = true;
-                }
-            }
+            Tab.Panels.ForEach(o => o.IsVisible = true);
         }
 
         public static void CloseAllPanels()
         {
-            var tab = ComponentManager.Ribbon.ActiveTab;
-            //关闭所有的
-            foreach (var item in tab.Panels)
-            {
-                item.IsVisible = false;
-            }
-            //找到登录Panel,显示打开
-            var loginPanel = tab.Panels[0];
-            loginPanel.IsVisible = true;
+            Tab.Panels.ForEach(o => o.IsVisible = false);
+            Tab.Panels.Where(o => o.UID == "pnl" + "Help").ForEach(o => o.IsVisible = true);
+        }
 
-            //遍历所有登录Panel中的item,全部关闭
-            foreach (var item in loginPanel.Source.Items)
-            {
-                item.IsVisible = false;
-            }
+        public static void RegisterTabActivated(EventHandler handler)
+        {
+            Tab.Activated += handler;
+        }
 
-            //找到登录Panel中的登录模块，显示打开
-            var loginItem = loginPanel.Source.Items[0];
-            loginItem.IsVisible = true;
+        public static void UnRegisterTabActivated(EventHandler handler)
+        {
+            Tab.Activated -= handler;
         }
     }
 }

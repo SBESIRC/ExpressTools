@@ -26,30 +26,30 @@ namespace TianHua.AutoCAD.ThCui
             // 登录界面
             var panel = tab.AddNewPanel("Help", "登录界面");
             var row = panel.AddNewRibbonRow();
-            //{
-            //    var splitButton = row.AddNewSplitButton("天华",
-            //        RibbonSplitButtonBehavior.DropDownFollow,
-            //        RibbonSplitButtonListStyle.IconText,
-            //        RibbonButtonStyle.LargeWithText);
+            {
+                var splitButton = row.AddNewSplitButton("天华",
+                    RibbonSplitButtonBehavior.SplitFollow,
+                    RibbonSplitButtonListStyle.IconText,
+                    RibbonButtonStyle.LargeWithText);
 
-            //    // 登录
-            //    splitButton.AddNewButton("登录",
-            //        "天华登录",
-            //        "THCADLOGIN",
-            //        "登录天华效率平台",
-            //        "IDI_THCAD_THLOGIN",
-            //        "IDI_THCAD_THLOGIN",
-            //        RibbonButtonStyle.LargeWithText);
+                // 登录
+                splitButton.AddNewButton("登录",
+                    "天华登录",
+                    "THCADLOGIN",
+                    "登录天华效率平台",
+                    "IDI_THCAD_THLOGIN",
+                    "IDI_THCAD_THLOGIN",
+                    RibbonButtonStyle.LargeWithText);
 
-            //    // 退出
-            //    splitButton.AddNewButton("退出",
-            //        "天华退出",
-            //        "THCADLOGOUT",
-            //        "退出天华效率平台",
-            //        "IDI_THCAD_THLOGOUT",
-            //        "IDI_THCAD_THLOGOUT",
-            //        RibbonButtonStyle.LargeWithText);
-            //}
+                // 退出
+                splitButton.AddNewButton("退出",
+                    "天华退出",
+                    "THCADLOGOUT",
+                    "退出天华效率平台",
+                    "IDI_THCAD_THLOGOUT",
+                    "IDI_THCAD_THLOGOUT",
+                    RibbonButtonStyle.LargeWithText);
+            }
 
             // 帮助
             row.AddNewButton("帮助文档",
