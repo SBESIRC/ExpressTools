@@ -311,6 +311,83 @@ namespace ThSpray
         }
 
         /// <summary>
+        /// 延长curve的长度
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <param name="length"></param>
+        public static void ExtendCurve(Curve curve, double length)
+        {
+            try
+            {
+                if (curve is Line)
+                {
+                    var line = curve as Line;
+                    var startPoint = line.StartPoint;
+                    var endPoint = line.EndPoint;
+                    var dir = line.GetFirstDerivative(startPoint);
+                    var ptHead = startPoint - dir.GetNormal() * length;
+                    var ptTail = endPoint + dir.GetNormal() * length;
+
+                    line.Extend(true, ptHead);
+                    line.Extend(false, ptTail);
+                }
+                else if (curve is Arc)
+                {
+                    var arc = curve as Arc;
+                    var radius = arc.Radius;
+                    var startParam = arc.StartParam;
+                    var endParam = arc.EndParam;
+                    var param = Math.Asin(length * 0.5 / radius) * 2;
+                    arc.Extend(startParam - param);
+                    arc.Extend(endParam + param);
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// 延长指定长度
+        /// </summary>
+        /// <param name="curves"></param>
+        /// <param name="length"></param>
+        public static void ExtendCurves(List<Curve> curves, double length)
+        {
+            foreach (var curve in curves)
+                ExtendCurve(curve, length);
+        }
+
+        /// <summary>
+        /// 删除无效的，即很窄的轮廓
+        /// </summary>
+        /// <param name="beamLoops"></param>
+        /// <param name="minSprayOffset"></param>
+        /// <returns></returns>
+        public static List<Curve> EraseInvalidLoops(List<Curve> beamLoops, double minSprayOffset)
+        {
+            // 梁轮廓内部数据提取
+            var validLoops = new List<Curve>();
+            for (int i = 0; i < beamLoops.Count; i++)
+            {
+                var poly = beamLoops[i] as Polyline;
+
+                var lines = CommonUtils.Polyline2dLines(poly);
+                if (CommonUtils.CalcuLoopArea(lines) < 0)
+                    poly.ReverseCurve();
+
+                var db = poly.GetOffsetCurves(-minSprayOffset);
+                for (int j = 0; j < db.Count; j++)
+                {
+                    validLoops.Add(db[j] as Polyline);
+                }
+            }
+
+            return validLoops;
+        }
+
+        /// <summary>
         /// 墙的内部可布置梁轮廓
         /// </summary>
         /// <param name="allCurves"></param>
@@ -325,38 +402,851 @@ namespace ThSpray
             var roomCurves = TopoUtils.Polyline2dLines(roomPolyline);
             var curves = TopoUtils.TesslateCurve(allCurves);
             var relatedCurves = GetValidBeams(curves, roomCurves);
+            if (relatedCurves == null || relatedCurves.Count == 0)
+                return null;
 
             // 偏移数据
             var offsetPolylines = new List<Curve>();
             var line2ds = CommonUtils.Polyline2dLines(roomPolyline);
             if (CommonUtils.CalcuLoopArea(line2ds) < 0)
                 roomPolyline.ReverseCurve();
-            var dbRoom = roomPolyline.GetOffsetCurves(1);
-            //var dbRoom = roomPolyline.GetOffsetCurves(-100);
-            for (int i = 0; i < dbRoom.Count; i++)
-                offsetPolylines.Add(dbRoom[i] as Polyline);
 
-            // 梁轮廓内部数据提取
-            var beamLoop = TopoUtils.MakeSrcProfiles(relatedCurves);
-            if (beamLoop != null && beamLoop.Count != 0)
+            var offsetRoomPolylines = new List<Curve>();
+            var dbRoom = roomPolyline.GetOffsetCurves(-100);
+            for (int i = 0; i < dbRoom.Count; i++)
+                offsetRoomPolylines.Add(dbRoom[i] as Polyline);
+            if (offsetRoomPolylines.Count != 0 && relatedCurves.Count != 0)
             {
-                foreach (var offset in beamLoop)
-                {
-                    var poly = offset as Polyline;
-                    var lines = CommonUtils.Polyline2dLines(poly);
-                    if (CommonUtils.CalcuLoopArea(lines) < 0)
-                        poly.ReverseCurve();
-                    var db = poly.GetOffsetCurves(1);
-                    //var db = poly.GetOffsetCurves(-600);
-                    for (int i = 0; i < db.Count; i++)
-                    {
-                        offsetPolylines.Add(db[i] as Polyline);
-                    }
-                }
+                relatedCurves.AddRange(TopoUtils.Polyline2dLines(offsetRoomPolylines.First() as Polyline));
+            }
+            var beamLoops = TopoUtils.MakeSrcProfilesNoTes(relatedCurves);
+            var validLoops = EraseInvalidLoops(beamLoops, 150);
+
+            PlaceSpray.CalcuInsertPos(TopoUtils.Polyline2dLines(roomPolyline), validLoops, 150, 1700, 3400);
+
+            return offsetPolylines;
+        }
+
+        public class PlaceSpray
+        {
+            private List<Curve> m_roomSrcCurves; // 房间的原始边界线
+            private List<List<Curve>> m_beamLoops; // 梁轮廓
+            private double m_wallSprayOffset; // 喷淋距墙的最小位置
+            private double m_maxWallSprayOffset; // 喷淋距墙的最大位置值
+            private double m_sprayGap; // 喷淋之间最大间距
+            private Line m_splitLeftEdge;
+            private Line m_splitBottomEdge;
+
+            private double m_offsetAdd = 43.52; // 水平或者垂直方向上面增加的向量偏移值
+
+            // 原始房间包围盒的上下左右边
+            private Line m_roomRight;
+            private Line m_roomTop;
+            private Line m_roomLeft;
+            private Line m_roomBottom;
+
+            private List<Line> m_hLines; // 水平切割线
+            private List<Line> m_vLines; // 垂直切割线
+
+            private List<Line> boundCurves; // 边界轮廓
+            public PlaceSpray(List<Curve> srcRoomCurves, List<List<Curve>> beamLoops, double minWallSprayOffset, double maxWallSprayOffset, double sprayGap)
+            {
+                m_roomSrcCurves = srcRoomCurves;
+                m_beamLoops = beamLoops;
+                m_wallSprayOffset = minWallSprayOffset;
+                m_sprayGap = sprayGap;
+                m_maxWallSprayOffset = maxWallSprayOffset;
             }
 
-            Utils.DrawProfile(offsetPolylines, "offset");
-            return offsetPolylines;
+            public static List<List<Point3d>> CalcuInsertPos(List<Curve> srcRoomCurves, List<Curve> loops, double minWallSprayOffset, double maxWallSprayOffset, double sprayGap)
+            {
+                var beamLoops = new List<List<Curve>>();
+                foreach (var loop in loops)
+                {
+                    if (loop is Polyline)
+                        beamLoops.Add(TopoUtils.Polyline2dLines(loop as Polyline));
+                }
+
+                var placeSpray = new PlaceSpray(srcRoomCurves, beamLoops, minWallSprayOffset, maxWallSprayOffset, sprayGap);
+                placeSpray.CalStartEdges(); // 开始边
+                placeSpray.CalcuVHLines(); // 水平，垂直线，并考虑是否平移至最下边和最左边
+                placeSpray.CutFromMaxSprayOffset(); // 两边截断处理
+                var ptsLst = placeSpray.DoPlace(); // 放置插入点计算
+                return ptsLst;
+            }
+
+
+            /// <summary>
+            /// 计算开始边
+            /// </summary>
+            private void CalStartEdges()
+            {
+                // 原始房间的外接矩形框
+                var srcRoomEdgeCal = new EdgeCalcu(m_roomSrcCurves, m_wallSprayOffset);
+                srcRoomEdgeCal.Do();
+
+                // 房间外包框曲线
+                boundCurves = srcRoomEdgeCal.BoundCurves;
+
+                // 左边和底边的第一条分割偏移边
+                m_splitLeftEdge = srcRoomEdgeCal.LeftEdge; // 从下到上的边
+                m_splitBottomEdge = srcRoomEdgeCal.BottomEdge; // 从左到右的边
+
+                // 原始分界边的右边和上边
+                m_roomRight = srcRoomEdgeCal.SrcRightEdge;
+                m_roomTop = srcRoomEdgeCal.SrcTopEdge;
+
+                m_roomLeft = srcRoomEdgeCal.SrcLeftEdge;
+                m_roomBottom = srcRoomEdgeCal.SrcBottomEdge;
+
+                // 所有梁轮廓的边界值计算
+                var beamCurves = new List<Curve>();
+                foreach (var curves in m_beamLoops)
+                {
+                    beamCurves.AddRange(curves);
+                }
+                var beamLoopEdgeCal = new EdgeCalcu(beamCurves, m_wallSprayOffset);
+                beamLoopEdgeCal.Do();
+                var leftEdge = beamLoopEdgeCal.SrcLeftEdge;
+                var vecHori = new Vector3d(m_offsetAdd, 0, 0);
+                var leftPtS = leftEdge.StartPoint;
+                var leftPtE = leftEdge.EndPoint;
+                m_splitLeftEdge = new Line(leftPtS + vecHori, leftPtE + vecHori);
+
+                var bottomEdge = beamLoopEdgeCal.SrcBottomEdge;
+                var vecVer = new Vector3d(0, m_offsetAdd, 0);
+                var bottomPtS = bottomEdge.StartPoint;
+                var bottomPtE = bottomEdge.EndPoint;
+                m_splitBottomEdge = new Line(bottomPtS + vecVer, bottomPtE + vecVer);
+            }
+
+
+            private List<Point3d> LineWithLoop(Line line, List<Curve> curLoop)
+            {
+                var ptLst = new List<Point3d>();
+                for (int j = 0; j < curLoop.Count; j++)
+                {
+                    var curve = curLoop[j];
+
+                    if (!CommonUtils.IntersectValid(line, curve))
+                        continue;
+
+                    var tmpPtLst = new Point3dCollection();
+                    line.IntersectWith(curve, Intersect.OnBothOperands, tmpPtLst, (IntPtr)0, (IntPtr)0);
+                    if (tmpPtLst.Count != 0 && tmpPtLst.Count < 3)
+                    {
+                        foreach (Point3d pt in tmpPtLst)
+                        {
+                            bool bInLst = false;
+                            for (int m = 0; m < ptLst.Count; m++)
+                            {
+                                var curPt = ptLst[m];
+                                if (CommonUtils.Point3dIsEqualPoint3d(pt, curPt))
+                                {
+                                    bInLst = true;
+                                    break;
+                                }
+                            }
+
+                            if (!bInLst)
+                                ptLst.Add(pt);
+                        }
+                    }
+                }
+
+                return ptLst;
+            }
+            /// <summary>
+            /// 计算水平可插入的交线
+            /// </summary>
+            /// <param name="line"></param>
+            /// <param name="loops"></param>
+            /// <returns></returns>
+            private List<Line> CalculateHoriLinesWithLoops(Line line, List<List<Curve>> loops)
+            {
+                var ptLst = new List<Point3d>();
+                var lines = new List<Line>();
+
+                for (int i = 0; i < loops.Count; i++)
+                {
+                    ptLst.Clear();
+                    var curLoop = loops[i];
+                    ptLst = LineWithLoop(line, curLoop);
+
+                    // 跟每个环的交线加入到水平线中去
+                    if (ptLst.Count > 1)
+                    {
+                        // 尖点处理
+                        ptLst = ptLst.OrderBy(p => p.X).ToList();
+
+                        for (int index = 0; index < ptLst.Count - 1; index++)
+                        {
+                            var curPt = ptLst[index];
+                            var nextPt = ptLst[index + 1];
+                            var midPt = new Point3d((curPt.X + nextPt.X) * 0.5, (curPt.Y + nextPt.Y) * 0.5, 0);
+
+                            if (CommonUtils.PtInLoop(curLoop, midPt))
+                                lines.Add(new Line(curPt, nextPt));
+                        }
+                    }
+                }
+
+                lines = lines.OrderBy(p => p.StartPoint.X).ToList();
+                return lines;
+            }
+
+            /// <summary>
+            /// 计算垂直方向的线段集
+            /// </summary>
+            /// <param name="line"></param>
+            /// <param name="loops"></param>
+            /// <returns></returns>
+            private List<Line> CalculateVerLinesWithLoops(Line line, List<List<Curve>> loops)
+            {
+                var ptLst = new List<Point3d>();
+                var lines = new List<Line>();
+
+                for (int i = 0; i < loops.Count; i++)
+                {
+                    ptLst.Clear();
+                    var curLoop = loops[i];
+                    ptLst = LineWithLoop(line, curLoop);
+
+                    // 跟每个环的交线加入到垂直线中去
+                    if (ptLst.Count > 1)
+                    {
+                        // 尖点处理
+                        ptLst = ptLst.OrderBy(p => p.Y).ToList();
+
+                        for (int index = 0; index < ptLst.Count - 1; index++)
+                        {
+                            var curPt = ptLst[index];
+                            var nextPt = ptLst[index + 1];
+                            var midPt = new Point3d((curPt.X + nextPt.X) * 0.5, (curPt.Y + nextPt.Y) * 0.5, 0);
+
+                            if (CommonUtils.PtInLoop(curLoop, midPt))
+                                lines.Add(new Line(curPt, nextPt));
+                        }
+                    }
+                }
+
+                lines = lines.OrderBy(p => p.StartPoint.Y).ToList();
+                return lines;
+            }
+
+            private void CalcuVHLines()
+            {
+                double YValue = m_sprayGap;
+                // 计算水平分割边
+                
+                var drawCurves = new List<Curve>();
+                foreach (var curves in m_beamLoops)
+                {
+                    drawCurves.AddRange(curves);
+                }
+                Utils.DrawProfile(drawCurves, "horizon");
+                m_hLines = CalculateHoriLinesWithLoops(m_splitBottomEdge, m_beamLoops);
+                // 计算垂直分割边
+                Line vSplitLine = null;
+                var extendValue = 10000000;
+                for (int i = 0; i < m_hLines.Count; i++)
+                {
+                    var ptS = m_hLines[i].StartPoint;
+                    var vec = new Vector3d(0, extendValue, 0);
+                    var vLine = new Line(ptS - vec, ptS + vec);
+
+                    var roomPtLst = LineWithLoop(vLine, m_roomSrcCurves);
+                    if (roomPtLst.Count == 2)
+                    {
+                        var length = (roomPtLst.First() - roomPtLst.Last()).Length;
+
+                        // 没有大的空洞出现
+                        if (CommonUtils.IsAlmostNearZero(Math.Abs(length - m_roomLeft.Length), 600))
+                        {
+                            vSplitLine = vLine;
+                            break;
+                        }
+                    }
+                }
+
+                if (vSplitLine != null)
+                {
+                    var hVec = new Vector3d(m_offsetAdd, 0, 0);
+                    var vSplitS = vSplitLine.StartPoint;
+                    var vSplitE = vSplitLine.EndPoint;
+                    var vOffLine = new Line(vSplitS + hVec, vSplitE + hVec);
+                    //Utils.DrawProfile(new List<Curve> { vOffLine }, "voff");
+                    m_vLines = CalculateVerLinesWithLoops(vOffLine, m_beamLoops);
+                }
+                // 判断水平边可能是否为缺少边
+                var splitHoriS = m_splitBottomEdge.StartPoint;
+                var splitHoriE = m_splitBottomEdge.EndPoint;
+                var vecHori = new Vector3d(extendValue, 0, 0);
+                var splitHoriLine = new Line(splitHoriS - vecHori, splitHoriE + vecHori);
+                var horiPtLst = LineWithLoop(splitHoriLine, m_roomSrcCurves);
+                Line hSplitLine = null;
+                if (horiPtLst.Count == 2)
+                {
+                    var length = (horiPtLst.First() - horiPtLst.Last()).Length;
+                    if (!CommonUtils.IsAlmostNearZero(Math.Abs(length - m_roomBottom.Length), 600))
+                    {
+                        // 左下角有空洞的情形
+                        for (int j = 0; j < m_vLines.Count; j++)
+                        {
+                            var ptS = m_vLines[j].StartPoint;
+                            var vec = new Vector3d(extendValue, 0, 0);
+                            var horiLine = new Line(ptS - vec, ptS + vec);
+                            var hRoomPtLst = LineWithLoop(horiLine, m_roomSrcCurves);
+                            if (hRoomPtLst.Count == 2)
+                            {
+                                var hLength = (hRoomPtLst.First() - hRoomPtLst.Last()).Length;
+                                if (CommonUtils.IsAlmostNearZero(Math.Abs(hLength - m_roomBottom.Length), 600))
+                                {
+                                    hSplitLine = horiLine;
+                                    m_hLines = CalculateHoriLinesWithLoops(hSplitLine, m_beamLoops);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (m_hLines.Count == 0 || m_vLines.Count == 0)
+                    return;
+                //Utils.DrawProfile(m_hLines.ToList<Curve>(), "m_hlines");
+                //Utils.DrawProfile(m_vLines.ToList<Curve>(), "m_vLines");
+                // 处理至最左边和最下边的位置
+                MoveVHLines();
+            }
+
+            /// <summary>
+            /// 处理至最左边和最下边的位置
+            /// </summary>
+            private void MoveVHLines()
+            {
+                var tmpHLines = new List<Line>();
+                var curHY = m_hLines.First().StartPoint.Y;
+                // 不等 则移动到下面
+                if (!CommonUtils.IsAlmostNearZero(Math.Abs(curHY - m_roomBottom.StartPoint.Y - m_wallSprayOffset - m_offsetAdd), 600))
+                {
+                    var vecV = new Vector3d(0, curHY - m_wallSprayOffset - m_offsetAdd, 0);
+                    foreach (var line in m_hLines)
+                    {
+                        var hPtS = line.StartPoint;
+                        var hPtE = line.EndPoint;
+                        tmpHLines.Add(new Line(hPtS - vecV, hPtE - vecV));
+                    }
+                    m_hLines = tmpHLines;
+                }
+
+                // 不等 则移动到左边
+                var tmpVLines = new List<Line>();
+                var curVX = m_vLines.First().StartPoint.X;
+                if (!CommonUtils.IsAlmostNearZero(Math.Abs(curVX - m_roomLeft.StartPoint.X - m_wallSprayOffset - m_offsetAdd), 600))
+                {
+                    var vecH = new Vector3d(curVX - m_wallSprayOffset - m_offsetAdd, 0, 0);
+                    foreach (var line in m_vLines)
+                    {
+                        var vPtS = line.StartPoint;
+                        var vPtE = line.EndPoint;
+                        tmpVLines.Add(new Line(vPtS - vecH, vPtE - vecH));
+                    }
+
+                    m_vLines = tmpVLines;
+                }
+
+                //Utils.DrawProfile(m_hLines.ToList<Curve>(), "m_hlines");
+                //Utils.DrawProfile(m_vLines.ToList<Curve>(), "m_vLines");
+            }
+
+            /// <summary>
+            /// 计算水平裁剪
+            /// </summary>
+            private void CutFromMaxSprayOffsetHLines()
+            {
+                var leftMaxX = m_roomLeft.StartPoint.X + m_maxWallSprayOffset;
+                var rightMaxX = m_roomRight.StartPoint.X - m_maxWallSprayOffset;
+
+                var tmpHLines = new List<Line>();
+
+                for (int i = 0; i < m_hLines.Count; i++)
+                {
+                    // 当前
+                    var curHLine = m_hLines[i];
+                    var curPtS = curHLine.StartPoint;
+                    var curPtE = curHLine.EndPoint;
+                    if (m_hLines.Count == 1)
+                    {
+                        // 四种情况处理
+                        if (curPtS.X > leftMaxX && curPtE.X < rightMaxX)
+                        {
+                            var nPtS = new Point3d(leftMaxX, curPtS.Y, 0);
+                            var nPtE = curPtE;
+                            tmpHLines.Add(new Line(nPtS, nPtE));
+                        }
+                        else if (curPtS.X < leftMaxX && curPtE.X > rightMaxX)
+                        {
+                            var nPtS = curPtS;
+                            var nPtE = new Point3d(rightMaxX, curPtE.Y, 0);
+                            tmpHLines.Add(new Line(nPtS, nPtE));
+                        }
+                        else if (curPtS.X < leftMaxX && curPtE.X > rightMaxX)
+                        {
+                            var nPtS = new Point3d(leftMaxX, curPtS.Y, 0);
+                            var nPtE = new Point3d(rightMaxX, curPtE.Y, 0);
+                            tmpHLines.Add(new Line(nPtS, nPtE));
+                        }
+                        else
+                        {
+                            tmpHLines.Add(curHLine);
+                        }
+                    }
+                    else if (i < m_hLines.Count - 1)
+                    {
+                        // 至倒数第二段的情形
+                        // 下一条
+                        var nextHLine = m_hLines[i + 1];
+                        var nextPtS = nextHLine.StartPoint;
+                        var nextPtE = nextHLine.EndPoint;
+                        if (curPtS.X < leftMaxX && curPtE.X > leftMaxX)
+                        {
+                            // 当前与左边相交 收集
+                            var nPtS = new Point3d(leftMaxX, curPtS.Y, 0);
+                            tmpHLines.Add(new Line(nPtS, curPtE));
+                        }
+                        else if (curPtE.X < leftMaxX && nextPtS.X > leftMaxX)
+                        {
+                            // 当前是被包含的最后一个线段 收集
+                            var nPtS = curPtE;
+                            var nPtE = curPtE + new Vector3d(10, 0, 0);
+                            tmpHLines.Add(new Line(nPtS, nPtE));
+                        }
+                        if (curPtS.X > leftMaxX && curPtE.X < rightMaxX)
+                        {
+                            // 当前段在左右两条边的中间 收集
+                            tmpHLines.Add(curHLine);
+                        }
+                        if (curPtS.X < rightMaxX && curPtE.X > rightMaxX)
+                        {
+                            // 当前段与尾段相交 收集
+                            var nPtS = curPtS;
+                            var nPtE = new Point3d(rightMaxX, curPtS.Y, 0);
+                            tmpHLines.Add(new Line(nPtS, nPtE));
+                        }
+                        if (curPtE.X < rightMaxX && nextPtS.X > rightMaxX)
+                        {
+                            // 收集next段
+                            var nPtS = nextPtS;
+                            var nPtE = nextPtS + new Vector3d(2, 0, 0);
+                            tmpHLines.Add(new Line(nPtS, nPtE)); // 最后一段检查长度，小于10的只要放置一个点
+                        }
+                    }
+                    else if (i == m_hLines.Count - 1)
+                    {
+                        // 最后一段的情形
+                        if (curPtS.X < rightMaxX && curPtE.X > rightMaxX)
+                        {
+                            var nPtS = curPtS;
+                            var nPtE = new Point3d(rightMaxX, curPtE.Y, 0);
+                            tmpHLines.Add(new Line(nPtS, nPtE));
+                        }
+                        else if (curPtE.X < rightMaxX)
+                        {
+                            tmpHLines.Add(curHLine);
+                        }
+                    }
+                }
+
+                m_hLines.Clear();
+                m_hLines = tmpHLines;
+            }
+
+            /// <summary>
+            /// 计算垂直裁剪
+            /// </summary>
+            private void CutFromMaxSprayOffsetVLines()
+            {
+                var bottomMaxY = m_roomBottom.StartPoint.Y + m_maxWallSprayOffset;
+                var topMaxY = m_roomTop.StartPoint.Y - m_maxWallSprayOffset;
+                var tmpVLines = new List<Line>();
+
+                for (int i = 0; i < m_vLines.Count; i++)
+                {
+                    // 当前
+                    var curVLine = m_vLines[i];
+                    var curPtS = curVLine.StartPoint;
+                    var curPtE = curVLine.EndPoint;
+                    if (m_vLines.Count == 1)
+                    {
+                        // 四种情况处理
+                        if (curPtS.Y > bottomMaxY && curPtE.Y < topMaxY)
+                        {
+                            var nPtS = new Point3d(curPtS.X, bottomMaxY, 0);
+                            var nPtE = curPtE;
+                            tmpVLines.Add(new Line(nPtS, nPtE));
+                        }
+                        else if (curPtS.Y < bottomMaxY && curPtE.Y > topMaxY)
+                        {
+                            var nPtS = curPtS;
+                            var nPtE = new Point3d(curPtE.X, topMaxY, 0);
+                            tmpVLines.Add(new Line(nPtS, nPtE));
+                        }
+                        else if (curPtS.Y < bottomMaxY && curPtE.Y > topMaxY)
+                        {
+                            var nPtS = new Point3d(curPtS.X, bottomMaxY, 0);
+                            var nPtE = new Point3d(curPtE.X, topMaxY, 0);
+                            tmpVLines.Add(new Line(nPtS, nPtE));
+                        }
+                        else
+                        {
+                            tmpVLines.Add(curVLine);
+                        }
+                    }
+                    else if (i < m_vLines.Count - 1)
+                    {
+                        // 至倒数第二段的情形
+                        // 下一条
+                        var nextVLine = m_vLines[i + 1];
+                        var nextPtS = nextVLine.StartPoint;
+                        var nextPtE = nextVLine.EndPoint;
+                        if (curPtS.Y < bottomMaxY && curPtE.Y > bottomMaxY)
+                        {
+                            // 当前与左边相交 收集
+                            var nPtS = new Point3d(curPtS.X, bottomMaxY, 0);
+                            tmpVLines.Add(new Line(nPtS, curPtE));
+                        }
+                        else if (curPtE.Y < bottomMaxY && nextPtS.Y > bottomMaxY)
+                        {
+                            // 当前是被包含的最后一个线段 收集
+                            var nPtS = curPtE;
+                            var nPtE = curPtE + new Vector3d(0, 10, 0);
+                            tmpVLines.Add(new Line(nPtS, nPtE));
+                        }
+                        if (curPtS.Y > bottomMaxY && curPtE.Y < topMaxY)
+                        {
+                            // 当前段在左右两条边的中间 收集
+                            tmpVLines.Add(curVLine);
+                        }
+                        if (curPtS.Y < topMaxY && curPtE.Y > topMaxY)
+                        {
+                            // 当前段与尾段相交 收集
+                            var nPtS = curPtS;
+                            var nPtE = new Point3d(curPtS.X, topMaxY, 0);
+                            tmpVLines.Add(new Line(nPtS, nPtE));
+                        }
+                        if (curPtE.Y < topMaxY && nextPtS.Y > topMaxY)
+                        {
+                            // 收集next段
+                            var nPtS = nextPtS;
+                            var nPtE = nextPtS + new Vector3d(0, 2, 0);
+                            tmpVLines.Add(new Line(nPtS, nPtE)); // 最后一段检查长度，小于10的只要放置一个点
+                        }
+                    }
+                    else if (i == m_vLines.Count - 1)
+                    {
+                        // 最后一段的情形
+                        if (curPtS.X < topMaxY && curPtE.X > topMaxY)
+                        {
+                            var nPtS = curPtS;
+                            var nPtE = new Point3d(curPtS.X, topMaxY, 0);
+                            tmpVLines.Add(new Line(nPtS, nPtE));
+                        }
+                        else if (curPtE.X < topMaxY)
+                        {
+                            tmpVLines.Add(curVLine);
+                        }
+                    }
+                }
+
+                m_vLines.Clear();
+                m_vLines = tmpVLines;
+            }
+
+            /// <summary>
+            /// 四周切掉最大距墙值
+            /// </summary>
+            private void CutFromMaxSprayOffset()
+            {
+                CutFromMaxSprayOffsetHLines();
+                CutFromMaxSprayOffsetVLines();
+                Utils.DrawProfile(m_hLines.ToList<Curve>(), "m_hlines");
+                Utils.DrawProfile(m_vLines.ToList<Curve>(), "m_vLines");
+            }
+
+            /// <summary>
+            /// 计算水平第一行
+            /// </summary>
+            /// <returns></returns>
+            private List<Point3d> CalcuHPoints()
+            {
+                var hPtLst = new List<Point3d>();
+                for (int i = 0; i < m_hLines.Count; i++)
+                {
+                    var curHLine = m_hLines[i];
+                    var firPtS = curHLine.StartPoint;
+                    var firPtE = curHLine.EndPoint;
+                    if (i == m_hLines.Count - 1)
+                    {
+                        // 最后一段
+                        if (curHLine.Length < 10)
+                        {
+                            hPtLst.Add(curHLine.StartPoint);
+                        }
+                        else
+                        {
+                            var xWid = curHLine.Length;
+                            var ratio = xWid / m_maxWallSprayOffset;
+                            int nCount = (int)ratio;
+
+                            // 多出一点点的情形，不是少于的情形
+                            if (CommonUtils.IsAlmostNearZero(Math.Abs(ratio - nCount), 1e-4))
+                                nCount -= 1;
+
+                            if (nCount == 0)
+                            {
+                                hPtLst.Add(curHLine.StartPoint);
+                            }
+                            else
+                            {
+                                var gapAdd = (int)(xWid / nCount);
+                                for (int j = 0; j < nCount; j++)
+                                {
+                                    var curX = firPtS.X + j * gapAdd;
+                                    hPtLst.Add(new Point3d(curX, firPtS.Y, 0));
+                                }
+                            }
+
+                            hPtLst.Add(firPtE);
+                        }
+                    }
+                    else
+                    {
+                        // 非最后一段
+                        var nextLine = m_hLines[i + 1];
+                        var nextPtS = nextLine.StartPoint;
+                        var xWid = nextPtS.X - firPtS.X;
+                        var ratio = xWid / m_maxWallSprayOffset;
+                        int nCount = (int)ratio;
+
+                        // 多出一点点的情形，不是少于的情形
+                        if (CommonUtils.IsAlmostNearZero(Math.Abs(ratio - nCount), 1e-4))
+                            nCount -= 1;
+
+                        if (nCount == 0)
+                        {
+                            hPtLst.Add(curHLine.StartPoint);
+                        }
+                        else
+                        {
+                            var gapAdd = (int)(xWid / nCount);
+                            for (int j = 0; j < nCount; j++)
+                            {
+                                var curX = firPtS.X + j * gapAdd;
+                                hPtLst.Add(new Point3d(curX, firPtS.Y, 0));
+                            }
+                        }
+                    }
+                }
+
+                return hPtLst;
+            }
+
+            /// <summary>
+            /// 计算垂直的点
+            /// </summary>
+            /// <returns></returns>
+            private List<Point3d> CalcuVPoints()
+            {
+                var vPtLst = new List<Point3d>();
+                for (int i = 0; i < m_vLines.Count; i++)
+                {
+                    var curVLine = m_vLines[i];
+                    var firPtS = curVLine.StartPoint;
+                    var firPtE = curVLine.EndPoint;
+                    if (i == m_vLines.Count - 1)
+                    {
+                        // 最后一段
+                        if (curVLine.Length < 10)
+                        {
+                            vPtLst.Add(curVLine.StartPoint);
+                        }
+                        else
+                        {
+                            var yWid = curVLine.Length;
+                            var ratio = yWid / m_maxWallSprayOffset;
+                            int nCount = (int)ratio;
+
+                            // 多出一点点的情形，不是少于的情形
+                            if (CommonUtils.IsAlmostNearZero(Math.Abs(ratio - nCount), 1e-4))
+                                nCount -= 1;
+
+                            if (nCount == 0)
+                            {
+                                vPtLst.Add(curVLine.StartPoint);
+                            }
+                            else
+                            {
+                                var gapAdd = (int)(yWid / nCount);
+                                for (int j = 0; j < nCount; j++)
+                                {
+                                    var curY = firPtS.Y + j * gapAdd;
+                                    vPtLst.Add(new Point3d(firPtS.X, curY, 0));
+                                }
+                            }
+
+                            vPtLst.Add(firPtE);
+                        }
+                    }
+                    else
+                    {
+                        // 非最后一段
+                        var nextLine = m_vLines[i + 1];
+                        var nextPtS = nextLine.StartPoint;
+                        var yWid = nextPtS.Y - firPtS.Y;
+                        var ratio = yWid / m_maxWallSprayOffset;
+                        int nCount = (int)ratio;
+
+                        // 多出一点点的情形，不是少于的情形
+                        if (CommonUtils.IsAlmostNearZero(Math.Abs(ratio - nCount), 1e-4))
+                            nCount -= 1;
+
+                        if (nCount == 0)
+                        {
+                            vPtLst.Add(curVLine.StartPoint);
+                        }
+                        else
+                        {
+                            var gapAdd = (int)(yWid / nCount);
+                            for (int j = 0; j < nCount; j++)
+                            {
+                                var curY = firPtS.Y + j * gapAdd;
+                                vPtLst.Add(new Point3d(firPtS.X, curY, 0));
+                            }
+                        }
+                    }
+                }
+
+                return vPtLst;
+            }
+
+            /// <summary>
+            /// 开始布置
+            /// </summary>
+            private List<List<Point3d>> DoPlace()
+            {
+                var hPtLst = CalcuHPoints(); // 水平分割点
+                var vPtLst = CalcuVPoints(); // 垂直分割点
+                var dbCol = new DBObjectCollection();
+
+                var curPtY = hPtLst.First().Y;
+                var ptsLst = new List<List<Point3d>>();
+
+                foreach (var vPt in vPtLst)
+                {
+                    var vY = vPt.Y;
+                    var moveValue = vY - curPtY;
+                    var movePtLst = new List<Point3d>();
+                    if (CommonUtils.IsAlmostNearZero(Math.Abs(moveValue), 10))
+                    {
+                        ptsLst.Add(hPtLst);
+                    }
+                    else
+                    {
+                        foreach (var hPt in hPtLst)
+                        {
+                            var movePt = hPt + new Vector3d(0, moveValue, 0);
+                            movePtLst.Add(movePt);
+                        }
+                        ptsLst.Add(movePtLst);
+                    }
+                }
+
+                // 有效的放置点
+                var validPtsLst = ErasePoints(m_roomSrcCurves, ptsLst);
+                //foreach (var drawPts in validPtsLst)
+                //    foreach (var drawPt in drawPts)
+                //        Utils.DrawPreviewPoint(new DBObjectCollection(), drawPt);
+                return validPtsLst;
+            }
+
+            /// <summary>
+            /// 删除无效点
+            /// </summary>
+            /// <param name="srcCurves"></param>
+            /// <param name="ptsLst"></param>
+            /// <returns></returns>
+            private List<List<Point3d>> ErasePoints(List<Curve> srcCurves, List<List<Point3d>> ptsLst)
+            {
+                var validPtsLst = new List<List<Point3d>>();
+
+                foreach (var pts in ptsLst)
+                {
+                    var validPtLst = new List<Point3d>();
+                    foreach (var pt in pts)
+                    {
+                        if (CommonUtils.PtInLoop(srcCurves, pt))
+                            validPtLst.Add(pt);
+                    }
+
+                    validPtsLst.Add(validPtLst);
+                }
+
+                return validPtsLst;
+            }
+        }
+
+        /// <summary>
+        /// 计算多段线的垂直开始边和水平开始边
+        /// </summary>
+        public class EdgeCalcu
+        {
+            private List<Curve> m_srcCurves;
+            private double m_offset = 0.0;
+
+            public Line LeftEdge;
+            public Line BottomEdge;
+            public Line SrcRightEdge;
+            public Line SrcTopEdge;
+
+            public Line SrcLeftEdge;
+            public Line SrcBottomEdge;
+
+            public List<Line> BoundCurves;
+            public EdgeCalcu(List<Curve> curves, double offset)
+            {
+                m_srcCurves = curves;
+                m_offset = offset;
+            }
+
+            public void Do()
+            {
+                var box = new BoundBoxPlane(m_srcCurves);
+
+                // 左边
+                var leftEdge = box.CalculateLeftEdge();
+                var leftPtS = leftEdge.StartPoint;
+                var leftPtE = leftEdge.EndPoint;
+                LeftEdge = new Line(leftPtS + new Vector3d(m_offset, 0, 0), leftPtE + new Vector3d(m_offset, 0, 0));
+
+                // 底边
+                var bottomEdge = box.CalculateBottomEdge();
+                var bottomPtS = bottomEdge.StartPoint;
+                var bottomPtE = bottomEdge.EndPoint;
+                BottomEdge = new Line(bottomPtS + new Vector3d(0, m_offset, 0), bottomPtE + new Vector3d(0, m_offset, 0));
+
+                // 房间的右边
+                SrcRightEdge = box.CalculateRightEdge();
+                // 房间的上边
+                SrcTopEdge = box.CalculateTopEdge();
+
+                // 房间的左边
+                SrcLeftEdge = box.CalculateLeftEdge();
+
+                // 房间的下边
+                SrcBottomEdge = box.CalculateBottomEdge();
+                // 房间的边界原始curves
+                BoundCurves = box.CalcuBoundCurves();
+            }
         }
 
         /// <summary>
@@ -404,7 +1294,7 @@ namespace ThSpray
 
                 var unclosedCurves = pathCal.TransCurves(pathCal.unclosedBeamNodes);
                 // 区域分割生成所需要的内部点
-                var ptLst = SpaceSplit.MakeSplitPoints(unclosedCurves); 
+                var ptLst = SpaceSplit.MakeSplitPoints(unclosedCurves);
                 if (unclosedCurves != null && unclosedCurves.Count != 0)
                 {
                     foreach (var poly in unclosedCurves)
@@ -427,7 +1317,7 @@ namespace ThSpray
                 foreach (var beamPoint in ptLst)
                 {
                     var profile = TopoUtils.MakeProfileFromPoint(roomCurves, beamPoint);
-                    if (profile != null && profile.Count !=0)
+                    if (profile != null && profile.Count != 0)
                     {
                         polylines.AddRange(profile);
                     }
@@ -757,10 +1647,29 @@ namespace ThSpray
                 return null;
 
             var relatedCurves = new List<Curve>();
+            var intersectCurves = new List<Curve>();
             foreach (var beam in beams)
             {
-                if (LoopContainCurve(roomCurves, beam) || CurveIntersectWithLoop(beam, roomCurves))
+                if (LoopContainCurve(roomCurves, beam))
                     relatedCurves.Add(beam);
+                else if (CurveIntersectWithLoop(beam, roomCurves))
+                {
+                    intersectCurves.Add(beam);
+                }
+            }
+
+            intersectCurves.AddRange(roomCurves);
+            // 裁剪掉框线外的曲线
+            var newCurves = ScatterCurves.MakeNewCurves(intersectCurves);
+
+            if (newCurves != null)
+            {
+                foreach (var curve in newCurves)
+                {
+                    var ptMid = curve.GetPointAtParameter((curve.StartParam + curve.EndParam) * 0.5);
+                    if (CommonUtils.PtInLoop(roomCurves, ptMid))
+                        relatedCurves.Add(curve);
+                }
             }
 
             return relatedCurves;
@@ -2569,12 +3478,12 @@ namespace ThSpray
                     //}
 
                     if (layer.Name.Contains("AE-WALL") || layer.Name.Contains("AD-NAME-ROOM")
-                         || layer.Name.Contains("AE-STRU") || layer.Name.Contains("S_COLU"))
+                         || layer.Name.Contains("AE-STRU") || layer.Name.Contains("COLU") || layer.Name.Contains("HDWR"))
                     {
                         allCurveLayers.Add(layer.Name);
                     }
 
-                    if (layer.Name.Contains("AE-WALL"))
+                    if (layer.Name.Contains("AE-WALL") || layer.Name.Contains("HDWR"))
                         wallLayers.Add(layer.Name);
 
                     if (layer.Name.Contains("AE-DOOR-INSD"))
@@ -2593,9 +3502,11 @@ namespace ThSpray
                 allValidLayers.Add("AE-WALL");
                 allValidLayers.Add("AD-NAME-ROOM");
                 allValidLayers.Add("AE-STRU");
-                allValidLayers.Add("S_COLU");
+                allValidLayers.Add("COLU");
                 allValidLayers.Add("AE-DOOR-INSD");
                 allValidLayers.Add("AE-WIND");
+
+                allValidLayers.Add("HDWR");
 
                 foreach (var lName in closeLayerNames)
                 {
