@@ -32,6 +32,7 @@ namespace ThXClip
     public delegate void ThXClipFinishHandler(ThXclipCommands sender,bool result);
     public class ThXclipCommands
     {
+        public static ProgressMeter pm;
         [CommandMethod("TIANHUACAD", "THXLP", CommandFlags.Modal | CommandFlags.UsePickSet)]
         public void ThXClip()
         {
@@ -39,6 +40,10 @@ namespace ThXClip
             if (selObjIds.Count == 0)
             {
                 return;
+            }
+            if(pm==null || pm.IsDisposed)
+            {
+                pm = new ProgressMeter();
             }
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
@@ -126,6 +131,7 @@ namespace ThXClip
             }
             finally
             {
+                pm.Dispose();
                 ed.SetCurrentView(view);
                 analyseRelation.EraseBlockAndItsExplodedObjs();
                 ThXClipCadOperation.LockedLayers(lockedLayerNames);

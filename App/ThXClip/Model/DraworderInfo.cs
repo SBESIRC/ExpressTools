@@ -1,4 +1,5 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 
 namespace ThXClip
@@ -45,5 +46,13 @@ namespace ThXClip
         /// 块路径
         /// </summary>
         public List<string> BlockPath { get; set; } = new List<string>();
+        /// <summary>
+        /// 块定义中的物体转到Wcs的矩阵
+        /// </summary>
+        public Matrix3d Wcs { get; set; }
+        /// <summary>
+        /// Container的矩阵
+        /// </summary>
+        public Matrix3d BlockTransform { get; set; }
     }
 }
