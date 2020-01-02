@@ -1509,6 +1509,18 @@ namespace ThXClip
             }
             return newPts;
         }
+        public static bool TwoCurveBoundingBoxIntersect(Entity entOne, Entity entTwo)
+        {
+            bool isIntersect = false;
+            Point3dCollection pts = new Point3dCollection();
+            entOne.BoundingBoxIntersectWith(entTwo, Intersect.OnBothOperands, pts, IntPtr.Zero, IntPtr.Zero);
+            if (pts!=null && pts.Count>0)
+            {
+                isIntersect = true;
+            }
+            return isIntersect;
+        }
+
     }
     /// <summary>
     /// 线与直线的关系

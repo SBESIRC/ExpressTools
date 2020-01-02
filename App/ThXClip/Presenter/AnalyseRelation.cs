@@ -5,6 +5,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices.Filters;
+using Autodesk.AutoCAD.Runtime;
 
 namespace ThXClip
 {
@@ -78,6 +79,8 @@ namespace ThXClip
                     this.ModelSpaceDrawOrderDic[modelDrawOrderKeyObjIds[i]] = i + 1;
                 }
                 btr.UpgradeOpen();
+                ThXclipCommands.pm.Start(@"正在收集...");
+                ThXclipCommands.pm.SetLimit(this._objIds.Count);
                 Dictionary<ObjectId, List<DraworderInfo>> blockDrawOrderInfDic = new Dictionary<ObjectId, List<DraworderInfo>>();
                 for (int i = 0; i < this._objIds.Count; i++)
                 {
@@ -87,9 +90,8 @@ namespace ThXClip
                         continue;
                     }
                     List<DraworderInfo> draworderInfos = new List<DraworderInfo>();
-                    //List<EntInf> entities = Explode(br,br.Name);
-                    List<EntInf> entities= GetBlockReferenceDrawOrderInfo(br, br.Name);
-                    entities =entities.Where(j => j.Ent.Visible && JudgeEntityInsPointedType(j.Ent)).Select(j => j).ToList();
+                    List<EntInf> entities= TraverseBlockTableRecord(trans,br, br.Name,br.BlockTransform);
+                    entities =entities.Where(j => j.Ent!=null && j.Ent.Visible && JudgeEntityInsPointedType(j.Ent)).Select(j => j).ToList();
                     entities.ForEach(j => j.BlockPath.Reverse());
                     List<XClipInfo> currentXClipInfos = RetrieveXClipBoundary(br, br.Name);
                     if (currentXClipInfos != null && currentXClipInfos.Count>0)
@@ -108,7 +110,13 @@ namespace ThXClip
                     draworderInfos=draworderInfos.OrderBy(j => j.DrawIndex).ToList();
                     //draworderInfos.ForEach(j => j.BlockId = this._objIds[i]);
                     blockDrawOrderInfDic.Add(this._objIds[i], draworderInfos);
+
+                    // 更新进度条
+                    ThXclipCommands.pm.MeterProgress();
+                    // 让CAD在长时间任务处理时任然能接收消息
+                    System.Windows.Forms.Application.DoEvents();
                 }
+                ThXclipCommands.pm.Stop();
                 int maxCount= blockDrawOrderInfDic.OrderByDescending(i => i.Value.Count).First().Value.Count;
                 int containCount = maxCount.ToString().Length + 1;
                 for (int i = 0; i < modelDrawOrderKeyObjIds.Count; i++)
@@ -210,12 +218,11 @@ namespace ThXClip
             entities.ForEach(i => i.BlockPath.Add(preBlkName));
             return entities;
         }
-        private List<EntInf> GetBlockReferenceDrawOrderInfo(BlockReference br, string preBlkName)
+        private List<EntInf> TraverseBlockTableRecord(Transaction trans, BlockReference br,string preBlkName, Matrix3d preMt)
         {
             List<EntInf> entities = new List<EntInf>();
             try
             {
-                Transaction trans = this._document.TransactionManager.TopTransaction;
                 BlockTableRecord btr = trans.GetObject(br.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
                 DrawOrderTable dot = trans.GetObject(btr.DrawOrderTableId, OpenMode.ForRead) as DrawOrderTable;
                 ObjectIdCollection ocids = dot.GetFullDrawOrder(0);
@@ -240,7 +247,8 @@ namespace ThXClip
                             blkName = SetBlkName(currentLayBlkNames, newBr.Name);
                         }
                         currentLayBlkNames.Add(newBr.Name);
-                        var childEnts = GetBlockReferenceDrawOrderInfo(newBr, blkName);
+                        Matrix3d mt = newBr.BlockTransform.PreMultiplyBy(preMt);
+                        var childEnts = TraverseBlockTableRecord(trans, newBr, blkName, mt);
                         if (childEnts != null)
                         {
                             entities.AddRange(childEnts);
@@ -248,16 +256,28 @@ namespace ThXClip
                     }
                     else if (dbObj is Entity)
                     {
-                        Entity ent = dbObj as Entity;
-                        entities.Add(new EntInf() { Ent = ent.Clone() as Entity, BlockName = br.Name });
+                        try
+                        {
+                            Entity ent = dbObj as Entity;
+                            Entity entCopy = ent.Clone() as Entity;
+                            if (entCopy.Visible == false)
+                            {
+                                continue;
+                            }
+                            entCopy.TransformBy(preMt);
+                            entities.Add(new EntInf() { Ent = entCopy, BlockName = br.Name, Wcs = preMt, BlockTransform = br.BlockTransform });
+                        }
+                        catch (System.Exception ex)
+                        {
+                            ThXClipUtils.WriteException(ex, "TraverseBlockTableRecord");
+                        }
                     }
                 }
                 entities.ForEach(i => i.BlockPath.Add(preBlkName));
-                entities.ForEach(i => i.Ent.TransformBy(br.BlockTransform));
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
-                ThXClipUtils.WriteException(ex, "GetBlockReferenceDrawOrderInfo");
+                ThXClipUtils.WriteException(ex, "TraverseBlockTableRecord");
             }
             return entities;
         }
