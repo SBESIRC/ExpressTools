@@ -23,6 +23,13 @@ namespace ThSpray
             return profiles;
         }
 
+        public static List<Curve> MakeSrcProfilesNoTes(List<Curve> curves)
+        {
+            var tmpCurves = CommonUtils.RemoveCollinearLines(curves);
+            var profiles = TopoSearch.MakeSrcProfileLoops(tmpCurves);
+            return profiles;
+        }
+
         public static List<Curve> MakeProfileFromPoint(List<Curve> srcCurves, Point3d pt)
         {
             var profileCalcu = new CalcuContainPointProfile(srcCurves, pt);

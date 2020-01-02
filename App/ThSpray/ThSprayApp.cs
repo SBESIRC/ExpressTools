@@ -99,6 +99,7 @@ namespace ThSpray
             allCurves = TopoUtils.TesslateCurve(allCurves);
             allCurves = CommonUtils.RemoveCollinearLines(allCurves);
 
+
             // 梁数据
             var beamCurves = Utils.GetAllCurvesFromLayerNames(beamLayers);
 

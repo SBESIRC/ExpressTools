@@ -478,10 +478,6 @@ namespace ThSpray
                 else
                 {
                     var arc = edge.SrcCurve as Arc;
-                    var startPoint = arc.StartPoint;
-                    var endPoint = arc.EndPoint;
-                    var center = arc.Center;
-                    var radius = arc.Radius;
                     var midPoint = arc.GetPointAtParameter((arc.StartParam + arc.EndParam) * 0.5);
                     var topoEdge1 = new TopoEdge(edge.Start, midPoint, null);
                     var topoEdge2 = new TopoEdge(midPoint, edge.End, null);
@@ -723,6 +719,12 @@ namespace ThSpray
             return true;
         }
 
+        /// <summary>
+        /// 外轮廓包含内轮廓
+        /// </summary>
+        /// <param name="outerprofile"></param>
+        /// <param name="innerProfile"></param>
+        /// <returns></returns>
         public static bool OutLoopContainInnerLoop(List<TopoEdge> outerprofile, List<TopoEdge> innerProfile)
         {
             int pointInCount = 0;
@@ -752,6 +754,41 @@ namespace ThSpray
                 return true;
             else
                 return false;
+        }
+
+        public static bool OutLoopContainInnerLoop2(List<TopoEdge> outerprofile, List<TopoEdge> innerProfile)
+        {
+            int pointInCount = 0;
+            foreach (var edge in innerProfile)
+            {
+                var pt = edge.Start;
+                bool IsEdgePoint = false;
+
+                foreach (var outerEdge in outerprofile)
+                {
+                    if (CommonUtils.IsPointOnSegment(pt, outerEdge))
+                    {
+                        pointInCount++;
+                        IsEdgePoint = true;
+                        break;
+                    }
+                }
+
+                if (IsEdgePoint == false)
+                {
+                    if (PtInLoop(outerprofile, pt))
+                        return true;
+                }
+            }
+
+            if (pointInCount == innerProfile.Count)
+            {
+                var innerPt = CalInnerPoint.MakeInnerPoint(innerProfile);
+                if (PtInLoop(outerprofile, innerPt))
+                    return true;
+            }
+
+            return false;
         }
 
         public static bool PtInLoop(List<TopoEdge> loop, Point3d pt)
@@ -1022,22 +1059,39 @@ namespace ThSpray
 
             if (CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 0.5) || CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 1.5))
             {
-                var y1 = Math.Abs(pt.Y - startPt.Y);
-                var y2 = Math.Abs(pt.Y - endPt.Y);
-                if (CommonUtils.IsAlmostNearZero((y1 + y2 - line.Length), tole))
-                    return true;
+                if (CommonUtils.IsAlmostNearZero(pt.X - startPt.X, tole))
+                {
+                    var y1 = Math.Abs(pt.Y - startPt.Y);
+                    var y2 = Math.Abs(pt.Y - endPt.Y);
+                    if (CommonUtils.IsAlmostNearZero((y1 + y2 - line.Length), tole))
+                        return true;
+                }
+            }
+            else if (CommonUtils.IsAlmostNearZero(line.Angle) || CommonUtils.IsAlmostNearZero(line.Angle - Math.PI))
+            {
+                if (CommonUtils.IsAlmostNearZero(pt.Y - startPt.Y, tole))
+                {
+                    var X1 = Math.Abs(pt.X - startPt.X);
+                    var X2 = Math.Abs(pt.X - endPt.X);
+                    if (CommonUtils.IsAlmostNearZero((X1 + X2 - line.Length), tole))
+                        return true;
+                }
             }
             else
             {
                 // 非垂直
-                var y1 = Math.Abs(pt.Y - startPt.Y);
-                var y2 = Math.Abs(pt.Y - endPt.Y);
-                var vertical = Math.Abs(endPt.Y - startPt.Y) - (y1 + y2);
-                var x1 = Math.Abs(pt.X - startPt.X);
-                var x2 = Math.Abs(pt.X - endPt.X);
-                var horizontal = Math.Abs(endPt.X - startPt.X) - (x1 + x2);
-                if (CommonUtils.IsAlmostNearZero(vertical, tole) && CommonUtils.IsAlmostNearZero(horizontal, tole))
+                var maxx = Math.Max(startPt.X, endPt.X);
+                var minX = Math.Min(startPt.X, endPt.X);
+
+                var maxY = Math.Max(startPt.Y, endPt.Y);
+                var minY = Math.Min(startPt.Y, endPt.Y);
+
+                if (((pt.X - startPt.X) * (endPt.Y - startPt.Y) == (endPt.X - startPt.X) * (pt.Y - startPt.Y))
+                    && (pt.X >= minX && pt.X <= maxx) && (pt.Y >= minY && pt.Y <= minY))
+                {
                     return true;
+                }
+
             }
 
             return false;
@@ -1062,12 +1116,12 @@ namespace ThSpray
             if (edge.IsLine)
             {
                 var line = edge.SrcCurve as Line;
-                return CommonUtils.IsPointOnLine(point, line, tole);
+                return CommonUtils.IsPointOnLine(point, line, 1e-3);
             }
             else
             {
                 var arc = edge.SrcCurve as Arc;
-                return CommonUtils.IsPointOnArc(point, arc, tole);
+                return CommonUtils.IsPointOnArc(point, arc, 1e-3);
             }
         }
 
