@@ -8,6 +8,8 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
+using System.Windows.Forms;
+using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace ThSpray
 {
@@ -33,19 +35,36 @@ namespace ThSpray
             List<string> columnLayers = null;
              var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers, out columnLayers);
 
-            Document doc = Application.DocumentManager.MdiActiveDocument;
+            var sprayForm = new SprayParam();
+            if (AcadApp.ShowModalDialog(sprayForm) != DialogResult.OK)
+            {
+                return;
+            }
+
+            var  userData = sprayForm.placeData;
+
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
             var pickPoints = new List<Point3d>();
             var objCollect = new DBObjectCollection();
             // 预览标记
             var previewCurves = new List<Curve>();
+            var tip = "请点击需要布置喷头房间内的一点，共计";
             while (true)
             {
+                var message = tip + pickPoints.Count().ToString() + "个";
+                Active.WriteMessage(message);
                 PromptPointOptions ppo = new PromptPointOptions("\n请点击");
-                ppo.AllowNone = false;
+                ppo.AllowNone = true;
                 PromptPointResult ppr = ed.GetPoint(ppo);
-                if (ppr.Status != PromptStatus.OK)
+                if (ppr.Status == PromptStatus.None)
                     break;
+                if (ppr.Status == PromptStatus.Cancel)
+                {
+                    Utils.ErasePreviewPoint(objCollect);
+                    Active.WriteMessage("取消操作");
+                    return;
+                }
 
                 var pickPoint = ppr.Value;
                 pickPoints.Add(pickPoint);
@@ -105,6 +124,10 @@ namespace ThSpray
 
             //柱子数据
             var columnCurves = Utils.GetAllCurvesFromLayerNames(columnLayers);
+            // 需要剔除的柱子轮廓数据
+            var columnTesCurves = TopoUtils.TesslateCurve(columnCurves);
+            var columnLoops = TopoUtils.MakeSrcProfilesNoTes(columnTesCurves);
+
             var innerCurves = new List<Curve>();
             if (beamCurves != null && beamCurves.Count != 0)
                 innerCurves.AddRange(beamCurves);
@@ -118,12 +141,17 @@ namespace ThSpray
                     continue;
 
                 // 内梁
-                var beamLoopLst = Utils.MakeInnerProfiles(innerCurves, profile.First() as Polyline);
-                //Utils.DrawProfile(profile, "sd");
+                var insertPts= Utils.MakeInnerProfiles(innerCurves, profile.First() as Polyline, userData);
+                if (insertPts == null || insertPts.Count == 0)
+                    continue;
+
+                // 插入块
+                Utils.InsertSprayBlock(insertPts, userData.type);
             }
             
             Utils.PostProcess(removeEntityLst);
             Utils.ErasePreviewPoint(objCollect);
+            Active.WriteMessage("布置完成");
         }
     }
 }
