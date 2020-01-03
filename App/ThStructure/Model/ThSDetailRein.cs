@@ -36,6 +36,7 @@ namespace ThStructure.Model
         private static readonly double hook_x_length = 26.0;
         private static readonly double hook_y_length = 72.0;
         private static readonly double point_distance = 22.0;
+        private static readonly double section_distance = 40.0;
         private readonly ThSDetailReinPointCollection points = new ThSDetailReinPointCollection();
         private readonly ThSComponentCurveCollection segments = new ThSComponentCurveCollection();
         private readonly ThSComponentParameterCollection parameters = new ThSComponentParameterCollection();
@@ -80,50 +81,8 @@ namespace ThStructure.Model
             //  intXBarDia：X方向纵筋直径
             //  intYBarCount：Y方向纵筋根数
             //  intYBarDia：Y方向纵筋直径
-            double xLength = (double)Parameters.Where(o => o.Key == "Len_X").First().Value;
-            double yLength = (double)Parameters.Where(o => o.Key == "Len_Y").First().Value;
-
-            var pLine = new Polyline()
-            {
-                Closed = true
-            };
-
-            if (HookAttachment == HookAttachmentPoint.HookAttachmentTopLeft)
-            {
-                pLine.AddVertexAt(0, new Point2d(-xLength / 2.0, yLength / 2.0), 0, 0, 0);
-                pLine.AddVertexAt(1, new Point2d(xLength / 2.0, yLength / 2.0), 0, 0, 0);
-                pLine.AddVertexAt(2, new Point2d(xLength / 2.0, -yLength / 2.0), 0, 0, 0);
-                pLine.AddVertexAt(3, new Point2d(-xLength / 2.0, -yLength / 2.0), 0, 0, 0);
-                pLine.FilletAll(19.0);
-
-                // 垂直弯钩
-                var vHook = ConstructHookCurve(Math.PI / 4);
-                Matrix3d scaleMat = Matrix3d.Identity;
-                Matrix3d rotationMat = Matrix3d.Rotation(-Math.PI / 2, Vector3d.ZAxis, Point3d.Origin);
-                Matrix3d movementMat = Matrix3d.Displacement(pLine.GetPoint3dAt(0).GetAsVector());
-                vHook.TransformBy(scaleMat.PreMultiplyBy(rotationMat).PreMultiplyBy(movementMat));
-                vHook.ReverseCurve();
-
-                // 水平弯钩
-                var hHook = ConstructHookCurve(-Math.PI / 4);
-                scaleMat = Matrix3d.Identity;
-                rotationMat = Matrix3d.Identity;
-                movementMat = Matrix3d.Displacement(pLine.GetPoint3dAt(1).GetAsVector());
-                hHook.TransformBy(scaleMat.PreMultiplyBy(rotationMat).PreMultiplyBy(movementMat));
-
-                // 组装
-                var components = new PolylineSegmentCollection();
-                components.AddRange(new PolylineSegmentCollection(vHook));
-                components.AddRange(new PolylineSegmentCollection(pLine));
-                components.Add(new PolylineSegment(pLine.GetArcSegment2dAt(0)));
-                components.AddRange(new PolylineSegmentCollection(hHook));
-
-                // 保存
-                segments.Add(new ThSComponentCurve(components.ToPolyline()));
-            }
-
-            //
             ConstructPoints();
+            ConstructAngularRein();
         }
 
         public override void Render(IThSComponentRenderTarget target)
@@ -163,8 +122,8 @@ namespace ThStructure.Model
             int cBarCount = (int)Parameters.Where(o => o.Key == "intCBarCount").First().Value;
             if (HookAttachment == HookAttachmentPoint.HookAttachmentTopLeft)
             {
-                double xOffset = fillet_radius + Math.Cos(Math.PI / 4) * point_distance;
-                double yOffset = fillet_radius + Math.Cos(Math.PI / 4) * point_distance;
+                double xOffset = section_distance + fillet_radius + Math.Cos(Math.PI / 4) * point_distance;
+                double yOffset = section_distance + fillet_radius + Math.Cos(Math.PI / 4) * point_distance;
 
                 // 左上角
                 var point = new ThSDetailReinPoint();
@@ -193,6 +152,51 @@ namespace ThStructure.Model
                 point.ComponentTransform = Matrix3d.Displacement(new Vector3d(-xLength / 2.0 + xOffset, -yLength / 2.0 + yOffset, 0.0));
                 point.GenerateLayout();
                 points.Add(point);
+            }
+        }
+
+        private void ConstructAngularRein()
+        {
+            double xLength = (double)Parameters.Where(o => o.Key == "Len_X").First().Value;
+            double yLength = (double)Parameters.Where(o => o.Key == "Len_Y").First().Value;
+
+            if (HookAttachment == HookAttachmentPoint.HookAttachmentTopLeft)
+            {
+                var pLine = new Polyline()
+                {
+                    Closed = true
+                };
+                pLine.AddVertexAt(0, new Point2d(-xLength / 2.0, yLength / 2.0), 0, 0, 0);
+                pLine.AddVertexAt(1, new Point2d(xLength / 2.0, yLength / 2.0), 0, 0, 0);
+                pLine.AddVertexAt(2, new Point2d(xLength / 2.0, -yLength / 2.0), 0, 0, 0);
+                pLine.AddVertexAt(3, new Point2d(-xLength / 2.0, -yLength / 2.0), 0, 0, 0);
+                var rein = pLine.GetOffsetCurves(section_distance)[0] as Polyline;
+                rein.FilletAll(fillet_radius);
+
+                // 垂直弯钩
+                var vHook = ConstructHookCurve(Math.PI / 4);
+                Matrix3d scaleMat = Matrix3d.Identity;
+                Matrix3d rotationMat = Matrix3d.Rotation(-Math.PI / 2, Vector3d.ZAxis, Point3d.Origin);
+                Matrix3d movementMat = Matrix3d.Displacement(rein.GetPoint3dAt(0).GetAsVector());
+                vHook.TransformBy(scaleMat.PreMultiplyBy(rotationMat).PreMultiplyBy(movementMat));
+                vHook.ReverseCurve();
+
+                // 水平弯钩
+                var hHook = ConstructHookCurve(-Math.PI / 4);
+                scaleMat = Matrix3d.Identity;
+                rotationMat = Matrix3d.Identity;
+                movementMat = Matrix3d.Displacement(rein.GetPoint3dAt(1).GetAsVector());
+                hHook.TransformBy(scaleMat.PreMultiplyBy(rotationMat).PreMultiplyBy(movementMat));
+
+                // 组装
+                var components = new PolylineSegmentCollection();
+                components.AddRange(new PolylineSegmentCollection(vHook));
+                components.AddRange(new PolylineSegmentCollection(rein));
+                components.Add(new PolylineSegment(rein.GetArcSegment2dAt(0)));
+                components.AddRange(new PolylineSegmentCollection(hHook));
+
+                // 保存
+                segments.Add(new ThSComponentCurve(components.ToPolyline()));
             }
         }
     }

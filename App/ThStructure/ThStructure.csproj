@@ -41,9 +41,11 @@
     <Compile Include="Model\ThSComponentDbRender.cs" />
     <Compile Include="Model\ThSComponentParameterCollection.cs" />
     <Compile Include="Model\ThSComponentDbStyleManager.cs" />
+    <Compile Include="Model\ThSDetailColumn.cs" />
     <Compile Include="Model\ThSDetailRein.cs" />
     <Compile Include="Model\ThSDetailReinPoint.cs" />
     <Compile Include="Model\ThSDetailReinPointCollection.cs" />
+    <Compile Include="Model\ThSDetailSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThStructureApp.cs" />
   </ItemGroup>
