@@ -214,6 +214,25 @@ namespace ThSpray
             return lines;
         }
     }
+
+    // 喷淋放置的一些参数
+    public enum SprayType
+    {
+        SPRAYUP = 0,
+        SPRAYDOWN = 1,
+    }
+
+    public class PlaceData
+    {
+        public double minSprayGap;
+        public double maxSprayGap;
+        public double minWallGap;
+        public double maxWallGap;
+        public double minBeamGap;
+        public double maxBeamGap;
+        public SprayType type;
+    }
+
     public class CommonUtils
     {
         public const int HashMapCount = 234;

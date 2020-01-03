@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AcHelper;
+using System.IO;
 
 namespace ThSpray
 {
@@ -264,6 +265,34 @@ namespace ThSpray
         }
 
         /// <summary>
+        /// 插入喷淋图块
+        /// </summary>
+        /// <param name="insertPts"></param>
+        public static void InsertSprayBlock(List<Point3d> insertPts, SprayType type)
+        {
+            Utils.CreateLayer("W-FRPT-SPRL", Color.FromRgb(191, 255, 0));
+
+            string propName = "上喷";
+            if (type == SprayType.SPRAYDOWN)
+                propName = "下喷";
+            using (var db = AcadDatabase.Active())
+            {
+                var filePath = Path.Combine(ThCADCommon.SupportPath(), "SprayBlockUp.dwg");
+                db.Database.ImportBlocksFromDwg(filePath);
+                foreach (var insertPoint in insertPts)
+                {
+                    var blockId = db.ModelSpace.ObjectId.InsertBlockReference("W-FRPT-SPRL", "喷头", insertPoint, new Scale3d(1, 1, 1), 0);
+                    var props = blockId.GetDynProperties();
+                    foreach (DynamicBlockReferenceProperty prop in props)
+                    {
+                        // 如果动态属性的名称与输入的名称相同
+                        prop.Value = propName;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// 生成房间内所有的可布置轮廓，经过距离裁剪后的轮廓
         /// </summary>
         /// <param name="beams"></param>
@@ -393,7 +422,7 @@ namespace ThSpray
         /// <param name="allCurves"></param>
         /// <param name="roomPolyline"></param>
         /// <returns></returns>
-        public static List<Curve> MakeInnerProfiles(List<Curve> allCurves, Polyline roomPolyline)
+        public static List<Point3d> MakeInnerProfiles(List<Curve> allCurves, Polyline roomPolyline, PlaceData userData)
         {
             if (allCurves == null || allCurves.Count == 0)
                 return null;
@@ -412,7 +441,7 @@ namespace ThSpray
                 roomPolyline.ReverseCurve();
 
             var offsetRoomPolylines = new List<Curve>();
-            var dbRoom = roomPolyline.GetOffsetCurves(-100);
+            var dbRoom = roomPolyline.GetOffsetCurves(-userData.minWallGap);
             for (int i = 0; i < dbRoom.Count; i++)
                 offsetRoomPolylines.Add(dbRoom[i] as Polyline);
             if (offsetRoomPolylines.Count != 0 && relatedCurves.Count != 0)
@@ -420,11 +449,11 @@ namespace ThSpray
                 relatedCurves.AddRange(TopoUtils.Polyline2dLines(offsetRoomPolylines.First() as Polyline));
             }
             var beamLoops = TopoUtils.MakeSrcProfilesNoTes(relatedCurves);
-            var validLoops = EraseInvalidLoops(beamLoops, 150);
+            var validLoops = EraseInvalidLoops(beamLoops, userData.minBeamGap);
 
-            PlaceSpray.CalcuInsertPos(TopoUtils.Polyline2dLines(roomPolyline), validLoops, 150, 1700, 3400);
+            var insertPtS = PlaceSpray.CalcuInsertPos(TopoUtils.Polyline2dLines(roomPolyline), validLoops, userData.minBeamGap, userData.maxBeamGap, userData.maxSprayGap);
 
-            return offsetPolylines;
+            return insertPtS;
         }
 
         public class PlaceSpray
@@ -458,7 +487,7 @@ namespace ThSpray
                 m_maxWallSprayOffset = maxWallSprayOffset;
             }
 
-            public static List<List<Point3d>> CalcuInsertPos(List<Curve> srcRoomCurves, List<Curve> loops, double minWallSprayOffset, double maxWallSprayOffset, double sprayGap)
+            public static List<Point3d> CalcuInsertPos(List<Curve> srcRoomCurves, List<Curve> loops, double minWallSprayOffset, double maxWallSprayOffset, double sprayGap)
             {
                 var beamLoops = new List<List<Curve>>();
                 foreach (var loop in loops)
@@ -472,7 +501,16 @@ namespace ThSpray
                 placeSpray.CalcuVHLines(); // 水平，垂直线，并考虑是否平移至最下边和最左边
                 placeSpray.CutFromMaxSprayOffset(); // 两边截断处理
                 var ptsLst = placeSpray.DoPlace(); // 放置插入点计算
-                return ptsLst;
+
+                var insertPts = new List<Point3d>();
+                if (ptsLst != null && ptsLst.Count != 0)
+                {
+                    foreach (var pts in ptsLst)
+                    {
+                        insertPts.AddRange(pts);
+                    }
+                }
+                return insertPts;
             }
 
 
@@ -638,13 +676,13 @@ namespace ThSpray
             {
                 double YValue = m_sprayGap;
                 // 计算水平分割边
-                
-                var drawCurves = new List<Curve>();
-                foreach (var curves in m_beamLoops)
-                {
-                    drawCurves.AddRange(curves);
-                }
-                Utils.DrawProfile(drawCurves, "horizon");
+
+                //var drawCurves = new List<Curve>();
+                //foreach (var curves in m_beamLoops)
+                //{
+                //    drawCurves.AddRange(curves);
+                //}
+                ////Utils.DrawProfile(drawCurves, "horizon");
                 m_hLines = CalculateHoriLinesWithLoops(m_splitBottomEdge, m_beamLoops);
                 // 计算垂直分割边
                 Line vSplitLine = null;
@@ -969,8 +1007,8 @@ namespace ThSpray
             {
                 CutFromMaxSprayOffsetHLines();
                 CutFromMaxSprayOffsetVLines();
-                Utils.DrawProfile(m_hLines.ToList<Curve>(), "m_hlines");
-                Utils.DrawProfile(m_vLines.ToList<Curve>(), "m_vLines");
+                //Utils.DrawProfile(m_hLines.ToList<Curve>(), "m_hlines");
+                //Utils.DrawProfile(m_vLines.ToList<Curve>(), "m_vLines");
             }
 
             /// <summary>
@@ -1048,7 +1086,38 @@ namespace ThSpray
                     }
                 }
 
-                return hPtLst;
+                if (hPtLst.Count < 3)
+                    return hPtLst;
+
+                var resPtLst = new List<Point3d>();
+                resPtLst.Add(hPtLst.First());
+                for (int i = 1; i < hPtLst.Count - 1; i++)
+                {
+                    var beforePt = hPtLst[i - 1];
+                    var nextPt = hPtLst[i + 1];
+                    var curSpt = hPtLst[i];
+                    var midPt = new Point3d((beforePt.X + nextPt.X) * 0.5, (beforePt.Y + nextPt.Y) * 0.5, 0);
+                    bool bPointIn = false;
+                    foreach (var line in m_hLines)
+                    {
+                        if (CommonUtils.IsPointOnLine(midPt, line))
+                        {
+                            bPointIn = true;
+                            break;
+                        }
+                    }
+                    if (bPointIn)
+                    {
+                        hPtLst[i] = midPt;
+                        resPtLst.Add(midPt);
+                    }
+                    else
+                    {
+                        resPtLst.Add(curSpt);
+                    }
+                }
+                resPtLst.Add(hPtLst.Last());
+                return resPtLst;
             }
 
             /// <summary>
@@ -1126,7 +1195,38 @@ namespace ThSpray
                     }
                 }
 
-                return vPtLst;
+                if (vPtLst.Count < 3)
+                    return vPtLst;
+
+                var resPtLst = new List<Point3d>();
+                resPtLst.Add(vPtLst.First());
+                for (int i = 1; i < vPtLst.Count - 1; i++)
+                {
+                    var beforePt = vPtLst[i - 1];
+                    var nextPt = vPtLst[i + 1];
+                    var curSpt = vPtLst[i];
+                    var midPt = new Point3d((beforePt.X + nextPt.X) * 0.5, (beforePt.Y + nextPt.Y) * 0.5, 0);
+                    bool bPointIn = false;
+                    foreach (var line in m_vLines)
+                    {
+                        if (CommonUtils.IsPointOnLine(midPt, line))
+                        {
+                            bPointIn = true;
+                            break;
+                        }
+                    }
+                    if (bPointIn)
+                    {
+                        vPtLst[i] = midPt;
+                        resPtLst.Add(midPt);
+                    }
+                    else
+                    {
+                        resPtLst.Add(curSpt);
+                    }
+                }
+                resPtLst.Add(vPtLst.Last());
+                return resPtLst;
             }
 
             /// <summary>
