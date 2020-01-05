@@ -12,7 +12,7 @@ using NetOffice.OfficeApi.Enums;
 using NetOffice.PowerPointApi.Enums;
 using static ThPlot.ThPlotData;
 using Linq2Acad;
-using PdfiumLight;
+using PdfiumViewer;
 using DotNetARX;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
@@ -111,23 +111,20 @@ namespace ThPlot
         /// <param name="quality"></param>
         public static void DrawPdfToPng(string inputPdfPath, string outpdfPath, UserSelectData.ImageQuality quality)
         {
-            using (PdfDocument document = new PdfDocument(inputPdfPath))
+            using (PdfDocument document = PdfDocument.Load(inputPdfPath))
             {
-                // Load the first page
-                PdfPage page = document.GetPage(0);
-
                 System.Drawing.Image image = null;
                 if (quality == UserSelectData.ImageQuality.IMAGELOWER)
                 {
-                    image = page.Render(100, 100, 300, 300, PdfRotation.Rotate0, PdfRenderFlags.None);
+                    image = document.Render(0, 300, 300, PdfRenderFlags.None);
                 }
                 else if (quality == UserSelectData.ImageQuality.IMAGEMEDIUM)
                 {
-                    image = page.Render(100, 100, 500, 500, PdfRotation.Rotate0, PdfRenderFlags.None);
+                    image = document.Render(0, 500, 500, PdfRenderFlags.None);
                 }
                 else if (quality == UserSelectData.ImageQuality.IMAGEHIGHER)
                 {
-                    image = page.Render(100, 100, 700, 700, PdfRotation.Rotate0, PdfRenderFlags.None);
+                    image = document.Render(0, 700, 700, PdfRenderFlags.None);
                 }
 
                 if (image != null)
