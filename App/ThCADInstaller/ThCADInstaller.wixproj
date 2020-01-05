@@ -22,7 +22,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.wxs" />
+    <Compile Include="DevExpress.wxs" />
+    <Compile Include="External.wxs" />
+    <Compile Include="Language.wxs" />
     <Compile Include="Lisp.wxs" />
+    <Compile Include="Office.wxs" />
     <Compile Include="Plotters.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="Resources.wxs" />
