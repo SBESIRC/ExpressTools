@@ -29,5 +29,6 @@ namespace ThXClip
         /// 块路径
         /// </summary>
         public List<string> BlockPath { get; set; } = new List<string>();
+        public List<ObjectId> BlockPathIds { get; set; } = new List<ObjectId>();
     }
 }

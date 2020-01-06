@@ -94,23 +94,21 @@ namespace ThXClip
                 List<DraworderInfo> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.ModelWipeOutIds[i]);
                 Point2dCollection boundaryPts = ThXClipCadOperation.GetWipeOutBoundaryPts(this._analyzeRelation.ModelWipeOutIds[i]);
                 boundaryPts = ThXClipCadOperation.GetNoRepeatedPtCollection(boundaryPts);
-
                 //第一次过滤
                 double minX = boundaryPts.ToArray().OrderBy(j => j.X).First().X;
                 double minY = boundaryPts.ToArray().OrderBy(j => j.Y).First().Y;
                 double maxX = boundaryPts.ToArray().OrderByDescending(j => j.X).First().X;
                 double maxY = boundaryPts.ToArray().OrderByDescending(j => j.Y).First().Y;
-                preDrawDoi=preDrawDoi.Where(j => IsInWipeOutRectangle(minX, minY, maxX, maxY, j.DbObjs)).Select(j => j).ToList();
+                preDrawDoi=preDrawDoi.Where(j => WipeoutIntersectWithCurves(minX, minY, maxX, maxY, j.DbObjs)).Select(j => j).ToList();
 
                 //第二次过滤
                 Polyline wipeOutEdge = ThXClipCadOperation.CreatePolyline(boundaryPts, true);
-
                 List<DraworderInfo> reservedDois = new List<DraworderInfo>();
                 for (int j = 0; j < preDrawDoi.Count; j++)
                 {
                     for (int k = 0; k < preDrawDoi[j].DbObjs.Count; k++)
                     {
-                        if (WipeoutIntersectCurve(wipeOutEdge, preDrawDoi[j].DbObjs[k] as Curve))
+                        if (WipeoutIntersectWithCurve(wipeOutEdge, preDrawDoi[j].DbObjs[k] as Curve))
                         {
                             reservedDois.Add(preDrawDoi[j]);
                             break;
@@ -139,72 +137,135 @@ namespace ThXClip
             for (int i = 0; i < this._analyzeRelation.BlkWipeOuts.Count; i++)
             {
                 List<DraworderInfo> preDrawDoi = this._analyzeRelation.GetWipeOutPreDrawOrderInfs(this._analyzeRelation.BlkWipeOuts[i]);
-                Point2dCollection boundaryPts = ThXClipCadOperation.GetWipeOutBoundaryPts(this._analyzeRelation.BlkWipeOuts[i].Id);
-                boundaryPts = ThXClipCadOperation.GetNoRepeatedPtCollection(boundaryPts);
-                
-                //第一次过滤
-                double minX = boundaryPts.ToArray().OrderBy(j => j.X).First().X;
-                double minY = boundaryPts.ToArray().OrderBy(j => j.Y).First().Y;
-                double maxX = boundaryPts.ToArray().OrderByDescending(j => j.X).First().X;
-                double maxY = boundaryPts.ToArray().OrderByDescending(j => j.Y).First().Y;
-                preDrawDoi = preDrawDoi.Where(j => IsInWipeOutRectangle(minX, minY, maxX, maxY, j.DbObjs)).Select(j => j).ToList();
-
-                //第二次过滤
-                Polyline wipeOutEdge = ThXClipCadOperation.CreatePolyline(boundaryPts, true);
-                List<DraworderInfo> reservedDois = new List<DraworderInfo>();
-                for (int j = 0; j < preDrawDoi.Count; j++)
+                for(int j=0;j< this._analyzeRelation.BlkWipeOuts[i].DbObjs.Count;j++)
                 {
-                    for (int k = 0; k < preDrawDoi[j].DbObjs.Count; k++)
+                    Point2dCollection boundaryPts = ThXClipCadOperation.GetWipeOutBoundaryPts(this._analyzeRelation.BlkWipeOuts[i].DbObjs[j] as Wipeout);
+                    boundaryPts = ThXClipCadOperation.GetNoRepeatedPtCollection(boundaryPts);
+                    //第一次过滤
+                    double minX = boundaryPts.ToArray().OrderBy(k => k.X).First().X;
+                    double minY = boundaryPts.ToArray().OrderBy(k => k.Y).First().Y;
+                    double maxX = boundaryPts.ToArray().OrderByDescending(k => k.X).First().X;
+                    double maxY = boundaryPts.ToArray().OrderByDescending(k => k.Y).First().Y;
+                    preDrawDoi = preDrawDoi.Where(k => WipeoutIntersectWithCurves(minX, minY, maxX, maxY, k.DbObjs)).Select(k => k).ToList();
+
+                    //第二次过滤
+                    Polyline wipeOutEdge = ThXClipCadOperation.CreatePolyline(boundaryPts, true);
+                    List<DraworderInfo> reservedDois = new List<DraworderInfo>();
+                    for (int m = 0; m < preDrawDoi.Count; m++)
                     {
-                        if (WipeoutIntersectCurve(wipeOutEdge, preDrawDoi[j].DbObjs[k] as Curve))
+                        for (int n = 0; n < preDrawDoi[m].DbObjs.Count; n++)
                         {
-                            reservedDois.Add(preDrawDoi[j]);
+                            if (WipeoutIntersectWithCurve(wipeOutEdge, preDrawDoi[m].DbObjs[n] as Curve))
+                            {
+                                reservedDois.Add(preDrawDoi[m]);
+                                break;
+                            }
+                        }
+                    }
+                    try
+                    {
+                        OperationWipeOut(boundaryPts, reservedDois);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        ThXClipUtils.WriteException(ex, "处理块中的WipeOut: 执行到第 " + i + " 条记录！");
+                    }
+                    finally
+                    {
+                        wipeOutEdge.Dispose();
+                    }
+                }
+                // 更新进度条
+                ThXclipCommands.pm.MeterProgress();
+                // 让CAD在长时间任务处理时任然能接收消息
+                System.Windows.Forms.Application.DoEvents();
+            }
+            ThXclipCommands.pm.Stop();
+        }
+        /// <summary>
+        /// Wipeout矩形轮廓是否与Curve矩形轮廓相交
+        /// </summary>
+        /// <param name="minX">Wipeout左下角点X</param>
+        /// <param name="minY">Wipeout左下角点Y</param>
+        /// <param name="maxX">Wipeout右上角点X</param>
+        /// <param name="maxY">Wipeout右上角点Y</param>
+        /// <param name="curve"></param>
+        /// <returns></returns>
+        private bool WipeoutIntersectWithCurves(double minX,double minY,double maxX,double maxY, DBObjectCollection dbobjs)
+        {
+            bool isIntersect = false;
+            foreach(DBObject dbObj in dbobjs)
+            {
+                Curve curve = dbObj as Curve;
+                //创建Curve Region
+                Point3d minPt = curve.GeometricExtents.MinPoint;
+                Point3d maxPt = curve.GeometricExtents.MaxPoint;
+                if (minPt.GetVectorTo(maxPt).IsParallelTo(Vector3d.XAxis, new Tolerance(1e-4, 1e-4)))
+                {
+                    minPt = minPt + new Vector3d(0, -1, 0);
+                    maxPt = maxPt + new Vector3d(0, 1, 0);
+                }
+                else if (minPt.GetVectorTo(maxPt).IsParallelTo(Vector3d.YAxis, new Tolerance(1e-4, 1e-4)))
+                {
+                    minPt = minPt + new Vector3d(-1, 0, 0);
+                    maxPt = maxPt + new Vector3d(1, 0, 0);
+                }
+                else if (minPt.DistanceTo(maxPt) <= 0.1)
+                {
+                    minPt = minPt + new Vector3d(-1, -1, 0);
+                    maxPt = maxPt + new Vector3d(1, 1, 0);
+                }
+                Point2dCollection curvePts = new Point2dCollection();
+                curvePts.Add(new Point2d(minPt.X, minPt.Y));
+                curvePts.Add(new Point2d(maxPt.X, minPt.Y));
+                curvePts.Add(new Point2d(maxPt.X, maxPt.Y));
+                curvePts.Add(new Point2d(minPt.X, maxPt.Y));
+                for (int i = 0; i < curvePts.Count; i++)
+                {
+                    if (ThXClipCadOperation.Point2dIsInRectangle(minX, minY, maxX, maxY, curvePts[i]))
+                    {
+                        isIntersect = true;
+                        break;
+                    }
+                }
+                Point2dCollection wpPts = new Point2dCollection();
+                wpPts.Add(new Point2d(minX, minY));
+                wpPts.Add(new Point2d(maxX, minY));
+                wpPts.Add(new Point2d(maxX, maxY));
+                wpPts.Add(new Point2d(minX, maxY));
+                if (!isIntersect)
+                {
+                    for (int i = 0; i < wpPts.Count; i++)
+                    {
+                        if (ThXClipCadOperation.Point2dIsInRectangle(minPt.X, minPt.Y, maxPt.X, maxPt.Y, wpPts[i]))
+                        {
+                            isIntersect = true;
                             break;
                         }
                     }
                 }
-                try
+                if(!isIntersect)
                 {
-                    OperationWipeOut(boundaryPts, reservedDois);
+                    Polyline curvePolyline = ThXClipCadOperation.CreatePolyline(curvePts);
+                    Polyline wpPolyline = ThXClipCadOperation.CreatePolyline(wpPts);
+                    Point3dCollection pts = new Point3dCollection();
+                    curvePolyline.IntersectWith(wpPolyline, Intersect.OnBothOperands, pts, IntPtr.Zero, IntPtr.Zero);
+                    if(pts.Count>0)
+                    {
+                        isIntersect = true;
+                    }
+                    curvePolyline.Dispose();
+                    wpPolyline.Dispose();
+                    pts.Dispose();
                 }
-                catch (System.Exception ex)
+                if(isIntersect)
                 {
-                    ThXClipUtils.WriteException(ex, "处理块中的WipeOut: 执行到第 " + i + " 条记录！");
-                }
-                finally
-                {
-                    wipeOutEdge.Dispose();
-                    // 更新进度条
-                    ThXclipCommands.pm.MeterProgress();
-                    // 让CAD在长时间任务处理时任然能接收消息
-                    System.Windows.Forms.Application.DoEvents();
-                }
-            }
-            ThXclipCommands.pm.Stop();
-        }
-        private bool IsInWipeOutRectangle(double minX,double minY,double maxX,double maxY,DBObjectCollection dbObjs)
-        {
-            bool isIn = false;
-            for(int i=0;i< dbObjs.Count;i++)
-            {
-                Entity ent = dbObjs[i] as Entity;
-                if(ent==null || ent.GeometricExtents==null)
-                {
-                    continue;
-                }
-                Point3d minPt = ent.GeometricExtents.MinPoint;
-                Point3d maxPt= ent.GeometricExtents.MaxPoint;
-                if ( ((minPt.X>= minX && minPt.X<= maxX) && (minPt.Y >= minY && minPt.Y <= maxY)) ||
-                     ((maxPt.X >= minX && maxPt.X <= maxX) && (maxPt.Y >= minY && maxPt.Y <= maxY))
-                    )
-                {
-                    isIn = true;
                     break;
                 }
             }
-            return isIn;
+            return isIntersect;
         }
-        private bool WipeoutIntersectCurve(Polyline wipeOutEdge, Curve curve)
+        private bool WipeoutIntersectWithCurve(Polyline wipeOutEdge, Curve curve)
         {
             bool isIntersect = false;
             Region curveRegion = null;
@@ -614,42 +675,18 @@ namespace ThXClip
         }
         private void OperationXClipWithWipeOut(Point2dCollection xClipEdgePts, DraworderInfo doi, bool keepInternal = false)
         {
-            using (Transaction trans = this._document.TransactionManager.StartTransaction())
+            DBObjectCollection finalDbObjs = new DBObjectCollection();
+            for (int i = 0; i < doi.DbObjs.Count; i++)
             {
-                BlockTable bt = trans.GetObject(this._document.Database.BlockTableId, OpenMode.ForRead) as BlockTable;
-                BlockTableRecord btr = trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead) as BlockTableRecord;
-                Wipeout wp = trans.GetObject(doi.Id, OpenMode.ForRead) as Wipeout;
-                DBObjectCollection dBObjects = wp.XClip(xClipEdgePts, keepInternal);
-                List<DraworderInfo> currentWipeOuts = this._analyzeRelation.BlkWipeOuts.Where(j => j.Id ==
-                   doi.Id).Select(j => j).ToList();
-                if (dBObjects != null && dBObjects.Count > 0)
+                Wipeout wp = doi.DbObjs[i] as Wipeout;
+                DBObjectCollection dbObjs = wp.XClip(xClipEdgePts, keepInternal);
+                foreach (DBObject dbObj in dbObjs)
                 {
-                    currentWipeOuts.ForEach(j => this._analyzeRelation.BlkWipeOuts.Remove(j));
-                    currentWipeOuts.ForEach(j => ThXClipCadOperation.EraseObjIds(j.Id));
-                    btr.UpgradeOpen();
-                    for (int j = 0; j < dBObjects.Count; j++)
-                    {
-                        ObjectId newWipeOutId = btr.AppendEntity(dBObjects[j] as Entity);
-                        trans.AddNewlyCreatedDBObject(dBObjects[j], true);
-                        DraworderInfo di = new DraworderInfo()
-                        {
-                            Id = newWipeOutId,
-                            BlockId = doi.BlockId,
-                            BlockName = doi.BlockName,
-                            BlockPath = doi.BlockPath,
-                            DrawIndex = doi.DrawIndex,
-                            TypeName = doi.TypeName,
-                        };
-                        this._analyzeRelation.BlkWipeOuts.Add(di);
-                    }
-                    btr.DowngradeOpen();
+                    finalDbObjs.Add(dbObj);
                 }
-                else if (doi.Id.IsErased || !doi.Id.IsValid)
-                {
-                    currentWipeOuts.ForEach(j => this._analyzeRelation.BlkWipeOuts.Remove(j));
-                }
-                trans.Commit();
             }
+            _analyzeRelation.BlkWipeOuts.Where
+                        (i => i.Id == doi.Id).Select(i => i).FirstOrDefault().DbObjs = finalDbObjs;
         }
         private Point2dCollection TransWipeOutBoundaryPts(Point2dCollection pts)
         {

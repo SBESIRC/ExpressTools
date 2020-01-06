@@ -756,25 +756,26 @@ namespace ThXClip
             }
             try
             {
-                IntersectType intersectType = GetXClipWithWipeOut(pts, wipeout);
-                if (intersectType == IntersectType.None || intersectType == IntersectType.Contain || intersectType == IntersectType.Included)
+                Polyline xclipBoundaryPolyline = ThXClipCadOperation.CreatePolyline(pts); //XClip 边界线
+                Point2dCollection wpBoundaryPts = ThXClipCadOperation.GetWipeOutBoundaryPts(wipeout);
+                Polyline wpBoudaryLine = ThXClipCadOperation.CreatePolyline(wpBoundaryPts, true); //WipeOut边界线        
+                Region xClipRegion = ThXClipCadOperation.CreateRegion(xclipBoundaryPolyline);
+                Region wpRegion = ThXClipCadOperation.CreateRegion(wpBoudaryLine);
+                double originArea = wpRegion.Area;
+
+                Region tempRegion1 = xClipRegion.Clone() as Region;
+                Region tempRegion2 = wpRegion.Clone() as Region;
+                tempRegion1.BooleanOperation(BooleanOperationType.BoolIntersect, tempRegion2);
+                double tempRegion1Area = tempRegion1.Area;
+                tempRegion1.Dispose();
+                tempRegion2.Dispose();
+                if (tempRegion1Area == 0) // 不相交
                 {
-                    if (keepInternal)
-                    {
-                        ThXClipCadOperation.EraseObjIds(wipeout.ObjectId);
-                    }
-                    else
-                    {
-                        return dBObjects;
-                    }
+                    dBObjects.Add(wipeout);
+                    return dBObjects;
                 }
                 else
                 {
-                    Polyline xclipBoundaryPolyline = ThXClipCadOperation.CreatePolyline(pts); //XClip 边界线
-                    Point2dCollection wpBoundaryPts = ThXClipCadOperation.GetWipeOutBoundaryPts(wipeout.ObjectId);
-                    Polyline wpBoudaryLine = ThXClipCadOperation.CreatePolyline(wpBoundaryPts, true); //WipeOut边界线
-                    Region xClipRegion = ThXClipCadOperation.CreateRegion(xclipBoundaryPolyline);
-                    Region wpRegion = ThXClipCadOperation.CreateRegion(wpBoudaryLine);
                     if (keepInternal)
                     {
                         wpRegion.BooleanOperation(BooleanOperationType.BoolIntersect, xClipRegion);
@@ -782,6 +783,15 @@ namespace ThXClip
                     else
                     {
                         wpRegion.BooleanOperation(BooleanOperationType.BoolSubtract, xClipRegion);
+                    }
+                    if(wpRegion.Area== originArea)
+                    {
+                        xclipBoundaryPolyline.Dispose();
+                        wpBoudaryLine.Dispose();
+                        xClipRegion.Dispose();
+                        wpRegion.Dispose();
+                        dBObjects.Add(wipeout);
+                        return dBObjects;
                     }
                     //获取新的WipeOut
                     Brep brep = new Brep(wpRegion);
@@ -820,10 +830,10 @@ namespace ThXClip
                         }
                     }
                     for (int i = 0; i < totalRegions.Count; i++)
-                    {                        
+                    {
                         Point2dCollection wpPts = new Point2dCollection();
-                        List<List<Point3d>> curvePts= ThXClipCadOperation.GetLoopCurvePts(totalRegions[i]);
-                        if(curvePts.Count>1)
+                        List<List<Point3d>> curvePts = ThXClipCadOperation.GetLoopCurvePts(totalRegions[i]);
+                        if (curvePts.Count > 1)
                         {
                             curvePts.ForEach(j => wpPts.Add(new Point2d(j[0].X, j[0].Y)));
                             wpPts.Add(wpPts[0]);
@@ -831,16 +841,17 @@ namespace ThXClip
                             wp.SetDatabaseDefaults(doc.Database);
                             wp.SetFrom(wpPts, new Vector3d(0.0, 0.0, 0.1));
                             dBObjects.Add(wp);
-                        } 
+                        }
                     }
                     if (dBObjects.Count > 0)
                     {
-                        ThXClipCadOperation.EraseObjIds(wipeout.ObjectId);
+                        wipeout.Dispose();
                     }
                     xclipBoundaryPolyline.Dispose();
                     wpBoudaryLine.Dispose();
                     xClipRegion.Dispose();
                     wpRegion.Dispose();
+                    brep.Dispose();
                 }
             }
             catch(System.Exception ex)
@@ -853,142 +864,6 @@ namespace ThXClip
             // https://adndevblog.typepad.com/autocad/2012/04/converting-geometry-objects-to-database-entity.html
             throw new NotImplementedException();
 #endif
-        }
-
-        private static IntersectType GetXClipWithWipeOut(Point2dCollection xclipEdgePts, Wipeout wp)
-        {
-            IntersectType intersectType = IntersectType.None;
-            Polyline xclipBoundaryPolyline = ThXClipCadOperation.CreatePolyline(xclipEdgePts); //XClip 边界线
-            Point2dCollection wpBoundaryPts = ThXClipCadOperation.GetWipeOutBoundaryPts(wp.ObjectId);
-            Polyline wpBoudaryLine = ThXClipCadOperation.CreatePolyline(wpBoundaryPts, true); //WipeOut边界线
-            Point3dCollection intersectPts = GetIntersPoint(wpBoudaryLine, xclipEdgePts);
-            if (intersectPts == null || intersectPts.Count <= 1) //判断wipeout是否在XClip里面
-            {
-                List<Point3d> checkPts = new List<Point3d>();
-                for (int i = 0; i < wpBoudaryLine.NumberOfVertices; i++)
-                {
-                    Point3d currentPt = wpBoudaryLine.GetPoint3dAt(i);
-                    if (ThXClipCadOperation.IsClosestToCurve(xclipBoundaryPolyline, currentPt, CloseToCurveDis))
-                    {
-                        continue;
-                    }
-                    checkPts.Add(currentPt);
-                    break;
-                }
-                if (checkPts.Count == 0)
-                {
-                    for (int i = 0; i < wpBoudaryLine.NumberOfVertices; i++)
-                    {
-                        SegmentType st = wpBoudaryLine.GetSegmentType(i);
-                        if (st == SegmentType.Line)
-                        {
-                            Point3d lineMidPt = ThXClipCadOperation.GetMidPt(wpBoudaryLine.GetLineSegmentAt(i).StartPoint,
-                                wpBoudaryLine.GetLineSegmentAt(i).EndPoint);
-                            if (ThXClipCadOperation.IsClosestToCurve(xclipBoundaryPolyline, lineMidPt, CloseToCurveDis))
-                            {
-                                continue;
-                            }                            
-                            checkPts.Add(lineMidPt);
-                            break;
-                        }
-                        else if (st == SegmentType.Arc)
-                        {
-                            CircularArc3d circularArc = wpBoudaryLine.GetArcSegmentAt(i);
-                            Point3d arcTopPt = ThXClipCadOperation.GetArcTopPt(circularArc.Center, circularArc.StartPoint, circularArc.EndPoint);
-                            if (ThXClipCadOperation.IsClosestToCurve(xclipBoundaryPolyline, arcTopPt, CloseToCurveDis))
-                            {
-                                continue;
-                            }
-                            checkPts.Add(arcTopPt);
-                            break;
-                        }
-                    }
-                }
-                if (ThXClipCadOperation.IsPointInPolyline(xclipEdgePts, checkPts[0])) //WipeOut在XClip内
-                {
-                    intersectType = IntersectType.Contain;
-                }
-                else
-                {
-                    checkPts = new List<Point3d>();
-                    for (int i = 0; i < xclipEdgePts.Count; i++)
-                    {
-                        Point3d currentPt = new Point3d(xclipEdgePts[i].X, xclipEdgePts[i].Y,0.0);
-                        if(ThXClipCadOperation.IsClosestToCurve(wpBoudaryLine, currentPt,CloseToCurveDis))
-                        {
-                            continue;
-                        }
-                        checkPts.Add(currentPt);
-                        break;
-                    }
-                    if (checkPts.Count == 0)
-                    {
-                        for (int i = 0; i < wpBoudaryLine.NumberOfVertices; i++)
-                        {
-                            SegmentType st = wpBoudaryLine.GetSegmentType(i);
-                            if (st == SegmentType.Line)
-                            {
-                                Point3d lineMidPt = ThXClipCadOperation.GetMidPt(wpBoudaryLine.GetLineSegmentAt(i).StartPoint,
-                                    wpBoudaryLine.GetLineSegmentAt(i).EndPoint);
-                                if (ThXClipCadOperation.IsClosestToCurve(wpBoudaryLine, lineMidPt, CloseToCurveDis))
-                                {
-                                    continue;
-                                }
-                                checkPts.Add(lineMidPt);
-                                break;
-                            }
-                            else if (st == SegmentType.Arc)
-                            {
-                                CircularArc3d circularArc = wpBoudaryLine.GetArcSegmentAt(i);
-                                Point3d arcTopPt = ThXClipCadOperation.GetArcTopPt(circularArc.Center, circularArc.StartPoint, circularArc.EndPoint);
-                                if (ThXClipCadOperation.IsClosestToCurve(wpBoudaryLine, arcTopPt, CloseToCurveDis))
-                                {
-                                    continue;
-                                }
-                                checkPts.Add(arcTopPt);
-                                break;
-                            }
-                        }
-                    }
-                    if (ThXClipCadOperation.IsPointInPolyline(wpBoundaryPts, checkPts[0])) //XClip在WipeOut内
-                    {
-                        intersectType = IntersectType.Included;
-                    }
-                }
-            }
-            else
-            {
-                Region xClipRegion = ThXClipCadOperation.CreateRegion(xclipBoundaryPolyline);                
-                Region wpRegion = ThXClipCadOperation.CreateRegion(wpBoudaryLine);
-                double xClipOriginArea = xClipRegion.Area;
-                double wipeOutOriginArea = wpRegion.Area;
-                xClipRegion.BooleanOperation(BooleanOperationType.BoolIntersect, wpRegion);
-                double xClipNewArea = xClipRegion.Area;
-                double wipeOutNewArea = wpRegion.Area;
-                if(xClipOriginArea- xClipNewArea>0.0)
-                {
-                    intersectType = IntersectType.Intersect;
-                }
-                xClipRegion.Dispose();
-                wpRegion.Dispose();
-            }
-            if(xclipBoundaryPolyline.ObjectId != ObjectId.Null)
-            {
-                ThXClipCadOperation.EraseObjIds(xclipBoundaryPolyline.ObjectId);
-            }
-            else
-            {
-                xclipBoundaryPolyline.Dispose();
-            }
-            if (wpBoudaryLine.ObjectId != ObjectId.Null)
-            {
-                ThXClipCadOperation.EraseObjIds(wpBoudaryLine.ObjectId);
-            }
-            else
-            {
-                wpBoudaryLine.Dispose();
-            }
-            return intersectType;
         }
         /// <summary>
         /// 修剪Polyline
@@ -1678,24 +1553,5 @@ namespace ThXClip
             }
             return actualIntersPts;
         }
-    }
-    public enum IntersectType
-    {
-        /// <summary>
-        /// 不相交
-        /// </summary>
-        None,
-        /// <summary>
-        /// 相交
-        /// </summary>
-        Intersect,
-        /// <summary>
-        /// 包含
-        /// </summary>
-        Contain,
-        /// <summary>
-        /// 被包含
-        /// </summary>
-        Included
     }
 }

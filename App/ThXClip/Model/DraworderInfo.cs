@@ -37,6 +37,7 @@ namespace ThXClip
         /// 块路径
         /// </summary>
         public List<string> BlockPath { get; set; } = new List<string>();
+        public List<ObjectId> BlockPathIds { get; set; } = new List<ObjectId>();
     }
     public class EntInf
     {
@@ -46,6 +47,7 @@ namespace ThXClip
         /// 块路径
         /// </summary>
         public List<string> BlockPath { get; set; } = new List<string>();
+        public List<ObjectId> BlockPathIds { get; set; } = new List<ObjectId>();
         /// <summary>
         /// 块定义中的物体转到Wcs的矩阵
         /// </summary>

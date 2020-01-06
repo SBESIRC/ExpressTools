@@ -90,25 +90,27 @@ namespace ThXClip
                         continue;
                     }
                     List<DraworderInfo> draworderInfos = new List<DraworderInfo>();
-                    List<EntInf> entities= TraverseBlockTableRecord(trans,br, br.Name,br.BlockTransform);
+                    List<EntInf> AAA= Explode(br, br.Name);
+                    List<EntInf> entities= TraverseBlockTableRecord(trans,br,br.BlockTransform,br.ScaleFactors);
+                    List<EntInf> newEntities = TraverseBlockTableRecordNew(trans, br, br.BlockTransform);
                     entities =entities.Where(j => j.Ent!=null && j.Ent.Visible && JudgeEntityInsPointedType(j.Ent)).Select(j => j).ToList();
                     entities.ForEach(j => j.BlockPath.Reverse());
-                    List<XClipInfo> currentXClipInfos = RetrieveXClipBoundary(br, br.Name);
+                    entities.ForEach(j => j.BlockPathIds.Reverse());
+                    List<XClipInfo> currentXClipInfos = RetrieveXClipBoundaries(br);
                     if (currentXClipInfos != null && currentXClipInfos.Count>0)
                     {
                         currentXClipInfos.ForEach(j => j.BlockPath.Reverse());
+                        currentXClipInfos.ForEach(j => j.BlockPathIds.Reverse());
                         currentXClipInfos.ForEach(j => j.AttachBlockId = br.Id);
                         currentXClipInfos=currentXClipInfos.OrderBy(j => j.BlockPath.Count).ToList(); //把层级从小到大排序
                         this.blockXClips.Add(this._objIds[i], currentXClipInfos);                
                     }
                     entities.ForEach(j => btr.AppendEntity(j.Ent));
                     entities.ForEach(j => trans.AddNewlyCreatedDBObject(j.Ent, true));
-                    //entities.ForEach(j => j.Ent.Visible = false);
                     draworderInfos.AddRange(entities.Select(j => GenerateDoi(j,this._objIds[i])).ToList());
                     ObjectIdCollection ocids1 = dot.GetFullDrawOrder(0);
                     draworderInfos.ForEach(j => j.DrawIndex = ocids1.IndexOf(j.Id));
                     draworderInfos=draworderInfos.OrderBy(j => j.DrawIndex).ToList();
-                    //draworderInfos.ForEach(j => j.BlockId = this._objIds[i]);
                     blockDrawOrderInfDic.Add(this._objIds[i], draworderInfos);
 
                     // 更新进度条
@@ -218,7 +220,7 @@ namespace ThXClip
             entities.ForEach(i => i.BlockPath.Add(preBlkName));
             return entities;
         }
-        private List<EntInf> TraverseBlockTableRecord(Transaction trans, BlockReference br,string preBlkName, Matrix3d preMt)
+        private List<EntInf> TraverseBlockTableRecord(Transaction trans, BlockReference br, Matrix3d preMt, Scale3d scale3d)
         {
             List<EntInf> entities = new List<EntInf>();
             try
@@ -226,8 +228,6 @@ namespace ThXClip
                 BlockTableRecord btr = trans.GetObject(br.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
                 DrawOrderTable dot = trans.GetObject(btr.DrawOrderTableId, OpenMode.ForRead) as DrawOrderTable;
                 ObjectIdCollection ocids = dot.GetFullDrawOrder(0);
-                List<string> currentLayBlkNames = new List<string>();
-                string blkName = "";
                 foreach (ObjectId ociId in ocids)
                 {
                     DBObject dbObj = trans.GetObject(ociId, OpenMode.ForRead);
@@ -238,17 +238,8 @@ namespace ThXClip
                         {
                             continue;
                         }
-                        if (currentLayBlkNames.IndexOf(newBr.Name) < 0)
-                        {
-                            blkName = newBr.Name;
-                        }
-                        else
-                        {
-                            blkName = SetBlkName(currentLayBlkNames, newBr.Name);
-                        }
-                        currentLayBlkNames.Add(newBr.Name);
                         Matrix3d mt = newBr.BlockTransform.PreMultiplyBy(preMt);
-                        var childEnts = TraverseBlockTableRecord(trans, newBr, blkName, mt);
+                        var childEnts = TraverseBlockTableRecord(trans, newBr,mt, scale3d);
                         if (childEnts != null)
                         {
                             entities.AddRange(childEnts);
@@ -273,11 +264,65 @@ namespace ThXClip
                         }
                     }
                 }
-                entities.ForEach(i => i.BlockPath.Add(preBlkName));
+                entities.ForEach(i => i.BlockPathIds.Add(br.ObjectId));
+                entities.ForEach(i => i.BlockPath.Add(br.Name));
             }
             catch (System.Exception ex)
             {
                 ThXClipUtils.WriteException(ex, "TraverseBlockTableRecord");
+            }
+            return entities;
+        }
+        private List<EntInf> TraverseBlockTableRecordNew(Transaction trans, BlockReference br, Matrix3d preMt)
+        {
+            List<EntInf> entities = new List<EntInf>();
+            try
+            {
+                BlockTableRecord btr = trans.GetObject(br.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
+                DrawOrderTable dot = trans.GetObject(btr.DrawOrderTableId, OpenMode.ForRead) as DrawOrderTable;
+                ObjectIdCollection ocids = dot.GetFullDrawOrder(0);
+                foreach (var ociId in btr)
+                {
+                    DBObject dbObj = trans.GetObject(ociId, OpenMode.ForRead);
+                    if (dbObj is BlockReference)
+                    {
+                        var newBr = dbObj as BlockReference;
+                        if (newBr.Visible == false)
+                        {
+                            continue;
+                        }
+                        Matrix3d mt = newBr.BlockTransform.PreMultiplyBy(preMt);
+                        var childEnts = TraverseBlockTableRecordNew(trans, newBr, mt);
+                        if (childEnts != null)
+                        {
+                            entities.AddRange(childEnts);
+                        }
+                    }
+                    else if (dbObj is Entity)
+                    {
+                        try
+                        {
+                            Entity ent = dbObj as Entity;
+                            Entity entCopy = ent.Clone() as Entity;
+                            if (entCopy.Visible == false)
+                            {
+                                continue;
+                            }
+                            entCopy.TransformBy(preMt);
+                            entities.Add(new EntInf() { Ent = entCopy, BlockName = br.Name, Wcs = preMt, BlockTransform = br.BlockTransform });
+                        }
+                        catch (System.Exception ex)
+                        {
+                            ThXClipUtils.WriteException(ex, "TraverseBlockTableRecordNew");
+                        }
+                    }
+                }
+                entities.ForEach(i => i.BlockPathIds.Add(br.ObjectId));
+                entities.ForEach(i => i.BlockPath.Add(br.Name));
+            }
+            catch (System.Exception ex)
+            {
+                ThXClipUtils.WriteException(ex, "TraverseBlockTableRecordNew");
             }
             return entities;
         }
@@ -299,6 +344,7 @@ namespace ThXClip
             draworderInf.TypeName = entInf.Ent.GetType().Name;
             draworderInf.BlockName = entInf.BlockName;
             draworderInf.BlockPath = entInf.BlockPath;
+            draworderInf.BlockPathIds = entInf.BlockPathIds;
             DBObject dbObj = entInf.Ent.Clone() as DBObject;
             draworderInf.DbObjs.Add(dbObj);
             return draworderInf;
@@ -327,7 +373,7 @@ namespace ThXClip
                         if (fildict.Contains(spatialName))
                         {
                             SpatialFilter fil = _trans.GetObject(fildict.GetAt(spatialName), OpenMode.ForRead) as SpatialFilter;
-                            if (fil != null)
+                            if (fil != null && fil.Definition.Enabled)
                             {
 
                                 bool isInverted = true;
@@ -365,7 +411,7 @@ namespace ThXClip
             }
             return xClipInfo;
         }
-        private List<XClipInfo> RetrieveXClipBoundary(BlockReference br,string preBlkName)
+        private List<XClipInfo> RetrieveXClipBoundaries(BlockReference br)
         {
             List<XClipInfo> xClipInfos = new List<XClipInfo>();           
             Transaction trans = _document.Database.TransactionManager.TopTransaction;
@@ -374,25 +420,14 @@ namespace ThXClip
             {
                 xClipInfos.Add(xClipInf);
             }
-            List<string> currentLayBlkNames = new List<string>();
-            string blkName = "";
             BlockTableRecord btr = trans.GetObject(br.BlockTableRecord,OpenMode.ForRead) as BlockTableRecord;
             foreach (var id in btr)
             {
                 DBObject dbObj=  trans.GetObject(id, OpenMode.ForRead); 
                 if(dbObj is BlockReference)
                 {
-                    BlockReference currentBr = dbObj as BlockReference;                  
-                    if (currentLayBlkNames.IndexOf(currentBr.Name) < 0)
-                    {
-                        blkName = currentBr.Name;
-                    }
-                    else
-                    {
-                        blkName = SetBlkName(currentLayBlkNames, currentBr.Name);
-                    }
-                    currentLayBlkNames.Add(currentBr.Name);                   
-                    List<XClipInfo> subXClipInfs = RetrieveXClipBoundary(currentBr, blkName);
+                    BlockReference currentBr = dbObj as BlockReference;                              
+                    List<XClipInfo> subXClipInfs = RetrieveXClipBoundaries(currentBr);
                     if(subXClipInfs!=null && subXClipInfs.Count>0)
                     {
                         xClipInfos.AddRange(subXClipInfs);
@@ -417,7 +452,8 @@ namespace ThXClip
                     xClipInfos[i].Pts = pts;
                 }
             }
-            xClipInfos.ForEach(i => i.BlockPath.Add(preBlkName));
+            xClipInfos.ForEach(i => i.BlockPath.Add(br.Name));
+            xClipInfos.ForEach(i => i.BlockPathIds.Add(br.ObjectId));
             return xClipInfos;
         }
         public List<DraworderInfo> GetWipeOutPreDrawOrderInfs(ObjectId wpId)
@@ -467,7 +503,7 @@ namespace ThXClip
             List<DraworderInfo> draworderInfs = new List<DraworderInfo>();
             //把所属同一个父块的
             List<DraworderInfo> firstFilterDraworderInfs =this.DrawOrderinfs.Where(i=>i.BlockId==xClipInfo.AttachBlockId).Select(i=>i).ToList();
-            draworderInfs=firstFilterDraworderInfs.Where(i => CompareListIsSubOfOther(xClipInfo.BlockPath, i.BlockPath)).Select(i => i).ToList();
+            draworderInfs=firstFilterDraworderInfs.Where(i => CompareListIsSubOfOther(xClipInfo.BlockPathIds, i.BlockPathIds)).Select(i => i).ToList();
             return draworderInfs;
         }
         /// <summary>
@@ -480,7 +516,7 @@ namespace ThXClip
             List<DraworderInfo> wipeOutDis = new List<DraworderInfo>();
             //把所属同一个父块的
             List<DraworderInfo> firstFilterDraworderInfs = this.BlkWipeOuts.Where(i => i.BlockId == xClipInfo.AttachBlockId).Select(i => i).ToList();
-            wipeOutDis = firstFilterDraworderInfs.Where(i => CompareListIsSubOfOther(xClipInfo.BlockPath, i.BlockPath)).Select(i => i).ToList();
+            wipeOutDis = firstFilterDraworderInfs.Where(i => CompareListIsSubOfOther(xClipInfo.BlockPathIds, i.BlockPathIds)).Select(i => i).ToList();
             return wipeOutDis;
         }
         private bool CompareListIsSubOfOther(List<string> firstList,List<string> secondList)
@@ -493,6 +529,23 @@ namespace ThXClip
             for (int i=0;i<firstList.Count;i++)
             {
                 if(firstList[i]!= secondList[i])
+                {
+                    res = false;
+                    break;
+                }
+            }
+            return res;
+        }
+        private bool CompareListIsSubOfOther(List<ObjectId> firstList, List<ObjectId> secondList)
+        {
+            if (secondList.Count < firstList.Count)
+            {
+                return false;
+            }
+            bool res = true;
+            for (int i = 0; i < firstList.Count; i++)
+            {
+                if (firstList[i] != secondList[i])
                 {
                     res = false;
                     break;
