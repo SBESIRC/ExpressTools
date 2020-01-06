@@ -2,8 +2,6 @@
 using System.IO;
 using Autodesk.AutoCAD.DatabaseServices;
 using NLog;
-using TianHua.AutoCAD.Utility.ExtensionTools;
-
 namespace ThXClip
 {    
     public class EntPropertyInfo

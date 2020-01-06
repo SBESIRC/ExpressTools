@@ -15,6 +15,15 @@ namespace ThXClip
     public class ThXClipCadOperation
     {
         public static Tolerance Global_Tolerance = new Tolerance(1e-1, 1e-1);
+        public static bool Point2dIsInRectangle(double minX, double minY, double maxX, double maxY, Point2d pt)
+        {
+            bool isIn = false;
+            if (pt.X >= minX && pt.X <= maxX && pt.Y >= minY && pt.Y <= maxY)
+            {
+                isIn = true;
+            }
+            return isIn;
+        }
         public static List<List<Point3d>> GetLoopCurvePts(List<Curve> curves)
         {
             List<List<Point3d>> ptList = new List<List<Point3d>>();
@@ -1506,6 +1515,39 @@ namespace ThXClip
                     newPts = tempPts;
                 }
                 trans.Commit();
+            }
+            return newPts;
+        }
+        public static Point2dCollection GetWipeOutBoundaryPts(Wipeout wp, bool needTransform = true)
+        {
+            Point2dCollection newPts = new Point2dCollection();
+            Point2dCollection pts = wp.GetClipBoundary();
+            Matrix3d mt = wp.PixelToModelTransform;
+            if (pts.Count == 2)
+            {
+                double minX = Math.Min(pts[0].X, pts[1].X);
+                double maxX = Math.Max(pts[0].X, pts[1].X);
+                double minY = Math.Min(pts[0].Y, pts[1].Y);
+                double maxY = Math.Max(pts[0].Y, pts[1].Y);
+                newPts.Add(new Point2d(minX, minY));
+                newPts.Add(new Point2d(maxX, minY));
+                newPts.Add(new Point2d(maxX, maxY));
+                newPts.Add(new Point2d(minX, maxY));
+            }
+            else
+            {
+                newPts = pts;
+            }
+            if (true)
+            {
+                Point2dCollection tempPts = new Point2dCollection();
+                foreach (Point2d pt in newPts)
+                {
+                    Point3d newPt = new Point3d(pt.X, pt.Y, 0.0);
+                    newPt = newPt.TransformBy(mt);
+                    tempPts.Add(new Point2d(newPt.X, newPt.Y));
+                }
+                newPts = tempPts;
             }
             return newPts;
         }

@@ -12,6 +12,7 @@ using Autodesk.AutoCAD.DatabaseServices.Filters;
 using DotNetARX;
 using System.Threading;
 using System.ComponentModel;
+using AcHelper;
 
 [assembly: CommandClass(typeof(ThXClip.ThXclipCommands))]
 [assembly: ExtensionApplication(typeof(ThXClip.ThXClipApp))]
@@ -123,7 +124,7 @@ namespace ThXClip
                 WipeOutXClipTrim wipeOutXClipTrim = new WipeOutXClipTrim(analyseRelation);
                 wipeOutXClipTrim.StartTrim();
                 wipeOutXClipTrim.GenerateBlockThenInsert();
-                System.Windows.MessageBox.Show("裁剪完毕！");
+                Active.WriteMessage("裁剪完毕");
             }
             catch (System.Exception ex)
             {
