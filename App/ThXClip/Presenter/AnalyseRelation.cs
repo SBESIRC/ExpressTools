@@ -255,12 +255,6 @@ namespace ThXClip
                             {
                                 continue;
                             }
-                            //Point3d origin = new Point3d(0, 0, 0);
-                            //Vector3d toXAix = new Vector3d(1, 0, 0);
-                            //Vector3d toYAix = new Vector3d(0, 1, 0);
-                            //Vector3d toZAix = new Vector3d(0, 0, 1);
-                            //Matrix3d mt= Matrix3d.AlignCoordinateSystem(preMt.CoordinateSystem3d.Origin, preMt.CoordinateSystem3d.Xaxis,
-                            //    preMt.CoordinateSystem3d.Yaxis, preMt.CoordinateSystem3d.Zaxis, origin, toXAix, toYAix, toZAix);
                             entCopy.TransformBy(preMt);
                             entities.Add(new EntInf() { Ent = entCopy, BlockName = br.Name, Wcs = preMt, BlockTransform = br.BlockTransform });
                         }
