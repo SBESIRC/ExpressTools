@@ -89,10 +89,8 @@ namespace ThXClip
                     {
                         continue;
                     }
-                    List<DraworderInfo> draworderInfos = new List<DraworderInfo>();
-                    List<EntInf> AAA= Explode(br, br.Name);
+                    List<DraworderInfo> draworderInfos = new List<DraworderInfo>();                   
                     List<EntInf> entities= TraverseBlockTableRecord(trans,br,br.BlockTransform,br.ScaleFactors);
-                    List<EntInf> newEntities = TraverseBlockTableRecordNew(trans, br, br.BlockTransform);
                     entities =entities.Where(j => j.Ent!=null && j.Ent.Visible && JudgeEntityInsPointedType(j.Ent)).Select(j => j).ToList();
                     entities.ForEach(j => j.BlockPath.Reverse());
                     entities.ForEach(j => j.BlockPathIds.Reverse());
@@ -181,45 +179,6 @@ namespace ThXClip
             }
             return res;
         }
-        private List<EntInf> Explode(BlockReference br,string preBlkName)
-        {
-            List<EntInf> entities = new List<EntInf>();
-            DBObjectCollection collection = new DBObjectCollection();
-            br.Explode(collection);
-            List<string> currentLayBlkNames = new List<string>();
-            string blkName = "";
-            foreach (DBObject obj in collection)
-            {
-                if (obj is BlockReference)
-                {
-                    var newBr = obj as BlockReference;
-                    if(newBr.Visible==false)
-                    {
-                        continue;
-                    }
-                    if(currentLayBlkNames.IndexOf(newBr.Name)<0)
-                    {
-                        blkName = newBr.Name;
-                    }
-                    else
-                    {
-                        blkName = SetBlkName(currentLayBlkNames, newBr.Name);
-                    }
-                    currentLayBlkNames.Add(newBr.Name);
-                    var childEnts = Explode(newBr, blkName);
-                    if (childEnts != null)
-                    {
-                        entities.AddRange(childEnts);
-                    }
-                }
-                else if (obj is Entity)
-                {
-                    entities.Add(new EntInf() { Ent = obj as Entity, BlockName = br.Name });
-                }
-            }
-            entities.ForEach(i => i.BlockPath.Add(preBlkName));
-            return entities;
-        }
         private List<EntInf> TraverseBlockTableRecord(Transaction trans, BlockReference br, Matrix3d preMt, Scale3d scale3d)
         {
             List<EntInf> entities = new List<EntInf>();
@@ -272,69 +231,6 @@ namespace ThXClip
                 ThXClipUtils.WriteException(ex, "TraverseBlockTableRecord");
             }
             return entities;
-        }
-        private List<EntInf> TraverseBlockTableRecordNew(Transaction trans, BlockReference br, Matrix3d preMt)
-        {
-            List<EntInf> entities = new List<EntInf>();
-            try
-            {
-                BlockTableRecord btr = trans.GetObject(br.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
-                DrawOrderTable dot = trans.GetObject(btr.DrawOrderTableId, OpenMode.ForRead) as DrawOrderTable;
-                ObjectIdCollection ocids = dot.GetFullDrawOrder(0);
-                foreach (var ociId in btr)
-                {
-                    DBObject dbObj = trans.GetObject(ociId, OpenMode.ForRead);
-                    if (dbObj is BlockReference)
-                    {
-                        var newBr = dbObj as BlockReference;
-                        if (newBr.Visible == false)
-                        {
-                            continue;
-                        }
-                        Matrix3d mt = newBr.BlockTransform.PreMultiplyBy(preMt);
-                        var childEnts = TraverseBlockTableRecordNew(trans, newBr, mt);
-                        if (childEnts != null)
-                        {
-                            entities.AddRange(childEnts);
-                        }
-                    }
-                    else if (dbObj is Entity)
-                    {
-                        try
-                        {
-                            Entity ent = dbObj as Entity;
-                            Entity entCopy = ent.Clone() as Entity;
-                            if (entCopy.Visible == false)
-                            {
-                                continue;
-                            }
-                            entCopy.TransformBy(preMt);
-                            entities.Add(new EntInf() { Ent = entCopy, BlockName = br.Name, Wcs = preMt, BlockTransform = br.BlockTransform });
-                        }
-                        catch (System.Exception ex)
-                        {
-                            ThXClipUtils.WriteException(ex, "TraverseBlockTableRecordNew");
-                        }
-                    }
-                }
-                entities.ForEach(i => i.BlockPathIds.Add(br.ObjectId));
-                entities.ForEach(i => i.BlockPath.Add(br.Name));
-            }
-            catch (System.Exception ex)
-            {
-                ThXClipUtils.WriteException(ex, "TraverseBlockTableRecordNew");
-            }
-            return entities;
-        }
-        private string SetBlkName(List<string> blkNameList,string blkName)
-        {
-            string newBlkName = blkName;
-            int i = 1;
-            while(blkNameList.IndexOf(newBlkName)>=0) //有此块名
-            {
-                newBlkName = blkName + i.ToString().PadLeft(3, '0');
-            }            
-            return newBlkName;
         }
         private DraworderInfo GenerateDoi(EntInf entInf,ObjectId blkId)
         {
