@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8D34FB55-C9CA-4EFD-B5EC-B1FBA05E9583}</ProjectGuid>
+    <ProjectGuid>{D39D70C9-AF27-4CF0-8F61-23D37FFEB321}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>ThCuiRes</RootNamespace>
+    <RootNamespace>ThCuiRes_light</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -52,7 +52,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;THCUIRES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;THCUIRES_LIGHT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -68,7 +68,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;THCUIRES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;THCUIRES_LIGHT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -81,55 +81,55 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ThCuiRes.rc" />
+    <ResourceCompile Include="ThCuiRes_light.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\AppIcon.ico" />
-    <Image Include="Images\BLOCKSPLIT_dark.ico" />
-    <Image Include="Images\DGNPURGE_dark.ico" />
-    <Image Include="Images\T20V4.0_dark.ico" />
-    <Image Include="Images\T20V5.0_dark.ico" />
-    <Image Include="Images\THABC_dark.ico" />
-    <Image Include="Images\THALC_dark.ico" />
-    <Image Include="Images\THBAC_dark.ico" />
-    <Image Include="Images\THBBE_dark.ico" />
-    <Image Include="Images\THBBR_dark.ico" />
-    <Image Include="Images\THBBS_dark.ico" />
-    <Image Include="Images\THBEE_dark.ico" />
-    <Image Include="Images\THBLI_dark.ico" />
-    <Image Include="Images\THBLS_dark.ico" />
-    <Image Include="Images\THBPD_dark.ico" />
-    <Image Include="Images\THBPP_dark.ico" />
-    <Image Include="Images\THBPS_dark.ico" />
-    <Image Include="Images\THBPT_dark.ico" />
-    <Image Include="Images\THCNU_dark.ico" />
-    <Image Include="Images\THDTA_dark.ico" />
-    <Image Include="Images\THELC_dark.ico" />
-    <Image Include="Images\THFET_dark.ico" />
-    <Image Include="Images\THHLP_dark.ico" />
-    <Image Include="Images\THLOGIN_dark.ico" />
-    <Image Include="Images\THLOGOUT_dark.ico" />
-    <Image Include="Images\THLPE_dark.ico" />
-    <Image Include="Images\THLPM_dark.ico" />
-    <Image Include="Images\THLPP_dark.ico" />
-    <Image Include="Images\THLTR_dark.ico" />
-    <Image Include="Images\THMIR_dark.ico" />
-    <Image Include="Images\THMLC_dark.ico" />
-    <Image Include="Images\THMLK_dark.ico" />
-    <Image Include="Images\THMOF_dark.ico" />
-    <Image Include="Images\THMON_dark.ico" />
-    <Image Include="Images\THMSC_dark.ico" />
-    <Image Include="Images\THMTC_dark.ico" />
-    <Image Include="Images\THMUK_dark.ico" />
-    <Image Include="Images\THPLC_dark.ico" />
-    <Image Include="Images\THSLC_dark.ico" />
-    <Image Include="Images\THSPS_dark.ico" />
-    <Image Include="Images\THSVM_dark.ico" />
-    <Image Include="Images\THTET_dark.ico" />
-    <Image Include="Images\THUKA_dark.ico" />
-    <Image Include="Images\THUPT_dark.ico" />
-    <Image Include="Images\THZ0_dark.ico" />
-    <Image Include="Images\TZLOOK_dark.ico" />
+    <Image Include="Images\BLOCKSPLIT_light.ico" />
+    <Image Include="Images\DGNPURGE_light.ico" />
+    <Image Include="Images\T20V4.0_light.ico" />
+    <Image Include="Images\T20V5.0_light.ico" />
+    <Image Include="Images\THABC_light.ico" />
+    <Image Include="Images\THALC_light.ico" />
+    <Image Include="Images\THBAC_light.ico" />
+    <Image Include="Images\THBBE_light.ico" />
+    <Image Include="Images\THBBR_light.ico" />
+    <Image Include="Images\THBBS_light.ico" />
+    <Image Include="Images\THBEE_light.ico" />
+    <Image Include="Images\THBLI_light.ico" />
+    <Image Include="Images\THBLS_light.ico" />
+    <Image Include="Images\THBPD_light.ico" />
+    <Image Include="Images\THBPP_light.ico" />
+    <Image Include="Images\THBPS_light.ico" />
+    <Image Include="Images\THBPT_light.ico" />
+    <Image Include="Images\THCNU_light.ico" />
+    <Image Include="Images\THDTA_light.ico" />
+    <Image Include="Images\THELC_light.ico" />
+    <Image Include="Images\THFET_light.ico" />
+    <Image Include="Images\THHLP_light.ico" />
+    <Image Include="Images\THLOGIN_light.ico" />
+    <Image Include="Images\THLOGOUT_light.ico" />
+    <Image Include="Images\THLPE_light.ico" />
+    <Image Include="Images\THLPM_light.ico" />
+    <Image Include="Images\THLPP_light.ico" />
+    <Image Include="Images\THLTR_light.ico" />
+    <Image Include="Images\THMIR_light.ico" />
+    <Image Include="Images\THMLC_light.ico" />
+    <Image Include="Images\THMLK_light.ico" />
+    <Image Include="Images\THMOF_light.ico" />
+    <Image Include="Images\THMON_light.ico" />
+    <Image Include="Images\THMSC_light.ico" />
+    <Image Include="Images\THMTC_light.ico" />
+    <Image Include="Images\THMUK_light.ico" />
+    <Image Include="Images\THPLC_light.ico" />
+    <Image Include="Images\THSLC_light.ico" />
+    <Image Include="Images\THSPS_light.ico" />
+    <Image Include="Images\THSVM_light.ico" />
+    <Image Include="Images\THTET_light.ico" />
+    <Image Include="Images\THUKA_light.ico" />
+    <Image Include="Images\THUPT_light.ico" />
+    <Image Include="Images\THZ0_light.ico" />
+    <Image Include="Images\TZLOOK_light.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

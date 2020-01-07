@@ -6,6 +6,9 @@
       <Component Id="CMP_Autoloader_PackageContents_Resources_Dll" Guid="{952C6E73-80CB-4556-A7C9-3ABE5CFDDA8D}" Win64="yes">
         <File Id="FILE_Autoloader_PackageContents_Resources_Dll" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD.dll" KeyPath="yes" />
       </Component>
+      <Component Id="CMP_Autoloader_PackageContents_Resources_Light_Dll" Guid="{3812A36D-3631-4C29-B160-D911A4DA622E}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Resources__light_Dll" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD_light.dll" KeyPath="yes" />
+      </Component>
       <Component Id="CMP_Autoloader_PackageContents_Resources_Cuix" Guid="{967E6172-659C-47EA-83B2-E69B24ED4F18}" Win64="yes">
         <File Id="FILE_Autoloader_PackageContents_Resources_Cuix" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD.cuix" KeyPath="yes" />
       </Component>
@@ -17,6 +20,7 @@
   <Fragment>
     <ComponentGroup Id="ProductComponentsResources">
       <ComponentRef Id="CMP_Autoloader_PackageContents_Resources_Dll" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_Resources_Light_Dll" />
       <ComponentRef Id="CMP_Autoloader_PackageContents_Resources_Cuix" />
       <ComponentRef Id="CMP_Autoloader_PackageContents_Resources_App_Icon" />
     </ComponentGroup>

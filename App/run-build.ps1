@@ -40,7 +40,8 @@ Task Compile.Assembly.R18 -Depends Requires.MSBuild {
 
 Task Compile.Resource.R18 -Depends Requires.MSBuild {
     exec {
-            & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
+            & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\Dark\",IntermediateOutputPath="..\build\obj\$buildType\Dark\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
+            & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\Light\",IntermediateOutputPath="..\build\obj\$buildType\Light\" ".\ThCuiRes\ThCuiRes_light.vcxproj" /t:rebuild
     }
 }
 
@@ -62,7 +63,8 @@ Task Compile.Assembly.R19 -Depends Requires.MSBuild {
 
 Task Compile.Resource.R19 -Depends Requires.MSBuild {
     exec {
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\Dark\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\Dark\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\Light\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\Light\" ".\ThCuiRes\ThCuiRes_light.vcxproj" /t:rebuild
     }
 }
 
@@ -84,7 +86,8 @@ Task Compile.Assembly.R20 -Depends Requires.MSBuild {
 
 Task Compile.Resource.R20 -Depends Requires.MSBuild {
     exec {
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\Dark\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\Dark\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\Light\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\Light\" ".\ThCuiRes\ThCuiRes_light.vcxproj" /t:rebuild
     }
 }
 
