@@ -62,7 +62,8 @@ namespace ThStructure
 
             // 绘制
             var render = new ThSComponentDbRender();
-            column.Render(render);
+            var ipColumn = new ThSInplaceDetailColumn(column);
+            ipColumn.Render(render);
         }
     }
 }
