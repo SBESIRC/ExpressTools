@@ -16,8 +16,6 @@ namespace TianHua.AutoCAD.ThCui
     public class ThCuiApp : IExtensionApplication
     {
         const string CMD_GROUPNAME = "TIANHUACAD";
-        // 内部命令，用来初始化环境
-        const string CMD_THCADINIT_GLOBAL_NAME = "*THCADINIT";
         const string CMD_THCADLOGIN_GLOBAL_NAME = "THCADLOGIN";
         const string CMD_THCADLOGOUT_GLOBAL_NAME = "THCADLOGOUT";
         const string CMD_THCADUMPCUI_GLOBAL_NAME = "THCADDUMPCUI";
@@ -54,9 +52,7 @@ namespace TianHua.AutoCAD.ThCui
                 LoadPartialCui(true);
 #endif
 
-                //创建自定义Ribbon
-                //  https://www.theswamp.org/index.php?topic=44440.0
-                ThRibbonHelper.OnRibbonFound(this.SetupRibbon);
+                AcadApp.Idle += Application_OnIdle;
             }
             else
             {
@@ -82,9 +78,25 @@ namespace TianHua.AutoCAD.ThCui
 #endif
         }
 
-        private void SetupRibbon(RibbonControl rc)
+        private void Application_OnIdle(object sender, EventArgs e)
         {
-            OnThCADInit();
+            // 使用AutoCAD Windows runtime API来配置自定义Tab中的Panels
+            // 需要保证Ribbon自定义Tab是存在的，并且自定义Tab中的Panels也是存在的。
+            if (ThRibbonUtils.Tab != null && ThRibbonUtils.Tab.Panels.Count != 0)
+            {
+                // 配置完成后就不需要Idle事件
+                AcadApp.Idle -= Application_OnIdle;
+
+                // 根据当前的登录信息配置Panels
+                if (ThIdentityService.IsLogged())
+                {
+                    ThRibbonUtils.OpenAllPanels();
+                }
+                else
+                {
+                    ThRibbonUtils.CloseAllPanels();
+                }
+            }
         }
 
         private void LoadPartialCui(bool bLoad = true)
@@ -106,8 +118,6 @@ namespace TianHua.AutoCAD.ThCui
 
         public void RegisterCommands()
         {
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THCADINIT_GLOBAL_NAME, CMD_THCADINIT_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnThCADInit));
-
             //注册登录命令
             Utils.AddCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME, CMD_THCADLOGIN_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnLogIn));
             //注册退出命令
@@ -278,21 +288,6 @@ namespace TianHua.AutoCAD.ThCui
             CreatePartialCui();
         }
 #endif
-
-        private void OnThCADInit()
-        {
-            if (ThRibbonUtils.Tab != null)
-            {
-                if (ThIdentityService.IsLogged())
-                {
-                    ThRibbonUtils.OpenAllPanels();
-                }
-                else
-                {
-                    ThRibbonUtils.CloseAllPanels();
-                }
-            }
-        }
 
         private void OnLogIn()
         {

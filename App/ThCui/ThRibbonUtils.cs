@@ -30,13 +30,13 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void OpenAllPanels()
         {
-            Tab.Panels.ForEach(o => o.IsVisible = true);
+            Tab.Panels.ForEach(o => o.IsEnabled = true);
         }
 
         public static void CloseAllPanels()
         {
-            Tab.Panels.ForEach(o => o.IsVisible = false);
-            Tab.Panels.Where(o => o.UID == "pnl" + "Help").ForEach(o => o.IsVisible = true);
+            Tab.Panels.ForEach(o => o.IsEnabled = false);
+            Tab.Panels.Where(o => o.UID == "pnl" + "Help").ForEach(o => o.IsEnabled = true);
         }
 
         public static void RegisterTabActivated(EventHandler handler)
