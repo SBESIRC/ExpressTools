@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.EditorInput;
+﻿using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using AcHelper;
@@ -49,6 +50,24 @@ namespace ThEssential
                 extents.MinPoint, 
                 extents.MaxPoint, 
                 entity.QSelectFilter(filterType));
+            if (result.Status == PromptStatus.OK)
+            {
+                Active.Editor.SetImpliedSelection(result.Value);
+            }
+        }
+
+        /// <summary>
+        /// 快速选择
+        /// </summary>
+        /// <param name="vtr"></param>
+        /// <param name="xClass"></param>
+        public static void QSelect(this AbstractViewTableRecord vtr, string dxfName)
+        {
+            Extents3d extents = vtr.UCSExtent();
+            var result = Active.Editor.SelectWindow(
+                extents.MinPoint,
+                extents.MaxPoint,
+                dxfName.QSelectFilter());
             if (result.Status == PromptStatus.OK)
             {
                 Active.Editor.SetImpliedSelection(result.Value);

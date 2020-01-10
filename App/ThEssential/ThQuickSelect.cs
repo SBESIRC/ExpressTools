@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.EditorInput;
+﻿using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using NFox.Cad.Collections;
 
@@ -24,13 +25,21 @@ namespace ThEssential
         /// <summary>
         /// 块名
         /// </summary>
-        QSelectFilterBlock = 0x8
+        QSelectFilterBlock = 0x8,
+        /// <summary>
+        /// 标注
+        /// </summary>
+        QSelectFilterDimension = 0x10,
+        /// <summary>
+        /// 填充
+        /// </summary>
+        QSelectFilterHatch = 0x20
     }
 
     /// <summary>
     /// 寻找模式
     /// </summary>
-    public enum QSelectMode
+    public enum QSelectExtent
     {
         /// <summary>
         /// 全选
@@ -65,6 +74,16 @@ namespace ThEssential
                 default:
                     return null;
             }
+        }
+
+        /// <summary>
+        /// 用实体类型创建选择过滤器
+        /// </summary>
+        /// <param name="dxfName"></param>
+        /// <returns></returns>
+        public static SelectionFilter QSelectFilter(this string dxfName)
+        {
+            return OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == dxfName);
         }
     }
 }

@@ -12,16 +12,18 @@ namespace ThEssential
     {
         private readonly Dictionary<QSelectFilterType, string> filters = new Dictionary<QSelectFilterType, string>()
         {
-            { QSelectFilterType.QSelectFilterColor, "Color" },
-            { QSelectFilterType.QSelectFilterLayer, "Layer" },
-            { QSelectFilterType.QSelectFilterLineType, "linEtype" },
-            { QSelectFilterType.QSelectFilterBlock, "Block" }
+            { QSelectFilterType.QSelectFilterColor,         "Color" },
+            { QSelectFilterType.QSelectFilterLayer,         "Layer" },
+            { QSelectFilterType.QSelectFilterLineType,      "linEtype" },
+            { QSelectFilterType.QSelectFilterBlock,         "Block" },
+            { QSelectFilterType.QSelectFilterDimension,     "Dimension" },
+            { QSelectFilterType.QSelectFilterHatch,         "Hatch" }
         };
 
-        private readonly Dictionary<QSelectMode, string> modes = new Dictionary<QSelectMode, string>()
+        private readonly Dictionary<QSelectExtent, string> extents = new Dictionary<QSelectExtent, string>()
         {
-            { QSelectMode.QSelectAll, "All" },
-            { QSelectMode.QSelectView, "View" }
+            { QSelectExtent.QSelectAll,     "All" },
+            { QSelectExtent.QSelectView,    "View" }
         };
 
         public void Initialize()
@@ -44,18 +46,77 @@ namespace ThEssential
                 {
                     AllowNone = true
                 };
-                keywordOptions.Keywords.Add("Layer", "图层");
-                keywordOptions.Keywords.Add("Color", "颜色");
-                keywordOptions.Keywords.Add("linEtype", "线型");
-                keywordOptions.Keywords.Add("Block", "图块名");
+                keywordOptions.Keywords.Add("Layer",        "Layer",        "图层(L)");
+                keywordOptions.Keywords.Add("Color",        "Color",        "颜色(C)");
+                keywordOptions.Keywords.Add("linEtype",     "linEtype",     "线型(E)");
+                keywordOptions.Keywords.Add("Block",        "Block",        "图块名(B)");
+                keywordOptions.Keywords.Add("Dimension",    "Dimension",    "标注(D)");
+                keywordOptions.Keywords.Add("Hatch",        "Hatch",        "填充(H)");
                 keywordOptions.Keywords.Default = "Layer";
                 PromptResult result = Active.Editor.GetKeywords(keywordOptions);
                 if (result.Status != PromptStatus.OK)
                 {
                     return;
                 }
-                QSelectFilterType filter = filters.Where(o => o.Value == result.StringResult).First().Key;
 
+                var filter = filters.Where(o => o.Value == result.StringResult).First().Key;
+                switch (filter)
+                {
+                    case QSelectFilterType.QSelectFilterLayer:
+                    case QSelectFilterType.QSelectFilterColor:
+                    case QSelectFilterType.QSelectFilterLineType:
+                    case QSelectFilterType.QSelectFilterBlock:
+                        DoSelectWithProperty(filter);
+                        break;
+                    case QSelectFilterType.QSelectFilterDimension:
+                        DoSelectWithDxfName("DIMENSION");
+                        break;
+                    case QSelectFilterType.QSelectFilterHatch:
+                        DoSelectWithDxfName("HATCH");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private PromptResult SpecifySelectExtent()
+        {
+            var keywordOptions = new PromptKeywordOptions("\n请指定选取范围：")
+            {
+                AllowNone = true
+            };
+            keywordOptions.Keywords.Add("All",  "All",  "选取全部范围(A)");
+            keywordOptions.Keywords.Add("View", "View", "选取当前视窗(V)");
+            keywordOptions.Keywords.Default = "All";
+            return Active.Editor.GetKeywords(keywordOptions);
+        }
+
+        private void DoSelectWithDxfName(string dxfName)
+        {
+            var result = SpecifySelectExtent();
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
+            }
+
+            switch (extents.Where(o => o.Value == result.StringResult).First().Key)
+            {
+                case QSelectExtent.QSelectAll:
+                    Active.Editor.QSelect(dxfName);
+                    break;
+                case QSelectExtent.QSelectView:
+                    Active.Editor.GetCurrentView().QSelect(dxfName);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void DoSelectWithProperty(QSelectFilterType filterType)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
                 // 指定源实体
                 PromptEntityOptions entityOptions = new PromptEntityOptions("\n请选取源对象：")
                 {
@@ -70,27 +131,22 @@ namespace ThEssential
                 Entity entity = acadDatabase.Element<Entity>(entityResult.ObjectId);
 
                 // 指定选取范围
-                keywordOptions = new PromptKeywordOptions("\n请指定选取范围：")
-                {
-                    AllowNone = true
-                };
-                keywordOptions.Keywords.Add("All", "选取全部范围");
-                keywordOptions.Keywords.Add("View", "选取当前视窗");
-                keywordOptions.Keywords.Default = "All";
-                result = Active.Editor.GetKeywords(keywordOptions);
+                var result = SpecifySelectExtent();
                 if (result.Status != PromptStatus.OK)
                 {
                     return;
                 }
-                QSelectMode mode = modes.Where(o => o.Value == result.StringResult).First().Key;
 
-                if (mode == QSelectMode.QSelectAll)
+                switch (extents.Where(o => o.Value == result.StringResult).First().Key)
                 {
-                    Active.Editor.QSelect(entity, filter);
-                }
-                else if (mode == QSelectMode.QSelectView)
-                {
-                    Active.Editor.GetCurrentView().QSelect(entity, filter);
+                    case QSelectExtent.QSelectAll:
+                        Active.Editor.QSelect(entity, filterType);
+                        break;
+                    case QSelectExtent.QSelectView:
+                        Active.Editor.GetCurrentView().QSelect(entity, filterType);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
