@@ -18,7 +18,8 @@ namespace ThEssential
             { QSelectFilterType.QSelectFilterBlock,         "Block" },
             { QSelectFilterType.QSelectFilterDimension,     "Dimension" },
             { QSelectFilterType.QSelectFilterHatch,         "Hatch" },
-            { QSelectFilterType.QSelectFilterLast,          "lastAppend" }
+            { QSelectFilterType.QSelectFilterLast,          "lastAppend" },
+            { QSelectFilterType.QSelectFilterPrevious,      "preVious"}
         };
 
         private readonly Dictionary<QSelectExtent, string> extents = new Dictionary<QSelectExtent, string>()
@@ -54,6 +55,7 @@ namespace ThEssential
                 keywordOptions.Keywords.Add("Dimension",    "Dimension",    "标注(D)");
                 keywordOptions.Keywords.Add("Hatch",        "Hatch",        "填充(H)");
                 keywordOptions.Keywords.Add("lastAppend",   "lastAppend",   "上次建立(A)");
+                keywordOptions.Keywords.Add("preVious",     "preVious",     "上次选取(V)");
                 keywordOptions.Keywords.Default = "Layer";
                 PromptResult result = Active.Editor.GetKeywords(keywordOptions);
                 if (result.Status != PromptStatus.OK)
@@ -79,6 +81,9 @@ namespace ThEssential
                     case QSelectFilterType.QSelectFilterLast:
                         DoSelectLast();
                         break;
+                    case QSelectFilterType.QSelectFilterPrevious:
+                        DoSelectPrevious();
+                        break;
                     default:
                         break;
                 }
@@ -100,6 +105,11 @@ namespace ThEssential
         private void DoSelectLast()
         {
             Active.Editor.QSelectLast();
+        }
+
+        private void DoSelectPrevious()
+        {
+            Active.Editor.QSelectPrevious();
         }
 
         private void DoSelectWithDxfName(string dxfName)

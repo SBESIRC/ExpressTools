@@ -33,5 +33,14 @@ namespace ThEssential
                 Active.Editor.SetImpliedSelection(result.Value);
             }
         }
+
+        public static void QSelectPrevious(this Editor ed)
+        {
+            var result = ed.SelectPrevious();
+            if (result.Status == PromptStatus.OK)
+            {
+                Active.Editor.SetImpliedSelection(result.Value);
+            }
+        }
     }
 }
