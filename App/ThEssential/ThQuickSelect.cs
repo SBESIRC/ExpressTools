@@ -33,7 +33,23 @@ namespace ThEssential
         /// <summary>
         /// 填充
         /// </summary>
-        QSelectFilterHatch = 0x20
+        QSelectFilterHatch = 0x20,
+        /// <summary>
+        /// 文字大小
+        /// </summary>
+        QSelectFilterTextSize = 0x40,
+        /// <summary>
+        /// 文字内容
+        /// </summary>
+        QSelectFilterTextContent = 0x80,
+        /// <summary>
+        /// 最近的对象
+        /// </summary>
+        QSelectFilterLast = 0x100,
+        /// <summary>
+        /// 上一次选择
+        /// </summary>
+        QSelectFilterPrevious = 0x200
     }
 
     /// <summary>

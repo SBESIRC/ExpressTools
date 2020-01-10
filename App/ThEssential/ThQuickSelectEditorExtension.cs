@@ -24,5 +24,14 @@ namespace ThEssential
                 Active.Editor.SetImpliedSelection(result.Value);
             }
         }
+
+        public static void QSelectLast(this Editor ed)
+        {
+            var result = ed.SelectLast();
+            if (result.Status == PromptStatus.OK)
+            {
+                Active.Editor.SetImpliedSelection(result.Value);
+            }
+        }
     }
 }
