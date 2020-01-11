@@ -1,11 +1,10 @@
-﻿using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.EditorInput;
+﻿using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using AcHelper;
 using DotNetARX;
 
-namespace ThEssential
+namespace ThEssential.QSelect
 {
     public static class ThQuickSelectViewExtension
     { 

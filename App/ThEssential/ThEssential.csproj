@@ -24,11 +24,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\ThQSelectCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThEssentialApp.cs" />
-    <Compile Include="ThQuickSelect.cs" />
-    <Compile Include="ThQuickSelectEditorExtension.cs" />
-    <Compile Include="ThQuickSelectViewExtension.cs" />
+    <Compile Include="QSelect\ThQuickSelect.cs" />
+    <Compile Include="QSelect\ThQuickSelectEditorExtension.cs" />
+    <Compile Include="QSelect\ThQuickSelectViewExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">

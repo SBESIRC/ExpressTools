@@ -1,9 +1,8 @@
-﻿using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.EditorInput;
+﻿using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using AcHelper;
 
-namespace ThEssential
+namespace ThEssential.QSelect
 {
     public static class ThQuickSelectEditorExtension
     {
