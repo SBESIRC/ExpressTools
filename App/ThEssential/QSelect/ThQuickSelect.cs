@@ -34,21 +34,17 @@ namespace ThEssential.QSelect
         /// </summary>
         QSelectFilterHatch = 0x20,
         /// <summary>
-        /// 文字大小
+        /// 文字
         /// </summary>
-        QSelectFilterTextSize = 0x40,
-        /// <summary>
-        /// 文字内容
-        /// </summary>
-        QSelectFilterTextContent = 0x80,
+        QSelectFilterText = 0x40,
         /// <summary>
         /// 最近的对象
         /// </summary>
-        QSelectFilterLast = 0x100,
+        QSelectFilterLast = 0x80,
         /// <summary>
         /// 上一次选择
         /// </summary>
-        QSelectFilterPrevious = 0x200
+        QSelectFilterPrevious = 0x100
     }
 
     /// <summary>

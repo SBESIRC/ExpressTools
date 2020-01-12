@@ -20,6 +20,7 @@ namespace ThEssential.Command
             { QSelectFilterType.QSelectFilterBlock,         "Block" },
             { QSelectFilterType.QSelectFilterDimension,     "Dimension" },
             { QSelectFilterType.QSelectFilterHatch,         "Hatch" },
+            { QSelectFilterType.QSelectFilterText,          "Text" },
             { QSelectFilterType.QSelectFilterLast,          "lastAppend" },
             { QSelectFilterType.QSelectFilterPrevious,      "preVious"}
         };
@@ -43,14 +44,15 @@ namespace ThEssential.Command
                 {
                     AllowNone = true
                 };
-                keywordOptions.Keywords.Add("Layer", "Layer", "图层(L)");
-                keywordOptions.Keywords.Add("Color", "Color", "颜色(C)");
-                keywordOptions.Keywords.Add("linEtype", "linEtype", "线型(E)");
-                keywordOptions.Keywords.Add("Block", "Block", "图块名(B)");
-                keywordOptions.Keywords.Add("Dimension", "Dimension", "标注(D)");
-                keywordOptions.Keywords.Add("Hatch", "Hatch", "填充(H)");
-                keywordOptions.Keywords.Add("lastAppend", "lastAppend", "上次建立(A)");
-                keywordOptions.Keywords.Add("preVious", "preVious", "上次选取(V)");
+                keywordOptions.Keywords.Add("Layer",        "Layer",        "图层(L)");
+                keywordOptions.Keywords.Add("Color",        "Color",        "颜色(C)");
+                keywordOptions.Keywords.Add("linEtype",     "linEtype",     "线型(E)");
+                keywordOptions.Keywords.Add("Block",        "Block",        "图块名(B)");
+                keywordOptions.Keywords.Add("Dimension",    "Dimension",    "标注(D)");
+                keywordOptions.Keywords.Add("Hatch",        "Hatch",        "填充(H)");
+                keywordOptions.Keywords.Add("Text",         "Text",         "文字(T)");
+                keywordOptions.Keywords.Add("lastAppend",   "lastAppend",   "上次建立(A)");
+                keywordOptions.Keywords.Add("preVious",     "preVious",     "上次选取(V)");
                 keywordOptions.Keywords.Default = "Layer";
                 PromptResult result = Active.Editor.GetKeywords(keywordOptions);
                 if (result.Status != PromptStatus.OK)
@@ -72,6 +74,9 @@ namespace ThEssential.Command
                         break;
                     case QSelectFilterType.QSelectFilterHatch:
                         DoSelectByObjectType("HATCH");
+                        break;
+                    case QSelectFilterType.QSelectFilterText:
+                        DoSelectByObjectType("TEXT,MTEXT");
                         break;
                     case QSelectFilterType.QSelectFilterLast:
                         DoSelectLast();
