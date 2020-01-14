@@ -38,26 +38,18 @@ namespace TianHua.AutoCAD.ThCui
             //  Subscribing to some events which are important for the whole session;
             //  Etc.
 
-            //将程序有效期验证为3个月，一旦超过时限，要求用户更新，不进行命令注册
-            if (!ThLicenseService.Instance.IsExpired())
-            {
-                //装载局部CUI文件
-                LoadPartialCui();
+            //装载局部CUI文件
+            LoadPartialCui();
 
-                //注册命令
-                RegisterCommands();
+            //注册命令
+            RegisterCommands();
 
-                //定制Preferences
-                OverridePreferences(true);
+            //定制Preferences
+            OverridePreferences(true);
 
-                //创建自定义Ribbon
-                //  https://www.theswamp.org/index.php?topic=44440.0
-                ThRibbonHelper.OnRibbonFound(this.CreateRibbon);
-            }
-            else
-            {
-                System.Windows.Forms.MessageBox.Show("天华效率工具已经过期，请及时更新！");
-            }
+            //创建自定义Ribbon
+            //  https://www.theswamp.org/index.php?topic=44440.0
+            ThRibbonHelper.OnRibbonFound(this.CreateRibbon);
         }
 
         public void Terminate()
