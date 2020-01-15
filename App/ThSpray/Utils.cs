@@ -451,7 +451,7 @@ namespace ThSpray
             var beamLoops = TopoUtils.MakeSrcProfilesNoTes(relatedCurves);
             var validLoops = EraseInvalidLoops(beamLoops, userData.minBeamGap);
 
-            var insertPtS = PlaceSpray.CalcuInsertPos(TopoUtils.Polyline2dLines(roomPolyline), validLoops, userData.minBeamGap, userData.maxBeamGap, userData.maxSprayGap);
+            var insertPtS = PlaceSpray.CalcuInsertPos(TopoUtils.Polyline2dLines(roomPolyline), validLoops, userData.minBeamGap, userData.maxWallGap, userData.maxSprayGap);
 
             return insertPtS;
         }
@@ -806,6 +806,19 @@ namespace ThSpray
                 var rightMaxX = m_roomRight.StartPoint.X - m_maxWallSprayOffset;
 
                 var tmpHLines = new List<Line>();
+                if ((m_roomRight.StartPoint.X - m_roomLeft.StartPoint.X) < 2 * m_maxWallSprayOffset)
+                {
+                    var firstLine = m_hLines.First();
+                    var lastLine = m_hLines.Last();
+                    var ptFir = firstLine.StartPoint;
+                    var ptEnd = lastLine.EndPoint;
+                    var midPt = new Point3d((ptFir.X + ptEnd.X) * 0.5, ptFir.Y, 0);
+                    var sVLine = new Line(midPt, midPt + new Vector3d(1, 0, 0) * 2);
+                    tmpHLines.Add(sVLine);
+                    m_hLines.Clear();
+                    m_hLines = tmpHLines;
+                    return;
+                }
 
                 for (int i = 0; i < m_hLines.Count; i++)
                 {
@@ -822,7 +835,7 @@ namespace ThSpray
                             var nPtE = curPtE;
                             tmpHLines.Add(new Line(nPtS, nPtE));
                         }
-                        else if (curPtS.X < leftMaxX && curPtE.X > rightMaxX)
+                        else if (curPtS.X > leftMaxX && curPtE.X > rightMaxX)
                         {
                             var nPtS = curPtS;
                             var nPtE = new Point3d(rightMaxX, curPtE.Y, 0);
@@ -908,6 +921,21 @@ namespace ThSpray
                 var topMaxY = m_roomTop.StartPoint.Y - m_maxWallSprayOffset;
                 var tmpVLines = new List<Line>();
 
+                if ((m_roomTop.StartPoint.Y - m_roomBottom.StartPoint.Y) < 2 * m_maxWallSprayOffset)
+                {
+                    var firstLine = m_vLines.First();
+                    var lastLine = m_vLines.Last();
+                    var ptFir = firstLine.StartPoint;
+                    var ptEnd = lastLine.EndPoint;
+                    var midPt = new Point3d(ptFir.X, (ptFir.Y + ptEnd.Y) * 0.5, 0);
+                    var sVLine = new Line(midPt, midPt + new Vector3d(0, 1, 0) * 2);
+                    tmpVLines.Add(sVLine);
+                    m_vLines.Clear();
+                    m_vLines = tmpVLines;
+                    return;
+                }
+                
+
                 for (int i = 0; i < m_vLines.Count; i++)
                 {
                     // 当前
@@ -923,7 +951,7 @@ namespace ThSpray
                             var nPtE = curPtE;
                             tmpVLines.Add(new Line(nPtS, nPtE));
                         }
-                        else if (curPtS.Y < bottomMaxY && curPtE.Y > topMaxY)
+                        else if (curPtS.Y > bottomMaxY && curPtE.Y > topMaxY)
                         {
                             var nPtS = curPtS;
                             var nPtE = new Point3d(curPtE.X, topMaxY, 0);
@@ -983,13 +1011,13 @@ namespace ThSpray
                     else if (i == m_vLines.Count - 1)
                     {
                         // 最后一段的情形
-                        if (curPtS.X < topMaxY && curPtE.X > topMaxY)
+                        if (curPtS.Y < topMaxY && curPtE.Y > topMaxY)
                         {
                             var nPtS = curPtS;
                             var nPtE = new Point3d(curPtS.X, topMaxY, 0);
                             tmpVLines.Add(new Line(nPtS, nPtE));
                         }
-                        else if (curPtE.X < topMaxY)
+                        else if (curPtE.Y < topMaxY)
                         {
                             tmpVLines.Add(curVLine);
                         }
@@ -1028,12 +1056,12 @@ namespace ThSpray
                         // 最后一段
                         if (curHLine.Length < 10)
                         {
-                            hPtLst.Add(curHLine.StartPoint);
+                            hPtLst.Add(new Point3d(firPtS.X, firPtS.Y, 0));
                         }
                         else
                         {
                             var xWid = curHLine.Length;
-                            var ratio = xWid / m_maxWallSprayOffset;
+                            var ratio = xWid / m_sprayGap;
                             int nCount = (int)ratio;
 
                             // 多出一点点的情形，不是少于的情形
@@ -1042,11 +1070,14 @@ namespace ThSpray
 
                             if (nCount == 0)
                             {
-                                hPtLst.Add(curHLine.StartPoint);
+                                hPtLst.Add(new Point3d(firPtS.X, firPtS.Y, 0));
                             }
                             else
                             {
-                                var gapAdd = (int)(xWid / nCount);
+                                nCount++;
+                                var midStep = (int)(xWid / nCount);
+                                var gapAdd = (midStep / 50) * 50;
+
                                 for (int j = 0; j < nCount; j++)
                                 {
                                     var curX = firPtS.X + j * gapAdd;
@@ -1054,7 +1085,7 @@ namespace ThSpray
                                 }
                             }
 
-                            hPtLst.Add(firPtE);
+                            hPtLst.Add(new Point3d(firPtE.X, firPtE.Y, 0));
                         }
                     }
                     else
@@ -1063,7 +1094,7 @@ namespace ThSpray
                         var nextLine = m_hLines[i + 1];
                         var nextPtS = nextLine.StartPoint;
                         var xWid = nextPtS.X - firPtS.X;
-                        var ratio = xWid / m_maxWallSprayOffset;
+                        var ratio = xWid / m_sprayGap;
                         int nCount = (int)ratio;
 
                         // 多出一点点的情形，不是少于的情形
@@ -1072,11 +1103,14 @@ namespace ThSpray
 
                         if (nCount == 0)
                         {
-                            hPtLst.Add(curHLine.StartPoint);
+                            hPtLst.Add(new Point3d(firPtS.X, firPtS.Y, 0));
                         }
                         else
                         {
-                            var gapAdd = (int)(xWid / nCount);
+                            nCount++;
+                            var midStep = (int)(xWid / nCount);
+                            var gapAdd = (midStep / 50) * 50;
+
                             for (int j = 0; j < nCount; j++)
                             {
                                 var curX = firPtS.X + j * gapAdd;
@@ -1100,7 +1134,9 @@ namespace ThSpray
                     bool bPointIn = false;
                     foreach (var line in m_hLines)
                     {
-                        if (CommonUtils.IsPointOnLine(midPt, line))
+                        var ptSX = line.StartPoint.X;
+                        var ptEX = line.EndPoint.X;
+                        if (midPt.X >= ptSX && midPt.X <= ptEX)
                         {
                             bPointIn = true;
                             break;
@@ -1116,7 +1152,119 @@ namespace ThSpray
                         resPtLst.Add(curSpt);
                     }
                 }
+
                 resPtLst.Add(hPtLst.Last());
+
+                // 水平坐标点规整
+                resPtLst = NormalizeHPoints(resPtLst, m_hLines);
+                return resPtLst;
+            }
+
+            /// <summary>
+            /// 归一化水平点
+            /// </summary>
+            /// <param name="hPtLst"></param>
+            /// <param name="range"></param>
+            /// <returns></returns>
+            private List<Point3d> NormalizeHPoints(List<Point3d> hPtLst, List<Line> rangeLines)
+            {
+                var resPtLst = new List<Point3d>();
+                resPtLst.Add(hPtLst.First());
+                for (int i = 1; i < hPtLst.Count - 1; i++)
+                {
+                    var beforePt = hPtLst[i - 1];
+                    var curSpt = hPtLst[i];
+
+                    // 当前点的左右两个点
+                    int nRatio = (int)((curSpt.X - beforePt.X) / 50.0);
+                    int nNext = nRatio + 1;
+
+                    var ratioPoint = new Point3d(beforePt.X + nRatio * 50, curSpt.Y, 0);
+                    var nextPt = new Point3d(beforePt.X + nNext * 50, curSpt.Y, 0);
+                    Point3d midPt = Point3d.Origin;
+
+                    bool bPointIn = false;
+                    foreach (var line in m_hLines)
+                    {
+                        var ptSX = line.StartPoint.X;
+                        var ptEX = line.EndPoint.X;
+
+                        if ((ratioPoint.X >= ptSX && ratioPoint.X <= ptEX))
+                        {
+                            bPointIn = true;
+                            midPt = ratioPoint;
+                            break;
+                        }
+                        else if ((nextPt.X >= ptSX && nextPt.X <= ptEX))
+                        {
+                            bPointIn = true;
+                            midPt = nextPt;
+                            break;
+                        }
+                    }
+                    if (bPointIn)
+                    {
+                        hPtLst[i] = midPt;
+                        resPtLst.Add(midPt);
+                    }
+                    else
+                    {
+                        resPtLst.Add(curSpt);
+                    }
+                }
+
+                resPtLst.Add(hPtLst.Last());
+                return resPtLst;
+            }
+
+            private List<Point3d> NormalizeVPoints(List<Point3d> vPtLst, List<Line> rangeLines)
+            {
+                var resPtLst = new List<Point3d>();
+                resPtLst.Add(vPtLst.First());
+                for (int i = 1; i < vPtLst.Count - 1; i++)
+                {
+                    var beforePt = vPtLst[i - 1];
+                    var curSpt = vPtLst[i];
+
+                    // 当前点的上下两个点
+                    int nRatio = (int)((curSpt.Y - beforePt.Y) / 50.0);
+                    int nNext = nRatio + 1;
+
+                    var ratioPoint = new Point3d(beforePt.X, beforePt.Y + nRatio * 50, 0);
+                    var nextPt = new Point3d(beforePt.X, beforePt.Y + nNext * 50, 0);
+                    Point3d midPt = Point3d.Origin;
+
+                    bool bPointIn = false;
+                    foreach (var line in m_vLines)
+                    {
+                        var ptSY = line.StartPoint.Y;
+                        var ptEY = line.EndPoint.Y;
+
+                        if ((ratioPoint.Y >= ptSY && ratioPoint.Y <= ptEY))
+                        {
+                            bPointIn = true;
+                            midPt = ratioPoint;
+                            break;
+                        }
+                        else if ((nextPt.Y >= ptSY && nextPt.Y <= ptEY))
+                        {
+                            bPointIn = true;
+                            midPt = nextPt;
+                            break;
+                        }
+                    }
+                    if (bPointIn)
+                    {
+                        vPtLst[i] = midPt;
+                        resPtLst.Add(midPt);
+                    }
+                    else
+                    {
+                        resPtLst.Add(curSpt);
+                    }
+                }
+
+                resPtLst.Add(vPtLst.Last());
                 return resPtLst;
             }
 
@@ -1137,12 +1285,12 @@ namespace ThSpray
                         // 最后一段
                         if (curVLine.Length < 10)
                         {
-                            vPtLst.Add(curVLine.StartPoint);
+                            vPtLst.Add(new Point3d(firPtS.X, firPtS.Y, 0));
                         }
                         else
                         {
                             var yWid = curVLine.Length;
-                            var ratio = yWid / m_maxWallSprayOffset;
+                            var ratio = yWid / m_sprayGap;
                             int nCount = (int)ratio;
 
                             // 多出一点点的情形，不是少于的情形
@@ -1151,11 +1299,14 @@ namespace ThSpray
 
                             if (nCount == 0)
                             {
-                                vPtLst.Add(curVLine.StartPoint);
+                                vPtLst.Add(new Point3d(firPtS.X, firPtS.Y, 0));
                             }
                             else
                             {
-                                var gapAdd = (int)(yWid / nCount);
+                                nCount++;
+                                var midStep = (int)(yWid / nCount);
+                                var gapAdd = (midStep / 50) * 50;
+
                                 for (int j = 0; j < nCount; j++)
                                 {
                                     var curY = firPtS.Y + j * gapAdd;
@@ -1163,7 +1314,7 @@ namespace ThSpray
                                 }
                             }
 
-                            vPtLst.Add(firPtE);
+                            vPtLst.Add(new Point3d(firPtE.X, firPtE.Y, 0));
                         }
                     }
                     else
@@ -1172,7 +1323,7 @@ namespace ThSpray
                         var nextLine = m_vLines[i + 1];
                         var nextPtS = nextLine.StartPoint;
                         var yWid = nextPtS.Y - firPtS.Y;
-                        var ratio = yWid / m_maxWallSprayOffset;
+                        var ratio = yWid / m_sprayGap;
                         int nCount = (int)ratio;
 
                         // 多出一点点的情形，不是少于的情形
@@ -1181,11 +1332,14 @@ namespace ThSpray
 
                         if (nCount == 0)
                         {
-                            vPtLst.Add(curVLine.StartPoint);
+                            vPtLst.Add(new Point3d(firPtS.X, firPtS.Y, 0));
                         }
                         else
                         {
-                            var gapAdd = (int)(yWid / nCount);
+                            nCount++;
+                            var midStep = (int)(yWid / nCount);
+                            var gapAdd = (midStep / 50) * 50;
+
                             for (int j = 0; j < nCount; j++)
                             {
                                 var curY = firPtS.Y + j * gapAdd;
@@ -1226,6 +1380,8 @@ namespace ThSpray
                     }
                 }
                 resPtLst.Add(vPtLst.Last());
+                // 垂直方向规整
+                resPtLst = NormalizeVPoints(resPtLst, m_vLines);
                 return resPtLst;
             }
 
