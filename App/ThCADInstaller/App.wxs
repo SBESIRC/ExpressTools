@@ -298,13 +298,13 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThAreaFrameConfig.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Release" Guid="{A60ABDE2-625D-45EE-A6F2-A11B0797C6F9}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThPlot.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThPlot.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThSpray_Release" Guid="{25E2EC76-38CF-42B2-B94A-B2A864FEF104}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThSpray_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThSpray.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThSpray_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThSpray.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RoomBoundary_Release" Guid="{FFCCB34A-0235-4F96-A996-D9137E3ABE02}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThRoomBoundary.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThRoomBoundary.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThXClip_Release" Guid="{6E207B75-5809-42CA-8666-4C85C93FB5E1}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThXClip.dll" />
@@ -376,13 +376,13 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThAreaFrameConfig.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Release" Guid="{3679303E-44A2-4F83-BF76-9815AFFEB184}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThPlot.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThPlot.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSpray_Release" Guid="{3CED37FE-A7D6-48B9-8F45-1AFA27093F73}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThSpray_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThSpray.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThSpray_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThSpray.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_RoomBoundary_Release" Guid="{9FA4D436-A9F4-40F8-BE72-42AE9B4340BF}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThRoomBoundary.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThRoomBoundary.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThXClip_Release" Guid="{0B109481-BC5A-4B10-9D79-1C435DE82331}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThXClip.dll" />
@@ -451,13 +451,13 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThAreaFrameConfig.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThPlot_Release" Guid="{958f0a56-dc2a-4413-8d82-3e1aafee9ea4}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThPlot.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThPlot.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSpray_Release" Guid="{B3059A9E-6ABD-43CC-B1B6-BAF731D6CAF0}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThSpray_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThSpray.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThSpray_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThSpray.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_RoomBoundary_Release" Guid="{20d74dc8-8b93-4c1b-bd89-0a66e1468999}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThRoomBoundary.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThRoomBoundary.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThXClip_Release" Guid="{01069FF5-70FE-4C69-8982-032B7FC79B6B}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThXClip.dll" />
