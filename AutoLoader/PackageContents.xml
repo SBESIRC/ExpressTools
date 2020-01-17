@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationPackage 
 SchemaVersion="1.0"
 AppVersion="1.5.2"
@@ -343,7 +343,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
         <ComponentEntry ModuleName="./Contents/Win64/2012/ThSpray.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for spray." AppName="ThSpray" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
-                <Command Global="SPRAY" Local="SPRAY" />
+                <Command Global="THSPC" Local="THSPC" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -352,7 +352,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
         <ComponentEntry ModuleName="./Contents/Win64/2014/ThSpray.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for Spray." AppName="ThSpray" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
-                <Command Global="SPRAY" Local="SPRAY" />
+                <Command Global="THSPC" Local="THSPC" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -361,7 +361,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
         <ComponentEntry ModuleName="./Contents/Win64/2016/ThSpray.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for spray." AppName="ThSpray" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
-                <Command Global="SPRAY" Local="SPRAY" />
+                <Command Global="THSPC" Local="THSPC" />
             </Commands>
         </ComponentEntry>
     </Components>
