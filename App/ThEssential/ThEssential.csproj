@@ -24,7 +24,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Align\ThAlign.cs" />
+    <Compile Include="Align\ThAlignArcExtension.cs" />
+    <Compile Include="Align\ThAlignBlockReferenceExtension.cs" />
+    <Compile Include="Align\ThAlignCircleExtension.cs" />
+    <Compile Include="Align\ThAlignDBTextExtension.cs" />
+    <Compile Include="Align\ThAlignEllipseExtension.cs" />
+    <Compile Include="Align\ThAlignEntityExtension.cs" />
+    <Compile Include="Align\ThAlignExtent3dExtension.cs" />
+    <Compile Include="Align\ThAlignMTextExtension.cs" />
+    <Compile Include="Align\ThAlignPolylineExtension.cs" />
+    <Compile Include="Command\ThAlignCommand.cs" />
+    <Compile Include="Command\ThMatchPropsCommand.cs" />
     <Compile Include="Command\ThQSelectCommand.cs" />
+    <Compile Include="Distribute\ThDistribute.cs" />
+    <Compile Include="Distribute\ThDistributeExtent3dExtension.cs" />
+    <Compile Include="Distribute\ThDistributeObjectIdCollectionExtension.cs" />
+    <Compile Include="MatchProps\ThMatchProps.cs" />
+    <Compile Include="MatchProps\ThMatchPropsEntityExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThEssentialApp.cs" />
     <Compile Include="QSelect\ThQuickSelect.cs" />
@@ -41,6 +58,7 @@
       <Name>ExtensionTools</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
       <ItemGroup>

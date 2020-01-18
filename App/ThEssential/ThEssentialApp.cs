@@ -23,5 +23,23 @@ namespace ThEssential
                 cmd.Execute();
             }
         }
+
+        [CommandMethod("TIANHUACAD", "THALIGN", CommandFlags.Modal | CommandFlags.UsePickSet)]
+        public void ThAlign()
+        {
+            using (var cmd = new ThAlignCommand())
+            {
+                cmd.Execute();
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THMATCHPROPS", CommandFlags.Modal | CommandFlags.UsePickSet)]
+        public void ThMatchProps()
+        {
+            using (var cmd = new ThMatchPropsCommand())
+            {
+                cmd.Execute();
+            }
+        }
     }
 }
