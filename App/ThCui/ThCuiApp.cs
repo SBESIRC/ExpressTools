@@ -3,13 +3,18 @@ using System.IO;
 using System.Net;
 using System.Diagnostics;
 using System.Windows.Forms;
-using Autodesk.Windows;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Autodesk.AutoCAD.Internal;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.ApplicationServices.PreferencesFiles;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using ThIdentity.SDK;
+using Linq2Acad;
+using AcHelper;
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -27,6 +32,61 @@ namespace TianHua.AutoCAD.ThCui
 
         ThPartialCui partialCui = new ThPartialCui();
         ThToolPalette toolPalette = new ThToolPalette();
+
+        private readonly Dictionary<string, string> thcommanfunctiondict = new Dictionary<string, string>
+        {
+            // 图块图库
+            {"THBLI", "图块集"},
+            {"THBLS", "图块集配置"},
+            {"THBEE", "提电气块转换"},
+            {"THBBR", "插块断线"},
+            {"THBBE", "选块断线"},
+            {"THBBS", "全选断线"},
+            
+            // 标注工具
+            {"THCNU", "车位编号"},
+            {"THDTA", "尺寸避让"},
+            
+            // 图层工具
+            {"THALC", "建立建筑图层"},
+            {"THSLC", "建立结构图层"},
+            {"THMLC", "建立暖通图层"},
+            {"THELC", "建立电气图层"},
+            {"THPLC", "建立给排水图层"},
+            {"THLPM", "暖通用"},
+            {"THLPE", "电气用"},
+            {"THLPP", "给排水用"},
+            {"THMLK", "锁定暖通图层"},
+            {"THMUK", "隔离暖通图层"},
+            {"THUKA", "解锁所有图层"},
+            {"THMOF", "关闭暖通图层"},
+            {"THMON", "开启暖通图层"},
+            
+            // 计算工具
+            {"THBPS", "天华单体规整"},
+            {"THSPS", "天华总体规整"},
+            {"THBAC", "单体面积总汇"},
+            {"THTET", "综合经济技术指标表"},
+            {"THFET", "消防疏散表"},
+            {"THABC", "房间面积框线"},
+            
+            // 辅助工具
+            {"THMSC", "批量缩放"},
+            {"THZ0", "Z值归零"},
+            {"DGNPURGE", "DGN清理"},
+            {"THBPT", "批量打印PDF"},
+            {"THBPD", "批量打印DWF"},
+            {"THBPP", "批量打印PPT"},
+            {"THSVM", "版次信息修改"},
+            {"THLTR", "管线断线"},
+            {"THMIR", "文字块镜像"},
+            // 文字表格
+            {"THMTC", "文字内容刷"},
+
+            // 第三方支持
+            {"T20V4", "获取天正看图T20V4.0插件"},
+            {"T20V5", "获取天正看图T20V5.0插件"},
+        };
 
         public void Initialize()
         {
@@ -50,6 +110,9 @@ namespace TianHua.AutoCAD.ThCui
 #endif
 
             AcadApp.Idle += Application_OnIdle;
+
+            //注册DocumentCollection事件
+            AcadApp.DocumentManager.DocumentLockModeChanged += DocCollEvent_DocumentLockModeChanged_Handler;
         }
 
         public void Terminate()
@@ -64,10 +127,24 @@ namespace TianHua.AutoCAD.ThCui
             //恢复Preferences
             OverridePreferences(false);
 
+            //反注册DocumentCollection事件
+            AcadApp.DocumentManager.DocumentLockModeChanged -= DocCollEvent_DocumentLockModeChanged_Handler;
+
 #if DEBUG
             //  在卸载模块时主动卸载局部CUIX文件
             LoadPartialCui(false);
 #endif
+        }
+
+        private void Application_OnIdle_Cmd_Veto(object sender, EventArgs e)
+        {
+            AcadApp.Idle -= Application_OnIdle_Cmd_Veto;
+
+            // 显示登陆提示
+            Active.Editor.WriteLine("请先登陆后再使用天华CAD效率工具！");
+
+            // 显示登陆界面
+            OnLogIn();
         }
 
         private void Application_OnIdle(object sender, EventArgs e)
@@ -87,6 +164,50 @@ namespace TianHua.AutoCAD.ThCui
                 else
                 {
                     ThRibbonUtils.CloseAllPanels();
+                }
+            }
+        }
+
+        private void DocCollEvent_DocumentLockModeChanged_Handler(object sender, DocumentLockModeChangedEventArgs e)
+        {
+            if (!e.GlobalCommandName.StartsWith("#"))
+            {
+                // Lock状态，可以看做命令开始状态
+                var cmdName = e.GlobalCommandName;
+
+                // 过滤""命令
+                // 通常发生在需要“显式”锁文档的场景中
+                if (cmdName == "")
+                {
+                    return;
+                }
+
+                // 天华Lisp命令都是以“TH”开头
+                // 特殊情况（C:THZ0）
+                bool bVeto = false;
+                if (Regex.Match(cmdName, @"^\([cC]:THZ0\)$").Success)
+                {
+                    bVeto = !ThIdentityService.IsLogged();
+                }
+
+                // 正常情况（C:THXXX）
+                if (Regex.Match(cmdName, @"^\([cC]:TH[A-Z]{3,}\)$").Success)
+                {
+                    bVeto = !ThIdentityService.IsLogged();
+                }
+
+                // 天华ARX命令
+                if (thcommanfunctiondict.ContainsKey(cmdName))
+                {
+                    // 在未登陆的情况下，不能运行
+                    bVeto = !ThIdentityService.IsLogged();
+                }
+
+                // 
+                if (bVeto)
+                {
+                    e.Veto();
+                    AcadApp.Idle += Application_OnIdle_Cmd_Veto;
                 }
             }
         }
