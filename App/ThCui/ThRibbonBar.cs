@@ -35,7 +35,7 @@ namespace TianHua.AutoCAD.ThCui
                 // 登录
                 splitButton.AddNewButton("登录",
                     "天华登录",
-                    "THCADLOGIN",
+                    ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME,
                     "登录天华效率平台",
                     "IDI_THCAD_THLOGIN",
                     "IDI_THCAD_THLOGIN",
@@ -44,7 +44,7 @@ namespace TianHua.AutoCAD.ThCui
                 // 退出
                 splitButton.AddNewButton("退出",
                     "天华退出",
-                    "THCADLOGOUT",
+                    ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
                     "退出天华效率平台",
                     "IDI_THCAD_THLOGOUT",
                     "IDI_THCAD_THLOGOUT",

@@ -20,16 +20,6 @@ namespace TianHua.AutoCAD.ThCui
 {
     public class ThCuiApp : IExtensionApplication
     {
-        const string CMD_GROUPNAME = "TIANHUACAD";
-        const string CMD_THCADLOGIN_GLOBAL_NAME = "THCADLOGIN";
-        const string CMD_THCADLOGOUT_GLOBAL_NAME = "THCADLOGOUT";
-        const string CMD_THCADUMPCUI_GLOBAL_NAME = "THCADDUMPCUI";
-        const string CMD_THT20PLUGINV4_GLOBAL_NAME = "T20V4";
-        const string CMD_THT20PLUGINV5_GLOBAL_NAME = "T20V5";
-        const string CMD_THHLP_GLOBAL_NAME = "THHLP";
-        const string CMD_THBLS_GLOBAL_NAME = "THBLS";
-        const string CMD_THBLI_GLOBAL_NAME = "THBLI";
-
         ThPartialCui partialCui = new ThPartialCui();
         ThToolPalette toolPalette = new ThToolPalette();
 
@@ -232,37 +222,77 @@ namespace TianHua.AutoCAD.ThCui
         public void RegisterCommands()
         {
             //注册登录命令
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME, CMD_THCADLOGIN_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnLogIn));
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME, 
+                ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME, 
+                ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME, 
+                CommandFlags.Modal, 
+                new CommandCallback(OnLogIn));
             //注册退出命令
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME, CMD_THCADLOGOUT_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnLogOut));
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME,
+                ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
+                ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME, 
+                CommandFlags.Modal, 
+                new CommandCallback(OnLogOut));
 
 #if DEBUG
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THCADUMPCUI_GLOBAL_NAME, CMD_THCADUMPCUI_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnDumpCui));
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME,
+                ThCuiCommon.CMD_THDUMPCUI_GLOBAL_NAME, 
+                ThCuiCommon.CMD_THDUMPCUI_GLOBAL_NAME, 
+                CommandFlags.Modal, 
+                new CommandCallback(OnDumpCui));
 #endif
 
             //注册帮组和命令
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THHLP_GLOBAL_NAME, CMD_THHLP_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(OnHelp));
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME,
+                ThCuiCommon.CMD_THHLP_GLOBAL_NAME,
+                ThCuiCommon.CMD_THHLP_GLOBAL_NAME, 
+                CommandFlags.Modal, 
+                new CommandCallback(OnHelp));
 
             //注册打开工具选项板配置命令
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THBLS_GLOBAL_NAME, CMD_THBLS_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(ShowToolPaletteConfigDialog));
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME,
+                ThCuiCommon.CMD_THBLS_GLOBAL_NAME,
+                ThCuiCommon.CMD_THBLS_GLOBAL_NAME, 
+                CommandFlags.Modal, 
+                new CommandCallback(ShowToolPaletteConfigDialog));
 
             //注册工具选项板开关命令
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THBLI_GLOBAL_NAME, CMD_THBLI_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(toolPalette.ShowToolPalette));
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME,
+                ThCuiCommon.CMD_THBLI_GLOBAL_NAME,
+                ThCuiCommon.CMD_THBLI_GLOBAL_NAME, 
+                CommandFlags.Modal, 
+                new CommandCallback(toolPalette.ShowToolPalette));
 
             //注册下载T20天正插件命令
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THT20PLUGINV4_GLOBAL_NAME, CMD_THT20PLUGINV4_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(DownloadT20PlugInV4));
-            Utils.AddCommand(CMD_GROUPNAME, CMD_THT20PLUGINV5_GLOBAL_NAME, CMD_THT20PLUGINV5_GLOBAL_NAME, CommandFlags.Modal, new CommandCallback(DownloadT20PlugInV5));
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME, 
+                ThCuiCommon.CMD_THT20PLUGINV4_GLOBAL_NAME,
+                ThCuiCommon.CMD_THT20PLUGINV4_GLOBAL_NAME, 
+                CommandFlags.Modal, 
+                new CommandCallback(DownloadT20PlugInV4));
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME,
+                ThCuiCommon.CMD_THT20PLUGINV5_GLOBAL_NAME,
+                ThCuiCommon.CMD_THT20PLUGINV5_GLOBAL_NAME, 
+                CommandFlags.Modal, 
+                new CommandCallback(DownloadT20PlugInV5));
         }
 
         public void UnregisterCommands()
         {
-            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGIN_GLOBAL_NAME);
-            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THCADLOGOUT_GLOBAL_NAME);
-            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THHLP_GLOBAL_NAME);
-            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLS_GLOBAL_NAME);
-            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THBLI_GLOBAL_NAME);
-            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THT20PLUGINV4_GLOBAL_NAME);
-            Utils.RemoveCommand(CMD_GROUPNAME, CMD_THT20PLUGINV5_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THHLP_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THBLS_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THBLI_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV4_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV5_GLOBAL_NAME);
         }
 
         private void OverridePreferences(bool bOverride = true)
