@@ -175,6 +175,12 @@ namespace ThAnalytics
                     ThCountlyServices.Instance.RecordTHCommandEvent(cmdName, sw.Elapsed.TotalSeconds);
                     commandhashtable.Remove(cmdName);
                 }
+
+                // 若有新的用户登陆，则更新DA的用户信息
+                if (cmdName == "THLOGIN")
+                {
+                    ThCountlyServices.Instance.UpdateUserProfile();
+                }
             }
             else
             {

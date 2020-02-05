@@ -28,6 +28,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IThUserProfile.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -45,6 +46,7 @@
     <Compile Include="SDK\User.cs" />
     <Compile Include="SDK\UserDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThCybrosUserProfile.cs" />
     <Compile Include="ThUserProfile.cs" />
   </ItemGroup>
   <ItemGroup>

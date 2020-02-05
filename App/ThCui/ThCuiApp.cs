@@ -133,8 +133,8 @@ namespace TianHua.AutoCAD.ThCui
             // 显示登陆提示
             Active.Editor.WriteLine("请先登陆后再使用天华CAD效率工具！");
 
-            // 显示登陆界面
-            OnLogIn();
+            // 运行登陆命令
+            ThCuiCmdHandler.ExecuteFromCommandLine(ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME);
         }
 
         private void Application_OnIdle(object sender, EventArgs e)

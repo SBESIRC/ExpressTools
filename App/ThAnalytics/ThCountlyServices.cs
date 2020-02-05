@@ -82,8 +82,6 @@ namespace ThAnalytics
 
         public void Initialize()
         {
-            ThUserProfile userProfile = new ThUserProfile();
-
             //create the Countly init object
             CountlyConfig cc = new CountlyConfig()
             {
@@ -92,36 +90,32 @@ namespace ThAnalytics
                 appVersion  = "1.0.0"
             };
 
-            if (userProfile.IsDomainUser())
-            {
-                cc.developerProvidedDeviceId = userProfile.Mail;
-            }
-            
-
             //initiate the SDK with your preferences
             Countly.Instance.Init(cc);
 
             //initiate the user profile
-            InitializeUserProfile(userProfile);
+            UpdateUserProfile();
         }
 
-        private void InitializeUserProfile(ThUserProfile userProfile)
+        public void UpdateUserProfile()
         {
-            if (userProfile.IsDomainUser())
+            try
             {
-                try
+                using (IThUserProfile userProfile = new ThCybrosUserProfile())
                 {
-                    Countly.UserDetails.Name = userProfile.Name;
-                    Countly.UserDetails.Email = userProfile.Mail;
-                    Countly.UserDetails.Custom.Add("accountname", userProfile.Accountname);
-                    Countly.UserDetails.Custom.Add("title", userProfile.Title);
-                    Countly.UserDetails.Custom.Add("company", userProfile.Company);
-                    Countly.UserDetails.Custom.Add("department", userProfile.Department);
+                    if (userProfile.IsDomainUser())
+                    {
+                        Countly.UserDetails.Name = userProfile.Name;
+                        Countly.UserDetails.Email = userProfile.Mail;
+                        Countly.UserDetails.Custom.Add("accountname", userProfile.Accountname);
+                        Countly.UserDetails.Custom.Add("title", userProfile.Title); 
+                        Countly.UserDetails.Custom.Add("company", userProfile.Company);
+                        Countly.UserDetails.Custom.Add("department", userProfile.Department);
+                    }
                 }
-                catch
-                {
-                    //
-                }
+            }
+            catch
+            {
             }
         }
 

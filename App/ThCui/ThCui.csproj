@@ -38,6 +38,7 @@
       <DependentUpon>ThT20PlugInDownloadDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="ThCuiApp.cs" />
+    <Compile Include="ThCuiCmdHandler.cs" />
     <Compile Include="ThCuiCommon.cs" />
     <Compile Include="ThLoginDlg.cs">
       <SubType>Form</SubType>

@@ -5,7 +5,7 @@ using System.Net.NetworkInformation;
 
 namespace ThIdentity
 {
-    public class ThUserProfile
+    public class ThUserProfile : IThUserProfile
     {
         private PropertyCollection properties;
 
@@ -81,6 +81,11 @@ namespace ThIdentity
         public ThUserProfile(string name, string domain)
         {
             properties = Collectionproperty(name, domain);
+        }
+
+        public void Dispose()
+        {
+            properties = null;
         }
 
         private PropertyCollection Collectionproperty(string name, string domain)

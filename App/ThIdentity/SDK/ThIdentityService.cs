@@ -3,6 +3,14 @@ namespace ThIdentity.SDK
 {
     public class ThIdentityService
     {
+        public static UserDetails UserProfile
+        {
+            get
+            {
+                return THRecordingService.m_UserDetails;
+            }
+        }
+
         public static bool IsLogged()
         {
             return THRecordingService.SignIn(Properties.Settings.Default.Token);
