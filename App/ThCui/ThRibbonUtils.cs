@@ -27,16 +27,30 @@ namespace TianHua.AutoCAD.ThCui
             }
         }
 
-
         public static void OpenAllPanels()
         {
+            // 登入状态，开启所有面板
             Tab.Panels.ForEach(o => o.IsEnabled = true);
+            foreach (var panel in Tab.Panels.Where(o => o.UID == "pnl" + "Help"))
+            {
+                // 隐藏登陆按钮，显示退出按钮
+                panel.Source.Items.Where(o => o.Id == "ID_THLOGIN").ForEach(o => o.IsVisible = false);
+                panel.Source.Items.Where(o => o.Id == "ID_THLOGOUT").ForEach(o => o.IsVisible = true);
+            }
         }
 
         public static void CloseAllPanels()
         {
+            // 登出状态，关闭所有面板
             Tab.Panels.ForEach(o => o.IsEnabled = false);
-            Tab.Panels.Where(o => o.UID == "pnl" + "Help").ForEach(o => o.IsEnabled = true);
+            foreach(var panel in Tab.Panels.Where(o => o.UID == "pnl" + "Help"))
+            {
+                // 开启“登陆”Panel
+                panel.IsEnabled = true;
+                // 显示登陆按钮，隐藏退出按钮
+                panel.Source.Items.Where(o => o.Id == "ID_THLOGIN").ForEach(o => o.IsVisible = true);
+                panel.Source.Items.Where(o => o.Id == "ID_THLOGOUT").ForEach(o => o.IsVisible = false);
+            }
         }
 
         public static void RegisterTabActivated(EventHandler handler)

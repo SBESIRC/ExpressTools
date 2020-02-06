@@ -26,35 +26,29 @@ namespace TianHua.AutoCAD.ThCui
             // 登录界面
             var panel = tab.AddNewPanel("Help", "登录界面");
             var row = panel.AddNewRibbonRow();
-            {
-                var splitButton = row.AddNewSplitButton("天华",
-                    RibbonSplitButtonBehavior.SplitFollow,
-                    RibbonSplitButtonListStyle.IconText,
-                    RibbonButtonStyle.LargeWithText);
 
-                // 登录
-                splitButton.AddNewButton("登录",
-                    "天华登录",
-                    ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME,
-                    "登录天华效率平台",
-                    "IDI_THCAD_THLOGIN",
-                    "IDI_THCAD_THLOGIN",
-                    RibbonButtonStyle.LargeWithText);
+            // 登录
+            row.AddNewButton("登录",
+                "天华登录",
+                ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME,
+                "登录天华效率平台",
+                "IDI_THCAD_THLOGIN",
+                "IDI_THCAD_THLOGIN",
+                RibbonButtonStyle.LargeWithText);
 
-                // 退出
-                splitButton.AddNewButton("退出",
-                    "天华退出",
-                    ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
-                    "退出天华效率平台",
-                    "IDI_THCAD_THLOGOUT",
-                    "IDI_THCAD_THLOGOUT",
-                    RibbonButtonStyle.LargeWithText);
-            }
+            // 退出
+            row.AddNewButton("退出",
+                "天华退出",
+                ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
+                "退出天华效率平台",
+                "IDI_THCAD_THLOGOUT",
+                "IDI_THCAD_THLOGOUT",
+                RibbonButtonStyle.LargeWithText);
 
             // 帮助
             row.AddNewButton("帮助文档",
                 "天华帮助",
-                "THHLP",
+                ThCuiCommon.CMD_THHLP_GLOBAL_NAME,
                 "获取帮助文档",
                 "IDI_THCAD_THHLP",
                 "IDI_THCAD_THHLP",
