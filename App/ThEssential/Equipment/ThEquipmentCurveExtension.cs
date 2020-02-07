@@ -16,7 +16,7 @@ namespace ThEssential.Equipment
 
         public static Curve ToCurve(this NurbCurve2d spline2d, PlanarEntity plane)
         {
-#if ACAD_ABOVE_2012
+#if ACAD_ABOVE_2014
             return Curve.CreateFromGeCurve(spline2d.To3D(plane));
 #else
             if (spline2d.HasFitData)
@@ -46,7 +46,7 @@ namespace ThEssential.Equipment
 
         public static Curve ToCurve(this CircularArc2d arc2d, PlanarEntity plane)
         {
-#if ACAD_ABOVE_2012
+#if ACAD_ABOVE_2014
             return Curve.CreateFromGeCurve(arc2d.To3D(plane));
 #else
             Arc ent = new Arc();
@@ -70,7 +70,7 @@ namespace ThEssential.Equipment
 
         public static Curve ToCurve(this LineSegment2d line2d, PlanarEntity plane)
         {
-#if ACAD_ABOVE_2012
+#if ACAD_ABOVE_2014
             return Curve.CreateFromGeCurve(line2d.To3D(plane));
 #else
             return new Line(
@@ -84,7 +84,7 @@ namespace ThEssential.Equipment
         {
             if (nurbCurve.ToCurve(plane) is Spline spline)
             {
-#if ACAD_ABOVE_2012
+#if ACAD_ABOVE_2014
                 if (spline.ToPolyline(false, true) is Polyline polyline)
                 {
                     return new PolylineSegmentCollection(polyline);
