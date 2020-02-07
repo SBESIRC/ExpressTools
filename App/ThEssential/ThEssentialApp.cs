@@ -41,5 +41,14 @@ namespace ThEssential
                 cmd.Execute();
             }
         }
+
+        [CommandMethod("TIANHUACAD", "THEQUIPMENT", CommandFlags.Modal)]
+        public void THEquipment()
+        {
+            using (var cmd = new ThEquipmentCommand())
+            {
+                cmd.Execute();
+            }
+        }
     }
 }
