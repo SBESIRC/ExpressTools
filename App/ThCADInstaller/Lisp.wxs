@@ -43,6 +43,9 @@
             <Component Id="CMP_Autoloader_PackageContents_Lisp_BatchPlot_DWF" Guid="{87331E31-D022-4883-BDB2-0B20C1B8A040}" Win64="yes">
               <File Id="FILE_Autoloader_PackageContents_Lisp_BatchPlot_DWF" Source="$(var.AutoloaderContentsPath)\BatchPlotDWF.lsp" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_BatchPlot_Utils" Guid="{1A0D2761-D3A2-4620-8F1F-2E986FD1D8B1}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Lisp_BatchPlot_Utils" Source="$(var.AutoloaderContentsPath)\BatchPlotUtils.lsp" KeyPath="yes" />
+            </Component>
             <Component Id="CMP_Autoloader_PackageContents_Lisp_VersionModify" Guid="{40D25D80-E266-463B-8B44-FBC5D030DFE6}" Win64="yes">
               <File Id="FILE_Autoloader_PackageContents_Lisp_VersionModify" Source="$(var.AutoloaderContentsPath)\VersionModify.lsp" KeyPath="yes" />
             </Component>
@@ -71,7 +74,8 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Steal" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_Flatten" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BatchPlot_PDF" />
-            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BatchPlot_DWF" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BatchPlot_DWF" /> 
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BatchPlot_Utils" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_VersionModify" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BreakObjectsUtils" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BreakLines" />
