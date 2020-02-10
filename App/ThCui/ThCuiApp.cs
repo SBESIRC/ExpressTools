@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Autodesk.AutoCAD.Internal;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.Ribbon;
+using Autodesk.AutoCAD.Windows;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.ApplicationServices.PreferencesFiles;
@@ -106,6 +108,9 @@ namespace TianHua.AutoCAD.ThCui
 
             //注册DocumentCollection事件
             AcadApp.DocumentManager.DocumentLockModeChanged += DocCollEvent_DocumentLockModeChanged_Handler;
+
+            //注册RibbonPaletteSet事件
+            RibbonServices.RibbonPaletteSet.StateChanged += RibbonPaletteSet_StateChanged;
         }
 
         public void Terminate()
@@ -122,6 +127,9 @@ namespace TianHua.AutoCAD.ThCui
 
             //反注册DocumentCollection事件
             AcadApp.DocumentManager.DocumentLockModeChanged -= DocCollEvent_DocumentLockModeChanged_Handler;
+
+            //反注册RibbonPaletteSet事件
+            RibbonServices.RibbonPaletteSet.StateChanged -= RibbonPaletteSet_StateChanged;
 
 #if DEBUG
             //  在卸载模块时主动卸载局部CUIX文件
@@ -157,6 +165,27 @@ namespace TianHua.AutoCAD.ThCui
                 else
                 {
                     ThRibbonUtils.CloseAllPanels();
+                }
+            }
+        }
+
+        private void RibbonPaletteSet_StateChanged(object sender, PaletteSetStateEventArgs e)
+        {
+            if (e.NewState == StateEventIndex.Show)
+            {
+                // 使用AutoCAD Windows runtime API来配置自定义Tab中的Panels
+                // 需要保证Ribbon自定义Tab是存在的，并且自定义Tab中的Panels也是存在的。
+                if (ThRibbonUtils.Tab != null && ThRibbonUtils.Tab.Panels.Count != 0)
+                {
+                    // 根据当前的登录信息配置Panels
+                    if (ThIdentityService.IsLogged())
+                    {
+                        ThRibbonUtils.OpenAllPanels();
+                    }
+                    else
+                    {
+                        ThRibbonUtils.CloseAllPanels();
+                    }
                 }
             }
         }
