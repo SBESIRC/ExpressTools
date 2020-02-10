@@ -94,6 +94,9 @@ namespace TianHua.AutoCAD.ThCui
             //定制Preferences
             OverridePreferences(true);
 
+            //复写打印机配置文件到Roaming目录
+            OverwritePlotConfigurations();
+
 #if DEBUG
             //  在装载模块时主动装载局部CUIX文件
             LoadPartialCui(true);
@@ -295,10 +298,43 @@ namespace TianHua.AutoCAD.ThCui
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV5_GLOBAL_NAME);
         }
 
+        private void OverwritePlotConfigurations()
+        { 
+            if (Properties.Settings.Default.OverwritePlotConfigurations == true)
+            {
+                return;
+            }
+
+            string roaming = (string)AcadApp.GetSystemVariable("ROAMABLEROOTPREFIX");
+            if (!string.IsNullOrEmpty(roaming))
+            {
+                var plotters = new DirectoryInfo(ThCADCommon.PlottersPath());
+                foreach(var file in plotters.GetFiles("*.pc3", SearchOption.TopDirectoryOnly))
+                {
+                    file.CopyTo(Path.Combine(roaming, "Plotters", file.Name), true);
+                }
+
+                var printerDesc = new DirectoryInfo(ThCADCommon.PrinterDescPath());
+                foreach(var file in printerDesc.GetFiles("*.pmp", SearchOption.TopDirectoryOnly))
+                {
+                    file.CopyTo(Path.Combine(roaming, "Plotters", "PMP Files", file.Name), true);
+                }
+
+                var printerStyleSheet = new DirectoryInfo(ThCADCommon.PrinterStyleSheetPath());
+                foreach(var file in printerStyleSheet.GetFiles("*.ctb", SearchOption.TopDirectoryOnly))
+                {
+                    file.CopyTo(Path.Combine(roaming, "Plotters", "Plot Styles", file.Name), true);
+                }
+
+                //
+                Properties.Settings.Default.OverwritePlotConfigurations = true;
+                Properties.Settings.Default.Save();
+            }
+        }
+
         private void OverridePreferences(bool bOverride = true)
         {
             OverrideSupportPathPreferences(bOverride);
-            OverridePrinterPathPreferences(bOverride);
         }
 
         private void OverridePrinterPathPreferences(bool bOverride = true)
