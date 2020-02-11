@@ -99,18 +99,20 @@ namespace TianHua.AutoCAD.ThCui
             //复写打印机配置文件到Roaming目录
             OverwritePlotConfigurations();
 
-#if DEBUG
-            //  在装载模块时主动装载局部CUIX文件
-            LoadPartialCui(true);
-#endif
+            // CUI界面更新
+            AcadApp.Idle += Application_OnIdle_Ribbon;
+            AcadApp.Idle += Application_OnIdle_Menubar;
 
-            AcadApp.Idle += Application_OnIdle;
+            //注册RibbonPaletteSet事件
+            RibbonServices.RibbonPaletteSet.StateChanged += RibbonPaletteSet_StateChanged;
 
             //注册DocumentCollection事件
             AcadApp.DocumentManager.DocumentLockModeChanged += DocCollEvent_DocumentLockModeChanged_Handler;
 
-            //注册RibbonPaletteSet事件
-            RibbonServices.RibbonPaletteSet.StateChanged += RibbonPaletteSet_StateChanged;
+#if DEBUG
+            //  在装载模块时主动装载局部CUIX文件
+            LoadPartialCui(true);
+#endif
         }
 
         public void Terminate()
@@ -125,11 +127,11 @@ namespace TianHua.AutoCAD.ThCui
             //恢复Preferences
             OverridePreferences(false);
 
-            //反注册DocumentCollection事件
-            AcadApp.DocumentManager.DocumentLockModeChanged -= DocCollEvent_DocumentLockModeChanged_Handler;
-
             //反注册RibbonPaletteSet事件
             RibbonServices.RibbonPaletteSet.StateChanged -= RibbonPaletteSet_StateChanged;
+
+            //反注册DocumentCollection事件
+            AcadApp.DocumentManager.DocumentLockModeChanged -= DocCollEvent_DocumentLockModeChanged_Handler;
 
 #if DEBUG
             //  在卸载模块时主动卸载局部CUIX文件
@@ -148,14 +150,14 @@ namespace TianHua.AutoCAD.ThCui
             ThCuiCmdHandler.ExecuteFromCommandLine(ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME);
         }
 
-        private void Application_OnIdle(object sender, EventArgs e)
+        private void Application_OnIdle_Ribbon(object sender, EventArgs e)
         {
             // 使用AutoCAD Windows runtime API来配置自定义Tab中的Panels
             // 需要保证Ribbon自定义Tab是存在的，并且自定义Tab中的Panels也是存在的。
             if (ThRibbonUtils.Tab != null && ThRibbonUtils.Tab.Panels.Count != 0)
             {
                 // 配置完成后就不需要Idle事件
-                AcadApp.Idle -= Application_OnIdle;
+                AcadApp.Idle -= Application_OnIdle_Ribbon;
 
                 // 根据当前的登录信息配置Panels
                 if (ThIdentityService.IsLogged())
@@ -165,6 +167,25 @@ namespace TianHua.AutoCAD.ThCui
                 else
                 {
                     ThRibbonUtils.CloseAllPanels();
+                }
+            }
+        }
+
+        private void Application_OnIdle_Menubar(object sender, EventArgs e)
+        {
+            if (ThMenuBarUtils.PopupMenu != null)
+            {
+                // 配置完成后就不需要Idle事件
+                AcadApp.Idle -= Application_OnIdle_Menubar;
+
+                // 根据当前的登录信息配置菜单栏
+                if (ThIdentityService.IsLogged())
+                {
+                    ThMenuBarUtils.EnableMenuItems();
+                }
+                else
+                {
+                    ThMenuBarUtils.DisableMenuItems();
                 }
             }
         }
@@ -513,6 +534,7 @@ namespace TianHua.AutoCAD.ThCui
             if (ThIdentityService.IsLogged())
             {
                 ThRibbonUtils.OpenAllPanels();
+                ThMenuBarUtils.EnableMenuItems();
             }
 
         }
@@ -525,6 +547,7 @@ namespace TianHua.AutoCAD.ThCui
             if (!ThIdentityService.IsLogged())
             {
                 ThRibbonUtils.CloseAllPanels();
+                ThMenuBarUtils.DisableMenuItems();
             }
         }
 

@@ -48,6 +48,7 @@
     </Compile>
     <Compile Include="ThMenuBar.cs" />
     <Compile Include="ThCommandInfo.cs" />
+    <Compile Include="ThMenuBarUtils.cs" />
     <Compile Include="ThPartialCui.cs" />
     <Compile Include="ThRibbonBar.cs" />
     <Compile Include="ThRibbonHelper.cs" />
