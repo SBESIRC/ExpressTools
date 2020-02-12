@@ -104,7 +104,16 @@ namespace TianHua.AutoCAD.ThCui
             AcadApp.Idle += Application_OnIdle_Menubar;
 
             //注册RibbonPaletteSet事件
-            RibbonServices.RibbonPaletteSet.StateChanged += RibbonPaletteSet_StateChanged;
+            if (RibbonServices.RibbonPaletteSet == null)
+            {
+                // Ribbon未创建
+                RibbonServices.RibbonPaletteSetCreated += RibbonPaletteSetCreated;
+            }
+            else
+            {
+                // Ribbon已创建
+                RibbonServices.RibbonPaletteSet.StateChanged += RibbonPaletteSet_StateChanged;
+            }
 
             //注册DocumentCollection事件
             AcadApp.DocumentManager.DocumentLockModeChanged += DocCollEvent_DocumentLockModeChanged_Handler;
@@ -128,7 +137,18 @@ namespace TianHua.AutoCAD.ThCui
             OverridePreferences(false);
 
             //反注册RibbonPaletteSet事件
-            RibbonServices.RibbonPaletteSet.StateChanged -= RibbonPaletteSet_StateChanged;
+            if (RibbonServices.RibbonPaletteSet == null)
+            {
+                // Ribbon未创建状态
+                // 反注册Ribbon创建事件
+                RibbonServices.RibbonPaletteSetCreated -= RibbonPaletteSetCreated;
+            }
+            else
+            {
+                // Ribbon已创建
+                // 反注册Ribbon状态改变事件
+                RibbonServices.RibbonPaletteSet.StateChanged -= RibbonPaletteSet_StateChanged;
+            }
 
             //反注册DocumentCollection事件
             AcadApp.DocumentManager.DocumentLockModeChanged -= DocCollEvent_DocumentLockModeChanged_Handler;
@@ -188,6 +208,23 @@ namespace TianHua.AutoCAD.ThCui
                     ThMenuBarUtils.DisableMenuItems();
                 }
             }
+        }
+
+        private void Application_OnIdle_RibbonPaletteSet(object sender, EventArgs e)
+        {
+            if (RibbonServices.RibbonPaletteSet != null)
+            {
+                AcadApp.Idle -= Application_OnIdle_RibbonPaletteSet;
+                RibbonServices.RibbonPaletteSet.StateChanged -= RibbonPaletteSet_StateChanged;
+            }
+        }
+
+        private void RibbonPaletteSetCreated(object sender, EventArgs e)
+        {
+            // 通过捕捉Ribbon创建事件，在Ribbon创建完成后监听Ribbon状态改变事件
+            // 在这一刻，Ribbon未必完全创建完毕，这里通过Idle事件故意延后一段时间
+            AcadApp.Idle += Application_OnIdle_RibbonPaletteSet;
+            RibbonServices.RibbonPaletteSetCreated -= RibbonPaletteSetCreated;
         }
 
         private void RibbonPaletteSet_StateChanged(object sender, PaletteSetStateEventArgs e)

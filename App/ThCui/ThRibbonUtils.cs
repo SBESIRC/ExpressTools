@@ -29,6 +29,11 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void OpenAllPanels()
         {
+            if (Tab == null)
+            {
+                return;
+            }
+
             // 登入状态，开启所有面板
             Tab.Panels.ForEach(o => o.IsEnabled = true);
             foreach (var panel in Tab.Panels.Where(o => o.UID == "pnl" + "Help"))
@@ -41,6 +46,11 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void CloseAllPanels()
         {
+            if (Tab == null)
+            {
+                return;
+            }
+
             // 登出状态，关闭所有面板
             Tab.Panels.ForEach(o => o.IsEnabled = false);
             foreach(var panel in Tab.Panels.Where(o => o.UID == "pnl" + "Help"))
@@ -51,16 +61,6 @@ namespace TianHua.AutoCAD.ThCui
                 panel.Source.Items.Where(o => o.Id == "ID_THLOGIN").ForEach(o => o.IsVisible = true);
                 panel.Source.Items.Where(o => o.Id == "ID_THLOGOUT").ForEach(o => o.IsVisible = false);
             }
-        }
-
-        public static void RegisterTabActivated(EventHandler handler)
-        {
-            Tab.Activated += handler;
-        }
-
-        public static void UnRegisterTabActivated(EventHandler handler)
-        {
-            Tab.Activated -= handler;
         }
     }
 }

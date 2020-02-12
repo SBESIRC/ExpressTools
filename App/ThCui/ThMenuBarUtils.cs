@@ -34,27 +34,40 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void EnableMenuItems()
         {
-            foreach(AcadPopupMenuItem item in PopupMenu)
+            var thePopupMenu = PopupMenu;
+            if (thePopupMenu == null)
+            {
+                return;
+            }
+
+            foreach(AcadPopupMenuItem item in thePopupMenu)
             {
                 item.Enable = true;
             }
 
             // 删除登入菜单项
-            var menuItem = PopupMenu.Item(PopupMenu.Count - 1);
-            if (menuItem.TagString == "ID_登陆 <THLOGIN>")
+            int itemCount = thePopupMenu.Count;
+            var menuItem = thePopupMenu.Item(itemCount - 1);
+            if (menuItem.TagString == "ID_登录 <THLOGIN>")
             {
                 menuItem.Delete();
             }
 
             // 添加登出菜单项
-            PopupMenu.AddMenuItem(PopupMenu.Count, 
+            thePopupMenu.AddMenuItem(itemCount,
                 "退出 <THLOGOUT>",
                 "\x001B\x001B\x005F" + ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME + "\x0020");
         }
 
         public static void DisableMenuItems()
         {
-            foreach (AcadPopupMenuItem item in PopupMenu)
+            var thePopupMenu = PopupMenu;
+            if (thePopupMenu == null)
+            {
+                return;
+            }
+
+            foreach (AcadPopupMenuItem item in thePopupMenu)
             {
                 if (item.TagString == "ID_THHLP" || 
                     item.TagString == "ID_THUPT")
@@ -68,15 +81,16 @@ namespace TianHua.AutoCAD.ThCui
             }
 
             // 删除登出菜单项
-            var menuItem = PopupMenu.Item(PopupMenu.Count - 1);
+            int itemCount = thePopupMenu.Count;
+            var menuItem = thePopupMenu.Item(itemCount - 1);
             if (menuItem.TagString == "ID_退出 <THLOGOUT>")
             {
                 menuItem.Delete();
             }
 
             // 添加登入菜单项
-            PopupMenu.AddMenuItem(PopupMenu.Count,
-                "登陆 <THLOGIN>",
+            thePopupMenu.AddMenuItem(itemCount,
+                "登录 <THLOGIN>",
                 "\x001B\x001B\x005F" + ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME + "\x0020");
         }
     }
