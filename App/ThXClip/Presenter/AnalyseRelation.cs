@@ -89,7 +89,7 @@ namespace ThXClip
                     {
                         continue;
                     }
-                    List<DraworderInfo> draworderInfos = new List<DraworderInfo>();                   
+                    List<DraworderInfo> draworderInfos = new List<DraworderInfo>();    
                     List<EntInf> entities= TraverseBlockTableRecord(trans,br,br.BlockTransform,br.ScaleFactors);
                     entities =entities.Where(j => j.Ent!=null && j.Ent.Visible && JudgeEntityInsPointedType(j.Ent)).Select(j => j).ToList();
                     entities.ForEach(j => j.BlockPath.Reverse());
@@ -254,7 +254,11 @@ namespace ThXClip
         {
             Transaction _trans = _document.Database.TransactionManager.TopTransaction;
             XClipInfo xClipInfo = new XClipInfo();
-            if (blockRef != null && blockRef.ExtensionDictionary != ObjectId.Null)
+            if(blockRef==null || blockRef.ExtensionDictionary== ObjectId.Null)
+            {
+                return xClipInfo;
+            }
+            try
             {
                 // The extension dictionary needs to contain a nested
                 // dictionary called ACAD_FILTER
@@ -292,9 +296,9 @@ namespace ThXClip
                                 }
                                 xClipInfo.Pts = pts;
                                 xClipInfo.KeepInternal = false; //等找到设置内、外部的属性后，再修改此值
-                                if(isInverted)
+                                if (isInverted)
                                 {
-                                    xClipInfo.KeepInternal = false; 
+                                    xClipInfo.KeepInternal = false;
                                 }
                                 else
                                 {
@@ -304,6 +308,10 @@ namespace ThXClip
                         }
                     }
                 }
+            }
+            catch(System.Exception ex)
+            {
+                ThXClipUtils.WriteException(ex, "RetrieveXClipBoundary");
             }
             return xClipInfo;
         }
