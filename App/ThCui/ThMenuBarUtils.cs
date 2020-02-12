@@ -38,7 +38,15 @@ namespace TianHua.AutoCAD.ThCui
             {
                 item.Enable = true;
             }
-            // 添加登出菜单
+
+            // 删除登入菜单项
+            var menuItem = PopupMenu.Item(PopupMenu.Count - 1);
+            if (menuItem.TagString == "ID_登陆 <THLOGIN>")
+            {
+                menuItem.Delete();
+            }
+
+            // 添加登出菜单项
             PopupMenu.AddMenuItem(PopupMenu.Count, 
                 "退出 <THLOGOUT>",
                 "\x001B\x001B\x005F" + ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME + "\x0020");
@@ -58,7 +66,15 @@ namespace TianHua.AutoCAD.ThCui
                     item.Enable = false;
                 }
             }
-            // 添加登陆菜单
+
+            // 删除登出菜单项
+            var menuItem = PopupMenu.Item(PopupMenu.Count - 1);
+            if (menuItem.TagString == "ID_退出 <THLOGOUT>")
+            {
+                menuItem.Delete();
+            }
+
+            // 添加登入菜单项
             PopupMenu.AddMenuItem(PopupMenu.Count,
                 "登陆 <THLOGIN>",
                 "\x001B\x001B\x005F" + ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME + "\x0020");
