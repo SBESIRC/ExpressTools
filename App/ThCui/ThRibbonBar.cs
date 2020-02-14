@@ -218,7 +218,7 @@ namespace TianHua.AutoCAD.ThCui
                 RibbonButtonStyle.LargeWithText);
 
             // 暖通用
-            splitButton.AddNewButton("暖通用",
+            splitButton.AddNewButton("处理底图（暖）",
                 "天华暖通用",
                 "THLPM",
                 "处理建筑结构提暖通底图的各图层颜色至相应的色号",
@@ -227,7 +227,7 @@ namespace TianHua.AutoCAD.ThCui
                 RibbonButtonStyle.LargeWithText);
 
             // 电气用
-            splitButton.AddNewButton("电气用",
+            splitButton.AddNewButton("处理底图（电）",
                 "天华电气用",
                 "THLPE",
                 "处理建筑结构提电气底图的各图层颜色至相应的色号",
@@ -236,7 +236,7 @@ namespace TianHua.AutoCAD.ThCui
                 RibbonButtonStyle.LargeWithText);
 
             // 给排水用
-            splitButton.AddNewButton("给排水用",
+            splitButton.AddNewButton("处理底图（水）",
                 "天华给排水用",
                 "THLPP",
                 "处理建筑结构提给排水底图的各图层颜色至相应的色号",
