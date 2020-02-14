@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using ThIdentity.SDK;
+using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -31,6 +27,15 @@ namespace TianHua.AutoCAD.ThCui
         public ThLoginDlg()
         {
             InitializeComponent();
+        }
+
+        private void button_ok_Click(object sender, EventArgs e)
+        {
+            if (!ThIdentityService.Login(User, Password))
+            {
+                AcadApp.ShowAlertDialog("登录失败！请重新登录");
+                DialogResult = DialogResult.None;
+            } 
         }
     }
 }

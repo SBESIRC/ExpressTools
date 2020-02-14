@@ -79,6 +79,7 @@
             this.button_ok.TabIndex = 4;
             this.button_ok.Text = "登录";
             this.button_ok.UseVisualStyleBackColor = true;
+            this.button_ok.Click += new System.EventHandler(this.button_ok_Click);
             // 
             // button_cancel
             // 
@@ -95,9 +96,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(13, 13);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(305, 12);
+            this.label3.Size = new System.Drawing.Size(197, 12);
             this.label3.TabIndex = 6;
-            this.label3.Text = "请使用您的天华专属账号（同电脑登入账号）进行登录：";
+            this.label3.Text = "请使用您的天华内网账号进行登录：";
             // 
             // ThLoginDlg
             // 

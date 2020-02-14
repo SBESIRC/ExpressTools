@@ -563,8 +563,6 @@ namespace TianHua.AutoCAD.ThCui
                 {
                     return;
                 }
-
-                ThIdentityService.Login(dlg.User, dlg.Password);
             }
 
             // 更新Ribbon

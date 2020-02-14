@@ -22,21 +22,28 @@ namespace ThIdentity.SDK
             THRecordingService.SignIn(Properties.Settings.Default.Token);
         }
 
-        // 使用AD域账号和密码登录
-        public static void Login(string user, string password)
+        // 使用天华内网账号和密码登录
+        public static bool Login(string user, string password)
         {
-            if (!IsLogged())
+            // 若已经登录，直接返回
+            if (IsLogged())
             {
-                if (THRecordingService.SignIn(user, password))
-                {
-                    // 开启会话
-                    THRecordingService.SessionBegin();
-
-                    // 保存口令
-                    Properties.Settings.Default.Token = THRecordingService.m_ToKen;
-                    Properties.Settings.Default.Save();
-                }
+                return true;
             }
+
+            if (!THRecordingService.SignIn(user, password))
+            {
+                return false;
+            }
+
+            // 开启会话
+            THRecordingService.SessionBegin();
+
+            // 保存口令
+            Properties.Settings.Default.Token = THRecordingService.m_ToKen;
+            Properties.Settings.Default.Save();
+
+            return true;
         }
 
         public static void Logout()
