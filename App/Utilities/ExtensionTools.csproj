@@ -132,13 +132,27 @@
     <Compile Include="AcHelper\Wrappers\WriteEnablerException.cs" />
     <Compile Include="AcHelper\Wrappers\XRecordHandler.cs" />
     <Compile Include="AcHelper\Wrappers\XRecordHandlerException.cs" />
+    <Compile Include="AutoCADCommands\Algorithms.cs" />
+    <Compile Include="AutoCADCommands\App.cs" />
+    <Compile Include="AutoCADCommands\Commands.cs" />
+    <Compile Include="AutoCADCommands\DbHelper.cs" />
+    <Compile Include="AutoCADCommands\FlexDataStore.cs" />
+    <Compile Include="AutoCADCommands\Interaction.cs" />
+    <Compile Include="AutoCADCommands\Internal\CustomDictionary.cs" />
+    <Compile Include="AutoCADCommands\Internal\JigDrag.cs" />
+    <Compile Include="AutoCADCommands\Layouts.cs" />
+    <Compile Include="AutoCADCommands\QuickSelection.cs" />
+    <Compile Include="AutoCADCommands\SymbolPack.cs" />
+    <Compile Include="AutoCADCommands\Tuples.cs" />
     <Compile Include="BlockTool.cs" />
     <Compile Include="CompareTool.cs" />
     <Compile Include="COMTool.cs" />
+    <Compile Include="ThCUITools.cs" />
     <Compile Include="JiHe.cs" />
     <Compile Include="LinqTool.cs" />
     <Compile Include="NullableParser.cs" />
     <Compile Include="ObjectIDTool.cs" />
+    <Compile Include="ThAppTools.cs" />
     <Compile Include="ThBlockReferenceExtensions.cs" />
     <Compile Include="ThEditorExtension.cs" />
     <Compile Include="ThPickTool.cs" />
@@ -207,6 +221,7 @@
       <Name>DotNetARX</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
       <ItemGroup>

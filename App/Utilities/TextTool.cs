@@ -57,7 +57,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         // 文字包围框
         //  https://adndevblog.typepad.com/autocad/2013/10/mirroring-a-dbtext-entity.html
         public static void GetTextBoxCorners(
-            DBText dbText,
+            this DBText dbText,
             out Point3d pt1,
             out Point3d pt2,
             out Point3d pt3,

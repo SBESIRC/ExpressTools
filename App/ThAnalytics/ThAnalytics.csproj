@@ -30,6 +30,7 @@
     <Compile Include="ThADPServices.cs" />
     <Compile Include="ThAnalyticsApp.cs" />
     <Compile Include="ThCountlyServices.cs" />
+    <Compile Include="ThCybrosService.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
@@ -59,7 +60,7 @@
     </When>
   </Choose>
   <ItemGroup>
-    <PackageReference Include="Countly" Version="19.2.1" />
+    <PackageReference Include="Countly" Version="19.8.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThIdentity\ThIdentity.csproj">

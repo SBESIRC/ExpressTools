@@ -57,23 +57,6 @@
  ;(rem (+ n3 n4)
 )
 
-;**********获取系统文件夹路径*************
-(DEFUN lgm_GETPATH (/ *SHELL FOLDER PATH FITLE PARENT)
-  (setq *SHELL (vlax-create-object "Shell.Application"))
-  (setq folder (vlax-invoke *SHELL 'BrowseForFolder  0 "我的电脑" 63 0))
-  (IF FOLDER
-          (if (setq file (vlax-invoke (vlax-invoke folder 'items) 'item 0))
-            (strcat (vl-filename-directory (vlax-get file 'path)) "\\")
-           (progn
-            (setq file (vlax-invoke (vlax-invoke folder 'items) 'item))
-                   (setq title (vlax-get folder 'title))
-                  (setq path (strcat title "\\"))
-                  (strcat (vl-filename-directory (vlax-get file 'path)) "\\" PATH)
-            )
-          )
-  )
-)
-
 (DEFUN lgm_GETOBVALUE(ENT_N)    ;获取文字内容
       (VLA-GET-TEXTSTRING (VLAX-ENAME->VLA-OBJECT (SSNAME ENT_N 0)))
 )
@@ -116,7 +99,7 @@
     (vla-put-PlotWithPlotStyles        layout_ob    :vlax-true)
     (vla-SetCustomScale         layout_ob     1 plot_sc)    
     ;(VLA-PUT-StandardScale LAYOUT_OB acVpScaleToFit)
-    (VLA-PLOTTOFILE (VLA-GET-PLOT (VLA-GET-ACTIVEDOCUMENT (VLAX-GET-ACAD-OBJECT))) pdf_name)
+    (vla-PlotToFile (vla-get-Plot (vla-get-ActiveDocument (vlax-get-acad-object))) pdf_name)
 )
 
 (DEFUN lgm_RO_POINT(ANG_12 PT1 PT2)    ;点旋转
@@ -522,7 +505,7 @@
     )
   )
   (SETQ SAVWPATH NIL)
-  (SETQ SAVEPATH    (lgm_GETPATH))
+  (SETQ SAVEPATH    (lgm_GETPATH nil nil))
   (IF (= SAVEPATH NILE)
     (PROGN 
         (PRINC "\n★★★零人※制作.打印取消.★★★")
@@ -595,7 +578,7 @@
   (PRINC "\n请拾取需要打印的图框:")
   (SETQ     SS_TUKUANG    (SSGET '((2 . "*_THAPE_*,*目录*"))))
   (SETQ SAVEPATH NIL)
-  (SETQ SAVEPATH    (lgm_GETPATH))
+  (SETQ SAVEPATH    (lgm_GETPATH nil nil))
   (IF (= SAVEPATH NIL)
     (PROGN 
         (PRINC "\n★★★零人※制作.打印取消.★★★")

@@ -10,6 +10,16 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         // Tolerance.Global默认值：new Tolerance(1e-10, 1e-12)
         public static Tolerance Global_Tolerance = new Tolerance(1e-4, 1e-4);
 
+        // CUIX 
+        public static readonly string CuixFile = "ThCAD.cuix";
+        public static readonly string CuixResDll = "ThCAD.dll";
+        public static readonly string CuixMenuGroup = "ThCAD";
+
+        // Ribbon
+        public static readonly string RibbonTabName = "ThRibbonBar";
+        public static readonly string RibbonTabTitle = "天华效率工具";
+        public static readonly string OnlineHelpUrl = @"http://info.thape.com.cn/AI/thcad/help.html";
+
         // RegAppName
         public static readonly string RegAppName = "THCAD";
 

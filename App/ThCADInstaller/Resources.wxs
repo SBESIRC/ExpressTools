@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <?include Variable.wxi ?>
-    <Fragment>
-        <DirectoryRef Id="DIR_Autoloader_Contents_Resources">
-            <Component Id="CMP_Autoloader_PackageContents_Resources_App_Icon" Guid="{DCB364F3-9936-41DF-B045-FA8E811B772E}" Win64="yes">
-                <File Id="FILE_Autoloader_PackageContents_Resources_App_Icon" Source="$(var.AutoloaderContentsPath)\Resources\THLOGO.ico" KeyPath="yes" />
-            </Component>
-            <Component Id="CMP_Autoloader_PackageContents_Resources_Menubar_Cuix" Guid="{2A6D1D2C-D279-423F-A019-B28DB77615FC}" Win64="yes">
-              <File Id="FILE_Autoloader_PackageContents_Resources_Menubar_Cuix" Source="$(var.AutoloaderContentsPath)\Resources\ThMenubar.cuix" KeyPath="yes" />
-            </Component>
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <ComponentGroup Id="ProductComponentsResources">
-            <ComponentRef Id="CMP_Autoloader_PackageContents_Resources_App_Icon" />
-            <ComponentRef Id="CMP_Autoloader_PackageContents_Resources_Menubar_Cuix" />
-        </ComponentGroup>
-    </Fragment>
+  <?include Variable.wxi ?>
+  <Fragment>
+    <DirectoryRef Id="DIR_Autoloader_Contents_Resources">
+      <Component Id="CMP_Autoloader_PackageContents_Resources_Dll" Guid="{952C6E73-80CB-4556-A7C9-3ABE5CFDDA8D}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Resources_Dll" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_Resources_Light_Dll" Guid="{3812A36D-3631-4C29-B160-D911A4DA622E}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Resources__light_Dll" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD_light.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_Resources_Cuix" Guid="{967E6172-659C-47EA-83B2-E69B24ED4F18}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Resources_Cuix" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD.cuix" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_Resources_App_Icon" Guid="{DCB364F3-9936-41DF-B045-FA8E811B772E}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Resources_App_Icon" Source="$(var.AutoloaderContentsPath)\Resources\THLOGO.ico" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="ProductComponentsResources">
+      <ComponentRef Id="CMP_Autoloader_PackageContents_Resources_Dll" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_Resources_Light_Dll" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_Resources_Cuix" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_Resources_App_Icon" />
+    </ComponentGroup>
+  </Fragment>
 </Wix>

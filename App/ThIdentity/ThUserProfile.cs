@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Text;
 using System.DirectoryServices;
 using System.Net.NetworkInformation;
-using System.Text;
-using Oracle.ManagedDataAccess.Client;
 
 namespace ThIdentity
 {
-    public class ThUserProfile
+    public class ThUserProfile : IThUserProfile
     {
         private PropertyCollection properties;
 
@@ -84,6 +83,11 @@ namespace ThIdentity
             properties = Collectionproperty(name, domain);
         }
 
+        public void Dispose()
+        {
+            properties = null;
+        }
+
         private PropertyCollection Collectionproperty(string name, string domain)
         {
             try
@@ -122,97 +126,6 @@ namespace ThIdentity
             {
                 return null;
             }
-        }
-    }
-
-    public class ThUserProfileEx
-    {
-        public string Name;
-        public string Title;
-        public string Company;
-        public string Department;
-        public string Mail;
-        public string Accountname;
-
-        //oracle 相关信息
-        private const string oracleinformation = "User Id=NC63_AI;" +
-            "Password=NC63_AI;" +
-            "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=172.16.0.8)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME= thapeorcl)))";
-        private OracleConnection connection;
-
-        public ThUserProfileEx()
-        {
-            try
-            {
-                var userprofilefromlocal = new ThUserProfile();
-                connection = Connection(oracleinformation);
-                //查询
-                Select("select * from v_person_onjob where EMAIL = '" + userprofilefromlocal.Mail + "'");
-            }
-            catch
-            {
-                Name = null;
-                Title = null;
-                Company = null;
-                Department = null;
-                Mail = null;
-                Accountname = null;
-            }
-            finally
-            {
-                if (connection.State != System.Data.ConnectionState.Closed)
-                {
-                    connection.Close();
-                }
-            }
-        }
-
-        public OracleConnection Connection(string oracleStr)
-        {
-            try
-            {
-                connection = new OracleConnection(oracleinformation);
-                connection.Open();
-                return connection;
-            }
-            catch
-            {
-                return connection;
-            }
-        }
-
-        public void Select(string sql)
-        {
-            try
-            {
-                OracleCommand cmd = new OracleCommand(sql, connection);
-                using (var datareader = cmd.ExecuteReader())
-                {
-                    while (datareader.Read())
-                    {
-                        Accountname = datareader["PNCODE"].ToString();
-                        Name = datareader["NAME"].ToString();
-                        Mail = datareader["EMAIL"].ToString();
-                        Company = datareader["CORPNAME"].ToString();
-                        Department = datareader["DEPTNAME"].ToString();
-                        Title = datareader["POSTNAME"].ToString();
-                    }
-                }
-            }
-            catch
-            {
-                Name = null;
-                Title = null;
-                Company = null;
-                Department = null;
-                Mail = null;
-                Accountname = null;
-            }
-        }
-
-        public bool IsDomainUser()
-        {
-            return (Mail != null);
         }
     }
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variable.wxi ?>
+  <Fragment>
+    <?if $(var.Configuration) = Debug ?>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18_Language">
+      <?define OutputPath_R18_Debug="bin\Debug" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Debug" Guid="{749DB047-7F28-465E-A786-2418C89A82C8}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\$(var.LanuageIdentifier)\NetSparkle.resources.dll" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19_Language">
+      <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Debug" Guid="{64750C2D-B1F7-43C6-B269-521D653B02FE}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\$(var.LanuageIdentifier)\NetSparkle.resources.dll" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20_Language">
+      <?define OutputPath_R20_Debug="bin\Debug-NET45" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Language_NetSparkle_Debug" Guid="{648ecda1-767c-4200-a448-903aaa8f33fd}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_Language_NetSparkle_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\$(var.LanuageIdentifier)\NetSparkle.resources.dll" />
+      </Component>
+    </DirectoryRef>
+    <?elseif $(var.Configuration) = Release ?>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18_Language">
+      <?define OutputPath_R18_Release="bin\Release" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Release" Guid="{9AF97F21-056A-4473-BF35-EF1851A987DA}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.LanuageIdentifier)\NetSparkle.resources.dll" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19_Language">
+      <?define OutputPath_R19_Release="bin\Release-NET40" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Release" Guid="{64750C2D-B1F7-43C6-B269-521D653B02FE}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\$(var.LanuageIdentifier)\NetSparkle.resources.dll" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20_Language">
+      <?define OutputPath_R20_Release="bin\Release-NET45" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Language_NetSparkle_Release" Guid="{ee66d02a-c8fe-481d-868d-eec8b7b4f63a}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_Language_NetSparkle_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\$(var.LanuageIdentifier)\NetSparkle.resources.dll" />
+      </Component>
+    </DirectoryRef>
+    <?endif?>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="ProductComponentsAppLanguage">
+      <?if $(var.Configuration) = Debug ?>
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Language_NetSparkle_Debug" />
+      <?elseif $(var.Configuration) = Release ?>
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Language_NetSparkle_Release" />
+      <?endif?>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

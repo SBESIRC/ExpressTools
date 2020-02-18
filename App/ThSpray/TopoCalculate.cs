@@ -201,7 +201,7 @@ namespace ThSpray
         {
             var search = new TopoSearch(curves, pt);
             var tmpEdgeLoops = search.TransFormProfileLoops(search.m_srcLoops);
-            return search.ConvertTopoEdges2Curves(tmpEdgeLoops);
+            return search.ConvertTopoEdges2Curve(tmpEdgeLoops);
         }
 
         public static Curve MoveTransform(Curve srcCurve, Vector2d vec)
@@ -502,6 +502,7 @@ namespace ThSpray
         public XY leftBottomPoint; // 左边界
         public XY rightTopPoint;   // 右边界
 
+        // 原始edges
         public List<TopoEdge> TopoEdges
         {
             get;
@@ -513,6 +514,26 @@ namespace ThSpray
             get;
             set;
         } = true;
+
+        // 离散后的edges
+        public List<TopoEdge> TesslateEdges
+        {
+            get;
+            set;
+        } = null;
+
+        public Point3d ProfileInnerPoint
+        {
+            get;
+            set;
+        } = Point3d.Origin;
+
+        // 当前轮廓真实面积
+        public double ProfileArea
+        {
+            get;
+            set;
+        } = 0;
     }
 
     public class CalcuContainPointProfile
@@ -945,6 +966,63 @@ namespace ThSpray
     }
 
     /// <summary>
+    /// 计算内部点
+    /// </summary>
+    class CalInnerPoint
+    {
+        public Point3d InnerPt;
+        private List<TopoEdge> loop;
+        public CalInnerPoint(List<TopoEdge> topoEdges)
+        {
+            loop = topoEdges;
+        }
+
+        private void Do()
+        {
+            if (CommonUtils.CalcuLoopArea(loop) > 0)
+            {
+                for (int i = 0; i < loop.Count; i++)
+                {
+
+                    var curEdge = loop[i];
+                    var curDir = curEdge.End - curEdge.Start;
+                    var nextEdge = loop[(i + 1) / loop.Count];
+                    var nextDir = nextEdge.End - nextEdge.Start;
+                    var cross = curDir.X * nextDir.Y - curDir.Y * nextDir.X;
+                    if (cross > 0)
+                    {
+                        InnerPt = new Point3d((curEdge.Start.X + curEdge.End.X + nextEdge.End.X) / 3, (curEdge.Start.Y + curEdge.End.Y + nextEdge.End.Y) / 3, 0);
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < loop.Count; i++)
+                {
+                    var curEdge = loop[i];
+                    var curDir = curEdge.End - curEdge.Start;
+                    var nextEdge = loop[(i + 1) % loop.Count];
+                    var nextDir = nextEdge.End - nextEdge.Start;
+                    var cross = curDir.X * nextDir.Y - curDir.Y * nextDir.X;
+                    if (cross < 0)
+                    {
+                        InnerPt = new Point3d((curEdge.Start.X + curEdge.End.X + nextEdge.End.X) / 3, (curEdge.Start.Y + curEdge.End.Y + nextEdge.End.Y) / 3, 0);
+                        return;
+                    }
+                }
+            }
+        }
+
+        public static Point3d MakeInnerPoint(List<TopoEdge> loop)
+        {
+            var cal = new CalInnerPoint(loop);
+            cal.Do();
+           return cal.InnerPt;
+        }
+    }
+
+    /// <summary>
     /// topo imp
     /// </summary>
     class TopoCalculate
@@ -979,7 +1057,11 @@ namespace ThSpray
         private TopoCalculate(List<Curve> SrcCurves)
         {
             m_curves = SrcCurves;
+            //Utils.DrawProfile(m_curves, "src");
             var curves = ScatterCurves.MakeNewCurves(m_curves);
+
+            //Utils.DrawProfile(curves, "scatter");
+            //return;
             Calculate(curves);
         }
 
@@ -1041,8 +1123,8 @@ namespace ThSpray
             }
 
             m_ProfileLoop = TopoSearch.RemoveDuplicate(m_ProfileLoop);
-            //CalculateBound();
-            //PostProcessLoop();
+            CalculateBound();
+            PostProcessLoop();
         }
 
         private void CalculateBound()
@@ -1110,14 +1192,35 @@ namespace ThSpray
                     if (!IntersectValid(curProfile, nextProfile))
                         continue;
 
-                    var resEdges = CommonUtils.ConvertEdges(nextProfile.TopoEdges);
-                    if (CommonUtils.OutLoopContainInnerLoop(curProfile.TopoEdges, resEdges))
+                    if (nextProfile.TesslateEdges == null)
+                        nextProfile.TesslateEdges = CommonUtils.ConvertEdges(nextProfile.TopoEdges);
+                    if (nextProfile.ProfileInnerPoint == Point3d.Origin)
+                        nextProfile.ProfileInnerPoint = CalInnerPoint.MakeInnerPoint(nextProfile.TesslateEdges);
+                    if (OutProfileContainInnerProfile(curProfile, nextProfile))
                     {
                         curProfile.IsValid = false;
                         break;
                     }
                 }
             }
+        }
+
+        private bool OutProfileContainInnerProfile(Profile outterProfile, Profile innerProfile)
+        {
+            if (CommonUtils.PtInLoop(outterProfile.TopoEdges, innerProfile.ProfileInnerPoint))
+            {
+                // 计算内外面积
+                if (outterProfile.ProfileArea < 10)
+                    outterProfile.ProfileArea = Math.Abs(CommonUtils.CalcuLoopArea(outterProfile.TopoEdges));
+
+                if (innerProfile.ProfileArea < 10)
+                    innerProfile.ProfileArea = Math.Abs(CommonUtils.CalcuLoopArea(innerProfile.TopoEdges));
+
+                if (outterProfile.ProfileArea > innerProfile.ProfileArea)
+                    return true;
+            }
+            
+            return false;
         }
 
         private bool IntersectValid(Profile profileFir, Profile profileSec)
@@ -1534,6 +1637,44 @@ namespace ThSpray
                 if (m_rightTop.Y < ptLst[i].Y)
                     m_rightTop.Y = ptLst[i].Y;
             }
+        }
+
+        /// <summary>
+        /// 计算BoundCurves的边界
+        /// </summary>
+        /// <returns></returns>
+        public List<Line> CalcuBoundCurves()
+        {
+            var lines = new List<Line>();
+            lines.Add(CalculateLeftEdge());
+            lines.Add(CalculateBottomEdge());
+            lines.Add(CalculateRightEdge());
+            lines.Add(CalculateTopEdge());
+            return lines;
+        }
+
+        public Line CalculateLeftEdge()
+        {
+            var line = new Line(new Point3d(m_leftBottom.X, m_leftBottom.Y, 0), new Point3d(m_leftBottom.X, m_rightTop.Y, 0));
+            return line;
+        }
+
+        public Line CalculateBottomEdge()
+        {
+            var line = new Line(new Point3d(m_leftBottom.X, m_leftBottom.Y, 0), new Point3d(m_rightTop.X, m_leftBottom.Y, 0));
+            return line;
+        }
+
+        public Line CalculateRightEdge()
+        {
+            var line = new Line(new Point3d(m_rightTop.X, m_leftBottom.Y, 0), new Point3d(m_rightTop.X, m_rightTop.Y, 0));
+            return line;
+        }
+
+        public Line CalculateTopEdge()
+        {
+            var line = new Line(new Point3d(m_rightTop.X, m_rightTop.Y, 0), new Point3d(m_leftBottom.X, m_rightTop.Y, 0));
+            return line;
         }
 
         /// <summary>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variable.wxi ?>
+  <Fragment>
+    <?if $(var.Configuration) = Debug ?>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18">
+      <?define OutputPath_R18_Debug="bin\Debug" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Debug" Guid="{F23887CA-62B5-4E12-98D2-9C305CC124C0}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NetOffice_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\NetOffice.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_OfficeApi_Debug" Guid="{E9AD2E8B-F195-4D43-A2F4-C82BC4D3ADD1}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_OfficeApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\OfficeApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PowerPointApi_Debug" Guid="{AD0B92FD-73E6-4004-83BC-887D60D89BDA}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_PowerPointApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\PowerPointApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_VBIDEApi_Debug" Guid="{495CBD9D-D9C9-4841-B571-F11C34578A21}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_VBIDEApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\VBIDEApi.dll" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
+      <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NetOffice_Debug" Guid="{760F1E68-6FE3-4438-BA61-F19051ACCF3C}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_NetOffice_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\NetOffice.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_OfficeApi_Debug" Guid="{EF9E56C1-3EF0-43A5-8FF2-9EE3AD2DE7F9}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_OfficeApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\OfficeApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PowerPointApi_Debug" Guid="{464C20AA-C6D4-4AAB-A5CB-8293936E231A}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_PowerPointApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\PowerPointApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_VBIDEApi_Debug" Guid="{CEB342C2-301A-4828-84E1-C2907B447413}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_VBIDEApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\VBIDEApi.dll" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
+      <?define OutputPath_R20_Debug="bin\Debug-NET45" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_NetOffice_Debug" Guid="{e3ed5cf1-89a3-429e-b7b2-a97d7a4c25c4}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_NetOffice_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\NetOffice.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_OfficeApi_Debug" Guid="{35bd7049-b07d-41f6-95dd-7d7e7c16cca0}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_OfficeApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\OfficeApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_PowerPointApi_Debug" Guid="{443e01ed-f830-4dd5-90d1-c751fd3398f1}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_PowerPointApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\PowerPointApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_VBIDEApi_Debug" Guid="{ad4f43b2-8ba4-4c30-9f10-7d63ade0c974}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_VBIDEApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\VBIDEApi.dll" />
+      </Component>
+    </DirectoryRef>
+    <?elseif $(var.Configuration) = Release ?>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18">
+      <?define OutputPath_R18_Release="bin\Release" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Release" Guid="{15FA6E7C-646F-4078-AC0A-F767C0E6C80F}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NetOffice_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\NetOffice.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_OfficeApi_Release" Guid="{E61F94A1-C9B4-4F8C-8694-B4400A2C9104}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_OfficeApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\OfficeApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PowerPointApi_Release" Guid="{90B81318-27D3-4E75-8482-BFDDD64B4D2F}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_PowerPointApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\PowerPointApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_VBIDEApi_Release" Guid="{ADAF0843-9FB3-4F48-B3D6-D8FDBA44041F}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_VBIDEApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\VBIDEApi.dll" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
+      <?define OutputPath_R19_Release="bin\Release-NET40" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NetOffice_Release" Guid="{6122DF94-5847-404F-9785-BC1A193E32A3}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_NetOffice_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\NetOffice.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_OfficeApi_Release" Guid="{9B0419E1-D72A-4744-9B03-883E2B31EF36}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_OfficeApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\OfficeApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PowerPointApi_Release" Guid="{82C74B29-4459-4422-B28C-ED6F347BD4B0}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_PowerPointApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\PowerPointApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_VBIDEApi_Release" Guid="{F5A0FAD1-CCA6-4C0F-BCBD-B9F3F7F7BC28}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_VBIDEApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\VBIDEApi.dll" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
+      <?define OutputPath_R20_Release="bin\Release-NET45" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_NetOffice_Release" Guid="{0c46b184-4115-4c88-abe6-f38e8cd5a7be}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_NetOffice_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\NetOffice.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_OfficeApi_Release" Guid="{dcd94e55-6ee9-4b87-9496-0523045267e1}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_OfficeApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\OfficeApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_PowerPointApi_Release" Guid="{f6ef905c-1e6e-45d9-84bc-a337729c8221}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_PowerPointApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\PowerPointApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_VBIDEApi_Release" Guid="{03954082-419d-4199-826b-d8cdfdb53b26}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_VBIDEApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\VBIDEApi.dll" />
+      </Component>
+    </DirectoryRef>
+    <?endif?>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="ProductComponentsOffice">
+      <?if $(var.Configuration) = Debug ?>
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_OfficeApi_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PowerPointApi_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_VBIDEApi_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NetOffice_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_OfficeApi_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PowerPointApi_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_VBIDEApi_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NetOffice_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_OfficeApi_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PowerPointApi_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_VBIDEApi_Debug" />
+      <?elseif $(var.Configuration) = Release ?>
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_OfficeApi_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PowerPointApi_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_VBIDEApi_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NetOffice_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_OfficeApi_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PowerPointApi_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_VBIDEApi_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NetOffice_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_OfficeApi_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PowerPointApi_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_VBIDEApi_Release" />
+      <?endif?>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

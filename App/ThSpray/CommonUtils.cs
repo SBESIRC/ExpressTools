@@ -1,5 +1,6 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using DotNetARX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -213,6 +214,25 @@ namespace ThSpray
             return lines;
         }
     }
+
+    // 喷淋放置的一些参数
+    public enum SprayType
+    {
+        SPRAYUP = 0,
+        SPRAYDOWN = 1,
+    }
+
+    public class PlaceData
+    {
+        public double minSprayGap;
+        public double maxSprayGap;
+        public double minWallGap;
+        public double maxWallGap;
+        public double minBeamGap;
+        public double maxBeamGap;
+        public SprayType type;
+    }
+
     public class CommonUtils
     {
         public const int HashMapCount = 234;
@@ -238,6 +258,140 @@ namespace ThSpray
                 return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// 数据打撒成直线段
+        /// </summary>
+        /// <param name="curves"></param>
+        /// <returns></returns>
+        public static List<LineSegment2d> TesslateCurve2Lines(Curve curve)
+        {
+            var lines = new List<LineSegment2d>();
+            if (curve is Line)
+            {
+                var line = curve as Line;
+                var ptS = line.StartPoint;
+                var ptE = line.EndPoint;
+                var lineSegment2d = new LineSegment2d(new Point2d(ptS.X, ptS.Y), new Point2d(ptE.X, ptE.Y));
+                lines.Add(lineSegment2d);
+            }
+            else if (curve is Arc)
+            {
+                var arc = curve as Arc;
+                var polyline = arc.Spline.ToPolyline();
+                var lineNodes = Polyline2dLines(polyline as Polyline);
+                if (lineNodes != null)
+                    lines.AddRange(lineNodes);
+            }
+            else if (curve is Circle)
+            {
+                var circle = curve as Circle;
+                var spline = circle.Spline;
+                var polyline = spline.ToPolyline();
+                var lineNodes = Polyline2dLines(polyline as Polyline);
+                if (lineNodes != null)
+                    lines.AddRange(lineNodes);
+            }
+            else if (curve is Ellipse)
+            {
+                var ellipse = curve as Ellipse;
+                var polyline = ellipse.Spline.ToPolyline();
+                var lineNodes = Polyline2dLines(polyline as Polyline);
+                if (lineNodes != null)
+                    lines.AddRange(lineNodes);
+            }
+            else if (curve is Polyline)
+            {
+                var lineNodes = Polyline2dLines(curve as Polyline);
+                if (lineNodes != null)
+                    lines.AddRange(lineNodes);
+            }
+            else if (curve is Spline)
+            {
+                var polyline = (curve as Spline).ToPolyline();
+                if (polyline is Polyline)
+                {
+                    var lineNodes = Polyline2dLines(polyline as Polyline);
+                    if (lineNodes != null)
+                        lines.AddRange(lineNodes);
+                }
+            }
+
+            return lines;
+        }
+
+
+        public static List<LineSegment2d> Polyline2dLines(Polyline polyline)
+        {
+            if (polyline == null)
+                return null;
+
+            var lines = new List<LineSegment2d>();
+            if (polyline.Closed)
+            {
+                for (int i = 0; i < polyline.NumberOfVertices; i++)
+                {
+                    var bulge = polyline.GetBulgeAt(i);
+                    if (CommonUtils.IsAlmostNearZero(bulge))
+                    {
+                        var line2d = polyline.GetLineSegment2dAt(i);
+                        lines.Add(line2d);
+                    }
+                    else
+                    {
+                        var type = polyline.GetSegmentType(i);
+                        if (type == SegmentType.Arc)
+                        {
+                            var arc3d = polyline.GetArcSegmentAt(i);
+                            var normal = arc3d.Normal;
+                            var axisZ = Vector3d.ZAxis;
+                            var arc = new Arc();
+                            if (normal.IsEqualTo(Vector3d.ZAxis.Negate()))
+                                arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
+                            else
+                                arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
+                            var pline = arc.Spline.ToPolyline();
+                            var lineNodes = Polyline2dLines(pline as Polyline);
+                            if (lineNodes != null)
+                                lines.AddRange(lineNodes);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int j = 0; j < polyline.NumberOfVertices - 1; j++)
+                {
+                    var bulge = polyline.GetBulgeAt(j);
+                    if (CommonUtils.IsAlmostNearZero(bulge))
+                    {
+                        var line2d = polyline.GetLineSegment2dAt(j);
+                        lines.Add(line2d);
+                    }
+                    else
+                    {
+                        var type = polyline.GetSegmentType(j);
+                        if (type == SegmentType.Arc)
+                        {
+                            var arc3d = polyline.GetArcSegmentAt(j);
+                            var normal = arc3d.Normal;
+                            var axisZ = Vector3d.ZAxis;
+                            var arc = new Arc();
+                            if (normal.IsEqualTo(Vector3d.ZAxis.Negate()))
+                                arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
+                            else
+                                arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
+                            var pline = arc.Spline.ToPolyline();
+                            var lineNodes = Polyline2dLines(pline as Polyline);
+                            if (lineNodes != null)
+                                lines.AddRange(lineNodes);
+                        }
+                    }
+                }
+            }
+
+            return lines;
         }
 
         public static Arc CreateArc(Point3d startPoint, Point3d centerPoint, Point3d endPoint, double radius)
@@ -343,10 +497,6 @@ namespace ThSpray
                 else
                 {
                     var arc = edge.SrcCurve as Arc;
-                    var startPoint = arc.StartPoint;
-                    var endPoint = arc.EndPoint;
-                    var center = arc.Center;
-                    var radius = arc.Radius;
                     var midPoint = arc.GetPointAtParameter((arc.StartParam + arc.EndParam) * 0.5);
                     var topoEdge1 = new TopoEdge(edge.Start, midPoint, null);
                     var topoEdge2 = new TopoEdge(midPoint, edge.End, null);
@@ -588,6 +738,12 @@ namespace ThSpray
             return true;
         }
 
+        /// <summary>
+        /// 外轮廓包含内轮廓
+        /// </summary>
+        /// <param name="outerprofile"></param>
+        /// <param name="innerProfile"></param>
+        /// <returns></returns>
         public static bool OutLoopContainInnerLoop(List<TopoEdge> outerprofile, List<TopoEdge> innerProfile)
         {
             int pointInCount = 0;
@@ -617,6 +773,41 @@ namespace ThSpray
                 return true;
             else
                 return false;
+        }
+
+        public static bool OutLoopContainInnerLoop2(List<TopoEdge> outerprofile, List<TopoEdge> innerProfile)
+        {
+            int pointInCount = 0;
+            foreach (var edge in innerProfile)
+            {
+                var pt = edge.Start;
+                bool IsEdgePoint = false;
+
+                foreach (var outerEdge in outerprofile)
+                {
+                    if (CommonUtils.IsPointOnSegment(pt, outerEdge))
+                    {
+                        pointInCount++;
+                        IsEdgePoint = true;
+                        break;
+                    }
+                }
+
+                if (IsEdgePoint == false)
+                {
+                    if (PtInLoop(outerprofile, pt))
+                        return true;
+                }
+            }
+
+            if (pointInCount == innerProfile.Count)
+            {
+                var innerPt = CalInnerPoint.MakeInnerPoint(innerProfile);
+                if (PtInLoop(outerprofile, innerPt))
+                    return true;
+            }
+
+            return false;
         }
 
         public static bool PtInLoop(List<TopoEdge> loop, Point3d pt)
@@ -887,22 +1078,39 @@ namespace ThSpray
 
             if (CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 0.5) || CommonUtils.IsAlmostNearZero(line.Angle - Math.PI * 1.5))
             {
-                var y1 = Math.Abs(pt.Y - startPt.Y);
-                var y2 = Math.Abs(pt.Y - endPt.Y);
-                if (CommonUtils.IsAlmostNearZero((y1 + y2 - line.Length), tole))
-                    return true;
+                if (CommonUtils.IsAlmostNearZero(pt.X - startPt.X, tole))
+                {
+                    var y1 = Math.Abs(pt.Y - startPt.Y);
+                    var y2 = Math.Abs(pt.Y - endPt.Y);
+                    if (CommonUtils.IsAlmostNearZero((y1 + y2 - line.Length), tole))
+                        return true;
+                }
+            }
+            else if (CommonUtils.IsAlmostNearZero(line.Angle) || CommonUtils.IsAlmostNearZero(line.Angle - Math.PI))
+            {
+                if (CommonUtils.IsAlmostNearZero(pt.Y - startPt.Y, tole))
+                {
+                    var X1 = Math.Abs(pt.X - startPt.X);
+                    var X2 = Math.Abs(pt.X - endPt.X);
+                    if (CommonUtils.IsAlmostNearZero((X1 + X2 - line.Length), tole))
+                        return true;
+                }
             }
             else
             {
                 // 非垂直
-                var y1 = Math.Abs(pt.Y - startPt.Y);
-                var y2 = Math.Abs(pt.Y - endPt.Y);
-                var vertical = Math.Abs(endPt.Y - startPt.Y) - (y1 + y2);
-                var x1 = Math.Abs(pt.X - startPt.X);
-                var x2 = Math.Abs(pt.X - endPt.X);
-                var horizontal = Math.Abs(endPt.X - startPt.X) - (x1 + x2);
-                if (CommonUtils.IsAlmostNearZero(vertical, tole) && CommonUtils.IsAlmostNearZero(horizontal, tole))
+                var maxx = Math.Max(startPt.X, endPt.X);
+                var minX = Math.Min(startPt.X, endPt.X);
+
+                var maxY = Math.Max(startPt.Y, endPt.Y);
+                var minY = Math.Min(startPt.Y, endPt.Y);
+
+                if (((pt.X - startPt.X) * (endPt.Y - startPt.Y) == (endPt.X - startPt.X) * (pt.Y - startPt.Y))
+                    && (pt.X >= minX && pt.X <= maxx) && (pt.Y >= minY && pt.Y <= minY))
+                {
                     return true;
+                }
+
             }
 
             return false;
@@ -927,12 +1135,12 @@ namespace ThSpray
             if (edge.IsLine)
             {
                 var line = edge.SrcCurve as Line;
-                return CommonUtils.IsPointOnLine(point, line, tole);
+                return CommonUtils.IsPointOnLine(point, line, 1e-3);
             }
             else
             {
                 var arc = edge.SrcCurve as Arc;
-                return CommonUtils.IsPointOnArc(point, arc, tole);
+                return CommonUtils.IsPointOnArc(point, arc, 1e-3);
             }
         }
 

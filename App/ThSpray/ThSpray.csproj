@@ -17,6 +17,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -25,6 +27,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonUtils.cs" />
+    <Compile Include="SprayParam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SprayParam.Designer.cs">
+      <DependentUpon>SprayParam.cs</DependentUpon>
+    </Compile>
     <Compile Include="ThSprayApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TopoCalculate.cs" />
@@ -40,6 +48,11 @@
       <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
       <Name>ExtensionTools</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SprayParam.resx">
+      <DependentUpon>SprayParam.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">

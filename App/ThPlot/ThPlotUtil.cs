@@ -12,8 +12,9 @@ using NetOffice.OfficeApi.Enums;
 using NetOffice.PowerPointApi.Enums;
 using static ThPlot.ThPlotData;
 using Linq2Acad;
-using PdfiumLight;
+using PdfiumViewer;
 using DotNetARX;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThPlot
 {
@@ -28,46 +29,44 @@ namespace ThPlot
         public static void PlotWithWindowWithSelfPlot(Extents2d window, string outputFilePath, string printStyle)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            { 
-                object backgroundPlot = Application.GetSystemVariable("BACKGROUNDPLOT");
-                Application.SetSystemVariable("BACKGROUNDPLOT", 0);
-
-                // 获取当前文档中设置的布局方式
-                Layout layoutObj = acadDatabase.Layouts.Element(LayoutManager.Current.CurrentLayout);
-
-                // 使用预定义的PlotSetting
-                PlotSettings plotSetting = new PlotSettings(layoutObj.ModelType);
-                plotSetting.CopyFrom(layoutObj);
-
-                // 获取当前打印设置验证类
-                PlotSettingsValidator psv = PlotSettingsValidator.Current;
-                var plotDevices = psv.GetPlotDeviceList();
-                // 更新打印设备、图纸尺寸和打印样式表信息
-                psv.SetPlotConfigurationName(plotSetting, "DWG To PDF.pc3", "ISO_full_bleed_A2_(420.00_x_594.00_MM)");
-                psv.RefreshLists(plotSetting);
-                psv.SetCurrentStyleSheet(plotSetting, printStyle);
-
-                // 自定义打印信息
-                // 设置打印窗口等信息
-                psv.SetPlotWindowArea(plotSetting, window);
-                psv.SetPlotType(plotSetting, Autodesk.AutoCAD.DatabaseServices.PlotType.Window);
-                // 打印比例-布满图纸
-                psv.SetUseStandardScale(plotSetting, true);
-                psv.SetStdScaleType(plotSetting, StdScaleType.ScaleToFit);
-                // 图形方向（默认是横向）
-                psv.SetPlotRotation(plotSetting, PlotRotation.Degrees000);
-                if (HorizontalPrint(window))
-                    psv.SetPlotRotation(plotSetting, PlotRotation.Degrees090);
-                // 打印偏移-居中打印
-                psv.SetPlotCentered(plotSetting, true);
-
-                // 开始打印
-                using (var plotEngine = PlotFactory.CreatePublishEngine())
+            {
+                using (new ThAppTools.ManagedSystemVariable("BACKGROUNDPLOT", 0))
                 {
-                    plotEngine.Plot(layoutObj, plotSetting, outputFilePath, 1, false, false, true);
-                }
+                    // 获取当前文档中设置的布局方式
+                    Layout layoutObj = acadDatabase.Layouts.Element(LayoutManager.Current.CurrentLayout);
 
-                Application.SetSystemVariable("BACKGROUNDPLOT", backgroundPlot);
+                    // 使用预定义的PlotSetting
+                    PlotSettings plotSetting = new PlotSettings(layoutObj.ModelType);
+                    plotSetting.CopyFrom(layoutObj);
+
+                    // 获取当前打印设置验证类
+                    PlotSettingsValidator psv = PlotSettingsValidator.Current;
+                    var plotDevices = psv.GetPlotDeviceList();
+                    // 更新打印设备、图纸尺寸和打印样式表信息
+                    psv.SetPlotConfigurationName(plotSetting, "DWG To PDF.pc3", "ISO_full_bleed_A2_(420.00_x_594.00_MM)");
+                    psv.RefreshLists(plotSetting);
+                    psv.SetCurrentStyleSheet(plotSetting, printStyle);
+
+                    // 自定义打印信息
+                    // 设置打印窗口等信息
+                    psv.SetPlotWindowArea(plotSetting, window);
+                    psv.SetPlotType(plotSetting, Autodesk.AutoCAD.DatabaseServices.PlotType.Window);
+                    // 打印比例-布满图纸
+                    psv.SetUseStandardScale(plotSetting, true);
+                    psv.SetStdScaleType(plotSetting, StdScaleType.ScaleToFit);
+                    // 图形方向（默认是横向）
+                    psv.SetPlotRotation(plotSetting, PlotRotation.Degrees000);
+                    if (HorizontalPrint(window))
+                        psv.SetPlotRotation(plotSetting, PlotRotation.Degrees090);
+                    // 打印偏移-居中打印
+                    psv.SetPlotCentered(plotSetting, true);
+
+                    // 开始打印
+                    using (var plotEngine = PlotFactory.CreatePublishEngine())
+                    {
+                        plotEngine.Plot(layoutObj, plotSetting, outputFilePath, 1, false, false, true);
+                    }
+                }
             }
         }
 
@@ -112,23 +111,20 @@ namespace ThPlot
         /// <param name="quality"></param>
         public static void DrawPdfToPng(string inputPdfPath, string outpdfPath, UserSelectData.ImageQuality quality)
         {
-            using (PdfDocument document = new PdfDocument(inputPdfPath))
+            using (PdfDocument document = PdfDocument.Load(inputPdfPath))
             {
-                // Load the first page
-                PdfPage page = document.GetPage(0);
-
                 System.Drawing.Image image = null;
                 if (quality == UserSelectData.ImageQuality.IMAGELOWER)
                 {
-                    image = page.Render(100, 100, 300, 300, PdfRotation.Rotate0, PdfRenderFlags.None);
+                    image = document.Render(0, 300, 300, PdfRenderFlags.None);
                 }
                 else if (quality == UserSelectData.ImageQuality.IMAGEMEDIUM)
                 {
-                    image = page.Render(100, 100, 500, 500, PdfRotation.Rotate0, PdfRenderFlags.None);
+                    image = document.Render(0, 500, 500, PdfRenderFlags.None);
                 }
                 else if (quality == UserSelectData.ImageQuality.IMAGEHIGHER)
                 {
-                    image = page.Render(100, 100, 700, 700, PdfRotation.Rotate0, PdfRenderFlags.None);
+                    image = document.Render(0, 700, 700, PdfRenderFlags.None);
                 }
 
                 if (image != null)

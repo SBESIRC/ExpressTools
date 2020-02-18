@@ -37,11 +37,23 @@
     <Compile Include="Download\ThT20PlugInDownloadDlg.Designer.cs">
       <DependentUpon>ThT20PlugInDownloadDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="RibbonCommandHandler.cs" />
     <Compile Include="ThCuiApp.cs" />
+    <Compile Include="ThCuiCmdHandler.cs" />
+    <Compile Include="ThCuiCommon.cs" />
+    <Compile Include="ThLoginDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThLoginDlg.designer.cs">
+      <DependentUpon>ThLoginDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="ThMenuBar.cs" />
     <Compile Include="ThCommandInfo.cs" />
+    <Compile Include="ThMenuBarUtils.cs" />
+    <Compile Include="ThPartialCui.cs" />
+    <Compile Include="ThRibbonBar.cs" />
     <Compile Include="ThRibbonHelper.cs" />
+    <Compile Include="ThRibbonUtils.cs" />
+    <Compile Include="ThToolBar.cs" />
     <Compile Include="ThToolPalette.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -49,9 +61,11 @@
       <DependentUpon>ThToolPalette.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThRibbons.cs" />
     <EmbeddedResource Include="Download\ThT20PlugInDownloadDlg.resx">
       <DependentUpon>ThT20PlugInDownloadDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThLoginDlg.resx">
+      <DependentUpon>ThLoginDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ThToolPalette.resx">
       <DependentUpon>ThToolPalette.cs</DependentUpon>
@@ -66,6 +80,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -81,119 +96,14 @@
       <Project>{5ddfcada-bea4-402c-b3e4-5c7f83c2f09e}</Project>
       <Name>DotNetARX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ThLicense\ThLicense.csproj">
-      <Project>{c08dacf5-31ac-43cd-b170-9f9f9d4a7b13}</Project>
-      <Name>ThLicense</Name>
+    <ProjectReference Include="..\ThIdentity\ThIdentity.csproj">
+      <Project>{f089c903-64d4-4620-9d68-81cad9ed3e44}</Project>
+      <Name>ThIdentity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
       <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
       <Name>ExtensionTools</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THHLP.png" />
-    <Resource Include="Images\tianhua.png" />
-    <Resource Include="Images\tip_chewei.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="ThRibbonDictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THELC.png" />
-    <Resource Include="Images\THSLC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\TH_Tucenggongju.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THZ0.ico" />
-    <Resource Include="Images\TH_Tucenggongju.ico" />
-    <Resource Include="Images\THALC.ico" />
-    <Resource Include="Images\THMLC.ico" />
-    <Resource Include="Images\THELC.ico" />
-    <Resource Include="Images\THSLC.ico" />
-    <Resource Include="Images\THPLC.ico" />
-    <Resource Include="Images\THDTA.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THLOGIN.png" />
-    <Resource Include="Images\THLOGOUT.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THBEE.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\TH_JianZhuDiTu.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THLPM.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THLPE.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THLPP.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\TH_NuanTongTuCeng.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THMON.ico" />
-    <Resource Include="Images\THMOF.ico" />
-    <Resource Include="Images\THUKA.ico" />
-    <Resource Include="Images\THMUK.ico" />
-    <Resource Include="Images\THMLK.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THBAC.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\DGNPURGE.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THBPS.ico" />
-    <Resource Include="Images\THCSP.ico" />
-    <Resource Include="Images\THTET.ico" />
-    <Resource Include="Images\THLDC.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THBPT.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THUPT.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THBPD.ico" />
-    <Resource Include="Images\THBPP.ico" />
-    <Resource Include="Images\THSPS.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THABC.ico" />
-    <Resource Include="Images\THFET.ico" />
-    <Resource Include="Images\THSVM.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\T20V4.0.ico" />
-    <Resource Include="Images\T20V5.0.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\BLOCKSPLIT.ico" />
-    <Resource Include="Images\THBBS.ico" />
-    <Resource Include="Images\THLTR.ico" />
-    <Resource Include="Images\THMIR.ico" />
-    <Resource Include="Images\TZLOOK.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\THBBE.ico" />
-    <Resource Include="Images\THBBR.ico" />
-    <Resource Include="Images\THBLI.ico" />
-    <Resource Include="Images\THBLS.ico" />
-    <Resource Include="Images\THCNU.ico" />
-    <Resource Include="Images\THMSC.ico" />
-    <Resource Include="Images\THMTC.ico" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">

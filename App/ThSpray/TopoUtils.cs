@@ -24,6 +24,13 @@ namespace ThSpray
             return profiles;
         }
 
+        public static List<Curve> MakeSrcProfilesNoTes(List<Curve> curves)
+        {
+            var tmpCurves = CommonUtils.RemoveCollinearLines(curves);
+            var profiles = TopoSearch.MakeSrcProfileLoops(tmpCurves);
+            return profiles;
+        }
+
         public static List<Curve> MakeProfileFromPoint(List<Curve> srcCurves, Point3d pt)
         {
             var profileCalcu = new CalcuContainPointProfile(srcCurves, pt);
@@ -247,7 +254,7 @@ namespace ThSpray
             if (polyline == null)
                 return null;
 
-            var lines = new List<Curve>();
+            var curves = new List<Curve>();
             if (polyline.Closed)
             {
                 for (int i = 0; i < polyline.NumberOfVertices; i++)
@@ -256,7 +263,7 @@ namespace ThSpray
                     if (CommonUtils.IsAlmostNearZero(bulge))
                     {
                         LineSegment3d line3d = polyline.GetLineSegmentAt(i);
-                        lines.Add(new Line(line3d.StartPoint, line3d.EndPoint));
+                        curves.Add(new Line(line3d.StartPoint, line3d.EndPoint));
                     }
                     else
                     {
@@ -271,7 +278,7 @@ namespace ThSpray
                                 arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
                             else
                                 arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
-                            lines.Add(arc);
+                            curves.Add(arc);
                         }
                     }
                 }
@@ -286,7 +293,7 @@ namespace ThSpray
                         if (CommonUtils.IsAlmostNearZero(bulge))
                         {
                             LineSegment3d line3d = polyline.GetLineSegmentAt(j);
-                            lines.Add(new Line(line3d.StartPoint, line3d.EndPoint));
+                            curves.Add(new Line(line3d.StartPoint, line3d.EndPoint));
                         }
                         else
                         {
@@ -301,7 +308,7 @@ namespace ThSpray
                                     arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
                                 else
                                     arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
-                                lines.Add(arc);
+                                curves.Add(arc);
                             }
                         }
                     }
@@ -310,7 +317,7 @@ namespace ThSpray
                 }
             }
 
-            return lines;
+            return curves;
         }
 
         /// <summary>

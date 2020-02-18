@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variable.wxi ?>
+  <Fragment>
+    <?if $(var.Configuration) = Debug ?>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18">
+      <?define OutputPath_R18_Debug="bin\Debug" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Debug" Guid="{DC617FC6-718C-42BE-8702-DA28E2FCFE2E}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\PdfiumViewer.dll" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
+      <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Debug" Guid="{8D8ABACD-B6EC-4789-BEDE-2522FA7E0B76}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\PdfiumViewer.dll" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
+      <?define OutputPath_R20_Debug="bin\Debug-NET45" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Debug" Guid="{DDF50C79-3EAD-4933-8A5E-B1CB49953D20}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\PdfiumViewer.dll" />
+      </Component>
+    </DirectoryRef>
+    <?elseif $(var.Configuration) = Release ?>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18">
+      <?define OutputPath_R18_Release="bin\Release" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Release" Guid="{4DD66C4F-4434-4485-AE54-1193BCB6D971}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\PdfiumViewer.dll" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
+      <?define OutputPath_R19_Release="bin\Release-NET40" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Release" Guid="{01E3CD30-2384-4CD3-A907-955F108CA7D3}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\PdfiumViewer.dll" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
+      <?define OutputPath_R20_Release="bin\Release-NET45" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Release" Guid="{5F3BBFC6-7060-433A-AFAD-C11DB90963C5}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\PdfiumViewer.dll" />
+      </Component>
+    </DirectoryRef>
+    <?endif?>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="ProductComponentsAppExternal">
+      <?if $(var.Configuration) = Debug ?>
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Debug" />
+      <?elseif $(var.Configuration) = Release ?>
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Release" />
+      <?endif?>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

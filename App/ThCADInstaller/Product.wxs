@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix
-    xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <!-- Include wxi files -->
     <?include Variable.wxi ?>
     <!-- Codepage 936 for Simplified Chinese characters -->
@@ -15,6 +14,11 @@
             <ComponentGroupRef Id="ProductComponentsStandards" />
             <ComponentGroupRef Id="ProductComponentsToolpalette" />
             <ComponentGroupRef Id="ProductComponentsAppWin64" />
+            <ComponentGroupRef Id="ProductComponentsAppNative64" />
+            <ComponentGroupRef Id="ProductComponentsAppExternal" />
+            <ComponentGroupRef Id="ProductComponentsAppLanguage" />
+            <ComponentGroupRef Id="ProductComponentsDevExpress" />
+            <ComponentGroupRef Id="ProductComponentsOffice" />
             <ComponentGroupRef Id="ProductComponentsResources" />
             <ComponentGroupRef Id="ProductComponentsPlotters" />
         </Feature>
@@ -28,9 +32,23 @@
                     <Directory Id="ApplicationPlugins" Name="ApplicationPlugins">
                         <Directory Id="INSTALLFOLDER" Name="ThCADPlugin.bundle">
                             <Directory Id="DIR_Autoloader_Contents" Name="Contents">
-                                <Directory Id="DIR_Autoloader_Contents_App_Win64" Name="Win64" />
-                                <Directory Id="DIR_Autoloader_Contents_Support" Name="Support" >
-                                    <Directory Id="DIR_Autoloader_Contents_Support_ToolPalette" Name="ToolPalette" /></Directory>
+                                <Directory Id="DIR_Autoloader_Contents_App_Win64" Name="Win64">
+                                    <Directory Id="DIR_Autoloader_Contents_App_Win64_R18" Name="2012">
+                                        <Directory Id="DIR_Autoloader_Contents_App_Win64_R18_Native" Name="x64" />
+                                        <Directory Id="DIR_Autoloader_Contents_App_Win64_R18_Language" Name="zh-CN" />
+                                    </Directory>
+                                    <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2014">
+                                        <Directory Id="DIR_Autoloader_Contents_App_Win64_R19_Native" Name="x64" />
+                                        <Directory Id="DIR_Autoloader_Contents_App_Win64_R19_Language" Name="zh-CN" />
+                                    </Directory>
+                                    <Directory Id="DIR_Autoloader_Contents_App_Win64_R20" Name="2016">
+                                        <Directory Id="DIR_Autoloader_Contents_App_Win64_R20_Native" Name="x64" />
+                                        <Directory Id="DIR_Autoloader_Contents_App_Win64_R20_Language" Name="zh-CN" />
+                                    </Directory>
+                                </Directory>
+                                <Directory Id="DIR_Autoloader_Contents_Support" Name="Support">
+                                    <Directory Id="DIR_Autoloader_Contents_Support_ToolPalette" Name="ToolPalette" />
+                                </Directory>
                                 <Directory Id="DIR_Autoloader_Contents_Resources" Name="Resources" />
                                 <Directory Id="DIR_Autoloader_Contents_Standards" Name="Standards">
                                     <Directory Id="DIR_Autoloader_Contents_Standards_Layer" Name="Layer" />
@@ -41,11 +59,11 @@
                                     <Directory Id="DIR_Autoloader_Contents_Plotters_PlotStyles" Name="Plot Styles" />
                                 </Directory>
                             </Directory>
-                            </Directory>
                         </Directory>
                     </Directory>
                 </Directory>
             </Directory>
+        </Directory>
     </Fragment>
     <Fragment>
         <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">

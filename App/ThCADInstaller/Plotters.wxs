@@ -3,34 +3,178 @@
   <?include Variable.wxi ?>
   <Fragment>
     <DirectoryRef Id="DIR_Autoloader_Contents_Plotters">
-      <Component Id="CMP_Autoloader_PackageContents_Plotters_DWG2PDF_2019" Guid="{762DE362-607C-4E47-BAE4-27E62838BDC2}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Plotters_DWG2PDF_2019" Source="$(var.AutoloaderContentsPath)\Plotters\DWG To PDF 2019.pc3" KeyPath="yes" />
+      <Component Id="CMP_Autoloader_PackageContents_DWF" Guid="{751930FB-AF3C-4794-B39B-6292ED8013FC}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_DWF" Source="$(var.AutoloaderContentsPath)\Plotters\DWF6 ePlot.pc3" KeyPath="yes" />
       </Component>
-      <Component Id="CMP_Autoloader_PackageContents_Plotters_DWG2DWF_2019" Guid="{9B8F7E92-584E-4E45-A553-9ACED26F145B}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Plotters_DWG2DWF_2019" Source="$(var.AutoloaderContentsPath)\Plotters\DWF6 ePlot 2019.pc3" KeyPath="yes" />
+      <Component Id="CMP_Autoloader_PackageContents_PDF_08_13" Guid="{BC31680D-A238-42EE-88B1-408A55BAA74E}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PDF_08_13" Source="$(var.AutoloaderContentsPath)\Plotters\DWG To PDF 08-13.pc3" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PDF_10_13" Guid="{75DF97B2-12E6-4BD1-95B0-CDF7526CFF33}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PDF_10_13" Source="$(var.AutoloaderContentsPath)\Plotters\DWG To PDF 10-13.pc3" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PDF_2008" Guid="{5DDE0AD3-38F7-45C3-A03C-8ECA019B16A1}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PDF_2008" Source="$(var.AutoloaderContentsPath)\Plotters\DWG To PDF 2008.pc3" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PDF_2010" Guid="{138AA649-F2DA-4F2B-A5D0-12AD5AB5C3FF}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PDF_2010" Source="$(var.AutoloaderContentsPath)\Plotters\DWG To PDF 2010.pc3" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PDF_2012" Guid="{61E5D0BD-36EE-4178-9E10-057E9C72BF3A}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PDF_2012" Source="$(var.AutoloaderContentsPath)\Plotters\DWG To PDF 2012.pc3" KeyPath="yes" />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_Plotters_PMPFiles">
-      <Component Id="CMP_Autoloader_PackageContents_Plotters_PMPFiles_DWG2PDF_2019" Guid="{4E7EC5F4-B771-4247-B297-3777D3FEF4FD}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Plotters_PMPFiles_DWG2PDF_2019" Source="$(var.AutoloaderContentsPath)\Plotters\PMP Files\DWG To PDF 2019.pmp" KeyPath="yes" />
+      <Component Id="CMP_Autoloader_PackageContents_PMPFiles_DWF" Guid="{2E6BA8AD-0C63-49AE-9ABE-DD412ABB2961}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PMPFiles_DWF" Source="$(var.AutoloaderContentsPath)\Plotters\PMP Files\DWF6 ePlot.pmp" KeyPath="yes" />
       </Component>
-      <Component Id="CMP_Autoloader_PackageContents_Plotters_PMPFiles_DWG2DWF_2019" Guid="{AD0F811B-1E4B-4530-805C-2E5E68DDE968}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Plotters_PMPFiles_DWG2DWF_2019" Source="$(var.AutoloaderContentsPath)\Plotters\PMP Files\DWF6 ePlot 2019.pmp" KeyPath="yes" />
+      <Component Id="CMP_Autoloader_PackageContents_PMPFiles_PDF_08_13" Guid="{C2DCC5C0-7306-489E-B250-2FB856CD8240}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PMPFiles_PDF_08_13" Source="$(var.AutoloaderContentsPath)\Plotters\PMP Files\DWG To PDF 10-13.pmp" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PMPFiles_PDF_2008" Guid="{A216D818-0683-4674-80DE-66AFDE3B1B41}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PMPFiles_PDF_2008" Source="$(var.AutoloaderContentsPath)\Plotters\PMP Files\DWG To PDF 2008.pmp" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PMPFiles_PDF_2010" Guid="{14A4A6F3-0539-456A-BEEB-6E04E24FFE5B}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PMPFiles_PDF_2010" Source="$(var.AutoloaderContentsPath)\Plotters\PMP Files\DWG To PDF 2010.pmp" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PMPFiles_PDF_2012" Guid="{7016A911-4D41-4CBC-86F6-59EC7C0D1544}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PMPFiles_PDF_2012" Source="$(var.AutoloaderContentsPath)\Plotters\PMP Files\DWG To PDF 2012.pmp" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PMPFiles_PDF_2014" Guid="{B7E27766-15CF-4D5D-89BF-791C12CCBB64}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PMPFiles_PDF_2014" Source="$(var.AutoloaderContentsPath)\Plotters\PMP Files\DWG To PDF 2014.pmp" KeyPath="yes" />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_Plotters_PlotStyles">
-      <Component Id="CMP_Autoloader_PackageContents_Plotters_PlotStyles_HPLOTTER" Guid="{BC524B9D-F925-4225-AFE5-9E8F823F424E}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Plotters_PlotStyles_HPLOTTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\H-PLOTTER.ctb" KeyPath="yes" />
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_A_PLOTTER" Guid="{18B54EA9-4C61-446C-8A3D-6DF6168FCB99}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_A_PLOTTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\A-PLOTTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_A_PRINTER" Guid="{8D063CF5-E724-4FD4-BB5F-5C19A7082AAA}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_A_PRINTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\A-PRINTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_E_PLOTTER" Guid="{CE897E58-9326-4B7A-AC03-DDBFD6F5927A}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_E_PLOTTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\E-PLOTTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_E_PLOTTER_2A" Guid="{7DF9BFB8-5A2C-4CED-A874-405A3890465C}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_E_PLOTTER_2A" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\E-PLOTTER2A.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_E_PRINTER" Guid="{806A1B6A-EA83-4C88-8EFF-912E9D138CDA}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_E_PRINTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\E-PRINTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_F_PLOTTER" Guid="{54D88C71-C958-4C76-972F-941C34D75526}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_F_PLOTTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\F-PLOTTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_H_PLOTTER" Guid="{89D08B68-3B48-4CD2-B976-0829F572638C}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_H_PLOTTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\H-PLOTTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_H_PRINTER" Guid="{BF5445F1-881A-43DE-8F49-ECD626A9553E}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_H_PRINTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\H-PRINTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_I_PLOTTER" Guid="{1B5B5999-352E-4264-A82A-E07524277B94}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_I_PLOTTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\I-PLOTTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_I_PRINTER" Guid="{77C4B3F4-4C26-435C-BAAD-B769FC9626A2}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_I_PRINTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\I-PRINTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0" Guid="{F71732ED-B583-41BC-887A-4E9F4F11E660}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\P-PLOTTER v1.0.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0_pipeBLACK" Guid="{DBCF007E-56DF-4F8F-A5C0-14CE53125C93}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0_pipeBLACK" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\P-PLOTTER v1.0-pipeBLACK.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0_pipeCOLOR" Guid="{2B3B285B-C6C3-47EA-87E2-AD1D3630816A}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0_pipeCOLOR" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\P-PLOTTER v1.0-pipeCOLOR.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0_plan500" Guid="{C866AB40-8C67-415F-9E5D-3DC49836D896}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0_plan500" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\P-PLOTTER v1.0-plan500.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0_plan1000" Guid="{51101333-5376-419F-82E7-F39A25EA5E45}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0_plan1000" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\P-PLOTTER v1.0-plan1000.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_P_PLOTTER" Guid="{CB2A1DCF-D146-4A5E-9D91-1F8C9C1BC36E}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_P_PLOTTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\P-PLOTTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_S_PLOTTER" Guid="{336BF2ED-4257-4C6A-9F42-E4C72BEA1D57}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_S_PLOTTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\S-PLOTTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_S_PLOTTER_2011" Guid="{276AA020-21D7-49A6-AF4C-B95382D56C7B}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_S_PLOTTER_2011" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\S-PLOTTER-2011.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_S_PRINTER" Guid="{C9416B12-A349-41A4-A818-4D4308F819FE}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_S_PRINTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\S-PRINTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_S_PRINTER_2011" Guid="{B1DE29C2-5167-4069-98F7-9A78E704D0B7}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_S_PRINTER_2011" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\S-PRINTER-2011.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_W_PLOTTER" Guid="{E398C877-0B36-4A9F-B7F8-B58270253657}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_W_PLOTTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\W-PLOTTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_W_PRINTER" Guid="{E88890FA-EA35-4DC4-A3DC-20D84D81310C}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_W_PRINTER" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\W-PRINTER.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_THAPE_FLOOR" Guid="{123FD5B9-3404-49DA-BE15-97F67EDB9729}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_THAPE_FLOOR" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\THAPE(平面)-硬质打印线宽.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_THAPE_GENERAL" Guid="{98CD24DE-29BC-4FC2-AECE-4E1AA7FF0362}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_THAPE_GENERAL" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\THAPE(详图)-硬质打印线宽.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_CHUANGSHENG" Guid="{ADD50F57-DD5C-4F67-8E2A-F2C971E8E25F}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_CHUANGSHENG" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\创晟(统一打印版本).ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_Shrub" Guid="{A07C7BAE-80D0-4833-81A6-23B407A51F9F}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_Shrub" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\灌木打印.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_Tree" Guid="{AA1B5500-0ACA-4629-BF62-4EF54D6ED4AB}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_Tree" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\乔木打印.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_Tree_Shrub" Guid="{5EB87A93-39FE-49F3-9DF6-3BAD43E618F7}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_Tree_Shrub" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\乔灌木打印.ctb" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_Area" Guid="{5515A6F4-46FF-41CB-B639-51D2C8F4BC8A}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_Area" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\面积计算.ctb" KeyPath="yes" />
       </Component>
     </DirectoryRef>
   </Fragment>
   <Fragment>
     <ComponentGroup Id="ProductComponentsPlotters">
-      <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_DWG2PDF_2019" />
-      <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_DWG2DWF_2019" />
-      <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_PMPFiles_DWG2PDF_2019" />
-      <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_PMPFiles_DWG2DWF_2019" />
-      <ComponentRef Id="CMP_Autoloader_PackageContents_Plotters_PlotStyles_HPLOTTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_DWF" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PDF_08_13" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PDF_10_13" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PDF_2008" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PDF_2010" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PDF_2012" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PMPFiles_DWF" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PMPFiles_PDF_08_13" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PMPFiles_PDF_2008" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PMPFiles_PDF_2010" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PMPFiles_PDF_2012" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PMPFiles_PDF_2014" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_A_PLOTTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_A_PRINTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_E_PLOTTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_E_PLOTTER_2A" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_E_PRINTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_F_PLOTTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_H_PLOTTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_H_PRINTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_I_PLOTTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_I_PRINTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0_pipeBLACK" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0_pipeCOLOR" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0_plan500" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_P_PLOTTER_v1_0_plan1000" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_P_PLOTTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_S_PLOTTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_S_PLOTTER_2011" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_S_PRINTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_S_PRINTER_2011" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_W_PLOTTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_W_PRINTER" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_THAPE_FLOOR" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_THAPE_GENERAL" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_CHUANGSHENG" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_Shrub" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_Tree" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_Tree_Shrub" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_Area" />
     </ComponentGroup>
   </Fragment>
 </Wix>

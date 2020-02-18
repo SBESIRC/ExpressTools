@@ -30,15 +30,22 @@ Task Requires.Dotfuscator {
     }
 }
 
-# Release build for AutoCAD R18
+# $buildType build for AutoCAD R18
 Task Compile.Assembly.R18 -Depends Requires.MSBuild {
     exec {
-            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\TianHuaCADApp.sln" /p:Configuration=$buildType /t:restore
-            & $msbuildExe /verbosity:minimal /property:OutDir=..\build\bin\$buildType\,IntermediateOutputPath=..\build\obj\$buildType\ ".\TianHuaCADApp.sln" /p:Configuration=$buildType /t:rebuild
+            & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCADApp.sln" /p:Configuration=$buildType /t:restore
+            & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCADApp.sln" /p:Configuration=$buildType /t:rebuild
     }
 }
 
-Task Dotfuscator.Assembly.R18 -Depends Requires.Dotfuscator, Compile.Assembly.R18 {
+Task Compile.Resource.R18 -Depends Requires.MSBuild {
+    exec {
+            & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\Dark\",IntermediateOutputPath="..\build\obj\$buildType\Dark\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
+            & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\Light\",IntermediateOutputPath="..\build\obj\$buildType\Light\" ".\ThCuiRes\ThCuiRes_light.vcxproj" /t:rebuild
+    }
+}
+
+Task Dotfuscator.Assembly.R18 -Depends Requires.Dotfuscator, Compile.Assembly.R18, Compile.Resource.R18 {
 	if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
 		exec {
 			& $dotfuscatorCli ".\dotfuscator_config_${buildType}.xml"
@@ -54,7 +61,14 @@ Task Compile.Assembly.R19 -Depends Requires.MSBuild {
     }
 }
 
-Task Dotfuscator.Assembly.R19 -Depends Requires.Dotfuscator, Compile.Assembly.R19 {
+Task Compile.Resource.R19 -Depends Requires.MSBuild {
+    exec {
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\Dark\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\Dark\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\Light\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\Light\" ".\ThCuiRes\ThCuiRes_light.vcxproj" /t:rebuild
+    }
+}
+
+Task Dotfuscator.Assembly.R19 -Depends Requires.Dotfuscator, Compile.Assembly.R19, Compile.Resource.R19 {
 	if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
 		exec {
 			& $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET40.xml"
@@ -70,7 +84,14 @@ Task Compile.Assembly.R20 -Depends Requires.MSBuild {
     }
 }
 
-Task Dotfuscator.Assembly.R20 -Depends Requires.Dotfuscator, Compile.Assembly.R20 {
+Task Compile.Resource.R20 -Depends Requires.MSBuild {
+    exec {
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\Dark\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\Dark\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\Light\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\Light\" ".\ThCuiRes\ThCuiRes_light.vcxproj" /t:rebuild
+    }
+}
+
+Task Dotfuscator.Assembly.R20 -Depends Requires.Dotfuscator, Compile.Assembly.R20, Compile.Resource.R20 {
 	if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
 		exec {
 			& $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET45.xml"

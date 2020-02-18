@@ -15,9 +15,6 @@
   </PropertyGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
-    <Reference Include="PdfiumLight">
-      <HintPath>..\ThirdPartyLibs\PdfiumLight\0.0.4\Debug\PdfiumLight.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -79,6 +76,9 @@
     </When>
   </Choose>
   <ItemGroup>
+    <PackageReference Include="PdfiumViewer" Version="2.13.0" />
+    <PackageReference Include="PdfiumViewer.Native.x86.v8-xfa" Version="2018.4.8.256" />
+    <PackageReference Include="PdfiumViewer.Native.x86_64.v8-xfa" Version="2018.4.8.256" />
     <PackageReference Include="NetOffice.PowerPoint.Net40" Version="1.7.4.4" />
   </ItemGroup>
   <ItemGroup>
@@ -111,7 +111,4 @@
     <None Include="Resources\pick_object.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy $(ProjectDir)\..\ThirdPartyLibs\PdfiumLight\0.0.4\Debug\x64 $(TargetDir) /S /I /Y</PostBuildEvent>
-  </PropertyGroup>
 </Project>

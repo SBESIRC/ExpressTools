@@ -62,8 +62,8 @@
     </When>
   </Choose>
   <ItemGroup>
-    <PackageReference Include="NetSparkle.New" Version="0.18.0" />
-    <PackageReference Include="NetSparkle.New.Tools" Version="0.18.0" />
+    <PackageReference Include="NetSparkle.New" Version="0.19.0" />
+    <PackageReference Include="NetSparkle.New.Tools" Version="0.19.0" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NetSparkle_DSA.pub">
