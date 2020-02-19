@@ -148,6 +148,8 @@ namespace ThSpray
                         return;
                     }
 
+                    //
+
                     var pickPoint = ppr.Value;
                     if ((ppr.Status == PromptStatus.OK) || ppr.Status == PromptStatus.Keyword)
                     {
