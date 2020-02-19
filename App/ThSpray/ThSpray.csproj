@@ -27,6 +27,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonUtils.cs" />
+    <Compile Include="ProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProgressDialog.Designer.cs">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="SprayParam.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -50,6 +56,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ProgressDialog.resx">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SprayParam.resx">
       <DependentUpon>SprayParam.cs</DependentUpon>
     </EmbeddedResource>

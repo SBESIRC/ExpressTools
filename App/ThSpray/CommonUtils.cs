@@ -222,6 +222,14 @@ namespace ThSpray
         SPRAYDOWN = 1,
     }
 
+    // 点选，选线，布线
+    public enum PutType
+    {
+        PICKPOINT = 0,
+        CHOOSECURVE = 1,
+        DRAWCURVE = 2,
+    }
+
     public class PlaceData
     {
         public double minSprayGap;
@@ -231,6 +239,7 @@ namespace ThSpray
         public double minBeamGap;
         public double maxBeamGap;
         public SprayType type;
+        public PutType putType;
     }
 
     public class CommonUtils
@@ -409,6 +418,21 @@ namespace ThSpray
             var arc = new Arc(centerPoint, normal, radius, startVector.Angle, endVector.Angle);
             return arc;
         }
+
+        public static bool PtInPolylines(List<Polyline> polylines, Point3d pt)
+        {
+            if (polylines == null || polylines.Count == 0)
+                return false;
+            var point2d = new Point2d(pt.X, pt.Y);
+            foreach (var poly in polylines)
+            {
+                if (PtInLoop(poly, point2d))
+                    return true;
+            }
+
+            return false;
+        }
+
         public static bool PtInLoop(List<LineSegment2d> loop, Point2d pt)
         {
             Point2d end = new Point2d(pt.X + 100000000000, pt.Y);
@@ -419,6 +443,93 @@ namespace ThSpray
             {
                 LineSegment2d line = new LineSegment2d(edge.StartPoint, edge.EndPoint);
                 var intersectPts = line.IntersectWith(intersectLine);
+                if (intersectPts != null && intersectPts.Count() == 1)
+                {
+                    var nPt = intersectPts.First();
+                    bool bInLst = false;
+                    foreach (var curpt in ptLst)
+                    {
+                        if (CommonUtils.Point2dIsEqualPoint2d(nPt, curpt))
+                        {
+                            bInLst = true;
+                            break;
+                        }
+                    }
+
+                    if (!bInLst)
+                        ptLst.Add(nPt);
+                }
+
+            }
+
+            if (ptLst.Count % 2 == 1)
+                return true;
+            else
+                return false;
+        }
+
+        public static bool PtInLoop(Polyline polyline, Point2d pt)
+        {
+            if (polyline.Closed == false)
+                return false;
+
+            Point2d end = new Point2d(pt.X + 100000000000, pt.Y);
+            LineSegment2d intersectLine = new LineSegment2d(pt, end);
+            var ptLst = new List<Point2d>();
+
+            var curves = new List<Curve>();
+            for (int i = 0; i < polyline.NumberOfVertices; i++)
+            {
+                var bulge = polyline.GetBulgeAt(i);
+                if (CommonUtils.IsAlmostNearZero(bulge))
+                {
+                    LineSegment3d line3d = polyline.GetLineSegmentAt(i);
+                    curves.Add(new Line(line3d.StartPoint, line3d.EndPoint));
+                }
+                else
+                {
+                    var type = polyline.GetSegmentType(i);
+                    if (type == SegmentType.Arc)
+                    {
+                        var arc3d = polyline.GetArcSegmentAt(i);
+                        var normal = arc3d.Normal;
+                        var axisZ = Vector3d.ZAxis;
+                        var arc = new Arc();
+                        if (normal.IsEqualTo(Vector3d.ZAxis.Negate()))
+                            arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
+                        else
+                            arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
+                        curves.Add(arc);
+                    }
+                }
+            }
+
+            Point2d[] intersectPts;
+            foreach (var curve in curves)
+            {
+                if (curve is Line)
+                {
+                    var line = curve as Line;
+                    var lineS = line.StartPoint;
+                    var lineE = line.EndPoint;
+                    var s2d = new Point2d(lineS.X, lineS.Y);
+                    var e2d = new Point2d(lineE.X, lineE.Y);
+                    var line2d = new LineSegment2d(s2d, e2d);
+                    intersectPts = line2d.IntersectWith(intersectLine);
+                }
+                else
+                {
+                    var arc = curve as Arc;
+                    var arcS = arc.StartPoint;
+                    var arcE = arc.EndPoint;
+                    var arcMid = arc.GetPointAtParameter(0.5 * (arc.StartParam + arc.EndParam));
+                    var arc2s = new Point2d(arcS.X, arcS.Y);
+                    var arc2mid = new Point2d(arcMid.X, arcMid.Y);
+                    var arc2e = new Point2d(arcE.X, arcE.Y);
+                    CircularArc2d ar = new CircularArc2d(arc2s, arc2mid, arc2e);
+                    intersectPts = ar.IntersectWith(intersectLine);
+                }
+
                 if (intersectPts != null && intersectPts.Count() == 1)
                 {
                     var nPt = intersectPts.First();

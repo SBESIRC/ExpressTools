@@ -51,6 +51,35 @@ namespace ThSpray
             {
                 placeData.type = SprayType.SPRAYDOWN;
             }
+
+            // 布置类型
+            if (lblPutWay.Text == "点选布置")
+            {
+                placeData.putType = PutType.PICKPOINT;
+            }
+            else if (lblPutWay.Text == "选线布置")
+            {
+                placeData.putType = PutType.CHOOSECURVE;
+            }
+            else if (lblPutWay.Text == "绘线布置")
+            {
+                placeData.putType = PutType.DRAWCURVE;
+            }
+        }
+
+        private void btnPickPoint_Click(object sender, EventArgs e)
+        {
+            lblPutWay.Text = "点选布置";
+        }
+
+        private void btnChooseCurve_Click(object sender, EventArgs e)
+        {
+            lblPutWay.Text = "选线布置";
+        }
+
+        private void btnDrawCurve_Click(object sender, EventArgs e)
+        {
+            lblPutWay.Text = "绘线布置";
         }
     }
 }

@@ -264,6 +264,20 @@ namespace ThSpray
             return curves;
         }
 
+        public static Polyline Pts2Polyline(List<Point3d> points)
+        {
+            if (points.Count < 3)
+                return null;
+            var poly = new Polyline();
+            poly.Closed = true;
+            for (int i = 0; i < points.Count; i++)
+            {
+                var curPt = points[i];
+                poly.AddVertexAt(i, new Point2d(curPt.X, curPt.Y), 0, 0, 0);
+            }
+            return poly;
+        }
+
         /// <summary>
         /// 插入喷淋图块
         /// </summary>
@@ -331,6 +345,89 @@ namespace ThSpray
         }
 
         /// <summary>
+        /// 对房间面积框线标准化
+        /// </summary>
+        /// <param name="polylines"></param>
+        /// <returns></returns>
+        public static List<Polyline> NormalizePolylines(List<Polyline> polylines)
+        {
+            if (polylines == null || polylines.Count == 0)
+                return null;
+
+            var resPolylines = new List<Polyline>();
+
+            foreach (var poly in polylines)
+            {
+                resPolylines.Add(NormalizePolyline(poly));
+            }
+
+            return resPolylines;
+        }
+
+        public static Polyline NormalizePolyline(Polyline pol)
+        {
+            var srcPts = pol.Vertices();
+            var colPts = new List<Point2d>();
+            colPts.Add(new Point2d(srcPts[0].X, srcPts[0].Y));
+            for (int i = 1; i < srcPts.Count; i++)
+            {
+                var curPt = srcPts[i];
+                var lastPt = colPts.Last();
+                var xGap = Math.Abs(curPt.X - lastPt.X);
+                var yGap = Math.Abs(curPt.Y - lastPt.Y);
+                var aimPt = Point2d.Origin;
+                if (yGap < xGap)
+                {
+                    aimPt = new Point2d(curPt.X, lastPt.Y);
+                }
+                else
+                {
+                    aimPt = new Point2d(lastPt.X, curPt.Y);
+                }
+
+                if (i == srcPts.Count - 1)
+                {
+                    var firstPt = colPts.First();
+                    var tx = Math.Abs(firstPt.X - aimPt.X);
+                    var ty = Math.Abs(firstPt.Y - aimPt.Y);
+
+                    // todo 细化具体场景
+                    if (tx < ty)
+                    {
+                        aimPt = new Point2d(firstPt.X, aimPt.Y);
+                    }
+                    else
+                    {
+                        aimPt = new Point2d(aimPt.X, firstPt.Y);
+                    }
+                }
+
+                colPts.Add(aimPt);
+            }
+            var nPoly = new Polyline();
+            nPoly.Closed = true;
+
+            for (int i = 0; i < colPts.Count; i++)
+            {
+                nPoly.AddVertexAt(i, colPts[i], 0, 0, 0);
+            }
+            return nPoly;
+        }
+
+        public static void CollectPLines(PromptSelectionResult result, List<Polyline> polylines)
+        {
+            using (var db = AcadDatabase.Active())
+            {
+                foreach (var objId in result.Value.GetObjectIds())
+                {
+                    var pLine = db.Element<Polyline>(objId);
+                    if (pLine.Closed)
+                        polylines.Add(pLine);
+                }
+            }
+        }
+
+        /// <summary>
         /// 延长指定长度
         /// </summary>
         /// <param name="curves"></param>
@@ -380,30 +477,39 @@ namespace ThSpray
             if (allCurves == null || allCurves.Count == 0)
                 return null;
 
-            // 生成相关梁数据
+            // 生成相关梁柱数据
             var roomCurves = TopoUtils.Polyline2dLines(roomPolyline);
             var curves = TopoUtils.TesslateCurve(allCurves);
+
             var relatedCurves = GetValidBeams(curves, roomCurves);
             if (relatedCurves == null || relatedCurves.Count == 0)
                 return null;
-
             // 偏移数据
             var offsetPolylines = new List<Curve>();
             var line2ds = CommonUtils.Polyline2dLines(roomPolyline);
             if (CommonUtils.CalcuLoopArea(line2ds) < 0)
-                roomPolyline.ReverseCurve();
-
+            {
+                using (var db = AcadDatabase.Active())
+                {
+                    roomPolyline.ReverseCurve();
+                }
+            }
+            //ProgressDialog.SetValue(25);
             var offsetRoomPolylines = new List<Curve>();
             var dbRoom = roomPolyline.GetOffsetCurves(-userData.minWallGap);
             for (int i = 0; i < dbRoom.Count; i++)
                 offsetRoomPolylines.Add(dbRoom[i] as Polyline);
+
+            // 获取房间框线偏移后的数据
             if (offsetRoomPolylines.Count != 0 && relatedCurves.Count != 0)
             {
                 relatedCurves.AddRange(TopoUtils.Polyline2dLines(offsetRoomPolylines.First() as Polyline));
             }
             var beamLoops = TopoUtils.MakeSrcProfilesNoTes(relatedCurves);
             var validLoops = EraseInvalidLoops(beamLoops, userData.minBeamGap);
-
+            //ProgressDialog.SetValue(45);
+            if (validLoops == null || validLoops.Count == 0)
+                return null;
             var insertPtS = PlaceSpray.CalcuInsertPos(TopoUtils.Polyline2dLines(roomPolyline), validLoops, userData.minBeamGap, userData.maxWallGap, userData.maxSprayGap);
 
             return insertPtS;
@@ -452,9 +558,10 @@ namespace ThSpray
                 var placeSpray = new PlaceSpray(srcRoomCurves, beamLoops, minWallSprayOffset, maxWallSprayOffset, sprayGap);
                 placeSpray.CalStartEdges(); // 开始边
                 placeSpray.CalcuVHLines(); // 水平，垂直线，并考虑是否平移至最下边和最左边
+               // ProgressDialog.SetValue(75);
                 placeSpray.CutFromMaxSprayOffset(); // 两边截断处理
                 var ptsLst = placeSpray.DoPlace(); // 放置插入点计算
-
+                //ProgressDialog.SetValue(90);
                 var insertPts = new List<Point3d>();
                 if (ptsLst != null && ptsLst.Count != 0)
                 {
@@ -509,6 +616,10 @@ namespace ThSpray
                 var bottomPtS = bottomEdge.StartPoint;
                 var bottomPtE = bottomEdge.EndPoint;
                 m_splitBottomEdge = new Line(bottomPtS + vecVer, bottomPtE + vecVer);
+
+                //var lineCurves = new List<Curve>();
+                //lineCurves.Add(m_splitBottomEdge);
+                //Utils.DrawProfile(lineCurves, "lineCurve");
             }
 
 
@@ -558,6 +669,15 @@ namespace ThSpray
                 var ptLst = new List<Point3d>();
                 var lines = new List<Line>();
 
+                //foreach (var drawCurves in loops)
+                //{
+                //    Utils.DrawProfile(drawCurves, "drawCurves");
+                //}
+
+                //var lineCurves = new List<Curve>();
+                //lineCurves.Add(line);
+                //Utils.DrawProfile(lineCurves, "lineCurves");
+                //return null;
                 for (int i = 0; i < loops.Count; i++)
                 {
                     ptLst.Clear();
@@ -637,6 +757,10 @@ namespace ThSpray
                 //}
                 ////Utils.DrawProfile(drawCurves, "horizon");
                 m_hLines = CalculateHoriLinesWithLoops(m_splitBottomEdge, m_beamLoops);
+                //if (m_hLines == null)
+                //    return;
+                //Utils.DrawProfile(m_hLines.ToList<Curve>(), "m_hlines");
+                //return;
                 // 计算垂直分割边
                 Line vSplitLine = null;
                 var extendValue = 10000000;
@@ -706,6 +830,7 @@ namespace ThSpray
                     return;
                 //Utils.DrawProfile(m_hLines.ToList<Curve>(), "m_hlines");
                 //Utils.DrawProfile(m_vLines.ToList<Curve>(), "m_vLines");
+                //return;
                 // 处理至最左边和最下边的位置
                 MoveVHLines();
             }
@@ -887,7 +1012,7 @@ namespace ThSpray
                     m_vLines = tmpVLines;
                     return;
                 }
-                
+
 
                 for (int i = 0; i < m_vLines.Count; i++)
                 {
@@ -1476,6 +1601,7 @@ namespace ThSpray
                 }
             }
 
+            // 加入便于打断
             intersectCurves.AddRange(roomCurves);
             // 裁剪掉框线外的曲线
             var newCurves = ScatterCurves.MakeNewCurves(intersectCurves);
@@ -1750,6 +1876,41 @@ namespace ThSpray
             }
         }
 
+        public static void AddProfile(List<Curve> curves, string LayerName, Color color = null)
+        {
+            if (curves == null || curves.Count == 0)
+                return;
+
+            using (var db = AcadDatabase.Active())
+            {
+                if (color == null)
+                    CreateLayer(LayerName, Color.FromRgb(255, 0, 0));
+                else
+                    CreateLayer(LayerName, color);
+
+                foreach (var curve in curves)
+                {
+                    var objectCurveId = db.ModelSpace.Add(curve);
+                    db.ModelSpace.Element(objectCurveId, true).Layer = LayerName;
+                }
+            }
+        }
+
+        public static void EraseProfile(List<Curve> curves)
+        {
+            if (curves == null || curves.Count == 0)
+                return;
+
+            using (var db = AcadDatabase.Active())
+            {
+                foreach (var curve in curves)
+                {
+                    var cur = db.Element<Curve>(curve.Id, true);
+                    cur.Visible = false;
+                    cur.Erase();
+                }
+            }
+        }
         // 绘图，用于测试点的位置
         public static void DrawLinesWithTransaction(List<TopoEdge> edges, string layerName = null)
         {
