@@ -96,6 +96,15 @@ namespace TianHua.AutoCAD.ThCui
                     menuModify.AddMenuItem(-1, kp.Name, kp.MacroId);
                 });
 
+                menuModify = thMenu.AddSubMenu(-1, "平面绘图", "ID_THMenu_planePut");
+                kps = new List<ThCommandInfo> {
+                      new ThCommandInfo("喷头布置 <THSPC>", "THSPC")
+                };
+                kps.ForEach(kp =>
+                {
+                    menuModify.AddMenuItem(-1, kp.Name, kp.MacroId);
+                });
+
                 menuModify = thMenu.AddSubMenu(-1, "文字表格", "ID_THMenu_WenZiBiaoGe");
                 kps = new List<ThCommandInfo> {
                     new ThCommandInfo("文字内容刷 <THMTC>", "THMTC")

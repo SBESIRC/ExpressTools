@@ -123,6 +123,7 @@
     <Image Include="Images\THMUK_dark.ico" />
     <Image Include="Images\THPLC_dark.ico" />
     <Image Include="Images\THSLC_dark.ico" />
+    <Image Include="Images\THSPC_dark.ico" />
     <Image Include="Images\THSPS_dark.ico" />
     <Image Include="Images\THSVM_dark.ico" />
     <Image Include="Images\THTET_dark.ico" />
