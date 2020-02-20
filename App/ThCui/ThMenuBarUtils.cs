@@ -1,7 +1,7 @@
 ﻿using System;
 using Autodesk.AutoCAD.Interop;
-using Autodesk.AutoCAD.ApplicationServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -11,7 +11,16 @@ namespace TianHua.AutoCAD.ThCui
         {
             get
             {
-                var acadApp = Application.AcadApplication as AcadApplication;
+#if ACAD_ABOVE_2014
+                //  2016启动时可能进入Zero doc state，
+                //  这时候获取MenuGroups会抛出COM Exception
+                //  http://help.autodesk.com/view/ACD/2016/ENU/?guid=GUID-CB7D7DC2-C8C1-4EF9-A638-C4C6184BFC85
+                if (AcadApp.DocumentManager.Count == 0)
+                {
+                    return null;
+                }
+#endif
+                var acadApp = AcadApp.AcadApplication as AcadApplication;
                 foreach (AcadMenuGroup menuGroup in acadApp.MenuGroups)
                 {
                     if (string.Equals(menuGroup.Name,
