@@ -33,6 +33,11 @@
     <Compile Include="ProgressDialog.Designer.cs">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SprayParam.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,9 +64,23 @@
     <EmbeddedResource Include="ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="SprayParam.resx">
       <DependentUpon>SprayParam.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\chooseCurve.ico" />
+    <Resource Include="image\drawCurve.ico" />
+    <Resource Include="image\drawPoint.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="image\chooseCurve_light.ico" />
+    <Content Include="image\drawCurve_light.ico" />
+    <Content Include="image\drawPpoint_light.ico" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">

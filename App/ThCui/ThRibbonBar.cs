@@ -15,6 +15,7 @@ namespace TianHua.AutoCAD.ThCui
                 CreateAnnotationPanel(tab);
                 CreateLayerPanel(tab);
                 CreatStatisticPanel(tab);
+                CreatePlanePutPanel(tab);
                 CreateTextPanel(tab);
                 CreateAuxiliaryPanel(tab);
                 CreateMiscellaneousPanel(tab);
@@ -352,6 +353,21 @@ namespace TianHua.AutoCAD.ThCui
                 "自动生成屏幕选择范围内所有房间的框线，且可选择插入面积值",
                 "IDI_THCAD_THABC",
                 "IDI_THCAD_THABC",
+                RibbonButtonStyle.LargeWithText);
+        }
+
+        private static void CreatePlanePutPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("PlanePut", "平面绘图");
+            var row = panel.AddNewRibbonRow();
+
+            // 天华单体规整
+            row.AddNewButton("喷头布置",
+                "喷头布置",
+                "THSPC",
+                "1. 点击房间内一点自动布置喷淋点位 2.选择房间框线布置喷淋点位 3.绘制房间框线布置喷淋点位",
+                "IDI_THCAD_THSPC",
+                "IDI_THCAD_THSPC",
                 RibbonButtonStyle.LargeWithText);
         }
 

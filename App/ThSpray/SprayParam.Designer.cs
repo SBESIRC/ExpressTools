@@ -52,16 +52,16 @@
             this.btnPlace = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblPutWay = new System.Windows.Forms.Label();
-            this.btnPickPoint = new System.Windows.Forms.Button();
-            this.btnChooseCurve = new System.Windows.Forms.Button();
             this.btnDrawCurve = new System.Windows.Forms.Button();
+            this.btnChooseCurve = new System.Windows.Forms.Button();
+            this.btnPickPoint = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 34);
+            this.label1.Location = new System.Drawing.Point(21, 40);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(98, 18);
@@ -75,10 +75,10 @@
             this.comboSprayType.Items.AddRange(new object[] {
             "上喷",
             "下喷"});
-            this.comboSprayType.Location = new System.Drawing.Point(124, 29);
+            this.comboSprayType.Location = new System.Drawing.Point(120, 35);
             this.comboSprayType.Margin = new System.Windows.Forms.Padding(4);
             this.comboSprayType.Name = "comboSprayType";
-            this.comboSprayType.Size = new System.Drawing.Size(94, 26);
+            this.comboSprayType.Size = new System.Drawing.Size(86, 26);
             this.comboSprayType.TabIndex = 1;
             // 
             // label2
@@ -104,7 +104,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(390, 84);
+            this.label4.Location = new System.Drawing.Point(367, 87);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(26, 18);
@@ -123,7 +123,7 @@
             // 
             // txtSprayMax
             // 
-            this.txtSprayMax.Location = new System.Drawing.Point(298, 82);
+            this.txtSprayMax.Location = new System.Drawing.Point(273, 81);
             this.txtSprayMax.Margin = new System.Windows.Forms.Padding(4);
             this.txtSprayMax.Name = "txtSprayMax";
             this.txtSprayMax.Size = new System.Drawing.Size(86, 28);
@@ -133,7 +133,7 @@
             // 
             // txtWallMax
             // 
-            this.txtWallMax.Location = new System.Drawing.Point(298, 120);
+            this.txtWallMax.Location = new System.Drawing.Point(273, 117);
             this.txtWallMax.Margin = new System.Windows.Forms.Padding(4);
             this.txtWallMax.Name = "txtWallMax";
             this.txtWallMax.Size = new System.Drawing.Size(86, 28);
@@ -154,7 +154,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(390, 124);
+            this.label5.Location = new System.Drawing.Point(367, 124);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(26, 18);
@@ -183,7 +183,7 @@
             // 
             // txtBeamMax
             // 
-            this.txtBeamMax.Location = new System.Drawing.Point(298, 159);
+            this.txtBeamMax.Location = new System.Drawing.Point(273, 157);
             this.txtBeamMax.Margin = new System.Windows.Forms.Padding(4);
             this.txtBeamMax.Name = "txtBeamMax";
             this.txtBeamMax.Size = new System.Drawing.Size(86, 28);
@@ -204,7 +204,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(390, 164);
+            this.label8.Location = new System.Drawing.Point(367, 164);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(26, 18);
@@ -257,7 +257,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(434, 204);
+            this.groupBox1.Size = new System.Drawing.Size(401, 204);
             this.groupBox1.TabIndex = 17;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "喷头参数";
@@ -265,7 +265,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(255, 162);
+            this.label14.Location = new System.Drawing.Point(240, 157);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(26, 18);
             this.label14.TabIndex = 19;
@@ -274,7 +274,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(255, 120);
+            this.label13.Location = new System.Drawing.Point(240, 120);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(26, 18);
             this.label13.TabIndex = 18;
@@ -283,7 +283,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(255, 87);
+            this.label12.Location = new System.Drawing.Point(240, 81);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(26, 18);
             this.label12.TabIndex = 17;
@@ -292,22 +292,22 @@
             // btnPlace
             // 
             this.btnPlace.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnPlace.Location = new System.Drawing.Point(298, 235);
+            this.btnPlace.Location = new System.Drawing.Point(265, 247);
             this.btnPlace.Margin = new System.Windows.Forms.Padding(4);
             this.btnPlace.Name = "btnPlace";
-            this.btnPlace.Size = new System.Drawing.Size(64, 34);
+            this.btnPlace.Size = new System.Drawing.Size(64, 24);
             this.btnPlace.TabIndex = 18;
-            this.btnPlace.Text = "布置";
+            this.btnPlace.Text = "确定";
             this.btnPlace.UseVisualStyleBackColor = true;
             this.btnPlace.Click += new System.EventHandler(this.btnPlace_Click);
             // 
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(371, 235);
+            this.btnCancel.Location = new System.Drawing.Point(334, 247);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(60, 34);
+            this.btnCancel.Size = new System.Drawing.Size(60, 24);
             this.btnCancel.TabIndex = 19;
             this.btnCancel.Text = "取消";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -315,48 +315,55 @@
             // lblPutWay
             // 
             this.lblPutWay.AutoSize = true;
-            this.lblPutWay.Location = new System.Drawing.Point(203, 244);
+            this.lblPutWay.Location = new System.Drawing.Point(110, 247);
             this.lblPutWay.Name = "lblPutWay";
             this.lblPutWay.Size = new System.Drawing.Size(80, 18);
             this.lblPutWay.TabIndex = 21;
             this.lblPutWay.Text = "点选布置";
             // 
-            // btnPickPoint
+            // btnDrawCurve
             // 
-            this.btnPickPoint.Location = new System.Drawing.Point(19, 234);
-            this.btnPickPoint.Name = "btnPickPoint";
-            this.btnPickPoint.Size = new System.Drawing.Size(56, 38);
-            this.btnPickPoint.TabIndex = 0;
-            this.btnPickPoint.Text = "点选";
-            this.btnPickPoint.UseVisualStyleBackColor = true;
-            this.btnPickPoint.Click += new System.EventHandler(this.btnPickPoint_Click);
+            this.btnDrawCurve.BackgroundImage = global::ThSpray.Properties.Resources.drawCurve_light;
+            this.btnDrawCurve.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnDrawCurve.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnDrawCurve.Location = new System.Drawing.Point(79, 243);
+            this.btnDrawCurve.Name = "btnDrawCurve";
+            this.btnDrawCurve.Size = new System.Drawing.Size(24, 24);
+            this.btnDrawCurve.TabIndex = 2;
+            this.btnDrawCurve.UseVisualStyleBackColor = true;
+            this.btnDrawCurve.Click += new System.EventHandler(this.btnDrawCurve_Click);
             // 
             // btnChooseCurve
             // 
-            this.btnChooseCurve.Location = new System.Drawing.Point(75, 234);
+            this.btnChooseCurve.BackgroundImage = global::ThSpray.Properties.Resources.chooseCurve_light;
+            this.btnChooseCurve.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnChooseCurve.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnChooseCurve.Location = new System.Drawing.Point(49, 243);
             this.btnChooseCurve.Name = "btnChooseCurve";
-            this.btnChooseCurve.Size = new System.Drawing.Size(56, 38);
+            this.btnChooseCurve.Size = new System.Drawing.Size(24, 24);
             this.btnChooseCurve.TabIndex = 1;
-            this.btnChooseCurve.Text = "选线";
             this.btnChooseCurve.UseVisualStyleBackColor = true;
             this.btnChooseCurve.Click += new System.EventHandler(this.btnChooseCurve_Click);
             // 
-            // btnDrawCurve
+            // btnPickPoint
             // 
-            this.btnDrawCurve.Location = new System.Drawing.Point(130, 234);
-            this.btnDrawCurve.Name = "btnDrawCurve";
-            this.btnDrawCurve.Size = new System.Drawing.Size(56, 38);
-            this.btnDrawCurve.TabIndex = 2;
-            this.btnDrawCurve.Text = "绘线";
-            this.btnDrawCurve.UseVisualStyleBackColor = true;
-            this.btnDrawCurve.Click += new System.EventHandler(this.btnDrawCurve_Click);
+            this.btnPickPoint.BackColor = System.Drawing.SystemColors.Control;
+            this.btnPickPoint.BackgroundImage = global::ThSpray.Properties.Resources.drawPpoint_light;
+            this.btnPickPoint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnPickPoint.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnPickPoint.Location = new System.Drawing.Point(19, 243);
+            this.btnPickPoint.Name = "btnPickPoint";
+            this.btnPickPoint.Size = new System.Drawing.Size(24, 24);
+            this.btnPickPoint.TabIndex = 0;
+            this.btnPickPoint.UseVisualStyleBackColor = false;
+            this.btnPickPoint.Click += new System.EventHandler(this.btnPickPoint_Click);
             // 
             // SprayParam
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(455, 288);
+            this.ClientSize = new System.Drawing.Size(424, 283);
             this.Controls.Add(this.btnDrawCurve);
             this.Controls.Add(this.btnChooseCurve);
             this.Controls.Add(this.btnPickPoint);
