@@ -80,6 +80,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThMirror_Debug" Guid="{5BAB8FAB-8813-4324-B534-D7339AA29A25}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThMirror_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThMirror.dll" />
       </Component>
+	  <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAlign_Debug" Guid="{21F6721F-0F0D-45A5-9AC0-FDF8DA15C5D1}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAlign_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThEssential.dll" />
+      </Component>	  
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
@@ -158,6 +161,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThMirror_Debug" Guid="{4DAF5A44-499A-4496-81DA-FE930A32412E}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThMirror_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThMirror.dll" />
       </Component>
+	  <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAlign_Debug" Guid="{2C1119CF-2644-4141-B655-961B7DB7F897}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAlign_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThEssential.dll" />
+      </Component>	  
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
       <?define OutputPath_R20_Debug="bin\Debug-NET45" ?>
@@ -233,6 +239,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThMirror_Debug" Guid="{D52CED0A-25D5-4ED1-B9AE-0B124EA38E9C}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThMirror_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThMirror.dll" />
       </Component>
+	  <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAlign_Debug" Guid="{2F535602-4ED8-4079-A52F-06631B058362}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAlign_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThEssential.dll" />
+      </Component>	  
     </DirectoryRef>
     <?elseif $(var.Configuration) = Release ?>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18">
@@ -312,6 +321,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThMirror_Release" Guid="{BD43363E-75A2-481C-B7C6-944B86A3D03F}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThMirror.dll" />
       </Component>
+	  <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAlign_Release" Guid="{36A20133-1F64-41C9-BBDC-5E7E80B7FA1D}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAlign_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThEssential.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Release="bin\Release-NET40" ?>
@@ -390,6 +402,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThMirror_Release" Guid="{8550F858-A65B-4621-B0E4-32A04B97002E}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThMirror.dll" />
       </Component>
+	  <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAlign_Release" Guid="{804F0064-D18C-43A6-9E5D-EF74A335D3B6}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAlign_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThEssential.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
       <?define OutputPath_R20_Release="bin\Release-NET45" ?>
@@ -465,6 +480,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThMirror_Release" Guid="{DD8161D3-B89B-47FF-9EB3-9724988F3FB1}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThMirror.dll" />
       </Component>
+	  <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAlign_Release" Guid="{2D6C3953-5E2D-43AF-80FE-3D500831FF9A}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAlign_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThEssential.dll" />
+      </Component>
     </DirectoryRef>
     <?endif?>
   </Fragment>
@@ -496,6 +514,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_RoomBoundary_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThXClip_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThMirror_Debug" />
+	  <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAlign_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Debug" />
@@ -522,6 +541,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RoomBoundary_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThXClip_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThMirror_Debug" />
+	  <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAlign_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Debug" />
@@ -546,6 +566,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RoomBoundary_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThXClip_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThMirror_Debug" />
+	  <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAlign_Debug" />
       <?elseif $(var.Configuration) = Release ?>
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Release" />
@@ -572,6 +593,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_RoomBoundary_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThXClip_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThMirror_Release" />
+	  <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAlign_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Release" />
@@ -597,6 +619,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RoomBoundary_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThXClip_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThMirror_Release" />
+	  <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAlign_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Release" />
@@ -621,6 +644,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RoomBoundary_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThXClip_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThMirror_Release" />
+	  <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAlign_Release" />
       <?endif?>
     </ComponentGroup>
   </Fragment>

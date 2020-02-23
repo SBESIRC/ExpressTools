@@ -447,4 +447,31 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
+	<!--Assembly App, ThAlign, 2012 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
+        <ComponentEntry ModuleName="./Contents/Win64/2012/ThEssential.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for custom align." AppName="ThEssential" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THALIGN" Local="THALIGN" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThMirror, 2014 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2014/ThEssential.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for custom align." AppName="ThEssential" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THALIGN" Local="THALIGN" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThMirror, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThEssential.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for custom align." AppName="ThEssential" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Global="THALIGN" Local="THALIGN" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
 </ApplicationPackage>
