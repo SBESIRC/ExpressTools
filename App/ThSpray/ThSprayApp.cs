@@ -11,6 +11,7 @@ using Autodesk.AutoCAD.Geometry;
 using System.Windows.Forms;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using NFox.Cad.Collections;
+using System.Threading;
 
 namespace ThSpray
 {
@@ -37,15 +38,13 @@ namespace ThSpray
             var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers, out columnLayers);
             var previewCurves = new List<Curve>();
             again:
-            Utils.EraseProfile(previewCurves);
-            previewCurves.Clear();
             var sprayForm = new SprayParam();
             if (AcadApp.ShowModalDialog(sprayForm) != DialogResult.OK)
             {
                 return;
             }
 
-            var userData = sprayForm.placeData;
+            var userData = SprayParam.placeData;
             Document doc = AcadApp.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
             if (userData.putType == PutType.CHOOSECURVE)
@@ -147,7 +146,7 @@ namespace ThSpray
                         Active.WriteMessage("取消操作");
                         return;
                     }
-
+                    
                     var pickPoint = ppr.Value;
                     if ((ppr.Status == PromptStatus.OK) || ppr.Status == PromptStatus.Keyword)
                     {
@@ -163,6 +162,8 @@ namespace ThSpray
                         }
                         else if (ppr.StringResult == "E")
                         {
+                            Utils.EraseProfile(previewCurves);
+                            previewCurves.Clear();
                             goto again;
                         }
                         else
@@ -178,11 +179,11 @@ namespace ThSpray
                     }
                 }
 
-                Utils.EraseProfile(previewCurves);
-                previewCurves.Clear();
                 // 选点结束后的判断处理
-                if (pickPoints.Count < 3)
+                if (pickPoints.Count < 4)
                 {
+                    Utils.EraseProfile(previewCurves);
+                    previewCurves.Clear();
                     Active.WriteMessage("绘制多段线错误");
                     return;
                 }
@@ -190,9 +191,15 @@ namespace ThSpray
                 var poly = Utils.Pts2Polyline(pickPoints);
                 poly = Utils.NormalizePolyline(poly);
                 if (poly == null)
+                {
+                    Utils.EraseProfile(previewCurves);
+                    previewCurves.Clear();
                     return;
+                }
 
                 ProgressDialog.ShowProgress();
+                Utils.EraseProfile(previewCurves);
+                previewCurves.Clear();
                 // 梁数据
                 var beamCurves = Utils.GetAllCurvesFromLayerNames(beamLayers);
 
@@ -210,6 +217,7 @@ namespace ThSpray
                 if (insertPts == null || insertPts.Count == 0)
                 {
                     ProgressDialog.HideProgress();
+                    Active.WriteMessage("绘制多段线错误");
                     return;
                 }
 
@@ -253,8 +261,8 @@ namespace ThSpray
                 var removeEntityLst = Utils.PreProcess(validLayers);
 
                 // 获取相关图层中的数据
-                // 所有数据
-                var allCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);
+                var allCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);// allCurves指所有能作为墙一部分的曲线
+                
                 if (allCurves == null || allCurves.Count == 0)
                 {
                     Utils.PostProcess(removeEntityLst);
@@ -298,6 +306,8 @@ namespace ThSpray
                 ProgressDialog.SetValue(15);
                 allCurves = TopoUtils.TesslateCurve(allCurves);
                 allCurves = CommonUtils.RemoveCollinearLines(allCurves);
+
+                pickPoints = CommonUtils.ErasePointsOnCurves(pickPoints, allCurves);
                 // 梁数据
                 var beamCurves = Utils.GetAllCurvesFromLayerNames(beamLayers);
                 //柱子数据

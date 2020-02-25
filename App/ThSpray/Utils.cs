@@ -500,14 +500,19 @@ namespace ThSpray
             for (int i = 0; i < dbRoom.Count; i++)
                 offsetRoomPolylines.Add(dbRoom[i] as Polyline);
 
+            if (offsetRoomPolylines.Count == 0)
+                return null;
+
             // 获取房间框线偏移后的数据
             if (offsetRoomPolylines.Count != 0 && relatedCurves.Count != 0)
             {
                 relatedCurves.AddRange(TopoUtils.Polyline2dLines(offsetRoomPolylines.First() as Polyline));
             }
             var beamLoops = TopoUtils.MakeSrcProfilesNoTes(relatedCurves);
+            if (beamLoops == null || beamLoops.Count == 0)
+                return null;
             var validLoops = EraseInvalidLoops(beamLoops, userData.minBeamGap);
-            //ProgressDialog.SetValue(45);
+
             if (validLoops == null || validLoops.Count == 0)
                 return null;
             var insertPtS = PlaceSpray.CalcuInsertPos(TopoUtils.Polyline2dLines(roomPolyline), validLoops, userData.minBeamGap, userData.maxWallGap, userData.maxSprayGap);

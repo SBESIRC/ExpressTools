@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SprayParam));
             this.label1 = new System.Windows.Forms.Label();
             this.comboSprayType = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -75,7 +76,7 @@
             this.comboSprayType.Items.AddRange(new object[] {
             "上喷",
             "下喷"});
-            this.comboSprayType.Location = new System.Drawing.Point(120, 35);
+            this.comboSprayType.Location = new System.Drawing.Point(120, 36);
             this.comboSprayType.Margin = new System.Windows.Forms.Padding(4);
             this.comboSprayType.Name = "comboSprayType";
             this.comboSprayType.Size = new System.Drawing.Size(86, 26);
@@ -84,7 +85,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 81);
+            this.label2.Location = new System.Drawing.Point(21, 83);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(98, 18);
@@ -94,7 +95,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(216, 87);
+            this.label3.Location = new System.Drawing.Point(214, 80);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(26, 18);
@@ -104,7 +105,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(367, 87);
+            this.label4.Location = new System.Drawing.Point(367, 80);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(26, 18);
@@ -123,7 +124,7 @@
             // 
             // txtSprayMax
             // 
-            this.txtSprayMax.Location = new System.Drawing.Point(273, 81);
+            this.txtSprayMax.Location = new System.Drawing.Point(273, 78);
             this.txtSprayMax.Margin = new System.Windows.Forms.Padding(4);
             this.txtSprayMax.Name = "txtSprayMax";
             this.txtSprayMax.Size = new System.Drawing.Size(86, 28);
@@ -133,7 +134,7 @@
             // 
             // txtWallMax
             // 
-            this.txtWallMax.Location = new System.Drawing.Point(273, 117);
+            this.txtWallMax.Location = new System.Drawing.Point(273, 116);
             this.txtWallMax.Margin = new System.Windows.Forms.Padding(4);
             this.txtWallMax.Name = "txtWallMax";
             this.txtWallMax.Size = new System.Drawing.Size(86, 28);
@@ -154,7 +155,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(367, 124);
+            this.label5.Location = new System.Drawing.Point(367, 117);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(26, 18);
@@ -164,7 +165,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(216, 124);
+            this.label6.Location = new System.Drawing.Point(214, 119);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(26, 18);
@@ -174,7 +175,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(21, 120);
+            this.label7.Location = new System.Drawing.Point(21, 121);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(98, 18);
@@ -183,7 +184,7 @@
             // 
             // txtBeamMax
             // 
-            this.txtBeamMax.Location = new System.Drawing.Point(273, 157);
+            this.txtBeamMax.Location = new System.Drawing.Point(273, 154);
             this.txtBeamMax.Margin = new System.Windows.Forms.Padding(4);
             this.txtBeamMax.Name = "txtBeamMax";
             this.txtBeamMax.Size = new System.Drawing.Size(86, 28);
@@ -204,7 +205,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(367, 164);
+            this.label8.Location = new System.Drawing.Point(367, 156);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(26, 18);
@@ -214,7 +215,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(216, 164);
+            this.label9.Location = new System.Drawing.Point(214, 155);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(26, 18);
@@ -257,7 +258,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(401, 204);
+            this.groupBox1.Size = new System.Drawing.Size(400, 204);
             this.groupBox1.TabIndex = 17;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "喷头参数";
@@ -283,7 +284,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(240, 81);
+            this.label12.Location = new System.Drawing.Point(240, 83);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(26, 18);
             this.label12.TabIndex = 17;
@@ -292,10 +293,10 @@
             // btnPlace
             // 
             this.btnPlace.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnPlace.Location = new System.Drawing.Point(265, 247);
+            this.btnPlace.Location = new System.Drawing.Point(262, 242);
             this.btnPlace.Margin = new System.Windows.Forms.Padding(4);
             this.btnPlace.Name = "btnPlace";
-            this.btnPlace.Size = new System.Drawing.Size(64, 24);
+            this.btnPlace.Size = new System.Drawing.Size(64, 30);
             this.btnPlace.TabIndex = 18;
             this.btnPlace.Text = "确定";
             this.btnPlace.UseVisualStyleBackColor = true;
@@ -304,10 +305,10 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(334, 247);
+            this.btnCancel.Location = new System.Drawing.Point(334, 242);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(60, 24);
+            this.btnCancel.Size = new System.Drawing.Size(60, 30);
             this.btnCancel.TabIndex = 19;
             this.btnCancel.Text = "取消";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -315,7 +316,7 @@
             // lblPutWay
             // 
             this.lblPutWay.AutoSize = true;
-            this.lblPutWay.Location = new System.Drawing.Point(110, 247);
+            this.lblPutWay.Location = new System.Drawing.Point(110, 245);
             this.lblPutWay.Name = "lblPutWay";
             this.lblPutWay.Size = new System.Drawing.Size(80, 18);
             this.lblPutWay.TabIndex = 21;
@@ -326,7 +327,8 @@
             this.btnDrawCurve.BackgroundImage = global::ThSpray.Properties.Resources.drawCurve_light;
             this.btnDrawCurve.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnDrawCurve.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnDrawCurve.Location = new System.Drawing.Point(79, 243);
+            this.btnDrawCurve.Location = new System.Drawing.Point(79, 242);
+            this.btnDrawCurve.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDrawCurve.Name = "btnDrawCurve";
             this.btnDrawCurve.Size = new System.Drawing.Size(24, 24);
             this.btnDrawCurve.TabIndex = 2;
@@ -338,7 +340,8 @@
             this.btnChooseCurve.BackgroundImage = global::ThSpray.Properties.Resources.chooseCurve_light;
             this.btnChooseCurve.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnChooseCurve.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnChooseCurve.Location = new System.Drawing.Point(49, 243);
+            this.btnChooseCurve.Location = new System.Drawing.Point(50, 242);
+            this.btnChooseCurve.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnChooseCurve.Name = "btnChooseCurve";
             this.btnChooseCurve.Size = new System.Drawing.Size(24, 24);
             this.btnChooseCurve.TabIndex = 1;
@@ -351,7 +354,8 @@
             this.btnPickPoint.BackgroundImage = global::ThSpray.Properties.Resources.drawPpoint_light;
             this.btnPickPoint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnPickPoint.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnPickPoint.Location = new System.Drawing.Point(19, 243);
+            this.btnPickPoint.Location = new System.Drawing.Point(19, 242);
+            this.btnPickPoint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPickPoint.Name = "btnPickPoint";
             this.btnPickPoint.Size = new System.Drawing.Size(24, 24);
             this.btnPickPoint.TabIndex = 0;
@@ -371,7 +375,9 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnPlace);
             this.Controls.Add(this.groupBox1);
+            this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;

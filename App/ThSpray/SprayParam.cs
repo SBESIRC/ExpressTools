@@ -11,11 +11,49 @@ namespace ThSpray
 {
     public partial class SprayParam : Form
     {
-        public PlaceData placeData = new PlaceData();
+        public static PlaceData placeData = new PlaceData();
         public SprayParam()
         {
             InitializeComponent();
             comboSprayType.SelectedIndex = 0;
+            InitParamDialog();
+        }
+
+        private void InitParamDialog()
+        {
+            // 喷头间距
+            txtSprayMin.Text = placeData.minSprayGap.ToString();
+            txtSprayMax.Text = placeData.maxSprayGap.ToString();
+
+            txtWallMin.Text = placeData.minWallGap.ToString();
+            txtWallMax.Text = placeData.maxWallGap.ToString();
+            txtBeamMin.Text = placeData.minBeamGap.ToString();
+            txtBeamMax.Text = placeData.maxBeamGap.ToString();
+
+            if (placeData.putType == PutType.PICKPOINT)
+            {
+                btnPickPoint.Select(); // 选中按钮
+                lblPutWay.Text = "点选布置";
+            }
+            else if (placeData.putType == PutType.CHOOSECURVE)
+            {
+                btnChooseCurve.Select();
+                lblPutWay.Text = "选线布置";
+            }
+            else
+            {
+                btnDrawCurve.Select();
+                lblPutWay.Text = "绘线布置";
+            }
+
+            if (placeData.type == SprayType.SPRAYUP)
+            {
+                comboSprayType.SelectedIndex = 0;
+            }
+            else
+            {
+                comboSprayType.SelectedIndex = 1;
+            }
         }
 
         private void btnPlace_Click(object sender, EventArgs e)
