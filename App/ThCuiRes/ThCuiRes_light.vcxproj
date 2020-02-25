@@ -131,6 +131,22 @@
     <Image Include="Images\THUPT_light.ico" />
     <Image Include="Images\THZ0_light.ico" />
     <Image Include="Images\TZLOOK_light.ico" />
+    <Image Include="Images\THALIGN_bottom_light_small.ico" />
+    <Image Include="Images\THALIGN_bottom_light_large.ico" />
+    <Image Include="Images\THALIGN_horizontal_light_small.ico" />
+    <Image Include="Images\THALIGN_horizontal_light_large.ico" />
+    <Image Include="Images\THALIGN_left_light_small.ico" />
+    <Image Include="Images\THALIGN_left_light_large.ico" />
+    <Image Include="Images\THALIGN_right_light_small.ico" />
+    <Image Include="Images\THALIGN_right_light_large.ico" />
+    <Image Include="Images\THALIGN_top_light_small.ico" />
+    <Image Include="Images\THALIGN_top_light_large.ico" />
+    <Image Include="Images\THALIGN_vertical_light_small.ico" />
+    <Image Include="Images\THALIGN_vertical_light_large.ico" />
+    <Image Include="Images\THALIGN_xdistribute_light_small.ico" />
+    <Image Include="Images\THALIGN_xdistribute_light_large.ico" />
+    <Image Include="Images\THALIGN_ydistribute_light_small.ico" />
+    <Image Include="Images\THALIGN_ydistribute_light_large.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,6 +16,7 @@ namespace TianHua.AutoCAD.ThCui
                 CreateLayerPanel(tab);
                 CreatStatisticPanel(tab);
                 CreatePlanePutPanel(tab);
+                CreateAlignmentPanel(tab);
                 CreateTextPanel(tab);
                 CreateAuxiliaryPanel(tab);
                 CreateMiscellaneousPanel(tab);
@@ -369,6 +370,110 @@ namespace TianHua.AutoCAD.ThCui
                 "IDI_THCAD_THSPC",
                 "IDI_THCAD_THSPC",
                 RibbonButtonStyle.LargeWithText);
+        }
+
+        private static void CreateAlignmentPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("Alignment", "对齐命令集");
+            var row = panel.AddNewRibbonRow();
+
+            // 第一行
+            {
+                RibbonRow subRow = null;
+                var subPanel = row.AddNewPanel();
+
+                // 上对齐
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("向上对齐",
+                "天华向上对齐",
+                "THALIGN TOP",
+                "向上对齐",
+                "IDI_THCAD_THALIGN_TOP_SMALL",
+                "IDI_THCAD_THALIGN_TOP_LARGE",
+                RibbonButtonStyle.SmallWithoutText);
+
+                // 水平居中
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("水平居中",
+                "天华水平居中",
+                "THALIGN HORIZONTAL",
+                "水平居中",
+                "IDI_THCAD_THALIGN_HORIZONTAL_SMALL",
+                "IDI_THCAD_THALIGN_HORIZONTAL_LARGE",
+                RibbonButtonStyle.SmallWithoutText);
+
+                // 向下对齐
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("向下对齐",
+                "天华向下对齐",
+                "THALIGN BOTTOM",
+                "向下对齐",
+                "IDI_THCAD_THALIGN_BOTTOM_SMALL",
+                "IDI_THCAD_THALIGN_BOTTOM_LARGE",
+                RibbonButtonStyle.SmallWithoutText);
+            }
+
+            // 第二列
+            {
+                RibbonRow subRow = null;
+                var subPanel = row.AddNewPanel();
+
+                // 向左对齐
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("向左对齐",
+                "天华向左对齐",
+                "THALIGN LEFT",
+                "向左对齐",
+                "IDI_THCAD_THALIGN_LEFT_SMALL",
+                "IDI_THCAD_THALIGN_LEFT_LARGE",
+                RibbonButtonStyle.SmallWithoutText);
+
+                // 垂直居中
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("垂直居中",
+                "天华垂直居中",
+                "THALIGN VERTICAL",
+                "垂直居中",
+                "IDI_THCAD_THALIGN_VERTICAL_SMALL",
+                "IDI_THCAD_THALIGN_VERTICAL_LARGE",
+                RibbonButtonStyle.SmallWithoutText);
+
+                // 向右对齐
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("向右对齐",
+                "天华向右对齐",
+                "THALIGN RIGHT",
+                "向右对齐",
+                "IDI_THCAD_THALIGN_RIGHT_SMALL",
+                "IDI_THCAD_THALIGN_RIGHT_LARGE",
+                RibbonButtonStyle.SmallWithoutText);
+            }
+
+            // 第三列
+            {
+                RibbonRow subRow = null;
+                var subPanel = row.AddNewPanel();
+
+                // 水平均分
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("水平均分",
+                "天华水平均分",
+                "THALIGN XDISTRIBUTE",
+                "水平均分",
+                "IDI_THCAD_THALIGN_XDISTRIBUTE_SMALL",
+                "IDI_THCAD_THALIGN_XDISTRIBUTE_LARGE",
+                RibbonButtonStyle.SmallWithoutText);
+
+                // 垂直均分
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("垂直均分",
+                "天华垂直均分",
+                "THALIGN YDISTRIBUTE",
+                "垂直均分",
+                "IDI_THCAD_THALIGN_YDISTRIBUTE_SMALL",
+                "IDI_THCAD_THALIGN_YDISTRIBUTE_LARGE",
+                RibbonButtonStyle.SmallWithoutText);
+            }
         }
 
         private static void CreateTextPanel(RibbonTabSource tab)
