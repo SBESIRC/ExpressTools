@@ -81,7 +81,11 @@ namespace ThEssential.QSelect
                 case QSelectFilterType.QSelectFilterLineType:
                     return OpFilter.Bulid(o => o.Dxf((int)DxfCode.LinetypeName) == entity.Linetype);
                 case QSelectFilterType.QSelectFilterBlock:
-                    return OpFilter.Bulid(o => o.Dxf((int)DxfCode.BlockName) == entity.BlockName);
+                    if(entity is BlockReference blk)
+                    {
+                        return OpFilter.Bulid(o => o.Dxf((int)DxfCode.BlockName) == blk.Name);
+                    }
+                    return null;
                 default:
                     return null;
             }
