@@ -382,11 +382,11 @@ namespace TianHua.AutoCAD.ThCui
                 RibbonRow subRow = null;
                 var subPanel = row.AddNewPanel();
 
-                // 上对齐
+                // 向上对齐
                 subRow = subPanel.AddNewRibbonRow();
                 subRow.AddNewButton("向上对齐",
                 "天华向上对齐",
-                "THALIGN TOP",
+                "THALIGN _TOP",
                 "向上对齐",
                 "IDI_THCAD_THALIGN_TOP_SMALL",
                 "IDI_THCAD_THALIGN_TOP_LARGE",
@@ -396,7 +396,7 @@ namespace TianHua.AutoCAD.ThCui
                 subRow = subPanel.AddNewRibbonRow();
                 subRow.AddNewButton("水平居中",
                 "天华水平居中",
-                "THALIGN HORIZONTAL",
+                "THALIGN _HORIZONTAL",
                 "水平居中",
                 "IDI_THCAD_THALIGN_HORIZONTAL_SMALL",
                 "IDI_THCAD_THALIGN_HORIZONTAL_LARGE",
@@ -406,7 +406,7 @@ namespace TianHua.AutoCAD.ThCui
                 subRow = subPanel.AddNewRibbonRow();
                 subRow.AddNewButton("向下对齐",
                 "天华向下对齐",
-                "THALIGN BOTTOM",
+                "THALIGN _BOTTOM",
                 "向下对齐",
                 "IDI_THCAD_THALIGN_BOTTOM_SMALL",
                 "IDI_THCAD_THALIGN_BOTTOM_LARGE",
@@ -422,7 +422,7 @@ namespace TianHua.AutoCAD.ThCui
                 subRow = subPanel.AddNewRibbonRow();
                 subRow.AddNewButton("向左对齐",
                 "天华向左对齐",
-                "THALIGN LEFT",
+                "THALIGN _LEFT",
                 "向左对齐",
                 "IDI_THCAD_THALIGN_LEFT_SMALL",
                 "IDI_THCAD_THALIGN_LEFT_LARGE",
@@ -432,7 +432,7 @@ namespace TianHua.AutoCAD.ThCui
                 subRow = subPanel.AddNewRibbonRow();
                 subRow.AddNewButton("垂直居中",
                 "天华垂直居中",
-                "THALIGN VERTICAL",
+                "THALIGN _VERTICAL",
                 "垂直居中",
                 "IDI_THCAD_THALIGN_VERTICAL_SMALL",
                 "IDI_THCAD_THALIGN_VERTICAL_LARGE",
@@ -442,7 +442,7 @@ namespace TianHua.AutoCAD.ThCui
                 subRow = subPanel.AddNewRibbonRow();
                 subRow.AddNewButton("向右对齐",
                 "天华向右对齐",
-                "THALIGN RIGHT",
+                "THALIGN _RIGHT",
                 "向右对齐",
                 "IDI_THCAD_THALIGN_RIGHT_SMALL",
                 "IDI_THCAD_THALIGN_RIGHT_LARGE",
@@ -459,7 +459,7 @@ namespace TianHua.AutoCAD.ThCui
                 subRow.AddNewButton("水平均分",
                 "天华水平均分",
                 "THALIGN XDISTRIBUTE",
-                "水平均分",
+                "水平方向平均分布",
                 "IDI_THCAD_THALIGN_XDISTRIBUTE_SMALL",
                 "IDI_THCAD_THALIGN_XDISTRIBUTE_LARGE",
                 RibbonButtonStyle.SmallWithoutText);
@@ -469,7 +469,7 @@ namespace TianHua.AutoCAD.ThCui
                 subRow.AddNewButton("垂直均分",
                 "天华垂直均分",
                 "THALIGN YDISTRIBUTE",
-                "垂直均分",
+                "水平方向平均分布",
                 "IDI_THCAD_THALIGN_YDISTRIBUTE_SMALL",
                 "IDI_THCAD_THALIGN_YDISTRIBUTE_LARGE",
                 RibbonButtonStyle.SmallWithoutText);
