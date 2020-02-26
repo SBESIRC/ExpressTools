@@ -15,7 +15,7 @@ namespace ThEssential
             //
         }
 
-        [CommandMethod("TIANHUACAD", "THQSELECT", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THQS", CommandFlags.Modal)]
         public void ThQSelect()
         {
             using (var cmd = new ThQSelectCommand())
@@ -24,7 +24,7 @@ namespace ThEssential
             }
         }
 
-        [CommandMethod("TIANHUACAD", "THALIGN", CommandFlags.Modal | CommandFlags.UsePickSet)]
+        [CommandMethod("TIANHUACAD", "THAL", CommandFlags.Modal | CommandFlags.UsePickSet)]
         public void ThAlign()
         {
             using (var cmd = new ThAlignCommand())

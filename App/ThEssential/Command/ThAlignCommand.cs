@@ -38,17 +38,6 @@ namespace ThEssential.Command
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                PromptSelectionOptions options = new PromptSelectionOptions()
-                {
-                    AllowDuplicates = false,
-                    RejectObjectsOnLockedLayers = true,
-                };
-                var entSelected = Active.Editor.GetSelection(options);
-                if (entSelected.Status != PromptStatus.OK)
-                {
-                    return;
-                };
-
                 // 指定对齐方式
                 PromptKeywordOptions keywordOptions = new PromptKeywordOptions("\n请指定对齐方式：")
                 {
@@ -68,6 +57,16 @@ namespace ThEssential.Command
                 {
                     return;
                 }
+                PromptSelectionOptions options = new PromptSelectionOptions()
+                {
+                    AllowDuplicates = false,
+                    RejectObjectsOnLockedLayers = true,
+                };
+                var entSelected = Active.Editor.GetSelection(options);
+                if (entSelected.Status != PromptStatus.OK)
+                {
+                    return;
+                };
 
                 // 若选择分布方式，执行分布操作
                 foreach (var distribution in distributions.Where(o => o.Value == result.StringResult))
