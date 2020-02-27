@@ -130,6 +130,14 @@
         <PackageReference Include="AutoCAD.NET.Core" Version="22.0.0" />
         <PackageReference Include="AutoCAD.NET.Model" Version="22.0.0" />
       </ItemGroup>
+      <ItemGroup>
+        <Reference Include="Autodesk.AutoCAD.Interop.dll">
+          <HintPath>..\..\Externals\AutoCAD\2018\Autodesk.AutoCAD.Interop.dll</HintPath>
+        </Reference>
+        <Reference Include="Autodesk.AutoCAD.Interop.Common.dll">
+          <HintPath>..\..\\Externals\AutoCAD\2018\Autodesk.AutoCAD.Interop.Common.dll</HintPath>
+        </Reference>
+      </ItemGroup>
     </When>
   </Choose>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -99,6 +99,29 @@ Task Dotfuscator.Assembly.R20 -Depends Requires.Dotfuscator, Compile.Assembly.R2
 	}
 }
 
+# $buildType build for AutoCAD R22
+Task Compile.Assembly.R22 -Depends Requires.MSBuild {
+    exec {
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCADApp.sln" /p:Configuration="${buildType}-NET46" /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCADApp.sln" /p:Configuration="${buildType}-NET46" /t:rebuild
+    }
+}
+
+Task Compile.Resource.R22 -Depends Requires.MSBuild {
+    exec {
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\Dark\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\Dark\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\Light\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\Light\" ".\ThCuiRes\ThCuiRes_light.vcxproj" /t:rebuild
+    }
+}
+
+Task Dotfuscator.Assembly.R22 -Depends Requires.Dotfuscator, Compile.Assembly.R22, Compile.Resource.R22 {
+	if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
+		exec {
+			& $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET46.xml"
+		}	
+	}
+}
+
 Task Requires.BuildType {
     if ($buildType -eq $null) {
         throw "No build type specified"
@@ -117,7 +140,7 @@ Task Sign {
 
 # temporarily disable code sign
 # $buildType build for ThCADPluginInstaller
-Task Compile.Installer -Depends Requires.BuildType, Dotfuscator.Assembly.R18, Dotfuscator.Assembly.R19, Dotfuscator.Assembly.R20 {
+Task Compile.Installer -Depends Requires.BuildType, Dotfuscator.Assembly.R18, Dotfuscator.Assembly.R19, Dotfuscator.Assembly.R20, Dotfuscator.Assembly.R22 {
     if ($buildType -eq $null) {
         throw "No build type specified"
     }

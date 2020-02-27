@@ -45,6 +45,10 @@
                                         <Directory Id="DIR_Autoloader_Contents_App_Win64_R20_Native" Name="x64" />
                                         <Directory Id="DIR_Autoloader_Contents_App_Win64_R20_Language" Name="zh-CN" />
                                     </Directory>
+                                    <Directory Id="DIR_Autoloader_Contents_App_Win64_R22" Name="2018">
+                                      <Directory Id="DIR_Autoloader_Contents_App_Win64_R22_Native" Name="x64" />
+                                      <Directory Id="DIR_Autoloader_Contents_App_Win64_R22_Language" Name="zh-CN" />
+                                    </Directory>
                                 </Directory>
                                 <Directory Id="DIR_Autoloader_Contents_Support" Name="Support">
                                     <Directory Id="DIR_Autoloader_Contents_Support_ToolPalette" Name="ToolPalette" />

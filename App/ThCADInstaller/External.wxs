@@ -21,6 +21,12 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\PdfiumViewer.dll" />
       </Component>
     </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
+      <?define OutputPath_R22_Debug="bin\Debug-NET46" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Debug" Guid="{ED72DD12-0F59-4EC1-BFD9-3E8376F1B9D6}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\PdfiumViewer.dll" />
+      </Component>
+    </DirectoryRef>
     <?elseif $(var.Configuration) = Release ?>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18">
       <?define OutputPath_R18_Release="bin\Release" ?>
@@ -40,6 +46,12 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\PdfiumViewer.dll" />
       </Component>
     </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
+      <?define OutputPath_R22_Release="bin\Release-NET46" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Release" Guid="{380E63B5-3903-4D63-967D-8C6077901103}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\PdfiumViewer.dll" />
+      </Component>
+    </DirectoryRef>
     <?endif?>
   </Fragment>
   <Fragment>
@@ -48,10 +60,12 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Debug" />
       <?elseif $(var.Configuration) = Release ?>
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Release" />
       <?endif?>
     </ComponentGroup>
   </Fragment>
