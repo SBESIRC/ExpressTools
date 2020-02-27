@@ -74,6 +74,15 @@ namespace ThSpray
                 }
 
                 ProgressDialog.ShowProgress();
+                // wall 中的数据
+                var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
+                if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
+                {
+                    ProgressDialog.HideProgress();
+                    return;
+                }
+
+                ProgressDialog.SetValue(10);
                 // 梁数据
                 var beamCurves = Utils.GetAllCurvesFromLayerNames(beamLayers);
 
@@ -87,6 +96,8 @@ namespace ThSpray
 
                 ProgressDialog.SetValue(15);
                 roomPolylines = Utils.NormalizePolylines(roomPolylines);
+                roomPolylines = Utils.EraseInvalidPolylines(roomPolylines, wallAllCurves);
+
                 var inc = 75 / roomPolylines.Count;
                 var curStep = 20;
                 foreach (var roomPoly in roomPolylines)
@@ -227,7 +238,6 @@ namespace ThSpray
             }
             else if (userData.putType == PutType.PICKPOINT)
             {
-
                 var pickPoints = new List<Point3d>();
                 var objCollect = new DBObjectCollection();
                 var tip = "请点击需要布置喷头房间内的一点，共计";
