@@ -357,14 +357,14 @@ namespace ThSpray
         /// <param name="pt"></param>
         /// <param name="curves"></param>
         /// <returns></returns>
-        public static bool PtOnCurves(Point3d pt, List<Curve> curves)
+        public static bool PtOnCurves(Point3d pt, List<Curve> curves, double tole = 1e-2)
         {
             foreach (var curve in curves)
             {
                 if (curve is Line)
                 {
                     var line = curve as Line;
-                    if (IsPointOnLine(pt, line, 1e-2))
+                    if (IsPointOnLine(pt, line, tole))
                         return true;
                 }
                 else if (curve is Arc)
