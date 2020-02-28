@@ -147,6 +147,24 @@
     <Image Include="Images\THALIGN_xdistribute_light_large.ico" />
     <Image Include="Images\THALIGN_ydistribute_light_small.ico" />
     <Image Include="Images\THALIGN_ydistribute_light_large.ico" />
+    <Image Include="Images\THQS_Annotation_light_small.ico" />
+    <Image Include="Images\THQS_Annotation_light_large.ico" />
+    <Image Include="Images\THQS_Block_light_small.ico" />
+    <Image Include="Images\THQS_Block_light_large.ico" />
+    <Image Include="Images\THQS_Color_light_small.ico" />
+    <Image Include="Images\THQS_Color_light_large.ico" />
+    <Image Include="Images\THQS_Hatch_light_small.ico" />
+    <Image Include="Images\THQS_Hatch_light_large.ico" />
+    <Image Include="Images\THQS_LastAppend_light_small.ico" />
+    <Image Include="Images\THQS_LastAppend_light_large.ico" />
+    <Image Include="Images\THQS_LastSelect_light_small.ico" />
+    <Image Include="Images\THQS_LastSelect_light_large.ico" />
+    <Image Include="Images\THQS_Layer_light_small.ico" />
+    <Image Include="Images\THQS_Layer_light_large.ico" />
+    <Image Include="Images\THQS_Linetype_light_small.ico" />
+    <Image Include="Images\THQS_Linetype_light_large.ico" />
+    <Image Include="Images\THQS_Text_light_small.ico" />
+    <Image Include="Images\THQS_Text_light_large.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

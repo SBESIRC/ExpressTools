@@ -570,6 +570,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry ModuleName="./Contents/Win64/2012/ThEssential.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for custom align." AppName="ThEssential" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THAL" Local="THAL" />
+                <Command Global="THQS" Local="THQS" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -579,6 +580,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry ModuleName="./Contents/Win64/2014/ThEssential.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for custom align." AppName="ThEssential" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THAL" Local="THAL" />
+                <Command Global="THQS" Local="THQS" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -588,6 +590,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry ModuleName="./Contents/Win64/2016/ThEssential.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for custom align." AppName="ThEssential" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THAL" Local="THAL" />
+                <Command Global="THQS" Local="THQS" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -597,6 +600,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry ModuleName="./Contents/Win64/2018/ThEssential.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for custom align." AppName="ThEssential" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THAL" Local="THAL" />
+                <Command Global="THQS" Local="THQS" />
             </Commands>
         </ComponentEntry>
     </Components>

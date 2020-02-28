@@ -395,6 +395,101 @@ namespace TianHua.AutoCAD.ThCui
             {
                 var subPanel = row.AddNewPanel();
                 var subRow = subPanel.AddNewRibbonRow();
+                var splitButton = subRow.AddNewSplitButton("快选命令集",
+                    RibbonSplitButtonBehavior.SplitFollow,
+                    RibbonSplitButtonListStyle.IconText,
+                    RibbonButtonStyle.LargeWithText);
+
+                // 颜色
+                splitButton.AddNewButton("颜色",
+                    "按颜色选择",
+                    "THQS _COLOR",
+                    "颜色",
+                    "IDI_THCAD_THQS_COLOR_SMALL",
+                    "IDI_THCAD_THQS_COLOR_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 图层
+                splitButton.AddNewButton("图层",
+                    "按图层选择",
+                    "THQS _LAYER",
+                    "图层",
+                    "IDI_THCAD_THQS_LAYER_SMALL",
+                    "IDI_THCAD_THQS_LAYER_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 线型
+                splitButton.AddNewButton("线型",
+                    "按线型选择",
+                    "THQS _LINETYPE",
+                    "线型",
+                    "IDI_THCAD_THQS_LINETYPE_SMALL",
+                    "IDI_THCAD_THQS_LINETYPE_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 标注
+                splitButton.AddNewButton("标注",
+                    "按标注选择",
+                    "THQS _DIMENSION",
+                    "标注",
+                    "IDI_THCAD_THQS_ANNOTATION_SMALL",
+                    "IDI_THCAD_THQS_ANNOTATION_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 填充
+                splitButton.AddNewButton("填充",
+                    "按填充选择",
+                    "THQS _HATCH",
+                    "填充",
+                    "IDI_THCAD_THQS_HATCH_SMALL",
+                    "IDI_THCAD_THQS_HATCH_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 文字
+                splitButton.AddNewButton("文字",
+                    "按文字选择",
+                    "THQS _TEXT",
+                    "文字",
+                    "IDI_THCAD_THQS_TEXT_SMALL",
+                    "IDI_THCAD_THQS_TEXT_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 图块名
+                splitButton.AddNewButton("图块名",
+                    "按图块名选择",
+                    "THQS _BLOCK",
+                    "图块名",
+                    "IDI_THCAD_THQS_BLOCK_SMALL",
+                    "IDI_THCAD_THQS_BLOCK_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 分割线
+                splitButton.AddNewSeparator(RibbonSeparatorStyle.Line);
+
+
+                // 上次建立
+                splitButton.AddNewButton("上次建立",
+                    "按上次建立选择",
+                    "THQS _LASTAPPEND",
+                    "上次建立",
+                    "IDI_THCAD_THQS_LASTAPPEND_SMALL",
+                    "IDI_THCAD_THQS_LASTAPPEND_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+
+                // 上次选择
+                splitButton.AddNewButton("上次选择",
+                    "按上次选择选择",
+                    "THQS _PREVIOUS",
+                    "上次选择",
+                    "IDI_THCAD_THQS_LASTSELECT_SMALL",
+                    "IDI_THCAD_THQS_LASTSELECT_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+            }
+
+            {
+                var subPanel = row.AddNewPanel();
+                var subRow = subPanel.AddNewRibbonRow();
                 var splitButton = subRow.AddNewSplitButton("对齐命令集",
                     RibbonSplitButtonBehavior.SplitFollow,
                     RibbonSplitButtonListStyle.IconText,

@@ -147,6 +147,24 @@
     <Image Include="Images\THALIGN_xdistribute_dark_large.ico" />
     <Image Include="Images\THALIGN_ydistribute_dark_small.ico" />
     <Image Include="Images\THALIGN_ydistribute_dark_large.ico" />
+    <Image Include="Images\THQS_Annotation_dark_small.ico" />
+    <Image Include="Images\THQS_Annotation_dark_large.ico" />
+    <Image Include="Images\THQS_Block_dark_small.ico" />
+    <Image Include="Images\THQS_Block_dark_large.ico" />
+    <Image Include="Images\THQS_Color_dark_small.ico" />
+    <Image Include="Images\THQS_Color_dark_large.ico" />
+    <Image Include="Images\THQS_Hatch_dark_small.ico" />
+    <Image Include="Images\THQS_Hatch_dark_large.ico" />
+    <Image Include="Images\THQS_LastAppend_dark_small.ico" />
+    <Image Include="Images\THQS_LastAppend_dark_large.ico" />
+    <Image Include="Images\THQS_LastSelect_dark_small.ico" />
+    <Image Include="Images\THQS_LastSelect_dark_large.ico" />
+    <Image Include="Images\THQS_Layer_dark_small.ico" />
+    <Image Include="Images\THQS_Layer_dark_large.ico" />
+    <Image Include="Images\THQS_Linetype_dark_small.ico" />
+    <Image Include="Images\THQS_Linetype_dark_large.ico" />
+    <Image Include="Images\THQS_Text_dark_small.ico" />
+    <Image Include="Images\THQS_Text_dark_large.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
