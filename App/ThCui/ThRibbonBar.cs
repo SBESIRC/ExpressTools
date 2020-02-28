@@ -16,7 +16,6 @@ namespace TianHua.AutoCAD.ThCui
                 CreateLayerPanel(tab);
                 CreatStatisticPanel(tab);
                 CreatePlanePutPanel(tab);
-                CreateAlignmentPanel(tab);
                 CreateTextPanel(tab);
                 CreateAuxiliaryPanel(tab);
                 CreateMiscellaneousPanel(tab);
@@ -372,110 +371,6 @@ namespace TianHua.AutoCAD.ThCui
                 RibbonButtonStyle.LargeWithText);
         }
 
-        private static void CreateAlignmentPanel(RibbonTabSource tab)
-        {
-            var panel = tab.AddNewPanel("Alignment", "对齐命令集");
-            var row = panel.AddNewRibbonRow();
-
-            // 第一行
-            {
-                RibbonRow subRow = null;
-                var subPanel = row.AddNewPanel();
-
-                // 向上对齐
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("向上对齐",
-                "天华向上对齐",
-                "THALIGN _TOP",
-                "向上对齐",
-                "IDI_THCAD_THALIGN_TOP_SMALL",
-                "IDI_THCAD_THALIGN_TOP_LARGE",
-                RibbonButtonStyle.SmallWithoutText);
-
-                // 水平居中
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("水平居中",
-                "天华水平居中",
-                "THALIGN _HORIZONTAL",
-                "水平居中",
-                "IDI_THCAD_THALIGN_HORIZONTAL_SMALL",
-                "IDI_THCAD_THALIGN_HORIZONTAL_LARGE",
-                RibbonButtonStyle.SmallWithoutText);
-
-                // 向下对齐
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("向下对齐",
-                "天华向下对齐",
-                "THALIGN _BOTTOM",
-                "向下对齐",
-                "IDI_THCAD_THALIGN_BOTTOM_SMALL",
-                "IDI_THCAD_THALIGN_BOTTOM_LARGE",
-                RibbonButtonStyle.SmallWithoutText);
-            }
-
-            // 第二列
-            {
-                RibbonRow subRow = null;
-                var subPanel = row.AddNewPanel();
-
-                // 向左对齐
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("向左对齐",
-                "天华向左对齐",
-                "THALIGN _LEFT",
-                "向左对齐",
-                "IDI_THCAD_THALIGN_LEFT_SMALL",
-                "IDI_THCAD_THALIGN_LEFT_LARGE",
-                RibbonButtonStyle.SmallWithoutText);
-
-                // 垂直居中
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("垂直居中",
-                "天华垂直居中",
-                "THALIGN _VERTICAL",
-                "垂直居中",
-                "IDI_THCAD_THALIGN_VERTICAL_SMALL",
-                "IDI_THCAD_THALIGN_VERTICAL_LARGE",
-                RibbonButtonStyle.SmallWithoutText);
-
-                // 向右对齐
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("向右对齐",
-                "天华向右对齐",
-                "THALIGN _RIGHT",
-                "向右对齐",
-                "IDI_THCAD_THALIGN_RIGHT_SMALL",
-                "IDI_THCAD_THALIGN_RIGHT_LARGE",
-                RibbonButtonStyle.SmallWithoutText);
-            }
-
-            // 第三列
-            {
-                RibbonRow subRow = null;
-                var subPanel = row.AddNewPanel();
-
-                // 水平均分
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("水平均分",
-                "天华水平均分",
-                "THALIGN XDISTRIBUTE",
-                "水平方向平均分布",
-                "IDI_THCAD_THALIGN_XDISTRIBUTE_SMALL",
-                "IDI_THCAD_THALIGN_XDISTRIBUTE_LARGE",
-                RibbonButtonStyle.SmallWithoutText);
-
-                // 垂直均分
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("垂直均分",
-                "天华垂直均分",
-                "THALIGN YDISTRIBUTE",
-                "水平方向平均分布",
-                "IDI_THCAD_THALIGN_YDISTRIBUTE_SMALL",
-                "IDI_THCAD_THALIGN_YDISTRIBUTE_LARGE",
-                RibbonButtonStyle.SmallWithoutText);
-            }
-        }
-
         private static void CreateTextPanel(RibbonTabSource tab)
         {
             var panel = tab.AddNewPanel("Text", "文字表格");
@@ -495,6 +390,94 @@ namespace TianHua.AutoCAD.ThCui
         {
             var panel = tab.AddNewPanel("Auxiliary", "辅助工具");
             var row = panel.AddNewRibbonRow();
+
+
+            {
+                var subPanel = row.AddNewPanel();
+                var subRow = subPanel.AddNewRibbonRow();
+                var splitButton = subRow.AddNewSplitButton("对齐命令集",
+                    RibbonSplitButtonBehavior.SplitFollow,
+                    RibbonSplitButtonListStyle.IconText,
+                    RibbonButtonStyle.LargeWithText);
+
+                // 向上对齐
+                splitButton.AddNewButton("向上对齐",
+                    "天华向上对齐",
+                    "THAL _TOP",
+                    "向上对齐",
+                    "IDI_THCAD_THALIGN_TOP_SMALL",
+                    "IDI_THCAD_THALIGN_TOP_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 向下对齐
+                splitButton.AddNewButton("向下对齐",
+                    "天华向下对齐",
+                    "THAL _BOTTOM",
+                    "向下对齐",
+                    "IDI_THCAD_THALIGN_BOTTOM_SMALL",
+                    "IDI_THCAD_THALIGN_BOTTOM_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 向左对齐
+                splitButton.AddNewButton("向左对齐",
+                    "天华向左对齐",
+                    "THAL _LEFT",
+                    "向左对齐",
+                    "IDI_THCAD_THALIGN_LEFT_SMALL",
+                    "IDI_THCAD_THALIGN_LEFT_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 向右对齐
+                splitButton.AddNewButton("向右对齐",
+                    "天华向右对齐",
+                    "THAL _RIGHT",
+                    "向右对齐",
+                    "IDI_THCAD_THALIGN_RIGHT_SMALL",
+                    "IDI_THCAD_THALIGN_RIGHT_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 分割线
+                splitButton.AddNewSeparator(RibbonSeparatorStyle.Line);
+
+                // 水平居中
+                splitButton.AddNewButton("水平居中",
+                    "天华水平居中",
+                    "THAL _HORIZONTAL",
+                    "水平居中",
+                    "IDI_THCAD_THALIGN_HORIZONTAL_SMALL",
+                    "IDI_THCAD_THALIGN_HORIZONTAL_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 垂直居中
+                splitButton.AddNewButton("垂直居中",
+                    "天华垂直居中",
+                    "THAL _VERTICAL",
+                    "垂直居中",
+                    "IDI_THCAD_THALIGN_VERTICAL_SMALL",
+                    "IDI_THCAD_THALIGN_VERTICAL_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 分割线
+                splitButton.AddNewSeparator(RibbonSeparatorStyle.Line);
+
+                // 水平均分
+                splitButton.AddNewButton("水平均分",
+                    "天华水平均分",
+                    "THAL XDISTRIBUTE",
+                    "水平方向平均分布",
+                    "IDI_THCAD_THALIGN_XDISTRIBUTE_SMALL",
+                    "IDI_THCAD_THALIGN_XDISTRIBUTE_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 垂直均分
+                splitButton.AddNewButton("垂直均分",
+                    "天华垂直均分",
+                    "THAL YDISTRIBUTE",
+                    "水平方向平均分布",
+                    "IDI_THCAD_THALIGN_YDISTRIBUTE_SMALL",
+                    "IDI_THCAD_THALIGN_YDISTRIBUTE_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+            }
 
             // 第一列
             {
