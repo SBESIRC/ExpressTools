@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using Autodesk.Windows;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
@@ -61,6 +62,116 @@ namespace TianHua.AutoCAD.ThCui
                 panel.Source.Items.Where(o => o.Id == "ID_THLOGIN").ForEach(o => o.IsVisible = true);
                 panel.Source.Items.Where(o => o.Id == "ID_THLOGOUT").ForEach(o => o.IsVisible = false);
             }
+        }
+
+        public static void ConfigPanelsWithCurrentProfile()
+        {
+            Profile profile = ThCuiProfileManager.Instance.CurrentProfile;
+            foreach (var panel in Tab.Panels.Where(o => o.UID == "pnl" + "Help"))
+            {
+                panel.Source.Items.Where(o => o.Text == "专业切换").ForEach(o => {
+                    if (o is RibbonSplitButton splitButton)
+                    {
+                        IEnumerable<RibbonItem> items = null;
+                        switch (profile)
+                        {
+                            case Profile.ARCHITECTURE:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _A");
+                                break;
+                            case Profile.STRUCTURE:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _S");
+                                break;
+                            case Profile.HAVC:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _H");
+                                break;
+                            case Profile.ELECTRICAL:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _E");
+                                break;
+                            case Profile.WSS:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _W");
+                                break;
+                            case Profile.PROJECTPLAN:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _P");
+                                break;
+                            default:
+                                break;
+                        };
+
+                        foreach (RibbonItem item in items)
+                        {
+                            splitButton.Current = item;
+                        }
+                    }
+                });
+            }
+            foreach (var panel in Tab.Panels.Where(o => o.UID == "pnl" + "Layer"))
+            {
+                panel.Source.Items.Where(o => o.Text == "建立天华图层").ForEach(o => {
+                    if (o is RibbonSplitButton splitButton)
+                    {
+                        IEnumerable<RibbonItem> items = null;
+                        switch (profile)
+                        {
+                            case Profile.ARCHITECTURE:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THALC");
+                                break;
+                            case Profile.STRUCTURE:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THSLC");
+                                break;
+                            case Profile.HAVC:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THMLC");
+                                break;
+                            case Profile.ELECTRICAL:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THELC");
+                                break;
+                            case Profile.WSS:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPLC");
+                                break;
+                            default:
+                                break;
+                        };
+                        if (items == null)
+                        {
+                            return;
+                        }
+                        foreach (RibbonItem item in items)
+                        {
+                            splitButton.Current = item;
+                        }
+                    }
+                });
+                panel.Source.Items.Where(o => o.Text == "处理建筑结构底图").ForEach(o => {
+                    if (o is RibbonSplitButton splitButton)
+                    {
+                        IEnumerable<RibbonItem> items = null;
+                        switch (profile)
+                        {
+                            case Profile.HAVC:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THLPM");
+                                break;
+                            case Profile.ELECTRICAL:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THLPE");
+                                break;
+                            case Profile.WSS:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THLPP");
+                                break;
+                            default:
+                                break;
+                        };
+                        if (items == null)
+                        {
+                            return;
+                        }
+                        foreach (RibbonItem item in items)
+                        {
+                            splitButton.Current = item;
+                        }
+                    }
+                });
+
+            }
+            ThCuiProfileYamlParser parser = new ThCuiProfileYamlParser(profile);
+            Tab.Panels.ForEach(o => parser.UpdateIsVisible(o));
         }
     }
 }

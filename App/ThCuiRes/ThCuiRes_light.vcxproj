@@ -165,6 +165,18 @@
     <Image Include="Images\THQS_Linetype_light_large.ico" />
     <Image Include="Images\THQS_Text_light_small.ico" />
     <Image Include="Images\THQS_Text_light_large.ico" />
+    <Image Include="Images\Architecture_light_small.ico" />
+    <Image Include="Images\Architecture_light_large.ico" />
+    <Image Include="Images\Electrical_light_small.ico" />
+    <Image Include="Images\Electrical_light_large.ico" />
+    <Image Include="Images\Havc_light_small.ico" />
+    <Image Include="Images\Havc_light_large.ico" />
+    <Image Include="Images\Project_Plan_light_small.ico" />
+    <Image Include="Images\Project_Plan_light_large.ico" />
+    <Image Include="Images\Structure_light_small.ico" />
+    <Image Include="Images\Structure_light_large.ico" />
+    <Image Include="Images\Water_Sewerage_light_small.ico" />
+    <Image Include="Images\Water_Sewerage_light_large.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

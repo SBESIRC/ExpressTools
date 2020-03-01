@@ -165,6 +165,18 @@
     <Image Include="Images\THQS_Linetype_dark_large.ico" />
     <Image Include="Images\THQS_Text_dark_small.ico" />
     <Image Include="Images\THQS_Text_dark_large.ico" />
+    <Image Include="Images\Architecture_dark_small.ico" />
+    <Image Include="Images\Architecture_dark_large.ico" />
+    <Image Include="Images\Electrical_dark_small.ico" />
+    <Image Include="Images\Electrical_dark_large.ico" />
+    <Image Include="Images\Havc_dark_small.ico" />
+    <Image Include="Images\Havc_dark_large.ico" />
+    <Image Include="Images\Project_Plan_dark_small.ico" />
+    <Image Include="Images\Project_Plan_dark_large.ico" />
+    <Image Include="Images\Structure_dark_small.ico" />
+    <Image Include="Images\Structure_dark_large.ico" />
+    <Image Include="Images\Water_Sewerage_dark_small.ico" />
+    <Image Include="Images\Water_Sewerage_dark_large.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

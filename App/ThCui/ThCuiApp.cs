@@ -188,6 +188,9 @@ namespace TianHua.AutoCAD.ThCui
                 {
                     ThRibbonUtils.CloseAllPanels();
                 }
+
+                // 根据当前的Profile配置Panels
+                ThRibbonUtils.ConfigPanelsWithCurrentProfile();
             }
         }
 
@@ -372,6 +375,14 @@ namespace TianHua.AutoCAD.ThCui
                 ThCuiCommon.CMD_THT20PLUGINV5_GLOBAL_NAME, 
                 CommandFlags.Modal, 
                 new CommandCallback(DownloadT20PlugInV5));
+
+            //专业切换
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME,
+                ThCuiCommon.CMD_THPROFILE_GLOBAL_NAME,
+                ThCuiCommon.CMD_THPROFILE_GLOBAL_NAME,
+                CommandFlags.Modal,
+                new CommandCallback(OnSwitchProfile));
         }
 
         public void UnregisterCommands()
@@ -383,6 +394,7 @@ namespace TianHua.AutoCAD.ThCui
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THBLI_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV4_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV5_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THPROFILE_GLOBAL_NAME);
         }
 
         private void OverwritePlotConfigurations()
@@ -572,6 +584,8 @@ namespace TianHua.AutoCAD.ThCui
                 ThMenuBarUtils.EnableMenuItems();
             }
 
+            // 根据当前的Profile配置Panels
+            ThRibbonUtils.ConfigPanelsWithCurrentProfile();
         }
 
         private void OnLogOut()
@@ -589,6 +603,65 @@ namespace TianHua.AutoCAD.ThCui
         private void OnHelp()
         {
             Process.Start(ThCADCommon.OnlineHelpUrl);
+        }
+
+        private void OnSwitchProfile()
+        {
+            // 指定专业
+            PromptKeywordOptions keywordOptions = new PromptKeywordOptions("\n请指定专业：")
+            {
+                AllowNone = true
+            };
+            keywordOptions.Keywords.Add("ARCHITECTURE", "ARCHITECTURE", "建筑(A)");
+            keywordOptions.Keywords.Add("STRUCTURE", "STRUCTURE", "结构(S)");
+            keywordOptions.Keywords.Add("HAVC", "HAVC", "暖通(H)");
+            keywordOptions.Keywords.Add("ELECTRICAL", "ELECTRICAL", "电气(E)");
+            keywordOptions.Keywords.Add("WATER", "WATER", "给排水(W)");
+            keywordOptions.Keywords.Add("PROJECT", "PROJECT", "方案(P)");
+            keywordOptions.Keywords.Default = "ARCHITECTURE";
+            PromptResult result = Active.Editor.GetKeywords(keywordOptions);
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
+            }
+
+            switch(result.StringResult)
+            {
+                case "ARCHITECTURE":
+                    {
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.ARCHITECTURE;
+                    }
+                    break;
+                case "STRUCTURE":
+                    {
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.STRUCTURE;
+                    }
+                    break;
+                case "HAVC":
+                    {
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.HAVC;
+                    }
+                    break;
+                case "ELECTRICAL":
+                    {
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.ELECTRICAL;
+                    }
+                    break;
+                case "WATER":
+                    {
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.WSS;
+                    }
+                    break;
+                case "PROJECT":
+                    {
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.PROJECTPLAN;
+                    }
+                    break;
+                default:
+                    return;
+            }
+
+            ThRibbonUtils.ConfigPanelsWithCurrentProfile();
         }
 
         /// <summary>

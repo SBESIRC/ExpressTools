@@ -46,6 +46,70 @@ namespace TianHua.AutoCAD.ThCui
                 "IDI_THCAD_THLOGOUT",
                 RibbonButtonStyle.LargeWithText);
 
+            // 专业切换
+            {
+                var splitButton = row.AddNewSplitButton(
+                    "专业切换",
+                    RibbonSplitButtonBehavior.SplitFollow,
+                    RibbonSplitButtonListStyle.IconText,
+                    RibbonButtonStyle.LargeWithText);
+
+                // 建筑专业
+                splitButton.AddNewButton("建筑专业",
+                    "天华建筑",
+                    "THPROFILE _A",
+                    "切换到天华建筑",
+                    "IDI_THCAD_ARCHITECTURE_SMALL",
+                    "IDI_THCAD_ARCHITECTURE_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 结构专业
+                splitButton.AddNewButton("结构专业",
+                    "天华结构",
+                    "THPROFILE _S",
+                    "切换到天华结构",
+                    "IDI_THCAD_STRUCTURE_SMALL",
+                    "IDI_THCAD_STRUCTURE_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 暖通专业
+                splitButton.AddNewButton("暖通专业",
+                    "天华暖通",
+                    "THPROFILE _H",
+                    "切换到天华暖通",
+                    "IDI_THCAD_HAVC_SMALL",
+                    "IDI_THCAD_HAVC_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+
+                // 电气专业
+                splitButton.AddNewButton("电气专业",
+                    "天华电气",
+                    "THPROFILE _E",
+                    "切换到天华电气",
+                    "IDI_THCAD_ELECTRICAL_SMALL",
+                    "IDI_THCAD_ELECTRICAL_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 给排水专业
+                splitButton.AddNewButton("给排水专业",
+                    "天华给排水",
+                    "THPROFILE _W",
+                    "切换到天华给排水",
+                    "IDI_THCAD_WATER_SMALL",
+                    "IDI_THCAD_WATER_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 方案专业
+                splitButton.AddNewButton("方案",
+                    "天华方案",
+                    "THPROFILE _P",
+                    "切换到天华方案",
+                    "IDI_THCAD_PROJECT_PLAN_SMALL",
+                    "IDI_THCAD_PROJECT_PLAN_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+            }
+
             // 帮助
             row.AddNewButton("帮助文档",
                 "天华帮助",
@@ -98,39 +162,41 @@ namespace TianHua.AutoCAD.ThCui
                 "IDI_THCAD_THBEE",
                 RibbonButtonStyle.LargeWithText);
 
-            // 
-            var splitButton = row.AddNewSplitButton(
-                "图块断线",
-                RibbonSplitButtonBehavior.SplitFollow,
-                RibbonSplitButtonListStyle.IconText,
-                RibbonButtonStyle.LargeWithText);
+            // 图块断线
+            {
+                var splitButton = row.AddNewSplitButton(
+                    "图块断线",
+                    RibbonSplitButtonBehavior.SplitFollow,
+                    RibbonSplitButtonListStyle.IconText,
+                    RibbonButtonStyle.LargeWithText);
 
-            // 插块断线
-            splitButton.AddNewButton("插块断线",
-                "天华插块断线",
-                "THBBR",
-                "将选择的图块插入到直线/多段线时自动断线",
-                "IDI_THCAD_THBBR",
-                "IDI_THCAD_THBBR",
-                RibbonButtonStyle.LargeWithText);
+                // 插块断线
+                splitButton.AddNewButton("插块断线",
+                    "天华插块断线",
+                    "THBBR",
+                    "将选择的图块插入到直线/多段线时自动断线",
+                    "IDI_THCAD_THBBR",
+                    "IDI_THCAD_THBBR",
+                    RibbonButtonStyle.LargeWithText);
 
-            // 选块断线
-            splitButton.AddNewButton("选块断线",
-                "天华选块断线",
-                "THBBE",
-                "点选单个图块，根据所需断线的切线方向自动调整图块角度且完成断线",
-                "IDI_THCAD_THBBE",
-                "IDI_THCAD_THBBE",
-                RibbonButtonStyle.LargeWithText);
+                // 选块断线
+                splitButton.AddNewButton("选块断线",
+                    "天华选块断线",
+                    "THBBE",
+                    "点选单个图块，根据所需断线的切线方向自动调整图块角度且完成断线",
+                    "IDI_THCAD_THBBE",
+                    "IDI_THCAD_THBBE",
+                    RibbonButtonStyle.LargeWithText);
 
-            // 全选断线
-            splitButton.AddNewButton("全选断线",
-                "天华全选断线",
-                "THBBS",
-                "批量选择需要断线的图块，根据各自所需断线的切线方向自动调整图块角度且完成断线",
-                "IDI_THCAD_THBBS",
-                "IDI_THCAD_THBBS",
-                RibbonButtonStyle.LargeWithText);
+                // 全选断线
+                splitButton.AddNewButton("全选断线",
+                    "天华全选断线",
+                    "THBBS",
+                    "批量选择需要断线的图块，根据各自所需断线的切线方向自动调整图块角度且完成断线",
+                    "IDI_THCAD_THBBS",
+                    "IDI_THCAD_THBBS",
+                    RibbonButtonStyle.LargeWithText);
+            }
         }
 
         private static void CreateAnnotationPanel(RibbonTabSource tab)
@@ -162,7 +228,7 @@ namespace TianHua.AutoCAD.ThCui
             var panel = tab.AddNewPanel("Layer", "图层工具");
             var row = panel.AddNewRibbonRow();
 
-            var splitButton = row.AddNewSplitButton("建立\r\n天华图层",
+            var splitButton = row.AddNewSplitButton("建立天华图层",
                 RibbonSplitButtonBehavior.SplitFollow,
                 RibbonSplitButtonListStyle.IconText,
                 RibbonButtonStyle.LargeWithText);
@@ -213,7 +279,7 @@ namespace TianHua.AutoCAD.ThCui
                 RibbonButtonStyle.LargeWithText);
 
 
-            splitButton = row.AddNewSplitButton("处理建筑\r\n结构底图",
+            splitButton = row.AddNewSplitButton("处理建筑结构底图",
                 RibbonSplitButtonBehavior.SplitFollow,
                 RibbonSplitButtonListStyle.IconText,
                 RibbonButtonStyle.LargeWithText);
@@ -245,7 +311,7 @@ namespace TianHua.AutoCAD.ThCui
                 "IDI_THCAD_THLPP",
                 RibbonButtonStyle.LargeWithText);
 
-            splitButton = row.AddNewSplitButton("暖通\r\n图层管理",
+            splitButton = row.AddNewSplitButton("暖通图层管理",
                 RibbonSplitButtonBehavior.SplitFollow,
                 RibbonSplitButtonListStyle.IconText,
                 RibbonButtonStyle.LargeWithText);

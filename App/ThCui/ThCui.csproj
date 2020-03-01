@@ -40,6 +40,8 @@
     <Compile Include="ThCuiApp.cs" />
     <Compile Include="ThCuiCmdHandler.cs" />
     <Compile Include="ThCuiCommon.cs" />
+    <Compile Include="ThCuiProfileManager.cs" />
+    <Compile Include="ThCuiProfileYamlParser.cs" />
     <Compile Include="ThLoginDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,5 +142,8 @@
       </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="8.0.0" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

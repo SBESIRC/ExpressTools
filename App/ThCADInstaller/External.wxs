@@ -8,11 +8,17 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Debug" Guid="{DC617FC6-718C-42BE-8702-DA28E2FCFE2E}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\PdfiumViewer.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_YamlDotNet_Debug" Guid="{5DC7FBBF-113E-4AE0-A49A-8BC699E35B3F}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_YamlDotNet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\YamlDotNet.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Debug" Guid="{8D8ABACD-B6EC-4789-BEDE-2522FA7E0B76}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\PdfiumViewer.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_YamlDotNet_Debug" Guid="{45ECC086-16F3-4DA3-8A07-5478DF7E7729}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_YamlDotNet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\YamlDotNet.dll" />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
@@ -20,11 +26,17 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Debug" Guid="{DDF50C79-3EAD-4933-8A5E-B1CB49953D20}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\PdfiumViewer.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_YamlDotNet_Debug" Guid="{8DCFFA39-56E7-46AF-8D95-6B9A931E99DB}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_YamlDotNet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\YamlDotNet.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
       <?define OutputPath_R22_Debug="bin\Debug-NET46" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Debug" Guid="{ED72DD12-0F59-4EC1-BFD9-3E8376F1B9D6}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\PdfiumViewer.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Debug" Guid="{D6143626-1C02-4928-A71A-D2F49F6B8D4E}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_YamlDotNet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\YamlDotNet.dll" />
       </Component>
     </DirectoryRef>
     <?elseif $(var.Configuration) = Release ?>
@@ -33,11 +45,17 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Release" Guid="{4DD66C4F-4434-4485-AE54-1193BCB6D971}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\PdfiumViewer.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_YamlDotNet_Release" Guid="{5E9E46DB-BC5D-439F-9527-0F750CB948E5}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_YamlDotNet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\YamlDotNet.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Release="bin\Release-NET40" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Release" Guid="{01E3CD30-2384-4CD3-A907-955F108CA7D3}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\PdfiumViewer.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_YamlDotNet_Release" Guid="{3E9D6164-DB17-4549-914F-590B9F76B22A}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_YamlDotNet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\YamlDotNet.dll" />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
@@ -45,12 +63,18 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Release" Guid="{5F3BBFC6-7060-433A-AFAD-C11DB90963C5}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\PdfiumViewer.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_YamlDotNet_Release" Guid="{3B0B6EE9-9AFC-488E-82E7-D38D9445DDBB}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_YamlDotNet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\YamlDotNet.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
       <?define OutputPath_R22_Release="bin\Release-NET46" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Release" Guid="{380E63B5-3903-4D63-967D-8C6077901103}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\PdfiumViewer.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Release" Guid="{CBF98D04-C2D6-4BBE-8FA6-FCF7B1206E15}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_YamlDotNet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\YamlDotNet.dll" />
+      </Component>  
     </DirectoryRef>
     <?endif?>
   </Fragment>
@@ -61,11 +85,19 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_YamlDotNet_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_YamlDotNet_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_YamlDotNet_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Debug" />
       <?elseif $(var.Configuration) = Release ?>
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_YamlDotNet_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_YamlDotNet_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_YamlDotNet_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Release" />  
       <?endif?>
     </ComponentGroup>
   </Fragment>
