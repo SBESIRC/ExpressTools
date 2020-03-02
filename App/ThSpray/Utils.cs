@@ -345,6 +345,68 @@ namespace ThSpray
         }
 
         /// <summary>
+        /// 是否自相交
+        /// </summary>
+        /// <param name="pts"></param>
+        /// <returns></returns>
+        public static bool IsSelfIntersected(List<Point3d> pts)
+        {
+            if (pts.Count < 3)
+                return false;
+
+            var lines = new List<Line>();
+            for (int i = 0; i < pts.Count; i++)
+            {
+                var curPt = pts[i];
+                var nextPt = pts[(i + 1) % pts.Count];
+                lines.Add(new Line(curPt, nextPt));
+            }
+
+            for (int j = 0; j < lines.Count; j++)
+            {
+                var curLine = lines[j];
+                for (int k = 0; k < lines.Count; k++)
+                {
+                    if (j == k)
+                        continue;
+
+                    var nextLine = lines[k];
+                    if (CurveIsIntersectCurve(curLine, nextLine, pts))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 两段curve是否相交
+        /// </summary>
+        /// <param name="curveFirst"></param>
+        /// <param name="curveSec"></param>
+        /// <param name="pts"></param>
+        /// <returns></returns>
+        public static bool CurveIsIntersectCurve(Curve curveFirst, Curve curveSec, List<Point3d> pts)
+        {
+            if (!CommonUtils.IntersectValid(curveFirst, curveSec))
+                return false;
+
+            var ptLst = new Point3dCollection();
+            curveFirst.IntersectWith(curveSec, Intersect.OnBothOperands, ptLst, (IntPtr)0, (IntPtr)0);
+            if (ptLst.Count != 0)
+            {
+                foreach (Point3d pt in ptLst)
+                {
+                    if (pts.Contains(pt))
+                        continue;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// 对房间面积框线标准化
         /// </summary>
         /// <param name="polylines"></param>
