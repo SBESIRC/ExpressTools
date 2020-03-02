@@ -15,7 +15,10 @@ namespace TianHua.AutoCAD.ThCui
             Yaml = new YamlStream();
             string config = null;
             switch(profile)
-            {
+            { 
+                case Profile.ARCHITECTURE:
+                    config = ThCuiCommon.profile_ribbon_architecture;
+                    break;
                 case Profile.STRUCTURE:
                     config = ThCuiCommon.profile_ribbon_structure;
                     break;
