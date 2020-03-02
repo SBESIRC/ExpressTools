@@ -199,6 +199,14 @@ namespace ThSpray
                     return;
                 }
 
+                if (Utils.IsSelfIntersected(pickPoints))
+                {
+                    Utils.EraseProfile(previewCurves);
+                    previewCurves.Clear();
+                    Active.WriteMessage("绘制多段线错误");
+                    return;
+                }
+
                 var poly = Utils.Pts2Polyline(pickPoints);
                 poly = Utils.NormalizePolyline(poly);
                 if (poly == null)
