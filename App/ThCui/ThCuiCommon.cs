@@ -76,7 +76,7 @@
                     - text : '防火分区疏散表'
                       attributes : { 'IsVisible' : true, 'IsEnabled' : true } 
                     - text : '房间面积框线'
-                      attributes : { 'IsVisible' : true, 'IsEnabled' : true } 
+                      attributes : { 'IsVisible' : false, 'IsEnabled' : true } 
                   attributes : { 'IsVisible' : true, 'IsEnabled' : true }
                 - UID : 'pnlPlanePut'
                   name : 'PlanePut'
@@ -125,7 +125,7 @@
                         - text : '版次信息修改'
                           attributes : { 'IsVisible' : true, 'IsEnabled' : true } 
                         - text : '管线断线'
-                          attributes : { 'IsVisible' : true, 'IsEnabled' : true } 
+                          attributes : { 'IsVisible' : false, 'IsEnabled' : true } 
                         - text : '文字块镜像'
                           attributes : { 'IsVisible' : true, 'IsEnabled' : true } 
                   attributes : { 'IsVisible' : true, 'IsEnabled' : true }
@@ -250,7 +250,7 @@
                         - text : '版次信息修改'
                           attributes : { 'IsVisible' : true, 'IsEnabled' : true } 
                         - text : '管线断线'
-                          attributes : { 'IsVisible' : true, 'IsEnabled' : true } 
+                          attributes : { 'IsVisible' : false, 'IsEnabled' : true } 
                         - text : '文字块镜像'
                           attributes : { 'IsVisible' : true, 'IsEnabled' : true } 
                   attributes : { 'IsVisible' : true, 'IsEnabled' : true }
@@ -750,7 +750,7 @@
                         - text : '版次信息修改'
                           attributes : { 'IsVisible' : true, 'IsEnabled' : true } 
                         - text : '管线断线'
-                          attributes : { 'IsVisible' : true, 'IsEnabled' : true } 
+                          attributes : { 'IsVisible' : false, 'IsEnabled' : true } 
                         - text : '文字块镜像'
                           attributes : { 'IsVisible' : true, 'IsEnabled' : true } 
                   attributes : { 'IsVisible' : true, 'IsEnabled' : true }
