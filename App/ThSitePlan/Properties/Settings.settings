@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ThSitePlan.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="plotDeviceName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DWG To PDF.pc3</Value>
+    </Setting>
+    <Setting Name="mediaName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ISO_full_bleed_A2_(420.00_x_594.00_MM)</Value>
+    </Setting>
+    <Setting Name="styleSheetName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">monochrome.ctb</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
