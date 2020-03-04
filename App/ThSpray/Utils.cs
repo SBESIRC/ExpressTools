@@ -712,9 +712,10 @@ namespace ThSpray
                 var srcRoomRightX = m_srcRoomRight.StartPoint.X;
                 var rightMaxX = srcRoomRightX - m_minWallOffset;
                 var rightMinX = srcRoomRightX - m_maxWallOffset;
+                var yGap = m_srcRoomTop.StartPoint.Y - m_srcRoomBottom.StartPoint.Y;
 
-                var yS = yValue - 100000000000;
-                var yE = yValue + 100000000000;
+                var yS = yValue - yGap;
+                var yE = yValue + yGap;
                 var xValue = rightMinX;
 
                 while (true)
@@ -732,7 +733,7 @@ namespace ThSpray
                     if (LineWithLoops(rightLine, m_beamLoops))
                     {
                         var offset = Math.Abs(xValue - srcRoomRightX);
-                        return offset;
+                        return ((int)offset);
                     }
                     else
                     {
@@ -747,8 +748,9 @@ namespace ThSpray
                 var leftMaxX = srcRoomLeftX + m_maxWallOffset;
                 var leftMinX = srcRoomLeftX + m_minWallOffset;
 
-                var yS = yValue - 100000000000;
-                var yE = yValue + 100000000000;
+                var yGap = m_srcRoomTop.StartPoint.Y - m_srcRoomBottom.StartPoint.Y;
+                var yS = yValue - yGap;
+                var yE = yValue + yGap;
                 var xValue = leftMaxX;
 
                 while (true)
@@ -766,7 +768,7 @@ namespace ThSpray
                     if (LineWithLoops(leftLine, m_beamLoops))
                     {
                         var offset = Math.Abs(xValue - srcRoomLeftX);
-                        return offset;
+                        return ((int)offset);
                     }
                     else
                     {
@@ -781,8 +783,9 @@ namespace ThSpray
                 var topMinY = srcRoomTopY - m_maxWallOffset;
                 var topMaxY = srcRoomTopY - m_minWallOffset;
 
-                var xS = xValue - 100000000000;
-                var xE = xValue + 100000000000;
+                var xGap = m_srcRoomRight.StartPoint.X - m_srcRoomLeft.StartPoint.X;
+                var xS = xValue - xGap;
+                var xE = xValue + xGap;
                 var yValue = topMinY;
 
                 while (true)
@@ -799,8 +802,15 @@ namespace ThSpray
                     Line topLine = new Line(ptS, ptE);
                     if (LineWithLoops(topLine, m_beamLoops))
                     {
+                        //foreach (var loop in m_beamLoops)
+                        //{
+                        //    var curves = new List<Curve>();
+                        //    curves.AddRange(loop);
+                        //    curves.Add(topLine);
+                        //    DrawProfile(curves, "beam");
+                        //}
                         var offset = Math.Abs(yValue - srcRoomTopY);
-                        return offset;
+                        return ((int)offset);
                     }
                     else
                     {
@@ -816,8 +826,9 @@ namespace ThSpray
                 var bottomMaxY = srcRoomBotttomY + m_maxWallOffset;
                 var bottomMinY = srcRoomBotttomY + m_minWallOffset;
 
-                var xS = xValue - 100000000000;
-                var xE = xValue + 100000000000;
+                var xGap = m_srcRoomRight.StartPoint.X - m_srcRoomLeft.StartPoint.X;
+                var xS = xValue - xGap;
+                var xE = xValue + xGap;
                 var yValue = bottomMaxY;
 
                 while (true)
@@ -835,7 +846,7 @@ namespace ThSpray
                     if (LineWithLoops(bottomLine, m_beamLoops))
                     {
                         var offset = Math.Abs(yValue - srcRoomBotttomY);
-                        return offset;
+                        return ((int)offset);
                     }
                     else
                     {
@@ -878,7 +889,9 @@ namespace ThSpray
                 {
                     var pts = LineWithLoop(line, curLoop);
                     if (pts.Count > 1)
+                    {
                         return true;
+                    }
                 }
 
                 return false;
@@ -929,18 +942,23 @@ namespace ThSpray
             }
 
 
-            private List<Point3d> LineWithLoop(Line line, List<Curve> curLoop)
+            private List<Point3d> LineWithLoop(Curve InterCurve, List<Curve> curLoop)
             {
                 var ptLst = new List<Point3d>();
+                var InterCurveS = InterCurve.StartPoint;
+                var InterCurveE = InterCurve.EndPoint;
                 for (int j = 0; j < curLoop.Count; j++)
                 {
                     var curve = curLoop[j];
 
-                    if (!CommonUtils.IntersectValid(line, curve))
+                    if (!CommonUtils.IntersectValid(InterCurve, curve))
                         continue;
 
+                    var curveS = curve.StartPoint;
+                    var curveE = curve.EndPoint;
+
                     var tmpPtLst = new Point3dCollection();
-                    line.IntersectWith(curve, Intersect.OnBothOperands, tmpPtLst, (IntPtr)0, (IntPtr)0);
+                    InterCurve.IntersectWith(curve, Autodesk.AutoCAD.DatabaseServices.Intersect.OnBothOperands, tmpPtLst, new System.IntPtr(0), new System.IntPtr(0));
                     if (tmpPtLst.Count != 0 && tmpPtLst.Count < 3)
                     {
                         foreach (Point3d pt in tmpPtLst)
@@ -1801,6 +1819,126 @@ namespace ThSpray
                 }
 
                 resPtLst.Add(vPtLst.Last());
+                return resPtLst;
+            }
+
+            /// <summary>
+            /// 计算垂直的点
+            /// </summary>
+            /// <returns></returns>
+            private List<Point3d> CalcuVPointsOP()
+            {
+                var vPtLst = new List<Point3d>();
+                for (int i = 0; i < m_vLines.Count; i++)
+                {
+                    var curVLine = m_vLines[i];
+                    var firPtS = curVLine.StartPoint;
+                    var firPtE = curVLine.EndPoint;
+                    if (i == m_vLines.Count - 1)
+                    {
+                        // 最后一段
+                        if (curVLine.Length < 10)
+                        {
+                            vPtLst.Add(new Point3d(firPtS.X, firPtS.Y, 0));
+                        }
+                        else
+                        {
+                            var yWid = curVLine.Length;
+                            var ratio = yWid / m_maxSprayGap;
+                            int nCount = (int)ratio;
+
+                            // 多出一点点的情形，不是少于的情形
+                            if (CommonUtils.IsAlmostNearZero(Math.Abs(ratio - nCount), 1e-4))
+                                nCount -= 1;
+
+                            if (nCount == 0)
+                            {
+                                vPtLst.Add(new Point3d(firPtS.X, firPtS.Y, 0));
+                            }
+                            else
+                            {
+                                nCount++;
+                                var midStep = (int)(yWid / nCount);
+                                var gapAdd = (midStep / 50) * 50;
+
+                                for (int j = 0; j < nCount; j++)
+                                {
+                                    var curY = firPtS.Y + j * gapAdd;
+                                    vPtLst.Add(new Point3d(firPtS.X, curY, 0));
+                                }
+                            }
+
+                            vPtLst.Add(new Point3d(firPtE.X, firPtE.Y, 0));
+                        }
+                    }
+                    else
+                    {
+                        // 非最后一段
+                        var nextLine = m_vLines[i + 1];
+                        var nextPtS = nextLine.StartPoint;
+                        var yWid = nextPtS.Y - firPtS.Y;
+                        var ratio = yWid / m_maxSprayGap;
+                        int nCount = (int)ratio;
+
+                        // 多出一点点的情形，不是少于的情形
+                        if (CommonUtils.IsAlmostNearZero(Math.Abs(ratio - nCount), 1e-4))
+                            nCount -= 1;
+
+                        if (nCount == 0)
+                        {
+                            vPtLst.Add(new Point3d(firPtS.X, firPtS.Y, 0));
+                        }
+                        else
+                        {
+                            nCount++;
+                            var midStep = (int)(yWid / nCount);
+                            var gapAdd = (midStep / 50) * 50;
+
+                            for (int j = 0; j < nCount; j++)
+                            {
+                                var curY = firPtS.Y + j * gapAdd;
+                                vPtLst.Add(new Point3d(firPtS.X, curY, 0));
+                            }
+                        }
+                    }
+                }
+
+                if (vPtLst.Count < 3)
+                    return vPtLst;
+
+                var resPtLst = new List<Point3d>();
+                resPtLst.Add(vPtLst.First());
+                for (int i = 1; i < vPtLst.Count - 1; i++)
+                {
+                    var beforePt = vPtLst[i - 1];
+                    var nextPt = vPtLst[i + 1];
+                    var curSpt = vPtLst[i];
+                    var midPt = new Point3d((beforePt.X + nextPt.X) * 0.5, (beforePt.Y + nextPt.Y) * 0.5, 0);
+                    bool bPointIn = false;
+                    foreach (var line in m_vLines)
+                    {
+                        if (CommonUtils.IsPointOnLine(midPt, line))
+                        {
+                            bPointIn = true;
+                            break;
+                        }
+                    }
+                    if (bPointIn)
+                    {
+                        vPtLst[i] = midPt;
+                        resPtLst.Add(midPt);
+                    }
+                    else
+                    {
+                        resPtLst.Add(curSpt);
+                    }
+                }
+                resPtLst.Add(vPtLst.Last());
+                // 垂直方向规整
+                resPtLst = NormalizeVPoints(resPtLst, m_vLines);
+
+                // 两端距离控制以及喷淋最小间隔距离控制
+                resPtLst = NormalizeVSprayMinPoints(resPtLst, m_vLines);
                 return resPtLst;
             }
 
