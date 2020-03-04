@@ -33,7 +33,7 @@ namespace ThEssential
             }
         }
 
-        [CommandMethod("TIANHUACAD", "THMATCHPROPS", CommandFlags.Modal | CommandFlags.UsePickSet)]
+        [CommandMethod("TIANHUACAD", "THMA", CommandFlags.Modal | CommandFlags.UsePickSet)]
         public void ThMatchProps()
         {
             using (var cmd = new ThMatchPropsCommand())
