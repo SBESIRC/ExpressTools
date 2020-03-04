@@ -441,7 +441,7 @@ namespace ThSpray
             var ptMids = new List<Point3d>();
             foreach (var wallCurve in wallCurves)
             {
-                var ptMid = wallCurve.GetPointAtParameter((wallCurve.StartParam + wallCurve.EndParam) *0.5);
+                var ptMid = wallCurve.GetPointAtParameter((wallCurve.StartParam + wallCurve.EndParam) * 0.5);
                 ptMids.Add(ptMid);
             }
 
@@ -605,12 +605,12 @@ namespace ThSpray
 
             var offsetWallCurves = TopoUtils.Polyline2Curves(offsetRoomPolylines.First() as Polyline);
             var relatedCurves = GetValidBeams(curves, offsetWallCurves);
-           // Utils.DrawProfile(offsetWallCurves, "offsetWallCurves");
+            // Utils.DrawProfile(offsetWallCurves, "offsetWallCurves");
             //Utils.DrawProfile(relatedCurves, "relatedCurves");
             if (relatedCurves == null || relatedCurves.Count == 0)
                 return null;
             // 偏移数据
-           // Utils.DrawProfile(relatedCurves, "relatedCurves");
+            // Utils.DrawProfile(relatedCurves, "relatedCurves");
 
 
             // 获取房间框线偏移后的数据
@@ -628,17 +628,28 @@ namespace ThSpray
             if (validLoops == null || validLoops.Count == 0)
                 return null;
             //Utils.DrawProfile(validLoops, "validLoops");
+            // 偏移后的墙，和没有偏移后的梁组成的环进行计算
             var insertPtS = PlaceSpray.CalcuInsertPos(TopoUtils.Polyline2Curves(roomPolyline), validLoops, userData);
 
             return insertPtS;
         }
 
+        /// <summary>
+        /// // 偏移后的墙，和没有偏移后的梁组成的环进行计算
+        /// </summary>
         public class PlaceSpray
         {
             private List<Curve> m_roomSrcCurves; // 房间的原始边界线
             private List<List<Curve>> m_beamLoops; // 梁轮廓
             private double m_minBeamGapOffset; // 喷淋距墙的最小位置
+
             private double m_maxWallOffset; // 喷淋距墙的最大偏移值
+            private double m_maxWallOffsetLeft; // 喷淋距墙的左边最大偏移值
+            private double m_maxWallOffsetRight; // 喷淋距墙的右边最大偏移值
+            private double m_maxWallOffsetBottom; // 喷淋距墙的下边最大偏移值
+            private double m_maxWallOffsetTop; // 喷淋距墙的上边最大偏移值
+            public bool m_bEnd = false; // 程序是否结束标记
+
             private double m_minWallOffset; // 喷淋距墙的最小偏移值
             private double m_maxSprayGap; // 喷淋之间的最大间距
             private double m_minSprayGap; // 喷淋之间的最小间距
@@ -657,7 +668,7 @@ namespace ThSpray
             private List<Line> m_vLines; // 垂直切割线
 
             private List<Line> boundCurves; // 边界轮廓
-            public PlaceSpray(List<Curve> srcRoomCurves, List<List<Curve>> beamLoops,PlaceData userData)
+            public PlaceSpray(List<Curve> srcRoomCurves, List<List<Curve>> beamLoops, PlaceData userData)
             {
                 m_roomSrcCurves = srcRoomCurves;
                 m_beamLoops = beamLoops;
@@ -665,10 +676,172 @@ namespace ThSpray
                 m_maxSprayGap = userData.maxSprayGap;
 
                 m_minWallOffset = userData.minWallGap;
-                var value = (userData.maxWallGap + m_minWallOffset + m_minBeamGapOffset) * 0.5;
-                m_maxWallOffset = (int)((value / 100 + 1) * 100);
+                //var value = (userData.maxWallGap + m_minWallOffset + m_minBeamGapOffset) * 0.5;
+                //m_maxWallOffset = (int)((value / 100 + 1) * 100);
+                m_maxWallOffset = userData.maxWallGap;
 
                 m_minSprayGap = userData.minSprayGap;
+            }
+
+            /// <summary>
+            /// 计算四周距墙的最大偏移值
+            /// </summary>
+            private void Calculate4MaxWallOffset()
+            {
+                // 下边距墙的最大偏移值
+                m_maxWallOffsetBottom = CalculateBottomMaxWallOffset(m_srcRoomBottom.StartPoint.X);
+                if (m_bEnd)
+                    return;
+
+                // 上边距墙的最大偏移值
+                m_maxWallOffsetTop = CalculateTopMaxWallOffset(m_srcRoomTop.StartPoint.X);
+                if (m_bEnd)
+                    return;
+
+                // 左边距墙的最大偏移值
+                m_maxWallOffsetLeft = CalculateLeftMaxWallOffset(m_srcRoomLeft.StartPoint.Y);
+                if (m_bEnd)
+                    return;
+
+                // 右边距墙的最大偏移值
+                m_maxWallOffsetRight = CalculateRightMaxWallOffset(m_srcRoomRight.StartPoint.Y);
+            }
+
+            private double CalculateRightMaxWallOffset(double yValue)
+            {
+                var srcRoomRightX = m_srcRoomRight.StartPoint.X;
+                var rightMaxX = srcRoomRightX - m_minWallOffset;
+                var rightMinX = srcRoomRightX - m_maxWallOffset;
+
+                var yS = yValue - 100000000000;
+                var yE = yValue + 100000000000;
+                var xValue = rightMinX;
+
+                while (true)
+                {
+                    if (xValue > rightMaxX)
+                    {
+                        m_bEnd = true;
+                        return m_maxWallOffset;
+                    }
+
+                    var ptS = new Point3d(xValue, yS, 0);
+                    var ptE = new Point3d(xValue, yE, 0);
+
+                    Line rightLine = new Line(ptS, ptE);
+                    if (LineWithLoops(rightLine, m_beamLoops))
+                    {
+                        var offset = Math.Abs(xValue - srcRoomRightX);
+                        return offset;
+                    }
+                    else
+                    {
+                        xValue += 50;
+                    }
+                }
+            }
+
+            private double CalculateLeftMaxWallOffset(double yValue)
+            {
+                var srcRoomLeftX = m_srcRoomLeft.StartPoint.X;
+                var leftMaxX = srcRoomLeftX + m_maxWallOffset;
+                var leftMinX = srcRoomLeftX + m_minWallOffset;
+
+                var yS = yValue - 100000000000;
+                var yE = yValue + 100000000000;
+                var xValue = leftMaxX;
+
+                while (true)
+                {
+                    if (xValue < leftMinX)
+                    {
+                        m_bEnd = true;
+                        return m_maxWallOffset;
+                    }
+
+                    var ptS = new Point3d(xValue, yS, 0);
+                    var ptE = new Point3d(xValue, yE, 0);
+
+                    Line leftLine = new Line(ptS, ptE);
+                    if (LineWithLoops(leftLine, m_beamLoops))
+                    {
+                        var offset = Math.Abs(xValue - srcRoomLeftX);
+                        return offset;
+                    }
+                    else
+                    {
+                        xValue -= 50;
+                    }
+                }
+            }
+
+            private double CalculateTopMaxWallOffset(double xValue)
+            {
+                var srcRoomTopY = m_srcRoomTop.StartPoint.Y;
+                var topMinY = srcRoomTopY - m_maxWallOffset;
+                var topMaxY = srcRoomTopY - m_minWallOffset;
+
+                var xS = xValue - 100000000000;
+                var xE = xValue + 100000000000;
+                var yValue = topMinY;
+
+                while (true)
+                {
+                    if (yValue > topMaxY)
+                    {
+                        m_bEnd = true;
+                        return m_maxWallOffset;
+                    }
+
+                    var ptS = new Point3d(xS, yValue, 0);
+                    var ptE = new Point3d(xE, yValue, 0);
+
+                    Line topLine = new Line(ptS, ptE);
+                    if (LineWithLoops(topLine, m_beamLoops))
+                    {
+                        var offset = Math.Abs(yValue - srcRoomTopY);
+                        return offset;
+                    }
+                    else
+                    {
+                        yValue += 50;
+                    }
+                }
+            }
+
+            // 底边最大y值
+            private double CalculateBottomMaxWallOffset(double xValue)
+            {
+                var srcRoomBotttomY = m_srcRoomBottom.StartPoint.Y;
+                var bottomMaxY = srcRoomBotttomY + m_maxWallOffset;
+                var bottomMinY = srcRoomBotttomY + m_minWallOffset;
+
+                var xS = xValue - 100000000000;
+                var xE = xValue + 100000000000;
+                var yValue = bottomMaxY;
+
+                while (true)
+                {
+                    if (yValue < bottomMinY)
+                    {
+                        m_bEnd = true;
+                        return m_maxWallOffset;
+                    }
+
+                    var ptS = new Point3d(xS, yValue, 0);
+                    var ptE = new Point3d(xE, yValue, 0);
+
+                    Line bottomLine = new Line(ptS, ptE);
+                    if (LineWithLoops(bottomLine, m_beamLoops))
+                    {
+                        var offset = Math.Abs(yValue - srcRoomBotttomY);
+                        return offset;
+                    }
+                    else
+                    {
+                        yValue -= 50;
+                    }
+                }
             }
 
             /// <summary>
@@ -689,6 +862,9 @@ namespace ThSpray
 
                 var placeSpray = new PlaceSpray(srcRoomCurves, beamLoops, userData);
                 placeSpray.CalStartEdges(); // 开始边
+                placeSpray.Calculate4MaxWallOffset(); // 计算四周最大墙的偏移值
+                if (placeSpray.m_bEnd)
+                    return null;
                 placeSpray.CalcuVHLines(); // 水平，垂直线，并考虑是否平移至最下边和最左边
                 placeSpray.CutFromMaxSprayOffset(); // 两边截断处理
 
@@ -696,6 +872,17 @@ namespace ThSpray
                 return ptsLst;
             }
 
+            private bool LineWithLoops(Line line, List<List<Curve>> loops)
+            {
+                foreach (var curLoop in loops)
+                {
+                    var pts = LineWithLoop(line, curLoop);
+                    if (pts.Count > 1)
+                        return true;
+                }
+
+                return false;
+            }
 
             /// <summary>
             /// 计算开始边
@@ -999,11 +1186,11 @@ namespace ThSpray
             /// </summary>
             private void CutFromMaxSprayOffsetHLines()
             {
-                var leftMaxX = m_srcRoomLeft.StartPoint.X + m_maxWallOffset;
-                var rightMaxX = m_srcRoomRight.StartPoint.X - m_maxWallOffset;
+                var leftMaxX = m_srcRoomLeft.StartPoint.X + m_maxWallOffsetLeft;
+                var rightMaxX = m_srcRoomRight.StartPoint.X - m_maxWallOffsetRight;
 
                 var tmpHLines = new List<Line>();
-                if ((m_srcRoomRight.StartPoint.X - m_srcRoomLeft.StartPoint.X) < 2 * m_maxWallOffset)
+                if ((m_srcRoomRight.StartPoint.X - m_srcRoomLeft.StartPoint.X) < (m_maxWallOffsetLeft + m_maxWallOffsetRight))
                 {
                     var firstLine = m_hLines.First();
                     var lastLine = m_hLines.Last();
@@ -1114,11 +1301,11 @@ namespace ThSpray
             /// </summary>
             private void CutFromMaxSprayOffsetVLines()
             {
-                var bottomMaxY = m_srcRoomBottom.StartPoint.Y + m_maxWallOffset;
-                var topMaxY = m_srcRoomTop.StartPoint.Y - m_maxWallOffset;
+                var bottomMaxY = m_srcRoomBottom.StartPoint.Y + m_maxWallOffsetBottom;
+                var topMaxY = m_srcRoomTop.StartPoint.Y - m_maxWallOffsetTop;
                 var tmpVLines = new List<Line>();
 
-                if ((m_srcRoomTop.StartPoint.Y - m_srcRoomBottom.StartPoint.Y) < 2 * m_maxWallOffset)
+                if ((m_srcRoomTop.StartPoint.Y - m_srcRoomBottom.StartPoint.Y) < (m_maxWallOffsetBottom + m_maxWallOffsetTop))
                 {
                     var firstLine = m_vLines.First();
                     var lastLine = m_vLines.Last();
@@ -1410,6 +1597,11 @@ namespace ThSpray
                 {
                     var beforePt = resPtLst.Last();
                     var curSpt = vPtLst[i];
+                    //if (i == vPtLst.Count - 1)
+                    //{
+                    //    resPtLst.Add(curSpt);
+                    //    continue;
+                    //}
                     var yGap = curSpt.Y - beforePt.Y;
                     if (yGap >= m_minSprayGap)
                     {
@@ -1422,7 +1614,7 @@ namespace ThSpray
                     // 最后一段距离调整
                     if (i == vPtLst.Count - 1)
                     {
-                        var maxAdd = m_maxWallOffset - m_minWallOffset;
+                        var maxAdd = m_maxWallOffsetTop - m_minWallOffset;
                         while (true)
                         {
                             if (YRangeVLines(yPos, rangeLines))
@@ -1477,7 +1669,7 @@ namespace ThSpray
                     // 最后一段距离调整
                     if (i == hPtLst.Count - 1)
                     {
-                        var maxAdd = m_maxWallOffset - m_minWallOffset;
+                        var maxAdd = m_maxWallOffsetRight - m_minWallOffset;
                         while (true)
                         {
                             if (XRangeHLines(xPos, rangeLines))
@@ -1936,7 +2128,7 @@ namespace ThSpray
         {
             bool bStartPtOn = CommonUtils.PtInLoop(loop, curve.StartPoint) || CommonUtils.PtOnCurves(curve.StartPoint, loop, 1e-3);
             bool bEndPtOn = CommonUtils.PtInLoop(loop, curve.EndPoint) || CommonUtils.PtOnCurves(curve.EndPoint, loop, 1e-3);
-            if ( bStartPtOn && bEndPtOn)
+            if (bStartPtOn && bEndPtOn)
                 return true;
             else
                 return false;
