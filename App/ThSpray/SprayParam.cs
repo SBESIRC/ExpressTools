@@ -119,5 +119,119 @@ namespace ThSpray
         {
             lblPutWay.Text = "绘线布置";
         }
+
+        private void txtSprayMin_Leave(object sender, EventArgs e)
+        {
+            double sprayMinValue = 0;
+
+            // 喷头间距最小和最大值
+            double.TryParse(txtSprayMin.Text, out sprayMinValue);
+
+            double sprayMaxValue = 0;
+            double.TryParse(txtSprayMax.Text, out sprayMaxValue);
+
+            if (sprayMinValue >= 1800 && sprayMinValue <= 4400  && sprayMinValue <= sprayMaxValue)
+            {
+                return;
+            }
+
+            MessageBox.Show("喷头间距最小值[1800, 4400],最小值≤最大值", "参数提示", MessageBoxButtons.OK);
+            txtSprayMin.Text = placeData.minSprayGap.ToString();
+        }
+
+        private void txtSprayMax_Leave(object sender, EventArgs e)
+        {
+            double sprayMinValue = 0;
+
+            // 喷头间距最小和最大值
+            double.TryParse(txtSprayMin.Text, out sprayMinValue);
+
+            double sprayMaxValue = 0;
+            double.TryParse(txtSprayMax.Text, out sprayMaxValue);
+
+            if (sprayMaxValue <= 4400 && sprayMinValue <= sprayMaxValue)
+            {
+                return;
+            }
+
+            MessageBox.Show("最大值≤4400，最小值≤最大值", "参数设置提示", MessageBoxButtons.OK);
+            txtSprayMax.Text = placeData.maxSprayGap.ToString();
+        }
+
+        private void txtWallMin_Leave(object sender, EventArgs e)
+        {
+            double wallMinValue = 0;
+
+            // 距墙距离最小最大值
+            double.TryParse(txtWallMin.Text, out wallMinValue);
+
+            double wallMaxValue = 0;
+            double.TryParse(txtWallMax.Text, out wallMaxValue);
+
+            if (wallMinValue >= 100 && wallMinValue  <= 2200 && wallMinValue <= wallMaxValue)
+            {
+                return;
+            }
+
+            MessageBox.Show("喷头距墙最小值[100，2200]，最小值≤最大值", "参数设置提示", MessageBoxButtons.OK);
+            txtWallMin.Text = placeData.minWallGap.ToString();
+        }
+
+        private void txtWallMax_Leave(object sender, EventArgs e)
+        {
+            double wallMinValue = 0;
+
+            // 距墙距离最小最大值
+            double.TryParse(txtWallMin.Text, out wallMinValue);
+
+            double wallMaxValue = 0;
+            double.TryParse(txtWallMax.Text, out wallMaxValue);
+
+            if (wallMaxValue <= 2200 && wallMinValue <= wallMaxValue)
+            {
+                return;
+            }
+
+            MessageBox.Show("最大值≤2200，最小值≤最大值", "参数设置提示", MessageBoxButtons.OK);
+            txtWallMax.Text = placeData.maxWallGap.ToString();
+        }
+
+        private void txtBeamMin_Leave(object sender, EventArgs e)
+        {
+            double beamMinValue = 0;
+
+            // 距梁距离最小最大值
+            double.TryParse(txtBeamMin.Text, out beamMinValue);
+
+            double beamMaxValue = 0;
+            double.TryParse(txtBeamMax.Text, out beamMaxValue);
+
+            if (beamMinValue >= 100 && beamMinValue <= 2200 && beamMinValue <= beamMaxValue)
+            {
+                return;
+            }
+
+            MessageBox.Show("喷头距梁最小值[100，2200],最小值≤最大值。", "参数设置提示", MessageBoxButtons.OK);
+            txtBeamMin.Text = placeData.minBeamGap.ToString();
+        }
+
+        private void txtBeamMax_Leave(object sender, EventArgs e)
+        {
+            double beamMinValue = 0;
+
+            // 距梁距离最小最大值
+            double.TryParse(txtBeamMin.Text, out beamMinValue);
+
+            double beamMaxValue = 0;
+            double.TryParse(txtBeamMax.Text, out beamMaxValue);
+
+            if (beamMaxValue <= 2200 && beamMinValue <= beamMaxValue)
+            {
+                return;
+            }
+
+            MessageBox.Show("最大值≤2200,最小值≤最大值。", "参数设置提示", MessageBoxButtons.OK);
+            txtBeamMax.Text = placeData.maxBeamGap.ToString();
+        }
     }
 }

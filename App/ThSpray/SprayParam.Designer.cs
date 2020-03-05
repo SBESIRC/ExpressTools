@@ -121,6 +121,7 @@
             this.txtSprayMin.TabIndex = 5;
             this.txtSprayMin.Text = "1800";
             this.txtSprayMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtSprayMin.Leave += new System.EventHandler(this.txtSprayMin_Leave);
             // 
             // txtSprayMax
             // 
@@ -131,6 +132,7 @@
             this.txtSprayMax.TabIndex = 6;
             this.txtSprayMax.Text = "3400";
             this.txtSprayMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtSprayMax.Leave += new System.EventHandler(this.txtSprayMax_Leave);
             // 
             // txtWallMax
             // 
@@ -141,6 +143,7 @@
             this.txtWallMax.TabIndex = 11;
             this.txtWallMax.Text = "1700";
             this.txtWallMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtWallMax.Leave += new System.EventHandler(this.txtWallMax_Leave);
             // 
             // txtWallMin
             // 
@@ -151,6 +154,7 @@
             this.txtWallMin.TabIndex = 10;
             this.txtWallMin.Text = "100";
             this.txtWallMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtWallMin.Leave += new System.EventHandler(this.txtWallMin_Leave);
             // 
             // label5
             // 
@@ -191,6 +195,7 @@
             this.txtBeamMax.TabIndex = 16;
             this.txtBeamMax.Text = "1800";
             this.txtBeamMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtBeamMax.Leave += new System.EventHandler(this.txtBeamMax_Leave);
             // 
             // txtBeamMin
             // 
@@ -201,6 +206,7 @@
             this.txtBeamMin.TabIndex = 15;
             this.txtBeamMin.Text = "150";
             this.txtBeamMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtBeamMin.Leave += new System.EventHandler(this.txtBeamMin_Leave);
             // 
             // label8
             // 
