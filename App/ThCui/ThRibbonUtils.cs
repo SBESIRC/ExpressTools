@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using Autodesk.Windows;
 using TianHua.AutoCAD.Utility.ExtensionTools;
@@ -66,8 +65,9 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void ConfigPanelsWithCurrentProfile()
         {
+            var panels = Tab.Panels;
             Profile profile = ThCuiProfileManager.Instance.CurrentProfile;
-            foreach (var panel in Tab.Panels.Where(o => o.UID == "pnl" + "Help"))
+            foreach (var panel in panels.Where(o => o.UID == "pnl" + "Help"))
             {
                 panel.Source.Items.Where(o => o.Text == "专业切换").ForEach(o => {
                     if (o is RibbonSplitButton splitButton)
@@ -104,7 +104,7 @@ namespace TianHua.AutoCAD.ThCui
                     }
                 });
             }
-            foreach (var panel in Tab.Panels.Where(o => o.UID == "pnl" + "Layer"))
+            foreach (var panel in panels.Where(o => o.UID == "pnl" + "Layer"))
             {
                 panel.Source.Items.Where(o => o.Text == "建立天华图层").ForEach(o => {
                     if (o is RibbonSplitButton splitButton)
@@ -171,7 +171,7 @@ namespace TianHua.AutoCAD.ThCui
 
             }
             ThCuiProfileYamlParser parser = new ThCuiProfileYamlParser(profile);
-            Tab.Panels.ForEach(o => parser.UpdateIsVisible(o));
+            panels.ForEach(o => parser.UpdateIsVisible(o));
         }
     }
 }

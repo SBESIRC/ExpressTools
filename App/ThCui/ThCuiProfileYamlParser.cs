@@ -64,9 +64,9 @@ namespace TianHua.AutoCAD.ThCui
                 {
                     var attributes = (YamlMappingNode)node.Children[new YamlScalarNode("attributes")];
                     var isVisible = attributes.Children[new YamlScalarNode("IsVisible")];
-                    if (!bool.Parse(isVisible.ToString()))
+                    panel.IsVisible = bool.Parse(isVisible.ToString());
+                    if (!panel.IsVisible)
                     {
-                        panel.IsVisible = false;
                         return;
                     }
 
