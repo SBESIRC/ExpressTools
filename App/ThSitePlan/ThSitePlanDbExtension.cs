@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using Linq2Acad;
@@ -32,6 +33,23 @@ namespace ThSitePlan
                     var clone = entity.GetTransformedCopy(displacement);
                     acadDatabase.ModelSpace.Add(clone);
                 }
+            }
+        }
+
+        public static ObjectId Frame(this Database database, string layer)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                var frame = acadDatabase.ModelSpace
+                    .OfType<Polyline>()
+                    .Where(o => o.Layer == layer)
+                    .FirstOrDefault();
+                if (frame != null)
+                {
+                    return frame.ObjectId;
+                }
+
+                return ObjectId.Null;
             }
         }
     }

@@ -3,6 +3,7 @@ using Autodesk.AutoCAD.PlottingServices;
 using Linq2Acad;
 using DotNetARX;
 using PdfiumViewer;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThSitePlan
 {
@@ -51,16 +52,19 @@ namespace ThSitePlan
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                // 获取当前文档中设置的布局方式
-                Layout layoutObj = acadDatabase.Layouts.Element(LayoutManager.Current.CurrentLayout);
-
-                // 打印设置
-                PlotSettings plotSettings = CreatePlotSettings(window);
-
-                // 进行打印
-                using (var plotEngine = PlotFactory.CreatePublishEngine())
+                using (new ThAppTools.ManagedSystemVariable("BACKGROUNDPLOT", 0))
                 {
-                    PlotTools.Plot(plotEngine, layoutObj, plotSettings, fileName, 1, false, false, true);
+                    // 获取当前文档中设置的布局方式
+                    Layout layoutObj = acadDatabase.Layouts.Element(LayoutManager.Current.CurrentLayout);
+
+                    // 打印设置
+                    PlotSettings plotSettings = CreatePlotSettings(window);
+
+                    // 进行打印
+                    using (var plotEngine = PlotFactory.CreatePublishEngine())
+                    {
+                        PlotTools.Plot(plotEngine, layoutObj, plotSettings, fileName, 1, false, true, true);
+                    }
                 }
             }
         }
