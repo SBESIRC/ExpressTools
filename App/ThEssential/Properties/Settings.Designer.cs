@@ -130,5 +130,17 @@ namespace ThEssential.Properties {
                 this["EditAliasOp"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string QsKey {
+            get {
+                return ((string)(this["QsKey"]));
+            }
+            set {
+                this["QsKey"] = value;
+            }
+        }
     }
 }

@@ -3,6 +3,9 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using AcHelper;
 using DotNetARX;
+using System;
+using System.Collections.Generic;
+using Linq2Acad;
 
 namespace ThEssential.QSelect
 {
@@ -33,7 +36,13 @@ namespace ThEssential.QSelect
             Point3d corner2 = pt2.TranslateCoordinates(UCSTools.CoordSystem.DCS, UCSTools.CoordSystem.UCS);
 
             // 返回UCS下的范围
-            return new Extents3d(corner1, corner2);
+            double minX = Math.Min(corner1.X, corner2.X);
+            double minY = Math.Min(corner1.Y, corner2.Y);
+            double minZ = Math.Min(corner1.Z, corner2.Z);
+            double maxX = Math.Max(corner1.X, corner2.X);
+            double maxY = Math.Max(corner1.Y, corner2.Y);
+            double maxZ = Math.Max(corner1.Z, corner2.Z); 
+            return new Extents3d(new Point3d(minX, minY, minZ), new Point3d(maxX, maxY, maxZ));
         }
 
         /// <summary>
@@ -45,16 +54,59 @@ namespace ThEssential.QSelect
         public static void QSelect(this AbstractViewTableRecord vtr, Entity entity, QSelectFilterType filterType)
         {
             Extents3d extents = vtr.UCSExtent();
-            var result = Active.Editor.SelectWindow(
-                extents.MinPoint, 
-                extents.MaxPoint, 
-                entity.QSelectFilter(filterType));
-            if (result.Status == PromptStatus.OK)
+            if (filterType == QSelectFilterType.QSelectFilterColor)
             {
-                Active.Editor.SetImpliedSelection(result.Value);
+                List<ObjectId> sameColorObjIds = QSelectColor(extents, entity);
+                if (sameColorObjIds.Count > 0)
+                {
+                    Active.Editor.SetImpliedSelection(sameColorObjIds.ToArray());
+                }
+            }
+            else
+            {
+                var result = Active.Editor.SelectWindow(
+                extents.MinPoint,
+                extents.MaxPoint,
+                entity.QSelectFilter(filterType));
+                if (result.Status == PromptStatus.OK)
+                {
+                    Active.Editor.SetImpliedSelection(result.Value);
+                }
             }
         }
-
+        private static List<ObjectId> QSelectColor(Extents3d extents,Entity entity)
+        {
+            List<ObjectId> sameColorObjIds = new List<ObjectId>();
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.SelectWindow(
+               extents.MinPoint,
+               extents.MaxPoint);
+                Autodesk.AutoCAD.Colors.Color entColor = entity.Color;
+                if (entColor.ColorMethod == Autodesk.AutoCAD.Colors.ColorMethod.ByLayer)
+                {
+                    entColor = ThQuickSelect.GetByLayerColor(acadDatabase.Database, entity);
+                }
+                if (result.Status == PromptStatus.OK)
+                {
+                    ObjectId[] findObjIds = result.Value.GetObjectIds();
+                    foreach (ObjectId objId in findObjIds)
+                    {
+                        Entity currentEnt = acadDatabase.Element<Entity>(objId);
+                        Autodesk.AutoCAD.Colors.Color currentColor = currentEnt.Color;
+                        if (currentColor.ColorMethod == Autodesk.AutoCAD.Colors.ColorMethod.ByLayer)
+                        {
+                            currentColor = ThQuickSelect.GetByLayerColor(acadDatabase.Database, currentEnt);
+                        }
+                        if (currentColor.Equals(entColor))
+                        {
+                            sameColorObjIds.Add(objId);
+                        }
+                    }
+                }
+            }
+            return sameColorObjIds;
+        }
         /// <summary>
         /// 快速选择
         /// </summary>

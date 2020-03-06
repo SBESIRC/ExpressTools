@@ -15,7 +15,7 @@ namespace ThEssential
             //
         }
 
-        [CommandMethod("TIANHUACAD", "THQS", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THQS", CommandFlags.Modal | CommandFlags.UsePickSet)]
         public void ThQSelect()
         {
             using (var cmd = new ThQSelectCommand())
@@ -39,7 +39,7 @@ namespace ThEssential
             using (var cmd = new ThMatchPropsCommand())
             {
                 cmd.Execute();
-            }
+            }            
         }
 
         [CommandMethod("TIANHUACAD", "THEQUIPMENT", CommandFlags.Modal)]
