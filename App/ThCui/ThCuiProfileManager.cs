@@ -49,7 +49,7 @@ namespace TianHua.AutoCAD.ThCui
         internal ThCuiProfileManager() { }
         public static ThCuiProfileManager Instance { get { return instance; } }
         //-------------SINGLETON-----------------
-
+        
         
         public Profile CurrentProfile
         {
@@ -63,6 +63,12 @@ namespace TianHua.AutoCAD.ThCui
                 Properties.Settings.Default.Profile = (uint)value;
                 Properties.Settings.Default.Save();
             }
+        }
+
+        public void Reset()
+        {
+            Properties.Settings.Default.Profile = 0;
+            Properties.Settings.Default.Save();
         }
     }
 }

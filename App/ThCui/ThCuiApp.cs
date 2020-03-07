@@ -585,6 +585,7 @@ namespace TianHua.AutoCAD.ThCui
         private void OnLogOut()
         {
             ThIdentityService.Logout();
+            ThCuiProfileManager.Instance.Reset();
 
             // 更新Ribbon
             if (!ThIdentityService.IsLogged())
