@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Autodesk.Windows;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using ThIdentity.SDK;
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -64,6 +65,18 @@ namespace TianHua.AutoCAD.ThCui
                 // 显示登陆按钮，隐藏退出按钮
                 panel.Source.Items.Where(o => o.Id == "ID_THLOGIN").ForEach(o => o.IsVisible = true);
                 panel.Source.Items.Where(o => o.Id == "ID_THLOGOUT").ForEach(o => o.IsVisible = false);
+            }
+        }
+
+        public static void ConfigPanelsWithCurrentUser()
+        {
+            if (ThIdentityService.IsLogged())
+            {
+                ThRibbonUtils.OpenAllPanels();
+            }
+            else
+            {
+                ThRibbonUtils.CloseAllPanels();
             }
         }
 

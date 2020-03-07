@@ -179,18 +179,8 @@ namespace TianHua.AutoCAD.ThCui
                 // 配置完成后就不需要Idle事件
                 AcadApp.Idle -= Application_OnIdle_Ribbon;
 
-                // 根据当前的登录信息配置Panels
-                if (ThIdentityService.IsLogged())
-                {
-                    ThRibbonUtils.OpenAllPanels();
-                }
-                else
-                {
-                    ThRibbonUtils.CloseAllPanels();
-                }
-
-                // 根据当前的Profile配置Panels
-                ThRibbonUtils.ConfigPanelsWithCurrentProfile();
+                // 更新Ribbon
+                UpdateRibbonUserInterface();
             }
         }
 
@@ -211,6 +201,18 @@ namespace TianHua.AutoCAD.ThCui
                     ThMenuBarUtils.DisableMenuItems();
                 }
             }
+        }
+
+        /// <summary>
+        /// 更新当前的Ribbon界面
+        /// </summary>
+        private void UpdateRibbonUserInterface()
+        {
+            // 根据当前的Profile配置Panels
+            ThRibbonUtils.ConfigPanelsWithCurrentProfile();
+
+            // 根据当前的登录信息配置Panels
+            ThRibbonUtils.ConfigPanelsWithCurrentUser();
         }
 
         private void Application_OnIdle_RibbonPaletteSet(object sender, EventArgs e)
@@ -238,15 +240,7 @@ namespace TianHua.AutoCAD.ThCui
                 // 需要保证Ribbon自定义Tab是存在的，并且自定义Tab中的Panels也是存在的。
                 if (ThRibbonUtils.Tab != null && ThRibbonUtils.Tab.Panels.Count != 0)
                 {
-                    // 根据当前的登录信息配置Panels
-                    if (ThIdentityService.IsLogged())
-                    {
-                        ThRibbonUtils.OpenAllPanels();
-                    }
-                    else
-                    {
-                        ThRibbonUtils.CloseAllPanels();
-                    }
+                    ThRibbonUtils.ConfigPanelsWithCurrentUser();
                 }
             }
         }
