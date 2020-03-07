@@ -8,6 +8,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThEssential.Align;
 using ThEssential.Distribute;
+using Autodesk.AutoCAD.Geometry;
 
 namespace ThEssential.Command
 {
@@ -77,16 +78,12 @@ namespace ThEssential.Command
                 }
 
                 // 若选择对齐方式，则指定对齐基点
-                var pointOptions = new PromptPointOptions("\n请指定参考点：")
-                {
-                    AllowNone = true
-                };
-                var ptResult = Active.Editor.GetPoint(pointOptions);
-                if (ptResult.Status != PromptStatus.OK)
+                bool isSuccessSelectPt = false;
+                Point3d alignPt = GetAlignPoint(result.StringResult, entSelected.Value.GetObjectIds(), out isSuccessSelectPt);
+                if(!isSuccessSelectPt)
                 {
                     return;
                 }
-
                 // 执行对齐操作
                 foreach (var alignment in alignments.Where(o => o.Value == result.StringResult))
                 {
@@ -95,39 +92,109 @@ namespace ThEssential.Command
                         var obj = acadDatabase.Element<Entity>(objId, true);
                         if (obj is Polyline polyline)
                         {
-                            polyline.Align(alignment.Key, ptResult.Value);
+                            polyline.Align(alignment.Key, alignPt);
                         }
                         else if (obj is Circle circle)
                         {
-                            circle.Align(alignment.Key, ptResult.Value);
+                            circle.Align(alignment.Key, alignPt);
                         }
                         else if (obj is Arc arc)
                         {
-                            arc.Align(alignment.Key, ptResult.Value);
+                            arc.Align(alignment.Key, alignPt);
                         }
                         else if (obj is Ellipse ellipse)
                         {
-                            ellipse.Align(alignment.Key, ptResult.Value);
+                            ellipse.Align(alignment.Key, alignPt);
                         }
                         else if (obj is DBText dBText)
                         {
-                            dBText.Align(alignment.Key, ptResult.Value);
+                            dBText.Align(alignment.Key, alignPt);
                         }
                         else if (obj is MText mText)
                         {
-                            mText.Align(alignment.Key, ptResult.Value);
+                            mText.Align(alignment.Key, alignPt);
                         }
                         else if (obj is BlockReference blockReference)
                         {
-                            blockReference.Align(alignment.Key, ptResult.Value);
+                            blockReference.Align(alignment.Key, alignPt);
                         }
                         else
                         {
-                            obj.Align(alignment.Key, ptResult.Value);
+                            obj.Align(alignment.Key, alignPt);
                         }
                     }
                 }
             }
+        }
+        /// <summary>
+        /// 获取对齐点
+        /// </summary>
+        /// <param name="alignMode">对齐方式</param>
+        /// <param name="objectIds">传入对齐的物体</param>
+        /// <param name="isPromptStatusOK"></param>
+        /// <returns></returns>
+        private Point3d GetAlignPoint(string alignMode,ObjectId[] objectIds,out bool isPromptStatusOK)
+        {
+            Point3d userSelectPt = Point3d.Origin;
+            isPromptStatusOK = false;
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                // 执行对齐操作c
+                List<Entity> copyEnts = new List<Entity>();
+                foreach (var alignment in alignments.Where(o => o.Value == alignMode))
+                {
+                    foreach (var objId in objectIds)
+                    {
+                        var obj = acadDatabase.Element<Entity>(objId, true);
+                        Entity cloneObj = obj.Clone() as Entity;
+                        copyEnts.Add(cloneObj);
+                        if (cloneObj is Polyline polyline)
+                        {
+                            polyline.Align(alignment.Key, Point3d.Origin);
+                        }
+                        else if (cloneObj is Circle circle)
+                        {
+                            circle.Align(alignment.Key, Point3d.Origin);
+                        }
+                        else if (cloneObj is Arc arc)
+                        {
+                            arc.Align(alignment.Key, Point3d.Origin);
+                        }
+                        else if (cloneObj is Ellipse ellipse)
+                        {
+                            ellipse.Align(alignment.Key, Point3d.Origin);
+                        }
+                        else if (cloneObj is DBText dBText)
+                        {
+                            dBText.Align(alignment.Key, Point3d.Origin);
+                        }
+                        else if (cloneObj is MText mText)
+                        {
+                            mText.Align(alignment.Key, Point3d.Origin);
+                        }
+                        else if (cloneObj is BlockReference blockReference)
+                        {
+                            blockReference.Align(alignment.Key, Point3d.Origin);
+                        }
+                        else
+                        {
+                            cloneObj.Align(alignment.Key, Point3d.Origin);
+                        }
+                    }
+                }
+
+                ThAlignDrawJig thAlignDrawJig = new ThAlignDrawJig(Point3d.Origin);
+                copyEnts.ForEach(i => thAlignDrawJig.AddEntity(i));
+
+                PromptResult pr= Active.Editor.Drag(thAlignDrawJig);
+                if(pr.Status==PromptStatus.OK)
+                {
+                    isPromptStatusOK = true;
+                    userSelectPt = thAlignDrawJig.Location.TransformBy(thAlignDrawJig.UCS.Inverse());
+                }
+                copyEnts.ForEach(i => i.Dispose());
+            }
+            return userSelectPt;
         }
     }
 }

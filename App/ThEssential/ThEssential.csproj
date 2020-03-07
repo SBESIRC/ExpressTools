@@ -33,6 +33,7 @@
     <Compile Include="Align\ThAlignBlockReferenceExtension.cs" />
     <Compile Include="Align\ThAlignCircleExtension.cs" />
     <Compile Include="Align\ThAlignDBTextExtension.cs" />
+    <Compile Include="Align\ThAlignDrawJig.cs" />
     <Compile Include="Align\ThAlignEllipseExtension.cs" />
     <Compile Include="Align\ThAlignEntityExtension.cs" />
     <Compile Include="Align\ThAlignExtent3dExtension.cs" />

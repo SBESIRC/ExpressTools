@@ -39,7 +39,7 @@ namespace ThEssential
             using (var cmd = new ThMatchPropsCommand())
             {
                 cmd.Execute();
-            }            
+            }
         }
 
         [CommandMethod("TIANHUACAD", "THEQUIPMENT", CommandFlags.Modal)]
