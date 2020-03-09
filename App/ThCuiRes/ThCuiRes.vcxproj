@@ -92,9 +92,12 @@
     <Image Include="Images\THABC_dark.ico" />
     <Image Include="Images\THALC_dark.ico" />
     <Image Include="Images\THBAC_dark.ico" />
-    <Image Include="Images\THBBE_dark.ico" />
-    <Image Include="Images\THBBR_dark.ico" />
-    <Image Include="Images\THBBS_dark.ico" />
+    <Image Include="Images\THBBE_dark_small.ico" />
+    <Image Include="Images\THBBE_dark_large.ico" />
+    <Image Include="Images\THBBR_dark_large.ico" />
+    <Image Include="Images\THBBR_dark_small.ico" />
+    <Image Include="Images\THBBS_dark_small.ico" />
+    <Image Include="Images\THBBS_dark_large.ico" />
     <Image Include="Images\THBEE_dark.ico" />
     <Image Include="Images\THBLI_dark.ico" />
     <Image Include="Images\THBLS_dark.ico" />

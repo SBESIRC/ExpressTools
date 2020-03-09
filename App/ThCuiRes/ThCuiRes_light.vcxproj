@@ -92,9 +92,12 @@
     <Image Include="Images\THABC_light.ico" />
     <Image Include="Images\THALC_light.ico" />
     <Image Include="Images\THBAC_light.ico" />
-    <Image Include="Images\THBBE_light.ico" />
-    <Image Include="Images\THBBR_light.ico" />
-    <Image Include="Images\THBBS_light.ico" />
+    <Image Include="Images\THBBE_light_small.ico" />
+    <Image Include="Images\THBBE_light_large.ico" />
+    <Image Include="Images\THBBR_light_large.ico" />
+    <Image Include="Images\THBBR_light_small.ico" />
+    <Image Include="Images\THBBS_light_small.ico" />
+    <Image Include="Images\THBBS_light_large.ico" />
     <Image Include="Images\THBEE_light.ico" />
     <Image Include="Images\THBLI_light.ico" />
     <Image Include="Images\THBLS_light.ico" />

@@ -175,8 +175,8 @@ namespace TianHua.AutoCAD.ThCui
                     "天华插块断线",
                     "THBBR",
                     "将选择的图块插入到直线/多段线时自动断线",
-                    "IDI_THCAD_THBBR",
-                    "IDI_THCAD_THBBR",
+                    "IDI_THCAD_THBBR_SMALL",
+                    "IDI_THCAD_THBBR_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 选块断线
@@ -184,8 +184,8 @@ namespace TianHua.AutoCAD.ThCui
                     "天华选块断线",
                     "THBBE",
                     "点选单个图块，根据所需断线的切线方向自动调整图块角度且完成断线",
-                    "IDI_THCAD_THBBE",
-                    "IDI_THCAD_THBBE",
+                    "IDI_THCAD_THBBE_SMALL",
+                    "IDI_THCAD_THBBE_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 全选断线
@@ -193,8 +193,8 @@ namespace TianHua.AutoCAD.ThCui
                     "天华全选断线",
                     "THBBS",
                     "批量选择需要断线的图块，根据各自所需断线的切线方向自动调整图块角度且完成断线",
-                    "IDI_THCAD_THBBS",
-                    "IDI_THCAD_THBBS",
+                    "IDI_THCAD_THBBS_SMALL",
+                    "IDI_THCAD_THBBS_LARGE",
                     RibbonButtonStyle.LargeWithText);
             }
         }
