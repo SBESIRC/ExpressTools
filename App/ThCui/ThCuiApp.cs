@@ -117,6 +117,8 @@ namespace TianHua.AutoCAD.ThCui
 
             //注册DocumentCollection事件
             AcadApp.DocumentManager.DocumentLockModeChanged += DocCollEvent_DocumentLockModeChanged_Handler;
+            //注册SystemVariableChanged 事件
+            AcadApp.SystemVariableChanged += SystemVariableChangedHandler;
 
 #if DEBUG
             //  在装载模块时主动装载局部CUIX文件
@@ -152,6 +154,8 @@ namespace TianHua.AutoCAD.ThCui
 
             //反注册DocumentCollection事件
             AcadApp.DocumentManager.DocumentLockModeChanged -= DocCollEvent_DocumentLockModeChanged_Handler;
+            //反注册SystemVariableChanged 事件
+            AcadApp.SystemVariableChanged -= SystemVariableChangedHandler;
 
 #if DEBUG
             //  在卸载模块时主动卸载局部CUIX文件
@@ -286,6 +290,15 @@ namespace TianHua.AutoCAD.ThCui
                     e.Veto();
                     AcadApp.Idle += Application_OnIdle_Cmd_Veto;
                 }
+            }
+        }
+
+        private void SystemVariableChangedHandler(object sender, SystemVariableChangedEventArgs e)
+        {
+            if (e.Name == "WSCURRENT")
+            {
+                // CUI界面更新
+                AcadApp.Idle += Application_OnIdle_Ribbon;
             }
         }
 
