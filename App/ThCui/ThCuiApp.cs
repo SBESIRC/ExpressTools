@@ -61,19 +61,25 @@ namespace TianHua.AutoCAD.ThCui
             {"THTET", "综合经济技术指标表"},
             {"THFET", "消防疏散表"},
             {"THABC", "房间面积框线"},
-            
-            // 辅助工具
-            {"THMSC", "批量缩放"},
-            {"THZ0", "Z值归零"},
-            {"DGNPURGE", "DGN清理"},
-            {"THBPT", "批量打印PDF"},
-            {"THBPD", "批量打印DWF"},
-            {"THBPP", "批量打印PPT"},
-            {"THSVM", "版次信息修改"},
-            {"THLTR", "管线断线"},
-            {"THMIR", "文字块镜像"},
+
+            // 平面绘图
+            {"THSPC", "喷头布置"},
+
             // 文字表格
             {"THMTC", "文字内容刷"},
+            
+            // 辅助工具
+            {"THQS",        "快选命令集"},
+            {"THAL",        "对齐命令集"},
+            {"THMSC",       "批量缩放"},
+            {"THZ0",        "Z值归零"},
+            {"DGNPURGE",    "DGN清理"},
+            {"THBPT",       "批量打印PDF"},
+            {"THBPD",       "批量打印DWF"},
+            {"THBPP",       "批量打印PPT"},
+            {"THSVM",       "版次信息修改"},
+            {"THLTR",       "管线断线"},
+            {"THMIR",       "文字块镜像"},
 
             // 第三方支持
             {"T20V4", "获取天正看图T20V4.0插件"},
