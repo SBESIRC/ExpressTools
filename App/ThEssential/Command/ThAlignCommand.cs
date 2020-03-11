@@ -141,8 +141,10 @@ namespace ThEssential.Command
             {
                 // 执行对齐操作c
                 List<Entity> copyEnts = new List<Entity>();
+                AlignMode alignModeKey= AlignMode.XFont;
                 foreach (var alignment in alignments.Where(o => o.Value == alignMode))
                 {
+                    alignModeKey = alignment.Key;
                     foreach (var objId in objectIds)
                     {
                         var obj = acadDatabase.Element<Entity>(objId, true);
@@ -150,40 +152,40 @@ namespace ThEssential.Command
                         copyEnts.Add(cloneObj);
                         if (cloneObj is Polyline polyline)
                         {
-                            polyline.Align(alignment.Key, Point3d.Origin);
+                            polyline.Align(alignModeKey, Point3d.Origin);
                         }
                         else if (cloneObj is Circle circle)
                         {
-                            circle.Align(alignment.Key, Point3d.Origin);
+                            circle.Align(alignModeKey, Point3d.Origin);
                         }
                         else if (cloneObj is Arc arc)
                         {
-                            arc.Align(alignment.Key, Point3d.Origin);
+                            arc.Align(alignModeKey, Point3d.Origin);
                         }
                         else if (cloneObj is Ellipse ellipse)
                         {
-                            ellipse.Align(alignment.Key, Point3d.Origin);
+                            ellipse.Align(alignModeKey, Point3d.Origin);
                         }
                         else if (cloneObj is DBText dBText)
                         {
-                            dBText.Align(alignment.Key, Point3d.Origin);
+                            dBText.Align(alignModeKey, Point3d.Origin);
                         }
                         else if (cloneObj is MText mText)
                         {
-                            mText.Align(alignment.Key, Point3d.Origin);
+                            mText.Align(alignModeKey, Point3d.Origin);
                         }
                         else if (cloneObj is BlockReference blockReference)
                         {
-                            blockReference.Align(alignment.Key, Point3d.Origin);
+                            blockReference.Align(alignModeKey, Point3d.Origin);
                         }
                         else
                         {
-                            cloneObj.Align(alignment.Key, Point3d.Origin);
+                            cloneObj.Align(alignModeKey, Point3d.Origin);
                         }
                     }
                 }
 
-                ThAlignDrawJig thAlignDrawJig = new ThAlignDrawJig(Point3d.Origin);
+                ThAlignDrawJig thAlignDrawJig = new ThAlignDrawJig(Point3d.Origin, alignModeKey);
                 copyEnts.ForEach(i => thAlignDrawJig.AddEntity(i));
 
                 PromptResult pr= Active.Editor.Drag(thAlignDrawJig);
