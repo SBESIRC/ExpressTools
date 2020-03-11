@@ -4,6 +4,7 @@ using Autodesk.AutoCAD.ApplicationServices;
 using AcHelper;
 using System.Collections.Generic;
 using Linq2Acad;
+using System.Linq;
 
 namespace ThEssential.QSelect
 {

@@ -6,6 +6,7 @@ using DotNetARX;
 using System;
 using System.Collections.Generic;
 using Linq2Acad;
+using System.Linq;
 
 namespace ThEssential.QSelect
 {
