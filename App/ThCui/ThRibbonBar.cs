@@ -218,8 +218,8 @@ namespace TianHua.AutoCAD.ThCui
                 "天华尺寸避让",
                 "THDTA",
                 "调整交叉或重叠的标注文字以避免发生位置冲突",
-                "IDI_THCAD_THDTA",
-                "IDI_THCAD_THDTA",
+                "IDI_THCAD_THDTA_SMALL",
+                "IDI_THCAD_THDTA_LARGE",
                 RibbonButtonStyle.LargeWithText);
         }
 
@@ -650,8 +650,8 @@ namespace TianHua.AutoCAD.ThCui
                     "天华批量缩放",
                     "THMSC",
                     "对多个选择对象以各自的开始点（插入点）为基准点进行批量比例缩放",
-                    "IDI_THCAD_THMSC",
-                    "IDI_THCAD_THMSC",
+                    "IDI_THCAD_THMSC_SMALL",
+                    "IDI_THCAD_THMSC_LARGE",
                     RibbonButtonStyle.SmallWithText);
 
                 // Z值归零
@@ -660,8 +660,8 @@ namespace TianHua.AutoCAD.ThCui
                     "天华Z值归零",
                     "THZ0",
                     "将模型空间内所有对象Z值归零，使之处于同一平面",
-                    "IDI_THCAD_THZ0",
-                    "IDI_THCAD_THZ0",
+                    "IDI_THCAD_THZ0_SMALL",
+                    "IDI_THCAD_THZ0_LARGE",
                     RibbonButtonStyle.SmallWithText);
 
                 // DGN清理
@@ -673,16 +673,16 @@ namespace TianHua.AutoCAD.ThCui
                     "DGN清理",
                     "PURGE",
                     "清理图纸中多余DGN对象，含多余的DGN线型、注释比例等",
-                    "IDI_THCAD_DGNPURGE",
-                    "IDI_THCAD_DGNPURGE",
+                    "IDI_THCAD_DGNPURGE_SMALL",
+                    "IDI_THCAD_DGNPURGE_LARGE",
                     RibbonButtonStyle.SmallWithText);
 #else
                 subRow.AddNewButton("DGN清理",
                     "DGN清理",
                     "DGNPURGE",
                     "清理图纸中多余DGN对象，含多余的DGN线型、注释比例等",
-                    "IDI_THCAD_DGNPURGE",
-                    "IDI_THCAD_DGNPURGE",
+                    "IDI_THCAD_DGNPURGE_SMALL",
+                    "IDI_THCAD_DGNPURGE_LARGE",
                     RibbonButtonStyle.SmallWithText);
 #endif
 
@@ -698,8 +698,8 @@ namespace TianHua.AutoCAD.ThCui
                     "批量打印PDF",
                     "THBPT",
                     "选择需要批量打印的天华图框，将图纸批量打印为PDF文件，读取图框中的图纸编号重命名相应PDF文件",
-                    "IDI_THCAD_THBPT",
-                    "IDI_THCAD_THBPT",
+                    "IDI_THCAD_THBPT_SMALL",
+                    "IDI_THCAD_THBPT_LARGE",
                     RibbonButtonStyle.SmallWithText);
 
                 // 批量打印DWF
@@ -708,8 +708,8 @@ namespace TianHua.AutoCAD.ThCui
                     "批量打印DWF",
                     "THBPD",
                     "选择需要批量打印的天华图框，将图纸批量打印为DWF文件，读取图框中的图纸编号重命名相应DWF文件",
-                    "IDI_THCAD_THBPD",
-                    "IDI_THCAD_THBPD",
+                    "IDI_THCAD_THBPD_SMALL",
+                    "IDI_THCAD_THBPD_LARGE",
                     RibbonButtonStyle.SmallWithText);
 
                 // 批量打印PPT
@@ -718,8 +718,8 @@ namespace TianHua.AutoCAD.ThCui
                     "批量打印PPT",
                     "THBPP",
                     "选择需要批量打印的PPT框线，将图纸批量打印为单个PPT文件，读取打印窗口框线与PPT框线的位置完成PPT内图片的定位",
-                    "IDI_THCAD_THBPP",
-                    "IDI_THCAD_THBPP",
+                    "IDI_THCAD_THBPP_SMALL",
+                    "IDI_THCAD_THBPP_LARGE",
                     RibbonButtonStyle.SmallWithText);
             }
 
@@ -733,8 +733,8 @@ namespace TianHua.AutoCAD.ThCui
                     "版次信息修改",
                     "THSVM",
                     "批量修改图框内的版次信息或出图日期",
-                    "IDI_THCAD_THSVM",
-                    "IDI_THCAD_THSVM",
+                    "IDI_THCAD_THSVM_SMALL",
+                    "IDI_THCAD_THSVM_LARGE",
                     RibbonButtonStyle.SmallWithText);
 
                 // 管线断线
@@ -743,8 +743,8 @@ namespace TianHua.AutoCAD.ThCui
                     "管线断线",
                     "THLTR",
                     "批量处理管线断线",
-                    "IDI_THCAD_THLTR",
-                    "IDI_THCAD_THLTR",
+                    "IDI_THCAD_THLTR_SMALL",
+                    "IDI_THCAD_THLTR_LARGE",
                     RibbonButtonStyle.SmallWithText);
 
                 // 文字块镜像
@@ -753,8 +753,8 @@ namespace TianHua.AutoCAD.ThCui
                     "文字块镜像",
                     "THMIR",
                     "镜像含文字块，使文字不反向",
-                    "IDI_THCAD_THMIR",
-                    "IDI_THCAD_THMIR",
+                    "IDI_THCAD_THMIR_SMALL",
+                    "IDI_THCAD_THMIR_LARGE",
                     RibbonButtonStyle.SmallWithText);
             }
         }
