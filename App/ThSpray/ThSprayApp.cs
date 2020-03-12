@@ -44,6 +44,8 @@ namespace ThSpray
                 return;
             }
 
+            int nTotalFailed = 0; // 喷淋布置的时候失败的个数
+            int nSuccess = 0;
             var userData = SprayParam.placeData;
             Document doc = AcadApp.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
@@ -105,11 +107,15 @@ namespace ThSpray
                     // 内梁
                     var insertPts = Utils.MakeInnerProfiles(innerCurves, roomPoly, userData);
                     if (insertPts == null || insertPts.Count == 0)
+                    {
+                        nTotalFailed++;
                         continue;
+                    }
 
                     // 插入块
                     Utils.InsertSprayBlock(insertPts, userData.type);
                     curStep += inc;
+                    nSuccess++;
                     ProgressDialog.SetValue(curStep);
                 }
 
@@ -242,6 +248,7 @@ namespace ThSpray
 
                 // 插入块
                 Utils.InsertSprayBlock(insertPts, userData.type);
+                nSuccess++;
                 ProgressDialog.HideProgress();
             }
             else if (userData.putType == PutType.PICKPOINT)
@@ -356,12 +363,16 @@ namespace ThSpray
                     // 内梁
                     var insertPts = Utils.MakeInnerProfiles(innerCurves, profile.First() as Polyline, userData);
                     if (insertPts == null || insertPts.Count == 0)
+                    {
+                        nTotalFailed++;
                         continue;
+                    }
 
                     hasPutPolylines.Add(profile.First() as Polyline);
                     // 插入块
                     Utils.InsertSprayBlock(insertPts, userData.type);
                     curStep = inc + curStep;
+                    nSuccess++;
                     ProgressDialog.SetValue(curStep);
                 }
 
@@ -370,7 +381,17 @@ namespace ThSpray
                 ProgressDialog.HideProgress();
             }
 
-            Active.WriteMessage("布置完成");
+            if (nTotalFailed > 0)
+            {
+                var tip = "布置完成，其中";
+                tip += nTotalFailed;
+                tip += "个房间无法布置";
+                Active.WriteMessage(tip);
+            }
+            else if (nSuccess > 0)
+            {
+                Active.WriteMessage("布置完成");
+            }
         }
     }
 }
