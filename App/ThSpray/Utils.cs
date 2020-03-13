@@ -627,7 +627,7 @@ namespace ThSpray
             var beamLoops = TopoUtils.MakeSrcProfilesNoTes(relatedCurves);
             if (beamLoops == null || beamLoops.Count == 0)
                 return null;
-            Utils.DrawProfile(beamLoops, "beamLoops");
+            //Utils.DrawProfile(beamLoops, "beamLoops");
             var validLoops = EraseInvalidLoops(beamLoops, userData.minBeamGap);
 
             if (validLoops == null || validLoops.Count == 0)
