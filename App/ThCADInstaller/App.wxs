@@ -328,19 +328,19 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ExtensionTools_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ExtensionTools.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Release" Guid="{DA4F2F82-7879-4238-B87B-A4A038863A8A}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThCui_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThCui.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThCui_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThCui.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Release" Guid="{ED56D6C6-5601-480B-AF24-13AE73A8841D}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThParking_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThParking.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThParking_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThParking.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_XamlBehaviorsWpf_Release" Guid="{897E9ADC-C06E-43BB-BD91-3D343005D006}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_XamlBehaviorsWpf_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Microsoft.Xaml.Behaviors.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrame_Release" Guid="{EA8EEF57-C025-4DAD-8DBC-DE7A5E345B5C}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAreaFrame_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThAreaFrame.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAreaFrame_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThAreaFrame.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAutoUpdate_Release" Guid="{FA1CC171-5EA0-4697-AF59-A41887AF27FE}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAutoUpdate_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThAutoUpdate.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAutoUpdate_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThAutoUpdate.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NetSparkle_Release" Guid="{A649E92A-B2F9-4C8F-999F-4DD1583CDCDD}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_NetSparkle_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\NetSparkle.dll" />
@@ -358,7 +358,7 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_Threading_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Microsoft.Threading.Tasks.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAnalytics_Release" Guid="{C52BBB4E-8D8C-446B-84E3-89B947E7801C}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAnalytics_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThAnalytics.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAnalytics_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThAnalytics.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThIdentity_Release" Guid="{A9F4CE72-8C50-4688-8D71-39A26BCF03A7}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThIdentity_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThIdentity.dll" />
@@ -367,19 +367,19 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\RestSharp.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThLicense_Release" Guid="{EE7C5016-0B73-440E-846B-350B815230F3}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThLicense.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThLicense.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Release" Guid="{9469877B-0C72-44C7-A07D-85502B89D796}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThResourceLibrary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThResourceLibrary.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Release" Guid="{044C66DA-9634-422E-AA36-BEE98C5EEA0A}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThElectricalSysDiagram.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThElectricalSysDiagram.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" Guid="{1B317CB9-7CBD-4938-A390-A7D1F274275F}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2012\DgnLsPurge.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Release" Guid="{3AC8A833-3D51-4D30-BF11-FE4D67AD3D9B}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThAreaFrameConfig.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThAreaFrameConfig.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Release" Guid="{A60ABDE2-625D-45EE-A6F2-A11B0797C6F9}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThPlot.dll" />
@@ -391,10 +391,10 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThRoomBoundary.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThXClip_Release" Guid="{6E207B75-5809-42CA-8666-4C85C93FB5E1}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThXClip.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThXClip.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThMirror_Release" Guid="{BD43363E-75A2-481C-B7C6-944B86A3D03F}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThMirror.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Dotfuscated\ThMirror.dll" />
       </Component>
     <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAlign_Release" Guid="{36A20133-1F64-41C9-BBDC-5E7E80B7FA1D}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAlign_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThEssential.dll" />
@@ -409,19 +409,19 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ExtensionTools.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Release" Guid="{428747DA-1443-437A-BB30-87758C98697C}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThCui_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThCui.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThCui_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThCui.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Release" Guid="{D3EB23DD-EF91-4DC0-98EE-E736A248E5AD}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThParking_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThParking.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThParking_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThParking.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_XamlBehaviorsWpf_Release" Guid="{4D891E99-1EA7-43AF-991B-9BE152A254D3}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_XamlBehaviorsWpf_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Microsoft.Xaml.Behaviors.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Release" Guid="{3938F274-538B-49BB-8B36-44155AF99F45}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThAreaFrame.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThAreaFrame.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAutoUpdate_Release" Guid="{F596548A-2DEF-44F9-9F2A-8B85EAA1F8BF}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAutoUpdate_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThAutoUpdate.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAutoUpdate_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThAutoUpdate.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NetSparkle_Release" Guid="{CF6EFB0D-3821-4D51-BAD7-5AC26943D251}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_NetSparkle_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\NetSparkle.dll" />
@@ -448,19 +448,19 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\RestSharp.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThLicense_Release" Guid="{0CA46FA1-9DFC-47D8-BACB-7D51AE6A322A}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThLicense.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThLicense.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Release" Guid="{F14C38F5-EA8E-4F89-BFFB-987F3FCBDA96}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThResourceLibrary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThResourceLibrary.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Release" Guid="{1CE608AF-4643-4FC2-8C7C-E4AAB7BCE8F9}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThElectricalSysDiagram.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThElectricalSysDiagram.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" Guid="{3BEDE9E4-D57D-4F63-9D34-7382C82629D9}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" KeyPath="yes" Source="$(var.AutoloaderContentsPath)\Win64\2014\DgnLsPurge.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Release" Guid="{057CDDA6-BA3C-421E-985B-A4460CB42BEF}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThAreaFrameConfig.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThAreaFrameConfig.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Release" Guid="{3679303E-44A2-4F83-BF76-9815AFFEB184}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThPlot.dll" />
@@ -472,10 +472,10 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThRoomBoundary.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThXClip_Release" Guid="{0B109481-BC5A-4B10-9D79-1C435DE82331}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThXClip.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThXClip.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThMirror_Release" Guid="{8550F858-A65B-4621-B0E4-32A04B97002E}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThMirror.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Dotfuscated\ThMirror.dll" />
       </Component>
     <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAlign_Release" Guid="{804F0064-D18C-43A6-9E5D-EF74A335D3B6}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAlign_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThEssential.dll" />
@@ -490,19 +490,19 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ExtensionTools.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Release" Guid="{d4e4af73-e8d7-46ab-b183-097de572b975}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThCui_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThCui.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThCui_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThCui.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Release" Guid="{f5550fc9-705d-454c-a961-030a6cab77b0}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThParking_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThParking.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThParking_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThParking.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_XamlBehaviorsWpf_Release" Guid="{4b5f368e-ce3f-4387-9b35-8f24af4cf2a8}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_XamlBehaviorsWpf_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Microsoft.Xaml.Behaviors.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAreaFrame_Release" Guid="{3279e288-521f-45b9-9a4b-c9e9f2f45ce0}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAreaFrame_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThAreaFrame.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAreaFrame_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThAreaFrame.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAutoUpdate_Release" Guid="{2d3f5fbe-980e-4453-ab83-fc862a8a58cf}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAutoUpdate_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThAutoUpdate.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAutoUpdate_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThAutoUpdate.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_NetSparkle_Release" Guid="{e0d7c394-c324-451d-b04e-47f3e65d1cc1}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_NetSparkle_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\NetSparkle.dll" />
@@ -520,7 +520,7 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_Threading_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Microsoft.Threading.Tasks.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAnalytics_Release" Guid="{9ad64463-3dc0-48eb-ae3c-7c65701ef996}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAnalytics_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThAnalytics.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAnalytics_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThAnalytics.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThIdentity_Release" Guid="{fdc5b74f-3ec6-4d5e-bfa0-9ffd84243638}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThIdentity_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThIdentity.dll" />
@@ -529,16 +529,16 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\RestSharp.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThLicense_Release" Guid="{c083976f-5c24-4b2d-a46f-b31f4b867610}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThLicense.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThLicense.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThResourceLibrary_Release" Guid="{bc46060e-c37f-4e0b-9a87-41f3e02604a5}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThResourceLibrary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThResourceLibrary.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Release" Guid="{1500fb8a-3087-44a7-9626-272b3a756f40}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThElectricalSysDiagram.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThElectricalSysDiagram.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Release" Guid="{d3be03a0-3806-4b6f-b9b4-dae86441a33a}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThAreaFrameConfig.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThAreaFrameConfig.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThPlot_Release" Guid="{958f0a56-dc2a-4413-8d82-3e1aafee9ea4}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThPlot.dll" />
@@ -550,10 +550,10 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThRoomBoundary.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThXClip_Release" Guid="{01069FF5-70FE-4C69-8982-032B7FC79B6B}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThXClip.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThXClip.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThMirror_Release" Guid="{DD8161D3-B89B-47FF-9EB3-9724988F3FB1}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThMirror.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Dotfuscated\ThMirror.dll" />
       </Component>
     <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAlign_Release" Guid="{2D6C3953-5E2D-43AF-80FE-3D500831FF9A}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAlign_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThEssential.dll" />
@@ -568,19 +568,19 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ExtensionTools_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ExtensionTools.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThCui_Release" Guid="{99700CC9-C291-431D-9D5B-FA9EEAAD40F8}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThCui_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThCui.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThCui_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Dotfuscated\ThCui.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThParking_Release" Guid="{A9E8C79D-9EE3-4802-83AE-7F3D90EF61FD}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThParking_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThParking.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThParking_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Dotfuscated\ThParking.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_XamlBehaviorsWpf_Release" Guid="{BB0129FC-C224-4CEF-A107-42CC2520580B}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_XamlBehaviorsWpf_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Microsoft.Xaml.Behaviors.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThAreaFrame_Release" Guid="{1D645981-2153-4549-A10E-08996AA95080}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAreaFrame_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThAreaFrame.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAreaFrame_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Dotfuscated\ThAreaFrame.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThAutoUpdate_Release" Guid="{3516C547-696F-4AC0-8EEE-3A232709EBD4}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAutoUpdate_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThAutoUpdate.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAutoUpdate_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Dotfuscated\ThAutoUpdate.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_NetSparkle_Release" Guid="{D89CF869-E561-42C9-A649-A4159A624454}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_NetSparkle_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\NetSparkle.dll" />
@@ -598,7 +598,7 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_Threading_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Microsoft.Threading.Tasks.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThAnalytics_Release" Guid="{14015676-71BA-4F83-943B-142014B18D31}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAnalytics_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThAnalytics.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAnalytics_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Dotfuscated\ThAnalytics.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThIdentity_Release" Guid="{25C62E77-2FCF-4DBF-842D-FE97865C2D3D}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThIdentity_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThIdentity.dll" />
@@ -607,16 +607,16 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\RestSharp.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThLicense_Release" Guid="{75DC158B-DB9D-45BB-B145-E8D28A385F81}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThLicense.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThLicense_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Dotfuscated\ThLicense.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThResourceLibrary_Release" Guid="{E1C13C5C-A347-4F9F-A0F8-1D9F70EFB748}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThResourceLibrary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThResourceLibrary.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThElectricalSysDiagram_Release" Guid="{780AC211-9FF8-41AA-8ED8-3EA7C7CF87EB}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThElectricalSysDiagram_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThElectricalSysDiagram.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThElectricalSysDiagram_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Dotfuscated\ThElectricalSysDiagram.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThAreaFrameConfig_Release" Guid="{FC7EF5F8-8964-4140-A1D0-37CC459F19A6}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThAreaFrameConfig.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Dotfuscated\ThAreaFrameConfig.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThPlot_Release" Guid="{1B3387C8-BCC6-4F26-AA99-D16E72F85CB0}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Dotfuscated\ThPlot.dll" />
@@ -628,10 +628,10 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Dotfuscated\ThRoomBoundary.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThXClip_Release" Guid="{C66F339D-EEDB-4C94-BC85-A39CA32F3EB6}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThXClip.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Dotfuscated\ThXClip.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThMirror_Release" Guid="{419F208C-F80D-4AEA-832A-BE5A782C8B56}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThMirror.dll" />
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Dotfuscated\ThMirror.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThAlign_Release" Guid="{E0F842C8-AB4A-4FBC-9079-68D32B7B0700}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAlign_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThEssential.dll" />
