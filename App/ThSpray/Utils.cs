@@ -554,10 +554,10 @@ namespace ThSpray
         {
             // 梁轮廓内部数据提取
             double offset = 0;
-            if (minSprayOffset > 200)
+            if (minSprayOffset > 310)
                 offset = minSprayOffset;
             else
-                offset = 200;
+                offset = 310;
             var validLoops = new List<Curve>();
             for (int i = 0; i < beamLoops.Count; i++)
             {
