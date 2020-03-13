@@ -154,6 +154,7 @@
     <Compile Include="ThAppTools.cs" />
     <Compile Include="ThBlockReferenceExtensions.cs" />
     <Compile Include="ThEditorExtension.cs" />
+    <Compile Include="ThMPolygonTool.cs" />
     <Compile Include="ThPickTool.cs" />
     <Compile Include="PointCollector.cs" />
     <Compile Include="ThPoint3dCollectionExtensions.cs" />
