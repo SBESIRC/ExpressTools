@@ -40,9 +40,15 @@
     <Compile Include="Align\ThAlignMTextExtension.cs" />
     <Compile Include="Align\ThAlignPolylineExtension.cs" />
     <Compile Include="Command\ThAlignCommand.cs" />
+    <Compile Include="Command\ThCopyCommand.cs" />
     <Compile Include="Command\ThEquipmentCommand.cs" />
     <Compile Include="Command\ThMatchPropsCommand.cs" />
     <Compile Include="Command\ThQSelectCommand.cs" />
+    <Compile Include="Copy\ThCopyArrayJig.cs" />
+    <Compile Include="Copy\ThCopyArrayOptions.cs" />
+    <Compile Include="Copy\ThCopyArrayTransient.cs" />
+    <Compile Include="Copy\ThCopyArrayUtils.cs" />
+    <Compile Include="Copy\ThCopyDistanceJig.cs" />
     <Compile Include="Distribute\ThDistribute.cs" />
     <Compile Include="Distribute\ThDistributeExtent3dExtension.cs" />
     <Compile Include="Distribute\ThDistributeObjectIdCollectionExtension.cs" />
