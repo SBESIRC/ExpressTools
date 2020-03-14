@@ -11,13 +11,11 @@ namespace TianHua.AutoCAD.ThCui
             if (tab != null)
             {
                 CreateHelpPanel(tab);
-                CreateBlockPanel(tab);
-                CreateAnnotationPanel(tab);
-                CreateLayerPanel(tab);
                 CreatStatisticPanel(tab);
-                CreatePlanePutPanel(tab);
-                CreateTextPanel(tab);
-                CreateAuxiliaryPanel(tab);
+                CreateDrawToolPanel(tab);
+                CreatePlotToolPanel(tab);
+                CreatePurgeToolPanel(tab);
+                CreateBlockToolPanel(tab);
                 CreateMiscellaneousPanel(tab);
             }
         }
@@ -129,246 +127,13 @@ namespace TianHua.AutoCAD.ThCui
                 RibbonButtonStyle.LargeWithText);
         }
 
-        private static void CreateBlockPanel(RibbonTabSource tab)
-        {
-            // 图块图集
-            var panel = tab.AddNewPanel("Block", "图块图库");
-            var row = panel.AddNewRibbonRow();
-
-            // 图块集
-            row.AddNewButton("图块集",
-                "天华图块集",
-                "THBLI",
-                "打开图块集工具选项板",
-                "IDI_THCAD_THBLI",
-                "IDI_THCAD_THBLI",
-                RibbonButtonStyle.LargeWithText);
-
-            // 图块集配置
-            row.AddNewButton("图块集配置",
-                "天华图块集配置",
-                "THBLS",
-                "配置各专业图块集",
-                "IDI_THCAD_THBLS",
-                "IDI_THCAD_THBLS",
-                RibbonButtonStyle.LargeWithText);
-
-            // 提电气块转换
-            row.AddNewButton("提电气块\r\n转换",
-                "天华提电气块转换",
-                "THBEE",
-                "将暖通和给排水专业提资给电气的图块转换为电气专业所需的图块",
-                "IDI_THCAD_THBEE",
-                "IDI_THCAD_THBEE",
-                RibbonButtonStyle.LargeWithText);
-
-            // 图块断线
-            {
-                var splitButton = row.AddNewSplitButton(
-                    "图块断线",
-                    RibbonSplitButtonBehavior.SplitFollow,
-                    RibbonSplitButtonListStyle.IconText,
-                    RibbonButtonStyle.LargeWithText);
-
-                // 插块断线
-                splitButton.AddNewButton("插块断线",
-                    "天华插块断线",
-                    "THBBR",
-                    "将选择的图块插入到直线/多段线时自动断线",
-                    "IDI_THCAD_THBBR_SMALL",
-                    "IDI_THCAD_THBBR_LARGE",
-                    RibbonButtonStyle.LargeWithText);
-
-                // 选块断线
-                splitButton.AddNewButton("选块断线",
-                    "天华选块断线",
-                    "THBBE",
-                    "点选单个图块，根据所需断线的切线方向自动调整图块角度且完成断线",
-                    "IDI_THCAD_THBBE_SMALL",
-                    "IDI_THCAD_THBBE_LARGE",
-                    RibbonButtonStyle.LargeWithText);
-
-                // 全选断线
-                splitButton.AddNewButton("全选断线",
-                    "天华全选断线",
-                    "THBBS",
-                    "批量选择需要断线的图块，根据各自所需断线的切线方向自动调整图块角度且完成断线",
-                    "IDI_THCAD_THBBS_SMALL",
-                    "IDI_THCAD_THBBS_LARGE",
-                    RibbonButtonStyle.LargeWithText);
-            }
-        }
-
-        private static void CreateAnnotationPanel(RibbonTabSource tab)
-        {
-            var panel = tab.AddNewPanel("Annotation", "标注工具");
-            var row = panel.AddNewRibbonRow();
-
-            // 车位编号
-            row.AddNewButton("车位编号",
-                "天华车位编号",
-                "THCNU",
-                "绘制多段线穿过所需编号停车位图块，根据多段线穿过停车位的先后顺序快速生成车位编号",
-                "IDI_THCAD_THCNU",
-                "IDI_THCAD_THCNU",
-                RibbonButtonStyle.LargeWithText);
-
-            // 尺寸避让
-            row.AddNewButton("尺寸避让",
-                "天华尺寸避让",
-                "THDTA",
-                "调整交叉或重叠的标注文字以避免发生位置冲突",
-                "IDI_THCAD_THDTA_SMALL",
-                "IDI_THCAD_THDTA_LARGE",
-                RibbonButtonStyle.LargeWithText);
-        }
-
-        private static void CreateLayerPanel(RibbonTabSource tab)
-        {
-            var panel = tab.AddNewPanel("Layer", "图层工具");
-            var row = panel.AddNewRibbonRow();
-
-            var splitButton = row.AddNewSplitButton("建立天华图层",
-                RibbonSplitButtonBehavior.SplitFollow,
-                RibbonSplitButtonListStyle.IconText,
-                RibbonButtonStyle.LargeWithText);
-
-            // 建立建筑图层
-            splitButton.AddNewButton("建立建筑图层",
-                "建立天华建筑图层",
-                "THALC",
-                "建立建筑专业天华标准图层",
-                "IDI_THCAD_THALC",
-                "IDI_THCAD_THALC",
-                RibbonButtonStyle.LargeWithText);
-
-            // 建立结构图层
-            splitButton.AddNewButton("建立结构图层",
-                "建立天华结构图层",
-                "THSLC",
-                "建立结构专业天华标准图层",
-                "IDI_THCAD_THSLC",
-                "IDI_THCAD_THSLC",
-                RibbonButtonStyle.LargeWithText);
-
-            // 建立暖通图层
-            splitButton.AddNewButton("建立暖通图层",
-                "建立天华暖通图层",
-                "THMLC",
-                "建立暖通专业天华标准图层",
-                "IDI_THCAD_THMLC",
-                "IDI_THCAD_THMLC",
-                RibbonButtonStyle.LargeWithText);
-
-            // 建立电气图层
-            splitButton.AddNewButton("建立电气图层",
-                "建立天华电气图层",
-                "THELC",
-                "建立电气专业天华标准图层",
-                "IDI_THCAD_THELC",
-                "IDI_THCAD_THELC",
-                RibbonButtonStyle.LargeWithText);
-
-            // 建立给排水图层
-            splitButton.AddNewButton("建立给排水图层",
-                "建立天华给排水图层",
-                "THPLC",
-                "建立给排专业天华标准图层",
-                "IDI_THCAD_THPLC",
-                "IDI_THCAD_THPLC",
-                RibbonButtonStyle.LargeWithText);
-
-
-            splitButton = row.AddNewSplitButton("处理建筑结构底图",
-                RibbonSplitButtonBehavior.SplitFollow,
-                RibbonSplitButtonListStyle.IconText,
-                RibbonButtonStyle.LargeWithText);
-
-            // 暖通用
-            splitButton.AddNewButton("处理底图（暖）",
-                "天华暖通用",
-                "THLPM",
-                "处理建筑结构提暖通底图的各图层颜色至相应的色号",
-                "IDI_THCAD_THLPM",
-                "IDI_THCAD_THLPM",
-                RibbonButtonStyle.LargeWithText);
-
-            // 电气用
-            splitButton.AddNewButton("处理底图（电）",
-                "天华电气用",
-                "THLPE",
-                "处理建筑结构提电气底图的各图层颜色至相应的色号",
-                "IDI_THCAD_THLPE",
-                "IDI_THCAD_THLPE",
-                RibbonButtonStyle.LargeWithText);
-
-            // 给排水用
-            splitButton.AddNewButton("处理底图（水）",
-                "天华给排水用",
-                "THLPP",
-                "处理建筑结构提给排水底图的各图层颜色至相应的色号",
-                "IDI_THCAD_THLPP",
-                "IDI_THCAD_THLPP",
-                RibbonButtonStyle.LargeWithText);
-
-            splitButton = row.AddNewSplitButton("暖通图层管理",
-                RibbonSplitButtonBehavior.SplitFollow,
-                RibbonSplitButtonListStyle.IconText,
-                RibbonButtonStyle.LargeWithText);
-
-            // 锁定暖通图层
-            splitButton.AddNewButton("锁定暖通图层",
-                "锁定天华暖通图层",
-                "THMLK",
-                "锁定所有暖通图层",
-                "IDI_THCAD_THMLK",
-                "IDI_THCAD_THMLK",
-                RibbonButtonStyle.LargeWithText);
-
-            // 隔离暖通图层
-            splitButton.AddNewButton("隔离暖通图层",
-                "隔离天华暖通图层",
-                "THMUK",
-                "解锁所有暖通图层，同时锁定其他图层",
-                "IDI_THCAD_THMUK",
-                "IDI_THCAD_THMUK",
-                RibbonButtonStyle.LargeWithText);
-
-            // 解锁所有图层
-            splitButton.AddNewButton("解锁所有图层",
-                "解锁所有天华图层",
-                "THUKA",
-                "解锁所有图层",
-                "IDI_THCAD_THUKA",
-                "IDI_THCAD_THUKA",
-                RibbonButtonStyle.LargeWithText);
-
-            // 关闭暖通图层
-            splitButton.AddNewButton("关闭暖通图层",
-                "关闭天华暖通图层",
-                "THMOF",
-                "关闭所有暖通图层",
-                "IDI_THCAD_THMOF",
-                "IDI_THCAD_THMOF",
-                RibbonButtonStyle.LargeWithText);
-
-            // 开启暖通图层
-            splitButton.AddNewButton("开启暖通图层",
-                "开启天华暖通图层",
-                "THMON",
-                "开启所有暖通图层",
-                "IDI_THCAD_THMON",
-                "IDI_THCAD_THMON",
-                RibbonButtonStyle.LargeWithText);
-        }
-
         private static void CreatStatisticPanel(RibbonTabSource tab)
         {
-            var panel = tab.AddNewPanel("Statistic", "计算工具");
+            var panel = tab.AddNewPanel("Statistic", "分析计算");
             var row = panel.AddNewRibbonRow();
 
             // 天华单体规整
-            row.AddNewButton("天华单体规整",
+            row.AddNewButton("天华单体\r\n规整",
                 "天华单体规整",
                 "THBPS",
                 "将建筑单体各层平面图中代表各区域的多段线图元设置到相应的图层，以供生成单体面积汇总表所用",
@@ -377,7 +142,7 @@ namespace TianHua.AutoCAD.ThCui
                 RibbonButtonStyle.LargeWithText);
 
             // 天华总平规整
-            row.AddNewButton("天华总平规整",
+            row.AddNewButton("天华总平\r\n规整",
                 "天华总平规整",
                 "THSPS",
                 "将总平面图中代表各区域的多段线图元设置到相应的图层，以供生成综合经济技术指标表所用",
@@ -404,7 +169,7 @@ namespace TianHua.AutoCAD.ThCui
                 RibbonButtonStyle.LargeWithText);
 
             // 防火分区疏散表
-            row.AddNewButton("防火分区疏散表",
+            row.AddNewButton("防火分区\r\n疏散表",
                 "天华防火分区疏散表",
                 "THFET",
                 "统计商业/地库各防火分区面积，自动计算应有疏散距离，并生成表格",
@@ -413,7 +178,7 @@ namespace TianHua.AutoCAD.ThCui
                 RibbonButtonStyle.LargeWithText);
 
             // 房间面积框线
-            row.AddNewButton("房间面积框线",
+            row.AddNewButton("房间面积\r\n框线",
                 "天华房间面积框线",
                 "THABC",
                 "自动生成屏幕选择范围内所有房间的框线，且可选择插入面积值",
@@ -422,42 +187,80 @@ namespace TianHua.AutoCAD.ThCui
                 RibbonButtonStyle.LargeWithText);
         }
 
-        private static void CreatePlanePutPanel(RibbonTabSource tab)
+        private static void CreatePlotToolPanel(RibbonTabSource tab)
         {
-            var panel = tab.AddNewPanel("PlanePut", "平面绘图");
+            var panel = tab.AddNewPanel("PlotTool", "布图打印");
             var row = panel.AddNewRibbonRow();
 
-            // 天华单体规整
-            row.AddNewButton("喷头布置",
-                "喷头布置",
-                "THSPC",
-                "1. 点击房间内一点自动布置喷淋点位 2.选择房间框线布置喷淋点位 3.绘制房间框线布置喷淋点位",
-                "IDI_THCAD_THSPC",
-                "IDI_THCAD_THSPC",
-                RibbonButtonStyle.LargeWithText);
+            {
+                var subPanel = row.AddNewPanel();
+
+                // 批量打印PDF
+                var subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("批量打印PDF",
+                    "批量打印PDF",
+                    "THBPT",
+                    "选择需要批量打印的天华图框，将图纸批量打印为PDF文件，读取图框中的图纸编号重命名相应PDF文件",
+                    "IDI_THCAD_THBPT_SMALL",
+                    "IDI_THCAD_THBPT_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+
+                // 批量打印DWF
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("批量打印DWF",
+                    "批量打印DWF",
+                    "THBPD",
+                    "选择需要批量打印的天华图框，将图纸批量打印为DWF文件，读取图框中的图纸编号重命名相应DWF文件",
+                    "IDI_THCAD_THBPD_SMALL",
+                    "IDI_THCAD_THBPD_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+
+                // 批量打印PPT
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("批量打印PPT",
+                    "批量打印PPT",
+                    "THBPP",
+                    "选择需要批量打印的PPT框线，将图纸批量打印为单个PPT文件，读取打印窗口框线与PPT框线的位置完成PPT内图片的定位",
+                    "IDI_THCAD_THBPP_SMALL",
+                    "IDI_THCAD_THBPP_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+            }
         }
 
-        private static void CreateTextPanel(RibbonTabSource tab)
+        private static void CreateDrawToolPanel(RibbonTabSource tab)
         {
-            var panel = tab.AddNewPanel("Text", "文字表格");
+            var panel = tab.AddNewPanel("DrawTool", "绘图修改");
             var row = panel.AddNewRibbonRow();
 
-            // 文字内容刷
-            row.AddNewButton("文字内容刷",
-                "天华文字内容刷",
-                "THMTC",
-                "将目标文字内容替换为源文字内容",
-                "IDI_THCAD_THMTC",
-                "IDI_THCAD_THMTC",
-                RibbonButtonStyle.LargeWithText);
-        }
+            // 车位编号
+            {
+                var subPanel = row.AddNewPanel();
 
-        private static void CreateAuxiliaryPanel(RibbonTabSource tab)
-        {
-            var panel = tab.AddNewPanel("Auxiliary", "辅助工具");
-            var row = panel.AddNewRibbonRow();
+                var subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("车位编号",
+                    "天华车位编号",
+                    "THCNU",
+                    "绘制多段线穿过所需编号停车位图块，根据多段线穿过停车位的先后顺序快速生成车位编号",
+                    "IDI_THCAD_THCNU",
+                    "IDI_THCAD_THCNU",
+                    RibbonButtonStyle.LargeWithText);
+            }
 
+            // 喷头布置
+            {
+                var subPanel = row.AddNewPanel();
 
+                var subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("喷头布置",
+                    "喷头布置",
+                    "THSPC",
+                    "1. 点击房间内一点自动布置喷淋点位 2.选择房间框线布置喷淋点位 3.绘制房间框线布置喷淋点位",
+                    "IDI_THCAD_THSPC",
+                    "IDI_THCAD_THSPC",
+                    RibbonButtonStyle.LargeWithText);
+            }
+
+            // 天华快选
             {
                 var subPanel = row.AddNewPanel();
                 var subRow = subPanel.AddNewRibbonRow();
@@ -553,6 +356,7 @@ namespace TianHua.AutoCAD.ThCui
                     RibbonButtonStyle.LargeWithText);
             }
 
+            // 天华对齐
             {
                 var subPanel = row.AddNewPanel();
                 var subRow = subPanel.AddNewRibbonRow();
@@ -640,12 +444,21 @@ namespace TianHua.AutoCAD.ThCui
                     RibbonButtonStyle.LargeWithText);
             }
 
-            // 第一列
             {
                 var subPanel = row.AddNewPanel();
 
-                // 批量缩放
+                // 天华复制
                 var subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("天华复制",
+                    "天华复制",
+                    "THCP",
+                    "提供更灵活的均分和成倍复制",
+                    "IDI_THCAD_THCP_SMALL",
+                    "IDI_THCAD_THCP_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+
+                // 批量缩放
+                subRow = subPanel.AddNewRibbonRow();
                 subRow.AddNewButton("批量缩放",
                     "天华批量缩放",
                     "THMSC",
@@ -654,8 +467,62 @@ namespace TianHua.AutoCAD.ThCui
                     "IDI_THCAD_THMSC_LARGE",
                     RibbonButtonStyle.SmallWithText);
 
-                // Z值归零
+                // 尺寸避让
                 subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("尺寸避让",
+                    "天华尺寸避让",
+                    "THDTA",
+                    "调整交叉或重叠的标注文字以避免发生位置冲突",
+                    "IDI_THCAD_THDTA_SMALL",
+                    "IDI_THCAD_THDTA_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+            }
+
+            {
+                var subPanel = row.AddNewPanel();
+
+                // 文字内容刷
+                var subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("文字内容刷",
+                    "天华文字内容刷",
+                    "THMTC",
+                    "将目标文字内容替换为源文字内容",
+                    "IDI_THCAD_THMTC_SMALL",
+                    "IDI_THCAD_THMTC_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+
+                // 版次信息修改
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("版次信息修改",
+                    "版次信息修改",
+                    "THSVM",
+                    "批量修改图框内的版次信息或出图日期",
+                    "IDI_THCAD_THSVM_SMALL",
+                    "IDI_THCAD_THSVM_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+
+                // 管线断线
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("管线断线",
+                    "管线断线",
+                    "THLTR",
+                    "批量处理管线断线",
+                    "IDI_THCAD_THLTR_SMALL",
+                    "IDI_THCAD_THLTR_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+            }
+        }
+
+        private static void CreatePurgeToolPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("PurgeTool", "图纸清理");
+            var row = panel.AddNewRibbonRow();
+
+            {
+                var subPanel = row.AddNewPanel();
+
+                // Z值归零
+                var subRow = subPanel.AddNewRibbonRow();
                 subRow.AddNewButton("Z值归零",
                     "天华Z值归零",
                     "THZ0",
@@ -687,76 +554,225 @@ namespace TianHua.AutoCAD.ThCui
 #endif
 
             }
+        }
 
-            // 第二列
+        private static void CreateBlockToolPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("BlockTool", "图层图块");
+            var row = panel.AddNewRibbonRow();
+
+            // 建立天华图层
             {
-                var subPanel = row.AddNewPanel();
+                var splitButton = row.AddNewSplitButton("建立天华图层",
+                    RibbonSplitButtonBehavior.SplitFollow,
+                    RibbonSplitButtonListStyle.IconText,
+                    RibbonButtonStyle.LargeWithText);
 
-                // 批量打印PDF
-                var subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("批量打印PDF",
-                    "批量打印PDF",
-                    "THBPT",
-                    "选择需要批量打印的天华图框，将图纸批量打印为PDF文件，读取图框中的图纸编号重命名相应PDF文件",
-                    "IDI_THCAD_THBPT_SMALL",
-                    "IDI_THCAD_THBPT_LARGE",
-                    RibbonButtonStyle.SmallWithText);
+                // 建立建筑图层
+                splitButton.AddNewButton("建立建筑图层",
+                    "建立天华建筑图层",
+                    "THALC",
+                    "建立建筑专业天华标准图层",
+                    "IDI_THCAD_THALC",
+                    "IDI_THCAD_THALC",
+                    RibbonButtonStyle.LargeWithText);
 
-                // 批量打印DWF
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("批量打印DWF",
-                    "批量打印DWF",
-                    "THBPD",
-                    "选择需要批量打印的天华图框，将图纸批量打印为DWF文件，读取图框中的图纸编号重命名相应DWF文件",
-                    "IDI_THCAD_THBPD_SMALL",
-                    "IDI_THCAD_THBPD_LARGE",
-                    RibbonButtonStyle.SmallWithText);
+                // 建立结构图层
+                splitButton.AddNewButton("建立结构图层",
+                    "建立天华结构图层",
+                    "THSLC",
+                    "建立结构专业天华标准图层",
+                    "IDI_THCAD_THSLC",
+                    "IDI_THCAD_THSLC",
+                    RibbonButtonStyle.LargeWithText);
 
-                // 批量打印PPT
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("批量打印PPT",
-                    "批量打印PPT",
-                    "THBPP",
-                    "选择需要批量打印的PPT框线，将图纸批量打印为单个PPT文件，读取打印窗口框线与PPT框线的位置完成PPT内图片的定位",
-                    "IDI_THCAD_THBPP_SMALL",
-                    "IDI_THCAD_THBPP_LARGE",
-                    RibbonButtonStyle.SmallWithText);
+                // 建立暖通图层
+                splitButton.AddNewButton("建立暖通图层",
+                    "建立天华暖通图层",
+                    "THMLC",
+                    "建立暖通专业天华标准图层",
+                    "IDI_THCAD_THMLC",
+                    "IDI_THCAD_THMLC",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 建立电气图层
+                splitButton.AddNewButton("建立电气图层",
+                    "建立天华电气图层",
+                    "THELC",
+                    "建立电气专业天华标准图层",
+                    "IDI_THCAD_THELC",
+                    "IDI_THCAD_THELC",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 建立给排水图层
+                splitButton.AddNewButton("建立给排水图层",
+                    "建立天华给排水图层",
+                    "THPLC",
+                    "建立给排专业天华标准图层",
+                    "IDI_THCAD_THPLC",
+                    "IDI_THCAD_THPLC",
+                    RibbonButtonStyle.LargeWithText);
             }
 
-            // 第三列
+            // 处理建筑结构底图
             {
-                var subPanel = row.AddNewPanel();
+                var splitButton = row.AddNewSplitButton("处理建筑结构底图",
+                    RibbonSplitButtonBehavior.SplitFollow,
+                    RibbonSplitButtonListStyle.IconText,
+                    RibbonButtonStyle.LargeWithText);
 
-                // 版次信息修改
-                var subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("版次信息修改",
-                    "版次信息修改",
-                    "THSVM",
-                    "批量修改图框内的版次信息或出图日期",
-                    "IDI_THCAD_THSVM_SMALL",
-                    "IDI_THCAD_THSVM_LARGE",
-                    RibbonButtonStyle.SmallWithText);
+                // 暖通用
+                splitButton.AddNewButton("处理底图（暖）",
+                    "天华暖通用",
+                    "THLPM",
+                    "处理建筑结构提暖通底图的各图层颜色至相应的色号",
+                    "IDI_THCAD_THLPM",
+                    "IDI_THCAD_THLPM",
+                    RibbonButtonStyle.LargeWithText);
 
-                // 管线断线
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("管线断线",
-                    "管线断线",
-                    "THLTR",
-                    "批量处理管线断线",
-                    "IDI_THCAD_THLTR_SMALL",
-                    "IDI_THCAD_THLTR_LARGE",
-                    RibbonButtonStyle.SmallWithText);
+                // 电气用
+                splitButton.AddNewButton("处理底图（电）",
+                    "天华电气用",
+                    "THLPE",
+                    "处理建筑结构提电气底图的各图层颜色至相应的色号",
+                    "IDI_THCAD_THLPE",
+                    "IDI_THCAD_THLPE",
+                    RibbonButtonStyle.LargeWithText);
 
-                // 文字块镜像
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("文字块镜像",
-                    "文字块镜像",
-                    "THMIR",
-                    "镜像含文字块，使文字不反向",
-                    "IDI_THCAD_THMIR_SMALL",
-                    "IDI_THCAD_THMIR_LARGE",
-                    RibbonButtonStyle.SmallWithText);
+                // 给排水用
+                splitButton.AddNewButton("处理底图（水）",
+                    "天华给排水用",
+                    "THLPP",
+                    "处理建筑结构提给排水底图的各图层颜色至相应的色号",
+                    "IDI_THCAD_THLPP",
+                    "IDI_THCAD_THLPP",
+                    RibbonButtonStyle.LargeWithText);
             }
+
+            // 暖通图层管理
+            {
+                var splitButton = row.AddNewSplitButton("暖通图层管理",
+                    RibbonSplitButtonBehavior.SplitFollow,
+                    RibbonSplitButtonListStyle.IconText,
+                    RibbonButtonStyle.LargeWithText);
+
+                // 锁定暖通图层
+                splitButton.AddNewButton("锁定暖通图层",
+                    "锁定天华暖通图层",
+                    "THMLK",
+                    "锁定所有暖通图层",
+                    "IDI_THCAD_THMLK",
+                    "IDI_THCAD_THMLK",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 隔离暖通图层
+                splitButton.AddNewButton("隔离暖通图层",
+                    "隔离天华暖通图层",
+                    "THMUK",
+                    "解锁所有暖通图层，同时锁定其他图层",
+                    "IDI_THCAD_THMUK",
+                    "IDI_THCAD_THMUK",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 解锁所有图层
+                splitButton.AddNewButton("解锁所有图层",
+                    "解锁所有天华图层",
+                    "THUKA",
+                    "解锁所有图层",
+                    "IDI_THCAD_THUKA",
+                    "IDI_THCAD_THUKA",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 关闭暖通图层
+                splitButton.AddNewButton("关闭暖通图层",
+                    "关闭天华暖通图层",
+                    "THMOF",
+                    "关闭所有暖通图层",
+                    "IDI_THCAD_THMOF",
+                    "IDI_THCAD_THMOF",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 开启暖通图层
+                splitButton.AddNewButton("开启暖通图层",
+                    "开启天华暖通图层",
+                    "THMON",
+                    "开启所有暖通图层",
+                    "IDI_THCAD_THMON",
+                    "IDI_THCAD_THMON",
+                    RibbonButtonStyle.LargeWithText);
+            }
+
+            // 图块集
+            row.AddNewButton("图块集",
+                "天华图块集",
+                "THBLI",
+                "打开图块集工具选项板",
+                "IDI_THCAD_THBLI",
+                "IDI_THCAD_THBLI",
+                RibbonButtonStyle.LargeWithText);
+
+            // 图块集配置
+            row.AddNewButton("图块集配置",
+                "天华图块集配置",
+                "THBLS",
+                "配置各专业图块集",
+                "IDI_THCAD_THBLS",
+                "IDI_THCAD_THBLS",
+                RibbonButtonStyle.LargeWithText);
+
+            // 提电气块转换
+            row.AddNewButton("提电气块\r\n转换",
+                "天华提电气块转换",
+                "THBEE",
+                "将暖通和给排水专业提资给电气的图块转换为电气专业所需的图块",
+                "IDI_THCAD_THBEE",
+                "IDI_THCAD_THBEE",
+                RibbonButtonStyle.LargeWithText);
+
+            // 图块断线
+            {
+                var splitButton = row.AddNewSplitButton(
+                    "图块断线",
+                    RibbonSplitButtonBehavior.SplitFollow,
+                    RibbonSplitButtonListStyle.IconText,
+                    RibbonButtonStyle.LargeWithText);
+
+                // 插块断线
+                splitButton.AddNewButton("插块断线",
+                    "天华插块断线",
+                    "THBBR",
+                    "将选择的图块插入到直线/多段线时自动断线",
+                    "IDI_THCAD_THBBR_SMALL",
+                    "IDI_THCAD_THBBR_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 选块断线
+                splitButton.AddNewButton("选块断线",
+                    "天华选块断线",
+                    "THBBE",
+                    "点选单个图块，根据所需断线的切线方向自动调整图块角度且完成断线",
+                    "IDI_THCAD_THBBE_SMALL",
+                    "IDI_THCAD_THBBE_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 全选断线
+                splitButton.AddNewButton("全选断线",
+                    "天华全选断线",
+                    "THBBS",
+                    "批量选择需要断线的图块，根据各自所需断线的切线方向自动调整图块角度且完成断线",
+                    "IDI_THCAD_THBBS_SMALL",
+                    "IDI_THCAD_THBBS_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+            }
+
+            // 文字镜像
+            row.AddNewButton("文字块镜像",
+                "文字块镜像",
+                "THMIR",
+                "镜像含文字块，使文字不反向",
+                "IDI_THCAD_THMIR_SMALL",
+                "IDI_THCAD_THMIR_LARGE",
+                RibbonButtonStyle.LargeWithText);
         }
 
         private static void CreateMiscellaneousPanel(RibbonTabSource tab)

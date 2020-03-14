@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Autodesk.Windows;
 using YamlDotNet.RepresentationModel;
@@ -14,30 +15,44 @@ namespace TianHua.AutoCAD.ThCui
         {
             Yaml = new YamlStream();
             string config = null;
-            switch(profile)
-            { 
+            switch (profile)
+            {
                 case Profile.ARCHITECTURE:
-                    config = ThCuiCommon.profile_ribbon_architecture;
+                    config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_architecture.yml");
                     break;
                 case Profile.STRUCTURE:
-                    config = ThCuiCommon.profile_ribbon_structure;
+                    config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_structure.yml");
                     break;
                 case Profile.HAVC:
-                    config = ThCuiCommon.profile_ribbon_havc;
+                    config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_havc.yml");
                     break;
                 case Profile.ELECTRICAL:
-                    config = ThCuiCommon.profile_ribbon_electrical;
+                    config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_electrical.yml");
                     break;
                 case Profile.WSS:
-                    config = ThCuiCommon.profile_ribbon_wss;
+                    config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_wss.yml");
                     break;
                 case Profile.PROJECTPLAN:
-                    config = ThCuiCommon.profile_ribbon_project;
+                    config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_project.yml");
                     break;
                 default:
                     throw new NotSupportedException();
             }
             Yaml.Load(new StringReader(config));
+        }
+
+        private string GetResourceFileText(string resource)
+        {
+            string result = string.Empty;
+            Assembly asm = Assembly.GetExecutingAssembly();
+            using (Stream stream = asm.GetManifestResourceStream(resource))
+            {
+                using (StreamReader sr = new StreamReader(stream))
+                {
+                    result = sr.ReadToEnd();
+                }
+            }
+            return result;
         }
 
         private void UpdateIsVisible(RibbonItem item, YamlMappingNode node)

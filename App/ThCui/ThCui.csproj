@@ -92,6 +92,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\profile_ribbon_architecture.yml" />
+    <EmbeddedResource Include="Resources\profile_ribbon_electrical.yml" />
+    <EmbeddedResource Include="Resources\profile_ribbon_havc.yml" />
+    <EmbeddedResource Include="Resources\profile_ribbon_project.yml" />
+    <EmbeddedResource Include="Resources\profile_ribbon_structure.yml" />
+    <EmbeddedResource Include="Resources\profile_ribbon_wss.yml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">

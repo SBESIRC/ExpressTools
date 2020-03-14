@@ -132,7 +132,8 @@
     <Image Include="Images\THMON_light.ico" />
     <Image Include="Images\THMSC_light_small.ico" />
     <Image Include="Images\THMSC_light_large.ico" />
-    <Image Include="Images\THMTC_light.ico" />
+    <Image Include="Images\THMTC_dark_small.ico" />
+    <Image Include="Images\THMTC_dark_large.ico" />
     <Image Include="Images\THMUK_light.ico" />
     <Image Include="Images\THPLC_light.ico" />
     <Image Include="Images\THSLC_light.ico" />
@@ -147,6 +148,8 @@
     <Image Include="Images\THZ0_light_small.ico" />
     <Image Include="Images\THZ0_light_large.ico" />
     <Image Include="Images\TZLOOK_light.ico" />
+    <Image Include="Images\THCP_light_small.ico" />
+    <Image Include="Images\THCP_light_large.ico" />
     <Image Include="Images\THALIGN_bottom_light_small.ico" />
     <Image Include="Images\THALIGN_bottom_light_large.ico" />
     <Image Include="Images\THALIGN_horizontal_light_small.ico" />
