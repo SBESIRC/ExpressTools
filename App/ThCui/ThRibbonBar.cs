@@ -33,8 +33,8 @@ namespace TianHua.AutoCAD.ThCui
                 "天华登录",
                 ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME,
                 "登录天华效率平台",
-                "IDI_THCAD_THLOGIN",
-                "IDI_THCAD_THLOGIN",
+                "IDI_THCAD_THLOGIN_SMALL",
+                "IDI_THCAD_THLOGIN_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 退出
@@ -42,8 +42,8 @@ namespace TianHua.AutoCAD.ThCui
                 "天华退出",
                 ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
                 "退出天华效率平台",
-                "IDI_THCAD_THLOGOUT",
-                "IDI_THCAD_THLOGOUT",
+                "IDI_THCAD_THLOGOUT_SMALL",
+                "IDI_THCAD_THLOGOUT_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 专业切换
@@ -115,8 +115,8 @@ namespace TianHua.AutoCAD.ThCui
                 "天华帮助",
                 ThCuiCommon.CMD_THHLP_GLOBAL_NAME,
                 "获取帮助文档",
-                "IDI_THCAD_THHLP",
-                "IDI_THCAD_THHLP",
+                "IDI_THCAD_THHLP_SMALL",
+                "IDI_THCAD_THHLP_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 更新
@@ -124,8 +124,8 @@ namespace TianHua.AutoCAD.ThCui
                 "天华自动更新",
                 "THUPT",
                 "检查更新",
-                "IDI_THCAD_THUPT",
-                "IDI_THCAD_THUPT",
+                "IDI_THCAD_THUPT_SMALL",
+                "IDI_THCAD_THUPT_LARGE",
                 RibbonButtonStyle.LargeWithText);
         }
 

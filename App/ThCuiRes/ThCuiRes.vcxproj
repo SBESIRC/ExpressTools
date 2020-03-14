@@ -114,9 +114,12 @@
     <Image Include="Images\THDTA_dark_large.ico" />
     <Image Include="Images\THELC_dark.ico" />
     <Image Include="Images\THFET_dark.ico" />
-    <Image Include="Images\THHLP_dark.ico" />
-    <Image Include="Images\THLOGIN_dark.ico" />
-    <Image Include="Images\THLOGOUT_dark.ico" />
+    <Image Include="Images\THHLP_dark_small.ico" />
+    <Image Include="Images\THHLP_dark_large.ico" />
+    <Image Include="Images\THLOGIN_dark_small.ico" />
+    <Image Include="Images\THLOGIN_dark_large.ico" />
+    <Image Include="Images\THLOGOUT_dark_small.ico" />
+    <Image Include="Images\THLOGOUT_dark_large.ico" />
     <Image Include="Images\THLPE_dark.ico" />
     <Image Include="Images\THLPM_dark.ico" />
     <Image Include="Images\THLPP_dark.ico" />
@@ -140,7 +143,8 @@
     <Image Include="Images\THSVM_dark_large.ico" />
     <Image Include="Images\THTET_dark.ico" />
     <Image Include="Images\THUKA_dark.ico" />
-    <Image Include="Images\THUPT_dark.ico" />
+    <Image Include="Images\THUPT_dark_small.ico" />
+    <Image Include="Images\THUPT_dark_large.ico" />
     <Image Include="Images\THZ0_dark_small.ico" />
     <Image Include="Images\THZ0_dark_large.ico" />
     <Image Include="Images\TZLOOK_dark.ico" />

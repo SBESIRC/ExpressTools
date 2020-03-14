@@ -113,9 +113,12 @@
     <Image Include="Images\THDTA_light.ico" />
     <Image Include="Images\THELC_light.ico" />
     <Image Include="Images\THFET_light.ico" />
-    <Image Include="Images\THHLP_light.ico" />
-    <Image Include="Images\THLOGIN_light.ico" />
-    <Image Include="Images\THLOGOUT_light.ico" />
+    <Image Include="Images\THHLP_light_small.ico" />
+    <Image Include="Images\THHLP_light_large.ico" />
+    <Image Include="Images\THLOGIN_light_small.ico" />
+    <Image Include="Images\THLOGIN_light_large.ico" />
+    <Image Include="Images\THLOGOUT_light_small.ico" />
+    <Image Include="Images\THLOGOUT_light_large.ico" />
     <Image Include="Images\THLPE_light.ico" />
     <Image Include="Images\THLPM_light.ico" />
     <Image Include="Images\THLPP_light.ico" />
@@ -139,7 +142,8 @@
     <Image Include="Images\THSVM_light_large.ico" />
     <Image Include="Images\THTET_light.ico" />
     <Image Include="Images\THUKA_light.ico" />
-    <Image Include="Images\THUPT_light.ico" />
+    <Image Include="Images\THUPT_light_small.ico" />
+    <Image Include="Images\THUPT_light_large.ico" />
     <Image Include="Images\THZ0_light_small.ico" />
     <Image Include="Images\THZ0_light_large.ico" />
     <Image Include="Images\TZLOOK_light.ico" />
