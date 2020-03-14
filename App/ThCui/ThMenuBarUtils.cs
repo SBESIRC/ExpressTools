@@ -1,12 +1,25 @@
 ﻿using System;
+using System.Linq;
 using Autodesk.AutoCAD.Interop;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using ThIdentity.SDK;
+using System.Collections.Generic;
 
 namespace TianHua.AutoCAD.ThCui
 {
     public static class ThMenuBarUtils
     {
+        public static readonly Dictionary<Profile, string> Profiles = new Dictionary<Profile, string>()
+        {
+            { Profile.WSS, "给排水" },
+            { Profile.HAVC, "暖通" },
+            { Profile.STRUCTURE, "结构" },
+            { Profile.ELECTRICAL, "电气" },
+            { Profile.PROJECTPLAN, "方案" },
+            { Profile.ARCHITECTURE, "建筑" },
+        };
+
         public static AcadPopupMenu PopupMenu
         {
             get
@@ -55,16 +68,15 @@ namespace TianHua.AutoCAD.ThCui
             }
 
             // 删除登入菜单项
-            int itemCount = thePopupMenu.Count;
-            var menuItem = thePopupMenu.Item(itemCount - 1);
-            if (menuItem.TagString == "ID_登录 <THLOGIN>")
+            var menuItem = thePopupMenu.Item(0);
+            if (menuItem.TagString == "ID_登录")
             {
                 menuItem.Delete();
             }
 
             // 添加登出菜单项
-            thePopupMenu.AddMenuItem(itemCount,
-                "退出 <THLOGOUT>",
+            thePopupMenu.AddMenuItem(0,
+                "退出",
                 "\x001B\x001B\x005F" + ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME + "\x0020");
         }
 
@@ -90,17 +102,57 @@ namespace TianHua.AutoCAD.ThCui
             }
 
             // 删除登出菜单项
-            int itemCount = thePopupMenu.Count;
-            var menuItem = thePopupMenu.Item(itemCount - 1);
-            if (menuItem.TagString == "ID_退出 <THLOGOUT>")
+            var menuItem = thePopupMenu.Item(0);
+            if (menuItem.TagString == "ID_退出")
             {
                 menuItem.Delete();
             }
 
             // 添加登入菜单项
-            thePopupMenu.AddMenuItem(itemCount,
-                "登录 <THLOGIN>",
+            thePopupMenu.AddMenuItem(0,
+                "登录",
                 "\x001B\x001B\x005F" + ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME + "\x0020");
+        }
+
+        public static void ConfigMenubarWithCurrentUser()
+        {
+            if (ThIdentityService.IsLogged())
+            {
+                EnableMenuItems();
+            }
+            else
+            {
+                DisableMenuItems();
+            }
+        }
+
+        public static void ConfigMenubarWithCurrentProfile()
+        {
+            var thePopupMenu = PopupMenu;
+            if (thePopupMenu == null)
+            {
+                return;
+            }
+
+            Profile profile = ThCuiProfileManager.Instance.CurrentProfile;
+            var profileItem = Profiles.Where(o => o.Key == profile).First();
+            foreach (AcadPopupMenuItem item in thePopupMenu)
+            {
+                if (item.TagString == "ID_THMenu_Profile")
+                {
+                    foreach (AcadPopupMenuItem subItem in item.SubMenu)
+                    {
+                        if (subItem.Caption.Contains(profileItem.Value))
+                        {
+                            subItem.Check = true;
+                        }
+                        else
+                        {
+                            subItem.Check = false;
+                        }
+                    }
+                }
+            }
         }
     }
 }

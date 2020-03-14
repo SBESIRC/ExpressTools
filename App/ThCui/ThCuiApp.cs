@@ -204,15 +204,8 @@ namespace TianHua.AutoCAD.ThCui
                 // 配置完成后就不需要Idle事件
                 AcadApp.Idle -= Application_OnIdle_Menubar;
 
-                // 根据当前的登录信息配置菜单栏
-                if (ThIdentityService.IsLogged())
-                {
-                    ThMenuBarUtils.EnableMenuItems();
-                }
-                else
-                {
-                    ThMenuBarUtils.DisableMenuItems();
-                }
+                // 更新Menubar
+                UpdateMenubarUserInterface();
             }
         }
 
@@ -235,6 +228,15 @@ namespace TianHua.AutoCAD.ThCui
 
             // 根据当前的登录信息配置Toolbars
             ThToolbarUtils.ConfigToolbarsWithCurrentUser();
+        }
+
+        private void UpdateMenubarUserInterface()
+        {
+            // 根据当前的Profile配置Menubar
+            ThMenuBarUtils.ConfigMenubarWithCurrentProfile();
+
+            // 根据当前的登录信息配置Menubar
+            ThMenuBarUtils.ConfigMenubarWithCurrentUser();
         }
 
         private void Application_OnIdle_RibbonPaletteSet(object sender, EventArgs e)
@@ -614,6 +616,8 @@ namespace TianHua.AutoCAD.ThCui
             ThRibbonUtils.ConfigPanelsWithCurrentProfile();
             // 根据当前的Profile配置Toolbars
             ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
+            // 根据当前的Profile配置Menubar
+            ThMenuBarUtils.ConfigMenubarWithCurrentProfile();
         }
 
         private void OnLogOut()
@@ -692,6 +696,7 @@ namespace TianHua.AutoCAD.ThCui
             }
 
             ThRibbonUtils.ConfigPanelsWithCurrentProfile();
+            ThMenuBarUtils.ConfigMenubarWithCurrentProfile();
             ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
         }
 
