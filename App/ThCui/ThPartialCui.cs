@@ -1,6 +1,5 @@
 ﻿using AcHelper;
 using DotNetARX;
-using System.IO;
 using Autodesk.AutoCAD.Customization;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
@@ -14,7 +13,7 @@ namespace TianHua.AutoCAD.ThCui
             {
                 CustomizationSection cs = Active.Document.AddCui(cuiFile, menuGroupName);
                 ThMenuBar.CreateThMenu(cs);
-                ThToolBar.CreateThToolbar(cs);
+                ThToolBar.CreateToolbars(cs);
                 ThRibbonBar.CreateThRibbonBar(cs);
                 if (cs.IsModified)
                 {

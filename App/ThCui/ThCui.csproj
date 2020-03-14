@@ -56,6 +56,7 @@
     <Compile Include="ThRibbonHelper.cs" />
     <Compile Include="ThRibbonUtils.cs" />
     <Compile Include="ThToolBar.cs" />
+    <Compile Include="ThToolbarUtils.cs" />
     <Compile Include="ThToolPalette.cs">
       <SubType>Form</SubType>
     </Compile>

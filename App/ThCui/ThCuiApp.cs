@@ -191,6 +191,9 @@ namespace TianHua.AutoCAD.ThCui
 
                 // 更新Ribbon
                 UpdateRibbonUserInterface();
+
+                // 更新Toolbar
+                UpdateToolbarUserInterface();
             }
         }
 
@@ -223,6 +226,15 @@ namespace TianHua.AutoCAD.ThCui
 
             // 根据当前的登录信息配置Panels
             ThRibbonUtils.ConfigPanelsWithCurrentUser();
+        }
+
+        private void UpdateToolbarUserInterface()
+        {
+            // 根据当前的Profile配置Toolbars
+            ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
+
+            // 根据当前的登录信息配置Toolbars
+            ThToolbarUtils.ConfigToolbarsWithCurrentUser();
         }
 
         private void Application_OnIdle_RibbonPaletteSet(object sender, EventArgs e)
@@ -594,11 +606,14 @@ namespace TianHua.AutoCAD.ThCui
             if (ThIdentityService.IsLogged())
             {
                 ThRibbonUtils.OpenAllPanels();
+                ThToolbarUtils.OpenAllToolbars();
                 ThMenuBarUtils.EnableMenuItems();
             }
 
             // 根据当前的Profile配置Panels
             ThRibbonUtils.ConfigPanelsWithCurrentProfile();
+            // 根据当前的Profile配置Toolbars
+            ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
         }
 
         private void OnLogOut()
@@ -610,6 +625,7 @@ namespace TianHua.AutoCAD.ThCui
             if (!ThIdentityService.IsLogged())
             {
                 ThRibbonUtils.CloseAllPanels();
+                ThToolbarUtils.CloseAllToolbars();
                 ThMenuBarUtils.DisableMenuItems();
             }
         }
@@ -676,6 +692,7 @@ namespace TianHua.AutoCAD.ThCui
             }
 
             ThRibbonUtils.ConfigPanelsWithCurrentProfile();
+            ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
         }
 
         /// <summary>

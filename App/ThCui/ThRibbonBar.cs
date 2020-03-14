@@ -152,7 +152,7 @@ namespace TianHua.AutoCAD.ThCui
 
             // 单体面积汇总
             row.AddNewButton("单体面积\r\n汇总",
-                "天华单体面积汇总",
+                "单体面积汇总",
                 "THBAC",
                 "汇总单体每层各区域建筑面积和计容面积",
                 "IDI_THCAD_THBAC",
@@ -161,7 +161,7 @@ namespace TianHua.AutoCAD.ThCui
 
             // 综合经济技术指标表
             row.AddNewButton("综合经济\r\n技术指标表",
-                "天华综合经济技术指标表",
+                "综合经济技术指标表",
                 "THTET",
                 "汇总总平面及各单体各区域建筑面积和计容面积，形成综合经济技术指标表",
                 "IDI_THCAD_THTET",
@@ -170,7 +170,7 @@ namespace TianHua.AutoCAD.ThCui
 
             // 防火分区疏散表
             row.AddNewButton("防火分区\r\n疏散表",
-                "天华防火分区疏散表",
+                "防火分区疏散表",
                 "THFET",
                 "统计商业/地库各防火分区面积，自动计算应有疏散距离，并生成表格",
                 "IDI_THCAD_THFET",
@@ -179,7 +179,7 @@ namespace TianHua.AutoCAD.ThCui
 
             // 房间面积框线
             row.AddNewButton("房间面积\r\n框线",
-                "天华房间面积框线",
+                "房间面积框线",
                 "THABC",
                 "自动生成屏幕选择范围内所有房间的框线，且可选择插入面积值",
                 "IDI_THCAD_THABC",
