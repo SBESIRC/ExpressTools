@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ThIdentity.SDK;
 using Autodesk.AutoCAD.Interop;
 using System.Collections.Generic;
@@ -47,15 +48,7 @@ namespace TianHua.AutoCAD.ThCui
 
         private static AcadToolbar FindToolbarWithName(string name)
         {
-            foreach(AcadToolbar toolbar in MenuGroup.Toolbars)
-            {
-                if (toolbar.Name == name)
-                {
-                    return toolbar;
-                }
-            }
-
-            return null;
+            return MenuGroup.Toolbars.Cast<AcadToolbar>().Where(o => o.Name == name).FirstOrDefault();
         }
 
         public static void OpenAllToolbars()

@@ -74,11 +74,11 @@ namespace TianHua.AutoCAD.ThCui
         {
             if (ThIdentityService.IsLogged())
             {
-                ThRibbonUtils.OpenAllPanels();
+                OpenAllPanels();
             }
             else
             {
-                ThRibbonUtils.CloseAllPanels();
+                CloseAllPanels();
             }
         }
 

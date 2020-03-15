@@ -49,11 +49,9 @@
       <DependentUpon>ThLoginDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="ThMenuBar.cs" />
-    <Compile Include="ThCommandInfo.cs" />
     <Compile Include="ThMenuBarUtils.cs" />
     <Compile Include="ThPartialCui.cs" />
     <Compile Include="ThRibbonBar.cs" />
-    <Compile Include="ThRibbonHelper.cs" />
     <Compile Include="ThRibbonUtils.cs" />
     <Compile Include="ThToolBar.cs" />
     <Compile Include="ThToolbarUtils.cs" />
