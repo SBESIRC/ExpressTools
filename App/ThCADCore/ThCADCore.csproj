@@ -24,6 +24,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OutLiner.cs" />
     <Compile Include="PolylineValidationExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThCADCoreApp.cs" />
