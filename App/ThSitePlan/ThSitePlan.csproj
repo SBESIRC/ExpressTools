@@ -28,7 +28,9 @@
     <Compile Include="Configuration\ThSitePlanConfigService.cs" />
     <Compile Include="Engine\ThSitePlanContentGenerator.cs" />
     <Compile Include="Engine\ThSitePlaneImageGenerator.cs" />
+    <Compile Include="Engine\ThSitePlanOutlineWorker.cs" />
     <Compile Include="Engine\ThSitePlanPDFGenerator.cs" />
+    <Compile Include="Engine\ThSitePlanWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

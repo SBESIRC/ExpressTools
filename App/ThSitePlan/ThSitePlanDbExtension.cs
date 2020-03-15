@@ -22,16 +22,22 @@ namespace ThSitePlan
         }
 
         public static void CopyWithMove(this Database database, 
-            ObjectIdCollection collection, 
-            Matrix3d displacement)
+            ObjectIdCollection objs, Matrix3d displacement)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
-                foreach (ObjectId objId in collection)
+                using (IdMapping idMap = new IdMapping())
                 {
-                    var entity = acadDatabase.Element<Entity>(objId);
-                    var clone = entity.GetTransformedCopy(displacement);
-                    acadDatabase.ModelSpace.Add(clone);
+                    acadDatabase.Database.DeepCloneObjects(objs,
+                            acadDatabase.Database.CurrentSpaceId, idMap, false);
+                    foreach (IdPair pair in idMap)
+                    {
+                        if (pair.IsPrimary && pair.IsCloned)
+                        {
+                            var entity = acadDatabase.Element<Entity>(pair.Value, true);
+                            entity.TransformBy(displacement);
+                        }
+                    }
                 }
             }
         }

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
-using Linq2Acad;
-using AcHelper;
-using NFox.Cad.Collections;
 
 namespace ThSitePlan.Engine
 {
@@ -18,25 +13,34 @@ namespace ThSitePlan.Engine
     {
         public override ObjectId OriginFrame { get; set; }
         public override Tuple<ObjectId, Vector3d> Frame { get; set; }
+        private Dictionary<string, ThSitePlanWorker> Workers { get; set; }
+        public ThSitePlanContentGenerator()
+        {
+            Workers = new Dictionary<string, ThSitePlanWorker>()
+            {
+                {"原始场地线稿", new ThSitePlanDefaultWorker()},
+                {"建筑信息", new ThSitePlanDefaultWorker()},
+                {"建筑线稿", new ThSitePlanDefaultWorker()},
+                {"建筑色块", new ThSitePlanDefaultWorker()},
+            };
+        }
         public override bool Generate(Database database, ThSitePlanConfigItem configItem)
         {
-            var layers = configItem.Properties["CADLayer"] as Dictionary<string, string>;
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            var options = new ThSitePlanOptions()
             {
-                var filterlist = OpFilter.Bulid(o => 
-                    o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.Values));
-                PromptSelectionResult psr = Active.Editor.SelectByPolyline(
-                    OriginFrame, 
-                    PolygonSelectionMode.Crossing, 
-                    filterlist);
-                if (psr.Status == PromptStatus.OK)
+                Options = new Dictionary<string, object>()
                 {
-                    var objs = new ObjectIdCollection(psr.Value.GetObjectIds());
-                    acadDatabase.Database.CopyWithMove(objs, Matrix3d.Displacement(Frame.Item2));
-                    return true;
+                    {"Offset",  Frame.Item2},
+                    {"OriginFrame", OriginFrame},
                 }
-                return false;
+            };
+
+            var key = (string)configItem.Properties["Name"];
+            if (Workers.ContainsKey(key))
+            {
+                Workers[key].DoProcess(database, configItem, options);
             }
+            return true;
         }
     }
 }
