@@ -561,93 +561,77 @@ namespace TianHua.AutoCAD.ThCui
             var panel = tab.AddNewPanel("BlockTool", "图层图块");
             var row = panel.AddNewRibbonRow();
 
-            // 建立天华图层
-            {
-                var splitButton = row.AddNewSplitButton("建立天华图层",
-                    RibbonSplitButtonBehavior.SplitFollow,
-                    RibbonSplitButtonListStyle.IconText,
-                    RibbonButtonStyle.LargeWithText);
+            // 建立建筑图层
+            row.AddNewButton("建立建筑\r\n图层",
+                "建立建筑图层",
+                "THALC",
+                "建立建筑专业天华标准图层",
+                "IDI_THCAD_THALC",
+                "IDI_THCAD_THALC",
+                RibbonButtonStyle.LargeWithText);
 
-                // 建立建筑图层
-                splitButton.AddNewButton("建立建筑图层",
-                    "建立天华建筑图层",
-                    "THALC",
-                    "建立建筑专业天华标准图层",
-                    "IDI_THCAD_THALC",
-                    "IDI_THCAD_THALC",
-                    RibbonButtonStyle.LargeWithText);
+            // 建立结构图层
+            row.AddNewButton("建立结构\r\n图层",
+                "建立结构图层",
+                "THSLC",
+                "建立结构专业天华标准图层",
+                "IDI_THCAD_THSLC",
+                "IDI_THCAD_THSLC",
+                RibbonButtonStyle.LargeWithText);
 
-                // 建立结构图层
-                splitButton.AddNewButton("建立结构图层",
-                    "建立天华结构图层",
-                    "THSLC",
-                    "建立结构专业天华标准图层",
-                    "IDI_THCAD_THSLC",
-                    "IDI_THCAD_THSLC",
-                    RibbonButtonStyle.LargeWithText);
+            // 建立暖通图层
+            row.AddNewButton("建立暖通\r\n图层",
+                "建立暖通图层",
+                "THMLC",
+                "建立暖通专业天华标准图层",
+                "IDI_THCAD_THMLC",
+                "IDI_THCAD_THMLC",
+                RibbonButtonStyle.LargeWithText);
 
-                // 建立暖通图层
-                splitButton.AddNewButton("建立暖通图层",
-                    "建立天华暖通图层",
-                    "THMLC",
-                    "建立暖通专业天华标准图层",
-                    "IDI_THCAD_THMLC",
-                    "IDI_THCAD_THMLC",
-                    RibbonButtonStyle.LargeWithText);
+            // 建立电气图层
+            row.AddNewButton("建立电气\r\n图层",
+                "建立电气图层",
+                "THELC",
+                "建立电气专业天华标准图层",
+                "IDI_THCAD_THELC",
+                "IDI_THCAD_THELC",
+                RibbonButtonStyle.LargeWithText);
 
-                // 建立电气图层
-                splitButton.AddNewButton("建立电气图层",
-                    "建立天华电气图层",
-                    "THELC",
-                    "建立电气专业天华标准图层",
-                    "IDI_THCAD_THELC",
-                    "IDI_THCAD_THELC",
-                    RibbonButtonStyle.LargeWithText);
+            // 建立给排水图层
+            row.AddNewButton("建立给排水\r\n图层",
+                "建立给排水图层",
+                "THPLC",
+                "建立给排专业天华标准图层",
+                "IDI_THCAD_THPLC",
+                "IDI_THCAD_THPLC",
+                RibbonButtonStyle.LargeWithText);
 
-                // 建立给排水图层
-                splitButton.AddNewButton("建立给排水图层",
-                    "建立天华给排水图层",
-                    "THPLC",
-                    "建立给排专业天华标准图层",
-                    "IDI_THCAD_THPLC",
-                    "IDI_THCAD_THPLC",
-                    RibbonButtonStyle.LargeWithText);
-            }
+            // 处理暖通底图
+            row.AddNewButton("处理底图\r\n（暖通用）",
+                "处理暖通底图",
+                "THLPM",
+                "处理建筑结构提暖通底图的各图层颜色至相应的色号",
+                "IDI_THCAD_THLPM",
+                "IDI_THCAD_THLPM",
+                RibbonButtonStyle.LargeWithText);
 
-            // 处理建筑结构底图
-            {
-                var splitButton = row.AddNewSplitButton("处理建筑结构底图",
-                    RibbonSplitButtonBehavior.SplitFollow,
-                    RibbonSplitButtonListStyle.IconText,
-                    RibbonButtonStyle.LargeWithText);
+            // 处理电气底图
+            row.AddNewButton("处理底图\r\n（电气用）",
+                "处理电气底图",
+                "THLPE",
+                "处理建筑结构提电气底图的各图层颜色至相应的色号",
+                "IDI_THCAD_THLPE",
+                "IDI_THCAD_THLPE",
+                RibbonButtonStyle.LargeWithText);
 
-                // 暖通用
-                splitButton.AddNewButton("处理底图（暖）",
-                    "天华暖通用",
-                    "THLPM",
-                    "处理建筑结构提暖通底图的各图层颜色至相应的色号",
-                    "IDI_THCAD_THLPM",
-                    "IDI_THCAD_THLPM",
-                    RibbonButtonStyle.LargeWithText);
-
-                // 电气用
-                splitButton.AddNewButton("处理底图（电）",
-                    "天华电气用",
-                    "THLPE",
-                    "处理建筑结构提电气底图的各图层颜色至相应的色号",
-                    "IDI_THCAD_THLPE",
-                    "IDI_THCAD_THLPE",
-                    RibbonButtonStyle.LargeWithText);
-
-                // 给排水用
-                splitButton.AddNewButton("处理底图（水）",
-                    "天华给排水用",
-                    "THLPP",
-                    "处理建筑结构提给排水底图的各图层颜色至相应的色号",
-                    "IDI_THCAD_THLPP",
-                    "IDI_THCAD_THLPP",
-                    RibbonButtonStyle.LargeWithText);
-            }
+            // 处理给排水底图
+            row.AddNewButton("处理底图\r\n（给排水用）",
+                "处理给排水底图",
+                "THLPP",
+                "处理建筑结构提给排水底图的各图层颜色至相应的色号",
+                "IDI_THCAD_THLPP",
+                "IDI_THCAD_THLPP",
+                RibbonButtonStyle.LargeWithText);
 
             // 暖通图层管理
             {

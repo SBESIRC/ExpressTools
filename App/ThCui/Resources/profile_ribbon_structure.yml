@@ -96,9 +96,21 @@ panels:
     name: "BlockTool"
     title: "图层图块"
     items:
-      - text: "建立天华图层"
+      - text: "建立建筑\r\n图层"
+        attributes: { "IsVisible": false, "IsEnabled": true }
+      - text: "建立结构\r\n图层"
         attributes: { "IsVisible": true, "IsEnabled": true }
-      - text: "处理建筑结构底图"
+      - text: "建立暖通\r\n图层"
+        attributes: { "IsVisible": false, "IsEnabled": true }
+      - text: "建立电气\r\n图层"
+        attributes: { "IsVisible": false, "IsEnabled": true }
+      - text: "建立给排水\r\n图层"
+        attributes: { "IsVisible": false, "IsEnabled": true }
+      - text: "处理底图\r\n（暖通用）"
+        attributes: { "IsVisible": false, "IsEnabled": true }
+      - text: "处理底图\r\n（电气用）"
+        attributes: { "IsVisible": false, "IsEnabled": true }
+      - text: "处理底图\r\n（给排水用）"
         attributes: { "IsVisible": false, "IsEnabled": true }
       - text: "暖通图层管理"
         attributes: { "IsVisible": false, "IsEnabled": true }
