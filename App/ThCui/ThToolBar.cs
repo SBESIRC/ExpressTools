@@ -30,6 +30,7 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "图块名选择", "ID_THQS _BLOCK");
                 toolbar.AddToolbarButton(-1, "上次建立", "ID_THQS _LASTAPPEND");
                 toolbar.AddToolbarButton(-1, "上次选取", "ID_THQS _PREVIOUS");
+                toolbar.AddSeparator(-1);
 
                 // 对齐命令集
                 toolbar.AddToolbarButton(-1, "向上对齐", "ID_THAL _TOP");
@@ -40,16 +41,19 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "向右对齐", "ID_THAL _RIGHT");
                 toolbar.AddToolbarButton(-1, "水平均分", "ID_THAL _XDISTRIBUTE");
                 toolbar.AddToolbarButton(-1, "垂直均分", "ID_THAL _YDISTRIBUTE");
+                toolbar.AddSeparator(-1);
 
                 // 块断线命令集
                 toolbar.AddToolbarButton(-1, "插块断线", "ID_THBBR");
                 toolbar.AddToolbarButton(-1, "选块断线", "ID_THBBE");
                 toolbar.AddToolbarButton(-1, "全选断线", "ID_THBBS");
+                toolbar.AddSeparator(-1);
 
                 // 布图打印
                 toolbar.AddToolbarButton(-1, "批量打印PPT", "ID_THBPP");
                 toolbar.AddToolbarButton(-1, "批量打印DWF", "ID_THBPD");
                 toolbar.AddToolbarButton(-1, "批量打印PDF", "ID_THBPT");
+                toolbar.AddSeparator(-1);
 
                 // 辅助编辑工具
                 toolbar.AddToolbarButton(-1, "天华复制", "ID_THCP");
@@ -74,6 +78,7 @@ namespace TianHua.AutoCAD.ThCui
             {
                 toolbar.AddToolbarButton(-1, "建立建筑图层", "ID_THALC");
                 toolbar.AddToolbarButton(-1, "车位编号", "ID_THCNU");
+                toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "天华单体规整", "ID_THBPS");
                 toolbar.AddToolbarButton(-1, "天华总平规整", "ID_THSPS");
                 toolbar.AddToolbarButton(-1, "单体面积汇总", "ID_THBAC");
@@ -98,6 +103,7 @@ namespace TianHua.AutoCAD.ThCui
             {
                 toolbar.AddToolbarButton(-1, "房间面积框线", "ID_THABC");
                 toolbar.AddToolbarButton(-1, "管线断线", "ID_THLTR");
+                toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "建立暖通图层", "ID_THMLC");
                 toolbar.AddToolbarButton(-1, "处理底图", "ID_THLPM");
                 toolbar.AddToolbarButton(-1, "锁定暖通图层", "ID_THMLK");
@@ -105,6 +111,7 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "解锁所有图层", "ID_THUKA");
                 toolbar.AddToolbarButton(-1, "关闭暖通图层", "ID_THMOF");
                 toolbar.AddToolbarButton(-1, "开启暖通图层", "ID_THMON");
+                toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
                 toolbar.AddToolbarButton(-1, "图块集配置", "ID_THBLS");
             }
@@ -116,8 +123,10 @@ namespace TianHua.AutoCAD.ThCui
             if (toolbar != null)
             {
                 toolbar.AddToolbarButton(-1, "管线断线", "ID_THLTR");
+                toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "建立电气图层", "ID_THELC");
                 toolbar.AddToolbarButton(-1, "处理底图", "ID_THLPE");
+                toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
                 toolbar.AddToolbarButton(-1, "图块集配置", "ID_THBLS");
             }
@@ -130,8 +139,10 @@ namespace TianHua.AutoCAD.ThCui
             {
                 toolbar.AddToolbarButton(-1, "喷头布置", "ID_THSPC");
                 toolbar.AddToolbarButton(-1, "管线断线", "ID_THLTR");
+                toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "建立给排水图层", "ID_THPLC");
                 toolbar.AddToolbarButton(-1, "处理底图", "ID_THLPP");
+                toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
                 toolbar.AddToolbarButton(-1, "图块集配置", "ID_THBLS");
             }

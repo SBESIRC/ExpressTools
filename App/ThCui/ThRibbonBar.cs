@@ -428,7 +428,7 @@ namespace TianHua.AutoCAD.ThCui
                 // 水平均分
                 splitButton.AddNewButton("水平均分",
                     "天华水平均分",
-                    "THAL XDISTRIBUTE",
+                    "THAL _XDISTRIBUTE",
                     "水平方向平均分布",
                     "IDI_THCAD_THALIGN_XDISTRIBUTE_SMALL",
                     "IDI_THCAD_THALIGN_XDISTRIBUTE_LARGE",
@@ -437,7 +437,7 @@ namespace TianHua.AutoCAD.ThCui
                 // 垂直均分
                 splitButton.AddNewButton("垂直均分",
                     "天华垂直均分",
-                    "THAL YDISTRIBUTE",
+                    "THAL _YDISTRIBUTE",
                     "水平方向平均分布",
                     "IDI_THCAD_THALIGN_YDISTRIBUTE_SMALL",
                     "IDI_THCAD_THALIGN_YDISTRIBUTE_LARGE",
