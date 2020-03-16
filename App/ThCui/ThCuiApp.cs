@@ -108,6 +108,7 @@ namespace TianHua.AutoCAD.ThCui
             // CUI界面更新
             AcadApp.Idle += Application_OnIdle_Ribbon;
             AcadApp.Idle += Application_OnIdle_Menubar;
+            AcadApp.Idle += Application_OnIdle_Toolbar;
 
             //注册RibbonPaletteSet事件
             if (RibbonServices.RibbonPaletteSet == null)
@@ -191,9 +192,6 @@ namespace TianHua.AutoCAD.ThCui
 
                 // 更新Ribbon
                 UpdateRibbonUserInterface();
-
-                // 更新Toolbar
-                UpdateToolbarUserInterface();
             }
         }
 
@@ -206,6 +204,18 @@ namespace TianHua.AutoCAD.ThCui
 
                 // 更新Menubar
                 UpdateMenubarUserInterface();
+            }
+        }
+
+        private void Application_OnIdle_Toolbar(object sender, EventArgs e)
+        {
+            if (ThToolbarUtils.MenuGroup != null)
+            {
+                // 配置完成后就不需要Idle事件
+                AcadApp.Idle -= Application_OnIdle_Toolbar;
+
+                // 更新Toolbar
+                UpdateToolbarUserInterface();
             }
         }
 

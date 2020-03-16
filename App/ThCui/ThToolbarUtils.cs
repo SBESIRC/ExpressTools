@@ -19,7 +19,7 @@ namespace TianHua.AutoCAD.ThCui
             { Profile.ARCHITECTURE, "天华建筑" },
         };
 
-        private static AcadMenuGroup MenuGroup
+        public static AcadMenuGroup MenuGroup
         {
             get
             {
