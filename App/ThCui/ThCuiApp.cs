@@ -233,9 +233,6 @@ namespace TianHua.AutoCAD.ThCui
 
         private void UpdateToolbarUserInterface()
         {
-            // 根据当前的Profile配置Toolbars
-            ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
-
             // 根据当前的登录信息配置Toolbars
             ThToolbarUtils.ConfigToolbarsWithCurrentUser();
         }

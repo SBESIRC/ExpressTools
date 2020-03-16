@@ -20,6 +20,9 @@ namespace TianHua.AutoCAD.ThCui
             Toolbar toolbar = cs.MenuGroup.AddToolbar("天华通用");
             if (toolbar != null)
             {
+                // 隐藏
+                toolbar.ToolbarVisible = ToolbarVisible.hide;
+
                 // 快速选择命令集
                 toolbar.AddToolbarButton(-1, "颜色选择", "ID_THQS _COLOR");
                 toolbar.AddToolbarButton(-1, "图层选择", "ID_THQS _LAYER");
@@ -76,6 +79,9 @@ namespace TianHua.AutoCAD.ThCui
             Toolbar toolbar = cs.MenuGroup.AddToolbar("天华建筑");
             if (toolbar != null)
             {
+                // 隐藏
+                toolbar.ToolbarVisible = ToolbarVisible.hide;
+
                 toolbar.AddToolbarButton(-1, "建立建筑图层", "ID_THALC");
                 toolbar.AddToolbarButton(-1, "车位编号", "ID_THCNU");
                 toolbar.AddSeparator(-1);
@@ -92,6 +98,9 @@ namespace TianHua.AutoCAD.ThCui
             Toolbar toolbar = cs.MenuGroup.AddToolbar("天华结构");
             if (toolbar != null)
             {
+                // 隐藏
+                toolbar.ToolbarVisible = ToolbarVisible.hide;
+
                 toolbar.AddToolbarButton(-1, "建立结构图层", "ID_THSLC");
             }
         }
@@ -101,6 +110,9 @@ namespace TianHua.AutoCAD.ThCui
             Toolbar toolbar = cs.MenuGroup.AddToolbar("天华暖通");
             if (toolbar != null)
             {
+                // 隐藏
+                toolbar.ToolbarVisible = ToolbarVisible.hide;
+
                 toolbar.AddToolbarButton(-1, "房间面积框线", "ID_THABC");
                 toolbar.AddToolbarButton(-1, "管线断线", "ID_THLTR");
                 toolbar.AddSeparator(-1);
@@ -122,6 +134,9 @@ namespace TianHua.AutoCAD.ThCui
             Toolbar toolbar = cs.MenuGroup.AddToolbar("天华电气");
             if (toolbar != null)
             {
+                // 隐藏
+                toolbar.ToolbarVisible = ToolbarVisible.hide;
+
                 toolbar.AddToolbarButton(-1, "管线断线", "ID_THLTR");
                 toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "建立电气图层", "ID_THELC");
@@ -137,6 +152,9 @@ namespace TianHua.AutoCAD.ThCui
             Toolbar toolbar = cs.MenuGroup.AddToolbar("天华给排水");
             if (toolbar != null)
             {
+                // 隐藏
+                toolbar.ToolbarVisible = ToolbarVisible.hide;
+
                 toolbar.AddToolbarButton(-1, "喷头布置", "ID_THSPC");
                 toolbar.AddToolbarButton(-1, "管线断线", "ID_THLTR");
                 toolbar.AddSeparator(-1);

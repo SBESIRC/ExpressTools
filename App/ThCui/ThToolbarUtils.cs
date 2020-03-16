@@ -73,7 +73,7 @@ namespace TianHua.AutoCAD.ThCui
         {
             if (ThIdentityService.IsLogged())
             {
-                OpenAllToolbars();
+                ConfigToolbarsWithCurrentProfile();
             }
             else
             {
