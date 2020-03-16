@@ -22,6 +22,7 @@ namespace ThCADCore
 
         public static PolygonValidateResult IsValidPolygon(this Polyline pline)
         {
+#if ACAD_ABOVE_2012
             var result = PolygonValidateResult.OK;
 
             if (!pline.Closed)
@@ -55,6 +56,9 @@ namespace ThCADCore
             }
 
             return result;
+#else
+            return PolygonValidateResult.OK;
+#endif
         }
 
         public static PolygonValidateResult IsValidPolygon(this ObjectId polyId)
