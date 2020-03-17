@@ -41,7 +41,7 @@ panels:
       - text: ""
         items:
           - text: "喷头布置"
-            attributes: { "IsVisible": false, "IsEnabled": true }
+            attributes: { "IsVisible": true, "IsEnabled": true }
       - text: ""
         items:
           - text: "快选命令集"
