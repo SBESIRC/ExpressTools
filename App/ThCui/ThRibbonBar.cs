@@ -481,14 +481,14 @@ namespace TianHua.AutoCAD.ThCui
             {
                 var subPanel = row.AddNewPanel();
 
-                // 文字内容刷
+                // 天华格式刷
                 var subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("文字内容刷",
-                    "天华文字内容刷",
-                    "THMTC",
-                    "将目标文字内容替换为源文字内容",
-                    "IDI_THCAD_THMTC_SMALL",
-                    "IDI_THCAD_THMTC_LARGE",
+                subRow.AddNewButton("天华格式刷",
+                    "天华格式刷",
+                    "THMA",
+                    "将目标对象的某些属性刷取为源对象的对应属性",
+                    "IDI_THCAD_THMA_SMALL",
+                    "IDI_THCAD_THMA_LARGE",
                     RibbonButtonStyle.SmallWithText);
 
                 // 版次信息修改

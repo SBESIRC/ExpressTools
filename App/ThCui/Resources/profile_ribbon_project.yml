@@ -60,7 +60,7 @@ panels:
             attributes: { "IsVisible": true, "IsEnabled": true }
       - text: ""
         items:
-          - text: "文字内容刷"
+          - text: "天华格式刷"
             attributes: { "IsVisible": true, "IsEnabled": true }
           - text: "版次信息修改"
             attributes: { "IsVisible": true, "IsEnabled": true }

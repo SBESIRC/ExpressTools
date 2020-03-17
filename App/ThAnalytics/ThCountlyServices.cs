@@ -67,9 +67,6 @@ namespace ThAnalytics
 
             // 平面绘图
             {"THSPC", "喷头布置"},
-
-            // 文字表格
-            {"THMTC", "文字内容刷"},
             
             // 辅助工具
             {"THQS",        "快选命令集"},
