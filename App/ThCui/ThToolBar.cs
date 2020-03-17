@@ -142,6 +142,7 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "建立电气图层", "ID_THELC");
                 toolbar.AddToolbarButton(-1, "处理底图", "ID_THLPE");
                 toolbar.AddSeparator(-1);
+                toolbar.AddToolbarButton(-1, "提电气块转换", "ID_THBEE");
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
                 toolbar.AddToolbarButton(-1, "图块集配置", "ID_THBLS");
             }

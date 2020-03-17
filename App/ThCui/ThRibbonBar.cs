@@ -686,6 +686,15 @@ namespace TianHua.AutoCAD.ThCui
                     RibbonButtonStyle.LargeWithText);
             }
 
+            // 提电气块转换
+            row.AddNewButton("提电气块\r\n转换",
+                "提电气块转换",
+                "THBEE",
+                "将暖通和给排水专业提资给电气的图块转换为电气专业所需的图块",
+                "IDI_THCAD_THBEE",
+                "IDI_THCAD_THBEE",
+                RibbonButtonStyle.LargeWithText);
+
             // 图块集
             row.AddNewButton("图块集",
                 "天华图块集",
@@ -702,15 +711,6 @@ namespace TianHua.AutoCAD.ThCui
                 "配置各专业图块集",
                 "IDI_THCAD_THBLS",
                 "IDI_THCAD_THBLS",
-                RibbonButtonStyle.LargeWithText);
-
-            // 提电气块转换
-            row.AddNewButton("提电气块\r\n转换",
-                "天华提电气块转换",
-                "THBEE",
-                "将暖通和给排水专业提资给电气的图块转换为电气专业所需的图块",
-                "IDI_THCAD_THBEE",
-                "IDI_THCAD_THBEE",
                 RibbonButtonStyle.LargeWithText);
 
             // 图块断线

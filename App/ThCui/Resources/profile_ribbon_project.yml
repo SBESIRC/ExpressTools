@@ -17,17 +17,17 @@ panels:
     name: "Statistic"
     title: "计算工具"
     items:
-      - text: '天华单体\r\n规整'
+      - text: "天华单体\r\n规整"
         attributes: { "IsVisible": true, "IsEnabled": true }
-      - text: '天华总平\r\n规整'
+      - text: "天华总平\r\n规整"
         attributes: { "IsVisible": true, "IsEnabled": true }
-      - text: '单体面积\r\n汇总'
+      - text: "单体面积\r\n汇总"
         attributes: { "IsVisible": true, "IsEnabled": true }
-      - text: '综合经济\r\n技术指标表'
+      - text: "综合经济\r\n技术指标表"
         attributes: { "IsVisible": true, "IsEnabled": true }
-      - text: '防火分区\r\n疏散表'
+      - text: "防火分区\r\n疏散表"
         attributes: { "IsVisible": true, "IsEnabled": true }
-      - text: '房间面积\r\n框线'
+      - text: "房间面积\r\n框线"
         attributes: { "IsVisible": true, "IsEnabled": true }
     attributes: { "IsVisible": false, "IsEnabled": true }
   - UID: "pnlDrawTool"
@@ -113,11 +113,11 @@ panels:
         attributes: { "IsVisible": false, "IsEnabled": true }
       - text: "暖通图层管理"
         attributes: { "IsVisible": false, "IsEnabled": true }
+      - text: "提电气块\r\n转换"
+        attributes: { "IsVisible": false, "IsEnabled": true }
       - text: "图块集"
         attributes: { "IsVisible": false, "IsEnabled": true }
       - text: "图块集配置"
-        attributes: { "IsVisible": false, "IsEnabled": true }
-      - text: '提电气块\r\n转换'
         attributes: { "IsVisible": false, "IsEnabled": true }
       - text: "图块断线"
         attributes: { "IsVisible": true, "IsEnabled": true }
