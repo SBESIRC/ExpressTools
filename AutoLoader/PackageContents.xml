@@ -571,6 +571,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THAL" Local="THAL" />
                 <Command Global="THQS" Local="THQS" />
+                <Command Global="THCO" Local="THCO" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -581,6 +582,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THAL" Local="THAL" />
                 <Command Global="THQS" Local="THQS" />
+                <Command Global="THCO" Local="THCO" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -591,6 +593,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THAL" Local="THAL" />
                 <Command Global="THQS" Local="THQS" />
+                <Command Global="THCO" Local="THCO" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -601,6 +604,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THAL" Local="THAL" />
                 <Command Global="THQS" Local="THQS" />
+                <Command Global="THCO" Local="THCO" />
             </Commands>
         </ComponentEntry>
     </Components>

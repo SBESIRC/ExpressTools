@@ -42,7 +42,7 @@ namespace ThEssential
             }
         }
 
-        [CommandMethod("TIANHUACAD", "THCP", CommandFlags.Modal | CommandFlags.UsePickSet)]
+        [CommandMethod("TIANHUACAD", "THCO", CommandFlags.Modal | CommandFlags.UsePickSet)]
         public void ThCopy()
         {
             using (var cmd = new ThCopyCommand())

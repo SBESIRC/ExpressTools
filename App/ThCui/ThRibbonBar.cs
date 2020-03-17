@@ -451,7 +451,7 @@ namespace TianHua.AutoCAD.ThCui
                 var subRow = subPanel.AddNewRibbonRow();
                 subRow.AddNewButton("天华复制",
                     "天华复制",
-                    "THCP",
+                    "THCO",
                     "提供更灵活的均分和成倍复制",
                     "IDI_THCAD_THCP_SMALL",
                     "IDI_THCAD_THCP_LARGE",
