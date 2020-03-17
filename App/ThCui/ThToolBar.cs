@@ -64,7 +64,7 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "文字块镜像", "ID_THMIR");
                 toolbar.AddToolbarButton(-1, "批量缩放", "ID_THMSC");
                 toolbar.AddToolbarButton(-1, "版次信息修改", "ID_THSVM");
-                toolbar.AddToolbarButton(-1, "批量缩放", "ID_THMSC");
+                toolbar.AddToolbarButton(-1, "尺寸避让", "ID_THDTA");
                 toolbar.AddToolbarButton(-1, "Z值归零", "ID_THZ0");
 #if ACAD_ABOVE_2014
                 toolbar.AddToolbarButton(-1, "DGN清理", "ID_PURGE");
