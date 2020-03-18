@@ -114,41 +114,48 @@ namespace ThEssential.Command
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                PromptIntegerOptions prPntOpt = new PromptIntegerOptions("输入要进行阵列的项目数")
+                while(true)
                 {
-                    AllowNone = true,
-                    UseDefaultValue = true,
-                    AllowArbitraryInput = true,
-                    AllowNegative = false,
-                    AllowZero = false,
-                    DefaultValue = 5,
-                    LowerLimit = 2,
-                    UpperLimit = 32767,
-                };
-                PromptIntegerResult prPntRes = Active.Editor.GetInteger(prPntOpt);
-                if (prPntRes.Status == PromptStatus.OK)
-                {
-                    var arrayJig = new ThCopyArrayJig(basePt)
+                    PromptIntegerOptions prPntOpt = new PromptIntegerOptions("输入要进行阵列的项目数")
                     {
-                        Parameter = (uint)prPntRes.Value,
+                        AllowNone = true,
+                        AllowArbitraryInput = true,
+                        AllowNegative = false,
+                        AllowZero = false,
+                        LowerLimit = 2,
+                        UpperLimit = 32767,
                     };
-                    foreach (ObjectId obj in objs)
+                    PromptIntegerResult prPntRes = Active.Editor.GetInteger(prPntOpt);
+                    if (prPntRes.Status == PromptStatus.OK)
                     {
-                        arrayJig.AddEntity(acadDatabase.Element<Entity>(obj));
+                        var arrayJig = new ThCopyArrayJig(basePt)
+                        {
+                            Parameter = (uint)prPntRes.Value,
+                        };
+                        foreach (ObjectId obj in objs)
+                        {
+                            arrayJig.AddEntity(acadDatabase.Element<Entity>(obj));
+                        }
+                        PromptResult arrayJigRes = Active.Editor.Drag(arrayJig);
+                        if (arrayJigRes.Status == PromptStatus.OK)
+                        {
+                            objs.TimesCopyAlongPath(arrayJig.Displacement, arrayJig.Parameter);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
-                    PromptResult arrayJigRes = Active.Editor.Drag(arrayJig);
-                    if (arrayJigRes.Status == PromptStatus.OK)
+                    else if (prPntRes.Status == PromptStatus.Keyword)
                     {
-                        objs.TimesCopyAlongPath(arrayJig.Displacement, arrayJig.Parameter);
+                        Active.Editor.WriteLine("需要2和32767之间的整数.");
+                        continue;
                     }
                     else
                     {
-                        //
+                        break;
                     }
-                }
-                else
-                {
-                    //
                 }
             }
         }
@@ -181,6 +188,11 @@ namespace ThEssential.Command
                     {
                         objs.TimesCopyAlongPath(displacement, transient.Parameter);
                         break;
+                    }
+                    else if (prPntRes.Status == PromptStatus.Keyword)
+                    {
+                        Active.Editor.WriteLine("需要2和32767之间的整数.");
+                        continue;
                     }
                     else
                     {
@@ -218,6 +230,11 @@ namespace ThEssential.Command
                     {
                         objs.DivideCopyAlongPath(displacement, transient.Parameter);
                         break;
+                    }
+                    else if(prPntRes.Status == PromptStatus.None)
+                    {
+                        Active.Editor.WriteLine("需要2和32767之间的整数.");
+                        continue;
                     }
                     else
                     {
