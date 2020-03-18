@@ -62,7 +62,7 @@ namespace ThEssential.Copy
         {
             for (uint i = 1; i < parameter; i++)
             {
-                objs.CopyWithOffset(displacement * (i + 1));
+                objs.CopyWithOffset(displacement * i);
             }
         }
 
