@@ -59,8 +59,8 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddSeparator(-1);
 
                 // 辅助编辑工具
-                toolbar.AddToolbarButton(-1, "天华复制", "ID_THCP");
-                toolbar.AddToolbarButton(-1, "天华格式刷", "ID_THA");
+                toolbar.AddToolbarButton(-1, "天华复制", "ID_THCO");
+                toolbar.AddToolbarButton(-1, "天华格式刷", "ID_THMA");
                 toolbar.AddToolbarButton(-1, "文字块镜像", "ID_THMIR");
                 toolbar.AddToolbarButton(-1, "批量缩放", "ID_THMSC");
                 toolbar.AddToolbarButton(-1, "版次信息修改", "ID_THSVM");
