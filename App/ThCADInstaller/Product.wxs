@@ -53,7 +53,12 @@
                                 <Directory Id="DIR_Autoloader_Contents_Support" Name="Support">
                                     <Directory Id="DIR_Autoloader_Contents_Support_ToolPalette" Name="ToolPalette" />
                                 </Directory>
-                                <Directory Id="DIR_Autoloader_Contents_Resources" Name="Resources" />
+                                <Directory Id="DIR_Autoloader_Contents_Resources" Name="Resources">
+                                  <Directory Id="DIR_Autoloader_Contents_Resources_2012" Name="2012" />
+                                  <Directory Id="DIR_Autoloader_Contents_Resources_2014" Name="2014" />
+                                  <Directory Id="DIR_Autoloader_Contents_Resources_2016" Name="2016" />
+                                  <Directory Id="DIR_Autoloader_Contents_Resources_2018" Name="2018" />
+                                </Directory>
                                 <Directory Id="DIR_Autoloader_Contents_Standards" Name="Standards">
                                     <Directory Id="DIR_Autoloader_Contents_Standards_Layer" Name="Layer" />
                                     <Directory Id="DIR_Autoloader_Contents_Standards_Style" Name="Style" />
