@@ -17,7 +17,7 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void CreateThGeneralToolbar(CustomizationSection cs)
         {
-            Toolbar toolbar = cs.MenuGroup.AddToolbar("天华通用");
+            Toolbar toolbar = cs.MenuGroup.AddToolbar(ThCuiCommon.PROFILE_GENERAL);
             if (toolbar != null)
             {
                 // 隐藏
@@ -76,7 +76,7 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void CreateThArchitectureToolbar(CustomizationSection cs)
         {
-            Toolbar toolbar = cs.MenuGroup.AddToolbar("天华建筑");
+            Toolbar toolbar = cs.MenuGroup.AddToolbar(ThCuiCommon.PROFILE_ARCHITECTURE);
             if (toolbar != null)
             {
                 // 隐藏
@@ -95,7 +95,7 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void CreateThStructureToolbar(CustomizationSection cs)
         {
-            Toolbar toolbar = cs.MenuGroup.AddToolbar("天华结构");
+            Toolbar toolbar = cs.MenuGroup.AddToolbar(ThCuiCommon.PROFILE_STRUCTURE);
             if (toolbar != null)
             {
                 // 隐藏
@@ -107,7 +107,7 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void CreateThHAVCToolbar(CustomizationSection cs)
         {
-            Toolbar toolbar = cs.MenuGroup.AddToolbar("天华暖通");
+            Toolbar toolbar = cs.MenuGroup.AddToolbar(ThCuiCommon.PROFILE_HAVC);
             if (toolbar != null)
             {
                 // 隐藏
@@ -131,7 +131,7 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void CreateThElectricalToolbar(CustomizationSection cs)
         {
-            Toolbar toolbar = cs.MenuGroup.AddToolbar("天华电气");
+            Toolbar toolbar = cs.MenuGroup.AddToolbar(ThCuiCommon.PROFILE_ELECTRICAL);
             if (toolbar != null)
             {
                 // 隐藏
@@ -150,7 +150,7 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void CreateThWSSToolbar(CustomizationSection cs)
         {
-            Toolbar toolbar = cs.MenuGroup.AddToolbar("天华给排水");
+            Toolbar toolbar = cs.MenuGroup.AddToolbar(ThCuiCommon.PROFILE_WSS);
             if (toolbar != null)
             {
                 // 隐藏

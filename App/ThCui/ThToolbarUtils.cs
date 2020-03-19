@@ -10,19 +10,20 @@ namespace TianHua.AutoCAD.ThCui
 {
     public class ThToolbarUtils
     { 
-        public static readonly Dictionary<Profile, string> Toolbars = new Dictionary<Profile, string>()
+        public static readonly Dictionary<Profile, string> Profiles = new Dictionary<Profile, string>()
         {
-            { Profile.WSS, "天华给排水" },
-            { Profile.HAVC, "天华暖通" },
-            { Profile.STRUCTURE, "天华结构" },
-            { Profile.ELECTRICAL, "天华电气" },
-            { Profile.ARCHITECTURE, "天华建筑" },
+            { Profile.WSS, ThCuiCommon.PROFILE_WSS },
+            { Profile.HAVC, ThCuiCommon.PROFILE_HAVC },
+            { Profile.STRUCTURE, ThCuiCommon.PROFILE_STRUCTURE },
+            { Profile.ELECTRICAL, ThCuiCommon.PROFILE_ELECTRICAL },
+            { Profile.ARCHITECTURE, ThCuiCommon.PROFILE_ARCHITECTURE },
         };
 
-        public static AcadMenuGroup MenuGroup
+        public static AcadToolbars Toolbars
         {
             get
             {
+
 #if ACAD_ABOVE_2014
                 //  2016启动时可能进入Zero doc state，
                 //  这时候获取MenuGroups会抛出COM Exception
@@ -39,33 +40,62 @@ namespace TianHua.AutoCAD.ThCui
                         ThCADCommon.CuixMenuGroup,
                         StringComparison.OrdinalIgnoreCase))
                     {
-                        return menuGroup;
+                        return menuGroup.Toolbars;
                     }
                 }
                 return null;
             }
         }
 
-        private static AcadToolbar FindToolbarWithName(string name)
-        {
-            return MenuGroup.Toolbars.Cast<AcadToolbar>().Where(o => o.Name == name).FirstOrDefault();
-        }
-
         public static void OpenAllToolbars()
         {
-            FindToolbarWithName("天华通用").Visible = true;
-            foreach (var item in Toolbars)
+            var toolbars = Toolbars;
+            if (toolbars == null)
             {
-                FindToolbarWithName(item.Value).Visible = true;
+                return;
+            }
+
+            toolbars.Cast<AcadToolbar>().Where(o => o.Name == ThCuiCommon.PROFILE_GENERAL).ForEach(o => o.Visible = true);
+            foreach (var item in Profiles)
+            {
+                toolbars.Cast<AcadToolbar>().Where(o => o.Name == item.Value).ForEach(o => o.Visible = true);
             }
         }
 
         public static void CloseAllToolbars()
         {
-            FindToolbarWithName("天华通用").Visible = false;
-            foreach (var item in Toolbars)
+            var toolbars = Toolbars;
+            if (toolbars == null)
             {
-                FindToolbarWithName(item.Value).Visible = false;
+                return;
+            }
+
+            toolbars.Cast<AcadToolbar>().Where(o => o.Name == ThCuiCommon.PROFILE_GENERAL).ForEach(o => o.Visible = false);
+            foreach (var item in Profiles)
+            {
+                toolbars.Cast<AcadToolbar>().Where(o => o.Name == item.Value).ForEach(o => o.Visible = false);
+            }
+        }
+
+        public static void ConfigToolbarsWithCurrentProfile()
+        {
+            var toolbars = Toolbars;
+            if (toolbars == null)
+            {
+                return;
+            }
+
+            toolbars.Cast<AcadToolbar>().Where(o => o.Name == ThCuiCommon.PROFILE_GENERAL).ForEach(o => o.Visible = true);
+            foreach (var item in Profiles)
+            {
+                if (item.Key == ThCuiProfileManager.Instance.CurrentProfile)
+                {
+                    toolbars.Cast<AcadToolbar>().Where(o => o.Name == item.Value).ForEach(o => o.Visible = true);
+                }
+                else
+                {
+                    toolbars.Cast<AcadToolbar>().Where(o => o.Name == item.Value).ForEach(o => o.Visible = false);
+                }
             }
         }
 
@@ -78,22 +108,6 @@ namespace TianHua.AutoCAD.ThCui
             else
             {
                 CloseAllToolbars();
-            }
-        }
-
-        public static void ConfigToolbarsWithCurrentProfile()
-        { 
-            FindToolbarWithName("天华通用").Visible = true;
-            foreach (var item in Toolbars)
-            {
-                if (item.Key == ThCuiProfileManager.Instance.CurrentProfile)
-                {
-                    FindToolbarWithName(item.Value).Visible = true;
-                }
-                else
-                {
-                    FindToolbarWithName(item.Value).Visible = false;
-                }
             }
         }
     }

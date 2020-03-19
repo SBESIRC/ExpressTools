@@ -206,7 +206,7 @@ namespace TianHua.AutoCAD.ThCui
 
         private void Application_OnIdle_Toolbar(object sender, EventArgs e)
         {
-            if (ThToolbarUtils.MenuGroup != null)
+            if (ThToolbarUtils.Toolbars != null)
             {
                 // 配置完成后就不需要Idle事件
                 AcadApp.Idle -= Application_OnIdle_Toolbar;
