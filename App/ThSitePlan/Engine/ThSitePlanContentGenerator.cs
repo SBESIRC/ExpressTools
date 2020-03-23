@@ -22,6 +22,12 @@ namespace ThSitePlan.Engine
                 {"建筑信息", new ThSitePlanDefaultWorker()},
                 {"建筑线稿", new ThSitePlanDefaultWorker()},
                 {"建筑色块", new ThSitePlanDefaultWorker()},
+                {"树木线稿", new ThSitePlanDefaultWorker()},
+                {"树木色块", new ThSitePlanDefaultWorker()},
+                {"场地线稿", new ThSitePlanDefaultWorker()},
+                {"场地色块", new ThSitePlanDefaultWorker()},
+                {"道路线稿", new ThSitePlanDefaultWorker()},
+                {"道路色块", new ThSitePlanDefaultWorker()},
             };
         }
         public override bool Generate(Database database, ThSitePlanConfigItem configItem)
