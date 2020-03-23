@@ -27,6 +27,10 @@ namespace THSitePlanRoadDemo
         [CommandMethod("TIANHUACAD", "ROAD", CommandFlags.Modal)]
         static public void RoadDo()
         {
+            var curves = ExtendUtils.GetAllCurves();
+
+
+            ExtendUtils.DrawProfile(curves, "hs");
         }
     }
 }
