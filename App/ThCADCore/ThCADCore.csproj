@@ -28,6 +28,8 @@
     <Compile Include="PolylineValidationExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThCADCoreApp.cs" />
+    <Compile Include="ThCADDbExtension.cs" />
+    <Compile Include="ThCADGeExtension.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
