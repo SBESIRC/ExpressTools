@@ -70,7 +70,7 @@ namespace TianHua.AutoCAD.ThCui
             {"THAL",        "对齐命令集"},
             {"THMSC",       "批量缩放"},
             {"THZ0",        "Z值归零"},
-            {"DGNPURGE",    "DGN清理"},
+            {"THPURGE",     "DGN清理"},
             {"THBPT",       "批量打印PDF"},
             {"THBPD",       "批量打印DWF"},
             {"THBPP",       "批量打印PPT"},
@@ -414,6 +414,14 @@ namespace TianHua.AutoCAD.ThCui
                 ThCuiCommon.CMD_THPROFILE_GLOBAL_NAME,
                 CommandFlags.Modal,
                 new CommandCallback(OnSwitchProfile));
+
+            //天华PURGE
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME,
+                ThCuiCommon.CMD_THPURGE_GLOBAL_NAME,
+                ThCuiCommon.CMD_THPURGE_GLOBAL_NAME,
+                CommandFlags.Modal,
+                new CommandCallback(ThPurge));
         }
 
         public void UnregisterCommands()
@@ -426,6 +434,7 @@ namespace TianHua.AutoCAD.ThCui
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV4_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV5_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THPROFILE_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THPURGE_GLOBAL_NAME);
         }
 
         private void OverwritePlotConfigurations()
@@ -702,6 +711,19 @@ namespace TianHua.AutoCAD.ThCui
             ThRibbonUtils.ConfigPanelsWithCurrentProfile();
             ThMenuBarUtils.ConfigMenubarWithCurrentProfile();
             ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
+        }
+
+
+        // DGN清理
+        // 从AutoCAD 2016开始，“PURGE”命令可以实现“DGNPURGE”的功能
+        // 这里直接将“DGNPURGE”切换到“PURGE”命令
+        private void ThPurge()
+        {
+#if ACAD_ABOVE_2014
+            Active.Document.SendStringToExecute("_.PURGE ", true, false, true);
+#else
+            Active.Document.SendStringToExecute("_.DGNPURGE ", true, false, true);
+#endif
         }
 
         /// <summary>

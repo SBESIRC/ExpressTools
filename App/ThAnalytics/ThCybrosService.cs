@@ -63,7 +63,7 @@ namespace ThAnalytics
             // 辅助工具
             {"THMSC", "批量缩放"},
             {"THZ0", "Z值归零"},
-            {"DGNPURGE", "DGN清理"},
+            {"THPURGE", "DGN清理"},
             {"THBPT", "批量打印PDF"},
             {"THBPD", "批量打印DWF"},
             {"THBPP", "批量打印PPT"},

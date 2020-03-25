@@ -535,24 +535,13 @@ namespace TianHua.AutoCAD.ThCui
                 // 从AutoCAD 2016开始，“PURGE”命令可以实现“DGNPURGE”的功能
                 // 这里直接将“DGNPURGE”切换到“PURGE”命令
                 subRow = subPanel.AddNewRibbonRow();
-#if ACAD_ABOVE_2014
                 subRow.AddNewButton("DGN清理",
                     "DGN清理",
-                    "PURGE",
+                    "THPURGE",
                     "清理图纸中多余DGN对象，含多余的DGN线型、注释比例等",
                     "IDI_THCAD_DGNPURGE_SMALL",
                     "IDI_THCAD_DGNPURGE_LARGE",
                     RibbonButtonStyle.SmallWithText);
-#else
-                subRow.AddNewButton("DGN清理",
-                    "DGN清理",
-                    "DGNPURGE",
-                    "清理图纸中多余DGN对象，含多余的DGN线型、注释比例等",
-                    "IDI_THCAD_DGNPURGE_SMALL",
-                    "IDI_THCAD_DGNPURGE_LARGE",
-                    RibbonButtonStyle.SmallWithText);
-#endif
-
             }
         }
 
