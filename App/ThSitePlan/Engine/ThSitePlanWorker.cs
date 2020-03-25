@@ -20,7 +20,7 @@ namespace ThSitePlan.Engine
                 using (var objs = Filter(database, configItem, options))
                 {
                     Vector3d offset = (Vector3d)options.Options["Offset"];
-                    acadDatabase.Database.CopyWithMove(objs, Matrix3d.Displacement(offset));
+                    acadDatabase.Database.Move(objs, Matrix3d.Displacement(offset));
                 }
                 return true;
             }

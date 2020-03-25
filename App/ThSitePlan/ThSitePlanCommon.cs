@@ -11,7 +11,7 @@ namespace ThSitePlan
     {
         public static readonly string LAYER_FRAME = "P-AI-Frame";
         public static readonly string LAYER_LANDSCAPE_TREE = "P-Land-TREE";
-        public static readonly string LAYER_STREET_TREE = "P-AI-streettree";
+        public static readonly string LAYER_STREET_TREE = "P-AI-steettree";
         public static readonly string LAYER_SITE_FIRE = "P-FIRE";
         public static readonly string LAYER_SITE_PARKING = "P-CONS-PARK";
         public static readonly string LAYER_SITE_ACTIVITY = "P-AI-activitysite";

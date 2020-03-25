@@ -29,7 +29,7 @@
     <Compile Include="Engine\ThSitePlanContentGenerator.cs" />
     <Compile Include="Engine\ThSitePlanCurveWorker.cs" />
     <Compile Include="Engine\ThSitePlaneImageGenerator.cs" />
-    <Compile Include="Engine\ThSitePlanOutlineWorker.cs" />
+    <Compile Include="Engine\ThSitePlanDefaultWorker.cs" />
     <Compile Include="Engine\ThSitePlanPDFGenerator.cs" />
     <Compile Include="Engine\ThSitePlanWorker.cs" />
     <Compile Include="Engine\ThSitePlanWorkerDecorator.cs" />
@@ -41,13 +41,10 @@
     </Compile>
     <Compile Include="ThSitePlanApp.cs" />
     <Compile Include="ThSitePlanCommon.cs" />
-    <Compile Include="ThSitePlanContent.cs" />
-    <Compile Include="ThSitePlanContentDevice.cs" />
-    <Compile Include="ThSitePlanContentDeviceManager.cs" />
-    <Compile Include="ThSitePlanContentEngine.cs" />
     <Compile Include="ThSitePlanDbExtension.cs" />
     <Compile Include="ThSitePlanEditorExtension.cs" />
     <Compile Include="Engine\ThSitePlanEngine.cs" />
+    <Compile Include="ThSitePlanExplodeUtils.cs" />
     <Compile Include="ThSitePlanFrameJig.cs" />
     <Compile Include="ThSitePlanFrameUtils.cs" />
     <Compile Include="Engine\ThSitePlanGenerator.cs" />

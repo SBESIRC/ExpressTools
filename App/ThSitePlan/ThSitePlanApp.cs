@@ -28,6 +28,7 @@ namespace ThSitePlan
         [CommandMethod("TIANHUACAD", "THSP", CommandFlags.Modal)]
         public void ThSitePlan()
         {
+            Vector3d offset;
             ObjectId originFrame = ObjectId.Null;
             var frames = new Queue<Tuple<ObjectId, Vector3d>>();
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
@@ -74,7 +75,7 @@ namespace ThSitePlan
 
                 // 指定解构图集的放置区
                 var frameObj = acadDatabase.Element<Polyline>(originFrame);
-                Vector3d offset = offset = ThSitePlanFrameUtils.PickFrameOffset(frameObj);
+                offset = offset = ThSitePlanFrameUtils.PickFrameOffset(frameObj);
                 if (offset.IsZeroLength())
                 {
                     return;
@@ -89,21 +90,32 @@ namespace ThSitePlan
                         Vector3d delta = new Vector3d(deltaX, -deltaY, 0.0);
                         Matrix3d displacement = Matrix3d.Displacement(offset + delta);
                         var objId = acadDatabase.ModelSpace.Add(frameObj.GetTransformedCopy(displacement));
-                        frames.Enqueue(new Tuple<ObjectId, Vector3d>(objId, offset + delta));
+                        frames.Enqueue(new Tuple<ObjectId, Vector3d>(objId, delta));
                     }
                 }
+            }
+
+            // 首先将原线框内的所有图元复制一份放到解构图集放置区的第一个线框里
+            // 这个线框里面的图元会被移动到到解构图集放置区对应的线框中
+            // 未被移走的图元将会保留在这个图框中，并作为“未标识”对象
+            // 这个图框里面的块引用将会被“炸”平成基本图元后处理
+            // 解构图集放置区的第一个线框
+            var item = frames.Dequeue();
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                acadDatabase.Database.CopyWithMove(originFrame, offset);
+                acadDatabase.Database.ExplodeToOwnerSpace(item.Item1);
             }
 
             // 处理流程
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 ThSitePlanEngine.Instance.Containers = frames;
-                ThSitePlanEngine.Instance.OriginFrame = originFrame;
+                ThSitePlanEngine.Instance.OriginFrame = item.Item1;
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                 {
                     new ThSitePlanContentGenerator(),
-                    new ThSitePlanPDFGenerator(),
-                    new ThSitePlaneImageGenerator()
+                    new ThSitePlanPDFGenerator()
                 };
                 ThSitePlanConfigService.Instance.Initialize();
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);

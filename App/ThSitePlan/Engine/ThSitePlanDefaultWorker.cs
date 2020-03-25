@@ -4,6 +4,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
 using AcHelper;
 using NFox.Cad.Collections;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThSitePlan.Engine
 {
