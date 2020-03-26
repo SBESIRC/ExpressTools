@@ -24,7 +24,7 @@ namespace ThSitePlan
             }
         }
 
-        private static void CopyWithMove(this Database database,
+        public static void CopyWithMove(this Database database,
             ObjectIdCollection objs, 
             Matrix3d displacement,
             bool bErase = false)
