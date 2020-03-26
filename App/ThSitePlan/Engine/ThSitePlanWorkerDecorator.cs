@@ -12,6 +12,11 @@ namespace ThSitePlan.Engine
             Worker = worker;
         }
 
+        public override bool DoProcess(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            return Worker.DoProcess(database, configItem, options);
+        }
+
         public override ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
         {
             return Worker.Filter(database, configItem, options);

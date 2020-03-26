@@ -115,11 +115,14 @@ namespace ThSitePlan
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                 {
                     new ThSitePlanContentGenerator(),
+                    new ThSitePlanHatchGenerator(),
                     new ThSitePlanPDFGenerator()
                 };
                 ThSitePlanConfigService.Instance.Initialize();
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
+
+            // 处理PS
         }
     }
 }

@@ -99,6 +99,24 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
+                // 建筑物.高层建筑.建筑色块
+                highBuilding.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "建筑色块"},
+                    { "Color", new Color()},
+                    { "Transparency", 0 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  Dictionary<string, string>()
+                        {
+                            { "建筑最大外轮廓",    "P-BUID-BMAX" },
+                            { "建筑错层看线",      "P-BUID-BCHA" },
+                            { "围墙线",           "P-BUID-ROOF" }
+                        }
+                    }
+                }
+                });
                 // 建筑物.高层建筑.建筑线稿
                 highBuilding.Items.Add(new ThSitePlanConfigItem()
                 {
@@ -113,22 +131,6 @@ namespace ThSitePlan.Configuration
                             { "建筑最大外轮廓",    "P-BUID-BMAX" },
                             { "建筑错层看线",      "P-BUID-BCHA" },
                             { "围墙线",           "P-BUID-ROOF" }
-                        }
-                    }
-                }
-                });
-                // 建筑物.高层建筑.建筑色块
-                highBuilding.Items.Add(new ThSitePlanConfigItem()
-                {
-                    Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "建筑色块"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
-                        {
-                            { "新建建筑物填充",    "P-BUID-HACH" }
                         }
                     }
                 }

@@ -27,9 +27,10 @@
   <ItemGroup>
     <Compile Include="Configuration\ThSitePlanConfigService.cs" />
     <Compile Include="Engine\ThSitePlanContentGenerator.cs" />
-    <Compile Include="Engine\ThSitePlanCurveWorker.cs" />
     <Compile Include="Engine\ThSitePlaneImageGenerator.cs" />
     <Compile Include="Engine\ThSitePlanDefaultWorker.cs" />
+    <Compile Include="Engine\ThSitePlanHatchGenerator.cs" />
+    <Compile Include="Engine\ThSitePlanOuterWorker.cs" />
     <Compile Include="Engine\ThSitePlanPDFGenerator.cs" />
     <Compile Include="Engine\ThSitePlanWorker.cs" />
     <Compile Include="Engine\ThSitePlanWorkerDecorator.cs" />

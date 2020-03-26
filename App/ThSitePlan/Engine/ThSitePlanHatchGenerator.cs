@@ -6,30 +6,19 @@ using ThSitePlan.Configuration;
 
 namespace ThSitePlan.Engine
 {
-    /// <summary>
-    /// 解构图集生成器
-    /// </summary>
-    public class ThSitePlanContentGenerator : ThSitePlanGenerator
+    public class ThSitePlanHatchGenerator : ThSitePlanGenerator
     {
         public override ObjectId OriginFrame { get; set; }
         public override Tuple<ObjectId, Vector3d> Frame { get; set; }
         private Dictionary<string, ThSitePlanWorker> Workers { get; set; }
-        public ThSitePlanContentGenerator()
+        public ThSitePlanHatchGenerator()
         {
             Workers = new Dictionary<string, ThSitePlanWorker>()
             {
-                {"原始场地线稿", new ThSitePlanMoveWorker()},
-                {"建筑信息", new ThSitePlanMoveWorker()},
-                {"建筑线稿", new ThSitePlanMoveWorker()},
-                {"建筑色块", new ThSitePlanCopyWorker()},
-                {"树木线稿", new ThSitePlanMoveWorker()},
-                {"树木色块", new ThSitePlanMoveWorker()},
-                {"场地线稿", new ThSitePlanMoveWorker()},
-                {"场地色块", new ThSitePlanMoveWorker()},
-                {"道路线稿", new ThSitePlanMoveWorker()},
-                {"道路色块", new ThSitePlanMoveWorker()},
+                {"建筑色块", new ThSitePlanOuterWorker()},
             };
         }
+
         public override bool Generate(Database database, ThSitePlanConfigItem configItem)
         {
             var options = new ThSitePlanOptions()
