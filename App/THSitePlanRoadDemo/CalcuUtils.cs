@@ -4,15 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DotNetARX;
 
 namespace THSitePlanRoadDemo
 {
     class CalcuUtils
     {
         /// <summary>
-        /// 删除共边
+        /// 直线
         /// </summary>
         /// <param name="lines"></param>
+        /// <returns></returns>
         public static List<LineSegment2d> RemoveCollinearLines(List<LineSegment2d> lines)
         {
             var outLines = new List<LineSegment2d>();
@@ -24,9 +26,76 @@ namespace THSitePlanRoadDemo
         public static List<Curve> RemoveOverlap(List<Curve> curves)
         {
             var resCurves = new List<Curve>();
+
+            var line2ds = new List<LineSegment2d>();
+            var arcs = new List<Arc>();
+            foreach (var curve in curves)
+            {
+                if (curve is Line line)
+                {
+                    var ptS = line.StartPoint;
+                    var ptE = line.EndPoint;
+                    var line2d = new LineSegment2d(new Point2d(ptS.X, ptS.Y), new Point2d(ptE.X, ptE.Y));
+                    line2ds.Add(line2d);
+                }
+                else if (curve is Arc arc)
+                {
+                    var arcPlane = new Arc();
+                    Point3d ptS = arc.StartPoint;
+                    var ptCenter = arc.Center;
+                    var ptE = arc.EndPoint;
+
+                    var ptSZO = new Point3d(ptS.X, ptS.Y, 0);
+                    var ptCenterZ0 = new Point3d(ptCenter.X, ptCenter.Y, 0);
+                    var ptEZ0 = new Point3d(ptE.X, ptE.Y, 0);
+                    arcPlane.CreateArcSCE(ptSZO, ptCenterZ0, ptEZ0);
+                    arcs.Add(arcPlane);
+                }
+            }
+
+            var resLine2ds = RemoveCollinearLines(line2ds);
+            var resArcs = RemoveArcs(arcs);
+
+            var drawCurves = line2dToCurves(resLine2ds);
+            ExtendUtils.DrawProfile(drawCurves, "drawC");
             return resCurves;
         }
     
+        public static List<Curve> line2dToCurves(List<LineSegment2d> line2ds)
+        {
+            if (line2ds == null || line2ds.Count == 0)
+                return null;
+
+            var curves = new List<Curve>();
+            foreach (var line2d in line2ds)
+            {
+                var line = Line2Curve(line2d);
+                curves.Add(line);
+            }
+            return curves;
+            
+        }
+
+        public static Line Line2Curve(LineSegment2d line2d)
+        {
+            var ptS = line2d.StartPoint;
+            var ptE = line2d.EndPoint;
+            var line = new Line(new Point3d(ptS.X, ptS.Y, 0), new Point3d(ptE.X, ptE.Y, 0));
+            return line;
+        }
+
+        /// <summary>
+        /// 圆弧
+        /// </summary>
+        /// <param name="arcs"></param>
+        /// <returns></returns>
+        public static List<Curve> RemoveArcs(List<Arc> arcs)
+        {
+            var resArcs = new List<Curve>();
+
+            return resArcs;
+        }
+
         class CoEdge
         {
             private bool m_IsErase = false; // 是否已经删除
@@ -105,12 +174,18 @@ namespace THSitePlanRoadDemo
                     for (int j = i + 1; j < m_coEdges.Count; j++)
                     {
                         var nextEdge = m_coEdges[j];
-                        if (curEdge.IsErase || nextEdge.IsErase)
+
+                        if (curEdge.IsErase)
+                            break;
+
+                        if (nextEdge.IsErase)
                             continue;
 
                         var nextLine = nextEdge.CoLine;
                         var nextLinePtS = nextLine.StartPoint;
                         var nextLinePtE = nextLine.EndPoint;
+
+                        // 平行线
                         if (CommonUtils.IsAlmostNearZero(CommonUtils.CalAngle(CommonUtils.Vector2XY(curLine.Direction), CommonUtils.Vector2XY(nextLine.Direction)), 1e-6)
                            || CommonUtils.IsAlmostNearZero(CommonUtils.CalAngle(CommonUtils.Vector2XY(curLine.Direction), CommonUtils.Vector2XY(nextLine.Direction.Negate())), 1e-6))
                         {
@@ -123,7 +198,6 @@ namespace THSitePlanRoadDemo
                             else if (CommonUtils.IsPointOnSegment(nextLinePtS, curLine, 1e-3) && CommonUtils.IsPointOnSegment(nextLinePtE, curLine, 1e-3)) // 完全包含线nextLine
                             {
                                 nextEdge.IsErase = true;
-
                             }
                             else if (CommonUtils.IsPointOnSegment(curLinePtS, nextLine, 1e-3) && CommonUtils.IsPointOnSegment(curLinePtE, nextLine, 1e-3)) // 完全包含线curLine
                             {
