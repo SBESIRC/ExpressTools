@@ -28,9 +28,9 @@ namespace THSitePlanRoadDemo
         static public void RoadDo()
         {
             var curves = ExtendUtils.GetAllCurves();
+            CalcuUtils.RemoveOverlap(curves);
 
-
-            ExtendUtils.DrawProfile(curves, "hs");
+            //ExtendUtils.DrawProfile(curves, "hs");
         }
     }
 }
