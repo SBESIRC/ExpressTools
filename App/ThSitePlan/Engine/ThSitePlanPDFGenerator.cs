@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
 using AcHelper;
 using Linq2Acad;
-using Dreambuild.AutoCAD;
 
 namespace ThSitePlan.Engine
 {
@@ -23,8 +23,8 @@ namespace ThSitePlan.Engine
                 var frame = acadDatabase.Element<Polyline>(Frame.Item1);
                 var file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), 
                     (string)configItem.Properties["Name"]);
+                Active.Editor.ZoomObject(frame.ObjectId);
                 var extents2d = Active.Editor.ToPlotWindow(frame);
-                Interaction.ZoomView(extents2d.ToExtents3d());
                 ThSitePlanPlotUtils.DoPlot(extents2d, file);
                 return true;
             }

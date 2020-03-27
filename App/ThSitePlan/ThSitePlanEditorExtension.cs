@@ -31,9 +31,6 @@ namespace ThSitePlan
             //will need to be appropriately ZOOMed into 
             //the geometry that is to be used for boundary detection.
             editor.ZoomObject(polygon.ObjectId);
-            //var extents2d = editor.ToPlotWindow(polygon);
-            //Interaction.ZoomView(extents2d.ToExtents3d());
-            //editor.Regen();
 
             // TraceBoundary()接受一个UCS的seed point
             var seedPtUcs = offset.First().StartPoint.Trans(CoordSystem.WCS, CoordSystem.UCS);

@@ -1,8 +1,10 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using System.Linq;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.DatabaseServices;
 using Linq2Acad;
 using AcHelper;
 using ThSitePlan.Configuration;
+using Dreambuild.AutoCAD;
 
 namespace ThSitePlan.Engine
 {
@@ -20,13 +22,15 @@ namespace ThSitePlan.Engine
                     ObjectId frame = (ObjectId)options.Options["Frame"];
                     var polygon = acadDatabase.Element<Polyline>(frame);
                     var boundaries = Active.Editor.TraceBoundaryEx(polygon);
-                    foreach (DBObject dbObj in boundaries)
+                    // 删除outermost boundary（最后一个） 
+                    boundaries.RemoveAt(boundaries.Count - 1);
+                    // 转化成Region loops
+                    var loops = acadDatabase.Database.CreateRegionLoops(boundaries);
+                    // 合并loops，消除掉"Holes"和"Islands"
+                    foreach (ObjectId objId in RegionLoopService.MergeBoundary(loops.Cast<ObjectId>()))
                     {
-                        if (dbObj is Entity boundary)
-                        {
-                            acadDatabase.ModelSpace.Add(boundary);
-                        }
-
+                        // 创建Hatch
+                        objId.CreateHatchWithPolygon();
                     }
 
                     // 删除拷贝的图元
