@@ -26,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ThSitePlanConfigService.cs" />
+    <Compile Include="Engine\ThSitePlanTreeWorker.cs" />
     <Compile Include="Engine\ThSitePlanContentGenerator.cs" />
     <Compile Include="Engine\ThSitePlaneImageGenerator.cs" />
     <Compile Include="Engine\ThSitePlanDefaultWorker.cs" />

@@ -215,6 +215,9 @@ namespace ThSitePlan
             }
         }
 
+        // 对于一堆杂乱的“封闭”曲线，这里实现了一个“构面”的检测：
+        // 即通过遍历每一个封闭曲线，调用Region.CreateFromCurves()。
+        // 若无Exception抛出，则这个“封闭”曲线可以构面；否则则构面失败。
         public static ObjectIdCollection CreateRegionLoops(this Database database, DBObjectCollection polygons)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
@@ -238,6 +241,26 @@ namespace ThSitePlan
                     catch
                     {
                         // 未知错误
+                    }
+                }
+                return loops;
+            }
+        }
+
+        public static ObjectIdCollection CreateRegionLoops(this Database database, ObjectIdCollection collection)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                var loops = new ObjectIdCollection();
+                foreach (ObjectId obj in collection)
+                {
+                    using (var curves = new DBObjectCollection()
+                    {
+                        acadDatabase.Element<Curve>(obj),
+                    })
+                    using (var regions = Region.CreateFromCurves(curves))
+                    {
+                        loops.Add(obj);
                     }
                 }
                 return loops;

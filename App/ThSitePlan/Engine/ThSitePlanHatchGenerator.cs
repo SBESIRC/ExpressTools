@@ -16,6 +16,7 @@ namespace ThSitePlan.Engine
             Workers = new Dictionary<string, ThSitePlanWorker>()
             {
                 {"建筑色块", new ThSitePlanOuterWorker()},
+                {"树木色块", new ThSitePlanTreeWorker()},
             };
         }
 

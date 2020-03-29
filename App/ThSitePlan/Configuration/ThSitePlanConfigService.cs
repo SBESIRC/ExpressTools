@@ -187,22 +187,6 @@ namespace ThSitePlan.Configuration
             {
                 var street_tree = new ThSitePlanConfigItemGroup();
                 street_tree.Properties.Add("Name", "行道树");
-                // 树木.行道树.树木线稿
-                street_tree.Items.Add(new ThSitePlanConfigItem()
-                {
-                    Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "树木线稿"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
-                        {
-                            { "行道树线稿", ThSitePlanCommon.LAYER_STREET_TREE },
-                        }
-                    }
-                }
-                });
                 // 树木.行道树.树木色块
                 street_tree.Items.Add(new ThSitePlanConfigItem()
                 {
@@ -215,6 +199,22 @@ namespace ThSitePlan.Configuration
                     { "CADLayer", new  Dictionary<string, string>()
                         {
                             { "行道树色块", ThSitePlanCommon.LAYER_STREET_TREE }
+                        }
+                    }
+                }
+                });
+                // 树木.行道树.树木线稿
+                street_tree.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "树木线稿"},
+                    { "Color", new Color()},
+                    { "Transparency", 0 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  Dictionary<string, string>()
+                        {
+                            { "行道树线稿", ThSitePlanCommon.LAYER_STREET_TREE },
                         }
                     }
                 }
