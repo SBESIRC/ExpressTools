@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using Linq2Acad;
@@ -29,8 +30,14 @@ namespace ThSitePlan.Engine
                     // 合并loops，消除掉"Holes"和"Islands"
                     foreach (ObjectId objId in RegionLoopService.MergeBoundary(loops.Cast<ObjectId>()))
                     {
+                        var shadows = objId.CreateRegionShadow(new Vector3d(5, -5, 0));
+                        var shadowloops = acadDatabase.Database.CreateRegionLoops(shadows);
+                        foreach (ObjectId shadowloop in RegionLoopService.MergeBoundary(shadowloops.Cast<ObjectId>()))
+                        {
+                            shadowloop.CreateHatchWithPolygon();
+                        }
                         // 创建Hatch
-                        objId.CreateHatchWithPolygon();
+                        //objId.CreateHatchWithPolygon();
                     }
 
                     // 删除拷贝的图元

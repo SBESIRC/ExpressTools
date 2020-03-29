@@ -1,9 +1,11 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using AcHelper;
 using Linq2Acad;
+using ThSitePlan.NTS;
 
 namespace ThSitePlan
 {
@@ -22,13 +24,14 @@ namespace ThSitePlan
             }
         }
 
-        public static void CopyWithMove(this Database database,
+        public static ObjectIdCollection CopyWithMove(this Database database,
             ObjectIdCollection objs, 
             Matrix3d displacement,
             bool bErase = false)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
+                var clones = new ObjectIdCollection();
                 using (IdMapping idMap = new IdMapping())
                 {
                     acadDatabase.Database.DeepCloneObjects(objs,
@@ -37,6 +40,7 @@ namespace ThSitePlan
                     {
                         if (pair.IsPrimary && pair.IsCloned)
                         {
+                            clones.Add(pair.Value);
                             var entity = acadDatabase.Element<Entity>(pair.Value, true);
                             entity.TransformBy(displacement);
                             if (bErase)
@@ -46,6 +50,24 @@ namespace ThSitePlan
                         }
                     }
                 }
+                return clones;
+            }
+        }
+
+        public static ObjectId CopyWithMove(this ObjectId objectId, Vector3d offset)
+        {
+            var objs = new ObjectIdCollection()
+            {
+                objectId
+            };
+            var clones = objectId.Database.CopyWithMove(objs, Matrix3d.Displacement(offset));
+            if (clones.Count == 1)
+            {
+                return clones[0];
+            }
+            else
+            {
+                return ObjectId.Null;
             }
         }
 
@@ -222,30 +244,33 @@ namespace ThSitePlan
             }
         }
 
-        public static ObjectIdCollection CreateRegionsWithPolygons(this Database database, DBObjectCollection polygons)
+        public static DBObjectCollection CreateRegionShadow(this ObjectId objectId, Vector3d offset)
         {
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(objectId.Database))
             {
-                var regions = new ObjectIdCollection();
-                foreach (DBObject obj in polygons)
+                var clone = objectId.CopyWithMove(offset);
+
+                //
+                var pline1 = acadDatabase.Element<Polyline>(objectId);
+                var pline2 = acadDatabase.Element<Polyline>(clone);
+
+                var lines = new DBObjectCollection();
+                for(int i = 0; i < pline1.NumberOfVertices; i++)
                 {
-                    try
+                    lines.Add(new Line()
                     {
-                        var items = new DBObjectCollection()
-                        {
-                            obj
-                        };
-                        foreach (Region region in Region.CreateFromCurves(items))
-                        {
-                            regions.Add(acadDatabase.ModelSpace.Add(region));
-                        }
-                    }
-                    catch
-                    {
-                        // 未知错误
-                    }
+                        StartPoint = pline1.GetPoint3dAt(i),
+                        EndPoint = pline2.GetPoint3dAt(i)
+                    });
                 }
-                return regions;
+
+                //var lines1 = new DBObjectCollection();
+                //var lines2 = new DBObjectCollection();
+                // 将多段线“炸”成多个线段，便于后面的Noding Process
+                pline1.Explode(lines);
+                pline2.Explode(lines);
+                // Polygonizer处理
+                return lines.PolygonizeLines();
             }
         }
     }
