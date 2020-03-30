@@ -2,7 +2,6 @@
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
-using ThEssential.Align;
 using AcHelper;
 using GeometryExtensions;
 

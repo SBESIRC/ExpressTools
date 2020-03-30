@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.IO;
+using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace ThEssential.MatchProps
 {
@@ -17,6 +18,16 @@ namespace ThEssential.MatchProps
         private ICommand okCommand;
         private ICommand cancelCommand;
         private ICommand mouseRightClickCommand;
+
+        private bool executed=false;
+        /// <summary>
+        /// 是否继续执行
+        /// </summary>
+        public bool Executed
+        {
+            get { return executed; }
+            set { executed = true; }
+        }
 
         public MarchPropertyVM()
         {
@@ -41,8 +52,6 @@ namespace ThEssential.MatchProps
         public ICommand OkCommand => okCommand ?? (okCommand = new DelegateCommand(param =>
          {
              Confirm();
-             EditAlias();
-             Owner.Close();
          }));
 
         public ICommand CancelCommand => cancelCommand ?? (cancelCommand = new DelegateCommand(param =>
@@ -56,9 +65,12 @@ namespace ThEssential.MatchProps
         /// <summary>
         /// 确定按钮
         /// </summary>
-        void Confirm()
+        public void Confirm()
         {
+            this.executed = true;
             marchPropertySet.Save();
+            EditAlias();
+            Owner.Close();
         }
         private void EditAlias()
         {
@@ -66,25 +78,15 @@ namespace ThEssential.MatchProps
             {
                 string acadCommandName = "*MATCHPROP";
                 string thCommandName = "*THMA";
-                string acadpgpDir = (string)Autodesk.AutoCAD.ApplicationServices.Application.GetSystemVariable("ACTRECPATH");
-                if (string.IsNullOrEmpty(acadpgpDir))
-                {
-                    return;
-                }
-                DirectoryInfo di = new DirectoryInfo(acadpgpDir);
-                if (!di.Exists)
-                {
-                    return;
-                }
-                acadpgpDir=di.Parent.FullName;
-                string acadpgpFullPath = acadpgpDir + "\\" + "acad.pgp";
-                FileInfo fi = new FileInfo(acadpgpFullPath);
+                string roaming = (string)AcadApp.GetSystemVariable("ROAMABLEROOTPREFIX");
+                string acadPgpFilePath = roaming + "Support\\acad.pgp";
+                FileInfo fi = new FileInfo(acadPgpFilePath);
                 if (!fi.Exists)
                 {
                     return;
                 }
                 List<string> allLines = new List<string>();
-                StreamReader sr = File.OpenText(acadpgpFullPath);
+                StreamReader sr = File.OpenText(acadPgpFilePath);
                 string nextLine;
                 while ((nextLine = sr.ReadLine()) != null)
                 {
@@ -110,7 +112,7 @@ namespace ThEssential.MatchProps
                     }
                     allLines[i] = currentLineContent;
                 }
-                FileInfo pgpFile = new FileInfo(acadpgpFullPath);
+                FileInfo pgpFile = new FileInfo(acadPgpFilePath);
                 StreamWriter sw = pgpFile.CreateText();
                 foreach (var s in allLines)
                 {
@@ -126,8 +128,9 @@ namespace ThEssential.MatchProps
         /// <summary>
         /// 取消
         /// </summary>
-        void Cancel()
+        public void Cancel()
         {
+            this.executed = false;
             Owner.Close();
         }
         /// <summary>

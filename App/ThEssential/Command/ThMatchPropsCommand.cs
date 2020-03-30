@@ -5,6 +5,9 @@ using Linq2Acad;
 using AcHelper;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
+using System.Collections.Generic;
+using Autodesk.AutoCAD.Colors;
+using ThEssential.QSelect;
 
 namespace ThEssential.Command
 {
@@ -40,17 +43,38 @@ namespace ThEssential.Command
                 Entity sourceEntity = acadDatabase.Element<Entity>(result.ObjectId);
 
                 MarchPropertyVM marchPropertyVM = new MarchPropertyVM();
-                MarchProperty marchProperty = new MarchProperty();
+                MarchProperty marchProperty = new MarchProperty(marchPropertyVM);
                 marchPropertyVM.Owner = marchProperty;
-                marchProperty.DataContext = marchPropertyVM;
                 marchProperty.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                 marchProperty.ShowDialog();
 
+                if(!marchPropertyVM.Executed)
+                {
+                    return;
+                }
+                Dictionary<ObjectId, Color> entColorDic = new Dictionary<ObjectId, Color>();
+                foreach(ObjectId objId in entModified.Value.GetObjectIds())
+                {
+                    Entity currentEnt = acadDatabase.Element<Entity>(objId);
+                    Color entColor = currentEnt.Color;
+                    if (entColor.ColorMethod == Autodesk.AutoCAD.Colors.ColorMethod.ByLayer)
+                    {
+                        entColor = ThQuickSelect.GetByLayerColor(acadDatabase.Database, currentEnt);
+                    }
+                    entColorDic.Add(objId, entColor);
+                }
                 // 执行操作
                 foreach (var objId in entModified.Value.GetObjectIds())
                 {
                     var destEntity = acadDatabase.Element<Entity>(objId, true);
                     ThMatchPropsEntityExtension.MatchProps(sourceEntity, destEntity, marchPropertyVM.MarchPropSet);
+                    if(marchPropertyVM.MarchPropSet.ColorOp==false)
+                    {
+                        if(marchPropertyVM.MarchPropSet.LayerOp)
+                        {
+                            destEntity.ColorIndex = entColorDic[objId].ColorIndex;
+                        }
+                    }
                     if (marchPropertyVM.MarchPropSet.TextContentOp)
                     {
                         ThMatchPropsEntityExtension.MarchTextContentProperty(sourceEntity, destEntity);

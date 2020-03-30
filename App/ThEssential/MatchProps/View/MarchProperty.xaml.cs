@@ -20,15 +20,19 @@ namespace ThEssential.MatchProps
     /// </summary>
     public partial class MarchProperty : Window
     {
-        public MarchProperty()
+        private MarchPropertyVM marchPropertyVM;
+        public MarchProperty(MarchPropertyVM marchPropertyVM)
         {
             InitializeComponent();
+            this.marchPropertyVM = marchPropertyVM;
+            this.DataContext = marchPropertyVM;
         }
         private void Control_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             if(sender is CheckBox cb)
             {
                 SetCheckBox(cb.Name);
+                Reset_AcadInitConfig();
             }
         }        
         private void SetCheckBox(string name)
@@ -68,6 +72,35 @@ namespace ThEssential.MatchProps
                 }
             }
         }
+        private void Reset_AcadInitConfig()
+        {
+            List<CheckBox> chkNames = new List<CheckBox> { this.cbLayer, this.cbColor, this.cbLineType,
+                this.cbLineWeight, this.cbTextSize,this.cbTextDirection };
+            bool acadInitConfig = true;
+            foreach(CheckBox cb in chkNames)
+            {
+                if(cb.IsChecked==false)
+                {
+                    acadInitConfig = false;
+                    break;
+                }
+            }
+            if(this.cbTextContent.IsChecked==true)
+            {
+                acadInitConfig = false;
+            }
+            this.cbAcadInitConfig.IsChecked = acadInitConfig;
+        }
+        private void Set_AcadInitConfig()
+        {
+            List<CheckBox> chkNames = new List<CheckBox> { this.cbLayer, this.cbColor, this.cbLineType,
+                this.cbLineWeight, this.cbTextSize,this.cbTextDirection };
+            chkNames.ForEach(i => i.IsChecked = this.cbAcadInitConfig.IsChecked);
+            if(this.cbAcadInitConfig.IsChecked==true)
+            {
+                this.cbTextContent.IsChecked = false;
+            }
+        }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch(e.Key)
@@ -97,21 +130,18 @@ namespace ThEssential.MatchProps
                     this.cbAcadInitConfig.IsChecked = !this.cbAcadInitConfig.IsChecked;
                     break;
                 case Key.Escape:
-                    this.Close();
+                    this.marchPropertyVM.Cancel();
+                    break;
+                case Key.Space:
+                case Key.Enter:
+                    this.marchPropertyVM.Confirm();
                     break;
             }
         }
 
         private void CbAcadInitConfig_Click(object sender, RoutedEventArgs e)
         {
-            this.cbColor.IsChecked = true;
-            this.cbLayer.IsChecked = true;
-            this.cbLineType.IsChecked = true;
-            this.cbLineWeight.IsChecked = true;
-            this.cbTextSize.IsChecked = true;
-
-            this.cbTextContent.IsChecked = false;
-            this.cbTextDirection.IsChecked = false;
+            Set_AcadInitConfig();
         }
 
         private void CbLayer_Click(object sender, RoutedEventArgs e)
@@ -164,9 +194,45 @@ namespace ThEssential.MatchProps
 
         private void CbTextDirection_Click(object sender, RoutedEventArgs e)
         {
-            if (this.cbTextDirection.IsChecked == true)
+            if (this.cbTextDirection.IsChecked == false)
             {
                 this.cbAcadInitConfig.IsChecked = false;
+            }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            this.marchPropertyVM.Executed = false;
+        }
+
+        private void CbAcadInitConfig_Checked(object sender, RoutedEventArgs e)
+        {
+            List<CheckBox> chkNames = new List<CheckBox> { this.cbLayer, this.cbColor, this.cbLineType,
+                this.cbLineWeight, this.cbTextSize,this.cbTextDirection };
+            if (this.cbAcadInitConfig.IsChecked==true)
+            {
+                chkNames.ForEach(i => i.IsChecked = true);
+            }
+            else if(this.cbAcadInitConfig.IsChecked == false)
+            {
+                chkNames.ForEach(i => i.IsChecked = false);
+            }
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(this.cbAcadInitConfig.IsChecked==true)
+            {
+                Set_AcadInitConfig();
+
+            }
+            this.btnOK.Focus();
+        }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key==Key.Space)
+            {
+                this.btnOK.Focus();
             }
         }
     }
