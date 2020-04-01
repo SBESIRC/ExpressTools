@@ -189,6 +189,8 @@ namespace TopoNode
             var arcs = new List<Arc>();
             var arc1 = new Arc(circle.Center, circle.Radius, 0, Math.PI);
             var arc2 = new Arc(circle.Center, circle.Radius, Math.PI, Math.PI * 2);
+            arc1.Layer = circle.Layer;
+            arc2.Layer = circle.Layer;
             arcs.Add(arc1);
             arcs.Add(arc2);
             return arcs;
@@ -223,6 +225,7 @@ namespace TopoNode
                 {
                     var ellipse = curve as Ellipse;
                     var polyline = ellipse.Spline.ToPolyline();
+                    polyline.Layer = curve.Layer;
                     var lineNodes = Polyline2Curves(polyline as Polyline);
                     if (lineNodes != null)
                         outCurves.AddRange(lineNodes);
@@ -236,6 +239,7 @@ namespace TopoNode
                 else if (curve is Spline)
                 {
                     var polyline = (curve as Spline).ToPolyline();
+                    polyline.Layer = curve.Layer;
                     if (polyline is Polyline)
                     {
                         var lineNodes = Polyline2Curves(polyline as Polyline);
@@ -262,7 +266,9 @@ namespace TopoNode
                     if (CommonUtils.IsAlmostNearZero(bulge))
                     {
                         LineSegment3d line3d = polyline.GetLineSegmentAt(i);
-                        curves.Add(new Line(line3d.StartPoint, line3d.EndPoint));
+                        var line = new Line(line3d.StartPoint, line3d.EndPoint);
+                        line.Layer = polyline.Layer;
+                        curves.Add(line);
                     }
                     else
                     {
@@ -277,6 +283,7 @@ namespace TopoNode
                                 arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
                             else
                                 arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
+                            arc.Layer = polyline.Layer;
                             curves.Add(arc);
                         }
                     }
@@ -292,7 +299,9 @@ namespace TopoNode
                         if (CommonUtils.IsAlmostNearZero(bulge))
                         {
                             LineSegment3d line3d = polyline.GetLineSegmentAt(j);
-                            curves.Add(new Line(line3d.StartPoint, line3d.EndPoint));
+                            var line = new Line(line3d.StartPoint, line3d.EndPoint);
+                            line.Layer = polyline.Layer;
+                            curves.Add(line);
                         }
                         else
                         {
@@ -307,6 +316,7 @@ namespace TopoNode
                                     arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
                                 else
                                     arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
+                                arc.Layer = polyline.Layer;
                                 curves.Add(arc);
                             }
                         }

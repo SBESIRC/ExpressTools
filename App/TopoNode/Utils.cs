@@ -2615,6 +2615,34 @@ namespace TopoNode
             }
         }
 
+        public static void DrawProfileAndText(List<Curve> curves, Color color = null)
+        {
+            if (curves == null || curves.Count == 0)
+                return;
+
+            using (var db = AcadDatabase.Active())
+            {
+
+                foreach (var curve in curves)
+                {
+                    var LayerName = curve.Layer;
+                    if (color == null)
+                        CreateLayer(LayerName, Color.FromRgb(255, 0, 0));
+                    else
+                        CreateLayer(LayerName, color);
+
+                    var objectCurveId = db.ModelSpace.Add(curve.Clone() as Curve);
+                    db.ModelSpace.Element(objectCurveId, true).Layer = LayerName;
+                    var dbtext = new DBText();
+                    dbtext.Height = 800;
+                    dbtext.WidthFactor = 1.2;
+                    dbtext.Position = curve.GetPointAtParameter(0.5 * (curve.StartParam + curve.EndParam));
+                    var dbId = db.ModelSpace.Add(dbtext);
+                    db.ModelSpace.Element(dbId, true).Layer = LayerName;
+                }
+            }
+        }
+
         public static void AddProfile(List<Curve> curves, string LayerName, Color color = null)
         {
             if (curves == null || curves.Count == 0)
@@ -2633,6 +2661,20 @@ namespace TopoNode
                     db.ModelSpace.Element(objectCurveId, true).Layer = LayerName;
                 }
             }
+        }
+
+        public static List<string> GetLayersFromCurves(List<Curve> curves)
+        {
+            if (curves == null || curves.Count == 0)
+                return null;
+
+            var layerNames = new List<string>();
+
+            foreach (var curve in curves)
+            {
+                layerNames.Add(curve.Layer);
+            }
+            return layerNames;
         }
 
         public static void EraseProfile(List<Curve> curves)
