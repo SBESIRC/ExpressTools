@@ -107,7 +107,7 @@ namespace ThSitePlan.NTS
             var shapeFactory = new GeometricShapeFactory(ThSitePlanNTSService.Instance.GeometryFactory)
             {
                 Centre = arc.Center.ToNTSCoordinate(),
-                Size = arc.Radius,
+                Size = 2 * arc.Radius,
                 NumPoints = numPoints
             };
             return shapeFactory.CreateArc(arc.StartAngle, arc.TotalAngle);
