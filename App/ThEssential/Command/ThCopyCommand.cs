@@ -84,8 +84,14 @@ namespace ThEssential.Command
                                     break;
                             }
                         }
+                        else if (jigRes.Status == PromptStatus.Other)
+                        {
+                            // 按“Space”键和“Enter”键，退出循环
+                            break;
+                        }
                         else
                         {
+                            // 其他未处理情况，退出循环
                             break;
                         }
                     }
@@ -103,9 +109,15 @@ namespace ThEssential.Command
                             break;
                     }
                 }
+                else if (jigRes.Status == PromptStatus.Other)
+                {
+                    // 按“Space”键和“Enter”键，退出
+                    return;
+                }
                 else
                 {
-                    //
+                    // 其他未处理情况，退出
+                    return;
                 }
             }
         }

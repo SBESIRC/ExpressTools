@@ -38,7 +38,8 @@ namespace ThEssential.Copy
             {
                 UseBasePoint = true,
                 BasePoint = BasePoint,
-                Cursor = CursorType.RubberBand
+                Cursor = CursorType.RubberBand,
+                UserInputControls  = UserInputControls.AcceptOtherInputString,
             };
             if ((Options & ThCopyArrayOptions.Array) == ThCopyArrayOptions.Array)
             {
