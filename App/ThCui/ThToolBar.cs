@@ -152,7 +152,8 @@ namespace TianHua.AutoCAD.ThCui
                 // 隐藏
                 toolbar.ToolbarVisible = ToolbarVisible.hide;
 
-                toolbar.AddToolbarButton(-1, "喷头布置", "ID_THSPC");
+                // 暂时移除"喷头布置"
+                //toolbar.AddToolbarButton(-1, "喷头布置", "ID_THSPC");
                 toolbar.AddToolbarButton(-1, "管线断线", "ID_THLTR");
                 toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "建立给排水图层", "ID_THPLC");
