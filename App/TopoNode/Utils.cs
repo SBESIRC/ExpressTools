@@ -2615,6 +2615,24 @@ namespace TopoNode
             }
         }
 
+        public static ObjectId GetIdFromSymbolTable()
+        {
+            Database dbH = HostApplicationServices.WorkingDatabase;
+            using (Transaction trans = dbH.TransactionManager.StartTransaction())
+            {
+                TextStyleTable textTableStyle = (TextStyleTable)trans.GetObject(dbH.TextStyleTableId, OpenMode.ForWrite);
+
+                if (textTableStyle.Has("黑体"))
+                {
+                    ObjectId idres = textTableStyle["黑体"];
+                    if (!idres.IsErased)
+                        return idres;
+                }
+            }
+
+            return ObjectId.Null;
+        }
+
         public static void DrawProfileAndText(List<Curve> curves, Color color = null)
         {
             if (curves == null || curves.Count == 0)
@@ -2634,9 +2652,16 @@ namespace TopoNode
                     var objectCurveId = db.ModelSpace.Add(curve.Clone() as Curve);
                     db.ModelSpace.Element(objectCurveId, true).Layer = LayerName;
                     var dbtext = new DBText();
-                    dbtext.Height = 800;
-                    dbtext.WidthFactor = 1.2;
-                    dbtext.Position = curve.GetPointAtParameter(0.5 * (curve.StartParam + curve.EndParam));
+                    dbtext.Height = 50;
+                    var midPt = curve.GetPointAtParameter(0.5 * (curve.StartParam + curve.EndParam));
+                    dbtext.Justify = AttachmentPoint.MiddleCenter;
+                    // 设置字体样式
+                    var textId = GetIdFromSymbolTable();
+                    if (textId != ObjectId.Null)
+                        dbtext.TextStyleId = textId;
+
+                    dbtext.TextString = LayerName;
+                    dbtext.AlignmentPoint = midPt;
                     var dbId = db.ModelSpace.Add(dbtext);
                     db.ModelSpace.Element(dbId, true).Layer = LayerName;
                 }

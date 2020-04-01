@@ -119,6 +119,7 @@ namespace TopoNode
             layerNames = Utils.GetLayersFromCurves(allCurves);
             allCurves = CommonUtils.RemoveCollinearLines(allCurves);
             layerNames = Utils.GetLayersFromCurves(allCurves);
+            Utils.DrawProfileAndText(allCurves);
             var hasPutPolylines = new List<Polyline>();
             foreach (var pt in pickPoints)
             {
