@@ -8,6 +8,18 @@ using System.Text;
 
 namespace TopoNode
 {
+    public class CurveNode
+    {
+        public LineSegment2d Line2d = null;
+        public string LayerName = null;
+
+        public CurveNode(LineSegment2d line2d, string layerName)
+        {
+            Line2d = line2d;
+            LayerName = layerName;
+        }
+    }
+
     public class CoEdge
     {
         private bool m_IsErase = false; // 是否已经删除
@@ -24,22 +36,22 @@ namespace TopoNode
             set { m_nChange = value; }
         }
 
-        private LineSegment2d m_coLine = null;
+        private CurveNode m_coNode = null;
         private List<CoEdge> m_relevantLines = null; // 相关联的线段
         public List<CoEdge> RelevantLines
         {
             get { return m_relevantLines; }
         }
 
-        public LineSegment2d CoLine
+        public CurveNode CoNode
         {
-            get { return m_coLine; }
-            set { m_coLine = value; }
+            get { return m_coNode; }
+            set { m_coNode = value; }
         }
 
-        public CoEdge(LineSegment2d line)
+        public CoEdge(CurveNode curveNode)
         {
-            m_coLine = line;
+            m_coNode = curveNode;
             m_relevantLines = new List<CoEdge>();
         }
     }
@@ -50,17 +62,17 @@ namespace TopoNode
     public class CoEdgeErase
     {
         private List<CoEdge> m_coEdges = null;
-        private CoEdgeErase(List<LineSegment2d> lines)
+        private CoEdgeErase(List<CurveNode> lineNodes)
         {
             m_coEdges = new List<CoEdge>();
-            for (int i = 0; i < lines.Count; i++)
+            for (int i = 0; i < lineNodes.Count; i++)
             {
-                m_coEdges.Add(new CoEdge(lines[i]));
+                m_coEdges.Add(new CoEdge(lineNodes[i]));
             }
         }
 
         // 接口调用
-        public static List<LineSegment2d> MakeCoEdgeErase(List<LineSegment2d> lineNodes)
+        public static List<Line> MakeCoEdgeErase(List<CurveNode> lineNodes)
         {
             var edgeErase = new CoEdgeErase(lineNodes);
             edgeErase.CoRelationPre();
@@ -80,7 +92,7 @@ namespace TopoNode
                 if (curEdge.IsErase)
                     continue;
 
-                var curLine = curEdge.CoLine;
+                var curLine = curEdge.CoNode.Line2d;
                 var curLinePtS = curLine.StartPoint;
                 var curLinePtE = curLine.EndPoint;
                 for (int j = i + 1; j < m_coEdges.Count; j++)
@@ -89,7 +101,7 @@ namespace TopoNode
                     if (curEdge.IsErase || nextEdge.IsErase)
                         continue;
 
-                    var nextLine = nextEdge.CoLine;
+                    var nextLine = nextEdge.CoNode.Line2d;
                     var nextLinePtS = nextLine.StartPoint;
                     var nextLinePtE = nextLine.EndPoint;
                     if (CommonUtils.IsAlmostNearZero(CommonUtils.CalAngle(CommonUtils.Vector2XY(curLine.Direction), CommonUtils.Vector2XY(nextLine.Direction)), 1e-6)
@@ -138,14 +150,14 @@ namespace TopoNode
                     if (curEdge.IsErase)
                         break;
 
-                    var curLine = curEdge.CoLine; // 可能会不断修改curEdge中line的值
+                    var curLine = curEdge.CoNode.Line2d; // 可能会不断修改curEdge中line的值
                     var releEdge = curReleEdges[j];
                     if (releEdge.IsErase)
                         continue;
 
                     var curLinePtS = curLine.StartPoint;
                     var curLinePtE = curLine.EndPoint;
-                    var releLine = releEdge.CoLine;
+                    var releLine = releEdge.CoNode.Line2d;
                     var releLinePtS = releLine.StartPoint;
                     var releLinePtE = releLine.EndPoint;
 
@@ -154,11 +166,11 @@ namespace TopoNode
                     {
                         if (CommonUtils.IsPointOnSegment(curLinePtS, releLine))
                         {
-                            curEdge.CoLine = new LineSegment2d(releLinePtS, curLinePtE); // 裁剪当前线段
+                            curEdge.CoNode.Line2d = new LineSegment2d(releLinePtS, curLinePtE); // 裁剪当前线段
                         }
                         else if (CommonUtils.IsPointOnSegment(curLinePtE, releLine))
                         {
-                            curEdge.CoLine = new LineSegment2d(releLinePtS, curLinePtS);
+                            curEdge.CoNode.Line2d = new LineSegment2d(releLinePtS, curLinePtS);
                         }
 
                         curEdge.ChangeCount++;
@@ -168,11 +180,11 @@ namespace TopoNode
                     {
                         if (CommonUtils.IsPointOnSegment(curLinePtS, releLine))
                         {
-                            curEdge.CoLine = new LineSegment2d(releLinePtE, curLinePtE);
+                            curEdge.CoNode.Line2d = new LineSegment2d(releLinePtE, curLinePtE);
                         }
                         else if (CommonUtils.IsPointOnSegment(curLinePtE, releLine))
                         {
-                            curEdge.CoLine = new LineSegment2d(releLinePtE, curLinePtS);
+                            curEdge.CoNode.Line2d = new LineSegment2d(releLinePtE, curLinePtS);
                         }
 
                         curEdge.ChangeCount++;
@@ -200,15 +212,22 @@ namespace TopoNode
         /// data convert
         /// </summary>
         /// <returns></returns>
-        private List<LineSegment2d> Traverse2Lines()
+        private List<Line> Traverse2Lines()
         {
-            var lines = new List<LineSegment2d>();
+            var lines = new List<Line>();
             for (int i = 0; i < m_coEdges.Count; i++)
             {
                 if (m_coEdges[i].IsErase)
                     continue;
 
-                lines.Add(m_coEdges[i].CoLine);
+                var curveNode = m_coEdges[i].CoNode;
+                var line2d = curveNode.Line2d;
+
+                var start = line2d.StartPoint;
+                var end = line2d.EndPoint;
+                var line = new Line(new Point3d(start.X, start.Y, 0), new Point3d(end.X, end.Y, 0));
+                line.Layer = curveNode.LayerName;
+                lines.Add(line);
             }
 
             return lines;
@@ -840,6 +859,7 @@ namespace TopoNode
         //    return outCurves;
         //}
 
+
         /// <summary>
         /// 删除共边
         /// </summary>
@@ -861,22 +881,20 @@ namespace TopoNode
                 }
             }
 
-            var lines2d = new List<LineSegment2d>();
+            var curveNodes = new List<CurveNode>();
             foreach (var line in lines3d)
             {
                 var start = line.StartPoint;
                 var end = line.EndPoint;
-                lines2d.Add(new LineSegment2d(new Point2d(start.X, start.Y), new Point2d(end.X, end.Y)));
+                var line2d = new LineSegment2d(new Point2d(start.X, start.Y), new Point2d(end.X, end.Y));
+                var curveNode = new CurveNode(line2d, line.Layer);
+                curveNodes.Add(curveNode);
             }
 
-            var eraseLines = CoEdgeErase.MakeCoEdgeErase(lines2d);
+            var eraseLines = CoEdgeErase.MakeCoEdgeErase(curveNodes);
 
-            foreach (var line2d in eraseLines)
-            {
-                var start = line2d.StartPoint;
-                var end = line2d.EndPoint;
-                outCurves.Add(new Line(new Point3d(start.X, start.Y, 0), new Point3d(end.X, end.Y, 0)));
-            }
+            if (eraseLines != null && eraseLines.Count != 0)
+                outCurves.AddRange(eraseLines);
 
             return outCurves;
         }
