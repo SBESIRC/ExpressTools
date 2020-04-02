@@ -2615,6 +2615,26 @@ namespace TopoNode
             }
         }
 
+        public static void DrawProfile(List<TopoEdge> topoEdges, string LayerName, Color color = null)
+        {
+            if (topoEdges == null || topoEdges.Count == 0)
+                return;
+
+            using (var db = AcadDatabase.Active())
+            {
+                if (color == null)
+                    CreateLayer(LayerName, Color.FromRgb(255, 0, 0));
+                else
+                    CreateLayer(LayerName, color);
+
+                foreach (var topoEdge in topoEdges)
+                {
+                    var objectCurveId = db.ModelSpace.Add(topoEdge.SrcCurve.Clone() as Curve);
+                    db.ModelSpace.Element(objectCurveId, true).Layer = LayerName;
+                }
+            }
+        }
+
         public static ObjectId GetIdFromSymbolTable()
         {
             Database dbH = HostApplicationServices.WorkingDatabase;

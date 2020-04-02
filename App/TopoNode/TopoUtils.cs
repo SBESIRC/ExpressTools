@@ -32,11 +32,14 @@ namespace TopoNode
 
         public static List<Curve> MakeProfileFromPoint(List<Curve> srcCurves, Point3d pt)
         {
+            //预处理
             var profileCalcu = new CalcuContainPointProfile(srcCurves, pt);
             var relatedCurves = profileCalcu.DoCalRelatedCurves();
             if (relatedCurves == null)
                 return null;
 
+            //Utils.DrawProfile(relatedCurves, "related");
+            //return null;
             var profile = TopoSearch.MakeSrcProfileLoopsFromPoint(relatedCurves, pt);
             return profile;
         }

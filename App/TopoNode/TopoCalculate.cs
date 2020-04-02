@@ -538,11 +538,11 @@ namespace TopoNode
 
     public class CalcuContainPointProfile
     {
-        class CurveNode
+        class CurveNodeInner
         {
             public Point3d point;
             public Curve curve;
-            public CurveNode(Curve srcCurve, Point3d pt)
+            public CurveNodeInner(Curve srcCurve, Point3d pt)
             {
                 curve = srcCurve;
                 point = pt;
@@ -591,6 +591,83 @@ namespace TopoNode
             aimPoint = pt;
         }
 
+        /// <summary>
+        /// 计算所有的curveBounds 以及相互连通关系
+        /// </summary>
+        /// <param name="srcCurves"></param>
+        private void CalculateCurveBounds(List<Curve> srcCurves)
+        {
+            double leftX = 0;
+            double leftY = 0;
+            double rightX = 0;
+            double rightY = 0;
+            foreach (var curve in srcCurves)
+            {
+                if (curve is Line)
+                {
+                    var line = curve as Line;
+                    CommonUtils.CalculateLineBoundary(line, ref leftX, ref leftY, ref rightX, ref rightY);
+
+                }
+                else if (curve is Arc)
+                {
+                    var arc = curve as Arc;
+                    CommonUtils.CalculateArcBoundary(arc, ref leftX, ref leftY, ref rightX, ref rightY);
+                }
+                else
+                {
+                    var bounds = curve.Bounds;
+                    if (bounds.HasValue)
+                    {
+                        var bound = bounds.Value;
+                        leftX = bound.MinPoint.X;
+                        leftY = bound.MinPoint.Y;
+                        rightX = bound.MaxPoint.X;
+                        rightY = bound.MaxPoint.Y;
+                    }
+                }
+
+                var curveBound = new CurveBound(curve, true);
+                curveBound.leftBottomPoint = new XY(leftX - 0.01, leftY - 0.01);
+                curveBound.rightTopPoint = new XY(rightX + 0.01, rightY + 0.01);
+                curveBoundLst.Add(curveBound);
+            }
+
+            double firLeftX = 0;
+            double firLeftY = 0;
+            double firRightX = 0;
+            double firRightY = 0;
+
+            double secLeftX = 0;
+            double secLeftY = 0;
+            double secRightX = 0;
+            double secRightY = 0;
+            for (int i = 0; i < curveBoundLst.Count; i++)
+            {
+                var curBound = curveBoundLst[i];
+                firLeftX = curBound.leftBottomPoint.X;
+                firLeftY = curBound.leftBottomPoint.Y;
+                firRightX = curBound.rightTopPoint.X;
+                firRightY = curBound.rightTopPoint.Y;
+
+                for (int j = i + 1; j < curveBoundLst.Count; j++)
+                {
+                    var nextBound = curveBoundLst[j];
+                    secLeftX = nextBound.leftBottomPoint.X;
+                    secLeftY = nextBound.leftBottomPoint.Y;
+                    secRightX = nextBound.rightTopPoint.X;
+                    secRightY = nextBound.rightTopPoint.Y;
+                    if (Math.Min(firRightX, secRightX) >= Math.Max(firLeftX, secLeftX)
+                        && Math.Min(firRightY, secRightY) >= Math.Max(firLeftY, secLeftY))
+                    {
+                        curBound.relatedCurveBounds.Add(nextBound);
+                        nextBound.relatedCurveBounds.Add(curBound);
+                    }
+                }
+            }
+        }
+
+        
         private CurveBound CalculateCurveBound(List<Curve> curves, Curve rightCurve)
         {
             double leftX = 0;
@@ -670,7 +747,7 @@ namespace TopoNode
 
         private List<Curve> CalcuRelatedCurvesFromCurve(CurveBound srcBound)
         {
-            if (srcBound == null || srcBound.curve == null)
+            if (srcBound == null || srcBound.curve == null || srcBound.IsValid == false)
                 return null;
 
             // 网状拓扑结构延伸
@@ -698,52 +775,83 @@ namespace TopoNode
             return curves;
         }
 
+        /// <summary>
+        /// 计算右边的相邻曲线
+        /// </summary>
+        /// <returns></returns>
         public List<Curve> DoCalRelatedCurves()
         {
-            var rightCurve = CalcuRightCurve(srcCurves);
-            if (rightCurve == null)
+            var rightCurves = CalcuRightCurves(srcCurves);
+            if (rightCurves == null)
                 return null;
 
-            var rightCurveBound = CalculateCurveBound(srcCurves, rightCurve);
-            var nearCurves = CalcuRelatedCurvesFromCurve(rightCurveBound);
+            var nearCurves = new List<Curve>();
+            CalculateCurveBounds(srcCurves);
+            foreach (var rightCurve in rightCurves)
+            {
+
+                var rightCurveBound = FindRightCurveBound(rightCurve);
+                var rightNearCurves = CalcuRelatedCurvesFromCurve(rightCurveBound);
+                if (rightNearCurves != null && rightNearCurves.Count != 0)
+                    nearCurves.AddRange(rightNearCurves);
+            }
+            
             return nearCurves;
+        }
+
+        private CurveBound FindRightCurveBound(Curve curve)
+        {
+            if (curveBoundLst.Count == 0)
+                return null;
+
+            foreach (var curveBound in curveBoundLst)
+            {
+                if (curveBound.curve.Equals(curve))
+                    return curveBound;
+            }
+
+            return null;
         }
 
         public void DoCal()
         {
-            var rightCurve = CalcuRightCurve(srcCurves);
-            if (rightCurve == null)
+            var scatterCurves = ScatterCurves.MakeNewCurves(srcCurves);
+            var scatterRightCurves = CalcuRightCurves(scatterCurves);
+            //Utils.DrawProfile(scatterRightCurves, "scatter");
+            //return;
+            if (scatterRightCurves == null || scatterRightCurves.Count == 0)
                 return;
 
-            var rightCurveBound = CalculateCurveBound(srcCurves, rightCurve);
-            var nearCurves = CalcuRelatedCurvesFromCurve(rightCurveBound);
-            var scatterCurves = ScatterCurves.MakeNewCurves(nearCurves);
-            rightCurve = CalcuRightCurve(scatterCurves);
-            if (rightCurve == null)
-                return;
-
+            List<TopoEdge> rightStartEdges = new List<TopoEdge>();
             TopoEdge startEdge = null;
             foreach (var curve in scatterCurves)
             {
+                startEdge = null;
                 TopoEdge.MakeTopoEdge(curve, m_topoEdges);
-                if (curve.Equals(rightCurve))
+                foreach (var rightCurve in scatterRightCurves)
                 {
-                    var lastEdge = m_topoEdges.Last();
-                    var startPt = lastEdge.Start;
-                    var endPt = lastEdge.End;
+                    if (curve.Equals(rightCurve))
+                    {
+                        var lastEdge = m_topoEdges.Last();
+                        var startPt = lastEdge.Start;
+                        var endPt = lastEdge.End;
 
-                    if (endPt.Y > startPt.Y)
-                    {
-                        startEdge = lastEdge;
-                    }
-                    else
-                    {
-                        startEdge = m_topoEdges[m_topoEdges.Count - 2];
+                        if (endPt.Y > startPt.Y)
+                        {
+                            startEdge = lastEdge;
+                        }
+                        else
+                        {
+                            startEdge = m_topoEdges[m_topoEdges.Count - 2];
+                        }
+
+                        rightStartEdges.Add(startEdge);
                     }
                 }
+
             }
 
-            if (startEdge == null)
+            if (rightStartEdges.Count == 0)
                 return;
 
             foreach (var topoEdge in m_topoEdges)
@@ -751,7 +859,13 @@ namespace TopoNode
                 m_hashMap.Add(topoEdge);
             }
 
-            BuildOneLoop(startEdge);
+            foreach (var startRightEdge in rightStartEdges)
+            {
+                if (m_ProfileLoop.Count > 0)
+                    return;
+
+                BuildOneLoop(startRightEdge);
+            }
         }
 
         private void BuildOneLoop(TopoEdge edge)
@@ -778,8 +892,11 @@ namespace TopoNode
                 {
                     if (CommonUtils.CalcuLoopArea(polys) > 10000)
                     {
-                        m_ProfileLoop.Add(new Profile(polys, true));
-                        break;
+                        if (CommonUtils.PtInLoop(polys, aimPoint))
+                        {
+                            m_ProfileLoop.Add(new Profile(polys, true));
+                            return;
+                        }
                     }
                 }
 
@@ -799,7 +916,11 @@ namespace TopoNode
 
                         if (edgeLoop.Count > 1 && CommonUtils.CalcuLoopArea(polys) > 10000)
                         {
-                            m_ProfileLoop.Add(new Profile(edgeLoop, true));
+                            if (CommonUtils.PtInLoop(edgeLoop, aimPoint))
+                            {
+                                m_ProfileLoop.Add(new Profile(edgeLoop, true));
+                                return;
+                            }
                         }
                         var nEraseCnt = polys.Count - nEraseindex;
                         polys.RemoveRange(nEraseindex, nEraseCnt);
@@ -871,13 +992,18 @@ namespace TopoNode
             polys.RemoveAt(polys.Count - 1);
         }
 
-        private Curve CalcuRightCurve(List<Curve> curves)
+        /// <summary>
+        ///  有可能某一条右边是不符合条件， 所以计算所有的右边
+        /// </summary>
+        /// <param name="curves"></param>
+        /// <returns></returns>
+        private List<Curve> CalcuRightCurves(List<Curve> curves)
         {
             double firLeftX = 0;
             double firLeftY = 0;
             double firRightX = 0;
             double firRightY = 0;
-            var curveNodes = new List<CurveNode>();
+            var curveNodes = new List<CurveNodeInner>();
 
             Point2d end = new Point2d(aimPoint.X + 100000000000, aimPoint.Y);
             LineSegment2d intersectLine = new LineSegment2d(new Point2d(aimPoint.X, aimPoint.Y), end);
@@ -918,7 +1044,7 @@ namespace TopoNode
                     if (intersectPts != null && intersectPts.Count() == 1)
                     {
                         var interPt = intersectPts.First();
-                        curveNodes.Add(new CurveNode(curve, new Point3d(interPt.X, interPt.Y, 0)));
+                        curveNodes.Add(new CurveNodeInner(curve, new Point3d(interPt.X, interPt.Y, 0)));
                     }
                 }
                 else if (curve is Arc)
@@ -933,7 +1059,7 @@ namespace TopoNode
                     if (intersectPts != null && intersectPts.Count() == 1)
                     {
                         var interPt = intersectPts.First();
-                        curveNodes.Add(new CurveNode(curve, new Point3d(interPt.X, interPt.Y, 0)));
+                        curveNodes.Add(new CurveNodeInner(curve, new Point3d(interPt.X, interPt.Y, 0)));
                     }
                 }
                 else
@@ -942,14 +1068,109 @@ namespace TopoNode
                     if (ptLst.Count != 0)
                     {
                         if (ptLst.Count == 1)
-                            curveNodes.Add(new CurveNode(curve, ptLst[0]));
+                            curveNodes.Add(new CurveNodeInner(curve, ptLst[0]));
                         else
                         {
                             var tmpPtLst = new List<Point3d>();
                             for (int i = 0; i < ptLst.Count; i++)
                                 tmpPtLst.Add(ptLst[i]);
                             tmpPtLst.Sort((s1, s2) => { return s1.X.CompareTo(s2.X); });
-                            curveNodes.Add(new CurveNode(curve, tmpPtLst[0]));
+                            curveNodes.Add(new CurveNodeInner(curve, tmpPtLst[0]));
+                        }
+                    }
+                }
+            }
+
+            if (curveNodes.Count != 0)
+            {
+                curveNodes.Sort((s1, s2) => { return (s1.point - aimPoint).Length.CompareTo((s2.point - aimPoint).Length); });
+                var rightCurves = new List<Curve>();
+                curveNodes.ForEach(node => rightCurves.Add(node.curve));
+                return rightCurves;
+            }
+
+            return null;
+        }
+
+        private Curve CalcuRightCurve(List<Curve> curves)
+        {
+            double firLeftX = 0;
+            double firLeftY = 0;
+            double firRightX = 0;
+            double firRightY = 0;
+            var curveNodes = new List<CurveNodeInner>();
+
+            Point2d end = new Point2d(aimPoint.X + 100000000000, aimPoint.Y);
+            LineSegment2d intersectLine = new LineSegment2d(new Point2d(aimPoint.X, aimPoint.Y), end);
+            Line lineHori = new Line(aimPoint, new Point3d(end.X, end.Y, 0));
+            var ptLst = new Point3dCollection();
+            foreach (var curve in curves)
+            {
+                if (curve is Line)
+                {
+                    var line = curve as Line;
+                    CommonUtils.CalculateLineBoundary(line, ref firLeftX, ref firLeftY, ref firRightX, ref firRightY);
+                }
+                else if (curve is Arc)
+                {
+                    var arc = curve as Arc;
+                    CommonUtils.CalculateArcBoundary(arc, ref firLeftX, ref firLeftY, ref firRightX, ref firRightY);
+                }
+                else
+                {
+                    var bounds = curve.Bounds;
+                    if (bounds.HasValue)
+                    {
+                        var bound = bounds.Value;
+                        firLeftY = bound.MinPoint.Y;
+                        firRightY = bound.MaxPoint.Y;
+                    }
+                }
+
+                if (aimPoint.Y > firRightY || aimPoint.Y < firLeftY)
+                    continue;
+
+                Point2d[] intersectPts;
+                if (curve is Line)
+                {
+                    var line3d = curve as Line;
+                    LineSegment2d line = new LineSegment2d(new Point2d(line3d.StartPoint.X, line3d.StartPoint.Y), new Point2d(line3d.EndPoint.X, line3d.EndPoint.Y));
+                    intersectPts = line.IntersectWith(intersectLine);
+                    if (intersectPts != null && intersectPts.Count() == 1)
+                    {
+                        var interPt = intersectPts.First();
+                        curveNodes.Add(new CurveNodeInner(curve, new Point3d(interPt.X, interPt.Y, 0)));
+                    }
+                }
+                else if (curve is Arc)
+                {
+                    var arc3d = curve as Arc;
+                    var startPt = arc3d.StartPoint;
+                    var endPt = arc3d.EndPoint;
+                    var midPoint = arc3d.GetPointAtParameter((arc3d.StartParam + arc3d.EndParam) * 0.5);
+                    var arc = new CircularArc2d(new Point2d(startPt.X, startPt.Y), new Point2d(midPoint.X, midPoint.Y), new Point2d(endPt.X, endPt.Y));
+
+                    intersectPts = arc.IntersectWith(intersectLine);
+                    if (intersectPts != null && intersectPts.Count() == 1)
+                    {
+                        var interPt = intersectPts.First();
+                        curveNodes.Add(new CurveNodeInner(curve, new Point3d(interPt.X, interPt.Y, 0)));
+                    }
+                }
+                else
+                {
+                    lineHori.IntersectWith(curve, Intersect.OnBothOperands, ptLst, new System.IntPtr(0), new System.IntPtr(0));
+                    if (ptLst.Count != 0)
+                    {
+                        if (ptLst.Count == 1)
+                            curveNodes.Add(new CurveNodeInner(curve, ptLst[0]));
+                        else
+                        {
+                            var tmpPtLst = new List<Point3d>();
+                            for (int i = 0; i < ptLst.Count; i++)
+                                tmpPtLst.Add(ptLst[i]);
+                            tmpPtLst.Sort((s1, s2) => { return s1.X.CompareTo(s2.X); });
+                            curveNodes.Add(new CurveNodeInner(curve, tmpPtLst[0]));
                         }
                     }
                 }
