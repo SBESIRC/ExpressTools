@@ -119,7 +119,8 @@ namespace TopoNode
             layerNames = Utils.GetLayersFromCurves(allCurves);
             allCurves = CommonUtils.RemoveCollinearLines(allCurves);
             layerNames = Utils.GetLayersFromCurves(allCurves);
-            Utils.DrawProfileAndText(allCurves);
+            //Utils.DrawProfileAndText(allCurves);
+            //return;
             var hasPutPolylines = new List<Polyline>();
             foreach (var pt in pickPoints)
             {
@@ -128,8 +129,10 @@ namespace TopoNode
                 var profile = TopoUtils.MakeProfileFromPoint(allCurves, pt);
                 if (profile == null || profile.Count == 0)
                     continue;
-                Utils.DrawProfileAndText(profile);
+
+                Utils.DrawProfile(profile, "profile");
             }
+
             //// 梁数据
             //var beamCurves = Utils.GetAllCurvesFromLayerNames(beamLayers);
             ////柱子数据
