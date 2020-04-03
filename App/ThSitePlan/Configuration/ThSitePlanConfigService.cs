@@ -62,6 +62,63 @@ namespace ThSitePlan.Configuration
                 }
             });
 
+            Root.Items.Add(new ThSitePlanConfigItem()
+            {
+                Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "场地标高"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            "P-ROAD-BEAE",
+                            "P-ROAD-ELEV",
+                            "P-BUID-ELEV",
+                        }
+                    }
+                }
+            });
+
+            Root.Items.Add(new ThSitePlanConfigItem()
+            {
+                Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "尺寸标注"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            "P-FIRE-DIMS",
+                            "P-ROAD-DIMS",
+                            "P-BUID-DIMS",
+                        }
+                    }
+                }
+            });
+
+            Root.Items.Add(new ThSitePlanConfigItem()
+            {
+                Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "界线"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            "P-LIMT",
+                            "P-LIMT-LIPB",
+                            "P-LIMT-BUID",
+                            "P-LIMT-COOR",
+                            "P-BUID-UDBD",
+                            "P-CONS-FENC",
+                        }
+                    }
+                }
+            });
+
             //Root.Items.Add(new ThSitePlanConfigItem()
             //{
             //    Properties = new Dictionary<string, object>()

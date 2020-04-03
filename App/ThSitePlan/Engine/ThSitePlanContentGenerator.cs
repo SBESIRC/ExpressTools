@@ -19,6 +19,9 @@ namespace ThSitePlan.Engine
             Workers = new Dictionary<string, ThSitePlanWorker>()
             {
                 {"基本文字说明及图例", new ThSitePlanMoveWorker()},
+                {"场地标高", new ThSitePlanMoveWorker()},
+                {"尺寸标注", new ThSitePlanMoveWorker()},
+                {"界线", new ThSitePlanMoveWorker()},
                 //{"原始场地线稿", new ThSitePlanMoveWorker()},
                 //{"建筑信息", new ThSitePlanMoveWorker()},
                 //{"建筑线稿", new ThSitePlanMoveWorker()},

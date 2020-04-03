@@ -16,8 +16,6 @@ namespace ThSitePlan.Photoshop
     {
         public override PsApplication PsAppInstance { get; set; }
 
-        //static List<string> LayerSetsNaList = new List<string>();
-
         public override bool DoProcess(string path, ThSitePlanConfigItem configItem)
         {
             string fileName = (string)configItem.Properties["Name"] + ".pdf";
@@ -121,7 +119,6 @@ namespace ThSitePlan.Photoshop
                             break;
                         }
                     }
-
                     else
                     {
                         bool FindOrNot = false;
@@ -145,7 +142,11 @@ namespace ThSitePlan.Photoshop
                         }
                     }
                 }
-                FirstDoca11.ArtLayers[CurDocNa].Move(EndLayerSet, PsElementPlacement.psPlaceInside);
+
+                if (FirstDoc_Sets.Count > 1)
+                {
+                    FirstDoca11.ArtLayers[CurDocNa].Move(EndLayerSet, PsElementPlacement.psPlaceInside);
+                }
             }
 
             return true;
