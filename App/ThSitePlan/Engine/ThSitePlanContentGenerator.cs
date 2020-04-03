@@ -18,16 +18,17 @@ namespace ThSitePlan.Engine
         {
             Workers = new Dictionary<string, ThSitePlanWorker>()
             {
-                {"原始场地线稿", new ThSitePlanMoveWorker()},
-                {"建筑信息", new ThSitePlanMoveWorker()},
-                {"建筑线稿", new ThSitePlanMoveWorker()},
-                {"建筑色块", new ThSitePlanCopyWorker()},
-                {"树木线稿", new ThSitePlanMoveWorker()},
-                {"树木色块", new ThSitePlanCopyWorker()},
-                {"场地线稿", new ThSitePlanMoveWorker()},
-                {"场地色块", new ThSitePlanMoveWorker()},
-                {"道路线稿", new ThSitePlanMoveWorker()},
-                {"道路色块", new ThSitePlanMoveWorker()},
+                {"基本文字说明及图例", new ThSitePlanMoveWorker()},
+                //{"原始场地线稿", new ThSitePlanMoveWorker()},
+                //{"建筑信息", new ThSitePlanMoveWorker()},
+                //{"建筑线稿", new ThSitePlanMoveWorker()},
+                //{"建筑色块", new ThSitePlanCopyWorker()},
+                //{"树木线稿", new ThSitePlanMoveWorker()},
+                //{"树木色块", new ThSitePlanCopyWorker()},
+                //{"场地线稿", new ThSitePlanMoveWorker()},
+                //{"场地色块", new ThSitePlanMoveWorker()},
+                //{"道路线稿", new ThSitePlanMoveWorker()},
+                //{"道路色块", new ThSitePlanMoveWorker()},
             };
         }
         public override bool Generate(Database database, ThSitePlanConfigItem configItem)

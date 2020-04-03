@@ -125,25 +125,16 @@ namespace ThSitePlan
                 };
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
-        }
 
-        [CommandMethod("TIANHUACAD", "THSP2", CommandFlags.Modal)]
-        public void ThSitePlan2()
-        {
-            ThSitePlanConfigService.Instance.Initialize();
-
-            //打开PhotoShop应用程序
-            PsApplication PsApplication = new PsApplication()
-            {
-                Visible = true
-            };
+            //PS流程
+            PsApplication PsApplication = new PsApplication();
             ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
             {
                 new ThSitePlanPSDefaultGenerator(),
             };
             ThSitePlanPSEngine.Instance.PsAppInstance = PsApplication;
-            ThSitePlanPSEngine.Instance.Run(@"D:\Test\TestPDF\tf", ThSitePlanConfigService.Instance.Root);
-            PsApplication.ActiveDocument.SaveAs(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+            ThSitePlanPSEngine.Instance.Run(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ThSitePlanConfigService.Instance.Root);
+            PsApplication.ActiveDocument.SaveAs(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
             PsApplication.Quit();
         }
     }

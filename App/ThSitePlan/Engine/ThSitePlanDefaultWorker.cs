@@ -27,8 +27,8 @@ namespace ThSitePlan.Engine
         public override ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
         {
             ObjectId originFrame = (ObjectId)options.Options["OriginFrame"];
-            var layers = configItem.Properties["CADLayer"] as Dictionary<string, string>;
-            var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.Values));
+            var layers = configItem.Properties["CADLayer"] as List<string>;
+            var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 originFrame,
                 PolygonSelectionMode.Crossing,
@@ -62,8 +62,8 @@ namespace ThSitePlan.Engine
         public override ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
         {
             ObjectId originFrame = (ObjectId)options.Options["OriginFrame"];
-            var layers = configItem.Properties["CADLayer"] as Dictionary<string, string>;
-            var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.Values));
+            var layers = configItem.Properties["CADLayer"] as List<string>;
+            var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 originFrame,
                 PolygonSelectionMode.Crossing,

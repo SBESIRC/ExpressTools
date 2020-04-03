@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Drawing;
 using System.Collections.Generic;
-using ThSitePlan.Configuration;
 using Photoshop;
 using PsApplication = Photoshop.Application;
+using ThSitePlan.Configuration;
 
 namespace ThSitePlan.Photoshop
 {
@@ -32,7 +32,7 @@ namespace ThSitePlan.Photoshop
             NewOpenDoc.ArtLayers[1].Name = NewOpenDoc.Name;
 
             //设置图层的不透明度
-            NewOpenDoc.ArtLayers[1].Opacity = 100 - Convert.ToDouble(configItem.Properties["Transparency"]) ;
+            NewOpenDoc.ArtLayers[1].Opacity = Convert.ToDouble(configItem.Properties["Opacity"]) ;
             if (NewOpenDoc.Name.Contains("色块"))
             {
                 NewOpenDoc.ArtLayers[1].Opacity = 100;
@@ -54,26 +54,28 @@ namespace ThSitePlan.Photoshop
 
                 //在PhotoShop中创建分组
                 LayerSet CurLayerSet = null;
-
-                List<string> LayerSetsNaList = new List<string>();
-                for (int i = 0; i < FirstDoc_Sets.Count - 1; i++)
+                if (FirstDoc_Sets.Count > 1)
                 {
-                    LayerSetsNaList.Add(FirstDoc_Sets[i]);
+                    List<string> LayerSetsNaList = new List<string>();
+                    for (int i = 0; i < FirstDoc_Sets.Count - 1; i++)
+                    {
+                        LayerSetsNaList.Add(FirstDoc_Sets[i]);
 
-                    if (i == 0)
-                    {
-                        this.PsAppInstance.ActiveDocument.LayerSets.Add().Name = FirstDoc_Sets[i];
-                        CurLayerSet = this.PsAppInstance.ActiveDocument.LayerSets[FirstDoc_Sets[i]];
+                        if (i == 0)
+                        {
+                            this.PsAppInstance.ActiveDocument.LayerSets.Add().Name = FirstDoc_Sets[i];
+                            CurLayerSet = this.PsAppInstance.ActiveDocument.LayerSets[FirstDoc_Sets[i]];
+                        }
+                        else
+                        {
+                            CurLayerSet = CurLayerSet.LayerSets.Add();
+                            CurLayerSet.Name = FirstDoc_Sets[i];
+                        }
                     }
-                    else
-                    {
-                        CurLayerSet = CurLayerSet.LayerSets.Add();
-                        CurLayerSet.Name = FirstDoc_Sets[i];
-                    }
+
+                    //将打开的图层移动到PS中相应的图层分组中
+                    FirstDoca11.ArtLayers[1].Move(CurLayerSet, PsElementPlacement.psPlaceInside);
                 }
-
-                //将打开的图层移动到PS中相应的图层分组中
-                FirstDoca11.ArtLayers[1].Move(CurLayerSet, PsElementPlacement.psPlaceInside);
 
                 FirstDoca11.ArtLayers.Add().IsBackgroundLayer = true;
             }
@@ -149,7 +151,7 @@ namespace ThSitePlan.Photoshop
             return true;
         }
 
-        public void FillBySelectChannel(string LayerNameToBeFill, ThSitePlanConfigItem configItem)
+        private void FillBySelectChannel(string LayerNameToBeFill, ThSitePlanConfigItem configItem)
         {
             var document = PsAppInstance.ActiveDocument;
             document.ActiveLayer = document.ArtLayers[LayerNameToBeFill];

@@ -13,10 +13,11 @@ namespace ThSitePlan.Photoshop
         {
             Workers = new Dictionary<string, ThSitePlanPSWorker>()
             {
-                {"建筑物-高层建筑-建筑色块", new ThSitePlanPSDefaultWorker()},
-                {"建筑物-高层建筑-建筑线稿", new ThSitePlanPSDefaultWorker()},
-                {"建筑物-高层建筑-建筑信息", new ThSitePlanPSDefaultWorker()},
-                {"建筑物-场地外建筑-原始场地线稿", new ThSitePlanPSDefaultWorker()},
+                {"基本文字说明及图例", new ThSitePlanPSDefaultWorker()},
+                //{"建筑物-高层建筑-建筑色块", new ThSitePlanPSDefaultWorker()},
+                //{"建筑物-高层建筑-建筑线稿", new ThSitePlanPSDefaultWorker()},
+                //{"建筑物-高层建筑-建筑信息", new ThSitePlanPSDefaultWorker()},
+                //{"建筑物-场地外建筑-原始场地线稿", new ThSitePlanPSDefaultWorker()},
             };
         }
 

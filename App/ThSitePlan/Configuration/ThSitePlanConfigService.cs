@@ -49,29 +49,46 @@ namespace ThSitePlan.Configuration
             {
                 Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "建筑物-场地外建筑-原始场地线稿"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
+                    { "Name", "基本文字说明及图例"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
                     { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
+                    { "CADLayer", new  List<string>()
                         {
-                            { "界外用地", "P-OUTD" }
+                            "P-NOTE-PLTB",
+                            "P-BUID-NUMB",
                         }
                     }
                 }
             });
 
-            // 建筑物
-            Root.Groups.Add(ConstructBuilding());
+            //Root.Items.Add(new ThSitePlanConfigItem()
+            //{
+            //    Properties = new Dictionary<string, object>()
+            //    {
+            //        { "Name", "建筑物-场地外建筑-原始场地线稿"},
+            //        { "Color", new Color()},
+            //        { "Transparency", 0 },
+            //        { "CADFrame", "" },
+            //        { "CADLayer", new  List<string>()
+            //            {
+            //                "P-OUTD"
+            //            }
+            //        }
+            //    }
+            //});
 
-            // 树木
-            Root.Groups.Add(ConstructTree());
+            //// 建筑物
+            //Root.Groups.Add(ConstructBuilding());
 
-            // 场地
-            Root.Groups.Add(ConstructSites());
+            //// 树木
+            //Root.Groups.Add(ConstructTree());
 
-            // 道路
-            Root.Groups.Add(ConstructRoads());
+            //// 场地
+            //Root.Groups.Add(ConstructSites());
+
+            //// 道路
+            //Root.Groups.Add(ConstructRoads());
         }
 
         private ThSitePlanConfigItemGroup ConstructBuilding()
