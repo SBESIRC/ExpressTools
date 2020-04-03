@@ -1,11 +1,13 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using AcHelper;
 using Linq2Acad;
 using ThSitePlan.NTS;
+using NetTopologySuite.Operation.Union;
+using GeoAPI.Geometries;
 
 namespace ThSitePlan
 {

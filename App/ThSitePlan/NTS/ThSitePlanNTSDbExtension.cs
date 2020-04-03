@@ -46,6 +46,35 @@ namespace ThSitePlan.NTS
             return plines;
         }
 
+        public static List<Polyline> ToDbPolylines(this IMultiLineString geometries)
+        {
+            var plines = new List<Polyline>();
+            foreach(var geometry in geometries.Geometries)
+            {
+                if (geometry is ILineString lineString)
+                {
+                    plines.Add(lineString.ToDbPolyline());
+                }
+                else if (geometry is ILinearRing linearRing)
+                {
+                    plines.Add(linearRing.ToDbPolyline());
+                }
+                else if (geometry is IPolygon polygon)
+                {
+                    plines.AddRange(polygon.ToDbPolylines());
+                }
+                else if (geometry is IMultiLineString multiLineString)
+                {
+                    plines.AddRange(multiLineString.ToDbPolylines());
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+            return plines;
+        }
+
         public static Line ToDbLine(this NetTopologySuite.Geometries.LineSegment segment)
         {
             return new Line()
@@ -113,15 +142,55 @@ namespace ThSitePlan.NTS
             return shapeFactory.CreateArc(arc.StartAngle, arc.TotalAngle);
         }
 
-        public static IGeometry ToNTSNodedLineStrings(this DBObjectCollection lines)
+        /// <summary>
+        /// 按弦长细化
+        /// </summary>
+        /// <param name="arc"></param>
+        /// <param name="chord"></param>
+        /// <returns></returns>
+        public static ILineString TessellateWithChord(this Arc arc, double chord)
+        {
+            // 根据弦长，半径，计算对应的弧长
+            // Chord Length = 2 * Radius * sin(angle / 2.0)
+            // Arc Length = Radius * angle (angle in radians)
+            if (chord > 2 * arc.Radius )
+            {
+                return null;
+            }
+
+            double radius = arc.Radius;
+            double angle = 2 * Math.Asin(chord / (2 * radius));
+            return arc.TessellateWithArc(radius * angle);
+        }
+
+        /// <summary>
+        /// 按弧长细化
+        /// </summary>
+        /// <param name="arc"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static ILineString TessellateWithArc(this Arc arc, double length)
+        {
+            if (arc.Length < length)
+            {
+                return null;
+            }
+
+            return arc.ToNTSLineString(Convert.ToInt32(Math.Floor(arc.Length / length)) + 1);
+        }
+
+        public static IGeometry ToNTSNodedLineStrings(this DBObjectCollection curves, double chord = 5.0)
         {
             IGeometry nodedLineString = ThSitePlanNTSService.Instance.GeometryFactory.CreateLineString();
-            foreach(DBObject obj in lines)
+            foreach(DBObject curve in curves)
             {
-                if (obj is Line line)
+                if (curve is Line line)
                 {
-                    // 暂时只支持最简单的线段
                     nodedLineString = nodedLineString.Union(line.ToNTSLineString());
+                }
+                else if (curve is Arc arc)
+                {
+                    nodedLineString = nodedLineString.Union(arc.TessellateWithChord(chord));
                 }
                 else
                 {
@@ -129,6 +198,27 @@ namespace ThSitePlan.NTS
                 }
             }
             return nodedLineString;
+        }
+
+        public static List<IGeometry> ToNTSLineStrings(this DBObjectCollection curves, double chord = 5.0)
+        {
+            var geometries = new List<IGeometry>();
+            foreach(DBObject curve in curves)
+            {
+                if (curve is Line line)
+                {
+                    geometries.Add(line.ToNTSLineString());
+                }
+                else if (curve is Arc arc)
+                {
+                    geometries.Add(arc.TessellateWithChord(chord));
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+            return geometries;
         }
 
         public static DBObjectCollection PolygonizeLines(this DBObjectCollection lines)
