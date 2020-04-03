@@ -14,7 +14,13 @@ namespace ThSitePlan.Photoshop
     /// </summary>
     public class ThSitePlanPSDefaultWorker : ThSitePlanPSWorker
     {
-        public override PsApplication PsAppInstance { get; set; }
+        public override PsApplication PsAppInstance
+        {
+            get
+            {
+                return ThSitePlanPSService.Instance.Application;
+            }
+        }
 
         public override bool DoProcess(string path, ThSitePlanConfigItem configItem)
         {
@@ -33,7 +39,6 @@ namespace ThSitePlan.Photoshop
             NewOpenDoc.ArtLayers[1].Opacity = Convert.ToDouble(configItem.Properties["Opacity"]) ;
             if (NewOpenDoc.Name.Contains("色块"))
             {
-                NewOpenDoc.ArtLayers[1].Opacity = 100;
                 this.FillBySelectChannel(NewOpenDoc.Name, configItem);
             }
 

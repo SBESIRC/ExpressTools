@@ -1,19 +1,15 @@
-﻿using AcHelper;
-using DotNetARX;
-using Linq2Acad;
+﻿using System;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
+using AcHelper;
+using DotNetARX;
+using Linq2Acad;
 using ThSitePlan.Engine;
 using ThSitePlan.Photoshop;
 using ThSitePlan.Configuration;
-using System.Collections;
-using System.Collections.Generic;
-using System;
-
-using Photoshop;
-using PsApplication = Photoshop.Application;
 
 namespace ThSitePlan
 {
@@ -127,15 +123,13 @@ namespace ThSitePlan
             }
 
             //PS流程
-            PsApplication PsApplication = new PsApplication();
             ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
             {
                 new ThSitePlanPSDefaultGenerator(),
             };
-            ThSitePlanPSEngine.Instance.PsAppInstance = PsApplication;
-            ThSitePlanPSEngine.Instance.Run(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ThSitePlanConfigService.Instance.Root);
-            PsApplication.ActiveDocument.SaveAs(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-            PsApplication.Quit();
+            ThSitePlanPSEngine.Instance.Run(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
+                ThSitePlanConfigService.Instance.Root);
         }
     }
 }

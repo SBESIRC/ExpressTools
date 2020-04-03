@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ThSitePlan.Configuration;
-using PsApplication = Photoshop.Application;
 
 namespace ThSitePlan.Photoshop
 {
@@ -17,13 +16,7 @@ namespace ThSitePlan.Photoshop
         public static ThSitePlanPSEngine Instance { get { return instance; } }
         //-------------SINGLETON-----------------
 
-        public PsApplication PsAppInstance { get; set; }
         public List<ThSitePlanPSGenerator> Generators { get; set; }
-
-        public void Initialize(PsApplication instance)
-        {
-            PsAppInstance = instance;
-        }
 
         public void Run(string path, ThSitePlanConfigItemGroup jobs)
         {
@@ -41,7 +34,6 @@ namespace ThSitePlan.Photoshop
         {
             foreach (var generator in Generators)
             {
-                generator.PsAppInstance = PsAppInstance;
                 generator.Generate(path, job);
             }
         }

@@ -5,7 +5,7 @@ namespace ThSitePlan.Photoshop
 {
     public abstract class ThSitePlanPSWorker
     {
-        public abstract PsApplication PsAppInstance { get; set; }
+        public abstract PsApplication PsAppInstance { get; }
         public abstract bool DoProcess(string path, ThSitePlanConfigItem configItem);
     }
 }

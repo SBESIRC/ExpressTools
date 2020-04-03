@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ThSitePlan.Configuration;
-using PsApplication = Photoshop.Application;
 
 namespace ThSitePlan.Photoshop
 {
     public class ThSitePlanPSDefaultGenerator : ThSitePlanPSGenerator
     {
-        public override PsApplication PsAppInstance { get; set; }
         private Dictionary<string, ThSitePlanPSWorker> Workers { get; set; }
         public ThSitePlanPSDefaultGenerator()
         {
@@ -25,7 +22,6 @@ namespace ThSitePlan.Photoshop
             var key = (string)configItem.Properties["Name"];
             if (Workers.ContainsKey(key))
             {
-                Workers[key].PsAppInstance = PsAppInstance;
                 Workers[key].DoProcess(path, configItem);
             }
             return true;
