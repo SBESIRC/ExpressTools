@@ -1,13 +1,10 @@
 ﻿using System;
 using System.IO;
-using ThSitePlan.Configuration;
-using System.Drawing;
-using System.Windows.Forms;
-
-using Photoshop;
-using System.Runtime.InteropServices;
-using System.Collections.Generic;
 using System.Linq;
+using System.Drawing;
+using System.Collections.Generic;
+using ThSitePlan.Configuration;
+using Photoshop;
 using PsApplication = Photoshop.Application;
 
 namespace ThSitePlan.Photoshop
