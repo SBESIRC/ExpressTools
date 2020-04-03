@@ -6,10 +6,14 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Engine;
+using ThSitePlan.Photoshop;
 using ThSitePlan.Configuration;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+
+using Photoshop;
+using PsApplication = Photoshop.Application;
 
 namespace ThSitePlan
 {
@@ -108,6 +112,7 @@ namespace ThSitePlan
             }
 
             // 处理流程
+            ThSitePlanConfigService.Instance.Initialize();
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 ThSitePlanEngine.Instance.Containers = frames;
@@ -118,11 +123,28 @@ namespace ThSitePlan
                     new ThSitePlanHatchGenerator(),
                     new ThSitePlanPDFGenerator()
                 };
-                ThSitePlanConfigService.Instance.Initialize();
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
+        }
 
-            // 处理PS
+        [CommandMethod("TIANHUACAD", "THSP2", CommandFlags.Modal)]
+        public void ThSitePlan2()
+        {
+            ThSitePlanConfigService.Instance.Initialize();
+
+            //打开PhotoShop应用程序
+            PsApplication PsApplication = new PsApplication()
+            {
+                Visible = true
+            };
+            ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+            {
+                new ThSitePlanPSDefaultGenerator(),
+            };
+            ThSitePlanPSEngine.Instance.PsAppInstance = PsApplication;
+            ThSitePlanPSEngine.Instance.Run(@"D:\Test\TestPDF\tf", ThSitePlanConfigService.Instance.Root);
+            PsApplication.ActiveDocument.SaveAs(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+            PsApplication.Quit();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace ThSitePlan.Engine
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
                 var frame = acadDatabase.Element<Polyline>(Frame.Item1);
-                var file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), 
+                var file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
                     (string)configItem.Properties["Name"]);
                 Active.Editor.ZoomObject(frame.ObjectId);
                 var extents2d = Active.Editor.ToPlotWindow(frame);

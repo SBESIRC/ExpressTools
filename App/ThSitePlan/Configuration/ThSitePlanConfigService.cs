@@ -49,7 +49,7 @@ namespace ThSitePlan.Configuration
             {
                 Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "原始场地线稿"},
+                    { "Name", "建筑物-场地外建筑-原始场地线稿"},
                     { "Color", new Color()},
                     { "Transparency", 0 },
                     { "CADFrame", "" },
@@ -87,7 +87,7 @@ namespace ThSitePlan.Configuration
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "建筑信息"},
+                    { "Name", "建筑物-高层建筑-建筑信息"},
                     { "Color", new Color()},
                     { "Transparency", 0 },
                     { "CADFrame", "" },
@@ -104,8 +104,8 @@ namespace ThSitePlan.Configuration
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "建筑色块"},
-                    { "Color", new Color()},
+                    { "Name", "建筑物-高层建筑-建筑色块"},
+                    { "Color", Color.Red},
                     { "Transparency", 0 },
                     { "CADFrame", "" },
                     { "CADLayer", new  Dictionary<string, string>()
@@ -122,7 +122,7 @@ namespace ThSitePlan.Configuration
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "建筑线稿"},
+                    { "Name", "建筑物-高层建筑-建筑线稿"},
                     { "Color", new Color()},
                     { "Transparency", 0 },
                     { "CADFrame", "" },
