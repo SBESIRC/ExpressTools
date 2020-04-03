@@ -49,6 +49,7 @@
     <Compile Include="Copy\ThCopyArrayTransient.cs" />
     <Compile Include="Copy\ThCopyArrayUtils.cs" />
     <Compile Include="Copy\ThCopyDistanceJig.cs" />
+    <Compile Include="Copy\THHighLightOverride.cs" />
     <Compile Include="Distribute\ThDistribute.cs" />
     <Compile Include="Distribute\ThDistributeExtent3dExtension.cs" />
     <Compile Include="Distribute\ThDistributeObjectIdCollectionExtension.cs" />

@@ -33,91 +33,94 @@ namespace ThEssential.Command
                 };
                 var objs = new ObjectIdCollection(entSelected.Value.GetObjectIds());
 
-                // 指定起始参考点
-                PromptPointOptions prOpt = new PromptPointOptions("\n指定基点");
-                PromptPointResult ppr = Active.Editor.GetPoint(prOpt);
-                if (ppr.Status != PromptStatus.OK)
+                using (THHighlightOverride o = new THHighlightOverride(objs))
                 {
-                    return;
-                }
-
-                // 指定终点参考点
-                var jig = new ThCopyDistanceJig(ppr.Value);
-                foreach (ObjectId obj in objs)
-                {
-                    jig.AddEntity(acadDatabase.Element<Entity>(obj));
-                }
-                jig.Options = ThCopyArrayOptions.Array;
-                PromptResult jigRes = Active.Editor.Drag(jig);
-                if (jigRes.Status == PromptStatus.OK)
-                {
-                    objs.CopyWithOffset(jig.Displacement);
-                    while(true)
+                    // 指定起始参考点
+                    PromptPointOptions prOpt = new PromptPointOptions("\n指定基点");
+                    PromptPointResult ppr = Active.Editor.GetPoint(prOpt);
+                    if (ppr.Status != PromptStatus.OK)
                     {
-                        jig.Options = ThCopyArrayOptions.All;
-                        PromptResult jigRes2 = Active.Editor.Drag(jig);
-                        if (jigRes2.Status == PromptStatus.OK)
-                        {
-                            objs.CopyWithOffset(jig.Displacement);
-                            continue;
-                        }
-                        else if (jigRes2.Status == PromptStatus.Keyword)
-                        {
-                            switch (jigRes2.StringResult)
-                            {
-                                case "Array":
-                                    {
-                                        OptionArrayHandler(objs, ppr.Value);
-                                        break;
-                                    }
-                                case "Copy":
-                                    {
-                                        OptionCopyHandler(objs, jig.Displacement);
-                                        break;
-                                    }
-                                case "Divide":
-                                    {
-                                        OptionDivideHandler(objs, jig.Displacement);
-                                        break;
-                                    }
-                                default:
-                                    break;
-                            }
-                        }
-                        else if (jigRes.Status == PromptStatus.Other)
-                        {
-                            // 按“Space”键和“Enter”键，退出循环
-                            break;
-                        }
-                        else
-                        {
-                            // 其他未处理情况，退出循环
-                            break;
-                        }
+                        return;
                     }
-                }
-                else if (jigRes.Status == PromptStatus.Keyword)
-                {
-                    switch(jigRes.StringResult)
+
+                    // 指定终点参考点
+                    var jig = new ThCopyDistanceJig(ppr.Value);
+                    foreach (ObjectId obj in objs)
                     {
-                        case "Array":
+                        jig.AddEntity(acadDatabase.Element<Entity>(obj));
+                    }
+                    jig.Options = ThCopyArrayOptions.Array;
+                    PromptResult jigRes = Active.Editor.Drag(jig);
+                    if (jigRes.Status == PromptStatus.OK)
+                    {
+                        objs.CopyWithOffset(jig.Displacement);
+                        while (true)
+                        {
+                            jig.Options = ThCopyArrayOptions.All;
+                            PromptResult jigRes2 = Active.Editor.Drag(jig);
+                            if (jigRes2.Status == PromptStatus.OK)
                             {
-                                OptionArrayHandler(objs, ppr.Value);
+                                objs.CopyWithOffset(jig.Displacement);
+                                continue;
+                            }
+                            else if (jigRes2.Status == PromptStatus.Keyword)
+                            {
+                                switch (jigRes2.StringResult)
+                                {
+                                    case "Array":
+                                        {
+                                            OptionArrayHandler(objs, ppr.Value);
+                                            break;
+                                        }
+                                    case "Copy":
+                                        {
+                                            OptionCopyHandler(objs, jig.Displacement);
+                                            break;
+                                        }
+                                    case "Divide":
+                                        {
+                                            OptionDivideHandler(objs, jig.Displacement);
+                                            break;
+                                        }
+                                    default:
+                                        break;
+                                }
+                            }
+                            else if (jigRes.Status == PromptStatus.Other)
+                            {
+                                // 按“Space”键和“Enter”键，退出循环
                                 break;
                             }
-                        default:
-                            break;
+                            else
+                            {
+                                // 其他未处理情况，退出循环
+                                break;
+                            }
+                        }
                     }
-                }
-                else if (jigRes.Status == PromptStatus.Other)
-                {
-                    // 按“Space”键和“Enter”键，退出
-                    return;
-                }
-                else
-                {
-                    // 其他未处理情况，退出
-                    return;
+                    else if (jigRes.Status == PromptStatus.Keyword)
+                    {
+                        switch (jigRes.StringResult)
+                        {
+                            case "Array":
+                                {
+                                    OptionArrayHandler(objs, ppr.Value);
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+                    }
+                    else if (jigRes.Status == PromptStatus.Other)
+                    {
+                        // 按“Space”键和“Enter”键，退出
+                        return;
+                    }
+                    else
+                    {
+                        // 其他未处理情况，退出
+                        return;
+                    }
                 }
             }
         }
