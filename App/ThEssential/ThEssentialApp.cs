@@ -59,5 +59,14 @@ namespace ThEssential
                 cmd.Execute();
             }
         }
+
+        [CommandMethod("TIANHUACAD", "THOVERKILL", CommandFlags.Modal)]
+        public void THOverkill()
+        {
+            using (var cmd = new ThOverkillCommand())
+            {
+                cmd.Execute();
+            }
+        }
     }
 }
