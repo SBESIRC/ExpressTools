@@ -27,5 +27,26 @@ namespace ThSitePlan.Photoshop
                 return application;
             }
         }
+
+        /// <summary>
+        /// 初始化PS程序实例
+        /// </summary>
+        public void Initialize()
+        {
+            //
+        }
+
+        /// <summary>
+        /// 结束PS程序实例
+        /// </summary>
+        public void Terminate()
+        {
+            //
+        }
+
+        public void ExportToFile(string path)
+        {
+            Application.ActiveDocument.SaveAs(path);
+        }
     }
 }
