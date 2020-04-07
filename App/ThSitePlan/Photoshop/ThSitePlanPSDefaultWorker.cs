@@ -33,19 +33,22 @@ namespace ThSitePlan.Photoshop
 
             //装载PDF并处理
             Document NewOpenDoc = this.PsAppInstance.Open(fullPath);
-            NewOpenDoc.ArtLayers[1].Name = NewOpenDoc.Name;
+            string CurDocNa = NewOpenDoc.Name;
+            NewOpenDoc.ArtLayers[1].Name = CurDocNa;
+            List<string> CurDoc_Sets = NewOpenDoc.Name.Split('-').ToList();     //依据当前打开的图纸名获取其各个图层分组名
 
             //设置图层的不透明度
             NewOpenDoc.ArtLayers[1].Opacity = Convert.ToDouble(configItem.Properties["Opacity"]) ;
             if (NewOpenDoc.Name.Contains("色块"))
             {
+                NewOpenDoc.ArtLayers[1].Opacity = 100;
                 this.FillBySelectChannel(NewOpenDoc.Name, configItem);
             }
 
             //图层分组
             Document FirstDoca11;
-            //每次打开一张图纸，都将图纸名中获取的各个图层名添加到LayerSetsNaList
-            //LayerSetsNaList = new List<string>();   
+            LayerSet EndLayerSet = null;
+
             if (this.PsAppInstance.Documents.Count == 1)
             {
                 FirstDoca11 = NewOpenDoc;
@@ -53,55 +56,39 @@ namespace ThSitePlan.Photoshop
                 //依据文件名获取各个分组名
                 string FirstDoc_Name = FirstDoca11.Name;
                 FirstDoca11.ArtLayers[1].Name = FirstDoc_Name;
-                List<string> FirstDoc_Sets = FirstDoc_Name.Split('-').ToList();
 
-                //在PhotoShop中创建分组
-                LayerSet CurLayerSet = null;
-                if (FirstDoc_Sets.Count > 1)
+                List<string> LayerSetsNaList = new List<string>();
+                for (int i = 0; i < CurDoc_Sets.Count - 1; i++)
                 {
-                    List<string> LayerSetsNaList = new List<string>();
-                    for (int i = 0; i < FirstDoc_Sets.Count - 1; i++)
+                    LayerSetsNaList.Add(CurDoc_Sets[i]);
+
+                    if (i == 0)
                     {
-                        LayerSetsNaList.Add(FirstDoc_Sets[i]);
-
-                        if (i == 0)
-                        {
-                            this.PsAppInstance.ActiveDocument.LayerSets.Add().Name = FirstDoc_Sets[i];
-                            CurLayerSet = this.PsAppInstance.ActiveDocument.LayerSets[FirstDoc_Sets[i]];
-                        }
-                        else
-                        {
-                            CurLayerSet = CurLayerSet.LayerSets.Add();
-                            CurLayerSet.Name = FirstDoc_Sets[i];
-                        }
+                        this.PsAppInstance.ActiveDocument.LayerSets.Add().Name = CurDoc_Sets[i];
+                        EndLayerSet = this.PsAppInstance.ActiveDocument.LayerSets[CurDoc_Sets[i]];
                     }
-
-                    //将打开的图层移动到PS中相应的图层分组中
-                    FirstDoca11.ArtLayers[1].Move(CurLayerSet, PsElementPlacement.psPlaceInside);
+                    else
+                    {
+                        EndLayerSet = EndLayerSet.LayerSets.Add();
+                        EndLayerSet.Name = CurDoc_Sets[i];
+                    }
                 }
 
                 FirstDoca11.ArtLayers.Add().IsBackgroundLayer = true;
             }
+
             else
             {
                 FirstDoca11 = this.PsAppInstance.Documents[1];
 
-                //依据文件名获取各个分组名
-                string FirstDoc_Name = FirstDoca11.Name;
-                List<string> FirstDoc_Sets = FirstDoc_Name.Split('-').ToList();
-
                 Document CurDoc = this.PsAppInstance.ActiveDocument;
-                string CurDocNa = CurDoc.Name;
                 CurDoc.ArtLayers[1].Name = CurDocNa;
-
-                List<string> CurDoc_Sets = CurDocNa.Split('-').ToList();     //依据当前打开的图纸名获取其各个图层分组名
 
                 this.PsAppInstance.ActiveDocument.ArtLayers[1].Duplicate(FirstDoca11, PsElementPlacement.psPlaceAtEnd);
                 CurDoc.Close(PsSaveOptions.psDoNotSaveChanges);
                 this.PsAppInstance.ActiveDocument = FirstDoca11;
 
                 LayerSets FirstLayerSets = PsAppInstance.ActiveDocument.LayerSets;
-                LayerSet EndLayerSet = null;
 
                 for (int i = 0; i < CurDoc_Sets.Count - 1; i++)
                 {
@@ -147,11 +134,23 @@ namespace ThSitePlan.Photoshop
                         }
                     }
                 }
+            }
 
-                if (FirstDoc_Sets.Count > 1)
+            if (CurDoc_Sets.Count > 1)     //_CY04
+            {
+                int CurIndex = CurDoc_Sets.IndexOf(EndLayerSet.Name);
+
+                //若当前图层指针指向的图层组名并不是当前待移动的图层的图层名中最内侧分组名
+                if (CurIndex != CurDoc_Sets.Count - 2)
                 {
-                    FirstDoca11.ArtLayers[CurDocNa].Move(EndLayerSet, PsElementPlacement.psPlaceInside);
+                    for (int i = CurIndex + 1; i < CurDoc_Sets.Count - 1; i++)
+                    {
+                        EndLayerSet = EndLayerSet.LayerSets.Add();
+                        EndLayerSet.Name = CurDoc_Sets[i];
+                    }
                 }
+
+                FirstDoca11.ArtLayers[CurDocNa].Move(EndLayerSet, PsElementPlacement.psPlaceInside);
             }
 
             return true;

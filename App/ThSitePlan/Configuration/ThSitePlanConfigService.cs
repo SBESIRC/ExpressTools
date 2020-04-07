@@ -119,33 +119,56 @@ namespace ThSitePlan.Configuration
                 }
             });
 
-            //Root.Items.Add(new ThSitePlanConfigItem()
-            //{
-            //    Properties = new Dictionary<string, object>()
-            //    {
-            //        { "Name", "建筑物-场地外建筑-原始场地线稿"},
-            //        { "Color", new Color()},
-            //        { "Transparency", 0 },
-            //        { "CADFrame", "" },
-            //        { "CADLayer", new  List<string>()
-            //            {
-            //                "P-OUTD"
-            //            }
-            //        }
-            //    }
-            //});
+
+            Root.Items.Add(new ThSitePlanConfigItem()
+            {
+                Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "原始场地叠加线稿"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            "P-OUTD"
+                        }
+                    }
+                }
+            });
+
+            Root.Items.Add(new ThSitePlanConfigItem()
+            {
+                Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "全局阴影"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            "P-AI-shadow"
+                        }
+                    }
+                }
+            });
 
             //// 建筑物
             //Root.Groups.Add(ConstructBuilding());
 
-            //// 树木
-            //Root.Groups.Add(ConstructTree());
+            // 树木
+            Root.Groups.Add(ConstructTree());
 
-            //// 场地
-            //Root.Groups.Add(ConstructSites());
+            // 场地
+            Root.Groups.Add(ConstructSites());
 
-            //// 道路
-            //Root.Groups.Add(ConstructRoads());
+            // 道路
+            Root.Groups.Add(ConstructRoads());
+
+            // 铺装
+            Root.Groups.Add(ConstructPavement());
+
+            // 景观绿地
+            Root.Groups.Add(ConstructGreenland());
         }
 
         private ThSitePlanConfigItemGroup ConstructBuilding()
@@ -222,34 +245,35 @@ namespace ThSitePlan.Configuration
                 //树木.景观树
                 var landscape_tree = new ThSitePlanConfigItemGroup();
                 landscape_tree.Properties.Add("Name", "景观树");
-                // 树木.景观树.树木线稿
-                landscape_tree.Items.Add(new ThSitePlanConfigItem()
-                {
-                    Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "树木线稿"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
-                        {
-                            { "景观树木线稿", ThSitePlanCommon.LAYER_LANDSCAPE_TREE },
-                        }
-                    }
-                }
-                });
                 // 树木.景观树.树木色块
                 landscape_tree.Items.Add(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "树木色块"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
+                    { "Name", "树木-景观树-树木色块"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
                     { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
+                    { "CADLayer", new  List<string>()
                         {
-                            { "景观树木色块", ThSitePlanCommon.LAYER_LANDSCAPE_TREE }
+                            ThSitePlanCommon.LAYER_LANDSCAPE_TREE
+                        }
+                    }
+                }
+                });
+
+                // 树木.景观树.树木线稿
+                landscape_tree.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "树木-景观树-树木线稿"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            ThSitePlanCommon.LAYER_LANDSCAPE_TREE
                         }
                     }
                 }
@@ -266,13 +290,13 @@ namespace ThSitePlan.Configuration
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "树木色块"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
+                    { "Name", "树木-行道树-树木色块"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
                     { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
+                    { "CADLayer", new  List<string>()
                         {
-                            { "行道树色块", ThSitePlanCommon.LAYER_STREET_TREE }
+                            ThSitePlanCommon.LAYER_STREET_TREE
                         }
                     }
                 }
@@ -282,13 +306,13 @@ namespace ThSitePlan.Configuration
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "树木线稿"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
+                    { "Name", "树木-行道树-树木线稿"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
                     { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
+                    { "CADLayer", new  List<string>()
                         {
-                            { "行道树线稿", ThSitePlanCommon.LAYER_STREET_TREE },
+                            ThSitePlanCommon.LAYER_STREET_TREE
                         }
                     }
                 }
@@ -306,34 +330,35 @@ namespace ThSitePlan.Configuration
                 //场地.消防登高场地
                 var fire_site = new ThSitePlanConfigItemGroup();
                 fire_site.Properties.Add("Name", "消防登高场地");
-                // 场地.消防登高场地.场地线稿
-                fire_site.Items.Add(new ThSitePlanConfigItem()
-                {
-                    Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "场地线稿"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
-                        {
-                            { "消防场地线稿", ThSitePlanCommon.LAYER_SITE_FIRE },
-                        }
-                    }
-                }
-                });
                 // 场地.消防登高场地.场地色块
                 fire_site.Items.Add(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "场地色块"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
+                    { "Name", "场地-消防登高场地-场地色块"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
                     { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
+                    { "CADLayer", new  List<string>()
                         {
-                            { "消防场地色块", ThSitePlanCommon.LAYER_SITE_FIRE }
+                            ThSitePlanCommon.LAYER_SITE_FIRE
+                        }
+                    }
+                }
+                });
+
+                // 场地.消防登高场地.场地线稿
+                fire_site.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "场地-消防登高场地-场地线稿"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            ThSitePlanCommon.LAYER_SITE_FIRE
                         }
                     }
                 }
@@ -345,34 +370,35 @@ namespace ThSitePlan.Configuration
                 //场地.停车场地
                 var parking_site = new ThSitePlanConfigItemGroup();
                 parking_site.Properties.Add("Name", "停车场地");
-                // 场地.停车场地.场地线稿
-                parking_site.Items.Add(new ThSitePlanConfigItem()
-                {
-                    Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "场地线稿"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
-                        {
-                            { "停车场地线稿", ThSitePlanCommon.LAYER_SITE_PARKING },
-                        }
-                    }
-                }
-                });
                 // 场地.停车场地.场地色块
                 parking_site.Items.Add(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "场地色块"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
+                    { "Name", "场地-停车场地-场地色块"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
                     { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
+                    { "CADLayer", new  List<string>()
                         {
-                            { "停车场地色块", ThSitePlanCommon.LAYER_SITE_PARKING }
+                            ThSitePlanCommon.LAYER_SITE_PARKING
+                        }
+                    }
+                }
+                });
+
+                // 场地.停车场地.场地线稿
+                parking_site.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "场地-停车场地-场地线稿"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            ThSitePlanCommon.LAYER_SITE_PARKING
                         }
                     }
                 }
@@ -382,85 +408,87 @@ namespace ThSitePlan.Configuration
 
             {
                 //场地.活动场地
-                var parking_site = new ThSitePlanConfigItemGroup();
-                parking_site.Properties.Add("Name", "活动场地");
-                // 场地.活动场地.场地线稿
-                parking_site.Items.Add(new ThSitePlanConfigItem()
-                {
-                    Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "场地线稿"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
-                        {
-                            { "活动场地线稿", ThSitePlanCommon.LAYER_SITE_ACTIVITY },
-                        }
-                    }
-                }
-                });
+                var activity_site = new ThSitePlanConfigItemGroup();
+                activity_site.Properties.Add("Name", "活动场地");
                 // 场地.活动场地.场地色块
-                parking_site.Items.Add(new ThSitePlanConfigItem()
+                activity_site.Items.Add(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "场地色块"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
+                    { "Name", "场地-活动场地-场地色块"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
                     { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
+                    { "CADLayer", new  List<string>()
                         {
-                            { "活动场地色块", ThSitePlanCommon.LAYER_SITE_ACTIVITY }
+                            ThSitePlanCommon.LAYER_SITE_ACTIVITY
                         }
                     }
                 }
                 });
-                sites.Groups.Add(parking_site);
+
+                // 场地.活动场地.场地线稿
+                activity_site.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "场地-活动场地-场地线稿"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            ThSitePlanCommon.LAYER_SITE_ACTIVITY
+                        }
+                    }
+                }
+                });
+                
+                sites.Groups.Add(activity_site);
             }
 
             {
                 //场地.其他场地
-                var parking_site = new ThSitePlanConfigItemGroup();
-                parking_site.Properties.Add("Name", "其他场地");
-                // 场地.其他场地.场地线稿
-                parking_site.Items.Add(new ThSitePlanConfigItem()
-                {
-                    Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "场地线稿"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
-                        {
-                            { "其他场地线稿", ThSitePlanCommon.LAYER_SITE_MISCELLANEOUS },
-                        }
-                    }
-                }
-                });
+                var other_site = new ThSitePlanConfigItemGroup();
+                other_site.Properties.Add("Name", "其他场地");
                 // 场地.其他场地.场地色块
-                parking_site.Items.Add(new ThSitePlanConfigItem()
+                other_site.Items.Add(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "场地色块"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
+                    { "Name", "场地-其他场地-场地色块"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
                     { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
+                    { "CADLayer", new  List<string>()
                         {
-                            { "其他场地色块", ThSitePlanCommon.LAYER_SITE_MISCELLANEOUS }
+                            ThSitePlanCommon.LAYER_SITE_MISCELLANEOUS
                         }
                     }
                 }
                 });
-                sites.Groups.Add(parking_site);
+
+                // 场地.其他场地.场地线稿
+                other_site.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "场地-其他场地-场地线稿"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            ThSitePlanCommon.LAYER_SITE_MISCELLANEOUS
+                        }
+                    }
+                }
+                });
+                sites.Groups.Add(other_site);
             }
 
             return sites;
         }
-
 
         private ThSitePlanConfigItemGroup ConstructRoads()
         {
@@ -469,65 +497,74 @@ namespace ThSitePlan.Configuration
             {
                 var internal_road = new ThSitePlanConfigItemGroup();
                 internal_road.Properties.Add("Name", "内部行车道路");
+
                 internal_road.Items.Add(new ThSitePlanConfigItem()
                 {
-                    Properties = new Dictionary<string, object>() {
-                        { "Name", "道路线稿"},
-                        { "Color", new Color()},
-                        { "Transparency", 0 },
+                    Properties = new Dictionary<string, object>()
+                    {
+                        { "Name", "道路-内部车行道路-道路色块"},
+                        { "Color", Color.Black},
+                        { "Opacity", 100 },
                         { "CADFrame", "" },
-                        { "CADLayer", new  Dictionary<string, string>()
+                        { "CADLayer", new  List<string>()
                             {
-                                { "道路线稿", ThSitePlanCommon.LAYER_ROAD_INTERNAL },
-                                { "道路中心线", ThSitePlanCommon.LAYER_ROAD_INTERNAL_AXIS },
+                                ThSitePlanCommon.LAYER_ROAD_INTERNAL,
                             }
                         }
                     }
                 });
+
                 internal_road.Items.Add(new ThSitePlanConfigItem()
                 {
-                    Properties = new Dictionary<string, object>() {
-                        { "Name", "道路色块"},
-                        { "Color", new Color()},
-                        { "Transparency", 0 },
+                    Properties = new Dictionary<string, object>()
+                    {
+                        { "Name", "道路-内部车行道路-道路线稿"},
+                        { "Color", Color.Black},
+                        { "Opacity", 100 },
                         { "CADFrame", "" },
-                        { "CADLayer", new  Dictionary<string, string>()
+                        { "CADLayer", new  List<string>()
                             {
-                                { "内部车道色块", ThSitePlanCommon.LAYER_ROAD_INTERNAL }
+                                ThSitePlanCommon.LAYER_ROAD_INTERNAL,
+                                ThSitePlanCommon.LAYER_ROAD_INTERNAL_AXIS,
                             }
                         }
                     }
                 });
+               
                 roads.Groups.Add(internal_road);
             }
 
             {
                 var pedestrian_road= new ThSitePlanConfigItemGroup();
                 pedestrian_road.Properties.Add("Name", "内部人行道路");
+
                 pedestrian_road.Items.Add(new ThSitePlanConfigItem()
                 {
-                    Properties = new Dictionary<string, object>() {
-                        { "Name", "道路线稿"},
-                        { "Color", new Color()},
-                        { "Transparency", 0 },
+                    Properties = new Dictionary<string, object>()
+                    {
+                        { "Name", "道路-内部人行道路-道路色块"},
+                        { "Color", Color.Black},
+                        { "Opacity", 100 },
                         { "CADFrame", "" },
-                        { "CADLayer", new  Dictionary<string, string>()
+                        { "CADLayer", new  List<string>()
                             {
-                                { "人行道路线稿", ThSitePlanCommon.LAYER_ROAD_PEDESTRIAN },
+                                ThSitePlanCommon.LAYER_ROAD_PEDESTRIAN,
                             }
                         }
                     }
                 });
+
                 pedestrian_road.Items.Add(new ThSitePlanConfigItem()
                 {
-                    Properties = new Dictionary<string, object>() {
-                        { "Name", "道路色块"},
-                        { "Color", new Color()},
-                        { "Transparency", 0 },
+                    Properties = new Dictionary<string, object>()
+                    {
+                        { "Name", "道路-内部人行道路-道路线稿"},
+                        { "Color", Color.Black},
+                        { "Opacity", 100 },
                         { "CADFrame", "" },
-                        { "CADLayer", new  Dictionary<string, string>()
+                        { "CADLayer", new  List<string>()
                             {
-                                { "人行道路色块", ThSitePlanCommon.LAYER_ROAD_PEDESTRIAN }
+                                ThSitePlanCommon.LAYER_ROAD_PEDESTRIAN,
                             }
                         }
                     }
@@ -538,72 +575,217 @@ namespace ThSitePlan.Configuration
             {
                 var external_road = new ThSitePlanConfigItemGroup();
                 external_road.Properties.Add("Name", "外部车行道路");
+
                 external_road.Items.Add(new ThSitePlanConfigItem()
                 {
-                    Properties = new Dictionary<string, object>() {
-                        { "Name", "道路线稿"},
-                        { "Color", new Color()},
-                        { "Transparency", 0 },
+                    Properties = new Dictionary<string, object>()
+                    {
+                        { "Name", "道路-外部车行道路-道路色块"},
+                        { "Color", Color.Black},
+                        { "Opacity", 100 },
                         { "CADFrame", "" },
-                        { "CADLayer", new  Dictionary<string, string>()
+                        { "CADLayer", new  List<string>()
                             {
-                                { "外部车行道路", ThSitePlanCommon.LAYER_ROAD_EXTERNAL },
+                                ThSitePlanCommon.LAYER_ROAD_EXTERNAL,
                             }
                         }
                     }
                 });
+
                 external_road.Items.Add(new ThSitePlanConfigItem()
                 {
-                    Properties = new Dictionary<string, object>() {
-                        { "Name", "道路色块"},
-                        { "Color", new Color()},
-                        { "Transparency", 0 },
+                    Properties = new Dictionary<string, object>()
+                    {
+                        { "Name", "道路-外部车行道路-道路线稿"},
+                        { "Color", Color.Black},
+                        { "Opacity", 100 },
                         { "CADFrame", "" },
-                        { "CADLayer", new  Dictionary<string, string>()
+                        { "CADLayer", new  List<string>()
                             {
-                                { "外部车道色块", ThSitePlanCommon.LAYER_ROAD_EXTERNAL }
+                                ThSitePlanCommon.LAYER_ROAD_EXTERNAL,
                             }
                         }
                     }
                 });
+                
                 roads.Groups.Add(external_road);
             }
 
             {
-                var external_road = new ThSitePlanConfigItemGroup();
-                external_road.Properties.Add("Name", "外部景观道路");
-                external_road.Items.Add(new ThSitePlanConfigItem()
+                var extland_road = new ThSitePlanConfigItemGroup();
+                extland_road.Properties.Add("Name", "外部景观道路");
+
+                extland_road.Items.Add(new ThSitePlanConfigItem()
                 {
-                    Properties = new Dictionary<string, object>() {
-                        { "Name", "道路线稿"},
-                        { "Color", new Color()},
-                        { "Transparency", 0 },
+                    Properties = new Dictionary<string, object>()
+                    {
+                        { "Name", "道路-外部景观道路-道路色块"},
+                        { "Color", Color.Black},
+                        { "Opacity", 100 },
                         { "CADFrame", "" },
-                        { "CADLayer", new  Dictionary<string, string>()
+                        { "CADLayer", new  List<string>()
                             {
-                                { "景观道路线稿", ThSitePlanCommon.LAYER_ROAD_LANDSCAPE },
+                                ThSitePlanCommon.LAYER_ROAD_LANDSCAPE,
                             }
                         }
                     }
                 });
-                external_road.Items.Add(new ThSitePlanConfigItem()
+
+                extland_road.Items.Add(new ThSitePlanConfigItem()
                 {
-                    Properties = new Dictionary<string, object>() {
-                        { "Name", "道路色块"},
-                        { "Color", new Color()},
-                        { "Transparency", 0 },
+                    Properties = new Dictionary<string, object>()
+                    {
+                        { "Name", "道路-外部景观道路-道路线稿"},
+                        { "Color", Color.Black},
+                        { "Opacity", 100 },
                         { "CADFrame", "" },
-                        { "CADLayer", new  Dictionary<string, string>()
+                        { "CADLayer", new  List<string>()
                             {
-                                { "景观道路色块", ThSitePlanCommon.LAYER_ROAD_LANDSCAPE }
+                                ThSitePlanCommon.LAYER_ROAD_LANDSCAPE,
                             }
                         }
                     }
                 });
-                roads.Groups.Add(external_road);
+                roads.Groups.Add(extland_road);
             }
 
             return roads;
+        }
+
+        private ThSitePlanConfigItemGroup ConstructPavement()
+        {
+            var pave = new ThSitePlanConfigItemGroup();
+            pave.Properties.Add("Name", "铺装");
+            {
+                //铺装-场地外铺地
+                var Pavement_Outd = new ThSitePlanConfigItemGroup();
+                Pavement_Outd.Properties.Add("Name", "景观树");
+
+                // 铺装-场地外铺地-铺装色块
+                Pavement_Outd.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "铺装-场地外铺地-铺装色块"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            ThSitePlanCommon.LAYER_PAVE_OUTD
+                        }
+                    }
+                }
+                });
+
+                // 铺装-场地外铺地-铺装线稿
+                Pavement_Outd.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "铺装-场地外铺地-铺装线稿"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            ThSitePlanCommon.LAYER_PAVE_OUTD
+                        }
+                    }
+                }
+                });
+
+                pave.Groups.Add(Pavement_Outd);
+            }
+            return pave;
+        }
+
+        private ThSitePlanConfigItemGroup ConstructGreenland()
+        {
+            var greenLd = new ThSitePlanConfigItemGroup();
+            greenLd.Properties.Add("Name", "景观绿地");
+            {
+                //景观绿地-水景
+                var GreenLand_Watersp = new ThSitePlanConfigItemGroup();
+                GreenLand_Watersp.Properties.Add("Name", "水景");
+
+                // 景观绿地-水景-水景色块
+                GreenLand_Watersp.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "景观绿地-水景-水景色块"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            ThSitePlanCommon.LAYER_GREEN_WATER
+                        }
+                    }
+                }
+                });
+
+                // 景观绿地-水景-水景线稿
+                GreenLand_Watersp.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "景观绿地-水景-水景线稿"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            ThSitePlanCommon.LAYER_GREEN_WATER
+                        }
+                    }
+                }
+                });
+                greenLd.Groups.Add(GreenLand_Watersp);
+            }
+
+            {
+                //景观绿地-景观
+                var GreenLand_LandSp = new ThSitePlanConfigItemGroup();
+                GreenLand_LandSp.Properties.Add("Name", "景观");
+
+                // 景观绿地-景观-景观色块
+                GreenLand_LandSp.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "景观绿地-景观-景观色块"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            ThSitePlanCommon.LAYER_GREEN_LANDSP
+                        }
+                    }
+                }
+                });
+
+                // 景观绿地-景观-景观线稿
+                GreenLand_LandSp.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "景观绿地-景观-景观线稿"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            ThSitePlanCommon.LAYER_GREEN_LANDSP
+                        }
+                    }
+                }
+                });
+                greenLd.Groups.Add(GreenLand_LandSp);
+            }
+            return greenLd;
         }
 
         /// <summary>
