@@ -33,7 +33,7 @@ namespace ThEssential.Command
                 };
                 var objs = new ObjectIdCollection(entSelected.Value.GetObjectIds());
 
-                using (THHighlightOverride o = new THHighlightOverride(objs))
+                using (ThHighlightOverride o = new ThHighlightOverride(objs))
                 {
                     // 指定起始参考点
                     PromptPointOptions prOpt = new PromptPointOptions("\n指定基点");
@@ -53,48 +53,55 @@ namespace ThEssential.Command
                     PromptResult jigRes = Active.Editor.Drag(jig);
                     if (jigRes.Status == PromptStatus.OK)
                     {
-                        objs.CopyWithOffset(jig.Displacement);
+                        Active.Editor.Copy(objs, 
+                            ppr.Value, 
+                            ppr.Value + jig.Displacement);
                         while (true)
                         {
-                            jig.Options = ThCopyArrayOptions.All;
-                            PromptResult jigRes2 = Active.Editor.Drag(jig);
-                            if (jigRes2.Status == PromptStatus.OK)
+                            using (ThHighlightOverride ho = new ThHighlightOverride(objs))
                             {
-                                objs.CopyWithOffset(jig.Displacement);
-                                continue;
-                            }
-                            else if (jigRes2.Status == PromptStatus.Keyword)
-                            {
-                                switch (jigRes2.StringResult)
+                                jig.Options = ThCopyArrayOptions.All;
+                                PromptResult jigRes2 = Active.Editor.Drag(jig);
+                                if (jigRes2.Status == PromptStatus.OK)
                                 {
-                                    case "Array":
-                                        {
-                                            OptionArrayHandler(objs, ppr.Value);
-                                            break;
-                                        }
-                                    case "Copy":
-                                        {
-                                            OptionCopyHandler(objs, jig.Displacement);
-                                            break;
-                                        }
-                                    case "Divide":
-                                        {
-                                            OptionDivideHandler(objs, jig.Displacement);
-                                            break;
-                                        }
-                                    default:
-                                        break;
+                                    Active.Editor.Copy(objs,
+                                        ppr.Value,
+                                        ppr.Value + jig.Displacement);
+                                    continue;
                                 }
-                            }
-                            else if (jigRes.Status == PromptStatus.Other)
-                            {
-                                // 按“Space”键和“Enter”键，退出循环
-                                break;
-                            }
-                            else
-                            {
-                                // 其他未处理情况，退出循环
-                                break;
+                                else if (jigRes2.Status == PromptStatus.Keyword)
+                                {
+                                    switch (jigRes2.StringResult)
+                                    {
+                                        case "Array":
+                                            {
+                                                OptionArrayHandler(objs, ppr.Value);
+                                                break;
+                                            }
+                                        case "Copy":
+                                            {
+                                                OptionCopyHandler(objs, ppr.Value, jig.Displacement);
+                                                break;
+                                            }
+                                        case "Divide":
+                                            {
+                                                OptionDivideHandler(objs, ppr.Value, jig.Displacement);
+                                                break;
+                                            }
+                                        default:
+                                            break;
+                                    }
+                                }
+                                else if (jigRes.Status == PromptStatus.Other)
+                                {
+                                    // 按“Space”键和“Enter”键，退出循环
+                                    break;
+                                }
+                                else
+                                {
+                                    // 其他未处理情况，退出循环
+                                    break;
+                                }
                             }
                         }
                     }
@@ -154,7 +161,11 @@ namespace ThEssential.Command
                         PromptResult arrayJigRes = Active.Editor.Drag(arrayJig);
                         if (arrayJigRes.Status == PromptStatus.OK)
                         {
-                            objs.TimesCopyAlongPath(arrayJig.Displacement, arrayJig.Parameter);
+                            Active.Editor.CopyWithArray(objs,
+                                basePt,
+                                basePt + arrayJig.Displacement,
+                                arrayJig.Parameter
+                                );
                             break;
                         }
                         else
@@ -175,7 +186,7 @@ namespace ThEssential.Command
             }
         }
 
-        private void OptionCopyHandler(ObjectIdCollection objs, Vector3d displacement)
+        private void OptionCopyHandler(ObjectIdCollection objs, Point3d basePt, Vector3d displacement)
         {
             using (var transient = new ThCopyArrayTransient())
             {
@@ -201,7 +212,11 @@ namespace ThEssential.Command
                     }
                     else if (prPntRes.Status == PromptStatus.None)
                     {
-                        objs.TimesCopyAlongPath(displacement, transient.Parameter);
+                        Active.Editor.CopyWithArray(objs,
+                            basePt,
+                            basePt + displacement,
+                            transient.Parameter
+                            );
                         break;
                     }
                     else if (prPntRes.Status == PromptStatus.Keyword)
@@ -217,7 +232,7 @@ namespace ThEssential.Command
             }
         }
 
-        private void OptionDivideHandler(ObjectIdCollection objs, Vector3d displacement)
+        private void OptionDivideHandler(ObjectIdCollection objs, Point3d basePt, Vector3d displacement)
         {
             using (var transient = new ThCopyArrayTransient())
             {
@@ -243,7 +258,11 @@ namespace ThEssential.Command
                     }
                     else if (prPntRes.Status == PromptStatus.None)
                     {
-                        objs.DivideCopyAlongPath(displacement, transient.Parameter);
+                        Active.Editor.CopyWithFit(objs,
+                            basePt,
+                            basePt + displacement,
+                            transient.Parameter
+                            );
                         break;
                     }
                     else if(prPntRes.Status == PromptStatus.None)

@@ -4,10 +4,10 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThEssential.Copy
 {
-    public class THHighlightOverride : IDisposable
+    public class ThHighlightOverride : IDisposable
     {
         private ObjectIdCollection Entities {get; set;}
-        public THHighlightOverride(ObjectIdCollection ents)
+        public ThHighlightOverride(ObjectIdCollection ents)
         {
             Entities = ents;
             Hightlight(true);
