@@ -69,7 +69,7 @@ namespace ThEssential.MatchProps
         {
             this.executed = true;
             marchPropertySet.Save();
-            EditAlias();
+            //EditAlias();
             Owner.Close();
         }
         private void EditAlias()

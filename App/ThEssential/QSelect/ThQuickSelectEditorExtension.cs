@@ -29,6 +29,14 @@ namespace ThEssential.QSelect
                     Active.Editor.SetImpliedSelection(sameColorObjIds.ToArray());
                 }
             }
+            else if(filterType == QSelectFilterType.QSelectFilterLineType)
+            {
+                List<ObjectId> sameLineTypeObjIds = QSelectLineType(ed, entity);
+                if (sameLineTypeObjIds.Count > 0)
+                {
+                    Active.Editor.SetImpliedSelection(sameLineTypeObjIds.ToArray());
+                }
+            }
             else
             {
                 var result = ed.SelectAll(entity.QSelectFilter(filterType));
@@ -37,6 +45,31 @@ namespace ThEssential.QSelect
                     Active.Editor.SetImpliedSelection(result.Value);
                 }
             }
+        }
+        private static List<ObjectId> QSelectLineType(Editor ed, Entity entity)
+        {
+            List<ObjectId> sameLineTypeObjIds = new List<ObjectId>();
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = ed.SelectAll();
+                if (result.Status == PromptStatus.OK)
+                {
+                    ObjectId[] findObjIds = result.Value.GetObjectIds();
+                    foreach (ObjectId objId in findObjIds)
+                    {
+                        Entity currentEnt = acadDatabase.Element<Entity>(objId);
+                        if(!(currentEnt is Curve))
+                        {
+                            continue;
+                        }
+                        if(entity.Linetype== currentEnt.Linetype)
+                        {
+                            sameLineTypeObjIds.Add(objId);
+                        }
+                    }
+                }
+            }
+            return sameLineTypeObjIds;
         }
         private static List<ObjectId> QSelectColor(Editor ed,Entity entity)
         {

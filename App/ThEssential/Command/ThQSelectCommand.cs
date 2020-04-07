@@ -153,7 +153,17 @@ namespace ThEssential.Command
                             sourceEntityId = ObjectId.Null;
                         }
                     }
-                   
+                }
+                else if(filterType == QSelectFilterType.QSelectFilterLineType)
+                {
+                    if (sourceEntityId != ObjectId.Null)
+                    {
+                        Entity sourceEnt = acadDatabase.Element<Entity>(sourceEntityId);
+                        if (!(sourceEnt is Curve))
+                        {
+                            sourceEntityId = ObjectId.Null;
+                        }
+                    }
                 }
                 if(sourceEntityId== ObjectId.Null)
                 {
@@ -219,6 +229,10 @@ namespace ThEssential.Command
             {
                 message = "\n请选取一个块参照：";
             }
+            else if(filterType == QSelectFilterType.QSelectFilterLineType)
+            {
+                message = "\n请选取一个块曲线：";
+            }
             PromptEntityOptions entityOptions = new PromptEntityOptions(message)
             {
                 AllowNone = false,
@@ -234,6 +248,18 @@ namespace ThEssential.Command
                     {
                         Entity entity = acadDb.Element<Entity>(per.ObjectId);
                         if(entity is BlockReference)
+                        {
+                            domark = false;
+                        }
+                        else
+                        {
+                            Active.Editor.WriteMessage(message);
+                        }
+                    }
+                    else if(filterType == QSelectFilterType.QSelectFilterLineType)
+                    {
+                        Entity entity = acadDb.Element<Entity>(per.ObjectId);
+                        if (entity is Curve)
                         {
                             domark = false;
                         }

@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThEssential"
         mc:Ignorable="d"
-        Title="匹配属性" Width="200" Height="350" MinWidth="200" MinHeight="350" 
+        Title="匹配属性" Width="200" Height="320" MinWidth="200" MinHeight="320" 
         PreviewKeyDown="Window_PreviewKeyDown"
         KeyDown="Window_KeyDown" Loaded="Window_Loaded" ResizeMode="NoResize"
-        Topmost="True" MaxWidth="200" MaxHeight="350">
+        Topmost="True" MaxWidth="200" MaxHeight="320">
     <Window.Resources>
         <Style TargetType="{x:Type Window}">
             <Setter Property="FontFamily" Value="宋体" />
@@ -19,7 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="180"></RowDefinition>
-            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5,0,0,0">
@@ -42,7 +42,7 @@
                       MouseRightButtonDown="Control_MouseRightButtonDown" 
                       Click="CbAcadInitConfig_Click"></CheckBox>
             <Line Stroke="Gray" X1="5" Y1="5" X2="180" Y2="5" />
-            <CheckBox Margin="10,5" Name="cbEditAlias" Content="编辑别名" IsChecked="{Binding MarchPropSet.EditAliasOp,Mode=TwoWay}"></CheckBox>
+            <!--<CheckBox Margin="10,5" Name="cbEditAlias" Content="编辑别名" IsChecked="{Binding MarchPropSet.EditAliasOp,Mode=TwoWay}"/>-->
         </StackPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
             <Button Name="btnOK" Content="确定" Width="70" Height="25" Margin="10,5" Command="{Binding OkCommand}"></Button>
