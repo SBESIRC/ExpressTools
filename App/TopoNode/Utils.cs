@@ -2615,6 +2615,39 @@ namespace TopoNode
             }
         }
 
+        public static void DrawTextProfile(List<Curve> curves, List<string> layerNames, Color color = null)
+        {
+            if (curves == null || curves.Count == 0 || layerNames == null || layerNames.Count == 0)
+                return;
+
+            if (curves.Count != layerNames.Count)
+                return;
+
+            using (var db = AcadDatabase.Active())
+            {
+                for (int i = 0; i < curves.Count; i++)
+                {
+                    var curve = curves[i];
+                    var LayerName = layerNames[i];
+
+                    var dbtext = new DBText();
+                    dbtext.Height = 50;
+                    var midPt = curve.GetPointAtParameter(0.5 * (curve.StartParam + curve.EndParam));
+                    dbtext.Justify = AttachmentPoint.MiddleCenter;
+                    // 设置字体样式
+                    var textId = GetIdFromSymbolTable();
+                    if (textId != ObjectId.Null)
+                        dbtext.TextStyleId = textId;
+
+                    dbtext.TextString = LayerName;
+                    dbtext.AlignmentPoint = midPt;
+
+                    var dbId = db.ModelSpace.Add(dbtext);
+                    db.ModelSpace.Element(dbId, true).Layer = LayerName;
+                }
+            }
+        }
+
         public static void DrawProfile(List<TopoEdge> topoEdges, string LayerName, Color color = null)
         {
             if (topoEdges == null || topoEdges.Count == 0)

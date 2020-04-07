@@ -30,7 +30,7 @@ namespace TopoNode
             return profiles;
         }
 
-        public static List<Curve> MakeProfileFromPoint(List<Curve> srcCurves, Point3d pt)
+        public static List<PolylineLayer> MakeProfileFromPoint(List<Curve> srcCurves, Point3d pt)
         {
             //预处理
             var profileCalcu = new CalcuContainPointProfile(srcCurves, pt);
@@ -38,10 +38,11 @@ namespace TopoNode
             if (relatedCurves == null)
                 return null;
 
+            var layers = Utils.GetLayersFromCurves(relatedCurves);
             //Utils.DrawProfile(relatedCurves, "related");
             //return null;
-            var profile = TopoSearch.MakeSrcProfileLoopsFromPoint(relatedCurves, pt);
-            return profile;
+            var profileLayer = TopoSearch.MakeSrcProfileLoopsLayerFromPoint(relatedCurves, pt);
+            return profileLayer;
         }
 
         class IntersectCurves
@@ -255,7 +256,7 @@ namespace TopoNode
             return outCurves;
         }
 
-        public static List<Curve> Polyline2Curves(Polyline polyline)
+        public static List<Curve> Polyline2Curves(Polyline polyline, bool copyLayer = true)
         {
             if (polyline == null)
                 return null;
@@ -270,7 +271,8 @@ namespace TopoNode
                     {
                         LineSegment3d line3d = polyline.GetLineSegmentAt(i);
                         var line = new Line(line3d.StartPoint, line3d.EndPoint);
-                        line.Layer = polyline.Layer;
+                        if (copyLayer)
+                            line.Layer = polyline.Layer;
                         curves.Add(line);
                     }
                     else
@@ -286,7 +288,8 @@ namespace TopoNode
                                 arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
                             else
                                 arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
-                            arc.Layer = polyline.Layer;
+                            if (copyLayer)
+                                arc.Layer = polyline.Layer;
                             curves.Add(arc);
                         }
                     }
@@ -303,7 +306,8 @@ namespace TopoNode
                         {
                             LineSegment3d line3d = polyline.GetLineSegmentAt(j);
                             var line = new Line(line3d.StartPoint, line3d.EndPoint);
-                            line.Layer = polyline.Layer;
+                            if (copyLayer)
+                                line.Layer = polyline.Layer;
                             curves.Add(line);
                         }
                         else
@@ -319,7 +323,8 @@ namespace TopoNode
                                     arc.CreateArcSCE(arc3d.EndPoint, arc3d.Center, arc3d.StartPoint);
                                 else
                                     arc.CreateArcSCE(arc3d.StartPoint, arc3d.Center, arc3d.EndPoint);
-                                arc.Layer = polyline.Layer;
+                                if (copyLayer)
+                                    arc.Layer = polyline.Layer;
                                 curves.Add(arc);
                             }
                         }

@@ -1362,7 +1362,9 @@ namespace TopoNode
             var ptE = line.EndPoint;
             var ptSadd = ptS + moveVec;
             var ptEadd = ptE + moveVec;
-            return new Line(ptSadd, ptEadd);
+            var resLine = new Line(ptSadd, ptEadd);
+            resLine.Layer = line.Layer;
+            return resLine;
         }
 
         public static Point3d ptAddVector(Point3d pt, Vector2d vec)
@@ -1380,6 +1382,7 @@ namespace TopoNode
             Vector2d startVector = new Vector2d(ptS.X - ptCenter.X, ptS.Y - ptCenter.Y);
             Vector2d endVector = new Vector2d(ptE.X - ptCenter.X, ptE.Y - ptCenter.Y);
             var resArc = new Arc(ptCenter, arc.Radius, startVector.Angle, endVector.Angle);
+            resArc.Layer = arc.Layer;
             return resArc;
         }
 
@@ -1409,6 +1412,7 @@ namespace TopoNode
                 var ptSadd = ptS - vec;
                 var ptEadd = ptE - vec;
                 var line = new Line(ptSadd, ptEadd);
+                line.Layer = edge.SrcCurve.Layer;
                 var dir = line.GetFirstDerivative(ptSadd);
                 // 直线是真实的数据
                 return new TopoEdge(ptSadd, ptEadd, line, edge.StartDir, edge.EndDir);
@@ -1424,6 +1428,7 @@ namespace TopoNode
                 var ptCenter = arc.Center;
                 var ptCenterAdd = ptCenter - vec;
                 var tmpArc = CommonUtils.CreateArc(ptSadd, ptCenterAdd, ptEadd, radius);
+                tmpArc.Layer = arc.Layer;
                 if (CommonUtils.Point3dIsEqualPoint3d(ptS, edge.Start))
                 {
                     return new TopoEdge(ptSadd, ptEadd, tmpArc, edge.StartDir, edge.EndDir);
