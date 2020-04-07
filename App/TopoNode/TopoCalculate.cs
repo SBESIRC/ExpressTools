@@ -8,6 +8,21 @@ using System.Text;
 
 namespace TopoNode
 {
+    
+
+    public class PolylineLayer
+    {
+        public Polyline profile = null;
+        public List<string> profileLayers = null;
+        public List<Curve> profileCurves = null;
+        public PolylineLayer(List<string> layers, List<Curve> srcCurves, Polyline poly)
+        {
+            profile = poly;
+            profileLayers = layers;
+            profileCurves = srcCurves;
+        }
+    }
+
     /// <summary>
     /// topo边的数据信息
     /// </summary>
@@ -204,6 +219,13 @@ namespace TopoNode
             return search.ConvertTopoEdges2Curve(tmpEdgeLoops);
         }
 
+        public static List<PolylineLayer> MakeSrcProfileLoopsLayerFromPoint(List<Curve> curves, Point3d pt)
+        {
+            var search = new TopoSearch(curves, pt);
+            var tmpEdgeLoops = search.TransFormProfileLoops(search.m_srcLoops);
+            return search.ConvertTopoEdges2PolylineLayer(tmpEdgeLoops);
+        }
+
         public static Curve MoveTransform(Curve srcCurve, Vector2d vec)
         {
             if (srcCurve is Line)
@@ -284,6 +306,45 @@ namespace TopoNode
                     polylines.Add(profile);
             }
             return polylines;
+        }
+
+        private List<PolylineLayer> ConvertTopoEdges2PolylineLayer(List<List<TopoEdge>> topoLoops)
+        {
+            if (topoLoops == null || topoLoops.Count == 0)
+                return null;
+
+            var polylineLayers = new List<PolylineLayer>();
+            var polylines = new List<Curve>();
+            foreach (var loop in topoLoops)
+            {
+                Polyline profile = ConvertLoop2Polyline(loop);
+                if (profile == null)
+                    continue;
+
+                var profileCurves = TopoUtils.Polyline2Curves(profile, false);
+                var layers = GetLayersFromTopoEdges(loop);
+                if (profile != null && layers != null)
+                {
+                    polylineLayers.Add(new PolylineLayer(layers, profileCurves, profile));
+                }
+            }
+
+            return polylineLayers;
+        }
+
+        
+        private List<string> GetLayersFromTopoEdges(List<TopoEdge> topoEdges)
+        {
+            if (topoEdges == null && topoEdges.Count == 0)
+                return null;
+
+            var layers = new List<string>();
+            foreach (var edge in topoEdges)
+            {
+                layers.Add(edge.SrcCurve.Layer);
+            }
+
+            return layers;
         }
 
         /// <summary>
@@ -789,7 +850,6 @@ namespace TopoNode
             CalculateCurveBounds(srcCurves);
             foreach (var rightCurve in rightCurves)
             {
-
                 var rightCurveBound = FindRightCurveBound(rightCurve);
                 var rightNearCurves = CalcuRelatedCurvesFromCurve(rightCurveBound);
                 if (rightNearCurves != null && rightNearCurves.Count != 0)
@@ -816,6 +876,7 @@ namespace TopoNode
         public void DoCal()
         {
             var scatterCurves = ScatterCurves.MakeNewCurves(srcCurves);
+            var layers = Utils.GetLayersFromCurves(scatterCurves);
             var scatterRightCurves = CalcuRightCurves(scatterCurves);
             //Utils.DrawProfile(scatterRightCurves, "scatter");
             //return;
@@ -1271,6 +1332,7 @@ namespace TopoNode
             if (curves == null || curves.Count == 0)
                 return null;
 
+            var layers = Utils.GetLayersFromCurves(curves);
             var topoCal = new TopoCalculate(curves, pt);
             return topoCal.ProfileLoops;
         }
@@ -1783,6 +1845,7 @@ namespace TopoNode
             {
                 var bFlag = scatterNode.IsLine;
                 var ptLst = scatterNode.ptLst;
+                var layer = scatterNode.srcCurve.Layer;
                 for (int i = 0; i < ptLst.Count; i++)
                 {
                     try
@@ -1797,6 +1860,7 @@ namespace TopoNode
                             if (bFlag)
                             {
                                 var newLine = new Line(curPoint, nextPoint);
+                                newLine.Layer = layer;
                                 m_geneCurves.Add(newLine);
                             }
                             else
@@ -1805,6 +1869,7 @@ namespace TopoNode
                                 var radius = srcArc.Radius;
                                 var ptCenter = srcArc.Center;
                                 var arc = CommonUtils.CreateArc(curPoint, ptCenter, nextPoint, radius);
+                                arc.Layer = layer;
                                 m_geneCurves.Add(arc);
                             }
                         }
