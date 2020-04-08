@@ -251,7 +251,7 @@ namespace ThSitePlan.Configuration
                     Properties = new Dictionary<string, object>()
                 {
                     { "Name", "树木-景观树-树木色块"},
-                    { "Color", Color.Black},
+                    { "Color", Color.Green},
                     { "Opacity", 100 },
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()
@@ -291,7 +291,7 @@ namespace ThSitePlan.Configuration
                     Properties = new Dictionary<string, object>()
                 {
                     { "Name", "树木-行道树-树木色块"},
-                    { "Color", Color.Black},
+                    { "Color", Color.Green},
                     { "Opacity", 100 },
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()
