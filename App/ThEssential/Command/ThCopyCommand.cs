@@ -192,7 +192,7 @@ namespace ThEssential.Command
             {
                 while (true)
                 {
-                    var entities = objs.TimesAlongPath(displacement, transient.Parameter);
+                    var entities = objs.TimesAlongPath(displacement, transient.Parameter + 1);
                     transient.CreateTransGraphics(entities);
                     PromptIntegerOptions prPntOpt = new PromptIntegerOptions("输入要进行复制的次数")
                     {
@@ -215,7 +215,7 @@ namespace ThEssential.Command
                         Active.Editor.CopyWithArray(objs,
                             basePt,
                             basePt + displacement,
-                            transient.Parameter
+                            transient.Parameter + 1
                             );
                         break;
                     }
@@ -238,7 +238,7 @@ namespace ThEssential.Command
             {
                 while (true)
                 {
-                    var entities = objs.DivideAlongPath(displacement, transient.Parameter);
+                    var entities = objs.DivideAlongPath(displacement, transient.Parameter + 1);
                     transient.CreateTransGraphics(entities);
                     PromptIntegerOptions prPntOpt = new PromptIntegerOptions("输入要进行均分的段数")
                     {
@@ -261,7 +261,7 @@ namespace ThEssential.Command
                         Active.Editor.CopyWithFit(objs,
                             basePt,
                             basePt + displacement,
-                            transient.Parameter
+                            transient.Parameter + 1
                             );
                         break;
                     }
