@@ -58,6 +58,27 @@ namespace ThEssential.Copy
 
         }
 
+        public static void CopyWithArrayEx(this Editor editor, ObjectIdCollection objs, Point3d basePt)
+        {
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("_.COPY",
+                SelectionSet.FromObjectIds(objs.ToArray()),
+                "",
+                basePt,
+                "_A"
+                );
+#else
+            ResultBuffer args = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.COPY"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Point3d, basePt),
+               new TypedValue((int)LispDataType.Text, "_A")
+               );
+            Active.Editor.AcedCmd(args);
+#endif
+        }
+
         public static void CopyWithFit(this Editor editor, ObjectIdCollection objs, Point3d basePt, Point3d secondPt, uint copies)
         {
 #if ACAD_ABOVE_2014
