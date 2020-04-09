@@ -79,10 +79,10 @@ namespace ThEssential.MatchProps
                 {
                     propertymatcher.CopyProperties(src, dest, (int)MatchPropFlags.LtypeFlag);
                 }
-                if(marchPropertySet.TextSizeOp)
-                {
-                    propertymatcher.CopyProperties(src, dest, (int)MatchPropFlags.TextFlag);
-                }
+                //if(marchPropertySet.TextSizeOp)
+                //{
+                //    propertymatcher.CopyProperties(src, dest, (int)MatchPropFlags.TextFlag);
+                //}
                 if (marchPropertySet.LineWeightOp)
                 {
                     propertymatcher.CopyProperties(src, dest, (int)MatchPropFlags.LweightFlag);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AcHelper.Commands;
 using ThEssential.MatchProps;
 using Linq2Acad;
@@ -41,6 +42,16 @@ namespace ThEssential.Command
                     return;
                 }
                 Entity sourceEntity = acadDatabase.Element<Entity>(result.ObjectId);
+                List<ObjectId> selectModObjIds = entModified.Value.GetObjectIds().ToList();
+                if (selectModObjIds.Count == 1 && selectModObjIds.IndexOf(sourceEntity.ObjectId) >= 0)
+                {
+                    Active.Editor.WriteMessage("\n修改的对象和源对象不能是同一个物体");
+                    return;
+                }
+                if (selectModObjIds.IndexOf(sourceEntity.ObjectId) >= 0)
+                {
+                    selectModObjIds.Remove(sourceEntity.ObjectId);
+                }
 
                 MarchPropertyVM marchPropertyVM = new MarchPropertyVM();
                 MarchProperty marchProperty = new MarchProperty(marchPropertyVM);
@@ -64,7 +75,7 @@ namespace ThEssential.Command
                     entColorDic.Add(objId, entColor);
                 }
                 // 执行操作
-                foreach (var objId in entModified.Value.GetObjectIds())
+                foreach (var objId in selectModObjIds)
                 {
                     var destEntity = acadDatabase.Element<Entity>(objId, true);
                     ThMatchPropsEntityExtension.MatchProps(sourceEntity, destEntity, marchPropertyVM.MarchPropSet);
