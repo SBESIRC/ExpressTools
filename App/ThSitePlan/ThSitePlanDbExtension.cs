@@ -1,13 +1,11 @@
-﻿using System;
+﻿using AcHelper;
+using Linq2Acad;
 using System.Linq;
+using ThSitePlan.NTS;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
-using AcHelper;
-using Linq2Acad;
-using ThSitePlan.NTS;
-using NetTopologySuite.Operation.Union;
-using GeoAPI.Geometries;
+using System.Collections.Generic;
 
 namespace ThSitePlan
 {
@@ -297,6 +295,50 @@ namespace ThSitePlan
                 // Polygonizer处理
                 return lines.PolygonizeLines();
             }
+        }
+
+        public static DBObjectCollection GetPolyLineBounding(DBObjectCollection dBObjects)
+        {
+            DBObjectCollection resBounding = new DBObjectCollection();
+            using (AcadDatabase acdb = AcadDatabase.Active())
+            {
+                foreach (var dbObj in dBObjects)
+                {
+                    if (dbObj is Polyline)
+                    {
+                        Polyline polyline = dbObj as Polyline;
+                        if (polyline.NumberOfVertices < 4)
+                        {
+                            continue;
+                        }
+
+                        List<Point2d> points = new List<Point2d>();
+                        for (int i = 0; i < polyline.NumberOfVertices; i++)
+                        {
+                            points.Add(polyline.GetPoint2dAt(i));
+                        }
+
+                        points = points.OrderBy(x => x.Y).ThenBy(x => x.X).ToList();
+                        Point2d p1 = points.First();
+                        points = points.OrderBy(x => x.X).ThenByDescending(x => x.Y).ToList();
+                        Point2d p2 = points.First();
+                        points = points.OrderByDescending(x => x.Y).ThenByDescending(x => x.X).ToList();
+                        Point2d p3 = points.First();
+                        points = points.OrderByDescending(x => x.X).ThenBy(x => x.Y).ToList();
+                        Point2d p4 = points.First();
+                        Polyline resPolyline = new Polyline(4);
+                        resPolyline.AddVertexAt(0, p1, 0, 0, 0);
+                        resPolyline.AddVertexAt(0, p2, 0, 0, 0);
+                        resPolyline.AddVertexAt(0, p3, 0, 0, 0);
+                        resPolyline.AddVertexAt(0, p4, 0, 0, 0);
+                        resPolyline.Closed = true;
+
+                        resBounding.Add(resPolyline);
+                    }
+                }
+            }
+
+            return resBounding;
         }
     }
 }
