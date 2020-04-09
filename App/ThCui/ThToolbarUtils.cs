@@ -55,10 +55,18 @@ namespace TianHua.AutoCAD.ThCui
                 return;
             }
 
-            toolbars.Cast<AcadToolbar>().Where(o => o.Name == ThCuiCommon.PROFILE_GENERAL).ForEach(o => o.Visible = true);
-            foreach (var item in Profiles)
+            try
             {
-                toolbars.Cast<AcadToolbar>().Where(o => o.Name == item.Value).ForEach(o => o.Visible = true);
+                toolbars.Cast<AcadToolbar>().Where(o => o.Name == ThCuiCommon.PROFILE_GENERAL).ForEach(o => o.Visible = true);
+                foreach (var item in Profiles)
+                {
+                    toolbars.Cast<AcadToolbar>().Where(o => o.Name == item.Value).ForEach(o => o.Visible = true);
+                }
+            }
+            catch
+            {
+                // 在某些CAD 2012环境下，启动CAD后装载效率工具时，这里会抛出异常。
+                // 具体原因未知，这里只是暂时捕捉异常，避免CAD崩溃
             }
         }
 
@@ -70,10 +78,18 @@ namespace TianHua.AutoCAD.ThCui
                 return;
             }
 
-            toolbars.Cast<AcadToolbar>().Where(o => o.Name == ThCuiCommon.PROFILE_GENERAL).ForEach(o => o.Visible = false);
-            foreach (var item in Profiles)
+            try
             {
-                toolbars.Cast<AcadToolbar>().Where(o => o.Name == item.Value).ForEach(o => o.Visible = false);
+                toolbars.Cast<AcadToolbar>().Where(o => o.Name == ThCuiCommon.PROFILE_GENERAL).ForEach(o => o.Visible = false);
+                foreach (var item in Profiles)
+                {
+                    toolbars.Cast<AcadToolbar>().Where(o => o.Name == item.Value).ForEach(o => o.Visible = false);
+                }
+            }
+            catch
+            {
+                // 在某些CAD 2012环境下，启动CAD后装载效率工具时，这里会抛出异常。
+                // 具体原因未知，这里只是暂时捕捉异常，避免CAD崩溃
             }
         }
 
