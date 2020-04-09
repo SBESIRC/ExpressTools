@@ -44,6 +44,7 @@ namespace ThEssential.Command
                     }
 
                     // 指定终点参考点
+                    Vector3d displacement;
                     var jig = new ThCopyDistanceJig(ppr.Value);
                     foreach (ObjectId obj in objs)
                     {
@@ -53,6 +54,7 @@ namespace ThEssential.Command
                     PromptResult jigRes = Active.Editor.Drag(jig);
                     if (jigRes.Status == PromptStatus.OK)
                     {
+                        displacement = jig.Displacement;
                         Active.Editor.Copy(objs, 
                             ppr.Value, 
                             ppr.Value + jig.Displacement);
@@ -64,6 +66,7 @@ namespace ThEssential.Command
                                 PromptResult jigRes2 = Active.Editor.Drag(jig);
                                 if (jigRes2.Status == PromptStatus.OK)
                                 {
+                                    displacement = jig.Displacement;
                                     Active.Editor.Copy(objs,
                                         ppr.Value,
                                         ppr.Value + jig.Displacement);
@@ -80,12 +83,36 @@ namespace ThEssential.Command
                                             }
                                         case "Copy":
                                             {
-                                                OptionCopyHandler(objs, ppr.Value, jig.Displacement);
+                                                // Workaround：
+                                                // 为了补偿后面的COPY命令产生的重复对象，
+                                                // 这里提前把最近一次创建的对象先删除
+                                                PromptSelectionResult selRes = Active.Editor.SelectLast();
+                                                if (selRes.Status == PromptStatus.OK)
+                                                {
+                                                    foreach (ObjectId obj in selRes.Value.GetObjectIds())
+                                                    {
+                                                        acadDatabase.Element<Entity>(obj, true).Erase();
+                                                    }
+                                                }
+
+                                                OptionCopyHandler(objs, ppr.Value, displacement);
                                                 break;
                                             }
                                         case "Divide":
                                             {
-                                                OptionDivideHandler(objs, ppr.Value, jig.Displacement);
+                                                // Workaround：
+                                                // 为了补偿后面的COPY命令产生的重复对象，
+                                                // 这里提前把最近一次创建的对象先删除
+                                                PromptSelectionResult selRes = Active.Editor.SelectLast();
+                                                if (selRes.Status == PromptStatus.OK)
+                                                {
+                                                    foreach (ObjectId obj in selRes.Value.GetObjectIds())
+                                                    {
+                                                        acadDatabase.Element<Entity>(obj, true).Erase();
+                                                    }
+                                                }
+
+                                                OptionDivideHandler(objs, ppr.Value, displacement);
                                                 break;
                                             }
                                         default:
