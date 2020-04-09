@@ -24,9 +24,13 @@ namespace ThSitePlan.Engine
                 {"界线", new ThSitePlanMoveWorker()},
                 {"原始场地叠加线稿", new ThSitePlanMoveWorker()},
 
-                //{"建筑信息", new ThSitePlanMoveWorker()},
-                //{"建筑线稿", new ThSitePlanMoveWorker()},
-                //{"建筑色块", new ThSitePlanCopyWorker()},
+                {"建筑物-场地内建筑-建筑信息", new ThSitePlanMoveWorker()},
+                {"建筑物-场地内建筑-建筑线稿", new ThSitePlanMoveWorker()},
+                {"建筑物-场地外建筑-建筑信息", new ThSitePlanMoveWorker()},
+                {"建筑物-场地外建筑-建筑线稿", new ThSitePlanMoveWorker()},
+                {"建筑物-场地外建筑-建筑色块", new ThSitePlanCopyWorker()},
+                {"建筑物-场地内建筑-建筑色块", new ThSitePlanCopyWorker()},
+                
 
                 {"树木-景观树-树木线稿", new ThSitePlanMoveWorker()},
                 {"树木-行道树-树木线稿", new ThSitePlanMoveWorker()},

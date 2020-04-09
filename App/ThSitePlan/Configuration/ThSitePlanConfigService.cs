@@ -152,8 +152,8 @@ namespace ThSitePlan.Configuration
                 }
             });
 
-            //// 建筑物
-            //Root.Groups.Add(ConstructBuilding());
+            // 建筑物
+            Root.Groups.Add(ConstructBuilding());
 
             // 树木
             Root.Groups.Add(ConstructTree());
@@ -176,64 +176,121 @@ namespace ThSitePlan.Configuration
             var building = new ThSitePlanConfigItemGroup();
             building.Properties.Add("Name", "建筑物");
             {
-                // 建筑物.高层建筑
-                var highBuilding = new ThSitePlanConfigItemGroup();
-                highBuilding.Properties.Add("Name", "高层建筑");
-                // 建筑物.高层建筑.建筑信息
-                highBuilding.Items.Add(new ThSitePlanConfigItem()
+                // 建筑物-场地内建筑
+                var InnerBuilding = new ThSitePlanConfigItemGroup();
+                InnerBuilding.Properties.Add("Name", "场地内建筑");
+                // 建筑物-场地内建筑-建筑信息
+                InnerBuilding.Items.Add(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "建筑物-高层建筑-建筑信息"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
+                    { "Name", "建筑物-场地内建筑-建筑信息"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
                     { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
+                    { "CADLayer", new  List<string>()
                         {
-                            { "建筑层数", "P-BUID-FLOR" },
-                            { "建筑高度", "P-BUID-HIGH" },
+                            "P-BUID-FLOR",
+                            "P-BUID-HIGH",
                         }
                     }
                 }
                 });
-                // 建筑物.高层建筑.建筑色块
-                highBuilding.Items.Add(new ThSitePlanConfigItem()
+                // 建筑物-场地内建筑-建筑色块
+                InnerBuilding.Items.Add(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "建筑物-高层建筑-建筑色块"},
+                    { "Name", "建筑物-场地内建筑-建筑色块"},
                     { "Color", Color.Red},
-                    { "Transparency", 0 },
+                    { "Opacity", 100 },
                     { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
+                    { "CADLayer", new  List<string>()
                         {
-                            { "建筑最大外轮廓",    "P-BUID-BMAX" },
-                            { "建筑错层看线",      "P-BUID-BCHA" },
-                            { "围墙线",           "P-BUID-ROOF" }
+                            "P-BUID-HACH",
+                            "P-BUID-BMAX",
+                            "P-BUID-BCHA",
+
                         }
                     }
                 }
                 });
-                // 建筑物.高层建筑.建筑线稿
-                highBuilding.Items.Add(new ThSitePlanConfigItem()
+                // 建筑物-场地内建筑-建筑线稿
+                InnerBuilding.Items.Add(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "建筑物-高层建筑-建筑线稿"},
-                    { "Color", new Color()},
-                    { "Transparency", 0 },
+                    { "Name", "建筑物-场地内建筑-建筑线稿"},
+                    { "Color", Color.Blue},
+                    { "Opacity", 100 },
                     { "CADFrame", "" },
-                    { "CADLayer", new  Dictionary<string, string>()
+                    { "CADLayer", new  List<string>()
                         {
-                            { "建筑最大外轮廓",    "P-BUID-BMAX" },
-                            { "建筑错层看线",      "P-BUID-BCHA" },
-                            { "围墙线",           "P-BUID-ROOF" }
+                            "P-BUID-BMAX",
+                            "P-BUID-BCHA",
+                            "P-BUID-ROOF",
                         }
                     }
                 }
                 });
-                building.Groups.Add(highBuilding);
+                building.Groups.Add(InnerBuilding);
             }
+
+            {
+                // 建筑物-场地外建筑
+                var OuterBuilding = new ThSitePlanConfigItemGroup();
+                OuterBuilding.Properties.Add("Name", "场地内建筑");
+                // 建筑物-场地外建筑-建筑信息
+                OuterBuilding.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "建筑物-场地外建筑-建筑信息"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            "P-OUTD-FLOR",
+                        }
+                    }
+                }
+                });
+                // 建筑物-场地内建筑-建筑色块
+                OuterBuilding.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "建筑物-场地外建筑-建筑色块"},
+                    { "Color", Color.Red},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            "P-OUTD-BUID",
+                        }
+                    }
+                }
+                });
+                // 建筑物-场地内建筑-建筑线稿
+                OuterBuilding.Items.Add(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "建筑物-场地外建筑-建筑线稿"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            "P-OUTD-BUID",
+                        }
+                    }
+                }
+                });
+                building.Groups.Add(OuterBuilding);
+            }
+
             return building;
         }
 
@@ -376,7 +433,7 @@ namespace ThSitePlan.Configuration
                     Properties = new Dictionary<string, object>()
                 {
                     { "Name", "场地-停车场地-场地色块"},
-                    { "Color", Color.Black},
+                    { "Color", Color.Red},
                     { "Opacity", 100 },
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()

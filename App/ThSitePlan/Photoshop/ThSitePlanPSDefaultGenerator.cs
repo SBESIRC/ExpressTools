@@ -16,6 +16,13 @@ namespace ThSitePlan.Photoshop
                 {"界线", new ThSitePlanPSDefaultWorker()},
                 {"原始场地叠加线稿", new ThSitePlanPSDefaultWorker()},
 
+                {"建筑物-场地内建筑-建筑信息", new ThSitePlanPSDefaultWorker()},
+                {"建筑物-场地内建筑-建筑线稿", new ThSitePlanPSDefaultWorker()},
+                {"建筑物-场地外建筑-建筑信息", new ThSitePlanPSDefaultWorker()},
+                {"建筑物-场地外建筑-建筑线稿", new ThSitePlanPSDefaultWorker()},
+                {"建筑物-场地外建筑-建筑色块", new ThSitePlanPSDefaultWorker()},
+                {"建筑物-场地内建筑-建筑色块", new ThSitePlanPSDefaultWorker()},
+
                 {"树木-景观树-树木线稿", new ThSitePlanPSDefaultWorker()},
                 {"树木-行道树-树木线稿", new ThSitePlanPSDefaultWorker()},
                 {"树木-景观树-树木色块", new ThSitePlanPSDefaultWorker()},
