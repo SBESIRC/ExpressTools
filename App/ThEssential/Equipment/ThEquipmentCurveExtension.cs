@@ -98,5 +98,10 @@ namespace ThEssential.Equipment
             }
             return null;
         }
+
+        public static LinearEntity3d ToGeLine(this Line line)
+        {
+            return new Line3d(line.StartPoint, line.EndPoint);
+        }
     }
 }

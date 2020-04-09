@@ -1,8 +1,10 @@
 ﻿using Linq2Acad;
 using System.Linq;
+using ThEssential.Equipment;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
+
 
 namespace ThEssential.Overkill
 {
@@ -47,8 +49,8 @@ namespace ThEssential.Overkill
                     {
                         Line firLine = acdb.Element<Line>(firCurve.Id, true);
                         Line tempLine = acdb.Element<Line>(curves[i].Id, true);
-                        LinearEntity3d firCuv3d = firLine.GetGeCurve() as LinearEntity3d;
-                        LinearEntity3d tempCuv3d = tempLine.GetGeCurve() as LinearEntity3d;
+                        LinearEntity3d firCuv3d = firLine.ToGeLine() as LinearEntity3d;
+                        LinearEntity3d tempCuv3d = tempLine.ToGeLine() as LinearEntity3d;
                         LinearEntity3d overlopCuv = firCuv3d.Overlap(tempCuv3d, tolerance);
                         if (overlopCuv == null)
                         {
