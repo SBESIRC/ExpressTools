@@ -27,6 +27,9 @@ namespace TianHua.AutoCAD.ThCui
 
         private readonly Dictionary<string, string> thcommanfunctiondict = new Dictionary<string, string>
         {
+            // 切换专业
+            {"THPROFILE", "专业切换"},
+
             // 图块图库
             {"THBLI", "图块集"},
             {"THBLS", "图块集配置"},
@@ -64,6 +67,10 @@ namespace TianHua.AutoCAD.ThCui
 
             // 平面绘图
             {"THSPC", "喷头布置"},
+            {"THQS", "天华快选"},
+            {"THAL", "天华对齐"},
+            {"THCO", "天华复制"},
+            {"THMA", "天华格式刷"},
             
             // 辅助工具
             {"THQS",        "快选命令集"},
