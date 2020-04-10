@@ -79,10 +79,6 @@ namespace ThEssential.MatchProps
                 {
                     propertymatcher.CopyProperties(src, dest, (int)MatchPropFlags.LtypeFlag);
                 }
-                //if(marchPropertySet.TextSizeOp)
-                //{
-                //    propertymatcher.CopyProperties(src, dest, (int)MatchPropFlags.TextFlag);
-                //}
                 if (marchPropertySet.LineWeightOp)
                 {
                     propertymatcher.CopyProperties(src, dest, (int)MatchPropFlags.LweightFlag);
@@ -151,53 +147,36 @@ namespace ThEssential.MatchProps
             {
                 DBText srcText = srcEntity as DBText;
                 DBText destText = destEntity as DBText;
-                destText.Rotation = srcText.Rotation;
                 destText.Normal = srcText.Normal;
+                destText.Rotation = srcText.Rotation;
             }
             else if (srcEntity is MText && destEntity is MText)
             {
                 MText srcText = srcEntity as MText;
                 MText destText = destEntity as MText;
-                destText.Direction = srcText.Direction;
                 destText.Normal = srcText.Normal;
+                destText.Direction = srcText.Direction;
             }
             else if (srcEntity is DBText && destEntity is MText)
             {
                 DBText srcText = srcEntity as DBText;
                 MText destText = destEntity as MText;
+                Point3d position= destText.Location; 
                 destText.Normal = srcText.Normal;
-                RestoreTextRotationZero(destEntity);
-
                 Matrix3d mt=  Matrix3d.Rotation(srcText.Rotation, Vector3d.ZAxis, Point3d.Origin);
                 Vector3d rotateXVec= Vector3d.XAxis.TransformBy(mt);
-                var wcsVec = rotateXVec.TransformBy(Active.Editor.UCS2WCS());
-                destText.Direction = wcsVec;
+                destText.Direction = rotateXVec;
+                destText.Location = position;
             }
             else if (srcEntity is MText && destEntity is DBText)
             {
                 MText srcText = srcEntity as MText;
                 DBText destText = destEntity as DBText;
+                Point3d position = destText.Position;
                 destText.Normal = srcText.Normal;
-                RestoreTextRotationZero(destEntity);
-
-                var wcs2Ucs = Active.Editor.WCS2UCS();
-                double angle = srcText.Direction.TransformBy(wcs2Ucs).GetAngleTo(Vector3d.XAxis);
-
-                Matrix3d mt = Matrix3d.Rotation(angle, srcText.Normal, destText.Position);
-                destText.TransformBy(mt);
-            }
-        }
-        private static void RestoreTextRotationZero(Entity entity)
-        {
-            if (entity is DBText dbText)
-            {
-                Matrix3d mt = Matrix3d.Rotation(dbText.Rotation * -1.0, dbText.Normal, dbText.Position);
-                entity.TransformBy(mt);
-            }
-            else if (entity is MText mText)
-            {
-                Matrix3d mt = Matrix3d.Rotation(mText.Rotation * -1.0, mText.Normal, mText.Location);
-                entity.TransformBy(mt);
+                double angle = srcText.Direction.GetAngleTo(Vector3d.XAxis);
+                destText.Rotation = angle;
+                destText.Position = position;
             }
         }
     }
