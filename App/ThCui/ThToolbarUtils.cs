@@ -101,17 +101,25 @@ namespace TianHua.AutoCAD.ThCui
                 return;
             }
 
-            toolbars.Cast<AcadToolbar>().Where(o => o.Name == ThCuiCommon.PROFILE_GENERAL).ForEach(o => o.Visible = true);
-            foreach (var item in Profiles)
+            try
             {
-                if (item.Key == ThCuiProfileManager.Instance.CurrentProfile)
+                toolbars.Cast<AcadToolbar>().Where(o => o.Name == ThCuiCommon.PROFILE_GENERAL).ForEach(o => o.Visible = true);
+                foreach (var item in Profiles)
                 {
-                    toolbars.Cast<AcadToolbar>().Where(o => o.Name == item.Value).ForEach(o => o.Visible = true);
+                    if (item.Key == ThCuiProfileManager.Instance.CurrentProfile)
+                    {
+                        toolbars.Cast<AcadToolbar>().Where(o => o.Name == item.Value).ForEach(o => o.Visible = true);
+                    }
+                    else
+                    {
+                        toolbars.Cast<AcadToolbar>().Where(o => o.Name == item.Value).ForEach(o => o.Visible = false);
+                    }
                 }
-                else
-                {
-                    toolbars.Cast<AcadToolbar>().Where(o => o.Name == item.Value).ForEach(o => o.Visible = false);
-                }
+            }
+            catch
+            {
+                // 在某些CAD 2012环境下，启动CAD后装载效率工具时，这里会抛出异常。
+                // 具体原因未知，这里只是暂时捕捉异常，避免CAD崩溃
             }
         }
 
