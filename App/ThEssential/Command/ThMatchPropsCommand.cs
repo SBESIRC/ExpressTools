@@ -98,6 +98,10 @@ namespace ThEssential.Command
                     {
                         ThMatchPropsEntityExtension.MarchTextDirectionProperty(sourceEntity, destEntity);
                     }
+                    if (marchPropertyVM.MarchPropSet.LineWeightOp)
+                    {
+                        ThMatchPropsEntityExtension.MarchLineWeightProperty(sourceEntity, destEntity);
+                    }
                 }
             }
         }

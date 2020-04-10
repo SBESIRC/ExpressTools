@@ -78,11 +78,7 @@ namespace ThEssential.MatchProps
                 if(marchPropertySet.LineTypeOp)
                 {
                     propertymatcher.CopyProperties(src, dest, (int)MatchPropFlags.LtypeFlag);
-                }
-                if (marchPropertySet.LineWeightOp)
-                {
-                    propertymatcher.CopyProperties(src, dest, (int)MatchPropFlags.LweightFlag);
-                }
+                }               
             }
         }
         public static void MarchTextContentProperty(Entity srcEntity,Entity destEntity)
@@ -178,6 +174,13 @@ namespace ThEssential.MatchProps
                 destText.Rotation = angle;
                 destText.Position = position;
             }
+        }
+        public static void MarchLineWeightProperty(Entity srcEntity, Entity destEntity)
+        {
+            if (srcEntity is Polyline srcPolyLine && destEntity is Polyline destPolyline)
+            {
+                destPolyline.ConstantWidth = srcPolyLine.ConstantWidth;
+            }            
         }
     }
 }
