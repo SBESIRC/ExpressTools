@@ -13,6 +13,7 @@ using AcHelper;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.ApplicationServices;
+using ThSitePlan;
 
 namespace ThSitePlan.Engine
 {
@@ -57,50 +58,24 @@ namespace ThSitePlan.Engine
                     filter);
                 if (psr.Status == PromptStatus.OK)
                 {
-                    ObjectIdCollection SelectObjs = new ObjectIdCollection(psr.Value.GetObjectIds());
-                    ObjectIdCollection SelectObjs_Closed = new ObjectIdCollection();
-
-                    List<Point2d> PolVet = new List<Point2d>();
-
-                    foreach (ObjectId obj in SelectObjs)
+                    DBObjectCollection plines = new DBObjectCollection();
+                    foreach(ObjectId obj in psr.Value.GetObjectIds())
                     {
-                        var pline = acadDatabase.Element<Polyline>(obj);
-
-                        for (int i = 0; i < pline.NumberOfVertices; i++)
-                        {
-                            PolVet.Add(pline.GetPoint2dAt(i));
-                        }
-
-                        Polyline newpoly = CreatePolyline(PolVet, acadDatabase.Database);
-                        if (newpoly.NumberOfVertices >= 4)
-                        {
-                            SelectObjs_Closed.Add(acadDatabase.ModelSpace.Add(newpoly));
-                        }
+                        plines.Add(acadDatabase.Element<Polyline>(obj));
                     }
 
-                    return SelectObjs_Closed;
+                    ObjectIdCollection objs = new ObjectIdCollection();
+                    foreach(Entity obj in plines.GetPolyLineBounding())
+                    {
+                        objs.Add(acadDatabase.ModelSpace.Add(obj));
+                    }
+                    return objs;
                 }
                 else
                 {
                     return new ObjectIdCollection();
                 }
             }
-        }
-
-        private Polyline CreatePolyline(List<Point2d> points,Database ctdb)
-        {
-            var poly = new Polyline(points.Count());
-            List<Point2d> DisPots = points.Distinct().ToList();
-
-            for (int i = 0; i < DisPots.Count; i++)
-            {
-                poly.AddVertexAt(i, points[i], 0, 0, 0);
-            }
-
-            poly.SetDatabaseDefaults(ctdb);
-            poly.Closed = true;
-
-            return poly;
         }
     }
 }

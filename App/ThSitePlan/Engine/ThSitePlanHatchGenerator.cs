@@ -18,7 +18,7 @@ namespace ThSitePlan.Engine
                 {"树木-景观树-树木色块", new ThSitePlanTreeWorker()},
                 {"树木-行道树-树木色块", new ThSitePlanTreeWorker()},
                 {"场地-停车场地-场地色块", new ThSitePlanParkWorker()},
-                //{"场地-消防登高场地-场地色块", new ThSitePlanFireWorker()},
+                {"场地-消防登高场地-场地色块", new ThSitePlanFireWorker()},
                 //{"建筑物-场地内建筑-建筑色块", new ThSitePlanFireWorker()},
             };
         }

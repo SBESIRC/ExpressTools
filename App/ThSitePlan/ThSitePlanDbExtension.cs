@@ -254,13 +254,20 @@ namespace ThSitePlan
                 var loops = new ObjectIdCollection();
                 foreach (ObjectId obj in collection)
                 {
-                    using (var curves = new DBObjectCollection()
+                    try
                     {
-                        acadDatabase.Element<Curve>(obj),
-                    })
-                    using (var regions = Region.CreateFromCurves(curves))
+                        using (var curves = new DBObjectCollection()
+                        {
+                            acadDatabase.Element<Curve>(obj),
+                        })
+                        using (var regions = Region.CreateFromCurves(curves))
+                        {
+                            loops.Add(obj);
+                        }
+                    }
+                    catch
                     {
-                        loops.Add(obj);
+                        // 未知错误
                     }
                 }
                 return loops;
@@ -297,7 +304,7 @@ namespace ThSitePlan
             }
         }
 
-        public static DBObjectCollection GetPolyLineBounding(DBObjectCollection dBObjects)
+        public static DBObjectCollection GetPolyLineBounding(this DBObjectCollection dBObjects)
         {
             DBObjectCollection resBounding = new DBObjectCollection();
             using (AcadDatabase acdb = AcadDatabase.Active())
@@ -326,13 +333,14 @@ namespace ThSitePlan
                         Point2d p3 = points.First();
                         points = points.OrderByDescending(x => x.X).ThenBy(x => x.Y).ToList();
                         Point2d p4 = points.First();
-                        Polyline resPolyline = new Polyline(4);
+                        Polyline resPolyline = new Polyline(4)
+                        {
+                            Closed = true,
+                        };
                         resPolyline.AddVertexAt(0, p1, 0, 0, 0);
-                        resPolyline.AddVertexAt(0, p2, 0, 0, 0);
-                        resPolyline.AddVertexAt(0, p3, 0, 0, 0);
-                        resPolyline.AddVertexAt(0, p4, 0, 0, 0);
-                        resPolyline.Closed = true;
-
+                        resPolyline.AddVertexAt(1, p2, 0, 0, 0);
+                        resPolyline.AddVertexAt(2, p3, 0, 0, 0);
+                        resPolyline.AddVertexAt(3, p4, 0, 0, 0);
                         resBounding.Add(resPolyline);
                     }
                 }
