@@ -48,11 +48,11 @@ namespace ThEssential.Copy
             }
             if ((Options & ThCopyArrayOptions.Copy) == ThCopyArrayOptions.Copy)
             {
-                prOptions.Keywords.Add("Copy", "Copy", "复制(C)");
+                prOptions.Keywords.Add("Copy", "Copy", "重复(C)");
             }
             if ((Options & ThCopyArrayOptions.Divide) == ThCopyArrayOptions.Divide)
             {
-                prOptions.Keywords.Add("Divide", "Divide", "均分(D)");
+                prOptions.Keywords.Add("Divide", "Divide", "等分(D)");
             }
             PromptPointResult prResult = prompts.AcquirePoint(prOptions);
             if (prResult.Status == PromptStatus.OK)

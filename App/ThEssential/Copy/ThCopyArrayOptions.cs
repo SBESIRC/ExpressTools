@@ -16,11 +16,11 @@ namespace ThEssential.Copy
         /// </summary>
         Array = 0x1,
         /// <summary>
-        /// 复制
+        /// 重复
         /// </summary>
         Copy = 0x2,
         /// <summary>
-        /// 均分
+        /// 等分
         /// </summary>
         Divide = 0x4,
         /// <summary>

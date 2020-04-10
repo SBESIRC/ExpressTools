@@ -170,41 +170,46 @@ namespace ThEssential.Command
             {
                 while (true)
                 {
-                    var entities = objs.TimesAlongPath(displacement, transient.Parameter + 1);
-                    transient.CreateTransGraphics(entities);
-                    PromptIntegerOptions prPntOpt = new PromptIntegerOptions("输入要进行复制的次数")
+                    using (var entities = objs.TimesAlongPath(displacement, transient.Parameter + 1))
                     {
-                        AllowNone = true,
-                        AllowArbitraryInput = true,
-                        AllowNegative = false,
-                        AllowZero = false,
-                        LowerLimit = 2,
-                        UpperLimit = 32767,
-                    };
-                    PromptIntegerResult prPntRes = Active.Editor.GetInteger(prPntOpt);
-                    transient.ClearTransGraphics(entities);
-                    if (prPntRes.Status == PromptStatus.OK)
-                    {
-                        transient.Parameter = (uint)prPntRes.Value;
-                        continue;
-                    }
-                    else if (prPntRes.Status == PromptStatus.None)
-                    {
-                        Active.Editor.CopyWithArray(objs,
-                            basePt,
-                            basePt + displacement,
-                            transient.Parameter + 1
-                            );
-                        break;
-                    }
-                    else if (prPntRes.Status == PromptStatus.Keyword)
-                    {
-                        Active.Editor.WriteLine("需要2和32767之间的整数.");
-                        continue;
-                    }
-                    else
-                    {
-                        break;
+                        transient.CreateTransGraphics(entities);
+                        PromptIntegerOptions prPntOpt = new PromptIntegerOptions("输入要进行重复的次数或确认")
+                        {
+                            AllowNone = true,
+                            AllowArbitraryInput = true,
+                            AllowNegative = false,
+                            AllowZero = false,
+                            LowerLimit = 2,
+                            UpperLimit = 32767,
+                        };
+                        PromptIntegerResult prPntRes = Active.Editor.GetInteger(prPntOpt);
+                        transient.ClearTransGraphics(entities);
+                        // 主动Dispose临时的DBObjects
+                        //  https://www.keanw.com/2008/06/cleaning-up-aft.html
+                        entities.ClearWithDispose();
+                        if (prPntRes.Status == PromptStatus.OK)
+                        {
+                            transient.Parameter = (uint)prPntRes.Value;
+                            continue;
+                        }
+                        else if (prPntRes.Status == PromptStatus.None)
+                        {
+                            Active.Editor.CopyWithArray(objs,
+                                basePt,
+                                basePt + displacement,
+                                transient.Parameter + 1
+                                );
+                            break;
+                        }
+                        else if (prPntRes.Status == PromptStatus.Keyword)
+                        {
+                            Active.Editor.WriteLine("需要2和32767之间的整数.");
+                            continue;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
             }
@@ -216,41 +221,46 @@ namespace ThEssential.Command
             {
                 while (true)
                 {
-                    var entities = objs.DivideAlongPath(displacement, transient.Parameter + 1);
-                    transient.CreateTransGraphics(entities);
-                    PromptIntegerOptions prPntOpt = new PromptIntegerOptions("输入要进行均分的段数")
+                    using (var entities = objs.DivideAlongPath(displacement, transient.Parameter + 1))
                     {
-                        AllowNone = true,
-                        AllowArbitraryInput = true,
-                        AllowNegative = false,
-                        AllowZero = false,
-                        LowerLimit = 2,
-                        UpperLimit = 32767,
-                    };
-                    PromptIntegerResult prPntRes = Active.Editor.GetInteger(prPntOpt);
-                    transient.ClearTransGraphics(entities);
-                    if (prPntRes.Status == PromptStatus.OK)
-                    {
-                        transient.Parameter = (uint)prPntRes.Value;
-                        continue;
-                    }
-                    else if (prPntRes.Status == PromptStatus.None)
-                    {
-                        Active.Editor.CopyWithFit(objs,
-                            basePt,
-                            basePt + displacement,
-                            transient.Parameter + 1
-                            );
-                        break;
-                    }
-                    else if(prPntRes.Status == PromptStatus.None)
-                    {
-                        Active.Editor.WriteLine("需要2和32767之间的整数.");
-                        continue;
-                    }
-                    else
-                    {
-                        break;
+                        transient.CreateTransGraphics(entities);
+                        PromptIntegerOptions prPntOpt = new PromptIntegerOptions("输入要进行等分的段数或确认")
+                        {
+                            AllowNone = true,
+                            AllowArbitraryInput = true,
+                            AllowNegative = false,
+                            AllowZero = false,
+                            LowerLimit = 2,
+                            UpperLimit = 32767,
+                        };
+                        PromptIntegerResult prPntRes = Active.Editor.GetInteger(prPntOpt);
+                        transient.ClearTransGraphics(entities);
+                        // 主动Dispose临时的DBObjects
+                        //  https://www.keanw.com/2008/06/cleaning-up-aft.html
+                        entities.ClearWithDispose();
+                        if (prPntRes.Status == PromptStatus.OK)
+                        {
+                            transient.Parameter = (uint)prPntRes.Value;
+                            continue;
+                        }
+                        else if (prPntRes.Status == PromptStatus.None)
+                        {
+                            Active.Editor.CopyWithFit(objs,
+                                basePt,
+                                basePt + displacement,
+                                transient.Parameter + 1
+                                );
+                            break;
+                        }
+                        else if (prPntRes.Status == PromptStatus.Keyword)
+                        {
+                            Active.Editor.WriteLine("需要2和32767之间的整数.");
+                            continue;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
             }

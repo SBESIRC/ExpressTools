@@ -1,53 +1,55 @@
 ﻿using Linq2Acad;
 using System.Linq;
 using Autodesk.AutoCAD.Geometry;
-using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThEssential.Copy
 {
     public static class ThCopyArrayUtils
     {
-        public static List<Entity> DivideAlongPath(this ObjectIdCollection objs, Vector3d displacement, uint parameter)
+        public static DBObjectCollection DivideAlongPath(this ObjectIdCollection objs, Vector3d displacement, uint parameter)
+        {
+            var clones = new DBObjectCollection();
+            for (uint i = 1; i < parameter; i++)
+            {
+                Vector3d offset = displacement * i / (parameter - 1);
+                objs.TransformedCopy(offset).Cast<DBObject>().ForEachDbObject(o => clones.Add(o));
+            }
+            return clones;
+        }
+
+        public static DBObjectCollection TimesAlongPath(this ObjectIdCollection objs, Vector3d displacement, uint parameter)
+        {
+            var clones = new DBObjectCollection();
+            for (uint i = 1; i < parameter; i++)
+            {
+                Vector3d offset = displacement * i;
+                objs.TransformedCopy(offset).Cast<DBObject>().ForEachDbObject(o => clones.Add(o));
+            }
+            return clones;
+        }
+
+        private static DBObjectCollection TransformedCopy(this ObjectIdCollection objs, Vector3d offset)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                var entities = new List<List<Entity>>();
-                for (uint i = 1; i < parameter; i++)
+                var clones = new DBObjectCollection();
+                foreach (ObjectId entity in objs)
                 {
-                    List<Entity> clones = new List<Entity>();
-                    Vector3d offset = displacement * i / (parameter - 1);
-                    foreach (ObjectId entity in objs)
-                    {
-                        Entity clone = acadDatabase.Element<Entity>(entity).Clone() as Entity;
-                        clone.TransformBy(Matrix3d.Displacement(offset));
-                        clones.Add(clone);
-                    }
-                    entities.Add(clones);
+                    var obj = acadDatabase.Element<Entity>(entity);
+                    clones.Add(obj.GetTransformedCopy(Matrix3d.Displacement(offset)));
                 }
-                return entities.SelectMany(e => e).ToList();
+                return clones;
             }
         }
 
-        public static List<Entity> TimesAlongPath(this ObjectIdCollection objs, Vector3d displacement, uint parameter)
+        public static void ClearWithDispose(this DBObjectCollection objs)
         {
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            foreach (DBObject obj in objs)
             {
-                var entities = new List<List<Entity>>();
-                for (uint i = 1; i < parameter; i++)
-                {
-                    List<Entity> clones = new List<Entity>();
-                    Vector3d offset = displacement * i;
-                    foreach (ObjectId entity in objs)
-                    {
-                        Entity clone = acadDatabase.Element<Entity>(entity).Clone() as Entity;
-                        clone.TransformBy(Matrix3d.Displacement(offset));
-                        clones.Add(clone);
-                    }
-                    entities.Add(clones);
-                }
-                return entities.SelectMany(e => e).ToList();
+                obj.Dispose();
             }
+            objs.Clear();
         }
     }
 }

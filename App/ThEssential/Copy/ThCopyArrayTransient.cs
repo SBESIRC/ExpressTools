@@ -31,29 +31,32 @@ namespace ThEssential.Copy
             throw new NotImplementedException();
         }
 
-        public void CreateTransGraphics(List<Entity> entities)
+        public void CreateTransGraphics(DBObjectCollection entities)
         {
-            foreach(Drawable drawable in entities)
+            IntegerCollection intCol = new IntegerCollection();
+            foreach (Drawable drawable in entities)
             {
                 TransientManager.CurrentTransientManager.AddTransient(drawable, 
-                    TransientDrawingMode.DirectShortTerm, 128, new IntegerCollection());
+                    TransientDrawingMode.DirectShortTerm, 128, intCol);
             }
         }
 
-        public void UpdateTransGraphics(List<Entity> entities)
+        public void UpdateTransGraphics(DBObjectCollection entities)
         {
-            foreach(Drawable drawable in entities)
+            IntegerCollection intCol = new IntegerCollection();
+            foreach (Drawable drawable in entities)
             {
-                TransientManager.CurrentTransientManager.UpdateTransient(drawable,
-                    new IntegerCollection());
+                TransientManager.CurrentTransientManager.UpdateTransient(drawable, intCol);
             }
         }
 
-        public void ClearTransGraphics(List<Entity> entities)
+        public void ClearTransGraphics(DBObjectCollection entities)
         {
-            TransientManager.CurrentTransientManager.EraseTransients(
-                TransientDrawingMode.DirectShortTerm,
-                128, new IntegerCollection());
+            IntegerCollection intCol = new IntegerCollection();
+            foreach (Drawable drawable in entities)
+            {
+                TransientManager.CurrentTransientManager.EraseTransient(drawable, intCol);
+            }
         }
     }
 }
