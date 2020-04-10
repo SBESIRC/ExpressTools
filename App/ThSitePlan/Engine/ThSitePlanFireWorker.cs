@@ -65,7 +65,7 @@ namespace ThSitePlan.Engine
                     }
 
                     ObjectIdCollection objs = new ObjectIdCollection();
-                    foreach(Entity obj in plines.GetPolyLineBounding())
+                    foreach(Entity obj in plines.GetPolyLineBounding(Tolerance.Global))
                     {
                         objs.Add(acadDatabase.ModelSpace.Add(obj));
                     }

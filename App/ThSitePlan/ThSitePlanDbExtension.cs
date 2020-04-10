@@ -304,7 +304,7 @@ namespace ThSitePlan
             }
         }
 
-        public static DBObjectCollection GetPolyLineBounding(this DBObjectCollection dBObjects)
+        public static DBObjectCollection GetPolyLineBounding(this DBObjectCollection dBObjects, Tolerance tolerance)
         {
             DBObjectCollection resBounding = new DBObjectCollection();
             using (AcadDatabase acdb = AcadDatabase.Active())
@@ -322,25 +322,27 @@ namespace ThSitePlan
                         List<Point2d> points = new List<Point2d>();
                         for (int i = 0; i < polyline.NumberOfVertices; i++)
                         {
-                            points.Add(polyline.GetPoint2dAt(i));
+                            if (points.Where(x => x.IsEqualTo(polyline.GetPoint2dAt(i), tolerance)).Count() <= 0)
+                            {
+                                points.Add(polyline.GetPoint2dAt(i));
+                            }
                         }
 
-                        points = points.OrderBy(x => x.Y).ThenBy(x => x.X).ToList();
-                        Point2d p1 = points.First();
-                        points = points.OrderBy(x => x.X).ThenByDescending(x => x.Y).ToList();
-                        Point2d p2 = points.First();
-                        points = points.OrderByDescending(x => x.Y).ThenByDescending(x => x.X).ToList();
-                        Point2d p3 = points.First();
-                        points = points.OrderByDescending(x => x.X).ThenBy(x => x.Y).ToList();
-                        Point2d p4 = points.First();
-                        Polyline resPolyline = new Polyline(4)
+                        Polyline resPolyline = new Polyline(points.Count)
                         {
                             Closed = true,
                         };
-                        resPolyline.AddVertexAt(0, p1, 0, 0, 0);
-                        resPolyline.AddVertexAt(1, p2, 0, 0, 0);
-                        resPolyline.AddVertexAt(2, p3, 0, 0, 0);
-                        resPolyline.AddVertexAt(3, p4, 0, 0, 0);
+                        Point2d thisP = points.First();
+                        int index = 0;
+                        resPolyline.AddVertexAt(index, thisP, 0, 0, 0);
+                        points.Remove(thisP);
+                        while (points.Count > 0)
+                        {
+                            thisP = points.OrderBy(x => x.GetDistanceTo(thisP)).First();
+                            index++;
+                            resPolyline.AddVertexAt(index, thisP, 0, 0, 0);
+                            points.Remove(thisP);
+                        }
                         resBounding.Add(resPolyline);
                     }
                 }
