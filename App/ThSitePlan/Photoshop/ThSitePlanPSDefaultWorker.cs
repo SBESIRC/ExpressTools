@@ -14,12 +14,18 @@ namespace ThSitePlan.Photoshop
     /// </summary>
     public class ThSitePlanPSDefaultWorker : ThSitePlanPSWorker
     {
+        private ThSitePlanPSService psService;
         public override PsApplication PsAppInstance
         {
             get
             {
-                return ThSitePlanPSService.Instance.Application;
+                return psService.Application;
             }
+        }
+
+        public ThSitePlanPSDefaultWorker(ThSitePlanPSService service)
+        {
+            psService = service;
         }
 
         public override bool DoProcess(string path, ThSitePlanConfigItem configItem)
@@ -49,89 +55,59 @@ namespace ThSitePlan.Photoshop
             Document FirstDoca11;
             LayerSet EndLayerSet = null;
 
-            if (this.PsAppInstance.Documents.Count == 1)
+
+            FirstDoca11 = this.PsAppInstance.Documents[1];
+
+            Document CurDoc = this.PsAppInstance.ActiveDocument;
+            CurDoc.ArtLayers[1].Name = CurDocNa;
+
+            this.PsAppInstance.ActiveDocument.ArtLayers[1].Duplicate(FirstDoca11, PsElementPlacement.psPlaceAtEnd);
+            CurDoc.Close(PsSaveOptions.psDoNotSaveChanges);
+            this.PsAppInstance.ActiveDocument = FirstDoca11;
+
+            LayerSets FirstLayerSets = PsAppInstance.ActiveDocument.LayerSets;
+
+            for (int i = 0; i < CurDoc_Sets.Count - 1; i++)
             {
-                FirstDoca11 = NewOpenDoc;
-
-                //依据文件名获取各个分组名
-                string FirstDoc_Name = FirstDoca11.Name;
-                FirstDoca11.ArtLayers[1].Name = FirstDoc_Name;
-
-                List<string> LayerSetsNaList = new List<string>();
-                for (int i = 0; i < CurDoc_Sets.Count - 1; i++)
+                if (i == 0)
                 {
-                    LayerSetsNaList.Add(CurDoc_Sets[i]);
-
-                    if (i == 0)
+                    foreach (LayerSet LaysetInCurDOC in FirstLayerSets)
                     {
-                        this.PsAppInstance.ActiveDocument.LayerSets.Add().Name = CurDoc_Sets[i];
-                        EndLayerSet = this.PsAppInstance.ActiveDocument.LayerSets[CurDoc_Sets[i]];
+                        if (LaysetInCurDOC.Name == CurDoc_Sets[i])
+                        {
+                            EndLayerSet = LaysetInCurDOC;
+                            EndLayerSet.Name = CurDoc_Sets[i];
+                            break;
+                        }
                     }
-                    else
+
+                    if (EndLayerSet == null)
+                    {
+                        EndLayerSet = FirstLayerSets.Add();
+                        EndLayerSet.Name = CurDoc_Sets[i];
+                        break;
+                    }
+                }
+                else
+                {
+                    bool FindOrNot = false;
+
+                    foreach (LayerSet LaysetInCurDOC in EndLayerSet.LayerSets)
+                    {
+                        if (LaysetInCurDOC.Name == CurDoc_Sets[i])
+                        {
+                            EndLayerSet = LaysetInCurDOC;
+                            EndLayerSet.Name = CurDoc_Sets[i];
+                            FindOrNot = true;
+                            break;
+                        }
+                    }
+
+                    if (FindOrNot == false)
                     {
                         EndLayerSet = EndLayerSet.LayerSets.Add();
                         EndLayerSet.Name = CurDoc_Sets[i];
-                    }
-                }
-
-                FirstDoca11.ArtLayers.Add().IsBackgroundLayer = true;
-            }
-
-            else
-            {
-                FirstDoca11 = this.PsAppInstance.Documents[1];
-
-                Document CurDoc = this.PsAppInstance.ActiveDocument;
-                CurDoc.ArtLayers[1].Name = CurDocNa;
-
-                this.PsAppInstance.ActiveDocument.ArtLayers[1].Duplicate(FirstDoca11, PsElementPlacement.psPlaceAtEnd);
-                CurDoc.Close(PsSaveOptions.psDoNotSaveChanges);
-                this.PsAppInstance.ActiveDocument = FirstDoca11;
-
-                LayerSets FirstLayerSets = PsAppInstance.ActiveDocument.LayerSets;
-
-                for (int i = 0; i < CurDoc_Sets.Count - 1; i++)
-                {
-                    if (i == 0)
-                    {
-                        foreach (LayerSet LaysetInCurDOC in FirstLayerSets)
-                        {
-                            if (LaysetInCurDOC.Name == CurDoc_Sets[i])
-                            {
-                                EndLayerSet = LaysetInCurDOC;
-                                EndLayerSet.Name = CurDoc_Sets[i];
-                                break;
-                            }
-                        }
-
-                        if (EndLayerSet == null)
-                        {
-                            EndLayerSet = FirstLayerSets.Add();
-                            EndLayerSet.Name = CurDoc_Sets[i];
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        bool FindOrNot = false;
-
-                        foreach (LayerSet LaysetInCurDOC in EndLayerSet.LayerSets)
-                        {
-                            if (LaysetInCurDOC.Name == CurDoc_Sets[i])
-                            {
-                                EndLayerSet = LaysetInCurDOC;
-                                EndLayerSet.Name = CurDoc_Sets[i];
-                                FindOrNot = true;
-                                break;
-                            }
-                        }
-
-                        if (FindOrNot == false)
-                        {
-                            EndLayerSet = EndLayerSet.LayerSets.Add();
-                            EndLayerSet.Name = CurDoc_Sets[i];
-                            break;
-                        }
+                        break;
                     }
                 }
             }

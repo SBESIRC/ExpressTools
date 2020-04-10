@@ -1,47 +1,35 @@
-﻿using PsApplication = Photoshop.Application;
+﻿using System;
+using PsApplication = Photoshop.Application;
+using Photoshop;
 
 namespace ThSitePlan.Photoshop
 {
-    public class ThSitePlanPSService
+    public class ThSitePlanPSService : IDisposable
     {
-        //==============SINGLETON============
-        //fourth version from:
-        //http://csharpindepth.com/Articles/General/Singleton.aspx
-        private static readonly ThSitePlanPSService instance = new ThSitePlanPSService();
-        // Explicit static constructor to tell C# compiler
-        // not to mark type as beforefieldinit    
-        static ThSitePlanPSService() { }
-        internal ThSitePlanPSService() { }
-        public static ThSitePlanPSService Instance { get { return instance; } }
-        //-------------SINGLETON-----------------
+        public PsApplication Application { get; set; }
 
-        private PsApplication application;
-        public PsApplication Application
+        public ThSitePlanPSService()
         {
-            get
-            {
-                if (application == null)
-                {
-                    application = new PsApplication();
-                }
-                return application;
-            }
+            Application = new PsApplication();
         }
 
-        /// <summary>
-        /// 初始化PS程序实例
-        /// </summary>
-        public void Initialize()
+        public void Dispose()
         {
             //
         }
 
-        /// <summary>
-        /// 结束PS程序实例
-        /// </summary>
-        public void Terminate()
+        // 创建一个空白图纸
+        public void NewEmptyDocument(string DocName)
         {
-            //
+            var StartUnits = Application.Preferences.RulerUnits;
+            Application.Preferences.RulerUnits = PsUnits.psCM;
+            Application.Documents.Add(
+                ThSitePlanCommon.PsDocOpenPropertity["DocWidth"],
+                ThSitePlanCommon.PsDocOpenPropertity["DocHight"],
+                ThSitePlanCommon.PsDocOpenPropertity["PPI"],
+                DocName);
+            Application.ActiveDocument.ArtLayers[1].IsBackgroundLayer = true;
+            Application.Preferences.RulerUnits = StartUnits;
         }
 
         public void ExportToFile(string path)

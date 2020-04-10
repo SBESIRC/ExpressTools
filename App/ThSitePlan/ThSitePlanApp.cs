@@ -107,7 +107,7 @@ namespace ThSitePlan
                 acadDatabase.Database.ExplodeToOwnerSpace(item.Item1);
             }
 
-            // 处理流程
+            // CAD处理流程
             ThSitePlanConfigService.Instance.Initialize();
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
@@ -122,23 +122,24 @@ namespace ThSitePlan
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
 
-            // 初始化PS程序实例
-            ThSitePlanPSService.Instance.Initialize();
-
             // PS处理流程
-            ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+            using (var psService = new ThSitePlanPSService())
             {
-                new ThSitePlanPSDefaultGenerator(),
-            };
-            ThSitePlanPSEngine.Instance.Run(
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
-                ThSitePlanConfigService.Instance.Root);
+                // 创建空白文档
+                psService.NewEmptyDocument("MyNewDocument");
 
-            // 保存PS生成的文档
-            ThSitePlanPSService.Instance.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                // PS处理流程
+                ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+                 {
+                    new ThSitePlanPSDefaultGenerator(psService),
+                 };
+                ThSitePlanPSEngine.Instance.Run(
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    ThSitePlanConfigService.Instance.Root);
 
-            // 终止PS程序实例
-            ThSitePlanPSService.Instance.Terminate();
+                // 保存PS生成的文档
+                psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            }
         }
     }
 }

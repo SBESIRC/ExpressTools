@@ -1,4 +1,5 @@
 ﻿using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
 
 namespace ThSitePlan
 {
@@ -26,5 +27,13 @@ namespace ThSitePlan
         // Hatch
         public static readonly int hatch_color_index = 9;
         public static readonly string hatch_pattern = "Solid";
+
+        //photoshop文档尺寸
+        public static readonly Dictionary<string, double> PsDocOpenPropertity = new Dictionary<string, double>
+        {
+            {"DocWidth", 41.84},
+            {"DocHight", 59.17},
+            {"PPI", 300},
+        };
     }
 }
