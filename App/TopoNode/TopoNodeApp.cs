@@ -41,32 +41,6 @@ namespace TopoNode
             //var previewCurves = new List<Curve>();
             #endregion
             var allCurves = Utils.GetAllCurves();
-
-            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
-            Editor ed = doc.Editor;
-            var pickPoints = new List<Point3d>();
-            var objCollect = new DBObjectCollection();
-            var tip = "请点击需要布置喷头房间内的一点，共计";
-            while (true)
-            {
-                var message = tip + pickPoints.Count().ToString() + "个";
-                Active.WriteMessage(message);
-                PromptPointOptions ppo = new PromptPointOptions("\n请点击");
-                ppo.AllowNone = true;
-                PromptPointResult ppr = ed.GetPoint(ppo);
-                if (ppr.Status == PromptStatus.None)
-                    break;
-                if (ppr.Status == PromptStatus.Cancel)
-                {
-                    Utils.ErasePreviewPoint(objCollect);
-                    Active.WriteMessage("取消操作");
-                    return;
-                }
-
-                var pickPoint = ppr.Value;
-                pickPoints.Add(pickPoint);
-                Utils.DrawPreviewPoint(objCollect, pickPoint);
-            }
             #region 注释
             //// 图元预处理
             //var removeEntityLst = Utils.PreProcess(validLayers);
@@ -121,11 +95,40 @@ namespace TopoNode
             layerNames = Utils.GetLayersFromCurves(allCurves);
             //Utils.DrawProfileAndText(allCurves);
             //return;
+
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Editor ed = doc.Editor;
+            var pickPoints = new List<Point3d>();
+            var objCollect = new DBObjectCollection();
+            var tip = "请点击需要布置喷头房间内的一点，共计";
+
+            while (true)
+            {
+                var message = tip + pickPoints.Count().ToString() + "个";
+                Active.WriteMessage(message);
+                PromptPointOptions ppo = new PromptPointOptions("\n请点击");
+                ppo.AllowNone = true;
+                PromptPointResult ppr = ed.GetPoint(ppo);
+                if (ppr.Status == PromptStatus.None)
+                    break;
+                if (ppr.Status == PromptStatus.Cancel)
+                {
+                    Utils.ErasePreviewPoint(objCollect);
+                    Active.WriteMessage("取消操作");
+                    return;
+                }
+
+                var pickPoint = ppr.Value;
+                pickPoints.Add(pickPoint);
+                Utils.DrawPreviewPoint(objCollect, pickPoint);
+            }
+
             var hasPutPolylines = new List<Polyline>();
             foreach (var pt in pickPoints)
             {
                 if (CommonUtils.PtInPolylines(hasPutPolylines, pt))
                     continue;
+
                 var profile = TopoUtils.MakeProfileFromPoint(allCurves, pt);
                 if (profile == null || profile.Count == 0)
                     continue;
@@ -134,6 +137,18 @@ namespace TopoNode
                 Utils.DrawProfile(new List<Curve>() { outProfile.profile }, "outProfile");
                 Utils.DrawTextProfile(outProfile.profileCurves, outProfile.profileLayers);
             }
+
+
+            //var profiles = TopoUtils.MakeProfileFromPoint(allCurves, pt);
+            ////var profiles = TopoSearch.MakeSrcProfileLayerLoops(allCurves);
+            //if (profiles == null || profiles.Count == 0)
+            //    return;
+
+            //foreach (var polylineLayer in profiles)
+            //{
+            //    Utils.DrawProfile(new List<Curve>() { polylineLayer.profile }, "outProfile");
+            //    Utils.DrawTextProfile(polylineLayer.profileCurves, polylineLayer.profileLayers);
+            //}
 
             //// 梁数据
             //var beamCurves = Utils.GetAllCurvesFromLayerNames(beamLayers);

@@ -1281,12 +1281,12 @@ namespace TopoNode
                 var maxY = Math.Max(startPt.Y, endPt.Y);
                 var minY = Math.Min(startPt.Y, endPt.Y);
 
-                if (((pt.X - startPt.X) * (endPt.Y - startPt.Y) == (endPt.X - startPt.X) * (pt.Y - startPt.Y))
-                    && (pt.X >= minX && pt.X <= maxx) && (pt.Y >= minY && pt.Y <= minY))
+                var equal = Math.Abs((pt.X - startPt.X) * (endPt.Y - startPt.Y) - (endPt.X - startPt.X) * (pt.Y - startPt.Y));
+
+                if ((IsAlmostNearZero(equal, tole)) && (pt.X >= minX && pt.X <= maxx) && (pt.Y >= minY && pt.Y <= maxY))
                 {
                     return true;
                 }
-
             }
 
             return false;

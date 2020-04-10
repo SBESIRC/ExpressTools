@@ -212,6 +212,14 @@ namespace TopoNode
             return search.ConvertTopoEdges2Curve(tmpEdgeLoops);
         }
 
+        public static List<PolylineLayer> MakeSrcProfileLayerLoops(List<Curve> curves)
+        {
+            var search = new TopoSearch(curves);
+            //var loops = TopoSearch.RemoveDuplicate(search.m_srcLoops);
+            var tmpEdgeLoops = search.TransFormProfileLoops(search.m_srcLoops);
+            return search.ConvertTopoEdges2PolylineLayer(tmpEdgeLoops);
+        }
+
         public static List<Curve> MakeSrcProfileLoopsFromPoint(List<Curve> curves, Point3d pt)
         {
             var search = new TopoSearch(curves, pt);
@@ -920,13 +928,91 @@ namespace TopoNode
                 m_hashMap.Add(topoEdge);
             }
 
+            // outer
             foreach (var startRightEdge in rightStartEdges)
             {
                 if (m_ProfileLoop.Count > 0)
-                    return;
+                    break;
 
                 BuildOneLoop(startRightEdge);
             }
+
+            if (m_ProfileLoop.Count == 0)
+                return;
+
+            // inner
+            var profile = m_ProfileLoop.First();
+            var relatedCurves = CalcuRelatedCurves(scatterCurves, profile.TopoEdges);
+            Utils.DrawProfile(relatedCurves, "rela");
+        }
+
+        private List<Curve> CalcuRelatedCurves(List<Curve> srcCurves, List<TopoEdge> loop)
+        {
+            if (srcCurves == null || srcCurves.Count == 0)
+                return null;
+
+            var resCurves = new List<Curve>();
+            foreach (var curve in srcCurves)
+            {
+                if (IsValidCurve(curve, loop))
+                    resCurves.Add(curve);
+            }
+
+            return resCurves;
+        }
+
+        private bool IsCurveOnEdges(Curve curve, List<TopoEdge> topoEdges)
+        {
+            if (curve is Line line)
+            {
+                var ptS = line.StartPoint;
+                var ptE = line.EndPoint;
+
+                if (IsPointOnEdges(ptS, topoEdges) && IsPointOnEdges(ptE, topoEdges))
+                    return true;
+            }
+            else if (curve is Arc arc)
+            {
+                var ptS = arc.StartPoint;
+                var ptE = arc.EndPoint;
+                var midPt = arc.GetPointAtParameter(0.5 * (arc.StartParam + arc.EndParam));
+
+                if (IsPointOnEdges(ptS, topoEdges) && IsPointOnEdges(ptE, topoEdges) && IsPointOnEdges(midPt, topoEdges))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private bool IsPointOnEdges(Point3d pt, List<TopoEdge> topoEdges)
+        {
+            foreach (var edge in topoEdges)
+            {
+                if (CommonUtils.IsPointOnSegment(pt, edge))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsValidCurve(Curve curve, List<TopoEdge> topoEdges)
+        {
+            if (curve == null)
+                return false;
+
+            if (IsCurveOnEdges(curve, topoEdges))
+                return false;
+
+            if (curve is Line || curve is Arc)
+            {
+                var midPt = curve.GetPointAtParameter(0.5 * (curve.StartParam + curve.EndParam));
+                if (CommonUtils.PtInLoop(topoEdges, midPt))
+                    return true;
+            }
+
+            return false;
         }
 
         private void BuildOneLoop(TopoEdge edge)
