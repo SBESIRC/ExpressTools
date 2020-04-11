@@ -28,7 +28,7 @@
     <Compile Include="Configuration\ThSitePlanConfigService.cs" />
     <Compile Include="Engine\ThSitePlanFireWorker.cs" />
     <Compile Include="Engine\ThSitePlanParkWorker.cs" />
-    <Compile Include="Engine\ThSitePlanTreeWorker.cs" />
+    <Compile Include="Engine\ThSitePlanCADWorker.cs" />
     <Compile Include="Engine\ThSitePlanContentGenerator.cs" />
     <Compile Include="Engine\ThSitePlaneImageGenerator.cs" />
     <Compile Include="Engine\ThSitePlanDefaultWorker.cs" />
@@ -63,6 +63,7 @@
     <Compile Include="ThSitePlanFrameUtils.cs" />
     <Compile Include="Engine\ThSitePlanGenerator.cs" />
     <Compile Include="ThSitePlanGeExtension.cs" />
+    <Compile Include="ThSitePlanHatchOverride.cs" />
     <Compile Include="ThSitePlanPlotUtils.cs" />
     <Compile Include="ThSitePlanRectangleJig.cs" />
   </ItemGroup>

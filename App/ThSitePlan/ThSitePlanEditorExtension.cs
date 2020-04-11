@@ -4,6 +4,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Dreambuild.AutoCAD;
 using GeometryExtensions;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using AcHelper;
 
 namespace ThSitePlan
 {
@@ -35,6 +36,72 @@ namespace ThSitePlan
             // TraceBoundary()接受一个UCS的seed point
             var seedPtUcs = offset.First().StartPoint.Trans(CoordSystem.WCS, CoordSystem.UCS);
             return editor.TraceBoundary(seedPtUcs, true);
+        }
+
+        public static ObjectIdCollection CreateRegions(this Editor editor, ObjectIdCollection objs)
+        {
+            // 执行REGION命令
+            Active.Editor.Command("_.REGION", 
+                SelectionSet.FromObjectIds(objs.ToArray()),
+                "");
+
+            // 获取REGION对象
+            PromptSelectionResult selRes = Active.Editor.SelectLast();
+            if (selRes.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(selRes.Value.GetObjectIds());
+            }
+            return new ObjectIdCollection();
+        }
+
+        public static ObjectIdCollection UnionRegions(this Editor editor, ObjectIdCollection objs)
+        {
+            // 执行UNION命令
+            Active.Editor.Command("_.UNION",
+                SelectionSet.FromObjectIds(objs.ToArray()),
+                "");
+
+            // 获取REGION对象
+            PromptSelectionResult selRes = Active.Editor.SelectLast();
+            if (selRes.Status != PromptStatus.OK)
+            {
+                return new ObjectIdCollection();
+            }
+
+            // 执行EXPLODE命令
+            Active.Editor.Command("_.EXPLODE",
+                SelectionSet.FromObjectIds(selRes.Value.GetObjectIds()),
+                "");
+
+            // 获取UNION后的REGION对象
+            selRes = Active.Editor.SelectLast();
+            if (selRes.Status != PromptStatus.OK)
+            {
+                return new ObjectIdCollection();
+            }
+
+            return new ObjectIdCollection(selRes.Value.GetObjectIds());
+        }
+
+        public static ObjectIdCollection CreateHatchWithRegions(this Editor editor, ObjectIdCollection objs)
+        {
+            using (var hatchOV = new ThSitePlanHatchOverride())
+            {
+                // 执行HATCH命令
+                Active.Editor.Command("_.HATCH",
+                    "_S",
+                    SelectionSet.FromObjectIds(objs.ToArray()),
+                    "");
+
+                // 获取HATCH对象
+                PromptSelectionResult selRes = Active.Editor.SelectLast();
+                if (selRes.Status != PromptStatus.OK)
+                {
+                    return new ObjectIdCollection();
+                }
+
+                return new ObjectIdCollection(selRes.Value.GetObjectIds());
+            }
         }
     }
 }

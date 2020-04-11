@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
+using Autodesk.AutoCAD.Runtime;
 
 namespace ThSitePlan.Engine
 {
@@ -15,9 +16,17 @@ namespace ThSitePlan.Engine
         {
             Workers = new Dictionary<string, ThSitePlanWorker>()
             {
-                {"树木-景观树-树木色块", new ThSitePlanTreeWorker()},
-                {"树木-行道树-树木色块", new ThSitePlanTreeWorker()},
-                {"场地-停车场地-场地色块", new ThSitePlanParkWorker()},
+                {"树木-景观树-树木色块", new ThSitePlanCADWorker(new string[] {
+                    RXClass.GetClass(typeof(Circle)).DxfName,
+                    RXClass.GetClass(typeof(Spline)).DxfName,
+                })},
+                {"树木-行道树-树木色块", new ThSitePlanCADWorker(new string[] {
+                    RXClass.GetClass(typeof(Circle)).DxfName,
+                    RXClass.GetClass(typeof(Spline)).DxfName,
+                })},
+                {"场地-停车场地-场地色块", new ThSitePlanCADWorker(new string[]{
+                    RXClass.GetClass(typeof(Polyline)).DxfName,
+                })},
                 {"场地-消防登高场地-场地色块", new ThSitePlanFireWorker()},
                 //{"建筑物-场地内建筑-建筑色块", new ThSitePlanFireWorker()},
             };

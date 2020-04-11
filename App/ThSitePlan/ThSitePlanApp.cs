@@ -122,24 +122,24 @@ namespace ThSitePlan
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
 
-            // PS处理流程
-            using (var psService = new ThSitePlanPSService())
-            {
-                // 创建空白文档
-                psService.NewEmptyDocument("MyNewDocument");
+            //// PS处理流程
+            //using (var psService = new ThSitePlanPSService())
+            //{
+            //    // 创建空白文档
+            //    psService.NewEmptyDocument("MyNewDocument");
 
-                // PS处理流程
-                ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
-                 {
-                    new ThSitePlanPSDefaultGenerator(psService),
-                 };
-                ThSitePlanPSEngine.Instance.Run(
-                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    ThSitePlanConfigService.Instance.Root);
+            //    // PS处理流程
+            //    ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+            //     {
+            //        new ThSitePlanPSDefaultGenerator(psService),
+            //     };
+            //    ThSitePlanPSEngine.Instance.Run(
+            //        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            //        ThSitePlanConfigService.Instance.Root);
 
-                // 保存PS生成的文档
-                psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-            }
+            //    // 保存PS生成的文档
+            //    psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            //}
         }
     }
 }
