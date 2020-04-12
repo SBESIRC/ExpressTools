@@ -120,15 +120,9 @@
     <PackageReference Include="NetTopologySuite" Version="1.15.2" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="Photoshop">
-      <Guid>{E891EE9A-D0AE-4CB4-8871-F92C0109F18E}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
+    <Reference Include="Interop.Photoshop.dll">
+      <HintPath>..\..\Externals\Photoshop\2018\Interop.Photoshop.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

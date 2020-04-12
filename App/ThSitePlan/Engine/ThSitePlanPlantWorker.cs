@@ -19,9 +19,7 @@ namespace ThSitePlan.Engine
                 }
 
                 // 执行EXPLODE命令将图元“分解成”线段和圆弧
-                Active.Editor.Command("_.EXPLODE",
-                    SelectionSet.FromObjectIds(objs.ToArray()),
-                    "");
+                Active.Editor.ExplodeCmd(objs);
             }
 
             using (var objs = Filter(database, configItem, options))
