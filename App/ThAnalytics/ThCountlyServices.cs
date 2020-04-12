@@ -73,8 +73,6 @@ namespace ThAnalytics
             {"THMA", "天华格式刷"},
             
             // 辅助工具
-            {"THQS",        "快选命令集"},
-            {"THAL",        "对齐命令集"},
             {"THMSC",       "批量缩放"},
             {"THZ0",        "Z值归零"},
             {"THPURGE",     "DGN清理"},
