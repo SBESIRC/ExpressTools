@@ -84,6 +84,10 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void ConfigPanelsWithCurrentProfile()
         {
+            if(Tab==null)
+            {
+                return;
+            }
             var panels = Tab.Panels;
             Profile profile = ThCuiProfileManager.Instance.CurrentProfile;
             foreach (var panel in panels.Where(o => o.UID == "pnl" + "Help"))
