@@ -158,9 +158,11 @@ namespace DotNetARX
             ads_queueexpr(expression);
         }
 
-        //调用AutoCAD命令，ARX原型：int acedCmd(const struct resbuf * rbp);
+#if ACAD2012
+        [DllImport("acad.exe", EntryPoint = "acedCmd", CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("accore.dll", EntryPoint = "acedCmd", CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl)]
-        //[DllImport("acad.exe", EntryPoint = "acedCmd", CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl)]
+#endif
         private extern static int acedCmd(IntPtr rbp);
         /// <summary>
         /// 调用C++的acedCmd函数
@@ -170,11 +172,7 @@ namespace DotNetARX
         /// <returns>返回命令执行的状态</returns>
         public static int AcedCmd(this Editor ed, ResultBuffer args)
         {
-            //由于acedCmd只能在程序环境下运行，因此需调用此语句
-            if (!Application.DocumentManager.IsApplicationContext)
-                return acedCmd(args.UnmanagedObject);
-            else
-                return 0;
+            return acedCmd(args.UnmanagedObject);
         }
     }
 }

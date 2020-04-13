@@ -53,12 +53,19 @@ namespace ThEssential.Command
                 keywordOptions.Keywords.Add("Text",         "Text",         "文字(T)");
                 keywordOptions.Keywords.Add("lastAppend",   "lastAppend",   "上次建立(A)");
                 keywordOptions.Keywords.Add("preVious",     "preVious",     "上次选取(V)");
-                keywordOptions.Keywords.Default = "Layer";
+                string defaultKey= Properties.Settings.Default.QsKey;
+                if(string.IsNullOrEmpty(defaultKey))
+                {
+                    defaultKey = "Layer";
+                }
+                keywordOptions.Keywords.Default = defaultKey;
                 PromptResult result = Active.Editor.GetKeywords(keywordOptions);
                 if (result.Status != PromptStatus.OK)
                 {
                     return;
                 }
+                Properties.Settings.Default.QsKey = result.StringResult;
+                Properties.Settings.Default.Save();
 
                 var filter = filters.Where(o => o.Value == result.StringResult).First().Key;
                 switch (filter)
@@ -125,9 +132,49 @@ namespace ThEssential.Command
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                // 指定源实体
-                var entityResult = SpecifySelectEntity();
-                if (entityResult.Status != PromptStatus.OK)
+                // 指定源实体               
+                ObjectId sourceEntityId = ObjectId.Null;
+                var entSelected = Active.Editor.SelectImplied();
+                if (entSelected.Status == PromptStatus.OK)
+                {
+                    if (entSelected.Value.GetObjectIds().Length == 1)
+                    {
+                        sourceEntityId = entSelected.Value.GetObjectIds().First();
+                    }
+                };
+                //如果是图块选项，则只能选择BlockReference
+                if (filterType== QSelectFilterType.QSelectFilterBlock)
+                {
+                    if(sourceEntityId!= ObjectId.Null)
+                    {
+                        Entity sourceEnt = acadDatabase.Element<Entity>(sourceEntityId);
+                        if(!(sourceEnt is BlockReference))
+                        {
+                            sourceEntityId = ObjectId.Null;
+                        }
+                    }
+                }
+                else if(filterType == QSelectFilterType.QSelectFilterLineType)
+                {
+                    if (sourceEntityId != ObjectId.Null)
+                    {
+                        Entity sourceEnt = acadDatabase.Element<Entity>(sourceEntityId);
+                        if (!(sourceEnt is Curve))
+                        {
+                            sourceEntityId = ObjectId.Null;
+                        }
+                    }
+                }
+                if(sourceEntityId== ObjectId.Null)
+                {
+                    var entityResult = SelectEntity(acadDatabase, filterType);
+                    if (entityResult==null || entityResult.Status != PromptStatus.OK)
+                    {
+                        return;
+                    }
+                    sourceEntityId = entityResult.ObjectId;
+                }
+                if(sourceEntityId== ObjectId.Null)
                 {
                     return;
                 }
@@ -138,8 +185,7 @@ namespace ThEssential.Command
                 {
                     return;
                 }
-
-                Entity entity = acadDatabase.Element<Entity>(entityResult.ObjectId);
+                Entity entity = acadDatabase.Element<Entity>(sourceEntityId);
                 switch (extents.Where(o => o.Value == promptResult.StringResult).First().Key)
                 {
                     case QSelectExtent.QSelectAll:
@@ -174,6 +220,69 @@ namespace ThEssential.Command
                 AllowObjectOnLockedLayer = false
             };
             return Active.Editor.GetEntity(entityOptions);
+        }
+        private PromptEntityResult SelectEntity(AcadDatabase acadDb,QSelectFilterType filterType)
+        {
+            PromptEntityResult per = null;
+            string message = "\n请选取源对象：";
+            if(filterType== QSelectFilterType.QSelectFilterBlock)
+            {
+                message = "\n请选取一个块参照：";
+            }
+            else if(filterType == QSelectFilterType.QSelectFilterLineType)
+            {
+                message = "\n请选取一个块曲线：";
+            }
+            PromptEntityOptions entityOptions = new PromptEntityOptions(message)
+            {
+                AllowNone = false,
+                AllowObjectOnLockedLayer = false
+            };
+            bool domark = true;
+            while(domark)
+            {
+                per = Active.Editor.GetEntity(entityOptions);
+                if(per.Status==PromptStatus.OK)
+                {
+                    if(filterType== QSelectFilterType.QSelectFilterBlock)
+                    {
+                        Entity entity = acadDb.Element<Entity>(per.ObjectId);
+                        if(entity is BlockReference)
+                        {
+                            domark = false;
+                        }
+                        else
+                        {
+                            Active.Editor.WriteMessage(message);
+                        }
+                    }
+                    else if(filterType == QSelectFilterType.QSelectFilterLineType)
+                    {
+                        Entity entity = acadDb.Element<Entity>(per.ObjectId);
+                        if (entity is Curve)
+                        {
+                            domark = false;
+                        }
+                        else
+                        {
+                            Active.Editor.WriteMessage(message);
+                        }
+                    }
+                    else
+                    {
+                        domark = false;
+                    }
+                }
+                else if(per.Status== PromptStatus.Cancel)
+                {
+                    domark = false;
+                }
+                else if(per.Status == PromptStatus.None)
+                {
+                    Active.Editor.WriteMessage(message);
+                }
+            }
+            return per;
         }
     }
 }

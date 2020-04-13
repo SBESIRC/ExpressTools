@@ -75,13 +75,17 @@ namespace ThEssential.QSelect
             switch (filterType)
             {
                 case QSelectFilterType.QSelectFilterColor:
-                    return OpFilter.Bulid(o => o.Dxf((int)DxfCode.Color) == entity.ColorIndex);
+                    return OpFilter.Bulid(o => o.Dxf((int)DxfCode.Color) == entity.EntityColor.ColorIndex);
                 case QSelectFilterType.QSelectFilterLayer:
                     return OpFilter.Bulid(o => o.Dxf((int)DxfCode.LayerName) == entity.Layer);
                 case QSelectFilterType.QSelectFilterLineType:
                     return OpFilter.Bulid(o => o.Dxf((int)DxfCode.LinetypeName) == entity.Linetype);
                 case QSelectFilterType.QSelectFilterBlock:
-                    return OpFilter.Bulid(o => o.Dxf((int)DxfCode.BlockName) == entity.BlockName);
+                    if(entity is BlockReference blk)
+                    {
+                        return OpFilter.Bulid(o => o.Dxf((int)DxfCode.BlockName) == blk.Name);
+                    }
+                    return null;
                 default:
                     return null;
             }
@@ -95,6 +99,14 @@ namespace ThEssential.QSelect
         public static SelectionFilter QSelectFilter(this string dxfName)
         {
             return OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == dxfName);
+        }
+        public static Autodesk.AutoCAD.Colors.Color GetByLayerColor(Database db, Entity ent)
+        {
+            Autodesk.AutoCAD.Colors.Color color = ent.Color;
+            LayerTable lt = db.LayerTableId.GetObject(OpenMode.ForRead) as LayerTable;
+            LayerTableRecord ltr = lt[ent.Layer].GetObject(OpenMode.ForRead) as LayerTableRecord;
+            color = ltr.Color;
+            return color;
         }
     }
 }

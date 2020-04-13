@@ -35,6 +35,8 @@
             this.button_ok = new System.Windows.Forms.Button();
             this.button_cancel = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBox_profile = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -73,7 +75,7 @@
             // button_ok
             // 
             this.button_ok.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button_ok.Location = new System.Drawing.Point(209, 111);
+            this.button_ok.Location = new System.Drawing.Point(209, 127);
             this.button_ok.Name = "button_ok";
             this.button_ok.Size = new System.Drawing.Size(50, 23);
             this.button_ok.TabIndex = 4;
@@ -84,7 +86,7 @@
             // button_cancel
             // 
             this.button_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button_cancel.Location = new System.Drawing.Point(265, 111);
+            this.button_cancel.Location = new System.Drawing.Point(265, 127);
             this.button_cancel.Name = "button_cancel";
             this.button_cancel.Size = new System.Drawing.Size(50, 23);
             this.button_cancel.TabIndex = 5;
@@ -100,13 +102,40 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "请使用您的天华内网账号进行登录：";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(60, 104);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(41, 12);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "专业：";
+            // 
+            // comboBox_profile
+            // 
+            this.comboBox_profile.FormattingEnabled = true;
+            this.comboBox_profile.Items.AddRange(new object[] {
+            "建筑",
+            "结构",
+            "暖通",
+            "电气",
+            "给排水",
+            "方案"});
+            this.comboBox_profile.Location = new System.Drawing.Point(119, 101);
+            this.comboBox_profile.Name = "comboBox_profile";
+            this.comboBox_profile.Size = new System.Drawing.Size(134, 20);
+            this.comboBox_profile.TabIndex = 8;
+            this.comboBox_profile.Text = "请选择你的专业";
+            // 
             // ThLoginDlg
             // 
             this.AcceptButton = this.button_ok;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button_cancel;
-            this.ClientSize = new System.Drawing.Size(327, 146);
+            this.ClientSize = new System.Drawing.Size(323, 159);
+            this.Controls.Add(this.comboBox_profile);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button_cancel);
             this.Controls.Add(this.button_ok);
@@ -134,5 +163,7 @@
         private System.Windows.Forms.Button button_ok;
         private System.Windows.Forms.Button button_cancel;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboBox_profile;
     }
 }

@@ -1,7 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using System.Collections.Generic;
 using Autodesk.Windows;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using ThIdentity.SDK;
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -39,6 +40,7 @@ namespace TianHua.AutoCAD.ThCui
             foreach (var panel in Tab.Panels.Where(o => o.UID == "pnl" + "Help"))
             {
                 // 隐藏登陆按钮，显示退出按钮
+                panel.Source.Items.Where(o => o.Text == "专业切换").ForEach(o => o.IsVisible = true);
                 panel.Source.Items.Where(o => o.Id == "ID_THLOGIN").ForEach(o => o.IsVisible = false);
                 panel.Source.Items.Where(o => o.Id == "ID_THLOGOUT").ForEach(o => o.IsVisible = true);
             }
@@ -53,14 +55,76 @@ namespace TianHua.AutoCAD.ThCui
 
             // 登出状态，关闭所有面板
             Tab.Panels.ForEach(o => o.IsEnabled = false);
-            foreach(var panel in Tab.Panels.Where(o => o.UID == "pnl" + "Help"))
+            // 登出状态，隐藏所有面板
+            Tab.Panels.ForEach(o => o.IsVisible = false);
+            foreach (var panel in Tab.Panels.Where(o => o.UID == "pnl" + "Help"))
             {
                 // 开启“登陆”Panel
                 panel.IsEnabled = true;
+                // 显示“登陆”Panel
+                panel.IsVisible = true;
                 // 显示登陆按钮，隐藏退出按钮
+                panel.Source.Items.Where(o => o.Text == "专业切换").ForEach(o => o.IsVisible = false);
                 panel.Source.Items.Where(o => o.Id == "ID_THLOGIN").ForEach(o => o.IsVisible = true);
                 panel.Source.Items.Where(o => o.Id == "ID_THLOGOUT").ForEach(o => o.IsVisible = false);
             }
+        }
+
+        public static void ConfigPanelsWithCurrentUser()
+        {
+            if (ThIdentityService.IsLogged())
+            {
+                OpenAllPanels();
+            }
+            else
+            {
+                CloseAllPanels();
+            }
+        }
+
+        public static void ConfigPanelsWithCurrentProfile()
+        {
+            var panels = Tab.Panels;
+            Profile profile = ThCuiProfileManager.Instance.CurrentProfile;
+            foreach (var panel in panels.Where(o => o.UID == "pnl" + "Help"))
+            {
+                panel.Source.Items.Where(o => o.Text == "专业切换").ForEach(o => {
+                    if (o is RibbonSplitButton splitButton)
+                    {
+                        IEnumerable<RibbonItem> items = null;
+                        switch (profile)
+                        {
+                            case Profile.ARCHITECTURE:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _A");
+                                break;
+                            case Profile.STRUCTURE:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _S");
+                                break;
+                            case Profile.HAVC:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _H");
+                                break;
+                            case Profile.ELECTRICAL:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _E");
+                                break;
+                            case Profile.WSS:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _W");
+                                break;
+                            case Profile.PROJECTPLAN:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _P");
+                                break;
+                            default:
+                                break;
+                        };
+
+                        foreach (RibbonItem item in items)
+                        {
+                            splitButton.Current = item;
+                        }
+                    }
+                });
+            }
+            ThCuiProfileYamlParser parser = new ThCuiProfileYamlParser(profile);
+            panels.ForEach(o => parser.UpdateIsVisible(o));
         }
     }
 }

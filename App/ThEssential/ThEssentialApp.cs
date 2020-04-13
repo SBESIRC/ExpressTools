@@ -15,7 +15,7 @@ namespace ThEssential
             //
         }
 
-        [CommandMethod("TIANHUACAD", "THQSELECT", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THQS", CommandFlags.Modal | CommandFlags.UsePickSet | CommandFlags.Redraw)]
         public void ThQSelect()
         {
             using (var cmd = new ThQSelectCommand())
@@ -24,7 +24,7 @@ namespace ThEssential
             }
         }
 
-        [CommandMethod("TIANHUACAD", "THALIGN", CommandFlags.Modal | CommandFlags.UsePickSet)]
+        [CommandMethod("TIANHUACAD", "THAL", CommandFlags.Modal | CommandFlags.UsePickSet)]
         public void ThAlign()
         {
             using (var cmd = new ThAlignCommand())
@@ -33,10 +33,19 @@ namespace ThEssential
             }
         }
 
-        [CommandMethod("TIANHUACAD", "THMATCHPROPS", CommandFlags.Modal | CommandFlags.UsePickSet)]
+        [CommandMethod("TIANHUACAD", "THMA", CommandFlags.Modal | CommandFlags.UsePickSet)]
         public void ThMatchProps()
         {
             using (var cmd = new ThMatchPropsCommand())
+            {
+                cmd.Execute();
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THCO", CommandFlags.Modal | CommandFlags.UsePickSet)]
+        public void ThCopy()
+        {
+            using (var cmd = new ThCopyCommand())
             {
                 cmd.Execute();
             }
@@ -46,6 +55,15 @@ namespace ThEssential
         public void THEquipment()
         {
             using (var cmd = new ThEquipmentCommand())
+            {
+                cmd.Execute();
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THOVERKILL", CommandFlags.Modal)]
+        public void THOverkill()
+        {
+            using (var cmd = new ThOverkillCommand())
             {
                 cmd.Execute();
             }

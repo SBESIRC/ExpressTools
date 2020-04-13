@@ -143,7 +143,6 @@
     <Compile Include="AutoCADCommands\Layouts.cs" />
     <Compile Include="AutoCADCommands\QuickSelection.cs" />
     <Compile Include="AutoCADCommands\SymbolPack.cs" />
-    <Compile Include="AutoCADCommands\Tuples.cs" />
     <Compile Include="BlockTool.cs" />
     <Compile Include="CompareTool.cs" />
     <Compile Include="COMTool.cs" />
@@ -155,6 +154,7 @@
     <Compile Include="ThAppTools.cs" />
     <Compile Include="ThBlockReferenceExtensions.cs" />
     <Compile Include="ThEditorExtension.cs" />
+    <Compile Include="ThMPolygonTool.cs" />
     <Compile Include="ThPickTool.cs" />
     <Compile Include="PointCollector.cs" />
     <Compile Include="ThPoint3dCollectionExtensions.cs" />

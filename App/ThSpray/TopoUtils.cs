@@ -224,13 +224,13 @@ namespace ThSpray
                 {
                     var ellipse = curve as Ellipse;
                     var polyline = ellipse.Spline.ToPolyline();
-                    var lineNodes = Polyline2dLines(polyline as Polyline);
+                    var lineNodes = Polyline2Curves(polyline as Polyline);
                     if (lineNodes != null)
                         outCurves.AddRange(lineNodes);
                 }
                 else if (curve is Polyline)
                 {
-                    var lineNodes = Polyline2dLines(curve as Polyline);
+                    var lineNodes = Polyline2Curves(curve as Polyline);
                     if (lineNodes != null)
                         outCurves.AddRange(lineNodes);
                 }
@@ -239,7 +239,7 @@ namespace ThSpray
                     var polyline = (curve as Spline).ToPolyline();
                     if (polyline is Polyline)
                     {
-                        var lineNodes = Polyline2dLines(polyline as Polyline);
+                        var lineNodes = Polyline2Curves(polyline as Polyline);
                         if (lineNodes != null)
                             outCurves.AddRange(lineNodes);
                     }
@@ -249,7 +249,7 @@ namespace ThSpray
             return outCurves;
         }
 
-        public static List<Curve> Polyline2dLines(Polyline polyline)
+        public static List<Curve> Polyline2Curves(Polyline polyline)
         {
             if (polyline == null)
                 return null;

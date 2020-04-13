@@ -345,6 +345,68 @@ namespace ThSpray
         }
 
         /// <summary>
+        /// 是否自相交
+        /// </summary>
+        /// <param name="pts"></param>
+        /// <returns></returns>
+        public static bool IsSelfIntersected(List<Point3d> pts)
+        {
+            if (pts.Count < 3)
+                return false;
+
+            var lines = new List<Line>();
+            for (int i = 0; i < pts.Count; i++)
+            {
+                var curPt = pts[i];
+                var nextPt = pts[(i + 1) % pts.Count];
+                lines.Add(new Line(curPt, nextPt));
+            }
+
+            for (int j = 0; j < lines.Count; j++)
+            {
+                var curLine = lines[j];
+                for (int k = 0; k < lines.Count; k++)
+                {
+                    if (j == k)
+                        continue;
+
+                    var nextLine = lines[k];
+                    if (CurveIsIntersectCurve(curLine, nextLine, pts))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 两段curve是否相交
+        /// </summary>
+        /// <param name="curveFirst"></param>
+        /// <param name="curveSec"></param>
+        /// <param name="pts"></param>
+        /// <returns></returns>
+        public static bool CurveIsIntersectCurve(Curve curveFirst, Curve curveSec, List<Point3d> pts)
+        {
+            if (!CommonUtils.IntersectValid(curveFirst, curveSec))
+                return false;
+
+            var ptLst = new Point3dCollection();
+            curveFirst.IntersectWith(curveSec, Intersect.OnBothOperands, ptLst, (IntPtr)0, (IntPtr)0);
+            if (ptLst.Count != 0)
+            {
+                foreach (Point3d pt in ptLst)
+                {
+                    if (pts.Contains(pt))
+                        continue;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// 对房间面积框线标准化
         /// </summary>
         /// <param name="polylines"></param>
@@ -362,6 +424,50 @@ namespace ThSpray
             }
 
             return resPolylines;
+        }
+
+        /// <summary>
+        /// 删除无效的房间框线
+        /// </summary>
+        /// <param name="srcPolylines"></param>
+        /// <param name="wallCurves"></param>
+        /// <returns></returns>
+        public static List<Polyline> EraseInvalidPolylines(List<Polyline> srcPolylines, List<Curve> wallCurves)
+        {
+            if (srcPolylines == null || srcPolylines.Count == 0)
+                return null;
+
+            var resPolys = new List<Polyline>();
+            var ptMids = new List<Point3d>();
+            foreach (var wallCurve in wallCurves)
+            {
+                var ptMid = wallCurve.GetPointAtParameter((wallCurve.StartParam + wallCurve.EndParam) * 0.5);
+                ptMids.Add(ptMid);
+            }
+
+            foreach (var poly in srcPolylines)
+            {
+                if (PolylineIsValid(poly, ptMids))
+                    resPolys.Add(poly);
+            }
+
+            return resPolys;
+        }
+
+        public static bool PolylineIsValid(Polyline poly, List<Point3d> ptLst)
+        {
+            var curves = TopoUtils.Polyline2Curves(poly);
+
+            foreach (var pt in ptLst)
+            {
+                if (CommonUtils.PtOnCurves(pt, curves))
+                    continue;
+
+                if (CommonUtils.PtInLoop(poly, new Point2d(pt.X, pt.Y)))
+                    return false;
+            }
+
+            return true;
         }
 
         public static Polyline NormalizePolyline(Polyline pol)
@@ -447,6 +553,11 @@ namespace ThSpray
         public static List<Curve> EraseInvalidLoops(List<Curve> beamLoops, double minSprayOffset)
         {
             // 梁轮廓内部数据提取
+            double offset = 0;
+            if (minSprayOffset > 310)
+                offset = minSprayOffset;
+            else
+                offset = 310;
             var validLoops = new List<Curve>();
             for (int i = 0; i < beamLoops.Count; i++)
             {
@@ -456,7 +567,7 @@ namespace ThSpray
                 if (CommonUtils.CalcuLoopArea(lines) < 0)
                     poly.ReverseCurve();
 
-                var db = poly.GetOffsetCurves(-minSprayOffset);
+                var db = poly.GetOffsetCurves(-offset);
                 for (int j = 0; j < db.Count; j++)
                 {
                     validLoops.Add(db[j] as Polyline);
@@ -478,13 +589,9 @@ namespace ThSpray
                 return null;
 
             // 生成相关梁柱数据
-            var roomCurves = TopoUtils.Polyline2dLines(roomPolyline);
+            var roomCurves = TopoUtils.Polyline2Curves(roomPolyline);
             var curves = TopoUtils.TesslateCurve(allCurves);
 
-            var relatedCurves = GetValidBeams(curves, roomCurves);
-            if (relatedCurves == null || relatedCurves.Count == 0)
-                return null;
-            // 偏移数据
             var offsetPolylines = new List<Curve>();
             var line2ds = CommonUtils.Polyline2dLines(roomPolyline);
             if (CommonUtils.CalcuLoopArea(line2ds) < 0)
@@ -494,85 +601,362 @@ namespace ThSpray
                     roomPolyline.ReverseCurve();
                 }
             }
-            //ProgressDialog.SetValue(25);
             var offsetRoomPolylines = new List<Curve>();
             var dbRoom = roomPolyline.GetOffsetCurves(-userData.minWallGap);
             for (int i = 0; i < dbRoom.Count; i++)
                 offsetRoomPolylines.Add(dbRoom[i] as Polyline);
+            if (offsetRoomPolylines.Count == 0)
+                return null;
+
+            var offsetWallCurves = TopoUtils.Polyline2Curves(offsetRoomPolylines.First() as Polyline);
+            var relatedCurves = GetValidBeams(curves, offsetWallCurves);
+            // Utils.DrawProfile(offsetWallCurves, "offsetWallCurves");
+            //Utils.DrawProfile(relatedCurves, "relatedCurves");
+            if (relatedCurves == null || relatedCurves.Count == 0)
+                return null;
+            // 偏移数据
+            // Utils.DrawProfile(relatedCurves, "relatedCurves");
+
 
             // 获取房间框线偏移后的数据
             if (offsetRoomPolylines.Count != 0 && relatedCurves.Count != 0)
             {
-                relatedCurves.AddRange(TopoUtils.Polyline2dLines(offsetRoomPolylines.First() as Polyline));
+                relatedCurves.AddRange(offsetWallCurves);
             }
+            //Utils.DrawProfile(relatedCurves, "relatedCurves");
             var beamLoops = TopoUtils.MakeSrcProfilesNoTes(relatedCurves);
+            if (beamLoops == null || beamLoops.Count == 0)
+                return null;
+            //Utils.DrawProfile(beamLoops, "beamLoops");
             var validLoops = EraseInvalidLoops(beamLoops, userData.minBeamGap);
-            //ProgressDialog.SetValue(45);
+
             if (validLoops == null || validLoops.Count == 0)
                 return null;
-            var insertPtS = PlaceSpray.CalcuInsertPos(TopoUtils.Polyline2dLines(roomPolyline), validLoops, userData.minBeamGap, userData.maxWallGap, userData.maxSprayGap);
+            //Utils.DrawProfile(validLoops, "validLoops");
+            // 偏移后的墙，和没有偏移后的梁组成的环进行计算
+            var insertPtS = PlaceSpray.CalcuInsertPos(TopoUtils.Polyline2Curves(roomPolyline), validLoops, userData);
 
             return insertPtS;
         }
 
+        /// <summary>
+        /// // 偏移后的墙，和没有偏移后的梁组成的环进行计算
+        /// </summary>
         public class PlaceSpray
         {
             private List<Curve> m_roomSrcCurves; // 房间的原始边界线
             private List<List<Curve>> m_beamLoops; // 梁轮廓
-            private double m_wallSprayOffset; // 喷淋距墙的最小位置
-            private double m_maxWallSprayOffset; // 喷淋距墙的最大位置值
-            private double m_sprayGap; // 喷淋之间最大间距
+            private double m_minBeamGapOffset; // 喷淋距墙的最小位置
+
+            private double m_maxWallOffset; // 喷淋距墙的最大偏移值
+            private double m_maxWallOffsetLeft; // 喷淋距墙的左边最大偏移值
+            private double m_maxWallOffsetRight; // 喷淋距墙的右边最大偏移值
+            private double m_maxWallOffsetBottom; // 喷淋距墙的下边最大偏移值
+            private double m_maxWallOffsetTop; // 喷淋距墙的上边最大偏移值
+            private double m_minWallOffsetTop; // 喷淋距墙的上边最小偏移值
+            public bool m_bEnd = false; // 程序是否结束标记
+
+            private double m_minWallOffset; // 喷淋距墙的最小偏移值
+            private double m_maxSprayGap; // 喷淋之间的最大间距
+            private double m_minSprayGap; // 喷淋之间的最小间距
             private Line m_splitLeftEdge;
             private Line m_splitBottomEdge;
 
             private double m_offsetAdd = 43.52; // 水平或者垂直方向上面增加的向量偏移值
 
             // 原始房间包围盒的上下左右边
-            private Line m_roomRight;
-            private Line m_roomTop;
-            private Line m_roomLeft;
-            private Line m_roomBottom;
+            private Line m_srcRoomRight;
+            private Line m_srcRoomTop;
+            private Line m_srcRoomLeft;
+            private Line m_srcRoomBottom;
 
             private List<Line> m_hLines; // 水平切割线
             private List<Line> m_vLines; // 垂直切割线
 
             private List<Line> boundCurves; // 边界轮廓
-            public PlaceSpray(List<Curve> srcRoomCurves, List<List<Curve>> beamLoops, double minWallSprayOffset, double maxWallSprayOffset, double sprayGap)
+
+            public bool IsLinesInvalid()
+            {
+                if (m_hLines == null || m_hLines.Count == 0)
+                    return true;
+                if (m_vLines == null || m_vLines.Count == 0)
+                    return true;
+                return false;
+            }
+
+            public PlaceSpray(List<Curve> srcRoomCurves, List<List<Curve>> beamLoops, PlaceData userData)
             {
                 m_roomSrcCurves = srcRoomCurves;
                 m_beamLoops = beamLoops;
-                m_wallSprayOffset = minWallSprayOffset;
-                m_sprayGap = sprayGap;
-                m_maxWallSprayOffset = maxWallSprayOffset;
+                m_minBeamGapOffset = userData.minBeamGap;
+                m_maxSprayGap = userData.maxSprayGap;
+
+                m_minWallOffset = userData.minWallGap;
+                //var value = (userData.maxWallGap + m_minWallOffset + m_minBeamGapOffset) * 0.5;
+                //m_maxWallOffset = (int)((value / 100 + 1) * 100);
+                m_maxWallOffset = userData.maxWallGap;
+
+                m_minSprayGap = userData.minSprayGap;
             }
 
-            public static List<Point3d> CalcuInsertPos(List<Curve> srcRoomCurves, List<Curve> loops, double minWallSprayOffset, double maxWallSprayOffset, double sprayGap)
+            /// <summary>
+            /// 计算四周距墙的最大偏移值
+            /// </summary>
+            private void Calculate4MaxWallOffset()
+            {
+                // 下边距墙的最大偏移值
+                m_maxWallOffsetBottom = CalculateBottomMaxWallOffset(m_srcRoomBottom.StartPoint.X);
+                if (m_bEnd)
+                    return;
+
+                // 上边距墙的最大偏移值
+                m_maxWallOffsetTop = CalculateTopMaxWallOffset(m_srcRoomTop.StartPoint.X);
+                m_minWallOffsetTop = CalculateTopMinWallOffset(m_srcRoomTop.StartPoint.X);
+                if (m_bEnd)
+                    return;
+
+                // 左边距墙的最大偏移值
+                m_maxWallOffsetLeft = CalculateLeftMaxWallOffset(m_srcRoomLeft.StartPoint.Y);
+                if (m_bEnd)
+                    return;
+
+                // 右边距墙的最大偏移值
+                m_maxWallOffsetRight = CalculateRightMaxWallOffset(m_srcRoomRight.StartPoint.Y);
+            }
+
+            private double CalculateRightMaxWallOffset(double yValue)
+            {
+                var srcRoomRightX = m_srcRoomRight.StartPoint.X;
+                var rightMaxX = srcRoomRightX - m_minWallOffset;
+                var rightMinX = srcRoomRightX - m_maxWallOffset;
+                var yGap = m_srcRoomTop.StartPoint.Y - m_srcRoomBottom.StartPoint.Y;
+
+                var yS = yValue - yGap;
+                var yE = yValue + yGap;
+                var xValue = rightMinX;
+
+                while (true)
+                {
+                    if (xValue > rightMaxX)
+                    {
+                        m_bEnd = true;
+                        return m_maxWallOffset;
+                    }
+
+                    var ptS = new Point3d(xValue, yS, 0);
+                    var ptE = new Point3d(xValue, yE, 0);
+
+                    Line rightLine = new Line(ptS, ptE);
+                    if (LineWithLoops(rightLine, m_beamLoops))
+                    {
+                        var offset = Math.Abs(xValue - srcRoomRightX);
+                        return ((int)offset);
+                    }
+                    else
+                    {
+                        xValue += 50;
+                    }
+                }
+            }
+
+            private double CalculateLeftMaxWallOffset(double yValue)
+            {
+                var srcRoomLeftX = m_srcRoomLeft.StartPoint.X;
+                var leftMaxX = srcRoomLeftX + m_maxWallOffset;
+                var leftMinX = srcRoomLeftX + m_minWallOffset;
+
+                var yGap = m_srcRoomTop.StartPoint.Y - m_srcRoomBottom.StartPoint.Y;
+                var yS = yValue - yGap;
+                var yE = yValue + yGap;
+                var xValue = leftMaxX;
+
+                while (true)
+                {
+                    if (xValue < leftMinX)
+                    {
+                        m_bEnd = true;
+                        return m_maxWallOffset;
+                    }
+
+                    var ptS = new Point3d(xValue, yS, 0);
+                    var ptE = new Point3d(xValue, yE, 0);
+
+                    Line leftLine = new Line(ptS, ptE);
+                    if (LineWithLoops(leftLine, m_beamLoops))
+                    {
+                        var offset = Math.Abs(xValue - srcRoomLeftX);
+                        return ((int)offset);
+                    }
+                    else
+                    {
+                        xValue -= 50;
+                    }
+                }
+            }
+
+            private double CalculateTopMinWallOffset(double xValue)
+            {
+                var srcRoomTopY = m_srcRoomTop.StartPoint.Y;
+                var topMinY = srcRoomTopY - m_maxWallOffset;
+                var topMaxY = srcRoomTopY - m_minWallOffset;
+
+                var xGap = m_srcRoomRight.StartPoint.X - m_srcRoomLeft.StartPoint.X;
+                var xS = xValue - xGap;
+                var xE = xValue + xGap;
+                var yValue = topMaxY;
+
+                while (true)
+                {
+                    if (yValue < topMinY)
+                    {
+                        m_bEnd = true;
+                        return m_maxWallOffset;
+                    }
+
+                    var ptS = new Point3d(xS, yValue, 0);
+                    var ptE = new Point3d(xE, yValue, 0);
+
+                    Line topLine = new Line(ptS, ptE);
+                    if (LineWithLoops(topLine, m_beamLoops))
+                    {
+                        //foreach (var loop in m_beamLoops)
+                        //{
+                        //    var curves = new List<Curve>();
+                        //    curves.AddRange(loop);
+                        //    curves.Add(topLine);
+                        //    DrawProfile(curves, "beam");
+                        //}
+                        var offset = Math.Abs(yValue - srcRoomTopY);
+                        return ((int)offset);
+                    }
+                    else
+                    {
+                        yValue -= 50;
+                    }
+                }
+            }
+
+            private double CalculateTopMaxWallOffset(double xValue)
+            {
+                var srcRoomTopY = m_srcRoomTop.StartPoint.Y;
+                var topMinY = srcRoomTopY - m_maxWallOffset;
+                var topMaxY = srcRoomTopY - m_minWallOffset;
+
+                var xGap = m_srcRoomRight.StartPoint.X - m_srcRoomLeft.StartPoint.X;
+                var xS = xValue - xGap;
+                var xE = xValue + xGap;
+                var yValue = topMinY;
+
+                while (true)
+                {
+                    if (yValue > topMaxY)
+                    {
+                        m_bEnd = true;
+                        return m_maxWallOffset;
+                    }
+
+                    var ptS = new Point3d(xS, yValue, 0);
+                    var ptE = new Point3d(xE, yValue, 0);
+
+                    Line topLine = new Line(ptS, ptE);
+                    if (LineWithLoops(topLine, m_beamLoops))
+                    {
+                        //foreach (var loop in m_beamLoops)
+                        //{
+                        //    var curves = new List<Curve>();
+                        //    curves.AddRange(loop);
+                        //    curves.Add(topLine);
+                        //    DrawProfile(curves, "beam");
+                        //}
+                        var offset = Math.Abs(yValue - srcRoomTopY);
+                        return ((int)offset);
+                    }
+                    else
+                    {
+                        yValue += 50;
+                    }
+                }
+            }
+
+            // 底边最大y值
+            private double CalculateBottomMaxWallOffset(double xValue)
+            {
+                var srcRoomBotttomY = m_srcRoomBottom.StartPoint.Y;
+                var bottomMaxY = srcRoomBotttomY + m_maxWallOffset;
+                var bottomMinY = srcRoomBotttomY + m_minWallOffset;
+
+                var xGap = m_srcRoomRight.StartPoint.X - m_srcRoomLeft.StartPoint.X;
+                var xS = xValue - xGap;
+                var xE = xValue + xGap;
+                var yValue = bottomMaxY;
+
+                while (true)
+                {
+                    if (yValue < bottomMinY)
+                    {
+                        m_bEnd = true;
+                        return m_maxWallOffset;
+                    }
+
+                    var ptS = new Point3d(xS, yValue, 0);
+                    var ptE = new Point3d(xE, yValue, 0);
+
+                    Line bottomLine = new Line(ptS, ptE);
+                    if (LineWithLoops(bottomLine, m_beamLoops))
+                    {
+                        var offset = Math.Abs(yValue - srcRoomBotttomY);
+                        return ((int)offset);
+                    }
+                    else
+                    {
+                        yValue -= 50;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// 计算喷淋插入点位置
+            /// </summary>
+            /// <param name="srcRoomCurves"></param>
+            /// <param name="loops"></param>
+            /// <param name="userData"></param>
+            /// <returns></returns>
+            public static List<Point3d> CalcuInsertPos(List<Curve> srcRoomCurves, List<Curve> loops, PlaceData userData)
             {
                 var beamLoops = new List<List<Curve>>();
                 foreach (var loop in loops)
                 {
                     if (loop is Polyline)
-                        beamLoops.Add(TopoUtils.Polyline2dLines(loop as Polyline));
+                        beamLoops.Add(TopoUtils.Polyline2Curves(loop as Polyline));
                 }
 
-                var placeSpray = new PlaceSpray(srcRoomCurves, beamLoops, minWallSprayOffset, maxWallSprayOffset, sprayGap);
+                var placeSpray = new PlaceSpray(srcRoomCurves, beamLoops, userData);
                 placeSpray.CalStartEdges(); // 开始边
+                placeSpray.Calculate4MaxWallOffset(); // 计算四周最大墙的偏移值
+                if (placeSpray.m_bEnd)
+                    return null;
                 placeSpray.CalcuVHLines(); // 水平，垂直线，并考虑是否平移至最下边和最左边
-               // ProgressDialog.SetValue(75);
+                if (placeSpray.IsLinesInvalid())
+                    return null;
                 placeSpray.CutFromMaxSprayOffset(); // 两边截断处理
+
                 var ptsLst = placeSpray.DoPlace(); // 放置插入点计算
-                //ProgressDialog.SetValue(90);
-                var insertPts = new List<Point3d>();
-                if (ptsLst != null && ptsLst.Count != 0)
-                {
-                    foreach (var pts in ptsLst)
-                    {
-                        insertPts.AddRange(pts);
-                    }
-                }
-                return insertPts;
+                return ptsLst;
             }
 
+            private bool LineWithLoops(Line line, List<List<Curve>> loops)
+            {
+                foreach (var curLoop in loops)
+                {
+                    var pts = LineWithLoop(line, curLoop);
+                    if (pts.Count > 1)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
 
             /// <summary>
             /// 计算开始边
@@ -580,22 +964,18 @@ namespace ThSpray
             private void CalStartEdges()
             {
                 // 原始房间的外接矩形框
-                var srcRoomEdgeCal = new EdgeCalcu(m_roomSrcCurves, m_wallSprayOffset);
+                var srcRoomEdgeCal = new EdgeCalcu(m_roomSrcCurves);
                 srcRoomEdgeCal.Do();
 
                 // 房间外包框曲线
                 boundCurves = srcRoomEdgeCal.BoundCurves;
 
-                // 左边和底边的第一条分割偏移边
-                m_splitLeftEdge = srcRoomEdgeCal.LeftEdge; // 从下到上的边
-                m_splitBottomEdge = srcRoomEdgeCal.BottomEdge; // 从左到右的边
-
                 // 原始分界边的右边和上边
-                m_roomRight = srcRoomEdgeCal.SrcRightEdge;
-                m_roomTop = srcRoomEdgeCal.SrcTopEdge;
+                m_srcRoomRight = srcRoomEdgeCal.SrcRightEdge;
+                m_srcRoomTop = srcRoomEdgeCal.SrcTopEdge;
 
-                m_roomLeft = srcRoomEdgeCal.SrcLeftEdge;
-                m_roomBottom = srcRoomEdgeCal.SrcBottomEdge;
+                m_srcRoomLeft = srcRoomEdgeCal.SrcLeftEdge;
+                m_srcRoomBottom = srcRoomEdgeCal.SrcBottomEdge;
 
                 // 所有梁轮廓的边界值计算
                 var beamCurves = new List<Curve>();
@@ -603,18 +983,18 @@ namespace ThSpray
                 {
                     beamCurves.AddRange(curves);
                 }
-                var beamLoopEdgeCal = new EdgeCalcu(beamCurves, m_wallSprayOffset);
+                var beamLoopEdgeCal = new EdgeCalcu(beamCurves);
                 beamLoopEdgeCal.Do();
-                var leftEdge = beamLoopEdgeCal.SrcLeftEdge;
+                var srcLeftEdge = beamLoopEdgeCal.SrcLeftEdge;
                 var vecHori = new Vector3d(m_offsetAdd, 0, 0);
-                var leftPtS = leftEdge.StartPoint;
-                var leftPtE = leftEdge.EndPoint;
+                var leftPtS = srcLeftEdge.StartPoint;
+                var leftPtE = srcLeftEdge.EndPoint;
                 m_splitLeftEdge = new Line(leftPtS + vecHori, leftPtE + vecHori);
 
-                var bottomEdge = beamLoopEdgeCal.SrcBottomEdge;
+                var srcBottomEdge = beamLoopEdgeCal.SrcBottomEdge;
                 var vecVer = new Vector3d(0, m_offsetAdd, 0);
-                var bottomPtS = bottomEdge.StartPoint;
-                var bottomPtE = bottomEdge.EndPoint;
+                var bottomPtS = srcBottomEdge.StartPoint;
+                var bottomPtE = srcBottomEdge.EndPoint;
                 m_splitBottomEdge = new Line(bottomPtS + vecVer, bottomPtE + vecVer);
 
                 //var lineCurves = new List<Curve>();
@@ -623,18 +1003,23 @@ namespace ThSpray
             }
 
 
-            private List<Point3d> LineWithLoop(Line line, List<Curve> curLoop)
+            private List<Point3d> LineWithLoop(Curve InterCurve, List<Curve> curLoop)
             {
                 var ptLst = new List<Point3d>();
+                var InterCurveS = InterCurve.StartPoint;
+                var InterCurveE = InterCurve.EndPoint;
                 for (int j = 0; j < curLoop.Count; j++)
                 {
                     var curve = curLoop[j];
 
-                    if (!CommonUtils.IntersectValid(line, curve))
+                    if (!CommonUtils.IntersectValid(InterCurve, curve))
                         continue;
 
+                    var curveS = curve.StartPoint;
+                    var curveE = curve.EndPoint;
+
                     var tmpPtLst = new Point3dCollection();
-                    line.IntersectWith(curve, Intersect.OnBothOperands, tmpPtLst, (IntPtr)0, (IntPtr)0);
+                    InterCurve.IntersectWith(curve, Autodesk.AutoCAD.DatabaseServices.Intersect.OnBothOperands, tmpPtLst, new System.IntPtr(0), new System.IntPtr(0));
                     if (tmpPtLst.Count != 0 && tmpPtLst.Count < 3)
                     {
                         foreach (Point3d pt in tmpPtLst)
@@ -747,7 +1132,7 @@ namespace ThSpray
 
             private void CalcuVHLines()
             {
-                double YValue = m_sprayGap;
+                double YValue = m_maxSprayGap;
                 // 计算水平分割边
 
                 //var drawCurves = new List<Curve>();
@@ -763,26 +1148,34 @@ namespace ThSpray
                 //return;
                 // 计算垂直分割边
                 Line vSplitLine = null;
-                var extendValue = 10000000;
+                var yExtendValue = m_srcRoomTop.StartPoint.Y - m_srcRoomBottom.StartPoint.Y;
+
+                // 
                 for (int i = 0; i < m_hLines.Count; i++)
                 {
                     var ptS = m_hLines[i].StartPoint;
-                    var vec = new Vector3d(0, extendValue, 0);
-                    var vLine = new Line(ptS - vec, ptS + vec);
+                    var ptE = m_hLines[i].EndPoint;
+                    var vecAdd = (ptE - ptS).MultiplyBy(0.25);
+
+                    var ptAim = ptS + vecAdd;
+                    var vec = new Vector3d(0, yExtendValue, 0);
+                    var vLine = new Line(ptAim - vec, ptAim + vec);
 
                     var roomPtLst = LineWithLoop(vLine, m_roomSrcCurves);
-                    if (roomPtLst.Count == 2)
-                    {
-                        var length = (roomPtLst.First() - roomPtLst.Last()).Length;
+                    roomPtLst = roomPtLst.OrderBy(pt => (pt.Y)).ToList();
 
-                        // 没有大的空洞出现
-                        if (CommonUtils.IsAlmostNearZero(Math.Abs(length - m_roomLeft.Length), 600))
-                        {
-                            vSplitLine = vLine;
-                            break;
-                        }
+                    var length = (roomPtLst.First() - roomPtLst.Last()).Length;
+
+                    // 没有大的空洞出现
+                    if (CommonUtils.IsAlmostNearZero(Math.Abs(length - m_srcRoomLeft.Length), 600))
+                    {
+                        vSplitLine = vLine;
+                        break;
                     }
                 }
+
+                if (vSplitLine == null)
+                    return;
 
                 if (vSplitLine != null)
                 {
@@ -794,28 +1187,29 @@ namespace ThSpray
                     m_vLines = CalculateVerLinesWithLoops(vOffLine, m_beamLoops);
                 }
                 // 判断水平边可能是否为缺少边
+                var xExtendValue = m_srcRoomRight.StartPoint.X - m_srcRoomLeft.StartPoint.X;
                 var splitHoriS = m_splitBottomEdge.StartPoint;
                 var splitHoriE = m_splitBottomEdge.EndPoint;
-                var vecHori = new Vector3d(extendValue, 0, 0);
+                var vecHori = new Vector3d(xExtendValue, 0, 0);
                 var splitHoriLine = new Line(splitHoriS - vecHori, splitHoriE + vecHori);
                 var horiPtLst = LineWithLoop(splitHoriLine, m_roomSrcCurves);
                 Line hSplitLine = null;
                 if (horiPtLst.Count == 2)
                 {
                     var length = (horiPtLst.First() - horiPtLst.Last()).Length;
-                    if (!CommonUtils.IsAlmostNearZero(Math.Abs(length - m_roomBottom.Length), 600))
+                    if (!CommonUtils.IsAlmostNearZero(Math.Abs(length - m_srcRoomBottom.Length), 600))
                     {
                         // 左下角有空洞的情形
                         for (int j = 0; j < m_vLines.Count; j++)
                         {
                             var ptS = m_vLines[j].StartPoint;
-                            var vec = new Vector3d(extendValue, 0, 0);
+                            var vec = new Vector3d(xExtendValue, 0, 0);
                             var horiLine = new Line(ptS - vec, ptS + vec);
                             var hRoomPtLst = LineWithLoop(horiLine, m_roomSrcCurves);
                             if (hRoomPtLst.Count == 2)
                             {
                                 var hLength = (hRoomPtLst.First() - hRoomPtLst.Last()).Length;
-                                if (CommonUtils.IsAlmostNearZero(Math.Abs(hLength - m_roomBottom.Length), 600))
+                                if (CommonUtils.IsAlmostNearZero(Math.Abs(hLength - m_srcRoomBottom.Length), 600))
                                 {
                                     hSplitLine = horiLine;
                                     m_hLines = CalculateHoriLinesWithLoops(hSplitLine, m_beamLoops);
@@ -843,9 +1237,9 @@ namespace ThSpray
                 var tmpHLines = new List<Line>();
                 var curHY = m_hLines.First().StartPoint.Y;
                 // 不等 则移动到下面
-                if (!CommonUtils.IsAlmostNearZero(Math.Abs(curHY - m_roomBottom.StartPoint.Y - m_wallSprayOffset - m_offsetAdd), 600))
+                if (!CommonUtils.IsAlmostNearZero(Math.Abs(curHY - m_srcRoomBottom.StartPoint.Y - m_minBeamGapOffset - m_offsetAdd), 600))
                 {
-                    var vecV = new Vector3d(0, curHY - m_wallSprayOffset - m_offsetAdd, 0);
+                    var vecV = new Vector3d(0, curHY - m_minBeamGapOffset - m_offsetAdd, 0);
                     foreach (var line in m_hLines)
                     {
                         var hPtS = line.StartPoint;
@@ -858,9 +1252,9 @@ namespace ThSpray
                 // 不等 则移动到左边
                 var tmpVLines = new List<Line>();
                 var curVX = m_vLines.First().StartPoint.X;
-                if (!CommonUtils.IsAlmostNearZero(Math.Abs(curVX - m_roomLeft.StartPoint.X - m_wallSprayOffset - m_offsetAdd), 600))
+                if (!CommonUtils.IsAlmostNearZero(Math.Abs(curVX - m_srcRoomLeft.StartPoint.X - m_minBeamGapOffset - m_offsetAdd), 600))
                 {
-                    var vecH = new Vector3d(curVX - m_wallSprayOffset - m_offsetAdd, 0, 0);
+                    var vecH = new Vector3d(curVX - m_minBeamGapOffset - m_offsetAdd, 0, 0);
                     foreach (var line in m_vLines)
                     {
                         var vPtS = line.StartPoint;
@@ -880,11 +1274,11 @@ namespace ThSpray
             /// </summary>
             private void CutFromMaxSprayOffsetHLines()
             {
-                var leftMaxX = m_roomLeft.StartPoint.X + m_maxWallSprayOffset;
-                var rightMaxX = m_roomRight.StartPoint.X - m_maxWallSprayOffset;
+                var leftMaxX = m_srcRoomLeft.StartPoint.X + m_maxWallOffsetLeft;
+                var rightMaxX = m_srcRoomRight.StartPoint.X - m_maxWallOffsetRight;
 
                 var tmpHLines = new List<Line>();
-                if ((m_roomRight.StartPoint.X - m_roomLeft.StartPoint.X) < 2 * m_maxWallSprayOffset)
+                if ((m_srcRoomRight.StartPoint.X - m_srcRoomLeft.StartPoint.X) < (m_maxWallOffsetLeft + m_maxWallOffsetRight))
                 {
                     var firstLine = m_hLines.First();
                     var lastLine = m_hLines.Last();
@@ -995,17 +1389,17 @@ namespace ThSpray
             /// </summary>
             private void CutFromMaxSprayOffsetVLines()
             {
-                var bottomMaxY = m_roomBottom.StartPoint.Y + m_maxWallSprayOffset;
-                var topMaxY = m_roomTop.StartPoint.Y - m_maxWallSprayOffset;
+                var bottomMaxY = m_srcRoomBottom.StartPoint.Y + m_maxWallOffsetBottom;
+                var topMaxY = m_srcRoomTop.StartPoint.Y - m_maxWallOffsetTop;
                 var tmpVLines = new List<Line>();
 
-                if ((m_roomTop.StartPoint.Y - m_roomBottom.StartPoint.Y) < 2 * m_maxWallSprayOffset)
+                if ((m_srcRoomTop.StartPoint.Y - m_srcRoomBottom.StartPoint.Y) < (m_maxWallOffsetBottom + m_maxWallOffsetTop))
                 {
                     var firstLine = m_vLines.First();
                     var lastLine = m_vLines.Last();
                     var ptFir = firstLine.StartPoint;
                     var ptEnd = lastLine.EndPoint;
-                    var midPt = new Point3d(ptFir.X, (ptFir.Y + ptEnd.Y) * 0.5, 0);
+                    var midPt = new Point3d(ptFir.X, (int)((ptFir.Y + ptEnd.Y) * 0.5), 0);
                     var sVLine = new Line(midPt, midPt + new Vector3d(0, 1, 0) * 2);
                     tmpVLines.Add(sVLine);
                     m_vLines.Clear();
@@ -1095,15 +1489,24 @@ namespace ThSpray
                             var nPtE = new Point3d(curPtS.X, topMaxY, 0);
                             tmpVLines.Add(new Line(nPtS, nPtE));
                         }
-                        else if (curPtE.Y < topMaxY)
+                        else if (curPtE.Y <= topMaxY)
                         {
                             tmpVLines.Add(curVLine);
+                        }
+
+                        if (CommonUtils.IsAlmostNearZero(curPtS.Y - topMaxY, 1E-8) && curPtE.Y > topMaxY)
+                        {
+                            var nPtS = curPtS;
+                            var nPtE = nPtS + new Vector3d(0, 2, 0);
+                            tmpVLines.Add(new Line(nPtS, nPtE));
                         }
                     }
                 }
 
                 m_vLines.Clear();
                 m_vLines = tmpVLines;
+                //Utils.DrawProfile(m_hLines.ToList<Curve>(), "m_hlines");
+                //Utils.DrawProfile(m_vLines.ToList<Curve>(), "m_vLines");
             }
 
             /// <summary>
@@ -1133,36 +1536,28 @@ namespace ThSpray
                     {
                         // 最后一段
                         if (curHLine.Length < 10)
-                        {
                             hPtLst.Add(new Point3d(firPtS.X, firPtS.Y, 0));
-                        }
                         else
                         {
                             var xWid = curHLine.Length;
-                            var ratio = xWid / m_sprayGap;
+                            var ratio = xWid / m_maxSprayGap;
                             int nCount = (int)ratio;
-
                             // 多出一点点的情形，不是少于的情形
                             if (CommonUtils.IsAlmostNearZero(Math.Abs(ratio - nCount), 1e-4))
                                 nCount -= 1;
-
                             if (nCount == 0)
-                            {
                                 hPtLst.Add(new Point3d(firPtS.X, firPtS.Y, 0));
-                            }
                             else
                             {
                                 nCount++;
                                 var midStep = (int)(xWid / nCount);
                                 var gapAdd = (midStep / 50) * 50;
-
                                 for (int j = 0; j < nCount; j++)
                                 {
                                     var curX = firPtS.X + j * gapAdd;
                                     hPtLst.Add(new Point3d(curX, firPtS.Y, 0));
                                 }
                             }
-
                             hPtLst.Add(new Point3d(firPtE.X, firPtE.Y, 0));
                         }
                     }
@@ -1172,23 +1567,18 @@ namespace ThSpray
                         var nextLine = m_hLines[i + 1];
                         var nextPtS = nextLine.StartPoint;
                         var xWid = nextPtS.X - firPtS.X;
-                        var ratio = xWid / m_sprayGap;
+                        var ratio = xWid / m_maxSprayGap;
                         int nCount = (int)ratio;
-
                         // 多出一点点的情形，不是少于的情形
                         if (CommonUtils.IsAlmostNearZero(Math.Abs(ratio - nCount), 1e-4))
                             nCount -= 1;
-
                         if (nCount == 0)
-                        {
                             hPtLst.Add(new Point3d(firPtS.X, firPtS.Y, 0));
-                        }
                         else
                         {
                             nCount++;
                             var midStep = (int)(xWid / nCount);
                             var gapAdd = (midStep / 50) * 50;
-
                             for (int j = 0; j < nCount; j++)
                             {
                                 var curX = firPtS.X + j * gapAdd;
@@ -1201,6 +1591,7 @@ namespace ThSpray
                 if (hPtLst.Count < 3)
                     return hPtLst;
 
+                // 调整每一行数据，尽量平均
                 var resPtLst = new List<Point3d>();
                 resPtLst.Add(hPtLst.First());
                 for (int i = 1; i < hPtLst.Count - 1; i++)
@@ -1226,15 +1617,15 @@ namespace ThSpray
                         resPtLst.Add(midPt);
                     }
                     else
-                    {
                         resPtLst.Add(curSpt);
-                    }
                 }
 
                 resPtLst.Add(hPtLst.Last());
-
-                // 水平坐标点规整
+                // 水平坐标点规整 距离规整到50
                 resPtLst = NormalizeHPoints(resPtLst, m_hLines);
+
+                // 两端距离控制以及喷淋最小间隔距离控制
+                resPtLst = NormalizeHSprayMinPoints(resPtLst, m_hLines);
                 return resPtLst;
             }
 
@@ -1295,6 +1686,234 @@ namespace ThSpray
                 return resPtLst;
             }
 
+            /// <summary>
+            /// 垂直方向，从上到下开始规范化
+            /// </summary>
+            /// <param name="vPtLst"></param>
+            /// <param name="rangeLines"></param>
+            /// <returns></returns>
+            private List<Point3d> NormalizeVSprayMinPointsFromUp(List<Point3d> vPtLst, List<Line> rangeLines)
+            {
+                var resPtLst = new List<Point3d>();
+                resPtLst.Add(vPtLst.Last());
+                vPtLst.Remove(vPtLst.Last());
+                for (int i = vPtLst.Count - 1; i >= 0; i--)
+                {
+                    var beforePt = resPtLst.Last();
+                    var curSpt = vPtLst[i];
+
+                    var yGap = Math.Abs(curSpt.Y - beforePt.Y);
+                    if (yGap >= m_minSprayGap)
+                    {
+                        resPtLst.Add(curSpt);
+                        continue;
+                    }
+
+                    var yPos = beforePt.Y - ((m_minSprayGap / 50) + 1) * 50;
+                    var yNewGap = Math.Abs(yPos - beforePt.Y);
+                    // 最后一段距离调整
+                    if (i == 0)
+                    {
+                        var maxAdd = m_maxWallOffsetTop - m_minWallOffset;
+                        while (true)
+                        {
+                            if (YRangeVLines(yPos, rangeLines))
+                                break;
+                            if (Math.Abs(yPos - beforePt.Y) >= m_maxSprayGap || Math.Abs(yPos - beforePt.Y) >= maxAdd)
+                            {
+                                yPos += 50;
+                                break;
+                            }
+                            yPos -= 50;
+                        }
+                    }
+                    else
+                    {
+                        // 调整距离前一个喷淋的位置
+                        while (true)
+                        {
+                            if (YRangeVLines(yPos, rangeLines))
+                                break;
+                            if (Math.Abs(yPos - beforePt.Y) >= m_maxSprayGap)
+                            {
+                                yPos += 50;
+                                break;
+                            }
+                            yPos -= 50;
+                        }
+                    }
+
+                    var aimPt = new Point3d(curSpt.X, yPos, 0);
+                    resPtLst.Add(aimPt);
+                }
+
+                return resPtLst;
+            }
+
+            private List<Point3d> NormalizeVSprayMinPoints(List<Point3d> vPtLst, List<Line> rangeLines)
+            {
+                var resPtLst = new List<Point3d>();
+                resPtLst.Add(vPtLst.First());
+                for (int i = 1; i < vPtLst.Count; i++)
+                {
+                    var beforePt = resPtLst.Last();
+                    var curSpt = vPtLst[i];
+                    //if (i == vPtLst.Count - 1)
+                    //{
+                    //    resPtLst.Add(curSpt);
+                    //    continue;
+                    //}
+                    var yGap = curSpt.Y - beforePt.Y;
+                    if (yGap >= m_minSprayGap)
+                    {
+                        resPtLst.Add(curSpt);
+                        continue;
+                    }
+
+                    var yPos = ((m_minSprayGap / 50) + 1) * 50 + beforePt.Y;
+                    var yNewGap = yPos - beforePt.Y;
+                    // 最后一段距离调整
+                    if (i == vPtLst.Count - 1)
+                    {
+                        var maxAdd = m_maxWallOffsetTop - m_minWallOffset;
+                        while (true)
+                        {
+                            if (YRangeVLines(yPos, rangeLines))
+                                break;
+                            if (yNewGap >= m_maxSprayGap || yNewGap >= maxAdd)
+                            {
+                                yPos -= 50;
+                                break;
+                            }
+                            yPos += 50;
+                        }
+                    }
+                    else
+                    {
+                        // 调整距离前一个喷淋的位置
+                        while (true)
+                        {
+                            if (YRangeVLines(yPos, rangeLines))
+                                break;
+                            if (yNewGap >= m_maxSprayGap)
+                            {
+                                yPos -= 50;
+                                break;
+                            }
+                            yPos += 50;
+                        }
+                    }
+
+                    var aimPt = new Point3d(curSpt.X, yPos, 0);
+                    resPtLst.Add(aimPt);
+                }
+
+                return resPtLst;
+            }
+
+            private List<Point3d> NormalizeHSprayMinPoints(List<Point3d> hPtLst, List<Line> rangeLines)
+            {
+                var resPtLst = new List<Point3d>();
+                resPtLst.Add(hPtLst.First());
+                for (int i = 1; i < hPtLst.Count; i++)
+                {
+                    var beforePt = resPtLst.Last();
+                    var curSpt = hPtLst[i];
+                    var xGap = curSpt.X - beforePt.X;
+                    if (xGap >= m_minSprayGap)
+                    {
+                        resPtLst.Add(curSpt);
+                        continue;
+                    }
+
+                    var xPos = ((m_minSprayGap / 50) + 1) * 50 + beforePt.X;
+                    // 最后一段距离调整
+                    if (i == hPtLst.Count - 1)
+                    {
+                        var maxAdd = m_maxWallOffsetRight - m_minWallOffset;
+                        while (true)
+                        {
+                            if (XRangeHLines(xPos, rangeLines))
+                                break;
+                            if ((xPos - beforePt.X) >= m_maxSprayGap || (xPos - beforePt.X) >= maxAdd)
+                            {
+                                xPos -= 50;
+                                break;
+                            }
+                            xPos += 50;
+                        }
+                    }
+                    else
+                    {
+                        // 调整距离前一个喷淋的位置
+                        while (true)
+                        {
+                            if (XRangeHLines(xPos, rangeLines))
+                                break;
+                            if ((xPos - beforePt.X) >= m_maxSprayGap)
+                            {
+                                xPos -= 50;
+                                break;
+                            }
+                            xPos += 50;
+                        }
+                    }
+
+                    var aimPt = new Point3d(xPos, curSpt.Y, 0);
+                    resPtLst.Add(aimPt);
+                }
+
+                return resPtLst;
+            }
+
+            private bool YRangeVLines(double yPos, List<Line> rangeVLines)
+            {
+                foreach (var line in rangeVLines)
+                {
+                    var ptSY = line.StartPoint.Y;
+                    var ptEY = line.EndPoint.Y;
+
+                    if ((yPos >= ptSY && yPos <= ptEY))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            private bool XRangeHLines(double xPos, List<Line> rangeHLines)
+            {
+                foreach (var line in rangeHLines)
+                {
+                    var ptSX = line.StartPoint.X;
+                    var ptEX = line.EndPoint.X;
+
+                    if ((xPos >= ptSX && xPos <= ptEX))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            private bool PtRangeHLines(Point3d pt, List<Line> rangeHLines)
+            {
+                foreach (var line in rangeHLines)
+                {
+                    var ptSX = line.StartPoint.X;
+                    var ptEX = line.EndPoint.X;
+
+                    if ((pt.X >= ptSX && pt.X <= ptEX))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
             private List<Point3d> NormalizeVPoints(List<Point3d> vPtLst, List<Line> rangeLines)
             {
                 var resPtLst = new List<Point3d>();
@@ -1350,7 +1969,7 @@ namespace ThSpray
             /// 计算垂直的点
             /// </summary>
             /// <returns></returns>
-            private List<Point3d> CalcuVPoints()
+            private List<Point3d> CalcuVPointsOP()
             {
                 var vPtLst = new List<Point3d>();
                 for (int i = 0; i < m_vLines.Count; i++)
@@ -1368,7 +1987,7 @@ namespace ThSpray
                         else
                         {
                             var yWid = curVLine.Length;
-                            var ratio = yWid / m_sprayGap;
+                            var ratio = yWid / m_maxSprayGap;
                             int nCount = (int)ratio;
 
                             // 多出一点点的情形，不是少于的情形
@@ -1401,7 +2020,7 @@ namespace ThSpray
                         var nextLine = m_vLines[i + 1];
                         var nextPtS = nextLine.StartPoint;
                         var yWid = nextPtS.Y - firPtS.Y;
-                        var ratio = yWid / m_sprayGap;
+                        var ratio = yWid / m_maxSprayGap;
                         int nCount = (int)ratio;
 
                         // 多出一点点的情形，不是少于的情形
@@ -1460,13 +2079,127 @@ namespace ThSpray
                 resPtLst.Add(vPtLst.Last());
                 // 垂直方向规整
                 resPtLst = NormalizeVPoints(resPtLst, m_vLines);
+
+                // 两端距离控制以及喷淋最小间隔距离控制
+                resPtLst = NormalizeVSprayMinPoints(resPtLst, m_vLines);
                 return resPtLst;
+            }
+
+            /// <summary>
+            /// y表示两个点之间的间距值
+            /// </summary>
+            /// <param name="yValue"></param>
+            /// <param name="curPt"></param>
+            /// <returns></returns>
+            private double CalculateVGapFromMin(double yValue, Point3d curPt)
+            {
+                var curYvalue = yValue;
+                while (true)
+                {
+                    if (curYvalue > m_maxSprayGap)
+                    {
+                        m_bEnd = true;
+                        return m_minSprayGap;
+                    }
+
+                    var yPoint = curPt + new Vector3d(0, 1, 0) * curYvalue;
+                    var yPos = yPoint.Y;
+                    if (YRangeVLines(yPos, m_vLines))
+                        return curYvalue;
+                    else
+                        curYvalue += 50;
+                }
+            }
+
+            private double CalculateVGapFromMax(double yValue, Point3d curPt)
+            {
+                var curYvalue = yValue;
+                while (true)
+                {
+                    if (curYvalue < m_minSprayGap)
+                    {
+                        m_bEnd = true;
+                        return m_minSprayGap;
+                    }
+
+                    var yPoint = curPt + new Vector3d(0, 1, 0) * curYvalue;
+                    var yPos = yPoint.Y;
+                    if (YRangeVLines(yPos, m_vLines))
+                        return curYvalue;
+                    else
+                        curYvalue -= 50;
+                }
+            }
+
+            /// <summary>
+            /// 计算垂直的点
+            /// </summary>
+            /// <returns></returns>
+            private List<Point3d> CalcuVPoints()
+            {
+                var vPtLst = new List<Point3d>();
+                var lastLine = m_vLines.Last();
+                if (m_vLines.Count == 1)
+                {
+
+                    if (lastLine.Length < 10)
+                    {
+                        vPtLst.Add(lastLine.StartPoint);
+                        return vPtLst;
+                    }
+                }
+
+                var firstPt = m_vLines.First().StartPoint;
+                var endPt = lastLine.EndPoint;
+
+                if (lastLine.Length < 10)
+                    endPt = lastLine.StartPoint;
+                vPtLst.Add(firstPt);
+                var vec = new Vector3d(0, 1, 0);
+                bool bReviseCheck = false;
+                while (true)
+                {
+                    var tailPoint = vPtLst.Last();
+                    var yGapFromMax = (m_maxSprayGap / 50) * 50; // 差值小于一个50
+                    var curPt = tailPoint + vec * yGapFromMax;
+                    if (curPt.Y > endPt.Y)
+                    {
+                        var yTailGap = Math.Abs(tailPoint.Y - endPt.Y);
+                        if (yTailGap > m_minSprayGap)
+                        {
+                            vPtLst.Add(endPt);
+                            break;
+                        }
+                        else
+                        {
+                            var yTailGapAdd = yTailGap + (m_maxWallOffsetTop - m_minWallOffsetTop);
+                            if (yTailGapAdd < m_minSprayGap)
+                                bReviseCheck = true;
+                            var tmpPt = tailPoint + vec * yTailGapAdd;
+                            vPtLst.Add(tmpPt);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        yGapFromMax = CalculateVGapFromMax(yGapFromMax, tailPoint);
+                        var tmpPt = tailPoint + vec * yGapFromMax;
+                        vPtLst.Add(tmpPt);
+                    }
+                }
+
+                if (bReviseCheck && vPtLst.Count > 2)
+                {
+                    vPtLst = NormalizeVSprayMinPointsFromUp(vPtLst, m_vLines); ;
+                }
+
+                return vPtLst;
             }
 
             /// <summary>
             /// 开始布置
             /// </summary>
-            private List<List<Point3d>> DoPlace()
+            private List<Point3d> DoPlace()
             {
                 var hPtLst = CalcuHPoints(); // 水平分割点
                 var vPtLst = CalcuVPoints(); // 垂直分割点
@@ -1497,10 +2230,19 @@ namespace ThSpray
 
                 // 有效的放置点
                 var validPtsLst = ErasePoints(m_roomSrcCurves, ptsLst);
+                //var validPtsLst = ptsLst;
                 //foreach (var drawPts in validPtsLst)
                 //    foreach (var drawPt in drawPts)
                 //        Utils.DrawPreviewPoint(new DBObjectCollection(), drawPt);
-                return validPtsLst;
+                var insertPts = new List<Point3d>();
+                if (validPtsLst != null && validPtsLst.Count != 0)
+                {
+                    foreach (var pts in validPtsLst)
+                    {
+                        insertPts.AddRange(pts);
+                    }
+                }
+                return insertPts;
             }
 
             /// <summary>
@@ -1530,15 +2272,13 @@ namespace ThSpray
         }
 
         /// <summary>
-        /// 计算多段线的垂直开始边和水平开始边
+        /// 计算多段线的外接矩形框下的四条边，垂直开始边和水平开始边
         /// </summary>
         public class EdgeCalcu
         {
             private List<Curve> m_srcCurves;
-            private double m_offset = 0.0;
 
-            public Line LeftEdge;
-            public Line BottomEdge;
+            // Src表示是最小矩形盒构成的四条边
             public Line SrcRightEdge;
             public Line SrcTopEdge;
 
@@ -1546,27 +2286,14 @@ namespace ThSpray
             public Line SrcBottomEdge;
 
             public List<Line> BoundCurves;
-            public EdgeCalcu(List<Curve> curves, double offset)
+            public EdgeCalcu(List<Curve> curves)
             {
                 m_srcCurves = curves;
-                m_offset = offset;
             }
 
             public void Do()
             {
                 var box = new BoundBoxPlane(m_srcCurves);
-
-                // 左边
-                var leftEdge = box.CalculateLeftEdge();
-                var leftPtS = leftEdge.StartPoint;
-                var leftPtE = leftEdge.EndPoint;
-                LeftEdge = new Line(leftPtS + new Vector3d(m_offset, 0, 0), leftPtE + new Vector3d(m_offset, 0, 0));
-
-                // 底边
-                var bottomEdge = box.CalculateBottomEdge();
-                var bottomPtS = bottomEdge.StartPoint;
-                var bottomPtE = bottomEdge.EndPoint;
-                BottomEdge = new Line(bottomPtS + new Vector3d(0, m_offset, 0), bottomPtE + new Vector3d(0, m_offset, 0));
 
                 // 房间的右边
                 SrcRightEdge = box.CalculateRightEdge();
@@ -1601,21 +2328,24 @@ namespace ThSpray
                 }
             }
 
-            // 加入便于打断
-            intersectCurves.AddRange(roomCurves);
-            // 裁剪掉框线外的曲线
-            var newCurves = ScatterCurves.MakeNewCurves(intersectCurves);
-
+            // 裁剪掉房间框线外的梁曲线
+            var newCurves = ScatterCurves.MakeScatterCurves(intersectCurves, roomCurves);
             if (newCurves != null)
             {
                 foreach (var curve in newCurves)
                 {
                     var ptMid = curve.GetPointAtParameter((curve.StartParam + curve.EndParam) * 0.5);
+                    //Utils.DrawPreviewPoint(new DBObjectCollection(), ptMid);
+                    if (CommonUtils.PtOnCurves(ptMid, roomCurves))
+                        continue;
+
                     if (CommonUtils.PtInLoop(roomCurves, ptMid))
                         relatedCurves.Add(curve);
                 }
             }
 
+            //Utils.DrawProfile(relatedCurves, "relatedCurves");
+            //Utils.DrawProfile(roomCurves, "roomCurves", Color.FromRgb(0, 255, 0));
             return relatedCurves;
         }
 
@@ -1660,9 +2390,18 @@ namespace ThSpray
             intersectCurve = null;
             return false;
         }
+
+        /// <summary>
+        /// 包含断点在曲线上的情形
+        /// </summary>
+        /// <param name="loop"></param>
+        /// <param name="curve"></param>
+        /// <returns></returns>
         public static bool LoopContainCurve(List<Curve> loop, Curve curve)
         {
-            if (CommonUtils.PtInLoop(loop, curve.StartPoint) && CommonUtils.PtInLoop(loop, curve.EndPoint))
+            bool bStartPtOn = CommonUtils.PtInLoop(loop, curve.StartPoint) || CommonUtils.PtOnCurves(curve.StartPoint, loop, 1e-3);
+            bool bEndPtOn = CommonUtils.PtInLoop(loop, curve.EndPoint) || CommonUtils.PtOnCurves(curve.EndPoint, loop, 1e-3);
+            if (bStartPtOn && bEndPtOn)
                 return true;
             else
                 return false;

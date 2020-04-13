@@ -48,6 +48,21 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_VBIDEApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\VBIDEApi.dll" />
       </Component>
     </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
+      <?define OutputPath_R22_Debug="bin\Debug-NET46" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_NetOffice_Debug" Guid="{BFBA213B-4C99-477A-847E-CE5C4E7C7B75}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_NetOffice_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\NetOffice.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_OfficeApi_Debug" Guid="{244123D3-E82F-4151-A95C-4CCCBFCCE26F}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_OfficeApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\OfficeApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_PowerPointApi_Debug" Guid="{F5B16069-8F3C-4C69-BB53-D88D0BBB5696}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_PowerPointApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\PowerPointApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_VBIDEApi_Debug" Guid="{77216E4D-D11A-4E63-874B-436B8CAD8A9A}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_VBIDEApi_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\VBIDEApi.dll" />
+      </Component>
+    </DirectoryRef>
     <?elseif $(var.Configuration) = Release ?>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18">
       <?define OutputPath_R18_Release="bin\Release" ?>
@@ -94,6 +109,21 @@
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_VBIDEApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\VBIDEApi.dll" />
       </Component>
     </DirectoryRef>
+    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
+      <?define OutputPath_R22_Release="bin\Release-NET46" ?>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_NetOffice_Release" Guid="{983B234E-0413-431B-9C6E-8A0680BB71CD}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_NetOffice_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\NetOffice.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_OfficeApi_Release" Guid="{B90F2F53-6634-4C0F-BF6E-EDE1E86CCC51}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_OfficeApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\OfficeApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_PowerPointApi_Release" Guid="{5CA282FC-CD67-457E-A3F9-A8408E44D3B8}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_PowerPointApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\PowerPointApi.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_VBIDEApi_Release" Guid="{68592EA0-0B81-4A7C-B51A-CA1FCA5577E4}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_VBIDEApi_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\VBIDEApi.dll" />
+      </Component>
+    </DirectoryRef>
     <?endif?>
   </Fragment>
   <Fragment>
@@ -111,6 +141,10 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_OfficeApi_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PowerPointApi_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_VBIDEApi_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NetOffice_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_OfficeApi_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_PowerPointApi_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_VBIDEApi_Debug" />
       <?elseif $(var.Configuration) = Release ?>
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NetOffice_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_OfficeApi_Release" />
@@ -124,6 +158,10 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_OfficeApi_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PowerPointApi_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_VBIDEApi_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NetOffice_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_OfficeApi_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_PowerPointApi_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_VBIDEApi_Release" />
       <?endif?>
     </ComponentGroup>
   </Fragment>

@@ -232,14 +232,14 @@ namespace ThSpray
 
     public class PlaceData
     {
-        public double minSprayGap;
-        public double maxSprayGap;
-        public double minWallGap;
-        public double maxWallGap;
-        public double minBeamGap;
-        public double maxBeamGap;
-        public SprayType type;
-        public PutType putType;
+        public double minSprayGap = 1800;
+        public double maxSprayGap = 3400;
+        public double minWallGap = 100;
+        public double maxWallGap = 1700;
+        public double minBeamGap = 150;
+        public double maxBeamGap = 1800;
+        public SprayType type = SprayType.SPRAYUP;
+        public PutType putType = PutType.PICKPOINT;
     }
 
     public class CommonUtils
@@ -330,6 +330,53 @@ namespace ThSpray
             return lines;
         }
 
+        /// <summary>
+        /// 删除在curves上的点
+        /// </summary>
+        /// <param name="pts"></param>
+        /// <param name="curves"></param>
+        /// <returns></returns>
+        public static List<Point3d> ErasePointsOnCurves(List<Point3d> pts, List<Curve> curves)
+        {
+            if (pts == null || pts.Count == 0)
+                return null;
+
+            var validPts = new List<Point3d>();
+            foreach (var pt in pts)
+            {
+                if (!PtOnCurves(pt, curves))
+                    validPts.Add(pt);
+            }
+
+            return validPts;
+        }
+
+        /// <summary>
+        /// 点是否在线段上面
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <param name="curves"></param>
+        /// <returns></returns>
+        public static bool PtOnCurves(Point3d pt, List<Curve> curves, double tole = 1e-2)
+        {
+            foreach (var curve in curves)
+            {
+                if (curve is Line)
+                {
+                    var line = curve as Line;
+                    if (IsPointOnLine(pt, line, tole))
+                        return true;
+                }
+                else if (curve is Arc)
+                {
+                    var arc = curve as Arc;
+                    if (IsPointOnArc(pt, arc))
+                        return true;
+                }
+            }
+
+            return false;
+        }
 
         public static List<LineSegment2d> Polyline2dLines(Polyline polyline)
         {
@@ -1227,7 +1274,7 @@ namespace ThSpray
             return false;
         }
 
-        public static bool IsPointOnArc(Point3d point, Arc arc, double tole = 1e-8)
+        public static bool IsPointOnArc(Point3d point, Arc arc)
         {
             try
             {
@@ -1251,7 +1298,7 @@ namespace ThSpray
             else
             {
                 var arc = edge.SrcCurve as Arc;
-                return CommonUtils.IsPointOnArc(point, arc, 1e-3);
+                return CommonUtils.IsPointOnArc(point, arc);
             }
         }
 

@@ -40,6 +40,8 @@
     <Compile Include="ThCuiApp.cs" />
     <Compile Include="ThCuiCmdHandler.cs" />
     <Compile Include="ThCuiCommon.cs" />
+    <Compile Include="ThCuiProfileManager.cs" />
+    <Compile Include="ThCuiProfileYamlParser.cs" />
     <Compile Include="ThLoginDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -47,13 +49,12 @@
       <DependentUpon>ThLoginDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="ThMenuBar.cs" />
-    <Compile Include="ThCommandInfo.cs" />
     <Compile Include="ThMenuBarUtils.cs" />
     <Compile Include="ThPartialCui.cs" />
     <Compile Include="ThRibbonBar.cs" />
-    <Compile Include="ThRibbonHelper.cs" />
     <Compile Include="ThRibbonUtils.cs" />
     <Compile Include="ThToolBar.cs" />
+    <Compile Include="ThToolbarUtils.cs" />
     <Compile Include="ThToolPalette.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +91,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\profile_ribbon_architecture.yml" />
+    <EmbeddedResource Include="Resources\profile_ribbon_electrical.yml" />
+    <EmbeddedResource Include="Resources\profile_ribbon_havc.yml" />
+    <EmbeddedResource Include="Resources\profile_ribbon_project.yml" />
+    <EmbeddedResource Include="Resources\profile_ribbon_structure.yml" />
+    <EmbeddedResource Include="Resources\profile_ribbon_wss.yml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
@@ -130,7 +137,18 @@
         <PackageReference Include="AutoCAD.NET.Core" Version="22.0.0" />
         <PackageReference Include="AutoCAD.NET.Model" Version="22.0.0" />
       </ItemGroup>
+      <ItemGroup>
+        <Reference Include="Autodesk.AutoCAD.Interop.dll">
+          <HintPath>..\..\Externals\AutoCAD\2018\Autodesk.AutoCAD.Interop.dll</HintPath>
+        </Reference>
+        <Reference Include="Autodesk.AutoCAD.Interop.Common.dll">
+          <HintPath>..\..\\Externals\AutoCAD\2018\Autodesk.AutoCAD.Interop.Common.dll</HintPath>
+        </Reference>
+      </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="8.0.0" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

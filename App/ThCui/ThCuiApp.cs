@@ -27,6 +27,9 @@ namespace TianHua.AutoCAD.ThCui
 
         private readonly Dictionary<string, string> thcommanfunctiondict = new Dictionary<string, string>
         {
+            // 切换专业
+            {"THPROFILE", "专业切换"},
+
             // 图块图库
             {"THBLI", "图块集"},
             {"THBLS", "图块集配置"},
@@ -61,19 +64,24 @@ namespace TianHua.AutoCAD.ThCui
             {"THTET", "综合经济技术指标表"},
             {"THFET", "消防疏散表"},
             {"THABC", "房间面积框线"},
+
+            // 平面绘图
+            {"THSPC", "喷头布置"},
+            {"THQS", "天华快选"},
+            {"THAL", "天华对齐"},
+            {"THCO", "天华复制"},
+            {"THMA", "天华格式刷"},
             
             // 辅助工具
-            {"THMSC", "批量缩放"},
-            {"THZ0", "Z值归零"},
-            {"DGNPURGE", "DGN清理"},
-            {"THBPT", "批量打印PDF"},
-            {"THBPD", "批量打印DWF"},
-            {"THBPP", "批量打印PPT"},
-            {"THSVM", "版次信息修改"},
-            {"THLTR", "管线断线"},
-            {"THMIR", "文字块镜像"},
-            // 文字表格
-            {"THMTC", "文字内容刷"},
+            {"THMSC",       "批量缩放"},
+            {"THZ0",        "Z值归零"},
+            {"THPURGE",     "DGN清理"},
+            {"THBPT",       "批量打印PDF"},
+            {"THBPD",       "批量打印DWF"},
+            {"THBPP",       "批量打印PPT"},
+            {"THSVM",       "版次信息修改"},
+            {"THLTR",       "管线断线"},
+            {"THMIR",       "文字块镜像"},
 
             // 第三方支持
             {"T20V4", "获取天正看图T20V4.0插件"},
@@ -102,6 +110,7 @@ namespace TianHua.AutoCAD.ThCui
             // CUI界面更新
             AcadApp.Idle += Application_OnIdle_Ribbon;
             AcadApp.Idle += Application_OnIdle_Menubar;
+            AcadApp.Idle += Application_OnIdle_Toolbar;
 
             //注册RibbonPaletteSet事件
             if (RibbonServices.RibbonPaletteSet == null)
@@ -117,6 +126,8 @@ namespace TianHua.AutoCAD.ThCui
 
             //注册DocumentCollection事件
             AcadApp.DocumentManager.DocumentLockModeChanged += DocCollEvent_DocumentLockModeChanged_Handler;
+            //注册SystemVariableChanged 事件
+            AcadApp.SystemVariableChanged += SystemVariableChangedHandler;
 
 #if DEBUG
             //  在装载模块时主动装载局部CUIX文件
@@ -152,6 +163,8 @@ namespace TianHua.AutoCAD.ThCui
 
             //反注册DocumentCollection事件
             AcadApp.DocumentManager.DocumentLockModeChanged -= DocCollEvent_DocumentLockModeChanged_Handler;
+            //反注册SystemVariableChanged 事件
+            AcadApp.SystemVariableChanged -= SystemVariableChangedHandler;
 
 #if DEBUG
             //  在卸载模块时主动卸载局部CUIX文件
@@ -179,15 +192,8 @@ namespace TianHua.AutoCAD.ThCui
                 // 配置完成后就不需要Idle事件
                 AcadApp.Idle -= Application_OnIdle_Ribbon;
 
-                // 根据当前的登录信息配置Panels
-                if (ThIdentityService.IsLogged())
-                {
-                    ThRibbonUtils.OpenAllPanels();
-                }
-                else
-                {
-                    ThRibbonUtils.CloseAllPanels();
-                }
+                // 更新Ribbon
+                UpdateRibbonUserInterface();
             }
         }
 
@@ -198,16 +204,48 @@ namespace TianHua.AutoCAD.ThCui
                 // 配置完成后就不需要Idle事件
                 AcadApp.Idle -= Application_OnIdle_Menubar;
 
-                // 根据当前的登录信息配置菜单栏
-                if (ThIdentityService.IsLogged())
-                {
-                    ThMenuBarUtils.EnableMenuItems();
-                }
-                else
-                {
-                    ThMenuBarUtils.DisableMenuItems();
-                }
+                // 更新Menubar
+                UpdateMenubarUserInterface();
             }
+        }
+
+        private void Application_OnIdle_Toolbar(object sender, EventArgs e)
+        {
+            if (ThToolbarUtils.Toolbars != null)
+            {
+                // 配置完成后就不需要Idle事件
+                AcadApp.Idle -= Application_OnIdle_Toolbar;
+
+                // 更新Toolbar
+                UpdateToolbarUserInterface();
+            }
+        }
+
+        /// <summary>
+        /// 更新当前的Ribbon界面
+        /// </summary>
+        private void UpdateRibbonUserInterface()
+        {
+            // 根据当前的Profile配置Panels
+            ThRibbonUtils.ConfigPanelsWithCurrentProfile();
+
+            // 根据当前的登录信息配置Panels
+            ThRibbonUtils.ConfigPanelsWithCurrentUser();
+        }
+
+        private void UpdateToolbarUserInterface()
+        {
+            // 根据当前的登录信息配置Toolbars
+            ThToolbarUtils.ConfigToolbarsWithCurrentUser();
+        }
+
+        private void UpdateMenubarUserInterface()
+        {
+            // 根据当前的Profile配置Menubar
+            ThMenuBarUtils.ConfigMenubarWithCurrentProfile();
+
+            // 根据当前的登录信息配置Menubar
+            ThMenuBarUtils.ConfigMenubarWithCurrentUser();
         }
 
         private void Application_OnIdle_RibbonPaletteSet(object sender, EventArgs e)
@@ -235,15 +273,7 @@ namespace TianHua.AutoCAD.ThCui
                 // 需要保证Ribbon自定义Tab是存在的，并且自定义Tab中的Panels也是存在的。
                 if (ThRibbonUtils.Tab != null && ThRibbonUtils.Tab.Panels.Count != 0)
                 {
-                    // 根据当前的登录信息配置Panels
-                    if (ThIdentityService.IsLogged())
-                    {
-                        ThRibbonUtils.OpenAllPanels();
-                    }
-                    else
-                    {
-                        ThRibbonUtils.CloseAllPanels();
-                    }
+                    ThRibbonUtils.ConfigPanelsWithCurrentUser();
                 }
             }
         }
@@ -289,6 +319,15 @@ namespace TianHua.AutoCAD.ThCui
                     e.Veto();
                     AcadApp.Idle += Application_OnIdle_Cmd_Veto;
                 }
+            }
+        }
+
+        private void SystemVariableChangedHandler(object sender, SystemVariableChangedEventArgs e)
+        {
+            if (e.Name == "WSCURRENT")
+            {
+                // CUI界面更新
+                AcadApp.Idle += Application_OnIdle_Ribbon;
             }
         }
 
@@ -372,6 +411,22 @@ namespace TianHua.AutoCAD.ThCui
                 ThCuiCommon.CMD_THT20PLUGINV5_GLOBAL_NAME, 
                 CommandFlags.Modal, 
                 new CommandCallback(DownloadT20PlugInV5));
+
+            //专业切换
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME,
+                ThCuiCommon.CMD_THPROFILE_GLOBAL_NAME,
+                ThCuiCommon.CMD_THPROFILE_GLOBAL_NAME,
+                CommandFlags.Modal,
+                new CommandCallback(OnSwitchProfile));
+
+            //天华PURGE
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME,
+                ThCuiCommon.CMD_THPURGE_GLOBAL_NAME,
+                ThCuiCommon.CMD_THPURGE_GLOBAL_NAME,
+                CommandFlags.Modal,
+                new CommandCallback(ThPurge));
         }
 
         public void UnregisterCommands()
@@ -383,6 +438,8 @@ namespace TianHua.AutoCAD.ThCui
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THBLI_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV4_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV5_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THPROFILE_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THPURGE_GLOBAL_NAME);
         }
 
         private void OverwritePlotConfigurations()
@@ -569,19 +626,28 @@ namespace TianHua.AutoCAD.ThCui
             if (ThIdentityService.IsLogged())
             {
                 ThRibbonUtils.OpenAllPanels();
+                ThToolbarUtils.OpenAllToolbars();
                 ThMenuBarUtils.EnableMenuItems();
             }
 
+            // 根据当前的Profile配置Panels
+            ThRibbonUtils.ConfigPanelsWithCurrentProfile();
+            // 根据当前的Profile配置Toolbars
+            ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
+            // 根据当前的Profile配置Menubar
+            ThMenuBarUtils.ConfigMenubarWithCurrentProfile();
         }
 
         private void OnLogOut()
         {
             ThIdentityService.Logout();
+            ThCuiProfileManager.Instance.Reset();
 
             // 更新Ribbon
             if (!ThIdentityService.IsLogged())
             {
                 ThRibbonUtils.CloseAllPanels();
+                ThToolbarUtils.CloseAllToolbars();
                 ThMenuBarUtils.DisableMenuItems();
             }
         }
@@ -589,6 +655,80 @@ namespace TianHua.AutoCAD.ThCui
         private void OnHelp()
         {
             Process.Start(ThCADCommon.OnlineHelpUrl);
+        }
+
+        private void OnSwitchProfile()
+        {
+            // 指定专业
+            PromptKeywordOptions keywordOptions = new PromptKeywordOptions("\n请指定专业：")
+            {
+                AllowNone = true
+            };
+            keywordOptions.Keywords.Add("ARCHITECTURE", "ARCHITECTURE", "建筑(A)");
+            keywordOptions.Keywords.Add("STRUCTURE", "STRUCTURE", "结构(S)");
+            keywordOptions.Keywords.Add("HAVC", "HAVC", "暖通(H)");
+            keywordOptions.Keywords.Add("ELECTRICAL", "ELECTRICAL", "电气(E)");
+            keywordOptions.Keywords.Add("WATER", "WATER", "给排水(W)");
+            keywordOptions.Keywords.Add("PROJECT", "PROJECT", "方案(P)");
+            keywordOptions.Keywords.Default = "ARCHITECTURE";
+            PromptResult result = Active.Editor.GetKeywords(keywordOptions);
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
+            }
+
+            switch(result.StringResult)
+            {
+                case "ARCHITECTURE":
+                    {
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.ARCHITECTURE;
+                    }
+                    break;
+                case "STRUCTURE":
+                    {
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.STRUCTURE;
+                    }
+                    break;
+                case "HAVC":
+                    {
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.HAVC;
+                    }
+                    break;
+                case "ELECTRICAL":
+                    {
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.ELECTRICAL;
+                    }
+                    break;
+                case "WATER":
+                    {
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.WSS;
+                    }
+                    break;
+                case "PROJECT":
+                    {
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.PROJECTPLAN;
+                    }
+                    break;
+                default:
+                    return;
+            }
+
+            ThRibbonUtils.ConfigPanelsWithCurrentProfile();
+            ThMenuBarUtils.ConfigMenubarWithCurrentProfile();
+            ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
+        }
+
+
+        // DGN清理
+        // 从AutoCAD 2016开始，“PURGE”命令可以实现“DGNPURGE”的功能
+        // 这里直接将“DGNPURGE”切换到“PURGE”命令
+        private void ThPurge()
+        {
+#if ACAD_ABOVE_2014
+            Active.Document.SendStringToExecute("_.PURGE ", true, false, true);
+#else
+            Active.Document.SendStringToExecute("_.DGNPURGE ", true, false, true);
+#endif
         }
 
         /// <summary>

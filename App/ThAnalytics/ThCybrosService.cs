@@ -63,15 +63,13 @@ namespace ThAnalytics
             // 辅助工具
             {"THMSC", "批量缩放"},
             {"THZ0", "Z值归零"},
-            {"DGNPURGE", "DGN清理"},
+            {"THPURGE", "DGN清理"},
             {"THBPT", "批量打印PDF"},
             {"THBPD", "批量打印DWF"},
             {"THBPP", "批量打印PPT"},
             {"THSVM", "版次信息修改"},
             {"THLTR", "管线断线"},
             {"THMIR", "文字块镜像"},
-            // 文字表格
-            {"THMTC", "文字内容刷"},
 
             // 第三方支持
             {"T20V4", "获取天正看图T20V4.0插件"},

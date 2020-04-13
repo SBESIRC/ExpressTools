@@ -11,6 +11,7 @@ using Autodesk.AutoCAD.Geometry;
 using System.Windows.Forms;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using NFox.Cad.Collections;
+using System.Threading;
 
 namespace ThSpray
 {
@@ -37,15 +38,15 @@ namespace ThSpray
             var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers, out columnLayers);
             var previewCurves = new List<Curve>();
             again:
-            Utils.EraseProfile(previewCurves);
-            previewCurves.Clear();
             var sprayForm = new SprayParam();
             if (AcadApp.ShowModalDialog(sprayForm) != DialogResult.OK)
             {
                 return;
             }
 
-            var userData = sprayForm.placeData;
+            int nTotalFailed = 0; // 喷淋布置的时候失败的个数
+            int nSuccess = 0;
+            var userData = SprayParam.placeData;
             Document doc = AcadApp.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
             if (userData.putType == PutType.CHOOSECURVE)
@@ -75,6 +76,15 @@ namespace ThSpray
                 }
 
                 ProgressDialog.ShowProgress();
+                // wall 中的数据
+                var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
+                if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
+                {
+                    ProgressDialog.HideProgress();
+                    return;
+                }
+
+                ProgressDialog.SetValue(10);
                 // 梁数据
                 var beamCurves = Utils.GetAllCurvesFromLayerNames(beamLayers);
 
@@ -88,6 +98,8 @@ namespace ThSpray
 
                 ProgressDialog.SetValue(15);
                 roomPolylines = Utils.NormalizePolylines(roomPolylines);
+                roomPolylines = Utils.EraseInvalidPolylines(roomPolylines, wallAllCurves);
+
                 var inc = 75 / roomPolylines.Count;
                 var curStep = 20;
                 foreach (var roomPoly in roomPolylines)
@@ -95,11 +107,15 @@ namespace ThSpray
                     // 内梁
                     var insertPts = Utils.MakeInnerProfiles(innerCurves, roomPoly, userData);
                     if (insertPts == null || insertPts.Count == 0)
+                    {
+                        nTotalFailed++;
                         continue;
+                    }
 
                     // 插入块
                     Utils.InsertSprayBlock(insertPts, userData.type);
                     curStep += inc;
+                    nSuccess++;
                     ProgressDialog.SetValue(curStep);
                 }
 
@@ -147,7 +163,7 @@ namespace ThSpray
                         Active.WriteMessage("取消操作");
                         return;
                     }
-
+                    
                     var pickPoint = ppr.Value;
                     if ((ppr.Status == PromptStatus.OK) || ppr.Status == PromptStatus.Keyword)
                     {
@@ -163,6 +179,8 @@ namespace ThSpray
                         }
                         else if (ppr.StringResult == "E")
                         {
+                            Utils.EraseProfile(previewCurves);
+                            previewCurves.Clear();
                             goto again;
                         }
                         else
@@ -178,11 +196,19 @@ namespace ThSpray
                     }
                 }
 
-                Utils.EraseProfile(previewCurves);
-                previewCurves.Clear();
                 // 选点结束后的判断处理
-                if (pickPoints.Count < 3)
+                if (pickPoints.Count < 4)
                 {
+                    Utils.EraseProfile(previewCurves);
+                    previewCurves.Clear();
+                    Active.WriteMessage("绘制多段线错误");
+                    return;
+                }
+
+                if (Utils.IsSelfIntersected(pickPoints))
+                {
+                    Utils.EraseProfile(previewCurves);
+                    previewCurves.Clear();
                     Active.WriteMessage("绘制多段线错误");
                     return;
                 }
@@ -190,9 +216,15 @@ namespace ThSpray
                 var poly = Utils.Pts2Polyline(pickPoints);
                 poly = Utils.NormalizePolyline(poly);
                 if (poly == null)
+                {
+                    Utils.EraseProfile(previewCurves);
+                    previewCurves.Clear();
                     return;
+                }
 
                 ProgressDialog.ShowProgress();
+                Utils.EraseProfile(previewCurves);
+                previewCurves.Clear();
                 // 梁数据
                 var beamCurves = Utils.GetAllCurvesFromLayerNames(beamLayers);
 
@@ -210,16 +242,17 @@ namespace ThSpray
                 if (insertPts == null || insertPts.Count == 0)
                 {
                     ProgressDialog.HideProgress();
+                    Active.WriteMessage("绘制多段线错误");
                     return;
                 }
 
                 // 插入块
                 Utils.InsertSprayBlock(insertPts, userData.type);
+                nSuccess++;
                 ProgressDialog.HideProgress();
             }
             else if (userData.putType == PutType.PICKPOINT)
             {
-
                 var pickPoints = new List<Point3d>();
                 var objCollect = new DBObjectCollection();
                 var tip = "请点击需要布置喷头房间内的一点，共计";
@@ -253,8 +286,8 @@ namespace ThSpray
                 var removeEntityLst = Utils.PreProcess(validLayers);
 
                 // 获取相关图层中的数据
-                // 所有数据
-                var allCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);
+                var allCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);// allCurves指所有能作为墙一部分的曲线
+                
                 if (allCurves == null || allCurves.Count == 0)
                 {
                     Utils.PostProcess(removeEntityLst);
@@ -298,6 +331,8 @@ namespace ThSpray
                 ProgressDialog.SetValue(15);
                 allCurves = TopoUtils.TesslateCurve(allCurves);
                 allCurves = CommonUtils.RemoveCollinearLines(allCurves);
+
+                pickPoints = CommonUtils.ErasePointsOnCurves(pickPoints, allCurves);
                 // 梁数据
                 var beamCurves = Utils.GetAllCurvesFromLayerNames(beamLayers);
                 //柱子数据
@@ -328,12 +363,16 @@ namespace ThSpray
                     // 内梁
                     var insertPts = Utils.MakeInnerProfiles(innerCurves, profile.First() as Polyline, userData);
                     if (insertPts == null || insertPts.Count == 0)
+                    {
+                        nTotalFailed++;
                         continue;
+                    }
 
                     hasPutPolylines.Add(profile.First() as Polyline);
                     // 插入块
                     Utils.InsertSprayBlock(insertPts, userData.type);
                     curStep = inc + curStep;
+                    nSuccess++;
                     ProgressDialog.SetValue(curStep);
                 }
 
@@ -342,7 +381,17 @@ namespace ThSpray
                 ProgressDialog.HideProgress();
             }
 
-            Active.WriteMessage("布置完成");
+            if (nTotalFailed > 0)
+            {
+                var tip = "布置完成，其中";
+                tip += nTotalFailed;
+                tip += "个房间无法布置";
+                Active.WriteMessage(tip);
+            }
+            else if (nSuccess > 0)
+            {
+                Active.WriteMessage("布置完成");
+            }
         }
     }
 }

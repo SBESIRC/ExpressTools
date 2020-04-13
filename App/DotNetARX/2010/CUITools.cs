@@ -208,6 +208,17 @@ namespace DotNetARX
         }
 
         /// <summary>
+        /// 向工具栏添加分隔条
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public static ToolbarButton AddSeparator(this Toolbar parent, int index)
+        {
+            return new ToolbarButton(parent, index);
+        }
+
+        /// <summary>
         /// 向工具栏添加弹出式工具栏
         /// </summary>
         /// <param name="parent">工具栏所属的父工具栏</param>

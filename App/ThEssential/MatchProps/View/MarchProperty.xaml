@@ -1,0 +1,52 @@
+﻿<Window x:Class="ThEssential.MatchProps.MarchProperty"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ThEssential"
+        mc:Ignorable="d"
+        Title="匹配属性" Width="200" Height="320" MinWidth="200" MinHeight="320" 
+        PreviewKeyDown="Window_PreviewKeyDown"
+        KeyDown="Window_KeyDown" Loaded="Window_Loaded" ResizeMode="NoResize"
+        Topmost="True" MaxWidth="200" MaxHeight="320">
+    <Window.Resources>
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="FontFamily" Value="宋体" />
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="180"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5,0,0,0">
+            <TextBlock Text="属性过滤" VerticalAlignment="Center"></TextBlock>
+            <Line Stroke="Gray" X1="5" Y1="15" X2="120" Y2="15" />
+        </StackPanel>
+        <StackPanel Margin="10,0" Grid.Row="1">
+            <CheckBox Margin="0,5" Name="cbLayer" Content="图层(L)" IsChecked="{Binding MarchPropSet.LayerOp,Mode=TwoWay}" MouseRightButtonDown="Control_MouseRightButtonDown" Click="CbLayer_Click"></CheckBox>
+            <CheckBox Margin="0,5" Name="cbColor" Content="颜色(C)" IsChecked="{Binding MarchPropSet.ColorOp,Mode=TwoWay}" MouseRightButtonDown="Control_MouseRightButtonDown" Click="CbColor_Click"></CheckBox>
+            <CheckBox Margin="0,5" Name="cbLineType" Content="线型(E)" IsChecked="{Binding MarchPropSet.LineTypeOp,Mode=TwoWay}" MouseRightButtonDown="Control_MouseRightButtonDown" Click="CbLineType_Click"></CheckBox>
+            <CheckBox Margin="0,5" Name="cbLineWeight" Content="线宽(W)" IsChecked="{Binding MarchPropSet.LineWeightOp,Mode=TwoWay}" MouseRightButtonDown="Control_MouseRightButtonDown" Click="CbLineWeight_Click"></CheckBox>
+            <CheckBox Margin="0,5" Name="cbTextSize" Content="文字大小(S)" IsChecked="{Binding MarchPropSet.TextSizeOp,Mode=TwoWay}" MouseRightButtonDown="Control_MouseRightButtonDown" Click="CbTextSize_Click"></CheckBox>
+            <CheckBox Margin="0,5"  Name="cbTextContent" Content="文字内容(T)" IsChecked="{Binding MarchPropSet.TextContentOp,Mode=TwoWay}" MouseRightButtonDown="Control_MouseRightButtonDown" Click="CbTextContent_Click"></CheckBox>
+            <CheckBox Margin="0,5" Name="cbTextDirection" Content="文字方向(D)" IsChecked="{Binding MarchPropSet.TextDirectionOp,Mode=TwoWay}" MouseRightButtonDown="Control_MouseRightButtonDown" Click="CbTextDirection_Click"></CheckBox>
+        </StackPanel>
+        <StackPanel Grid.Row="2" VerticalAlignment="Top">
+            <Line Stroke="Gray" X1="5" Y1="5" X2="180" Y2="5" />
+            <CheckBox Margin="10,5" Name="cbAcadInitConfig" Content="ACAD默认配置(A)" 
+                      IsChecked="{Binding MarchPropSet.AcadDefaultConfigOp,Mode=TwoWay}"
+                      MouseRightButtonDown="Control_MouseRightButtonDown" 
+                      Click="CbAcadInitConfig_Click"></CheckBox>
+            <Line Stroke="Gray" X1="5" Y1="5" X2="180" Y2="5" />
+            <!--<CheckBox Margin="10,5" Name="cbEditAlias" Content="编辑别名" IsChecked="{Binding MarchPropSet.EditAliasOp,Mode=TwoWay}"/>-->
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <Button Name="btnOK" Content="确定" Width="70" Height="25" Margin="10,5" Command="{Binding OkCommand}"></Button>
+            <Button Name="btnCancel" Content="取消" Width="70" Height="25" Command="{Binding CancelCommand}"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

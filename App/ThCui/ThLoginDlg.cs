@@ -31,11 +31,19 @@ namespace TianHua.AutoCAD.ThCui
 
         private void button_ok_Click(object sender, EventArgs e)
         {
+            if (comboBox_profile.SelectedIndex == -1)
+            {
+                AcadApp.ShowAlertDialog("请选择您的专业！");
+                DialogResult = DialogResult.None;
+                return;
+            }
             if (!ThIdentityService.Login(User, Password))
             {
                 AcadApp.ShowAlertDialog("登录失败！请重新登录");
                 DialogResult = DialogResult.None;
-            } 
+                return;
+            }
+            ThCuiProfileManager.Instance.CurrentProfile = (Profile)comboBox_profile.SelectedIndex;
         }
     }
 }

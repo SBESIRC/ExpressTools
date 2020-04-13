@@ -2,6 +2,9 @@
 {
     public class ThCuiCommon
     {
+        /// <summary>
+        /// 命令
+        /// </summary>
         public static readonly string CMD_GROUPNAME = "TIANHUACAD";
         public static readonly string CMD_THHLP_GLOBAL_NAME = "THHLP";
         public static readonly string CMD_THBLS_GLOBAL_NAME = "THBLS";
@@ -11,5 +14,17 @@
         public static readonly string CMD_THLOGIN_GLOBAL_NAME = "THLOGIN";
         public static readonly string CMD_THLOGOUT_GLOBAL_NAME = "THLOGOUT";
         public static readonly string CMD_THDUMPCUI_GLOBAL_NAME = "THDUMPCUI";
+        public static readonly string CMD_THPROFILE_GLOBAL_NAME = "THPROFILE";
+        public static readonly string CMD_THPURGE_GLOBAL_NAME = "THPURGE";
+
+        /// <summary>
+        /// 专业
+        /// </summary>
+        public static readonly string PROFILE_WSS = "天华给排水";
+        public static readonly string PROFILE_HAVC = "天华暖通";
+        public static readonly string PROFILE_STRUCTURE = "天华结构";
+        public static readonly string PROFILE_ELECTRICAL = "天华电气";
+        public static readonly string PROFILE_ARCHITECTURE = "天华建筑";
+        public static readonly string PROFILE_GENERAL = "天华通用";
     }
 }

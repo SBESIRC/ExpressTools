@@ -1408,6 +1408,7 @@ namespace ThSpray
         }
 
         private List<Curve> m_curves;
+        private List<Curve> m_intersectCurves = null;
         List<ScatterNode> m_ScatterNodes = new List<ScatterNode>();
 
         private List<Curve> m_geneCurves = new List<Curve>();
@@ -1422,7 +1423,52 @@ namespace ThSpray
             var scatterCurves = new ScatterCurves(srcCurves);
             return scatterCurves.Curves;
         }
+        
+        public static List<Curve> MakeScatterCurves(List<Curve> srcCurves, List<Curve> intersectCurves)
+        {
+            var scatterCurves = new ScatterCurves(srcCurves, intersectCurves);
+            return scatterCurves.Curves;
+        }
 
+        private ScatterCurves(List<Curve> srcCurves, List<Curve> intersectCurves)
+        {
+            m_curves = srcCurves;
+            m_intersectCurves = intersectCurves;
+
+            foreach (var curve in m_curves)
+            {
+                m_ScatterNodes.Add(new ScatterNode(curve, curve is Line));
+            }
+
+            IntersectWith();
+            SortXYZPoints();
+            NewCurves();
+        }
+
+        private void IntersectWith()
+        {
+            for (int i = 0; i < m_ScatterNodes.Count; i++)
+            {
+                var curCurve = m_ScatterNodes[i].srcCurve;
+                for (int j = 0; j < m_intersectCurves.Count; j++)
+                {
+                    var nextCurve = m_intersectCurves[j];
+
+                    if (!CommonUtils.IntersectValid(curCurve, nextCurve))
+                        continue;
+
+                    var ptLst = new Point3dCollection();
+                    curCurve.IntersectWith(nextCurve, Intersect.OnBothOperands, ptLst, (IntPtr)0, (IntPtr)0);
+                    if (ptLst.Count != 0)
+                    {
+                        foreach (Point3d pt in ptLst)
+                        {
+                            m_ScatterNodes[i].ptLst.Add(pt);
+                        }
+                    }
+                }
+            }
+        }
 
         private ScatterCurves(List<Curve> curves)
         {

@@ -21,8 +21,15 @@ namespace ThEssential.Command
             double qx = Interaction.GetValue("请输入流量：", 1000);
             double hx = Interaction.GetValue("请输入扬程：", 15);
 
+            // 选择设备选型文件
+            string file = Interaction.OpenFileDialogBySystem("选择设备文件", null, "(*.dwg)|*.dwg");
+            if (file.IsNullOrEmpty())
+            {
+                return;
+            }
+
             // 打开设备选型图
-            using (AcadDatabase acadDatabase = AcadDatabase.Open("F:\\水泵选型2.dwg", DwgOpenMode.ReadOnly))
+            using (AcadDatabase acadDatabase = AcadDatabase.Open(file, DwgOpenMode.ReadOnly))
             {
                 // 根据指定的流量和扬程，计算目标设备区域
                 var coordinate = acadDatabase.Database.EquipmentCoordinateSystem();

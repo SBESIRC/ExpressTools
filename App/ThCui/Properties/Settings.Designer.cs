@@ -34,5 +34,17 @@ namespace TianHua.AutoCAD.ThCui.Properties {
                 this["OverwritePlotConfigurations"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public uint Profile {
+            get {
+                return ((uint)(this["Profile"]));
+            }
+            set {
+                this["Profile"] = value;
+            }
+        }
     }
 }
