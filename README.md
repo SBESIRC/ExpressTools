@@ -74,6 +74,8 @@ WiX Toolset v3.11.1 (WiX Toolset Visual Studio 2017 Extension)
 
 [AutoCAD 2015: calling commands](https://www.keanw.com/2014/03/autocad-2015-calling-commands.html)
 
+[Migration After Fiber is Removed in AutoCAD 2015](https://adndevblog.typepad.com/autocad/2014/04/migration-after-fiber-is-removed-in-autocad-2015.html)
+
 ## CUI
 
 [Creating a partial CUI file using .NET and loading it inside AutoCAD](https://www.keanw.com/2007/05/creating_a_part.html)
