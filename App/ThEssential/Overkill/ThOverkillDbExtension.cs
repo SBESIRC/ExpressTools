@@ -1,10 +1,14 @@
 ﻿using Linq2Acad;
 using System.Linq;
-using ThEssential.Equipment;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
-
+using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.ApplicationServices;
+using ThEssential.Equipment;
+using System;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThEssential.Overkill
 {
@@ -58,8 +62,10 @@ namespace ThEssential.Overkill
                         }
 
                         Line colLine = firLine.MoveToCollinear(tempLine);
-                        acdb.ModelSpace.Add(colLine);
-                        firLine.Erase();
+                        if (colLine == null)
+                        {
+                            continue;
+                        }
                         tempLine.Erase();
 
                         curves.Remove(curves[i]);
@@ -98,7 +104,13 @@ namespace ThEssential.Overkill
             points = points.OrderBy(x => x.X + x.Y).ToList();
             Point3d sp = points.First();
             Point3d ep = points.Last();
-            return new Line(sp, ep);
+            if (sp.DistanceTo(ep) > firLine.Length + secLine.Length)
+            {
+                return null;
+            }
+            firLine.StartPoint = sp;
+            firLine.EndPoint = ep;
+            return firLine;
         }
     }
 }
