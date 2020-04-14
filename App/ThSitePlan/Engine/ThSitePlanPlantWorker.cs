@@ -40,6 +40,7 @@ namespace ThSitePlan.Engine
                 }
 
                 // 执行PEDIT命令将图元合并
+                Active.Editor.PeditCmd(objs);
             }
 
             using (var objs = Filter(database, configItem, options))
@@ -50,6 +51,7 @@ namespace ThSitePlan.Engine
                 }
 
                 // 执行MEASURE命令将图元分段
+                Active.Editor.MeasureCmd(objs);
             }
 
             return true;

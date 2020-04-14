@@ -173,5 +173,52 @@ namespace ThSitePlan
             Active.Editor.AcedCmd(args);
 #endif
         }
+
+        public static void PeditCmd(this Editor editor, ObjectIdCollection objs)
+        {
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("_.PEDIT", 
+                "_M",
+                SelectionSet.FromObjectIds(objs.ToArray()),
+                "",
+                "_Y",
+                "_J",
+                "",
+                "");
+#else
+            ResultBuffer args = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.PEDIT"),
+               new TypedValue((int)LispDataType.Text, "_M"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Text, "_Y"),
+               new TypedValue((int)LispDataType.Text, "_J"),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args);
+#endif
+        }
+
+        public static void MeasureCmd(this Editor editor, ObjectIdCollection objs)
+        {
+            double distance = 5.0;
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("_.MEASURE",
+                SelectionSet.FromObjectIds(objs.ToArray()),
+                "",
+                distance.ToString(),
+                "");
+#else
+            ResultBuffer args = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.MEASURE"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Double, distance),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args);
+#endif
+        }
     }
 }
