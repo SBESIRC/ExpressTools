@@ -271,8 +271,15 @@ namespace TopoNode
                     continue;
 
                 var outProfile = profile.First();
+                profile.RemoveAt(0);
                 Utils.DrawProfile(new List<Curve>() { outProfile.profile }, "outProfile");
                 Utils.DrawTextProfile(outProfile.profileCurves, outProfile.profileLayers);
+
+                foreach (var pro in profile)
+                {
+                    Utils.DrawProfile(new List<Curve>() { pro.profile }, "inn");
+                    Utils.DrawTextProfile(pro.profileCurves, pro.profileLayers);
+                }
             }
 
             //// 梁数据
