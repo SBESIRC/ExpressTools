@@ -7,6 +7,7 @@ using TianHua.AutoCAD.Utility.ExtensionTools;
 using AcHelper;
 using DotNetARX;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.Geometry;
 
 namespace ThSitePlan
 {
@@ -153,6 +154,20 @@ namespace ThSitePlan
             ResultBuffer args = new ResultBuffer(
                new TypedValue((int)LispDataType.Text, "_.EXPLODE"),
                new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args);
+#endif
+        }
+
+        public static void BoundaryCmd(this Editor editor, ObjectIdCollection objs, Point3d seedPt)
+        {
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("_.-BOUNDARY", seedPt, "");
+#else
+            ResultBuffer args = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.-BOUNDARY"),
+               new TypedValue((int)LispDataType.Point3d, seedPt),
                new TypedValue((int)LispDataType.Text, "")
                );
             Active.Editor.AcedCmd(args);
