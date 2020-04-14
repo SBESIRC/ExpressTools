@@ -24,6 +24,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NTS\ThSitePlanNTSDbExtension.cs" />
+    <Compile Include="NTS\ThSitePlanNTSGeExtension.cs" />
+    <Compile Include="NTS\ThSitePlanNTSService.cs" />
     <Compile Include="OutLiner.cs" />
     <Compile Include="PolylineValidationExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,5 +61,8 @@
       </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <PackageReference Include="NetTopologySuite" Version="1.15.2" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,7 +1,6 @@
 ﻿using AcHelper;
 using Linq2Acad;
 using System.Linq;
-using ThSitePlan.NTS;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -274,35 +273,35 @@ namespace ThSitePlan
             }
         }
 
-        public static DBObjectCollection CreateRegionShadow(this ObjectId objectId, Vector3d offset)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(objectId.Database))
-            {
-                var clone = objectId.CopyWithMove(offset);
+        //public static DBObjectCollection CreateRegionShadow(this ObjectId objectId, Vector3d offset)
+        //{
+        //    using (AcadDatabase acadDatabase = AcadDatabase.Use(objectId.Database))
+        //    {
+        //        var clone = objectId.CopyWithMove(offset);
 
-                //
-                var pline1 = acadDatabase.Element<Polyline>(objectId);
-                var pline2 = acadDatabase.Element<Polyline>(clone);
+        //        //
+        //        var pline1 = acadDatabase.Element<Polyline>(objectId);
+        //        var pline2 = acadDatabase.Element<Polyline>(clone);
 
-                var lines = new DBObjectCollection();
-                for(int i = 0; i < pline1.NumberOfVertices; i++)
-                {
-                    lines.Add(new Line()
-                    {
-                        StartPoint = pline1.GetPoint3dAt(i),
-                        EndPoint = pline2.GetPoint3dAt(i)
-                    });
-                }
+        //        var lines = new DBObjectCollection();
+        //        for(int i = 0; i < pline1.NumberOfVertices; i++)
+        //        {
+        //            lines.Add(new Line()
+        //            {
+        //                StartPoint = pline1.GetPoint3dAt(i),
+        //                EndPoint = pline2.GetPoint3dAt(i)
+        //            });
+        //        }
 
-                //var lines1 = new DBObjectCollection();
-                //var lines2 = new DBObjectCollection();
-                // 将多段线“炸”成多个线段，便于后面的Noding Process
-                pline1.Explode(lines);
-                pline2.Explode(lines);
-                // Polygonizer处理
-                return lines.PolygonizeLines();
-            }
-        }
+        //        //var lines1 = new DBObjectCollection();
+        //        //var lines2 = new DBObjectCollection();
+        //        // 将多段线“炸”成多个线段，便于后面的Noding Process
+        //        pline1.Explode(lines);
+        //        pline2.Explode(lines);
+        //        // Polygonizer处理
+        //        return lines.PolygonizeLines();
+        //    }
+        //}
 
         public static DBObjectCollection GetPolyLineBounding(this DBObjectCollection dBObjects, Tolerance tolerance)
         {

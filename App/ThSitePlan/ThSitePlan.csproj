@@ -40,9 +40,6 @@
     <Compile Include="Engine\ThSitePlanPlantWorker.cs" />
     <Compile Include="Engine\ThSitePlanWorker.cs" />
     <Compile Include="Engine\ThSitePlanWorkerDecorator.cs" />
-    <Compile Include="NTS\ThSitePlanNTSDbExtension.cs" />
-    <Compile Include="NTS\ThSitePlanNTSGeExtension.cs" />
-    <Compile Include="NTS\ThSitePlanNTSService.cs" />
     <Compile Include="Photoshop\ThSitePlanPSEngine.cs" />
     <Compile Include="Photoshop\ThSitePlanPSGenerator.cs" />
     <Compile Include="Photoshop\ThSitePlanPSDefaultGenerator.cs" />
