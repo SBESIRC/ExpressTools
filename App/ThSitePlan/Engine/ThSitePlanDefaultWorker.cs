@@ -78,4 +78,33 @@ namespace ThSitePlan.Engine
             }
         }
     }
+
+    public class ThSitePlanAddNameTextWorker : ThSitePlanWorker
+    {
+        public override bool DoProcess(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                ObjectId frame = (ObjectId)options.Options["Frame"];
+                var frameObj = acadDatabase.Element<Polyline>(frame);
+                double TextPos_X = frameObj.GeometricExtents.MinPoint.X;
+                double TextPos_Y = frameObj.GeometricExtents.MaxPoint.Y + 15;
+                DBText tx = new DBText()
+                {
+                    Height = 1.0 / 18.0 * frameObj.GeometricExtents.Height(),
+                    TextString = (string)configItem.Properties["Name"],
+                    Position = new Point3d(TextPos_X, TextPos_Y, 0),
+                    Layer = ThSitePlanCommon.LAYER_FRAME
+                };
+                var TextobjId = acadDatabase.ModelSpace.Add(tx, true);
+
+                return true;
+            }
+        }
+
+        public override ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            return new ObjectIdCollection();
+        }
+    }
 }

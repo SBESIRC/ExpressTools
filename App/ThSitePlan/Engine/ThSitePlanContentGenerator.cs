@@ -30,7 +30,8 @@ namespace ThSitePlan.Engine
                 {"建筑物-场地外建筑-建筑线稿", new ThSitePlanMoveWorker()},
                 {"建筑物-场地外建筑-建筑色块", new ThSitePlanCopyWorker()},
                 {"建筑物-场地内建筑-建筑色块", new ThSitePlanCopyWorker()},
-                
+
+                {"全局阴影", new ThSitePlanMoveWorker()},
 
                 {"树木-景观树-树木线稿", new ThSitePlanMoveWorker()},
                 {"树木-行道树-树木线稿", new ThSitePlanMoveWorker()},

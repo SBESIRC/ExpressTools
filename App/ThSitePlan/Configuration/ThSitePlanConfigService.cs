@@ -207,9 +207,9 @@ namespace ThSitePlan.Configuration
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()
                         {
-                            "P-BUID-HACH",
                             "P-BUID-BMAX",
                             "P-BUID-BCHA",
+                            "P-BUID-ROOF",
 
                         }
                     }
@@ -221,7 +221,7 @@ namespace ThSitePlan.Configuration
                     Properties = new Dictionary<string, object>()
                 {
                     { "Name", "建筑物-场地内建筑-建筑线稿"},
-                    { "Color", Color.Blue},
+                    { "Color", Color.Black},
                     { "Opacity", 100 },
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()
@@ -393,7 +393,7 @@ namespace ThSitePlan.Configuration
                     Properties = new Dictionary<string, object>()
                 {
                     { "Name", "场地-消防登高场地-场地色块"},
-                    { "Color", Color.Black},
+                    { "Color", Color.Yellow},
                     { "Opacity", 100 },
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()

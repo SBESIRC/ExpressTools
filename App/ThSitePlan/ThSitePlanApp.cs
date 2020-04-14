@@ -115,6 +115,7 @@ namespace ThSitePlan
                 ThSitePlanEngine.Instance.OriginFrame = item.Item1;
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                 {
+                    new ThSitePlanFrameNameGenerator(),
                     new ThSitePlanContentGenerator(),
                     new ThSitePlanHatchGenerator(),
                     new ThSitePlanPDFGenerator()

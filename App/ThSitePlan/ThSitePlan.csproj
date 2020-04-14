@@ -27,6 +27,7 @@
   <ItemGroup>
     <Compile Include="Configuration\ThSitePlanConfigService.cs" />
     <Compile Include="Engine\ThSitePlanFireWorker.cs" />
+    <Compile Include="Engine\ThSitePlanFrameNameGenerator.cs" />
     <Compile Include="Engine\ThSitePlanParkWorker.cs" />
     <Compile Include="Engine\ThSitePlanCADWorker.cs" />
     <Compile Include="Engine\ThSitePlanContentGenerator.cs" />
@@ -120,9 +121,15 @@
     <PackageReference Include="NetTopologySuite" Version="1.15.2" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Interop.Photoshop.dll">
-      <HintPath>..\..\Externals\Photoshop\2018\Interop.Photoshop.dll</HintPath>
-    </Reference>
+    <COMReference Include="Photoshop">
+      <Guid>{E891EE9A-D0AE-4CB4-8871-F92C0109F18E}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
