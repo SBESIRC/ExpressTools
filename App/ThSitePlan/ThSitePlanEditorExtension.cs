@@ -200,22 +200,67 @@ namespace ThSitePlan
 #endif
         }
 
-        public static void MeasureCmd(this Editor editor, ObjectIdCollection objs)
+        public static void MeasureCmd(this Editor editor, ObjectId obj)
         {
-            double distance = 5.0;
 #if ACAD_ABOVE_2014
             Active.Editor.Command("_.MEASURE",
-                SelectionSet.FromObjectIds(objs.ToArray()),
-                "",
-                distance.ToString(),
+                obj,
+                ThSitePlanCommon.plant_interval_distance,
                 "");
 #else
             ResultBuffer args = new ResultBuffer(
                new TypedValue((int)LispDataType.Text, "_.MEASURE"),
+               new TypedValue((int)LispDataType.ObjectId, obj),
+               new TypedValue((int)LispDataType.Double, ThSitePlanCommon.plant_interval_distance),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args);
+#endif
+        }
+
+        public static void OverkillCmd(this Editor editor, ObjectIdCollection objs)
+        {
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("_.-OVERKILL",
+                SelectionSet.FromObjectIds(objs.ToArray()),
+                "",
+                "");
+#else
+            ResultBuffer args = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.-OVERKILL"),
                new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
                new TypedValue((int)LispDataType.Text, ""),
-               new TypedValue((int)LispDataType.Double, distance),
                new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args);
+#endif
+        }
+
+        public static void EraseCmd(this Editor editor, ObjectIdCollection objs)
+        {
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("_.ERASE",
+                SelectionSet.FromObjectIds(objs.ToArray()),
+                "");
+#else
+            ResultBuffer args = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.ERASE"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args);
+#endif
+        }
+
+        public static void CircleCmd(this Editor editor, Point3d center, double radius)
+        {
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("_.CIRCLE", center, radius);
+#else
+            ResultBuffer args = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.CIRCLE"),
+               new TypedValue((int)LispDataType.Point3d, center),
+               new TypedValue((int)LispDataType.Double, radius)
                );
             Active.Editor.AcedCmd(args);
 #endif

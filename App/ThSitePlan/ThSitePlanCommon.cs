@@ -27,6 +27,10 @@ namespace ThSitePlan
         // Hatch
         public static readonly int hatch_color_index = 9;
         public static readonly string hatch_pattern = "Solid";
+        // Plant
+        public static readonly int plant_interval = 5;
+        public static readonly double plant_radius = 5.0;
+        public static readonly double plant_interval_distance = 10.0;
 
         //photoshop文档尺寸
         public static readonly Dictionary<string, double> PsDocOpenPropertity = new Dictionary<string, double>
