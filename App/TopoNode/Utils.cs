@@ -4291,6 +4291,20 @@ namespace TopoNode
             return lines;
         }
 
+        private static bool IsValidShowLayer(LayerTableRecord layer, string layerName)
+        {
+            if (layer.Name.Contains(layerName)
+                && !layer.Name.Contains("HATCH")
+                && !layer.Name.Contains("OTHE")
+                && !layer.Name.Contains("CAP")
+                && !layer.Name.Contains("TEXT")
+                && !layer.Name.Contains("DIMS")
+                && !layer.Name.Contains("DETL"))
+                return true;
+
+            return false;
+        }
+
         /// <summary>
         /// 打开需要显示的图层
         /// </summary>
@@ -4315,13 +4329,22 @@ namespace TopoNode
                     //    closeLayerNames.Add(layer.Name);
                     //}
 
-                    if (layer.Name.Contains("AE-WALL") || layer.Name.Contains("AD-NAME-ROOM")
-                         || layer.Name.Contains("AE-STRU") || layer.Name.Contains("COLU") || layer.Name.Contains("HDWR"))
+                    if (IsValidShowLayer(layer, "AE-WALL")
+                        || IsValidShowLayer(layer, "COLU")
+                        || IsValidShowLayer(layer, "AD-NAME-ROOM")
+                        || IsValidShowLayer(layer, "AE-STRU")
+                        || IsValidShowLayer(layer, "AE-HDWR")
+                        || IsValidShowLayer(layer, "AE-FLOR")
+                        || IsValidShowLayer(layer, "S_WALL")
+                        || IsValidShowLayer(layer, "S_WALL_DETL")
+                        || IsValidShowLayer(layer, "S_BRIK")
+                        || IsValidShowLayer(layer, "AE-FNSH"))
                     {
                         allCurveLayers.Add(layer.Name);
+                        allValidLayers.Add(layer.Name);
                     }
 
-                    if (layer.Name.Contains("AE-WALL") || layer.Name.Contains("HDWR"))
+                    if (layer.Name.Contains("AE-WALL") || layer.Name.Contains("AE-HDWR"))
                         wallLayers.Add(layer.Name);
 
                     if (layer.Name.Contains("AE-DOOR-INSD"))
@@ -4337,14 +4360,8 @@ namespace TopoNode
                         columnLayers.Add(layer.Name);
                 }
 
-                allValidLayers.Add("AE-WALL");
-                allValidLayers.Add("AD-NAME-ROOM");
-                allValidLayers.Add("AE-STRU");
-                allValidLayers.Add("COLU");
                 allValidLayers.Add("AE-DOOR-INSD");
                 allValidLayers.Add("AE-WIND");
-
-                allValidLayers.Add("HDWR");
 
                 foreach (var lName in closeLayerNames)
                 {

@@ -990,7 +990,7 @@ namespace TopoNode
             var scatterCurves = ScatterCurves.MakeNewCurves(srcCurves);
             var layers = Utils.GetLayersFromCurves(scatterCurves);
             var scatterRightCurves = CalcuRightCurves(scatterCurves);
-            //Utils.DrawProfile(scatterRightCurves, "scatter");
+            //Utils.DrawProfile(scatterCurves, "scatter");
             //return;
             if (scatterRightCurves == null || scatterRightCurves.Count == 0)
                 return;
@@ -1040,11 +1040,66 @@ namespace TopoNode
 
                 BuildOneLoop(startRightEdge);
             }
+        }
+
+        public void DoCalS(List<Curve> totalCurves)
+        {
+            var scatterCurves = ScatterCurves.MakeNewCurves(srcCurves);
+            var layers = Utils.GetLayersFromCurves(scatterCurves);
+            var scatterRightCurves = CalcuRightCurves(scatterCurves);
+            //Utils.DrawProfile(scatterCurves, "scatter");
+            //return;
+            if (scatterRightCurves == null || scatterRightCurves.Count == 0)
+                return;
+
+            List<TopoEdge> rightStartEdges = new List<TopoEdge>();
+            TopoEdge startEdge = null;
+            foreach (var curve in scatterCurves)
+            {
+                startEdge = null;
+                TopoEdge.MakeTopoEdge(curve, m_topoEdges);
+                foreach (var rightCurve in scatterRightCurves)
+                {
+                    if (curve.Equals(rightCurve))
+                    {
+                        var lastEdge = m_topoEdges.Last();
+                        var startPt = lastEdge.Start;
+                        var endPt = lastEdge.End;
+
+                        if (endPt.Y > startPt.Y)
+                        {
+                            startEdge = lastEdge;
+                        }
+                        else
+                        {
+                            startEdge = m_topoEdges[m_topoEdges.Count - 2];
+                        }
+
+                        rightStartEdges.Add(startEdge);
+                    }
+                }
+
+            }
+
+            if (rightStartEdges.Count == 0)
+                return;
+
+            foreach (var topoEdge in m_topoEdges)
+            {
+                m_hashMap.Add(topoEdge);
+            }
+
+            foreach (var startRightEdge in rightStartEdges)
+            {
+                if (m_ProfileLoop.Count > 0)
+                    break;
+
+                BuildOneLoop(startRightEdge);
+            }
 
             //if (m_ProfileLoop.Count == 0)
             //    return;
 
-            //// inner
             //var totalScatterCurves = ScatterCurves.MakeNewCurves(totalCurves);
             //var profile = m_ProfileLoop.First();
             //var relatedCurves = CalcuRelatedCurves(totalScatterCurves, profile.TopoEdges);
@@ -2058,7 +2113,7 @@ namespace TopoNode
                 m_ScatterNodes.Add(new ScatterNode(curve, curve is Line));
             }
 
-            IntersectCurves();
+            IntersectCurvesTole();
             SortXYZPoints();
             NewCurves();
         }
@@ -2090,6 +2145,100 @@ namespace TopoNode
                     }
                 }
             }
+        }
+
+        private void IntersectCurvesTole()
+        {
+            for (int i = 0; i < m_ScatterNodes.Count; i++)
+            {
+                var curCurve = m_ScatterNodes[i].srcCurve;
+                for (int j = i + 1; j < m_ScatterNodes.Count; j++)
+                {
+                    var nextCurve = m_ScatterNodes[j].srcCurve;
+
+                    if (!CommonUtils.IntersectValid(curCurve, nextCurve))
+                        continue;
+
+                    var ptLst = CurveIntersectWithCurve(curCurve, nextCurve);
+                    if (ptLst.Count != 0)
+                    {
+                        foreach (Point3d pt in ptLst)
+                        {
+                            m_ScatterNodes[i].ptLst.Add(pt);
+                            m_ScatterNodes[j].ptLst.Add(pt);
+                        }
+                    }
+                }
+            }
+        }
+
+        private List<Point3d> CurveIntersectWithCurve(Curve curveFir, Curve curveSec)
+        {
+            var ptLst = new List<Point3d>();
+            if (curveFir is Line && curveSec is Line)
+            {
+                var lineFir = curveFir as Line;
+                var lineSec = curveSec as Line;
+                var lineFir3d = Line2Ge(lineFir);
+                var lineSec3d = Line2Ge(lineSec);
+                var intersecPts = lineFir3d.IntersectWith(lineSec3d, new Tolerance(1e-3, 1e-3));
+                if (intersecPts != null)
+                    ptLst = intersecPts.ToList();
+            }
+            else if (curveFir is Line && curveSec is Arc)
+            {
+                var lineFir = curveFir as Line;
+                var arcSec = curveSec as Arc;
+                var lineFir3d = Line2Ge(lineFir);
+                var arcSec3d = Arc2Ge(arcSec);
+                var intersecPts = arcSec3d.IntersectWith(lineFir3d, new Tolerance(1e-3, 1e-3));
+                if (intersecPts != null)
+                    ptLst = intersecPts.ToList();
+            }
+            else if (curveFir is Arc && curveSec is Line)
+            {
+                var arcFir = curveFir as Arc;
+                var lineSec = curveSec as Line;
+                var arcFir3d = Arc2Ge(arcFir);
+                var lineSec3d = Line2Ge(lineSec);
+                var intersecPts = arcFir3d.IntersectWith(lineSec3d, new Tolerance(1e-3, 1e-3));
+                if (intersecPts != null)
+                    ptLst = intersecPts.ToList();
+            }
+            else if (curveFir is Arc && curveSec is Arc)
+            {
+                var arcFir = curveFir as Arc;
+                var arcSec = curveSec as Arc;
+                var arc3dFir = Arc2Ge(arcFir);
+                var arc3dSec = Arc2Ge(arcSec);
+                var intersecPts = arc3dFir.IntersectWith(arc3dSec, new Tolerance(1e-3, 1e-3));
+                if (intersecPts != null)
+                    ptLst = intersecPts.ToList();
+            }
+
+            return ptLst;
+        }
+
+        private CircularArc3d Arc2Ge(Arc arc)
+        {
+            var ptS = arc.StartPoint;
+            var ptE = arc.EndPoint;
+            var ptMid = arc.GetPointAtParameter(0.5 * (arc.StartParam + arc.EndParam));
+            var arc3d = new CircularArc3d(ptS, ptMid, ptE);
+            return arc3d;
+        }
+
+        private Point2d P3Dto2D(Point3d point)
+        {
+            return new Point2d(point.X, point.Y);
+        }
+
+        private LineSegment3d Line2Ge(Line line)
+        {
+            var ptS = line.StartPoint;
+            var ptE = line.EndPoint;
+            var line3d = new LineSegment3d(ptS, ptE);
+            return line3d;
         }
 
         private void SortLineNode(ScatterNode lineCode)

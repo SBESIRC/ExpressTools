@@ -261,7 +261,7 @@ namespace TopoNode
         public PutType putType = PutType.PICKPOINT;
     }
 
-    public class CommonUtils
+    class CommonUtils
     {
         public const int HashMapCount = 234;
         /// <summary>
@@ -287,6 +287,7 @@ namespace TopoNode
 
             return false;
         }
+
 
         /// <summary>
         /// 数据打撒成直线段
@@ -860,44 +861,6 @@ namespace TopoNode
         //}
 
 
-        /// <summary>
-        /// 删除共边
-        /// </summary>
-        /// <param name="lines"></param>
-        /// <param name="outLines"></param>
-        public static List<Curve> RemoveCollinearLines(List<Curve> srcCurves)
-        {
-            var outCurves = new List<Curve>();
-            var lines3d = new List<Line>();
-            foreach (var curve in srcCurves)
-            {
-                if (curve is Line)
-                {
-                    lines3d.Add(curve as Line);
-                }
-                else
-                {
-                    outCurves.Add(curve);
-                }
-            }
-
-            var curveNodes = new List<CurveNode>();
-            foreach (var line in lines3d)
-            {
-                var start = line.StartPoint;
-                var end = line.EndPoint;
-                var line2d = new LineSegment2d(new Point2d(start.X, start.Y), new Point2d(end.X, end.Y));
-                var curveNode = new CurveNode(line2d, line.Layer);
-                curveNodes.Add(curveNode);
-            }
-
-            var eraseLines = CoEdgeErase.MakeCoEdgeErase(curveNodes);
-
-            if (eraseLines != null && eraseLines.Count != 0)
-                outCurves.AddRange(eraseLines);
-
-            return outCurves;
-        }
 
 
         public static bool OutLoopContainsInnerLoop(List<TopoEdge> outerprofile, List<TopoEdge> innerProfile)
@@ -1485,6 +1448,39 @@ namespace TopoNode
             }
 
             return resLines;
+        }
+        public static List<Curve> RemoveCollinearLines(List<Curve> srcCurves)
+        {
+            var outCurves = new List<Curve>();
+            var lines3d = new List<Line>();
+            foreach (var curve in srcCurves)
+            {
+                if (curve is Line)
+                {
+                    lines3d.Add(curve as Line);
+                }
+                else
+                {
+                    outCurves.Add(curve);
+                }
+            }
+
+            var curveNodes = new List<CurveNode>();
+            foreach (var line in lines3d)
+            {
+                var start = line.StartPoint;
+                var end = line.EndPoint;
+                var line2d = new LineSegment2d(new Point2d(start.X, start.Y), new Point2d(end.X, end.Y));
+                var curveNode = new CurveNode(line2d, line.Layer);
+                curveNodes.Add(curveNode);
+            }
+
+            var eraseLines = CoEdgeErase.MakeCoEdgeErase(curveNodes);
+
+            if (eraseLines != null && eraseLines.Count != 0)
+                outCurves.AddRange(eraseLines);
+
+            return outCurves;
         }
     }
 }

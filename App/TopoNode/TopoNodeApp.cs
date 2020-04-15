@@ -11,6 +11,7 @@ using Autodesk.AutoCAD.Geometry;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using NFox.Cad.Collections;
 using System.Threading;
+using Autodesk.AutoCAD.Colors;
 
 namespace TopoNode
 {
@@ -29,71 +30,69 @@ namespace TopoNode
         [CommandMethod("TopoNodeS", "TopoNodes", CommandFlags.Modal)]
         static public void topoNodes()
         {
-            #region
             //打开需要的图层
-            //List<string> wallLayers = null;
-            //List<string> arcDoorLayers = null;
-            //List<string> windLayers = null;
-            //List<string> validLayers = null;
-            //List<string> beamLayers = null;
-            //List<string> columnLayers = null;
-            //var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers, out columnLayers);
-            //var previewCurves = new List<Curve>();
-            #endregion
-            var allCurves = Utils.GetAllCurves();
-            #region 注释
-            //// 图元预处理
-            //var removeEntityLst = Utils.PreProcess(validLayers);
+            List<string> wallLayers = null;
+            List<string> arcDoorLayers = null;
+            List<string> windLayers = null;
+            List<string> validLayers = null;
+            List<string> beamLayers = null;
+            List<string> columnLayers = null;
+            var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers, out columnLayers);
 
-            //// 获取相关图层中的数据
-            //var allCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);// allCurves指所有能作为墙一部分的曲线
+            // 图元预处理
+            var removeEntityLst = Utils.PreProcess(validLayers);
 
-            //if (allCurves == null || allCurves.Count == 0)
-            //{
-            //    Utils.PostProcess(removeEntityLst);
-            //    return;
-            //}
+            // 获取相关图层中的数据
+            var allCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);// allCurves指所有能作为墙一部分的曲线
+            //Utils.ExtendCurves(allCurves, 0.5);
+            var layerCurves = Utils.GetLayersFromCurves(allCurves);
+            if (allCurves == null || allCurves.Count == 0)
+            {
+                Utils.PostProcess(removeEntityLst);
+                return;
+            }
 
-            //// wall 中的数据
-            //var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
-            //if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
-            //{
-            //    Utils.PostProcess(removeEntityLst);
-            //    return;
-            //}
+            // wall 中的数据
+            var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
+            if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
+            {
+                Utils.PostProcess(removeEntityLst);
+                return;
+            }
 
-            //// door 内门中的数据
-            //if (arcDoorLayers != null && arcDoorLayers.Count != 0)
-            //{
-            //    var doorBounds = Utils.GetBoundsFromLayerBlocksAndCurves(arcDoorLayers);
-            //    var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, wallAllCurves, arcDoorLayers.First());
-            //    if (doorInsertCurves != null && doorInsertCurves.Count != 0)
-            //    {
-            //        allCurves.AddRange(doorInsertCurves);
-            //    }
-            //}
+            // door 内门中的数据
+            if (arcDoorLayers != null && arcDoorLayers.Count != 0)
+            {
+                var doorBounds = Utils.GetBoundsFromLayerBlocksAndCurves(arcDoorLayers);
+                var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, wallAllCurves, arcDoorLayers.First());
+                if (doorInsertCurves != null && doorInsertCurves.Count != 0)
+                {
+                    layerCurves = Utils.GetLayersFromCurves(doorInsertCurves);
+                    allCurves.AddRange(doorInsertCurves);
+                }
+            }
 
-            //// wind 中的数据
-            //if (windLayers != null && windLayers.Count != 0)
-            //{
-            //    var windBounds = Utils.GetBoundsFromLayerBlocksAndCurves(windLayers);
+            // wind 中的数据
+            if (windLayers != null && windLayers.Count != 0)
+            {
+                var windBounds = Utils.GetBoundsFromLayerBlocksAndCurves(windLayers);
 
-            //    var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, windLayers.First());
+                var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, windLayers.First());
 
-            //    if (windInsertCurves != null && windInsertCurves.Count != 0)
-            //    {
-            //        allCurves.AddRange(windInsertCurves);
-            //    }
-            //}
-
-            #endregion
+                if (windInsertCurves != null && windInsertCurves.Count != 0)
+                {
+                    layerCurves = Utils.GetLayersFromCurves(windInsertCurves);
+                    allCurves.AddRange(windInsertCurves);
+                }
+            }
 
             var layerNames = Utils.GetLayersFromCurves(allCurves);
             allCurves = TopoUtils.TesslateCurve(allCurves);
             layerNames = Utils.GetLayersFromCurves(allCurves);
             allCurves = CommonUtils.RemoveCollinearLines(allCurves);
             layerNames = Utils.GetLayersFromCurves(allCurves);
-            //Utils.DrawProfileAndText(allCurves);
+            //Utils.DrawProfile(allCurves, "all");
+            ////Utils.DrawProfileAndText(allCurves, Color.FromRgb(0, 255, 0));
             //return;
 
             Document doc = AcadApp.DocumentManager.MdiActiveDocument;
@@ -124,6 +123,7 @@ namespace TopoNode
             }
 
             var hasPutPolylines = new List<Polyline>();
+            //Utils.ExtendCurves(allCurves, 0.5);
             foreach (var pt in pickPoints)
             {
                 if (CommonUtils.PtInPolylines(hasPutPolylines, pt))
@@ -266,20 +266,12 @@ namespace TopoNode
             {
                 if (CommonUtils.PtInPolylines(hasPutPolylines, pt))
                     continue;
-                var profile = TopoUtils.MakeProfileFromPoint(allCurves, pt);
-                if (profile == null || profile.Count == 0)
-                    continue;
 
-                var outProfile = profile.First();
-                profile.RemoveAt(0);
-                Utils.DrawProfile(new List<Curve>() { outProfile.profile }, "outProfile");
-                Utils.DrawTextProfile(outProfile.profileCurves, outProfile.profileLayers);
-
-                foreach (var pro in profile)
-                {
-                    Utils.DrawProfile(new List<Curve>() { pro.profile }, "inn");
-                    Utils.DrawTextProfile(pro.profileCurves, pro.profileLayers);
-                }
+                var testProfile = ThirdUtils.MakeProfileFromPoint(allCurves, pt);
+                //if (testProfile != null)
+                //{
+                //    Utils.DrawProfile(testProfile, "test");
+                //}
             }
 
             //// 梁数据
