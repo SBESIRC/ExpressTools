@@ -37,18 +37,22 @@ namespace ThSitePlan.Photoshop
                 return false;
             }
 
-            //装载PDF并处理
-            Document NewOpenDoc = this.PsAppInstance.Open(fullPath);
+            //装载PDF获取图层名称
+            Document NewOpenDoc = PsAppInstance.Open(fullPath);
             string CurDocNa = NewOpenDoc.Name;
-            NewOpenDoc.ArtLayers[1].Name = CurDocNa;
-            List<string> CurDoc_Sets = NewOpenDoc.Name.Split('-').ToList();     //依据当前打开的图纸名获取其各个图层分组名
+            ArtLayer newlayer = NewOpenDoc.ArtLayers[1];
+            newlayer.Name = CurDocNa;
+            string DocName = NewOpenDoc.Name;
+            List<string> CurDoc_Sets = DocName.Split('-').ToList();     //依据当前打开的图纸名获取其各个图层分组名
+            string LastLayerName = CurDoc_Sets.Last();
+            string FirstLayerName = CurDoc_Sets.First();
 
             //设置图层的不透明度
-            NewOpenDoc.ArtLayers[1].Opacity = Convert.ToDouble(configItem.Properties["Opacity"]) ;
+            newlayer.Opacity = Convert.ToDouble(configItem.Properties["Opacity"]) ;
             if (NewOpenDoc.Name.Contains("色块"))
             {
-                NewOpenDoc.ArtLayers[1].Opacity = 100;
-                this.FillBySelectChannel(NewOpenDoc.Name, configItem);
+                newlayer.Opacity = 100;
+                FillBySelectChannel(NewOpenDoc.Name, configItem);
             }
 
             //图层分组
@@ -56,62 +60,22 @@ namespace ThSitePlan.Photoshop
             LayerSet EndLayerSet = null;
 
 
-            FirstDoca11 = this.PsAppInstance.Documents[1];
+            FirstDoca11 = PsAppInstance.Documents[1];              //获取PS初始化打开的空白文档
 
-            Document CurDoc = this.PsAppInstance.ActiveDocument;
-            CurDoc.ArtLayers[1].Name = CurDocNa;
+            //获取当前打开的文档及图层
+            Document CurDoc = PsAppInstance.ActiveDocument;
+            ArtLayer FirstLay_CurDoc = CurDoc.ArtLayers[1];
+            FirstLay_CurDoc.Name = CurDocNa;
 
-            this.PsAppInstance.ActiveDocument.ArtLayers[1].Duplicate(FirstDoca11, PsElementPlacement.psPlaceAtEnd);
+            //将当前打开的文档中的图层复制到第一个空白文档中，关闭当前文档
+            FirstLay_CurDoc.Duplicate(FirstDoca11, PsElementPlacement.psPlaceAtEnd);
             CurDoc.Close(PsSaveOptions.psDoNotSaveChanges);
-            this.PsAppInstance.ActiveDocument = FirstDoca11;
+            PsAppInstance.ActiveDocument = FirstDoca11;
 
-            LayerSets FirstLayerSets = PsAppInstance.ActiveDocument.LayerSets;
+            EndLayerSet = SearchInsertLoc(CurDoc_Sets, EndLayerSet, FirstDoca11);
 
-            for (int i = 0; i < CurDoc_Sets.Count - 1; i++)
-            {
-                if (i == 0)
-                {
-                    foreach (LayerSet LaysetInCurDOC in FirstLayerSets)
-                    {
-                        if (LaysetInCurDOC.Name == CurDoc_Sets[i])
-                        {
-                            EndLayerSet = LaysetInCurDOC;
-                            EndLayerSet.Name = CurDoc_Sets[i];
-                            break;
-                        }
-                    }
-
-                    if (EndLayerSet == null)
-                    {
-                        EndLayerSet = FirstLayerSets.Add();
-                        EndLayerSet.Name = CurDoc_Sets[i];
-                        break;
-                    }
-                }
-                else
-                {
-                    bool FindOrNot = false;
-
-                    foreach (LayerSet LaysetInCurDOC in EndLayerSet.LayerSets)
-                    {
-                        if (LaysetInCurDOC.Name == CurDoc_Sets[i])
-                        {
-                            EndLayerSet = LaysetInCurDOC;
-                            EndLayerSet.Name = CurDoc_Sets[i];
-                            FindOrNot = true;
-                            break;
-                        }
-                    }
-
-                    if (FindOrNot == false)
-                    {
-                        EndLayerSet = EndLayerSet.LayerSets.Add();
-                        EndLayerSet.Name = CurDoc_Sets[i];
-                        break;
-                    }
-                }
-            }
-
+            var OperateLayer = FirstDoca11.ArtLayers[CurDocNa];
+            OperateLayer.Name = LastLayerName;
             if (CurDoc_Sets.Count > 1)     //_CY04
             {
                 int CurIndex = CurDoc_Sets.IndexOf(EndLayerSet.Name);
@@ -121,34 +85,98 @@ namespace ThSitePlan.Photoshop
                 {
                     for (int i = CurIndex + 1; i < CurDoc_Sets.Count - 1; i++)
                     {
-                        EndLayerSet = EndLayerSet.LayerSets.Add();
+                        LayerSets endsets = EndLayerSet.LayerSets;
+                        EndLayerSet = endsets.Add();
                         EndLayerSet.Name = CurDoc_Sets[i];
                     }
                 }
 
-                FirstDoca11.ArtLayers[CurDocNa].Move(EndLayerSet, PsElementPlacement.psPlaceInside);
+                OperateLayer.Move(EndLayerSet, PsElementPlacement.psPlaceInside);
             }
 
+            else
+            {
+                OperateLayer.Move(FirstDoca11,PsElementPlacement.psPlaceAtEnd);
+            }
             return true;
         }
 
+        //PS中载入Channel选区并填充
         private void FillBySelectChannel(string LayerNameToBeFill, ThSitePlanConfigItem configItem)
         {
             var document = PsAppInstance.ActiveDocument;
             document.ActiveLayer = document.ArtLayers[LayerNameToBeFill];
-            document.Selection.Load(document.Channels["绿"], PsSelectionType.psReplaceSelection, true);
-            //document.Selection.Load(document.ComponentChannels, PsSelectionType.psReplaceSelection, true);
+            Selection ChannelSelection = document.Selection;
+            ChannelSelection.Load(document.Channels[2], PsSelectionType.psReplaceSelection, true);
             //获取配置文件中传入的
             Color FillColor = (Color)configItem.Properties["Color"];
             var RGB_Red = FillColor.R;
             var RGB_Green = FillColor.G;
             var RGB_Blue = FillColor.B;
 
-            PsAppInstance.ForegroundColor.RGB.Red = (double)RGB_Red;
-            PsAppInstance.ForegroundColor.RGB.Green = (double)RGB_Green;
-            PsAppInstance.ForegroundColor.RGB.Blue = (double)RGB_Blue;
-            this.PsAppInstance.ActiveDocument.Selection.Fill(PsAppInstance.ForegroundColor);
-            this.PsAppInstance.ActiveDocument.Selection.Deselect();
+            SolidColor ColorInPS = new SolidColor();
+            ColorInPS.RGB.Red = (double)RGB_Red;
+            ColorInPS.RGB.Green = (double)RGB_Green;
+            ColorInPS.RGB.Blue = (double)RGB_Blue;
+            ChannelSelection.Fill(ColorInPS);
+            ChannelSelection.Deselect();
         }
+
+        //在指定PS文档中检索指定图层，找到插入位置
+        private LayerSet SearchInsertLoc(List<string> DocNameSpt, LayerSet SerLaySet, Document serdoc)
+        {
+            LayerSets FirstLayerSets = serdoc.LayerSets;
+
+            for (int i = 0; i < DocNameSpt.Count - 1; i++)
+            {
+                if (i == 0)
+                {
+                    foreach (LayerSet LaysetInCurDOC in FirstLayerSets)
+                    {
+                        if (LaysetInCurDOC.Name == DocNameSpt[i])
+                        {
+                            SerLaySet = LaysetInCurDOC;
+                            SerLaySet.Name = DocNameSpt[i];
+                            break;
+                        }
+                    }
+
+                    if (SerLaySet == null)
+                    {
+                        SerLaySet = FirstLayerSets.Add();
+                        SerLaySet.Name = DocNameSpt[i];
+
+                        SerLaySet.Move(serdoc, PsElementPlacement.psPlaceAtEnd);
+
+                        break;
+                    }
+                }
+                else
+                {
+                    bool FindOrNot = false;
+
+                    foreach (LayerSet LaysetInCurDOC in SerLaySet.LayerSets)
+                    {
+                        if (LaysetInCurDOC.Name == DocNameSpt[i])
+                        {
+                            SerLaySet = LaysetInCurDOC;
+                            SerLaySet.Name = DocNameSpt[i];
+                            FindOrNot = true;
+                            break;
+                        }
+                    }
+
+                    if (FindOrNot == false)
+                    {
+                        SerLaySet = SerLaySet.LayerSets.Add();
+                        SerLaySet.Name = DocNameSpt[i];
+                        break;
+                    }
+                }
+            }
+
+            return SerLaySet;
+        }
+
     }
 }
