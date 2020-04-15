@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Input;
+using ThColumnInfo.View;
+using acadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace ThColumnInfo.ViewModel
 {
@@ -17,20 +16,30 @@ namespace ThColumnInfo.ViewModel
         public DelegateCommand SelectToLeftCommand { get; set; }
         public DelegateCommand BrowseDirectoryCommand { get; set; }
 
-
+        public DelegateCommand ImportCommand { get; set; }
+        public DelegateCommand ExitCommand { get; set; }
+        public ImportCalculation Owner { get; set; }
+        public bool YnExport { get; set; } = false;
         public CalculationInfoVM(CalculationInfo calculationInfo)
         {
             this.CalculateInfo = calculationInfo;
-            Init();
             this.SelectToRightCommand = new DelegateCommand();
             this.SelectToLeftCommand = new DelegateCommand();
             this.BrowseDirectoryCommand = new DelegateCommand();
+            this.ImportCommand = new DelegateCommand();
+            this.ExitCommand = new DelegateCommand();
+
 
             this.SelectToRightCommand.ExecuteAction = new Action<object>(this.SelectToRightCommandExecute);
             this.SelectToLeftCommand.ExecuteAction = new Action<object>(this.SelectToLeftCommandExecute);
             this.BrowseDirectoryCommand.ExecuteAction = new Action<object>(this.BrowseDirectoryCommandExecute);
+            this.ImportCommand.ExecuteAction = new Action<object>(this.ImportCommandExecute);
+            this.ExitCommand.ExecuteAction= new Action<object>(this.ExitCommandExecute);
         }
-        private bool ValidateFileNameIsYjkFile(string filePath)
+        public CalculationInfoVM()
+        {
+        }
+        public bool ValidateFileNameIsYjkFile(string filePath)
         {
             bool res = true;
             if(string.IsNullOrEmpty(filePath))
@@ -48,35 +57,35 @@ namespace ThColumnInfo.ViewModel
             }
             return res;
         }
-        private void Init()
+        private void ImportCommandExecute(object parameter)
         {
-            if(Properties.Settings.Default.YjkUsedPathList!=null &&
-                Properties.Settings.Default.YjkUsedPathList.Count>0)
+            this.YnExport = true;
+            if(this.CalculateInfo.SelectLayers.Count==0)
             {
-                ObservableCollection<string> pathList = new ObservableCollection<string>();
-                foreach(var item in Properties.Settings.Default.YjkUsedPathList)
-                {
-                    pathList.Add(item);
-                }
-                this.CalculateInfo.YjkUsedPathList = pathList;
+                MessageBox.Show("未能选择要导出计算书的楼层，请返回重新选择!");
+                return;
             }
-            if(ValidateFileNameIsYjkFile(Properties.Settings.Default.YjkUsePath))
+            Owner.Close();
+        }
+        private void ExitCommandExecute(object parameter)
+        {
+            this.YnExport = false;
+            if (Owner == null)
             {
-                this.CalculateInfo.YjkPath = Properties.Settings.Default.YjkUsePath;
+                return;
             }
-            this.CalculateInfo.Angle = Properties.Settings.Default.Angle;
-            this.CalculateInfo.ModelAppoint = Properties.Settings.Default.ModelPoint;
+            Owner.Close();
         }
         private void SelectToRightCommandExecute(object parameter)
         {
-            if(ThColumnInfoCommands.columnCalulationInstance==null)
+            if(Owner == null)
             {
                 return;
             }            
             List<string> leftSelectItems = new List<string>();
-            for (int i = 0; i < ThColumnInfoCommands.columnCalulationInstance.lbModelLayers.SelectedItems.Count; i++)
+            for (int i = 0; i < Owner.lbModelLayers.SelectedItems.Count; i++)
             {
-                var item = ThColumnInfoCommands.columnCalulationInstance.lbModelLayers.SelectedItems[i];
+                var item = Owner.lbModelLayers.SelectedItems[i];
                 leftSelectItems.Add(item.ToString());
             }
             string errorMsg=JudgeRightItemCanBeSelected(leftSelectItems);
@@ -109,7 +118,7 @@ namespace ThColumnInfo.ViewModel
         private string JudgeRightItemCanBeSelected(List<string> selectItems)
         {
             string errorMsg = "";
-            if(this.CalculateInfo.SelectByFloor) 
+            if(!this.CalculateInfo.SelectByStandard) 
             {
                 //按自然层选择
                 List<FloorInfo> floorInfos = LoadYjkDbInfo();
@@ -149,6 +158,10 @@ namespace ThColumnInfo.ViewModel
             }
             else
             {
+                if(selectItems.Count>1)
+                {
+                    return "按标准层选择，只能选择一个标准层来导出！";
+                }
                 if (this.CalculateInfo.SelectLayers.Count == 0)
                 {
                     return errorMsg;
@@ -162,14 +175,14 @@ namespace ThColumnInfo.ViewModel
         }
         private void SelectToLeftCommandExecute(object parameter)
         {
-            if (ThColumnInfoCommands.columnCalulationInstance == null)
+            if (Owner == null)
             {
                 return;
             }
             List<string> rightSelectItems = new List<string>();
-            for (int i = 0; i < ThColumnInfoCommands.columnCalulationInstance.lbSelectLayers.SelectedItems.Count; i++)
+            for (int i = 0; i < Owner.lbSelectLayers.SelectedItems.Count; i++)
             {
-                var item = ThColumnInfoCommands.columnCalulationInstance.lbSelectLayers.SelectedItems[i];
+                var item = Owner.lbSelectLayers.SelectedItems[i];
                 rightSelectItems.Add(item.ToString());
             }
             for (int i = 0; i < rightSelectItems.Count; i++)
@@ -196,56 +209,80 @@ namespace ThColumnInfo.ViewModel
         private string GetInitDirectory()
         {
             string initDir = "";
-            if(!string.IsNullOrEmpty(ThColumnInfoCommands.columnCalulationInstance.cbYjkFilePath.Text))
+            try
             {
-                FileInfo fi = new FileInfo(ThColumnInfoCommands.columnCalulationInstance.cbYjkFilePath.Text);
-                if(fi.Exists)
+                if (!string.IsNullOrEmpty(Owner.cbYjkFilePath.Text))
                 {
-                    initDir = fi.Directory.FullName;
-                }
-            }
-            else
-            {
-                if(!string.IsNullOrEmpty(Properties.Settings.Default.YjkUsePath))
-                {
-                    FileInfo fi = new FileInfo(Properties.Settings.Default.YjkUsePath);
-                    if(fi.Exists)
+                    FileInfo fi = new FileInfo(Owner.cbYjkFilePath.Text);
+                    if (fi.Exists)
                     {
                         initDir = fi.Directory.FullName;
                     }
-                }                
-            }
-            if(string.IsNullOrEmpty(initDir))
-            {
-                if(Properties.Settings.Default.YjkUsedPathList!=null)
+                }
+                else
                 {
-                    for(int i= Properties.Settings.Default.YjkUsedPathList.Count-1;i>=0;i--)
+                    if (!string.IsNullOrEmpty(this.CalculateInfo.YjkPath))
                     {
-                        if(string.IsNullOrEmpty(Properties.Settings.Default.YjkUsedPathList[i]))
-                        {
-                            continue;
-                        }
-                        FileInfo fi = new FileInfo(Properties.Settings.Default.YjkUsedPathList[i]);
-                        if(fi.Exists)
+                        FileInfo fi = new FileInfo(this.CalculateInfo.YjkPath);
+                        if (fi.Exists)
                         {
                             initDir = fi.Directory.FullName;
+                        }
+                    }
+                }
+                if (string.IsNullOrEmpty(initDir))
+                {
+                    if (this.CalculateInfo.YjkUsedPathList != null)
+                    {
+                        for (int i = this.CalculateInfo.YjkUsedPathList.Count - 1; i >= 0; i--)
+                        {
+                            if (string.IsNullOrEmpty(this.CalculateInfo.YjkUsedPathList[i]))
+                            {
+                                continue;
+                            }
+                            FileInfo fi = new FileInfo(this.CalculateInfo.YjkUsedPathList[i]);
+                            if (fi.Exists)
+                            {
+                                initDir = fi.Directory.FullName;
+                                break;
+                            }
+                        }
+                    }
+                }
+                //从当前dwg图纸获取路径
+                if(string.IsNullOrEmpty(initDir))
+                {
+                    FileInfo fi= new FileInfo(acadApp.DocumentManager.MdiActiveDocument.Name);
+                    if(fi.Exists)
+                    {
+                        initDir = fi.Directory.FullName;
+                        if(fi.Directory.Parent!=null && fi.Directory.Parent.Parent!=null)
+                        {
+                            string calculationModel = fi.Directory.Parent.Parent.FullName + "\\计算模型";
+                            if(Directory.Exists(calculationModel))
+                            {
+                                initDir = calculationModel;
+                            }
+                        }
+                    }
+                }
+                if (string.IsNullOrEmpty(initDir))
+                {
+                    List<string> dirNames = new List<string> { "C:\\", "D:\\", "E:\\", "F:\\" };
+                    for (int i = 0; i < dirNames.Count; i++)
+                    {
+                        DirectoryInfo di = new DirectoryInfo(dirNames[i]);
+                        if (di.Exists)
+                        {
+                            initDir = dirNames[i];
                             break;
                         }
                     }
                 }
             }
-            if(string.IsNullOrEmpty(initDir))
+            catch(System.Exception ex)
             {
-                List<string> dirNames = new List<string> { "C:\\","D:\\","E:\\","F:\\" };
-                for (int i = 0; i < dirNames.Count; i++)
-                {
-                    DirectoryInfo di = new DirectoryInfo(dirNames[i]);
-                    if (di.Exists)
-                    {
-                        initDir = dirNames[i];
-                        break;
-                    }
-                }
+                ThColumnInfoUtils.WriteException(ex, "GetInitDirectory");
             }
             return initDir;
         }
@@ -265,6 +302,7 @@ namespace ThColumnInfo.ViewModel
                     {
                         this.CalculateInfo.YjkUsedPathList.Add(openFileDialog1.FileName);
                         this.CalculateInfo.YjkPath = openFileDialog1.FileName;
+                        UpdateSelectFloorList();
                     }
                 }
             }
@@ -297,7 +335,7 @@ namespace ThColumnInfo.ViewModel
         {
             List<string> floorNames = new List<string>();
             List<FloorInfo> floorInfs = LoadYjkDbInfo();
-            if (this.CalculateInfo.SelectByFloor)
+            if (!this.CalculateInfo.SelectByStandard)
             {
                 floorNames = floorInfs.Select(i => i.Name + "(" + i.StdFlrName + ")").ToList();
             }
@@ -424,6 +462,54 @@ namespace ThColumnInfo.ViewModel
             }
             return floorInfs;
         }
+        /// <summary>
+        /// 获取项目配置中选择的自然层数 
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetSelectFloors()
+        {
+            List<string> naturalFloors = new List<string>();
+            List<string> selFloors = this.CalculateInfo.SelectLayers.ToList();     
+            if (selFloors.Count > 0)
+            {
+                int index = selFloors[0].IndexOf("标准层");
+                if (index == 0)
+                {
+                    string stdFlrName = selFloors[0];
+                    int leftBracketIndex = stdFlrName.IndexOf("(");
+                    int rightBracketIndex = stdFlrName.IndexOf(")");
+                    string naturalStdFlrName = stdFlrName.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1);
+                    string[] floors = naturalStdFlrName.Split(',');
+                    foreach (string floor in floors)
+                    {
+                        string[] rangeFloors = floor.Split('~');
+                        if (rangeFloors.Length == 1)
+                        {
+                            naturalFloors.Add(rangeFloors[0]);
+                        }
+                        else
+                        {
+                            int startFloor = ThColumnInfoUtils.GetDatas(rangeFloors[0])[0];
+                            int endFloor = ThColumnInfoUtils.GetDatas(rangeFloors[1])[0];
+                            for (int i = startFloor; i <= endFloor; i++)
+                            {
+                                naturalFloors.Add(i + "F");
+                            }
+                        }
+
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < selFloors.Count; i++)
+                    {
+                        int floorIndex = ThColumnInfoUtils.GetDatas(selFloors[i])[0];
+                        naturalFloors.Add(floorIndex + "F");
+                    }
+                }
+            }
+            return naturalFloors;
+        }
         public void UpdateSelectFloorList()
         {
             List<string> floorNames = GetSelectFloorList();
@@ -432,6 +518,15 @@ namespace ThColumnInfo.ViewModel
             floorNames.ForEach(i => modelLayers.Add(i));
             this.CalculateInfo.ModelLayers = modelLayers;
             this.CalculateInfo.SelectLayers = selectLayers;
+            Owner.lbModelLayers.ItemsSource = modelLayers;
+        }
+        public bool Validate()
+        {
+            return true;
+        }
+        public void UpdateSelectMode(bool selectByStandard)
+        {
+            this.CalculateInfo.SelectByStandard = selectByStandard;
         }
     }
 }

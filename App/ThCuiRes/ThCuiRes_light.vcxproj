@@ -148,8 +148,10 @@
     <Image Include="Images\TZLOOK_light.ico" />
     <Image Include="Images\THCP_light_small.ico" />
     <Image Include="Images\THCP_light_large.ico" />
-    <Image Include="Images\THMA_dark_small.ico" />
-    <Image Include="Images\THMA_dark_large.ico" />
+    <Image Include="Images\THMA_light_small.ico" />
+    <Image Include="Images\THMA_light_large.ico" />
+    <Image Include="Images\THCRC_light_small.ico" />
+    <Image Include="Images\THCRC_light_large.ico" />
     <Image Include="Images\THALIGN_bottom_light_small.ico" />
     <Image Include="Images\THALIGN_bottom_light_large.ico" />
     <Image Include="Images\THALIGN_horizontal_light_small.ico" />

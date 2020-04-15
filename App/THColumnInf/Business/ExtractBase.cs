@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ThColumnInfo.Model;
 
 namespace ThColumnInfo
 {
@@ -66,6 +65,7 @@ namespace ThColumnInfo
             {
                 List<ObjectId> selObjIds = psr.Value.GetObjectIds().ToList();
                 List<Point3d> points = new List<Point3d>();
+                List<string> layers = new List<string>();
                 using (Transaction trans=doc.TransactionManager.StartTransaction())
                 {
                     for (int i = 0; i < selObjIds.Count; i++)
@@ -104,20 +104,21 @@ namespace ThColumnInfo
                     Point3d pt2 = new Point3d(maxX, minY, minZ);
                     Point3d pt3 = new Point3d(maxX, maxY, minZ);
                     Point3d pt4 = new Point3d(minX, maxY, minZ);
+
                     tableLayerNames.AddRange(GetLayerNames(pt1));
                     tableLayerNames.AddRange(GetLayerNames(pt2));
                     tableLayerNames.AddRange(GetLayerNames(pt3));
-                    tableLayerNames.AddRange(GetLayerNames(pt4)); 
+                    tableLayerNames.AddRange(GetLayerNames(pt4));
                 }              
             }
             tableLayerNames = tableLayerNames.Distinct().ToList();
             return tableLayerNames;
         }
-        protected List<ObjectId> GetNeedHideObjIds(List<string> layerNames)
+        protected List<ObjectId> GetNeedHideObjIds(List<string> layerNames,out List<ObjectId> keepObjIds)
         {
             List<ObjectId> objectIds = new List<ObjectId>();
             PromptSelectionResult psr = doc.Editor.SelectAll();
-            List<ObjectId> keepObjIds = new List<ObjectId>();
+            keepObjIds = new List<ObjectId>();
             if (psr.Status == PromptStatus.OK)
             {
                 List<ObjectId> selObjIds = psr.Value.GetObjectIds().ToList();
@@ -172,6 +173,8 @@ namespace ThColumnInfo
                         else
                         {
                             objectIds.Add(keepObjIds[i]);
+                            keepObjIds.RemoveAt(i);
+                            i = i - 1;
                         }
                     }
                     trans.Commit();
@@ -179,15 +182,49 @@ namespace ThColumnInfo
             }
             return objectIds;
         }
+        protected List<ObjectId> GetColumnTableObjIds(List<string> layerNames)
+        {
+            List<ObjectId> keepObjIds = new List<ObjectId>();
+            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(
+                doc.Editor,this.tableLeftDownCornerPt,this.tableRightUpCornerPt,PolygonSelectionMode.Crossing);
+            if (psr.Status == PromptStatus.OK)
+            {
+                List<ObjectId> selObjIds = psr.Value.GetObjectIds().ToList();
+                List<Point3d> points = new List<Point3d>();
+                using (Transaction trans = doc.TransactionManager.StartTransaction())
+                {
+                    for (int i = 0; i < selObjIds.Count; i++)
+                    {
+                        Entity ent = trans.GetObject(selObjIds[i], OpenMode.ForRead) as Entity;
+                        if (ent == null)
+                        {
+                            continue;
+                        }
+                        if (ent.Bounds == null || !ent.Bounds.HasValue)
+                        {
+                            continue;
+                        }
+                        if (!(ent is Line || ent is Polyline))
+                        {                           
+                            continue;
+                        }
+                        if (layerNames.IndexOf(ent.Layer) >= 0)
+                        {
+                            keepObjIds.Add(selObjIds[i]);
+                        }
+                    }
+                    trans.Commit();
+                }
+            }
+            return keepObjIds;
+        }
         private List<string> GetLayerNames(Point3d pt)
         {
             List<string> layerNames = new List<string>();
             Point3d pt1 = pt + new Vector3d(-5,-5,0);
             Point3d pt3 = pt + new Vector3d(5, 5, 0);
-            TypedValue[] tvs = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Line,LWPolyline") };
-            SelectionFilter sf = new SelectionFilter(tvs);
             PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(doc.Editor,
-                pt1, pt3, PolygonSelectionMode.Crossing, sf);
+                pt1, pt3, PolygonSelectionMode.Crossing);
             if (psr.Status == PromptStatus.OK)
             {
                 List<ObjectId> selObjIds = psr.Value.GetObjectIds().ToList();
@@ -200,7 +237,10 @@ namespace ThColumnInfo
                         {
                             continue;
                         }
-                        layerNames.Add(ent.Layer);
+                        if(ent is Line || ent is Polyline)
+                        {
+                            layerNames.Add(ent.Layer);
+                        }
                     }
                     trans.Commit();
                 }

@@ -10,7 +10,7 @@ using ThSpray;
 
 namespace ThSpray
 {
-    class TopoUtils
+    public class TopoUtils
     {
         /// <summary>
         /// 获取闭合轮廓

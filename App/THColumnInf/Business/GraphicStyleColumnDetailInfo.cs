@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using ThColumnInfo.Model;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThColumnInfo
@@ -19,7 +18,8 @@ namespace ThColumnInfo
     {
         protected List<List<TableCellInfo>> dataColumnCells = new List<List<TableCellInfo>>();
         protected List<List<TableCellInfo>> headColumnCells = new List<List<TableCellInfo>>();
-        private double extendPointRatio = 0.2;
+
+        private double extendPointRatio = 0.5;
         public GraphicStyleColumnDetailInfo(Point3d tableLeftDownCornerPt, Point3d tableRightUpCornerPt)
             :base(tableLeftDownCornerPt, tableRightUpCornerPt)
         {           
@@ -28,15 +28,11 @@ namespace ThColumnInfo
         {
             Vector3d vec = this.tableLeftDownCornerPt.GetVectorTo(this.tableRightUpCornerPt);
             Point3d cenPt = this.tableLeftDownCornerPt+vec.GetNormal().MultiplyBy(this.extendPointRatio*vec.Length);
-            List<ObjectId> needHideObjIds = new List<ObjectId>();
             try
             {
                 List<string> tableLayerNames = base.GetTableLayerName();
-                if (tableLayerNames != null && tableLayerNames.Count > 0)
-                {
-                    needHideObjIds = base.GetNeedHideObjIds(tableLayerNames);
-                    ThColumnInfoUtils.ShowObjIds(needHideObjIds, false);
-                }
+                base.ColumnTableObjIds = GetColumnTableObjIds(tableLayerNames);
+                base.GetColunmTableCurves();
                 bool findRes = false;
                 cenPt = FindInvalidCenPt(cenPt, out findRes);
                 List<TableCellInfo> sameColumnCells = GetSameColumnCells(cenPt, null);
@@ -127,10 +123,7 @@ namespace ThColumnInfo
             }
             finally
             {
-                if (needHideObjIds != null && needHideObjIds.Count > 0)
-                {
-                    ThColumnInfoUtils.ShowObjIds(needHideObjIds, true);
-                }
+                Dispose();
             }
             GetHeadCellText(); //先把表头的数据拿到
             GetDataCellText(); //获取数据单元格的文本
@@ -202,7 +195,7 @@ namespace ThColumnInfo
             Dictionary<string, int> keyWordDic = new Dictionary<string, int>();
             List<TableCellInfo> headAllCells = new List<TableCellInfo>();
             this.headColumnCells.ForEach(i => headAllCells.AddRange(i));
-            List<string> keyWordList = new List<string>() { "截面", "编号", "柱号", "标高", "纵筋", "箍筋","备注"};
+            List<string> keyWordList = new List<string>() { "截面", "编号", "柱号","名称", "标高", "纵筋", "箍筋","备注"};
             foreach (string keyWord in keyWordList)
             {
                 TableCellInfo tci = headAllCells.Where(i => !string.IsNullOrEmpty(i.Text) && i.Text.Replace(" ", "").ToLower().
@@ -291,6 +284,7 @@ namespace ThColumnInfo
                             {
                                 case "编号":
                                 case "柱号":
+                                case "名称":
                                     coluTabRi.Code = dataColumnCells[i][j].Text;
                                     break;
                                 case "标高":
@@ -309,7 +303,28 @@ namespace ThColumnInfo
                             }
                         }
                     }
-                    this.coluTabRecordInfs.Add(coluTabRi);
+                    if (!string.IsNullOrWhiteSpace(coluTabRi.Code))
+                    {
+                        coluTabRi.Code.Replace('，', ',');
+                        string[] codeStrs = coluTabRi.Code.Split(',');
+                        if(codeStrs.Length==1)
+                        {
+                            this.coluTabRecordInfs.Add(coluTabRi);
+                        }
+                        else
+                        {
+                            foreach (string code in codeStrs)
+                            {
+                                ColumnTableRecordInfo ctri = coluTabRi.Clone() as ColumnTableRecordInfo;
+                                ctri.Code = code.Trim();
+                                this.coluTabRecordInfs.Add(ctri);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        this.coluTabRecordInfs.Add(coluTabRi);
+                    }
                 }
                 trans.Commit();
             }
@@ -326,22 +341,25 @@ namespace ThColumnInfo
             {
                 return angularReinforcementSpec;
             }
-            string angularReinforcement = ""; //角筋
-            string splitStr = @"[0-9]+%{2}[0-9]+";
-            string[] splitStrs = Regex.Split(longitudinalReinforcementSpec, splitStr);
-            string splitStr1 = @"^[0-9]+";
-            string[] numStrs = Regex.Split(splitStrs[0], splitStr1);
-            if (numStrs != null && numStrs.Length > 0 && ThColumnInfoUtils.IsNumeric(numStrs[0]))
+            string[] splitValues=longitudinalReinforcementSpec.Split('+');
+            string splitStr = @"[0-9]+";
+            List<string> values = new List<string>();
+            MatchCollection matchCol = Regex.Matches(splitValues[0], splitStr);
+            foreach(var item in matchCol)
             {
-                string suffix = splitStrs[0].Substring(numStrs[0].Length + 1);
-                int totalNum = Convert.ToInt32(numStrs[0]);
+                values.Add(item.ToString());
+            }
+            if (values != null && values.Count > 0)
+            {
+                string suffix = splitValues[0].Substring(values[0].Length);
+                int totalNum = Convert.ToInt32(values[0]);
                 if (totalNum < 4)
                 {
                     return angularReinforcementSpec;
                 }
-                angularReinforcement = "4" + suffix;
+                angularReinforcementSpec = "4" + suffix;
             }
-            return angularReinforcement;
+            return angularReinforcementSpec;
         }
         /// <summary>
         /// 获取B边Side和H边Side中部筋
@@ -464,7 +482,7 @@ namespace ThColumnInfo
                     vec = rd.XLine1Point.GetVectorTo(rd.XLine2Point);
                     dimText = rd.Measurement.ToString();
                 }
-                if(string.IsNullOrEmpty(dimText) || !ThColumnInfoUtils.IsNumeric(dimText))
+                if(string.IsNullOrEmpty(dimText) || !BaseFunction.IsNumeric(dimText))
                 {
                     continue;
                 }

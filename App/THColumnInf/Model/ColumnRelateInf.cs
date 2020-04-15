@@ -33,5 +33,22 @@ namespace ThColumnInfo
             get;
             set;
         }
+        /// <summary>
+        /// 自定义数据
+        /// </summary>
+        public ColumnCustomData CustomData
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 埋入数据后存储的数据
+        /// </summary>
+
+        public YjkColumnDataInfo YjkColumnData
+        {
+            get;
+            set;
+        }
     }
 }

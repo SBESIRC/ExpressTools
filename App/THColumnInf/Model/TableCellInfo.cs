@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autodesk.AutoCAD.Geometry;
 
-namespace ThColumnInfo.Model
+namespace ThColumnInfo
 {
     public class TableCellInfo
     {

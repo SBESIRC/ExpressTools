@@ -5,27 +5,24 @@
         /// <summary>
         /// 抗震等级
         /// </summary>
-        public int AntiSeismicGrade { get; set; }
+        public string AntiSeismicGrade { get; set; }
         /// <summary>
         /// 楼层总层数
         /// </summary>
         public int FloorTotalNums { get; set; }
 
-        /// <summary>
-        /// 截面长度
-        /// </summary>
-        public double B;
-        /// <summary>
-        /// 截面宽度
-        /// </summary>
-        public double H;
+        public ColumnDataModel Cdm { get; set; }
 
         public override bool ValidateProperty()
         {
-            if (AntiSeismicGrade<=0 || FloorTotalNums<=0 || B<=0 || H<=0)
+            if (!(this.Code.Contains("KZ") || this.Code.Contains("ZHZ")))
             {
                 return false;
             }
+            if (FloorTotalNums<=0 || Cdm==null)
+            {
+                return false;
+            }            
             return true;
         }
     }

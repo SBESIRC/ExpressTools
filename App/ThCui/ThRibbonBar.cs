@@ -11,6 +11,7 @@ namespace TianHua.AutoCAD.ThCui
             if (tab != null)
             {
                 CreateHelpPanel(tab);
+                CreateCheckToolPanel(tab);
                 CreatStatisticPanel(tab);
                 CreateDrawToolPanel(tab);
                 CreatePlotToolPanel(tab);
@@ -774,6 +775,21 @@ namespace TianHua.AutoCAD.ThCui
                 "获取天正看图T20V5.0插件",
                 "IDI_THCAD_T20V50",
                 "IDI_THCAD_T20V50",
+                RibbonButtonStyle.LargeWithText);
+        }
+
+        private static void CreateCheckToolPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("CheckTool", "校核审查");
+            var row = panel.AddNewRibbonRow();
+
+            //柱校核
+            row.AddNewButton("柱校核",
+                "天华柱校核",
+                "THCRC",
+                "柱配筋图纸校核",
+                "IDI_THCAD_THCRC_16x16",
+                "IDI_THCAD_THCRC_32x32",
                 RibbonButtonStyle.LargeWithText);
         }
     }

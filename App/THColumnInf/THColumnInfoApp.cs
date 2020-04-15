@@ -3,11 +3,16 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
+using acadApp=Autodesk.AutoCAD.ApplicationServices;
 using System.Collections.Generic;
 using System.Text;
 using ThColumnInfo.Validate;
 using ThColumnInfo.ViewModel;
 using ThColumnInfo.View;
+using Autodesk.AutoCAD.GraphicsSystem;
+using System.Linq;
+using System.IO;
+using System.Windows.Forms;
 
 [assembly: CommandClass(typeof(ThColumnInfo.ThColumnInfoCommands))]
 [assembly: ExtensionApplication(typeof(ThColumnInfo.ThColumnInfoApp))]
@@ -17,108 +22,142 @@ namespace ThColumnInfo
     {
         public void Initialize()
         {
-            //throw new NotImplementedException();
+            DocumentCollection dc = acadApp.Application.DocumentManager;
+            dc.DocumentDestroyed += Dc_DocumentDestroyed;
+            dc.DocumentActivated += Dc_DocumentActivated;
         }
 
+        private void Dc_DocumentActivated(object sender, DocumentCollectionEventArgs e)
+        {
+            if (e.Document == null)
+            {
+                return;
+            }
+            try
+            {
+                bool hasCurrentFileName = false;
+                foreach (TreeNode tn in CheckPalette._checkResult.tvCheckRes.Nodes)
+                {
+                    ThStandardSignManager thStandardSignManager = tn.Tag as ThStandardSignManager;
+                    if (thStandardSignManager == null)
+                    {
+                        continue;
+                    }
+                    if (thStandardSignManager.DocPath == e.Document.Name)
+                    {
+                        hasCurrentFileName = true;
+                        break;
+                    }
+                }
+                if(!hasCurrentFileName)
+                {
+                    if(DataPalette.ShowPaletteMark)
+                    {
+                        DataPalette._dateResult.ClearDataGridView();
+                    }
+                }
+                else
+                {
+                    if(DataPalette.ShowPaletteMark)
+                    {
+                        CheckPalette._checkResult.ExportDetailData(CheckPalette._checkResult.LastShowDetailNode);
+                    }
+                }
+                //if (CheckPalette._ps!=null && !CheckPalette._ps.IsDisposed)
+                //{
+                //    CheckPalette._ps.Visible = hasCurrentFileName;
+                //}
+            }
+            catch (System.Exception ex)
+            {
+                ThColumnInfoUtils.WriteException(ex, "Dc_DocumentActivated");
+            }
+        }
+
+        private void Dc_DocumentDestroyed(object sender, DocumentDestroyedEventArgs e)
+        {
+            try
+            {
+                if (CheckPalette._checkResult == null || CheckPalette._checkResult.tvCheckRes == null ||
+                    CheckPalette._checkResult.tvCheckRes.Nodes.Count == 0)
+                {
+                    return;
+                }
+                if (CheckPalette._checkResult.tvCheckRes.Nodes[0].Tag == null)
+                {
+                    return;
+                }
+                for (int i = 0; i < CheckPalette._checkResult.tvCheckRes.Nodes.Count; i++)
+                {
+                    ThStandardSignManager thStandardSignManager =
+                        CheckPalette._checkResult.tvCheckRes.Nodes[i].Tag as ThStandardSignManager;
+                    if(thStandardSignManager==null)
+                    {
+                        continue;
+                    }
+                    if(thStandardSignManager.DocPath== e.FileName)
+                    {
+                        CheckPalette._checkResult.tvCheckRes.Nodes.RemoveAt(i);
+                        break;
+                    }
+                }
+                if(CheckPalette._checkResult.tvCheckRes.Nodes.Count==0)
+                {
+                    CheckPalette._ps.Visible = false;
+                    DataPalette._ps.Visible = false;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ThColumnInfoUtils.WriteException(ex, "Dc_DocumentDestroyed");
+            }
+        }
         public void Terminate()
         {
-            //throw new NotImplementedException();
+            DocumentCollection dc = acadApp.Application.DocumentManager;
+            dc.DocumentDestroyed -= Dc_DocumentDestroyed;
+            dc.DocumentActivated -= Dc_DocumentActivated;
         }
     }
     public class ThColumnInfoCommands
     {
-        [CommandMethod("TIANHUACAD", "ThCic", CommandFlags.Modal)]
-        public void ThColumnInfoCheckWindow()
-        {
-            //CheckPalette.Instance.Show();
-            //DataPalette.Instance.Show();
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            Editor ed = doc.Editor;
-            PromptPointResult ppr1 = ed.GetPoint("\n请选择要校对的柱子第一个范围点");
-            if (ppr1.Status != PromptStatus.OK)
-            {
-                return;
-            }
-            PromptPointResult ppr2 = ed.GetCorner("\n请选择要校对的柱子第二个范围点", ppr1.Value);
-            if (ppr2.Status != PromptStatus.OK)
-            {
-                return;
-            }
-            Point3d firstPt = ppr1.Value.TransformBy(ed.CurrentUserCoordinateSystem);
-            Point3d secondPt = ppr2.Value.TransformBy(ed.CurrentUserCoordinateSystem);
-            List<string> lockedLayerNames = ThColumnInfoUtils.UnlockedAllLayers();
-            try
-            {
-                //获取本地柱子的位置和柱表信息
-                IDataSource dataSource = new ExtractColumnPosition(firstPt, secondPt);
-                dataSource.Extract();
-
-                //Test
-                ParameterSetInfo paraSetInfo = new ParameterSetInfo();
-                paraSetInfo.AntiSeismicGrade = "抗震等级：二级";
-                paraSetInfo.FloorCount = 3;
-                paraSetInfo.ProtectLayerThickness = 30;
-
-                ThNoCalculationValidate thNoCalValidate = new ThNoCalculationValidate(dataSource, paraSetInfo);
-                thNoCalValidate.Validate();
-
-                //获取数据库的信息
-                string dbPath = @"C:\Users\liuguangsheng\AppData\Roaming\eSpace_Desktop\UserData\liuguangsheng\ReceiveFile\实例 - Send 1023\实例 - Send 1023\A3#楼 - 伪原位\计算模型\施工图\dtlmodel.ydb";
-                IDatabaseDataSource dbDataSource = new ExtractYjkColumnInfo(dbPath);
-                dbDataSource.Extract(4);
-
-                //让用户指定柱子的位置
-                ThDrawColumns thDrawColumns = new ThDrawColumns(dbDataSource.ColumnInfs);
-                thDrawColumns.Draw();
-
-                if (thDrawColumns.IsGoOn)
-                {
-                    //位置确定后，关联本地柱子
-                    ThRelateColumn thRelateColumn = new ThRelateColumn(dataSource.ColumnInfs, thDrawColumns.ColumnRelateInfs);
-                    thRelateColumn.Relate();
-                }
-            }
-            catch (Exception ex)
-            {
-                ThColumnInfoUtils.WriteException(ex, "");
-            }
-            finally
-            {
-                if (lockedLayerNames.Count > 0)
-                {
-                    ThColumnInfoUtils.LockedLayers(lockedLayerNames);
-                }
-            }
-        }
-
-        public static ImportCalculation columnCalulationInstance = null;
-        [CommandMethod("TIANHUACAD", "ThCci", CommandFlags.Modal)]
-        public void ThColumnCalculationImport()
+        [CommandMethod("TIANHUACAD", "ThCPI", CommandFlags.Modal)]
+        public void ThColumnParameterSet()
         {
             try
             {
-                CalculationInfo calculationInfo = new CalculationInfo()
+                ParameterSetVM parameterSetVM = new ParameterSetVM();
+                if(parameterSetVM.ParaSetInfo.FloorCount==0 && CheckPalette._checkResult.tvCheckRes.SelectedNode!=null)
                 {
-                    YjkPath = "",
-                    SelectByFloor = true,
-                    SelectByStandard = false,
-                    Angle = 45,
-                    ModelAppoint = true,
-                    QuickAppoint = "1,2,3"
-                };
-                CalculationInfoVM calculationInfoVM = new CalculationInfoVM(calculationInfo);
-                ImportCalculation importCalculation = new ImportCalculation(calculationInfoVM);
-                columnCalulationInstance = importCalculation;
-                importCalculation.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                importCalculation.ShowDialog();
+                    if(CheckPalette._checkResult.tvCheckRes.SelectedNode.Tag!=null &&
+                        CheckPalette._checkResult.tvCheckRes.SelectedNode.Tag.GetType()==typeof(ThStandardSignManager))
+                    {
+                        ThStandardSignManager tssm = CheckPalette._checkResult.tvCheckRes.SelectedNode.Tag as ThStandardSignManager;
+                        parameterSetVM.ParaSetInfo.FloorCount = tssm.StandardSigns.Count;
+                    }
+                }
+                ParameterSet parameterSet = new ParameterSet(parameterSetVM);
+                parameterSetVM.Owner = parameterSet;
+                parameterSet.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                parameterSet.Topmost = true;
+                parameterSet.Show();
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
                 ThColumnInfoUtils.WriteException(ex);
             }
-            finally
+        }
+        [CommandMethod("TIANHUACAD", "ThCRC", CommandFlags.Modal)]
+        public void ThColumnInfoCrc()
+        {
+            try
             {
-                columnCalulationInstance = null;
+                //显示结果
+                CheckPalette.Instance.Show();
+            }
+            catch (System.Exception ex)
+            {
+                ThColumnInfoUtils.WriteException(ex, "ThColumnInfoCrc");
             }
         }
     }

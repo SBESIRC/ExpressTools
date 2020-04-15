@@ -11,26 +11,90 @@ using TianHua.AutoCAD.Utility.ExtensionTools;
 using System.IO;
 using NLog;
 using System.Text.RegularExpressions;
+using System.Windows.Media;
 
 namespace ThColumnInfo
 {
     public class ThColumnInfoUtils
     {
         public static Tolerance tolerance = new Tolerance(1e-2, 1e-2);
-        public static bool IsColumnCode(string content)
+        public static List<Point3d> GetRetanglePts(List<Point3d> pts)
         {
-            //具体判断等有规则后再完善
-            List<string> codes = new List<string> {"KZ","ZHZ","XZ","LZ","QZ" };
-            if(string.IsNullOrEmpty(content))
+            List<Point3d> recPts = new List<Point3d>();
+            if(pts.Count<2)
             {
-                return false;
+                return recPts;
             }
-            var res=codes.Where(i => content.IndexOf(i) == 0).Select(i => i).ToList();
-            if(res!=null && res.Count>0)
+            double minX = pts.OrderBy(i => i.X).First().X;
+            double minY = pts.OrderBy(i => i.Y).First().Y;
+            double minZ = pts.OrderBy(i => i.Z).First().Z;
+
+            double maxX = pts.OrderByDescending(i => i.X).First().X;
+            double maxY = pts.OrderByDescending(i => i.Y).First().Y;
+            double maxZ = pts.OrderByDescending(i => i.Z).First().Z;
+
+            recPts.Add(new Point3d(minX, minY, minZ));
+            recPts.Add(new Point3d(maxX, minY, minZ));
+            recPts.Add(new Point3d(maxX, maxY, minZ));
+            recPts.Add(new Point3d(minX, maxY, minZ));
+            return recPts;
+        }
+        public static List<Point3d> GetPolylinePts(Curve curve)
+        {
+            List<Point3d> pts = new List<Point3d>();
+            if(curve==null)
             {
-                return true;
+                return pts;
             }
-            return false;
+            if (curve is Polyline polyline)
+            {
+                for (int j = 0; j < polyline.NumberOfVertices; j++)
+                {
+                    pts.Add(polyline.GetPoint3dAt(j));
+                }
+            }
+            else if (curve is Polyline2d polyline2d)
+            {
+                Point3dCollection allPts= polyline2d.GetAllGripPoints();
+                foreach(Point3d ptItem in allPts)
+                {
+                    pts.Add(ptItem);
+                }
+            }
+            else if(curve is Polyline2d polyline3d)
+            {
+                Point3dCollection allPts = polyline3d.GetAllGripPoints();
+                foreach (Point3d ptItem in allPts)
+                {
+                    pts.Add(ptItem);
+                }
+            }
+            return pts;
+        }
+        public static List<Point3d> GetPolylinePts(ObjectId polylineId)
+        {
+            List<Point3d> pts = new List<Point3d>();
+            if (!CheckObjIdIsValid(polylineId))
+            {
+                return pts;
+            }
+            Document document = Application.DocumentManager.MdiActiveDocument;
+            using (Transaction trans = document.TransactionManager.StartTransaction())
+            {
+                Polyline polyline = trans.GetObject(polylineId, OpenMode.ForRead) as Polyline;
+                pts = GetPolylinePts(polyline);
+                trans.Commit();
+            }
+            return pts;
+        }
+        public static bool CheckObjIdIsValid(ObjectId objId)
+        {
+            bool res = true;
+            if (objId == ObjectId.Null || objId.IsErased || objId.IsValid == false)
+            {
+                res = false;
+            }
+            return res;
         }
         public static bool IsPointOnPolyline(Polyline pl, Point3d pt)
         {
@@ -115,35 +179,6 @@ namespace ThColumnInfo
             return ang / 180.0 * Math.PI;
         }
         /// <summary>
-        /// 纯数字
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static bool IsNumeric(string str) //接收一个string类型的参数,保存到str里
-        {
-            if (str == null || str.Length == 0)    //验证这个参数是否为空
-                return false;                           //是，就返回False
-            ASCIIEncoding ascii = new ASCIIEncoding();//new ASCIIEncoding 的实例
-            byte[] bytestr = ascii.GetBytes(str);         //把string类型的参数保存到数组里
-            int count = 0;
-            foreach (byte c in bytestr)                   //遍历这个数组里的内容
-            {
-                if(c==46)
-                {
-                    count++;
-                }
-                else if (c < 48 || c > 57)                          //判断是否为数字
-                {
-                    return false;                              //不是，就返回False
-                }
-            }
-            if(count>1)
-            {
-                return false;
-            }            
-            return true;                                        //是，就返回True
-        }
-        /// <summary>
         /// 获取两点中点
         /// </summary>
         /// <param name="pt1"></param>
@@ -153,6 +188,10 @@ namespace ThColumnInfo
         {
             return new Point3d((pt1.X + pt2.X) / 2.0, (pt1.Y + pt2.Y) / 2.0, (pt1.Z + pt2.Z) / 2.0);
         }
+        /// <summary>
+        /// 删除物体
+        /// </summary>
+        /// <param name="objIds"></param>
         public static void EraseObjIds(params ObjectId[] objIds)
         {
             Document doc = GetMdiActiveDocument();
@@ -161,7 +200,7 @@ namespace ThColumnInfo
             {
                 for (int i = 0; i < objIds.Length; i++)
                 {
-                    if (objIds[i].IsErased)
+                    if (objIds[i]==ObjectId.Null || objIds[i].IsErased || objIds[i].IsValid==false)
                     {
                         continue;
                     }
@@ -180,12 +219,35 @@ namespace ThColumnInfo
             }
             return CreatePolyline(p2dPts, isClosed);
         }
+        public static Polyline CreateRectangle(Point3d minPt,Point3d maxPt)
+        {
+            double minX = Math.Min(minPt.X, maxPt.X);
+            double minY = Math.Min(minPt.Y, maxPt.Y);
+            double minZ = Math.Min(minPt.Z, maxPt.Z);
+
+            double maxX = Math.Max(minPt.X, maxPt.X);
+            double maxY = Math.Max(minPt.Y, maxPt.Y);
+            double maxZ = Math.Max(minPt.Z, maxPt.Z);
+
+            Point3d firstPt = new Point3d(minX, minY, minZ);
+            Point3d thirdPt = new Point3d(maxX, maxY, minZ);
+            Point3d secondPt = new Point3d(thirdPt.X, firstPt.Y, firstPt.Z);
+            Point3d fourthPt = new Point3d(firstPt.X, thirdPt.Y, firstPt.Z);
+
+            Point3dCollection pts = new Point3dCollection();
+            pts.Add(firstPt);
+            pts.Add(secondPt);
+            pts.Add(thirdPt);
+            pts.Add(fourthPt);
+
+            return CreatePolyline(pts, true);
+        }
         /// <summary>
         /// 创建没有圆弧的多段线
         /// </summary>
         /// <param name="pts"></param>
         /// <returns></returns>
-        public static Polyline CreatePolyline(Point2dCollection pts, bool isClosed = true)
+        public static Polyline CreatePolyline(Point2dCollection pts, bool isClosed = true,double lineWidth=0)
         {
             Polyline polyline = new Polyline();
             if (pts.Count == 2)
@@ -212,7 +274,7 @@ namespace ThColumnInfo
             }
             for (int i = 0; i < pts.Count; i++)
             {
-                polyline.AddVertexAt(i, pts[i], 0, 0, 0);
+                polyline.AddVertexAt(i, pts[i], 0, lineWidth, lineWidth);
             }
             if (isClosed)
             {
@@ -239,6 +301,31 @@ namespace ThColumnInfo
                 trans.Commit();
             }
             return objIds;
+        }
+        public static ObjectId AddToBlockTable(Entity ent,bool visible)
+        {
+            ObjectId objId = ObjectId.Null;//存储要插入的块参照的Id
+            Document doc = GetMdiActiveDocument();
+            Database db = doc.Database;//获取数据库对象
+            if(ent.ObjectId!= ObjectId.Null)
+            {
+                return objId;
+            }
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                BlockTable bt = trans.GetObject(db.BlockTableId, OpenMode.ForRead) as BlockTable; //以读的方式打开块表
+                BlockTableRecord modelSpace = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
+                modelSpace.UpgradeOpen();
+                if(!visible)
+                {
+                    ent.Visible = false;
+                }
+                objId=modelSpace.AppendEntity(ent);
+                trans.AddNewlyCreatedDBObject(ent, true);
+                modelSpace.DowngradeOpen();
+                trans.Commit();
+            }
+            return objId;
         }
         /// <summary>
         /// 创建三维多段线
@@ -545,7 +632,59 @@ namespace ThColumnInfo
             {
                 for (int i = 0; i < objIds.Length; i++)
                 {
-                    DBObject dbobj = trans.GetObject(objIds[i], OpenMode.ForRead);
+                    try
+                    {
+                        DBObject dbobj = trans.GetObject(objIds[i], OpenMode.ForRead);
+                        if (dbobj is Entity)
+                        {
+                            Entity ent = dbobj as Entity;
+                            if (isShow)
+                            {
+                                if (!ent.Visible)
+                                {
+                                    ent.UpgradeOpen();
+                                    ent.Visible = true;
+                                    ent.DowngradeOpen();
+                                }
+                            }
+                            else
+                            {
+                                if (ent.Visible)
+                                {
+                                    ent.UpgradeOpen();
+                                    ent.Visible = false;
+                                    ent.DowngradeOpen();
+                                }
+                            }
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        ThColumnInfoUtils.WriteException(ex, "ShowObjIds");
+                    }
+                }
+                trans.Commit();
+            }
+        }
+        public static void ShowObjIds(List<ObjectId> objIds, bool isShow = true)
+        {
+            if(objIds!=null && objIds.Count>0)
+            {
+                ShowObjIds(objIds.ToArray(), isShow);
+            }
+        }
+        public static void ShowObjId(ObjectId objId, bool isShow = true)
+        {
+            if (!CheckObjIdIsValid(objId))
+            {
+                return;
+            }
+            var doc = GetMdiActiveDocument();
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    DBObject dbobj = trans.GetObject(objId, OpenMode.ForRead);
                     if (dbobj is Entity)
                     {
                         Entity ent = dbobj as Entity;
@@ -569,14 +708,11 @@ namespace ThColumnInfo
                         }
                     }
                 }
+                catch (System.Exception ex)
+                {
+                    ThColumnInfoUtils.WriteException(ex, "ShowObjId");
+                }
                 trans.Commit();
-            }
-        }
-        public static void ShowObjIds(List<ObjectId> objIds, bool isShow = true)
-        {
-            if(objIds!=null && objIds.Count>0)
-            {
-                ShowObjIds(objIds.ToArray(), isShow);
             }
         }
         /// <summary>
@@ -691,6 +827,617 @@ namespace ThColumnInfo
                 }
             }
             return values;
+        }
+        public static List<double> GetDoubleValues(string str)
+        {
+            List<double> values = new List<double>();
+            string pattern = "[-]?\\d+([.]?\\d+)?";
+            MatchCollection matches = Regex.Matches(str, pattern);
+            foreach (var match in matches)
+            {
+                if (!string.IsNullOrEmpty(match.ToString()))
+                {
+                    values.Add(Convert.ToDouble(match.ToString()));
+                }
+            }
+            return values;
+        }
+        public static void ZoomObject(Editor ed, Point3dCollection pts)
+        {
+            Point3dCollection polygon = new Point3dCollection();
+            foreach (Point3d pt in pts)
+            {
+                if (polygon.IndexOf(pt) < 0)
+                {
+                    polygon.Add(pt);
+                }
+            }
+            if (polygon.Count < 2)
+            {
+                return;
+            }
+            if (polygon.Count == 2)
+            {
+                Point3d pt1 = polygon[0];
+                Point3d pt2 = polygon[1];
+                double minX = Math.Min(pt1.X, pt2.X);
+                double minY = Math.Min(pt1.Y, pt2.Y);
+                double minZ = Math.Min(pt1.Z, pt2.Z);
+
+                double maxX = Math.Max(pt1.X, pt2.X);
+                double maxY = Math.Max(pt1.Y, pt2.Y);
+                double maxZ = Math.Max(pt1.Z, pt2.Z);
+
+                polygon = new Point3dCollection();
+                polygon.Add(new Point3d(minX, minY, minZ));
+                polygon.Add(new Point3d(maxX, minY, minZ));
+                polygon.Add(new Point3d(maxX, maxY, minZ));
+                polygon.Add(new Point3d(minX, maxY, minZ));
+            }
+            Polyline3d polyline = new Polyline3d(Poly3dType.SimplePoly, polygon, true);
+            List<ObjectId> objectIds = AddToBlockTable(polyline);
+            ed.ZoomObject(objectIds[0]);
+            EraseObjIds(objectIds[0]);
+        }
+        /// <summary>
+        /// 根据两点Zoom
+        /// </summary>
+        /// <param name="ed"></param>
+        /// <param name="minPt"></param>
+        /// <param name="maxPt"></param>
+        public static void ZoomObject(Editor ed, Point3d minPt, Point3d maxPt)
+        {
+            Point3dCollection pts = new Point3dCollection();
+            pts.Add(minPt);
+            pts.Add(maxPt);
+            ZoomObject(ed, pts);
+        }
+        public static void ZoomWindow(Editor ed, Point3d minPt, Point3d maxPt)
+        {
+            Database db = ed.Document.Database;
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                COMTool.ZoomWindow(minPt, maxPt);
+                trans.Commit();
+            }
+        }
+        public static void ZoomWin(Editor ed, Point3d min, Point3d max)
+        {
+            Point2d min2d = new Point2d(min.X, min.Y);
+            Point2d max2d = new Point2d(max.X, max.Y);
+
+            ViewTableRecord view =
+              new ViewTableRecord();
+
+            view.CenterPoint =
+              min2d + ((max2d - min2d) / 2.0);
+            view.Height = max2d.Y - min2d.Y;
+            view.Width = max2d.X - min2d.X;
+            ed.SetCurrentView(view);
+        }
+        public static object GetSelectPoint(Editor ed, string message,Dictionary<string,string> keyMessage)
+        {
+            object value = null;
+            PromptPointOptions ppo = new PromptPointOptions(message);
+            ppo.AllowArbitraryInput = true;
+            ppo.AllowNone = true;
+            if (keyMessage!=null && keyMessage.Count>0)
+            {
+                keyMessage.ForEach(i => ppo.Keywords.Add(i.Key));
+                ppo.AppendKeywordsToMessage = false;
+            }
+            bool isGoOn = true;
+            do
+            {
+               PromptPointResult ppr= ed.GetPoint(ppo);
+               if(ppr.Status==PromptStatus.OK)
+                {
+                    value = ppr.Value;
+                }
+               else if(ppr.Status==PromptStatus.Keyword)
+                {
+                    value = ppr.StringResult;
+                }
+               else
+                {
+                    isGoOn = false;
+                }
+            }
+            while (isGoOn);
+            return value;
+        }
+        public static object GetCornerPoint(Editor ed,Point3d basePt, string message, Dictionary<string, string> keyMessage)
+        {
+            object value = null;
+            PromptCornerOptions ppo = new PromptCornerOptions(message, basePt);
+            ppo.AllowArbitraryInput = true;
+            ppo.AllowNone = true;
+            if (keyMessage != null && keyMessage.Count > 0)
+            {
+                foreach (var item in keyMessage)
+                {
+                    ppo.Keywords.Add(item.Key, item.Key, item.Value);
+                }
+            }
+            bool isGoOn = true;
+            do
+            {
+                PromptPointResult ppr = ed.GetCorner(ppo);
+                if (ppr.Status == PromptStatus.OK)
+                {
+                    value = ppr.Value;
+                }
+                else if (ppr.Status == PromptStatus.Keyword)
+                {
+                    value = ppr.Value;
+                }
+                else
+                {
+                    isGoOn = false;
+                }
+            }
+            while (isGoOn);
+            return value;
+        }
+        public static void AddXData(ObjectId objectId,string regAppName,List<TypedValue> tvs)
+        {
+            if(objectId== ObjectId.Null || string.IsNullOrEmpty(regAppName) || tvs.Count==0)
+            {
+                return;
+            }
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans=doc.TransactionManager.StartTransaction())
+            {
+                RegAppTable regAppTable = trans.GetObject(doc.Database.RegAppTableId, OpenMode.ForRead) as RegAppTable;
+                if(!regAppTable.Has(regAppName))
+                {
+                    regAppTable.UpgradeOpen();
+                    RegAppTableRecord regAppTableRecord = new RegAppTableRecord();
+                    regAppTableRecord.Name = regAppName;
+                    regAppTable.Add(regAppTableRecord);
+                    trans.AddNewlyCreatedDBObject(regAppTableRecord, true);
+                    regAppTable.DowngradeOpen();
+                }
+                DBObject dbObj = trans.GetObject(objectId,OpenMode.ForWrite);
+                tvs.Insert(0, new TypedValue((int)DxfCode.ExtendedDataRegAppName, regAppName));
+                ResultBuffer rb = new ResultBuffer();
+                tvs.ForEach(i => rb.Add(i));
+                dbObj.XData = rb;
+                dbObj.DowngradeOpen();
+                trans.Commit();
+            }
+        }
+        public static List<object> GetXData(ObjectId objId,string regAppName)
+        {
+            List<object> values = new List<object>();
+            if(objId==ObjectId.Null || string.IsNullOrEmpty(regAppName))
+            {
+                return values;
+            }
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans=doc.TransactionManager.StartTransaction())
+            {
+                DBObject dbObj= trans.GetObject(objId,OpenMode.ForRead);
+                ResultBuffer rbs = dbObj.GetXDataForApplication(regAppName);
+                if (rbs != null)
+                {
+                   foreach(var rb in rbs)
+                    {
+                        if (rb.TypeCode== (int)DxfCode.ExtendedDataAsciiString)
+                        {
+                            values.Add((string)rb.Value);
+                        }
+                        else if(rb.TypeCode == (int)DxfCode.ExtendedDataInteger32)
+                        {
+                            values.Add((int)rb.Value);
+                        }
+                        else if (rb.TypeCode == (int)DxfCode.ExtendedDataReal)
+                        {
+                            values.Add((double)rb.Value);
+                        }
+                        else if(rb.TypeCode == (int)DxfCode.ExtendedDataRegAppName)
+                        {
+                            values.Add((string)rb.Value);
+                        }
+                    }
+                }
+                trans.Commit();
+            }
+            return values;
+        }
+        public static void RemoveXData(ObjectId objectId, string regAppName)
+        {
+            if (objectId == ObjectId.Null || string.IsNullOrEmpty(regAppName))
+            {
+                return;
+            }
+            List<object> values= GetXData(objectId, regAppName);
+            if(values.Count==0)
+            {
+                return;
+            }
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
+            {
+                DBObject dbObj = trans.GetObject(objectId, OpenMode.ForWrite);
+                ResultBuffer rb = new ResultBuffer(new TypedValue(1001, regAppName));
+                dbObj.XData = rb;
+                dbObj.DowngradeOpen();
+                trans.Commit();
+            }
+        }
+        private void AddExtensionDictionary(ObjectId entityId,string dicKey,List<TypedValue> tvs)
+        {
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            if (entityId == ObjectId.Null || string.IsNullOrEmpty(dicKey) || tvs.Count==0)
+                return;
+
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                DBObject dbObj = tr.GetObject(entityId, OpenMode.ForRead);
+                ObjectId extId = dbObj.ExtensionDictionary;
+                if (extId == ObjectId.Null)
+                {
+                    dbObj.UpgradeOpen();
+                    dbObj.CreateExtensionDictionary();
+                    extId = dbObj.ExtensionDictionary;
+                }
+                //now we will have extId...
+                DBDictionary dbExt =
+                        (DBDictionary)tr.GetObject(extId, OpenMode.ForRead);
+                Xrecord xRec = new Xrecord();
+                ResultBuffer rb = new ResultBuffer();
+                tvs.ForEach(i => rb.Add(i));
+                //set the data
+                xRec.Data = rb;
+                //if not present add the data
+                if (!dbExt.Contains(dicKey))
+                {
+                    dbExt.UpgradeOpen();
+                    dbExt.SetAt(dicKey, xRec);
+                    tr.AddNewlyCreatedDBObject(xRec, true);
+                }
+                else
+                {
+                    ObjectId xrecId = dbExt.GetAt(dicKey);
+                    tr.GetObject(xrecId, OpenMode.ForWrite).Erase();
+                    dbExt[dicKey] = xRec;
+                    tr.AddNewlyCreatedDBObject(xRec, true);
+                }
+                tr.Commit();
+            }
+        }
+        public static ObjectId AddXrecord(ObjectId objId,string searchKey,List<TypedValue> tvs)
+        {
+            ObjectId idXrec = ObjectId.Null;
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            if (objId == ObjectId.Null || string.IsNullOrEmpty(searchKey) || tvs.Count == 0)
+                return idXrec;
+            using (Transaction trans=db.TransactionManager.StartTransaction())
+            {
+                DBObject dbObj = trans.GetObject(objId,OpenMode.ForRead);
+                if(dbObj.ExtensionDictionary==ObjectId.Null)
+                {
+                    dbObj.UpgradeOpen(); //切换对象为写的状态
+                    dbObj.CreateExtensionDictionary(); //为对象创建扩展字典
+                    dbObj.DowngradeOpen(); //为了安全，将对象切换成读的状态
+                }
+                //打开对象的扩展字典
+                DBDictionary dict = (DBDictionary)trans.GetObject(dbObj.ExtensionDictionary,OpenMode.ForRead);
+                Xrecord xrec = new Xrecord(); //
+                ResultBuffer rb = new ResultBuffer();
+                tvs.ForEach(i => rb.Add(i));
+                xrec.Data=rb;
+                dict.UpgradeOpen();
+                if (!dict.Contains(searchKey))
+                {
+                    dict.SetAt(searchKey, xrec);
+                    trans.AddNewlyCreatedDBObject(xrec, true);
+                }
+                else
+                {
+                    ObjectId oldXRecId = dict.GetAt(searchKey);
+                    trans.GetObject(oldXRecId,OpenMode.ForWrite).Erase();
+                    dict[searchKey] = xrec;
+                    trans.AddNewlyCreatedDBObject(xrec, true);
+                }
+                idXrec=dict.GetAt(searchKey);
+                dict.DowngradeOpen();
+                trans.Commit();
+            } 
+            return idXrec;
+        }
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="searchKey"></param>
+        /// <returns></returns>
+        public static List<TypedValue> GetXRecord(ObjectId id,string searchKey,Database db=null)
+        {
+            List<TypedValue> tvs = new List<TypedValue>();
+            try
+            {
+                if(db==null)
+                {
+                    db = Application.DocumentManager.MdiActiveDocument.Database;
+                }
+                using (Transaction trans=db.TransactionManager.StartTransaction())
+                {
+                    DBObject obj = trans.GetObject(id, OpenMode.ForRead);
+                    ObjectId dictId = obj.ExtensionDictionary;
+                    if (dictId == ObjectId.Null)
+                    {
+                        return tvs;
+                    }
+                    DBDictionary dict = trans.GetObject(dictId, OpenMode.ForRead) as DBDictionary;
+                    if (!dict.Contains(searchKey))
+                    {
+                        return tvs;
+                    }
+                    ObjectId xrecordId = dict.GetAt(searchKey);
+                    if (xrecordId == ObjectId.Null)
+                    {
+                        return tvs;
+                    }
+                    Xrecord xrecord = trans.GetObject(xrecordId, OpenMode.ForRead) as Xrecord;
+                    ResultBuffer rb = xrecord.Data;
+                    tvs = rb.AsArray().ToList();
+                    trans.Commit();
+                }
+            }
+            catch(System.Exception ex)
+            {
+                ThColumnInfoUtils.WriteException(ex, "GetXRecord");
+            }
+            return tvs;
+        }
+        public static List<Entity> Explode(BlockReference br, bool keepUnVisible = true)
+        {
+            List<Entity> entities = new List<Entity>();
+            DBObjectCollection collection = new DBObjectCollection();
+            br.Explode(collection);
+            foreach (DBObject obj in collection)
+            {
+                if (obj is BlockReference)
+                {
+                    var newBr = obj as BlockReference;
+                    if (!keepUnVisible && newBr.Visible == false)
+                    {
+                        continue;
+                    }
+                    var childEnts = Explode(newBr, keepUnVisible);
+                    if (childEnts != null)
+                    {
+                        entities.AddRange(childEnts);
+                    }
+                }
+                else if (obj is Entity)
+                {
+                    Entity ent = obj as Entity;
+                    if (!keepUnVisible && ent.Visible == false)
+                    {
+                        continue;
+                    }
+                    entities.Add(obj as Entity);
+                }
+            }
+            return entities;
+        }
+        public static List<string> GetLayerList(string contain = "")
+        {
+            List<string> layers = new List<string>();
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
+            {
+                LayerTable lt = trans.GetObject(doc.Database.LayerTableId, OpenMode.ForRead) as LayerTable;
+                foreach (var id in lt)
+                {
+                    LayerTableRecord ltr = trans.GetObject(id, OpenMode.ForRead) as LayerTableRecord;
+                    if (string.IsNullOrEmpty(contain))
+                    {
+                        layers.Add(ltr.Name);
+                    }
+                    else
+                    {
+                        if (ltr.Name.ToUpper().Contains(contain.ToUpper()))
+                        {
+                            layers.Add(ltr.Name);
+                        }
+                    }
+                }
+                trans.Commit();
+            }
+            return layers;
+        }
+        /// <summary>
+        /// 添加有名字典
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="searchKey"></param>
+        /// <returns></returns>
+        public static ObjectId AddNamedDictionary(Database db, string searchKey)
+        {
+            ObjectId dictId = ObjectId.Null;
+            if(string.IsNullOrEmpty(searchKey))
+            {
+                return dictId;
+            }
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                DBDictionary dicts = trans.GetObject(db.NamedObjectsDictionaryId,OpenMode.ForRead) as DBDictionary;
+                if(!dicts.Contains(searchKey))
+                {
+                    DBDictionary dict = new DBDictionary();
+                    dicts.UpgradeOpen();
+                    dictId = dicts.SetAt(searchKey, dict);
+                    dicts.DowngradeOpen();
+                    trans.AddNewlyCreatedDBObject(dict, true);
+                }
+                else
+                {
+                    dictId = dicts.GetAt(searchKey);
+                }
+                trans.Commit();
+            }
+            return dictId;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="curve1"></param>
+        /// <param name="curve2"></param>
+        /// <returns></returns>
+        public static bool JudgeTwoCurveIsOverLap(Curve curve1,Curve curve2)
+        {
+            bool result = false;
+            try
+            {
+                DBObjectCollection dbObjCo11 = new DBObjectCollection();
+                dbObjCo11.Add(curve1);
+                DBObjectCollection dbObjCo12 = new DBObjectCollection();
+                dbObjCo12.Add(curve2);
+
+                Region firstRegion = (Region)Region.CreateFromCurves(dbObjCo11)[0];
+                Region secondRegion = (Region)Region.CreateFromCurves(dbObjCo12)[0];
+
+                firstRegion.BooleanOperation(BooleanOperationType.BoolIntersect, secondRegion);
+                if (firstRegion.Area > 0.0)
+                {
+                    result = true;
+                }
+                firstRegion.Dispose();
+                secondRegion.Dispose();
+            }
+            catch(System.Exception ex)
+            {
+                WriteException(ex, "JudgeTwoCurveIsOverLap,Parameter->Curve,Curve");
+            }      
+            return result;
+        }
+        public static bool JudgeTwoCurveIsOverLap(List<Point3d> firstCurvePts, List<Point3d> secondCurvePts)
+        {
+            bool result = false;
+            try
+            {
+                Point3dCollection firstPts = new Point3dCollection();
+                firstCurvePts.ForEach(i => firstPts.Add(i));
+                Point3dCollection secondPts = new Point3dCollection();
+                secondCurvePts.ForEach(i => secondPts.Add(i));
+
+                Polyline firstPolyline = CreatePolyline(firstPts);
+                Polyline seocndPolyline = CreatePolyline(secondPts);
+                result = JudgeTwoCurveIsOverLap(firstPolyline, seocndPolyline);
+                firstPolyline.Dispose();
+                seocndPolyline.Dispose();
+                firstPts.Dispose();
+                secondPts.Dispose();
+            }
+            catch(System.Exception ex)
+            {
+                WriteException(ex, "JudgeTwoCurveIsOverLap,Parameter->List<Point3d>,List<Point3d>");
+            }
+            return result;
+        }
+        public static ObjectId DrawOffsetColumn(List<Point3d> polylinePts, double offsetDisScale = 2.5, bool visible = false, double lineWeight=200)
+        {
+            ObjectId frameId = ObjectId.Null;
+            if (polylinePts.Count < 2)
+            {
+                return frameId;
+            }
+            double minX = polylinePts.OrderBy(i => i.X).First().X;
+            double minY = polylinePts.OrderBy(i => i.Y).First().Y;
+            double minZ = polylinePts.OrderBy(i => i.Z).First().Z;
+            double maxX = polylinePts.OrderByDescending(i => i.X).First().X;
+            double maxY = polylinePts.OrderByDescending(i => i.Y).First().Y;
+            double maxZ = polylinePts.OrderByDescending(i => i.Z).First().Z;
+
+            Point3d leftDownPt = new Point3d(minX, minY, minZ);
+            Point3d rightUpPt = new Point3d(maxX, maxY, minZ);
+            Point3d cenPt = ThColumnInfoUtils.GetMidPt(leftDownPt, rightUpPt);
+            double columnLen = (maxX - minX) * offsetDisScale;
+            double columnHeight = (maxY - minY) * offsetDisScale;
+            rightUpPt = new Point3d(cenPt.X + columnLen / 2.0, cenPt.Y + columnHeight / 2.0, minZ);
+            leftDownPt = new Point3d(cenPt.X - columnLen / 2.0, cenPt.Y - columnHeight / 2.0, minZ);
+
+            Point2dCollection pt2ds = new Point2dCollection();
+            pt2ds.Add(new Point2d(leftDownPt.X, leftDownPt.Y));
+            pt2ds.Add(new Point2d(rightUpPt.X, leftDownPt.Y));
+            pt2ds.Add(new Point2d(rightUpPt.X, rightUpPt.Y));
+            pt2ds.Add(new Point2d(leftDownPt.X, rightUpPt.Y));
+            Polyline polyline = ThColumnInfoUtils.CreatePolyline(pt2ds, true, lineWeight);
+            frameId = ThColumnInfoUtils.AddToBlockTable(polyline, visible);
+            return frameId;
+        }
+        public static void ChangeColor(ObjectId objId, short colorIndex)
+        {
+            if (objId == ObjectId.Null)
+            {
+                return;
+            }
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
+            {
+                Entity ent = trans.GetObject(objId, OpenMode.ForRead) as Entity;
+                ent.UpgradeOpen();
+                ent.ColorIndex = colorIndex;
+                ent.DowngradeOpen();
+                trans.Commit();
+            }
+        }
+        public static void ChangeText(ObjectId textId, string content)
+        {
+            if (!CheckObjIdIsValid(textId))
+            {
+                return;
+            }
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
+            {
+                DBObject dbObj = trans.GetObject(textId, OpenMode.ForRead) as Entity;
+                if(dbObj is DBText dbText)
+                {
+                    dbText.UpgradeOpen();
+                    dbText.TextString = content;
+                    dbText.DowngradeOpen();
+                }
+                else if(dbObj is MText mText)
+                {
+                    mText.UpgradeOpen();
+                    mText.Contents = content;
+                    mText.DowngradeOpen();
+                }
+                trans.Commit();
+            }
+        }
+        public static Brush SysColorConvertBrush(System.Drawing.Color sysColor)
+        {
+            Brush brush = new SolidColorBrush(Color.FromArgb(sysColor.A, sysColor.R, sysColor.G, sysColor.B));
+            return brush;
+        }
+        /// <summary>
+        /// Cad颜色转系统颜色
+        /// </summary>
+        /// <param name="cadColor"></param>
+        /// <returns></returns>
+        public static System.Drawing.Color AcadColorToSystemColor(Autodesk.AutoCAD.Colors.Color cadColor)
+        {
+            System.Drawing.Color color = System.Drawing.Color.FromArgb(
+                 cadColor.ColorValue.R, cadColor.ColorValue.G, cadColor.ColorValue.B);
+            return color;
+        }
+        /// <summary>
+        /// 系统颜色转Cad颜色
+        /// </summary>
+        /// <param name="systemColor"></param>
+        /// <returns></returns>
+        public static Autodesk.AutoCAD.Colors.Color SystemColorToAcadColor(System.Drawing.Color systemColor)
+        {
+            Autodesk.AutoCAD.Colors.Color color = Autodesk.AutoCAD.Colors.Color.FromColor(systemColor); 
+            return color;
         }
     }
 }

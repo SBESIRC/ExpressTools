@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,27 +22,24 @@ namespace ThColumnInfo.View
     /// </summary>
     public partial class ImportCalculation : Window
     {
-        private CalculationInfoVM calculationInfoVM = null;
+        public CalculationInfoVM calculationInfoVM = null;
         public ImportCalculation(CalculationInfoVM calculationInfoVM)
         {
             InitializeComponent();
             this.calculationInfoVM = calculationInfoVM;
             this.DataContext = this.calculationInfoVM;
         }
-        private void RbSelectByNatural_Checked(object sender, RoutedEventArgs e)
-        {
-            calculationInfoVM.UpdateSelectFloorList();
-        }
-
-        private void RbSelectByStandard_Checked(object sender, RoutedEventArgs e)
-        {
-            calculationInfoVM.UpdateSelectFloorList();
-        }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.DataContext = this.calculationInfoVM;
+            int index = this.calculationInfoVM.CalculateInfo.YjkUsedPathList.IndexOf(this.calculationInfoVM.CalculateInfo.YjkPath);
+            if(index>=0)
+            {
+                this.cbYjkFilePath.SelectedIndex = index;
+            }
+            this.rbSelectByStandard.IsChecked = calculationInfoVM.CalculateInfo.SelectByStandard;
+            this.rbSelectByNatural.IsChecked = !calculationInfoVM.CalculateInfo.SelectByStandard;
         }
-
         private void CbYjkFilePath_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(string.IsNullOrEmpty(this.cbYjkFilePath.Text))
@@ -51,36 +49,39 @@ namespace ThColumnInfo.View
            calculationInfoVM.UpdateSelectFloorList();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            Properties.Settings.Default.YjkUsePath = this.cbYjkFilePath.Text;
-            if(!string.IsNullOrEmpty(this.tbAngle.Text))
+            if(e.Key==Key.Escape)
             {
-                double angle = 0.0;
-                bool res=double.TryParse(this.tbAngle.Text, out angle);
-                if(res)
-                {
-                    Properties.Settings.Default.Angle = Convert.ToDouble(this.tbAngle.Text);
-                }
+                this.Close();
             }
-            if(cbModelPoint.IsChecked!=null)
-            {
-                Properties.Settings.Default.ModelPoint = cbModelPoint.IsChecked==true?true:false;
-            }
-            System.Collections.Specialized.StringCollection collection= new System.Collections.Specialized.StringCollection();
-            foreach(var item in this.calculationInfoVM.CalculateInfo.YjkUsedPathList)
-            {
-                collection.Add(item);
-            }
-            Properties.Settings.Default.YjkUsedPathList = collection;
+        }
 
-            System.Collections.Specialized.StringCollection selectFloorList = new System.Collections.Specialized.StringCollection();
-            foreach (var item in this.calculationInfoVM.CalculateInfo.SelectLayers)
-            {
-                selectFloorList.Add(item);
-            }
-            Properties.Settings.Default.SelectFloorList = selectFloorList;
-            Properties.Settings.Default.Save();
+        private void TbAngle_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex re = new Regex("[^0-9.\\-]+");
+            e.Handled = re.IsMatch(e.Text);
+        }
+        private void RbSelectByNatural_Checked(object sender, RoutedEventArgs e)
+        {
+            calculationInfoVM.UpdateSelectFloorList();
+            calculationInfoVM.UpdateSelectMode(false);
+        }
+
+        private void RbSelectByNatural_Unchecked(object sender, RoutedEventArgs e)
+        {
+            calculationInfoVM.UpdateSelectMode(true);
+        }
+
+        private void RbSelectByStandard_Checked(object sender, RoutedEventArgs e)
+        {
+            calculationInfoVM.UpdateSelectFloorList();
+            calculationInfoVM.UpdateSelectMode(true);
+        }
+
+        private void RbSelectByStandard_Unchecked(object sender, RoutedEventArgs e)
+        {
+            calculationInfoVM.UpdateSelectMode(false);
         }
     }
 }

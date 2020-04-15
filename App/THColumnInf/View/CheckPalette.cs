@@ -1,21 +1,22 @@
 ﻿using Autodesk.AutoCAD.Windows;
-using Autodesk.AutoCAD.ApplicationServices;
-
+using acadApp=Autodesk.AutoCAD.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ThColumnInfo.Validate;
+using System.Windows;
+using Autodesk.AutoCAD.ApplicationServices;
 
 namespace ThColumnInfo.View
 {
     public class CheckPalette
     {
-        static CheckPalette instance = null;
+        internal static CheckPalette instance = null;
         internal static PaletteSet _ps = null;
-        static CheckResult _checkResult = null;
+        internal static CheckResult _checkResult = null;
         public CheckPalette()
         {
-
         }
         public static CheckPalette Instance
         {
@@ -32,31 +33,38 @@ namespace ThColumnInfo.View
         {
             if(_ps == null)
             {
-                _ps = new PaletteSet("检查结果",typeof(CheckPalette).GUID); //新建一个面板对象，标题为 “检查结果”
+                _ps = new PaletteSet("柱配筋校核",typeof(CheckPalette).GUID); //新建一个面板对象，标题为 “检查结果”
+
                 _checkResult = new CheckResult();
                 _ps.Add("", _checkResult);
-                Application.DocumentManager.DocumentCreated += DocumentManager_DocumentCreated;
-                Application.DocumentManager.DocumentDestroyed += DocumentManager_DocumentDestroyed;
                 _ps.Load += _ps_Load;
-                _ps.DockEnabled = (DockSides)(DockSides.Left | DockSides.Right);
-                _ps.Dock = DockSides.Left;
-                _ps.MinimumSize = new System.Drawing.Size(200, 500);
+                _ps.SizeChanged += _ps_SizeChanged;
+            }
+            else
+            {
+                _checkResult.LoadTree(acadApp.Application.DocumentManager.MdiActiveDocument.Name);
             }
             _ps.Visible = true;
         }
 
+        private void _ps_SizeChanged(object sender, PaletteSetSizeEventArgs e)
+        {
+            _checkResult.Height= (int)_ps.PaletteSize.Height;
+            _checkResult.Width= (int)_ps.PaletteSize.Width;
+            _checkResult.panelUp.Width = _checkResult.Width;
+            _checkResult.panelMiddle.Width = _checkResult.Width;
+            _checkResult.panelDown.Width = _checkResult.Width;
+            _checkResult.panelMiddle.Top = _checkResult.panelUp.Bottom;
+            _checkResult.panelMiddle.Height = Math.Abs(_checkResult.panelDown.Top - _checkResult.panelUp.Bottom);
+        }
+
         private void _ps_Load(object sender, PalettePersistEventArgs e)
         {
-
-        }
-
-        private void DocumentManager_DocumentDestroyed(object sender, DocumentDestroyedEventArgs e)
-        {
-
-        }
-
-        private void DocumentManager_DocumentCreated(object sender, DocumentCollectionEventArgs e)
-        {
+            _checkResult.BackColor = System.Drawing.Color.FromArgb(92,92,92);
+            _ps.DockEnabled = (DockSides)(DockSides.Left | DockSides.Right);
+            _ps.Dock = DockSides.Left;
+            _ps.Style = PaletteSetStyles.Snappable;
+            _ps.MinimumSize = new System.Drawing.Size(250, 800);
         }
     }
 }

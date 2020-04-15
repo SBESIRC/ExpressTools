@@ -29,10 +29,9 @@ namespace ThColumnInfo
         }
         protected override SamplerStatus Sampler(JigPrompts prompts)
         {
-            JigPromptPointOptions prOptions1 = new JigPromptPointOptions("\n选择安装的基点[重置基点(R)/模型角度(A)/退出(E)]:");
+            JigPromptPointOptions prOptions1 = new JigPromptPointOptions("\n选择安装的基点[重置基点(R)/退出(E)]:");
             prOptions1.UseBasePoint = false;
             prOptions1.Keywords.Add("R");
-            prOptions1.Keywords.Add("A");
             prOptions1.Keywords.Add("E");
             PromptPointResult prResult1 = prompts.AcquirePoint(prOptions1);
             if (prResult1.Status == PromptStatus.Cancel || prResult1.Status == PromptStatus.Error)

@@ -28,96 +28,199 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tvCheckRes = new System.Windows.Forms.TreeView();
-            this.btnCheck = new System.Windows.Forms.Button();
-            this.btnExport = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.btnSet = new System.Windows.Forms.Button();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.importCalculationTsmi = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkTsmi = new System.Windows.Forms.ToolStripMenuItem();
+            this.detailDataTsmi = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelMiddle = new System.Windows.Forms.Panel();
+            this.lblPaperDistinguishResult = new System.Windows.Forms.Label();
+            this.panelDown = new System.Windows.Forms.Panel();
+            this.btnShowDetailData = new System.Windows.Forms.Button();
+            this.btnComponentDefinition = new System.Windows.Forms.Button();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.parameterSetTsmi = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkAllTsmi = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelUp = new System.Windows.Forms.Panel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
+            this.contextMenuStrip1.SuspendLayout();
+            this.panelMiddle.SuspendLayout();
+            this.panelDown.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
+            this.panelUp.SuspendLayout();
             this.SuspendLayout();
             // 
             // tvCheckRes
             // 
             this.tvCheckRes.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.tvCheckRes.ContextMenuStrip = this.contextMenuStrip1;
             this.tvCheckRes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvCheckRes.Location = new System.Drawing.Point(0, 0);
             this.tvCheckRes.Name = "tvCheckRes";
-            this.tvCheckRes.Size = new System.Drawing.Size(227, 386);
+            this.tvCheckRes.Size = new System.Drawing.Size(244, 445);
             this.tvCheckRes.TabIndex = 0;
+            this.tvCheckRes.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvCheckRes_BeforeCollapse);
+            this.tvCheckRes.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvCheckRes_BeforeExpand);
+            this.tvCheckRes.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.tvCheckRes_DrawNode);
+            this.tvCheckRes.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvCheckRes_NodeMouseClick);
             this.tvCheckRes.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvCheckRes_NodeMouseDoubleClick);
+            this.tvCheckRes.Leave += new System.EventHandler(this.tvCheckRes_Leave);
+            this.tvCheckRes.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvCheckRes_MouseDown);
+            this.tvCheckRes.MouseLeave += new System.EventHandler(this.tvCheckRes_MouseLeave);
             // 
-            // btnCheck
+            // contextMenuStrip1
             // 
-            this.btnCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCheck.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.btnCheck.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnCheck.Location = new System.Drawing.Point(95, 102);
-            this.btnCheck.Name = "btnCheck";
-            this.btnCheck.Size = new System.Drawing.Size(60, 25);
-            this.btnCheck.TabIndex = 1;
-            this.btnCheck.Text = "检  查";
-            this.btnCheck.UseVisualStyleBackColor = false;
-            this.btnCheck.Click += new System.EventHandler(this.btnCheck_Click);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importCalculationTsmi,
+            this.checkTsmi,
+            this.detailDataTsmi});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(137, 70);
             // 
-            // btnExport
+            // importCalculationTsmi
             // 
-            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.btnExport.Location = new System.Drawing.Point(161, 102);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(60, 25);
-            this.btnExport.TabIndex = 2;
-            this.btnExport.Text = "导出";
-            this.btnExport.UseVisualStyleBackColor = false;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            this.importCalculationTsmi.Name = "importCalculationTsmi";
+            this.importCalculationTsmi.Size = new System.Drawing.Size(136, 22);
+            this.importCalculationTsmi.Text = "导入计算书";
+            this.importCalculationTsmi.Click += new System.EventHandler(this.importCalculationTsmi_Click);
             // 
-            // panel1
+            // checkTsmi
             // 
-            this.panel1.Controls.Add(this.tvCheckRes);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(227, 386);
-            this.panel1.TabIndex = 3;
-            this.panel1.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.panel1_ControlAdded);
+            this.checkTsmi.Name = "checkTsmi";
+            this.checkTsmi.Size = new System.Drawing.Size(136, 22);
+            this.checkTsmi.Text = "校核";
+            this.checkTsmi.Click += new System.EventHandler(this.checkTsmi_Click);
             // 
-            // panel2
+            // detailDataTsmi
             // 
-            this.panel2.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panel2.Controls.Add(this.btnSet);
-            this.panel2.Controls.Add(this.btnCheck);
-            this.panel2.Controls.Add(this.btnExport);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 386);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(227, 131);
-            this.panel2.TabIndex = 4;
+            this.detailDataTsmi.Name = "detailDataTsmi";
+            this.detailDataTsmi.Size = new System.Drawing.Size(136, 22);
+            this.detailDataTsmi.Text = "详细数据";
+            this.detailDataTsmi.Click += new System.EventHandler(this.detailDataTsmi_Click);
             // 
-            // btnSet
+            // panelMiddle
             // 
-            this.btnSet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSet.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.btnSet.Location = new System.Drawing.Point(29, 102);
-            this.btnSet.Name = "btnSet";
-            this.btnSet.Size = new System.Drawing.Size(60, 25);
-            this.btnSet.TabIndex = 3;
-            this.btnSet.Text = "设置";
-            this.btnSet.UseVisualStyleBackColor = false;
-            this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
+            this.panelMiddle.Controls.Add(this.tvCheckRes);
+            this.panelMiddle.Location = new System.Drawing.Point(3, 23);
+            this.panelMiddle.Name = "panelMiddle";
+            this.panelMiddle.Size = new System.Drawing.Size(244, 445);
+            this.panelMiddle.TabIndex = 3;
+            this.panelMiddle.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.panel1_ControlAdded);
+            // 
+            // lblPaperDistinguishResult
+            // 
+            this.lblPaperDistinguishResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblPaperDistinguishResult.AutoSize = true;
+            this.lblPaperDistinguishResult.BackColor = System.Drawing.Color.Transparent;
+            this.lblPaperDistinguishResult.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblPaperDistinguishResult.Location = new System.Drawing.Point(1, 3);
+            this.lblPaperDistinguishResult.Name = "lblPaperDistinguishResult";
+            this.lblPaperDistinguishResult.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.lblPaperDistinguishResult.Size = new System.Drawing.Size(77, 17);
+            this.lblPaperDistinguishResult.TabIndex = 1;
+            this.lblPaperDistinguishResult.Text = "图纸识别结果";
+            this.lblPaperDistinguishResult.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // panelDown
+            // 
+            this.panelDown.BackColor = System.Drawing.Color.Transparent;
+            this.panelDown.Controls.Add(this.btnShowDetailData);
+            this.panelDown.Controls.Add(this.btnComponentDefinition);
+            this.panelDown.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelDown.Location = new System.Drawing.Point(0, 474);
+            this.panelDown.Name = "panelDown";
+            this.panelDown.Size = new System.Drawing.Size(250, 26);
+            this.panelDown.TabIndex = 4;
+            // 
+            // btnShowDetailData
+            // 
+            this.btnShowDetailData.BackColor = System.Drawing.Color.Transparent;
+            this.btnShowDetailData.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnShowDetailData.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnShowDetailData.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnShowDetailData.FlatAppearance.BorderSize = 0;
+            this.btnShowDetailData.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnShowDetailData.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnShowDetailData.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnShowDetailData.Location = new System.Drawing.Point(226, 0);
+            this.btnShowDetailData.Name = "btnShowDetailData";
+            this.btnShowDetailData.Size = new System.Drawing.Size(24, 26);
+            this.btnShowDetailData.TabIndex = 4;
+            this.btnShowDetailData.UseVisualStyleBackColor = false;
+            this.btnShowDetailData.Click += new System.EventHandler(this.btnShowDetailData_Click);
+            this.btnShowDetailData.MouseHover += new System.EventHandler(this.btnShowDetailData_MouseHover);
+            // 
+            // btnComponentDefinition
+            // 
+            this.btnComponentDefinition.BackColor = System.Drawing.Color.Transparent;
+            this.btnComponentDefinition.BackgroundImage = global::ThColumnInfo.Properties.Resources.ComponentPropModifyPng;
+            this.btnComponentDefinition.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnComponentDefinition.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnComponentDefinition.FlatAppearance.BorderSize = 0;
+            this.btnComponentDefinition.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnComponentDefinition.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnComponentDefinition.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnComponentDefinition.Location = new System.Drawing.Point(195, 1);
+            this.btnComponentDefinition.Name = "btnComponentDefinition";
+            this.btnComponentDefinition.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.btnComponentDefinition.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnComponentDefinition.Size = new System.Drawing.Size(24, 24);
+            this.btnComponentDefinition.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.btnComponentDefinition, "构件属性定义");
+            this.btnComponentDefinition.UseVisualStyleBackColor = false;
+            this.btnComponentDefinition.Click += new System.EventHandler(this.btnComponentDefinition_Click);
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.parameterSetTsmi,
+            this.checkAllTsmi});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(101, 48);
+            // 
+            // parameterSetTsmi
+            // 
+            this.parameterSetTsmi.Name = "parameterSetTsmi";
+            this.parameterSetTsmi.Size = new System.Drawing.Size(100, 22);
+            this.parameterSetTsmi.Text = "设置";
+            this.parameterSetTsmi.Click += new System.EventHandler(this.parameterSetTsmi_Click);
+            // 
+            // checkAllTsmi
+            // 
+            this.checkAllTsmi.Name = "checkAllTsmi";
+            this.checkAllTsmi.Size = new System.Drawing.Size(100, 22);
+            this.checkAllTsmi.Text = "校核";
+            this.checkAllTsmi.Click += new System.EventHandler(this.distinguishAllTsmi_Click);
+            // 
+            // panelUp
+            // 
+            this.panelUp.Controls.Add(this.lblPaperDistinguishResult);
+            this.panelUp.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelUp.Location = new System.Drawing.Point(0, 0);
+            this.panelUp.Name = "panelUp";
+            this.panelUp.Size = new System.Drawing.Size(250, 24);
+            this.panelUp.TabIndex = 5;
             // 
             // CheckResult
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panelUp);
+            this.Controls.Add(this.panelDown);
+            this.Controls.Add(this.panelMiddle);
             this.Name = "CheckResult";
-            this.Size = new System.Drawing.Size(227, 517);
-            this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
+            this.Size = new System.Drawing.Size(250, 500);
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.panelMiddle.ResumeLayout(false);
+            this.panelDown.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
+            this.panelUp.ResumeLayout(false);
+            this.panelUp.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -125,10 +228,20 @@
         #endregion
 
         internal System.Windows.Forms.TreeView tvCheckRes;
-        private System.Windows.Forms.Button btnCheck;
-        private System.Windows.Forms.Button btnExport;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button btnSet;
+        public System.Windows.Forms.Panel panelMiddle;
+        public System.Windows.Forms.Panel panelDown;
+        private System.Windows.Forms.Label lblPaperDistinguishResult;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem importCalculationTsmi;
+        private System.Windows.Forms.ToolStripMenuItem checkTsmi;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem checkAllTsmi;
+        private System.Windows.Forms.ToolStripMenuItem detailDataTsmi;
+        private System.Windows.Forms.ToolStripMenuItem parameterSetTsmi;
+        private System.Windows.Forms.Button btnComponentDefinition;
+        public System.Windows.Forms.Panel panelUp;
+        private System.Windows.Forms.Button btnShowDetailData;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolTip toolTip2;
     }
 }

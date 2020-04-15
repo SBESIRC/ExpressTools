@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThColumnInfo.ViewModel;
 
 namespace ThColumnInfo
 {
@@ -33,10 +34,12 @@ namespace ThColumnInfo
         /// 获取数据库信息在模型中摆放的位置
         /// </summary>
         public List<ColumnRelateInf> ColumnRelateInfs { get; set; } = new List<ColumnRelateInf>();
+        private CalculationInfo calculateInfo = null;
         
-        public ThDrawColumns(List<DrawColumnInf> drawColumnInfs)
+        public ThDrawColumns(List<DrawColumnInf> drawColumnInfs, CalculationInfo calculateInfo)
         {
             this.drawColumnInfs = drawColumnInfs;
+            this.calculateInfo = calculateInfo;
             doc = ThColumnInfoUtils.GetMdiActiveDocument();
         }
         public void Draw()
@@ -90,7 +93,7 @@ namespace ThColumnInfo
                string[] specs= drawColumnInf.Spec.Split('x');
                 if(specs!=null && specs.Length==2)
                 {
-                    if(ThColumnInfoUtils.IsNumeric(specs[0]) && ThColumnInfoUtils.IsNumeric(specs[1]))
+                    if(BaseFunction.IsNumeric(specs[0]) && BaseFunction.IsNumeric(specs[1]))
                     {
                         double length = Convert.ToDouble(specs[0]);
                         double width = Convert.ToDouble(specs[1]);
@@ -143,10 +146,17 @@ namespace ThColumnInfo
             {
                 return;
             }
-            
             bool doMark = true;
             Point3d basePt = Point3d.Origin;
-            double modelAng = 0.0;
+            double modelAng = this.calculateInfo.Angle;
+            modelAng = ThColumnInfoUtils.AngToRad(modelAng);
+            if (modelAng != 0.0)
+            {
+                Matrix3d rotateMt = Matrix3d.Rotation(modelAng, 
+                    this.doc.Editor.CurrentUserCoordinateSystem.CoordinateSystem3d.Zaxis, basePt);
+                this.columnEnts.ForEach(i => i.TransformBy(rotateMt));
+            }
+            Point3d moveTargetPt= basePt;
             while (doMark)
             {
                 ThColumnJig thColumnJig = new ThColumnJig(this.columnEnts, basePt);
@@ -155,6 +165,7 @@ namespace ThColumnInfo
                 {
                     doMark = false;
                     this.isGoOn = true;
+                    moveTargetPt = thColumnJig.Position;
                     break;
                 }
                 else if(jigRes.Status == PromptStatus.Keyword)
@@ -225,10 +236,31 @@ namespace ThColumnInfo
                     break;
                 }
             }
+            if(this.isGoOn)
+            {
+                doMark = true;
+                do
+                {
+                    MoveRotateScaleJig rotateJig = new MoveRotateScaleJig(this.columnEnts, moveTargetPt, JigWay.Rotate, 0, 1);
+                    PromptResult jigRes = doc.Editor.Drag(rotateJig);
+                    if (jigRes.Status == PromptStatus.OK)
+                    {
+                        doMark = false;
+                        rotateJig.TranformEntities();
+                        this.calculateInfo.Angle = BaseFunction.RadToAng(rotateJig.RotateAngle);
+                        break;
+                    }
+                    else if (jigRes.Status == PromptStatus.Cancel)
+                    {
+                        doMark = false;
+                    }
+                } while (doMark);
+            }
             //必须赋值完后，方可释放上面的柱子实体
             keyValuePairs.ForEach(i => this.ColumnRelateInfs.Add(new ColumnRelateInf()
             { DbColumnInf = i.Key, InModelPts = GetPolylinePts(i.Value)}));
-            this.columnEnts.ForEach(i => i.Dispose()); //释放已绘制的柱子
+            //ThColumnInfoUtils.EraseObjIds(columnObjIds.ToArray());//释放已绘制的柱子
+            this.columnEnts.ForEach(i => i.Dispose());
         }
     }
 }

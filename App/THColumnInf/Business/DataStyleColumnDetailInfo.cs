@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
-using ThColumnInfo.Model;
 using Autodesk.AutoCAD.ApplicationServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using ThSpray;
 
 namespace ThColumnInfo
 {
@@ -25,6 +25,19 @@ namespace ThColumnInfo
         private List<List<TableCellInfo>> dataRowCells = new List<List<TableCellInfo>>();
         private List<List<TableCellInfo>> headRowCells = new List<List<TableCellInfo>>();
 
+        private List<ObjectId> columnTableObjIds = new List<ObjectId>();
+        protected List<Curve> columnTableCurves = new List<Curve>(); //支持Line和Arc
+        public List<ObjectId> ColumnTableObjIds
+        {
+            set
+            {
+                this.columnTableObjIds = value;
+            }
+            get
+            {
+                return columnTableObjIds;
+            }
+        }
         public DataStyleColumnDetailInfo(Point3d tableLeftDownCornerPt, Point3d tableRightUpCornerPt) :
             base(tableLeftDownCornerPt, tableRightUpCornerPt)
         {
@@ -38,9 +51,10 @@ namespace ThColumnInfo
                 List<string> tableLayerNames = base.GetTableLayerName();
                 if (tableLayerNames != null && tableLayerNames.Count > 0)
                 {
-                    needHideObjIds = base.GetNeedHideObjIds(tableLayerNames);
+                    needHideObjIds = base.GetNeedHideObjIds(tableLayerNames,out this.columnTableObjIds);
                     ThColumnInfoUtils.ShowObjIds(needHideObjIds, false);
                 }
+                GetColunmTableCurves();
                 bool findRes = false;
                 cenPt = FindInvalidCenPt(cenPt, out findRes);
                 List<TableCellInfo> sameRowCells = GetSameRowCells(cenPt, null);
@@ -135,9 +149,46 @@ namespace ThColumnInfo
                 {
                     ThColumnInfoUtils.ShowObjIds(needHideObjIds, true);
                 }
+                Dispose();
             }
             GetCellText();
             TransferColumnInfo();
+        }
+        protected void Dispose()
+        {
+            this.columnTableCurves.ForEach(i => i.Dispose());
+            this.columnTableCurves.Clear();
+        }
+        protected void GetColunmTableCurves()
+        {
+            Dispose();
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
+            {
+                foreach (ObjectId objId in this.columnTableObjIds)
+                {
+                    if (trans.GetObject(objId, OpenMode.ForRead) is Curve curve)
+                    {
+                        Curve curveCopy = curve.Clone() as Curve;
+                        if (curveCopy is Line)
+                        {
+                            this.columnTableCurves.Add(curveCopy);
+                        }
+                        else
+                        {
+                            DBObjectCollection dbObjs = new DBObjectCollection();
+                            curveCopy.Explode(dbObjs);
+                            foreach (DBObject dbObj in dbObjs)
+                            {
+                                if (dbObj is Line line)
+                                {
+                                    this.columnTableCurves.Add(line);
+                                }
+                            }
+                        }
+                    }
+                }
+                trans.Commit();
+            }
         }
         /// <summary>
         /// 提取的单元格，获取文字
@@ -447,21 +498,8 @@ namespace ThColumnInfo
         protected List<TableCellInfo> GetSameRowCells(Point3d cenPt,bool? towardRight,double rowHeight=0.0)
         {
             List<TableCellInfo> tableCellInfos = new List<TableCellInfo>();
-            FindDir findDir = FindDir.None;
-            if(towardRight==null)
-            {
-                findDir = FindDir.None;
-            }
-            else if(towardRight == true)
-            {
-                findDir = FindDir.Right;
-            }
-            else if (towardRight == false)
-            {
-                findDir = FindDir.Left;
-            }
-            TableCellInfo tableCellInfo= GetSingleCell(cenPt,0.0, rowHeight, findDir);
-            if(tableCellInfo.BoundaryPts.Count==0)
+            TableCellInfo tableCellInfo= GetSingleCell(cenPt, 0.0, rowHeight);
+            if (tableCellInfo.BoundaryPts.Count==0)
             {
                 return tableCellInfos;
             }
@@ -501,20 +539,7 @@ namespace ThColumnInfo
         protected List<TableCellInfo> GetSameColumnCells(Point3d cenPt, bool? towardUp,double columnWidth=0.0)
         {
             List<TableCellInfo> tableCellInfos = new List<TableCellInfo>();
-            FindDir findDir = FindDir.None;
-            if (towardUp == null)
-            {
-                findDir = FindDir.None;
-            }
-            else if (towardUp == true)
-            {
-                findDir = FindDir.Up;
-            }
-            else if (towardUp == false)
-            {
-                findDir = FindDir.Down;
-            }
-            TableCellInfo tableCellInfo = GetSingleCell(cenPt, columnWidth,0.0, findDir);
+            TableCellInfo tableCellInfo = GetSingleCell(cenPt,0.0, columnWidth);
             if (tableCellInfo.BoundaryPts.Count == 0)
             {
                 return tableCellInfos;
@@ -555,7 +580,7 @@ namespace ThColumnInfo
         protected TableCellInfo GetSingleCell(Point3d cenPt,double columnWidth = 0.0,double rowHeight = 0.0, FindDir findDir = FindDir.None)
         {
             TableCellInfo tableCellInfo = new TableCellInfo();
-            DBObjectCollection dbObjs = doc.Editor.TraceBoundary(cenPt, false); 
+            List<Curve> dbObjs = TopoService.TraceBoundary(doc.Editor, cenPt,false); 
             if (dbObjs==null || dbObjs.Count==0)
             {
                 if(findDir != FindDir.None)
@@ -577,7 +602,7 @@ namespace ThColumnInfo
                                 cenPt += new Vector3d(this.searchBoundaryOffsetDis * i, 0, 0);
                                 break;
                         }
-                        dbObjs = doc.Editor.TraceBoundary(cenPt, false);
+                        dbObjs = TopoService.TraceBoundary(doc.Editor, cenPt, false);
                         if (dbObjs != null && dbObjs.Count > 0)
                         {
                             break;
@@ -644,6 +669,72 @@ namespace ThColumnInfo
                     if(compareRes)
                     {
                         tableCellInfo.BoundaryPts = boundaryPts;
+                        tableCellInfo.RowHeight = currentRowHeight;
+                        tableCellInfo.ColumnWidth = currentColumnWidth;
+                        break;
+                    }
+                }
+            }
+            return tableCellInfo;
+        }
+        /// <summary>
+        /// 通过一点获取其外框线
+        /// </summary>
+        /// <param name="cenPt">查找的种子点</param>
+        /// <param name="columnTableFrameIds">柱表外框线</param>
+        /// <returns></returns>
+        protected TableCellInfo GetSingleCell(Point3d cenPt,double columnWidth = 0.0, double rowHeight = 0.0)
+        {
+            TableCellInfo tableCellInfo = new TableCellInfo();
+            List<Curve> edgeCurves= TopoUtils.MakeProfileFromPoint(this.columnTableCurves, cenPt);
+            if(edgeCurves==null)
+            {
+                return tableCellInfo;
+            }
+            if(edgeCurves.Count>0)
+            {
+                bool compareRes = true;
+                foreach (Curve curve in edgeCurves)
+                {
+                    Polyline polyline = curve as Polyline;
+                    if (polyline == null || polyline.NumberOfVertices < 4)
+                    {
+                        continue;
+                    }
+                    List<Point3d> pts = ThColumnInfoUtils.GetPolylinePts(polyline);
+                    List<Point3d> boundaryPts = ThColumnInfoUtils.GetRetanglePts(pts);
+                    if(boundaryPts.Count<4)
+                    {
+                        continue;
+                    }
+                    double currentRowHeight = 0.0;
+                    double currentColumnWidth = 0.0;
+                    if (boundaryPts[0].GetVectorTo(boundaryPts[1]).IsParallelTo(Vector3d.XAxis, ThCADCommon.Global_Tolerance))
+                    {
+                        currentColumnWidth = boundaryPts[0].DistanceTo(boundaryPts[1]);
+                        currentRowHeight = boundaryPts[0].DistanceTo(boundaryPts[3]);
+                    }
+                    currentColumnWidth = Math.Round(currentColumnWidth, this.disKeepPointNum);
+                    currentRowHeight = Math.Round(currentRowHeight, this.disKeepPointNum);
+                    if (columnWidth > 0.0)
+                    {
+                        if (!(Math.Abs(currentColumnWidth - columnWidth) <= 0.001))
+                        {
+                            compareRes = false;
+                        }
+                    }
+                    if (rowHeight > 0.0 && compareRes)
+                    {
+                        if (!(Math.Abs(currentRowHeight - rowHeight) <= 0.001))
+                        {
+                            compareRes = false;
+                        }
+                    }
+                    if (compareRes)
+                    {
+                        Point3dCollection boundaryCol = new Point3dCollection();
+                        boundaryPts.ForEach(i=> boundaryCol.Add(i));
+                        tableCellInfo.BoundaryPts = boundaryCol;
                         tableCellInfo.RowHeight = currentRowHeight;
                         tableCellInfo.ColumnWidth = currentColumnWidth;
                         break;

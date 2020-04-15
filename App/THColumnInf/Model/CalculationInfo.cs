@@ -12,10 +12,8 @@ namespace ThColumnInfo
     {
         private string yjkPath = "";
         private ObservableCollection<string> yjkUsedPathList = new ObservableCollection<string>();
-        private bool selectByFloor = true;
         private bool selectByStandard = false;
         private double angle = 0;
-        private bool modelAppoint = false;
         private string quickAppoint = "";
 
         private ObservableCollection<string> modelLayers  = new ObservableCollection<string>();
@@ -52,21 +50,6 @@ namespace ThColumnInfo
             }
         }
         /// <summary>
-        /// 按自然层选择
-        /// </summary>
-        public bool SelectByFloor
-        {
-            get
-            {
-                return selectByFloor;
-            }
-            set
-            {
-                selectByFloor = value;
-                NotifyPropertyChange("SelectByFloor");
-            }
-        }
-        /// <summary>
         /// 按标准层选择
         /// </summary>
         public bool SelectByStandard
@@ -94,21 +77,6 @@ namespace ThColumnInfo
             {
                 angle = value;
                 NotifyPropertyChange("Angle");
-            }
-        }
-        /// <summary>
-        /// 图中指定
-        /// </summary>
-        public bool ModelAppoint
-        {
-            get
-            {
-                return modelAppoint;
-            }
-            set
-            {
-                modelAppoint = value;
-                NotifyPropertyChange("ModelAppoint");
             }
         }
         /// <summary>
