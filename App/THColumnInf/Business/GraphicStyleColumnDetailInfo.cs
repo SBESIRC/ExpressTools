@@ -425,36 +425,6 @@ namespace ThColumnInfo
                     break;
                 }
             }
-            if(!string.IsNullOrEmpty(bSide))
-            {
-                List<int> bDatas= tempCTRI.GetReinforceDatas(bSide);
-                if (bDatas != null && bDatas.Count ==2)
-                { 
-                    if (bDatas[0] > 0)
-                    {
-                        bSide = bDatas[0] * 2 + tempCTRI.GetReinforceSuffix(bSide);
-                    }
-                    else
-                    {
-                        bSide = "";
-                    }
-                }
-            }
-            if (!string.IsNullOrEmpty(hSide))
-            {
-                List<int> hDatas = tempCTRI.GetReinforceDatas(hSide);
-                if (hDatas != null && hDatas.Count == 2)
-                {
-                    if (hDatas[0] > 0)
-                    {
-                        hSide = hDatas[0] * 2 + tempCTRI.GetReinforceSuffix(hSide);
-                    }
-                    else
-                    {
-                        hSide = "";
-                    }
-                }
-            }
         }
         /// <summary>
         /// 获取箍筋类型号1对应的柱子规格

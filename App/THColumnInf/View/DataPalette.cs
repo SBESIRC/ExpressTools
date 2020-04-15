@@ -55,11 +55,11 @@ namespace ThColumnInfo.View
         private void _ps_Load(object sender, PalettePersistEventArgs e)
         {
             _dateResult.BackColor = System.Drawing.Color.FromArgb(92, 92, 92);
-            _ps.DockEnabled = (DockSides)(DockSides.Bottom);
-            _ps.Dock = DockSides.Bottom;
             _ps.Style = PaletteSetStyles.Snappable;
+            _ps.DockEnabled = DockSides.Bottom;
+            _ps.Dock = DockSides.Bottom;
+            _ps.Size = new System.Drawing.Size(800, 200);
             _ps.MinimumSize = new System.Drawing.Size(800, 200);
-            _ps.Size= new System.Drawing.Size(800, 200);
         }
     }
 }

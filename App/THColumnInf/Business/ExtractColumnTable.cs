@@ -260,7 +260,7 @@ namespace ThColumnInfo
             }
             finally
             {
-                //this.doc.Editor.SetCurrentView(currentView);
+                this.doc.Editor.SetCurrentView(currentView);
                 ThColumnInfoUtils.ShowObjIds(insertObjIds, true);
             }
         }

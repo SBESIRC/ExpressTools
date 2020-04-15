@@ -61,10 +61,14 @@ namespace ThColumnInfo.View
         private void _ps_Load(object sender, PalettePersistEventArgs e)
         {
             _checkResult.BackColor = System.Drawing.Color.FromArgb(92,92,92);
-            _ps.DockEnabled = (DockSides)(DockSides.Left | DockSides.Right);
+            _ps.Style = PaletteSetStyles.ShowAutoHideButton |
+                    PaletteSetStyles.ShowCloseButton |
+                    PaletteSetStyles.Snappable;
+            _ps.DockEnabled = DockSides.Left | DockSides.Right;
             _ps.Dock = DockSides.Left;
-            _ps.Style = PaletteSetStyles.Snappable;
-            _ps.MinimumSize = new System.Drawing.Size(250, 800);
+
+            _ps.Size = new System.Drawing.Size(250, 1000);
+            _ps.MinimumSize = new System.Drawing.Size(250, 1000);
         }
     }
 }

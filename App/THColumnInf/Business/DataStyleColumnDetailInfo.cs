@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.ApplicationServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using ThSpray;
+using TopoNode;
 
 namespace ThColumnInfo
 {
@@ -189,6 +189,7 @@ namespace ThColumnInfo
                 }
                 trans.Commit();
             }
+            this.columnTableCurves= CommonUtils.RemoveCollinearLines(this.columnTableCurves);
         }
         /// <summary>
         /// 提取的单元格，获取文字
@@ -459,7 +460,7 @@ namespace ThColumnInfo
             Point3d pt1 = originPt + new Vector3d(-5, -5, 0);
             Point3d pt3 = originPt + new Vector3d(5, 5, 0);
             PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(doc.Editor, pt1, pt3, PolygonSelectionMode.Crossing, sf);
-            DBObjectCollection dbObjs = doc.Editor.TraceBoundary(originPt, false);
+            List<Curve> dbObjs = TopoService.TraceBoundary(this.columnTableCurves,originPt);
             if (psr.Status == PromptStatus.OK || dbObjs.Count==0) //传入的点有物体，且选不到边界
             {
                 pt = FindInvalidCenPt(new Point3d(pt.X+ this.searchBoundaryOffsetDis,pt.Y+ this.searchBoundaryOffsetDis, pt.Z), out isFind);
@@ -539,7 +540,7 @@ namespace ThColumnInfo
         protected List<TableCellInfo> GetSameColumnCells(Point3d cenPt, bool? towardUp,double columnWidth=0.0)
         {
             List<TableCellInfo> tableCellInfos = new List<TableCellInfo>();
-            TableCellInfo tableCellInfo = GetSingleCell(cenPt,0.0, columnWidth);
+            TableCellInfo tableCellInfo = GetSingleCell(cenPt, columnWidth,0.0);
             if (tableCellInfo.BoundaryPts.Count == 0)
             {
                 return tableCellInfos;
@@ -686,7 +687,7 @@ namespace ThColumnInfo
         protected TableCellInfo GetSingleCell(Point3d cenPt,double columnWidth = 0.0, double rowHeight = 0.0)
         {
             TableCellInfo tableCellInfo = new TableCellInfo();
-            List<Curve> edgeCurves= TopoUtils.MakeProfileFromPoint(this.columnTableCurves, cenPt);
+            List<Curve> edgeCurves=  TopoService.TraceBoundary(this.columnTableCurves, cenPt);
             if(edgeCurves==null)
             {
                 return tableCellInfo;
