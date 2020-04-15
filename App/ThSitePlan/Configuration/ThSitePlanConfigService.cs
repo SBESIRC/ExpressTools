@@ -11,15 +11,23 @@ namespace ThSitePlan.Configuration
 
     public class ThSitePlanConfigItemGroup
     {
-        public List<ThSitePlanConfigItem> Items { get; set; }
-        public List<ThSitePlanConfigItemGroup> Groups { get; set; }
+        public Queue<object> Items { get; set; }
         public Dictionary<string, object> Properties { get; set; }
 
         public ThSitePlanConfigItemGroup()
         {
-            Items = new List<ThSitePlanConfigItem>();
-            Groups = new List<ThSitePlanConfigItemGroup>();
+            Items = new Queue<object>();
             Properties = new Dictionary<string, object>();
+        }
+
+        public void AddItem(ThSitePlanConfigItem item)
+        {
+            Items.Enqueue(item);
+        }
+
+        public void AddGroup(ThSitePlanConfigItemGroup group)
+        {
+            Items.Enqueue(group);
         }
     }
 
@@ -45,7 +53,7 @@ namespace ThSitePlan.Configuration
         {
             Root = new ThSitePlanConfigItemGroup();
             Root.Properties.Add("Name", "天华彩总");
-            Root.Items.Add(new ThSitePlanConfigItem()
+            Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
@@ -62,7 +70,7 @@ namespace ThSitePlan.Configuration
                 }
             });
 
-            Root.Items.Add(new ThSitePlanConfigItem()
+            Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
@@ -80,7 +88,7 @@ namespace ThSitePlan.Configuration
                 }
             });
 
-            Root.Items.Add(new ThSitePlanConfigItem()
+            Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
@@ -98,7 +106,7 @@ namespace ThSitePlan.Configuration
                 }
             });
 
-            Root.Items.Add(new ThSitePlanConfigItem()
+            Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
@@ -119,8 +127,7 @@ namespace ThSitePlan.Configuration
                 }
             });
 
-
-            Root.Items.Add(new ThSitePlanConfigItem()
+            Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
@@ -136,7 +143,7 @@ namespace ThSitePlan.Configuration
                 }
             });
 
-            Root.Items.Add(new ThSitePlanConfigItem()
+            Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
@@ -153,22 +160,23 @@ namespace ThSitePlan.Configuration
             });
 
             // 建筑物
-            Root.Groups.Add(ConstructBuilding());
+            Root.AddGroup(ConstructBuilding());
 
             // 树木
-            Root.Groups.Add(ConstructTree());
+            Root.AddGroup(ConstructTree());
 
             // 场地
-            Root.Groups.Add(ConstructSites());
+            Root.AddGroup(ConstructSites());
 
             // 道路
-            Root.Groups.Add(ConstructRoads());
+            Root.AddGroup(ConstructRoads());
 
             // 铺装
-            Root.Groups.Add(ConstructPavement());
+            Root.AddGroup(ConstructPavement());
 
             // 景观绿地
-            Root.Groups.Add(ConstructGreenland());
+            Root.AddGroup(ConstructGreenland());
+
         }
 
         private ThSitePlanConfigItemGroup ConstructBuilding()
@@ -180,7 +188,7 @@ namespace ThSitePlan.Configuration
                 var InnerBuilding = new ThSitePlanConfigItemGroup();
                 InnerBuilding.Properties.Add("Name", "场地内建筑");
                 // 建筑物-场地内建筑-建筑信息
-                InnerBuilding.Items.Add(new ThSitePlanConfigItem()
+                InnerBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -197,7 +205,7 @@ namespace ThSitePlan.Configuration
                 }
                 });
                 // 建筑物-场地内建筑-建筑色块
-                InnerBuilding.Items.Add(new ThSitePlanConfigItem()
+                InnerBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -216,7 +224,7 @@ namespace ThSitePlan.Configuration
                 }
                 });
                 // 建筑物-场地内建筑-建筑线稿
-                InnerBuilding.Items.Add(new ThSitePlanConfigItem()
+                InnerBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -233,7 +241,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                building.Groups.Add(InnerBuilding);
+                building.AddGroup(InnerBuilding);
             }
 
             {
@@ -241,7 +249,7 @@ namespace ThSitePlan.Configuration
                 var OuterBuilding = new ThSitePlanConfigItemGroup();
                 OuterBuilding.Properties.Add("Name", "场地内建筑");
                 // 建筑物-场地外建筑-建筑信息
-                OuterBuilding.Items.Add(new ThSitePlanConfigItem()
+                OuterBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -257,7 +265,7 @@ namespace ThSitePlan.Configuration
                 }
                 });
                 // 建筑物-场地内建筑-建筑色块
-                OuterBuilding.Items.Add(new ThSitePlanConfigItem()
+                OuterBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -273,7 +281,7 @@ namespace ThSitePlan.Configuration
                 }
                 });
                 // 建筑物-场地内建筑-建筑线稿
-                OuterBuilding.Items.Add(new ThSitePlanConfigItem()
+                OuterBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -288,7 +296,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                building.Groups.Add(OuterBuilding);
+                building.AddGroup(OuterBuilding);
             }
 
             return building;
@@ -303,7 +311,7 @@ namespace ThSitePlan.Configuration
                 var landscape_tree = new ThSitePlanConfigItemGroup();
                 landscape_tree.Properties.Add("Name", "景观树");
                 // 树木.景观树.树木色块
-                landscape_tree.Items.Add(new ThSitePlanConfigItem()
+                landscape_tree.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -320,7 +328,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 树木.景观树.树木线稿
-                landscape_tree.Items.Add(new ThSitePlanConfigItem()
+                landscape_tree.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -335,7 +343,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                tree.Groups.Add(landscape_tree);
+                tree.AddGroup(landscape_tree);
             }
 
             // 树木.行道树
@@ -343,7 +351,7 @@ namespace ThSitePlan.Configuration
                 var street_tree = new ThSitePlanConfigItemGroup();
                 street_tree.Properties.Add("Name", "行道树");
                 // 树木.行道树.树木色块
-                street_tree.Items.Add(new ThSitePlanConfigItem()
+                street_tree.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -359,7 +367,7 @@ namespace ThSitePlan.Configuration
                 }
                 });
                 // 树木.行道树.树木线稿
-                street_tree.Items.Add(new ThSitePlanConfigItem()
+                street_tree.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -374,7 +382,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                tree.Groups.Add(street_tree);
+                tree.AddGroup(street_tree);
             }
             return tree;
         }
@@ -388,7 +396,7 @@ namespace ThSitePlan.Configuration
                 var fire_site = new ThSitePlanConfigItemGroup();
                 fire_site.Properties.Add("Name", "消防登高场地");
                 // 场地.消防登高场地.场地色块
-                fire_site.Items.Add(new ThSitePlanConfigItem()
+                fire_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -405,7 +413,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 场地.消防登高场地.场地线稿
-                fire_site.Items.Add(new ThSitePlanConfigItem()
+                fire_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -420,7 +428,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                sites.Groups.Add(fire_site);
+                sites.AddGroup(fire_site);
             }
 
             {
@@ -428,7 +436,7 @@ namespace ThSitePlan.Configuration
                 var parking_site = new ThSitePlanConfigItemGroup();
                 parking_site.Properties.Add("Name", "停车场地");
                 // 场地.停车场地.场地色块
-                parking_site.Items.Add(new ThSitePlanConfigItem()
+                parking_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -445,7 +453,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 场地.停车场地.场地线稿
-                parking_site.Items.Add(new ThSitePlanConfigItem()
+                parking_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -460,7 +468,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                sites.Groups.Add(parking_site);
+                sites.AddGroup(parking_site);
             }
 
             {
@@ -468,7 +476,7 @@ namespace ThSitePlan.Configuration
                 var activity_site = new ThSitePlanConfigItemGroup();
                 activity_site.Properties.Add("Name", "活动场地");
                 // 场地.活动场地.场地色块
-                activity_site.Items.Add(new ThSitePlanConfigItem()
+                activity_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -485,7 +493,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 场地.活动场地.场地线稿
-                activity_site.Items.Add(new ThSitePlanConfigItem()
+                activity_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -501,7 +509,7 @@ namespace ThSitePlan.Configuration
                 }
                 });
                 
-                sites.Groups.Add(activity_site);
+                sites.AddGroup(activity_site);
             }
 
             {
@@ -509,7 +517,7 @@ namespace ThSitePlan.Configuration
                 var other_site = new ThSitePlanConfigItemGroup();
                 other_site.Properties.Add("Name", "其他场地");
                 // 场地.其他场地.场地色块
-                other_site.Items.Add(new ThSitePlanConfigItem()
+                other_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -526,7 +534,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 场地.其他场地.场地线稿
-                other_site.Items.Add(new ThSitePlanConfigItem()
+                other_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -541,7 +549,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                sites.Groups.Add(other_site);
+                sites.AddGroup(other_site);
             }
 
             return sites;
@@ -555,7 +563,7 @@ namespace ThSitePlan.Configuration
                 var internal_road = new ThSitePlanConfigItemGroup();
                 internal_road.Properties.Add("Name", "内部行车道路");
 
-                internal_road.Items.Add(new ThSitePlanConfigItem()
+                internal_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -571,7 +579,7 @@ namespace ThSitePlan.Configuration
                     }
                 });
 
-                internal_road.Items.Add(new ThSitePlanConfigItem()
+                internal_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -588,14 +596,14 @@ namespace ThSitePlan.Configuration
                     }
                 });
                
-                roads.Groups.Add(internal_road);
+                roads.AddGroup(internal_road);
             }
 
             {
                 var pedestrian_road= new ThSitePlanConfigItemGroup();
                 pedestrian_road.Properties.Add("Name", "内部人行道路");
 
-                pedestrian_road.Items.Add(new ThSitePlanConfigItem()
+                pedestrian_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -611,7 +619,7 @@ namespace ThSitePlan.Configuration
                     }
                 });
 
-                pedestrian_road.Items.Add(new ThSitePlanConfigItem()
+                pedestrian_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -626,14 +634,14 @@ namespace ThSitePlan.Configuration
                         }
                     }
                 });
-                roads.Groups.Add(pedestrian_road);
+                roads.AddGroup(pedestrian_road);
             }
 
             {
                 var external_road = new ThSitePlanConfigItemGroup();
                 external_road.Properties.Add("Name", "外部车行道路");
 
-                external_road.Items.Add(new ThSitePlanConfigItem()
+                external_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -649,7 +657,7 @@ namespace ThSitePlan.Configuration
                     }
                 });
 
-                external_road.Items.Add(new ThSitePlanConfigItem()
+                external_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -665,14 +673,14 @@ namespace ThSitePlan.Configuration
                     }
                 });
                 
-                roads.Groups.Add(external_road);
+                roads.AddGroup(external_road);
             }
 
             {
                 var extland_road = new ThSitePlanConfigItemGroup();
                 extland_road.Properties.Add("Name", "外部景观道路");
 
-                extland_road.Items.Add(new ThSitePlanConfigItem()
+                extland_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -688,7 +696,7 @@ namespace ThSitePlan.Configuration
                     }
                 });
 
-                extland_road.Items.Add(new ThSitePlanConfigItem()
+                extland_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -703,7 +711,7 @@ namespace ThSitePlan.Configuration
                         }
                     }
                 });
-                roads.Groups.Add(extland_road);
+                roads.AddGroup(extland_road);
             }
 
             return roads;
@@ -719,7 +727,7 @@ namespace ThSitePlan.Configuration
                 Pavement_Outd.Properties.Add("Name", "景观树");
 
                 // 铺装-场地外铺地-铺装色块
-                Pavement_Outd.Items.Add(new ThSitePlanConfigItem()
+                Pavement_Outd.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -736,7 +744,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 铺装-场地外铺地-铺装线稿
-                Pavement_Outd.Items.Add(new ThSitePlanConfigItem()
+                Pavement_Outd.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -752,7 +760,7 @@ namespace ThSitePlan.Configuration
                 }
                 });
 
-                pave.Groups.Add(Pavement_Outd);
+                pave.AddGroup(Pavement_Outd);
             }
             return pave;
         }
@@ -767,7 +775,7 @@ namespace ThSitePlan.Configuration
                 GreenLand_Watersp.Properties.Add("Name", "水景");
 
                 // 景观绿地-水景-水景色块
-                GreenLand_Watersp.Items.Add(new ThSitePlanConfigItem()
+                GreenLand_Watersp.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -784,7 +792,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 景观绿地-水景-水景线稿
-                GreenLand_Watersp.Items.Add(new ThSitePlanConfigItem()
+                GreenLand_Watersp.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -799,7 +807,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                greenLd.Groups.Add(GreenLand_Watersp);
+                greenLd.AddGroup(GreenLand_Watersp);
             }
 
             {
@@ -808,7 +816,7 @@ namespace ThSitePlan.Configuration
                 GreenLand_LandSp.Properties.Add("Name", "景观");
 
                 // 景观绿地-景观-景观色块
-                GreenLand_LandSp.Items.Add(new ThSitePlanConfigItem()
+                GreenLand_LandSp.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -825,7 +833,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 景观绿地-景观-景观线稿
-                GreenLand_LandSp.Items.Add(new ThSitePlanConfigItem()
+                GreenLand_LandSp.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -840,7 +848,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                greenLd.Groups.Add(GreenLand_LandSp);
+                greenLd.AddGroup(GreenLand_LandSp);
             }
             return greenLd;
         }

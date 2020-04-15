@@ -20,13 +20,17 @@ namespace ThSitePlan.Photoshop
 
         public void Run(string path, ThSitePlanConfigItemGroup jobs)
         {
-            foreach (var item in jobs.Items)
+            while (jobs.Items.Count !=0)
             {
-                Run(path, item);
-            }
-            foreach (var group in jobs.Groups)
-            {
-                Run(path, group);
+                var obj = jobs.Items.Dequeue();
+                if (obj is ThSitePlanConfigItem item)
+                {
+                    Run(path, item);
+                }
+                else if (obj is ThSitePlanConfigItemGroup group)
+                {
+                    Run(path, group);
+                }
             }
         }
 
