@@ -22,6 +22,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry AppName="GeneralLayerGroupUtiLisp"          ModuleName="./Contents/MakeLayerGroup.lsp"      PerDocument="True" />
         <ComponentEntry AppName="GeneralAnnotationLisp"             ModuleName="./Contents/General-Annotation.lsp"  PerDocument="True" />
         <ComponentEntry AppName="GeneralAuxiliaryLisp"              ModuleName="./Contents/General-Auxiliary.lsp"   PerDocument="True" />
+        <ComponentEntry AppName="HavcLayerUtilLisp"                 ModuleName="./Contents/Havc-Layer.lsp"          PerDocument="True" />
         <ComponentEntry AppName="StealUtilLisp"                     ModuleName="./Contents/Steal.lsp"               PerDocument="True" />
         <ComponentEntry AppName="FlattenLisp"                       ModuleName="./Contents/FLATTEN.lsp"             PerDocument="True" />
         <ComponentEntry AppName="BatchPlotPDFLisp"                  ModuleName="./Contents/BatchPlotPDF.lsp"        PerDocument="True" />
