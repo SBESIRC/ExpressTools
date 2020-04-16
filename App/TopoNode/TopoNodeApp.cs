@@ -52,6 +52,7 @@ namespace TopoNode
                 return;
             }
 
+            allCurves = TopoUtils.TesslateCurve(allCurves);
             // wall 中的数据
             var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
             if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
@@ -60,6 +61,7 @@ namespace TopoNode
                 return;
             }
 
+            wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
             // door 内门中的数据
             if (arcDoorLayers != null && arcDoorLayers.Count != 0)
             {
@@ -87,11 +89,11 @@ namespace TopoNode
             }
 
             var layerNames = Utils.GetLayersFromCurves(allCurves);
-            allCurves = TopoUtils.TesslateCurve(allCurves);
             layerNames = Utils.GetLayersFromCurves(allCurves);
             allCurves = CommonUtils.RemoveCollinearLines(allCurves);
             layerNames = Utils.GetLayersFromCurves(allCurves);
             //Utils.DrawProfile(allCurves, "all");
+            //return;
             ////Utils.DrawProfileAndText(allCurves, Color.FromRgb(0, 255, 0));
             //return;
 
@@ -138,7 +140,8 @@ namespace TopoNode
                 Utils.DrawTextProfile(outProfile.profileCurves, outProfile.profileLayers);
             }
 
-
+            Utils.PostProcess(removeEntityLst);
+            Utils.ErasePreviewPoint(objCollect);
             //var profiles = TopoUtils.MakeProfileFromPoint(allCurves, pt);
             ////var profiles = TopoSearch.MakeSrcProfileLayerLoops(allCurves);
             //if (profiles == null || profiles.Count == 0)
