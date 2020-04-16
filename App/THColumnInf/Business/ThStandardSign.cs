@@ -122,6 +122,7 @@ namespace ThColumnInfo
                 ThSpecificationValidate tsv = new ThSpecificationValidate(this.SignExtractColumnInfo, paraSetInfo,this.innerFrameName);
                 tsv.Validate(columnInfs);
                 tsv.PrintCalculation();
+                ThProgressBar.MeterProgress();
                 this.ThSpecificValidate = tsv;
 
                 if(onlyValidateSpecification)
@@ -134,6 +135,7 @@ namespace ThColumnInfo
                 ThCalculationValidate tcv = new ThCalculationValidate(this.SignExtractColumnInfo, columnRelateInfs);
                 tcv.Validate();
                 tcv.PrintCalculation();
+                ThProgressBar.MeterProgress();
                 this.ThCalculateValidate = tcv;
             }
             catch (Exception ex)
@@ -150,6 +152,7 @@ namespace ThColumnInfo
                     continue;
                 }
                 this.SignPlantCalData.RelateCalulationColumn(this.SignExtractColumnInfo.ColumnInfs[i]);
+                ThProgressBar.MeterProgress();
             }
         }
     }

@@ -65,6 +65,7 @@ namespace ThColumnInfo
             };
             SelectionFilter sf = new SelectionFilter(tvs);
             PromptSelectionResult psr= ThColumnInfoUtils.SelectByRectangle(ed,this.signPt1,this.signPt2,PolygonSelectionMode.Window, sf);
+            ThProgressBar.MeterProgress();
             if(psr.Status!=PromptStatus.OK)
             {
                 return isFind;
@@ -76,7 +77,7 @@ namespace ThColumnInfo
                 List<Entity> ents = objectIds.Where(i => IsInSignRange(trans.GetObject(i, OpenMode.ForRead) as Entity)).
                     Select(i => trans.GetObject(i, OpenMode.ForRead) as Entity).ToList();
                 ents.ForEach(i => 
-                {
+                {                    
                     pts.Add(i.GeometricExtents.MinPoint);
                     pts.Add(i.GeometricExtents.MaxPoint);
                 });
@@ -100,6 +101,7 @@ namespace ThColumnInfo
                 this.rightUpPt = new Point3d(maxX, maxY, maxZ) + new Vector3d(offset, offset, 0.0);
                 isFind = true;
             }
+            ThProgressBar.MeterProgress();
             return isFind;
         }
         private bool IsInSignRange(Entity ent)
@@ -164,12 +166,13 @@ namespace ThColumnInfo
             SelectionFilter sf = new SelectionFilter(tvs);
             PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, this.leftDownPt,
                 this.rightUpPt, PolygonSelectionMode.Crossing, sf);
+            ThProgressBar.MeterProgress();
             ObjectId[] insertObjIds = new ObjectId[] { };
             if (psr.Status == PromptStatus.OK)
             {
                 insertObjIds = psr.Value.GetObjectIds();
                 ThColumnInfoUtils.ShowObjIds(insertObjIds, false); //把块隐藏掉
-            }
+            }           
             ViewTableRecord currentView = this.doc.Editor.GetCurrentView();
             try
             {
@@ -177,6 +180,7 @@ namespace ThColumnInfo
                 bool hasLine = false;
                 PromptSelectionResult psr1 = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor,
                     this.leftDownPt, this.rightUpPt, PolygonSelectionMode.Crossing);
+                ThProgressBar.MeterProgress();
                 if (psr1.Status == PromptStatus.OK)
                 {
                     List<ObjectId> seleObjIds = psr1.Value.GetObjectIds().ToList();
@@ -226,6 +230,7 @@ namespace ThColumnInfo
                         trans.Commit();
                     }
                 }
+                ThProgressBar.MeterProgress();
                 if (this.extractColumnDetailInfoMode == ExtractColumnDetailInfoMode.None)
                 {
                     if (hasText && (hasLine || hasPolyline))
@@ -241,6 +246,7 @@ namespace ThColumnInfo
                     Point3d zoomSecondPt = ThColumnInfoUtils.GetExtendPt(this.rightUpPt, this.leftDownPt, -1.0*dis);
                     COMTool.ZoomWindow(zoomFirstPt, zoomSecondPt);
                 }
+                
                 if (this.extractColumnDetailInfoMode == ExtractColumnDetailInfoMode.Regular)
                 {
                     DataStyleColumnDetailInfo dscdi = new DataStyleColumnDetailInfo(this.leftDownPt, this.rightUpPt);

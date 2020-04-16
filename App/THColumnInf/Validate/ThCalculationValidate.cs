@@ -63,6 +63,7 @@ namespace ThColumnInfo.Validate
                 totalStrings.AddRange(cv.CorrectResults);
                 columnValidateResultDic.Add(columnRelateInfs[i], totalStrings);
                 calculationStepDic.Add(columnRelateInfs[i], cv.CalculationSteps);
+                ThProgressBar.MeterProgress();
             }
         }
         public void PrintCalculation()

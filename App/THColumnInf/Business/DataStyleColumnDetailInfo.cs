@@ -49,6 +49,7 @@ namespace ThColumnInfo
             try
             {
                 List<string> tableLayerNames = base.GetTableLayerName();
+                ThProgressBar.MeterProgress();
                 if (tableLayerNames != null && tableLayerNames.Count > 0)
                 {
                     needHideObjIds = base.GetNeedHideObjIds(tableLayerNames,out this.columnTableObjIds);
@@ -81,11 +82,13 @@ namespace ThColumnInfo
                             yValueList.Add(tempYvalues[i]);
                         }
                     }
+                    ThProgressBar.MeterProgress();
                 }
                 for (int i = 0; i < tableCells.Count; i++)
                 {
                     tableCells[i].ForEach(j => j.Column = i);
                 }
+                ThProgressBar.MeterProgress();
                 int totalRow = tableCells.OrderByDescending(i => i.Count).Select(i => i.Count).First();
                 //提取数据单元格
                 yValueList = yValueList.OrderByDescending(i => i).ToList();
@@ -102,10 +105,12 @@ namespace ThColumnInfo
                     }
                     rowCells.ForEach(i => i.Row = m);
                     rowHeightCells.Add(yValueList[m], rowCells);
+                    ThProgressBar.MeterProgress();
                 }
                 this.dataRowCells = rowHeightCells.Where(i => i.Value.Count == totalColumn).Select(i => i.Value).ToList(); //具有相同列数的数据单元格
                 this.headRowCells = rowHeightCells.Where(i => i.Value.Count != totalColumn).Select(i => i.Value).ToList();
                 headRowCells = headRowCells.Select(i => GetNoRepeatedCells(i)).ToList();
+                ThProgressBar.MeterProgress();
                 if (headRowCells.Count > 0)
                 {
                     Dictionary<int, double> columnWidthDic = new Dictionary<int, double>();
@@ -128,6 +133,7 @@ namespace ThColumnInfo
                             cellInfo.RowSpan = rowSpan;
                             cellInfo.ColumnSpan = columnSpan;
                         }
+                        ThProgressBar.MeterProgress();
                     }
                 }
                 else
@@ -186,10 +192,13 @@ namespace ThColumnInfo
                             }
                         }
                     }
+                    ThProgressBar.MeterProgress();
                 }
                 trans.Commit();
             }
+            ThProgressBar.MeterProgress();
             this.columnTableCurves= CommonUtils.RemoveCollinearLines(this.columnTableCurves);
+            ThProgressBar.MeterProgress();
         }
         /// <summary>
         /// 提取的单元格，获取文字
@@ -231,7 +240,7 @@ namespace ThColumnInfo
                                 this.dataRowCells[i][j].Text = mText.Text;
                             }
                         }
-
+                        ThProgressBar.MeterProgress();
                     }
                 }
                 string headCellText = "";
@@ -355,6 +364,7 @@ namespace ThColumnInfo
                         }
                     }
                 }
+                ThProgressBar.MeterProgress();
                 this.coluTabRecordInfs.Add(coluTabRi);
             }
         }
@@ -386,7 +396,7 @@ namespace ThColumnInfo
                         columnSpan = -1;
                     }
                 }
-            }
+            }      
             return columnSpan;
         }
         protected int GetRowSpan(int rowIndex, double rowHeight, Dictionary<int, double> rowHeightDic)
@@ -460,25 +470,30 @@ namespace ThColumnInfo
             Point3d pt1 = originPt + new Vector3d(-5, -5, 0);
             Point3d pt3 = originPt + new Vector3d(5, 5, 0);
             PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(doc.Editor, pt1, pt3, PolygonSelectionMode.Crossing, sf);
+            ThProgressBar.MeterProgress();
             List<Curve> dbObjs = TopoService.TraceBoundary(this.columnTableCurves,originPt);
             if (psr.Status == PromptStatus.OK || dbObjs.Count==0) //传入的点有物体，且选不到边界
             {
                 pt = FindInvalidCenPt(new Point3d(pt.X+ this.searchBoundaryOffsetDis,pt.Y+ this.searchBoundaryOffsetDis, pt.Z), out isFind);
+                ThProgressBar.MeterProgress();
                 if (isFind)
                 {
                     return pt;
                 }
                 pt = FindInvalidCenPt(new Point3d(pt.X - this.searchBoundaryOffsetDis, pt.Y + this.searchBoundaryOffsetDis, pt.Z), out isFind);
+                ThProgressBar.MeterProgress();
                 if (isFind)
                 {
                     return pt;
                 }
                 pt = FindInvalidCenPt(new Point3d(pt.X - this.searchBoundaryOffsetDis, pt.Y - this.searchBoundaryOffsetDis, pt.Z), out isFind);
+                ThProgressBar.MeterProgress();
                 if (isFind)
                 {
                     return pt;
                 }
                 pt = FindInvalidCenPt(new Point3d(pt.X + this.searchBoundaryOffsetDis, pt.Y - this.searchBoundaryOffsetDis, pt.Z), out isFind);
+                ThProgressBar.MeterProgress();
                 if (isFind)
                 {
                     return pt;
@@ -500,6 +515,7 @@ namespace ThColumnInfo
         {
             List<TableCellInfo> tableCellInfos = new List<TableCellInfo>();
             TableCellInfo tableCellInfo= GetSingleCell(cenPt, 0.0, rowHeight);
+           
             if (tableCellInfo.BoundaryPts.Count==0)
             {
                 return tableCellInfos;
@@ -742,6 +758,7 @@ namespace ThColumnInfo
                     }
                 }
             }
+            ThProgressBar.MeterProgress();
             return tableCellInfo;
         }
     }

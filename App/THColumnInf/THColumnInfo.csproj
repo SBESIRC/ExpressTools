@@ -92,6 +92,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ThProgressBar.cs" />
     <Compile Include="Tools\TopoService.cs" />
     <Compile Include="Tools\WpfTopMostTool.cs" />
     <Compile Include="Validate\Model\AngularReinforcementNumModel.cs" />

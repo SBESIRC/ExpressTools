@@ -61,7 +61,8 @@ namespace ThColumnInfo
             SelectionFilter sf = new SelectionFilter(tvs);
             PromptSelectionResult psr= ThColumnInfoUtils.SelectByRectangle(doc.Editor, 
                 this.tableLeftDownCornerPt, this.tableRightUpCornerPt, PolygonSelectionMode.Crossing, sf);
-            if(psr.Status==PromptStatus.OK)
+            ThProgressBar.MeterProgress();
+            if (psr.Status==PromptStatus.OK)
             {
                 List<ObjectId> selObjIds = psr.Value.GetObjectIds().ToList();
                 List<Point3d> points = new List<Point3d>();
@@ -92,7 +93,8 @@ namespace ThColumnInfo
                     }
                     trans.Commit();
                 }
-                if(points.Count>=2)
+                ThProgressBar.MeterProgress();
+                if (points.Count>=2)
                 {
                     double minX = points.OrderBy(i => i.X).FirstOrDefault().X;
                     double minY = points.OrderBy(i => i.Y).FirstOrDefault().Y;
@@ -187,6 +189,7 @@ namespace ThColumnInfo
             List<ObjectId> keepObjIds = new List<ObjectId>();
             PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(
                 doc.Editor,this.tableLeftDownCornerPt,this.tableRightUpCornerPt,PolygonSelectionMode.Crossing);
+            ThProgressBar.MeterProgress();
             if (psr.Status == PromptStatus.OK)
             {
                 List<ObjectId> selObjIds = psr.Value.GetObjectIds().ToList();
@@ -225,6 +228,7 @@ namespace ThColumnInfo
             Point3d pt3 = pt + new Vector3d(5, 5, 0);
             PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(doc.Editor,
                 pt1, pt3, PolygonSelectionMode.Crossing);
+            ThProgressBar.MeterProgress();
             if (psr.Status == PromptStatus.OK)
             {
                 List<ObjectId> selObjIds = psr.Value.GetObjectIds().ToList();

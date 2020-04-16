@@ -73,6 +73,7 @@ namespace ThColumnInfo.Validate
                 totalStrings.AddRange(ncv.CorrectResults);
                 columnValidResultDic.Add(validColumns[i], totalStrings);
                 calculationStepDic.Add(validColumns[i], ncv.CalculationSteps);
+                ThProgressBar.MeterProgress();
             }
         }
         public void PrintCalculation()

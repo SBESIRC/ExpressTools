@@ -196,6 +196,7 @@ namespace ThColumnInfo
                         thRelateColumn.ColumnRelateInfs[i].InModelPts,offsetDisScale,true,lineWidth);
                     this.exceptionFrameIds.Add(objectId);
                 }
+                ThProgressBar.MeterProgress();
             }
             //内框内正确柱子，还剩下没有关联到计算书中的柱子
             for (int i = 0; i < thRelateColumn.RestColumnInfs.Count; i++)
@@ -212,6 +213,7 @@ namespace ThColumnInfo
                 {
                     this.columnFrameIds.Add(objectId);
                 }
+                ThProgressBar.MeterProgress();
             }
         }
         /// <summary>
@@ -237,6 +239,7 @@ namespace ThColumnInfo
                     //图纸中的柱子关联到计算书中的柱子
                     EmbedColumnCustom(columnInfs[i]);
                 }
+                ThProgressBar.MeterProgress();
             }
         }
         /// <summary>
@@ -1051,6 +1054,7 @@ namespace ThColumnInfo
                     YjkColumnData = yjkColumnDataInfo
                 };
                 columnRelateInfs.Add(columnRelateInf);
+                ThProgressBar.MeterProgress();
             }
             return columnRelateInfs;
         }

@@ -31,7 +31,6 @@ namespace ThColumnInfo
         private List<ColumnTableRecordInfo> propertyHasProblemList = new List<ColumnTableRecordInfo>(); //记录有问题的柱表信息
         private List<string> layerList = new List<string>();
         private ThStandardSign thStandardSign;
-
         private ParameterSetInfo paraSetInfo;
 
         /// <summary>
@@ -161,8 +160,10 @@ namespace ThColumnInfo
                 extractColumnTable.Extract();
                 this.ColumnTableRecordInfos = extractColumnTable.ColumnTableRecordInfos;
                 this.allColumnBoundaryPts = GetRangeColumnPoints();
+                ThProgressBar.MeterProgress();
                 FindColumnInfo(); //查找柱子信息(包括原位标注的信息)
                 CheckColumnInfo();
+                ThProgressBar.MeterProgress();
                 this.ColumnTableRecordInfos.Sort(new ColumnTableRecordInfoCompare());
             }
             catch(System.Exception ex)
@@ -261,12 +262,14 @@ namespace ThColumnInfo
                         columnInfo.Points = this.allColumnBoundaryPts[i];
                         break;
                     }
+                    ThProgressBar.MeterProgress();
                 }
                 if(string.IsNullOrEmpty(columnInfo.Code) && columnInfo.Points.Count==0)
                 {
                     continue;
                 }
                 this.ColumnInfs.Add(columnInfo);
+                ThProgressBar.MeterProgress();
             }
         }
         /// <summary>
@@ -285,6 +288,7 @@ namespace ThColumnInfo
             Point3d filterPt2 = pt2.TransformBy(this.doc.Editor.CurrentUserCoordinateSystem.Inverse());
             PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, filterPt1, filterPt2, 
                 PolygonSelectionMode.Crossing, this.polylineSf);
+            ThProgressBar.MeterProgress();
             if (psr.Status == PromptStatus.OK)
             {
                 List<ObjectId> polylineObjIds = psr.Value.GetObjectIds().ToList();
@@ -332,6 +336,7 @@ namespace ThColumnInfo
                                 this.ColumnTableRecordInfos.Add(ctri);
                                 break;
                             }
+                            ThProgressBar.MeterProgress();
                         }
                     }
                     if (!string.IsNullOrEmpty(columnCode))
@@ -369,6 +374,7 @@ namespace ThColumnInfo
                         break;
                     }
                 }
+                ThProgressBar.MeterProgress();
             }
             columnInf.Code = columnCode;
             columnInf.AntiSeismicGrade = antiSeismicGrade;
@@ -926,7 +932,8 @@ namespace ThColumnInfo
             Point3d filterPt2 = pt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
             SelectionFilter sf = new SelectionFilter(tvs);
             PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, 
-                filterPt1, filterPt2, PolygonSelectionMode.Crossing,sf); 
+                filterPt1, filterPt2, PolygonSelectionMode.Crossing,sf);
+            ThProgressBar.MeterProgress();
             List<Curve> lines = new List<Curve>();
             if (psr.Status == PromptStatus.OK)
             {
@@ -941,6 +948,7 @@ namespace ThColumnInfo
                     return false;
                 }).Select(i => ThColumnInfoDbUtils.GetEntity(Application.DocumentManager.MdiActiveDocument.Database, i) as Curve).ToList();
             }
+            ThProgressBar.MeterProgress();
             bool startInside = false;
             bool endInside = false;
             for (int i = 0; i < lines.Count; i++)
@@ -981,6 +989,7 @@ namespace ThColumnInfo
                         linePtDic.Add(lines[i], lines[i].StartPoint);
                     }
                 }
+                ThProgressBar.MeterProgress();
             }
             return linePtDic;
         }

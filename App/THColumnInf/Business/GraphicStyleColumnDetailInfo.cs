@@ -60,6 +60,7 @@ namespace ThColumnInfo
                             xValueList.Add(tempXvalues[i]);
                         }
                     }
+                    ThProgressBar.MeterProgress();
                 }
                 for (int i = 0; i < tableCells.Count; i++)
                 {
@@ -80,6 +81,7 @@ namespace ThColumnInfo
                     }
                     columnCells.ForEach(i => i.Column = m);
                     columnHeightCells.Add(xValueList[m], columnCells);
+                    ThProgressBar.MeterProgress();
                 }
                 this.dataColumnCells = columnHeightCells.Where(i => i.Value.Count == totalRow).Select(i => i.Value).ToList(); //具有相同列数的数据单元格
                 this.headColumnCells = columnHeightCells.Where(i => i.Value.Count != totalRow).Select(i => i.Value).ToList();
@@ -106,6 +108,7 @@ namespace ThColumnInfo
                             cellInfo.RowSpan = rowSpan;
                             cellInfo.ColumnSpan = columnSpan;
                         }
+                        ThProgressBar.MeterProgress();
                     }
                 }
                 else
@@ -182,6 +185,7 @@ namespace ThColumnInfo
                             }
                             this.headColumnCells[i][j].Text = headCellText;
                         }
+                        ThProgressBar.MeterProgress();
                     }
                 }
                 trans.Commit();
@@ -325,6 +329,7 @@ namespace ThColumnInfo
                     {
                         this.coluTabRecordInfs.Add(coluTabRi);
                     }
+                    ThProgressBar.MeterProgress();
                 }
                 trans.Commit();
             }

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThColumnInfo.View;
 
 namespace ThColumnInfo
 {
@@ -61,7 +62,7 @@ namespace ThColumnInfo
         }
         public void CreateAllSigns()
         {
-            this.standardSigns.ForEach(i=> {
+            this.standardSigns.ForEach(i=> {                
                 ExtractColumnPosition extractColumnPosition = new ExtractColumnPosition(i);
                 extractColumnPosition.Extract();
             });
@@ -138,7 +139,7 @@ namespace ThColumnInfo
                             tm.CreateAllSigns();
                         }
                         else
-                        {
+                        { 
                             tm.CreateSingleSign(innerFrameName);
                         }
                     }

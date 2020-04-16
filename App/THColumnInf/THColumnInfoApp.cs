@@ -1,17 +1,8 @@
 ﻿using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
-using acadApp=Autodesk.AutoCAD.ApplicationServices;
-using System.Collections.Generic;
-using System.Text;
-using ThColumnInfo.Validate;
+using acadApp = Autodesk.AutoCAD.ApplicationServices;
 using ThColumnInfo.ViewModel;
 using ThColumnInfo.View;
-using Autodesk.AutoCAD.GraphicsSystem;
-using System.Linq;
-using System.IO;
 using System.Windows.Forms;
 
 [assembly: CommandClass(typeof(ThColumnInfo.ThColumnInfoCommands))]
@@ -147,6 +138,7 @@ namespace ThColumnInfo
                 ThColumnInfoUtils.WriteException(ex);
             }
         }
+        
         [CommandMethod("TIANHUACAD", "ThCRC", CommandFlags.Modal)]
         public void ThColumnInfoCrc()
         {

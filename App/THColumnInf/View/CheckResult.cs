@@ -148,6 +148,7 @@ namespace ThColumnInfo.View
                         break;
                 }
             }
+            ThProgressBar.MeterProgress();
             List<string> codes = correctList.Select(i => i.Code).Distinct().ToList();
             Dictionary<string, List<ColumnInf>> codeColumnInf = new Dictionary<string, List<ColumnInf>>();
             foreach (string code in codes)
@@ -159,6 +160,7 @@ namespace ThColumnInfo.View
                 }
                 codeColumnInf.Add(code, columnInfs);
             }
+            ThProgressBar.MeterProgress();
             TreeNode correctParentNode = tn.Nodes.Add(this.dataCorrectNodeName, "识别成功：数据正确(" + correctList.Count + ")");
             System.Drawing.Color correctColor = PlantCalDataToDraw.GetFrameSystemColor(FrameColor.Related);
             correctParentNode.ForeColor = correctColor;
@@ -194,8 +196,9 @@ namespace ThColumnInfo.View
                             leafNode.ForeColor = correctColor;
                             columnInfs.RemoveAt(i);
                             break;
-                        }
+                        }                        
                     }
+                    ThProgressBar.MeterProgress();
                     foreach (ColumnInf columnInf in columnInfs)
                     {
                         columnInf.Text = currentCode + "-" + index++;
@@ -203,6 +206,7 @@ namespace ThColumnInfo.View
                         leafNode.Tag = columnInf;
                         leafNode.ForeColor= correctColor;
                     }
+                    ThProgressBar.MeterProgress();
                 }
             }
             TreeNode codeEmptyParentNode = tn.Nodes.Add(this.codeLostNodeName, "识别异常：柱平法缺失(" + codeEmptyList.Count + ")");
@@ -217,6 +221,7 @@ namespace ThColumnInfo.View
                     codeEmptyNode.ForeColor = lostColor;
                 }
             }
+            ThProgressBar.MeterProgress();
             TreeNode uncompleteParentNode = tn.Nodes.Add(this.uncompleteNodeNme, "识别异常：平法参数识别不全(" + infCompleteList.Count + ")");
             System.Drawing.Color unCompletedColor = PlantCalDataToDraw.GetFrameSystemColor(FrameColor.ParameterNotFull);
             uncompleteParentNode.ForeColor = unCompletedColor;
@@ -250,6 +255,7 @@ namespace ThColumnInfo.View
                         leafNode.ForeColor= unCompletedColor;
                     }
                 }
+                ThProgressBar.MeterProgress();
             }
         }        
         private void panel1_ControlAdded(object sender, ControlEventArgs e)
@@ -652,17 +658,17 @@ namespace ThColumnInfo.View
             //收集目录树上记录的ColumnFrameIdCollection
             List<ObjectId> treeColumnIds = new List<ObjectId>();
             TraverseNode(this.tvCheckRes.SelectedNode, ref treeColumnIds);
-
             Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
             using (DocumentLock docLock = doc.LockDocument())
             {
                 List<string> lockedLayerNames = ThColumnInfoUtils.UnlockedAllLayers();
                 try
                 {
+                    ThProgressBar.Start("正在校核......" );
+                    ThProgressBar.MeterProgress();
                     TreeNode tn = this.tvCheckRes.SelectedNode;
                     //删除ColumnFrameIdCollection
                     ThColumnInfoUtils.EraseObjIds(treeColumnIds.ToArray());
-
                     if (tn.Tag != null)
                     {
                         if (tn.Tag.GetType() == typeof(ThStandardSign))
@@ -685,6 +691,7 @@ namespace ThColumnInfo.View
                             }
                         }
                     }
+                    ThProgressBar.MeterProgress();
                 }
                 catch (Exception ex)
                 {
@@ -696,6 +703,7 @@ namespace ThColumnInfo.View
                     {
                         ThColumnInfoUtils.LockedLayers(lockedLayerNames);
                     }
+                    ThProgressBar.Stop();
                 }
             }
         }
@@ -879,9 +887,13 @@ namespace ThColumnInfo.View
                     break;
                 }
             }
+            ThProgressBar.MeterProgress();
             UpdateDataCorrectNode(dataCorrectNode);
+            ThProgressBar.MeterProgress();
             AddDwgHasCalNotNode(innerFrameNode, dwgExistCalNotNodes);
+            ThProgressBar.MeterProgress();
             AddDwgNotCalHasNode(innerFrameNode);
+            ThProgressBar.MeterProgress();
         }
         private string dwgHasCalNotNodeName = "DwgHasCalNot";
         /// <summary>
