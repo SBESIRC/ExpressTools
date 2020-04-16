@@ -39,6 +39,33 @@ namespace TopoNode
             List<string> columnLayers = null;
             var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers, out columnLayers);
 
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
+            Editor ed = doc.Editor;
+            var pickPoints = new List<Point3d>();
+            var objCollect = new DBObjectCollection();
+            var tip = "请点击需要布置喷头房间内的一点，共计";
+
+            while (true)
+            {
+                var message = tip + pickPoints.Count().ToString() + "个";
+                Active.WriteMessage(message);
+                PromptPointOptions ppo = new PromptPointOptions("\n请点击");
+                ppo.AllowNone = true;
+                PromptPointResult ppr = ed.GetPoint(ppo);
+                if (ppr.Status == PromptStatus.None)
+                    break;
+                if (ppr.Status == PromptStatus.Cancel)
+                {
+                    Utils.ErasePreviewPoint(objCollect);
+                    Active.WriteMessage("取消操作");
+                    return;
+                }
+
+                var pickPoint = ppr.Value;
+                pickPoints.Add(pickPoint);
+                Utils.DrawPreviewPoint(objCollect, pickPoint);
+            }
+
             // 图元预处理
             var removeEntityLst = Utils.PreProcess(validLayers);
 
@@ -96,33 +123,6 @@ namespace TopoNode
             //return;
             ////Utils.DrawProfileAndText(allCurves, Color.FromRgb(0, 255, 0));
             //return;
-
-            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
-            Editor ed = doc.Editor;
-            var pickPoints = new List<Point3d>();
-            var objCollect = new DBObjectCollection();
-            var tip = "请点击需要布置喷头房间内的一点，共计";
-
-            while (true)
-            {
-                var message = tip + pickPoints.Count().ToString() + "个";
-                Active.WriteMessage(message);
-                PromptPointOptions ppo = new PromptPointOptions("\n请点击");
-                ppo.AllowNone = true;
-                PromptPointResult ppr = ed.GetPoint(ppo);
-                if (ppr.Status == PromptStatus.None)
-                    break;
-                if (ppr.Status == PromptStatus.Cancel)
-                {
-                    Utils.ErasePreviewPoint(objCollect);
-                    Active.WriteMessage("取消操作");
-                    return;
-                }
-
-                var pickPoint = ppr.Value;
-                pickPoints.Add(pickPoint);
-                Utils.DrawPreviewPoint(objCollect, pickPoint);
-            }
 
             var hasPutPolylines = new List<Polyline>();
             //Utils.ExtendCurves(allCurves, 0.5);
