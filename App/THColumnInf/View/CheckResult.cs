@@ -44,7 +44,6 @@ namespace ThColumnInfo.View
         {
             InitializeComponent();
             ShowComponentPropPicture();
-            this.btnShowDetailData.Enabled = false;
             this.SizeChanged += CheckResult_SizeChanged;
             this.panelUp.BackColor = System.Drawing.Color.FromArgb(74,74,74);
             this.panelMiddle.BackColor= System.Drawing.Color.FromArgb(92, 92, 92);
@@ -298,7 +297,7 @@ namespace ThColumnInfo.View
             }
             return TraverseRoot(treeNode.Parent);
         }
-        private TreeNode TraverseInnerFrameRoot(TreeNode treeNode)
+        public TreeNode TraverseInnerFrameRoot(TreeNode treeNode)
         {
             if (treeNode == null)
             {
@@ -433,9 +432,10 @@ namespace ThColumnInfo.View
             {
                 if (this.currentNode != treeNode)
                 {
-                    if (this.currentNode.Tag != null && this.currentNode.Tag.GetType() == typeof(ThStandardSign))
-                    {
-                        ThStandardSign thStandardSign = this.currentNode.Tag as ThStandardSign;
+                    TreeNode innerFrameNode = TraverseInnerFrameRoot(this.currentNode);
+                    if (this.currentNode.Tag != null)
+                    {                        
+                        ThStandardSign thStandardSign = innerFrameNode.Tag as ThStandardSign;
                         if (thStandardSign.SignPlantCalData != null)
                         {
                             using (DocumentLock docLock = doc.LockDocument())
@@ -444,35 +444,13 @@ namespace ThColumnInfo.View
                             }
                         }
                     }
-                    bool needHide = GetTreeNodeHasVisibleFrame(this.currentNode);
+                    bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
                     if (needHide)
                     {
                         HideTotalFrameIds(this.currentNode);
                         doc.Editor.Regen();
                     }
-                    if(treeNode.Tag!=null && treeNode.Tag.GetType()==typeof(ThStandardSign))
-                    {
-                        bool needSwitch = true;
-                        if (this.currentNode != null)
-                        {
-                            TreeNode currentRootNode = TraverseInnerFrameRoot(this.currentNode);
-                            if (currentRootNode != null)
-                            {
-                                if (currentRootNode == treeNode)
-                                {
-                                    needSwitch = false;
-                                }
-                            }
-                        }
-                        else if (this.currentNode == null)
-                        {
-                            needSwitch = false;
-                        }
-                        if (needSwitch)
-                        {
-                            ShowDetailData(treeNode);
-                        }
-                    }
+                    ShowDetailData(treeNode);
                 }
             }
             this.currentNode = treeNode;
@@ -491,7 +469,6 @@ namespace ThColumnInfo.View
             }
             if(e.Button == MouseButtons.Left)
             {
-                SetBtnShowDetailData();
                 if (e.Node.Tag != null && e.Node.Tag.GetType() == typeof(ColumnInf))
                 {
                     if (treeNode.Parent != null && this.nodeKeys.IndexOf(treeNode.Parent.Name) >= 0)
@@ -741,6 +718,7 @@ namespace ThColumnInfo.View
                 {
                     thStandardSign.Validate(false, correctColumnInfs);
                 }
+                SortThCalculateValidateResult(thStandardSign, correctColumnInfs);
                 tn.Expand();
             }
             catch(System.Exception ex)
@@ -748,24 +726,39 @@ namespace ThColumnInfo.View
                 ThColumnInfoUtils.WriteException(ex, "UpdateCheckResult");
             }
         }
-        private List<ColumnInf> GetDataCorrectColumnInfs(TreeNode tn)
+        private void SortThCalculateValidateResult(ThStandardSign thStandardSign,List<ColumnInf> correctSortInfs)
+        {
+            if(thStandardSign.ThCalculateValidate==null)
+            {
+                return;
+            }
+            Dictionary<ColumnRelateInf, List<string>> newResDic = new Dictionary<ColumnRelateInf, List<string>>();
+            foreach (ColumnInf columnInf in correctSortInfs)
+            {
+                var item = thStandardSign.ThCalculateValidate.ColumnValidateResultDic.Where(i => i.Key.ModelColumnInfs.Count == 1 && i.Key.ModelColumnInfs[0].Code == columnInf.Code &&
+                  i.Key.ModelColumnInfs[0].Text == columnInf.Text).Select(i => i).First();
+                if (item.Key != null)
+                {
+                    newResDic.Add(item.Key, item.Value);
+                }
+            }
+            thStandardSign.ThCalculateValidate.ColumnValidateResultDic = newResDic;
+        }
+        public List<ColumnInf> GetDataCorrectColumnInfs(TreeNode tn)
         {
             List<ColumnInf> columnInfs = new List<ColumnInf>();
-            foreach(TreeNode subNode1 in tn.Nodes)
+            if(tn.Tag!=null && tn.Tag.GetType()==typeof(ColumnInf))
             {
-                if(subNode1.Name==this.dataCorrectNodeName)
+                ColumnInf columnInf = tn.Tag as ColumnInf;
+                if(columnInf.Error==ErrorMsg.OK)
                 {
-                    foreach(TreeNode subNode2 in subNode1.Nodes)
-                    {
-                        foreach (TreeNode subNode3 in subNode2.Nodes)
-                        {
-                            if(subNode3.Tag!=null && subNode3.Tag.GetType()==typeof(ColumnInf))
-                            {
-                                columnInfs.Add(subNode3.Tag as ColumnInf);
-                            }
-                        }
-                    }
+                    columnInfs.Add(columnInf);
                 }
+            }
+            foreach(TreeNode treeNode in tn.Nodes)
+            {
+                List<ColumnInf> subColumnInfs = GetDataCorrectColumnInfs(treeNode);
+                columnInfs.AddRange(subColumnInfs);
             }
             return columnInfs;
         }
@@ -815,13 +808,17 @@ namespace ThColumnInfo.View
                     Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
                     using (DocumentLock docLock = doc.LockDocument())
                     {
+                        ThProgressBar.Start("导入计算书...");
+                        ThProgressBar.MeterProgress();
                         try
                         {
                             CalculationInfoVM calculationInfoVM = new CalculationInfoVM();
                             if (thStandardSign.SignPlantCalData!=null && thStandardSign.SignPlantCalData.CalInfo!=null)
                             {
                                 thStandardSign.SignPlantCalData.ClearFrameIds();
+                                ThProgressBar.MeterProgress();
                                 thStandardSign.SignPlantCalData.EraseFrameTextIds();
+                                ThProgressBar.MeterProgress();
                                 calculationInfoVM = new CalculationInfoVM(thStandardSign.SignPlantCalData.CalInfo);
                                 calculationInfoVM.CalculateInfo = thStandardSign.SignPlantCalData.CalInfo;
                             }
@@ -843,6 +840,10 @@ namespace ThColumnInfo.View
                         catch (System.Exception ex)
                         {
                             ThColumnInfoUtils.WriteException(ex);
+                        }
+                        finally
+                        {
+                            ThProgressBar.Stop();
                         }
                     }
                 }
@@ -993,19 +994,13 @@ namespace ThColumnInfo.View
                 MessageBox.Show("请选择要查看详细数据的层节点");
                 return;
             }
-            TreeNode tn = this.tvCheckRes.SelectedNode as TreeNode;
-            if (tn.Tag == null)
-            {
-                MessageBox.Show("请选择要观察数据的节点");
-                return;
-            }
             if(forceShow)
             {
                 DataPalette.ShowPaletteMark = false;
             }
             DataPalette.ShowPaletteMark = !DataPalette.ShowPaletteMark;
             SwitchShowDetailPicture();
-            ShowDetailData(tn);
+            ShowDetailData(this.tvCheckRes.SelectedNode);
             DataPalette._ps.Visible = DataPalette.ShowPaletteMark;
         }
         private void ShowDetailData(TreeNode tn)
@@ -1014,13 +1009,8 @@ namespace ThColumnInfo.View
             {
                 return;
             }
-            TreeNode rootNode = TraverseRoot(tn);
-            if (tn.Tag.GetType() == typeof(ThStandardSign))
-            {
-                ThStandardSign thStandardSign = tn.Tag as ThStandardSign;
-                ExportDetailData(tn);
-                this.lastShowDetailNode = tn;
-            }
+            ExportDetailData(tn);
+            this.lastShowDetailNode = tn;
         }
         /// <summary>
         /// 导出详细数据
@@ -1028,11 +1018,16 @@ namespace ThColumnInfo.View
         /// <param name="tn"></param>
         public void ExportDetailData(TreeNode tn)
         {
-            if(tn==null || tn.Tag==null || tn.Tag.GetType()!=typeof(ThStandardSign))
+            if(tn==null)
             {
                 return;
             }
-            ThStandardSign thStandardSign = tn.Tag as ThStandardSign;
+            TreeNode innerFrameNode = TraverseInnerFrameRoot(tn);
+            if(innerFrameNode==null)
+            {
+                return;
+            }
+            ThStandardSign thStandardSign = innerFrameNode.Tag as ThStandardSign;
             DataPalette.Instance.Show(thStandardSign.SignExtractColumnInfo, thStandardSign.ThSpecificValidate,
                     thStandardSign.ThCalculateValidate, tn);
         }
@@ -1091,30 +1086,6 @@ namespace ThColumnInfo.View
             {
                 return;
             }
-            SetBtnShowDetailData();
-        }
-        private void SetBtnShowDetailData()
-        {
-            if (tvCheckRes.SelectedNode == null)
-            {
-                this.btnShowDetailData.Enabled = false;
-                return;
-            }
-            bool disabled = false;
-            if (tvCheckRes.SelectedNode.Tag != null && tvCheckRes.SelectedNode.Tag.GetType() == typeof(ThStandardSign))
-            {
-                ThStandardSign thStandardSign = tvCheckRes.SelectedNode.Tag as ThStandardSign;
-                if (thStandardSign.SignExtractColumnInfo != null && thStandardSign.SignExtractColumnInfo.ColumnInfs.Count > 0)
-                {
-                    List<ColumnInf> correctColumnInfs = thStandardSign.SignExtractColumnInfo.
-                        ColumnInfs.Where(i => i.Error == ErrorMsg.OK).Select(i => i).ToList();
-                    if (correctColumnInfs.Count > 0)
-                    {
-                        disabled = true;
-                    }
-                }
-            }
-            this.btnShowDetailData.Enabled = disabled;
         }
         private void btnComponentDefinition_Click(object sender, EventArgs e)
         {

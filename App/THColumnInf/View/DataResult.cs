@@ -15,7 +15,8 @@ namespace ThColumnInfo.View
         private IDataSource ds;
         private ThSpecificationValidate thSpecificationValidate;
         private ThCalculationValidate thCalculationValidate;
-        private TreeNode signNode;
+        private TreeNode innerframeNode;
+        private TreeNode currentNode;
         private string flrName = "";
         private System.Drawing.Color cellBackColor;
         private System.Drawing.Color dgvBackColor;
@@ -27,14 +28,15 @@ namespace ThColumnInfo.View
 
         private string columnTableTabName = "";
         private string specificationTabName = "";
-        private string calculationTabName = "";
+        private string calculationTabName = "";        
 
         public DataResult(IDataSource ds, ThSpecificationValidate tsv,ThCalculationValidate tcv,TreeNode node)
         {
             this.ds = ds;
             this.thSpecificationValidate = tsv;
             this.thCalculationValidate = tcv;
-            this.signNode = node;
+            this.currentNode = node;
+            this.innerframeNode = CheckPalette._checkResult.TraverseInnerFrameRoot(node);
             InitializeComponent();
             SetColor();
             InitDataGridView1();
@@ -75,7 +77,8 @@ namespace ThColumnInfo.View
             this.ds = ds;
             this.thSpecificationValidate = tsv;
             this.thCalculationValidate = tcv;
-            this.signNode = node;
+            this.currentNode = node;
+            this.innerframeNode = CheckPalette._checkResult.TraverseInnerFrameRoot(node);
             UpdateData();
         }
         public void ClearDataGridView()
@@ -87,9 +90,10 @@ namespace ThColumnInfo.View
         private void UpdateData()
         {
             this.flrName = "";
-            if(this.signNode!=null && this.signNode.Tag!=null && this.signNode.Tag.GetType()==typeof(ThStandardSign))
+            if(this.innerframeNode!=null && this.innerframeNode.Tag!=null && this.innerframeNode.Tag.GetType()==typeof(ThStandardSign))
             {
-                ThStandardSign thStandardSign = this.signNode.Tag as ThStandardSign;
+
+                ThStandardSign thStandardSign = this.innerframeNode.Tag as ThStandardSign;
                 this.flrName = thStandardSign.InnerFrameName;
             }
             AddDataToDataGridView1();
@@ -99,59 +103,48 @@ namespace ThColumnInfo.View
         private void AddDataToDataGridView1()
         {
             this.dgvColumnTable.Rows.Clear();
-            foreach(TreeNode thirdNode in this.signNode.Nodes) //数据正确,柱平法缺失
+            List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.GetDataCorrectColumnInfs(this.currentNode);
+            foreach(ColumnInf columnInf in correctColumnInfs)
             {
-                if(thirdNode.Name.ToString()!= "DataCorrect")
-                {
-                    continue;
-                }
-                foreach (TreeNode fourthNode in thirdNode.Nodes) //KZ1 (3) 500x500 ...
-                {
-                    string columnCode = fourthNode.Text.Substring(0, fourthNode.Text.IndexOf("("));
-                    ColumnTableRecordInfo ctri = this.ds.ColumnTableRecordInfos.Where(j => j.Code == columnCode).FirstOrDefault();
-                    foreach(TreeNode fifthNode in fourthNode.Nodes) //KZ-1,KZ-2...
-                    {
-                        ColumnInf columnInf = fifthNode.Tag as ColumnInf;
-                        int rowIndex = this.dgvColumnTable.Rows.Add();
-                        this.dgvColumnTable.Rows[rowIndex].Cells["code"].Value = columnInf.Code;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["code"].Style.BackColor = this.cellBackColor;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["code"].Style.ForeColor = this.textForeClor;
+                ColumnTableRecordInfo ctri = this.ds.ColumnTableRecordInfos.Where(j => j.Code == columnInf.Code).FirstOrDefault();
+                int rowIndex = this.dgvColumnTable.Rows.Add();
+                this.dgvColumnTable.Rows[rowIndex].Cells["code"].Value = columnInf.Code;
+                this.dgvColumnTable.Rows[rowIndex].Cells["code"].Style.BackColor = this.cellBackColor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["code"].Style.ForeColor = this.textForeClor;
 
-                        this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Value = fifthNode.Text;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Style.BackColor = this.cellBackColor;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Style.ForeColor = this.textForeClor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Value = columnInf.Text;
+                this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Style.BackColor = this.cellBackColor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Style.ForeColor = this.textForeClor;
 
-                        this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Value = ctri.Spec;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Style.BackColor = this.cellBackColor;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Style.ForeColor = this.textForeClor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Value = ctri.Spec;
+                this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Style.BackColor = this.cellBackColor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Style.ForeColor = this.textForeClor;
 
-                        this.dgvColumnTable.Rows[rowIndex].Cells["all"].Value = ctri.Replace132(ctri.AllLongitudinalReinforcement);
-                        this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.BackColor = this.cellBackColor;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.ForeColor = this.textForeClor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["all"].Value = ctri.Replace132(ctri.AllLongitudinalReinforcement);
+                this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.BackColor = this.cellBackColor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.ForeColor = this.textForeClor;
 
-                        this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Value = ctri.Replace132(ctri.AngularReinforcement);
-                        this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Style.BackColor = this.cellBackColor;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Style.ForeColor = this.textForeClor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Value = ctri.Replace132(ctri.AngularReinforcement);
+                this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Style.BackColor = this.cellBackColor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Style.ForeColor = this.textForeClor;
 
-                        this.dgvColumnTable.Rows[rowIndex].Cells["bSide"].Value = ctri.Replace132(ctri.BEdgeSideMiddleReinforcement);
-                        this.dgvColumnTable.Rows[rowIndex].Cells["bSide"].Style.BackColor = this.cellBackColor;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["bSide"].Style.ForeColor = this.textForeClor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["bSide"].Value = ctri.Replace132(ctri.BEdgeSideMiddleReinforcement);
+                this.dgvColumnTable.Rows[rowIndex].Cells["bSide"].Style.BackColor = this.cellBackColor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["bSide"].Style.ForeColor = this.textForeClor;
 
-                        this.dgvColumnTable.Rows[rowIndex].Cells["hside"].Value = ctri.Replace132(ctri.HEdgeSideMiddleReinforcement);
-                        this.dgvColumnTable.Rows[rowIndex].Cells["hside"].Style.BackColor = this.cellBackColor;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["hside"].Style.ForeColor = this.textForeClor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["hside"].Value = ctri.Replace132(ctri.HEdgeSideMiddleReinforcement);
+                this.dgvColumnTable.Rows[rowIndex].Cells["hside"].Style.BackColor = this.cellBackColor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["hside"].Style.ForeColor = this.textForeClor;
 
-                        this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Value = ctri.Replace132(ctri.HoopReinforcement);
-                        this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Style.BackColor = this.cellBackColor;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Style.ForeColor = this.textForeClor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Value = ctri.Replace132(ctri.HoopReinforcement);
+                this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Style.BackColor = this.cellBackColor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Style.ForeColor = this.textForeClor;
 
-                        this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Value = ctri.HoopReinforcementTypeNumber;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Style.BackColor = this.cellBackColor;
-                        this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Style.ForeColor = this.textForeClor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Value = ctri.HoopReinforcementTypeNumber;
+                this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Style.BackColor = this.cellBackColor;
+                this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Style.ForeColor = this.textForeClor;
 
-                        this.dgvColumnTable.Rows[rowIndex].Tag = this.signNode.Tag;
-                    }
-                }
+                this.dgvColumnTable.Rows[rowIndex].Tag = this.innerframeNode.Tag;
             }
             if (this.dgvColumnTable.Rows.Count < 10)
             {
@@ -165,7 +158,7 @@ namespace ThColumnInfo.View
                         this.dgvColumnTable.Rows[rowIndex].Cells[j].Style.ForeColor = this.textForeClor;
                         this.dgvColumnTable.Rows[rowIndex].Cells[j].Value = "";
                     }
-                    this.dgvColumnTable.Rows[rowIndex].Tag = this.signNode.Tag;
+                    this.dgvColumnTable.Rows[rowIndex].Tag = this.innerframeNode.Tag;
                 }
             }
         }
@@ -174,14 +167,17 @@ namespace ThColumnInfo.View
             this.dgvSpecificationRes.Rows.Clear();
             if (this.thSpecificationValidate != null)
             {
-                foreach (var item in thSpecificationValidate.ColumnValidResultDic)
+                List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.GetDataCorrectColumnInfs(this.currentNode);
+                foreach(ColumnInf columnInf in correctColumnInfs)
                 {
-                    if (string.IsNullOrEmpty(item.Key.Code) || item.Value.Count == 0)
+                   var values= thSpecificationValidate.ColumnValidResultDic.Where(
+                       i => i.Key.Code == columnInf.Code && i.Key.Text == columnInf.Text).Select(i => i.Value).First();
+                    if (values == null || values.Count == 0)
                     {
                         continue;
                     }
-                    int errorIndex = item.Value.IndexOf("XXXXXX");
-                    for (int i = 0; i < item.Value.Count; i++)
+                    int errorIndex = values.IndexOf("XXXXXX");
+                    for (int i = 0; i < values.Count; i++)
                     {
                         if (errorIndex == i)
                         {
@@ -190,10 +186,10 @@ namespace ThColumnInfo.View
                         int rowIndex = this.dgvSpecificationRes.Rows.Add();
                         if (i == 0)
                         {
-                            this.dgvSpecificationRes.Rows[rowIndex].Cells["code"].Value = item.Key.Text;
+                            this.dgvSpecificationRes.Rows[rowIndex].Cells["code"].Value = columnInf.Text;
                             this.dgvSpecificationRes.Rows[rowIndex].Cells["flrName"].Value = this.flrName;
                         }
-                        this.dgvSpecificationRes.Rows[rowIndex].Cells["detail"].Value = item.Value[i];
+                        this.dgvSpecificationRes.Rows[rowIndex].Cells["detail"].Value = values[i];
 
                         this.dgvSpecificationRes.Rows[rowIndex].Cells["code"].Style.BackColor = this.cellBackColor;
                         this.dgvSpecificationRes.Rows[rowIndex].Cells["code"].Style.ForeColor = this.textForeClor;
@@ -206,7 +202,7 @@ namespace ThColumnInfo.View
                         {
                             this.dgvSpecificationRes.Rows[rowIndex].Cells["detail"].Style.ForeColor = Color.Red;
                         }
-                        this.dgvSpecificationRes.Rows[rowIndex].Tag = this.signNode.Tag;
+                        this.dgvSpecificationRes.Rows[rowIndex].Tag = this.innerframeNode.Tag;
                     }
                 }
             }
@@ -222,7 +218,7 @@ namespace ThColumnInfo.View
                         this.dgvSpecificationRes.Rows[rowIndex].Cells[j].Style.ForeColor = this.textForeClor;
                         this.dgvSpecificationRes.Rows[rowIndex].Cells[j].Value = "";
                     }
-                    this.dgvSpecificationRes.Rows[rowIndex].Tag = this.signNode.Tag;
+                    this.dgvSpecificationRes.Rows[rowIndex].Tag = this.innerframeNode.Tag;
                 }
             }
         }
@@ -231,14 +227,17 @@ namespace ThColumnInfo.View
             this.dgvCalculationRes.Rows.Clear();
             if (this.thCalculationValidate!=null)
             {
-                foreach (var item in this.thCalculationValidate.ColumnValidateResultDic)
+                List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.GetDataCorrectColumnInfs(this.currentNode);
+                foreach(ColumnInf columnInf in correctColumnInfs)
                 {
-                    if (item.Key.ModelColumnInfs.Count == 0)
+                    var values = this.thCalculationValidate.ColumnValidateResultDic.Where(i => i.Key.ModelColumnInfs.Count == 1 &&
+                    i.Key.ModelColumnInfs[0].Code == columnInf.Code && i.Key.ModelColumnInfs[0].Text == columnInf.Text).Select(i => i.Value).First();
+                    if(values==null || values.Count==0)
                     {
                         continue;
                     }
-                    int errorIndex = item.Value.IndexOf("XXXXXX");
-                    for (int i = 0; i < item.Value.Count; i++)
+                    int errorIndex = values.IndexOf("XXXXXX");
+                    for (int i = 0; i < values.Count; i++)
                     {
                         if (errorIndex == i)
                         {
@@ -247,10 +246,10 @@ namespace ThColumnInfo.View
                         int rowIndex = this.dgvCalculationRes.Rows.Add();
                         if (i == 0)
                         {
-                            this.dgvCalculationRes.Rows[rowIndex].Cells["code"].Value = item.Key.ModelColumnInfs[0].Text;
+                            this.dgvCalculationRes.Rows[rowIndex].Cells["code"].Value = columnInf.Text;
                             this.dgvCalculationRes.Rows[rowIndex].Cells["flrName"].Value = this.flrName;
                         }
-                        this.dgvCalculationRes.Rows[rowIndex].Cells["detail"].Value = item.Value[i];
+                        this.dgvCalculationRes.Rows[rowIndex].Cells["detail"].Value = values[i];
 
                         this.dgvCalculationRes.Rows[rowIndex].Cells["code"].Style.BackColor = this.cellBackColor;
                         this.dgvCalculationRes.Rows[rowIndex].Cells["code"].Style.ForeColor = this.textForeClor;
@@ -262,7 +261,7 @@ namespace ThColumnInfo.View
                         {
                             this.dgvCalculationRes.Rows[rowIndex].Cells["detail"].Style.ForeColor = Color.Red;
                         }
-                        this.dgvCalculationRes.Rows[rowIndex].Tag = this.signNode.Tag;
+                        this.dgvCalculationRes.Rows[rowIndex].Tag = this.innerframeNode.Tag;
                     }
                 }
             }
@@ -278,7 +277,7 @@ namespace ThColumnInfo.View
                         this.dgvCalculationRes.Rows[rowIndex].Cells[j].Style.ForeColor = this.textForeClor;
                         this.dgvCalculationRes.Rows[rowIndex].Cells[j].Value = "";
                     }
-                    this.dgvCalculationRes.Rows[rowIndex].Tag = this.signNode.Tag;
+                    this.dgvCalculationRes.Rows[rowIndex].Tag = this.innerframeNode.Tag;
                 }
             }
         }
@@ -537,7 +536,7 @@ namespace ThColumnInfo.View
                 {
                     return;
                 }
-                TreeNode findTreeCode = CheckPalette._checkResult.FindTreeCode(thStandardSign.InnerFrameName, GetFindNodeMode(columnName), codeText, "");
+                TreeNode findTreeCode = CheckPalette._checkResult.FindTreeCode(thStandardSign.InnerFrameName, GetFindNodeMode(columnName), "", codeText);
                 if (findTreeCode != null)
                 {
                     CheckPalette._checkResult.ShowSelectNodeFrameIds(findTreeCode);
@@ -570,9 +569,9 @@ namespace ThColumnInfo.View
             }
             else
             {
-                if(this.signNode!=null)
+                if(this.innerframeNode!=null)
                 {
-                    CheckPalette._checkResult.HideTotalFrameIds(this.signNode);
+                    CheckPalette._checkResult.HideTotalFrameIds(this.innerframeNode);
                 }
             }
         }
@@ -652,9 +651,9 @@ namespace ThColumnInfo.View
                 this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Value==null
                 )
             {
-                if (this.signNode != null)
+                if (this.innerframeNode != null)
                 {
-                    CheckPalette._checkResult.HideTotalFrameIds(this.signNode);
+                    CheckPalette._checkResult.HideTotalFrameIds(this.innerframeNode);
                 }
             }
             else
@@ -695,9 +694,9 @@ namespace ThColumnInfo.View
             }
             else
             {
-                if(this.signNode!=null)
+                if(this.innerframeNode!=null)
                 {
-                    CheckPalette._checkResult.HideTotalFrameIds(this.signNode);
+                    CheckPalette._checkResult.HideTotalFrameIds(this.innerframeNode);
                 }
             }
         }

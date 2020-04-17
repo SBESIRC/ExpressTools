@@ -116,10 +116,11 @@ namespace ThColumnInfo
             //获取计算书路径对应的自然层的信息
             CalculationInfoVM calculationInfoVM = new CalculationInfoVM(calculationInfo);
             List<FloorInfo> floorInfs = calculationInfoVM.LoadYjkDbInfo();
-
+            ThProgressBar.MeterProgress();
             //用户选择的自然层
             string dtlModelPath = calculationInfo.GetDtlmodelFullPath();
             List<string> selFloors = calculationInfoVM.GetSelectFloors();
+            ThProgressBar.MeterProgress();
             List<FloorInfo> selectFloorInfs = new List<FloorInfo>();
             for (int i = 0; i < floorInfs.Count; i++)
             {
@@ -131,11 +132,12 @@ namespace ThColumnInfo
             //提取柱子信息
             IDatabaseDataSource dbDataSource = new ExtractYjkColumnInfo(dtlModelPath);
             dbDataSource.Extract(selectFloorInfs[0].No);
-
+            ThProgressBar.MeterProgress();
             //让用户指定柱子的位置
             this.thDrawColumns = new ThDrawColumns(dbDataSource.ColumnInfs,this.calculationInfo);
             thDrawColumns.Draw();
-            if(this.thDrawColumns.IsGoOn)
+            ThProgressBar.MeterProgress();
+            if (this.thDrawColumns.IsGoOn)
             {
                 this.showFrameTextIds = ShowFrameTextIds();
             }
@@ -314,6 +316,7 @@ namespace ThColumnInfo
                 {
                     //图纸中的柱子关联到计算书中的柱子
                     EmbedColumnCustom(columnInfs[i]);
+                    ThProgressBar.MeterProgress();
                 }
             }
 
@@ -336,7 +339,7 @@ namespace ThColumnInfo
                     {
                         frameTextIds.Add(objectId);
                     }
-                    DrawCalculation(thRelateColumn.ColumnRelateInfs[i]);
+                    DrawCalculation(thRelateColumn.ColumnRelateInfs[i]);                    
                 }
                 else if (thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs == null ||
                     thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs.Count == 0)
@@ -357,6 +360,7 @@ namespace ThColumnInfo
                         thRelateColumn.ColumnRelateInfs[i].InModelPts, offsetDisScale, true, lineWidth);
                     frameTextIds.Add(objectId);
                 }
+                ThProgressBar.MeterProgress();
             }
             //内框内正确柱子，还剩下没有关联到计算书中的柱子
             for (int i = 0; i < thRelateColumn.RestColumnInfs.Count; i++)
@@ -373,6 +377,7 @@ namespace ThColumnInfo
                 {
                     frameTextIds.Add(objectId);
                 }
+                ThProgressBar.MeterProgress();
             }
             return frameTextIds;
         }

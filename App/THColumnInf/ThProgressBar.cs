@@ -16,10 +16,13 @@ namespace ThColumnInfo
         public static string message = "";
         static ThProgressBar()
         {
-            if(ProgressBar==null || ProgressBar.IsDisposed)
+            Init();
+        }
+        private static void CreateProgressMeter()
+        {
+            if (ProgressBar == null || ProgressBar.IsDisposed)
             {
                 ProgressBar = new ProgressMeter();
-                Init();
             }
         }
         private static void Init()
@@ -42,8 +45,9 @@ namespace ThColumnInfo
             }
             executeNum += 1;
             ProgressBar.MeterProgress();
-            if (executeNum == limitLength)
+            if (executeNum == limitLength) //Once again
             {
+                executeNum = 0;
                 ProgressBar.Start(message);
             }
         }
@@ -60,12 +64,15 @@ namespace ThColumnInfo
             }
             ProgressBar.Stop();
             Init();
+            Dispose();
         }
         public static void Start(string message)
         {
             Init();
-            ProgressBar.Start(message);
+            CreateProgressMeter();
+            ThProgressBar.message = message;
             UpdateLimitLength();
+            ProgressBar.Start(message);
         }
     }
 }

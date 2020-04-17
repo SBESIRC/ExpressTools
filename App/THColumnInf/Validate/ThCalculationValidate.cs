@@ -23,6 +23,10 @@ namespace ThColumnInfo.Validate
             {
                 return columnValidateResultDic;
             }
+            set
+            {
+                columnValidateResultDic = value;
+            }
         }
         public ThCalculationValidate(IDataSource ds, List<ColumnRelateInf> relatedColumns):
             base(ds)

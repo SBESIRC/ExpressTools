@@ -69,6 +69,7 @@ namespace ThColumnInfo
                 }            
                 this.columnRelateInfs[i].ModelColumnInfs = columnInfs;
                 //将柱子绘制到图元中并隐藏起来
+                ThProgressBar.MeterProgress();
             }
         }
         private Polyline CreateZeroPolyline(List<Point3d> pts)
