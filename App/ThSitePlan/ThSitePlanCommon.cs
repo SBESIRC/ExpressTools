@@ -31,6 +31,11 @@ namespace ThSitePlan
         public static readonly int plant_interval = 5;
         public static readonly double plant_radius = 5.0;
         public static readonly double plant_interval_distance = 10.0;
+        // Frame
+        public static readonly double frame_annotation_offset_X = 0.0;
+        public static readonly double frame_annotation_offset_Y = 15.0;
+        // RegAppName
+        public static readonly string RegAppName_ThSitePlan_Frame_Name = "THCAD_SP_FRAME_NAME";
 
         //photoshop文档尺寸
         public static readonly Dictionary<string, double> PsDocOpenPropertity = new Dictionary<string, double>

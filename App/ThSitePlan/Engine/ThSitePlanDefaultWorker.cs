@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Text;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -6,6 +7,7 @@ using ThSitePlan.Configuration;
 using AcHelper;
 using Linq2Acad;
 using NFox.Cad.Collections;
+using DotNetARX;
 
 namespace ThSitePlan.Engine
 {
@@ -86,17 +88,29 @@ namespace ThSitePlan.Engine
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
                 ObjectId frame = (ObjectId)options.Options["Frame"];
+                string frameName = (string)configItem.Properties["Name"];
                 var frameObj = acadDatabase.Element<Polyline>(frame);
-                double TextPos_X = frameObj.GeometricExtents.MinPoint.X;
-                double TextPos_Y = frameObj.GeometricExtents.MaxPoint.Y + 15;
+                var frameExtents = frameObj.GeometricExtents;
+                var position = new Point3d(
+                    frameExtents.MinPoint.X + ThSitePlanCommon.frame_annotation_offset_X,
+                    frameExtents.MaxPoint.Y + ThSitePlanCommon.frame_annotation_offset_Y,
+                    0);
                 DBText tx = new DBText()
                 {
-                    Height = 1.0 / 18.0 * frameObj.GeometricExtents.Height(),
-                    TextString = (string)configItem.Properties["Name"],
-                    Position = new Point3d(TextPos_X, TextPos_Y, 0),
-                    Layer = ThSitePlanCommon.LAYER_FRAME
+                    Position = position,
+                    TextString = frameName,
+                    Layer = ThSitePlanCommon.LAYER_FRAME,
+                    Height = 1.0 / 18.0 * frameExtents.Height(),
                 };
                 var TextobjId = acadDatabase.ModelSpace.Add(tx, true);
+
+                //
+                var utf8 = Encoding.UTF8;
+                TypedValueList valueList = new TypedValueList
+                            {
+                                { (int)DxfCode.ExtendedDataBinaryChunk, utf8.GetBytes(frameName) },
+                            };
+                frame.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name, valueList);
 
                 return true;
             }
