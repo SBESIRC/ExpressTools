@@ -433,7 +433,7 @@ namespace ThColumnInfo.View
                 if (this.currentNode != treeNode)
                 {
                     TreeNode innerFrameNode = TraverseInnerFrameRoot(this.currentNode);
-                    if (this.currentNode.Tag != null)
+                    if (innerFrameNode!=null && innerFrameNode.Tag != null)
                     {                        
                         ThStandardSign thStandardSign = innerFrameNode.Tag as ThStandardSign;
                         if (thStandardSign.SignPlantCalData != null)
@@ -447,7 +447,7 @@ namespace ThColumnInfo.View
                     bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
                     if (needHide)
                     {
-                        HideTotalFrameIds(this.currentNode);
+                        HideTotalFrameIds(innerFrameNode);
                         doc.Editor.Regen();
                     }
                     ShowDetailData(treeNode);
