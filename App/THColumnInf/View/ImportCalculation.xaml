@@ -7,33 +7,28 @@
         xmlns:local1="clr-namespace:ThColumnInfo.View"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
-        Title="导入计算书" Width="570" Height="400" MinWidth="570" MinHeight="400" 
-        MaxWidth="570" MaxHeight="400" Loaded="Window_Loaded" ResizeMode="NoResize" KeyDown="Window_KeyDown">
+        Title="导入计算书" Width="600" Height="410" MinWidth="600" MinHeight="410" 
+        MaxWidth="600" MaxHeight="410" Loaded="Window_Loaded" ResizeMode="NoResize" KeyDown="Window_KeyDown">
     <Window.Resources>
         <Style TargetType="{x:Type Window}">
             <Setter Property="FontFamily" Value="宋体" />
             <Setter Property="FontSize" Value="12"></Setter>
         </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="500"></ColumnDefinition>
-            <ColumnDefinition Width="100"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0" Margin="5,0,45,0" Grid.ColumnSpan="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
             <Label Content="模型目录：" VerticalContentAlignment="Center"/>
-            <ComboBox Name="cbYjkFilePath"  Height="30" Margin="0,0" Width="417" 
+            <ComboBox Name="cbYjkFilePath"  Height="30" Margin="0,0" Width="430" 
                    ItemsSource="{Binding CalculateInfo.YjkUsedPathList,Mode=TwoWay}"
                    SelectedValue="{Binding CalculateInfo.YjkPath,Mode=TwoWay}" SelectionChanged="CbYjkFilePath_SelectionChanged"></ComboBox>
-            <Button Content="浏览" Height="30" Width="50" Margin="10,0,0,0" Command="{Binding BrowseDirectoryCommand}"></Button>
+            <Button Content="浏览" Height="20" Width="55" Margin="5,0" Command="{Binding BrowseDirectoryCommand}"></Button>
         </StackPanel>
-        
-        <GroupBox Header="模型参数" Grid.Row="1" Grid.ColumnSpan="2" Margin="10,0,45,0" Height="280">
+        <GroupBox Header="模型参数" Grid.Row="1"  Height="280">
             <Grid>
                 <GroupBox Name="selectMode" Header="楼层选择" HorizontalAlignment="Left" Height="100" Margin="19,12,0,0" VerticalAlignment="Top" Width="151">
                     <Grid>
@@ -80,10 +75,9 @@
                          VerticalAlignment="Top" Width="280" Text="{Binding CalculateInfo.QuickAppoint,Mode=TwoWay}"/>-->
             </Grid>
         </GroupBox>
-        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" 
-                    HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,32,-5">
+        <StackPanel Grid.Row="2" Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,5,15,0">
             <Button Name="btnImport"  Content="埋入" Width="60" Margin="5" Command="{Binding ImportCommand}"></Button>
-            <Button Name="btnExit"  Content="取消" Width="60" Margin="20,5"  Command="{Binding ExitCommand}"></Button>
+            <Button Name="btnExit"  Content="取消" Width="60" Margin="10,5,0,5"  Command="{Binding ExitCommand}"></Button>
         </StackPanel>
     </Grid>
 </Window>

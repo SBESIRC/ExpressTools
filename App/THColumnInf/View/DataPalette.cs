@@ -37,8 +37,7 @@ namespace ThColumnInfo.View
                 _dateResult = new DataResult(ds, tsv, tcv, node);
                 _ps.Add("", _dateResult);
                 _ps.Load += _ps_Load;
-                _ps.PaletteSetDestroy += _ps_PaletteSetDestroy;
-            
+                _ps.StateChanged += _ps_StateChanged;
             }
             else
             {
@@ -47,15 +46,24 @@ namespace ThColumnInfo.View
             _ps.Visible = ShowPaletteMark;
         }
 
-        private void _ps_PaletteSetDestroy(object sender, EventArgs e)
+        private void _ps_StateChanged(object sender, PaletteSetStateEventArgs e)
         {
-            ShowPaletteMark = false;
-            CheckPalette._checkResult.SwitchShowDetailPicture();           
+            if(e.NewState== StateEventIndex.Hide)
+            {
+                ShowPaletteMark = false;
+            }
+            else
+            {
+                ShowPaletteMark = true;
+            }
+            CheckPalette._checkResult.SwitchShowDetailPicture();
         }
         private void _ps_Load(object sender, PalettePersistEventArgs e)
         {
             _dateResult.BackColor = System.Drawing.Color.FromArgb(92, 92, 92);
-            _ps.Style = PaletteSetStyles.Snappable;
+            _ps.Style = PaletteSetStyles.ShowAutoHideButton |
+                    PaletteSetStyles.ShowCloseButton |
+                    PaletteSetStyles.Snappable;
             _ps.DockEnabled = DockSides.Bottom;
             _ps.Dock = DockSides.Bottom;
             _ps.Size = new System.Drawing.Size(800, 200);

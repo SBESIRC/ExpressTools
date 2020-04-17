@@ -28,7 +28,9 @@ namespace ThColumnInfo.View
 
         private string columnTableTabName = "";
         private string specificationTabName = "";
-        private string calculationTabName = "";        
+        private string calculationTabName = "";
+
+        private int rowCount = 20;
 
         public DataResult(IDataSource ds, ThSpecificationValidate tsv,ThCalculationValidate tcv,TreeNode node)
         {
@@ -103,52 +105,56 @@ namespace ThColumnInfo.View
         private void AddDataToDataGridView1()
         {
             this.dgvColumnTable.Rows.Clear();
-            List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.GetDataCorrectColumnInfs(this.currentNode);
-            foreach(ColumnInf columnInf in correctColumnInfs)
+            bool findCorrectNode = CheckPalette._checkResult.TraverseDataCorrectNode(this.currentNode);
+            if(findCorrectNode)
             {
-                ColumnTableRecordInfo ctri = this.ds.ColumnTableRecordInfos.Where(j => j.Code == columnInf.Code).FirstOrDefault();
-                int rowIndex = this.dgvColumnTable.Rows.Add();
-                this.dgvColumnTable.Rows[rowIndex].Cells["code"].Value = columnInf.Code;
-                this.dgvColumnTable.Rows[rowIndex].Cells["code"].Style.BackColor = this.cellBackColor;
-                this.dgvColumnTable.Rows[rowIndex].Cells["code"].Style.ForeColor = this.textForeClor;
+                List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.GetDataCorrectColumnInfs(this.currentNode);
+                foreach (ColumnInf columnInf in correctColumnInfs)
+                {
+                    ColumnTableRecordInfo ctri = this.ds.ColumnTableRecordInfos.Where(j => j.Code == columnInf.Code).FirstOrDefault();
+                    int rowIndex = this.dgvColumnTable.Rows.Add();
+                    this.dgvColumnTable.Rows[rowIndex].Cells["code"].Value = columnInf.Code;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["code"].Style.BackColor = this.cellBackColor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["code"].Style.ForeColor = this.textForeClor;
 
-                this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Value = columnInf.Text;
-                this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Style.BackColor = this.cellBackColor;
-                this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Style.ForeColor = this.textForeClor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Value = columnInf.Text;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Style.BackColor = this.cellBackColor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["subCode"].Style.ForeColor = this.textForeClor;
 
-                this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Value = ctri.Spec;
-                this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Style.BackColor = this.cellBackColor;
-                this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Style.ForeColor = this.textForeClor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Value = ctri.Spec;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Style.BackColor = this.cellBackColor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Style.ForeColor = this.textForeClor;
 
-                this.dgvColumnTable.Rows[rowIndex].Cells["all"].Value = ctri.Replace132(ctri.AllLongitudinalReinforcement);
-                this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.BackColor = this.cellBackColor;
-                this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.ForeColor = this.textForeClor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["all"].Value = ctri.Replace132(ctri.AllLongitudinalReinforcement);
+                    this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.BackColor = this.cellBackColor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.ForeColor = this.textForeClor;
 
-                this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Value = ctri.Replace132(ctri.AngularReinforcement);
-                this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Style.BackColor = this.cellBackColor;
-                this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Style.ForeColor = this.textForeClor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Value = ctri.Replace132(ctri.AngularReinforcement);
+                    this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Style.BackColor = this.cellBackColor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Style.ForeColor = this.textForeClor;
 
-                this.dgvColumnTable.Rows[rowIndex].Cells["bSide"].Value = ctri.Replace132(ctri.BEdgeSideMiddleReinforcement);
-                this.dgvColumnTable.Rows[rowIndex].Cells["bSide"].Style.BackColor = this.cellBackColor;
-                this.dgvColumnTable.Rows[rowIndex].Cells["bSide"].Style.ForeColor = this.textForeClor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["bSide"].Value = ctri.Replace132(ctri.BEdgeSideMiddleReinforcement);
+                    this.dgvColumnTable.Rows[rowIndex].Cells["bSide"].Style.BackColor = this.cellBackColor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["bSide"].Style.ForeColor = this.textForeClor;
 
-                this.dgvColumnTable.Rows[rowIndex].Cells["hside"].Value = ctri.Replace132(ctri.HEdgeSideMiddleReinforcement);
-                this.dgvColumnTable.Rows[rowIndex].Cells["hside"].Style.BackColor = this.cellBackColor;
-                this.dgvColumnTable.Rows[rowIndex].Cells["hside"].Style.ForeColor = this.textForeClor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["hside"].Value = ctri.Replace132(ctri.HEdgeSideMiddleReinforcement);
+                    this.dgvColumnTable.Rows[rowIndex].Cells["hside"].Style.BackColor = this.cellBackColor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["hside"].Style.ForeColor = this.textForeClor;
 
-                this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Value = ctri.Replace132(ctri.HoopReinforcement);
-                this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Style.BackColor = this.cellBackColor;
-                this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Style.ForeColor = this.textForeClor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Value = ctri.Replace132(ctri.HoopReinforcement);
+                    this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Style.BackColor = this.cellBackColor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Style.ForeColor = this.textForeClor;
 
-                this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Value = ctri.HoopReinforcementTypeNumber;
-                this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Style.BackColor = this.cellBackColor;
-                this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Style.ForeColor = this.textForeClor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Value = ctri.HoopReinforcementTypeNumber;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Style.BackColor = this.cellBackColor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Style.ForeColor = this.textForeClor;
 
-                this.dgvColumnTable.Rows[rowIndex].Tag = this.innerframeNode.Tag;
+                    this.dgvColumnTable.Rows[rowIndex].Tag = this.innerframeNode.Tag;
+                }
             }
-            if (this.dgvColumnTable.Rows.Count < 10)
+            if (this.dgvColumnTable.Rows.Count < this.rowCount)
             {
-                int addRowCount = 10 - this.dgvColumnTable.Rows.Count;
+                int addRowCount = this.rowCount - this.dgvColumnTable.Rows.Count;
                 for (int i = 0; i < addRowCount; i++)
                 {
                     int rowIndex = this.dgvColumnTable.Rows.Add();
@@ -165,13 +171,14 @@ namespace ThColumnInfo.View
         private void AddDataToDataGridView2()
         {
             this.dgvSpecificationRes.Rows.Clear();
-            if (this.thSpecificationValidate != null)
+            bool findCorrectNode = CheckPalette._checkResult.TraverseDataCorrectNode(this.currentNode);
+            if (findCorrectNode && this.thSpecificationValidate != null)
             {
                 List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.GetDataCorrectColumnInfs(this.currentNode);
-                foreach(ColumnInf columnInf in correctColumnInfs)
+                foreach (ColumnInf columnInf in correctColumnInfs)
                 {
-                   var values= thSpecificationValidate.ColumnValidResultDic.Where(
-                       i => i.Key.Code == columnInf.Code && i.Key.Text == columnInf.Text).Select(i => i.Value).First();
+                    var values = thSpecificationValidate.ColumnValidResultDic.Where(
+                        i => i.Key.Code == columnInf.Code && i.Key.Text == columnInf.Text).Select(i => i.Value).First();
                     if (values == null || values.Count == 0)
                     {
                         continue;
@@ -206,9 +213,10 @@ namespace ThColumnInfo.View
                     }
                 }
             }
-            if (this.dgvSpecificationRes.Rows.Count < 10)
+            
+            if (this.dgvSpecificationRes.Rows.Count < this.rowCount)
             {
-                int addRowCount = 10 - this.dgvSpecificationRes.Rows.Count;
+                int addRowCount = this.rowCount - this.dgvSpecificationRes.Rows.Count;
                 for (int i = 0; i < addRowCount; i++)
                 {
                     int rowIndex = this.dgvSpecificationRes.Rows.Add();
@@ -225,14 +233,15 @@ namespace ThColumnInfo.View
         private void AddDataToDataGridView3()
         {
             this.dgvCalculationRes.Rows.Clear();
-            if (this.thCalculationValidate!=null)
+            bool findCorrectNode = CheckPalette._checkResult.TraverseDataCorrectNode(this.currentNode);
+            if (findCorrectNode && this.thCalculationValidate != null)
             {
                 List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.GetDataCorrectColumnInfs(this.currentNode);
-                foreach(ColumnInf columnInf in correctColumnInfs)
+                foreach (ColumnInf columnInf in correctColumnInfs)
                 {
                     var values = this.thCalculationValidate.ColumnValidateResultDic.Where(i => i.Key.ModelColumnInfs.Count == 1 &&
                     i.Key.ModelColumnInfs[0].Code == columnInf.Code && i.Key.ModelColumnInfs[0].Text == columnInf.Text).Select(i => i.Value).First();
-                    if(values==null || values.Count==0)
+                    if (values == null || values.Count == 0)
                     {
                         continue;
                     }
@@ -265,9 +274,9 @@ namespace ThColumnInfo.View
                     }
                 }
             }
-            if (this.dgvCalculationRes.Rows.Count < 10)
+            if (this.dgvCalculationRes.Rows.Count < this.rowCount)
             {
-                int addRowCount = 10 - this.dgvCalculationRes.Rows.Count;
+                int addRowCount = this.rowCount - this.dgvCalculationRes.Rows.Count;
                 for (int i = 0; i < addRowCount; i++)
                 {
                     int rowIndex = this.dgvCalculationRes.Rows.Add();

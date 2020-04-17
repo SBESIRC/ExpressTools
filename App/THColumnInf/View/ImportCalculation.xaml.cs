@@ -64,6 +64,7 @@ namespace ThColumnInfo.View
         }
         private void RbSelectByNatural_Checked(object sender, RoutedEventArgs e)
         {
+            this.lbModelLayers.SelectionMode = SelectionMode.Multiple;            
             calculationInfoVM.UpdateSelectFloorList();
             calculationInfoVM.UpdateSelectMode(false);
         }
@@ -75,6 +76,7 @@ namespace ThColumnInfo.View
 
         private void RbSelectByStandard_Checked(object sender, RoutedEventArgs e)
         {
+            this.lbModelLayers.SelectionMode = SelectionMode.Single;
             calculationInfoVM.UpdateSelectFloorList();
             calculationInfoVM.UpdateSelectMode(true);
         }

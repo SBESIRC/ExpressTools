@@ -443,12 +443,12 @@ namespace ThColumnInfo.View
                                 thStandardSign.SignPlantCalData.ShowFrameTextIds(true,true,false);
                             }
                         }
-                    }
-                    bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
-                    if (needHide)
-                    {
-                        HideTotalFrameIds(innerFrameNode);
-                        doc.Editor.Regen();
+                        bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
+                        if (needHide)
+                        {
+                            HideTotalFrameIds(innerFrameNode);
+                            doc.Editor.Regen();
+                        }
                     }
                     ShowDetailData(treeNode);
                 }
@@ -543,6 +543,20 @@ namespace ThColumnInfo.View
                 docNode.Expand();
             }
         }
+        //遍历当前节点往父节点路径上是否有
+        public bool TraverseDataCorrectNode(TreeNode tn)
+        {
+            if(tn==null)
+            {
+                return false;
+            }
+            if (tn.Name ==this.dataCorrectNodeName)
+            {
+                return true;
+            }
+            return TraverseDataCorrectNode(tn.Parent);
+        }
+
         private void TraverseNode(TreeNode tn,ref List<ObjectId> columnIds)
         {
             if(tn.Tag!=null)
@@ -1026,6 +1040,17 @@ namespace ThColumnInfo.View
             if(innerFrameNode==null)
             {
                 return;
+            }
+            if(tn.Tag!=null && tn.Tag.GetType()==typeof(ThStandardSign))
+            {
+                foreach(TreeNode treeNode in tn.Nodes)
+                {
+                    if(treeNode.Name==this.dataCorrectNodeName)
+                    {
+                        tn = treeNode;
+                        break;
+                    }
+                }
             }
             ThStandardSign thStandardSign = innerFrameNode.Tag as ThStandardSign;
             DataPalette.Instance.Show(thStandardSign.SignExtractColumnInfo, thStandardSign.ThSpecificValidate,
