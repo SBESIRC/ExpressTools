@@ -34,6 +34,7 @@ namespace ThAnalytics
             "INSERT",
             "BLOCK",
             "HATCH",
+            "AcHatchViewWatcher",
             "TEXT",
             "MTEXT",
             "DDEDIT",
