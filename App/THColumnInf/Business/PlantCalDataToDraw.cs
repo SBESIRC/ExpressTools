@@ -304,11 +304,11 @@ namespace ThColumnInfo
             {
                 return frameTextIds;
             }
-            ExtractColumnPosition extractColumnPosition = new ExtractColumnPosition(thStandardSign);
+            ExtractColumnPosition extractColumnPosition = new ExtractColumnPosition(thStandardSign,true);
             extractColumnPosition.Extract();
 
             //获取数据信息完整的柱子与计算书中的柱子比对
-            List<ColumnInf> columnInfs = extractColumnPosition.ColumnInfs.Where(i => i.Error == ErrorMsg.OK).Select(i => i).ToList();
+            List<ColumnInf> columnInfs = extractColumnPosition.ColumnInfs.Where(i => i.Points.Count>2).Select(i => i).ToList();
             //绘制正常或异常的柱子外框
             for (int i = 0; i < columnInfs.Count; i++)
             {

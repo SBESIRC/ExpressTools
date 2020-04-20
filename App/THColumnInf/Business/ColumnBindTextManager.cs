@@ -42,7 +42,7 @@ namespace ThColumnInfo
             this.columnBindTexts.ForEach(i => i.Update(modifyCustomDataType));           
         }
         #region----------修改柱子中的属性值----------------
-        public void ModifyColumnCustomData(List<ObjectId> modifyObjIds, ModifyCustomDataType modifyCustomDataType, object value)
+        public void ModifyColumnCustomData(List<ObjectId> modifyObjIds, ModifyCustomDataType modifyCustomDataType, object value,bool reset=false)
         {
             //1、第一次修改的值，记录->1，第二次修改的值，记录->2,依次类推
             //2、如果修改的值，在之前的记录中已存在则顺序与已存在的记录保持一致
@@ -51,6 +51,10 @@ namespace ThColumnInfo
                 return;
             }
            short colorIndex= GetColorIndex(modifyCustomDataType, value);
+            if(reset)
+            {
+                colorIndex = 0;
+            }
            List<ColumnBindText> modifyColumnBindTexts = this.columnBindTexts.Where(
                i => modifyObjIds.IndexOf(i.ColumnId) >= 0).Select(i => i).ToList();
             switch (modifyCustomDataType)
@@ -72,19 +76,19 @@ namespace ThColumnInfo
                     modifyColumnBindTexts.ForEach(i => i.CustomData.HoopFullHeightEncryptionColorIndex = colorIndex);
                     break;
                 case ModifyCustomDataType.HoopReinforcementEnlargeTimes:
-                    modifyColumnBindTexts.ForEach(i => i.CustomData.HoopReinforcementEnlargeTimes = (int)value);
+                    modifyColumnBindTexts.ForEach(i => i.CustomData.HoopReinforcementEnlargeTimes = (string)value);
                     modifyColumnBindTexts.ForEach(i => i.CustomData.HoopEnlargeTimesColorIndex = colorIndex);
                     break;
                 case ModifyCustomDataType.LongitudinalReinforceEnlargeTimes:
-                    modifyColumnBindTexts.ForEach(i => i.CustomData.LongitudinalReinforceEnlargeTimes = (int)value);
+                    modifyColumnBindTexts.ForEach(i => i.CustomData.LongitudinalReinforceEnlargeTimes = (string)value);
                     modifyColumnBindTexts.ForEach(i => i.CustomData.LongitudinalEnlargeTimesColorIndex = colorIndex);
                     break;
                 case ModifyCustomDataType.ProtectLayerThickness:
-                    modifyColumnBindTexts.ForEach(i => i.CustomData.ProtectLayerThickness = (int)value);
+                    modifyColumnBindTexts.ForEach(i => i.CustomData.ProtectLayerThickness = (string)value);
                     modifyColumnBindTexts.ForEach(i => i.CustomData.ProtectThickColorIndex = colorIndex);
                     break;
             }
-            modifyColumnBindTexts.ForEach(i => i.Modify(modifyCustomDataType));
+            modifyColumnBindTexts.ForEach(i => i.Modify(modifyCustomDataType, reset));
         }
         /// <summary>
         /// 获取要设置的颜色值，在所有柱子中是否已存在，
@@ -121,17 +125,17 @@ namespace ThColumnInfo
                     break;
                 case ModifyCustomDataType.HoopReinforcementEnlargeTimes:
                     colorIndexList = this.columnBindTexts.Where(i => i.CustomData.HoopReinforcementEnlargeTimes ==
-                      (int)value).Select(i => i.CustomData.HoopEnlargeTimesColorIndex).ToList();
+                      (string)value).Select(i => i.CustomData.HoopEnlargeTimesColorIndex).ToList();
                     allColorIndexes = this.columnBindTexts.Select(i => i.CustomData.HoopEnlargeTimesColorIndex).ToList();
                     break;
                 case ModifyCustomDataType.LongitudinalReinforceEnlargeTimes:
                     colorIndexList = this.columnBindTexts.Where(i => i.CustomData.LongitudinalReinforceEnlargeTimes ==
-                      (int)value).Select(i => i.CustomData.LongitudinalEnlargeTimesColorIndex).ToList();
+                      (string)value).Select(i => i.CustomData.LongitudinalEnlargeTimesColorIndex).ToList();
                     allColorIndexes = this.columnBindTexts.Select(i => i.CustomData.LongitudinalEnlargeTimesColorIndex).ToList();
                     break;
                 case ModifyCustomDataType.ProtectLayerThickness:
                     colorIndexList = this.columnBindTexts.Where(i => i.CustomData.ProtectLayerThickness ==
-                      (double)value).Select(i => i.CustomData.ProtectThickColorIndex).ToList();
+                      (string)value).Select(i => i.CustomData.ProtectThickColorIndex).ToList();
                     allColorIndexes = this.columnBindTexts.Select(i => i.CustomData.ProtectThickColorIndex).ToList();
                     break;
             }
@@ -315,10 +319,10 @@ namespace ThColumnInfo
             List<ColorTextInfo> colorTextInfos = new List<ColorTextInfo>();
             List<ColumnBindText> coluBindTexts = this.columnBindTexts.Where(i => i.CustomData.HoopEnlargeTimesColorIndex > 0).Select(i => i).ToList();
             coluBindTexts = coluBindTexts.OrderByDescending(i => i.CustomData.HoopEnlargeTimesColorIndex).ToList();
-            List<int> hoopReinEnlargeTimesCollection = coluBindTexts.Select(
+            List<string> hoopReinEnlargeTimesCollection = coluBindTexts.Select(
                 i => i.CustomData.HoopReinforcementEnlargeTimes).ToList();
             hoopReinEnlargeTimesCollection = hoopReinEnlargeTimesCollection.Distinct().ToList();
-            foreach (int hoopReinforceEnlargeTime in hoopReinEnlargeTimesCollection)
+            foreach (string hoopReinforceEnlargeTime in hoopReinEnlargeTimesCollection)
             {
                 short colorIndex = coluBindTexts.Where(i => i.CustomData.HoopReinforcementEnlargeTimes == hoopReinforceEnlargeTime)
                     .Select(i => i.CustomData.HoopEnlargeTimesColorIndex).FirstOrDefault();
@@ -344,10 +348,10 @@ namespace ThColumnInfo
             List<ColorTextInfo> colorTextInfos = new List<ColorTextInfo>();
             List<ColumnBindText> coluBindTexts = this.columnBindTexts.Where(i => i.CustomData.LongitudinalEnlargeTimesColorIndex > 0).Select(i => i).ToList();
             coluBindTexts = coluBindTexts.OrderByDescending(i => i.CustomData.LongitudinalEnlargeTimesColorIndex).ToList();
-            List<int> longitudinalEnlargeTimesCollection = coluBindTexts.Select(
+            List<string> longitudinalEnlargeTimesCollection = coluBindTexts.Select(
                 i => i.CustomData.LongitudinalReinforceEnlargeTimes).ToList();
             longitudinalEnlargeTimesCollection = longitudinalEnlargeTimesCollection.Distinct().ToList();
-            foreach (int longitudinalEnlargeTime in longitudinalEnlargeTimesCollection)
+            foreach (string longitudinalEnlargeTime in longitudinalEnlargeTimesCollection)
             {
                 short colorIndex = coluBindTexts.Where(i => i.CustomData.LongitudinalReinforceEnlargeTimes == longitudinalEnlargeTime)
                     .Select(i => i.CustomData.LongitudinalEnlargeTimesColorIndex).FirstOrDefault();
@@ -373,10 +377,10 @@ namespace ThColumnInfo
             List<ColorTextInfo> colorTextInfos = new List<ColorTextInfo>();
             List<ColumnBindText> coluBindTexts = this.columnBindTexts.Where(i => i.CustomData.ProtectThickColorIndex > 0).Select(i => i).ToList();
             coluBindTexts = coluBindTexts.OrderByDescending(i => i.CustomData.ProtectThickColorIndex).ToList();
-            List<double> protectThickCollection = coluBindTexts.Select(
+            List<string> protectThickCollection = coluBindTexts.Select(
                 i => i.CustomData.ProtectLayerThickness).ToList();
             protectThickCollection = protectThickCollection.Distinct().ToList();
-            foreach (double protectThick in protectThickCollection)
+            foreach (string protectThick in protectThickCollection)
             {
                 short colorIndex = coluBindTexts.Where(i => i.CustomData.ProtectLayerThickness == protectThick)
                     .Select(i => i.CustomData.LongitudinalEnlargeTimesColorIndex).FirstOrDefault();

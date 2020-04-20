@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         xmlns:local="clr-namespace:ThColumnInfo"
         xmlns:local1="clr-namespace:ThColumnInfo.View"
         mc:Ignorable="d"
@@ -68,21 +69,26 @@
                   SelectedValue="{Binding CustomData.ConcreteStrength,Mode=TwoWay}">
         </ComboBox>
         <TextBox Name="tbProtectThickness" Margin="10,3,0,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"
-                 Text="{Binding CustomData.ProtectLayerThickness,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                 Text="{Binding Path=CustomData.ProtectLayerThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 PreviewTextInput="Textbox_PreviewTextInput" input:InputMethod.IsInputMethodEnabled="False">
+        </TextBox>
         <TextBox Name="tbHoopReinEnlargeTimes" Margin="10,3,0,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"
-                 Text="{Binding CustomData.HoopReinforcementEnlargeTimes,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                 Text="{Binding Path=CustomData.HoopReinforcementEnlargeTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 PreviewTextInput="Textbox_PreviewTextInput" input:InputMethod.IsInputMethodEnabled="False">
+        </TextBox>
         <TextBox Name="tbLongitudalEnlargeTimes" Margin="10,3,0,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"
-                 Text="{Binding CustomData.LongitudinalReinforceEnlargeTimes,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                 Text="{Binding Path=CustomData.LongitudinalReinforceEnlargeTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 PreviewTextInput="Textbox_PreviewTextInput" input:InputMethod.IsInputMethodEnabled="False">
+        </TextBox>
         <ComboBox Name="cbHoopFullHeightEncryption" Margin="10,3,0,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"
                   ItemsSource="{Binding YnList}" 
                   SelectedValue="{Binding CustomData.HoopReinforceFullHeightEncryption,Mode=TwoWay}">
                   </ComboBox>
         <ComboBox Name="cbCornerColumn" Margin="10,3,0,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"
                   ItemsSource="{Binding YnList}" SelectedValue="{Binding CustomData.CornerColumn,Mode=TwoWay}">
-                 </ComboBox>
-        
+        </ComboBox>
         <CheckBox Name="chkRecoveryInit" Content="恢复默认值" VerticalContentAlignment="Center" Margin="10,3,0,0"
                   Grid.Row="2" Grid.Column="2" IsChecked="{Binding RecoveryInit}" Checked="ChkRecoveryInit_Checked"
-                  Unchecked="ChkRecoveryInit_Checked"></CheckBox>
+                  Unchecked="ChkRecoveryInit_Unchecked"></CheckBox>
     </Grid>
 </Window>

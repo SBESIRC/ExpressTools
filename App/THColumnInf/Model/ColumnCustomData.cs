@@ -9,10 +9,10 @@ namespace ThColumnInfo
     public class ColumnCustomData :CNotifyPropertyChange
     {
         private string antiSeismicGrade = "一级";    //抗震等级
-        private double protectLayerThickness=25; //保护层厚度
+        private string protectLayerThickness ="25"; //保护层厚度
         private string concreteStrength = "C30"; //混凝土强度
-        private int hoopReinforceEnlargeTimes=1; //箍筋放大倍数
-        private int longitudinalReinforceEnlargeTimes = 1; //纵筋放大倍数
+        private string hoopReinforceEnlargeTimes ="1"; //箍筋放大倍数
+        private string longitudinalReinforceEnlargeTimes = "1"; //纵筋放大倍数
 
         private string hoopReinforceFullHeightEncryption= "否"; //箍筋全高加密 -> "是"、“否”
         private string cornerColumn = "否"; //角柱 -> "是"、“空”
@@ -35,7 +35,7 @@ namespace ThColumnInfo
         /// <summary>
         /// 保护层厚度
         /// </summary>
-        public double ProtectLayerThickness
+        public string ProtectLayerThickness
         {
             get
             {
@@ -65,7 +65,7 @@ namespace ThColumnInfo
         /// <summary>
         /// 箍筋放大倍数
         /// </summary>
-        public int HoopReinforcementEnlargeTimes
+        public string HoopReinforcementEnlargeTimes
         {
             get
             {
@@ -81,7 +81,7 @@ namespace ThColumnInfo
         /// <summary>
         /// 纵筋放大倍数
         /// </summary>
-        public int LongitudinalReinforceEnlargeTimes
+        public string LongitudinalReinforceEnlargeTimes
         {
             get
             {

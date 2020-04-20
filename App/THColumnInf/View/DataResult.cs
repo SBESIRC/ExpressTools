@@ -112,6 +112,10 @@ namespace ThColumnInfo.View
                 foreach (ColumnInf columnInf in correctColumnInfs)
                 {
                     ColumnTableRecordInfo ctri = this.ds.ColumnTableRecordInfos.Where(j => j.Code == columnInf.Code).FirstOrDefault();
+                    if(ctri==null)
+                    {
+                        continue;
+                    }
                     int rowIndex = this.dgvColumnTable.Rows.Add();
                     this.dgvColumnTable.Rows[rowIndex].Cells["code"].Value = columnInf.Code;
                     this.dgvColumnTable.Rows[rowIndex].Cells["code"].Style.BackColor = this.cellBackColor;

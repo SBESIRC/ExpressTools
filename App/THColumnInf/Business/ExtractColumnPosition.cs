@@ -33,6 +33,8 @@ namespace ThColumnInfo
         private ThStandardSign thStandardSign;
         private ParameterSetInfo paraSetInfo;
 
+        private bool extractColumnGeometry = false;
+
         /// <summary>
         /// 通过两点提取对角范围内的柱子信息
         /// </summary>
@@ -50,8 +52,14 @@ namespace ThColumnInfo
             ptList.Distinct().ToList();
             Init();
         }
-        public ExtractColumnPosition(ThStandardSign thStandardSign)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="thStandardSign"></param>
+        /// <param name="extractColumnGeometry"></param>
+        public ExtractColumnPosition(ThStandardSign thStandardSign,bool extractColumnGeometry=false)
         {
+            this.extractColumnGeometry = extractColumnGeometry;
             thStandardSign.SignExtractColumnInfo = this;
             this.thStandardSign = thStandardSign;
             ParameterSetVM parameterSetVM = new ParameterSetVM();
@@ -155,10 +163,13 @@ namespace ThColumnInfo
             try
             {
                 ThColumnInfoUtils.ZoomWindow(doc.Editor, this.rangePt1, this.rangePt2);
-                //提取柱表
-                ExtractColumnTable extractColumnTable = new ExtractColumnTable(this.rangePt1, this.rangePt2,this.paraSetInfo); //如果不是原位图纸，提取一下柱表信息
-                extractColumnTable.Extract();
-                this.ColumnTableRecordInfos = extractColumnTable.ColumnTableRecordInfos;
+                if(!extractColumnGeometry)
+                {
+                    //提取柱表
+                    ExtractColumnTable extractColumnTable = new ExtractColumnTable(this.rangePt1, this.rangePt2, this.paraSetInfo); //如果不是原位图纸，提取一下柱表信息
+                    extractColumnTable.Extract();
+                    this.ColumnTableRecordInfos = extractColumnTable.ColumnTableRecordInfos;
+                }
                 this.allColumnBoundaryPts = GetRangeColumnPoints();
                 ThProgressBar.MeterProgress();
                 FindColumnInfo(); //查找柱子信息(包括原位标注的信息)
@@ -253,20 +264,23 @@ namespace ThColumnInfo
                 }
                 ColumnInf columnInfo = new ColumnInf();
                 columnInfo.Points = this.allColumnBoundaryPts[i];
-                Dictionary<Curve, Point3d> searchLineDic = GetLeaderLine(this.allColumnBoundaryPts[i]);
-                foreach (var lineItem in searchLineDic)
+                if(!extractColumnGeometry)
                 {
-                    GetColumnInf(columnInfo,lineItem.Key, lineItem.Value);
-                    if (!string.IsNullOrEmpty(columnInfo.Code))
+                    Dictionary<Curve, Point3d> searchLineDic = GetLeaderLine(this.allColumnBoundaryPts[i]);
+                    foreach (var lineItem in searchLineDic)
                     {
-                        columnInfo.Points = this.allColumnBoundaryPts[i];
-                        break;
+                        GetColumnInf(columnInfo, lineItem.Key, lineItem.Value);
+                        if (!string.IsNullOrEmpty(columnInfo.Code))
+                        {
+                            columnInfo.Points = this.allColumnBoundaryPts[i];
+                            break;
+                        }
+                        ThProgressBar.MeterProgress();
                     }
-                    ThProgressBar.MeterProgress();
-                }
-                if(string.IsNullOrEmpty(columnInfo.Code) && columnInfo.Points.Count==0)
-                {
-                    continue;
+                    if (string.IsNullOrEmpty(columnInfo.Code) && columnInfo.Points.Count == 0)
+                    {
+                        continue;
+                    }
                 }
                 this.ColumnInfs.Add(columnInfo);
                 ThProgressBar.MeterProgress();

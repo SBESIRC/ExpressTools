@@ -216,10 +216,17 @@ namespace ThColumnInfo.Validate
         {
             if (this.columnCustomData != null)
             {
-                if (this.columnCustomData.ProtectLayerThickness > 0)
+                if(!string.IsNullOrEmpty(this.columnCustomData.ProtectLayerThickness))
                 {
-                    this.protectLayerThickness = this.columnCustomData.ProtectLayerThickness;
-                    return;
+                    double value = 0.0;
+                    if(double.TryParse(this.columnCustomData.ProtectLayerThickness,out value))
+                    {
+                        if(value>0.0)
+                        {
+                            this.protectLayerThickness = value;
+                            return;
+                        }
+                    }
                 }
             }
             this.protectLayerThickness = ThSpecificationValidate.paraSetInfo.ProtectLayerThickness;

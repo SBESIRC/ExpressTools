@@ -142,7 +142,7 @@ namespace ThColumnInfo.ViewModel
             this.ParaSetInfo = new ParameterSetVM().ParaSetInfo;
             this.initCustomData.AntiSeismicGrade = this.ParaSetInfo.AntiSeismicGrade;
             this.initCustomData.ConcreteStrength = this.ParaSetInfo.ConcreteStrength;
-            this.initCustomData.ProtectLayerThickness = this.ParaSetInfo.ProtectLayerThickness;
+            this.initCustomData.ProtectLayerThickness = this.ParaSetInfo.ProtectLayerThickness.ToString();
             this.propertyInfos.Add(new PropertyInfo { Name= "cbAntiSeismicGrade", Text= "抗震等级" });
             this.propertyInfos.Add(new PropertyInfo { Name = "cbConcreteStrength", Text = "混凝土强度" });
             this.propertyInfos.Add(new PropertyInfo { Name = "tbProtectThickness", Text = "保护层厚度" });
@@ -211,30 +211,7 @@ namespace ThColumnInfo.ViewModel
             }
             else if (recoveryInit == true)
             {
-                switch (modCustomDataType)
-                {
-                    case ModifyCustomDataType.AntiSeismicGrade:
-                        value = this.initCustomData.AntiSeismicGrade;
-                        break;
-                    case ModifyCustomDataType.ConcreteStrength:
-                        value = this.initCustomData.ConcreteStrength;
-                        break;
-                    case ModifyCustomDataType.CornerColumn:
-                        value = this.initCustomData.CornerColumn;
-                        break;
-                    case ModifyCustomDataType.HoopReinforceFullHeightEncryption:
-                        value = this.initCustomData.HoopReinforceFullHeightEncryption;
-                        break;
-                    case ModifyCustomDataType.HoopReinforcementEnlargeTimes:
-                        value = this.initCustomData.HoopReinforcementEnlargeTimes;
-                        break;
-                    case ModifyCustomDataType.LongitudinalReinforceEnlargeTimes:
-                        value = this.initCustomData.LongitudinalReinforceEnlargeTimes;
-                        break;
-                    case ModifyCustomDataType.ProtectLayerThickness:
-                        value = this.initCustomData.ProtectLayerThickness;
-                        break;
-                }
+                value = "";
             }
             return value;
         }
@@ -303,13 +280,13 @@ namespace ThColumnInfo.ViewModel
                     this.customData.HoopReinforceFullHeightEncryption = (string)value;
                     break;
                 case ModifyCustomDataType.HoopReinforcementEnlargeTimes:
-                    this.customData.HoopReinforcementEnlargeTimes = (int)value;
+                    this.customData.HoopReinforcementEnlargeTimes = (string)value;
                     break;
                 case ModifyCustomDataType.LongitudinalReinforceEnlargeTimes:
-                    this.customData.LongitudinalReinforceEnlargeTimes = (int)value;
+                    this.customData.LongitudinalReinforceEnlargeTimes = (string)value;
                     break;
                 case ModifyCustomDataType.ProtectLayerThickness:
-                    this.customData.ProtectLayerThickness = (double)value;
+                    this.customData.ProtectLayerThickness = (string)value;
                     break;
             }
         }
@@ -356,7 +333,14 @@ namespace ThColumnInfo.ViewModel
                         {
                             ModifyCustomDataType modDataType= GetModifyDataType();
                             object modifyvalue = GetModifyValue();
-                            this.columnBindManager.ModifyColumnCustomData(selectObjIds, modDataType, modifyvalue);
+                            if(this.recoveryInit==true)
+                            {
+                                this.columnBindManager.ModifyColumnCustomData(selectObjIds, modDataType, modifyvalue,true);
+                            }
+                            else
+                            {
+                                this.columnBindManager.ModifyColumnCustomData(selectObjIds, modDataType, modifyvalue);
+                            }
                             UpdatePropertyList();
                         }
                     }
@@ -394,6 +378,38 @@ namespace ThColumnInfo.ViewModel
             Document doc = Application.DocumentManager.MdiActiveDocument;
             //doc.SendCommand("\x03\x03");
             doc.SendStringToExecute("\x03\x03",true,false,true); 
+        }
+        public void ResetInit()
+        {
+            try
+            {
+                Document document = Application.DocumentManager.MdiActiveDocument;
+                Editor ed = document.Editor;
+                TypedValue[] tvs = new TypedValue[]
+                        {
+                    new TypedValue((int)DxfCode.Start, "LWPOLYLINE")
+                        };
+                SelectionFilter sf = new SelectionFilter(tvs);
+                PromptSelectionResult psr = ed.SelectAll(sf);
+                if (psr.Status == PromptStatus.OK)
+                {
+                    List<ObjectId> allObjIds = psr.Value.GetObjectIds().ToList();
+                    List<ObjectId> currentColumnObjIds = this.columnBindManager.ColumnBindTexts.Select(i => i.ColumnId).ToList();
+                    allObjIds = allObjIds.Where(i => currentColumnObjIds.IndexOf(i) >= 0).Select(i => i).ToList();
+                    if (allObjIds.Count > 0)
+                    {
+                        ModifyCustomDataType modDataType = GetModifyDataType();
+                        object modifyvalue = GetModifyValue();
+                        this.columnBindManager.ModifyColumnCustomData(allObjIds, modDataType, modifyvalue,true);
+                        this.ctInfos = new ObservableCollection<ColorTextInfo>();
+                        this.Owner.lbProperties.ItemsSource = this.ctInfos;
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ThColumnInfoUtils.WriteException(ex, "ResetInit");
+            }
         }
         #endregion
     }

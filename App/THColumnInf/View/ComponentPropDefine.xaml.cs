@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ThColumnInfo.ViewModel;
+using System.Text.RegularExpressions;
 
 namespace ThColumnInfo.View
 {
@@ -120,6 +121,17 @@ namespace ThColumnInfo.View
         {
             isOpened = false;
             this.Close();
+        }
+
+        private void ChkRecoveryInit_Unchecked(object sender, RoutedEventArgs e)
+        {
+            EnableSetValueControl();
+        }
+
+        private void Textbox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex re = new Regex("[^0-9.\\-]+");
+            e.Handled = re.IsMatch(e.Text);
         }
     }
 }

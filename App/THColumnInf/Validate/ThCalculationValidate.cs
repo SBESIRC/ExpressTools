@@ -162,8 +162,8 @@ namespace ThColumnInfo.Validate
         private string concreteStrength = ""; //混凝土强度
         private bool cornerColumn;  //角柱
 
-        private int hoopReinforceEnlargeTimes; //箍筋放大倍数
-        private int longitudinalReinforceEnlargeTimes; //纵筋放大倍数
+        private double hoopReinforceEnlargeTimes; //箍筋放大倍数
+        private double longitudinalReinforceEnlargeTimes; //纵筋放大倍数
         private bool hoopReinforceFullHeightEncryption; //箍筋全高度加密
         private string structureType = ""; //结构类型
         /// <summary>
@@ -212,10 +212,17 @@ namespace ThColumnInfo.Validate
                 //构件属性定义
                 if (this.columnRelateInf.CustomData != null)
                 {
-                    if (this.columnRelateInf.CustomData.ProtectLayerThickness>0)
+                    if (!string.IsNullOrEmpty(this.columnRelateInf.CustomData.ProtectLayerThickness))
                     {
-                        this.protectLayerThickness = this.columnRelateInf.CustomData.ProtectLayerThickness;
-                        return;
+                        double value = 0.0;
+                        if (double.TryParse(this.columnRelateInf.CustomData.ProtectLayerThickness, out value))
+                        {
+                            if(value>0.0)
+                            {
+                                this.protectLayerThickness = value;
+                                return;
+                            }
+                        }
                     }
                 }
                 //YJK
@@ -293,10 +300,17 @@ namespace ThColumnInfo.Validate
                 //构件属性定义
                 if (this.columnRelateInf.CustomData != null)
                 {
-                    if (this.columnRelateInf.CustomData.HoopReinforcementEnlargeTimes>0)
+                    if (!string.IsNullOrEmpty(this.columnRelateInf.CustomData.HoopReinforcementEnlargeTimes))
                     {
-                        this.hoopReinforceEnlargeTimes = this.columnRelateInf.CustomData.HoopReinforcementEnlargeTimes;
-                        return;
+                        double value = 0.0;
+                        if (double.TryParse(this.columnRelateInf.CustomData.HoopReinforcementEnlargeTimes, out value))
+                        {
+                            if (value > 0.0)
+                            {
+                                this.hoopReinforceEnlargeTimes = value;
+                                return;
+                            }
+                        }
                     }
                 }
                 //YJK
@@ -313,10 +327,17 @@ namespace ThColumnInfo.Validate
                 //构件属性定义
                 if (this.columnRelateInf.CustomData != null)
                 {
-                    if (this.columnRelateInf.CustomData.LongitudinalReinforceEnlargeTimes > 0)
+                    if (!string.IsNullOrEmpty(this.columnRelateInf.CustomData.LongitudinalReinforceEnlargeTimes))
                     {
-                        this.longitudinalReinforceEnlargeTimes = this.columnRelateInf.CustomData.LongitudinalReinforceEnlargeTimes;
-                        return;
+                        double value = 0.0;
+                        if (double.TryParse(this.columnRelateInf.CustomData.LongitudinalReinforceEnlargeTimes, out value))
+                        {
+                            if (value > 0.0)
+                            {
+                                this.longitudinalReinforceEnlargeTimes = value;
+                                return;
+                            }
+                        }
                     }
                 }
                 //YJK

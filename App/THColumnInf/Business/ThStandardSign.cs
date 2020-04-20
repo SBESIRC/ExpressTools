@@ -11,7 +11,7 @@ using Autodesk.AutoCAD.ApplicationServices;
 
 namespace ThColumnInfo
 {
-    public class ThStandardSign
+    public class ThStandardSign:ICloneable
     {
         private BlockReference br;
         private string pattern = @"(A){1}\d{1}(L)?(\d)?";
@@ -28,12 +28,20 @@ namespace ThColumnInfo
             {
                 return isStandardThSign;
             }
+            private set
+            {
+                isStandardThSign = value;
+            }
         }
         public string InnerFrameName
         {
             get
             {
                 return innerFrameName;
+            }
+            private set
+            {
+                innerFrameName = value;
             }
         }
 
@@ -154,6 +162,18 @@ namespace ThColumnInfo
                 this.SignPlantCalData.RelateCalulationColumn(this.SignExtractColumnInfo.ColumnInfs[i]);
                 ThProgressBar.MeterProgress();
             }
+        }
+
+        public object Clone()
+        {
+            ThStandardSign thStandardSign = new ThStandardSign(this.br);
+            thStandardSign.innerFrameName = this.innerFrameName;
+            thStandardSign.isStandardThSign = this.isStandardThSign;
+            thStandardSign.SignPlantCalData = null;
+            thStandardSign.SignExtractColumnInfo = null;
+            thStandardSign.ThCalculateValidate = null;
+            thStandardSign.ThSpecificValidate = null;
+            return thStandardSign;
         }
     }
     public class InnerFrameNameDesc : IComparer<ThStandardSign>

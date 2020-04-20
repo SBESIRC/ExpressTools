@@ -68,4 +68,21 @@ namespace ThColumnInfo.View
             return ValidationResult.ValidResult;
         }
     }
+    class NumberBiggerThanZeroRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            double number = 0.0;
+            if (!double.TryParse(value.ToString(), out number))
+            {
+                return new ValidationResult(false, "无效的数据格式，只允许输入数字!");
+            }
+            if(number<0.0)
+            {
+                return new ValidationResult(false, "数值必须大于零!");
+            }           
+            return ValidationResult.ValidResult;
+        }
+        
+    }
 }

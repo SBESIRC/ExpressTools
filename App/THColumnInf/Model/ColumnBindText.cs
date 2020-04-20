@@ -13,7 +13,7 @@ namespace ThColumnInfo
     {
         private ObjectId columnId = ObjectId.Null;
         private ColumnCustomData customData;
-        private ObjectId textId= ObjectId.Null;
+        private ObjectId textId = ObjectId.Null;
         private ObjectId frameId = ObjectId.Null;
         private List<Point3d> originColumnPts = new List<Point3d>();
 
@@ -94,13 +94,13 @@ namespace ThColumnInfo
                     pts, PlantCalDataToDraw.offsetDisScale, true, PlantCalDataToDraw.lineWidth); 
             }
         }
-        public void Modify(ModifyCustomDataType modifyCustomDataType)
+        public void Modify(ModifyCustomDataType modifyCustomDataType,bool reset=false)
         {
             //更新柱子外框
             //更新文字
-            UpdateFrame(modifyCustomDataType);
-            UpdateTextContent(modifyCustomDataType);
-            UpdateColor(modifyCustomDataType);
+            UpdateFrame(modifyCustomDataType, reset);
+            UpdateTextContent(modifyCustomDataType, reset);
+            UpdateColor(modifyCustomDataType, reset);
             ShowOrHideFrameText(modifyCustomDataType);
             PlantCalDataToDraw plantCalDataToDraw = new PlantCalDataToDraw(false);
             plantCalDataToDraw.WriteEmbededColumnCustomData(this.columnId, this.customData);
@@ -118,7 +118,7 @@ namespace ThColumnInfo
             UpdateColor(modifyCustomDataType);
             ShowOrHideFrameText(modifyCustomDataType);
         }
-        private void UpdateColor(ModifyCustomDataType modifyCustomDataType)
+        private void UpdateColor(ModifyCustomDataType modifyCustomDataType, bool reset = false)
         {
             short colorIndex = GetColorIndex(modifyCustomDataType);
             if(colorIndex>0)
@@ -126,29 +126,54 @@ namespace ThColumnInfo
                 ThColumnInfoUtils.ChangeColor(this.textId, colorIndex);
                 ThColumnInfoUtils.ChangeColor(this.frameId, colorIndex);
             }
+            else
+            {
+                if(reset)
+                {
+                    ThColumnInfoUtils.ChangeColor(this.textId, 3);
+                    ThColumnInfoUtils.ChangeColor(this.frameId, 3);
+                }
+            }
         }
         /// <summary>
         /// 更新文字内容
         /// </summary>
         /// <param name="modifyCustomDataType"></param>
-        private void UpdateTextContent(ModifyCustomDataType modifyCustomDataType)
+        private void UpdateTextContent(ModifyCustomDataType modifyCustomDataType, bool reset = false)
         {
             short colorIndex = GetColorIndex(modifyCustomDataType);
             object textContent = GetTextValue(modifyCustomDataType);
             CreateText(textContent);
-            ThColumnInfoUtils.ChangeColor(this.textId, colorIndex);
+            if(colorIndex > 0)
+            {
+                ThColumnInfoUtils.ChangeColor(this.textId, colorIndex);
+            }
+            else
+            {
+                if (reset)
+                {
+                    ThColumnInfoUtils.ChangeColor(this.textId, 3);
+                }
+            }
         }
         /// <summary>
         /// 更新柱子外框
         /// </summary>
         /// <param name="modifyCustomDataType"></param>
-        private void UpdateFrame(ModifyCustomDataType modifyCustomDataType)
+        private void UpdateFrame(ModifyCustomDataType modifyCustomDataType,bool reset=false)
         {
             short colorIndex = GetColorIndex(modifyCustomDataType);
             CreateFrame();
             if (colorIndex > 0)
             {
                 ThColumnInfoUtils.ChangeColor(this.frameId, colorIndex);
+            }
+            else
+            {
+                if(reset)
+                {
+                    ThColumnInfoUtils.ChangeColor(this.frameId, 3);
+                }
             }
         }
         /// <summary>

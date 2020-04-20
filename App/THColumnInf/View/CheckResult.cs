@@ -846,7 +846,8 @@ namespace ThColumnInfo.View
                             importCalculation.ShowDialog();
                             if (calculationInfoVM.YnExport) 
                             {
-                                PlantCalDataToDraw plantData = new PlantCalDataToDraw(calculationInfoVM.CalculateInfo, thStandardSign);
+                                ThStandardSign newThStandardSign = thStandardSign.Clone() as ThStandardSign;
+                                PlantCalDataToDraw plantData = new PlantCalDataToDraw(calculationInfoVM.CalculateInfo, newThStandardSign);
                                 thStandardSign.SignPlantCalData = plantData;
                                 plantData.Plant();
                             }
