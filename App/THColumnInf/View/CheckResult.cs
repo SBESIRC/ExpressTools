@@ -123,7 +123,7 @@ namespace ThColumnInfo.View
                 this.tvCheckRes.Nodes[0].Expand();
             }
         }
-        private void FillDrawCheckInfToTreeView(IDataSource dataSource,TreeNode tn=null)
+        private void FillDrawCheckInfToTreeView(IDataSource dataSource,TreeNode tn=null, bool showImportCalInf = false)
         {
             List<ColumnInf> correctList = new List<ColumnInf>();
             List<ColumnInf> codeEmptyList = new List<ColumnInf>();
@@ -207,6 +207,10 @@ namespace ThColumnInfo.View
                     }
                     ThProgressBar.MeterProgress();
                 }
+            }
+            if(showImportCalInf)
+            {
+                return;
             }
             TreeNode codeEmptyParentNode = tn.Nodes.Add(this.codeLostNodeName, "识别异常：柱平法缺失(" + codeEmptyList.Count + ")");
             System.Drawing.Color lostColor = PlantCalDataToDraw.GetFrameSystemColor(FrameColor.ColumnLost);
@@ -672,9 +676,10 @@ namespace ThColumnInfo.View
                         }
                         else if (tn.Tag.GetType() == typeof(ThStandardSignManager))
                         {
-                            ThStandardSignManager tsm = ThStandardSignManager.LoadData("", true);
+                            ThStandardSignManager tm = tn.Tag as ThStandardSignManager;
+                            ThStandardSignManager.LoadData(tm);
                             tn.Nodes.Clear();
-                            FillColumnDataToTreeView(tsm);
+                            FillColumnDataToTreeView(tm);
                             if(tn.Nodes.Count>0)
                             {
                                 this.tvCheckRes.SelectedNode = tn.Nodes[0];
@@ -698,7 +703,7 @@ namespace ThColumnInfo.View
                 }
             }
         }
-        private void UpdateCheckResult(TreeNode tn, ThStandardSign thStandardSign)
+        private void UpdateCheckResult(TreeNode tn, ThStandardSign thStandardSign,bool showImportCalInf=false)
         {
             try
             {
@@ -718,21 +723,23 @@ namespace ThColumnInfo.View
                 }
                 //将识别的结果更新到面板
                 tn.Nodes.Clear();
-                FillDrawCheckInfToTreeView(thStandardSign.SignExtractColumnInfo, tn);
+                FillDrawCheckInfToTreeView(thStandardSign.SignExtractColumnInfo, tn, showImportCalInf);
                 FillPlantCalResultToTree(tn);
-
-                List<ColumnInf> correctColumnInfs = GetDataCorrectColumnInfs(tn);
-                //校核柱子
-                if (thStandardSign.SignPlantCalData == null ||
-                    thStandardSign.SignPlantCalData.CalInfo == null)
+                if(!showImportCalInf) //如是导入计算书，则无需校验
                 {
-                    thStandardSign.Validate(true, correctColumnInfs);
+                    List<ColumnInf> correctColumnInfs = GetDataCorrectColumnInfs(tn);
+                    //校核柱子
+                    if (thStandardSign.SignPlantCalData == null ||
+                        thStandardSign.SignPlantCalData.CalInfo == null)
+                    {
+                        thStandardSign.Validate(true, correctColumnInfs);
+                    }
+                    else
+                    {
+                        thStandardSign.Validate(false, correctColumnInfs);
+                    }
+                    SortThCalculateValidateResult(thStandardSign, correctColumnInfs);
                 }
-                else
-                {
-                    thStandardSign.Validate(false, correctColumnInfs);
-                }
-                SortThCalculateValidateResult(thStandardSign, correctColumnInfs);
                 tn.Expand();
             }
             catch(System.Exception ex)
@@ -840,16 +847,28 @@ namespace ThColumnInfo.View
                             {
                                 calculationInfoVM = new CalculationInfoVM(new CalculationInfo());
                             }
+                            if(string.IsNullOrEmpty(calculationInfoVM.CalculateInfo.YjkPath))
+                            {
+                                CalculationInfo ci = GetCalculationImportPath(tn);
+                                calculationInfoVM.CalculateInfo.YjkPath = ci.YjkPath;
+                                if (calculationInfoVM.CalculateInfo.YjkUsedPathList.Count==0)
+                                {
+                                    calculationInfoVM.CalculateInfo.YjkUsedPathList = ci.YjkUsedPathList;
+                                } 
+                            }
                             ImportCalculation importCalculation = new ImportCalculation(calculationInfoVM);
                             calculationInfoVM.Owner = importCalculation;
                             importCalculation.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                             importCalculation.ShowDialog();
                             if (calculationInfoVM.YnExport) 
                             {
-                                ThStandardSign newThStandardSign = thStandardSign.Clone() as ThStandardSign;
-                                PlantCalDataToDraw plantData = new PlantCalDataToDraw(calculationInfoVM.CalculateInfo, newThStandardSign);
+                                PlantCalDataToDraw plantData = new PlantCalDataToDraw(calculationInfoVM.CalculateInfo, thStandardSign);
                                 thStandardSign.SignPlantCalData = plantData;
-                                plantData.Plant();
+                                bool res=plantData.Plant();
+                                if(res)
+                                {
+                                    UpdateCheckResult(tn, thStandardSign, true);
+                                }
                             }
                         }
                         catch (System.Exception ex)
@@ -863,6 +882,42 @@ namespace ThColumnInfo.View
                     }
                 }
             }
+        }
+        /// <summary>
+        /// 获取计算书导入路径
+        /// </summary>
+        /// <param name="tn"></param>
+        /// <returns></returns>
+        private CalculationInfo GetCalculationImportPath(TreeNode tn)
+        {
+            CalculationInfo ci = new CalculationInfo();
+            TreeNode rootNode = TraverseRoot(tn);
+            foreach(TreeNode node in rootNode.Nodes)
+            {
+                if(node.Tag==null )
+                {
+                    continue;
+                }
+                ThStandardSign thStandardSign = node.Tag as ThStandardSign;
+                if(thStandardSign.SignPlantCalData==null)
+                {
+                    continue;
+                }
+                if(thStandardSign.SignPlantCalData.CalInfo==null)
+                {
+                    continue;
+                }
+                if(string.IsNullOrEmpty(thStandardSign.SignPlantCalData.CalInfo.YjkPath))
+                {
+                    continue;
+                }
+                else
+                {
+                    ci = thStandardSign.SignPlantCalData.CalInfo;
+                    break;
+                }
+            }
+            return ci;
         }
         private void FillPlantCalResultToTree(TreeNode innerFrameNode)
         {

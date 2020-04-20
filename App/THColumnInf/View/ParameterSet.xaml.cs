@@ -27,6 +27,7 @@ namespace ThColumnInfo.View
             InitializeComponent();
             this.parameterSetVM = psv;
             this.DataContext = this.parameterSetVM;
+            ParameterSetVM.isOpened = true;
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
@@ -34,6 +35,11 @@ namespace ThColumnInfo.View
             {
                 this.Close();
             }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            ParameterSetVM.isOpened = false;
         }
     }
 }

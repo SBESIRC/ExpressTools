@@ -19,6 +19,7 @@ namespace ThColumnInfo.ViewModel
         public DelegateCommand PointColumnTableLayerCommand { get; set; }
         public ParameterSet Owner { get; set; }
         private string columnParameterSetKey = "ColumnParameterSet";
+        public static bool isOpened = false;
         public ParameterSetVM()
         {
             LoadParameters();
@@ -98,6 +99,7 @@ namespace ThColumnInfo.ViewModel
             SaveParaToDatabase();
             System.Windows.MessageBox.Show("参数保存成功!");
             Owner.Close();
+            isOpened = false;
         }
         private void SaveParaToDatabase()
         {
@@ -231,6 +233,7 @@ namespace ThColumnInfo.ViewModel
             if(Owner != null)
             {
                 Owner.Close();
+                isOpened = false;
             }
         }
         private void PointBottomFloorCommandExecute(object parameter)

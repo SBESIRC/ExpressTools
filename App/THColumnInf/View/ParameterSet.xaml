@@ -7,7 +7,7 @@
         xmlns:local1="clr-namespace:ThColumnInfo.View"
         mc:Ignorable="d"
         Title="参数设置" Width="400" Height="250" MinWidth="400" MinHeight="250" 
-        MaxWidth="400" MaxHeight="250" KeyDown="Window_KeyDown" ResizeMode="NoResize" >
+        MaxWidth="400" MaxHeight="250" KeyDown="Window_KeyDown" ResizeMode="NoResize" Closed="Window_Closed">
     <Window.Resources>
         <Style TargetType="{x:Type Window}">
             <Setter Property="FontFamily" Value="宋体" />

@@ -106,41 +106,55 @@ namespace ThColumnInfo
                 this.paraSetInfo = psVM.ParaSetInfo;
             }
         }
-        public void Plant()
+        public bool Plant()
         {
-            if (string.IsNullOrEmpty(this.calculationInfo.YjkPath) ||
+            bool result = true;
+            try
+            {
+                if (string.IsNullOrEmpty(this.calculationInfo.YjkPath) ||
                 this.calculationInfo.SelectLayers.Count == 0)
-            {
-                return;
-            }
-            //获取计算书路径对应的自然层的信息
-            CalculationInfoVM calculationInfoVM = new CalculationInfoVM(calculationInfo);
-            List<FloorInfo> floorInfs = calculationInfoVM.LoadYjkDbInfo();
-            ThProgressBar.MeterProgress();
-            //用户选择的自然层
-            string dtlModelPath = calculationInfo.GetDtlmodelFullPath();
-            List<string> selFloors = calculationInfoVM.GetSelectFloors();
-            ThProgressBar.MeterProgress();
-            List<FloorInfo> selectFloorInfs = new List<FloorInfo>();
-            for (int i = 0; i < floorInfs.Count; i++)
-            {
-                if (selFloors.IndexOf(floorInfs[i].Name) >= 0)
                 {
-                    selectFloorInfs.Add(floorInfs[i]);
+                    return false;
+                }
+                //获取计算书路径对应的自然层的信息
+                CalculationInfoVM calculationInfoVM = new CalculationInfoVM(calculationInfo);
+                List<FloorInfo> floorInfs = calculationInfoVM.LoadYjkDbInfo();
+                ThProgressBar.MeterProgress();
+                //用户选择的自然层
+                string dtlModelPath = calculationInfo.GetDtlmodelFullPath();
+                List<string> selFloors = calculationInfoVM.GetSelectFloors();
+                ThProgressBar.MeterProgress();
+                List<FloorInfo> selectFloorInfs = new List<FloorInfo>();
+                for (int i = 0; i < floorInfs.Count; i++)
+                {
+                    if (selFloors.IndexOf(floorInfs[i].Name) >= 0)
+                    {
+                        selectFloorInfs.Add(floorInfs[i]);
+                    }
+                }
+                //提取柱子信息
+                IDatabaseDataSource dbDataSource = new ExtractYjkColumnInfo(dtlModelPath);
+                dbDataSource.Extract(selectFloorInfs[0].No);
+                ThProgressBar.MeterProgress();
+                //让用户指定柱子的位置
+                this.thDrawColumns = new ThDrawColumns(dbDataSource.ColumnInfs, this.calculationInfo);
+                thDrawColumns.Draw();
+                ThProgressBar.MeterProgress();
+                if (this.thDrawColumns.IsGoOn)
+                {
+                    this.showFrameTextIds = ShowFrameTextIds();
+                }
+                else
+                {
+                    result = false;
                 }
             }
-            //提取柱子信息
-            IDatabaseDataSource dbDataSource = new ExtractYjkColumnInfo(dtlModelPath);
-            dbDataSource.Extract(selectFloorInfs[0].No);
-            ThProgressBar.MeterProgress();
-            //让用户指定柱子的位置
-            this.thDrawColumns = new ThDrawColumns(dbDataSource.ColumnInfs,this.calculationInfo);
-            thDrawColumns.Draw();
-            ThProgressBar.MeterProgress();
-            if (this.thDrawColumns.IsGoOn)
+            catch(System.Exception ex)
             {
-                this.showFrameTextIds = ShowFrameTextIds();
+                ThColumnInfoUtils.WriteException(ex, "Plant");
+                result = false;
             }
+            return result;
         }
         /// <summary>
         /// 埋入数据
@@ -304,7 +318,7 @@ namespace ThColumnInfo
             {
                 return frameTextIds;
             }
-            ExtractColumnPosition extractColumnPosition = new ExtractColumnPosition(thStandardSign,true);
+            ExtractColumnPosition extractColumnPosition = new ExtractColumnPosition(thStandardSign);
             extractColumnPosition.Extract();
 
             //获取数据信息完整的柱子与计算书中的柱子比对
@@ -392,13 +406,17 @@ namespace ThColumnInfo
                 return;
             }
             Document doc = Application.DocumentManager.MdiActiveDocument;
-            using (Transaction trans=doc.TransactionManager.StartTransaction())
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
             {
                 Point3dCollection pts = new Point3dCollection();
                 columnInf.Points.ForEach(i => pts.Add(i));
                 Polyline polyline = ThColumnInfoUtils.CreatePolyline(pts);
                 foreach (ObjectId calColumnId in this.columnFrameIds)
                 {
+                    if (calColumnId == ObjectId.Null || calColumnId.IsErased || calColumnId.IsValid==false)
+                    {
+                        continue;
+                    }
                     Curve columnFrame = trans.GetObject(calColumnId, OpenMode.ForRead) as Curve;
                     bool isOverLap= ThColumnInfoUtils.JudgeTwoCurveIsOverLap(polyline, columnFrame);
                     if(isOverLap)

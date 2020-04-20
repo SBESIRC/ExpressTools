@@ -158,6 +158,34 @@ namespace ThColumnInfo
             }
             return tm;
         }
+        public static void LoadData(ThStandardSignManager tm)
+        {
+          
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            using (DocumentLock docLock = doc.LockDocument())
+            {
+                List<string> lockedLayerNames = ThColumnInfoUtils.UnlockedAllLayers();
+                try
+                {
+                    FileInfo fi = new FileInfo(doc.Name);
+                    if (fi.Exists)
+                    {
+                        tm.CreateAllSigns();
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    ThColumnInfoUtils.WriteException(ex, "LoadData");
+                }
+                finally
+                {
+                    if (lockedLayerNames.Count > 0)
+                    {
+                        ThColumnInfoUtils.LockedLayers(lockedLayerNames);
+                    }
+                }
+            }
+        }
         public static ThStandardSignManager LoadData()
         {
             ThStandardSignManager tm = new ThStandardSignManager();

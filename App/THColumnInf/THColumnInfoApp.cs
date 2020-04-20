@@ -115,6 +115,10 @@ namespace ThColumnInfo
         [CommandMethod("TIANHUACAD", "ThCPI", CommandFlags.Modal)]
         public void ThColumnParameterSet()
         {
+            if(ParameterSetVM.isOpened)
+            {
+                return;
+            }
             try
             {
                 ParameterSetVM parameterSetVM = new ParameterSetVM();
@@ -136,6 +140,7 @@ namespace ThColumnInfo
             catch (System.Exception ex)
             {
                 ThColumnInfoUtils.WriteException(ex);
+                ParameterSetVM.isOpened = false;
             }
         }
         
