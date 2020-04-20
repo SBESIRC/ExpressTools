@@ -4,19 +4,28 @@ using System.Collections.Generic;
 
 namespace ThSitePlan.Configuration
 {
-    public class ThSitePlanConfigItem
+    public abstract class ThSitePlanConfigObj
     {
-        public Dictionary<string, object> Properties { get; set; }
+        public abstract Dictionary<string, object> Properties { get; set; }
     }
 
-    public class ThSitePlanConfigItemGroup
+    public class ThSitePlanConfigItem : ThSitePlanConfigObj
     {
-        public Queue<object> Items { get; set; }
-        public Dictionary<string, object> Properties { get; set; }
+        public override Dictionary<string, object> Properties { get; set; }
+        public ThSitePlanConfigItem()
+        {
+            Properties = new Dictionary<string, object>();
+        }
+    }
+
+    public class ThSitePlanConfigItemGroup : ThSitePlanConfigObj
+    {
+        public Queue<ThSitePlanConfigObj> Items { get; set; }
+        public override Dictionary<string, object> Properties { get; set; }
 
         public ThSitePlanConfigItemGroup()
         {
-            Items = new Queue<object>();
+            Items = new Queue<ThSitePlanConfigObj>();
             Properties = new Dictionary<string, object>();
         }
 
@@ -868,6 +877,39 @@ namespace ThSitePlan.Configuration
         public void ExportToFile(string file)
         {
             throw new NotImplementedException();
+        }
+
+        public ThSitePlanConfigItem FindItemByName(string name)
+        {
+            string[] namegroup = name.Split('-');
+            ThSitePlanConfigItem FindItem = null;
+
+            var SearchItems = Root.Items;
+            for (int i = 0; i < namegroup.Length; i++)
+            {
+                foreach (var item in SearchItems)
+                {
+                    if (item.Properties["Name"].ToString() == namegroup[i] || item.Properties["Name"].ToString() == name)
+                    {
+                        if (item is ThSitePlanConfigItem fdit)
+                        {
+                            FindItem = fdit;
+                            break;
+                        }
+                        else if (item is ThSitePlanConfigItemGroup fdgp)
+                        {
+                            SearchItems = fdgp.Items;
+                            break;
+                        }
+                    }
+                }
+
+                if (FindItem != null)
+                {
+                    break;
+                }
+            }
+            return FindItem;
         }
     }
 }

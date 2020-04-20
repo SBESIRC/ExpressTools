@@ -37,7 +37,7 @@ namespace ThSitePlan.Engine
         }
 
         /// <summary>
-        /// 过滤出图框内的所有停车场
+        /// 过滤出图框内的所有消防场地
         /// </summary>
         /// <param name="database"></param>
         /// <param name="configItem"></param>
