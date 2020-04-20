@@ -1,10 +1,6 @@
-﻿using Autodesk.AutoCAD.BoundaryRepresentation;
+﻿using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Autodesk.AutoCAD.BoundaryRepresentation;
 
 namespace TianHua.AutoCAD.Utility.ExtensionTools
 {
@@ -67,6 +63,29 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             return true;
         }
 
+        /// <summary>
+        /// 获取Region的顶点
+        /// </summary>
+        /// <param name="region"></param>
+        /// <returns></returns>
+        public static Point3dCollection Vertices(this Region region)
+        {
+            var vertices = new Point3dCollection();
+            using (var brepRegion = new Brep(region))
+            {
+                foreach (var face in brepRegion.Faces)
+                {
+                    foreach(var loop in face.Loops)
+                    {
+                        foreach (var vertex in loop.Vertices)
+                        {
+                            vertices.Add(vertex.Point);
+                        }
+                    }
+                }
 
+            }
+            return vertices;
+        }
     }
 }

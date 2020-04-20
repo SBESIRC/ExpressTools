@@ -1,7 +1,7 @@
 ﻿using GeoAPI.Geometries;
 using Autodesk.AutoCAD.Geometry;
 
-namespace ThSitePlan.NTS
+namespace ThCADCore.NTS
 {
     public static class ThSitePlanNTSGeExtension
     {

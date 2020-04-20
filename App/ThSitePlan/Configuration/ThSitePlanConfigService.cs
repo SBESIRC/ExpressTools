@@ -218,7 +218,6 @@ namespace ThSitePlan.Configuration
                             "P-BUID-BMAX",
                             "P-BUID-BCHA",
                             "P-BUID-ROOF",
-
                         }
                     }
                 }

@@ -7,7 +7,7 @@ using NetTopologySuite.Operation.Union;
 using NetTopologySuite.Operation.Polygonize;
 using NetTopologySuite.Utilities;
 
-namespace ThSitePlan.NTS
+namespace ThCADCore.NTS
 {
     public static class ThSitePlanNTSDbExtension
     {

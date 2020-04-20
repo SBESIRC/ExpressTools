@@ -118,6 +118,7 @@ namespace ThSitePlan
                     new ThSitePlanFrameNameGenerator(),
                     new ThSitePlanContentGenerator(),
                     new ThSitePlanHatchGenerator(),
+                    new ThSitePlanShadowGenerator(),
                     new ThSitePlanPDFGenerator()
                 };
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);

@@ -5,6 +5,8 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using System.Collections.Generic;
+using ThCADCore.NTS;
+using Autodesk.AutoCAD.BoundaryRepresentation;
 
 namespace ThSitePlan
 {
@@ -273,35 +275,49 @@ namespace ThSitePlan
             }
         }
 
-        //public static DBObjectCollection CreateRegionShadow(this ObjectId objectId, Vector3d offset)
-        //{
-        //    using (AcadDatabase acadDatabase = AcadDatabase.Use(objectId.Database))
-        //    {
-        //        var clone = objectId.CopyWithMove(offset);
+        public static ObjectIdCollection CreateRegionShadow(this ObjectId obj, Vector3d offset)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(obj.Database))
+            {
+                var lines = new DBObjectCollection();
+                var region = acadDatabase.Element<Region>(obj);
+                var displacement = Matrix3d.Displacement(offset);
+                var offsetRegion = region.GetTransformedCopy(displacement) as Region;
 
-        //        //
-        //        var pline1 = acadDatabase.Element<Polyline>(objectId);
-        //        var pline2 = acadDatabase.Element<Polyline>(clone);
+                // 阴影连线
+                using (var brepRegion1 = new Brep(region))
+                {
+                    foreach (Autodesk.AutoCAD.BoundaryRepresentation.Vertex vertex in brepRegion1.Vertices)
+                    {
+                        lines.Add(new Line(vertex.Point, vertex.Point + offset));
+                    }
+                }
 
-        //        var lines = new DBObjectCollection();
-        //        for(int i = 0; i < pline1.NumberOfVertices; i++)
-        //        {
-        //            lines.Add(new Line()
-        //            {
-        //                StartPoint = pline1.GetPoint3dAt(i),
-        //                EndPoint = pline2.GetPoint3dAt(i)
-        //            });
-        //        }
-
-        //        //var lines1 = new DBObjectCollection();
-        //        //var lines2 = new DBObjectCollection();
-        //        // 将多段线“炸”成多个线段，便于后面的Noding Process
-        //        pline1.Explode(lines);
-        //        pline2.Explode(lines);
-        //        // Polygonizer处理
-        //        return lines.PolygonizeLines();
-        //    }
-        //}
+                // 将面域“炸”成多个线段，便于后面的Noding Process
+                region.Explode(lines);
+                offsetRegion.Explode(lines);
+                var shadows = new ObjectIdCollection();
+                foreach (DBObject polygon in lines.PolygonizeLines())
+                {
+                    try
+                    {
+                        var loop = polygon as Polyline;
+                        var items = new DBObjectCollection()
+                        {
+                            loop
+                        };
+                        // 若可以创建Region，即为一个正确的loop
+                        var regions = Region.CreateFromCurves(items);
+                        shadows.Add(acadDatabase.ModelSpace.Add(regions[0] as Region));
+                    }
+                    catch
+                    {
+                        // 未知错误
+                    }
+                }
+                return shadows;
+            }
+        }
 
         public static DBObjectCollection GetPolyLineBounding(this DBObjectCollection dBObjects, Tolerance tolerance)
         {

@@ -2,7 +2,7 @@
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace ThSitePlan.NTS
+namespace ThCADCore.NTS
 {
     public class ThSitePlanNTSService
     {
