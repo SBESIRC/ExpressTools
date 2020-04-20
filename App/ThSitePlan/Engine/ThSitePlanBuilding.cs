@@ -1,12 +1,13 @@
 ﻿using System;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
+using AcHelper;
 using Linq2Acad;
 using GeometryExtensions;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.Runtime;
-using AcHelper;
+using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThSitePlan.Engine
 {
@@ -64,7 +65,7 @@ namespace ThSitePlan.Engine
             }
         }
 
-        public void HeightText()
+        public UInt32 Floor()
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(Database))
             {
@@ -74,19 +75,35 @@ namespace ThSitePlan.Engine
                 var referenceRegion = Region.CopyWithMove(offset);
                 var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", new string[]
                 {
-                    RXClass.GetClass(typeof(DBText)).DxfName,
                     RXClass.GetClass(typeof(MText)).DxfName,
+                    RXClass.GetClass(typeof(DBText)).DxfName,
                 }));
                 PromptSelectionResult psr = Active.Editor.SelectByRegion(
                     referenceRegion,
                     PolygonSelectionMode.Window,
                     filter);
-                if (psr.Status == PromptStatus.OK)
+                if (psr.Status != PromptStatus.OK)
                 {
-                    foreach (var item in psr.Value.GetObjectIds())
+                    return 0;
+                }
+
+                var contents = new List<string>();
+                foreach (var item in psr.Value.GetObjectIds())
+                {
+                    var text = acadDatabase.Element<Entity>(item);
+                    if (text is DBText dBText)
                     {
-                        item.CopyWithMove(-offset);
+                        contents.Add(dBText.TextString);
                     }
+                    else if (text is MText mText)
+                    {
+                        contents.Add(mText.Contents);
+                    }
+                }
+
+                using (var annoations = new ThSitePlanBuildingAnnotations(contents.ToArray()))
+                {
+                    return annoations.Floor();
                 }
             }
         }

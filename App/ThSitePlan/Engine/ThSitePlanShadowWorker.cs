@@ -21,7 +21,7 @@ namespace ThSitePlan.Engine
                     {
                         using (var buildInfo = new ThSitePlanBuilding(database, objId, frameName))
                         {
-                            buildInfo.HeightText();
+                            buildInfo.Floor();
                             //objId.CreateRegionShadow(new Vector3d(-5, 5, 0));
                         }
                     }
