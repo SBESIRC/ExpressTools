@@ -172,7 +172,11 @@ namespace ThAnalytics
                 if (commandhashtable.ContainsKey(cmdName))
                 {
                     Stopwatch sw = (Stopwatch)commandhashtable[cmdName];
-                    ThCountlyServices.Instance.RecordCommandEvent(cmdName, sw.Elapsed.TotalSeconds);
+                    // Fix THAI-868
+                    //  在某些场景下，捕捉非天华命令（CAD原生命令，其他第三方插件的命令），会有严重的效率问题
+                    //  我们不可能穷举所有可能会导致效率问题的非天华命令，而且我们也对非天华命令不敢兴趣
+                    //  这里我们就选择不再捕捉非天华命令
+                    //ThCountlyServices.Instance.RecordCommandEvent(cmdName, sw.Elapsed.TotalSeconds);
                     ThCountlyServices.Instance.RecordTHCommandEvent(cmdName, sw.Elapsed.TotalSeconds);
                     commandhashtable.Remove(cmdName);
                 }
