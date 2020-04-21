@@ -120,7 +120,7 @@ namespace ThAnalytics
             AcadApp.DocumentManager.DocumentLockModeChanged -= DocCollEvent_DocumentLockModeChanged_Handler;
 
             // unhook application event handlers
-            AcadApp.SystemVariableChanged -= AcadApp_SystemVariableChanged;
+            //AcadApp.SystemVariableChanged -= AcadApp_SystemVariableChanged;
 
             //end the user session
             ThCountlyServices.Instance.EndSession();
@@ -134,7 +134,11 @@ namespace ThAnalytics
             AcadApp.DocumentManager.DocumentLockModeChanged += DocCollEvent_DocumentLockModeChanged_Handler;
 
             // hook event handlers
-            AcadApp.SystemVariableChanged += AcadApp_SystemVariableChanged;
+            // Fix THAI-868
+            //  在某些场景下，捕捉系统变量变化事件，会有严重的效率问题
+            //  我们不可能穷举所有可能会导致效率问题的系统变量，而且我们也对系统变量不敢兴趣
+            //  这里我们就选择不再捕捉系统变量
+            //AcadApp.SystemVariableChanged += AcadApp_SystemVariableChanged;
 
             //start the user session
             ThCountlyServices.Instance.StartSession();
@@ -172,7 +176,7 @@ namespace ThAnalytics
                 if (commandhashtable.ContainsKey(cmdName))
                 {
                     Stopwatch sw = (Stopwatch)commandhashtable[cmdName];
-                    // Fix THAI-868
+                    // Fix THAI-862
                     //  在某些场景下，捕捉非天华命令（CAD原生命令，其他第三方插件的命令），会有严重的效率问题
                     //  我们不可能穷举所有可能会导致效率问题的非天华命令，而且我们也对非天华命令不敢兴趣
                     //  这里我们就选择不再捕捉非天华命令
