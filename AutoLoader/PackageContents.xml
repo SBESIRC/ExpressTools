@@ -627,4 +627,40 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
+	<!--Assembly App, ThParking, 2012 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
+        <ComponentEntry ModuleName="./Contents/Win64/2012/ThColumnInfo.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for column check." AppName="ThColumnInfo" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCRC" Global="THCRC" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThParking, 2014 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2014/ThColumnInfo.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for column check." AppName="ThColumnInfo" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCRC" Global="THCRC" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThParking, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThColumnInfo.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for column check." AppName="ThColumnInfo" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCRC" Global="THCRC" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThParking, 2018 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" />
+        <ComponentEntry ModuleName="./Contents/Win64/2018/ThColumnInfo.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for column check." AppName="ThColumnInfo" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCRC" Global="THCRC" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
 </ApplicationPackage>

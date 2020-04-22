@@ -1439,5 +1439,29 @@ namespace ThColumnInfo
             Autodesk.AutoCAD.Colors.Color color = Autodesk.AutoCAD.Colors.Color.FromColor(systemColor); 
             return color;
         }
+        public static bool JudgeTwoEntityIntersect(Entity firstEnt,Entity secondEnt)
+        {
+            bool inters = false;
+            Plane zeroPlane = new Plane(Point3d.Origin, Vector3d.ZAxis);
+            Point3dCollection pts = new Point3dCollection();
+            try
+            {
+                firstEnt.IntersectWith(secondEnt, Intersect.OnBothOperands, zeroPlane, pts, IntPtr.Zero, IntPtr.Zero);
+                if(pts.Count>0)
+                {
+                    inters = true;
+                }
+            }
+            catch(System.Exception ex)
+            {
+                WriteException(ex, "JudgeTwoEntityInters");
+            }
+            finally
+            {
+                zeroPlane.Dispose();
+                pts.Dispose();
+            }
+            return inters;
+        }
     }
 }

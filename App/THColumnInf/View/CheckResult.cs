@@ -444,14 +444,13 @@ namespace ThColumnInfo.View
                         {
                             using (DocumentLock docLock = doc.LockDocument())
                             {
-                                thStandardSign.SignPlantCalData.ShowFrameTextIds(true,true,false);
+                                thStandardSign.SignPlantCalData.EraseFrameTextIds(false);
                             }
                         }
                         bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
                         if (needHide)
                         {
-                            HideTotalFrameIds(innerFrameNode);
-                            doc.Editor.Regen();
+                            HideTotalFrameIds(innerFrameNode);                            
                         }
                     }
                     ShowDetailData(treeNode);
@@ -721,11 +720,24 @@ namespace ThColumnInfo.View
                     PlantCalDataToDraw plantCalDataToDraw = new PlantCalDataToDraw(thStandardSign);
                     plantCalDataToDraw.DrawColumnOriginFrame();
                 }
+                bool originShowImportCalInf = showImportCalInf;
+                if (showImportCalInf)
+                {
+                    //如果执行导入计算书操作，且已执行过计算书校核
+                    foreach(TreeNode item in tn.Nodes)
+                    { 
+                        if(item.Name==this.codeLostNodeName || item.Name==this.uncompleteNodeNme )
+                        {
+                            showImportCalInf = false;
+                            break;
+                        }
+                    }
+                }
                 //将识别的结果更新到面板
                 tn.Nodes.Clear();
                 FillDrawCheckInfToTreeView(thStandardSign.SignExtractColumnInfo, tn, showImportCalInf);
                 FillPlantCalResultToTree(tn);
-                if(!showImportCalInf) //如是导入计算书，则无需校验
+                if(!originShowImportCalInf) //如是导入计算书，则无需校验
                 {
                     List<ColumnInf> correctColumnInfs = GetDataCorrectColumnInfs(tn);
                     //校核柱子
@@ -825,6 +837,9 @@ namespace ThColumnInfo.View
             {
                 if (tn.Tag.GetType() == typeof(ThStandardSign))
                 {
+                    List<ObjectId> treeColumnIds = new List<ObjectId>();
+                    TraverseNode(this.tvCheckRes.SelectedNode, ref treeColumnIds);
+
                     ThStandardSign thStandardSign = tn.Tag as ThStandardSign;
                     Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
                     using (DocumentLock docLock = doc.LockDocument())
@@ -832,7 +847,7 @@ namespace ThColumnInfo.View
                         ThProgressBar.Start("导入计算书...");
                         ThProgressBar.MeterProgress();
                         try
-                        {
+                        {                       
                             CalculationInfoVM calculationInfoVM = new CalculationInfoVM();
                             if (thStandardSign.SignPlantCalData!=null && thStandardSign.SignPlantCalData.CalInfo!=null)
                             {
@@ -867,6 +882,7 @@ namespace ThColumnInfo.View
                                 bool res=plantData.Plant();
                                 if(res)
                                 {
+                                    ThColumnInfoUtils.EraseObjIds(treeColumnIds.ToArray());
                                     UpdateCheckResult(tn, thStandardSign, true);
                                 }
                             }
@@ -1158,15 +1174,6 @@ namespace ThColumnInfo.View
         }
         private void tvCheckRes_MouseLeave(object sender, EventArgs e)
         {
-            if(tvCheckRes.SelectedNode==null)
-            {
-                return;
-            }
-            bool isCurrentDocument = CheckRootNodeIsCurrentDocument(tvCheckRes.SelectedNode);
-            if(isCurrentDocument==false)
-            {
-                return;
-            }
         }
         private void btnComponentDefinition_Click(object sender, EventArgs e)
         {
@@ -1269,6 +1276,29 @@ namespace ThColumnInfo.View
             else
             {
                 this.toolTip2.SetToolTip(this.btnShowDetailData, "展开详细面板");
+            }
+        }
+
+        private void tvCheckRes_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (tvCheckRes.SelectedNode == null)
+            {
+                return;
+            }
+            bool isCurrentDocument = CheckRootNodeIsCurrentDocument(tvCheckRes.SelectedNode);
+            if (isCurrentDocument == false)
+            {
+                return;
+            }
+            TreeNode innerFrameNode = TraverseInnerFrameRoot(tvCheckRes.SelectedNode);
+            if(innerFrameNode!=null)
+            {
+                bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
+                if (needHide)
+                {
+                    Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
+                    doc.Editor.Regen();
+                }
             }
         }
     }

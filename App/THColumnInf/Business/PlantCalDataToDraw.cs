@@ -142,7 +142,14 @@ namespace ThColumnInfo
                 ThProgressBar.MeterProgress();
                 if (this.thDrawColumns.IsGoOn)
                 {
-                    this.showFrameTextIds = ShowFrameTextIds();
+                    if(this.thStandardSign==null)
+                    {
+                        this.showFrameTextIds = ShowFrameTextIds(this.thStandardSign.SignExtractColumnInfo);
+                    }
+                    else
+                    {
+                        this.showFrameTextIds = ShowFrameTextIds();
+                    }
                 }
                 else
                 {
@@ -261,13 +268,33 @@ namespace ThColumnInfo
         /// <summary>
         /// 删除计算书导入后产生的柱框线和文字
         /// </summary>
-        public void EraseFrameTextIds()
+        public void EraseFrameTextIds(bool eraseText=true)
         {
             try
             {
-                ThColumnInfoUtils.EraseObjIds(this.showFrameTextIds.ToArray());
+                List<ObjectId> eraseObjIds = new List<ObjectId>();
+                using (Transaction trans = document.TransactionManager.StartTransaction())
+                {
+                    foreach (ObjectId id in this.showFrameTextIds)
+                    {
+                        if (id == ObjectId.Null || id.IsErased || !id.IsValid)
+                        {
+                            continue;
+                        }
+                        if (trans.GetObject(id, OpenMode.ForRead) is DBText)
+                        {
+                            if (!eraseText)
+                            {
+                                continue;
+                            }
+                        }
+                        eraseObjIds.Add(id);
+                    }
+                    trans.Commit();
+                }
+                ThColumnInfoUtils.EraseObjIds(eraseObjIds.ToArray());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ThColumnInfoUtils.WriteException(ex, "EraseFrameTextIds");
             }
@@ -311,16 +338,18 @@ namespace ThColumnInfo
         /// <summary>
         /// 埋入数据
         /// </summary>
-        private List<ObjectId> ShowFrameTextIds()
+        private List<ObjectId> ShowFrameTextIds(ExtractColumnPosition extractColumnPosition=null)
         {
             List<ObjectId> frameTextIds = new List<ObjectId>();
             if (this.thStandardSign == null)
             {
                 return frameTextIds;
             }
-            ExtractColumnPosition extractColumnPosition = new ExtractColumnPosition(thStandardSign);
+            if(extractColumnPosition==null)
+            {
+                extractColumnPosition = new ExtractColumnPosition(thStandardSign);
+            }
             extractColumnPosition.Extract();
-
             //获取数据信息完整的柱子与计算书中的柱子比对
             List<ColumnInf> columnInfs = extractColumnPosition.ColumnInfs.Where(i => i.Points.Count>2).Select(i => i).ToList();
             //绘制正常或异常的柱子外框
