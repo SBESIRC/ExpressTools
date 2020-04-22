@@ -63,15 +63,12 @@ namespace ThSitePlan.Engine
            return Encoding.UTF8.GetString(tv.Value as byte[]);
         }
 
-        public void EraseItemInFrame(ObjectId FrameId)
+        public void EraseItemInFrame(ObjectId FrameId , PolygonSelectionMode mode)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 Polyline SelectFrame_poly = acadDatabase.Element<Polyline>(FrameId);
-                PromptSelectionResult psr = Active.Editor.SelectByPolyline(
-                    FrameId,
-                    PolygonSelectionMode.Window,
-                    null);
+                PromptSelectionResult  psr = Active.Editor.SelectByPolyline(FrameId,  mode, null);
                 SelectionSet Selset = psr.Value;
                 ObjectIdCollection SelObjIdCol = Selset.GetObjectIds().ToObjectIdCollection();
                 SelObjIdCol.Remove(FrameId);

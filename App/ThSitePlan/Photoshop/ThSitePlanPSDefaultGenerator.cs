@@ -66,5 +66,16 @@ namespace ThSitePlan.Photoshop
             }
             return true;
         }
+
+        public override bool Update(string path, ThSitePlanConfigItem configItem)
+        {
+            var key = (string)configItem.Properties["Name"];
+            if (Workers.ContainsKey(key))
+            {
+                Workers[key].DoUpdate(path, configItem);
+            }
+            return true;
+
+        }
     }
 }

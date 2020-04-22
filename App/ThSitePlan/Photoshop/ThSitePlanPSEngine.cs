@@ -41,5 +41,29 @@ namespace ThSitePlan.Photoshop
                 generator.Generate(path, job);
             }
         }
+
+        public void PSUpdate(string path, ThSitePlanConfigItemGroup jobs)
+        {
+            while (jobs.Items.Count != 0)
+            {
+                var obj = jobs.Items.Dequeue();
+                if (obj is ThSitePlanConfigItem item)
+                {
+                    PSUpdate(path, item);
+                }
+                else if (obj is ThSitePlanConfigItemGroup group)
+                {
+                    PSUpdate(path, group);
+                }
+            }
+        }
+
+        private void PSUpdate(string path, ThSitePlanConfigItem job)
+        {
+            foreach (var generator in Generators)
+            {
+                generator.Update(path, job);
+            }
+        }
     }
 }

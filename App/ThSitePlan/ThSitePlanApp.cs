@@ -60,7 +60,7 @@ namespace ThSitePlan
 
                 //获取所选择的框对应的图元的图层分组名
                 ThSitePlanDbEngine.Instance.Initialize(Active.Database);
-                ThSitePlanDbEngine.Instance.EraseItemInFrame(SelframeId);
+                ThSitePlanDbEngine.Instance.EraseItemInFrame(SelframeId,PolygonSelectionMode.Window);
                 SelFrameName = ThSitePlanDbEngine.Instance.NameByFrame(SelframeId);
 
                 //根据图层名在ThSitePlanConfigService找到对应的ConfigItem
@@ -82,29 +82,28 @@ namespace ThSitePlan
                         };
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, UpdateConfigItemGroup);
                 //每次Update后先清除初始元素Copy frame内部的图元
-                //PromptSelectionResult TextUpFrame = Active.Editor.SelectByPolyline(OriginFrameCopy.Item1, PolygonSelectionMode.Crossing, null);
+                ThSitePlanDbEngine.Instance.EraseItemInFrame(OriginFrameCopy.Item1,PolygonSelectionMode.Crossing);
             }
 
-            //// Update PS处理流程
-            //ThSitePlanConfigService.Instance.Initialize();
-            //ThSitePlanConfigItemGroup UpdatePSConfigItemGroup = new ThSitePlanConfigItemGroup();
-            //UpdatePSConfigItemGroup.Items.Enqueue(ThSitePlanConfigService.Instance.FindItemByName(SelFrameName));
-            //using (var psService = new ThSitePlanPSService())
-            //{
-            //    // PS处理流程
-            //    ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
-            //             {
-            //                new ThSitePlanPSDefaultGenerator(psService),
-            //             };
-            //    ThSitePlanPSEngine.Instance.Run(
-            //        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-            //        UpdatePSConfigItemGroup);
+            // Update PS处理流程
+            ThSitePlanConfigService.Instance.Initialize();
+            ThSitePlanConfigItemGroup UpdatePSConfigItemGroup = new ThSitePlanConfigItemGroup();
+            UpdatePSConfigItemGroup.Items.Enqueue(ThSitePlanConfigService.Instance.FindItemByName(SelFrameName));
+            using (var psService = new ThSitePlanPSService())
+            {
+                // PS处理流程
+                ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+                         {
+                            new ThSitePlanPSDefaultGenerator(psService),
+                         };
+                ThSitePlanPSEngine.Instance.PSUpdate(
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    UpdatePSConfigItemGroup);
 
-            //    // 保存PS生成的文档
-            //    psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-            //}
+                // 保存PS生成的文档
+                psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            }
         }
-
 
         [CommandMethod("TIANHUACAD", "THSP", CommandFlags.Modal)]
         public void ThSitePlan()
