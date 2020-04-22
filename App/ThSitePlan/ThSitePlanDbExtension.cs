@@ -1,5 +1,6 @@
 ﻿using AcHelper;
 using Linq2Acad;
+using DotNetARX;
 using System.Linq;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
@@ -275,7 +276,7 @@ namespace ThSitePlan
             }
         }
 
-        public static ObjectIdCollection CreateRegionShadow(this ObjectId obj, Vector3d offset)
+        public static ObjectIdCollection CreateShadowRegion(this ObjectId obj, Vector3d offset)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(obj.Database))
             {
@@ -364,6 +365,18 @@ namespace ThSitePlan
             }
 
             return resBounding;
+        }
+
+        public static void MoveToLayer(this Database database, ObjectIdCollection objs, string layerName)
+        {
+            using (AcadDatabase acdb = AcadDatabase.Use(database))
+            {
+                var layerId = LayerTools.AddLayer(database, layerName);
+                foreach (ObjectId obj in objs)
+                {
+                    acdb.Element<Entity>(obj, true).LayerId = layerId;
+                }
+            }
         }
     }
 }

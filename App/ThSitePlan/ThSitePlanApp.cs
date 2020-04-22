@@ -201,6 +201,7 @@ namespace ThSitePlan
                 {
                     new ThSitePlanFrameNameGenerator(),
                     new ThSitePlanContentGenerator(),
+                    new ThSitePlanBoundaryGenerator(),
                     new ThSitePlanHatchGenerator(),
                     new ThSitePlanShadowGenerator(),
                     new ThSitePlanPDFGenerator()
