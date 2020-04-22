@@ -56,7 +56,7 @@ namespace ThSitePlan.Engine
                         return false;
                     }
 
-                    Active.Editor.CreateHatchWithRegions(regions);
+                    acadDatabase.Database.MoveToLayer(regions, ThSitePlanCommon.LAYER_BUILD_HATCH);
                 }
 
                 return true;
