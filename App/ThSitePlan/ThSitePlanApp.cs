@@ -164,7 +164,7 @@ namespace ThSitePlan
         
                 for(int i = 0; i < 7; i++)
                 {
-                    for(int j = 0; j < 7; j++)
+                    for(int j = 0; j < 6; j++)
                     {
                         double deltaX = frameObj.GeometricExtents.Width() * 6.0 / 5.0 * j;
                         double deltaY = frameObj.GeometricExtents.Height() * 6.0 / 5.0 * i;

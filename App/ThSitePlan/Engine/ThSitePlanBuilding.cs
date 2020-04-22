@@ -49,19 +49,13 @@ namespace ThSitePlan.Engine
             {
                 return "建筑物-场地外建筑-建筑信息";
             }
+            else if (name == "全局阴影")
+            {
+                return "建筑物-场地内建筑-建筑信息";
+            }
             else
             {
                 throw new NotSupportedException();
-            }
-        }
-
-        private Vector3d Offset(Database database, ObjectId frame1, ObjectId frame2)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
-            {
-                var pline1 = acadDatabase.Element<Polyline>(frame1);
-                var pline2 = acadDatabase.Element<Polyline>(frame2);
-                return pline2.Centroid() - pline1.Centroid();
             }
         }
 
@@ -71,7 +65,7 @@ namespace ThSitePlan.Engine
             {
                 var frame = Frame();
                 var referenceFrame = ReferenceFrame();
-                Vector3d offset = Offset(Database, frame, referenceFrame);
+                Vector3d offset = Database.FrameOffset(frame, referenceFrame);
                 var referenceRegion = Region.CopyWithMove(offset);
                 var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", new string[]
                 {

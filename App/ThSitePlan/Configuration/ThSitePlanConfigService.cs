@@ -152,6 +152,10 @@ namespace ThSitePlan.Configuration
                 }
             });
 
+            // 建筑物
+            Root.AddGroup(ConstructBuilding());
+
+            // 全局阴影
             Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
@@ -167,9 +171,6 @@ namespace ThSitePlan.Configuration
                     }
                 }
             });
-
-            // 建筑物
-            Root.AddGroup(ConstructBuilding());
 
             // 树木
             Root.AddGroup(ConstructTree());

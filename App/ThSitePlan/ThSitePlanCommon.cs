@@ -37,6 +37,9 @@ namespace ThSitePlan
         public static readonly double frame_annotation_offset_Y = 15.0;
         // RegAppName
         public static readonly string RegAppName_ThSitePlan_Frame_Name = "THCAD_SP_FRAME_NAME";
+        // Shadow
+        public static readonly double shadow_angle = 135;
+        public static readonly double shadow_length_scale = 1.5;
 
         //photoshop文档尺寸
         public static readonly Dictionary<string, double> PsDocOpenPropertity = new Dictionary<string, double>

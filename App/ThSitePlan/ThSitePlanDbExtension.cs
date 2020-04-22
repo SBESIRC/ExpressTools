@@ -7,6 +7,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using System.Collections.Generic;
 using ThCADCore.NTS;
+using GeometryExtensions;
 using Autodesk.AutoCAD.BoundaryRepresentation;
 
 namespace ThSitePlan
@@ -376,6 +377,16 @@ namespace ThSitePlan
                 {
                     acdb.Element<Entity>(obj, true).LayerId = layerId;
                 }
+            }
+        }
+
+        public static Vector3d FrameOffset(this Database database, ObjectId frame1, ObjectId frame2)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                var pline1 = acadDatabase.Element<Polyline>(frame1);
+                var pline2 = acadDatabase.Element<Polyline>(frame2);
+                return pline2.Centroid() - pline1.Centroid();
             }
         }
     }
