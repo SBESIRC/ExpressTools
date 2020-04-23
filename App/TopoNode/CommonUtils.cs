@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace TopoNode
 {
@@ -500,6 +501,43 @@ namespace TopoNode
             return false;
         }
 
+        public static bool HasPolylines(List<Tuple<Point3d, double>> polys, Polyline aimPoly)
+        {
+            var center = CalCenterPoint(aimPoly);
+            var area = Math.Abs(aimPoly.Area);
+
+            foreach (var tuple in polys)
+            {
+                var inCenter = tuple.Item1;
+                var inArea = tuple.Item2;
+
+                if (IsAlmostNearZero(Math.Abs(inArea - area), 1)
+                    && Point3dIsEqualPoint3d(center, inCenter, 1e-1))
+                    return true;
+            }
+
+            polys.Add(new Tuple<Point3d, double>(center, area));
+            return false;
+        }
+
+        public static Point3d CalCenterPoint(Polyline poly)
+        {
+            var ptCol = poly.Vertices();
+            double xSum = 0;
+            double ySum = 0;
+
+            var count = ptCol.Count;
+            for (int i = 0; i < count; i++)
+            {
+                var curPt = ptCol[i];
+                xSum += curPt.X;
+                ySum += curPt.Y;
+            }
+
+
+            var pt = new Point3d(xSum / count, ySum / count, 0);
+            return pt;
+        }
         public static bool PtInLoop(List<LineSegment2d> loop, Point2d pt)
         {
             Point2d end = new Point2d(pt.X + 100000000000, pt.Y);
