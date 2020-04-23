@@ -6,6 +6,7 @@ using Autodesk.AutoCAD.Windows;
 using Autodesk.AutoCAD.ApplicationServices;
 using ThColumnInfo.Validate;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace ThColumnInfo.View
 {
@@ -68,6 +69,9 @@ namespace ThColumnInfo.View
             _ps.Dock = DockSides.Bottom;
             _ps.Size = new System.Drawing.Size(800, 200);
             _ps.MinimumSize = new System.Drawing.Size(800, 200);
+
+            int screenHeight=  Screen.PrimaryScreen.Bounds.Height;
+            _ps.Location = new Point(_ps.Location.X, screenHeight - _ps.Size.Height);
         }
     }
 }

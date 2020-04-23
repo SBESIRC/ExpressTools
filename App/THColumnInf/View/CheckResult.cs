@@ -45,10 +45,10 @@ namespace ThColumnInfo.View
             InitializeComponent();
             ShowComponentPropPicture();
             this.SizeChanged += CheckResult_SizeChanged;
-            this.panelUp.BackColor = System.Drawing.Color.FromArgb(74,74,74);
+            this.panelUp.BackColor = System.Drawing.Color.FromArgb(92, 92, 92);
             this.panelMiddle.BackColor= System.Drawing.Color.FromArgb(92, 92, 92);
+            this.panelDown.BackColor = System.Drawing.Color.FromArgb(92, 92, 92);
             this.tvCheckRes.BackColor= System.Drawing.Color.FromArgb(92, 92, 92);
-            this.panelDown.BackColor= System.Drawing.Color.FromArgb(92, 92, 92);
             this.lblPaperDistinguishResult.ForeColor = Color.White;
 
             this.nodeKeys=new List<string> {this.dataCorrectNodeName,this.codeLostNodeName,this.uncompleteNodeNme }; 
@@ -526,24 +526,27 @@ namespace ThColumnInfo.View
                     }
                 }
             }
-            if(docNode==null)
+            if(docNode==null && !string.IsNullOrEmpty(tsm.DocName))
             {
                 docNode = this.tvCheckRes.Nodes.Add(tsm.DocName);
             }
-            docNode.ForeColor = Color.FromArgb(255, 255, 255);
-            docNode.Tag = tsm;
-            var enumerator = tsm.GetEnumerator();
-            while(enumerator.MoveNext())
+            if(docNode!=null)
             {
-                ThStandardSign thStandardSign= enumerator.Current as ThStandardSign;
-                TreeNode subNode= docNode.Nodes.Add(thStandardSign.InnerFrameName);
-                subNode.ForeColor = Color.FromArgb(255, 255, 255);
-                subNode.Tag = thStandardSign;
-                UpdateCheckResult(subNode, thStandardSign);
-            }
-            if(docNode!=null && !docNode.IsExpanded)
-            {
-                docNode.Expand();
+                docNode.ForeColor = Color.FromArgb(255, 255, 255);
+                docNode.Tag = tsm;
+                var enumerator = tsm.GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    ThStandardSign thStandardSign = enumerator.Current as ThStandardSign;
+                    TreeNode subNode = docNode.Nodes.Add(thStandardSign.InnerFrameName);
+                    subNode.ForeColor = Color.FromArgb(255, 255, 255);
+                    subNode.Tag = thStandardSign;
+                    UpdateCheckResult(subNode, thStandardSign);
+                }
+                if (!docNode.IsExpanded)
+                {
+                    docNode.Expand();
+                }
             }
         }
         //遍历当前节点往父节点路径上是否有

@@ -67,8 +67,9 @@ namespace ThColumnInfo.View
             _ps.DockEnabled = DockSides.Left | DockSides.Right;
             _ps.Dock = DockSides.Left;
 
-            _ps.Size = new System.Drawing.Size(250, 1000);
-            _ps.MinimumSize = new System.Drawing.Size(250, 1000);
+            _ps.Size = new System.Drawing.Size(200, 1000);
+            _ps.MinimumSize = new System.Drawing.Size(200, 1000);
+            _ps.Location = new System.Drawing.Point(0, _ps.Location.Y);
         }
     }
 }
