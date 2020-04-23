@@ -47,31 +47,38 @@ namespace ThSitePlan.Engine
                                 // 设置建筑物阴影面域图层
                                 acadDatabase.Database.MoveToLayer(shadows, ThSitePlanCommon.LAYER_GLOBAL_SHADOW);
 
-                                //var shadowRegion = acadDatabase.Element<Region>(shadows[0]);
-                                //var buildingRegion = acadDatabase.Element<Region>(objId, true);
                                 //// 将阴影Region和建筑物阴影做Union
+                                //var buildingRegion = acadDatabase.Element<Region>(objId, true);
+                                //var shadowRegion = acadDatabase.Element<Region>(shadows[0], true);
                                 //shadowRegion.BooleanOperation(BooleanOperationType.BoolUnite, buildingRegion);
+
                                 //// 在阴影Region中寻找可能存在的遮挡的建筑
-                                //var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", new string[]
-                                //{
-                                //    RXClass.GetClass(typeof(Region)).DxfName,
-                                //}));
+                                //var filterlist = OpFilter.Bulid(
+                                //    o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Region)).DxfName &
+                                //    o.Dxf((int)DxfCode.LayerName) == ThSitePlanCommon.LAYER_BUILD_HATCH);
                                 //PromptSelectionResult psr = Active.Editor.SelectByRegion(
-                                //    shadowRegion.ObjectId,
+                                //    shadows[0],
                                 //    PolygonSelectionMode.Crossing,
-                                //    filter);
+                                //    filterlist);
                                 //if (psr.Status == PromptStatus.OK)
                                 //{
-                                //    foreach(ObjectId objId2 in psr.Value.GetObjectIds())
+                                //    var shadowRegion = acadDatabase.Element<Region>(shadows[0], true);
+                                //    foreach (ObjectId objId2 in psr.Value.GetObjectIds())
                                 //    {
-                                //        //using (var buildInfo2 = new ThSitePlanBuilding(database, objId2, frameName))
-                                //        //{
-                                //        //    if (buildInfo2.Floor() < floor * 0.5)
-                                //        //    {
-                                //        //        var buildingRegion2 = acadDatabase.Element<Region>(objId2);
-                                //        //        shadowRegion.BooleanOperation(BooleanOperationType.BoolSubtract, buildingRegion2);
-                                //        //    }
-                                //        //}
+                                //        if (objId == objId2)
+                                //        {
+                                //            continue;
+                                //        }
+
+                                //        using (var buildInfo2 = new ThSitePlanBuilding(database, objId2, frameName))
+                                //        {
+                                //            UInt32 floor2 = buildInfo2.Floor();
+                                //            if (floor2 > 0 && floor2 < floor * 0.5)
+                                //            {
+                                //                var buildingRegion2 = acadDatabase.Element<Region>(objId2, true);
+                                //                shadowRegion.BooleanOperation(BooleanOperationType.BoolSubtract, buildingRegion2);
+                                //            }
+                                //        }
                                 //    }
                                 //}
                             }

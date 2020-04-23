@@ -75,7 +75,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             {
                 foreach (var face in brepRegion.Faces)
                 {
-                    foreach(var loop in face.Loops)
+                    foreach (var loop in face.Loops)
                     {
                         foreach (var vertex in loop.Vertices)
                         {
@@ -83,7 +83,6 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
                         }
                     }
                 }
-
             }
             return vertices;
         }

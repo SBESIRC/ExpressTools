@@ -59,34 +59,34 @@ namespace Autodesk.AutoCAD.EditorInput
             }
         }
 
-        public static PromptSelectionResult SelectByRegion(this Editor ed,
-            ObjectId regionId,
+        public static PromptSelectionResult SelectByPolygon(this Editor ed,
+            Point3dCollection polygon,
             PolygonSelectionMode mode,
             SelectionFilter filter)
         {
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(regionId.Database))
-            {
-                // 保存当前view
-                ViewTableRecord view = ed.GetCurrentView();
+            // 保存当前view
+            ViewTableRecord view = ed.GetCurrentView();
 
-                // zoom到pline
-                Active.Editor.ZoomObject(regionId);
+            // zoom到polygon
+            Active.Editor.ZoomWindow(polygon.ToExtents3d());
 
-                // 计算选择范围
-                var region = acadDatabase.Element<Region>(regionId);
-                var polygon = region.Vertices();
+            // 选择
+            PromptSelectionResult result;
+            if (mode == PolygonSelectionMode.Crossing)
+                result = ed.SelectCrossingPolygon(polygon, filter);
+            else
+                result = ed.SelectWindowPolygon(polygon, filter);
 
-                // 选择
-                PromptSelectionResult result;
-                if (mode == PolygonSelectionMode.Crossing)
-                    result = ed.SelectCrossingPolygon(polygon, filter);
-                else
-                    result = ed.SelectWindowPolygon(polygon, filter);
+            // 恢复view
+            ed.SetCurrentView(view);
+            return result;
 
-                // 恢复view
-                ed.SetCurrentView(view);
-                return result;
-            }
+        }
+
+        public static void ZoomWindow(this Editor ed, Extents3d ext)
+        {
+            ext.TransformBy(ed.CurrentUserCoordinateSystem.Inverse());
+            COMTool.ZoomWindow(ext.MinPoint, ext.MaxPoint);
         }
 
         public static void ZoomObject(this Editor ed, ObjectId entId)

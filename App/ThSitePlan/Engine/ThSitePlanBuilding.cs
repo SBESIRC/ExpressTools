@@ -8,6 +8,7 @@ using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThSitePlan.Engine
 {
@@ -63,17 +64,29 @@ namespace ThSitePlan.Engine
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(Database))
             {
+                // 当前所在的图框
                 var frame = Frame();
+                var polygon = acadDatabase.Element<Region>(Region).Vertices();
+
+                // 被引用的图框
                 var referenceFrame = ReferenceFrame();
+                // 图框直接的偏移量，用来在被引用的图框中定位相对位置（区域）
                 Vector3d offset = Database.FrameOffset(frame, referenceFrame);
-                var referenceRegion = Region.CopyWithMove(offset);
+                // 已知当前图框中的某个区域，计算在被引用图框中同等相对位置的区域
+                var referencePolygon = new Point3dCollection();
+                foreach (Point3d vertex in polygon)
+                {
+                    referencePolygon.Add(vertex.TransformBy(Matrix3d.Displacement(offset)));
+                }
+
+                // 在被引用图框中的区域内提取文字图元
                 var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", new string[]
                 {
                     RXClass.GetClass(typeof(MText)).DxfName,
                     RXClass.GetClass(typeof(DBText)).DxfName,
                 }));
-                PromptSelectionResult psr = Active.Editor.SelectByRegion(
-                    referenceRegion,
+                PromptSelectionResult psr = Active.Editor.SelectByPolygon(
+                    referencePolygon,
                     PolygonSelectionMode.Window,
                     filter);
                 if (psr.Status != PromptStatus.OK)
@@ -81,6 +94,7 @@ namespace ThSitePlan.Engine
                     return 0;
                 }
 
+                // 提取区域内的文字图元的文字信息
                 var contents = new List<string>();
                 foreach (var item in psr.Value.GetObjectIds())
                 {
@@ -95,6 +109,7 @@ namespace ThSitePlan.Engine
                     }
                 }
 
+                // 识别标注信息，获取楼层信息
                 using (var annoations = new ThSitePlanBuildingAnnotations(contents.ToArray()))
                 {
                     return annoations.Floor();
