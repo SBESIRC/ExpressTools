@@ -32,8 +32,8 @@ namespace ThSitePlan.Engine
                 }
 
                 // 创建建筑物阴影面域
-                var length = ThSitePlanCommon.shadow_length_scale * floor;
-                var angle = ThSitePlanCommon.shadow_angle * Math.PI / 180.0;
+                var length = Properties.Settings.Default.shadowLengthScale * floor;
+                var angle = Properties.Settings.Default.shadowAngle * Math.PI / 180.0;
                 Matrix3d rotation = Matrix3d.Rotation(angle, Vector3d.ZAxis, Point3d.Origin);
                 var shadows = building.Region.CreateShadowRegion(Vector3d.XAxis.TransformBy(rotation).MultiplyBy(length));
                 if (shadows.Count != 1)

@@ -18,6 +18,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,6 +67,12 @@
     <Compile Include="ThSitePlanEditorExtension.cs" />
     <Compile Include="Engine\ThSitePlanEngine.cs" />
     <Compile Include="ThSitePlanExplodeUtils.cs" />
+    <Compile Include="ThSitePlanForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThSitePlanForm.Designer.cs">
+      <DependentUpon>ThSitePlanForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ThSitePlanFrameJig.cs" />
     <Compile Include="ThSitePlanFrameUtils.cs" />
     <Compile Include="Engine\ThSitePlanGenerator.cs" />
@@ -139,6 +146,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="ThSitePlanForm.resx">
+      <DependentUpon>ThSitePlanForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
