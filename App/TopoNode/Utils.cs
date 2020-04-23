@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using AcHelper;
 using System.IO;
+using System.Text.RegularExpressions;
+using TopoNode.Progress;
 
 namespace TopoNode
 {
@@ -262,6 +264,96 @@ namespace TopoNode
             }
 
             return curves;
+        }
+
+        public static List<DBText> GetAllTexts(string roomLayer)
+        {
+            List<DBText> dbTexts = null;
+            using (var db = AcadDatabase.Active())
+            {
+                dbTexts = db.ModelSpace.OfType<DBText>().Where(s => s.Layer.Contains(roomLayer)).ToList();
+            }
+
+            return dbTexts;
+        }
+
+        public static List<Point3d> GetRoomPoints(string roomLayer)
+        {
+            var texts = GetAllTexts(roomLayer);
+            var pts = new List<Point3d>();
+            for (int i = 0; i < texts.Count; i++)
+            {
+                var text = texts[i];
+                var textString = text.TextString.Trim();
+                if (textString.Contains("强电")
+                    || textString.Contains("弱电")
+                    || textString.Contains("排烟")
+                    || textString.Contains("空调水管")
+                    || textString.Contains("加压")
+                    || textString.Contains("新风")
+                    || textString.Contains("排风")
+                    || textString.Contains("冷媒")
+                    || textString.Contains("给水")
+                    || textString.Contains("排水")
+                    || textString.Contains("水管"))
+                    continue;
+
+                if (textString.Length < 2)
+                    continue;
+
+                if (IsValidString(textString, "-"))
+                {
+                    pts.Add(text.Bounds.Value.CenterPoint());
+                }
+            }
+            
+            return pts;
+        }
+
+        private static bool IsValidString(string source, string aimTag)
+        {
+            var dic = new Dictionary<string, int>();
+
+            // 汉字位置关系
+            Regex r = new Regex(@"[\u4e00-\u9fa5]+");
+            var characters = r.Matches(source);
+
+            var characterRelations = new List<Tuple<string, int>>();
+            foreach (Match character in characters)
+            {
+                var index = character.Index;
+                string value = character.Value;
+                characterRelations.Add(new Tuple<string, int>(value, index));
+            }
+
+            // “-”位置关系
+            Regex r1 = new Regex(@"[-]");
+            var symbols = r1.Matches(source);
+
+            var symbolRelations = new List<int>();
+            foreach (Match symbol in symbols)
+            {
+                var index = symbol.Index;
+                var value = symbol.Value;
+                symbolRelations.Add(index);
+            }
+
+            // 没有汉字包含“-” 不算
+            if (symbolRelations.Count != 0 && characterRelations.Count == 0)
+                return false;
+
+            if (symbolRelations.Count > 2)
+            {
+                for (int i = 1; i < symbolRelations.Count; i++)
+                {
+                    var before = symbolRelations[i - 1];
+                    var cur = symbolRelations[i];
+                    if (cur - before > 1)
+                        return false;
+                }
+            }
+
+            return true;
         }
 
         public static Polyline Pts2Polyline(List<Point3d> points)
@@ -541,7 +633,9 @@ namespace TopoNode
         public static void ExtendCurves(List<Curve> curves, double length)
         {
             foreach (var curve in curves)
+            {
                 ExtendCurve(curve, length);
+            }
         }
 
         /// <summary>
@@ -2423,76 +2517,76 @@ namespace TopoNode
             return curves;
         }
 
-        public static void CreateGroup(List<List<TopoEdge>> topoEdges, string groupName, string showName)
-        {
+        //public static void CreateGroup(List<List<TopoEdge>> topoEdges, string groupName, string showName)
+        //{
 
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
-            Utils.CreateLayer(showName, Color.FromRgb(255, 0, 0));
+        //    Document doc = Application.DocumentManager.MdiActiveDocument;
+        //    Database db = doc.Database;
+        //    Editor ed = doc.Editor;
+        //    Utils.CreateLayer(showName, Color.FromRgb(255, 0, 0));
 
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            {
-                // Get the group dictionary from the drawing
-                DBDictionary gd = (DBDictionary)tr.GetObject(db.GroupDictionaryId, OpenMode.ForRead);
+        //    using (Transaction tr = db.TransactionManager.StartTransaction())
+        //    {
+        //        // Get the group dictionary from the drawing
+        //        DBDictionary gd = (DBDictionary)tr.GetObject(db.GroupDictionaryId, OpenMode.ForRead);
 
-                foreach (var loop in topoEdges)
-                {
-                    var loopcurves = new List<Curve>();
-                    foreach (var edge in loop)
-                    {
-                        loopcurves.Add(edge.SrcCurve);
-                    }
+        //        foreach (var loop in topoEdges)
+        //        {
+        //            var loopcurves = new List<Curve>();
+        //            foreach (var edge in loop)
+        //            {
+        //                loopcurves.Add(edge.SrcCurve);
+        //            }
 
-                    //Random random = new Random();
-                    //int value = random.Next(100000000);
-                    Utils.INDEX++;
-                    string grpName = groupName + Utils.INDEX;
-                    //do
-                    //{
-                    //    inputGrpName = groupName + value;
-                    //    try
-                    //    {
-                    //        if (gd.Contains(inputGrpName))
-                    //            ed.WriteMessage("\nA group with this name already exists.");
-                    //        else
-                    //            grpName = inputGrpName;
-                    //    }
-                    //    catch
-                    //    {
-                    //        ed.WriteMessage("\nInvalid group name.");
-                    //    }
-                    //} while (grpName == "");
+        //            //Random random = new Random();
+        //            //int value = random.Next(100000000);
+        //            Utils.INDEX++;
+        //            string grpName = groupName + Utils.INDEX;
+        //            //do
+        //            //{
+        //            //    inputGrpName = groupName + value;
+        //            //    try
+        //            //    {
+        //            //        if (gd.Contains(inputGrpName))
+        //            //            ed.WriteMessage("\nA group with this name already exists.");
+        //            //        else
+        //            //            grpName = inputGrpName;
+        //            //    }
+        //            //    catch
+        //            //    {
+        //            //        ed.WriteMessage("\nInvalid group name.");
+        //            //    }
+        //            //} while (grpName == "");
 
-                    // Create our new group...
-                    Group grp = new Group("Profile group", true);
-                    var color = Color.FromRgb(255, 255, 0);
-                    grp.SetColor(color);
-                    // Add the new group to the dictionary
-                    gd.UpgradeOpen();
-                    ObjectId grpId = gd.SetAt(grpName, grp);
-                    tr.AddNewlyCreatedDBObject(grp, true);
-                    // Open the model-space
-                    BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
-                    BlockTableRecord ms = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
-                    // Add some lines to the group to form a square
-                    // (the entities belong to the model-space)
+        //            // Create our new group...
+        //            Group grp = new Group("Profile group", true);
+        //            var color = Color.FromRgb(255, 255, 0);
+        //            grp.SetColor(color);
+        //            // Add the new group to the dictionary
+        //            gd.UpgradeOpen();
+        //            ObjectId grpId = gd.SetAt(grpName, grp);
+        //            tr.AddNewlyCreatedDBObject(grp, true);
+        //            // Open the model-space
+        //            BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+        //            BlockTableRecord ms = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
+        //            // Add some lines to the group to form a square
+        //            // (the entities belong to the model-space)
 
-                    ObjectIdCollection ids = new ObjectIdCollection();
-                    foreach (Entity ent in loopcurves)
-                    {
-                        ent.Layer = showName;
-                        ObjectId id = ms.AppendEntity(ent);
-                        ids.Add(id);
-                        tr.AddNewlyCreatedDBObject(ent, true);
-                    }
+        //            ObjectIdCollection ids = new ObjectIdCollection();
+        //            foreach (Entity ent in loopcurves)
+        //            {
+        //                ent.Layer = showName;
+        //                ObjectId id = ms.AppendEntity(ent);
+        //                ids.Add(id);
+        //                tr.AddNewlyCreatedDBObject(ent, true);
+        //            }
 
-                    grp.InsertAt(0, ids);
-                }
+        //            grp.InsertAt(0, ids);
+        //        }
 
-                tr.Commit();
-            }
-        }
+        //        tr.Commit();
+        //    }
+        //}
 
         public static void DrawPreviewPoint(DBObjectCollection objCol, Point3d pt, double length = 500)
         {
@@ -2513,6 +2607,28 @@ namespace TopoNode
                 Autodesk.AutoCAD.GraphicsInterface.TransientManager tm = Autodesk.AutoCAD.GraphicsInterface.TransientManager.CurrentTransientManager;
                 tm.AddTransient(curFir, Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode.DirectTopmost, 128, intCol);
                 tm.AddTransient(curveSec, Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode.DirectTopmost, 128, intCol);
+            }
+        }
+
+        public static void DrawPreviewPoint(Point3d pt, string layerName, double length = 500)
+        {
+            var dbCollection = new DBObjectCollection();
+            var half = length * 0.5;
+            var curveFirStart = pt + new Vector3d(1, 1, 0).GetNormal() * half;
+            var curveFirEnd = curveFirStart - new Vector3d(1, 1, 0).GetNormal() * length;
+            var curFir = new Line(curveFirStart, curveFirEnd);
+
+            var curveSecStart = pt + new Vector3d(-1, 1, 0).GetNormal() * half;
+            var curveSecEnd = curveSecStart - new Vector3d(-1, 1, 0).GetNormal() * length;
+            var curveSec = new Line(curveSecStart, curveSecEnd);
+            CreateLayer(layerName, Color.FromRgb(255, 0, 0));
+            using (AcadDatabase acad = AcadDatabase.Active())
+            {
+                var id1 = acad.ModelSpace.Add(curFir);
+                acad.ModelSpace.Element(id1, true).Layer = layerName;
+                var id2 = acad.ModelSpace.Add(curveSec);
+                acad.ModelSpace.Element(id2, true).Layer = layerName;
+
             }
         }
 
@@ -2644,6 +2760,33 @@ namespace TopoNode
 
                     var dbId = db.ModelSpace.Add(dbtext);
                     db.ModelSpace.Element(dbId, true).Layer = LayerName;
+                }
+            }
+        }
+
+        public static void DrawText(List<DBText> texts, string layerName)
+        {
+            if (texts == null || texts.Count == 0)
+                return;
+
+            CreateLayer(layerName, Color.FromRgb(255, 0, 0));
+
+            using (var db = AcadDatabase.Active())
+            {
+                for (int i = 0; i < texts.Count; i++)
+                {
+                    var curve = texts[i];
+
+                    var dbtext = new DBText();
+                    dbtext.Height = 50;
+                    dbtext.Justify = AttachmentPoint.MiddleCenter;
+                    // 设置字体样式
+                    var textId = GetIdFromSymbolTable();
+                    if (textId != ObjectId.Null)
+                        dbtext.TextStyleId = textId;
+
+                    var dbId = db.ModelSpace.Add(dbtext);
+                    db.ModelSpace.Element(dbId, true).Layer = layerName;
                 }
             }
         }
@@ -3434,7 +3577,7 @@ namespace TopoNode
             using (var db = AcadDatabase.Active())
             {
                 var blockRefs = db.CurrentSpace.OfType<BlockReference>().Where(p => p.Visible).ToList();
-                var incre = 10.0 / blockRefs.Count;
+                var incre = 15 / blockRefs.Count;
                 foreach (var blockReference in blockRefs)
                 {
                     var layerId = blockReference.LayerId;
@@ -3451,6 +3594,7 @@ namespace TopoNode
                         continue;
                     progressPos += 0.4;
                     progressPos += incre;
+                    Progress.Progress.SetValue((int)progressPos);
                     var entityLst = GetEntityFromBlock(blockReference);
                     if (entityLst != null && entityLst.Count > 1)
                     {
@@ -3680,11 +3824,11 @@ namespace TopoNode
         {
             var resEntityLst = new List<Entity>();
             // 外部参照
-            double progressPos = 17;
+            double progressPos = 25;
             using (var db = AcadDatabase.Active())
             {
                 var refs = db.XRefs;
-                var incre = 10.0 / refs.Count();
+                var incre = 15.0 / refs.Count();
 
                 foreach (var xblock in refs)
                 {
@@ -3698,6 +3842,7 @@ namespace TopoNode
                             var blockReference = blockReferences[i];
                             progressPos += 0.4;
                             progressPos += incre;
+                            Progress.Progress.SetValue((int)progressPos);
                             var entityLst = GetEntityFromBlock(blockReference);
                             if (entityLst != null && entityLst.Count != 0)
                             {
