@@ -30,6 +30,7 @@
     <Compile Include="Engine\ThSitePlanBoundaryWorker.cs" />
     <Compile Include="Engine\ThSitePlanBuilding.cs" />
     <Compile Include="Engine\ThSitePlanBuildingAnnotations.cs" />
+    <Compile Include="Engine\ThSitePlanBuildingShadow.cs" />
     <Compile Include="Engine\ThSitePlanCADRegionWorker.cs" />
     <Compile Include="Engine\ThSitePlanDbEngine.cs" />
     <Compile Include="Engine\ThSitePlanFireWorker.cs" />

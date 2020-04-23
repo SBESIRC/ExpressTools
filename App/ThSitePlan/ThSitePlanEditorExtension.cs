@@ -113,6 +113,27 @@ namespace ThSitePlan
             return new ObjectIdCollection(selRes.Value.GetObjectIds());
         }
 
+        public static void SubtractRegions(this Editor editor, ObjectIdCollection pObjs, ObjectIdCollection sObjs)
+        {
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("_.SUBTRACT",
+                SelectionSet.FromObjectIds(pObjs.ToArray()),
+                "",
+                SelectionSet.FromObjectIds(sObjs.ToArray()),
+                ""
+                );
+#else
+            ResultBuffer args = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.SUBTRACT"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(pObjs.ToArray())),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(sObjs.ToArray())),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args);
+#endif
+        }
+
         public static ObjectIdCollection CreateHatchWithRegions(this Editor editor, ObjectIdCollection objs)
         {
             using (var hatchOV = new ThSitePlanHatchOverride())

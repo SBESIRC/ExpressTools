@@ -1,7 +1,6 @@
 ﻿using System;
 using AcHelper;
 using Linq2Acad;
-using GeometryExtensions;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
@@ -60,13 +59,26 @@ namespace ThSitePlan.Engine
             }
         }
 
+        public Point3dCollection Polygon()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(Database))
+            {
+                return acadDatabase.Element<Region>(Region).Vertices();
+            }
+        }
+
         public UInt32 Floor()
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(Database))
             {
                 // 当前所在的图框
                 var frame = Frame();
-                var polygon = acadDatabase.Element<Region>(Region).Vertices();
+                // 当前所在图框中的ROI
+                var polygon = Polygon();
+                if (polygon.Count == 0)
+                {
+                    return 0;
+                }
 
                 // 被引用的图框
                 var referenceFrame = ReferenceFrame();

@@ -71,15 +71,18 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         public static Point3dCollection Vertices(this Region region)
         {
             var vertices = new Point3dCollection();
-            using (var brepRegion = new Brep(region))
+            if (!region.IsNull)
             {
-                foreach (var face in brepRegion.Faces)
+                using (var brepRegion = new Brep(region))
                 {
-                    foreach (var loop in face.Loops)
+                    foreach (var face in brepRegion.Faces)
                     {
-                        foreach (var vertex in loop.Vertices)
+                        foreach (var loop in face.Loops)
                         {
-                            vertices.Add(vertex.Point);
+                            foreach (var vertex in loop.Vertices)
+                            {
+                                vertices.Add(vertex.Point);
+                            }
                         }
                     }
                 }
