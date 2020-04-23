@@ -140,7 +140,7 @@ namespace ThColumnInfo
                
                 //计算书校核
                 List<ColumnRelateInf> columnRelateInfs = this.SignPlantCalData.GetColumnRelateInfs(this);//从图纸中获取
-                ThCalculationValidate tcv = new ThCalculationValidate(this.SignExtractColumnInfo, columnRelateInfs);
+                ThCalculationValidate tcv = new ThCalculationValidate(this.SignExtractColumnInfo, columnRelateInfs, this.SignPlantCalData.CalInfo);
                 tcv.Validate();
                 tcv.PrintCalculation();
                 ThProgressBar.MeterProgress();

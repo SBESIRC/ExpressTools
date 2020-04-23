@@ -231,30 +231,6 @@ namespace ThColumnInfo.Validate
             }
             this.protectLayerThickness = ThSpecificationValidate.paraSetInfo.ProtectLayerThickness;
         }
-        /// <summary>
-        /// 获取混凝土数值
-        /// </summary>
-        /// <returns></returns>
-        private double GetConcreteStrengthValue()
-        {
-            double value = 0.0;
-            if (!string.IsNullOrEmpty(this.concreteStrength))
-            {
-                List<double> values = ThColumnInfoUtils.GetDoubleValues(this.concreteStrength);
-                if (values.Count > 0)
-                {
-                    if (values[0] <= 60)
-                    {
-                        value = 0.0;
-                    }
-                    else
-                    {
-                        value = 0.1;
-                    }
-                }
-            }
-            return value;
-        }
         #endregion
         public void ValidateColumnInf()
         {         
@@ -262,29 +238,29 @@ namespace ThColumnInfo.Validate
             {
                 return ;
             }
-            validateRules.Add(BuildSectionTooSmallRule());
-            validateRules.Add(BuildLongLessThanShortTripleRule());
-            validateRules.Add(BuildAngularReinforcementNumRule());
-            validateRules.Add(BuildVerDirForceIronRule());
-            validateRules.Add(BuildAllVdIrBigThanFpmRule());
-            validateRules.Add(BuildVerDirIronClearSpaceRule());
-            validateRules.Add(BuildMinimumReinforceRatioARule());
-            validateRules.Add(BuildMinimumReinforceRatioBRule());
-            validateRules.Add(BuildStirrupLimbSpaceRule());
-            validateRules.Add(new StirrupMinimumDiameterARule(this.cdm)); //箍筋最小直径A(箍筋)
-            validateRules.Add(new StirrupMinimumDiameterBRule(this.cdm)); //箍筋最小直径B(箍筋)
-            validateRules.Add(new StirrupMinimumDiameterCRule(this.cdm)); //箍筋最小直径C(箍筋)
-            validateRules.Add(BuildStirrupMinimumDiameterDRule()); //箍筋最小直径D(箍筋)
-            validateRules.Add(new StirrupMaximumSpacingARule(this.cdm)); //箍筋最大间距A(箍筋)
-            validateRules.Add(new StirrupMaximumSpacingBRule(this.cdm)); //箍筋最大间距B(箍筋)
-            validateRules.Add(new StirrupMaximumSpacingCRule(this.cdm)); //箍筋最大间距C(箍筋)
-            validateRules.Add(new StirrupMaximumSpacingDRule(this.cdm)); //箍筋最大间距D(箍筋)
-            validateRules.Add(new StirrupMaximumSpacingERule(this.cdm)); //箍筋最大间距E(箍筋)
-            validateRules.Add(BuildStirrupMaximumSpaceFRule()); //箍筋最大间距F(箍筋)
-            validateRules.Add(new StirrupMaximumSpacingHRule(this.cdm));//箍筋最大间距H(箍筋)
-            validateRules.Add(BuildStirrupMaximumSpaceJRule()); //箍筋最大间距J(箍筋)
-            validateRules.Add(new CompoundStirrupRule(this.cdm)); //复合箍筋(箍筋)
-
+            validateRules.Add(BuildSectionTooSmallRule());                // 最小截面(截面)
+            validateRules.Add(BuildLongLessThanShortTripleRule());        // 长短边比值(截面)
+            validateRules.Add(BuildAngularReinforcementNumRule());        // 角筋根数(角筋)
+            validateRules.Add(BuildVerDirForceIronRule());                // 纵向钢筋直径最小值(侧面纵筋)
+            validateRules.Add(BuildAllVdIrBigThanFpmRule());              // 最大配筋率(侧面纵筋)
+            validateRules.Add(BuildVerDirIronClearSpaceRule());           // 纵筋净间距(侧面纵筋)
+            validateRules.Add(BuildMinimumReinforceRatioARule());         // 最小配筋率A(侧面纵筋)
+            validateRules.Add(BuildMinimumReinforceRatioBRule());         // 最小配筋率B(侧面纵筋)
+            validateRules.Add(BuildStirrupLimbSpaceRule());               // 箍筋肢距(箍筋)
+            validateRules.Add(new StirrupMinimumDiameterARule(this.cdm)); // 箍筋最小直径A(箍筋)
+            validateRules.Add(new StirrupMinimumDiameterBRule(this.cdm)); // 箍筋最小直径B(箍筋)
+            validateRules.Add(new StirrupMaximumSpacingARule(this.cdm));  // 箍筋最大间距A(箍筋)
+            validateRules.Add(new StirrupMaximumSpacingBRule(this.cdm));  // 箍筋最大间距B(箍筋)
+            validateRules.Add(new StirrupMaximumSpacingCRule(this.cdm));  // 箍筋最大间距C(箍筋)
+            validateRules.Add(new CompoundStirrupRule(this.cdm));         // 复合箍筋(箍筋)
+            validateRules.Add(new StirrupMinimumDiameterCRule(this.cdm)); // 箍筋最小直径C(箍筋)
+            validateRules.Add(new StirrupMaximumSpacingDRule(this.cdm));  // 箍筋最大间距D(箍筋)
+            validateRules.Add(new StirrupMaximumSpacingERule(this.cdm));  // 箍筋最大间距E(箍筋)
+            validateRules.Add(BuildStirrupMinimumDiameterDRule());        // 箍筋最小直径D(箍筋)            
+            validateRules.Add(BuildStirrupMaximumSpaceFRule());           // 箍筋最大间距F(箍筋)
+            validateRules.Add(new StirrupMaximumSpacingHRule(this.cdm));  // 箍筋最大间距H(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpaceJRule());           // 箍筋最大间距J(箍筋)
+            
             for (int i = 0; i < this.validateRules.Count; i++)
             {
                 if (this.validateRules[i] == null)
@@ -397,7 +373,7 @@ namespace ThColumnInfo.Validate
             {
                 Code = this.columnInf.Code,
                 P1 = ThSpecificationValidate.paraSetInfo.GetLongitudinalReinforcementGrade(cdm.Ctri.BEdgeSideMiddleReinforcement),
-                P2 = GetConcreteStrengthValue(),
+                P2 = ThValidate.GetConcreteStrengthValue(this.concreteStrength),
                 Cdm=cdm
             };
             IRule rule = new MinimumReinforcementRatioARule(mrrm);

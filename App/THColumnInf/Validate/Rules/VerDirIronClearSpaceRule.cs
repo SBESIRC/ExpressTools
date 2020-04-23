@@ -35,7 +35,7 @@ namespace ThColumnInfo.Validate
             }
             else if (maxValue > 300) //且不宜大于300mm
             {
-                ValidateResults.Add("纵向钢筋钢筋净间距过大 (" + maxValue + "> 300) " + "(砼规 9.3.1-1,P123)");
+                ValidateResults.Add("纵向钢筋钢筋净间距过大 (" + maxValue + ">= 300) " + "(砼规 9.3.1-1,P123)");
             }
             else
             {

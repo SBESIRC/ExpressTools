@@ -327,5 +327,29 @@ namespace ThColumnInfo.Validate
             }
             return sectionArea;
         }
+        /// <summary>
+        /// 获取混凝土数值
+        /// </summary>
+        /// <returns></returns>
+        public static double GetConcreteStrengthValue(string concreteStrength)
+        {
+            double value = 0.0;
+            if (!string.IsNullOrEmpty(concreteStrength))
+            {
+                List<double> values = ThColumnInfoUtils.GetDoubleValues(concreteStrength);
+                if (values.Count > 0)
+                {
+                    if (values[0] <= 60)
+                    {
+                        value = 0.0;
+                    }
+                    else
+                    {
+                        value = 0.1;
+                    }
+                }
+            }
+            return value;
+        }
     }
 }

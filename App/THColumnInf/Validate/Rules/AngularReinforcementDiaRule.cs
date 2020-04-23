@@ -3,7 +3,7 @@
 namespace ThColumnInfo.Validate
 {
     /// <summary>
-    /// 配筋面积
+    /// 配筋面积,实配钢筋应满足计算值
     /// </summary>
     public class AngularReinforcementDiaRule : IRule
     {

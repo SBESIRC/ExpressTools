@@ -14,6 +14,13 @@ namespace ThColumnInfo.Validate
             = new Dictionary<ColumnRelateInf, List<string>>();
         private List<ColumnRelateInf> columns = new List<ColumnRelateInf>();
         private Dictionary<ColumnRelateInf, List<string>> calculationStepDic = new Dictionary<ColumnRelateInf, List<string>>();
+        private CalculationInfo calculateInfo;
+
+        /// <summary>
+        /// 自然层总数
+        /// </summary>
+        public static int FloorCount=0;
+
         /// <summary>
         /// 错误
         /// </summary>
@@ -28,7 +35,7 @@ namespace ThColumnInfo.Validate
                 columnValidateResultDic = value;
             }
         }
-        public ThCalculationValidate(IDataSource ds, List<ColumnRelateInf> relatedColumns):
+        public ThCalculationValidate(IDataSource ds, List<ColumnRelateInf> relatedColumns,CalculationInfo calInf):
             base(ds)
         { 
             this.columns = relatedColumns;
@@ -42,6 +49,29 @@ namespace ThColumnInfo.Validate
             {
                 this.filePath = Environment.CurrentDirectory + "\\" + DateTime.Now.ToString("yyyy-MM-dd HH：mm：ss") + ".txt";
             }
+            this.calculateInfo = calInf;
+            GetNaturalFloorCount();
+        }
+        /// <summary>
+        /// 获取自然层总层数
+        /// </summary>
+        private void GetNaturalFloorCount()
+        {
+            List<FloorInfo> floorInfs = new List<FloorInfo>();
+            string dtModelPath = this.calculateInfo.GetDtlmodelFullPath();
+            if (string.IsNullOrEmpty(dtModelPath))
+            {
+                return;
+            }
+            FileInfo fi = new FileInfo(dtModelPath);
+            if (!fi.Exists)
+            {
+                return;
+            }
+            //获取自然层及对应的标准层
+            ExtractYjkColumnInfo extractYjkColumnInfo = new ExtractYjkColumnInfo(dtModelPath);
+            floorInfs = extractYjkColumnInfo.GetNaturalFloorInfs();
+            FloorCount = floorInfs.Count;
         }
         public void Validate()
         {
@@ -395,19 +425,36 @@ namespace ThColumnInfo.Validate
 
         public void ValidateColumnInf()
         {
-            validateRules.Add(BuildShearSpanRatioRule()); //剪跨比(截面)
-            validateRules.Add(BuildAxialCompressionRatioRule()); //轴压比(轴压比)
-            validateRules.Add(BuildAngularReinforcementDiaRule());
-            validateRules.Add(BuildVerDirIronClearSpaceRule());
-            validateRules.Add(BuildMinimumReinforceRatioBRule()); //最小配筋率B(侧面纵筋)
-            validateRules.Add(BuildReinforcementAreaRule()); //配筋面积(侧面纵筋)
-            validateRules.Add(BuildStirupMinimumDiameterDRule()); // 箍筋最小直径D(箍筋)
-            validateRules.Add(BuildStirrupMaximumSpaceFRule()); // 箍筋最大间距F(箍筋)
-            validateRules.Add(BuildStirrupMaximumSpaceJRule()); // 箍筋最大间距J(箍筋)
-            validateRules.Add(BuildVolumeReinforceRatioARule());// 体积配箍率A(箍筋)
-            validateRules.Add(BuildVolumeReinforceRatioBRule());// 体积配箍率B(箍筋)
-            validateRules.Add(BuildVolumeReinforceRatioCRule());// 体积配箍率C(箍筋)
-            validateRules.Add(BuildStirrupReinforcementAreaRule()); //
+            validateRules.Add(BuildSectionTooSmallRule());                // 最小截面
+            validateRules.Add(BuildLongLessThanShortTripleRule());        // 长短边比值
+            validateRules.Add(BuildShearSpanRatioRule());                 // 剪跨比(截面)
+            validateRules.Add(BuildAxialCompressionRatioRule());          // 轴压比(轴压比)
+            validateRules.Add(BuildAngularReinforcementNumRule());        // 角筋根数
+            validateRules.Add(BuildAngularReinforcementDiaRule());        // 配筋面积(实配钢筋应满足计算值)
+            validateRules.Add(BuildVerDirForceIronRule());                // 纵向钢筋直径最小值(侧面纵筋)
+            validateRules.Add(BuildAllVdIrBigThanFpmRule());              // 最大配筋率(侧面纵筋)
+            validateRules.Add(BuildVerDirIronClearSpaceRule());           // 纵筋净间距
+            validateRules.Add(BuildMinimumReinforceRatioARule());         // 最小配筋率A(侧面纵筋)
+            validateRules.Add(BuildMinimumReinforceRatioBRule());         // 最小配筋率B(侧面纵筋)
+            validateRules.Add(BuildReinforcementAreaRule());              // 配筋面积(侧面纵筋)
+            validateRules.Add(BuildStirrupLimbSpaceRule());               // 箍筋肢距(箍筋)
+            validateRules.Add(new StirrupMinimumDiameterARule(this.cdm)); // 箍筋最小直径A(箍筋)
+            validateRules.Add(new StirrupMinimumDiameterBRule(this.cdm)); // 箍筋最小直径B(箍筋)
+            validateRules.Add(new StirrupMaximumSpacingARule(this.cdm));  // 箍筋最大间距A(箍筋)
+            validateRules.Add(new StirrupMaximumSpacingBRule(this.cdm));  // 箍筋最大间距B(箍筋)
+            validateRules.Add(new StirrupMaximumSpacingCRule(this.cdm));  // 箍筋最大间距C(箍筋)
+            validateRules.Add(new CompoundStirrupRule(this.cdm));         // 复合箍筋(箍筋)
+            validateRules.Add(new StirrupMinimumDiameterCRule(this.cdm)); // 箍筋最小直径C(箍筋)
+            validateRules.Add(new StirrupMaximumSpacingDRule(this.cdm));  // 箍筋最大间距D(箍筋)
+            validateRules.Add(new StirrupMaximumSpacingERule(this.cdm));  // 箍筋最大间距E(箍筋)
+            validateRules.Add(BuildStirrupMinimumDiameterDRule());        // 箍筋最小直径D(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpaceFRule());           // 箍筋最大间距F(箍筋)
+            validateRules.Add(new StirrupMaximumSpacingHRule(this.cdm));  // 箍筋最大间距H(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpaceJRule());           // 箍筋最大间距J(箍筋)
+            validateRules.Add(BuildVolumeReinforceRatioARule());          // 体积配箍率A(箍筋)
+            validateRules.Add(BuildVolumeReinforceRatioBRule());          // 体积配箍率B(箍筋)
+            validateRules.Add(BuildVolumeReinforceRatioCRule());          // 体积配箍率C(箍筋)
+            validateRules.Add(BuildStirrupReinforcementAreaRule());       // 配筋面积(箍筋)
             for (int i = 0; i < this.validateRules.Count; i++)
             {
                 if (this.validateRules[i]==null)
@@ -419,6 +466,37 @@ namespace ThColumnInfo.Validate
                 this.correctResults.AddRange(this.validateRules[i].CorrectResults);
                 this.calculationSteps.AddRange(this.validateRules[i].GetCalculationSteps());
             }
+        }
+        /// <summary>
+        /// 最小截面(截面)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildSectionTooSmallRule()
+        {
+            ColumnSectionModel columnSectionModel = new ColumnSectionModel
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                FloorTotalNums = ThCalculationValidate.FloorCount,
+                Cdm = cdm
+            };
+            IRule columnSectionRule = new SectionTooSmallRule(columnSectionModel);
+            return columnSectionRule;
+        }
+        /// <summary>
+        /// 长短边比值(截面)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildLongLessThanShortTripleRule()
+        {
+            ColumnSectionModel columnSectionModel = new ColumnSectionModel
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                Cdm = cdm
+            };
+            IRule columnSectionRule = new LongShortEdgeRatioRule(columnSectionModel);
+            return columnSectionRule;
         }
         /// <summary>
         /// 剪跨比(截面)
@@ -450,6 +528,24 @@ namespace ThColumnInfo.Validate
             IRule rule = new AxialCompressionRatioRule(acrm);
             return rule;
         }
+        /// <summary>
+        /// 角筋根数(角筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildAngularReinforcementNumRule()
+        {
+            AngularReinforcementNumModel arnm = new AngularReinforcementNumModel
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                AngularReinforcementNum = cdm.IntCBarCount
+            };
+            IRule rule = new AngularReinforcementNumRule(arnm);
+            return rule;
+        }
+        /// <summary>
+        /// 配筋面积,实配钢筋应满足计算值
+        /// </summary>
+        /// <returns></returns>
         private IRule BuildAngularReinforcementDiaRule()
         {
             AngularReinforcementDiaModel ardm = new AngularReinforcementDiaModel
@@ -461,6 +557,38 @@ namespace ThColumnInfo.Validate
             IRule rule = new AngularReinforcementDiaRule(ardm);
             return rule;
         }
+        /// <summary>
+        /// 纵向钢筋直径最小值(侧面纵筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildVerDirForceIronRule()
+        {
+            VerDirForceIronModel verDirForceIronModel = new VerDirForceIronModel
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Cdm = this.cdm
+            };
+            IRule rule = new VerDirForceIronDiaRule(verDirForceIronModel);
+            return rule;
+        }
+        /// <summary>
+        /// 最大配筋率(侧面纵筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildAllVdIrBigThanFpmRule()
+        {
+            MaximumReinforcementRatioModel mrrm = new MaximumReinforcementRatioModel
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Cdm = this.cdm
+            };
+            IRule rule = new MaximumReinforcementRatioRule(mrrm);
+            return rule;
+        }
+        /// <summary>
+        /// 纵筋净间距
+        /// </summary>
+        /// <returns></returns>
         private IRule BuildVerDirIronClearSpaceRule()
         {
             VerDirIronClearSpaceModel vdiCSM = new VerDirIronClearSpaceModel
@@ -470,6 +598,22 @@ namespace ThColumnInfo.Validate
                 Cdm = this.cdm
             };
             IRule rule = new VerDirIronClearSpaceRule(vdiCSM);
+            return rule;
+        }
+        /// <summary>
+        /// 最小配筋率A(侧面纵筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildMinimumReinforceRatioARule()
+        {
+            MinimumReinforceRatioAModel mrrm = new MinimumReinforceRatioAModel
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                P1 = ThSpecificationValidate.paraSetInfo.GetLongitudinalReinforcementGrade(cdm.Ctri.BEdgeSideMiddleReinforcement),
+                P2 = ThValidate.GetConcreteStrengthValue(this.concreteStrength),
+                Cdm = cdm
+            };
+            IRule rule = new MinimumReinforcementRatioARule(mrrm);
             return rule;
         }
         /// <summary>
@@ -530,10 +674,27 @@ namespace ThColumnInfo.Validate
             return rule;
         }
         /// <summary>
+        /// 箍筋肢距(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupLimbSpaceRule()
+        {
+            IRule rule = null;
+            StirrupLimbSpaceModel slsm = new StirrupLimbSpaceModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                Cdm = cdm,
+                ProtectLayerThickness = this.protectLayerThickness
+            };
+            rule = new StirrupLimbSpaceRule(slsm);
+            return rule;
+        }
+        /// <summary>
         /// 箍筋最小直径D(箍筋)
         /// </summary>
         /// <returns></returns>
-        private IRule BuildStirupMinimumDiameterDRule()
+        private IRule BuildStirrupMinimumDiameterDRule()
         {
             double stirrupDiameterLimited = ThValidate.GetStirrupMinimumDiameter(
                 this.antiSeismicGrade,
