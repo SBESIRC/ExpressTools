@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Business\BlockReferenceGeometryExtents3d.cs" />
     <Compile Include="Business\ColumnBindTextManager.cs" />
+    <Compile Include="Business\DistinguishCBH.cs" />
     <Compile Include="Business\ExtractColumnTable.cs" />
     <Compile Include="Business\MoveRotateScaleJig.cs" />
     <Compile Include="Business\PlantCalDataToDraw.cs" />

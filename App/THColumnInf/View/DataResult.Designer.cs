@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgvColumnTable = new System.Windows.Forms.DataGridView();
@@ -79,14 +79,14 @@
             this.dgvColumnTable.AllowUserToDeleteRows = false;
             this.dgvColumnTable.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgvColumnTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvColumnTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvColumnTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvColumnTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvColumnTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvColumnTable.EnableHeadersVisualStyles = false;
@@ -123,9 +123,11 @@
             this.dgvSpecificationRes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSpecificationRes.EnableHeadersVisualStyles = false;
             this.dgvSpecificationRes.Location = new System.Drawing.Point(3, 3);
+            this.dgvSpecificationRes.MultiSelect = false;
             this.dgvSpecificationRes.Name = "dgvSpecificationRes";
             this.dgvSpecificationRes.ReadOnly = true;
             this.dgvSpecificationRes.RowTemplate.Height = 23;
+            this.dgvSpecificationRes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSpecificationRes.Size = new System.Drawing.Size(631, 210);
             this.dgvSpecificationRes.TabIndex = 0;
             this.dgvSpecificationRes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpecificationRes_CellDoubleClick);
@@ -151,9 +153,11 @@
             this.dgvCalculationRes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCalculationRes.EnableHeadersVisualStyles = false;
             this.dgvCalculationRes.Location = new System.Drawing.Point(0, 0);
+            this.dgvCalculationRes.MultiSelect = false;
             this.dgvCalculationRes.Name = "dgvCalculationRes";
             this.dgvCalculationRes.ReadOnly = true;
             this.dgvCalculationRes.RowTemplate.Height = 23;
+            this.dgvCalculationRes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCalculationRes.Size = new System.Drawing.Size(637, 216);
             this.dgvCalculationRes.TabIndex = 0;
             this.dgvCalculationRes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCalculationRes_CellDoubleClick);

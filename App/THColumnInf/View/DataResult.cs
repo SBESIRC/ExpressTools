@@ -608,7 +608,17 @@ namespace ThColumnInfo.View
                 }
             }
             this.dgvColumnTableCurrentRowIndex = e.RowIndex;
+            if(this.dgvColumnTable.Rows[e.RowIndex].Tag!=null)
+            {
+                ThStandardSign thStandardSign = this.dgvColumnTable.Rows[e.RowIndex].Tag as ThStandardSign;
+                object value=this.dgvColumnTable.Rows[e.RowIndex].Cells["subCode"].Value;
+                if(value!=null)
+                {
+                    CheckPalette._checkResult.SelectTreeNode(thStandardSign.InnerFrameName, value.ToString());
+                }
+            }
         }
+
         private void dgvCalculationRes_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (!CheckTabIsActive(this.calculationTabName))
@@ -624,6 +634,15 @@ namespace ThColumnInfo.View
                 }
             }
             this.dgvSpecificationCurrentRowIndex = e.RowIndex;
+            if (this.dgvCalculationRes.Rows[e.RowIndex].Tag != null)
+            {
+                ThStandardSign thStandardSign = this.dgvCalculationRes.Rows[e.RowIndex].Tag as ThStandardSign;
+                object value = this.dgvCalculationRes.Rows[e.RowIndex].Cells["code"].Value;
+                if (value != null)
+                {
+                    CheckPalette._checkResult.SelectTreeNode(thStandardSign.InnerFrameName, value.ToString());
+                }
+            }
         }
 
         private void dgvSpecificationRes_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -641,6 +660,15 @@ namespace ThColumnInfo.View
                 }
             }
             this.dgvSpecificationCurrentRowIndex = e.RowIndex;
+            if (this.dgvSpecificationRes.Rows[e.RowIndex].Tag != null)
+            {
+                ThStandardSign thStandardSign = this.dgvSpecificationRes.Rows[e.RowIndex].Tag as ThStandardSign;
+                object value = this.dgvSpecificationRes.Rows[e.RowIndex].Cells["code"].Value;
+                if (value != null)
+                {
+                    CheckPalette._checkResult.SelectTreeNode(thStandardSign.InnerFrameName, value.ToString());
+                }
+            }
         }
         private bool CheckTabIsActive(string tabName)
         {
@@ -710,6 +738,62 @@ namespace ThColumnInfo.View
                 if(this.innerframeNode!=null)
                 {
                     CheckPalette._checkResult.HideTotalFrameIds(this.innerframeNode);
+                }
+            }
+        }
+        public void SelectDataGridViewRow(ColumnInf columnInf,string innerName)
+        {
+            SelectDgvColumnTableRow(columnInf);
+            SelectDgvSpecificationRow(columnInf, innerName);
+            SelectDgvCalculationRow(columnInf, innerName);
+        }
+        private void SelectDgvColumnTableRow(ColumnInf columnInf)
+        {
+            foreach(DataGridViewRow dgvRow in this.dgvColumnTable.Rows)
+            {
+                if(dgvRow.Cells["code"].Value==null || dgvRow.Cells["subCode"].Value==null)
+                {
+                    continue;
+                }
+                if(dgvRow.Cells["code"].Value.ToString()== columnInf.Code &&
+                    dgvRow.Cells["subCode"].Value.ToString() == columnInf.Text)
+                {
+                    dgvRow.Selected = true;
+                    break;
+                }
+            }
+        }
+        private void SelectDgvSpecificationRow(ColumnInf columnInf, string innerName)
+        {
+            foreach (DataGridViewRow dgvRow in this.dgvSpecificationRes.Rows)
+            {
+                if (dgvRow.Cells["flrName"].Value == null || dgvRow.Cells["code"].Value == null)
+                {
+                    continue;
+                }
+                if (dgvRow.Cells["flrName"].Value.ToString() == innerName && 
+                    dgvRow.Cells["code"].Value.ToString() == columnInf.Text
+                   )
+                {
+                    dgvRow.Selected = true;
+                    break;
+                }
+            }
+        }
+        private void SelectDgvCalculationRow(ColumnInf columnInf, string innerName)
+        {
+            foreach (DataGridViewRow dgvRow in this.dgvCalculationRes.Rows)
+            {
+                if (dgvRow.Cells["flrName"].Value == null || dgvRow.Cells["code"].Value == null)
+                {
+                    continue;
+                }
+                if (dgvRow.Cells["flrName"].Value.ToString() == innerName &&
+                    dgvRow.Cells["code"].Value.ToString() == columnInf.Text
+                   )
+                {
+                    dgvRow.Selected = true;
+                    break;
                 }
             }
         }
