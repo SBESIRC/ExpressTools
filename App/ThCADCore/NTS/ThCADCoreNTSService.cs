@@ -1,20 +1,19 @@
 ﻿using GeoAPI.Geometries;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.DatabaseServices;
+using NetTopologySuite;
 
 namespace ThCADCore.NTS
 {
-    public class ThSitePlanNTSService
+    public class ThCADCoreNTSService
     {
         //==============SINGLETON============
         //fourth version from:
         //http://csharpindepth.com/Articles/General/Singleton.aspx
-        private static readonly ThSitePlanNTSService instance = new ThSitePlanNTSService();
+        private static readonly ThCADCoreNTSService instance = new ThCADCoreNTSService();
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit    
-        static ThSitePlanNTSService() { }
-        internal ThSitePlanNTSService() { }
-        public static ThSitePlanNTSService Instance { get { return instance; } }
+        static ThCADCoreNTSService() { }
+        internal ThCADCoreNTSService() { }
+        public static ThCADCoreNTSService Instance { get { return instance; } }
         //-------------SINGLETON-----------------
 
         private IGeometryFactory geometryFactory;
@@ -24,7 +23,7 @@ namespace ThCADCore.NTS
             {
                 if (geometryFactory == null)
                 {
-                    geometryFactory = GeoAPI.GeometryServiceProvider.Instance.CreateGeometryFactory();
+                    geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory();
                 }
                 return geometryFactory;
             }

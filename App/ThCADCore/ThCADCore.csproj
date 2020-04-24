@@ -24,9 +24,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NTS\ThSitePlanNTSDbExtension.cs" />
-    <Compile Include="NTS\ThSitePlanNTSGeExtension.cs" />
-    <Compile Include="NTS\ThSitePlanNTSService.cs" />
+    <Compile Include="NTS\ThCADCoreNTSDbExtension.cs" />
+    <Compile Include="NTS\ThCADCoreNTSGeExtension.cs" />
+    <Compile Include="NTS\ThCADCoreNTSRegionExtension.cs" />
+    <Compile Include="NTS\ThCADCoreNTSService.cs" />
     <Compile Include="OutLiner.cs" />
     <Compile Include="PolylineValidationExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

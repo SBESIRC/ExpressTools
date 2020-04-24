@@ -9,7 +9,7 @@ using NetTopologySuite.Utilities;
 
 namespace ThCADCore.NTS
 {
-    public static class ThSitePlanNTSDbExtension
+    public static class ThCADCoreNTSDbExtension
     {
         public static Polyline ToDbPolyline(this ILineString lineString)
         {
@@ -84,6 +84,14 @@ namespace ThCADCore.NTS
             };
         }
 
+        public static Region ToDbRegion(this IPolygon polygon)
+        {
+            // 暂时不考虑有“洞”的情况
+            var curves = new DBObjectCollection();
+            curves.Add(polygon.Shell.ToDbPolyline());
+            return Region.CreateFromCurves(curves)[0] as Region;
+        }
+
         public static ILineString ToNTSLineString(this Polyline polyLine)
         {
             var points = new List<Coordinate>();
@@ -108,7 +116,7 @@ namespace ThCADCore.NTS
 
             if (points.Count > 1)
             {
-                return ThSitePlanNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
+                return ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
             }
             else
             {
@@ -123,7 +131,7 @@ namespace ThCADCore.NTS
             points.Add(line.EndPoint.ToNTSCoordinate());
             if (points.Count > 1)
             {
-                return ThSitePlanNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
+                return ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
             }
             else
             {
@@ -131,9 +139,18 @@ namespace ThCADCore.NTS
             }
         }
 
+        public static IGeometry ToNTSGeometry(this Region region)
+        {
+            var coordinates = new List<Coordinate>(region.Vertices().ToNTSCoordinates());
+            // A LinearRing containing n coordinates is implemented with an array
+            // of Coordinates containing n+1 points, and coord[0] = coord[n]
+            coordinates.Add(coordinates[0]);
+            return ThCADCoreNTSService.Instance.GeometryFactory.CreatePolygon(coordinates.ToArray());
+        }
+
         public static ILineString ToNTSLineString(this Arc arc, int numPoints)
         {
-            var shapeFactory = new GeometricShapeFactory(ThSitePlanNTSService.Instance.GeometryFactory)
+            var shapeFactory = new GeometricShapeFactory(ThCADCoreNTSService.Instance.GeometryFactory)
             {
                 Centre = arc.Center.ToNTSCoordinate(),
                 Size = 2 * arc.Radius,
@@ -181,7 +198,7 @@ namespace ThCADCore.NTS
 
         public static IGeometry ToNTSNodedLineStrings(this DBObjectCollection curves, double chord = 5.0)
         {
-            IGeometry nodedLineString = ThSitePlanNTSService.Instance.GeometryFactory.CreateLineString();
+            IGeometry nodedLineString = ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString();
             foreach(DBObject curve in curves)
             {
                 if (curve is Line line)
