@@ -59,6 +59,13 @@
     <Compile Include="..\TopoNode\CommonUtils.cs">
       <Link>Topology\CommonUtils.cs</Link>
     </Compile>
+    <Compile Include="..\TopoNode\Progress\Progress.cs">
+      <Link>Topology\Progress.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\TopoNode\Progress\Progress.Designer.cs">
+      <Link>Topology\Progress.Designer.cs</Link>
+    </Compile>
     <Compile Include="..\TopoNode\ThirdUtils.cs">
       <Link>Topology\ThirdUtils.cs</Link>
     </Compile>
@@ -210,6 +217,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\TopoNode\Progress\Progress.resx">
+      <Link>Topology\Progress.resx</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

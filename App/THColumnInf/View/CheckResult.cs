@@ -453,7 +453,11 @@ namespace ThColumnInfo.View
                             HideTotalFrameIds(innerFrameNode);                            
                         }
                     }
-                    ShowDetailData(treeNode);
+                    TreeNode selectNodeInnerFrameNode = TraverseInnerFrameRoot(treeNode);
+                    if (selectNodeInnerFrameNode!=null && selectNodeInnerFrameNode!=innerFrameNode)
+                    {
+                        ShowDetailData(selectNodeInnerFrameNode);
+                    }
                 }
             }
             this.currentNode = treeNode;
@@ -1092,7 +1096,12 @@ namespace ThColumnInfo.View
                 MessageBox.Show("请选择要查看详细数据的层节点");
                 return;
             }
-            if(forceShow)
+            TreeNode innerFrameNode = TraverseInnerFrameRoot(this.tvCheckRes.SelectedNode);
+            if (innerFrameNode == null)
+            {
+                return;
+            }
+            if (forceShow)
             {
                 DataPalette.ShowPaletteMark = false;
             }
