@@ -28,26 +28,39 @@ namespace TianHua.AutoCAD.ThCui
             var row = panel.AddNewRibbonRow();
 
             // 登录
-            row.AddNewButton("登录",
-                "天华登录",
-                ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME,
-                "登录天华效率平台",
-                "IDI_THCAD_THLOGIN_SMALL",
-                "IDI_THCAD_THLOGIN_LARGE",
-                RibbonButtonStyle.LargeWithText);
+            {
+                var subPanel = row.AddNewPanel();
+
+                var subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("登录",
+                    "天华登录",
+                    ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME,
+                    "登录天华效率平台",
+                    "IDI_THCAD_THLOGIN_SMALL",
+                    "IDI_THCAD_THLOGIN_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+            }
 
             // 退出
-            row.AddNewButton("退出",
-                "天华退出",
-                ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
-                "退出天华效率平台",
-                "IDI_THCAD_THLOGOUT_SMALL",
-                "IDI_THCAD_THLOGOUT_LARGE",
-                RibbonButtonStyle.LargeWithText);
+            {
+                var subPanel = row.AddNewPanel();
+
+                var subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("退出",
+                    "天华退出",
+                    ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
+                    "退出天华效率平台",
+                    "IDI_THCAD_THLOGOUT_SMALL",
+                    "IDI_THCAD_THLOGOUT_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+            }
 
             // 专业切换
             {
-                var splitButton = row.AddNewSplitButton(
+                var subPanel = row.AddNewPanel();
+
+                var subRow = subPanel.AddNewRibbonRow();
+                var splitButton = subRow.AddNewSplitButton(
                     "专业切换",
                     RibbonSplitButtonBehavior.SplitFollow,
                     RibbonSplitButtonListStyle.IconText,
@@ -109,23 +122,39 @@ namespace TianHua.AutoCAD.ThCui
                     RibbonButtonStyle.LargeWithText);
             }
 
-            // 帮助
-            row.AddNewButton("帮助文档",
-                "天华帮助",
-                ThCuiCommon.CMD_THHLP_GLOBAL_NAME,
-                "获取帮助文档",
-                "IDI_THCAD_THHLP_SMALL",
-                "IDI_THCAD_THHLP_LARGE",
-                RibbonButtonStyle.LargeWithText);
+            {
+                var subPanel = row.AddNewPanel();
 
-            // 更新
-            row.AddNewButton("检查更新",
-                "天华自动更新",
-                "THUPT",
-                "检查更新",
-                "IDI_THCAD_THUPT_SMALL",
-                "IDI_THCAD_THUPT_LARGE",
-                RibbonButtonStyle.LargeWithText);
+                // 帮助文档
+                var subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("帮助文档",
+                    "天华帮助",
+                    ThCuiCommon.CMD_THHLP_GLOBAL_NAME,
+                    "获取帮助文档",
+                    "IDI_THCAD_THHLP_SMALL",
+                    "IDI_THCAD_THHLP_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+
+                // 检查更新
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("检查更新",
+                    "天华自动更新",
+                    "THUPT",
+                    "检查更新",
+                    "IDI_THCAD_THUPT_SMALL",
+                    "IDI_THCAD_THUPT_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+
+                // 反馈意见
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("反馈意见",
+                    "天华反馈",
+                    "THFBK",
+                    "反馈意见",
+                    "IDI_THCAD_THFBK_SMALL",
+                    "IDI_THCAD_THFBK_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+            }
         }
 
         private static void CreatStatisticPanel(RibbonTabSource tab)
@@ -788,8 +817,8 @@ namespace TianHua.AutoCAD.ThCui
                 "天华柱校核",
                 "THCRC",
                 "柱配筋图纸校核",
-                "IDI_THCAD_THCRC_16x16",
-                "IDI_THCAD_THCRC_32x32",
+                "IDI_THCAD_THCRC_SMALL",
+                "IDI_THCAD_THCRC_LARGE",
                 RibbonButtonStyle.LargeWithText);
         }
     }

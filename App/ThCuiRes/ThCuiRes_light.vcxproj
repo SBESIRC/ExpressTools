@@ -143,6 +143,8 @@
     <Image Include="Images\THUKA_light.ico" />
     <Image Include="Images\THUPT_light_small.ico" />
     <Image Include="Images\THUPT_light_large.ico" />
+    <Image Include="Images\THFBK_light_small.ico" />
+    <Image Include="Images\THFBK_light_large.ico" />
     <Image Include="Images\THZ0_light_small.ico" />
     <Image Include="Images\THZ0_light_large.ico" />
     <Image Include="Images\TZLOOK_light.ico" />

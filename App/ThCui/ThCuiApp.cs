@@ -382,6 +382,14 @@ namespace TianHua.AutoCAD.ThCui
                 CommandFlags.Modal, 
                 new CommandCallback(OnHelp));
 
+            //天华反馈
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME,
+                ThCuiCommon.CMD_THFBK_GLOBAL_NAME,
+                ThCuiCommon.CMD_THFBK_GLOBAL_NAME,
+                CommandFlags.Modal,
+                new CommandCallback(OnFeedback));
+
             //注册打开工具选项板配置命令
             Utils.AddCommand(
                 ThCuiCommon.CMD_GROUPNAME,
@@ -436,6 +444,7 @@ namespace TianHua.AutoCAD.ThCui
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THHLP_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THBLS_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THBLI_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THFBK_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV4_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV5_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THPROFILE_GLOBAL_NAME);
@@ -655,6 +664,11 @@ namespace TianHua.AutoCAD.ThCui
         private void OnHelp()
         {
             Process.Start(ThCADCommon.OnlineHelpUrl);
+        }
+
+        private void OnFeedback()
+        {
+            //
         }
 
         private void OnSwitchProfile()

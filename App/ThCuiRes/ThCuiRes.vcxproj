@@ -144,6 +144,8 @@
     <Image Include="Images\THUKA_dark.ico" />
     <Image Include="Images\THUPT_dark_small.ico" />
     <Image Include="Images\THUPT_dark_large.ico" />
+    <Image Include="Images\THFBK_dark_small.ico" />
+    <Image Include="Images\THFBK_dark_large.ico" />
     <Image Include="Images\THZ0_dark_small.ico" />
     <Image Include="Images\THZ0_dark_large.ico" />
     <Image Include="Images\TZLOOK_dark.ico" />
