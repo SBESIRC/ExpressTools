@@ -435,6 +435,13 @@ namespace TianHua.AutoCAD.ThCui
                 ThCuiCommon.CMD_THPURGE_GLOBAL_NAME,
                 CommandFlags.Modal,
                 new CommandCallback(ThPurge));
+
+            Utils.AddCommand(
+                ThCuiCommon.CMD_GROUPNAME,
+                ThCuiCommon.CMD_THRESETCUI_GLOBAL_NAME,
+                ThCuiCommon.CMD_THRESETCUI_GLOBAL_NAME,
+                CommandFlags.Modal,
+                new CommandCallback(OnResetCui));
         }
 
         public void UnregisterCommands()
@@ -449,6 +456,7 @@ namespace TianHua.AutoCAD.ThCui
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV5_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THPROFILE_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THPURGE_GLOBAL_NAME);
+            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THRESETCUI_GLOBAL_NAME);
         }
 
         private void OverwritePlotConfigurations()
@@ -669,6 +677,24 @@ namespace TianHua.AutoCAD.ThCui
         private void OnFeedback()
         {
             //
+        }
+
+        private void OnResetCui()
+        {
+            // 先卸载ThCAD
+            Active.Editor.Cuiunload();
+
+            // 删除Roaming目录中的CUIX文件缓存
+            string roaming = (string)AcadApp.GetSystemVariable("ROAMABLEROOTPREFIX");
+            if (!string.IsNullOrEmpty(roaming))
+            {
+                var filter = string.Format("{0}.*", ThCADCommon.CuixMenuGroup);
+                var support = new DirectoryInfo(Path.Combine(roaming, "Support"));
+                foreach (var file in support.GetFiles(filter, SearchOption.TopDirectoryOnly))
+                {
+                    file.Delete();
+                }
+            }
         }
 
         private void OnSwitchProfile()

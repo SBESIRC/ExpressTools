@@ -40,6 +40,8 @@
     <Compile Include="ThCuiApp.cs" />
     <Compile Include="ThCuiCmdHandler.cs" />
     <Compile Include="ThCuiCommon.cs" />
+    <Compile Include="ThCuiEditorExtension.cs" />
+    <Compile Include="ThCuiFileDiaOverride.cs" />
     <Compile Include="ThCuiProfileManager.cs" />
     <Compile Include="ThCuiProfileYamlParser.cs" />
     <Compile Include="ThLoginDlg.cs">
