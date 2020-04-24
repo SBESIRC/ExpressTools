@@ -735,7 +735,7 @@ namespace ThColumnInfo.View
                             break;
                         }
                     }
-                }
+                }                
                 //将识别的结果更新到面板
                 tn.Nodes.Clear();
                 FillDrawCheckInfToTreeView(thStandardSign.SignExtractColumnInfo, tn, showImportCalInf);
@@ -993,7 +993,11 @@ namespace ThColumnInfo.View
         /// <param name="dwgExistCalNotColumnInfs"></param>
         private void AddDwgHasCalNotNode(TreeNode innerFrameNode, List<TreeNode> dwgExistCalNotColumnInfs)
         {
-            if(innerFrameNode.Nodes.ContainsKey(this.dwgHasCalNotNodeName))
+            if (innerFrameNode == null || innerFrameNode.Tag == null)
+            {
+                return;
+            }
+            if (innerFrameNode.Nodes.ContainsKey(this.dwgHasCalNotNodeName))
             {
                 innerFrameNode.Nodes.RemoveByKey(this.dwgHasCalNotNodeName);
             }
@@ -1008,7 +1012,7 @@ namespace ThColumnInfo.View
                 leafNode.Tag = tn.Tag;
             }                
         }
-        private string dwgNotCalHasNodeName = "DwgNodCalHas";
+        private string dwgNotCalHasNodeName = "DwgNotCalHas";
         private void AddDwgNotCalHasNode(TreeNode innerFrameNode)
         {
             if(innerFrameNode==null || innerFrameNode.Tag==null)
@@ -1026,10 +1030,15 @@ namespace ThColumnInfo.View
             dwgNotCalHasNode.ForeColor = sysColor;
             for (int i=0;i< thStandardSign.SignPlantCalData.UnrelatedFrameIds.Count;i++)
             {
+                ObjectId objId = thStandardSign.SignPlantCalData.UnrelatedFrameIds[i];
+                if (objId== ObjectId.Null || objId.IsErased || !objId.IsValid)
+                {
+                    continue;
+                }
                 TreeNode leafNode = dwgNotCalHasNode.Nodes.Add((i+1).ToString());
                 leafNode.ForeColor = sysColor;
                 leafNode.Tag = thStandardSign.SignPlantCalData.UnrelatedFrameIds[i];
-            }
+            }   
         }
         /// <summary>
         /// 更新数据正确节点
@@ -1180,21 +1189,20 @@ namespace ThColumnInfo.View
         }
         private void btnComponentDefinition_Click(object sender, EventArgs e)
         {
+            if (ComponentPropDefine.isOpened)
+            {
+                return;
+            }
             Document document = acadApp.Application.DocumentManager.MdiActiveDocument;
             using (DocumentLock docLock= document.LockDocument())
             {
-                PlantCalDataToDraw plantCal = new PlantCalDataToDraw();
-                plantCal.GetEmbededColumnIds();
-                if (plantCal.EmbededColumnIds.Count == 0)
-                {
-                    MessageBox.Show("未能发现任何埋入的柱子实体，请执行计算书导入命令");
-                    return;
-                }
                 try
                 {
-                    if(ComponentPropDefine.isOpened)
+                    PlantCalDataToDraw plantCal = new PlantCalDataToDraw();
+                    plantCal.GetEmbededColumnIds();
+                    if (plantCal.EmbededColumnIds.Count == 0)
                     {
-                        MessageBox.Show("构件属性修改窗体已打开!");
+                        MessageBox.Show("未能发现任何埋入的柱子实体，请运行【计算书导入】或【校核】命令后再执行此操作!");
                         return;
                     }
                     ComponentPropDefineVM componentPropDefineVM = new ComponentPropDefineVM();

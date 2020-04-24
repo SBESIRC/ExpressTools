@@ -8,9 +8,9 @@ namespace ThColumnInfo
 {
     public class ColumnCustomData :CNotifyPropertyChange
     {
-        private string antiSeismicGrade = "一级";    //抗震等级
-        private string protectLayerThickness ="25"; //保护层厚度
-        private string concreteStrength = "C30"; //混凝土强度
+        private string antiSeismicGrade = "";    //抗震等级
+        private string protectLayerThickness =""; //保护层厚度
+        private string concreteStrength = ""; //混凝土强度
         private string hoopReinforceEnlargeTimes ="1"; //箍筋放大倍数
         private string longitudinalReinforceEnlargeTimes = "1"; //纵筋放大倍数
 

@@ -10,6 +10,7 @@ namespace ThColumnInfo.Validate
     {
         public static IDataSource dataSource;
         public static List<ColumnDataModel> columnDataModels;
+        public readonly int decimalPlaces = 3; //小数点保留位数
         public ThValidate(IDataSource ds)
         {
             dataSource = ds;

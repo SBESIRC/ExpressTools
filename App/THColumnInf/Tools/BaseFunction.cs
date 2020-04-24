@@ -340,5 +340,19 @@ namespace ThColumnInfo
             }
             return res;
         }
+        /// <summary>
+        /// 小数点保留位数
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public static double MathRound(double value,int num)
+        {
+            if(value==0.0)
+            {
+                return 0.0;
+            }
+            return Math.Round(value, num);
+        }
     }
 }

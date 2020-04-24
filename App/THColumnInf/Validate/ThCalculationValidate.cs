@@ -89,7 +89,7 @@ namespace ThColumnInfo.Validate
                 {
                     continue;
                 }
-                CalculationValidate cv = new CalculationValidate(columns[i]);
+                CalculationValidate cv = new CalculationValidate(columnRelateInfs[i]);
                 cv.ValidateColumnInf();
                 List<string> totalStrings = new List<string>();
                 totalStrings.AddRange(cv.ErrorResults);

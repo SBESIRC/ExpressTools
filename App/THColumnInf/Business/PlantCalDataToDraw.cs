@@ -173,6 +173,9 @@ namespace ThColumnInfo
             {
                 return;
             }
+            this.unrelatedFrameIds.Clear();
+            this.exceptionFrameIds.Clear();
+            this.columnFrameIds.Clear();
             //获取数据信息完整的柱子与计算书中的柱子比对
             List<ColumnInf> columnInfs = this.thStandardSign.SignExtractColumnInfo.ColumnInfs.Where(i => i.Error == ErrorMsg.OK).Select(i => i).ToList();
 
@@ -1067,6 +1070,9 @@ namespace ThColumnInfo
                 ThColumnInfoUtils.EraseObjIds(this.columnFrameIds.ToArray());
                 ThColumnInfoUtils.EraseObjIds(this.unrelatedFrameIds.ToArray());
                 ThColumnInfoUtils.EraseObjIds(this.exceptionFrameIds.ToArray());
+                this.columnFrameIds.Clear();
+                this.unrelatedFrameIds.Clear();
+                this.exceptionFrameIds.Clear();
             }
             catch(System.Exception ex)
             {
