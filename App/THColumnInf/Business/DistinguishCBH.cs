@@ -37,11 +37,15 @@ namespace ThColumnInfo.Business
         private List<Curve> curves = new List<Curve>();  //方框里包括的所有Curves
 
         private List<Curve> smallCurves = new List<Curve>();  //小Curve,用于分析角筋数量,b边数量
+        private Document doc;
 
+        private double offsetDis = 5.0;
+        private Point3d leftDownPt;
+        private Point3d rightUpPt;
         public DistinguishCBH(Curve columnFrame)
         {
             this.columnFrame = columnFrame;
-            GetPolylines();
+            this.doc = ThColumnInfoUtils.GetMdiActiveDocument();
         }
         public void Distinguish()
         {          
@@ -49,10 +53,29 @@ namespace ThColumnInfo.Business
             {
                 return;
             }
+            //获取方框里所有符合条件的曲线
+            GetPolylines();
             //获取方框里所有小的圆圈
             GetSmallPolylines();
-
+            //分析角筋、b边纵筋数量、h边纵筋数量
+            AnalyzeCornerBHEdgeNumber();
+            //分析肢数
+            AnalyzeTypeNumber();
         }
+        private void GetFrameCornerPts()
+        {
+            List<Point3d> pts = ThColumnInfoUtils.GetPolylinePts(this.columnFrame);
+            pts.ForEach(i => ThColumnInfoUtils.TransPtFromWcsToUcs(i));
+            double minX=pts.OrderBy(i => i.X).First().X;
+            double minY= pts.OrderBy(i => i.Y).First().Y;
+            double maxX= pts.OrderByDescending(i => i.X).First().X;
+            double maxY = pts.OrderByDescending(i => i.Y).First().Y;
+            this.leftDownPt = new Point3d(minX,minY,0.0);
+            this.rightUpPt = new Point3d(maxX,maxY,0.0);
+        }
+        /// <summary>
+        /// 获取方框里所有符合条件的曲线
+        /// </summary>
         private void GetPolylines()
         {
             if (this.columnFrame == null)
@@ -84,7 +107,7 @@ namespace ThColumnInfo.Business
             }
         }
         /// <summary>
-        /// 获取所有小的
+        /// 获取所有小的圆圈
         /// </summary>
         private void GetSmallPolylines()
         {
@@ -142,20 +165,42 @@ namespace ThColumnInfo.Business
             //Todo
 
         }
-        private double offsetDis = 5.0;
+        /// <summary>
+        /// 分析箍筋类型号 1(4 x 4)
+        /// </summary>
+        private void AnalyzeTypeNumber()
+        {
+
+        }
         /// <summary>
         /// 左下角点Corner
         /// </summary>
         private void LeftDownCorner()
         {
             var res = from item in this.smallCurves
-                      orderby GetBoundingBoxCenter(item).X ascending, GetBoundingBoxCenter(item).Y ascending
+                      orderby ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(item)).X ascending,
+                      ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(item)).Y ascending
                       select item;
             Curve leftDownCurve = res.First();
-            Point3d cenPt = GetBoundingBoxCenter(leftDownCurve);
-            List<Curve> xCurves = this.smallCurves.Where(i => Math.Abs(GetBoundingBoxCenter(i).Y - cenPt.Y) <= this.offsetDis).Select(i => i).ToList();
-            //List<Curve> xCurves = this.smallCurves.Where(i => Math.Abs(GetBoundingBoxCenter(i).Y - cenPt.Y) <= this.offsetDis).Select(i => i).ToList();
-            //Todo
+            Point3d originPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(leftDownCurve));
+            Point3d xPt = originPt + new Vector3d(this.rightUpPt.X - this.leftDownPt.X, 0, 0);
+            Point3d yPt = originPt + new Vector3d(0, this.rightUpPt.Y - this.leftDownPt.Y, 0);
+            TypedValue[] tvs = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Polyline,LWPOLYLINE") }; //后期根据需要再追加搜索条件
+            SelectionFilter polylineSf = new SelectionFilter(tvs);
+            PromptSelectionResult xdirPsr= ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, originPt,
+                xPt + new Vector3d(0, 1, 0), PolygonSelectionMode.Crossing ,polylineSf);
+
+            List<ObjectId> xDirObjIds = new List<ObjectId>();
+            if(xdirPsr.Status==PromptStatus.OK)
+            {
+                xDirObjIds = xdirPsr.Value.GetObjectIds().ToList();
+            }
+
+            List<ObjectId> yDirObjIds = new List<ObjectId>();
+            PromptSelectionResult ydirPsr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, originPt,
+                yPt + new Vector3d(1, 0, 0), PolygonSelectionMode.Crossing, polylineSf);
+
+            return ;
         }
         /// <summary>
         /// 右下角点Corner

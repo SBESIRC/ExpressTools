@@ -1463,5 +1463,48 @@ namespace ThColumnInfo
             }
             return inters;
         }
+        /// <summary>
+        /// Gets the transformation matrix from the current User Coordinate System (UCS)
+        /// to the World Coordinate System (WCS).
+        /// </summary>
+        /// <param name="ed">The instance to which this method applies.</param>
+        /// <returns>The UCS to WCS transformation matrix.</returns>
+        public static Matrix3d UCS2WCS()
+        {
+            var doc = GetMdiActiveDocument();
+            return doc.Editor.CurrentUserCoordinateSystem;
+        }
+
+        /// <summary>
+        /// Gets the transformation matrix from the World Coordinate System (WCS)
+        /// to the current User Coordinate System (UCS).
+        /// </summary>
+        /// <param name="ed">The instance to which this method applies.</param>
+        /// <returns>The WCS to UCS transformation matrix.</returns>
+        public static Matrix3d WCS2UCS()
+        {
+            var doc = GetMdiActiveDocument();
+            return doc.Editor.CurrentUserCoordinateSystem.Inverse();
+        }
+        /// <summary>
+        /// 把坐标点从世界坐标系转到用户坐标系
+        /// </summary>
+        /// <param name="pt">Wcs Point3d</param>
+        /// <returns></returns>
+        public static Point3d TransPtFromWcsToUcs(Point3d pt)
+        {
+            Matrix3d mt = WCS2UCS();
+            return pt.TransformBy(mt);
+        }
+        /// <summary>
+        /// 把坐标点从用户坐标系转到世界坐标系
+        /// </summary>
+        /// <param name="pt">Ucs Point3d</param>
+        /// <returns></returns>
+        public static Point3d TransPtFromUcsToWcs(Point3d pt)
+        {
+            Matrix3d mt = UCS2WCS();
+            return pt.TransformBy(mt);
+        }
     }
 }
