@@ -41,7 +41,7 @@ namespace ThSitePlan
             return editor.TraceBoundary(seedPtUcs, true);
         }
 
-        public static ObjectIdCollection CreateRegions(this Editor editor, ObjectIdCollection objs)
+        public static void CreateRegions(this Editor editor, ObjectIdCollection objs)
         {
             // 执行REGION命令
 #if ACAD_ABOVE_2014
@@ -56,17 +56,9 @@ namespace ThSitePlan
                );
             Active.Editor.AcedCmd(args);
 #endif
-
-            // 获取REGION对象
-            PromptSelectionResult selRes = Active.Editor.SelectLast();
-            if (selRes.Status == PromptStatus.OK)
-            {
-                return new ObjectIdCollection(selRes.Value.GetObjectIds());
-            }
-            return new ObjectIdCollection();
         }
 
-        public static ObjectIdCollection UnionRegions(this Editor editor, ObjectIdCollection objs)
+        public static void UnionRegions(this Editor editor, ObjectIdCollection objs)
         {
             // 执行UNION命令
 #if ACAD_ABOVE_2014
@@ -81,36 +73,6 @@ namespace ThSitePlan
                );
             Active.Editor.AcedCmd(args);
 #endif
-
-            // 获取REGION对象
-            PromptSelectionResult selRes = Active.Editor.SelectLast();
-            if (selRes.Status != PromptStatus.OK)
-            {
-                return new ObjectIdCollection();
-            }
-
-            // 执行EXPLODE命令
-#if ACAD_ABOVE_2014
-            Active.Editor.Command("_.EXPLODE",
-                SelectionSet.FromObjectIds(selRes.Value.GetObjectIds()),
-                "");
-#else
-            args = new ResultBuffer(
-               new TypedValue((int)LispDataType.Text, "_.EXPLODE"),
-               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(selRes.Value.GetObjectIds())),
-               new TypedValue((int)LispDataType.Text, "")
-               );
-            Active.Editor.AcedCmd(args);
-#endif
-
-            // 获取UNION后的REGION对象
-            selRes = Active.Editor.SelectLast();
-            if (selRes.Status != PromptStatus.OK)
-            {
-                return new ObjectIdCollection();
-            }
-
-            return new ObjectIdCollection(selRes.Value.GetObjectIds());
         }
 
         public static void SubtractRegions(this Editor editor, ObjectIdCollection pObjs, ObjectIdCollection sObjs)
@@ -134,7 +96,7 @@ namespace ThSitePlan
 #endif
         }
 
-        public static ObjectIdCollection CreateHatchWithRegions(this Editor editor, ObjectIdCollection objs)
+        public static void CreateHatchWithRegions(this Editor editor, ObjectIdCollection objs)
         {
             using (var hatchOV = new ThSitePlanHatchOverride())
             {
@@ -153,15 +115,6 @@ namespace ThSitePlan
                    );
                 Active.Editor.AcedCmd(args);
 #endif
-
-                // 获取HATCH对象
-                PromptSelectionResult selRes = Active.Editor.SelectLast();
-                if (selRes.Status != PromptStatus.OK)
-                {
-                    return new ObjectIdCollection();
-                }
-
-                return new ObjectIdCollection(selRes.Value.GetObjectIds());
             }
         }
 
@@ -184,10 +137,20 @@ namespace ThSitePlan
         public static void BoundaryCmd(this Editor editor, ObjectIdCollection objs, Point3d seedPt)
         {
 #if ACAD_ABOVE_2014
-            Active.Editor.Command("_.-BOUNDARY", seedPt, "");
+            Active.Editor.Command("_.-BOUNDARY", 
+                "_A",
+                "_O",
+                "_R",
+                "",
+                seedPt, 
+                "");
 #else
             ResultBuffer args = new ResultBuffer(
                new TypedValue((int)LispDataType.Text, "_.-BOUNDARY"),
+               new TypedValue((int)LispDataType.Text, "_A"),
+               new TypedValue((int)LispDataType.Text, "_O"),
+               new TypedValue((int)LispDataType.Text, "_R"),
+               new TypedValue((int)LispDataType.Text, "")
                new TypedValue((int)LispDataType.Point3d, seedPt),
                new TypedValue((int)LispDataType.Text, "")
                );

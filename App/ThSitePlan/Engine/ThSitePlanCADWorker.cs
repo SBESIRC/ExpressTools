@@ -44,6 +44,16 @@ namespace ThSitePlan.Engine
                     return false;
                 }
 
+                Active.Editor.ExplodeCmd(regions);
+            }
+
+            using (var regions = FilterRegion(database, configItem, options))
+            {
+                if (regions.Count == 0)
+                {
+                    return false;
+                }
+
                 Active.Editor.CreateHatchWithRegions(regions);
             }
 
