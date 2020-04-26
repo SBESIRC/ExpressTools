@@ -102,15 +102,25 @@ namespace ThSitePlan
             {
                 // 执行HATCH命令
 #if ACAD_ABOVE_2014
-                Active.Editor.Command("_.HATCH",
+                Active.Editor.Command("_.-HATCH",
+                    "_A",
+                    "_H",
+                    "_Y",
+                    "",
                     "_S",
                     SelectionSet.FromObjectIds(objs.ToArray()),
+                    "",
                     "");
 #else
                 ResultBuffer args = new ResultBuffer(
-                   new TypedValue((int)LispDataType.Text, "_.HATCH"),
+                   new TypedValue((int)LispDataType.Text, "_.-HATCH"),
+                   new TypedValue((int)LispDataType.Text, "_A"),
+                   new TypedValue((int)LispDataType.Text, "_H"),
+                   new TypedValue((int)LispDataType.Text, "_Y"),
+                   new TypedValue((int)LispDataType.Text, ""),
                    new TypedValue((int)LispDataType.Text, "_S"),
                    new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
+                   new TypedValue((int)LispDataType.Text, ""),
                    new TypedValue((int)LispDataType.Text, "")
                    );
                 Active.Editor.AcedCmd(args);
