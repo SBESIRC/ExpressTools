@@ -121,16 +121,21 @@ namespace ThSitePlan
         public static void ExplodeCmd(this Editor editor, ObjectIdCollection objs)
         {
 #if ACAD_ABOVE_2014
-            Active.Editor.Command("_.EXPLODE",
-                SelectionSet.FromObjectIds(objs.ToArray()),
-                "");
+            // 由于未知原因，发送EXPLODE命令时提供一个选择集并不能正常工作
+            // 这里采用一个Workaround，即使用循环为每个对象发送EXPLODE命令
+            foreach(ObjectId obj in objs)
+            {
+                Active.Editor.Command("_.EXPLODE", obj);
+            }
 #else
-            ResultBuffer args = new ResultBuffer(
-               new TypedValue((int)LispDataType.Text, "_.EXPLODE"),
-               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
-               new TypedValue((int)LispDataType.Text, "")
-               );
-            Active.Editor.AcedCmd(args);
+            foreach(ObjectId obj in objs)
+            {
+                ResultBuffer args = new ResultBuffer(
+                   new TypedValue((int)LispDataType.Text, "_.EXPLODE"),
+                   new TypedValue((int)LispDataType.ObjectId, obj)
+                   );
+                Active.Editor.AcedCmd(args);
+            }
 #endif
         }
 

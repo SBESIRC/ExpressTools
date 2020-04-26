@@ -27,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ThSitePlanConfigService.cs" />
+    <Compile Include="Engine\ThSitePlanBoundaryBuildingWorker.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryGenerator.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryWorker.cs" />
     <Compile Include="Engine\ThSitePlanBuilding.cs" />
@@ -34,7 +35,7 @@
     <Compile Include="Engine\ThSitePlanBuildingShadow.cs" />
     <Compile Include="Engine\ThSitePlanCADRegionWorker.cs" />
     <Compile Include="Engine\ThSitePlanDbEngine.cs" />
-    <Compile Include="Engine\ThSitePlanFireWorker.cs" />
+    <Compile Include="Engine\ThSitePlanBoundaryFireWorker.cs" />
     <Compile Include="Engine\ThSitePlanFrameNameGenerator.cs" />
     <Compile Include="Engine\ThSitePlanParkWorker.cs" />
     <Compile Include="Engine\ThSitePlanCADWorker.cs" />
