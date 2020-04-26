@@ -155,7 +155,7 @@ namespace ThSitePlan
                new TypedValue((int)LispDataType.Text, "_A"),
                new TypedValue((int)LispDataType.Text, "_O"),
                new TypedValue((int)LispDataType.Text, "_R"),
-               new TypedValue((int)LispDataType.Text, "")
+               new TypedValue((int)LispDataType.Text, ""),
                new TypedValue((int)LispDataType.Point3d, seedPt),
                new TypedValue((int)LispDataType.Text, "")
                );
