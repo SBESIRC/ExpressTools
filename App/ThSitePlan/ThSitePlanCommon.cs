@@ -5,6 +5,7 @@ namespace ThSitePlan
 {
     public class ThSitePlanCommon
     {
+        public static readonly string LAYER_ZERO = "0";
         public static readonly string LAYER_FRAME = "P-AI-Frame";
         public static readonly string LAYER_LANDSCAPE_TREE = "P-Land-TREE";
         public static readonly string LAYER_STREET_TREE = "P-AI-steettree";

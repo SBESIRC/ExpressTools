@@ -40,8 +40,38 @@ namespace ThSitePlan
                     {
                         break;
                     }
-                    blockReferences.ForEachDbObject(b => b.ExplodeToOwnerSpace());
-                    blockReferences.ForEachDbObject(b => b.Erase());
+
+                    foreach(BlockReference blockReference in blockReferences)
+                    {
+                        using (var objs = new ObjectIdCollection())
+                        {
+                            ObjectEventHandler handler = (s, e) =>
+                            {
+                                 if (e.DBObject is Entity entity)
+                                 {
+                                    if (entity.Layer == ThSitePlanCommon.LAYER_ZERO)
+                                    {
+                                        objs.Add(e.DBObject.ObjectId);
+                                    }
+                                 }
+
+                            };
+
+                            // 将块引用炸开
+                            acadDatabase.Database.ObjectAppended += handler;
+                            blockReference.ExplodeToOwnerSpace();
+                            acadDatabase.Database.ObjectAppended -= handler;
+
+                            // 将块引用中图层为“0”的图元调整到块引用所在的图层
+                            foreach(ObjectId obj in objs)
+                            {
+                                acadDatabase.Element<Entity>(obj, true).Layer = blockReference.Layer;
+                            }
+
+                            // 删除块引用
+                            blockReference.Erase();
+                        }
+                    }
                 }
             }
         }
