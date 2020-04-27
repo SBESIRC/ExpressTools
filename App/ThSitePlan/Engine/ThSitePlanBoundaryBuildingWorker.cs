@@ -1,10 +1,13 @@
 ﻿using AcHelper;
 using Linq2Acad;
+using System.Linq;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
-using ThSitePlan.Configuration;
 using NFox.Cad.Collections;
+using ThSitePlan.Configuration;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThSitePlan.Engine
 {
@@ -94,6 +97,23 @@ namespace ThSitePlan.Engine
             else
             {
                 return new ObjectIdCollection();
+            }
+        }
+
+        /// <summary>
+        /// 在线框内选取一个种子点
+        /// </summary>
+        /// <param name="database"></param>
+        /// <param name="frame"></param>
+        /// <returns></returns>
+        protected Point3d SeedPoint(Database database, ObjectId frame)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                var polygon = acadDatabase.Element<Polyline>(frame);
+                var offset = polygon.Offset(ThSitePlanCommon.seed_point_offset,
+                    ThPolylineExtension.OffsetSide.In);
+                return offset.First().StartPoint;
             }
         }
     }

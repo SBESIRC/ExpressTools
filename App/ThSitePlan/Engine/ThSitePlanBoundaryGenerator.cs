@@ -15,7 +15,8 @@ namespace ThSitePlan.Engine
         {
             Workers = new Dictionary<string, ThSitePlanWorker>()
             {
-                {"场地-消防登高场地-场地色块", new ThSitePlanBoundaryFireWorker()},
+                {"场地-活动场地-场地色块", new ThSitePlanBoundaryWorker()},
+                {"场地-消防登高场地-场地色块", new ThSitePlanBoundaryWorker()},
                 {"建筑物-场地外建筑-建筑色块", new ThSitePlanBoundaryBuildingWorker()},
                 {"建筑物-场地内建筑-建筑色块", new ThSitePlanBoundaryBuildingWorker()},
             };

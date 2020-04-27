@@ -35,7 +35,6 @@
     <Compile Include="Engine\ThSitePlanBuildingShadow.cs" />
     <Compile Include="Engine\ThSitePlanCADRegionWorker.cs" />
     <Compile Include="Engine\ThSitePlanDbEngine.cs" />
-    <Compile Include="Engine\ThSitePlanBoundaryFireWorker.cs" />
     <Compile Include="Engine\ThSitePlanFrameNameGenerator.cs" />
     <Compile Include="Engine\ThSitePlanParkWorker.cs" />
     <Compile Include="Engine\ThSitePlanCADWorker.cs" />
