@@ -63,9 +63,9 @@ namespace ThSitePlan
                             acadDatabase.Database.ObjectAppended -= handler;
 
                             // 将块引用中图层为“0”的图元调整到块引用所在的图层
-                            foreach(ObjectId obj in objs)
+                            foreach (ObjectId obj in objs)
                             {
-                                acadDatabase.Element<Entity>(obj, true).Layer = blockReference.Layer;
+                                acadDatabase.Element<Entity>(obj, true).SetPropertiesFrom(blockReference);
                             }
 
                             // 删除块引用
