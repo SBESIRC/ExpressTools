@@ -130,7 +130,6 @@ namespace ThSitePlan.Configuration
                             "P-LIMT-BUID",
                             "P-LIMT-COOR",
                             "P-BUID-UDBD",
-                            "P-CONS-FENC",
                         }
                     }
                 }
@@ -536,6 +535,7 @@ namespace ThSitePlan.Configuration
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()
                         {
+                            ThSitePlanCommon.LAYER_SITE_FENCE,
                             ThSitePlanCommon.LAYER_SITE_MISCELLANEOUS
                         }
                     }
@@ -553,6 +553,7 @@ namespace ThSitePlan.Configuration
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()
                         {
+                            ThSitePlanCommon.LAYER_SITE_FENCE,
                             ThSitePlanCommon.LAYER_SITE_MISCELLANEOUS
                         }
                     }
