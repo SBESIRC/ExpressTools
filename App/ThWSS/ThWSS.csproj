@@ -30,6 +30,7 @@
     <Compile Include="Engine\ThModelElement.cs" />
     <Compile Include="Engine\ThRoomRecognitionEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutEngine.cs" />
+    <Compile Include="Engine\ThSprayLayoutWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThWSSApp.cs" />
   </ItemGroup>

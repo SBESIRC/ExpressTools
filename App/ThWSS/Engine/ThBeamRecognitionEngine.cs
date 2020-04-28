@@ -17,5 +17,10 @@ namespace ThWSS.Engine
         {
             throw new NotImplementedException();
         }
+
+        public override bool Acquire(ThModelElement element)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

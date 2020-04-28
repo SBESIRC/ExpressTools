@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
@@ -18,6 +18,7 @@ namespace ThWSS.Engine
         public static ThSprayLayoutEngine Instance { get { return instance; } }
         //-------------SINGLETON-----------------
 
+        public List<ThSprayLayoutWorker> Workers { get; set; }
         public ThBeamRecognitionEngine BeamEngine { get; set; }
         public ThRoomRecognitionEngine RoomEngine { get; set; }
         public ThColumnRecognitionEngine ColumnEngine { get; set; }
@@ -42,7 +43,10 @@ namespace ThWSS.Engine
         /// <param name="room"></param>
         private void Layout(ThRoom room)
         {
-            throw new NotImplementedException();
+            foreach(var worker in Workers)
+            {
+                worker.DoLayout(room);
+            }
         }
     }
 }
