@@ -8,25 +8,59 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThColumnInfo.Business
+namespace ThColumnInfo
 {
     /// <summary>
     /// 识别角筋、b边纵筋、h边纵筋的数量
     /// </summary>
     public class DistinguishCBH
     {
+        private int cornerNum = 0;
+        private int bEdgeNum = 0;
+        private int hEdgeNum = 0;
         /// <summary>
         /// 角筋数量
         /// </summary>
-        public int CornerNum { get; set; }
+        public int CornerNum {
+            get
+            {
+                return cornerNum;
+            }
+        }
         /// <summary>
         /// B边纵筋数量
         /// </summary>
-        public int BEdgeNum { get; set; }
+        /// 
+        public int BEdgeNum
+        {
+            get
+            {
+                return bEdgeNum;
+            }
+        }
         /// <summary>
         /// H边纵筋数量
         /// </summary>
-        public int HEdgeNum { get; set; }
+        public int HEdgeNum
+        {
+            get
+            {
+                return hEdgeNum;
+            }
+        } 
+
+        /// <summary>
+        /// 获取总数
+        /// </summary>
+        /// <returns></returns>
+        public int TotalNum
+        {
+            get
+            {
+                return this.cornerNum * 4 + this.bEdgeNum * 2 + this.hEdgeNum * 2;
+            }
+        }
+
         /// <summary>
         /// 类型代号
         /// </summary>
@@ -34,31 +68,37 @@ namespace ThColumnInfo.Business
 
         private Curve columnFrame; //方框
 
-        private List<Curve> curves = new List<Curve>();  //方框里包括的所有Curves
-
+        private List<Curve> curves = new List<Curve>();  //方框里包括的所有曲线
+        private List<Curve> restCurves = new List<Curve>(); //方框里除掉小曲线，剩下的曲线
         private List<Curve> smallCurves = new List<Curve>();  //小Curve,用于分析角筋数量,b边数量
         private Document doc;
 
         private double offsetDis = 5.0;
+        private double searchRatio = 1.0 / 3.0;
         private Point3d leftDownPt;
         private Point3d rightUpPt;
+        private Curve originCurve; //左下角Curve
+
         public DistinguishCBH(Curve columnFrame)
         {
             this.columnFrame = columnFrame;
             this.doc = ThColumnInfoUtils.GetMdiActiveDocument();
         }
         public void Distinguish()
-        {          
+        {
+            //获取方框里所有符合条件的曲线
+            GetPolylines();
             if (curves.Count == 0)
             {
                 return;
             }
-            //获取方框里所有符合条件的曲线
-            GetPolylines();
             //获取方框里所有小的圆圈
             GetSmallPolylines();
-            //分析角筋、b边纵筋数量、h边纵筋数量
-            AnalyzeCornerBHEdgeNumber();
+            this.restCurves=this.curves.Where(i => this.smallCurves.IndexOf(i) < 0).Select(i => i).ToList();
+            //分析角筋数量
+            AnalyzeCornerNumber();
+            //分析b、h边纵筋数量
+            AnalyzeBHEdgeNumber();
             //分析肢数
             AnalyzeTypeNumber();
         }
@@ -66,12 +106,12 @@ namespace ThColumnInfo.Business
         {
             List<Point3d> pts = ThColumnInfoUtils.GetPolylinePts(this.columnFrame);
             pts.ForEach(i => ThColumnInfoUtils.TransPtFromWcsToUcs(i));
-            double minX=pts.OrderBy(i => i.X).First().X;
-            double minY= pts.OrderBy(i => i.Y).First().Y;
-            double maxX= pts.OrderByDescending(i => i.X).First().X;
+            double minX = pts.OrderBy(i => i.X).First().X;
+            double minY = pts.OrderBy(i => i.Y).First().Y;
+            double maxX = pts.OrderByDescending(i => i.X).First().X;
             double maxY = pts.OrderByDescending(i => i.Y).First().Y;
-            this.leftDownPt = new Point3d(minX,minY,0.0);
-            this.rightUpPt = new Point3d(maxX,maxY,0.0);
+            this.leftDownPt = new Point3d(minX, minY, 0.0);
+            this.rightUpPt = new Point3d(maxX, maxY, 0.0);
         }
         /// <summary>
         /// 获取方框里所有符合条件的曲线
@@ -83,6 +123,7 @@ namespace ThColumnInfo.Business
                 return;
             }
             List<Point3d> boundaryPts = ThColumnInfoUtils.GetPolylinePts(this.columnFrame);
+            boundaryPts=boundaryPts.Select(i=>ThColumnInfoUtils.TransPtFromWcsToUcs(i)).ToList();
             double minX = boundaryPts.OrderBy(i => i.X).Select(i => i.X).FirstOrDefault();
             double minY = boundaryPts.OrderBy(i => i.Y).Select(i => i.Y).FirstOrDefault();
             double minZ = boundaryPts.OrderBy(i => i.Z).Select(i => i.Z).FirstOrDefault();
@@ -94,12 +135,9 @@ namespace ThColumnInfo.Business
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Point3d pt1 = new Point3d(minX, minY, minZ);
             Point3d pt2 = new Point3d(maxX, maxY, minZ);
-            Point3d fiterPt1 = pt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-            Point3d fiterPt2 = pt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-
             TypedValue[] tvs = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Polyline,LWPOLYLINE") }; //后期根据需要再追加搜索条件
             SelectionFilter polylineSf = new SelectionFilter(tvs);
-            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(doc.Editor, fiterPt1, fiterPt2, PolygonSelectionMode.Window, polylineSf);
+            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(doc.Editor, pt1, pt2, PolygonSelectionMode.Window, polylineSf);
             if (psr.Status == PromptStatus.OK)
             {
                 List<ObjectId> polylineObjIds = psr.Value.GetObjectIds().ToList();
@@ -127,11 +165,11 @@ namespace ThColumnInfo.Business
                 {
                     area = polyline3d.Area;
                 }
-                else if(this.curves[i] is Circle circle)
+                else if (this.curves[i] is Circle circle)
                 {
                     area = circle.Area;
                 }
-                else if(this.curves[i] is Ellipse ellipse)
+                else if (this.curves[i] is Ellipse ellipse)
                 {
                     area = ellipse.Area;
                 }
@@ -154,86 +192,395 @@ namespace ThColumnInfo.Business
                 }
             }
             List<double> smallPolylineAreas = polylineAreaDic.OrderBy(i => i.Key).Select(i => i.Key).ToList();
-            this.smallCurves= polylineAreaDic.OrderBy(i => i.Key).Where(i => i.Value.Count > 4).Select(i => i.Value).First();
+            this.smallCurves = polylineAreaDic.OrderBy(i => i.Key).Where(i => i.Value.Count > 4).Select(i => i.Value).First();
         }
-        private void AnalyzeCornerBHEdgeNumber()
+        private void AnalyzeCornerNumber()
         {
-            if(this.smallCurves.Count==0)
+            if (this.smallCurves.Count == 0)
             {
                 return;
             }
-            //Todo
+            List<Curve> leftDownCorner = GetLeftDownCorner();
+            List<Curve> rightDownCorner = GetRightDownCorner();
+            List<Curve> rightUpCorner = GetRightUpCorner();
+            List<Curve> leftUpCorner = GetLeftUpCorner();
+            this.cornerNum=AnalyzeMostNumber(new List<int> { leftDownCorner.Count, rightDownCorner.Count, rightUpCorner.Count, leftUpCorner.Count });
+            RemoveCorner(leftDownCorner);
+            RemoveCorner(rightDownCorner);
+            RemoveCorner(rightUpCorner);
+            RemoveCorner(leftUpCorner);
+        }
+        private void AnalyzeBHEdgeNumber()
+        {
+            Point3d originCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(this.originCurve));
 
+            var xDirCurves = this.smallCurves.Where(i => Math.Abs(
+                 ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y - originCurveCenPt.Y) <= this.offsetDis).Select(i => i).ToList();
+
+            var yDirCurves = this.smallCurves.Where(i => Math.Abs(
+                 ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X - originCurveCenPt.X) <= this.offsetDis).Select(i => i).ToList();         
+            foreach(Curve xCurve in xDirCurves)
+            {
+                Point3d xCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(xCurve));
+                var yLineCurves = this.smallCurves.Where(i => Math.Abs(
+                ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X - xCurveCenPt.X) <= this.offsetDis).Select(i => i).ToList();
+                if(yLineCurves!=null && yLineCurves.Count()==2)
+                {
+                    this.bEdgeNum += 1;
+                }
+            }
+            foreach (Curve yCurve in yDirCurves)
+            {
+                Point3d yCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(yCurve));
+                var xLineCurves = this.smallCurves.Where(i => Math.Abs(
+                ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y - yCurveCenPt.Y) <= this.offsetDis).Select(i => i).ToList();
+                if (xLineCurves != null && xLineCurves.Count() == 2)
+                {
+                    this.hEdgeNum += 1;
+                }
+            }
+        }
+        private void RemoveCorner(List<Curve> corners)
+        {
+            for(int i=1;i<= corners.Count;i++)
+            {
+                if(i<= this.CornerNum)
+                {
+                    this.smallCurves.Remove(corners[i-1]);
+                }
+            }
+        }
+        private int AnalyzeMostNumber(List<int> numbers)
+        {
+            List<int> distinceValues = numbers.Distinct().ToList();
+            Dictionary<int, int> numberCount = new Dictionary<int, int>();
+            foreach(int value in distinceValues)
+            {
+                numberCount.Add(value, numbers.Where(i => i == value).Select(i => i).ToList().Count());
+            }
+            return numberCount.OrderByDescending(i => i.Value).First().Key;
+        }
+        private double GetOriginCurveLength()
+        {
+            double length = 0.0;
+            if(this.originCurve is Polyline polyline)
+            {
+                length = polyline.Length;
+            }
+            else if(this.originCurve is Circle circle)
+            {
+                length = circle.Circumference;
+            }
+            else
+            {
+                length = this.originCurve.GetLength();
+            }
+            return length;
         }
         /// <summary>
         /// 分析箍筋类型号 1(4 x 4)
         /// </summary>
         private void AnalyzeTypeNumber()
         {
-
+            double originCurveLength = GetOriginCurveLength();
+            Dictionary<double, List<DBObject>> polylineAreaDic = new Dictionary<double, List<DBObject>>();
+            List<double> xDirList = new List<double>();
+            List<double> yDirList = new List<double>();
+            for (int i = 0; i < this.restCurves.Count; i++)
+            {
+                List<Point3d> pts = ThColumnInfoUtils.GetPolylinePts(this.restCurves[i] as Curve);
+                for (int j = 0; j < pts.Count - 1; j++)
+                {
+                    Point3d startPt =ThColumnInfoUtils.TransPtFromWcsToUcs(pts[j]);
+                    Point3d endPt = ThColumnInfoUtils.TransPtFromWcsToUcs(pts[j+1]);
+                    startPt = new Point3d(startPt.X, startPt.Y,0.0);
+                    endPt = new Point3d(endPt.X, endPt.Y, 0.0);
+                    Vector3d vec = startPt.GetVectorTo(endPt);
+                    if (vec.Length <= originCurveLength)
+                    {
+                        continue;
+                    }
+                    if (vec.GetNormal().IsParallelTo(Vector3d.XAxis, ThColumnInfoUtils.tolerance))
+                    {
+                        xDirList.Add(startPt.DistanceTo(endPt));
+                    }
+                    else if (vec.GetNormal().IsParallelTo(Vector3d.YAxis, ThColumnInfoUtils.tolerance))
+                    {
+                        yDirList.Add(startPt.DistanceTo(endPt));
+                    }
+                }
+            }
+            Dictionary<double, int> xVecLengthDic = new Dictionary<double, int>();
+            Dictionary<double, int> yVecLengthDic = new Dictionary<double, int>();
+            xDirList = xDirList.OrderByDescending(i => i).ToList();
+            yDirList = yDirList.OrderByDescending(i => i).ToList();
+            List<double> tempXDirList = new List<double>();
+            List<double> tempYDirList = new List<double>();
+            if (xDirList.Count > 0)
+            {
+                tempXDirList = xDirList.Distinct().Take(3).ToList();
+            }
+            if (yDirList.Count > 0)
+            {
+                tempYDirList = yDirList.Distinct().Take(3).ToList();
+            }
+            foreach (double length in tempXDirList)
+            {
+                List<double> tempList = xDirList.Where(i => Math.Abs(i - length) <= 5.0).Select(i => i).ToList();
+                xVecLengthDic.Add(length, tempList.Count);
+            }
+            foreach (double length in tempYDirList)
+            {
+                List<double> tempList = yDirList.Where(i => Math.Abs(i - length) <= 5.0).Select(i => i).ToList();
+                yVecLengthDic.Add(length, tempList.Count);
+            }
+            int xNum = xVecLengthDic.OrderByDescending(i => i.Value).Select(i => i.Value).FirstOrDefault();
+            int yNum = yVecLengthDic.OrderByDescending(i => i.Value).Select(i => i.Value).FirstOrDefault();
+            this.TypeNumber = "1（" + xNum.ToString() + " x " + yNum.ToString() + "）";
         }
         /// <summary>
         /// 左下角点Corner
         /// </summary>
-        private void LeftDownCorner()
+        private List<Curve> GetLeftDownCorner()
         {
-            var res = from item in this.smallCurves
-                      orderby ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(item)).X ascending,
-                      ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(item)).Y ascending
-                      select item;
-            Curve leftDownCurve = res.First();
-            Point3d originPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(leftDownCurve));
-            Point3d xPt = originPt + new Vector3d(this.rightUpPt.X - this.leftDownPt.X, 0, 0);
-            Point3d yPt = originPt + new Vector3d(0, this.rightUpPt.Y - this.leftDownPt.Y, 0);
-            TypedValue[] tvs = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Polyline,LWPOLYLINE") }; //后期根据需要再追加搜索条件
-            SelectionFilter polylineSf = new SelectionFilter(tvs);
-            PromptSelectionResult xdirPsr= ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, originPt,
-                xPt + new Vector3d(0, 1, 0), PolygonSelectionMode.Crossing ,polylineSf);
+            List<Curve> cornerCurves = new List<Curve>();
+            Curve firstCurve = GetLeftDownCurve();
+            cornerCurves.Add(firstCurve);
+            this.originCurve= firstCurve;
+            Point3d firstCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(firstCurve));
 
-            List<ObjectId> xDirObjIds = new List<ObjectId>();
-            if(xdirPsr.Status==PromptStatus.OK)
+            var xDirCurves = this.smallCurves.Where(i => Math.Abs(
+                 ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y - firstCurveCenPt.Y) <= this.offsetDis).Select(i => i).ToList();
+            xDirCurves = xDirCurves.OrderBy(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X).ToList();
+
+            var yDirCurves = this.smallCurves.Where(i => Math.Abs(
+                 ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X - firstCurveCenPt.X) <= this.offsetDis).Select(i => i).ToList();
+            yDirCurves = yDirCurves.OrderBy(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y).ToList();
+
+            if (xDirCurves.Count > 2)
             {
-                xDirObjIds = xdirPsr.Value.GetObjectIds().ToList();
+                Point3d secondCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(xDirCurves[1]));
+                Point3d thirdCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(xDirCurves[2]));
+                double firstThirdDis = Math.Abs(thirdCurveCenPt.X - firstCurveCenPt.X);
+                double firstSecondDis = Math.Abs(secondCurveCenPt.X - firstCurveCenPt.X);
+                if (firstSecondDis <= (firstThirdDis * this.searchRatio))
+                {
+                    cornerCurves.Add(xDirCurves[1]);
+                }
             }
-
-            List<ObjectId> yDirObjIds = new List<ObjectId>();
-            PromptSelectionResult ydirPsr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, originPt,
-                yPt + new Vector3d(1, 0, 0), PolygonSelectionMode.Crossing, polylineSf);
-
-            return ;
+            if (yDirCurves.Count > 2)
+            {
+                Point3d secondCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(yDirCurves[1]));
+                Point3d thirdCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(yDirCurves[2]));
+                double firstThirdDis = Math.Abs(thirdCurveCenPt.Y - firstCurveCenPt.Y);
+                double firstSecondDis = Math.Abs(secondCurveCenPt.Y - firstCurveCenPt.Y);
+                if (firstSecondDis <= (firstThirdDis * this.searchRatio))
+                {
+                    cornerCurves.Add(yDirCurves[1]);
+                }
+            }
+            return cornerCurves;
+        }
+        private Curve GetLeftDownCurve()
+        {
+            Curve curve = null;
+            List<double> yValues = this.smallCurves.Select(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y).ToList();
+            yValues = yValues.OrderBy(i => i).ToList();
+            foreach (double yValue in yValues)
+            {
+               List<Curve> fiterCurves= this.smallCurves.Where(i => Math.Abs(ThColumnInfoUtils.TransPtFromWcsToUcs(
+                    GetBoundingBoxCenter(i)).Y - yValue) <= this.offsetDis).Select(i => i).ToList();
+                if(fiterCurves.Count<=1)
+                {
+                    continue;
+                }
+                fiterCurves=fiterCurves.OrderBy(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X).ToList();
+                curve = fiterCurves.First();
+                break;
+            }
+            return curve;
         }
         /// <summary>
         /// 右下角点Corner
         /// </summary>
-        private void RightDownCorner()
+        private List<Curve> GetRightDownCorner()
         {
-            var res = from item in this.smallCurves
-                      orderby GetBoundingBoxCenter(item).X ascending, GetBoundingBoxCenter(item).Y ascending
-                      select item;
-            Curve leftDownCurve = res.First();
-            //Todo
+            List<Curve> cornerCurves = new List<Curve>();
+            Curve firstCurve = GetRightDownCurve();
+            cornerCurves.Add(firstCurve);
+            Point3d firstCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(firstCurve));
+
+            var xDirCurves = this.smallCurves.Where(i => Math.Abs(
+                 ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y - firstCurveCenPt.Y) <= this.offsetDis).Select(i => i).ToList();
+            xDirCurves = xDirCurves.OrderByDescending(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X).ToList();
+
+            var yDirCurves = this.smallCurves.Where(i => Math.Abs(
+                 ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X - firstCurveCenPt.X) <= this.offsetDis).Select(i => i).ToList();
+            yDirCurves = yDirCurves.OrderBy(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y).ToList();
+
+            if (xDirCurves.Count > 2)
+            {
+                Point3d secondCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(xDirCurves[1]));
+                Point3d thirdCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(xDirCurves[2]));
+                double firstThirdDis = Math.Abs(firstCurveCenPt.X - thirdCurveCenPt.X);
+                double firstSecondDis = Math.Abs(firstCurveCenPt.X - secondCurveCenPt.X);
+                if (firstSecondDis <= (firstThirdDis * this.searchRatio))
+                {
+                    cornerCurves.Add(xDirCurves[1]);
+                }
+            }
+            if (yDirCurves.Count > 2)
+            {
+                Point3d secondCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(yDirCurves[1]));
+                Point3d thirdCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(yDirCurves[2]));
+                double firstThirdDis = Math.Abs(thirdCurveCenPt.Y - firstCurveCenPt.Y);
+                double firstSecondDis = Math.Abs(secondCurveCenPt.Y - firstCurveCenPt.Y);
+                if (firstSecondDis <= (firstThirdDis * this.searchRatio))
+                {
+                    cornerCurves.Add(yDirCurves[1]);
+                }
+            }
+            return cornerCurves;
+        }
+        private Curve GetRightDownCurve()
+        {
+            Curve curve = null;
+            List<double> yValues = this.smallCurves.Select(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y).ToList();
+            yValues = yValues.OrderBy(i => i).ToList();
+            foreach (double yValue in yValues)
+            {
+                List<Curve> fiterCurves = this.smallCurves.Where(i => Math.Abs(ThColumnInfoUtils.TransPtFromWcsToUcs(
+                      GetBoundingBoxCenter(i)).Y - yValue) <= this.offsetDis).Select(i => i).ToList();
+                if (fiterCurves.Count <= 1)
+                {
+                    continue;
+                }
+                fiterCurves = fiterCurves.OrderByDescending(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X).ToList();
+                curve = fiterCurves.First();
+                break;
+            }
+            return curve;
         }
         /// <summary>
         /// 右上角点Corner
         /// </summary>
-        private void RightUpCorner()
+        private List<Curve> GetRightUpCorner()
         {
-            var res = from item in this.smallCurves
-                      orderby GetBoundingBoxCenter(item).X ascending, GetBoundingBoxCenter(item).Y ascending
-                      select item;
-            Curve leftDownCurve = res.First();
-            //Todo
+            List<Curve> cornerCurves = new List<Curve>();
+            Curve firstCurve = GetRightUpCurve();
+            cornerCurves.Add(firstCurve);
+            Point3d firstCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(firstCurve));
+
+            var xDirCurves = this.smallCurves.Where(i => Math.Abs(
+                 ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y - firstCurveCenPt.Y) <= this.offsetDis).Select(i => i).ToList();
+            xDirCurves = xDirCurves.OrderByDescending(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X).ToList();
+
+            var yDirCurves = this.smallCurves.Where(i => Math.Abs(
+                 ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X - firstCurveCenPt.X) <= this.offsetDis).Select(i => i).ToList();
+            yDirCurves = yDirCurves.OrderByDescending(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y).ToList();
+
+            if (xDirCurves.Count > 2)
+            {
+                Point3d secondCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(xDirCurves[1]));
+                Point3d thirdCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(xDirCurves[2]));
+                double firstThirdDis = Math.Abs(firstCurveCenPt.X-thirdCurveCenPt.X);
+                double firstSecondDis = Math.Abs(firstCurveCenPt.X-secondCurveCenPt.X);
+                if (firstSecondDis <= (firstThirdDis * this.searchRatio))
+                {
+                    cornerCurves.Add(xDirCurves[1]);
+                }
+            }
+            if (yDirCurves.Count > 2)
+            {
+                Point3d secondCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(yDirCurves[1]));
+                Point3d thirdCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(yDirCurves[2]));
+                double firstThirdDis = Math.Abs(firstCurveCenPt.Y-thirdCurveCenPt.Y);
+                double firstSecondDis = Math.Abs(firstCurveCenPt.Y- secondCurveCenPt.Y);
+                if (firstSecondDis <= (firstThirdDis * this.searchRatio))
+                {
+                    cornerCurves.Add(yDirCurves[1]);
+                }
+            }
+            return cornerCurves;
+        }
+        private Curve GetRightUpCurve()
+        {
+            Curve curve = null;
+            List<double> xValues = this.smallCurves.Select(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X).ToList();
+            xValues = xValues.OrderByDescending(i => i).ToList();
+            foreach (double xValue in xValues)
+            {
+                List<Curve> fiterCurves = this.smallCurves.Where(i => Math.Abs(ThColumnInfoUtils.TransPtFromWcsToUcs(
+                      GetBoundingBoxCenter(i)).X - xValue) <= this.offsetDis).Select(i => i).ToList();
+                if (fiterCurves.Count <= 1)
+                {
+                    continue;
+                }
+                fiterCurves = fiterCurves.OrderByDescending(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y).ToList();
+                curve = fiterCurves.First();
+                break;
+            }
+            return curve;
         }
         /// <summary>
         /// 左上角点Corner
         /// </summary>
-        private void LeftUpCorner()
+        private List<Curve> GetLeftUpCorner()
         {
-            var res = from item in this.smallCurves
-                      orderby GetBoundingBoxCenter(item).X ascending, GetBoundingBoxCenter(item).Y ascending
-                      select item;
-            Curve leftDownCurve = res.First();
-            //Todo
+            List<Curve> cornerCurves = new List<Curve>();
+            Curve firstCurve = GetLeftUpCurve();
+            cornerCurves.Add(firstCurve);
+            Point3d firstCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(firstCurve));
+            var xDirCurves = this.smallCurves.Where(i => Math.Abs(
+                 ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y - firstCurveCenPt.Y) <= this.offsetDis).Select(i => i).ToList();
+            xDirCurves = xDirCurves.OrderBy(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X).ToList();
+
+            var yDirCurves = this.smallCurves.Where(i => Math.Abs(
+                 ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X - firstCurveCenPt.X) <= this.offsetDis).Select(i => i).ToList();
+            yDirCurves = yDirCurves.OrderByDescending(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y).ToList();
+
+            if (xDirCurves.Count > 2)
+            {
+                Point3d secondCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(xDirCurves[1]));
+                Point3d thirdCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(xDirCurves[2]));
+                double firstThirdDis = Math.Abs(thirdCurveCenPt.X-firstCurveCenPt.X);
+                double firstSecondDis = Math.Abs(secondCurveCenPt.X- firstCurveCenPt.X);
+                if (firstSecondDis <= (firstThirdDis * this.searchRatio))
+                {
+                    cornerCurves.Add(xDirCurves[1]);
+                }
+            }
+            if (yDirCurves.Count > 2)
+            {
+                Point3d secondCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(yDirCurves[1]));
+                Point3d thirdCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(yDirCurves[2]));
+                double firstThirdDis = Math.Abs(firstCurveCenPt.Y - thirdCurveCenPt.Y);
+                double firstSecondDis = Math.Abs(firstCurveCenPt.Y - secondCurveCenPt.Y);
+                if (firstSecondDis <= (firstThirdDis * this.searchRatio))
+                {
+                    cornerCurves.Add(yDirCurves[1]);
+                }
+            }
+            return cornerCurves;
+        }
+        private Curve GetLeftUpCurve()
+        {
+            Curve curve = null;
+            List<double> xValues = this.smallCurves.Select(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X).ToList();
+            xValues = xValues.OrderBy(i => i).ToList();
+            foreach (double xValue in xValues)
+            {
+                List<Curve> fiterCurves = this.smallCurves.Where(i => Math.Abs(ThColumnInfoUtils.TransPtFromWcsToUcs(
+                      GetBoundingBoxCenter(i)).X - xValue) <= this.offsetDis).Select(i => i).ToList();
+                if (fiterCurves.Count <= 1)
+                {
+                    continue;
+                }
+                fiterCurves = fiterCurves.OrderByDescending(i => ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y).ToList();
+                curve = fiterCurves.First();
+                break;
+            }
+            return curve;
         }
         private Point3d GetBoundingBoxCenter(Curve curve)
         {
@@ -242,41 +589,5 @@ namespace ThColumnInfo.Business
             Point3d cenPt = ThColumnInfoUtils.GetMidPt(minPt, maxPt);
             return new Point3d(cenPt.X, cenPt.Y,0.0);
         }       
-        /// <summary>
-        /// 分割框内部
-        /// </summary>
-        /// <param name="polylineObjs"></param>
-        /// <param name="bsideNum"></param>
-        /// <param name="hSideNum"></param>
-        private void SplitInsidePolylines(List<DBObject> polylineObjs)
-        {
-            List<Curve> polylines = new List<Curve>();
-            for (int i = 0; i < polylineObjs.Count; i++)
-            {
-                if (polylineObjs[i] is Polyline || polylineObjs[i] is Polyline2d || polylineObjs[i] is Polyline3d ||
-                    polylineObjs[i] is Line)
-                {
-                    polylines.Add(polylineObjs[i] as Curve);
-                }
-            }
-            List<Curve> noRepeatedPolylines = new List<Curve>();
-            while (polylines.Count > 0)
-            {
-                Curve currentLine = polylines[0];
-                noRepeatedPolylines.Add(currentLine);
-                polylines = polylines.Where(i => ThColumnInfoUtils.GetMidPt(i.Bounds.Value.MinPoint, i.Bounds.Value.MaxPoint).DistanceTo
-                  (ThColumnInfoUtils.GetMidPt(currentLine.Bounds.Value.MinPoint, currentLine.Bounds.Value.MaxPoint)) > 5.0).Select(i => i).ToList();
-            }
-            polylines = noRepeatedPolylines;
-            List<double> xValues = polylines.Select(i => ThColumnInfoUtils.GetMidPt(i.Bounds.Value.MinPoint, i.Bounds.Value.MaxPoint).X).ToList();
-            List<double> yValues = polylines.Select(i => ThColumnInfoUtils.GetMidPt(i.Bounds.Value.MinPoint, i.Bounds.Value.MaxPoint).Y).ToList();
-
-            double minX = xValues.OrderBy(i => i).First();
-            double minY = yValues.OrderBy(i => i).First();
-            List<double> hSides = xValues.Where(i => Math.Abs(i - minX) <= 10.0).Select(i => i).ToList();
-            List<double> bSides = yValues.Where(i => Math.Abs(i - minY) <= 10.0).Select(i => i).ToList();
-            //bsideNum = bSides.Count - 2;
-            //hSideNum = hSides.Count - 2;
-        }
     }
 }

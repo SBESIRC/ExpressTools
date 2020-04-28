@@ -220,6 +220,7 @@ namespace ThColumnInfo
                 for (int i = 0; i < this.dataColumnCells.Count; i++)
                 {
                     ColumnTableRecordInfo coluTabRi = new ColumnTableRecordInfo();
+                    List<Curve> polylineObjs = new List<Curve>();                    
                     for (int j = 0; j < this.dataColumnCells[i].Count; j++)
                     {
                         if (this.dataColumnCells[i][j].BoundaryPts.Count == 0)
@@ -237,25 +238,35 @@ namespace ThColumnInfo
                             cellText = "";
                             if (keyWordStr == "截面")
                             {
+                                List<Point3d> pts = new List<Point3d>();
+                                foreach (Point3d pt in this.dataColumnCells[i][j].BoundaryPts)
+                                {
+                                    pts.Add(ThColumnInfoUtils.TransPtFromWcsToUcs(pt));
+                                }
+                                double minX =  pts.OrderBy(k => k.X).First().X;
+                                double minY =  pts.OrderBy(k => k.Y).First().Y;
+                                double maxX = pts.OrderByDescending(k => k.X).First().X;
+                                double maxY = pts.OrderByDescending(k => k.Y).First().Y;
+                                Point3d point1 = new Point3d(minX, minY, 0) + new Vector3d(5, 5, 0);
+                                Point3d point3 = new Point3d(maxX, maxY, 0) + new Vector3d(-5, -5, 0);
+                                Point3d point2 = new Point3d(point3.X, point1.Y, 0);
+                                Point3d point4 = new Point3d(point1.X, point3.Y, 0);
+
+                                Point3dCollection points = new Point3dCollection();
+                                points.Add(point1);
+                                points.Add(point2);
+                                points.Add(point3);
+                                points.Add(point4);
                                 psr = ThColumnInfoUtils.SelectByPolyline(doc.Editor,
-                           this.dataColumnCells[i][j].BoundaryPts, PolygonSelectionMode.Window, sf2);
+                           points, PolygonSelectionMode.Window, sf2);
                                 if (psr.Status == PromptStatus.OK)
                                 {
                                     List<ObjectId> objIds = psr.Value.GetObjectIds().ToList();
                                     List<DBObject> dbObjs = objIds.Select(m => trans.GetObject(m, OpenMode.ForRead)).ToList();
-                                    List<DBObject> polylineObjs = dbObjs.Where(m => m is Polyline).Select(m => m).ToList();
+                                    polylineObjs = dbObjs.Where(m => m is Polyline).Select(m => m as Curve).ToList();
                                     List<DBObject> dimensionObjs = dbObjs.Where(m => m is Dimension).Select(m => m).ToList();
-                                    List<DBObject> textObjs = dbObjs.Where(m => m is DBText || m is MText).Select(m => m).ToList();
-                                    string bSide = "";
-                                    string hSide = ""; 
-                                    GetBHSideHoopReinforceSpec(textObjs, out bSide, out hSide);
-                                    coluTabRi.BEdgeSideMiddleReinforcement = bSide; //b边一侧中部筋
-                                    coluTabRi.HEdgeSideMiddleReinforcement = hSide; //h边一侧中部筋
-                                    string hoopTypeNumber = GetHoopReinforcementTypeNumberOne(polylineObjs); 
                                     string spec = GetHoopReinforcementTypeNumberOneSpec(dimensionObjs); 
-                                    coluTabRi.HoopReinforcementTypeNumber = hoopTypeNumber; //箍筋类型号
                                     coluTabRi.Spec = spec; //规格
-                                    cellText = spec + " |&&| " + hoopTypeNumber;
                                 }
                             }
                             else //仅仅是文字
@@ -307,6 +318,10 @@ namespace ThColumnInfo
                             }
                         }
                     }
+                    Curve situMarkFrame = GetSituMarkFrame(polylineObjs);
+                    BuildInSituMarkInf buildInSituMarkInf = new BuildInSituMarkInf(situMarkFrame);
+                    buildInSituMarkInf.Ctri = coluTabRi;
+                    buildInSituMarkInf.Build();
                     if (!string.IsNullOrWhiteSpace(coluTabRi.Code))
                     {
                         coluTabRi.Code.Replace('，', ',');
@@ -333,6 +348,49 @@ namespace ThColumnInfo
                 }
                 trans.Commit();
             }
+        }
+        /// <summary>
+        /// 获取柱表中截面列 “角筋、纵筋、箍筋” 的外框
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <returns></returns>
+        private Curve GetSituMarkFrame(List<Curve> curve)
+        {
+            Curve frameCurve=null;
+            double maxArea = 0.0;
+            int index = -1;
+            for(int i=0;i< curve.Count;i++)
+            {
+                if(curve[i] is Polyline polyline)
+                {
+                    if(polyline.Closed && polyline.Area> maxArea)
+                    {
+                        maxArea = polyline.Area;
+                        index = i;
+                    }
+                }
+                else if (curve[i] is Polyline2d polyline2d)
+                {
+                    if (polyline2d.Closed && polyline2d.Area > maxArea)
+                    {
+                        maxArea = polyline2d.Area;
+                        index = i;
+                    }
+                }
+                else if (curve[i] is Polyline3d polyline3d)
+                {
+                    if (polyline3d.Closed && polyline3d.Area > maxArea)
+                    {
+                        maxArea = polyline3d.Area;
+                        index = i;
+                    }
+                }
+            }
+            if(index>0)
+            {
+                frameCurve = curve[index];
+            }
+            return frameCurve;
         }
         /// <summary>
         /// 获取角筋规格

@@ -4,6 +4,8 @@ using acadApp = Autodesk.AutoCAD.ApplicationServices;
 using ThColumnInfo.ViewModel;
 using ThColumnInfo.View;
 using System.Windows.Forms;
+using Autodesk.AutoCAD.DatabaseServices;
+using System.Collections.Generic;
 
 [assembly: CommandClass(typeof(ThColumnInfo.ThColumnInfoCommands))]
 [assembly: ExtensionApplication(typeof(ThColumnInfo.ThColumnInfoApp))]
@@ -155,6 +157,34 @@ namespace ThColumnInfo
             catch (System.Exception ex)
             {
                 ThColumnInfoUtils.WriteException(ex, "ThColumnInfoCrc");
+            }
+        }
+        [CommandMethod("TIANHUACAD","ThTest", CommandFlags.Modal)]
+        public void ThTest()
+        {
+            var doc = acadApp.Application.DocumentManager.MdiActiveDocument;
+            var per = doc.Editor.GetEntity("\n选择柱外框线");
+            if (per.Status == Autodesk.AutoCAD.EditorInput.PromptStatus.OK)
+            {
+                using (Transaction trans=doc.TransactionManager.StartTransaction())
+                {
+                    Curve curve = trans.GetObject(per.ObjectId, OpenMode.ForRead) as Curve;
+                    Autodesk.AutoCAD.EditorInput.PromptSelectionResult psr= doc.Editor.GetSelection();
+                    List<DBText> dBTexts = new List<DBText>();
+                    if(psr.Status==Autodesk.AutoCAD.EditorInput.PromptStatus.OK)
+                    {
+                        foreach(ObjectId objId in psr.Value.GetObjectIds())
+                        {
+                            if(trans.GetObject(objId,OpenMode.ForRead) is DBText dbText)
+                            {
+                                dBTexts.Add(dbText);
+                            }
+                        }
+                    }
+                    BuildInSituMarkInf buildInSituMarkInf = new BuildInSituMarkInf(curve, dBTexts);
+                    buildInSituMarkInf.Build();
+                    trans.Commit();
+                }
             }
         }
     }

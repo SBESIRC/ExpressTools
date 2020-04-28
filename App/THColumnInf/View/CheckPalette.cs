@@ -49,13 +49,7 @@ namespace ThColumnInfo.View
 
         private void _ps_SizeChanged(object sender, PaletteSetSizeEventArgs e)
         {
-            _checkResult.Height= (int)_ps.PaletteSize.Height;
-            _checkResult.Width= (int)_ps.PaletteSize.Width;
-            _checkResult.panelUp.Width = _checkResult.Width;
-            _checkResult.panelMiddle.Width = _checkResult.Width;
-            _checkResult.panelDown.Width = _checkResult.Width;
-            _checkResult.panelMiddle.Top = _checkResult.panelUp.Bottom;
-            _checkResult.panelMiddle.Height = Math.Abs(_checkResult.panelDown.Top - _checkResult.panelUp.Bottom);
+            SizeChange();
         }
 
         private void _ps_Load(object sender, PalettePersistEventArgs e)
@@ -66,10 +60,20 @@ namespace ThColumnInfo.View
                     PaletteSetStyles.Snappable;
             _ps.DockEnabled = DockSides.Left | DockSides.Right;
             _ps.Dock = DockSides.Left;
-
-            _ps.Size = new System.Drawing.Size(200, 1000);
-            _ps.MinimumSize = new System.Drawing.Size(200, 1000);
+            SizeChange();
+            _ps.Size = new System.Drawing.Size(250, 1000);
+            _ps.MinimumSize = new System.Drawing.Size(250, 1000);
             _ps.Location = new System.Drawing.Point(0, _ps.Location.Y);
+        }
+        private void SizeChange()
+        {
+            _checkResult.Height = (int)_ps.PaletteSize.Height;
+            _checkResult.Width = (int)_ps.PaletteSize.Width;
+            _checkResult.panelUp.Width = _checkResult.Width;
+            _checkResult.panelMiddle.Width = _checkResult.Width;
+            _checkResult.panelDown.Width = _checkResult.Width;
+            _checkResult.panelMiddle.Top = _checkResult.panelUp.Bottom;
+            _checkResult.panelMiddle.Height = Math.Abs(_checkResult.panelDown.Top - _checkResult.panelUp.Bottom);
         }
     }
 }
