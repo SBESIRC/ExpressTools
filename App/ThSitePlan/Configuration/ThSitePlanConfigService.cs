@@ -6,11 +6,13 @@ namespace ThSitePlan.Configuration
 {
     public abstract class ThSitePlanConfigObj
     {
+        public abstract bool IsEnabled { get; set; }
         public abstract Dictionary<string, object> Properties { get; set; }
     }
 
     public class ThSitePlanConfigItem : ThSitePlanConfigObj
     {
+        public override bool IsEnabled { get; set; }
         public override Dictionary<string, object> Properties { get; set; }
         public ThSitePlanConfigItem()
         {
@@ -20,6 +22,7 @@ namespace ThSitePlan.Configuration
 
     public class ThSitePlanConfigItemGroup : ThSitePlanConfigObj
     {
+        public override bool IsEnabled { get; set; }
         public Queue<ThSitePlanConfigObj> Items { get; set; }
         public override Dictionary<string, object> Properties { get; set; }
 
@@ -185,6 +188,89 @@ namespace ThSitePlan.Configuration
 
             // 景观绿地
             Root.AddGroup(ConstructGreenland());
+
+        }
+
+        public void EnableAll(bool bEnable)
+        {
+            EnableItem(bEnable, Root);
+        }
+
+        public void EnableItemAndItsAncestor(string name, bool bEnable)
+        {
+            //打开所有分组
+            EnableAllGroup(true,Root);
+
+            //查找要打开的item子项，打开该项以及其兄弟节点
+            string[] namegroup = name.Split('-');
+            ThSitePlanConfigItem FindItem = null;
+
+            var SearchItems = Root.Items;
+            for (int i = 0; i < namegroup.Length; i++)
+            {
+                foreach (var item in SearchItems)
+                {
+                    if (item.Properties["Name"].ToString() == namegroup[i] || item.Properties["Name"].ToString() == name)
+                    {
+                        //找到item直接打开，对于某些只有一层的图层
+                        if (item is ThSitePlanConfigItem fdit)
+                        {
+                            item.IsEnabled = bEnable;
+                            FindItem = fdit;
+                            break;
+                        }
+
+                        //找到该项对应的Group,则进入该group继续查找，当查找子项的上一级父节点group，打开该节点中每一个子项
+                        else if (item is ThSitePlanConfigItemGroup fdgp)
+                        {
+                            if (i == namegroup.Length - 2)
+                            {
+                                item.IsEnabled = bEnable;
+                                foreach (var item2 in fdgp.Items)
+                                {
+                                    item2.IsEnabled = bEnable;
+                                }
+                            }
+
+                            SearchItems = fdgp.Items;
+                            break;
+                        }
+                    }
+                }
+
+                if (FindItem != null)
+                {
+                    break;
+                }
+            }
+        }
+
+        private void EnableItem(bool bEnable, ThSitePlanConfigObj itgrp)
+        {
+            if (itgrp is ThSitePlanConfigItemGroup group)
+            {
+                group.IsEnabled = bEnable;
+                foreach (var groupItem in group.Items)
+                {
+                    EnableItem(bEnable, groupItem);
+                }
+            }
+            else if (itgrp is ThSitePlanConfigItem item)
+            {
+                item.IsEnabled = bEnable;
+            }
+        }
+
+        private void EnableAllGroup(bool bEnable, ThSitePlanConfigObj itgrp)
+        {
+            if (itgrp is ThSitePlanConfigItemGroup group)
+            {
+                group.IsEnabled = bEnable;
+                foreach (var groupItem in group.Items)
+                {
+                    EnableAllGroup(bEnable, groupItem);
+                }
+            }
 
         }
 

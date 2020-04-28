@@ -20,6 +20,11 @@ namespace ThSitePlan.Photoshop
 
         public void Run(string path, ThSitePlanConfigItemGroup jobs)
         {
+            if (!jobs.IsEnabled)
+            {
+                return;
+            }
+
             while (jobs.Items.Count !=0)
             {
                 var obj = jobs.Items.Dequeue();
@@ -36,6 +41,11 @@ namespace ThSitePlan.Photoshop
 
         private void Run(string path, ThSitePlanConfigItem job)
         {
+            if (!job.IsEnabled)
+            {
+                return;
+            }
+
             foreach (var generator in Generators)
             {
                 generator.Generate(path, job);
@@ -44,6 +54,11 @@ namespace ThSitePlan.Photoshop
 
         public void PSUpdate(string path, ThSitePlanConfigItemGroup jobs)
         {
+            if (!jobs.IsEnabled)
+            {
+                return;
+            }
+
             while (jobs.Items.Count != 0)
             {
                 var obj = jobs.Items.Dequeue();
@@ -60,6 +75,11 @@ namespace ThSitePlan.Photoshop
 
         private void PSUpdate(string path, ThSitePlanConfigItem job)
         {
+            if (!job.IsEnabled)
+            {
+                return;
+            }
+
             foreach (var generator in Generators)
             {
                 generator.Update(path, job);

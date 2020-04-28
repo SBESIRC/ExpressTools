@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
@@ -10,6 +11,7 @@ using Linq2Acad;
 using ThSitePlan.Engine;
 using ThSitePlan.Configuration;
 using ThSitePlan.Photoshop;
+using NFox.Cad.Collections;
 
 namespace ThSitePlan
 {
@@ -123,6 +125,7 @@ namespace ThSitePlan
 
             // CAD处理流程
             ThSitePlanConfigService.Instance.Initialize();
+            ThSitePlanConfigService.Instance.EnableAll(true);
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 ThSitePlanEngine.Instance.Containers = frames;
@@ -141,6 +144,7 @@ namespace ThSitePlan
 
             // PS处理流程
             ThSitePlanConfigService.Instance.Initialize();
+            ThSitePlanConfigService.Instance.EnableAll(true);
             using (var psService = new ThSitePlanPSService())
             {
                 // 创建空白文档
@@ -160,80 +164,133 @@ namespace ThSitePlan
             }
         }
 
-        [CommandMethod("TIANHUACAD", "THSPUPD", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THSPUPD", CommandFlags.Modal | CommandFlags.UsePickSet)]
         public void ThSitePlanUpdate()
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                PromptEntityOptions frasel = new PromptEntityOptions("\n请选择要更新的图框")
+                PromptSelectionOptions options = new PromptSelectionOptions()
                 {
-                    AllowNone = true
+                    AllowDuplicates = false,
+                    RejectObjectsOnLockedLayers = true,
                 };
-                PromptEntityResult SelResult = Active.Editor.GetEntity(frasel);
+                var filterlist = OpFilter.Bulid(o =>
+                    o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName &
+                    o.Dxf((int)DxfCode.LayerName) == ThSitePlanCommon.LAYER_FRAME &
+                    o.Dxf((int)DxfCode.ExtendedDataRegAppName) == ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name);
+                PromptSelectionResult SelResult = Active.Editor.GetSelection(options, filterlist);
                 if (SelResult.Status != PromptStatus.OK)
                 {
                     return;
                 }
 
-                //将初始图纸中内容复制到后面一个空的Frame中
+                //TODO:
+                //选择一个合适的位置作为新的图框
+                //将初始图纸中内容复制到后面一个空的图框中
                 var newframes = ThSitePlanEngine.Instance.Containers;
                 if (OriginFrameCopy.IsNull())
                 {
                     OriginFrameCopy = newframes.Dequeue();
                 }
+                
+                //初始化图框配置
+                //这里先“关闭”所有的图框
+                //后面会根据用户的选择“打开”需要更新的图框
+                ThSitePlanConfigService.Instance.Initialize();
+                ThSitePlanConfigService.Instance.EnableAll(false);
 
-                // 首先将原线框内的所有图元复制一份放到解构图集放置区的最后一个线框里
-                ObjectId SelframeId = SelResult.ObjectId;
-                var SelFramenPol = acadDatabase.Element<Polyline>(SelframeId);
-                var PolOgFmCp = acadDatabase.Element<Polyline>(OriginFrameCopy.Item1);
-                Vector3d SelToCopyFrame = SelFramenPol.GeometricExtents.MaxPoint - PolOgFmCp.GeometricExtents.MaxPoint;
+                //获取需要更新的图框
+                var updateframes = new Queue<Tuple<ObjectId, Vector3d>>();
+                foreach (ObjectId SelframeId in SelResult.Value.GetObjectIds())
+                {
+                    //TODO:
+                    //找到图框的兄弟
+
+                    //获取选择框与复制框之间的偏移量
+                    var SelFramenPol = acadDatabase.Element<Polyline>(SelframeId);
+                    var PolOgFmCp = acadDatabase.Element<Polyline>(OriginFrameCopy.Item1);
+                    Vector3d SelToCopyFrame = SelFramenPol.GeometricExtents.MaxPoint - PolOgFmCp.GeometricExtents.MaxPoint;
+                    updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(SelframeId, SelToCopyFrame));
+                }
+
+                //为了保证后面的更新是按照正确的顺序进行
+                //将获取的需要更新的图框排序（从左到右，从上到下）
+                Queue<Tuple<ObjectId, Vector3d>> SortedUpdateFrames = new Queue<Tuple<ObjectId, Vector3d>>();
+                foreach (var item in updateframes.OrderByDescending(i => i.Item2.Y).GroupBy(i => i.Item2.Y))
+                {
+                    var odgp = item.OrderBy(p => p.Item2.X);
+                    for (int i = 0; i < odgp.Count(); i++)
+                    {
+                        SortedUpdateFrames.Enqueue(odgp.ElementAt(i));
+                    }
+                }
+
+                //读取已经被标注的图框
+                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+
+                //根据用户选择，更新图框配置
+                foreach (var item in SortedUpdateFrames)
+                {
+                    //获取所选择的框对应的图元的图层分组名
+                    SelFrameName = ThSitePlanDbEngine.Instance.NameByFrame(item.Item1);
+
+                    //打开需要的工作
+                    ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(SelFrameName, true);
+                }
+
+                //首先将原线框内的所有图元复制一份放到解构图集放置区的最后一个线框里
                 acadDatabase.Database.CopyWithMove(OriginFrame.Item1, OriginFrame.Item2 + OriginFrameCopy.Item2);
                 acadDatabase.Database.ExplodeToOwnerSpace(OriginFrameCopy.Item1);
 
-                //获取所选择的框对应的图元的图层分组名
-                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
-                ThSitePlanDbEngine.Instance.EraseItemInFrame(SelframeId, PolygonSelectionMode.Window);
-                SelFrameName = ThSitePlanDbEngine.Instance.NameByFrame(SelframeId);
+                //接着将需要更新的图框清空
+                foreach (var item in SortedUpdateFrames)
+                {
+                    ThSitePlanDbEngine.Instance.EraseItemInFrame(item.Item1, PolygonSelectionMode.Window);
+                }
 
-                //根据图层名在ThSitePlanConfigService找到对应的ConfigItem
-                ThSitePlanConfigService.Instance.Initialize();
-                ThSitePlanConfigItemGroup UpdateConfigItemGroup = new ThSitePlanConfigItemGroup();
-                UpdateConfigItemGroup.Items.Enqueue(ThSitePlanConfigService.Instance.FindItemByName(SelFrameName));
-
-                // Update CAD处理流程
-                var updateframes = new Queue<Tuple<ObjectId, Vector3d>>();
-                updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(SelframeId, SelToCopyFrame));
-
-                ThSitePlanEngine.Instance.Containers = updateframes;
+                //启动CAD引擎，开始更新 
+                ThSitePlanEngine.Instance.Containers = SortedUpdateFrames;
                 ThSitePlanEngine.Instance.OriginFrame = OriginFrameCopy.Item1;
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
-                        {
-                            new ThSitePlanContentGenerator(),
-                            new ThSitePlanHatchGenerator(),
-                            new ThSitePlanPDFGenerator()
-                        };
-                ThSitePlanEngine.Instance.Run(acadDatabase.Database, UpdateConfigItemGroup);
-                //每次Update后先清除初始元素Copy frame内部的图元
+                 {
+                    new ThSitePlanContentGenerator(),
+                    new ThSitePlanHatchGenerator(),
+                    new ThSitePlanPDFGenerator()
+                 };
+                ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
+                //Update后先清除初始元素Copy frame内部的图元
                 ThSitePlanDbEngine.Instance.EraseItemInFrame(OriginFrameCopy.Item1, PolygonSelectionMode.Crossing);
-            }
 
-            // Update PS处理流程
-            ThSitePlanConfigService.Instance.Initialize();
-            ThSitePlanConfigItemGroup UpdatePSConfigItemGroup = new ThSitePlanConfigItemGroup();
-            UpdatePSConfigItemGroup.Items.Enqueue(ThSitePlanConfigService.Instance.FindItemByName(SelFrameName));
-            using (var psService = new ThSitePlanPSService())
-            {
-                // PS处理流程
-                ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
-                         {
-                            new ThSitePlanPSDefaultGenerator(psService),
-                         };
-                ThSitePlanPSEngine.Instance.PSUpdate(
-                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    UpdatePSConfigItemGroup);
+                //初始化图框配置
+                //这里先“关闭”所有的图框
+                //后面会根据用户的选择“打开”需要更新的图框
+                ThSitePlanConfigService.Instance.Initialize();
+                ThSitePlanConfigService.Instance.EnableAll(false);
 
-                // 保存PS生成的文档
-                psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                //根据用户选择，更新图框配置
+                foreach (var item in updateframes)
+                {
+                    //获取所选择的框对应的图元的图层分组名
+                    SelFrameName = ThSitePlanDbEngine.Instance.NameByFrame(item.Item1);
+
+                    //打开需要的工作
+                    ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(SelFrameName, true);
+                }
+
+                using (var psService = new ThSitePlanPSService())
+                {
+                    //启动PS引擎，开始更新 
+                    ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+                     {
+                        new ThSitePlanPSDefaultGenerator(psService),
+                     };
+                    ThSitePlanPSEngine.Instance.PSUpdate(
+                        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        ThSitePlanConfigService.Instance.Root);
+
+                    // 保存PS生成的文档
+                    psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                }
             }
         }
     }

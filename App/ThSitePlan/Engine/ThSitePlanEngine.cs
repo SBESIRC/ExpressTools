@@ -26,6 +26,11 @@ namespace ThSitePlan
 
         public void Run(Database database, ThSitePlanConfigItemGroup jobs)
         {
+            if (!jobs.IsEnabled)
+            {
+                return;
+            }
+
             while (jobs.Items.Count != 0)
             {
                 var obj = jobs.Items.Dequeue();
@@ -42,6 +47,11 @@ namespace ThSitePlan
 
         private void Run(Database database, ThSitePlanConfigItem job)
         {
+            if (!job.IsEnabled)
+            {
+                return;
+            }
+
             if (Containers.Count == 0)
             {
                 return;
