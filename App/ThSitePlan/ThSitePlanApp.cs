@@ -19,7 +19,6 @@ namespace ThSitePlan
     {
         public Tuple<ObjectId, Vector3d> OriginFrame { get; set; }
         public Tuple<ObjectId, Vector3d> OriginFrameCopy { get; set; }
-        string SelFrameName { get; set; }
         public void Initialize()
         {
             //
@@ -199,18 +198,45 @@ namespace ThSitePlan
                 ThSitePlanConfigService.Instance.Initialize();
                 ThSitePlanConfigService.Instance.EnableAll(false);
 
+                //读取已经被标注的图框
+                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+
                 //获取需要更新的图框
                 var updateframes = new Queue<Tuple<ObjectId, Vector3d>>();
                 foreach (ObjectId SelframeId in SelResult.Value.GetObjectIds())
                 {
-                    //TODO:
                     //找到图框的兄弟
+                    string selFrameName = ThSitePlanDbEngine.Instance.NameByFrame(SelframeId);
+                    var group = ThSitePlanConfigService.Instance.FindGroupByItemName(selFrameName);
+                    if (group == ThSitePlanConfigService.Instance.Root)
+                    {
+                        ThSitePlanConfigItem CurrentItem = ThSitePlanConfigService.Instance.FindItemByName(selFrameName);
 
-                    //获取选择框与复制框之间的偏移量
-                    var SelFramenPol = acadDatabase.Element<Polyline>(SelframeId);
-                    var PolOgFmCp = acadDatabase.Element<Polyline>(OriginFrameCopy.Item1);
-                    Vector3d SelToCopyFrame = SelFramenPol.GeometricExtents.MaxPoint - PolOgFmCp.GeometricExtents.MaxPoint;
-                    updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(SelframeId, SelToCopyFrame));
+                        var name = CurrentItem.Properties["Name"] as string;
+                        var frame = ThSitePlanDbEngine.Instance.FrameByName(name);
+                        //获取选择框与复制框之间的偏移量
+                        var SelFramenPol = acadDatabase.Element<Polyline>(frame);
+                        var PolOgFmCp = acadDatabase.Element<Polyline>(OriginFrameCopy.Item1);
+                        Vector3d SelToCopyFrame = SelFramenPol.GeometricExtents.MaxPoint - PolOgFmCp.GeometricExtents.MaxPoint;
+                        updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(frame, SelToCopyFrame));
+                    }
+                    else
+                    {
+                        foreach (ThSitePlanConfigItem item in group.Items)
+                        {
+                            var name = item.Properties["Name"] as string;
+                            var frame = ThSitePlanDbEngine.Instance.FrameByName(name);
+                            if (updateframes.Where(o => o.Item1 == frame).Any())
+                            {
+                                continue;
+                            }
+                            //获取选择框与复制框之间的偏移量
+                            var SelFramenPol = acadDatabase.Element<Polyline>(frame);
+                            var PolOgFmCp = acadDatabase.Element<Polyline>(OriginFrameCopy.Item1);
+                            Vector3d SelToCopyFrame = SelFramenPol.GeometricExtents.MaxPoint - PolOgFmCp.GeometricExtents.MaxPoint;
+                            updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(frame, SelToCopyFrame));
+                        }
+                    }
                 }
 
                 //为了保证后面的更新是按照正确的顺序进行
@@ -225,17 +251,14 @@ namespace ThSitePlan
                     }
                 }
 
-                //读取已经被标注的图框
-                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
-
                 //根据用户选择，更新图框配置
                 foreach (var item in SortedUpdateFrames)
                 {
                     //获取所选择的框对应的图元的图层分组名
-                    SelFrameName = ThSitePlanDbEngine.Instance.NameByFrame(item.Item1);
+                    string selFrameName = ThSitePlanDbEngine.Instance.NameByFrame(item.Item1);
 
                     //打开需要的工作
-                    ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(SelFrameName, true);
+                    ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(selFrameName, true);
                 }
 
                 //首先将原线框内的所有图元复制一份放到解构图集放置区的最后一个线框里
@@ -254,7 +277,9 @@ namespace ThSitePlan
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                  {
                     new ThSitePlanContentGenerator(),
+                    new ThSitePlanBoundaryGenerator(),
                     new ThSitePlanHatchGenerator(),
+                    new ThSitePlanShadowGenerator(),
                     new ThSitePlanPDFGenerator()
                  };
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
@@ -271,10 +296,10 @@ namespace ThSitePlan
                 foreach (var item in updateframes)
                 {
                     //获取所选择的框对应的图元的图层分组名
-                    SelFrameName = ThSitePlanDbEngine.Instance.NameByFrame(item.Item1);
+                    string selFrameName = ThSitePlanDbEngine.Instance.NameByFrame(item.Item1);
 
                     //打开需要的工作
-                    ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(SelFrameName, true);
+                    ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(selFrameName, true);
                 }
 
                 using (var psService = new ThSitePlanPSService())

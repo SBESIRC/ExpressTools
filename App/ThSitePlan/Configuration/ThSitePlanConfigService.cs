@@ -999,5 +999,37 @@ namespace ThSitePlan.Configuration
             }
             return FindItem;
         }
+
+        public ThSitePlanConfigItemGroup FindGroupByItemName(string name)
+        {
+            string[] namegroup = name.Split('-');
+            if (namegroup.Length<=1)
+            {
+                return Root;
+            }
+
+            return FindGroupByName(namegroup[namegroup.Length - 2],Root);
+        }
+
+        private ThSitePlanConfigItemGroup FindGroupByName(string name, ThSitePlanConfigItemGroup itgrp)
+        {
+            ThSitePlanConfigItemGroup FindGroup = null;
+            foreach (var item in itgrp.Items)
+            {
+                if (item is ThSitePlanConfigItemGroup findgp)
+                {
+                    if (findgp.Properties["Name"].ToString() == name)
+                    {
+                        return findgp;
+                    }
+                    FindGroup = FindGroupByName(name, findgp);
+                    if (FindGroup != null)
+                    {
+                        return FindGroup;
+                    }
+                }
+            }
+            return FindGroup;
+        }
     }
 }
