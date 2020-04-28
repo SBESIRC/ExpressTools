@@ -94,8 +94,16 @@
     (command "-layer" "oFF" "H-DUCT-DUAL" "")
 )
 
+; 切换当前图层到"0"图层
+(defun TH:SwitchToZero()
+    (command "-layer" "t" "0" "")
+    (command "-layer" "u" "0" "")
+    (command "-layer" "on" "0" "")
+    (setvar 'clayer  "0")
+)
+
 ; 进入平时通风模式
-(defun c:PSTF(  / *error* )            
+(defun c:THPT(  / *error* )            
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
         (if (not (member msg '("Function cancelled" "quit / exit abort")))
@@ -106,10 +114,10 @@
     
     (setq oecho (getvar 'cmdecho))
     (setvar 'cmdecho 0)
-    (setvar 'clayer  "0")
 
     (command ".undo" "BE")
     (TH:HideAll)
+    (TH:SwitchToZero)
     (command "-layer" "on" "H-BASE" "")    
     (command "-layer" "on" "H-BASE-DIMS" "")
     (command "-layer" "on" "H-BUSH" "")
@@ -152,7 +160,7 @@
 )
 
 ; 进入水管平面模式
-(defun c:SGPM( / *error* )
+(defun c:THSP( / *error* )
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
         (if (not (member msg '("Function cancelled" "quit / exit abort")))
@@ -163,10 +171,10 @@
     
     (setq oecho (getvar 'cmdecho))
     (setvar 'cmdecho 0)
-    (setvar 'clayer  "0")
 
     (command ".undo" "BE")
     (TH:HideAll)
+    (TH:SwitchToZero)
     (command "-layer" "on" "H-BUSH" "")
     (command "-layer" "on" "H-BUSH-DIMS" "")
     (command "-layer" "on" "H-EQUP" "")
@@ -208,7 +216,7 @@
 )
 
 ; 进入消防平面模式
-(defun c:XFPM( / *error* )
+(defun c:THXP( / *error* )
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
         (if (not (member msg '("Function cancelled" "quit / exit abort")))
@@ -219,10 +227,10 @@
     
     (setq oecho (getvar 'cmdecho))
     (setvar 'cmdecho 0)
-    (setvar 'clayer  "0")
 
     (command ".undo" "BE")
     (TH:HideAll)
+    (TH:SwitchToZero)
     (command "-layer" "on" "H-DAPP-DAPP" "")
     (command "-layer" "on" "H-DAPP-DDAMP" "")
     (command "-layer" "on" "H-DAPP-DGRIL" "")
