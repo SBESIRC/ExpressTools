@@ -17,6 +17,7 @@ namespace TianHua.AutoCAD.ThCui
             {
                 theMenu.AddMenuItem(-1, "帮助文档", "ID_THHLP");
                 theMenu.AddMenuItem(-1, "检查更新", "ID_THUPT");
+                theMenu.AddMenuItem(-1, "反馈意见", "ID_THFBK");
 
                 // 专业
                 {

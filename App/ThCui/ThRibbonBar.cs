@@ -66,6 +66,15 @@ namespace TianHua.AutoCAD.ThCui
                     RibbonSplitButtonListStyle.IconText,
                     RibbonButtonStyle.LargeWithText);
 
+                // 方案专业
+                splitButton.AddNewButton("方案",
+                    "天华方案",
+                    "THPROFILE _P",
+                    "切换到天华方案",
+                    "IDI_THCAD_PROJECT_PLAN_SMALL",
+                    "IDI_THCAD_PROJECT_PLAN_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
                 // 建筑专业
                 splitButton.AddNewButton("建筑专业",
                     "天华建筑",
@@ -110,15 +119,6 @@ namespace TianHua.AutoCAD.ThCui
                     "切换到天华给排水",
                     "IDI_THCAD_WATER_SMALL",
                     "IDI_THCAD_WATER_LARGE",
-                    RibbonButtonStyle.LargeWithText);
-
-                // 方案专业
-                splitButton.AddNewButton("方案",
-                    "天华方案",
-                    "THPROFILE _P",
-                    "切换到天华方案",
-                    "IDI_THCAD_PROJECT_PLAN_SMALL",
-                    "IDI_THCAD_PROJECT_PLAN_LARGE",
                     RibbonButtonStyle.LargeWithText);
             }
 
