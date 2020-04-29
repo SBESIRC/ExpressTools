@@ -33,10 +33,10 @@ namespace ThSitePlan
         [CommandMethod("TIANHUACAD", "THSPSET", CommandFlags.Modal)]
         public void ThSitePlanSet()
         {
-            Application.ShowModalDialog(new ThSitePlanForm());
-            //ThSitePlanForm SpForm = new ThSitePlanForm();
-            //SpForm.ShowInTaskbar = true;
-            //SpForm.Show();
+            using (var dlg = new ThSitePlanForm())
+            {
+                Application.ShowModalDialog(dlg);
+            }
         }
 
         [CommandMethod("TIANHUACAD", "THSP", CommandFlags.Modal)]
