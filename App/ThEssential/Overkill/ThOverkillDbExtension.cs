@@ -112,5 +112,84 @@ namespace ThEssential.Overkill
             firLine.EndPoint = ep;
             return firLine;
         }
+        
+        #region 非代码勿提交，在这里用来测试的
+        [CommandMethod("TIANHUACAD", "THSPTest", CommandFlags.Modal)]
+        public static void THDbTest()
+        {
+            TypedValue[] filList = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Polyline") };
+            SelectionFilter sfilter = new SelectionFilter(filList);
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Editor ed = doc.Editor;
+            PromptSelectionResult ProSset = ed.SelectAll();
+
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
+            {
+                DBObjectCollection cuvCollec = new DBObjectCollection();
+
+                if (ProSset.Status == PromptStatus.OK)
+                {
+                    List<Line> lines = new List<Line>();
+                    ObjectId[] oids = ProSset.Value.GetObjectIds();
+                    foreach (ObjectId objId in oids)
+                    {
+                        Polyline line = trans.GetObject(objId, OpenMode.ForWrite) as Polyline;
+                        cuvCollec.Add(line);
+                    }
+
+                    GetPolyLineBounding(cuvCollec, Tolerance.Global);
+                }
+
+                trans.Commit();
+            }
+        }
+
+        public static DBObjectCollection GetPolyLineBounding(DBObjectCollection dBObjects, Tolerance tolerance)
+        {
+            DBObjectCollection resBounding = new DBObjectCollection();
+            using (AcadDatabase acdb = AcadDatabase.Active())
+            {
+                foreach (var dbObj in dBObjects)
+                {
+                    if (dbObj is Polyline)
+                    {
+                        Polyline polyline = dbObj as Polyline;
+                        if (polyline.NumberOfVertices < 4)
+                        {
+                            continue;
+                        }
+
+                        List<Point2d> points = new List<Point2d>();
+                        for (int i = 0; i < polyline.NumberOfVertices; i++)
+                        {
+                            if (points.Where(x => x.IsEqualTo(polyline.GetPoint2dAt(i), tolerance)).Count() <= 0)
+                            {
+                                points.Add(polyline.GetPoint2dAt(i));
+                            }
+                        }
+
+                        Polyline resPolyline = new Polyline(points.Count);
+                        Point2d thisP = points.First();
+                        int index = 0;
+                        resPolyline.AddVertexAt(index, thisP, 0, 0, 0);
+                        points.Remove(thisP);
+                        while (points.Count > 0)
+                        {
+                            thisP = points.OrderBy(x => x.GetDistanceTo(thisP)).First();
+                            index++;
+                            resPolyline.AddVertexAt(index, thisP, 0, 0, 0);
+                            points.Remove(thisP);
+                        }
+                        resPolyline.Closed = true;
+
+                        acdb.ModelSpace.Add(resPolyline);
+                        polyline.Erase();
+                    }
+                }
+            }
+
+            return null;
+        }
+        #endregion
     }
 }
