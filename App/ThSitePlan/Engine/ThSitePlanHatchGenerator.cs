@@ -4,6 +4,7 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.EditorInput;
 
 namespace ThSitePlan.Engine
 {
@@ -26,10 +27,10 @@ namespace ThSitePlan.Engine
                 })},
                 {"建筑物-场地外建筑-建筑色块", new ThSitePlanRegionWorker(new string[] {
                     RXClass.GetClass(typeof(Region)).DxfName,
-                })},
+                }, PolygonSelectionMode.Crossing)},
                 {"建筑物-场地内建筑-建筑色块", new ThSitePlanRegionWorker(new string[] {
                     RXClass.GetClass(typeof(Region)).DxfName,
-                })},
+                }, PolygonSelectionMode.Window)},
                 {"场地-停车场地-场地色块", new ThSitePlanCADWorker(new string[]{
                     RXClass.GetClass(typeof(Polyline)).DxfName,
                 })},

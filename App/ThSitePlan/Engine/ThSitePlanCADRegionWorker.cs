@@ -1,12 +1,14 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using AcHelper;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
-using AcHelper;
 
 namespace ThSitePlan.Engine
 {
     public class ThSitePlanRegionWorker : ThSitePlanCADWorker
     {
-        public ThSitePlanRegionWorker(string[] dxfNames) : base(dxfNames)
+        public ThSitePlanRegionWorker(string[] dxfNames,
+            PolygonSelectionMode mode = PolygonSelectionMode.Window) : base(dxfNames, mode)
         {
             //
         }

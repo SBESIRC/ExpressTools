@@ -10,9 +10,12 @@ namespace ThSitePlan.Engine
     public class ThSitePlanCADWorker : ThSitePlanWorker
     {
         private string[] DxfNames { get; set; }
-        public ThSitePlanCADWorker(string[] dxfNames)
+        private PolygonSelectionMode SelectionMode { get; set; }
+        public ThSitePlanCADWorker(string[] dxfNames, 
+            PolygonSelectionMode mode = PolygonSelectionMode.Window)
         {
             DxfNames = dxfNames;
+            SelectionMode = mode;
         }
 
         public override bool DoProcess(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
@@ -66,7 +69,7 @@ namespace ThSitePlan.Engine
             var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", DxfNames));
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 frame,
-                PolygonSelectionMode.Window,
+                SelectionMode,
                 filter);
             if (psr.Status == PromptStatus.OK)
             {
@@ -87,7 +90,7 @@ namespace ThSitePlan.Engine
             }));
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 frame,
-                PolygonSelectionMode.Window,
+                SelectionMode,
                 filter);
             if (psr.Status == PromptStatus.OK)
             {

@@ -29,6 +29,7 @@
     <Compile Include="Configuration\ThSitePlanConfigService.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryBuildingWorker.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryGenerator.cs" />
+    <Compile Include="Engine\ThSitePlanBoundaryOuterBuildingWorker.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryWorker.cs" />
     <Compile Include="Engine\ThSitePlanBuilding.cs" />
     <Compile Include="Engine\ThSitePlanBuildingAnnotations.cs" />

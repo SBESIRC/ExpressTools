@@ -389,5 +389,21 @@ namespace ThSitePlan
                 return pline2.Centroid() - pline1.Centroid();
             }
         }
+
+        public static Polyline CreatePolyline(this Extents3d extents)
+        {
+            var pline = new Polyline()
+            {
+                Closed = true,
+            };
+            pline.CreatePolyline(new Point3dCollection()
+            {
+                extents.MinPoint,
+                extents.MinPoint + Vector3d.YAxis * extents.Height(),
+                extents.MaxPoint,
+                extents.MinPoint + Vector3d.XAxis * extents.Width(),
+            });
+            return pline;
+        }
     }
 }

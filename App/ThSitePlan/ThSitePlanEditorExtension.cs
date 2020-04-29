@@ -1,8 +1,10 @@
 ﻿using AcHelper;
 using DotNetARX;
+using Linq2Acad;
 using System.Linq;
 using Dreambuild.AutoCAD;
 using GeometryExtensions;
+using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -193,6 +195,74 @@ namespace ThSitePlan
                );
             Active.Editor.AcedCmd(args);
 #endif
+        }
+
+        /// <summary>
+        /// 计算图元对象的包围框，
+        /// 计算一个临时的包围框（比图元对象的范围框稍大一些10%）
+        /// 在图元对象范围框和临时的包围框直接选一点作为“种子点”
+        /// 通过使用BO命令获取轮廓面域
+        /// </summary>
+        /// <param name="editor"></param>
+        /// <param name="objs"></param>
+        public static void BoundaryCmdEx(this Editor editor, ObjectIdCollection objs)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            { 
+                var extents = objs.Cast<ObjectId>().GetExtents();
+                var frame = extents.Expand(1.1).CreatePolyline();
+                objs.Add(acadDatabase.CurrentSpace.Add(frame));
+                var seedPt = extents.Expand(1.05).MinPoint;
+
+                ObjectId outermost = ObjectId.Null; 
+                ObjectEventHandler handler = (s, e) =>
+                {
+                    if (e.DBObject is Region region)
+                    {
+                        if (frame.Length == region.Perimeter)
+                        {
+                            outermost = e.DBObject.ObjectId;
+                        }
+                    }
+                };
+
+#if ACAD_ABOVE_2014
+                acadDatabase.Database.ObjectAppended += handler;
+                Active.Editor.Command("_.-BOUNDARY",
+                    "_A",
+                    "_B",
+                    "_N",
+                    SelectionSet.FromObjectIds(objs.ToArray()),
+                    "",
+                    "_O",
+                    "_R",
+                    "",
+                    seedPt,
+                    "");
+                acadDatabase.Database.ObjectAppended -= handler;
+#else
+                ResultBuffer args = new ResultBuffer(
+                   new TypedValue((int)LispDataType.Text, "_.-BOUNDARY"),
+                   new TypedValue((int)LispDataType.Text, "_A"),
+                   new TypedValue((int)LispDataType.Text, "_B"),
+                   new TypedValue((int)LispDataType.Text, "_N"),
+                   new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
+                   new TypedValue((int)LispDataType.Text, ""),
+                   new TypedValue((int)LispDataType.Text, "_O"),
+                   new TypedValue((int)LispDataType.Text, "_R"),
+                   new TypedValue((int)LispDataType.Text, ""),
+                   new TypedValue((int)LispDataType.Point3d, seedPt),
+                   new TypedValue((int)LispDataType.Text, "")
+                   );
+                Active.Editor.AcedCmd(args);
+#endif
+
+                // 删除最外面的边界
+                if (outermost.IsValid)
+                {
+                    acadDatabase.Element<Region>(outermost, true).Erase();
+                }
+            }
         }
 
         public static void PeditCmd(this Editor editor, ObjectIdCollection objs)
