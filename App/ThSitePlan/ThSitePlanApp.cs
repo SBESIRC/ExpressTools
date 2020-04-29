@@ -12,6 +12,7 @@ using ThSitePlan.Engine;
 using ThSitePlan.Configuration;
 using ThSitePlan.Photoshop;
 using NFox.Cad.Collections;
+using Autodesk.AutoCAD.ApplicationServices;
 
 namespace ThSitePlan
 {
@@ -32,9 +33,10 @@ namespace ThSitePlan
         [CommandMethod("TIANHUACAD", "THSPSET", CommandFlags.Modal)]
         public void ThSitePlanSet()
         {
-            ThSitePlanForm SpForm = new ThSitePlanForm();
-            SpForm.ShowInTaskbar = true;
-            SpForm.Show();
+            Application.ShowModalDialog(new ThSitePlanForm());
+            //ThSitePlanForm SpForm = new ThSitePlanForm();
+            //SpForm.ShowInTaskbar = true;
+            //SpForm.Show();
         }
 
         [CommandMethod("TIANHUACAD", "THSP", CommandFlags.Modal)]
@@ -141,7 +143,7 @@ namespace ThSitePlan
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
 
-            // PS处理流程
+            //PS处理流程
             ThSitePlanConfigService.Instance.Initialize();
             ThSitePlanConfigService.Instance.EnableAll(true);
             using (var psService = new ThSitePlanPSService())

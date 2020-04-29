@@ -1,16 +1,19 @@
 ﻿using System;
-using PsApplication = Photoshop.Application;
 using Photoshop;
 using System.Drawing;
 using ThSitePlan.Configuration;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
+using PsApplication = Photoshop.Application;
 
 namespace ThSitePlan.Photoshop
 {
     public class ThSitePlanPSService : IDisposable
     {
         public PsApplication Application { get; set; }
+
+        public Document CurrentFirstDocument { get; set; }
 
         public ThSitePlanPSService()
         {
@@ -88,10 +91,11 @@ namespace ThSitePlan.Photoshop
         }
 
         //在指定PS文档中检索指定图层，找到插入位置
-        public LayerSet SearchInsertLoc(List<string> DocNameSpt, LayerSet SerLaySet, Document serdoc)
+        public LayerSet SearchInsertLoc(string docname, Document serdoc)
         {
+            List<string> DocNameSpt = docname.Split('-').ToList();
             LayerSets FirstLayerSets = serdoc.LayerSets;
-
+            LayerSet SerLaySet = null;
             for (int i = 0; i < DocNameSpt.Count - 1; i++)
             {
                 if (i == 0)
@@ -141,6 +145,78 @@ namespace ThSitePlan.Photoshop
             }
 
             return SerLaySet;
+        }
+
+        //将图层移动到指定位置，如需要，为其创建分组
+        public void MoveLayerIntoSet(ArtLayer OperateLayer,LayerSet EndLayerSet)
+        {
+            List<string> CurDoc_Sets = OperateLayer.Name.Split('-').ToList();
+            OperateLayer.Name = CurDoc_Sets.Last();
+            if (CurDoc_Sets.Count > 1)
+            {
+                int CurIndex = CurDoc_Sets.IndexOf(EndLayerSet.Name);
+
+                //若当前图层指针指向的图层组名并不是当前待移动的图层的图层名中最内侧分组名
+                if (CurIndex != CurDoc_Sets.Count - 2)
+                {
+                    for (int i = CurIndex + 1; i < CurDoc_Sets.Count - 1; i++)
+                    {
+                        LayerSets endsets = EndLayerSet.LayerSets;
+                        EndLayerSet = endsets.Add();
+                        EndLayerSet.Name = CurDoc_Sets[i];
+                    }
+                }
+                OperateLayer.Move(EndLayerSet, PsElementPlacement.psPlaceInside);
+            }
+
+            else
+            {
+                OperateLayer.Move(CurrentFirstDocument, PsElementPlacement.psPlaceAtEnd);
+            }
+
+        }
+
+        //将当前打开的文档中的图层复制到第一个空白文档中，关闭当前文档
+        public void CopyNewToFirst(Document newdoc,Document firsdoc)
+        {
+            newdoc.ArtLayers[1].Duplicate(firsdoc, PsElementPlacement.psPlaceAtEnd);
+            newdoc.Close(PsSaveOptions.psDoNotSaveChanges);
+        }
+
+        //在首文档最外层layers中按名称查找需要更新层，更新其内容
+        public bool UpdateLayersInOutSet(Document searchdoc, Document origdoc)
+        {
+            foreach (ArtLayer lyit in origdoc.ArtLayers)
+            {
+                if (lyit.Name == searchdoc.ArtLayers[1].Name)
+                {
+                    Application.ActiveDocument = origdoc;
+                    lyit.Clear();
+                    Application.ActiveDocument = searchdoc;
+                    searchdoc.ArtLayers[1].Duplicate(lyit, PsElementPlacement.psPlaceAfter);
+                    searchdoc.Close(PsSaveOptions.psDoNotSaveChanges);
+                    Application.ActiveDocument = origdoc;
+                    lyit.Merge();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        //在插入位置下找到该文档并替换
+        public void UpdateLayerInSet(ArtLayer OperateLayer, LayerSet EndLayerSet)
+        {
+            List<string> CurDoc_Sets = OperateLayer.Name.Split('-').ToList();
+            OperateLayer.Name = CurDoc_Sets.Last();
+            foreach (ArtLayer lyit in EndLayerSet.ArtLayers)
+            {
+                if (lyit.Name == OperateLayer.Name)
+                {
+                    lyit.Clear();
+                    OperateLayer.Move(lyit, PsElementPlacement.psPlaceAfter);
+                    lyit.Merge();
+                }
+            }
         }
 
         //导出并保存PSD文件

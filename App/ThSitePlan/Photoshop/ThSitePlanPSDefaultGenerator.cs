@@ -15,6 +15,7 @@ namespace ThSitePlan.Photoshop
                 {"尺寸标注", new ThSitePlanPSDefaultWorker(psService)},
                 {"界线", new ThSitePlanPSDefaultWorker(psService)},
                 {"原始场地叠加线稿", new ThSitePlanPSDefaultWorker(psService)},
+                {"全局阴影", new ThSitePlanPSDefaultWorker(psService)},
 
                 {"建筑物-场地内建筑-建筑信息", new ThSitePlanPSDefaultWorker(psService)},
                 {"建筑物-场地内建筑-建筑线稿", new ThSitePlanPSDefaultWorker(psService)},
