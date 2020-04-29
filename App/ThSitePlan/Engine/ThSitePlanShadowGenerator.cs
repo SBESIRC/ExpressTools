@@ -16,7 +16,7 @@ namespace ThSitePlan.Engine
         {
             Workers = new Dictionary<string, ThSitePlanWorker>()
             {
-                {"全局阴影", new ThSitePlanShadowWorker()},
+                {"全局阴影", new ThSitePlanShadowWorkerEx()},
             };
         }
 

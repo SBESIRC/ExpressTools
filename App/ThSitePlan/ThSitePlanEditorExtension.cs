@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.DatabaseServices;
+﻿using AcHelper;
+using DotNetARX;
+using System.Linq;
 using Dreambuild.AutoCAD;
 using GeometryExtensions;
-using TianHua.AutoCAD.Utility.ExtensionTools;
-using AcHelper;
-using DotNetARX;
-using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.DatabaseServices;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThSitePlan
 {
@@ -122,6 +121,29 @@ namespace ThSitePlan
                    new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
                    new TypedValue((int)LispDataType.Text, ""),
                    new TypedValue((int)LispDataType.Text, "")
+                   );
+                Active.Editor.AcedCmd(args);
+#endif
+            }
+        }
+
+        public static void HatchEditCmd(this Editor editor, ObjectIdCollection objs)
+        {
+            foreach (ObjectId obj in objs)
+            {
+#if ACAD_ABOVE_2014
+                Active.Editor.Command("_.-HATCHEDIT",
+                    obj,
+                    "_B",
+                    "_R",
+                    "_Y");
+#else
+                ResultBuffer args = new ResultBuffer(
+                   new TypedValue((int)LispDataType.Text, "_.-HATCHEDIT"),
+                   new TypedValue((int)LispDataType.ObjectId, obj),
+                   new TypedValue((int)LispDataType.Text, "_B"),
+                   new TypedValue((int)LispDataType.Text, "_R"),
+                   new TypedValue((int)LispDataType.Text, "_Y")
                    );
                 Active.Editor.AcedCmd(args);
 #endif

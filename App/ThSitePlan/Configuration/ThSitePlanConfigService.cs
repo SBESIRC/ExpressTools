@@ -168,7 +168,7 @@ namespace ThSitePlan.Configuration
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()
                         {
-                            "P-AI-shadow"
+                            "P-BUID-HACH"
                         }
                     }
                 }

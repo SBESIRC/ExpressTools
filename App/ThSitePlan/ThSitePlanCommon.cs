@@ -19,7 +19,7 @@ namespace ThSitePlan
         public static readonly string LAYER_ROAD_PEDESTRIAN = "P-ROAD-WALK";
         public static readonly string LAYER_ROAD_EXTERNAL = "P-OUTD-ROAD";
         public static readonly string LAYER_ROAD_LANDSCAPE = "P-Land-ROAD";
-        public static readonly string LAYER_BUILD_HATCH = "P-BULD-HACH";
+        public static readonly string LAYER_BUILD_HATCH = "P-BUID-HACH";
         public static readonly string LAYER_GLOBAL_SHADOW = "P-AI-shadow";
         public static readonly string LAYER_PAVE_OUTD = "P-AI-pavement";
         public static readonly string LAYER_GREEN_WATER = "P-GREN-WATER";
