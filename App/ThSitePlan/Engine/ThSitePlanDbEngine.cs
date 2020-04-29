@@ -69,11 +69,13 @@ namespace ThSitePlan.Engine
             {
                 Polyline SelectFrame_poly = acadDatabase.Element<Polyline>(FrameId);
                 PromptSelectionResult  psr = Active.Editor.SelectByPolyline(FrameId,  mode, null);
-                SelectionSet Selset = psr.Value;
-                ObjectIdCollection SelObjIdCol = Selset.GetObjectIds().ToObjectIdCollection();
-                SelObjIdCol.Remove(FrameId);
-                Active.Editor.EraseCmd(SelObjIdCol);
-
+                if (psr.Status == PromptStatus.OK)
+                {
+                    SelectionSet Selset = psr.Value;
+                    ObjectIdCollection SelObjIdCol = Selset.GetObjectIds().ToObjectIdCollection();
+                    SelObjIdCol.Remove(FrameId);
+                    Active.Editor.EraseCmd(SelObjIdCol);
+                }
             }
         }
     }

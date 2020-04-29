@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AcHelper;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+using Linq2Acad;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ThSitePlan.Engine;
 
 namespace ThSitePlan
 {
@@ -56,6 +61,17 @@ namespace ThSitePlan
             Properties.Settings.Default.shadowAngle = Convert.ToDouble(this.ShadowAngleSetBox.Text);
             Properties.Settings.Default.shadowLengthScale = Convert.ToDouble(this.ShadowLengthSetBox.Text);
             Properties.Settings.Default.Save();
+
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+                ObjectId frame = ThSitePlanDbEngine.Instance.FrameByName("全局阴影");
+                ObjectId[] frames = new ObjectId[] { frame };
+
+                Active.Editor.SetImpliedSelection(frames);
+                string commandst = "_.THSPUPD";
+                Active.Document.SendStringToExecute($"{commandst} ", true, false, false);
+            }
         }
 
         private void LandTreeUpdBt_Click(object sender, EventArgs e)
@@ -63,6 +79,16 @@ namespace ThSitePlan
             Properties.Settings.Default.PlantRadius = Convert.ToDouble(this.TreeRadiusSetBox.Text);
             Properties.Settings.Default.PlantDensity = Convert.ToDouble(this.TreeDensitySetBox.Text);
             Properties.Settings.Default.Save();
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+                ObjectId frame = ThSitePlanDbEngine.Instance.FrameByName("树木-行道树-树木色块");
+                ObjectId[] frames = new ObjectId[] { frame };
+
+                Active.Editor.SetImpliedSelection(frames);
+                string commandst = "_.THSPUPD";
+                Active.Document.SendStringToExecute($"{commandst} ",true,false,false);
+            }
         }
 
         private void ShadowAngleHelp(object sender, EventArgs e)
