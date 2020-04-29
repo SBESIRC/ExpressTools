@@ -140,11 +140,17 @@ namespace ThColumnInfo
             {
                 ReinforceHasThreeStr(strs);
             }
-            if(this.valid)
+            if (this.valid)
             {
                 this.Ctri.AngularReinforcement = this.angularReinforcement;
                 this.Ctri.BEdgeSideMiddleReinforcement = this.bSideReinforcement;
                 this.Ctri.HEdgeSideMiddleReinforcement = this.hSideReinforcement;
+            }
+            else
+            {
+                this.Ctri.AngularReinforcement = "";
+                this.Ctri.BEdgeSideMiddleReinforcement = "";
+                this.Ctri.HEdgeSideMiddleReinforcement = "";
             }
         }
         private bool ValidateReinforceFormat(string[] strs)
