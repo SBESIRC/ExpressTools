@@ -63,21 +63,17 @@ namespace ThColumnInfo
                 xyColumns[0][0].Y + xyColumns[0][0].EccY,0.0);
             Matrix3d moveMt = Matrix3d.Displacement(basePt.GetVectorTo(Point3d.Origin));
             this.columnEnts.ForEach(i=>i.TransformBy(moveMt)); //把基点移动到原点
-            Matrix3d alignMt= Matrix3d.AlignCoordinateSystem(
-                Point3d.Origin, 
-                doc.Editor.CurrentUserCoordinateSystem.CoordinateSystem3d.Xaxis,
-                doc.Editor.CurrentUserCoordinateSystem.CoordinateSystem3d.Yaxis,
-                doc.Editor.CurrentUserCoordinateSystem.CoordinateSystem3d.Zaxis,
-                Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis);
-            this.columnEnts.ForEach(i => i.TransformBy(alignMt));
+
+            Matrix3d wcsToUcs= ThColumnInfoUtils.UCS2WCS();
+            this.columnEnts.ForEach(i => i.TransformBy(wcsToUcs));
+
         }
         private List<Point3d> GetPolylinePts(Polyline polyline)
         {
             List<Point3d> pts = new List<Point3d>();
             for(int i=0;i< polyline.NumberOfVertices;i++)
             {
-
-                pts.Add(polyline.GetPoint3dAt(i).TransformBy(doc.Editor.CurrentUserCoordinateSystem));
+                pts.Add(polyline.GetPoint3dAt(i));
             }
             return pts;
         }
@@ -157,15 +153,15 @@ namespace ThColumnInfo
                 this.columnEnts.ForEach(i => i.TransformBy(rotateMt));
             }
             Point3d moveTargetPt= basePt;
+            ThColumnJig thColumnJig = new ThColumnJig(this.columnEnts, basePt);
             while (doMark)
             {
-                ThColumnJig thColumnJig = new ThColumnJig(this.columnEnts, basePt);
                 PromptResult jigRes = doc.Editor.Drag(thColumnJig);
                 if (jigRes.Status == PromptStatus.OK)
                 {
                     doMark = false;
                     this.isGoOn = true;
-                    moveTargetPt = thColumnJig.Position;
+                    moveTargetPt = thColumnJig.Location;
                     break;
                 }
                 else if(jigRes.Status == PromptStatus.Keyword)
@@ -173,7 +169,8 @@ namespace ThColumnInfo
                     if(thColumnJig.KeyWord=="R")
                     {
                         List<Entity> ents = this.columnEnts.Select(i => i.Clone() as Entity).ToList();
-                        ents.ForEach(i => i.TransformBy(doc.Editor.CurrentUserCoordinateSystem));
+                        thColumnJig.TransformEntities();
+                        thColumnJig.TransformEntities(ents);
                         using (Transaction trans = doc.TransactionManager.StartTransaction())
                         {
                             BlockTable bt = trans.GetObject(doc.Database.BlockTableId, OpenMode.ForRead) as BlockTable;
@@ -190,36 +187,12 @@ namespace ThColumnInfo
                         PromptPointResult ppr= doc.Editor.GetPoint(ppo);
                         if(ppr.Status==PromptStatus.OK)
                         {
-                            basePt = ppr.Value;                
+                            basePt = ppr.Value;
+                            thColumnJig.UpdateMbase(basePt);
                         }
                         if(ents!=null && ents.Count>0)
                         {
                             ThColumnInfoUtils.EraseObjIds(ents.Select(i => i.ObjectId).ToArray());
-                        }
-                    }
-                    else if(thColumnJig.KeyWord == "A")
-                    {
-                        basePt = thColumnJig.Position;
-                        PromptAngleOptions pao = new PromptAngleOptions("\n输入模型的角度");
-                        pao.AllowArbitraryInput = true;
-                        pao.AllowZero = true;
-                        pao.AllowNone = false;                        
-                        PromptDoubleResult pdr = doc.Editor.GetAngle(pao);
-                        if (pdr.Status == PromptStatus.OK)
-                        {
-                            double tempAng = pdr.Value;
-                            if (tempAng != modelAng)
-                            {
-                                if(modelAng!=0.0)
-                                {
-                                    //先旋转到0度
-                                    Matrix3d rotateMt1 = Matrix3d.Rotation(-1.0 * modelAng, Vector3d.ZAxis, basePt);
-                                    this.columnEnts.ForEach(i => i.TransformBy(rotateMt1));
-                                }                               
-                                Matrix3d rotateMt2 = Matrix3d.Rotation(tempAng, Vector3d.ZAxis, basePt);
-                                this.columnEnts.ForEach(i => i.TransformBy(rotateMt2));
-                                modelAng = tempAng;
-                            }
                         }
                     }
                     else if(thColumnJig.KeyWord == "E")
@@ -241,6 +214,7 @@ namespace ThColumnInfo
                 doMark = true;
                 do
                 {
+                    thColumnJig.TransformEntities();
                     MoveRotateScaleJig rotateJig = new MoveRotateScaleJig(this.columnEnts, moveTargetPt, JigWay.Rotate, 0, 1);
                     PromptResult jigRes = doc.Editor.Drag(rotateJig);
                     if (jigRes.Status == PromptStatus.OK)

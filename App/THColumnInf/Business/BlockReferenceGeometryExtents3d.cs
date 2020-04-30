@@ -44,10 +44,17 @@ namespace ThColumnInfo
                           where item is Curve && item.GeometricExtents != null
                           select new
                           {
-                              MinPoint = item.GeometricExtents.MinPoint,
-                              MaxPoint= item.GeometricExtents.MaxPoint
+                              Extents3d = ThColumnInfoUtils.GeometricExtentsImpl(item)
                           };
-                res.ForEach(i => { totalPts.Add(i.MinPoint); totalPts.Add(i.MaxPoint); });                
+                res.ForEach(
+                    i =>
+                    {
+                        if (i.Extents3d != null)
+                        {
+                            totalPts.Add(i.Extents3d.MinPoint);
+                            totalPts.Add(i.Extents3d.MaxPoint);
+                        }
+                    });            
                 double minX = totalPts.OrderBy(i => i.X).First().X;
                 double minY = totalPts.OrderBy(i => i.Y).First().Y;
                 double minZ = totalPts.OrderBy(i => i.Z).First().Z;

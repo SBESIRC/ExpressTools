@@ -18,7 +18,7 @@ namespace ThColumnInfo
     public class ExtractColumnPosition : IDataSource
     {
         private List<BlockReference> blkRefs = new List<BlockReference>();
-        private Point3d rangePt1 = Point3d.Origin;
+        private Point3d rangePt1 = Point3d.Origin; 
         private Point3d rangePt2 = Point3d.Origin;
         private Document doc;
         private List<List<Point3d>> allColumnBoundaryPts = new List<List<Point3d>>();
@@ -33,11 +33,13 @@ namespace ThColumnInfo
         private ThStandardSign thStandardSign;
         private ParameterSetInfo paraSetInfo;
         private bool extractColumnPos = false;
+
+
         /// <summary>
         /// 通过两点提取对角范围内的柱子信息
         /// </summary>
-        /// <param name="rangePt1">左下点 WCS Point</param>
-        /// <param name="rangePt2">右上点 WCS Point</param>
+        /// <param name="rangePt1">左下点</param>
+        /// <param name="rangePt2">右上点</param>
         public ExtractColumnPosition(Point3d rangePt1, Point3d rangePt2, ThStandardSign thStandardSign)
         {
             this.rangePt1 = rangePt1;
@@ -62,10 +64,19 @@ namespace ThColumnInfo
             this.thStandardSign = thStandardSign;
             ParameterSetVM parameterSetVM = new ParameterSetVM();
             this.paraSetInfo = parameterSetVM.ParaSetInfo;
-            BlockReferenceGeometryExtents3d brge = new BlockReferenceGeometryExtents3d(thStandardSign.Br);
-            brge.GeometryExtents3dBestFit();
-            this.rangePt1 = brge.GeometryExtents3d.Value.MinPoint;
-            this.rangePt2 = brge.GeometryExtents3d.Value.MaxPoint;
+            var extents = ThColumnInfoUtils.GeometricExtentsImpl(thStandardSign.Br);
+            if(extents!=null)
+            {
+                this.rangePt1 = extents.MinPoint;
+                this.rangePt2 = extents.MaxPoint;
+            }
+            else
+            {
+                BlockReferenceGeometryExtents3d brge = new BlockReferenceGeometryExtents3d(thStandardSign.Br);
+                brge.GeometryExtents3dBestFit();
+                this.rangePt1 = brge.GeometryExtents3d.Value.MinPoint;
+                this.rangePt2 = brge.GeometryExtents3d.Value.MaxPoint;
+            }
             Init();
         }
         private void Init()
@@ -160,7 +171,8 @@ namespace ThColumnInfo
             ViewTableRecord view = doc.Editor.GetCurrentView();
             try
             {
-                ThColumnInfoUtils.ZoomWindow(doc.Editor, this.rangePt1, this.rangePt2);
+                COMTool.ZoomWindow(ThColumnInfoUtils.TransPtFromUcsToWcs(this.rangePt1)
+                    , ThColumnInfoUtils.TransPtFromUcsToWcs(this.rangePt2));
                 //提取柱表
                 ExtractColumnTable extractColumnTable = new ExtractColumnTable(this.rangePt1, this.rangePt2, this.paraSetInfo); //如果不是原位图纸，提取一下柱表信息
                 extractColumnTable.Extract();
@@ -186,7 +198,6 @@ namespace ThColumnInfo
             List<List<Point3d>> pts = new List<List<Point3d>>();
             try
             {
-                ThColumnInfoUtils.ZoomWindow(doc.Editor, this.rangePt1, this.rangePt2);
                 this.blkRefs = GetXRefColumn(); //获取两点范围内找到的柱子
                 if (this.blkRefs.Count == 0)
                 {
@@ -219,7 +230,8 @@ namespace ThColumnInfo
             {
                 return;
             }
-            propertyHasProblemList = this.ColumnTableRecordInfos.Where(i => !i.ValidateEmpty()).Select(i => i).ToList();
+            this.ColumnTableRecordInfos.ForEach(i => i.Handle());
+            propertyHasProblemList.AddRange(this.ColumnTableRecordInfos.Where(i => !i.Validate()).Select(i => i).ToList());
             for (int i = 0; i < this.ColumnInfs.Count; i++)
             {
                 if (string.IsNullOrEmpty(this.ColumnInfs[i].Code))
@@ -227,25 +239,21 @@ namespace ThColumnInfo
                     this.ColumnInfs[i].Error = ErrorMsg.CodeEmpty;
                     continue;
                 }
-                else
+                int errorCount=this.propertyHasProblemList.Where(j => j.Code == this.ColumnInfs[i].Code).Select(j => j).Count();
+                if(errorCount>0)
+                {
+                    this.ColumnInfs[i].Error = ErrorMsg.InfNotCompleted;
+                    continue;
+                }
+                int correctCount = this.ColumnTableRecordInfos.
+                    Where(j => j.Code == this.ColumnInfs[i].Code).Select(j => j).ToList().Count();
+                if(correctCount>0)
                 {
                     this.ColumnInfs[i].Error = ErrorMsg.OK;
-                    List<ColumnTableRecordInfo> ctris = this.ColumnTableRecordInfos.
-                         Where(j => j.Code == this.ColumnInfs[i].Code).Select(j => j).ToList();
-                    if (ctris == null || ctris.Count == 0)
-                    {
-                        this.ColumnInfs[i].Error = ErrorMsg.CodeEmpty;
-                        continue;
-                    }
-                    else
-                    {
-                        List<ColumnTableRecordInfo> problemCtris = propertyHasProblemList.Where(
-                            j => j.Code == this.ColumnInfs[i].Code).Select(j => j).ToList();
-                        if (problemCtris != null && problemCtris.Count > 0)
-                        {
-                            this.ColumnInfs[i].Error = ErrorMsg.InfNotCompleted;
-                        }
-                    }
+                }
+                else
+                {
+                    this.ColumnInfs[i].Error = ErrorMsg.InfNotCompleted;
                 }
             }
         }
@@ -253,7 +261,7 @@ namespace ThColumnInfo
         {
             for (int i = 0; i < this.allColumnBoundaryPts.Count; i++)
             {
-                if(this.allColumnBoundaryPts[i].Count<2)
+                if (this.allColumnBoundaryPts[i].Count < 2)
                 {
                     continue;
                 }
@@ -282,7 +290,7 @@ namespace ThColumnInfo
         /// 获取柱子的信息
         /// </summary>
         /// <param name="line">柱子伸出来的线</param>
-        /// <param name="searchPt">用于查找的点</param>
+        /// <param name="searchPt">用于查找的点 Wcs Point3d</param>
         /// <returns></returns>
         private void GetColumnInf(ColumnInf columnInf,Curve line, Point3d searchPt)
         {
@@ -335,13 +343,17 @@ namespace ThColumnInfo
                                 continue;
                             }
                             BuildInSituMarkInf buildInSituMarkInf = new BuildInSituMarkInf(polylines[i], dBTexts);
-                            buildInSituMarkInf.Build();                
+                            buildInSituMarkInf.Build();
+                            columnCode = buildInSituMarkInf.Ctri.Code;
                             if (buildInSituMarkInf.Ctri.Validate())
                             {
                                 columnInf.HasOrigin = true;
-                                columnCode = buildInSituMarkInf.Ctri.Code;
                                 this.ColumnTableRecordInfos.Add(buildInSituMarkInf.Ctri);
                                 break;
+                            }
+                            else
+                            {
+                                this.propertyHasProblemList.Add(buildInSituMarkInf.Ctri);
                             }
                             ThProgressBar.MeterProgress();
                         }
@@ -390,26 +402,25 @@ namespace ThColumnInfo
         /// 获取一点旁边的文字(含柱号的文字，下方有5个左右)
         /// </summary>
         /// <param name="leaderLine">引线</param>
-        /// <param name="pt">引线一端要搜索的点</param>
+        /// <param name="pt">引线一端要搜索的点 Wcs Point3d</param>
         /// <returns></returns>
         private List<DBText> GetMarkTexts(Curve leaderLine,Point3d pt)
         {
             List<DBText> findTexts = new List<DBText>();
-            Point3d pt1 = pt, pt2 = pt;
-            if(leaderLine.EndPoint.IsEqualTo(pt,ThCADCommon.Global_Tolerance))
-            {
-                pt1 = pt;
-                pt2 = ThColumnInfoUtils.GetExtendPt(leaderLine.EndPoint, leaderLine.StartPoint, -1.5 * this.textSize);
-            }
-            else
-            {
-                pt2 = ThColumnInfoUtils.GetExtendPt(leaderLine.StartPoint, leaderLine.EndPoint, -1.5 * this.textSize);
-            }
+            double searchRecLength = 1.5 * this.textSize;
+            Point3d recCenPt = pt.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            Point3d recPt1 = recCenPt + new Vector3d(searchRecLength / 2.0, searchRecLength / 2.0, 0.0);
+            Point3d recPt2 = recCenPt + new Vector3d(-searchRecLength / 2.0, searchRecLength / 2.0, 0.0);
+            Point3d recPt3 = recCenPt + new Vector3d(-searchRecLength / 2.0, -searchRecLength / 2.0, 0.0);
+            Point3d recPt4 = recCenPt + new Vector3d(searchRecLength / 2.0, -searchRecLength / 2.0, 0.0);
+            Point3dCollection recPts = new Point3dCollection();
+            recPts.Add(recPt1);
+            recPts.Add(recPt2);
+            recPts.Add(recPt3);
+            recPts.Add(recPt4);
             List<ObjectId> findDbTextIds = new List<ObjectId>();
-            Point3d filterPt1 = pt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-            Point3d filterPt2 = pt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, 
-                filterPt1, filterPt2, PolygonSelectionMode.Crossing,this.textSf);
+            PromptSelectionResult psr = ThColumnInfoUtils.SelectByPolyline(this.doc.Editor,
+                recPts, PolygonSelectionMode.Crossing,this.textSf);
             if (psr.Status == PromptStatus.OK)
             {
                 findDbTextIds=psr.Value.GetObjectIds().ToList();
@@ -419,9 +430,15 @@ namespace ThColumnInfo
             if(findCodeRes.Count==0)
             {
                 List<Point3d> textPts = new List<Point3d>();
-                textPts.AddRange(dBTexts.Select(i => i.Bounds.Value.MinPoint).ToList());
-                textPts.AddRange(dBTexts.Select(i => i.Bounds.Value.MaxPoint).ToList());
-
+                foreach(DBText dbText in dBTexts)
+                {
+                    Extents3d extents = ThColumnInfoUtils.GeometricExtentsImpl(dbText);
+                    if(extents!=null)
+                    {
+                        textPts.Add(extents.MinPoint);
+                        textPts.Add(extents.MaxPoint);                       
+                    }
+                }
                 double minX = textPts.OrderBy(i => i.X).Select(i => i.X).FirstOrDefault();
                 double minY = textPts.OrderBy(i => i.Y).Select(i => i.Y).FirstOrDefault();
                 double minZ = textPts.OrderBy(i => i.Z).Select(i => i.Z).FirstOrDefault();
@@ -431,10 +448,8 @@ namespace ThColumnInfo
                 double maxZ = textPts.OrderByDescending(i => i.Z).Select(i => i.Z).FirstOrDefault();
 
                 Point3d searchPt1 = new Point3d(minX, minY, minZ);
-                Point3d searchPt2 = new Point3d(maxX, maxY + 5*this.textSize, minZ);
-                Point3d filterPt3 = searchPt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-                Point3d filterPt4 = searchPt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-                psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, filterPt3, filterPt4, PolygonSelectionMode.Crossing, this.textSf);
+                Point3d searchPt2 = new Point3d(maxX, maxY + 5*this.textSize, minZ);                
+                psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, searchPt1, searchPt2, PolygonSelectionMode.Crossing, this.textSf);
                 if(psr.Status==PromptStatus.OK)
                 {
                     findDbTextIds= psr.Value.GetObjectIds().ToList();
@@ -444,10 +459,8 @@ namespace ThColumnInfo
                 if(findCodeRes.Count==0)
                 {
                     searchPt1 = new Point3d(maxX, maxY, minZ);
-                    searchPt2 = new Point3d(minX, minY - 5 * this.textSize, minZ);
-                    Point3d filterPt5 = searchPt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-                    Point3d filterPt6 = searchPt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-                    psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, filterPt5, filterPt6, PolygonSelectionMode.Crossing, this.textSf);
+                    searchPt2 = new Point3d(minX, minY - 5 * this.textSize, minZ);                   
+                    psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, searchPt1, searchPt2, PolygonSelectionMode.Crossing, this.textSf);
                     if(psr.Status==PromptStatus.OK)
                     {
                         findDbTextIds = psr.Value.GetObjectIds().ToList();
@@ -461,11 +474,11 @@ namespace ThColumnInfo
                 return findTexts;
             }
             DBText codeText = findCodeRes.OrderBy(j => Math.Abs(j.Position.X - pt.X)).First();
-            pt1 = codeText.Bounds.Value.MinPoint;
-            pt2 = new Point3d(codeText.Bounds.Value.MaxPoint.X, pt1.Y - 5 * this.textSize, pt1.Z);
-            Point3d filterPt7 = pt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-            Point3d filterPt8 = pt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-            psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, filterPt7, filterPt8, PolygonSelectionMode.Crossing, this.textSf);
+            Extents3d codeTextExtents = ThColumnInfoUtils.GeometricExtentsImpl(codeText);
+            Point3d minPt = codeTextExtents.MinPoint;
+            Point3d maxPt = codeTextExtents.MaxPoint;
+            maxPt = new Point3d(maxPt.X, minPt.Y - 5 * this.textSize, minPt.Z);           
+            psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, minPt, maxPt, PolygonSelectionMode.Crossing, this.textSf);
             if (psr.Status == PromptStatus.OK)
             {
                 List<ObjectId> newTextIds = psr.Value.GetObjectIds().ToList();
@@ -483,12 +496,14 @@ namespace ThColumnInfo
         /// <returns></returns>
         private Dictionary<Curve, Point3d> GetLeaderLine(List<Point3d> boundaryPts)
         {
+            //返回Curve,Wcs Point3d
             Dictionary<Curve, Point3d> linePtDic = new Dictionary<Curve, Point3d>();
-            double xMin = boundaryPts.OrderBy(i => i.X).Select(i=>i.X).First();
-            double xMax = boundaryPts.OrderByDescending(i => i.X).Select(i => i.X).First();
+            List<Point3d> ucsBoundaryPts = boundaryPts.Select(i => ThColumnInfoUtils.TransPtFromWcsToUcs(i)).ToList();
+            double xMin = ucsBoundaryPts.OrderBy(i => i.X).Select(i=>i.X).First();
+            double xMax = ucsBoundaryPts.OrderByDescending(i => i.X).Select(i => i.X).First();
 
-            double yMin = boundaryPts.OrderBy(i => i.Y).Select(i => i.Y).First();
-            double yMax = boundaryPts.OrderByDescending(i => i.Y).Select(i => i.Y).First();
+            double yMin = ucsBoundaryPts.OrderBy(i => i.Y).Select(i => i.Y).First();
+            double yMax = ucsBoundaryPts.OrderByDescending(i => i.Y).Select(i => i.Y).First();
             Point3d pt1 = new Point3d(xMin, yMin, 0.0);
             Point3d pt2 = new Point3d(xMax, yMax, 0.0);      
             double length = pt1.DistanceTo(pt2);
@@ -504,11 +519,9 @@ namespace ThColumnInfo
             offsetRecPts.Add(pt2);
             offsetRecPts.Add(new Point3d(pt1.X, pt2.Y, 0.0));
 
-            Point3d filterPt1 = pt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-            Point3d filterPt2 = pt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
             SelectionFilter sf = new SelectionFilter(tvs);
-            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, 
-                filterPt1, filterPt2, PolygonSelectionMode.Crossing,sf);
+            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor,
+                pt1, pt2, PolygonSelectionMode.Crossing,sf);
             ThProgressBar.MeterProgress();
             List<Curve> lines = new List<Curve>();
             if (psr.Status == PromptStatus.OK)
@@ -531,11 +544,11 @@ namespace ThColumnInfo
             {
                 startInside = false;
                 endInside = false;
-                if (ThColumnInfoUtils.IsPointInPolyline(offsetRecPts, lines[i].StartPoint)) //线的起点在
+                if (ThColumnInfoUtils.IsPointInPolyline(offsetRecPts, ThColumnInfoUtils.TransPtFromWcsToUcs(lines[i].StartPoint))) //线的起点在
                 {
                     startInside = true;
                 }
-                if (ThColumnInfoUtils.IsPointInPolyline(offsetRecPts, lines[i].EndPoint)) //线的起点在
+                if (ThColumnInfoUtils.IsPointInPolyline(offsetRecPts, ThColumnInfoUtils.TransPtFromWcsToUcs(lines[i].EndPoint))) //线的起点在
                 {
                     endInside = true;
                 }
@@ -553,7 +566,12 @@ namespace ThColumnInfo
                 }
                 else if(!startInside && !endInside)
                 {
-                   Polyline recOffsetPolyline= ThColumnInfoUtils.CreatePolyline(offsetRecPts);
+                    Point3dCollection pts = new Point3dCollection();
+                    foreach(Point3d pt in offsetRecPts)
+                    {
+                        pts.Add(ThColumnInfoUtils.TransPtFromUcsToWcs(pt));
+                    }
+                    Polyline recOffsetPolyline= ThColumnInfoUtils.CreatePolyline(pts);
                     startInside = ThColumnInfoUtils.IsPointOnPolyline(recOffsetPolyline, lines[i].StartPoint); 
                     endInside = ThColumnInfoUtils.IsPointOnPolyline(recOffsetPolyline, lines[i].EndPoint);
                     if (startInside && !endInside) //起点在偏移的Rectangle上，终点不在
@@ -577,7 +595,8 @@ namespace ThColumnInfo
         private bool IsColumnInCheckRange(List<Point3d> pts)
         {
             bool isIn = false;
-            List<Point3d> cornerPts = ThColumnInfoUtils.GetRetanglePts(pts);
+            List<Point3d> ucsPts = pts.Select(i => ThColumnInfoUtils.TransPtFromWcsToUcs(i)).ToList();
+            List<Point3d> cornerPts = ThColumnInfoUtils.GetRetanglePts(ucsPts);
             Point3d minPt = cornerPts[0];
             Point3d maxPt = cornerPts[1];
             if((minPt.X> this.rangePt1.X && minPt.X < this.rangePt2.X) &&
@@ -601,7 +620,7 @@ namespace ThColumnInfo
             {
                 return points;
             }
-            BlockTableRecord btr = doc.TransactionManager.TopTransaction.GetObject(br.BlockTableRecord, OpenMode.ForRead)as BlockTableRecord;
+            BlockTableRecord btr = doc.TransactionManager.TopTransaction.GetObject(br.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
             List<Curve> curves = new List<Curve>();
             foreach (var id in btr)
             {
@@ -614,23 +633,46 @@ namespace ThColumnInfo
                         points.AddRange(subBrColumnPts);
                     }
                 }
-                else if(dbObj is Polyline)
-                {
-                    Polyline polyline = dbObj as Polyline;
+                else if(dbObj is Polyline polyline)
+                {                   
                     int count=this.layerList.Where(i => i.ToUpper() == polyline.Layer.ToUpper()).Select(i => i).Count();
-                    if (count>0) //根据图层名来搜索(从参数设置中来获取)
+                    if (count > 0) //根据图层名来搜索(从参数设置中来获取)
                     {
-                        List<Point3d> polylinePts = new List<Point3d>();
-                        for(int i=0;i<polyline.NumberOfVertices;i++)
+                        List<Point3d> polylinePts = new List<Point3d>();                        
+                        for (int i = 0; i < polyline.NumberOfVertices; i++)
                         {
                             polylinePts.Add(polyline.GetPoint3dAt(i));
+                        }
+                        if (polylinePts[0].DistanceTo(polylinePts[1]) > 2000)
+                        {
+                            Point3d debugPt = ThColumnInfoUtils.TransPtFromWcsToUcs(polyline.GetPoint3dAt(0));
                         }
                         points.Add(polylinePts);
                     }
                 }
-                else if(dbObj is Line)
+                else if(dbObj is Polyline2d polyline2d)
                 {
-                    curves.Add(dbObj as Curve);
+                    int count = this.layerList.Where(i => i.ToUpper() == polyline2d.Layer.ToUpper()).Select(i => i).Count();
+                    if (count > 0) //根据图层名来搜索(从参数设置中来获取)
+                    {
+                        List<Point3d> polylinePts = new List<Point3d>();
+                        foreach (var vertex in polyline2d)
+                        {
+                            ObjectId vertexId = (ObjectId)vertex;
+                            Vertex2d vertex2d= doc.TransactionManager.TopTransaction.GetObject(vertexId, OpenMode.ForRead) as Vertex2d;
+                            polylinePts.Add(polyline2d.VertexPosition(vertex2d));
+                        }
+                        points.Add(polylinePts);
+                    }
+                   
+                }
+                else if(dbObj is Line line)
+                {
+                    int count = this.layerList.Where(i => i.ToUpper() == line.Layer.ToUpper()).Select(i => i).Count();
+                    if(count>0)
+                    {
+                        curves.Add(dbObj as Curve);
+                    }
                 }
             }
             List<List<Point3d>> loopPoints = GetLoopPoints(curves);
@@ -720,11 +762,9 @@ namespace ThColumnInfo
         private List<BlockReference> GetXRefColumn()
         {
             List<BlockReference> brs = new List<BlockReference>();
-            Point3d selectPt1 = this.rangePt1.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-            Point3d selectPt2 = this.rangePt2.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
             TypedValue[] tvs = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Insert") };
             SelectionFilter sf = new SelectionFilter(tvs);       
-            PromptSelectionResult psr = this.doc.Editor.SelectCrossingWindow(selectPt1,selectPt2, sf);
+            PromptSelectionResult psr = this.doc.Editor.SelectCrossingWindow(this.rangePt1, this.rangePt2, sf);
             ObjectId[] insertObjIds = new ObjectId[] { };
             if (psr.Status == PromptStatus.OK)
             {
@@ -747,13 +787,13 @@ namespace ThColumnInfo
         /// <summary>
         /// 打印识别后的柱框
         /// </summary>
-        public void PrintColumnFrame()
+        public void PrintColumnFrame(bool show = true)
         {
-            for(int i=0;i<this.ColumnInfs.Count;i++)
+            for (int i = 0; i < this.ColumnInfs.Count; i++)
             {
                 ObjectId frameId = ThColumnInfoUtils.DrawOffsetColumn(
                             this.ColumnInfs[i].Points, PlantCalDataToDraw.offsetDisScale, true, PlantCalDataToDraw.lineWidth);
-                System.Drawing.Color sysColor= System.Drawing.Color.White;
+                System.Drawing.Color sysColor = System.Drawing.Color.White;
                 Autodesk.AutoCAD.Colors.Color acadColor;
                 switch (this.ColumnInfs[i].Error)
                 {
@@ -770,6 +810,11 @@ namespace ThColumnInfo
                 acadColor = ThColumnInfoUtils.SystemColorToAcadColor(sysColor);
                 ThColumnInfoUtils.ChangeColor(frameId, acadColor.ColorIndex);
                 this.ColumnInfs[i].FrameId = frameId;
+            }
+            if (!show)
+            {
+                List<ObjectId> hideObjIds = this.ColumnInfs.Select(i => i.FrameId).ToList();
+                ThColumnInfoUtils.ShowObjIds(hideObjIds.ToArray(), show);
             }
         }
     }

@@ -157,7 +157,7 @@ namespace ThColumnInfo
                 return false;
             }
             content = content.Trim().ToUpper();
-            var res = codes.Where(i => content.IndexOf(i) == 0).Select(i => i).ToList();
+            var res = codes.Where(i => content.IndexOf(i) >= 0).Select(i => i).ToList();
             if (res != null && res.Count > 0)
             {
                 return true;

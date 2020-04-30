@@ -96,6 +96,7 @@ namespace ThColumnInfo
                 ThProgressBar.MeterProgress();
                 if (points.Count>=2)
                 {
+                    points = points.Select(i => ThColumnInfoUtils.TransPtFromWcsToUcs(i)).ToList();
                     double minX = points.OrderBy(i => i.X).FirstOrDefault().X;
                     double minY = points.OrderBy(i => i.Y).FirstOrDefault().Y;
                     double minZ = points.OrderBy(i => i.Z).FirstOrDefault().Z;
@@ -155,12 +156,13 @@ namespace ThColumnInfo
                             objectIds.Add(keepObjIds[i]);
                             continue;
                         }
-                        if(ent.Bounds==null || !ent.Bounds.HasValue)
+                        Extents3d extents = ThColumnInfoUtils.GeometricExtentsImpl(ent);
+                        if(extents == null)
                         {
                             continue;
                         }
-                        Point3d minPt = ent.Bounds.Value.MinPoint;
-                        Point3d maxPt = ent.Bounds.Value.MaxPoint;
+                        Point3d minPt = extents.MinPoint;
+                        Point3d maxPt = extents.MaxPoint;
                         if((minPt.X>=this.tableLeftDownCornerPt.X && minPt.X<=this.tableRightUpCornerPt.X) &&
                             (minPt.Y >= this.tableLeftDownCornerPt.Y && minPt.Y <= this.tableRightUpCornerPt.Y)
                             )

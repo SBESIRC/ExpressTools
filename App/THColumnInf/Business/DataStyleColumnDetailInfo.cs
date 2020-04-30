@@ -59,7 +59,9 @@ namespace ThColumnInfo
                 bool findRes = false;
                 cenPt = FindInvalidCenPt(cenPt, out findRes);
                 List<TableCellInfo> sameRowCells = GetSameRowCells(cenPt, null);
-                sameRowCells = sameRowCells.OrderBy(i => ThColumnInfoUtils.GetMidPt(i.BoundaryPts[0], i.BoundaryPts[2]).X).ToList(); //对同一行的记录进行排序(从左到右)
+                sameRowCells = sameRowCells.OrderBy(i => ThColumnInfoUtils.GetMidPt(
+                    ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[0]),
+                    ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[2])).X).ToList(); //对同一行的记录进行排序(从左到右)
                 List<List<TableCellInfo>> tableCells = new List<List<TableCellInfo>>();
                 int totalColumn = sameRowCells.Count;
                 List<double> yValueList = new List<double>();
@@ -69,11 +71,17 @@ namespace ThColumnInfo
                     {
                         continue;
                     }
-                    Point3d midPt = ThColumnInfoUtils.GetMidPt(tableCellInfo.BoundaryPts[0], tableCellInfo.BoundaryPts[2]);
+                    Point3d midPt = ThColumnInfoUtils.GetMidPt(
+                        ThColumnInfoUtils.TransPtFromWcsToUcs(tableCellInfo.BoundaryPts[0]),
+                        ThColumnInfoUtils.TransPtFromWcsToUcs(tableCellInfo.BoundaryPts[2]));
                     List<TableCellInfo> sameColumnCells = GetSameColumnCells(midPt, null, tableCellInfo.ColumnWidth);
-                    sameColumnCells = sameColumnCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(i.BoundaryPts[0], i.BoundaryPts[2]).Y).ToList(); //对同一行的记录进行排序(从上到下)
+                    sameColumnCells = sameColumnCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(
+                        ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[0]),
+                        ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[2])).Y).ToList(); //对同一行的记录进行排序(从上到下)
                     tableCells.Add(sameColumnCells);
-                    List<double> tempYvalues = sameColumnCells.Select(i => ThColumnInfoUtils.GetMidPt(i.BoundaryPts[0], i.BoundaryPts[2]).Y).ToList();
+                    List<double> tempYvalues = sameColumnCells.Select(i => ThColumnInfoUtils.GetMidPt(
+                        ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[0]),
+                         ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[2])).Y).ToList();
                     for (int i = 0; i < tempYvalues.Count; i++)
                     {
                         List<double> tempValues = yValueList.Where(j => Math.Abs(j - tempYvalues[i]) <= 2.0).Select(j => j).ToList();
@@ -99,8 +107,9 @@ namespace ThColumnInfo
                     List<TableCellInfo> rowCells = new List<TableCellInfo>();
                     for (int i = 0; i < tableCells.Count; i++)
                     {
-                        TableCellInfo tableCellInfo = tableCells[i].Where(j => Math.Abs(ThColumnInfoUtils.GetMidPt(j.BoundaryPts[0],
-                             j.BoundaryPts[2]).Y - yValueList[m]) <= 2.0).Select(j => j).FirstOrDefault();
+                        TableCellInfo tableCellInfo = tableCells[i].Where(j => Math.Abs(ThColumnInfoUtils.GetMidPt(
+                            ThColumnInfoUtils.TransPtFromWcsToUcs(j.BoundaryPts[0]),
+                             ThColumnInfoUtils.TransPtFromWcsToUcs(j.BoundaryPts[2])).Y - yValueList[m]) <= 2.0).Select(j => j).FirstOrDefault();
                         rowCells.Add(tableCellInfo);
                     }
                     rowCells.ForEach(i => i.Row = m);
@@ -217,8 +226,13 @@ namespace ThColumnInfo
                         {
                             continue;
                         }
+                        Point3dCollection ucsPts = new Point3dCollection();
+                        foreach(Point3d pt in this.dataRowCells[i][j].BoundaryPts)
+                        {
+                            ucsPts.Add(ThColumnInfoUtils.TransPtFromWcsToUcs(pt));
+                        }
                         PromptSelectionResult psr = ThColumnInfoUtils.SelectByPolyline(doc.Editor,
-                            this.dataRowCells[i][j].BoundaryPts, PolygonSelectionMode.Window, sf);
+                            ucsPts, PolygonSelectionMode.Window, sf);
                         if (psr.Status == PromptStatus.OK)
                         {
                             List<ObjectId> textObjIds = psr.Value.GetObjectIds().ToList();
@@ -226,8 +240,9 @@ namespace ThColumnInfo
                             if (dbObjs.Count > 1)
                             {
                                 dbObjs = dbObjs.Where(m => m.Bounds != null && m.Bounds.HasValue).Select(m => m).ToList();
-                                dbObjs = dbObjs.OrderBy(m => ThColumnInfoUtils.GetMidPt(m.Bounds.Value.MinPoint, m.Bounds.Value.MaxPoint).X).ToList();
-                                //dbObjs = dbObjs.OrderByDescending(m => ThColumnInfoUtils.GetMidPt(m.Bounds.Value.MinPoint, m.Bounds.Value.MaxPoint).Y).ToList();
+                                dbObjs = dbObjs.OrderBy(m => ThColumnInfoUtils.GetMidPt(
+                                    ThColumnInfoUtils.GeometricExtentsImpl(m as Entity).MinPoint,
+                                    ThColumnInfoUtils.GeometricExtentsImpl(m as Entity).MaxPoint).X).ToList();
                             }
                             if (dbObjs[0] is DBText)
                             {
@@ -252,8 +267,13 @@ namespace ThColumnInfo
                         {
                             continue;
                         }
+                        Point3dCollection ucsPts = new Point3dCollection();
+                        foreach (Point3d pt in this.headRowCells[i][j].BoundaryPts)
+                        {
+                            ucsPts.Add(ThColumnInfoUtils.TransPtFromWcsToUcs(pt));
+                        }
                         PromptSelectionResult psr = ThColumnInfoUtils.SelectByPolyline(doc.Editor,
-                            this.headRowCells[i][j].BoundaryPts, PolygonSelectionMode.Window, sf);
+                            ucsPts, PolygonSelectionMode.Window, sf);
                         if (psr.Status == PromptStatus.OK)
                         {
                             List<ObjectId> textObjIds = psr.Value.GetObjectIds().ToList();
@@ -471,8 +491,8 @@ namespace ThColumnInfo
             Point3d pt3 = originPt + new Vector3d(5, 5, 0);
             PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(doc.Editor, pt1, pt3, PolygonSelectionMode.Crossing, sf);
             ThProgressBar.MeterProgress();
-            List<Curve> dbObjs = TopoService.TraceBoundary(this.columnTableCurves,originPt);
-            if (psr.Status == PromptStatus.OK || dbObjs.Count==0) //传入的点有物体，且选不到边界
+            List<Curve> dbObjs = TopoService.TraceBoundary(this.columnTableCurves,ThColumnInfoUtils.TransPtFromUcsToWcs(originPt));
+            if (psr.Status == PromptStatus.OK || dbObjs ==null || dbObjs.Count==0) //传入的点有物体，且选不到边界
             {
                 pt = FindInvalidCenPt(new Point3d(pt.X+ this.searchBoundaryOffsetDis,pt.Y+ this.searchBoundaryOffsetDis, pt.Z), out isFind);
                 ThProgressBar.MeterProgress();
@@ -525,9 +545,13 @@ namespace ThColumnInfo
             {
                 rowHeight = tableCellInfo.RowHeight;
             }
+
             Point3d currentCellCenPt = ThColumnInfoUtils.GetMidPt(tableCellInfo.BoundaryPts[0], tableCellInfo.BoundaryPts[2]);
+            currentCellCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(currentCellCenPt);
+
             Point3d rightPt = currentCellCenPt + Vector3d.XAxis.MultiplyBy(tableCellInfo.ColumnWidth/2.0+this.searchBoundaryOffsetDis);
             Point3d leftPt = currentCellCenPt + Vector3d.XAxis.Negate().MultiplyBy(tableCellInfo.ColumnWidth / 2.0 + this.searchBoundaryOffsetDis);
+
             List<TableCellInfo> rightCells = new List<TableCellInfo>();
             List<TableCellInfo> leftCells = new List<TableCellInfo>();
             if (towardRight == true) //往右边方向走
@@ -567,6 +591,7 @@ namespace ThColumnInfo
             }
             tableCellInfos.Add(tableCellInfo);
             Point3d currentCellCenPt = ThColumnInfoUtils.GetMidPt(tableCellInfo.BoundaryPts[0], tableCellInfo.BoundaryPts[2]);
+            currentCellCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(currentCellCenPt);
             Point3d upPt = currentCellCenPt + Vector3d.YAxis.MultiplyBy(tableCellInfo.RowHeight / 2.0 + this.searchBoundaryOffsetDis);
             Point3d downPt = currentCellCenPt + Vector3d.YAxis.Negate().MultiplyBy(tableCellInfo.RowHeight / 2.0 + this.searchBoundaryOffsetDis);
             List<TableCellInfo> upCells = new List<TableCellInfo>();
@@ -703,7 +728,7 @@ namespace ThColumnInfo
         protected TableCellInfo GetSingleCell(Point3d cenPt,double columnWidth = 0.0, double rowHeight = 0.0)
         {
             TableCellInfo tableCellInfo = new TableCellInfo();
-            List<Curve> edgeCurves=  TopoService.TraceBoundary(this.columnTableCurves, cenPt);
+            List<Curve> edgeCurves=  TopoService.TraceBoundary(this.columnTableCurves, ThColumnInfoUtils.TransPtFromUcsToWcs(cenPt));
             if(edgeCurves==null)
             {
                 return tableCellInfo;
@@ -718,18 +743,20 @@ namespace ThColumnInfo
                     {
                         continue;
                     }
-                    List<Point3d> pts = ThColumnInfoUtils.GetPolylinePts(polyline);
-                    List<Point3d> boundaryPts = ThColumnInfoUtils.GetRetanglePts(pts);
-                    if(boundaryPts.Count<4)
-                    {
-                        continue;
-                    }
+                    Extents3d extents= ThColumnInfoUtils.GeometricExtentsImpl(polyline);
+                    List<Point3d> boundaryPts = ThColumnInfoUtils.GetPolylinePts(polyline);
+                    List<Point3d> ucsBoundaryPts = new List<Point3d>();
+                    ucsBoundaryPts.Add(new Point3d(extents.MinPoint.X, extents.MinPoint.Y,0.0));
+                    ucsBoundaryPts.Add(new Point3d(extents.MaxPoint.X, extents.MinPoint.Y,0.0));
+                    ucsBoundaryPts.Add(new Point3d(extents.MaxPoint.X, extents.MaxPoint.Y,0.0));
+                    ucsBoundaryPts.Add(new Point3d(extents.MinPoint.X, extents.MaxPoint.Y,0.0));
+
                     double currentRowHeight = 0.0;
                     double currentColumnWidth = 0.0;
-                    if (boundaryPts[0].GetVectorTo(boundaryPts[1]).IsParallelTo(Vector3d.XAxis, ThCADCommon.Global_Tolerance))
+                    if (ucsBoundaryPts[0].GetVectorTo(ucsBoundaryPts[1]).IsParallelTo(Vector3d.XAxis, ThCADCommon.Global_Tolerance))
                     {
-                        currentColumnWidth = boundaryPts[0].DistanceTo(boundaryPts[1]);
-                        currentRowHeight = boundaryPts[0].DistanceTo(boundaryPts[3]);
+                        currentColumnWidth = ucsBoundaryPts[0].DistanceTo(ucsBoundaryPts[1]);
+                        currentRowHeight = ucsBoundaryPts[0].DistanceTo(ucsBoundaryPts[3]);
                     }
                     currentColumnWidth = Math.Round(currentColumnWidth, this.disKeepPointNum);
                     currentRowHeight = Math.Round(currentRowHeight, this.disKeepPointNum);

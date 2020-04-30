@@ -210,14 +210,14 @@ namespace ThColumnInfo
                 trans.Commit();
             }
         }
-        public static Polyline CreatePolyline(Point3dCollection pts, bool isClosed = true)
+        public static Polyline CreatePolyline(Point3dCollection pts, bool isClosed = true,double lineWidth=0.0)
         {
             Point2dCollection p2dPts = new Point2dCollection();
             foreach(Point3d pt in pts)
             {
                 p2dPts.Add(new Point2d(pt.X,pt.Y));
             }
-            return CreatePolyline(p2dPts, isClosed);
+            return CreatePolyline(p2dPts, isClosed, lineWidth);
         }
         public static Polyline CreateRectangle(Point3d minPt,Point3d maxPt)
         {
@@ -892,15 +892,6 @@ namespace ThColumnInfo
             pts.Add(maxPt);
             ZoomObject(ed, pts);
         }
-        public static void ZoomWindow(Editor ed, Point3d minPt, Point3d maxPt)
-        {
-            Database db = ed.Document.Database;
-            using (Transaction trans = db.TransactionManager.StartTransaction())
-            {
-                COMTool.ZoomWindow(minPt, maxPt);
-                trans.Commit();
-            }
-        }
         public static void ZoomWin(Editor ed, Point3d min, Point3d max)
         {
             Point2d min2d = new Point2d(min.X, min.Y);
@@ -1348,12 +1339,13 @@ namespace ThColumnInfo
             {
                 return frameId;
             }
-            double minX = polylinePts.OrderBy(i => i.X).First().X;
-            double minY = polylinePts.OrderBy(i => i.Y).First().Y;
-            double minZ = polylinePts.OrderBy(i => i.Z).First().Z;
-            double maxX = polylinePts.OrderByDescending(i => i.X).First().X;
-            double maxY = polylinePts.OrderByDescending(i => i.Y).First().Y;
-            double maxZ = polylinePts.OrderByDescending(i => i.Z).First().Z;
+            List<Point3d>  ucsPolylinePts=polylinePts.Select(i => ThColumnInfoUtils.TransPtFromWcsToUcs(i)).ToList();
+            double minX = ucsPolylinePts.OrderBy(i => i.X).First().X;
+            double minY = ucsPolylinePts.OrderBy(i => i.Y).First().Y;
+            double minZ = ucsPolylinePts.OrderBy(i => i.Z).First().Z;
+            double maxX = ucsPolylinePts.OrderByDescending(i => i.X).First().X;
+            double maxY = ucsPolylinePts.OrderByDescending(i => i.Y).First().Y;
+            double maxZ = ucsPolylinePts.OrderByDescending(i => i.Z).First().Z;
 
             Point3d leftDownPt = new Point3d(minX, minY, minZ);
             Point3d rightUpPt = new Point3d(maxX, maxY, minZ);
@@ -1363,12 +1355,13 @@ namespace ThColumnInfo
             rightUpPt = new Point3d(cenPt.X + columnLen / 2.0, cenPt.Y + columnHeight / 2.0, minZ);
             leftDownPt = new Point3d(cenPt.X - columnLen / 2.0, cenPt.Y - columnHeight / 2.0, minZ);
 
-            Point2dCollection pt2ds = new Point2dCollection();
-            pt2ds.Add(new Point2d(leftDownPt.X, leftDownPt.Y));
-            pt2ds.Add(new Point2d(rightUpPt.X, leftDownPt.Y));
-            pt2ds.Add(new Point2d(rightUpPt.X, rightUpPt.Y));
-            pt2ds.Add(new Point2d(leftDownPt.X, rightUpPt.Y));
-            Polyline polyline = ThColumnInfoUtils.CreatePolyline(pt2ds, true, lineWeight);
+            Point3dCollection wcsRecPts = new Point3dCollection();
+            wcsRecPts.Add(TransPtFromUcsToWcs(new Point3d(leftDownPt.X, leftDownPt.Y,0)));
+            wcsRecPts.Add(TransPtFromUcsToWcs(new Point3d(rightUpPt.X, leftDownPt.Y, 0)));
+            wcsRecPts.Add(TransPtFromUcsToWcs(new Point3d(rightUpPt.X, rightUpPt.Y,0)));
+            wcsRecPts.Add(TransPtFromUcsToWcs(new Point3d(leftDownPt.X, rightUpPt.Y, 0)));
+
+            Polyline polyline = ThColumnInfoUtils.CreatePolyline(wcsRecPts, true, lineWeight);
             frameId = ThColumnInfoUtils.AddToBlockTable(polyline, visible);
             return frameId;
         }
@@ -1505,6 +1498,19 @@ namespace ThColumnInfo
         {
             Matrix3d mt = UCS2WCS();
             return pt.TransformBy(mt);
+        }
+        /// <summary>
+        /// 获取Entity Ucs Bound
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public static Extents3d GeometricExtentsImpl(Entity entity)
+        {
+            var wcs2Ucs = WCS2UCS();
+            using (var clone = entity.GetTransformedCopy(wcs2Ucs))
+            {
+                return clone.GeometricExtents;
+            }
         }
     }
 }

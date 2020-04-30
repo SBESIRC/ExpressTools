@@ -36,7 +36,9 @@ namespace ThColumnInfo
                 bool findRes = false;
                 cenPt = FindInvalidCenPt(cenPt, out findRes);
                 List<TableCellInfo> sameColumnCells = GetSameColumnCells(cenPt, null);
-                sameColumnCells = sameColumnCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(i.BoundaryPts[0], i.BoundaryPts[2]).Y).ToList(); //对同一列的记录进行排序(从上到下)
+                sameColumnCells = sameColumnCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(
+                   ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[0]),
+                   ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[2])).Y).ToList(); //对同一列的记录进行排序(从上到下)
                 List<List<TableCellInfo>> tableCells = new List<List<TableCellInfo>>();
                 int totalRow = sameColumnCells.Count;
                 List<double> xValueList = new List<double>();
@@ -48,10 +50,14 @@ namespace ThColumnInfo
                     }
                     double diagonalLine = tableCellInfo.BoundaryPts[0].DistanceTo(tableCellInfo.BoundaryPts[2]);
                     Point3d findCenPt = ThColumnInfoUtils.GetExtendPt(tableCellInfo.BoundaryPts[0], tableCellInfo.BoundaryPts[2], this.extendPointRatio * diagonalLine);
-                    List<TableCellInfo> sameRowCells = GetSameRowCells(findCenPt, null, tableCellInfo.RowHeight);
-                    sameRowCells = sameRowCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(i.BoundaryPts[0], i.BoundaryPts[2]).X).ToList(); //对同一行的记录进行排序
+                    List<TableCellInfo> sameRowCells = GetSameRowCells(ThColumnInfoUtils.TransPtFromWcsToUcs(findCenPt), null, tableCellInfo.RowHeight);
+                    sameRowCells = sameRowCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(
+                        ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[0]),
+                        ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[2])).X).ToList(); //对同一行的记录进行排序
                     tableCells.Add(sameRowCells);
-                    List<double> tempXvalues = sameRowCells.Select(i => ThColumnInfoUtils.GetMidPt(i.BoundaryPts[0], i.BoundaryPts[2]).X).ToList();
+                    List<double> tempXvalues = sameRowCells.Select(i => ThColumnInfoUtils.GetMidPt(
+                        ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[0]),
+                        ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[2])).X).ToList();
                     for (int i = 0; i < tempXvalues.Count; i++)
                     {
                         List<double> tempValues = xValueList.Where(j => Math.Abs(j - tempXvalues[i]) <= 2.0).Select(j => j).ToList();
@@ -75,8 +81,9 @@ namespace ThColumnInfo
                     List<TableCellInfo> columnCells = new List<TableCellInfo>();
                     for (int i = 0; i < tableCells.Count; i++)
                     {
-                        TableCellInfo tableCellInfo = tableCells[i].Where(j => Math.Abs(ThColumnInfoUtils.GetMidPt(j.BoundaryPts[0],
-                             j.BoundaryPts[2]).X - xValueList[m]) <= 2.0).Select(j => j).FirstOrDefault();
+                        TableCellInfo tableCellInfo = tableCells[i].Where(j => Math.Abs(ThColumnInfoUtils.GetMidPt(
+                              ThColumnInfoUtils.TransPtFromWcsToUcs(j.BoundaryPts[0]),
+                              ThColumnInfoUtils.TransPtFromWcsToUcs(j.BoundaryPts[2])).X - xValueList[m]) <= 2.0).Select(j => j).FirstOrDefault();
                         columnCells.Add(tableCellInfo);
                     }
                     columnCells.ForEach(i => i.Column = m);
@@ -149,8 +156,13 @@ namespace ThColumnInfo
                         {
                             continue;
                         }
+                        Point3dCollection ucsPts = new Point3dCollection();
+                        foreach(Point3d pt in this.headColumnCells[i][j].BoundaryPts)
+                        {
+                            ucsPts.Add(ThColumnInfoUtils.TransPtFromWcsToUcs(pt));
+                        }
                         PromptSelectionResult psr = ThColumnInfoUtils.SelectByPolyline(doc.Editor,
-                            this.headColumnCells[i][j].BoundaryPts, PolygonSelectionMode.Window, sf);
+                           ucsPts, PolygonSelectionMode.Window, sf);
                         if (psr.Status == PromptStatus.OK)
                         {
                             List<ObjectId> textObjIds = psr.Value.GetObjectIds().ToList();
@@ -199,7 +211,7 @@ namespace ThColumnInfo
             Dictionary<string, int> keyWordDic = new Dictionary<string, int>();
             List<TableCellInfo> headAllCells = new List<TableCellInfo>();
             this.headColumnCells.ForEach(i => headAllCells.AddRange(i));
-            List<string> keyWordList = new List<string>() { "截面", "编号", "柱号","名称", "标高", "纵筋", "箍筋","备注"};
+            List<string> keyWordList = new List<string>() { "截面", "编号", "柱号", "名称", "标高", "纵筋", "箍筋", "备注" };
             foreach (string keyWord in keyWordList)
             {
                 TableCellInfo tci = headAllCells.Where(i => !string.IsNullOrEmpty(i.Text) && i.Text.Replace(" ", "").ToLower().
@@ -220,7 +232,7 @@ namespace ThColumnInfo
                 for (int i = 0; i < this.dataColumnCells.Count; i++)
                 {
                     ColumnTableRecordInfo coluTabRi = new ColumnTableRecordInfo();
-                    List<Curve> polylineObjs = new List<Curve>();                    
+                    List<Curve> polylineObjs = new List<Curve>();
                     for (int j = 0; j < this.dataColumnCells[i].Count; j++)
                     {
                         if (this.dataColumnCells[i][j].BoundaryPts.Count == 0)
@@ -232,26 +244,25 @@ namespace ThColumnInfo
                         {
                             continue;
                         }
+                        List<Point3d> pts = new List<Point3d>();
+                        foreach (Point3d pt in this.dataColumnCells[i][j].BoundaryPts)
+                        {
+                            pts.Add(ThColumnInfoUtils.TransPtFromWcsToUcs(pt));
+                        }
                         foreach (string keyWordStr in keyWordStrs)
                         {
                             PromptSelectionResult psr;
                             cellText = "";
                             if (keyWordStr == "截面")
                             {
-                                List<Point3d> pts = new List<Point3d>();
-                                foreach (Point3d pt in this.dataColumnCells[i][j].BoundaryPts)
-                                {
-                                    pts.Add(ThColumnInfoUtils.TransPtFromWcsToUcs(pt));
-                                }
-                                double minX =  pts.OrderBy(k => k.X).First().X;
-                                double minY =  pts.OrderBy(k => k.Y).First().Y;
+                                double minX = pts.OrderBy(k => k.X).First().X;
+                                double minY = pts.OrderBy(k => k.Y).First().Y;
                                 double maxX = pts.OrderByDescending(k => k.X).First().X;
                                 double maxY = pts.OrderByDescending(k => k.Y).First().Y;
                                 Point3d point1 = new Point3d(minX, minY, 0) + new Vector3d(5, 5, 0);
                                 Point3d point3 = new Point3d(maxX, maxY, 0) + new Vector3d(-5, -5, 0);
                                 Point3d point2 = new Point3d(point3.X, point1.Y, 0);
                                 Point3d point4 = new Point3d(point1.X, point3.Y, 0);
-
                                 Point3dCollection points = new Point3dCollection();
                                 points.Add(point1);
                                 points.Add(point2);
@@ -265,14 +276,16 @@ namespace ThColumnInfo
                                     List<DBObject> dbObjs = objIds.Select(m => trans.GetObject(m, OpenMode.ForRead)).ToList();
                                     polylineObjs = dbObjs.Where(m => m is Polyline).Select(m => m as Curve).ToList();
                                     List<DBObject> dimensionObjs = dbObjs.Where(m => m is Dimension).Select(m => m).ToList();
-                                    string spec = GetHoopReinforcementTypeNumberOneSpec(dimensionObjs); 
+                                    string spec = GetHoopReinforcementTypeNumberOneSpec(dimensionObjs);
                                     coluTabRi.Spec = spec; //规格
                                 }
                             }
                             else //仅仅是文字
                             {
+                                Point3dCollection ucsBoundaryPts = new Point3dCollection();
+                                pts.ForEach(k => ucsBoundaryPts.Add(k));
                                 psr = ThColumnInfoUtils.SelectByPolyline(doc.Editor,
-                           this.dataColumnCells[i][j].BoundaryPts, PolygonSelectionMode.Window, sf1);
+                           ucsBoundaryPts, PolygonSelectionMode.Window, sf1);
                                 if (psr.Status == PromptStatus.OK)
                                 {
                                     List<ObjectId> textObjIds = psr.Value.GetObjectIds().ToList();
@@ -280,7 +293,7 @@ namespace ThColumnInfo
                                     if (dbObjs.Count > 1)
                                     {
                                         dbObjs = dbObjs.Where(m => m.Bounds != null && m.Bounds.HasValue).Select(m => m).ToList();
-                                        dbObjs = dbObjs.OrderBy(m => ThColumnInfoUtils.GetMidPt(m.Bounds.Value.MinPoint, m.Bounds.Value.MaxPoint).X).ToList();                                        
+                                        dbObjs = dbObjs.OrderBy(m => ThColumnInfoUtils.GetMidPt(m.Bounds.Value.MinPoint, m.Bounds.Value.MaxPoint).X).ToList();
                                     }
                                     if (dbObjs[0] is DBText)
                                     {
@@ -304,11 +317,11 @@ namespace ThColumnInfo
                                     break;
                                 case "标高":
                                     coluTabRi.Level = dataColumnCells[i][j].Text;
-                                    break;                              
+                                    break;
                                 case "纵筋":
                                     coluTabRi.AllLongitudinalReinforcement = dataColumnCells[i][j].Text;
-                                    coluTabRi.AngularReinforcement=GetAngularReinforcementSpec(dataColumnCells[i][j].Text);
-                                    break;                 
+                                    coluTabRi.AngularReinforcement = GetAngularReinforcementSpec(dataColumnCells[i][j].Text);
+                                    break;
                                 case "箍筋":
                                     coluTabRi.HoopReinforcement = dataColumnCells[i][j].Text;
                                     break;
@@ -326,7 +339,7 @@ namespace ThColumnInfo
                     {
                         coluTabRi.Code.Replace('，', ',');
                         string[] codeStrs = coluTabRi.Code.Split(',');
-                        if(codeStrs.Length==1)
+                        if (codeStrs.Length == 1)
                         {
                             this.coluTabRecordInfs.Add(coluTabRi);
                         }

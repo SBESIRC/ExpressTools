@@ -6,6 +6,7 @@ using ThColumnInfo.View;
 using System.Windows.Forms;
 using Autodesk.AutoCAD.DatabaseServices;
 using System.Collections.Generic;
+using Autodesk.AutoCAD.Geometry;
 
 [assembly: CommandClass(typeof(ThColumnInfo.ThColumnInfoCommands))]
 [assembly: ExtensionApplication(typeof(ThColumnInfo.ThColumnInfoApp))]
@@ -46,7 +47,10 @@ namespace ThColumnInfo
                 {
                     if(DataPalette.ShowPaletteMark)
                     {
-                        DataPalette._dateResult.ClearDataGridView();
+                        if(DataPalette._dateResult!=null)
+                        {
+                            DataPalette._dateResult.ClearDataGridView();
+                        }
                     }
                 }
                 else
@@ -159,23 +163,23 @@ namespace ThColumnInfo
                 ThColumnInfoUtils.WriteException(ex, "ThColumnInfoCrc");
             }
         }
-        [CommandMethod("TIANHUACAD","ThTest", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "ThTest", CommandFlags.Modal)]
         public void ThTest()
         {
             var doc = acadApp.Application.DocumentManager.MdiActiveDocument;
             var per = doc.Editor.GetEntity("\n选择柱外框线");
             if (per.Status == Autodesk.AutoCAD.EditorInput.PromptStatus.OK)
             {
-                using (Transaction trans=doc.TransactionManager.StartTransaction())
+                using (Transaction trans = doc.TransactionManager.StartTransaction())
                 {
                     Curve curve = trans.GetObject(per.ObjectId, OpenMode.ForRead) as Curve;
-                    Autodesk.AutoCAD.EditorInput.PromptSelectionResult psr= doc.Editor.GetSelection();
+                    Autodesk.AutoCAD.EditorInput.PromptSelectionResult psr = doc.Editor.GetSelection();
                     List<DBText> dBTexts = new List<DBText>();
-                    if(psr.Status==Autodesk.AutoCAD.EditorInput.PromptStatus.OK)
+                    if (psr.Status == Autodesk.AutoCAD.EditorInput.PromptStatus.OK)
                     {
-                        foreach(ObjectId objId in psr.Value.GetObjectIds())
+                        foreach (ObjectId objId in psr.Value.GetObjectIds())
                         {
-                            if(trans.GetObject(objId,OpenMode.ForRead) is DBText dbText)
+                            if (trans.GetObject(objId, OpenMode.ForRead) is DBText dbText)
                             {
                                 dBTexts.Add(dbText);
                             }
@@ -183,6 +187,14 @@ namespace ThColumnInfo
                     }
                     BuildInSituMarkInf buildInSituMarkInf = new BuildInSituMarkInf(curve, dBTexts);
                     buildInSituMarkInf.Build();
+                    doc.Editor.WriteMessage("\n柱号: " + buildInSituMarkInf.Ctri.Code);
+                    doc.Editor.WriteMessage("\n规格: " + buildInSituMarkInf.Ctri.Spec);
+                    doc.Editor.WriteMessage("\n箍筋: " + buildInSituMarkInf.Ctri.HoopReinforcement);
+                    doc.Editor.WriteMessage("\n箍筋类型号: " + buildInSituMarkInf.Ctri.HoopReinforcementTypeNumber);
+                    doc.Editor.WriteMessage("\n全部纵筋: " + buildInSituMarkInf.Ctri.AllLongitudinalReinforcement);
+                    doc.Editor.WriteMessage("\n角筋: " + buildInSituMarkInf.Ctri.AngularReinforcement);
+                    doc.Editor.WriteMessage("\nB边: " + buildInSituMarkInf.Ctri.BEdgeSideMiddleReinforcement);
+                    doc.Editor.WriteMessage("\nH边: " + buildInSituMarkInf.Ctri.HEdgeSideMiddleReinforcement);
                     trans.Commit();
                 }
             }

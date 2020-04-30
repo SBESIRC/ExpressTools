@@ -70,14 +70,79 @@ namespace ThColumnInfo
         public string Remark { get; set; } = "";
         public bool Validate()
         {
-            if (ValidateCode() && ValidateSpec() && ValidateHoopReinforcementTypeNumber())
-            {
-                return true;
-            }
-            else
+            if(!ValidateCode())
             {
                 return false;
             }
+            if(!ValidateSpec())
+            {
+                return false;
+            }
+            if(!ValidateHoopReinforcementTypeNumber())
+            {
+                return false;
+            }
+            if(!ValidateHoopReinforcement(this.HoopReinforcement))
+            {
+                return false;
+            }
+            if(!string.IsNullOrEmpty(this.AllLongitudinalReinforcement))
+            {
+                if(!ValidateReinforcement(this.AllLongitudinalReinforcement))
+                {
+                    return false;
+                }
+            }
+            if(!string.IsNullOrEmpty(this.AngularReinforcement))
+            {
+                if (!ValidateReinforcement(this.AngularReinforcement))
+                {
+                    return false;
+                }
+            }
+            if (!string.IsNullOrEmpty(this.BEdgeSideMiddleReinforcement))
+            {
+                if (!ValidateReinforcement(this.BEdgeSideMiddleReinforcement))
+                {
+                    return false;
+                }
+            }
+            if (!string.IsNullOrEmpty(this.HEdgeSideMiddleReinforcement))
+            {
+                if (!ValidateReinforcement(this.HEdgeSideMiddleReinforcement))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public void Handle()
+        {
+            this.AngularReinforcement = RemoveBrackets(this.AngularReinforcement);
+            this.BEdgeSideMiddleReinforcement=RemoveBrackets(this.BEdgeSideMiddleReinforcement);
+            this.HEdgeSideMiddleReinforcement = RemoveBrackets(this.HEdgeSideMiddleReinforcement);
+            this.HoopReinforcement = RemoveBrackets(this.HoopReinforcement);
+        }
+        /// <summary>
+        /// 去掉括号
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        private string RemoveBrackets(string content)
+        {
+            string result = "";
+            if(string.IsNullOrEmpty(content))
+            {
+                return result;
+            }
+            content = content.Trim();
+            content = content.Replace('（', '(');
+            int index = content.IndexOf("(");
+            if(index >0)
+            {
+                content = content.Substring(0, index);
+            }
+            return content;
         }
         /// <summary>
         /// 验证柱子代号
@@ -377,6 +442,48 @@ namespace ThColumnInfo
                     newStr+= Encoding.UTF32.GetString(buffers, startIndex, buffers.Length - startIndex);
                 }
                 res = newStr;
+            }
+            return res;
+        }
+        /// <summary>
+        /// 处理所有纵筋、角筋、B边/边纵筋
+        /// </summary>
+        /// <param name="reinforceContent"></param>
+        /// <returns></returns>
+        private string HandleReinfoceContent(string reinforceContent)
+        {
+            string res = reinforceContent;
+            string[] strs = reinforceContent.Split('+');
+            List<string> contents = new List<string>();
+            foreach (string str in strs)
+            {
+                byte[] buffers = Encoding.UTF32.GetBytes(str);
+                int lastIndex = -1;
+                for (int i = 0; i < buffers.Length; i++)
+                {
+                    if (buffers[i] >= 48 && buffers[i] <= 57)
+                    {
+                        lastIndex = i;
+                    }
+                }
+                byte[] newBuffers = new byte[lastIndex + 4];
+                if (lastIndex > 0)
+                {
+                    for (int i = 0; i < lastIndex + 4; i++)
+                    {
+                        newBuffers[i] = buffers[i];
+                    }
+                }
+                string newContent = Encoding.UTF32.GetString(newBuffers);
+                contents.Add(newContent);
+            }
+            if (strs.Length > 1)
+            {
+                res = string.Join("+", contents.ToArray());
+            }
+            else
+            {
+                res = contents[0];
             }
             return res;
         }

@@ -73,7 +73,7 @@ namespace ThColumnInfo
         private List<Curve> smallCurves = new List<Curve>();  //小Curve,用于分析角筋数量,b边数量
         private Document doc;
 
-        private double offsetDis = 5.0;
+        private double offsetDis = 10.0;
         private double searchRatio = 1.0 / 3.0;
         private Point3d leftDownPt;
         private Point3d rightUpPt;

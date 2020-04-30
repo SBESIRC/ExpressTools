@@ -76,11 +76,15 @@ namespace ThColumnInfo
             {
                 List<Entity> ents = objectIds.Where(i => IsInSignRange(trans.GetObject(i, OpenMode.ForRead) as Entity)).
                     Select(i => trans.GetObject(i, OpenMode.ForRead) as Entity).ToList();
-                ents.ForEach(i => 
-                {                    
-                    pts.Add(i.GeometricExtents.MinPoint);
-                    pts.Add(i.GeometricExtents.MaxPoint);
-                });
+                foreach(Entity ent in ents)
+                {
+                    Extents3d extents = ThColumnInfoUtils.GeometricExtentsImpl(ent);
+                    if(extents!=null)
+                    {
+                        pts.Add(extents.MinPoint);
+                        pts.Add(extents.MaxPoint);
+                    }
+                }
                 trans.Commit();
             }       
             if(pts.Count>2)
@@ -111,14 +115,15 @@ namespace ThColumnInfo
             double maxX = Math.Max(this.signPt1.X, this.signPt2.X);
             double minY = Math.Min(this.signPt1.Y, this.signPt2.Y);
             double maxY = Math.Max(this.signPt1.Y, this.signPt2.Y);
-            if ((ent.GeometricExtents.MinPoint.X >= minX && ent.GeometricExtents.MinPoint.X <= maxX) &&
-                (ent.GeometricExtents.MinPoint.Y >= minY && ent.GeometricExtents.MinPoint.Y <= maxY)
+            Extents3d entExtents = ThColumnInfoUtils.GeometricExtentsImpl(ent);
+            if ((entExtents.MinPoint.X >= minX && entExtents.MinPoint.X <= maxX) &&
+                (entExtents.MinPoint.Y >= minY && entExtents.MinPoint.Y <= maxY)
                 )
             {
                 isIn = true;
             }
-            else if((ent.GeometricExtents.MaxPoint.X >= minX && ent.GeometricExtents.MaxPoint.X <= maxX) &&
-                (ent.GeometricExtents.MaxPoint.Y >= minY && ent.GeometricExtents.MaxPoint.Y <= maxY))
+            else if((entExtents.MaxPoint.X >= minX && entExtents.MaxPoint.X <= maxX) &&
+                (entExtents.MaxPoint.Y >= minY && entExtents.MaxPoint.Y <= maxY))
             {
                 isIn = true;
             }
@@ -244,7 +249,8 @@ namespace ThColumnInfo
                     double dis = this.leftDownPt.DistanceTo(this.rightUpPt)/3.0;
                     Point3d zoomFirstPt = ThColumnInfoUtils.GetExtendPt(this.leftDownPt, this.rightUpPt, -1.0*dis);
                     Point3d zoomSecondPt = ThColumnInfoUtils.GetExtendPt(this.rightUpPt, this.leftDownPt, -1.0*dis);
-                    COMTool.ZoomWindow(zoomFirstPt, zoomSecondPt);
+                    COMTool.ZoomWindow(ThColumnInfoUtils.TransPtFromUcsToWcs(zoomFirstPt),
+                        ThColumnInfoUtils.TransPtFromUcsToWcs(zoomSecondPt));
                 }
                 
                 if (this.extractColumnDetailInfoMode == ExtractColumnDetailInfoMode.Regular)

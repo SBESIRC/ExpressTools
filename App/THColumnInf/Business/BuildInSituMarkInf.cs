@@ -135,10 +135,12 @@ namespace ThColumnInfo
                 {
                     ReinforceHasTwoStrWithOutCorner(strs);
                 }
+                this.Ctri.AllLongitudinalReinforcement = "";
             }
             else if(strs.Length == 3)
             {
                 ReinforceHasThreeStr(strs);
+                this.Ctri.AllLongitudinalReinforcement = "";
             }
             if (this.valid)
             {
@@ -156,14 +158,15 @@ namespace ThColumnInfo
         private bool ValidateReinforceFormat(string[] strs)
         {
             bool res = true;
-            foreach(string str in strs)
+            foreach (string str in strs)
             {
-                res= new ColumnTableRecordInfo().ValidateReinforcement(str);
-                if(res==false)
+                if(this.Ctri.ValidateReinforcement(str) || this.Ctri.ValidateReinforcement(HandleReinfoceContent(str)))
                 {
-                    this.sb.Append("\nB、H边纵筋或角筋格式不正确。");
-                    break;
+                    continue;
                 }
+                res = false;
+                this.sb.Append("\nB、H边纵筋或角筋格式不正确。");
+                break;
             }
             return res;
         }
@@ -288,6 +291,14 @@ namespace ThColumnInfo
                     this.hSideReinforcement = this.distinguishCBH.HEdgeNum + cornerReinforceSuffix;
                 }
             }
+            if(this.distinguishCBH.TotalNum == num)
+            {
+                this.Ctri.AllLongitudinalReinforcement = strs[0];
+            }
+            else
+            {
+                this.Ctri.AllLongitudinalReinforcement = "";
+            }
         }
         /// <summary>
         /// 集中标注的全部纵筋有一个加号分割(含有角筋)
@@ -299,7 +310,7 @@ namespace ThColumnInfo
             int num = 0;
             foreach (string str in strs)
             {
-                List<int> totalReinforceDatas = new ColumnTableRecordInfo().GetReinforceDatas(str);
+                List<int> totalReinforceDatas = new ColumnTableRecordInfo().GetReinforceDatas(HandleReinfoceContent(str));
                 if (totalReinforceDatas.Count == 2)
                 {
                     num += totalReinforceDatas[0];
@@ -617,15 +628,15 @@ namespace ThColumnInfo
                 if ((this.bSideNum==firstReinNum && bSideReinforceSuffix == firstSuffix) &&
                     (this.hSideNum==secondReinNum && hSideReinforceSuffix == secondSuffix))
                 {
-                    this.bSideReinforcement = this.distinguishCBH.BEdgeNum + bSideReinforceSuffix;
-                    this.hSideReinforcement = this.distinguishCBH.HEdgeNum + hSideReinforceSuffix;
+                    this.bSideReinforcement = this.distinguishCBH.BEdgeNum + firstSuffix;
+                    this.hSideReinforcement = this.distinguishCBH.HEdgeNum + secondSuffix;
                 }
                 //原位B边标注和第二个字符串一致,原位H边标注和第一个字符串一致
                 else if ((this.bSideNum == secondReinNum && bSideReinforceSuffix == secondSuffix) &&
                     (this.hSideNum == firstReinNum && hSideReinforceSuffix == firstSuffix))
                 {
-                    this.bSideReinforcement = this.distinguishCBH.BEdgeNum + hSideReinforceSuffix;
-                    this.hSideReinforcement = this.distinguishCBH.HEdgeNum + bSideReinforceSuffix;
+                    this.bSideReinforcement = this.distinguishCBH.BEdgeNum + secondSuffix;
+                    this.hSideReinforcement = this.distinguishCBH.HEdgeNum + firstSuffix;
                 }
                 else
                 {
@@ -651,8 +662,8 @@ namespace ThColumnInfo
                     this.hSideReinforcement = this.distinguishCBH.HEdgeNum + secondSuffix;
                 }
                 //集中标注第二个与识别的B边数量一致,集中标注第一个与识别的H边数量一致
-                if (firstReinNum == this.distinguishCBH.BEdgeNum * 2 &&
-                     secondReinNum == this.distinguishCBH.HEdgeNum * 2)
+                if (firstReinNum == this.distinguishCBH.HEdgeNum * 2 &&
+                     secondReinNum == this.distinguishCBH.BEdgeNum * 2)
                 {
                     this.bSideReinforcement = this.distinguishCBH.BEdgeNum + secondSuffix;
                     this.hSideReinforcement = this.distinguishCBH.HEdgeNum + firstSuffix;
@@ -948,10 +959,22 @@ namespace ThColumnInfo
             dbTexts = dbTexts.Where(i => !string.IsNullOrEmpty(i.TextString) &&
             new ColumnTableRecordInfo().ValidateReinforcement(i.TextString)).Select(i => i).ToList();
             //把方框以内的文字给去掉
-            dbTexts = dbTexts.Where(i => !((i.Bounds.Value.MinPoint.X >= minX && i.Bounds.Value.MinPoint.X >= maxX) &&
-                                (i.Bounds.Value.MaxPoint.X >= minX && i.Bounds.Value.MaxPoint.X >= maxX) &&
-                                (i.Bounds.Value.MinPoint.Y >= minY && i.Bounds.Value.MinPoint.Y >= maxY) &&
-                                (i.Bounds.Value.MaxPoint.Y >= minY && i.Bounds.Value.MaxPoint.Y >= maxY))).Select(i => i).ToList();
+            List<DBText> filterDbTexts = new List<DBText>();
+            foreach (DBText dbText in dbTexts)
+            {
+                Extents3d extents = ThColumnInfoUtils.GeometricExtentsImpl(dbText);
+                if (extents == null)
+                {
+                    continue;
+                }
+                if(!(extents.MinPoint.X >= minX && extents.MinPoint.X >= maxX &&
+                                extents.MaxPoint.X >= minX && extents.MaxPoint.X >= maxX &&
+                                extents.MinPoint.Y >= minY && extents.MinPoint.Y >= maxY &&
+                                extents.MaxPoint.Y >= minY && extents.MaxPoint.Y >= maxY))
+                {
+                    filterDbTexts.Add(dbText);
+                }
+            }
             List<DBText> xDirText = dbTexts.Where(i => GetDbTextRotation(i) == TextRotation.Horizontal).Select(i => i).ToList();
             List<DBText> yDirText = dbTexts.Where(i => GetDbTextRotation(i) == TextRotation.Vertical).Select(i => i).ToList();
             double middleX = (minX + maxX) / 2.0;
@@ -970,7 +993,13 @@ namespace ThColumnInfo
         }
         private TextRotation GetDbTextRotation(DBText dBText)
         {
-            double ang = ThColumnInfoUtils.RadToAng(dBText.Rotation);
+            var wcs2Ucs = ThColumnInfoUtils.WCS2UCS();
+            double ang = 0;
+            using (var clone = dBText.GetTransformedCopy(wcs2Ucs))
+            {
+                ang = (clone as DBText).Rotation;
+            }
+            ang = ThColumnInfoUtils.RadToAng(ang);
             if (Math.Abs(ang - 90) <= 1.0 || Math.Abs(ang - 270) <= 1.0)
             {
                 return TextRotation.Vertical;

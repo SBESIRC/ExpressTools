@@ -69,7 +69,6 @@
             this.tvCheckRes.Leave += new System.EventHandler(this.tvCheckRes_Leave);
             this.tvCheckRes.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvCheckRes_MouseDown);
             this.tvCheckRes.MouseLeave += new System.EventHandler(this.tvCheckRes_MouseLeave);
-            this.tvCheckRes.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tvCheckRes_MouseUp);
             // 
             // contextMenuStrip1
             // 
