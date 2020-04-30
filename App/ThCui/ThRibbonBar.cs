@@ -589,6 +589,24 @@ namespace TianHua.AutoCAD.ThCui
                 "IDI_THCAD_THALC",
                 RibbonButtonStyle.LargeWithText);
 
+            // 建立总图图层
+            row.AddNewButton("建立总图\r\n图层",
+                "建立总图图层",
+                "THAPL",
+                "建立天华标准总图图层",
+                "IDI_THCAD_THAPL_SMALL",
+                "IDI_THCAD_THAPL_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            // 建立单体图层
+            row.AddNewButton("建立单体\r\n图层",
+                "建立单体图层",
+                "THAUL",
+                "建立天华标准单体图层",
+                "IDI_THCAD_THAUL_SMALL",
+                "IDI_THCAD_THAUL_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
             // 建立结构图层
             row.AddNewButton("建立结构\r\n图层",
                 "建立结构图层",

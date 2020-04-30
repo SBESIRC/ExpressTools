@@ -161,6 +161,10 @@
     <Image Include="Images\THSGPM_dark_large.ico" />
     <Image Include="Images\THXFPM_dark_small.ico" />
     <Image Include="Images\THXFPM_dark_large.ico" />
+    <Image Include="Images\THAUL_dark_small.ico" />
+    <Image Include="Images\THAUL_dark_large.ico" />
+    <Image Include="Images\THAPL_dark_small.ico" />
+    <Image Include="Images\THAPL_dark_large.ico" />
     <Image Include="Images\THALIGN_bottom_dark_small.ico" />
     <Image Include="Images\THALIGN_bottom_dark_large.ico" />
     <Image Include="Images\THALIGN_horizontal_dark_small.ico" />

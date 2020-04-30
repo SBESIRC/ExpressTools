@@ -110,6 +110,10 @@ panels:
     items:
       - text: "建立建筑\r\n图层"
         attributes: { "IsVisible": true, "IsEnabled": true }
+      - text: "建立总图\r\n图层"
+        attributes: { "IsVisible": false, "IsEnabled": true }
+      - text: "建立单体\r\n图层"
+        attributes: { "IsVisible": false, "IsEnabled": true }
       - text: "建立结构\r\n图层"
         attributes: { "IsVisible": false, "IsEnabled": true }
       - text: "建立暖通\r\n图层"
