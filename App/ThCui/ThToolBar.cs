@@ -122,6 +122,10 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "关闭暖通图层", "ID_THMOF");
                 toolbar.AddToolbarButton(-1, "开启暖通图层", "ID_THMON");
                 toolbar.AddSeparator(-1);
+                toolbar.AddToolbarButton(-1, "平时通风模式", "ID_THPSTF");
+                toolbar.AddToolbarButton(-1, "水管平面模式", "ID_THSGPM");
+                toolbar.AddToolbarButton(-1, "消防平面模式", "ID_THXFPM");
+                toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
                 toolbar.AddToolbarButton(-1, "图块集配置", "ID_THBLS");
             }

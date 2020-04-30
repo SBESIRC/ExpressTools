@@ -126,6 +126,8 @@ panels:
         attributes: { "IsVisible": false, "IsEnabled": true }
       - text: "暖通图层管理"
         attributes: { "IsVisible": false, "IsEnabled": true }
+      - text: "暖通图层模式"
+        attributes: { "IsVisible": false, "IsEnabled": true }
       - text: "提电气块\r\n转换"
         attributes: { "IsVisible": true, "IsEnabled": true }
       - text: "图块集"
