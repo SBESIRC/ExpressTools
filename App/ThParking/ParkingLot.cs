@@ -1,13 +1,10 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Geometry;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
+using GeometryExtensions;
+using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
+using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace TianHua.AutoCAD.Parking
 {
@@ -120,16 +117,7 @@ namespace TianHua.AutoCAD.Parking
         /// <returns></returns>
         private Point3d CalBoundryCenter()
         {
-            //复制对象
-            var cloneBoundry = (Polyline)this.Boundry.Clone();
-            //转成水平的
-            cloneBoundry.TransformBy(this.Ent.BlockTransform.Inverse());
-
-            //找到块定义中的中心位置
-            var position = cloneBoundry.GetCenter().toPoint3d();
-            //回到世界坐标系求出中心
-            position = position.TransformBy(this.Ent.BlockTransform);
-            return position;
+            return Boundry.Centroid();
         }
 
         /// <summary>

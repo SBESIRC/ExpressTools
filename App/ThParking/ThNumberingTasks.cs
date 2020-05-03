@@ -4,17 +4,17 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using DotNetARX;
-using NFox.Cad.Collections;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AcHelper;
+using Linq2Acad;
 using System.Windows;
+using NFox.Cad.Collections;
+using System.Collections.Generic;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
-using GeometryExtensions;
-
-
+using Dreambuild.AutoCAD;
 
 namespace TianHua.AutoCAD.Parking
 {
@@ -242,13 +242,16 @@ namespace TianHua.AutoCAD.Parking
         /// <summary>
         /// 初始化需要的图层
         /// </summary>
-        /// <param name="strs"></param>
-        public void InitialLayer(params string[] strs)
+        /// <param name="layers"></param>
+        public void InitialLayer(params string[] layers)
         {
-            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-
-            strs.ForEach(str => db.AddLayer(str));
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                foreach(var layer in layers)
+                {
+                    acadDatabase.Database.AddLayer(layer);
+                }
+            }
         }
 
 
@@ -431,40 +434,44 @@ namespace TianHua.AutoCAD.Parking
         /// </summary>
         /// <param name="block"></param>
         /// <returns></returns>
-        private Polyline GetWaiJieRec(BlockReference block)
+        private Polyline GetWaiJieRec(BlockReference blockReference)
         {
-            BlockReference cloneBlock = null;
-            Polyline poly = null;
-            try
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(blockReference.Database))
             {
-                cloneBlock = (BlockReference)block.GetTransformedCopy(block.BlockTransform.Inverse());
-                poly = new PolylineRec(cloneBlock.GeometricExtents.MinPoint.toPoint2d(), cloneBlock.GeometricExtents.MaxPoint.toPoint2d());
-
-                poly.TransformBy(block.BlockTransform);
-                return poly;
+                // 这里有两个技术难点需要解决：
+                //  计算块引用在WCS下的AABB（axis-aligned bounding box）
+                //  处理Nonuniform Scaling的块引用（其X，Y，Z方向的缩放比例不一致）
+                // 为了解决这两个技术难点，这里采用的方法是：
+                //  1. 在块定义空间（即BCS）下计算其Bounding Box,即为AABB
+                //  2. 在块定义空间（即BCS）下将其Bounding Box投影到XY平面（3D降维到2D）
+                //  2. 对于每一个块引用，将Bounding Box的四个顶点转换到WCS下
+                //  3. 将转换后的四个顶点作为这个块应用在WCS下的AABB
+                // 可能存在的问题：
+                //  1. 嵌套块（会导致块定义的AABB不准）
+                //  2. 块引用Z不等于0
+                var ecs2wcs = blockReference.BlockTransform;
+                var btr = acadDatabase.Element<BlockTableRecord>(blockReference.BlockTableRecord);
+                var extents = btr.GetObjectIds().GetExtents();
+                // 将Bounding Box投影到XY平面
+                Plane plane = new Plane(Point3d.Origin, Vector3d.ZAxis);
+                Matrix3d matrix = Matrix3d.Projection(plane, plane.Normal);
+                var ll = extents.MinPoint.TransformBy(matrix);
+                var rt = extents.MaxPoint.TransformBy(matrix);
+                var lt = new Point3d(extents.MinPoint.X, extents.MaxPoint.Y, 0);
+                var rl = new Point3d(extents.MaxPoint.X, extents.MinPoint.Y, 0);
+                var pline = new Polyline()
+                {
+                    Closed = true,
+                };
+                pline.CreatePolyline(new Point3dCollection()
+                {
+                    ll.TransformBy(ecs2wcs),
+                    lt.TransformBy(ecs2wcs),
+                    rt.TransformBy(ecs2wcs),
+                    rl.TransformBy(ecs2wcs),
+                });
+                return pline;
             }
-            catch (Exception)
-            {
-                return null;
-            }
-            finally
-            {
-                cloneBlock.Dispose();
-            }
-
-
-            //Document doc = AcadApp.DocumentManager.MdiActiveDocument;
-            //Database db = doc.Database;
-            //Editor ed = doc.Editor;
-
-            ////找到边界点的中心
-            //var pt = block.Get3DCenter();
-
-            ////生成边界
-            //DBObjectCollection objs = ed.TraceBoundary(pt.TransformBy(ed.WCS2UCS()), false);
-            ////找出其中面积最大的封闭多段线，就是我们要的外接矩形
-            //return objs.Cast<Polyline>().MaxElement(poly => poly.Area);
         }
-
     }
 }
