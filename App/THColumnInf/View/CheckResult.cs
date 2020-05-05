@@ -444,15 +444,7 @@ namespace ThColumnInfo.View
                 {
                     TreeNode innerFrameNode = TraverseInnerFrameRoot(this.currentNode);
                     if (innerFrameNode != null && innerFrameNode.Tag != null)
-                    {
-                        ThStandardSign thStandardSign = innerFrameNode.Tag as ThStandardSign;
-                        if (thStandardSign.SignPlantCalData != null)
-                        {
-                            using (DocumentLock docLock = doc.LockDocument())
-                            {
-                                thStandardSign.SignPlantCalData.EraseFrameTextIds(false);
-                            }
-                        }
+                    {                        
                         bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
                         if (needHide)
                         {
@@ -752,13 +744,13 @@ namespace ThColumnInfo.View
             {
                 //如果导入过计算书，则埋入数据
                 if (thStandardSign.SignPlantCalData != null)
-                {
-                    thStandardSign.SignPlantCalData.EraseFrameTextIds(false);
-                    thStandardSign.SignPlantCalData.Embed(); //埋入
-                    thStandardSign.RelateColumnFrameId(); //关联
+                {                    
+                    thStandardSign.SignPlantCalData.Embed(showImportCalInf); //埋入
+                    //thStandardSign.RelateColumnFrameId(); //关联
                 }
                 else
                 {
+                    //没有导入过计算书
                     thStandardSign.SignExtractColumnInfo.PrintColumnFrame();
                     //如果是校核，且没导入过计算书，则要设置默认值
                     PlantCalDataToDraw plantCalDataToDraw = new PlantCalDataToDraw(thStandardSign);
@@ -780,7 +772,10 @@ namespace ThColumnInfo.View
                 //将识别的结果更新到面板
                 tn.Nodes.Clear();
                 FillDrawCheckInfToTreeView(thStandardSign.SignExtractColumnInfo, tn, showImportCalInf);
-                FillPlantCalResultToTree(tn);
+                if(showImportCalInf)
+                {
+                    FillPlantCalResultToTree(tn);
+                }
                 if(!originShowImportCalInf) //如是导入计算书，则无需校验
                 {
                     List<ColumnInf> correctColumnInfs = GetDataCorrectColumnInfs(tn);
@@ -894,11 +889,7 @@ namespace ThColumnInfo.View
                         {                       
                             CalculationInfoVM calculationInfoVM = new CalculationInfoVM();
                             if (thStandardSign.SignPlantCalData!=null && thStandardSign.SignPlantCalData.CalInfo!=null)
-                            {
-                                thStandardSign.SignPlantCalData.ClearFrameIds();
-                                ThProgressBar.MeterProgress();
-                                thStandardSign.SignPlantCalData.EraseFrameTextIds();
-                                ThProgressBar.MeterProgress();
+                            {                                
                                 calculationInfoVM = new CalculationInfoVM(thStandardSign.SignPlantCalData.CalInfo);
                                 calculationInfoVM.CalculateInfo = thStandardSign.SignPlantCalData.CalInfo;
                             }
@@ -921,13 +912,20 @@ namespace ThColumnInfo.View
                             importCalculation.ShowDialog();
                             if (calculationInfoVM.YnExport) 
                             {
+                                if(thStandardSign.SignPlantCalData!=null)
+                                {
+                                    //删除已经绘制的FrameId和TextId
+                                    thStandardSign.SignPlantCalData.ClearFrameIds();
+                                    ThProgressBar.MeterProgress();
+                                    thStandardSign.SignPlantCalData.EraseJtIdTextIds();
+                                    ThProgressBar.MeterProgress();
+                                }
                                 PlantCalDataToDraw plantData = new PlantCalDataToDraw(calculationInfoVM.CalculateInfo, thStandardSign);
                                 thStandardSign.SignPlantCalData = plantData;
                                 bool res=plantData.Plant();
                                 if(res)
                                 {
-                                    ThColumnInfoUtils.EraseObjIds(treeColumnIds.ToArray());
-                                    thStandardSign.SignExtractColumnInfo.PrintColumnFrame();
+                                    ThColumnInfoUtils.EraseObjIds(treeColumnIds.ToArray());                                                                       
                                     UpdateCheckResult(tn, thStandardSign, true);
                                 }
                             }
@@ -988,41 +986,9 @@ namespace ThColumnInfo.View
             {
                 return;
             }
-            if(thStandardSign.SignPlantCalData.ColumnFrameIds.Count==0)
-            {
-                return;
-            }
-            List<TreeNode> dwgExistCalNotNodes = new List<TreeNode>();
-            TreeNode dataCorrectNode = null;
-            foreach (TreeNode node in innerFrameNode.Nodes)
-            {
-                if(node.Name== this.dataCorrectNodeName)
-                {
-                    dataCorrectNode = node;
-                    for (int i = 0; i < dataCorrectNode.Nodes.Count; i++)
-                    {
-                        TreeNode fourthNode = dataCorrectNode.Nodes[i];
-                        for (int j = 0; j < fourthNode.Nodes.Count; j++)
-                        {
-                            TreeNode fifthNode = fourthNode.Nodes[j];
-                            ColumnInf columnInf = fifthNode.Tag as ColumnInf;
-                            FrameColor frameColor=  thStandardSign.SignPlantCalData.GetFrameIdColorType(columnInf.FrameId);
-                            if(frameColor==FrameColor.DwgHasCalNot)
-                            {
-                                PlantCalDataToDraw.ChangeColor(columnInf.FrameId, frameColor);
-                                dwgExistCalNotNodes.Add(fifthNode);
-                                fourthNode.Nodes.Remove(fifthNode);
-                                j = j - 1;
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
+            UpdateDataCorrectNode(innerFrameNode);
             ThProgressBar.MeterProgress();
-            UpdateDataCorrectNode(dataCorrectNode);
-            ThProgressBar.MeterProgress();
-            AddDwgHasCalNotNode(innerFrameNode, dwgExistCalNotNodes);
+            AddDwgHasCalNotNode(innerFrameNode);
             ThProgressBar.MeterProgress();
             AddDwgNotCalHasNode(innerFrameNode);
             ThProgressBar.MeterProgress();
@@ -1033,8 +999,9 @@ namespace ThColumnInfo.View
         /// </summary>
         /// <param name="innerFrameNode"></param>
         /// <param name="dwgExistCalNotColumnInfs"></param>
-        private void AddDwgHasCalNotNode(TreeNode innerFrameNode, List<TreeNode> dwgExistCalNotColumnInfs)
+        private void AddDwgHasCalNotNode(TreeNode innerFrameNode)
         {
+            List<ColumnInf> columnInfs = new List<ColumnInf>();
             if (innerFrameNode == null || innerFrameNode.Tag == null)
             {
                 return;
@@ -1043,15 +1010,20 @@ namespace ThColumnInfo.View
             {
                 innerFrameNode.Nodes.RemoveByKey(this.dwgHasCalNotNodeName);
             }
+            ThStandardSign thStandardSign = innerFrameNode.Tag as ThStandardSign;
+            if(thStandardSign.SignPlantCalData!=null)
+            {
+                columnInfs = thStandardSign.SignPlantCalData.DwgHasCalNotColumns;
+            }
             TreeNode dwgHasCalNotNode = innerFrameNode.Nodes.Add(
-                this.dwgHasCalNotNodeName, "图有计算书无(" + dwgExistCalNotColumnInfs.Count + ")");
+                this.dwgHasCalNotNodeName, "图有计算书无(" + columnInfs.Count + ")");
             System.Drawing.Color sysColor= PlantCalDataToDraw.GetFrameSystemColor(FrameColor.DwgHasCalNot);
             dwgHasCalNotNode.ForeColor = sysColor;
-            foreach (TreeNode tn in dwgExistCalNotColumnInfs)
+            foreach (var columnInf in columnInfs)
             {
-                TreeNode leafNode = dwgHasCalNotNode.Nodes.Add(tn.Text);
+                TreeNode leafNode = dwgHasCalNotNode.Nodes.Add(columnInf.Text);
                 leafNode.ForeColor = sysColor;
-                leafNode.Tag = tn.Tag;
+                leafNode.Tag = columnInf;
             }                
         }
         private string dwgNotCalHasNodeName = "DwgNotCalHas";
@@ -1066,31 +1038,68 @@ namespace ThColumnInfo.View
             {
                 innerFrameNode.Nodes.RemoveByKey(this.dwgNotCalHasNodeName);
             }
+            List<ObjectId> objIds = new List<ObjectId>();
+            if(thStandardSign.SignPlantCalData!=null)
+            {
+                objIds = thStandardSign.SignPlantCalData.DwgNotCalHasFrameIds;
+            }
             TreeNode dwgNotCalHasNode = innerFrameNode.Nodes.Add(
-                this.dwgNotCalHasNodeName, "图无计算书有(" + thStandardSign.SignPlantCalData.UnrelatedFrameIds.Count + ")");
+                this.dwgNotCalHasNodeName, "图无计算书有(" + objIds.Count + ")");
             System.Drawing.Color sysColor = PlantCalDataToDraw.GetFrameSystemColor(FrameColor.DwgNotCalHas);
             dwgNotCalHasNode.ForeColor = sysColor;
-            for (int i=0;i< thStandardSign.SignPlantCalData.UnrelatedFrameIds.Count;i++)
+            for (int i=0;i< objIds.Count;i++)
             {
-                ObjectId objId = thStandardSign.SignPlantCalData.UnrelatedFrameIds[i];
+                ObjectId objId = objIds[i];
                 if (objId== ObjectId.Null || objId.IsErased || !objId.IsValid)
                 {
                     continue;
                 }
                 TreeNode leafNode = dwgNotCalHasNode.Nodes.Add((i+1).ToString());
                 leafNode.ForeColor = sysColor;
-                leafNode.Tag = thStandardSign.SignPlantCalData.UnrelatedFrameIds[i];
+                leafNode.Tag = objId;
             }   
         }
         /// <summary>
         /// 更新数据正确节点
         /// </summary>
         /// <param name="dataCorrectNode"></param>
-        private void UpdateDataCorrectNode(TreeNode dataCorrectNode)
+        private void UpdateDataCorrectNode(TreeNode innerFrameNode)
         {
-            if(dataCorrectNode==null || dataCorrectNode.Nodes.Count==0)
+            if(innerFrameNode == null || innerFrameNode.Tag==null)
             {
                 return;
+            }
+            ThStandardSign thStandardSign = innerFrameNode.Tag as ThStandardSign;
+            TreeNode dataCorrectNode = null;
+            List<ObjectId> invalidObjIds = new List<ObjectId>();
+            foreach (TreeNode firstNode in innerFrameNode.Nodes)
+            {
+                if (firstNode.Name == this.dataCorrectNodeName)
+                {
+                    dataCorrectNode = firstNode;
+                    for (int i=0;i< firstNode.Nodes.Count; i++)
+                    {
+                        TreeNode secondNode = firstNode.Nodes[i];
+                        for (int j=0;j< secondNode.Nodes.Count;j++)
+                        {
+                            TreeNode thirdNode = secondNode.Nodes[j];
+                            ColumnInf columnInf = thirdNode.Tag as ColumnInf;
+                            bool res=thStandardSign.SignPlantCalData.
+                                CheckCorrectColumnInDwgHasCalNotColumns(columnInf);                           
+                            if (res)
+                            {
+                                secondNode.Nodes.Remove(thirdNode);
+                                invalidObjIds.Add(columnInf.FrameId);
+                                j = j - 1;
+                            }
+                         }
+                    }
+                    break;
+                }
+            }
+            if(invalidObjIds.Count>0)
+            {
+                ThColumnInfoUtils.EraseObjIds(invalidObjIds.ToArray());
             }
             int totalNum = 0;
             for (int i=0; i< dataCorrectNode.Nodes.Count;i++)

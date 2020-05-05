@@ -72,6 +72,7 @@ namespace ThColumnInfo.View
 
             int screenHeight=  Screen.PrimaryScreen.Bounds.Height;
             _ps.Location = new Point(_ps.Location.X, screenHeight - _ps.Size.Height);
+            _ps.DeviceIndependentLocation = new System.Windows.Point(0, screenHeight);
         }
     }
 }

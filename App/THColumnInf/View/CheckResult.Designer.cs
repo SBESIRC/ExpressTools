@@ -132,6 +132,8 @@
             this.panelDown.Controls.Add(this.btnComponentDefinition);
             this.panelDown.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelDown.Location = new System.Drawing.Point(0, 474);
+            this.panelDown.MaximumSize = new System.Drawing.Size(0, 30);
+            this.panelDown.MinimumSize = new System.Drawing.Size(0, 20);
             this.panelDown.Name = "panelDown";
             this.panelDown.Size = new System.Drawing.Size(250, 26);
             this.panelDown.TabIndex = 4;

@@ -28,12 +28,21 @@ namespace ThColumnInfo
         private string yjkColumnKeyName = "YjkColumnData";
 
         private List<ObjectId> columnFrameIds = new List<ObjectId>(); //正柱子外围的框(包括关联和没关联到计算书中的柱子)
-        private List<ObjectId> unrelatedFrameIds = new List<ObjectId>(); //计算书中的柱子没有关联到本地图纸的柱子
+        private List<ObjectId> dwgHasCalNotFrameIds = new List<ObjectId>(); //图纸有计算书没有
+        private List<ObjectId> dwgNotCalHasFrameIds = new List<ObjectId>(); //图纸没有计算书有
         private List<ObjectId> exceptionFrameIds = new List<ObjectId>(); //计算书中柱子关联很多柱子
+        private List<ColumnInf> dwgHasCalNotColumns = new List<ColumnInf>();
 
-        private List<ObjectId> showFrameTextIds = new List<ObjectId>();
+        private List<ObjectId> jtTextIds = new List<ObjectId>();  //打印的JTID 文本框
         private ThStandardSign thStandardSign;
 
+        public List<ColumnInf> DwgHasCalNotColumns
+        {
+            get
+            {
+                return dwgHasCalNotColumns;
+            }
+        }
         /// <summary>
         /// 用户构件属性定义在实体中的Key值
         /// </summary>
@@ -55,9 +64,13 @@ namespace ThColumnInfo
         /// <summary>
         /// 图纸上的柱子和计算书上的柱子无关联
         /// </summary>
-        public List<ObjectId> UnrelatedFrameIds
+        public List<ObjectId> DwgHasCalNotFrameIds
         {
-            get { return unrelatedFrameIds; }
+            get { return dwgHasCalNotFrameIds; }
+        }
+        public List<ObjectId> DwgNotCalHasFrameIds
+        {
+            get { return dwgNotCalHasFrameIds; }
         }
         /// <summary>
         /// 计算书中的柱子关联很多柱子
@@ -140,18 +153,7 @@ namespace ThColumnInfo
                 this.thDrawColumns = new ThDrawColumns(dbDataSource.ColumnInfs, this.calculationInfo);
                 thDrawColumns.Draw();
                 ThProgressBar.MeterProgress();
-                if (this.thDrawColumns.IsGoOn)
-                {
-                    if(this.thStandardSign==null)
-                    {
-                        this.showFrameTextIds = ShowFrameTextIds(this.thStandardSign.SignExtractColumnInfo);
-                    }
-                    else
-                    {
-                        this.showFrameTextIds = ShowFrameTextIds();
-                    }
-                }
-                else
+                if (!this.thDrawColumns.IsGoOn)
                 {
                     result = false;
                 }
@@ -166,23 +168,41 @@ namespace ThColumnInfo
         /// <summary>
         /// 埋入数据
         /// </summary>
-        public void Embed()
+        public void Embed(bool emportCalculation=false)
         {
+            if(this.thStandardSign.SignExtractColumnInfo==null)
+            {
+                this.thStandardSign.SignExtractColumnInfo = new ExtractColumnPosition(this.thStandardSign);
+            }
+            //如果要导入计算书，需要重新提取一次信息
+            this.thStandardSign.SignExtractColumnInfo.Extract();
+
             //提取埋入的柱子范围内对应的本地图纸柱子,(校核命令可提取柱子数量)
             if (this.thStandardSign.SignExtractColumnInfo.ColumnInfs.Count == 0)
             {
                 return;
-            }
-            this.unrelatedFrameIds.Clear();
-            this.exceptionFrameIds.Clear();
-            this.columnFrameIds.Clear();
+            }            
             //获取数据信息完整的柱子与计算书中的柱子比对
-            List<ColumnInf> columnInfs = this.thStandardSign.SignExtractColumnInfo.ColumnInfs.Where(i => i.Error == ErrorMsg.OK).Select(i => i).ToList();
+            List<ColumnInf> columnInfs = this.thStandardSign.SignExtractColumnInfo.
+                ColumnInfs.Where(i => i.Error == ErrorMsg.OK).Select(i => i).ToList();
 
+            //绘制正常或异常的柱子外框
+            for (int i = 0; i < columnInfs.Count; i++)
+            {
+                if (columnInfs[i].Points.Count > 0)
+                {
+                    //图纸中的柱子关联到计算书中的柱子
+                    EmbedColumnCustom(columnInfs[i]);
+                    ThProgressBar.MeterProgress();
+                }
+            }
             //关联计算书的柱子和本地图纸的柱子
             ThRelateColumn thRelateColumn = new ThRelateColumn(columnInfs, thDrawColumns.ColumnRelateInfs);
             thRelateColumn.Relate();
-
+            if(emportCalculation)
+            {
+                this.jtTextIds.AddRange(thRelateColumn.PrintJtID()); //打印柱号
+            }        
             //绘制正常或异常的柱子外框
             for (int i = 0; i < thRelateColumn.ColumnRelateInfs.Count; i++)
             {
@@ -202,6 +222,7 @@ namespace ThColumnInfo
                         this.columnFrameIds.Add(objectId);
                     }
                     DrawCalculation(thRelateColumn.ColumnRelateInfs[i]);
+                    thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs[0].FrameId = objectId;
                 }
                 else if (thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs == null ||
                     thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs.Count == 0)
@@ -212,7 +233,7 @@ namespace ThColumnInfo
                     ChangeColor(objectId, FrameColor.DwgNotCalHas);
                     if (objectId != ObjectId.Null)
                     {
-                        this.unrelatedFrameIds.Add(objectId);
+                        this.dwgNotCalHasFrameIds.Add(objectId);
                     }
                 }
                 else if (thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs.Count > 1)
@@ -237,8 +258,10 @@ namespace ThColumnInfo
                 ChangeColor(objectId, FrameColor.DwgHasCalNot);
                 if (objectId != ObjectId.Null)
                 {
-                    this.columnFrameIds.Add(objectId);
+                    this.dwgHasCalNotFrameIds.Add(objectId);
                 }
+                thRelateColumn.RestColumnInfs[i].FrameId = objectId;
+                this.dwgHasCalNotColumns.Add(thRelateColumn.RestColumnInfs[i]);
                 ThProgressBar.MeterProgress();
             }
         }
@@ -267,166 +290,7 @@ namespace ThColumnInfo
                 }
                 ThProgressBar.MeterProgress();
             }
-        }
-        /// <summary>
-        /// 删除计算书导入后产生的柱框线和文字
-        /// </summary>
-        public void EraseFrameTextIds(bool eraseText=true)
-        {
-            try
-            {
-                List<ObjectId> eraseObjIds = new List<ObjectId>();
-                using (Transaction trans = document.TransactionManager.StartTransaction())
-                {
-                    foreach (ObjectId id in this.showFrameTextIds)
-                    {
-                        if (id == ObjectId.Null || id.IsErased || !id.IsValid)
-                        {
-                            continue;
-                        }
-                        if (trans.GetObject(id, OpenMode.ForRead) is DBText)
-                        {
-                            if (!eraseText)
-                            {
-                                continue;
-                            }
-                        }
-                        eraseObjIds.Add(id);
-                    }
-                    trans.Commit();
-                }
-                ThColumnInfoUtils.EraseObjIds(eraseObjIds.ToArray());
-            }
-            catch (Exception ex)
-            {
-                ThColumnInfoUtils.WriteException(ex, "EraseFrameTextIds");
-            }
-        }
-        public void ShowFrameTextIds(bool showFrame,bool showText,bool isShow=false)
-        {
-            try
-            {
-                List<ObjectId> filterIds = new List<ObjectId>();
-
-                Document doc = Application.DocumentManager.MdiActiveDocument;
-                using (Transaction trans=doc.TransactionManager.StartTransaction())
-                {
-                    foreach (ObjectId objId in this.showFrameTextIds)
-                    {
-                        DBObject dBObj = trans.GetObject(objId,OpenMode.ForRead);
-                        if(showFrame)
-                        {
-                            if(dBObj is Polyline)
-                            {
-                                filterIds.Add(objId);
-                            }
-                        }
-                        if (showText)
-                        {
-                            if (dBObj is DBText)
-                            {
-                                filterIds.Add(objId);
-                            }
-                        }
-                    }
-                    trans.Commit();
-                }
-                ThColumnInfoUtils.ShowObjIds(filterIds.ToArray(), isShow);
-            }
-            catch (Exception ex)
-            {
-                ThColumnInfoUtils.WriteException(ex, "EraseFrameTextIds");
-            }
-        }
-        /// <summary>
-        /// 埋入数据
-        /// </summary>
-        private List<ObjectId> ShowFrameTextIds(ExtractColumnPosition extractColumnPosition=null)
-        {
-            List<ObjectId> frameTextIds = new List<ObjectId>();
-            if (this.thStandardSign == null)
-            {
-                return frameTextIds;
-            }
-            if(extractColumnPosition==null)
-            {
-                extractColumnPosition = new ExtractColumnPosition(thStandardSign);
-            }
-            extractColumnPosition.Extract();
-            //获取数据信息完整的柱子与计算书中的柱子比对
-            List<ColumnInf> columnInfs = extractColumnPosition.ColumnInfs.Where(i => i.Points.Count>2).Select(i => i).ToList();
-            //绘制正常或异常的柱子外框
-            for (int i = 0; i < columnInfs.Count; i++)
-            {
-                if (columnInfs[i].Points.Count > 0)
-                {
-                    //图纸中的柱子关联到计算书中的柱子
-                    EmbedColumnCustom(columnInfs[i]);
-                    ThProgressBar.MeterProgress();
-                }
-            }
-
-            //关联计算书的柱子和本地图纸的柱子
-            ThRelateColumn thRelateColumn = new ThRelateColumn(columnInfs, this.thDrawColumns.ColumnRelateInfs);
-            thRelateColumn.Relate();
-            frameTextIds.AddRange(thRelateColumn.PrintJtID()); //打印柱号
-
-            //绘制正常或异常的柱子外框
-            for (int i = 0; i < thRelateColumn.ColumnRelateInfs.Count; i++)
-            {
-                if (thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs != null &&
-                    thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs.Count == 1)
-                {
-                    //图纸中的柱子关联到计算书中的柱子
-                    ObjectId objectId = ThColumnInfoUtils.DrawOffsetColumn(
-                        thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs[0].Points, offsetDisScale, true,lineWidth);
-                    ChangeColor(objectId, FrameColor.Related);
-                    if (objectId != ObjectId.Null)
-                    {
-                        frameTextIds.Add(objectId);
-                    }
-                    DrawCalculation(thRelateColumn.ColumnRelateInfs[i]);                    
-                }
-                else if (thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs == null ||
-                    thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs.Count == 0)
-                {
-                    //计算书中有柱子，图纸中没有找到柱子
-                    ObjectId objectId = ThColumnInfoUtils.DrawOffsetColumn(
-                        thRelateColumn.ColumnRelateInfs[i].InModelPts, offsetDisScale, true, lineWidth);
-                    ChangeColor(objectId, FrameColor.DwgNotCalHas);
-                    if (objectId != ObjectId.Null)
-                    {
-                        frameTextIds.Add(objectId);
-                    }
-                }
-                else if (thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs.Count > 1)
-                {
-                    //计算书中的柱子关联很多个内框内的柱子
-                    ObjectId objectId = ThColumnInfoUtils.DrawOffsetColumn(
-                        thRelateColumn.ColumnRelateInfs[i].InModelPts, offsetDisScale, true, lineWidth);
-                    frameTextIds.Add(objectId);
-                }
-                ThProgressBar.MeterProgress();
-            }
-            //内框内正确柱子，还剩下没有关联到计算书中的柱子
-            for (int i = 0; i < thRelateColumn.RestColumnInfs.Count; i++)
-            {
-                if(thRelateColumn.RestColumnInfs[i].Points.Count==0)
-                {
-                    continue;
-                }
-                //图纸中的柱子没有关联到计算书中的柱子
-                ObjectId objectId = ThColumnInfoUtils.DrawOffsetColumn(
-                    thRelateColumn.RestColumnInfs[i].Points, offsetDisScale, true, lineWidth);
-                ChangeColor(objectId, FrameColor.DwgHasCalNot);
-                if (objectId != ObjectId.Null)
-                {
-                    frameTextIds.Add(objectId);
-                }
-                ThProgressBar.MeterProgress();
-            }
-            return frameTextIds;
-        }
+        }        
         /// <summary>
         /// 关联计算书中正确的柱子
         /// </summary>
@@ -461,6 +325,45 @@ namespace ThColumnInfo
                 pts.Dispose();
                 trans.Commit();
             }
+        }
+        /// <summary>
+        /// 检查正常的柱子在图有计算书无列表中是否存在
+        /// </summary>
+        /// <param name="columnInf"></param>
+        /// <returns></returns>
+        public bool CheckCorrectColumnInDwgHasCalNotColumns(ColumnInf columnInf)
+        {
+            bool res = false;
+            for(int i=0; i<this.dwgHasCalNotColumns.Count;i++)
+            {
+               if(CheckTwoPtListEqual(this.dwgHasCalNotColumns[i].Points, columnInf.Points))
+                {
+                    res = true;
+                    this.dwgHasCalNotColumns[i].Text = columnInf.Text;
+                    break;
+                }
+            }
+            return res;
+        }
+        private bool CheckTwoPtListEqual(List<Point3d> firstPts,List<Point3d> secondPts)
+        {
+            bool res = true;
+            if(firstPts.Count== secondPts.Count)
+            {
+                for(int i=0;i< firstPts.Count;i++)
+                {
+                    if(firstPts[i].DistanceTo(secondPts[i])>1.0)
+                    {
+                        res = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                res = false;
+            }
+            return res;
         }
         public static System.Drawing.Color GetFrameSystemColor(FrameColor frameColor)
         {
@@ -1068,16 +971,23 @@ namespace ThColumnInfo
             try
             {
                 ThColumnInfoUtils.EraseObjIds(this.columnFrameIds.ToArray());
-                ThColumnInfoUtils.EraseObjIds(this.unrelatedFrameIds.ToArray());
+                ThColumnInfoUtils.EraseObjIds(this.dwgHasCalNotFrameIds.ToArray());
+                ThColumnInfoUtils.EraseObjIds(this.dwgNotCalHasFrameIds.ToArray());
                 ThColumnInfoUtils.EraseObjIds(this.exceptionFrameIds.ToArray());
                 this.columnFrameIds.Clear();
-                this.unrelatedFrameIds.Clear();
+                this.dwgHasCalNotFrameIds.Clear();
+                this.dwgNotCalHasFrameIds.Clear();
                 this.exceptionFrameIds.Clear();
             }
             catch(System.Exception ex)
             {
                 ThColumnInfoUtils.WriteException(ex, "ClearFrameIds");
             }
+        }
+        public void EraseJtIdTextIds()
+        {
+            ThColumnInfoUtils.EraseObjIds(this.jtTextIds.ToArray());
+            this.jtTextIds.Clear();
         }
         /// <summary>
         /// 获取图签内柱子的关联信息
