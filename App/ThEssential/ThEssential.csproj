@@ -39,6 +39,10 @@
     <Compile Include="Align\ThAlignExtent3dExtension.cs" />
     <Compile Include="Align\ThAlignMTextExtension.cs" />
     <Compile Include="Align\ThAlignPolylineExtension.cs" />
+    <Compile Include="BlockConvert\ThBConvertBlockReference.cs" />
+    <Compile Include="BlockConvert\ThBConvertCommon.cs" />
+    <Compile Include="BlockConvert\ThBConvertTableUtils.cs" />
+    <Compile Include="BlockConvert\ThBConvertUtils.cs" />
     <Compile Include="BlockConvert\ThBlockConvertDbExtension.cs" />
     <Compile Include="BlockConvert\ThBlockConvertManager.cs" />
     <Compile Include="BlockConvert\ThBlockConvertRule.cs" />

@@ -45,7 +45,19 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             return blockName;//返回块名
         }
 
-
+        /// <summary>
+        /// 获取块引用的变换矩阵
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static Matrix3d GetBlockTransform(this ObjectId id)
+        {
+            BlockReference bref = id.GetObject(OpenMode.ForRead) as BlockReference;
+            if (bref != null)//如果是块参照
+                return bref.BlockTransform;
+            else
+                return Matrix3d.Identity;
+        }
 
         /// <summary>
         /// 从动态块定义的角度去获取普通块的handle
