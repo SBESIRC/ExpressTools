@@ -110,7 +110,7 @@ namespace ThAnalytics
 
         public void Initialize()
         {
-            ThCountlyServices.Instance.Initialize();
+            ThCybrosService.Instance.Initialize();
             AcadApp.Idle += new EventHandler(Application_OnIdle);
         }
 
@@ -123,7 +123,7 @@ namespace ThAnalytics
             //AcadApp.SystemVariableChanged -= AcadApp_SystemVariableChanged;
 
             //end the user session
-            ThCountlyServices.Instance.EndSession();
+            ThCybrosService.Instance.EndSession();
         }
 
         private void Application_OnIdle(object sender, EventArgs e)
@@ -141,12 +141,12 @@ namespace ThAnalytics
             //AcadApp.SystemVariableChanged += AcadApp_SystemVariableChanged;
 
             //start the user session
-            ThCountlyServices.Instance.StartSession();
+            ThCybrosService.Instance.StartSession();
         }
 
         private void AcadApp_SystemVariableChanged(object sender, SystemVariableChangedEventArgs e)
         {
-            ThCountlyServices.Instance.RecordSysVerEvent(e.Name, AcadApp.GetSystemVariable(e.Name).ToString());
+            ThCybrosService.Instance.RecordSysVerEvent(e.Name, AcadApp.GetSystemVariable(e.Name).ToString());
         }
 
         private void DocCollEvent_DocumentLockModeChanged_Handler(object sender, DocumentLockModeChangedEventArgs e)
@@ -180,15 +180,14 @@ namespace ThAnalytics
                     //  在某些场景下，捕捉非天华命令（CAD原生命令，其他第三方插件的命令），会有严重的效率问题
                     //  我们不可能穷举所有可能会导致效率问题的非天华命令，而且我们也对非天华命令不敢兴趣
                     //  这里我们就选择不再捕捉非天华命令
-                    //ThCountlyServices.Instance.RecordCommandEvent(cmdName, sw.Elapsed.TotalSeconds);
-                    ThCountlyServices.Instance.RecordTHCommandEvent(cmdName, sw.Elapsed.TotalSeconds);
+                    ThCybrosService.Instance.RecordTHCommandEvent(cmdName, sw.Elapsed.TotalSeconds);
                     commandhashtable.Remove(cmdName);
                 }
 
-                // 若有新的用户登陆，则更新DA的用户信息
+                // 若有新的用户登陆，则开启Session
                 if (cmdName == "THLOGIN")
                 {
-                    ThCountlyServices.Instance.UpdateUserProfile();
+                    ThCybrosService.Instance.StartSession();
                 }
             }
             else
@@ -214,7 +213,7 @@ namespace ThAnalytics
                 if (Regex.Match(cmdName, @"^\([cC]:THZ0\)$").Success)
                 {
                     var lispCmdName = cmdName.Substring(3, cmdName.Length - 4);
-                    ThCountlyServices.Instance.RecordTHCommandEvent(lispCmdName, 0);
+                    ThCybrosService.Instance.RecordTHCommandEvent(lispCmdName, 0);
                     return;
                 }
 
@@ -222,7 +221,7 @@ namespace ThAnalytics
                 if (Regex.Match(cmdName, @"^\([cC]:TH[A-Z]{3,}\)$").Success)
                 {
                     var lispCmdName = cmdName.Substring(3, cmdName.Length - 4);
-                    ThCountlyServices.Instance.RecordTHCommandEvent(cmdName, 0);
+                    ThCybrosService.Instance.RecordTHCommandEvent(cmdName, 0);
                     return;
                 }
 
@@ -235,6 +234,12 @@ namespace ThAnalytics
                     commandhashtable.Remove(cmdName);
                 }
                 commandhashtable.Add(cmdName, Stopwatch.StartNew());
+
+                // 若用户准备登出，则结束Session
+                if (cmdName == "THLOGOUT")
+                {
+                    ThCybrosService.Instance.EndSession();
+                }
             }
         }
     }

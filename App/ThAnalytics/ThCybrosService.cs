@@ -24,6 +24,9 @@ namespace ThAnalytics
 
             // 检查更新
             {"THUPT", "检查更新"},
+
+            // 切换专业
+            {"THPROFILE", "专业切换"},
             
             // 图块图库
             {"THBLI", "图块集"},
@@ -59,17 +62,24 @@ namespace ThAnalytics
             {"THTET", "综合经济技术指标表"},
             {"THFET", "消防疏散表"},
             {"THABC", "房间面积框线"},
+
+            // 平面绘图
+            {"THSPC", "喷头布置"},
+            {"THQS", "天华快选"},
+            {"THAL", "天华对齐"},
+            {"THCO", "天华复制"},
+            {"THMA", "天华格式刷"},
             
             // 辅助工具
-            {"THMSC", "批量缩放"},
-            {"THZ0", "Z值归零"},
-            {"THPURGE", "DGN清理"},
-            {"THBPT", "批量打印PDF"},
-            {"THBPD", "批量打印DWF"},
-            {"THBPP", "批量打印PPT"},
-            {"THSVM", "版次信息修改"},
-            {"THLTR", "管线断线"},
-            {"THMIR", "文字块镜像"},
+            {"THMSC",       "批量缩放"},
+            {"THZ0",        "Z值归零"},
+            {"THPURGE",     "DGN清理"},
+            {"THBPT",       "批量打印PDF"},
+            {"THBPD",       "批量打印DWF"},
+            {"THBPP",       "批量打印PPT"},
+            {"THSVM",       "版次信息修改"},
+            {"THLTR",       "管线断线"},
+            {"THMIR",       "文字块镜像"},
 
             // 第三方支持
             {"T20V4", "获取天正看图T20V4.0插件"},
@@ -78,8 +88,7 @@ namespace ThAnalytics
 
         public void Initialize()
         {
-            // 用户认证
-            ThIdentityService.Login();
+            //
         }
 
         public void UnInitialize()
@@ -89,12 +98,18 @@ namespace ThAnalytics
 
         public void StartSession()
         {
-            THRecordingService.SessionBegin();
+            if (ThIdentityService.IsLogged())
+            {
+                THRecordingService.SessionBegin();
+            }
         }
 
         public void EndSession()
         {
-            THRecordingService.SessionEnd();
+            if (ThIdentityService.IsLogged())
+            {
+                THRecordingService.SessionEnd();
+            }
         }
 
         public void RecordCommandEvent(string cmdName, double duration)
