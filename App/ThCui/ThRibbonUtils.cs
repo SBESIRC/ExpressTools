@@ -98,40 +98,44 @@ namespace TianHua.AutoCAD.ThCui
             Profile profile = ThCuiProfileManager.Instance.CurrentProfile;
             foreach (var panel in panels.Where(o => o.UID == "pnl" + "Help"))
             {
-                panel.Source.Items.Where(o => o.Text == "专业切换").ForEach(o => {
-                    if (o is RibbonSplitButton splitButton)
+                foreach (RibbonRowPanel rowPanel in panel.Source.Items)
+                {
+                    rowPanel.Items.Where(o => o.Text == "专业切换").ForEach(o =>
                     {
-                        IEnumerable<RibbonItem> items = null;
-                        switch (profile)
+                        if (o is RibbonSplitButton splitButton)
                         {
-                            case Profile.PROJECTPLAN:
-                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _P");
-                                break;
-                            case Profile.ARCHITECTURE:
-                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _A");
-                                break;
-                            case Profile.STRUCTURE:
-                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _S");
-                                break;
-                            case Profile.HAVC:
-                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _H");
-                                break;
-                            case Profile.ELECTRICAL:
-                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _E");
-                                break;
-                            case Profile.WSS:
-                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _W");
-                                break;
-                            default:
-                                break;
-                        };
+                            IEnumerable<RibbonItem> items = null;
+                            switch (profile)
+                            {
+                                case Profile.PROJECTPLAN:
+                                    items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _P");
+                                    break;
+                                case Profile.ARCHITECTURE:
+                                    items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _A");
+                                    break;
+                                case Profile.STRUCTURE:
+                                    items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _S");
+                                    break;
+                                case Profile.HAVC:
+                                    items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _H");
+                                    break;
+                                case Profile.ELECTRICAL:
+                                    items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _E");
+                                    break;
+                                case Profile.WSS:
+                                    items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _W");
+                                    break;
+                                default:
+                                    break;
+                            };
 
-                        foreach (RibbonItem item in items)
-                        {
-                            splitButton.Current = item;
+                            foreach (RibbonItem item in items)
+                            {
+                                splitButton.Current = item;
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
             ThCuiProfileYamlParser parser = new ThCuiProfileYamlParser(profile);
             panels.ForEach(o => parser.UpdateIsVisible(o));

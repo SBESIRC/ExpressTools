@@ -751,6 +751,7 @@ namespace TianHua.AutoCAD.ThCui
             ThRibbonUtils.ConfigPanelsWithCurrentProfile();
             ThMenuBarUtils.ConfigMenubarWithCurrentProfile();
             ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
+            ThToolPaletteUtils.ConfigToolPaletteWithCurrentProfile();
         }
 
 
