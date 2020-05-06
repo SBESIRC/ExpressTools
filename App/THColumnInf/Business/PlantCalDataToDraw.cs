@@ -170,6 +170,7 @@ namespace ThColumnInfo
         /// </summary>
         public void Embed(bool emportCalculation=false)
         {
+            ClearFrameIds();
             if(this.thStandardSign.SignExtractColumnInfo==null)
             {
                 this.thStandardSign.SignExtractColumnInfo = new ExtractColumnPosition(this.thStandardSign);
@@ -267,10 +268,6 @@ namespace ThColumnInfo
 
             RelateColumnFrameId();
         }
-        private void RelateCorrectColumn(List<ColumnInf> columnInfs)
-        {
-
-        }
         /// <summary>
         /// 埋入数据
         /// </summary>
@@ -361,21 +358,6 @@ namespace ThColumnInfo
                 {
                     res = true;
                     this.dwgHasCalNotColumns[i].Text = columnInf.Text;
-                    break;
-                }
-            }
-            return res;
-        }
-        public bool CheckCorrectColumnInCorrectColumns(ColumnInf columnInf)
-        {
-            bool res = false;
-            for (int i = 0; i < this.columnFrameIds.Count; i++)
-            {
-                List<Point3d> pts = ThColumnInfoUtils.GetPolylinePts(this.columnFrameIds[i]);
-                if (CheckTwoPtListEqual(pts, columnInf.Points))
-                {
-                    res = true;
-                    columnInf.FrameId = this.columnFrameIds[i];
                     break;
                 }
             }
@@ -1014,6 +996,7 @@ namespace ThColumnInfo
                 this.dwgHasCalNotFrameIds.Clear();
                 this.dwgNotCalHasFrameIds.Clear();
                 this.exceptionFrameIds.Clear();
+                this.dwgHasCalNotColumns.Clear();
             }
             catch(System.Exception ex)
             {

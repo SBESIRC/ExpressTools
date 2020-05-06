@@ -237,10 +237,6 @@ namespace ThColumnInfo
             {
                 return;
             }
-            if(this.ColumnTableRecordInfos==null || this.ColumnTableRecordInfos.Count==0)
-            {
-                return;
-            }
             this.ColumnTableRecordInfos.ForEach(i => i.Handle());
             propertyHasProblemList.AddRange(this.ColumnTableRecordInfos.Where(i => !i.Validate()).Select(i => i).ToList());
             for (int i = 0; i < this.ColumnInfs.Count; i++)
@@ -802,6 +798,43 @@ namespace ThColumnInfo
         {
             for (int i = 0; i < this.ColumnInfs.Count; i++)
             {
+                ObjectId frameId = ThColumnInfoUtils.DrawOffsetColumn(
+                            this.ColumnInfs[i].Points, PlantCalDataToDraw.offsetDisScale, true, PlantCalDataToDraw.lineWidth);
+                System.Drawing.Color sysColor = System.Drawing.Color.White;
+                Autodesk.AutoCAD.Colors.Color acadColor;
+                switch (this.ColumnInfs[i].Error)
+                {
+                    case ErrorMsg.OK:
+                        sysColor = PlantCalDataToDraw.GetFrameSystemColor(FrameColor.Related);
+                        break;
+                    case ErrorMsg.InfNotCompleted:
+                        sysColor = PlantCalDataToDraw.GetFrameSystemColor(FrameColor.ParameterNotFull);
+                        break;
+                    case ErrorMsg.CodeEmpty:
+                        sysColor = PlantCalDataToDraw.GetFrameSystemColor(FrameColor.ColumnLost);
+                        break;
+                }
+                acadColor = ThColumnInfoUtils.SystemColorToAcadColor(sysColor);
+                ThColumnInfoUtils.ChangeColor(frameId, acadColor.ColorIndex);
+                this.ColumnInfs[i].FrameId = frameId;
+            }
+            if (!show)
+            {
+                List<ObjectId> hideObjIds = this.ColumnInfs.Select(i => i.FrameId).ToList();
+                ThColumnInfoUtils.ShowObjIds(hideObjIds.ToArray(), show);
+            }
+        }
+        /// <summary>
+        /// 打印识别后的柱框
+        /// </summary>
+        public void PrintErrorColumnFrame(bool show = true)
+        {
+            for (int i = 0; i < this.ColumnInfs.Count; i++)
+            {
+                if(this.ColumnInfs[i].Error== ErrorMsg.OK)
+                {
+                    continue;
+                }
                 ObjectId frameId = ThColumnInfoUtils.DrawOffsetColumn(
                             this.ColumnInfs[i].Points, PlantCalDataToDraw.offsetDisScale, true, PlantCalDataToDraw.lineWidth);
                 System.Drawing.Color sysColor = System.Drawing.Color.White;

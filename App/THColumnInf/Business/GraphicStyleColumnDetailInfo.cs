@@ -107,7 +107,7 @@ namespace ThColumnInfo
                     }
                     for (int i = 0; i < headColumnCells.Count; i++)
                     {
-                        for (int j = 0; i < headColumnCells[i].Count; j++)
+                        for (int j = 0; j < headColumnCells[i].Count; j++)
                         {
                             TableCellInfo cellInfo = headColumnCells[i][j];
                             int columnSpan = GetColumnSpan(cellInfo.Column, cellInfo.ColumnWidth, columnWidthDic);
@@ -320,7 +320,6 @@ namespace ThColumnInfo
                                     break;
                                 case "纵筋":
                                     coluTabRi.AllLongitudinalReinforcement = dataColumnCells[i][j].Text;
-                                    coluTabRi.AngularReinforcement = GetAngularReinforcementSpec(dataColumnCells[i][j].Text);
                                     break;
                                 case "箍筋":
                                     coluTabRi.HoopReinforcement = dataColumnCells[i][j].Text;
@@ -399,7 +398,7 @@ namespace ThColumnInfo
                     }
                 }
             }
-            if(index>0)
+            if(index>=0)
             {
                 frameCurve = curve[index];
             }

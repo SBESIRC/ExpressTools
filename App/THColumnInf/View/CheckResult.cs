@@ -124,7 +124,7 @@ namespace ThColumnInfo.View
                 this.tvCheckRes.Nodes[0].Expand();
             }
         }
-        private void FillDrawCheckInfToTreeView(IDataSource dataSource, TreeNode tn = null, bool showImportCalInf = false)
+        private void FillDrawCheckInfToTreeView(IDataSource dataSource, TreeNode tn = null, bool ynExportErrorNode = false)
         {
             List<ColumnInf> correctList = new List<ColumnInf>();
             List<ColumnInf> codeEmptyList = new List<ColumnInf>();
@@ -209,7 +209,7 @@ namespace ThColumnInfo.View
                     ThProgressBar.MeterProgress();
                 }
             }
-            if (showImportCalInf)
+            if (!ynExportErrorNode)
             {
                 return;
             }
@@ -279,12 +279,16 @@ namespace ThColumnInfo.View
         /// <param name="e"></param>
         private void tvCheckRes_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            TreeNode treeNode = e.Node;
-            if (treeNode == null)
+            if (e.Node == null)
             {
                 return;
             }
-            ShowSelectNodeFrameIds(treeNode);
+            bool isCurrentDocument = CheckRootNodeIsCurrentDocument(e.Node);
+            if (!isCurrentDocument)
+            {               
+                return;
+            }
+            ShowSelectNodeFrameIds(e.Node);
         }
         private TreeNode TraverseRoot(TreeNode treeNode)
         {
@@ -426,21 +430,24 @@ namespace ThColumnInfo.View
         #endregion
         private void tvCheckRes_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            TreeNode treeNode = e.Node;
-            if (treeNode == null || e.Button == MouseButtons.Right)
+            if (e.Node == null)
             {
                 return;
             }
-            bool isCurrentDocument = CheckRootNodeIsCurrentDocument(treeNode);
+            if(e.Button == MouseButtons.Right)
+            {
+                this.tvCheckRes.SelectedNode = e.Node;
+            }            
+            bool isCurrentDocument = CheckRootNodeIsCurrentDocument(e.Node);
             if (isCurrentDocument == false)
             {
                 return;
             }
-            TreeNode selectNodeInnerFrameNode = TraverseInnerFrameRoot(treeNode);
+            TreeNode selectNodeInnerFrameNode = TraverseInnerFrameRoot(e.Node);
             Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
             if (this.currentNode != null && CheckRootNodeIsCurrentDocument(this.currentNode))
             {
-                if (this.currentNode != treeNode)
+                if (this.currentNode != e.Node)
                 {
                     TreeNode innerFrameNode = TraverseInnerFrameRoot(this.currentNode);
                     if (innerFrameNode != null && innerFrameNode.Tag != null)
@@ -457,7 +464,7 @@ namespace ThColumnInfo.View
                     }
                 }
             }
-            this.currentNode = treeNode;
+            this.currentNode = e.Node;
             this.tvCheckRes.SelectedNode = e.Node;
             this.tvCheckRes.ContextMenuStrip = null;
             if (e.Node.Tag != null)
@@ -477,10 +484,10 @@ namespace ThColumnInfo.View
                 {
                     return;
                 }
-                if (treeNode.Tag != null && treeNode.Tag.GetType() == typeof(ColumnInf))
+                if (e.Node.Tag != null && e.Node.Tag.GetType() == typeof(ColumnInf))
                 {
                     ThStandardSign thStandardSign = selectNodeInnerFrameNode.Tag as ThStandardSign;
-                    ColumnInf columnInf = treeNode.Tag as ColumnInf;
+                    ColumnInf columnInf = e.Node.Tag as ColumnInf;
                     if(DataPalette._dateResult!=null)
                     {
                         DataPalette._dateResult.SelectDataGridViewRow(columnInf, thStandardSign.InnerFrameName);
@@ -691,50 +698,54 @@ namespace ThColumnInfo.View
             Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
             using (DocumentLock docLock = doc.LockDocument())
             {
-                List<string> lockedLayerNames = ThColumnInfoUtils.UnlockedAllLayers();
-                try
+                using (Transaction trans=doc.TransactionManager.StartTransaction())
                 {
-                    ThProgressBar.Start("正在校核......" );
-                    ThProgressBar.MeterProgress();
-                    TreeNode tn = this.tvCheckRes.SelectedNode;
-                    //删除ColumnFrameIdCollection
-                    ThColumnInfoUtils.EraseObjIds(treeColumnIds.ToArray());
-                    if (tn.Tag != null)
+                    List<string> lockedLayerNames = ThColumnInfoUtils.UnlockedAllLayers();
+                    try
                     {
-                        if (tn.Tag.GetType() == typeof(ThStandardSign))
+                        ThProgressBar.Start("正在校核......");
+                        ThProgressBar.MeterProgress();
+                        TreeNode tn = this.tvCheckRes.SelectedNode;
+                        //删除ColumnFrameIdCollection
+                        ThColumnInfoUtils.EraseObjIds(treeColumnIds.ToArray());
+                        if (tn.Tag != null)
                         {
-                            //更新当前节点数据(识别图纸中柱子和柱表)
-                            ThStandardSign thStandardSign = tn.Tag as ThStandardSign;
-                            ThStandardSignManager.UpdateThStandardSign(thStandardSign);
-                            UpdateCheckResult(tn, thStandardSign);
-                            ShowDetailData(true); 
-                        }
-                        else if (tn.Tag.GetType() == typeof(ThStandardSignManager))
-                        {
-                            ThStandardSignManager tm = tn.Tag as ThStandardSignManager;
-                            ThStandardSignManager.LoadData(tm);
-                            tn.Nodes.Clear();
-                            FillColumnDataToTreeView(tm);
-                            if(tn.Nodes.Count>0)
+                            if (tn.Tag.GetType() == typeof(ThStandardSign))
                             {
-                                this.tvCheckRes.SelectedNode = tn.Nodes[0];
+                                //更新当前节点数据(识别图纸中柱子和柱表)
+                                ThStandardSign thStandardSign = tn.Tag as ThStandardSign;
+                                ThStandardSignManager.UpdateThStandardSign(thStandardSign);
+                                UpdateCheckResult(tn, thStandardSign);
                                 ShowDetailData(true);
                             }
+                            else if (tn.Tag.GetType() == typeof(ThStandardSignManager))
+                            {
+                                ThStandardSignManager tm = tn.Tag as ThStandardSignManager;
+                                ThStandardSignManager.LoadData(tm);
+                                tn.Nodes.Clear();
+                                FillColumnDataToTreeView(tm);
+                                if (tn.Nodes.Count > 0)
+                                {
+                                    this.tvCheckRes.SelectedNode = tn.Nodes[0];
+                                    ShowDetailData(true);
+                                }
+                            }
                         }
+                        ThProgressBar.MeterProgress();
                     }
-                    ThProgressBar.MeterProgress();
-                }
-                catch (Exception ex)
-                {
-                    ThColumnInfoUtils.WriteException(ex, "");
-                }
-                finally
-                {
-                    if (lockedLayerNames.Count > 0)
+                    catch (Exception ex)
                     {
-                        ThColumnInfoUtils.LockedLayers(lockedLayerNames);
+                        ThColumnInfoUtils.WriteException(ex, "");
                     }
-                    ThProgressBar.Stop();
+                    finally
+                    {
+                        if (lockedLayerNames.Count > 0)
+                        {
+                            ThColumnInfoUtils.LockedLayers(lockedLayerNames);
+                        }
+                        ThProgressBar.Stop();
+                    }
+                    trans.Commit();
                 }
             }
         }
@@ -746,34 +757,45 @@ namespace ThColumnInfo.View
                 if (thStandardSign.SignPlantCalData != null)
                 {                    
                     thStandardSign.SignPlantCalData.Embed(showImportCalInf); //埋入
-                    //thStandardSign.RelateColumnFrameId(); //关联
                 }
-                else
+                //hasCheckErrorNode-> 控制是否往树节点中填充"柱平法缺失"和"柱信息不完整两个节点"
+                bool ynExportErrorNode = true; 
+                if(showImportCalInf)
                 {
-                    //没有导入过计算书
-                    thStandardSign.SignExtractColumnInfo.PrintColumnFrame();
-                    //如果是校核，且没导入过计算书，则要设置默认值
-                    PlantCalDataToDraw plantCalDataToDraw = new PlantCalDataToDraw(thStandardSign);
-                    plantCalDataToDraw.DrawColumnOriginFrame();
-                }
-                bool originShowImportCalInf = showImportCalInf;
-                if (showImportCalInf)
-                {
+                    ynExportErrorNode = false;
                     //如果执行导入计算书操作，且已执行过计算书校核
-                    foreach(TreeNode item in tn.Nodes)
-                    { 
-                        if(item.Name==this.codeLostNodeName || item.Name==this.uncompleteNodeNme )
+                    foreach (TreeNode item in tn.Nodes)
+                    {
+                        if (item.Name == this.codeLostNodeName || item.Name == this.uncompleteNodeNme)
                         {
-                            showImportCalInf = false;
+                            ynExportErrorNode = true;
                             break;
                         }
                     }
-                }                
+                }
+                if (thStandardSign.SignExtractColumnInfo != null)
+                {
+                    if(showImportCalInf)
+                    {
+                        if(ynExportErrorNode)
+                        {
+                            thStandardSign.SignExtractColumnInfo.PrintErrorColumnFrame();
+                        }
+                    }
+                    else
+                    {
+                        //没有导入过计算书
+                        thStandardSign.SignExtractColumnInfo.PrintColumnFrame();
+                        //如果是校核，且没导入过计算书，则要设置默认值
+                        PlantCalDataToDraw plantCalDataToDraw = new PlantCalDataToDraw(thStandardSign);
+                        plantCalDataToDraw.DrawColumnOriginFrame();
+                    }
+                }
                 //将识别的结果更新到面板
                 tn.Nodes.Clear();
-                FillDrawCheckInfToTreeView(thStandardSign.SignExtractColumnInfo, tn, showImportCalInf);
+                FillDrawCheckInfToTreeView(thStandardSign.SignExtractColumnInfo, tn, ynExportErrorNode);
                 FillPlantCalResultToTree(tn);
-                if (!originShowImportCalInf) //如是导入计算书，则无需校验
+                if (!showImportCalInf) //如是导入计算书，则无需校验
                 {
                     List<ColumnInf> correctColumnInfs = GetDataCorrectColumnInfs(tn);
                     //校核柱子
@@ -909,22 +931,26 @@ namespace ThColumnInfo.View
                             importCalculation.ShowDialog();
                             if (calculationInfoVM.YnExport) 
                             {
-                                if(thStandardSign.SignPlantCalData!=null)
+                                using (Transaction trans=doc.TransactionManager.StartTransaction())
                                 {
-                                    //删除已经绘制的FrameId和TextId
-                                    thStandardSign.SignPlantCalData.ClearFrameIds();
-                                    ThProgressBar.MeterProgress();
-                                    thStandardSign.SignPlantCalData.EraseJtIdTextIds();
-                                    ThProgressBar.MeterProgress();
-                                }
-                                PlantCalDataToDraw plantData = new PlantCalDataToDraw(calculationInfoVM.CalculateInfo, thStandardSign);
-                                thStandardSign.SignPlantCalData = plantData;
-                                bool res=plantData.Plant();
-                                if(res)
-                                {
-                                    ThColumnInfoUtils.EraseObjIds(treeColumnIds.ToArray());                                                                       
-                                    UpdateCheckResult(tn, thStandardSign, true);
-                                }
+                                    if (thStandardSign.SignPlantCalData != null)
+                                    {
+                                        //删除已经绘制的FrameId和TextId
+                                        thStandardSign.SignPlantCalData.ClearFrameIds();
+                                        ThProgressBar.MeterProgress();
+                                        thStandardSign.SignPlantCalData.EraseJtIdTextIds();
+                                        ThProgressBar.MeterProgress();
+                                    }
+                                    PlantCalDataToDraw plantData = new PlantCalDataToDraw(calculationInfoVM.CalculateInfo, thStandardSign);
+                                    thStandardSign.SignPlantCalData = plantData;
+                                    bool res = plantData.Plant();
+                                    if (res)
+                                    {
+                                        ThColumnInfoUtils.EraseObjIds(treeColumnIds.ToArray());
+                                        UpdateCheckResult(tn, thStandardSign, true);
+                                    }
+                                    trans.Commit();
+                                }   
                             }
                         }
                         catch (System.Exception ex)

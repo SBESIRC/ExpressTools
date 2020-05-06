@@ -64,7 +64,7 @@ namespace ThColumnInfo.View
             _ps.Size = new System.Drawing.Size(250, 1000);
             _ps.MinimumSize = new System.Drawing.Size(250, 1000);
             _ps.Location = new System.Drawing.Point(0, _ps.Location.Y);
-            _ps.DeviceIndependentLocation = new Point(0,0);
+            _ps.DeviceIndependentLocation = new Point(0,0);            
         }
         private void SizeChange()
         {

@@ -744,7 +744,6 @@ namespace ThColumnInfo
                         continue;
                     }
                     Extents3d extents= ThColumnInfoUtils.GeometricExtentsImpl(polyline);
-                    List<Point3d> boundaryPts = ThColumnInfoUtils.GetPolylinePts(polyline);
                     List<Point3d> ucsBoundaryPts = new List<Point3d>();
                     ucsBoundaryPts.Add(new Point3d(extents.MinPoint.X, extents.MinPoint.Y,0.0));
                     ucsBoundaryPts.Add(new Point3d(extents.MaxPoint.X, extents.MinPoint.Y,0.0));
@@ -776,8 +775,8 @@ namespace ThColumnInfo
                     }
                     if (compareRes)
                     {
-                        Point3dCollection boundaryCol = new Point3dCollection();
-                        boundaryPts.ForEach(i=> boundaryCol.Add(i));
+                        List<Point3d> boundaryPts = ThColumnInfoUtils.GetPolylinePts(polyline);
+                        Point3dCollection boundaryCol = AdjustCellPts(boundaryPts);
                         tableCellInfo.BoundaryPts = boundaryCol;
                         tableCellInfo.RowHeight = currentRowHeight;
                         tableCellInfo.ColumnWidth = currentColumnWidth;
@@ -787,6 +786,25 @@ namespace ThColumnInfo
             }
             ThProgressBar.MeterProgress();
             return tableCellInfo;
+        }
+        private Point3dCollection AdjustCellPts(List<Point3d> pts)
+        {
+            Point3dCollection res = new Point3dCollection();
+            List<Point3d> ptList = pts.Select(i=> ThColumnInfoUtils.TransPtFromWcsToUcs(i)).ToList();
+            double minX=ptList.OrderBy(i => i.X).First().X;
+            double minY = ptList.OrderBy(i => i.Y).First().Y;
+            double minZ = ptList.OrderBy(i => i.Z).First().Z;
+
+            double maxX = ptList.OrderByDescending(i => i.X).First().X;
+            double maxY = ptList.OrderByDescending(i => i.Y).First().Y;
+            double maxZ = ptList.OrderByDescending(i => i.Z).First().Z;
+
+            res.Add(ThColumnInfoUtils.TransPtFromUcsToWcs(new Point3d(minX, minY, minZ)));
+            res.Add(ThColumnInfoUtils.TransPtFromUcsToWcs(new Point3d(maxX, minY, minZ)));
+            res.Add(ThColumnInfoUtils.TransPtFromUcsToWcs(new Point3d(maxX, maxY, minZ)));
+            res.Add(ThColumnInfoUtils.TransPtFromUcsToWcs(new Point3d(minX, maxY, minZ)));
+
+            return res;
         }
     }
     public enum FindDir
