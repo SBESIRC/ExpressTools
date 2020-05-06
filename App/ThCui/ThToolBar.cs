@@ -99,7 +99,7 @@ namespace TianHua.AutoCAD.ThCui
 
                 toolbar.AddToolbarButton(-1, "建立结构图层", "ID_THSLC");
                 toolbar.AddSeparator(-1);
-                toolbar.AddToolbarButton(-1, "柱校核", "ID_THCRC");
+                toolbar.AddToolbarButton(-1, "柱校核（公测）", "ID_THCRC");
             }
         }
 

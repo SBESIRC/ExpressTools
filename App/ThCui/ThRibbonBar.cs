@@ -866,7 +866,7 @@ namespace TianHua.AutoCAD.ThCui
             var row = panel.AddNewRibbonRow();
 
             //柱校核
-            row.AddNewButton("柱校核",
+            row.AddNewButton("柱校核\r\n（公测）",
                 "天华柱校核",
                 "THCRC",
                 "柱配筋图纸校核",

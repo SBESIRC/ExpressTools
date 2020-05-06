@@ -22,12 +22,12 @@ namespace TianHua.AutoCAD.ThCui
                 // 专业
                 {
                     var subMenu = theMenu.AddSubMenu(-1, "专业", "ID_THMenu_Profile");
+                    subMenu.AddMenuItem(-1, "方案", "ID_THPROFILE _P");
                     subMenu.AddMenuItem(-1, "建筑", "ID_THPROFILE _A");
                     subMenu.AddMenuItem(-1, "结构", "ID_THPROFILE _S");
                     subMenu.AddMenuItem(-1, "暖通", "ID_THPROFILE _H");
                     subMenu.AddMenuItem(-1, "电气", "ID_THPROFILE _E");
                     subMenu.AddMenuItem(-1, "给排水", "ID_THPROFILE _W");
-                    subMenu.AddMenuItem(-1, "方案", "ID_THPROFILE _P");
                 }
 
                 // 第三方支持

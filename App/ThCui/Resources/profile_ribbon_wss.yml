@@ -23,7 +23,7 @@ panels:
     name: "CheckTool"
     title: "校核审查"
     items:
-      - text: "柱校核"
+      - text: "柱校核\r\n（公测）"
         attributes: { "IsVisible": true, "IsEnabled": true }
     attributes: { "IsVisible": false, "IsEnabled": true }
   - UID: "pnlStatistic"
