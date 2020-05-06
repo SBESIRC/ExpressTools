@@ -437,6 +437,7 @@ namespace ThColumnInfo.View
             if(e.Button == MouseButtons.Right)
             {
                 this.tvCheckRes.SelectedNode = e.Node;
+                return;
             }            
             bool isCurrentDocument = CheckRootNodeIsCurrentDocument(e.Node);
             if (isCurrentDocument == false)

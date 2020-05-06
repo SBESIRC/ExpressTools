@@ -56,15 +56,17 @@ namespace ThColumnInfo.View
         {
             _checkResult.BackColor = System.Drawing.Color.FromArgb(92,92,92);
             _ps.Style = PaletteSetStyles.ShowAutoHideButton |
-                    PaletteSetStyles.ShowCloseButton |
-                    PaletteSetStyles.Snappable;
+                    PaletteSetStyles.ShowCloseButton ;
             _ps.DockEnabled = DockSides.Left | DockSides.Right;
             _ps.Dock = DockSides.Left;
             SizeChange();
             _ps.Size = new System.Drawing.Size(250, 1000);
             _ps.MinimumSize = new System.Drawing.Size(250, 1000);
-            _ps.Location = new System.Drawing.Point(0, _ps.Location.Y);
-            _ps.DeviceIndependentLocation = new Point(0,0);            
+            _ps.Location = new System.Drawing.Point(-50, _ps.Location.Y);
+
+            //_ps.SetSize(new System.Drawing.Size(250, 1000));
+            //_ps.SetLocation(new System.Drawing.Point(-50, _ps.Location.Y));
+            //_ps.DeviceIndependentLocation = new Point(-50,0);            
         }
         private void SizeChange()
         {

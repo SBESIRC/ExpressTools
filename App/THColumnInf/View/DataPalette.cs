@@ -63,16 +63,15 @@ namespace ThColumnInfo.View
         {
             _dateResult.BackColor = System.Drawing.Color.FromArgb(92, 92, 92);
             _ps.Style = PaletteSetStyles.ShowAutoHideButton |
-                    PaletteSetStyles.ShowCloseButton |
-                    PaletteSetStyles.Snappable;
+                    PaletteSetStyles.ShowCloseButton;
             _ps.DockEnabled = DockSides.Bottom;
             _ps.Dock = DockSides.Bottom;
             _ps.Size = new System.Drawing.Size(800, 200);
             _ps.MinimumSize = new System.Drawing.Size(800, 200);
-
+ 
             int screenHeight=  Screen.PrimaryScreen.Bounds.Height;
             _ps.Location = new Point(_ps.Location.X, screenHeight - _ps.Size.Height);
-            _ps.DeviceIndependentLocation = new System.Windows.Point(0, screenHeight);
+            //_ps.DeviceIndependentLocation = new System.Windows.Point(0, screenHeight);
         }
     }
 }
