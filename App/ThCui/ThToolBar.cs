@@ -127,7 +127,6 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "消防平面模式", "ID_THXFPM");
                 toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
-                toolbar.AddToolbarButton(-1, "图块集配置", "ID_THBLS");
             }
         }
 
@@ -146,7 +145,6 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "提电气块转换", "ID_THBEE");
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
-                toolbar.AddToolbarButton(-1, "图块集配置", "ID_THBLS");
             }
         }
 
@@ -166,7 +164,6 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "处理底图", "ID_THLPP");
                 toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
-                toolbar.AddToolbarButton(-1, "图块集配置", "ID_THBLS");
             }
         }
     }

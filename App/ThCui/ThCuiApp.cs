@@ -23,7 +23,6 @@ namespace TianHua.AutoCAD.ThCui
     public class ThCuiApp : IExtensionApplication
     {
         ThPartialCui partialCui = new ThPartialCui();
-        ThToolPalette toolPalette = new ThToolPalette();
 
         private readonly Dictionary<string, string> thcommanfunctiondict = new Dictionary<string, string>
         {
@@ -32,7 +31,6 @@ namespace TianHua.AutoCAD.ThCui
 
             // 图块图库
             {"THBLI", "图块集"},
-            {"THBLS", "图块集配置"},
             {"THBEE", "提电气块转换"},
             {"THBBR", "插块断线"},
             {"THBBE", "选块断线"},
@@ -390,21 +388,13 @@ namespace TianHua.AutoCAD.ThCui
                 CommandFlags.Modal,
                 new CommandCallback(OnFeedback));
 
-            //注册打开工具选项板配置命令
-            Utils.AddCommand(
-                ThCuiCommon.CMD_GROUPNAME,
-                ThCuiCommon.CMD_THBLS_GLOBAL_NAME,
-                ThCuiCommon.CMD_THBLS_GLOBAL_NAME, 
-                CommandFlags.Modal, 
-                new CommandCallback(ShowToolPaletteConfigDialog));
-
             //注册工具选项板开关命令
             Utils.AddCommand(
                 ThCuiCommon.CMD_GROUPNAME,
                 ThCuiCommon.CMD_THBLI_GLOBAL_NAME,
                 ThCuiCommon.CMD_THBLI_GLOBAL_NAME, 
                 CommandFlags.Modal, 
-                new CommandCallback(toolPalette.ShowToolPalette));
+                new CommandCallback(OnShowToolPalette));
 
             //注册下载T20天正插件命令
             Utils.AddCommand(
@@ -449,7 +439,6 @@ namespace TianHua.AutoCAD.ThCui
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THHLP_GLOBAL_NAME);
-            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THBLS_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THBLI_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THFBK_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THT20PLUGINV4_GLOBAL_NAME);
@@ -607,9 +596,9 @@ namespace TianHua.AutoCAD.ThCui
             // 剩下的就交给CAD去根据"支持文件搜索路径"指定的路径来寻找图纸
             // https://knowledge.autodesk.com/support/autocad/troubleshooting/caas/sfdcarticles/sfdcarticles/Using-Source-File-field-for-tool-palette-block-data.html
             var supportPath = new SupportPath(AcadApp.Preferences);
-            foreach (var item in new string[] { "电气", "给排水", "暖通" })
+            foreach (var item in new string[] { ThCuiCommon.PATH_ELECTRICAL, ThCuiCommon.PATH_WSS, ThCuiCommon.PATH_HAVC })
             {
-                var path = Path.Combine(ThCADCommon.SupportPath(), "ToolPalette", item);
+                var path = Path.Combine(ThCADCommon.ToolPalettePath(), item);
                 if (bOverride && !supportPath.Contains(path))
                 {
                     supportPath.Add(path);
@@ -653,6 +642,8 @@ namespace TianHua.AutoCAD.ThCui
             ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
             // 根据当前的Profile配置Menubar
             ThMenuBarUtils.ConfigMenubarWithCurrentProfile();
+            // 根据当前的Profile配置ToolPalette
+            ThToolPaletteUtils.ConfigToolPaletteWithCurrentProfile();
         }
 
         private void OnLogOut()
@@ -666,6 +657,7 @@ namespace TianHua.AutoCAD.ThCui
                 ThRibbonUtils.CloseAllPanels();
                 ThToolbarUtils.CloseAllToolbars();
                 ThMenuBarUtils.DisableMenuItems();
+                ThToolPaletteUtils.RemoveAllToolPalettes();
             }
         }
 
@@ -774,12 +766,9 @@ namespace TianHua.AutoCAD.ThCui
 #endif
         }
 
-        /// <summary>
-        /// 显示工具选项板配置
-        /// </summary>
-        public void ShowToolPaletteConfigDialog()
+        private void OnShowToolPalette()
         {
-            AcadApp.ShowModalDialog(toolPalette);
+            Active.Document.SendStringToExecute("_.TOOLPALETTES ", true, false, true);
         }
 
         /// <summary>

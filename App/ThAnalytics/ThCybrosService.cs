@@ -30,7 +30,6 @@ namespace ThAnalytics
             
             // 图块图库
             {"THBLI", "图块集"},
-            {"THBLS", "图块集配置"},
             {"THBEE", "提电气块转换"},
             {"THBBR", "插块断线"},
             {"THBBE", "选块断线"},

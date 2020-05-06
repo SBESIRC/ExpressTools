@@ -110,7 +110,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
-                <Command Local="THBLS" Global="THBLS" />
+                <Command Local="THBLI" Global="THBLI" />
                 <Command Local="THFBK" Global="THFBK" />
                 <Command Local="T20V4" Global="T20V4" />
                 <Command Local="T20V5" Global="T20V5" />
@@ -125,7 +125,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
-                <Command Local="THBLS" Global="THBLS" />
+                <Command Local="THBLI" Global="THBLI" />
                 <Command Local="THFBK" Global="THFBK" />
                 <Command Local="T20V4" Global="T20V4" />
                 <Command Local="T20V5" Global="T20V5" />
@@ -140,7 +140,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
-                <Command Local="THBLS" Global="THBLS" />
+                <Command Local="THBLI" Global="THBLI" />
                 <Command Local="THFBK" Global="THFBK" />
                 <Command Local="T20V4" Global="T20V4" />
                 <Command Local="T20V5" Global="T20V5" />
@@ -155,7 +155,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
-                <Command Local="THBLS" Global="THBLS" />
+                <Command Local="THBLI" Global="THBLI" />
                 <Command Local="THFBK" Global="THFBK" />
                 <Command Local="T20V4" Global="T20V4" />
                 <Command Local="T20V5" Global="T20V5" />

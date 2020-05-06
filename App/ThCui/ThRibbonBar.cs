@@ -776,15 +776,6 @@ namespace TianHua.AutoCAD.ThCui
                 "IDI_THCAD_THBLI",
                 RibbonButtonStyle.LargeWithText);
 
-            // 图块集配置
-            row.AddNewButton("图块集配置",
-                "天华图块集配置",
-                "THBLS",
-                "配置各专业图块集",
-                "IDI_THCAD_THBLS",
-                "IDI_THCAD_THBLS",
-                RibbonButtonStyle.LargeWithText);
-
             // 图块断线
             {
                 var splitButton = row.AddNewSplitButton(

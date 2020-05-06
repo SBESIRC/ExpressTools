@@ -7,7 +7,6 @@
         /// </summary>
         public static readonly string CMD_GROUPNAME = "TIANHUACAD";
         public static readonly string CMD_THHLP_GLOBAL_NAME = "THHLP";
-        public static readonly string CMD_THBLS_GLOBAL_NAME = "THBLS";
         public static readonly string CMD_THBLI_GLOBAL_NAME = "THBLI";
         public static readonly string CMD_THFBK_GLOBAL_NAME = "THFBK";
         public static readonly string CMD_THT20PLUGINV4_GLOBAL_NAME = "T20V4";
@@ -28,5 +27,9 @@
         public static readonly string PROFILE_ELECTRICAL = "天华电气";
         public static readonly string PROFILE_ARCHITECTURE = "天华建筑";
         public static readonly string PROFILE_GENERAL = "天华通用";
+
+        public static readonly string PATH_WSS = "给排水";
+        public static readonly string PATH_HAVC = "暖通";
+        public static readonly string PATH_ELECTRICAL = "电气";
     }
 }
