@@ -683,7 +683,7 @@ namespace ThColumnInfo
                 columnId, out protectThickness);
             if (!findRes)
             {
-                findRes = yjkModelDb.GetProtectLayerThickInTblStdFlrPara(
+                findRes = yjkCalculateDb.GetProtectLayerThickInTblStdFlrPara(
                     columnRelateInf.DbColumnInf.StdFlrID, out protectThickness);
                 if (!findRes)
                 {
@@ -906,13 +906,16 @@ namespace ThColumnInfo
         /// <param name="entityId"></param>
         /// <param name="yjkColumnDataInfo"></param>
         /// <param name="columnCustomData"></param>
-        private void GetExtensionDictionary(ObjectId entityId, YjkColumnDataInfo yjkColumnDataInfo, 
-            ColumnCustomData columnCustomData,DrawColumnInf drawColumnInf)
+        private Tuple<YjkColumnDataInfo, ColumnCustomData, DrawColumnInf> GetExtensionDictionary(ObjectId entityId)
         {
+            YjkColumnDataInfo yjkColumnDataInfo = new YjkColumnDataInfo();
+            ColumnCustomData columnCustomData = new ColumnCustomData();
+            DrawColumnInf drawColumnInf = new DrawColumnInf();
+
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
             if (entityId == ObjectId.Null)
-                return;
+                return new Tuple<YjkColumnDataInfo, ColumnCustomData, DrawColumnInf> (yjkColumnDataInfo, columnCustomData, drawColumnInf);
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
                 DBObject dbObj = tr.GetObject(entityId, OpenMode.ForRead);
@@ -980,6 +983,7 @@ namespace ThColumnInfo
                 }
                 tr.Commit();
             }
+            return new Tuple<YjkColumnDataInfo, ColumnCustomData, DrawColumnInf>(yjkColumnDataInfo, columnCustomData, drawColumnInf);
         }
         /// <summary>
         /// 删除柱子外框
@@ -1027,18 +1031,17 @@ namespace ThColumnInfo
                 if (polylineId == ObjectId.Null)
                 {
                     continue;
-                }
-                YjkColumnDataInfo yjkColumnDataInfo = new YjkColumnDataInfo();
-                ColumnCustomData columnCustomData = new ColumnCustomData();
-                DrawColumnInf drawColumnInf = new DrawColumnInf();
-                GetExtensionDictionary(polylineId, yjkColumnDataInfo, columnCustomData, drawColumnInf);
+                }                   
+               
+                Tuple<YjkColumnDataInfo, ColumnCustomData, DrawColumnInf> ycd=
+                    GetExtensionDictionary(polylineId);
                 ColumnRelateInf columnRelateInf = new ColumnRelateInf()
                 {
-                    DbColumnInf = drawColumnInf,
-                    CustomData = columnCustomData,
+                    DbColumnInf = ycd.Item3,
+                    CustomData = ycd.Item2,
                     ModelColumnInfs = new List<ColumnInf> { thStandardSign.SignExtractColumnInfo.ColumnInfs[i] },
                     InModelPts = thStandardSign.SignExtractColumnInfo.ColumnInfs[i].Points, //初始化为柱子的点,后期如果需要把Yjk柱子中的点存入
-                    YjkColumnData = yjkColumnDataInfo
+                    YjkColumnData = ycd.Item1
                 };
                 columnRelateInfs.Add(columnRelateInf);
                 ThProgressBar.MeterProgress();
