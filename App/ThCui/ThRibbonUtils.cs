@@ -104,6 +104,9 @@ namespace TianHua.AutoCAD.ThCui
                         IEnumerable<RibbonItem> items = null;
                         switch (profile)
                         {
+                            case Profile.PROJECTPLAN:
+                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _P");
+                                break;
                             case Profile.ARCHITECTURE:
                                 items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _A");
                                 break;
@@ -118,9 +121,6 @@ namespace TianHua.AutoCAD.ThCui
                                 break;
                             case Profile.WSS:
                                 items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _W");
-                                break;
-                            case Profile.PROJECTPLAN:
-                                items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _P");
                                 break;
                             default:
                                 break;

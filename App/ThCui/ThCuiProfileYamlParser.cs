@@ -17,6 +17,9 @@ namespace TianHua.AutoCAD.ThCui
             string config = null;
             switch (profile)
             {
+                case Profile.PROJECTPLAN:
+                    config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_project.yml");
+                    break;
                 case Profile.ARCHITECTURE:
                     config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_architecture.yml");
                     break;
@@ -31,9 +34,6 @@ namespace TianHua.AutoCAD.ThCui
                     break;
                 case Profile.WSS:
                     config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_wss.yml");
-                    break;
-                case Profile.PROJECTPLAN:
-                    config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_project.yml");
                     break;
                 default:
                     throw new NotSupportedException();
