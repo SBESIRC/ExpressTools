@@ -264,6 +264,12 @@ namespace ThColumnInfo
                 this.dwgHasCalNotColumns.Add(thRelateColumn.RestColumnInfs[i]);
                 ThProgressBar.MeterProgress();
             }
+
+            RelateColumnFrameId();
+        }
+        private void RelateCorrectColumn(List<ColumnInf> columnInfs)
+        {
+
         }
         /// <summary>
         /// 埋入数据
@@ -290,12 +296,27 @@ namespace ThColumnInfo
                 }
                 ThProgressBar.MeterProgress();
             }
-        }        
+        }
+        /// <summary>
+        /// 关联正确识别的柱子和计算书正确的柱子
+        /// </summary>
+        private void RelateColumnFrameId()
+        {
+            for (int i = 0; i < this.thStandardSign.SignExtractColumnInfo.ColumnInfs.Count; i++)
+            {
+                if (this.thStandardSign.SignExtractColumnInfo.ColumnInfs[i].Error != ErrorMsg.OK)
+                {
+                    continue;
+                }
+                RelateCalulationColumn(this.thStandardSign.SignExtractColumnInfo.ColumnInfs[i]);
+                ThProgressBar.MeterProgress();
+            }
+        }
         /// <summary>
         /// 关联计算书中正确的柱子
         /// </summary>
         /// <returns></returns>
-        public void RelateCalulationColumn(ColumnInf columnInf)
+        private void RelateCalulationColumn(ColumnInf columnInf)
         {
             if(columnInf.Points.Count==0)
             {
@@ -340,6 +361,21 @@ namespace ThColumnInfo
                 {
                     res = true;
                     this.dwgHasCalNotColumns[i].Text = columnInf.Text;
+                    break;
+                }
+            }
+            return res;
+        }
+        public bool CheckCorrectColumnInCorrectColumns(ColumnInf columnInf)
+        {
+            bool res = false;
+            for (int i = 0; i < this.columnFrameIds.Count; i++)
+            {
+                List<Point3d> pts = ThColumnInfoUtils.GetPolylinePts(this.columnFrameIds[i]);
+                if (CheckTwoPtListEqual(pts, columnInf.Points))
+                {
+                    res = true;
+                    columnInf.FrameId = this.columnFrameIds[i];
                     break;
                 }
             }

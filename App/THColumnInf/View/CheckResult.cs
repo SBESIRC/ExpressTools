@@ -772,11 +772,8 @@ namespace ThColumnInfo.View
                 //将识别的结果更新到面板
                 tn.Nodes.Clear();
                 FillDrawCheckInfToTreeView(thStandardSign.SignExtractColumnInfo, tn, showImportCalInf);
-                if(showImportCalInf)
-                {
-                    FillPlantCalResultToTree(tn);
-                }
-                if(!originShowImportCalInf) //如是导入计算书，则无需校验
+                FillPlantCalResultToTree(tn);
+                if (!originShowImportCalInf) //如是导入计算书，则无需校验
                 {
                     List<ColumnInf> correctColumnInfs = GetDataCorrectColumnInfs(tn);
                     //校核柱子

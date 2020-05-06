@@ -171,6 +171,7 @@ namespace ThColumnInfo
             ViewTableRecord view = doc.Editor.GetCurrentView();
             try
             {
+                ClearColumnInfs();
                 COMTool.ZoomWindow(ThColumnInfoUtils.TransPtFromUcsToWcs(this.rangePt1)
                     , ThColumnInfoUtils.TransPtFromUcsToWcs(this.rangePt2));
                 //提取柱表
@@ -192,6 +193,16 @@ namespace ThColumnInfo
             {
                 doc.Editor.SetCurrentView(view);
             }
+        }
+        public void ClearColumnInfs()
+        {
+            if(this.ColumnInfs.Count==0)
+            {
+                return;
+            }
+            List<ObjectId> frameIds = this.ColumnInfs.Select(i => i.FrameId).ToList();
+            ThColumnInfoUtils.EraseObjIds(frameIds.ToArray());
+            this.ColumnInfs.Clear();
         }
         public List<List<Point3d>> GetRangeColumnPoints()
         {

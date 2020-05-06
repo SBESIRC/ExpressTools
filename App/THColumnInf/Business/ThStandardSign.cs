@@ -150,20 +150,7 @@ namespace ThColumnInfo
             {
                 ThColumnInfoUtils.WriteException(ex, "ThColumnInfoCheckWindow");
             }            
-        }
-        public void RelateColumnFrameId()
-        {
-            for (int i=0;i<this.SignExtractColumnInfo.ColumnInfs.Count;i++)
-            {
-                if(this.SignExtractColumnInfo.ColumnInfs[i].Error!=ErrorMsg.OK)
-                {
-                    continue;
-                }
-                this.SignPlantCalData.RelateCalulationColumn(this.SignExtractColumnInfo.ColumnInfs[i]);
-                ThProgressBar.MeterProgress();
-            }
-        }
-
+        }       
         public object Clone()
         {
             ThStandardSign thStandardSign = new ThStandardSign(this.br);
