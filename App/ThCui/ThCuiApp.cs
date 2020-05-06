@@ -676,7 +676,10 @@ namespace TianHua.AutoCAD.ThCui
 
         private void OnFeedback()
         {
-            //
+            using (var dlg = new ThFeedBackDlg())
+            {
+                AcadApp.ShowModalDialog(dlg);
+            }
         }
 
         private void OnResetCui()

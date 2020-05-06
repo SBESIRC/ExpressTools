@@ -37,6 +37,12 @@
     <Compile Include="Download\ThT20PlugInDownloadDlg.Designer.cs">
       <DependentUpon>ThT20PlugInDownloadDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="ThFeedBackDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThFeedBackDlg.designer.cs">
+      <DependentUpon>ThFeedBackDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="ThCuiApp.cs" />
     <Compile Include="ThCuiCmdHandler.cs" />
     <Compile Include="ThCuiCommon.cs" />
@@ -66,6 +72,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Download\ThT20PlugInDownloadDlg.resx">
       <DependentUpon>ThT20PlugInDownloadDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThFeedBackDlg.resx">
+      <DependentUpon>ThFeedBackDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ThLoginDlg.resx">
       <DependentUpon>ThLoginDlg.cs</DependentUpon>
