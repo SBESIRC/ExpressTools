@@ -50,8 +50,7 @@ namespace ThStructure.BeamInfo.Command
                     acdb.ModelSpace.Add(item.BeamBoundary);
                 }
 
-                //打印梁信息
-                PrintInfo(allBeam, false);
+                PrintInfo(allBeam, true);
             }
         }
 
