@@ -730,29 +730,29 @@ namespace TianHua.AutoCAD.ThCui
                     RibbonSplitButtonListStyle.IconText,
                     RibbonButtonStyle.LargeWithText);
 
-                // 平时通风模式
-                splitButton.AddNewButton("平时通风模式",
-                    "平时通风模式",
+                // 通风模式
+                splitButton.AddNewButton("通风模式",
+                    "通风模式",
                     "THPSTF",
-                    "切换到平时通风模式",
+                    "切换到通风模式",
                     "IDI_THCAD_THPSTF_SMALL",
                     "IDI_THCAD_THPSTF_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
-                // 水管平面模式
-                splitButton.AddNewButton("水管平面模式",
-                    "水管平面模式",
-                    "THSGPM",
-                    "切换到水管平面模式",
+                // 水管模式
+                splitButton.AddNewButton("水管模式",
+                    "水管模式",
+                    "THSG",
+                    "切换到水管模式",
                     "IDI_THCAD_THSGPM_SMALL",
                     "IDI_THCAD_THSGPM_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
-                // 消防平面模式
-                splitButton.AddNewButton("消防平面模式",
-                    "消防平面模式",
-                    "THXFPM",
-                    "切换到消防平面模式",
+                // 消防模式
+                splitButton.AddNewButton("消防模式",
+                    "消防模式",
+                    "THXF",
+                    "切换到消防模式",
                     "IDI_THCAD_THXFPM_SMALL",
                     "IDI_THCAD_THXFPM_LARGE",
                     RibbonButtonStyle.LargeWithText);

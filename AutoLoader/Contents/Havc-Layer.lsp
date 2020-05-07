@@ -102,8 +102,8 @@
     (setvar 'clayer  "0")
 )
 
-; 进入平时通风模式
-(defun c:THPSTF(  / *error* )            
+; 进入通风模式
+(defun c:THTF(  / *error* )            
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
         (if (not (member msg '("Function cancelled" "quit / exit abort")))
@@ -159,8 +159,8 @@
     (princ)
 )
 
-; 进入水管平面模式
-(defun c:THSGPM( / *error* )
+; 进入水管模式
+(defun c:THSG( / *error* )
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
         (if (not (member msg '("Function cancelled" "quit / exit abort")))
@@ -215,8 +215,8 @@
     (princ)
 )
 
-; 进入消防平面模式
-(defun c:THXFPM( / *error* )
+; 进入消防模式
+(defun c:THXF( / *error* )
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
         (if (not (member msg '("Function cancelled" "quit / exit abort")))
