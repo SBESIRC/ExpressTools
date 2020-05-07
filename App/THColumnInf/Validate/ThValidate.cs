@@ -83,7 +83,7 @@ namespace ThColumnInfo.Validate
             return value;
         }
         /// <summary>
-        /// 
+        /// 获取抗震等级
         /// </summary>
         /// <param name="paraValue"></param>
         /// <param name="controlIndex">-1,0,1</param>
@@ -121,6 +121,31 @@ namespace ThColumnInfo.Validate
                 antiSeismicGrade = value;
             }
             return antiSeismicGrade;
+        }
+        /// <summary>
+        /// 获取设防烈度
+        /// </summary>
+        /// <param name="paraValue"></param>
+        /// <param name="controlIndex">-1,0,1</param>
+        /// <returns></returns>
+        public static bool GetFortiCation(double paraValue,out double fortication)
+        {
+            bool findRes = false;
+            fortication = 0.0;
+            List<Tuple<double, double>> tuples = new List<Tuple<double, double>>();
+            tuples.Add(new Tuple<double, double>(30201, 6));
+            tuples.Add(new Tuple<double, double>(30202, 7));
+            tuples.Add(new Tuple<double, double>(30203, 7));
+            tuples.Add(new Tuple<double, double>(30204, 8));
+            tuples.Add(new Tuple<double, double>(30205, 8));
+            tuples.Add(new Tuple<double, double>(30206, 9));            
+            var res = tuples.Where(i => i.Item1 == paraValue).Select(i => i).ToList();
+            if(res!=null && res.Count>0)
+            {
+                findRes = true;
+                fortication = res.First().Item2;
+            }
+            return findRes;
         }
         public static Dictionary<string,double> GetStructureTypeDic()
         {

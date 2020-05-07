@@ -236,14 +236,13 @@ namespace ThColumnInfo
             intStirrupSpacingCal = 0.0;
             try
             {
-                string sql = "select * from tblProjectPara where ID =" + 817;
+                string sql = "select * from tblProjectPara where ID =817";
                 DataTable dt = ExecuteDataTable(sql);
                 foreach (DataRow dr in dt.Rows)
                 {
                     if (dr["ParaVal"] != null)
                     {
-                        intStirrupSpacingCal = (double)dr["ParaVal"];
-                        res = true;
+                        res = double.TryParse(dr["ParaVal"].ToString(), out intStirrupSpacingCal);
                     }
                     break;
                 }
@@ -370,15 +369,10 @@ namespace ThColumnInfo
                 DataTable dt = ExecuteDataTable(sql);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    if (dr["AsBiAxialT"] != null)
+                    if (string.IsNullOrEmpty(dr["AsBiAxialT"].ToString().Trim()) &&
+                       string.IsNullOrEmpty(dr["AsBiAxialB"].ToString().Trim())) 
                     {
-                        isCorner = true;
-                        break;
-                    }
-                    if (dr["AsBiAxialB"] != null)
-                    {
-                        isCorner = true;
-                        break;
+                        isCorner = true;                       
                     }
                     break;
                 }
@@ -439,7 +433,7 @@ namespace ThColumnInfo
             protectLayerThickness = 0.0;
             try
             {
-                string sql = "select ParaVal from tblStdFlrPara where StdFlrID =" + strFlrID + " and Kind=14";
+                string sql = "select * from tblStdFlrPara where StdFlrID =" + strFlrID + " and Kind=14";
                 DataTable dt = ExecuteDataTable(sql);
                 string protectThickStr = "";
                 foreach (DataRow dr in dt.Rows)
@@ -597,38 +591,46 @@ namespace ThColumnInfo
             return paraVal;
         }
         /// <summary>
-        /// 从模型库中获取工程信息表中的抗震等级
+        /// 从模型库(dtlModel)中的表tblColSegPara中获取抗震等级 获取抗震等级在
         /// </summary>
         /// <returns></returns>
         public List<double> GetAntiSeismicGradeInModel()
         {
-            double firstValue = 0.0;
-            double secondValue = 0.0;
+            List<double> res = new List<double>();
+            double paraVal = 0.0;
+            double adjustVal = 0.0;
             try
             {
-                string sql = "select * from tblProjectPara where ID =701 or ID=704";
-                DataTable dt = ExecuteDataTable(sql);
-                
+                string sql = "select ID,ParaVal from tblProjectPara where ID=701 or ID=704";
+                DataTable dt = ExecuteDataTable(sql);                
                 foreach (DataRow dr in dt.Rows)
                 {
-                    if (dr["ID"] != null)
+                    if(dr["ID"]!=null)
                     {
-                        if(dr["ID"].ToString()== "701")
+                        if(Convert.ToDouble(dr["ID"])==701)
                         {
-                            firstValue = Convert.ToDouble(dr["ParaVal"]);
+                            if (dr["ParaVal"] != null)
+                            {
+                                paraVal = Convert.ToDouble(dr["ParaVal"]);
+                            }
                         }
-                        else if(dr["ID"].ToString() == "704")
+                        if (Convert.ToDouble(dr["ID"]) == 704)
                         {
-                            secondValue= Convert.ToDouble(dr["ParaVal"]);
+                            if (dr["ParaVal"] != null)
+                            {
+                                adjustVal = Convert.ToDouble(dr["ParaVal"]);
+                            }
                         }
-                    }
-                }
+                    }                    
+                }               
             }
             catch (System.Exception ex)
             {
                 ThColumnInfoUtils.WriteException(ex, "GetAntiSeismicGradeInCalculation");
             }
-            return new List<double> { firstValue , secondValue };
+            res.Add(paraVal);
+            res.Add(adjustVal);
+            return res;
         }
         /// <summary>
         /// 从模型库中获取工程信息表中的结构类型
@@ -663,7 +665,7 @@ namespace ThColumnInfo
         /// <returns></returns>
         public List<double> GetDblXYAsCal(int columnID)
         {
-            List<double> xyValues = new List<double>() {0.0,0.0};
+            List<double> xyValues = new List<double>();
             try
             {
                 string sql = "select AsDsnT,AsDsnB from tblRCColDsn where ID =" + columnID;

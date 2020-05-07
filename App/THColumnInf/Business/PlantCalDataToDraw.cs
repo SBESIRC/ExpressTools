@@ -676,14 +676,18 @@ namespace ThColumnInfo
             {
                 yjkColumnDataInfo.AntiSeismicGrade = ThValidate.GetAntiSeismicGrade(antiSeismicGradeParaValue);
             }
-
+            else
+            {
+                List<double> antiSeismicGradeValues = yjkModelDb.GetAntiSeismicGradeInModel();
+                yjkColumnDataInfo.AntiSeismicGrade = ThValidate.GetAntiSeismicGrade(antiSeismicGradeValues[0], antiSeismicGradeValues[1]);
+            }
             //获取保护层厚度
             double protectThickness = 0.0;
             bool findRes = yjkCalculateDb.GetProtectLayerThickInTblColSegPara(
                 columnId, out protectThickness);
             if (!findRes)
             {
-                findRes = yjkCalculateDb.GetProtectLayerThickInTblStdFlrPara(
+                findRes = yjkModelDb.GetProtectLayerThickInTblStdFlrPara(
                     columnRelateInf.DbColumnInf.StdFlrID, out protectThickness);
                 if (!findRes)
                 {
@@ -700,17 +704,25 @@ namespace ThColumnInfo
 
             //获取配筋面积限值
             List<double> values = yjkCalculateDb.GetDblXYAsCal(columnId);
-            yjkColumnDataInfo.DblXAsCal = values[0];
-            yjkColumnDataInfo.DblYAsCal = values[1];
-
+            if(values.Count==2)
+            {
+                yjkColumnDataInfo.DblXAsCal = values[0];
+                yjkColumnDataInfo.DblYAsCal = values[1];
+            }
             //是否底层
             yjkColumnDataInfo.IsGroundFloor = CheckIsGroundFloor();
 
             //获取设防烈度
             double fortiCation = 0.0;
-            bool res2 = yjkModelDb.GetFortificationIntensity(out fortiCation);
-            yjkColumnDataInfo.FortiCation = fortiCation;
-
+            if (yjkModelDb.GetFortificationIntensity(out fortiCation))
+            {
+                double fortiCationRealValue = 0.0;
+                if (ThValidate.GetFortiCation(fortiCation, out fortiCationRealValue))
+                {
+                    yjkColumnDataInfo.FortiCation = fortiCationRealValue;
+                }
+            }
+            
             //获取体积配筋率限值
             double volumeReinforceLimitedValue = 0.0;
             bool resVRLV = yjkCalculateDb.GetVolumeReinforceLimitedValue(

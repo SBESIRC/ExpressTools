@@ -14,8 +14,8 @@ namespace ThColumnInfo
         private string hoopReinforceEnlargeTimes ="1"; //箍筋放大倍数
         private string longitudinalReinforceEnlargeTimes = "1"; //纵筋放大倍数
 
-        private string hoopReinforceFullHeightEncryption= "否"; //箍筋全高加密 -> "是"、“否”
-        private string cornerColumn = "否"; //角柱 -> "是"、“空”
+        private string hoopReinforceFullHeightEncryption= ""; //箍筋全高加密 -> "是"、“否”
+        private string cornerColumn = ""; //角柱 -> "是"、“空”
 
         /// <summary>
         /// 抗震等级

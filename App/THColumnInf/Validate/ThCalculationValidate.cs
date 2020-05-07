@@ -202,7 +202,7 @@ namespace ThColumnInfo.Validate
         /// <returns></returns>
         private void GetAntiSeismicGrade()
         {
-            if(this.columnRelateInf==null)
+            if (this.columnRelateInf != null)
             {
                 //构件属性定义
                 if (this.columnRelateInf.CustomData != null)
@@ -237,7 +237,7 @@ namespace ThColumnInfo.Validate
         /// </summary>
         private void GetProtectLayerThickness()
         {
-            if (this.columnRelateInf == null)
+            if (this.columnRelateInf != null)
             {
                 //构件属性定义
                 if (this.columnRelateInf.CustomData != null)
@@ -247,7 +247,7 @@ namespace ThColumnInfo.Validate
                         double value = 0.0;
                         if (double.TryParse(this.columnRelateInf.CustomData.ProtectLayerThickness, out value))
                         {
-                            if(value>0.0)
+                            if (value > 0.0)
                             {
                                 this.protectLayerThickness = value;
                                 return;
@@ -258,7 +258,7 @@ namespace ThColumnInfo.Validate
                 //YJK
                 if (this.columnRelateInf.YjkColumnData != null)
                 {
-                    if (this.columnRelateInf.YjkColumnData.ProtectThickness>0)
+                    if (this.columnRelateInf.YjkColumnData.ProtectThickness > 0)
                     {
                         this.protectLayerThickness = this.columnRelateInf.YjkColumnData.ProtectThickness;
                         return;
@@ -274,7 +274,7 @@ namespace ThColumnInfo.Validate
         /// </summary>
         private void GetConcreteStrength()
         {
-            if (this.columnRelateInf == null)
+            if (this.columnRelateInf != null)
             {
                 //构件属性定义
                 if (this.columnRelateInf.CustomData != null)
@@ -296,19 +296,19 @@ namespace ThColumnInfo.Validate
         /// </summary>
         private void GetCornerColumn()
         {
-            if (this.columnRelateInf == null)
+            if (this.columnRelateInf != null)
             {
                 //构件属性定义
                 if (this.columnRelateInf.CustomData != null)
                 {
                     if (!string.IsNullOrEmpty(this.columnRelateInf.CustomData.CornerColumn))
                     {
-                        if(this.columnRelateInf.CustomData.CornerColumn=="是")
+                        if (this.columnRelateInf.CustomData.CornerColumn == "是")
                         {
                             this.cornerColumn = true;
                             return;
                         }
-                        else if(this.columnRelateInf.CustomData.CornerColumn == "否" )
+                        else if (this.columnRelateInf.CustomData.CornerColumn == "否")
                         {
                             this.cornerColumn = false;
                             return;
@@ -325,7 +325,7 @@ namespace ThColumnInfo.Validate
         /// </summary>
         private void GetHoopReinforceEnlargeTimes()
         {
-            if (this.columnRelateInf == null)
+            if (this.columnRelateInf != null)
             {
                 //构件属性定义
                 if (this.columnRelateInf.CustomData != null)
@@ -352,7 +352,7 @@ namespace ThColumnInfo.Validate
         /// </summary>
         private void GetLongitudinalReinforceEnlargeTimes()
         {
-            if (this.columnRelateInf == null)
+            if (this.columnRelateInf != null)
             {
                 //构件属性定义
                 if (this.columnRelateInf.CustomData != null)
@@ -376,7 +376,7 @@ namespace ThColumnInfo.Validate
         }
         private void GetHoopReinforceFullHeightEncryption()
         {
-            if (this.columnRelateInf == null)
+            if (this.columnRelateInf != null)
             {
                 //构件属性定义
                 if (this.columnRelateInf.CustomData != null)
@@ -404,7 +404,7 @@ namespace ThColumnInfo.Validate
         /// </summary>
         private void GetStructureType()
         {
-            if (this.columnRelateInf == null)
+            if (this.columnRelateInf != null)
             {
                 //构件属性定义
                 if (this.columnRelateInf.YjkColumnData != null)
