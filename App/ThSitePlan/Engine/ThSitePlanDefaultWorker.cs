@@ -121,4 +121,23 @@ namespace ThSitePlan.Engine
             return new ObjectIdCollection();
         }
     }
+
+    public class ThSitePlanTrimWorker : ThSitePlanWorker
+    {
+        public override bool DoProcess(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                var ent = acadDatabase.Element<Entity>((ObjectId)options.Options["Frame"]);
+                Active.Editor.TrimCmd(ent);
+            }
+            return true;
+        }
+
+        public override ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            return new ObjectIdCollection();
+        }
+    }
+
 }

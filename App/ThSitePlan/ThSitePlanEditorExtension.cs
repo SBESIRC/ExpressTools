@@ -9,6 +9,7 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using Autodesk.AutoCAD.ApplicationServices;
 
 namespace ThSitePlan
 {
@@ -355,6 +356,106 @@ namespace ThSitePlan
                );
             Active.Editor.AcedCmd(args);
 #endif
+        }
+
+        public static void TrimCmd(this Editor editor, Entity bdent)
+        {
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("Zoom",
+                "_W",
+                new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MinPoint.Y - 100, 0),
+                new Point3d(bdent.GeometricExtents.MaxPoint.X + 10, bdent.GeometricExtents.MaxPoint.Y + 100, 0),
+                "");
+            Active.Editor.Command("_.TRIM",
+                    SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId }),
+                    "",
+                    "_F",
+                    new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MinPoint.Y - 1, 0),
+                    new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0),
+                    "",
+                    "");
+
+            Active.Editor.Command("_.TRIM",
+                SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId }),
+                "",
+                "_F",
+                new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MinPoint.Y - 1, 0),
+                new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0),
+                "",
+                "");
+
+            Active.Editor.Command("_.TRIM",
+                SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId }),
+                "",
+                "_F",
+                new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MinPoint.Y - 1, 0),
+                new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MinPoint.Y - 1, 0),
+                "",
+                "");
+
+            Active.Editor.Command("_.TRIM",
+                SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId }),
+                "",
+                "_F",
+                new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0),
+                new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0),
+                "",
+                "");
+#else
+            ResultBuffer args1 = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.TRIM"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId })),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Text, "_F"),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MinPoint.Y - 1, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0)),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args1);
+
+            ResultBuffer args2 = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.TRIM"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId })),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Text, "_F"),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MinPoint.Y - 1, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0)),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args2);
+
+            ResultBuffer args3 = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.TRIM"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId })),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Text, "_F"),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MinPoint.Y - 1, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MinPoint.Y - 1, 0)),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args3);
+
+            ResultBuffer args4 = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.TRIM"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId })),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Text, "_F"),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0)),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args4);
+
+#endif
+        }
+
+        public static void RectangCmd(this Editor editor, Point3d firstcorner, Point3d Seccorner)
+        {
+            Active.Editor.Command("_.RECTANG", firstcorner, Seccorner);
         }
     }
 }

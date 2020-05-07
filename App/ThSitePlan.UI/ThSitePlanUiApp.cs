@@ -144,6 +144,7 @@ namespace ThSitePlan.UI
                 {
                     new ThSitePlanFrameNameGenerator(),
                     new ThSitePlanContentGenerator(),
+                    new ThSitePlanTrimGenerator(),
                     new ThSitePlanBoundaryGenerator(),
                     new ThSitePlanHatchGenerator(),
                     new ThSitePlanShadowGenerator(),
