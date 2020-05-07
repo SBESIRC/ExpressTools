@@ -222,7 +222,11 @@ namespace ThColumnInfo
                     {
                         this.columnFrameIds.Add(objectId);
                     }
-                    DrawCalculation(thRelateColumn.ColumnRelateInfs[i]);
+                    if(emportCalculation)
+                    {
+                        //只有导入计算书，才埋入数据
+                        DrawCalculation(thRelateColumn.ColumnRelateInfs[i]);
+                    }
                     thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs[0].FrameId = objectId;
                 }
                 else if (thRelateColumn.ColumnRelateInfs[i].ModelColumnInfs == null ||
@@ -918,7 +922,7 @@ namespace ThColumnInfo
         /// <param name="entityId"></param>
         /// <param name="yjkColumnDataInfo"></param>
         /// <param name="columnCustomData"></param>
-        private Tuple<YjkColumnDataInfo, ColumnCustomData, DrawColumnInf> GetExtensionDictionary(ObjectId entityId)
+        public Tuple<YjkColumnDataInfo, ColumnCustomData, DrawColumnInf> GetExtensionDictionary(ObjectId entityId)
         {
             YjkColumnDataInfo yjkColumnDataInfo = new YjkColumnDataInfo();
             ColumnCustomData columnCustomData = new ColumnCustomData();

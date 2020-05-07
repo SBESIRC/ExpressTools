@@ -199,5 +199,68 @@ namespace ThColumnInfo
                 }
             }
         }
+        [CommandMethod("TIANHUACAD", "ThLook", CommandFlags.Modal)]
+        public void LookEmbededColumn()
+        {
+            PlantCalDataToDraw plantCal = new PlantCalDataToDraw();
+            plantCal.GetEmbededColumnIds();
+            if (plantCal.EmbededColumnIds.Count == 0)
+            {
+                MessageBox.Show("未能发现任何埋入的柱子实体，无法浏览埋入的数据!");
+                return;
+            }
+            Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
+            try
+            {
+                ThColumnInfoUtils.ShowObjIds(plantCal.EmbededColumnIds.ToArray(), true);
+                bool domark = true;
+                while(domark)
+                {
+                   var res= doc.Editor.GetEntity("\n选择埋入的柱子实体");
+                    if(res.Status== Autodesk.AutoCAD.EditorInput.PromptStatus.OK)
+                    {
+                        var embededData = plantCal.GetExtensionDictionary(res.ObjectId);
+                        doc.Editor.WriteMessage("\n---------------YJK数据---------------");
+                        doc.Editor.WriteMessage("\nJtID: " + embededData.Item3.JtID);
+                        doc.Editor.WriteMessage("\nFloorID: " + embededData.Item3.FloorID);
+                        doc.Editor.WriteMessage("\nStdFlrID: " + embededData.Item3.StdFlrID);
+                        doc.Editor.WriteMessage("\n剪跨比: "+ embededData.Item1.Jkb);
+                        doc.Editor.WriteMessage("\n轴压比: " + embededData.Item1.AxialCompressionRatio);
+                        doc.Editor.WriteMessage("\n轴压比限值: "+ embededData.Item1.AxialCompressionRatioLimited);
+                        doc.Editor.WriteMessage("\n角筋直径限值: "+ embededData.Item1.ArDiaLimited);
+                        doc.Editor.WriteMessage("\n抗震等级: " + embededData.Item1.AntiSeismicGrade);
+                        doc.Editor.WriteMessage("\n保护层厚度: "+ embededData.Item1.ProtectThickness);
+                        doc.Editor.WriteMessage("\n是否角柱: " + embededData.Item1.IsCorner);
+                        doc.Editor.WriteMessage("\n结构类型: "+ embededData.Item1.StructureType);
+                        doc.Editor.WriteMessage("\n配筋面积限值(X向限值): "+ embededData.Item1.DblXAsCal);
+                        doc.Editor.WriteMessage("\n配筋面积限值(Y向限值): " + embededData.Item1.DblYAsCal);
+                        doc.Editor.WriteMessage("\n是否底层: "+ embededData.Item1.IsGroundFloor);
+                        doc.Editor.WriteMessage("\n设防烈度: "+ embededData.Item1.FortiCation);
+                        doc.Editor.WriteMessage("\n体积配筋率限值: "+ embededData.Item1.VolumeReinforceLimitedValue);
+                        doc.Editor.WriteMessage("\n配筋面积限值(DblStirrupAsCal): "+ embededData.Item1.DblStirrupAsCal);
+                        doc.Editor.WriteMessage("\n配筋面积限值(DblStirrupAsCal0): " + embededData.Item1.DblStirrupAsCal0);
+                        doc.Editor.WriteMessage("\n假定箍筋间距: "+ embededData.Item1.IntStirrupSpacingCal);
+
+                        doc.Editor.WriteMessage("\n---------------用户自定义数据---------------");
+
+                        doc.Editor.WriteMessage("\n抗震等级: " + embededData.Item2.AntiSeismicGrade);
+                        doc.Editor.WriteMessage("\n混凝土强度: "+ embededData.Item2.ConcreteStrength);
+                        doc.Editor.WriteMessage("\n是否角柱: "+ embededData.Item2.CornerColumn);
+                        doc.Editor.WriteMessage("\n箍筋全高度加密: " + embededData.Item2.HoopReinforceFullHeightEncryption);
+                        doc.Editor.WriteMessage("\n箍筋放大倍数: " + embededData.Item2.HoopReinforcementEnlargeTimes);
+                        doc.Editor.WriteMessage("\n纵筋放大倍数: " + embededData.Item2.LongitudinalReinforceEnlargeTimes);
+                    }
+                    else if (res.Status == Autodesk.AutoCAD.EditorInput.PromptStatus.Cancel)
+                    {
+                        domark = false;
+                    }
+                }
+            }
+            finally
+            {
+                ThColumnInfoUtils.ShowObjIds(plantCal.EmbededColumnIds.ToArray(), false);
+            }
+        }
+        
     }
 }

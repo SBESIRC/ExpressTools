@@ -44,6 +44,7 @@ namespace ThColumnInfo.View
         public CheckResult()
         {
             InitializeComponent();
+            this.tvCheckRes.ContextMenuStrip = null;
             ShowComponentPropPicture();
             this.SizeChanged += CheckResult_SizeChanged;
             this.panelUp.BackColor = System.Drawing.Color.FromArgb(92, 92, 92);
@@ -437,8 +438,27 @@ namespace ThColumnInfo.View
             if(e.Button == MouseButtons.Right)
             {
                 this.tvCheckRes.SelectedNode = e.Node;
+                this.tvCheckRes.ContextMenuStrip = null;
+                if (e.Node.Tag != null)
+                {
+                    if (e.Node.Tag.GetType() == typeof(ThStandardSignManager))
+                    {
+                        this.tvCheckRes.ContextMenuStrip = this.contextMenuStrip2;
+                    }
+                    else if (e.Node.Tag.GetType() == typeof(ThStandardSign))
+                    {
+                        this.tvCheckRes.ContextMenuStrip = this.contextMenuStrip1;
+                    }
+                }
                 return;
-            }            
+            }
+            else
+            {
+                this.tvCheckRes.ContextMenuStrip = null;
+                this.contextMenuStrip1.Visible = false;
+                this.contextMenuStrip2.Visible = false;
+            }
+
             bool isCurrentDocument = CheckRootNodeIsCurrentDocument(e.Node);
             if (isCurrentDocument == false)
             {
@@ -466,19 +486,7 @@ namespace ThColumnInfo.View
                 }
             }
             this.currentNode = e.Node;
-            this.tvCheckRes.SelectedNode = e.Node;
-            this.tvCheckRes.ContextMenuStrip = null;
-            if (e.Node.Tag != null)
-            {
-                if (e.Node.Tag.GetType() == typeof(ThStandardSignManager))
-                {
-                    this.tvCheckRes.ContextMenuStrip = this.contextMenuStrip2;
-                }
-                else if (e.Node.Tag.GetType() == typeof(ThStandardSign))
-                {
-                    this.tvCheckRes.ContextMenuStrip = this.contextMenuStrip1;
-                }
-            }
+            this.tvCheckRes.SelectedNode = e.Node;            
             if (e.Button == MouseButtons.Left)
             {
                 if (!TraverseDataCorrectNode(e.Node))
@@ -1328,6 +1336,12 @@ namespace ThColumnInfo.View
             //统计左键点击次数
             if (e.Button == MouseButtons.Left)
                 cnt = e.Clicks;
+            if(sender==this.tvCheckRes)
+            {
+                this.contextMenuStrip1.Visible = false;
+                this.contextMenuStrip2.Visible = false;
+                this.tvCheckRes.SelectedNode = null;
+            }
         }
 
         private void tvCheckRes_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
