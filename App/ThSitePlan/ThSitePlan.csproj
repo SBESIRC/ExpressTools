@@ -56,14 +56,22 @@
     <Compile Include="Photoshop\ThSitePlanPSDefaultWorker.cs" />
     <Compile Include="Photoshop\ThSitePlanPSService.cs" />
     <Compile Include="Photoshop\ThSitePlanPSWorker.cs" />
+    <Compile Include="Entity\ColorGeneralDataModel.cs" />
+    <Compile Include="Entity\LayerDataModel.cs" />
+    <Compile Include="Presenters\Presenter.cs" />
+    <Compile Include="Presenters\PresenterConfigManage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ThPSGenerator.cs" />
-    <Compile Include="ThSitePlanApp.cs" />
     <Compile Include="ThSitePlanCommon.cs" />
     <Compile Include="ThSitePlanDbExtension.cs" />
     <Compile Include="ThSitePlanEditorExtension.cs" />
@@ -82,6 +90,7 @@
     <Compile Include="ThSitePlanHatchOverride.cs" />
     <Compile Include="ThSitePlanPlotUtils.cs" />
     <Compile Include="ThSitePlanRectangleJig.cs" />
+    <Compile Include="View\IConfigManage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
@@ -149,11 +158,43 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Enum\" />
+    <Folder Include="Function\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ThSitePlanForm.resx">
       <DependentUpon>ThSitePlanForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\点击_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\点击_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\空白16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\空白32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\删除.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\删除_细.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

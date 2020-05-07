@@ -14,7 +14,7 @@ using ThSitePlan.Photoshop;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.ApplicationServices;
 
-namespace ThSitePlan
+namespace ThSitePlan.UI
 {
     public class ThSitePlanApp : IExtensionApplication
     {
@@ -34,6 +34,15 @@ namespace ThSitePlan
         public void ThSitePlanSet()
         {
             using (var dlg = new ThSitePlanForm())
+            {
+                Application.ShowModalDialog(dlg);
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THSPCONFIG", CommandFlags.Modal)]
+        public void ThSitePlanConfig()
+        {
+            using (var dlg = new fmConfigManage())
             {
                 Application.ShowModalDialog(dlg);
             }
@@ -94,10 +103,10 @@ namespace ThSitePlan
                 {
                     return;
                 }
-        
-                for(int i = 0; i < 7; i++)
+
+                for (int i = 0; i < 7; i++)
                 {
-                    for(int j = 0; j < 6; j++)
+                    for (int j = 0; j < 6; j++)
                     {
                         double deltaX = frameObj.GeometricExtents.Width() * 6.0 / 5.0 * j;
                         double deltaY = frameObj.GeometricExtents.Height() * 6.0 / 5.0 * i;
@@ -193,7 +202,7 @@ namespace ThSitePlan
                 {
                     OriginFrameCopy = newframes.Dequeue();
                 }
-                
+
                 //初始化图框配置
                 //这里先“关闭”所有的图框
                 //后面会根据用户的选择“打开”需要更新的图框
@@ -322,3 +331,4 @@ namespace ThSitePlan
         }
     }
 }
+

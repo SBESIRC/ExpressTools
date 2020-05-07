@@ -10,7 +10,7 @@ using ThSitePlan.Configuration;
 
 namespace ThSitePlan.Engine
 {
-    class ThSitePlanFrameNameGenerator:ThSitePlanGenerator
+    public class ThSitePlanFrameNameGenerator:ThSitePlanGenerator
     {
         public override ObjectId OriginFrame { get; set; }
         public override Tuple<ObjectId, Vector3d> Frame { get; set; }
