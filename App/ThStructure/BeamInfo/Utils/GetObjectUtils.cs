@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
@@ -30,6 +30,7 @@ namespace ThStructure.BeamInfo.Utils
             polygon.Add(new Point3d(maxX, minY, minZ));
             polygon.Add(new Point3d(maxX, maxY, minZ));
             polygon.Add(new Point3d(minX, maxY, minZ));
+            
             PromptSelectionResult result;
             if (filter == null)
             {
@@ -63,7 +64,6 @@ namespace ThStructure.BeamInfo.Utils
             double offset = Math.Cos(angle) * dis;
             Point3d moveP1 = pt1 - offset * dir;
             Point3d moveP2 = pt2 + offset * dir;
-
             Point3dCollection polygon = new Point3dCollection() { pt1, moveP1, pt2, moveP2 };
             PromptSelectionResult result;
             if (filter == null)
@@ -94,9 +94,10 @@ namespace ThStructure.BeamInfo.Utils
 
             Ray ray = new Ray();
             ray.BasePoint = pt;
-            ray.UnitDir = (closestP - pt).GetNormal();
+            ray.UnitDir = -(closestP - pt).GetNormal();
             Point3dCollection points = new Point3dCollection();
             polyline.IntersectWith(ray, Intersect.OnBothOperands, points, IntPtr.Zero, IntPtr.Zero);
+            FilterEqualPoints(points, tol);
 
             if (points.Count % 2 == 0)
             {
@@ -105,6 +106,25 @@ namespace ThStructure.BeamInfo.Utils
             else
             {
                 return 1;
+            }
+        }
+
+        /// <summary>
+        /// 过滤掉容差范围内相同的点
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="tol"></param>
+        public static void FilterEqualPoints(Point3dCollection points, double tol)
+        {
+            for (int i = 0; i < points.Count - 1; i++)
+            {
+                for (int j = i + 1; j < points.Count; j++)
+                {
+                    if (points[i].DistanceTo(points[j]) < tol)
+                    {
+                        points.Remove(points[j]);
+                    }
+                }
             }
         }
 
@@ -136,6 +156,21 @@ namespace ThStructure.BeamInfo.Utils
                 Vector2d nextDir = (nextP - currentP).GetNormal();
 
                 Point2d newP = currentP + offset * preDir - nextDir * offset;
+                int res = CheckPointInPolyline(polyline, new Point3d(newP.X, newP.Y, 0), 0.001);
+                if (offset > 0)
+                {
+                    if (res != -1)
+                    {
+                        newP = currentP - offset * preDir + nextDir * offset;
+                    }
+                }
+                else
+                {
+                    if (res == -1)
+                    {
+                        newP = currentP - offset * preDir + nextDir * offset;
+                    }
+                }
                 newPolyline.AddVertexAt(i, newP, 0, 0, 0);
             }
 
@@ -143,3 +178,4 @@ namespace ThStructure.BeamInfo.Utils
         }
     }
 }
+

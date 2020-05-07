@@ -1,6 +1,5 @@
-﻿using System.Linq;
+using System;
 using Autodesk.AutoCAD.Geometry;
-using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThStructure.BeamInfo.Model
@@ -68,11 +67,46 @@ namespace ThStructure.BeamInfo.Model
             downMP = new Point3d((DownStartPoint.X + DownEndPoint.X) / 2, (DownStartPoint.Y + DownEndPoint.Y) / 2, 0);
 
             Vector3d moveDir = (upMP - downMP).GetNormal();
-            if (moveDir.Y < 0)
+            if (Math.Abs(moveDir.Y) < 0.0001)
+            {
+                if (moveDir.X > 0)
+                {
+                    Point3d tempP = upMP;
+                    upMP = downMP;
+                    downMP = tempP;
+                    Vector3d judgeDir = (upRP - upLP).GetNormal().CrossProduct(-moveDir);
+                    if (judgeDir.Z < 0)
+                    {
+                        upRP = DownStartPoint;
+                        upLP = DownEndPoint;
+                        downRP = UpStartPoint;
+                        downLP = UpEndPoint;
+                    }
+                    else
+                    {
+                        upLP = DownStartPoint;
+                        upRP = DownEndPoint;
+                        downLP = UpStartPoint;
+                        downRP = UpEndPoint;
+                    }
+                }
+                else
+                {
+                    Vector3d judgeDir = (upRP - upLP).GetNormal().CrossProduct(moveDir);
+                    if (judgeDir.Z < 0)
+                    {
+                        upLP = UpEndPoint;
+                        upRP = UpStartPoint;
+                        downLP = DownEndPoint;
+                        downRP = DownStartPoint;
+                    }
+                }
+            }
+            else if (moveDir.Y < 0)
             {
                 Point3d tempP = upMP;
                 upMP = downMP;
-                downMP = upMP;
+                downMP = tempP;
                 Vector3d judgeDir = (upLP - upRP).GetNormal().CrossProduct(-moveDir);
                 if (judgeDir.Z > 0)
                 {

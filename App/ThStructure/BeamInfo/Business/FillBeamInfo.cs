@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using ThStructure.BeamInfo.Model;
@@ -83,18 +83,30 @@ namespace ThStructure.BeamInfo.Business
                     oMark.GetTextBoxCorners(out Point3d pt1, out Point3d pt2, out Point3d pt3, out Point3d pt4);
                     Point3d mPoint = new Point3d((pt1.X + pt2.X) / 2, (pt1.Y + pt2.Y) / 2, 0);
 
-                    List <Point3d> allBeamPoints = new List<Point3d>()
+                    List<Point3d> allBeamPoints = new List<Point3d>();
+                    if (text.Contains("x") || text.Contains("×"))
                     {
-                        upLP, upRP, downLP, downRP,
-                    };
-                    if (mPoint.DistanceTo(upMP) < (pt1.DistanceTo(pt2) /3))
-                    {
-                        allBeamPoints.Add(upMP);
+                        allBeamPoints = new List<Point3d>() { upMP, downMP, };
                     }
-                    if (mPoint.DistanceTo(downMP) < (pt1.DistanceTo(pt2) / 3))
+                    else
                     {
-                        allBeamPoints.Add(downMP);
+                        allBeamPoints = new List<Point3d>() { upLP, upRP, downLP, downRP, };
+                        double upDis = upLP.DistanceTo(upMP) / 2, downDis = pt1.DistanceTo(pt2) / 3;
+                        if (upDis > downDis)
+                        {
+                            downDis = upLP.DistanceTo(upMP) / 2;
+                            upDis = pt1.DistanceTo(pt2) / 3;
+                        }
+                        if (mPoint.DistanceTo(upMP) < upDis)
+                        {
+                            allBeamPoints.Add(upMP);
+                        }
+                        if (mPoint.DistanceTo(downMP) < downDis)
+                        {
+                            allBeamPoints.Add(downMP);
+                        }
                     }
+                    
 
                     Point3d nearest = allBeamPoints.OrderBy(x => x.DistanceTo(mPoint)).First();
                     if (nearest == upLP)
@@ -107,11 +119,18 @@ namespace ThStructure.BeamInfo.Business
                     }
                     else if (nearest == downMP)
                     {
-                        beam.ThOriginMarkingcsP.DownErectingBar = text;
+                        if (text.Contains("x") || text.Contains("×"))
+                        {
+                            beam.ThOriginMarkingcsP.SectionSize = text;
+                        }
+                        else
+                        {
+                            beam.ThOriginMarkingcsP.DownErectingBar = text;
+                        }
                     }
                     else if (nearest == upMP)
                     {
-                        if (text.Contains("x"))
+                        if (text.Contains("x") || text.Contains("×"))
                         {
                             beam.ThOriginMarkingcsP.SectionSize = text;
                         }

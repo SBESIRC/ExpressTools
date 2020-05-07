@@ -11,7 +11,6 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThStructure
 {
-
     public class ThStructureApp : IExtensionApplication
     {
         public void Initialize()

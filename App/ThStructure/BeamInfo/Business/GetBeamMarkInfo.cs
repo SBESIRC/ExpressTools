@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Linq2Acad;
 using System.Linq;
 using Autodesk.AutoCAD.Geometry;
@@ -14,8 +14,13 @@ namespace ThStructure.BeamInfo.Business
     public class GetBeamMarkInfo
     {
         private Document _doc;
-        private AcadDatabase _acdb;
-        private readonly string layerName = "S_BEAM_TEXT_HORZ";
+        private AcadDatabase _acdb; 
+        private readonly string layerName = "S_BEAM_TEXT_HORZ," +
+            "__覆盖_S20-平面_TEN25CUZ_设计区$0$TH-STYLE1," +
+            "S_BEAM_TEXT_VERT," +
+            "S_BEAM_WALL_TEXT," +
+            "__覆盖_S20-平面_TEN25CUZ_设计区$0$S_BEAM_TEXT_VERT," +
+            "__覆盖_S20-平面_TEN25CUZ_设计区$0$S_BEAM_TEXT_HORZ";
         private MarkingService markingService;
         private List<MarkingInfo> allMarking;
         private List<Beam> allBeams;
@@ -59,12 +64,12 @@ namespace ThStructure.BeamInfo.Business
             List<MarkingInfo> removeMark = new List<MarkingInfo>();
             if (beam is LineBeam)
             {
-                List<MarkingInfo> lineMarks = markingService.GetMarking(beam.UpStartPoint, beam.DownEndPoint, beam.BeamNormal, 0, MarkingType.Line);
+                List<MarkingInfo> lineMarks = markingService.GetMarking(beam.UpStartPoint, beam.DownEndPoint, beam.BeamNormal, 20, MarkingType.Line);
                 lineMarks = lineMarks.Where(x => allMarking.Where(y => y.Marking.Id.Handle == x.Marking.Id.Handle).Count() > 0).ToList();
                 foreach (var mark in lineMarks)
                 {
                     Line line = mark.Marking as Line;
-                    int res = CheckFlagLine(beam, line, 5);
+                    int res = CheckFlagLine(beam, line, 20);
                     if (res != 0)
                     {
                         Vector3d lineDir = line.Delta.GetNormal();

@@ -1,4 +1,4 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThStructure.BeamInfo.Utils
 {
@@ -21,7 +21,6 @@ namespace ThStructure.BeamInfo.Utils
 
                 Region firstRegion = (Region)Region.CreateFromCurves(dbObjCo11)[0];
                 Region secondRegion = (Region)Region.CreateFromCurves(dbObjCo12)[0];
-
                 firstRegion.BooleanOperation(BooleanOperationType.BoolIntersect, secondRegion);
                 if (firstRegion.Area > 0.0)
                 {

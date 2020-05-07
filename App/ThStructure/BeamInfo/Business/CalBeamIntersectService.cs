@@ -1,4 +1,4 @@
-﻿using Linq2Acad;
+using Linq2Acad;
 using System.Linq;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace ThStructure.BeamInfo.Business
 {
     public class CalBeamIntersectService
     {
-        private readonly double searchBeamPolylineDis = 20.0;
+        private readonly double searchBeamPolylineDis = 40.0;
         private readonly string colLayerName = "__覆盖_S30-colu_TEN25CUZ_设计区$0$S_COLU";//"__覆盖_S30-colu_TEN25CUZ_设计区$0$S_COLU";
         private readonly string wallLayerName = "__覆盖_S30-colu_TEN25CUZ_设计区$0$S_WALL";
         private readonly string beamLayerName = "__覆盖_S20-平面_TEN25CUZ_设计区$0$S_BEAM";//"__覆盖_S20-平面_TEN25CUZ_设计区$0$S_BEAM";
@@ -60,35 +60,41 @@ namespace ThStructure.BeamInfo.Business
         private void SupplementBeamIntersInfo(List<Beam> allBeams, Beam beam, List<Curve> sCurve, IntersectType intersectType, double offset = 0)
         {
             BeamIntersectInfo intersectSInfo = new BeamIntersectInfo();
-            foreach (var curve in sCurve)
+            if (beam.StartIntersect == null)
             {
-                if (intersectType != IntersectType.Beam && beam.StartIntersect != null)
+                foreach (var curve in sCurve)
                 {
-                    break;
-                }
-                bool sRes = CalIntersect(allBeams, beam, curve, true, offset);
-                if (sRes)
-                {
-                    intersectSInfo.EntityType = intersectType;
-                    intersectSInfo.EntityCurve.Add(curve);
-                    beam.StartIntersect = intersectSInfo;
-                    continue;
+                    if (intersectType != IntersectType.Beam && beam.StartIntersect != null)
+                    {
+                        break;
+                    }
+                    bool sRes = CalIntersect(allBeams, beam, curve, true, offset, intersectType);
+                    if (sRes)
+                    {
+                        intersectSInfo.EntityType = intersectType;
+                        intersectSInfo.EntityCurve.Add(curve);
+                        beam.StartIntersect = intersectSInfo;
+                        continue;
+                    }
                 }
             }
 
             BeamIntersectInfo intersectEInfo = new BeamIntersectInfo();
-            foreach (var curve in sCurve)
+            if (beam.EndIntersect == null)
             {
-                if (intersectType != IntersectType.Beam && beam.EndIntersect != null)
+                foreach (var curve in sCurve)
                 {
-                    break;
-                }
-                bool eRes = CalIntersect(allBeams, beam, curve, false, offset);
-                if (eRes)
-                {
-                    intersectEInfo.EntityType = intersectType;
-                    intersectEInfo.EntityCurve.Add(curve);
-                    beam.EndIntersect = intersectEInfo;
+                    if (intersectType != IntersectType.Beam && beam.EndIntersect != null)
+                    {
+                        break;
+                    }
+                    bool eRes = CalIntersect(allBeams, beam, curve, false, offset, intersectType);
+                    if (eRes)
+                    {
+                        intersectEInfo.EntityType = intersectType;
+                        intersectEInfo.EntityCurve.Add(curve);
+                        beam.EndIntersect = intersectEInfo;
+                    }
                 }
             }
         }
@@ -102,7 +108,7 @@ namespace ThStructure.BeamInfo.Business
         /// <param name="isStart"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        private bool CalIntersect(List<Beam> allBeams, Beam beam, Curve curve, bool isStart, double offset)
+        private bool CalIntersect(List<Beam> allBeams, Beam beam, Curve curve, bool isStart, double offset, IntersectType intersectType)
         {
             bool res = false;
             Polyline polyline;
@@ -114,15 +120,11 @@ namespace ThStructure.BeamInfo.Business
             {
                 polyline = beam.BeamEPointSolid;
             }
-            if (curve is Polyline)
-            {
-                res = CalBeamIntersect.JudgeBeamIntersect(polyline, curve as Polyline, offset);
-            }
-            else
+            if (intersectType == IntersectType.Beam)
             {
                 var beamSolid = allBeams.Where(y => (beam != y) && (y.UpBeamLine == curve || y.DownBeamLine == curve))
-                    .Select(x=>x.BeamBoundary)
-                    .ToList();
+                   .Select(x => x.BeamBoundary)
+                   .ToList();
                 foreach (var beamCuv in beamSolid)
                 {
                     res = CalBeamIntersect.JudgeBeamIntersect(polyline, beamCuv, offset);
@@ -131,6 +133,10 @@ namespace ThStructure.BeamInfo.Business
                         break;
                     }
                 }
+            }
+            else
+            {
+                res = CalBeamIntersect.JudgeBeamIntersect(polyline, curve as Polyline, offset);
             }
 
             return res;
@@ -148,9 +154,11 @@ namespace ThStructure.BeamInfo.Business
         {
             interCurve = new List<Curve>();
 
-            Point3d sMoveP1 = beam.UpStartPoint - beam.BeamNormal * searchBeamPolylineDis;
-            Point3d sMoveP2 = beam.DownEndPoint + beam.BeamNormal * searchBeamPolylineDis;
-            var colStartRes = GetObjectUtils.GetObjectWithBounding(_doc.Editor, sMoveP1, sMoveP2, filter);
+            Vector3d upMove = (beam.DownStartPoint - beam.UpStartPoint).GetNormal();
+            Vector3d downMove = (beam.UpEndPoint - beam.DownEndPoint).GetNormal();
+            Point3d sMoveP1 = beam.DownStartPoint - beam.BeamNormal * searchBeamPolylineDis + upMove * searchBeamPolylineDis;
+            Point3d sMoveP2 = beam.UpEndPoint + beam.BeamNormal * searchBeamPolylineDis + downMove * searchBeamPolylineDis;
+            var colStartRes = GetObjectUtils.GetObjectWithBounding(_doc.Editor, sMoveP1, sMoveP2, Vector3d.ZAxis.CrossProduct(beam.BeamNormal), filter);
             if (colStartRes.Status == PromptStatus.OK)
             {
                 foreach (ObjectId obj in colStartRes.Value.GetObjectIds())

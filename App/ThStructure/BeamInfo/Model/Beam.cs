@@ -1,4 +1,4 @@
-﻿using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
@@ -23,7 +23,27 @@ namespace ThStructure.BeamInfo.Model
                 }
                 else
                 {
-                    return BeamStandardsType.SecondaryBeam;
+                    return BeamStandardsType.SecondaryBeam; 
+                }
+            }
+        }
+
+        public virtual BeamOverhangingType OverhaningType
+        {
+            get
+            {
+                if ((StartIntersect == null && EndIntersect == null) ||
+                     (StartIntersect.EntityType == IntersectType.Beam && EndIntersect.EntityType == IntersectType.Beam))
+                {
+                    return BeamOverhangingType.TwoOverhangingBeam;
+                }
+                else if (StartIntersect == null || EndIntersect == null || StartIntersect.EntityType == IntersectType.Beam || EndIntersect.EntityType == IntersectType.Beam)
+                {
+                    return BeamOverhangingType.OneOverhangingBeam;
+                }
+                else
+                {
+                    return BeamOverhangingType.NoOverhangingBeam;
                 }
             }
         }
@@ -106,5 +126,17 @@ namespace ThStructure.BeamInfo.Model
 
         //次梁
         SecondaryBeam,
+    }
+
+    public enum BeamOverhangingType
+    {
+        //不是悬挑梁
+        NoOverhangingBeam,
+
+        //一端悬挑
+        OneOverhangingBeam,
+
+        //两端悬挑
+        TwoOverhangingBeam,
     }
 }
