@@ -41,41 +41,16 @@ namespace TopoNode
             List<string> columnLayers = null;
             var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers, out columnLayers);
 
-            //Document doc = AcadApp.DocumentManager.MdiActiveDocument;
-            //Editor ed = doc.Editor;
             var pickPoints = new List<Point3d>();
-            //var objCollect = new DBObjectCollection();
-            //var tip = "请点击需要布置喷头房间内的一点，共计";
-
-            //while (true)
-            //{
-            //    var message = tip + pickPoints.Count().ToString() + "个";
-            //    Active.WriteMessage(message);
-            //    PromptPointOptions ppo = new PromptPointOptions("\n请点击");
-            //    ppo.AllowNone = true;
-            //    PromptPointResult ppr = ed.GetPoint(ppo);
-            //    if (ppr.Status == PromptStatus.None)
-            //        break;
-            //    if (ppr.Status == PromptStatus.Cancel)
-            //    {
-            //        Utils.ErasePreviewPoint(objCollect);
-            //        Active.WriteMessage("取消操作");
-            //        return;
-            //    }
-
-            //    var pickPoint = ppr.Value;
-            //    pickPoints.Add(pickPoint);
-            //    Utils.DrawPreviewPoint(objCollect, pickPoint);
-            //}
 
             // 开始弹出进度条提示
             Progress.Progress.ShowProgress();
 
             // 图元预处理
-            var removeEntityLst = Utils.PreProcess(validLayers);
+            var removeEntityLst = Utils.PreProcess2(validLayers);
             pickPoints = Utils.GetRoomPoints("AD-NAME-ROOM");
-            //foreach (var pt in pickPoints)
-            //    Utils.DrawPreviewPoint(pt, "pick");
+            foreach (var pt in pickPoints)
+                Utils.DrawPreviewPoint(pt, "pick");
             //return;
 
             // 获取相关图层中的数据
@@ -90,6 +65,7 @@ namespace TopoNode
 
             allCurves = TopoUtils.TesslateCurve(allCurves);
             Utils.ExtendCurves(allCurves, 3);
+
             // wall 中的数据
             var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
             if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
@@ -128,15 +104,16 @@ namespace TopoNode
 
             Progress.Progress.SetValue(45);
             var layerNames = Utils.GetLayersFromCurves(allCurves);
+
             layerNames = Utils.GetLayersFromCurves(allCurves);
             allCurves = CommonUtils.RemoveCollinearLines(allCurves);
             layerNames = Utils.GetLayersFromCurves(allCurves);
-            //Utils.DrawProfile(allCurves, "all");
+            Utils.DrawProfileAndText(allCurves);
+            Utils.PostProcess(removeEntityLst);
             //return;
-            ////Utils.DrawProfileAndText(allCurves, Color.FromRgb(0, 255, 0));
+            //Utils.DrawProfile(allCurves, "outerFile");
             //return;
             Progress.Progress.SetValue(60);
-            //Utils.ExtendCurves(allCurves, 0.5);
 
             var progress = 61.0;
             var inc = 30.0 / pickPoints.Count;
@@ -235,7 +212,7 @@ namespace TopoNode
 
 
             // 图元预处理
-            var removeEntityLst = Utils.PreProcess(validLayers);
+            var removeEntityLst = Utils.PreProcess2(validLayers);
 
             // 获取相关图层中的数据
             var allCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);// allCurves指所有能作为墙一部分的曲线

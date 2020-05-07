@@ -295,7 +295,26 @@ namespace TopoNode
                     || textString.Contains("冷媒")
                     || textString.Contains("给水")
                     || textString.Contains("排水")
-                    || textString.Contains("水管"))
+                    || textString.Contains("水管")
+                    || textString.Contains("楼梯")
+                    || textString.Contains("外廊")
+                    || textString.Contains("水池")
+                    || textString.Contains("泳池")
+                    || textString.Contains("电信")
+                    || textString.Contains("IT")
+                    || textString.Contains("数据")
+                    || textString.Contains("通讯")
+                    || textString.Contains("消控")
+                    || textString.Contains("消防控制")
+                    || textString.Contains("绿化")
+                    || textString.Contains("投影")
+                    || textString.Contains("花坛")
+                    || textString.Contains("电梯")
+                    || textString.Contains("电井")
+                    || textString.Contains("阳台")
+                    || textString.Contains("露台")
+                    || textString.Contains("水井")
+                    || textString.Contains("台阶"))
                     continue;
 
                 if (textString.Length < 2)
@@ -306,7 +325,7 @@ namespace TopoNode
                     pts.Add(text.Bounds.Value.CenterPoint());
                 }
             }
-            
+
             return pts;
         }
 
@@ -325,6 +344,9 @@ namespace TopoNode
                 string value = character.Value;
                 characterRelations.Add(new Tuple<string, int>(value, index));
             }
+
+            if (characterRelations.Count == 0)
+                return false;
 
             // “-”位置关系
             Regex r1 = new Regex(@"[-]");
@@ -2836,7 +2858,6 @@ namespace TopoNode
 
             using (var db = AcadDatabase.Active())
             {
-
                 foreach (var curve in curves)
                 {
                     var LayerName = curve.Layer;
@@ -2849,7 +2870,11 @@ namespace TopoNode
                     db.ModelSpace.Element(objectCurveId, true).Layer = LayerName;
                     var dbtext = new DBText();
                     dbtext.Height = 50;
-                    var midPt = curve.GetPointAtParameter(0.5 * (curve.StartParam + curve.EndParam));
+                    var midParam = 0.5 * (curve.StartParam + curve.EndParam);
+                    if (CommonUtils.IsAlmostNearZero(midParam))
+                        continue;
+
+                    var midPt = curve.GetPointAtParameter(midParam);
                     dbtext.Justify = AttachmentPoint.MiddleCenter;
                     // 设置字体样式
                     var textId = GetIdFromSymbolTable();
@@ -3032,39 +3057,39 @@ namespace TopoNode
                     curveIds.Add(text.ObjectId);
                 }
 
-                var blocks = db.ModelSpace.OfType<BlockReference>();
-                foreach (var block in blocks)
-                {
-                    if (ValidBlock(block, layerNames))
-                    {
-                        var blockRelatedCurves = GetCurvesFromBlock(block);
-                        if (blockRelatedCurves.Count != 0)
-                            blockCurves.AddRange(blockRelatedCurves);
-                    }
-                    else
-                    {
-                        DBObjectCollection collection = new DBObjectCollection();
+                //var blocks = db.ModelSpace.OfType<BlockReference>();
+                //foreach (var block in blocks)
+                //{
+                //    if (ValidBlock(block, layerNames))
+                //    {
+                //        var blockRelatedCurves = GetCurvesFromBlock(block);
+                //        if (blockRelatedCurves.Count != 0)
+                //            blockCurves.AddRange(blockRelatedCurves);
+                //    }
+                //    else
+                //    {
+                //        DBObjectCollection collection = new DBObjectCollection();
 
-                        try
-                        {
-                            block.Explode(collection);
-                            foreach (var obj in collection)
-                            {
-                                if (obj is Curve)
-                                {
-                                    var curve = obj as Curve;
-                                    if (ValidLayer(curve.Layer, layerNames))
-                                        blockCurves.Add(curve);
-                                }
-                            }
-                        }
-                        catch
-                        {
-                            // 有些block炸开的时候会抛出eCannotScaleNonUniformly异常
-                            // 如果这个block 不能炸开，不作处理
-                        }
-                    }
-                }
+                //        try
+                //        {
+                //            block.Explode(collection);
+                //            foreach (var obj in collection)
+                //            {
+                //                if (obj is Curve)
+                //                {
+                //                    var curve = obj as Curve;
+                //                    if (ValidLayer(curve.Layer, layerNames))
+                //                        blockCurves.Add(curve);
+                //                }
+                //            }
+                //        }
+                //        catch
+                //        {
+                //            // 有些block炸开的时候会抛出eCannotScaleNonUniformly异常
+                //            // 如果这个block 不能炸开，不作处理
+                //        }
+                //    }
+                //}
             }
 
             Document doc = Application.DocumentManager.MdiActiveDocument;
@@ -3569,6 +3594,51 @@ namespace TopoNode
             }
         }
 
+        public static List<Entity> PreProcessCurDwg2(List<string> validLayers)
+        {
+            var resEntityLst = new List<Entity>();
+            double progressPos = 5;
+            // 本图纸数据块处理
+            using (var db = AcadDatabase.Active())
+            {
+                var blockRefs = db.CurrentSpace.OfType<BlockReference>().Where(p => p.Visible).ToList();
+                var incre = 15 / blockRefs.Count;
+                foreach (var blockReference in blockRefs)
+                {
+                    var layerId = blockReference.LayerId;
+                    if (layerId == null || !layerId.IsValid)
+                        continue;
+
+                    LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(layerId);
+                    if (layerTableRecord.IsOff)
+                        continue;
+
+                    var blockId = blockReference.BlockTableRecord;
+                    var blockRefRecord = db.Element<BlockTableRecord>(blockId);
+                    if (blockRefRecord.IsFromExternalReference)
+                        continue;
+                    progressPos += 0.4;
+                    progressPos += incre;
+                    Progress.Progress.SetValue((int)progressPos);
+                    var entityLst = GetEntityFromBlock2(blockReference);
+                    if (entityLst != null && entityLst.Count > 1)
+                    {
+                        foreach (var entity in entityLst)
+                        {
+                            // 除了块，其余的可以用图层确定是否收集，块的图层内部数据也可能符合要求
+                            if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers))
+                            {
+                                db.CurrentSpace.Add(entity);
+                                resEntityLst.Add(entity);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return resEntityLst;
+        }
+
         public static List<Entity> PreProcessCurDwg(List<string> validLayers)
         {
             var resEntityLst = new List<Entity>();
@@ -3704,6 +3774,275 @@ namespace TopoNode
         }
 
         /// <summary>
+        /// 从block单个数据
+        /// </summary>
+        /// <param name="block"></param>
+        /// <returns></returns>
+        public static List<Entity> GetEntityFromBlock2(BlockReference block)
+        {
+            if (block == null || !block.Visible)
+                return null;
+
+            var entityLst = new List<Entity>();
+            var blockReferences = new List<BlockReference>();
+            blockReferences.Add(block);
+            while (blockReferences.Count > 0)
+            {
+                var curBlock = blockReferences.First();
+                blockReferences.RemoveAt(0);
+
+                if (curBlock.Visible)
+                {
+                    var entitysInBlock = FromSingleBlock2(curBlock, ref blockReferences);
+                    if (entitysInBlock != null && entitysInBlock.Count != 0)
+                    {
+                        entityLst.AddRange(entitysInBlock);
+                    }
+                }
+            }
+
+            return entityLst;
+        }
+
+        /// <summary>
+        /// 是否是其他标准图层
+        /// </summary>
+        /// <param name="srcLayerName"></param>
+        /// <returns></returns>
+        public static bool IsOtherStandardLayer(string srcLayerName)
+        {
+            if (srcLayerName.Contains("AE-EQPM")
+                || srcLayerName.Contains("AE-ABOV")
+                || srcLayerName.Contains("AE-STAR")
+                || srcLayerName.Contains("AE-ROOF")
+                || srcLayerName.Contains("AE-HOLE")
+                || srcLayerName.Contains("AE-ELEV")
+                || srcLayerName.Contains("AE-PATN")
+                || srcLayerName.Contains("AD-AXIS")
+                || srcLayerName.Contains("AD-ARCH")
+                || srcLayerName.Contains("AD-DIMS")
+                || srcLayerName.Contains("AE-SUFC")
+                || srcLayerName.Contains("AD-NAME")
+                || srcLayerName.Contains("AD-NUMB")
+                || srcLayerName.Contains("AD-AREA")
+                || srcLayerName.Contains("AD-INDX")
+                || srcLayerName.Contains("AD-SIGN")
+                || srcLayerName.Contains("AD-LEVL")
+                || srcLayerName.Contains("AD-NOTE")
+                || srcLayerName.Contains("AD-POST")
+                || srcLayerName.Contains("AE-PIPE")
+                || srcLayerName.Contains("S_BEAM")
+                || srcLayerName.Contains("S_FLOR")
+                || srcLayerName.Contains("S_STAR")
+                || srcLayerName.Contains("S_HOLE")
+                || srcLayerName.Contains("S_PILE")
+                || srcLayerName.Contains("S_AXIS")
+                || srcLayerName.Contains("S_PLAN")
+                || srcLayerName.Contains("S_BASE")
+                || srcLayerName.Contains("S_LEVL")
+                || srcLayerName.Contains("S_BURY")
+                || srcLayerName.Contains("S_STEL")
+                || srcLayerName.Contains("S_DETL")
+                || srcLayerName.Contains("S_PSPR")
+                || srcLayerName.Contains("S_OBSV")
+                || srcLayerName.Contains("S_INDX")
+                || srcLayerName.Contains("S_CONS")
+                || srcLayerName.Contains("S_TABL")
+                || srcLayerName.Contains("S_HELP")
+                || srcLayerName.Contains("C-SHET")
+                || srcLayerName.Contains("H-DUCT")
+                || srcLayerName.Contains("H-DAPP")
+                || srcLayerName.Contains("H-DIMS")
+                || srcLayerName.Contains("H-DUAL")
+                || srcLayerName.Contains("H-FIRE")
+                || srcLayerName.Contains("H-PIPE")
+                || srcLayerName.Contains("H-VALV")
+                || srcLayerName.Contains("H-PAPP")
+                || srcLayerName.Contains("H-EQUP")
+                || srcLayerName.Contains("H-DIMS")
+                || srcLayerName.Contains("H-AI")
+                || srcLayerName.Contains("H-BUSH")
+                || srcLayerName.Contains("H-HOLE")
+                || srcLayerName.Contains("H-BASE")
+                || srcLayerName.Contains("H-HOBU")
+                || srcLayerName.Contains("H-HOLE")
+                || srcLayerName.Contains("D-DUCT")
+                || srcLayerName.Contains("D-PIPE")
+                || srcLayerName.Contains("D-EQUP")
+                || srcLayerName.Contains("D-AI")
+                || srcLayerName.Contains("D-BUSH")
+                || srcLayerName.Contains("D-HOLE")
+                || srcLayerName.Contains("D-BASE")
+                || srcLayerName.Contains("D-HOBU")
+                || srcLayerName.Contains("D-DIMS")
+                || srcLayerName.Contains("C-SHET")
+                || srcLayerName.Contains("E-UNIV")
+                || srcLayerName.Contains("E-REQU")
+                || srcLayerName.Contains("E-POWR")
+                || srcLayerName.Contains("E-GRND")
+                || srcLayerName.Contains("E-THUN")
+                || srcLayerName.Contains("E-LITE")
+                || srcLayerName.Contains("E-TELE")
+                || srcLayerName.Contains("E-CTRL")
+                || srcLayerName.Contains("E-FAS")
+                || srcLayerName.Contains("E-EFPS")
+                || srcLayerName.Contains("E-GCS")
+                || srcLayerName.Contains("E-CATV")
+                || srcLayerName.Contains("E-IAS")
+                || srcLayerName.Contains("E-VSCS")
+                || srcLayerName.Contains("E-PLMS")
+                || srcLayerName.Contains("E-BRST")
+                || srcLayerName.Contains("E-MBF")
+                || srcLayerName.Contains("E-GTS")
+                || srcLayerName.Contains("E-BAS")
+                || srcLayerName.Contains("E-MOBL"))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// 是否是封闭空间图层列表
+        /// </summary>
+        /// <param name="srcLayerName"></param>
+        /// <returns></returns>
+        public static bool IsValidLoopLayer(string srcLayerName)
+        {
+            if (IsValidShowLayer(srcLayerName, "AE-WALL")
+                || IsValidShowLayer(srcLayerName, "COLU")
+                || IsValidShowLayer(srcLayerName, "AD-NAME-ROOM")
+                || IsValidShowLayer(srcLayerName, "AE-STRU")
+                || IsValidShowLayer(srcLayerName, "AE-HDWR")
+                || IsValidShowLayer(srcLayerName, "AE-FLOR")
+                || IsValidShowLayer(srcLayerName, "S_WALL")
+                || IsValidShowLayer(srcLayerName, "S_WALL_DETL")
+                || IsValidShowLayer(srcLayerName, "S_BRIK")
+                || IsValidShowLayer(srcLayerName, "AE-FNSH")
+                || IsValidShowLayer(srcLayerName, "AE-DOOR-INSD")
+                || IsValidShowLayer(srcLayerName, "AE-WIND"))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 判断单个能否炸开，以及返回的数据
+        /// </summary>
+        /// <param name="block"></param>
+        /// <param name="childReferences"></param>
+        /// <returns></returns>
+        public static List<Entity> FromSingleBlock2(BlockReference block, ref List<BlockReference> childReferences)
+        {
+            if (block == null)
+                return null;
+
+            var entityLst = new List<Entity>();
+            try
+            {
+                var name = block.Name; // 块的名字
+
+                if (name.Contains("Window resuce mark"))
+                    return null;
+
+                if (name.Contains("door") && block.Visible)
+                {
+                    entityLst.Add(block);
+                    return entityLst;
+                }
+
+                var dbCollection = new DBObjectCollection();
+                block.Explode(dbCollection);
+                var blockLayer = block.Layer;
+                if (IsHasBlockReference(dbCollection)) // 内部包含块
+                {
+                    foreach (var obj in dbCollection)
+                    {
+                        if (obj is Entity)
+                        {
+                            if (obj is BlockReference)
+                            {
+                                var childBlock = obj as BlockReference;
+                                if (childBlock.Visible)
+                                {
+                                    var childBlockLayer = childBlock.Layer;
+                                    if (IsValidLoopLayer(childBlockLayer))
+                                        childReferences.Add(childBlock);
+                                    else if (!IsOtherStandardLayer(childBlockLayer))
+                                    {
+                                        childBlock.Layer = blockLayer;
+                                        childReferences.Add(childBlock);
+                                    }
+                                    else if (IsOtherStandardLayer(childBlockLayer))
+                                    {
+                                        childReferences.Add(childBlock);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                var entity = obj as Entity;
+                                if (entity.Visible)
+                                {
+                                    var entityLayer = entity.Layer;
+                                    if (IsValidLoopLayer(entityLayer))
+                                        entityLst.Add(entity);
+                                    else if (!IsOtherStandardLayer(entityLayer))
+                                    {
+                                        entity.Layer = blockLayer;
+                                        entityLst.Add(entity);
+                                    }
+                                    else if (IsOtherStandardLayer(entityLayer))
+                                    {
+                                        entityLst.Add(entity);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (IsCanExplode(dbCollection)) // 内部不包含块且曲线所在的图层名包含3个以上
+                {
+                    foreach (var obj in dbCollection)
+                    {
+                        if (obj is Entity)
+                        {
+                            var entity = obj as Entity;
+                            if (entity.Visible)
+                            {
+                                var entityLayer = entity.Layer;
+                                if (IsValidLoopLayer(entityLayer))
+                                    entityLst.Add(entity);
+                                else if (!IsOtherStandardLayer(entityLayer))
+                                {
+                                    entity.Layer = blockLayer;
+                                    entityLst.Add(entity);
+                                }
+                                else if (IsOtherStandardLayer(entityLayer))
+                                {
+                                    entityLst.Add(entity);
+                                }
+                            }
+                        }
+                    }
+                }
+                else // 内部不包含块且曲线所在的图层名小于3个图层
+                {
+                    // 此时这个块不被炸开作为一个整体。
+                    if (block.Visible)
+                        entityLst.Add(block);
+                }
+            }
+            catch
+            {
+                return null;
+            }
+
+            return entityLst;
+        }
+
+        /// <summary>
         /// 判断单个能否炸开，以及返回的数据
         /// </summary>
         /// <param name="block"></param>
@@ -3806,18 +4145,104 @@ namespace TopoNode
                     var curve = obj as Curve;
                     if (curve.Visible)
                     {
-                        var layerName = curve.Layer;
-                        if (!layerNames.Contains(layerName))
+                        var curveLayer = curve.Layer;
+                        if (!curveLayer.Contains("AE-DOOR-INSD")
+                            && !curveLayer.Contains("AE-WIND"))
+                        return true;
+                        
+                        //var layerName = curve.Layer;
+                        //if (!layerNames.Contains(layerName))
+                        //{
+                        //    layerNames.Add(layerName);
+                        //    if (layerNames.Count > 3)
+                        //        return true;
+                        //}
+                    }
+                }
+                else if (obj is DBText text)
+                {
+                    if (text.Visible)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static List<Entity> PreProcessXREF2(List<string> validLayers)
+        {
+            var resEntityLst = new List<Entity>();
+            // 外部参照
+            double progressPos = 25;
+            using (var db = AcadDatabase.Active())
+            {
+                var refs = db.XRefs;
+                var incre = 15.0 / refs.Count();
+
+                foreach (var xblock in refs)
+                {
+                    if (xblock.Block.XrefStatus == XrefStatus.Resolved)
+                    {
+                        ObjectIdCollection idCollection = new ObjectIdCollection();
+                        BlockTableRecord blockTableRecord = xblock.Block;
+                        List<BlockReference> blockReferences = blockTableRecord.GetAllBlockReferences(true, true).ToList();
+                        for (int i = 0; i < blockReferences.Count(); i++)
                         {
-                            layerNames.Add(layerName);
-                            if (layerNames.Count > 3)
-                                return true;
+                            var blockReference = blockReferences[i];
+                            progressPos += 0.4;
+                            progressPos += incre;
+                            Progress.Progress.SetValue((int)progressPos);
+                            var entityLst = GetEntityFromBlock2(blockReference);
+                            if (entityLst != null && entityLst.Count != 0)
+                            {
+                                foreach (var entity in entityLst)
+                                {
+                                    if (!entity.Equals(blockReference))
+                                    {
+                                        try
+                                        {
+                                            if (entity is DBText || entity is MText)
+                                            {
+                                                continue;
+                                            }
+                                            if (entity is BlockReference)
+                                            {
+                                                // 块里面的数据可能是有效单元， 剔除文字的影响
+                                                var reference = entity as BlockReference;
+                                                var dbCollection = new DBObjectCollection();
+                                                reference.Explode(dbCollection);
+                                                foreach (var part in dbCollection)
+                                                {
+                                                    if (part is DBText || part is MText)
+                                                    {
+                                                        continue;
+                                                    }
+                                                    else if (part is Entity)
+                                                    {
+                                                        var partEntity = part as Entity;
+                                                        partEntity.Layer = reference.Layer;
+                                                        db.CurrentSpace.Add(partEntity);
+                                                        resEntityLst.Add(partEntity);
+                                                    }
+                                                }
+                                            }
+                                            else if (IsValidLayer(entity, validLayers))
+                                            {
+                                                db.CurrentSpace.Add(entity);
+                                                resEntityLst.Add(entity);
+                                            }
+                                        }
+                                        catch
+                                        { }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
 
-            return false;
+            return resEntityLst;
         }
 
         public static List<Entity> PreProcessXREF(List<string> validLayers)
@@ -3908,6 +4333,24 @@ namespace TopoNode
                 resEntityLst.AddRange(curEntityLst);
 
             var xRefEntityLst = PreProcessXREF(validLayers);
+            if (xRefEntityLst.Count != 0)
+                resEntityLst.AddRange(xRefEntityLst);
+            return resEntityLst;
+        }
+
+        /// <summary>
+        /// 图纸预处理
+        /// </summary>
+        public static List<Entity> PreProcess2(List<string> validLayers)
+        {
+            var resEntityLst = new List<Entity>();
+            var curEntityLst = PreProcessCurDwg2(validLayers);
+
+            if (curEntityLst.Count != 0)
+                resEntityLst.AddRange(curEntityLst);
+
+            var xRefEntityLst = PreProcessXREF2(validLayers);
+
             if (xRefEntityLst.Count != 0)
                 resEntityLst.AddRange(xRefEntityLst);
             return resEntityLst;
@@ -4450,6 +4893,20 @@ namespace TopoNode
             return false;
         }
 
+        private static bool IsValidShowLayer(string srcLayerName, string aimLayerName)
+        {
+            if (srcLayerName.Contains(aimLayerName)
+                && !srcLayerName.Contains("HATCH")
+                && !srcLayerName.Contains("OTHE")
+                && !srcLayerName.Contains("CAP")
+                && !srcLayerName.Contains("TEXT")
+                && !srcLayerName.Contains("DIMS")
+                && !srcLayerName.Contains("DETL"))
+                return true;
+
+            return false;
+        }
+
         /// <summary>
         /// 打开需要显示的图层
         /// </summary>
@@ -4494,7 +4951,7 @@ namespace TopoNode
 
                     if (layer.Name.Contains("AE-DOOR-INSD"))
                         doorLayers.Add(layer.Name);
-
+                    
                     if (layer.Name.Contains("AE-WIND"))
                         windLayers.Add(layer.Name);
 
