@@ -437,19 +437,22 @@ namespace ThColumnInfo.View
             }
             if(e.Button == MouseButtons.Right)
             {
-                this.tvCheckRes.SelectedNode = e.Node;
-                this.tvCheckRes.ContextMenuStrip = null;
+                this.contextMenuStrip2.Visible = false;
+                this.contextMenuStrip1.Visible = false;
                 if (e.Node.Tag != null)
                 {
                     if (e.Node.Tag.GetType() == typeof(ThStandardSignManager))
                     {
-                        this.tvCheckRes.ContextMenuStrip = this.contextMenuStrip2;
+                        this.contextMenuStrip2.Visible = true;
+                        this.contextMenuStrip2.Show(this.tvCheckRes, e.Location);                        
                     }
                     else if (e.Node.Tag.GetType() == typeof(ThStandardSign))
                     {
-                        this.tvCheckRes.ContextMenuStrip = this.contextMenuStrip1;
+                        this.contextMenuStrip1.Visible = true;
+                        this.contextMenuStrip1.Show(this.tvCheckRes, e.Location);                        
                     }
                 }
+                this.tvCheckRes.SelectedNode = e.Node;
                 return;
             }
             else
@@ -458,7 +461,6 @@ namespace ThColumnInfo.View
                 this.contextMenuStrip1.Visible = false;
                 this.contextMenuStrip2.Visible = false;
             }
-
             bool isCurrentDocument = CheckRootNodeIsCurrentDocument(e.Node);
             if (isCurrentDocument == false)
             {
