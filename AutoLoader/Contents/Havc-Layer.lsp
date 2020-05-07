@@ -116,8 +116,8 @@
     (setvar 'cmdecho 0)
 
     (command ".undo" "BE")
-    (TH:HideAll)
     (TH:SwitchToZero)
+    (TH:HideAll)
     (command "-layer" "on" "H-BASE" "")    
     (command "-layer" "on" "H-BASE-DIMS" "")
     (command "-layer" "on" "H-BUSH" "")
@@ -173,8 +173,8 @@
     (setvar 'cmdecho 0)
 
     (command ".undo" "BE")
-    (TH:HideAll)
     (TH:SwitchToZero)
+    (TH:HideAll)
     (command "-layer" "on" "H-BUSH" "")
     (command "-layer" "on" "H-BUSH-DIMS" "")
     (command "-layer" "on" "H-EQUP" "")
@@ -229,8 +229,8 @@
     (setvar 'cmdecho 0)
 
     (command ".undo" "BE")
-    (TH:HideAll)
     (TH:SwitchToZero)
+    (TH:HideAll)
     (command "-layer" "on" "H-DAPP-DAPP" "")
     (command "-layer" "on" "H-DAPP-DDAMP" "")
     (command "-layer" "on" "H-DAPP-DGRIL" "")
