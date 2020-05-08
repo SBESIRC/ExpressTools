@@ -122,7 +122,7 @@ namespace ThSitePlan
                                     { "Color", p.PSD_Color},
                                     { "Opacity", p.PSD_Transparency },
                                     { "CADFrame", p.CAD_Frame },
-                                    { "CADLayer", p.CAD_Layer }
+                                    { "CADLayer", LayerListToListStr(p.CAD_Layer) }
                                 }
                     });
                 }
@@ -143,6 +143,13 @@ namespace ThSitePlan
             });
         }
 
+        public static List<string> LayerListToListStr(List<LayerDataModel> _List)
+        {
+            if (_List == null || _List.Count == 0) { return new List<string>(); }
+            List<string> _ListStr = new List<string>();
+            _List.ForEach(p => _ListStr.Add(FuncStr.NullToStr(p.Name)));
+            return _ListStr;
+        }
 
 
 
