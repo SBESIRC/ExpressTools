@@ -92,7 +92,6 @@
     (command "-layer" "oFF" "H-DUCT-FIRE" "")
     (command "-layer" "oFF" "H-FIRE-FBOX" "")
     (command "-layer" "oFF" "H-DUCT-DUAL" "")
-    (command "-layer" "oFF" "H-HOLE" "")
 )
 
 ; ÇÐ»»µ±Ç°Í¼²ãµ½"0"Í¼²ã
@@ -154,7 +153,6 @@
     (command "-layer" "on" "H-HOBU-DIMS" "")
     (command "-layer" "on" "h-hole-dims" "")
     (command "-layer" "on" "H-EQUP-AHU" "")
-    (command "-layer" "on" "H-HOLE" "")
     (command ".undo" "E") 
 
     (setvar 'cmdecho oecho)
