@@ -242,9 +242,9 @@ namespace ThColumnInfo
                         doc.Editor.WriteMessage("\n假定箍筋间距: "+ embededData.Item1.IntStirrupSpacingCal);
 
                         doc.Editor.WriteMessage("\n---------------用户自定义数据---------------");
-
                         doc.Editor.WriteMessage("\n抗震等级: " + embededData.Item2.AntiSeismicGrade);
                         doc.Editor.WriteMessage("\n混凝土强度: "+ embededData.Item2.ConcreteStrength);
+                        doc.Editor.WriteMessage("\n保护层厚度: " + embededData.Item2.ProtectLayerThickness);
                         doc.Editor.WriteMessage("\n是否角柱: "+ embededData.Item2.CornerColumn);
                         doc.Editor.WriteMessage("\n箍筋全高度加密: " + embededData.Item2.HoopReinforceFullHeightEncryption);
                         doc.Editor.WriteMessage("\n箍筋放大倍数: " + embededData.Item2.HoopReinforcementEnlargeTimes);

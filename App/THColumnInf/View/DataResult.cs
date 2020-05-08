@@ -317,20 +317,20 @@ namespace ThColumnInfo.View
                 switch (this.dgvColumnTable.Columns[i].Name)
                 {
                     case "all":
-                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth*3);
+                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth*2.5);
                         break;
                     case "bSide":
                     case "hside":
-                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth * 2);
+                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth * 1.75);
                         break;
                     case "hooping":
-                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth * 2);
+                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth * 1.5);
                         break;
                     case "limbNum":
-                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth * 2);
+                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth * 1.5);
                         break;
                     case "hoopType":
-                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth * 2);
+                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth * 1.5);
                         break;
                     default:
                         this.dgvColumnTable.Columns[i].Width = baseWidth;
