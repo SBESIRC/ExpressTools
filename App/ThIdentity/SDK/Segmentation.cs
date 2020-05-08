@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace ThIdentity.SDK
 {
@@ -16,7 +14,7 @@ namespace ThIdentity.SDK
         /// Segmenation array
         /// </summary>
         [DataMemberAttribute]
-        internal List<SegmentationItem> segmentation { get; set; }
+        public List<SegmentationItem> segmentation { get; set; }
 
         /// <summary>
         /// Needed for JSON deserialization
