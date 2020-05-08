@@ -733,7 +733,7 @@ namespace TianHua.AutoCAD.ThCui
                 // 通风模式
                 splitButton.AddNewButton("通风模式",
                     "通风模式",
-                    "THPSTF",
+                    "THTF",
                     "切换到通风模式",
                     "IDI_THCAD_THPSTF_SMALL",
                     "IDI_THCAD_THPSTF_LARGE",
