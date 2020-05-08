@@ -383,7 +383,7 @@ namespace ThColumnInfo
             foreach (string protectThick in protectThickCollection)
             {
                 short colorIndex = coluBindTexts.Where(i => i.CustomData.ProtectLayerThickness == protectThick)
-                    .Select(i => i.CustomData.LongitudinalEnlargeTimesColorIndex).FirstOrDefault();
+                    .Select(i => i.CustomData.ProtectThickColorIndex).FirstOrDefault();
                 Autodesk.AutoCAD.Colors.Color color = Autodesk.AutoCAD.Colors.Color.FromColorIndex(
                     Autodesk.AutoCAD.Colors.ColorMethod.ByColor, colorIndex);
                 colorTextInfos.Add(new ColorTextInfo
