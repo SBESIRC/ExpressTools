@@ -452,10 +452,5 @@ namespace ThSitePlan
 
 #endif
         }
-
-        public static void RectangCmd(this Editor editor, Point3d firstcorner, Point3d Seccorner)
-        {
-            Active.Editor.Command("_.RECTANG", firstcorner, Seccorner);
-        }
     }
 }
