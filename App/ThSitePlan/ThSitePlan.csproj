@@ -15,6 +15,10 @@
   </PropertyGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
+    <Reference Include="Interop.Photoshop">
+      <HintPath>..\..\Externals\Photoshop\2018\Interop.Photoshop.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -24,6 +28,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TianHua.Publics.BaseCode">
+      <HintPath>..\..\Externals\TianHua.Publics\TianHua.Publics.BaseCode.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ThSitePlanConfigService.cs" />
@@ -51,6 +58,7 @@
     <Compile Include="Engine\ThSitePlanShadowWorkerEx.cs" />
     <Compile Include="Engine\ThSitePlanTrimGenerator.cs" />
     <Compile Include="Engine\ThSitePlanWorker.cs" />
+    <Compile Include="Function\FuncFile.cs" />
     <Compile Include="Photoshop\ThSitePlanPSEngine.cs" />
     <Compile Include="Photoshop\ThSitePlanPSGenerator.cs" />
     <Compile Include="Photoshop\ThSitePlanPSDefaultGenerator.cs" />
@@ -149,19 +157,7 @@
     <PackageReference Include="NetTopologySuite" Version="1.15.2" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="Photoshop">
-      <Guid>{E891EE9A-D0AE-4CB4-8871-F92C0109F18E}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Enum\" />
-    <Folder Include="Function\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
@@ -169,11 +165,11 @@
       <DependentUpon>ThSitePlanForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +192,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\删除_细.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BasicStyle.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

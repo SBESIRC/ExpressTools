@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions18 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmConfigManage));
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject69 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject70 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject71 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject72 = new DevExpress.Utils.SerializableAppearanceObject();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -170,7 +170,7 @@
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
             this.layoutControl1.LookAndFeel.SkinName = "Metropolis";
             this.layoutControl1.Name = "layoutControl1";
-            this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(1026, 465, 650, 400);
+            this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(499, 195, 650, 533);
             this.layoutControl1.Root = this.layoutControlGroup1;
             this.layoutControl1.Size = new System.Drawing.Size(712, 478);
             this.layoutControl1.TabIndex = 0;
@@ -232,45 +232,46 @@
             // 
             // BtnHelp
             // 
-            this.BtnHelp.Location = new System.Drawing.Point(634, 446);
+            this.BtnHelp.Location = new System.Drawing.Point(624, 445);
             this.BtnHelp.Name = "BtnHelp";
-            this.BtnHelp.Size = new System.Drawing.Size(66, 20);
+            this.BtnHelp.Size = new System.Drawing.Size(77, 22);
             this.BtnHelp.TabIndex = 16;
             this.BtnHelp.Text = "帮助";
             this.BtnHelp.UseVisualStyleBackColor = true;
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(563, 446);
+            this.BtnCancel.Location = new System.Drawing.Point(554, 445);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(67, 20);
+            this.BtnCancel.Size = new System.Drawing.Size(68, 22);
             this.BtnCancel.TabIndex = 15;
             this.BtnCancel.Text = "取消";
             this.BtnCancel.UseVisualStyleBackColor = true;
             // 
             // BtnOK
             // 
-            this.BtnOK.Location = new System.Drawing.Point(479, 446);
+            this.BtnOK.Location = new System.Drawing.Point(478, 445);
             this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(80, 20);
+            this.BtnOK.Size = new System.Drawing.Size(74, 22);
             this.BtnOK.TabIndex = 14;
             this.BtnOK.Text = "确定";
             this.BtnOK.UseVisualStyleBackColor = true;
+            this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
             // 
             // BtnExport
             // 
-            this.BtnExport.Location = new System.Drawing.Point(176, 446);
+            this.BtnExport.Location = new System.Drawing.Point(175, 445);
             this.BtnExport.Name = "BtnExport";
-            this.BtnExport.Size = new System.Drawing.Size(81, 20);
+            this.BtnExport.Size = new System.Drawing.Size(83, 22);
             this.BtnExport.TabIndex = 13;
             this.BtnExport.Text = "导出";
             this.BtnExport.UseVisualStyleBackColor = true;
             // 
             // BtnImport
             // 
-            this.BtnImport.Location = new System.Drawing.Point(96, 446);
+            this.BtnImport.Location = new System.Drawing.Point(95, 445);
             this.BtnImport.Name = "BtnImport";
-            this.BtnImport.Size = new System.Drawing.Size(76, 20);
+            this.BtnImport.Size = new System.Drawing.Size(78, 22);
             this.BtnImport.TabIndex = 12;
             this.BtnImport.Text = "导入";
             this.BtnImport.UseVisualStyleBackColor = true;
@@ -278,9 +279,9 @@
             // 
             // BtnRestore
             // 
-            this.BtnRestore.Location = new System.Drawing.Point(12, 446);
+            this.BtnRestore.Location = new System.Drawing.Point(11, 445);
             this.BtnRestore.Name = "BtnRestore";
-            this.BtnRestore.Size = new System.Drawing.Size(80, 20);
+            this.BtnRestore.Size = new System.Drawing.Size(82, 22);
             this.BtnRestore.TabIndex = 11;
             this.BtnRestore.Text = "还原";
             this.BtnRestore.UseVisualStyleBackColor = true;
@@ -401,10 +402,10 @@
             // 
             this.ColorEdit.AutoHeight = false;
             this.ColorEdit.AutomaticColor = System.Drawing.Color.Black;
-            editorButtonImageOptions18.Image = ((System.Drawing.Image)(resources.GetObject("editorButtonImageOptions18.Image")));
+            editorButtonImageOptions1.Image = global::ThSitePlan.UI.Properties.Resources.吸取;
             this.ColorEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions18, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject69, serializableAppearanceObject70, serializableAppearanceObject71, serializableAppearanceObject72, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.ColorEdit.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.ColorEdit.ColorDialogOptions.AllowTransparency = false;
             this.ColorEdit.ColorDialogOptions.ShowMakeWebSafeButton = false;
@@ -472,7 +473,7 @@
             this.ColLayer.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.ColLayer.Caption = "CAD图层";
             this.ColLayer.ColumnEdit = this.PopupContainer;
-            this.ColLayer.FieldName = "CAD_Layer";
+            this.ColLayer.FieldName = "CAD_Layer_Value";
             this.ColLayer.Name = "ColLayer";
             this.ColLayer.OptionsColumn.AllowMove = false;
             this.ColLayer.Visible = true;
@@ -716,6 +717,7 @@
             this.layoutControlItem2.Control = this.BtnRestore;
             this.layoutControlItem2.Location = new System.Drawing.Point(0, 434);
             this.layoutControlItem2.Name = "layoutControlItem2";
+            this.layoutControlItem2.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
             this.layoutControlItem2.Size = new System.Drawing.Size(84, 24);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
@@ -725,6 +727,7 @@
             this.layoutControlItem3.Control = this.BtnImport;
             this.layoutControlItem3.Location = new System.Drawing.Point(84, 434);
             this.layoutControlItem3.Name = "layoutControlItem3";
+            this.layoutControlItem3.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
             this.layoutControlItem3.Size = new System.Drawing.Size(80, 24);
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextVisible = false;
@@ -734,6 +737,7 @@
             this.layoutControlItem4.Control = this.BtnExport;
             this.layoutControlItem4.Location = new System.Drawing.Point(164, 434);
             this.layoutControlItem4.Name = "layoutControlItem4";
+            this.layoutControlItem4.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
             this.layoutControlItem4.Size = new System.Drawing.Size(85, 24);
             this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem4.TextVisible = false;
@@ -743,25 +747,28 @@
             this.layoutControlItem5.Control = this.BtnOK;
             this.layoutControlItem5.Location = new System.Drawing.Point(467, 434);
             this.layoutControlItem5.Name = "layoutControlItem5";
-            this.layoutControlItem5.Size = new System.Drawing.Size(84, 24);
+            this.layoutControlItem5.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
+            this.layoutControlItem5.Size = new System.Drawing.Size(76, 24);
             this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem5.TextVisible = false;
             // 
             // layoutControlItem6
             // 
             this.layoutControlItem6.Control = this.BtnCancel;
-            this.layoutControlItem6.Location = new System.Drawing.Point(551, 434);
+            this.layoutControlItem6.Location = new System.Drawing.Point(543, 434);
             this.layoutControlItem6.Name = "layoutControlItem6";
-            this.layoutControlItem6.Size = new System.Drawing.Size(71, 24);
+            this.layoutControlItem6.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
+            this.layoutControlItem6.Size = new System.Drawing.Size(70, 24);
             this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem6.TextVisible = false;
             // 
             // layoutControlItem8
             // 
             this.layoutControlItem8.Control = this.BtnHelp;
-            this.layoutControlItem8.Location = new System.Drawing.Point(622, 434);
+            this.layoutControlItem8.Location = new System.Drawing.Point(613, 434);
             this.layoutControlItem8.Name = "layoutControlItem8";
-            this.layoutControlItem8.Size = new System.Drawing.Size(70, 24);
+            this.layoutControlItem8.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
+            this.layoutControlItem8.Size = new System.Drawing.Size(79, 24);
             this.layoutControlItem8.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem8.TextVisible = false;
             // 

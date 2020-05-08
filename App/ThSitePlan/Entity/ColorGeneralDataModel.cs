@@ -48,7 +48,9 @@ namespace ThSitePlan
         /// <summary>
         /// CAD图层
         /// </summary>
-        public LayerDataModel CAD_Layer { get; set; }
+        public List<LayerDataModel> CAD_Layer { get; set; }
+
+        public LayerDataModel CAD_Layer_Value { get; set; }
 
 
         ///// <summary>
