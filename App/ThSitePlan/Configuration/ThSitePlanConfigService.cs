@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
+using TianHua.Publics.BaseCode;
 
 namespace ThSitePlan.Configuration
 {
@@ -62,6 +63,11 @@ namespace ThSitePlan.Configuration
         /// 初始化
         /// </summary>
         public void Initialize()
+        {
+            InitializeWithResource();
+        }
+
+        private void InitalizeWithCode()
         {
             Root = new ThSitePlanConfigItemGroup();
             Root.Properties.Add("Name", "天华彩总");
@@ -188,7 +194,16 @@ namespace ThSitePlan.Configuration
 
             // 景观绿地
             Root.AddGroup(ConstructGreenland());
+        }
 
+        private void InitializeWithResource()
+        {
+            string _Txt = FuncStr.NullToStr(Properties.Resources.BasicStyle);
+            var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(_Txt);
+            Root = new ThSitePlanConfigItemGroup();
+            Root.Properties.Add("Name", "天华彩总");
+            FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);
+            Root = ReConstructItemName(Root, null);
         }
 
         public void EnableAll(bool bEnable)
@@ -341,7 +356,7 @@ namespace ThSitePlan.Configuration
             {
                 // 建筑物-场地外建筑
                 var OuterBuilding = new ThSitePlanConfigItemGroup();
-                OuterBuilding.Properties.Add("Name", "场地内建筑");
+                OuterBuilding.Properties.Add("Name", "场地外建筑");
                 // 建筑物-场地外建筑-建筑信息
                 OuterBuilding.AddItem(new ThSitePlanConfigItem()
                 {
@@ -358,7 +373,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                // 建筑物-场地内建筑-建筑色块
+                // 建筑物-场地外建筑-建筑色块
                 OuterBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
@@ -374,7 +389,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                // 建筑物-场地内建筑-建筑线稿
+                // 建筑物-场地外建筑-建筑线稿
                 OuterBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
@@ -764,6 +779,7 @@ namespace ThSitePlan.Configuration
                         { "CADLayer", new  List<string>()
                             {
                                 ThSitePlanCommon.LAYER_ROAD_EXTERNAL,
+                                "P-TRAF-CITY"
                             }
                         }
                     }
@@ -820,7 +836,7 @@ namespace ThSitePlan.Configuration
             {
                 //铺装-场地外铺地
                 var Pavement_Outd = new ThSitePlanConfigItemGroup();
-                Pavement_Outd.Properties.Add("Name", "景观树");
+                Pavement_Outd.Properties.Add("Name", "场地外铺地");
 
                 // 铺装-场地外铺地-铺装色块
                 Pavement_Outd.AddItem(new ThSitePlanConfigItem()
@@ -1030,6 +1046,25 @@ namespace ThSitePlan.Configuration
                 }
             }
             return FindGroup;
+        }
+
+        private ThSitePlanConfigItemGroup ReConstructItemName(ThSitePlanConfigItemGroup origingroup, string outergroupname)
+        {
+            //遍历传入的Group中所有子项，若是Group,记住名字并继续向深层遍历，若遍历到子item,将Item名扩展重建
+            foreach (var item in origingroup.Items)
+            {
+                if (item is ThSitePlanConfigItemGroup gp)
+                {
+                    string innergroupname = gp.Properties["Name"].ToString();
+                    ReConstructItemName(gp, outergroupname + innergroupname + "-");
+                }
+                else if (item is ThSitePlanConfigItem it)
+                {
+                    it.Properties["Name"] = outergroupname + it.Properties["Name"].ToString();
+                }
+            }
+
+            return origingroup;
         }
     }
 }

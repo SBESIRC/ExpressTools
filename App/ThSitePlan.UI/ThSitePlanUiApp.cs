@@ -289,6 +289,7 @@ namespace ThSitePlan.UI
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                  {
                     new ThSitePlanContentGenerator(),
+                    new ThSitePlanTrimGenerator(),
                     new ThSitePlanBoundaryGenerator(),
                     new ThSitePlanHatchGenerator(),
                     new ThSitePlanShadowGenerator(),
