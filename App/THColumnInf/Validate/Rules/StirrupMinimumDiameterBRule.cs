@@ -8,31 +8,23 @@ namespace ThColumnInfo.Validate
 {
     public class StirrupMinimumDiameterBRule:IRule
     {
-        private ColumnDataModel cdm;
-        public StirrupMinimumDiameterBRule(ColumnDataModel columnDataModel)
+        private StirrupMinimumDiameterBModel smdb;
+        public StirrupMinimumDiameterBRule(StirrupMinimumDiameterBModel smdb)
         {
-            this.cdm = columnDataModel;
+            this.smdb = smdb;
         }
         public List<string> ValidateResults { get; set; } = new List<string>();
         public List<string> CorrectResults { get; set; } = new List<string>();
 
-        private  bool ValidateProperty()
-        {
-            if (this.cdm.Code.Contains("LZ") || this.cdm.Code.Contains("KZ") || this.cdm.Code.Contains("ZHZ"))
-            {
-                return true;
-            }
-            return false;
-        }
         public void Validate()
         {
-            if(this.cdm == null || ValidateProperty()==false)
+            if(this.smdb == null || this.smdb.ValidateProperty()==false)
             {
                 return;
             }            
-            if(this.cdm.IntStirrupDia<6)
+            if(this.smdb.Cdm.IntStirrupDia<6)
             {
-                this.ValidateResults.Add("箍筋直径小于6  (" + this.cdm.IntStirrupDia+
+                this.ValidateResults.Add("箍筋直径小于6  (" + this.smdb.Cdm.IntStirrupDia+
                     "<6) (砼规 9.3.2-1)");
             }
             else
@@ -48,7 +40,7 @@ namespace ThColumnInfo.Validate
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 9.3.2-1，条文页数：P123");
             steps.Add("条文：箍筋直径不应小于d/4 ，且不应小于6mm, d 为纵向钢筋的最大直径；");
 
-            steps.Add("if (IntStirrupDia[" + this.cdm.IntStirrupDia + "] < 6)");
+            steps.Add("if (IntStirrupDia[" + this.smdb.Cdm.IntStirrupDia + "] < 6)");
             steps.Add("  {");
             steps.Add("     箍筋直径小于6");
             steps.Add("  }");

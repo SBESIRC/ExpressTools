@@ -21,9 +21,9 @@ namespace ThColumnInfo.Validate
             {
                 return;
             }
-            if (this.ruleModel.Cdm.DblP > 5)
+            if (this.ruleModel.Cdm.DblP > 0.05)
             {
-                ValidateResults.Add("全部纵向钢筋的配筋率不宜大于5% ("+ this.ruleModel.Cdm.DblP + ">5) "+ "(砼规 9.3.1-1,P123)");
+                ValidateResults.Add("全部纵向钢筋的配筋率不宜大于5% ");
             }
             else
             {
@@ -39,13 +39,13 @@ namespace ThColumnInfo.Validate
             steps.Add("条文：全部纵向钢筋的配筋率不宜大于5%");
             steps.Add(this.ruleModel.Cdm.GetDblAsCalculation());
             steps.Add(this.ruleModel.Cdm.GetDblpCalculation());
-            steps.Add("if (dblP[" + this.ruleModel.Cdm.DblP + "] > 5)");
+            steps.Add("if (dblP[" + this.ruleModel.Cdm.DblP + "] > 0.05)");
             steps.Add("  {");
             steps.Add("     Err: 全部纵向钢筋的配筋率不宜大于5%");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("     OK: 全部纵向钢筋的配筋率小于5%");
+            steps.Add("     Debugprint: 全部纵向钢筋的配筋率小于5%");
             steps.Add("  }");
             steps.Add("");
             return steps;

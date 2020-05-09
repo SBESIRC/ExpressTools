@@ -8,32 +8,24 @@ namespace ThColumnInfo.Validate
 {
     public class StirrupMaximumSpacingHRule : IRule
     {
-        private ColumnDataModel cdm = null;
-        public StirrupMaximumSpacingHRule(ColumnDataModel columnDataModel)
+        private StirrupMaximumSpacingHModel smsh = null;
+        public StirrupMaximumSpacingHRule(StirrupMaximumSpacingHModel smsh)
         {
-            cdm = columnDataModel;
+            this.smsh = smsh;
         }
         public List<string> ValidateResults { get; set; } = new List<string>();
         public List<string> CorrectResults { get; set; } = new List<string>();
 
-        private bool ValidateProperty()
-        {
-            if(this.cdm.Code.Contains("KZ") || this.cdm.Code.Contains("ZHZ"))
-            {
-                return true;
-            }
-            return false;
-        }
         public void Validate()
         {
-            if(cdm==null || ValidateProperty()==false)
+            if(smsh == null || smsh.ValidateProperty()==false)
             {
                 return;
             }
-            if(cdm.IntStirrupSpacing0>cdm.IntStirrupSpacing*2)
+            if(smsh.Cdm.IntStirrupSpacing0> smsh.Cdm.IntStirrupSpacing*2)
             {
-                this.ValidateResults.Add("非加密区箍筋体积配箍率小于加密区的2倍 ("+ 
-                    cdm.IntStirrupSpacing0+">"+ cdm.IntStirrupSpacing * 2+ ") (砼规 11.4.19)");
+                this.ValidateResults.Add("非加密区箍筋体积配箍率小于加密区的2倍 ("+
+                    smsh.Cdm.IntStirrupSpacing0+">"+ smsh.Cdm.IntStirrupSpacing * 2+ ") (砼规 11.4.19)");
             }
             else
             {
@@ -47,7 +39,7 @@ namespace ThColumnInfo.Validate
             steps.Add("条目编号：512， 强制性：应，适用构件：KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 11.4.19，条文页数：P179");
             steps.Add("条文：在箍筋加密区外，箍筋的体积配筋率不宜小于加密区配筋率的一半");
-            steps.Add("if (IntStirrupSpacing0[" + cdm.IntStirrupSpacing0 + "] > IntStirrupSpacing[" + cdm.IntStirrupSpacing + "] * 2)");
+            steps.Add("if (IntStirrupSpacing0[" + smsh.Cdm.IntStirrupSpacing0 + "] > IntStirrupSpacing[" + smsh.Cdm.IntStirrupSpacing + "] * 2)");
             steps.Add("  {");
             steps.Add("      非加密区箍筋体积配箍率小于加密区的2倍");
             steps.Add("  }");

@@ -26,7 +26,7 @@ namespace ThColumnInfo.Validate
             minValue = Math.Min(minValue, verDirForceIronModel.Cdm.IntCBarDia);
             if(minValue<12)
             {
-                ValidateResults.Add("纵向受力钢筋直径不宜小于12mm ("+ minValue+"<12) " + "(砼规 9.3.1-1,P123)");
+                ValidateResults.Add("纵向受力钢筋直径不宜小于12mm");
             }
             else
             {
@@ -52,7 +52,7 @@ namespace ThColumnInfo.Validate
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("     Ok: 纵向受力钢筋直径不小于12mm");
+            steps.Add("     Debugprint: 纵向受力钢筋直径不小于12mm");
             steps.Add("  }");
             steps.Add("");
             return steps;

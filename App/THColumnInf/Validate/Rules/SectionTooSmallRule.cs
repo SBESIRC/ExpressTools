@@ -28,8 +28,7 @@ namespace ThColumnInfo.Validate
             {
                 if (Math.Min(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H) < 300)
                 {
-                    this.ValidateResults.Add("最小截面不满足 (" + Math.Min(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H) +
-                        "<300) " + "(砼规 11.4.11-1,P175)");
+                    this.ValidateResults.Add("最小截面不满足 (砼规 11.4.11-1,P175)");
                 }
                 else
                 {
@@ -41,8 +40,7 @@ namespace ThColumnInfo.Validate
             {
                 if (Math.Min(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H) < 400)
                 {
-                    this.ValidateResults.Add("截面过小 (" + Math.Min(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H) +
-                        "<400) " + "(砼规 11.4.11-1,P175)");
+                    this.ValidateResults.Add("截面过小 " + "(砼规 11.4.11-1,P175)");
                 }
                 else
                 {
@@ -73,7 +71,7 @@ namespace ThColumnInfo.Validate
             steps.Add("  {");
             steps.Add("    if (Math.Min(B[" + columnSectionModel.Cdm.B + "],H[" + columnSectionModel.Cdm.H + "]) < 400 )");
             steps.Add("       {");
-            steps.Add("          Err:截面过小");
+            steps.Add("          Err:最小截面不满足");
             steps.Add("       }");
             steps.Add("    else");
             steps.Add("       {");

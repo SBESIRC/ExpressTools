@@ -57,7 +57,6 @@ namespace ThColumnInfo.Validate
         /// </summary>
         private void GetNaturalFloorCount()
         {
-            List<FloorInfo> floorInfs = new List<FloorInfo>();
             string dtModelPath = this.calculateInfo.GetDtlmodelFullPath();
             if (string.IsNullOrEmpty(dtModelPath))
             {
@@ -70,8 +69,7 @@ namespace ThColumnInfo.Validate
             }
             //获取自然层及对应的标准层
             ExtractYjkColumnInfo extractYjkColumnInfo = new ExtractYjkColumnInfo(dtModelPath);
-            floorInfs = extractYjkColumnInfo.GetNaturalFloorInfs();
-            FloorCount = floorInfs.Count;
+            FloorCount = extractYjkColumnInfo.GetNaturalFloorCount();
         }
         public void Validate()
         {
@@ -111,7 +109,7 @@ namespace ThColumnInfo.Validate
                 {
                     if(item.Key.ModelColumnInfs.Count==1)
                     {
-                        sw.WriteLine("关联柱号：" + item.Key.ModelColumnInfs[0].Code);
+                        sw.WriteLine("关联柱号：" + item.Key.ModelColumnInfs[0].Text);
                     }
                     sw.WriteLine("JtID：" + item.Key.DbColumnInf.JtID);
                     sw.WriteLine("FloorID：" + item.Key.DbColumnInf.FloorID);
@@ -438,18 +436,18 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildMinimumReinforceRatioBRule());         // 最小配筋率B(侧面纵筋)
             validateRules.Add(BuildReinforcementAreaRule());              // 配筋面积(侧面纵筋)
             validateRules.Add(BuildStirrupLimbSpaceRule());               // 箍筋肢距(箍筋)
-            validateRules.Add(new StirrupMinimumDiameterARule(this.cdm)); // 箍筋最小直径A(箍筋)
-            validateRules.Add(new StirrupMinimumDiameterBRule(this.cdm)); // 箍筋最小直径B(箍筋)
-            validateRules.Add(new StirrupMaximumSpacingARule(this.cdm));  // 箍筋最大间距A(箍筋)
-            validateRules.Add(new StirrupMaximumSpacingBRule(this.cdm));  // 箍筋最大间距B(箍筋)
-            validateRules.Add(new StirrupMaximumSpacingCRule(this.cdm));  // 箍筋最大间距C(箍筋)
-            validateRules.Add(new CompoundStirrupRule(this.cdm));         // 复合箍筋(箍筋)
-            validateRules.Add(new StirrupMinimumDiameterCRule(this.cdm)); // 箍筋最小直径C(箍筋)
-            validateRules.Add(new StirrupMaximumSpacingDRule(this.cdm));  // 箍筋最大间距D(箍筋)
-            validateRules.Add(new StirrupMaximumSpacingERule(this.cdm));  // 箍筋最大间距E(箍筋)
+            validateRules.Add(BuildStirrupMinimumDiameterARule());        // 箍筋最小直径A(箍筋)
+            validateRules.Add(BuildStirrupMinimumDiameterBRule());        // 箍筋最小直径B(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpacingARule());         // 箍筋最大间距A(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpacingBRule());         // 箍筋最大间距B(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpacingCRule());         // 箍筋最大间距C(箍筋)
+            validateRules.Add(BuildCompoundStirrupRule());                // 复合箍筋(箍筋)
+            validateRules.Add(BuildStirrupMinimumDiameterCRule());        // 箍筋最小直径C(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpacingDRule());         // 箍筋最大间距D(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpacingERule());         // 箍筋最大间距E(箍筋)
             validateRules.Add(BuildStirrupMinimumDiameterDRule());        // 箍筋最小直径D(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceFRule());           // 箍筋最大间距F(箍筋)
-            validateRules.Add(new StirrupMaximumSpacingHRule(this.cdm));  // 箍筋最大间距H(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpacingHRule());         // 箍筋最大间距H(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceJRule());           // 箍筋最大间距J(箍筋)
             validateRules.Add(BuildVolumeReinforceRatioARule());          // 体积配箍率A(箍筋)
             validateRules.Add(BuildVolumeReinforceRatioBRule());          // 体积配箍率B(箍筋)
@@ -551,6 +549,7 @@ namespace ThColumnInfo.Validate
             AngularReinforcementDiaModel ardm = new AngularReinforcementDiaModel
             {
                 Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                IsCornerColumn = this.cornerColumn,
                 AngularReinforcementDia = cdm.IntCBarDia,
                 AngularReinforcementDiaLimited = this.columnRelateInf.YjkColumnData.ArDiaLimited
             };
@@ -640,7 +639,7 @@ namespace ThColumnInfo.Validate
                 this.antiSeismicGrade, columnType, this.structureType);
 
             //混凝土强度大于等于C60,加上0.1
-            List<double> concreteValues = ThColumnInfoUtils.GetDoubleValues(this.columnRelateInf.CustomData.ConcreteStrength);
+            List<double> concreteValues = ThColumnInfoUtils.GetDoubleValues(this.concreteStrength);
             if (concreteValues.Count > 0 && concreteValues[0] >= 60)
             {
                 dblsespmin += 0.1;
@@ -651,7 +650,7 @@ namespace ThColumnInfo.Validate
                 Dblsespmin = dblsespmin,
                 Cdm = cdm,
                 IsFourClassHigherArchitecture = ThSpecificationValidate.paraSetInfo.IsFourClassHigherArchitecture, //后期再调整
-                ConcreteStrength = this.columnRelateInf.CustomData.ConcreteStrength
+                ConcreteStrength = this.concreteStrength
             };
             IRule rule = new MinimumReinforcementRatioBRule(mrrm);
             return rule;
@@ -666,7 +665,7 @@ namespace ThColumnInfo.Validate
             ReinforcementAreaModel ram = new ReinforcementAreaModel
             {
                 Code = this.columnRelateInf.ModelColumnInfs[0].Code,
-                Cdm=cdm,
+                Cdm =cdm,
                 DblXAsCal= this.columnRelateInf.YjkColumnData.DblXAsCal,
                 DblYAsCal= this.columnRelateInf.YjkColumnData.DblYAsCal
             };
@@ -688,6 +687,141 @@ namespace ThColumnInfo.Validate
                 ProtectLayerThickness = this.protectLayerThickness
             };
             rule = new StirrupLimbSpaceRule(slsm);
+            return rule;
+        }
+        /// <summary>
+        /// 箍筋最小直径A(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupMinimumDiameterARule()
+        {
+            IRule rule = null;
+            StirrupMinimumDiameterAModel smda = new StirrupMinimumDiameterAModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Cdm = cdm,
+            };
+            rule = new StirrupMinimumDiameterARule(smda); 
+            return rule;
+        }
+        /// <summary>
+        /// 箍筋最小直径B(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupMinimumDiameterBRule()
+        {
+            IRule rule = null;
+            StirrupMinimumDiameterBModel smdb = new StirrupMinimumDiameterBModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Cdm = cdm,
+            };
+            rule = new StirrupMinimumDiameterBRule(smdb);
+            return rule;
+        }
+        /// <summary>
+        /// 箍筋最大间距A(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupMaximumSpacingARule()
+        {
+            IRule rule = null;
+            StirrupMaximumSpacingAModel smsa = new StirrupMaximumSpacingAModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Cdm = cdm,
+            };
+            rule = new StirrupMaximumSpacingARule(smsa);
+            return rule;
+        }
+        /// <summary>
+        /// 箍筋最大间距B(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupMaximumSpacingBRule()
+        {
+            IRule rule = null;
+            StirrupMaximumSpacingBModel smsb = new StirrupMaximumSpacingBModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Cdm = cdm,
+            };
+            rule = new StirrupMaximumSpacingBRule(smsb);
+            return rule;
+        }
+        /// <summary>
+        /// 箍筋最大间距C(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupMaximumSpacingCRule()
+        {
+            IRule rule = null;
+            StirrupMaximumSpacingCModel smsc = new StirrupMaximumSpacingCModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Cdm = cdm,
+            };
+            rule = new StirrupMaximumSpacingCRule(smsc);
+            return rule;
+        }
+        /// <summary>
+        /// 复合箍筋(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildCompoundStirrupRule()
+        {
+            IRule rule = null;
+            CompoundStirrupModel csm = new CompoundStirrupModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Cdm = cdm,
+            };
+            rule = new CompoundStirrupRule(csm);
+            return rule;
+        }
+        /// <summary>
+        /// 箍筋最小直径C(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupMinimumDiameterCRule()
+        {
+            IRule rule = null;
+            StirrupMinimumDiameterCModel smdc = new StirrupMinimumDiameterCModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Cdm = cdm,
+            };
+            rule = new StirrupMinimumDiameterCRule(smdc);
+            return rule;
+        }
+        /// <summary>
+        /// 箍筋最大间距D(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupMaximumSpacingDRule()
+        {
+            IRule rule = null;
+            StirrupMaximumSpacingDModel smsd = new StirrupMaximumSpacingDModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Cdm = cdm,
+            };
+            rule = new StirrupMaximumSpacingDRule(smsd);
+            return rule;
+        }
+        /// <summary>
+        /// 箍筋最大间距E(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupMaximumSpacingERule()
+        {
+            IRule rule = null;
+            StirrupMaximumSpacingEModel smse = new StirrupMaximumSpacingEModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Cdm = cdm,
+            };
+            rule = new StirrupMaximumSpacingERule(smse);
             return rule;
         }
         /// <summary>
@@ -758,6 +892,21 @@ namespace ThColumnInfo.Validate
                 IntStirrupSpacingLimited = stirrupSpaceingLimited
             };
             rule = new StirrupMaximumSpacingFRule(smsf);
+            return rule;
+        }
+        /// <summary>
+        /// 箍筋最大间距H(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupMaximumSpacingHRule()
+        {
+            IRule rule = null;
+            StirrupMaximumSpacingHModel smsh = new StirrupMaximumSpacingHModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Cdm = cdm,
+            };
+            rule = new StirrupMaximumSpacingHRule(smsh);
             return rule;
         }
         /// <summary>

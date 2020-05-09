@@ -816,6 +816,7 @@ namespace ThColumnInfo
                 }
                 acadColor = ThColumnInfoUtils.SystemColorToAcadColor(sysColor);
                 ThColumnInfoUtils.ChangeColor(frameId, acadColor.ColorIndex);
+                ThColumnInfoUtils.EraseObjIds(this.ColumnInfs[i].FrameId);
                 this.ColumnInfs[i].FrameId = frameId;
             }
             if (!show)

@@ -31,11 +31,11 @@ namespace ThColumnInfo.Validate
             double maxValue = Math.Max(dblXBarspacing, dblYBarspacing);
             if (minValue<50)  //柱中纵向钢筋的净间距不应小于50mm
             {
-                ValidateResults.Add("纵向钢筋钢筋净间距不足 ("+ minValue+"< 50) "+ "(砼规 9.3.1-1,P123)");
+                ValidateResults.Add("纵向钢筋净间距不足");
             }
             else if (maxValue > 300) //且不宜大于300mm
             {
-                ValidateResults.Add("纵向钢筋钢筋净间距过大 (" + maxValue + ">= 300) " + "(砼规 9.3.1-1,P123)");
+                ValidateResults.Add("纵向钢筋净间距过大");
             }
             else
             {
@@ -59,15 +59,15 @@ namespace ThColumnInfo.Validate
 
             steps.Add("if (Math.Min(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) < 50)");
             steps.Add("  {");
-            steps.Add("      Err: 纵向钢筋钢筋净间距不足");
+            steps.Add("      Err: 纵向钢筋净间距不足");
             steps.Add("  }");
             steps.Add("else if(Math.Max(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) >= 300)");
             steps.Add("  {");
-            steps.Add("      Err: 纵向钢筋钢筋净间距过大");
+            steps.Add("      Err: 纵向钢筋净间距过大");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Ok: 纵向钢筋净间距ok");
+            steps.Add("      Debugprint: 纵向钢筋净间距ok");
             steps.Add("  }");
             steps.Add("");
             return steps;

@@ -701,7 +701,7 @@ namespace ThColumnInfo
             yjkColumnDataInfo.ProtectThickness = protectThickness;
 
             //判断是否为角柱
-            yjkColumnDataInfo.IsCorner = yjkCalculateDb.CheckCornerColumn(columnId);
+            yjkColumnDataInfo.IsCorner = yjkModelDb.CheckColumnIsCorner(columnRelateInf.DbColumnInf.JtID);
 
             double structureParaValue = yjkModelDb.GetStructureTypeInModel();
             yjkColumnDataInfo.StructureType = ThValidate.GetStructureType(structureParaValue);
@@ -714,7 +714,7 @@ namespace ThColumnInfo
                 yjkColumnDataInfo.DblYAsCal = values[1];
             }
             //是否底层
-            yjkColumnDataInfo.IsGroundFloor = CheckIsGroundFloor();
+            yjkColumnDataInfo.IsGroundFloor = yjkModelDb.CheckIsGroundFloor(columnRelateInf.DbColumnInf.StdFlrID);
 
             //获取设防烈度
             double fortiCation = 0.0;
@@ -746,27 +746,6 @@ namespace ThColumnInfo
             yjkColumnDataInfo.IntStirrupSpacingCal = intStirrupSpacingCal;
 
             return yjkColumnDataInfo;
-        }
-        /// <summary>
-        /// 如果计算导入有"1F" ，则为底层
-        /// </summary>
-        /// <returns></returns>
-        private bool CheckIsGroundFloor()
-        {
-            bool isGroundFloor = false;
-            if(thStandardSign.SignPlantCalData==null)
-            {
-                return isGroundFloor;
-            }
-            CalculationInfoVM calculationInfoVM = new CalculationInfoVM(thStandardSign.SignPlantCalData.CalInfo);
-            List<string> naturalFloors = calculationInfoVM.GetSelectFloors();
-
-            var includeFirstGroundRes = naturalFloors.Where(i => i.ToUpper() == "1F").Select(i => i);
-            if (includeFirstGroundRes != null && includeFirstGroundRes.Count() > 0)
-            {
-                isGroundFloor = true;
-            }
-            return isGroundFloor;
         }
         private void AddExtensionDictionary(ObjectId entityId, YjkColumnDataInfo yjkColumnDataInfo,ColumnCustomData columnCustomData, DrawColumnInf drawColumnInf)
         {

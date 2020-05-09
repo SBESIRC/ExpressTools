@@ -362,7 +362,7 @@ namespace ThColumnInfo
         /// <returns></returns>
         public bool CheckCornerColumn(int columnID)
         {
-            bool isCorner = false;
+            bool isCorner = true;
             try
             {
                 string sql = "select AsBiAxialT,AsBiAxialB from tblRCColDsn where ID =" + columnID;
@@ -372,7 +372,47 @@ namespace ThColumnInfo
                     if (string.IsNullOrEmpty(dr["AsBiAxialT"].ToString().Trim()) &&
                        string.IsNullOrEmpty(dr["AsBiAxialB"].ToString().Trim())) 
                     {
-                        isCorner = true;                       
+                        //两列是Null,就不是角柱
+                        isCorner = false;                       
+                    }
+                    break;
+                }
+            }
+            catch (Exception ex)
+            {
+                ThColumnInfoUtils.WriteException(ex, "CheckCornerColumn");
+            }
+            return isCorner;
+        }
+        /// <summary>
+        /// 从dtlModel库中的tblProperty表中获取
+        /// </summary>
+        /// <param name="jtID"></param>
+        /// <returns></returns>
+        public bool CheckColumnIsCorner(int jtID)
+        {
+            bool isCorner = false;
+            try
+            {
+                string sql = "select ShapeVal from tblColSeg left join tblProperty  on tblColSeg.ID=tblProperty.ID" +
+                    " where tblProperty.Name ='SpColm' and tblColSeg.JtID =" + jtID;
+                DataTable dt = ExecuteDataTable(sql);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dr["ShapeVal"]!=null)
+                    {
+                       string[] strs =  dr["ShapeVal"].ToString().Split(',');
+                        if(strs.Length>=3)
+                        {
+                            double value = 0.0;
+                            if(double.TryParse(strs[2],out value))
+                            {
+                                if(value==1.0)
+                                {
+                                    isCorner = true;
+                                }
+                            }
+                        }
                     }
                     break;
                 }
@@ -533,20 +573,8 @@ namespace ThColumnInfo
             List<FloorInfo> flrInfs = new List<FloorInfo>();
             try
             {
-                string sql = "select No_,StdFlrID,Height from tblFloor";
-                DataTable dt = ExecuteDataTable(sql);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    if (dr["No_"] != null && dr["StdFlrID"] != null)
-                    {
-                        FloorInfo floorInfo = new FloorInfo();
-                        floorInfo.No = Convert.ToInt32(dr["No_"]);
-                        floorInfo.StdFlrID = Convert.ToInt32(dr["StdFlrID"]);
-                        floorInfo.Height = Convert.ToInt32(dr["Height"]);
-                        flrInfs.Add(floorInfo);
-                    }
-                }
-                flrInfs=flrInfs.OrderBy(i => i.No).ToList();
+                flrInfs = GetNaturalFloorInfsInDtlModel();
+                flrInfs =flrInfs.OrderBy(i => i.No).ToList();
                 int undergoundFloorNum = GetUndergroundFloor();
                 for(int i=0;i< undergoundFloorNum;i++)
                 {
@@ -563,6 +591,63 @@ namespace ThColumnInfo
             }
             return flrInfs;
         }
+        /// <summary>
+        /// 从dtlModel库中获取自然层
+        /// </summary>
+        /// <returns></returns>
+        private List<FloorInfo> GetNaturalFloorInfsInDtlModel()
+        {
+            List<FloorInfo> flrInfs = new List<FloorInfo>();
+            string sql = "select No_,StdFlrID,Height from tblFloor";
+            DataTable dt = ExecuteDataTable(sql);
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (dr["No_"] != null && dr["StdFlrID"] != null)
+                {
+                    FloorInfo floorInfo = new FloorInfo();
+                    floorInfo.No = Convert.ToInt32(dr["No_"]);
+                    floorInfo.StdFlrID = Convert.ToInt32(dr["StdFlrID"]);
+                    floorInfo.Height = Convert.ToInt32(dr["Height"]);
+                    flrInfs.Add(floorInfo);
+                }
+            }
+            return flrInfs;
+        }        
+        public int GetNaturalFloorCount()
+        {
+            int count = 0;
+            List<FloorInfo> flrInfs = GetNaturalFloorInfsInDtlModel();
+            int totalFloorCount = flrInfs.Count;
+            int undergoundFloorCount = GetUndergroundFloor();
+            count = totalFloorCount - undergoundFloorCount;
+            return count;
+        }
+        /// <summary>
+        /// 如果计算导入有"1F" ，则为底层
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckIsGroundFloor(int stdFlrID)
+        {
+            bool isGroundFloor = false;
+            int underGroundCount = GetUndergroundFloor();
+            int firstFloorNumber = underGroundCount + 1;
+            string sql = "select StdFlrID from tblFloor where No_ = "+ firstFloorNumber;
+            DataTable dt = ExecuteDataTable(sql);
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (dr["StdFlrID"] != null)
+                {
+                    int currentstdFlrID = Convert.ToInt32(dr["StdFlrID"]);
+                    if (stdFlrID == currentstdFlrID)
+                    {
+                        isGroundFloor = true;
+                    }
+                    break;
+                }
+            }
+            return isGroundFloor;
+        }
+
         /// <summary>
         /// 从计算库(dtlCalc)中的表tblColSegPara中获取抗震等级
         /// </summary>

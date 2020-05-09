@@ -8,43 +8,35 @@ namespace ThColumnInfo.Validate
 {
     public class CompoundStirrupRule:IRule
     {
-        private ColumnDataModel cdm = null;
-        public CompoundStirrupRule(ColumnDataModel columnDataModel)
+        private CompoundStirrupModel csm = null;
+        public CompoundStirrupRule(CompoundStirrupModel csm)
         {
-            this.cdm = columnDataModel;
+            this.csm = csm;
         }
         public List<string> ValidateResults { get; set; } = new List<string>();
         public List<string> CorrectResults { get; set; } = new List<string>();
-        private bool ValidateProperty()
-        {
-            if (cdm.Code.Contains("LZ") || cdm.Code.Contains("KZ") || cdm.Code.Contains("ZHZ"))
-            {
-                return true;
-            }
-            return false;
-        }
         public void Validate()
         {
-           if(this.cdm==null || ValidateProperty()==false)
+           if(this.csm == null || csm.ValidateProperty()==false)
             {
                 return;
             }
-           if((cdm.B>400 && cdm.IntXBarCount>1) || (cdm.B<=400 && cdm.IntXBarCount > 2))
+           if((this.csm.Cdm.B>400 && this.csm.Cdm.IntXBarCount>1) || (this.csm.Cdm.B<=400 && this.csm.Cdm.IntXBarCount > 2))
             {
-                if(cdm.IntYStirrupCount<=2)
+                if(this.csm.Cdm.IntYStirrupCount<=2)
                 {
-                    this.ValidateResults.Add("应设置复合箍筋 ("+ cdm.IntYStirrupCount+ "<=2) (砼规 9.3.2-4)");
+                    this.ValidateResults.Add("应设置复合箍筋 ("+ this.csm.Cdm.IntYStirrupCount+ "<=2) (砼规 9.3.2-4)");
                 }
                 else
                 {
                     this.CorrectResults.Add("设置复合箍筋");
                 }
             }
-           if((cdm.H>400 && cdm.IntYBarCount>1) || (cdm.H<=400 && cdm.IntYBarCount>2))
+           if((this.csm.Cdm.H>400 && this.csm.Cdm.IntYBarCount>1) || (this.csm.Cdm.H<=400 && this.csm.Cdm.IntYBarCount>2))
             {
-                if(cdm.IntXStirrupCount<=2)
+                if(this.csm.Cdm.IntXStirrupCount<=2)
                 {
-                    this.ValidateResults.Add("应设置复合箍筋 (" + cdm.IntXStirrupCount + "<=2) (砼规 9.3.2-4)");
+                    this.ValidateResults.Add("应设置复合箍筋 (" + this.csm.Cdm.IntXStirrupCount + "<=2) (砼规 9.3.2-4)");
                 }
                 else
                 {
@@ -61,10 +53,10 @@ namespace ThColumnInfo.Validate
             steps.Add("条文：当柱截面短边尺寸大于400mm 且各边纵向钢筋多于3根时，或当柱截面短边尺寸不大于400mm 但各边纵向钢筋多于4根时，应设置复合箍筋");
 
 
-            steps.Add("if ((B[" + cdm.B + "] > 400 && IntXBarCount[" +
-               cdm.IntXBarCount + "] > 1 ) || (B["+ cdm.B+ "] <= 400 && IntXBarCount[" + cdm.IntXBarCount+"] > 2))");
+            steps.Add("if ((B[" + this.csm.Cdm.B + "] > 400 && IntXBarCount[" +
+               this.csm.Cdm.IntXBarCount + "] > 1 ) || (B["+ this.csm.Cdm.B+ "] <= 400 && IntXBarCount[" + this.csm.Cdm.IntXBarCount+"] > 2))");
             steps.Add("  {");
-            steps.Add("    if (IntYStirrupCount[" + cdm.IntYStirrupCount  + "] <= 2 )");
+            steps.Add("    if (IntYStirrupCount[" + this.csm.Cdm.IntYStirrupCount  + "] <= 2 )");
             steps.Add("      {");
             steps.Add("          Err：应设置复合箍筋");
             steps.Add("      }");
@@ -74,10 +66,10 @@ namespace ThColumnInfo.Validate
             steps.Add("      }");
             steps.Add("  }");
 
-            steps.Add("if ((H[" + cdm.H + "] > 400 && IntYBarCount[" +
-               cdm.IntYBarCount + "] > 1 ) || (H[" + cdm.H + "] <= 400 && IntYBarCount[" + cdm.IntYBarCount + "] > 2))");
+            steps.Add("if ((H[" + this.csm.Cdm.H + "] > 400 && IntYBarCount[" +
+               this.csm.Cdm.IntYBarCount + "] > 1 ) || (H[" + this.csm.Cdm.H + "] <= 400 && IntYBarCount[" + this.csm.Cdm.IntYBarCount + "] > 2))");
             steps.Add("  {");
-            steps.Add("    if (IntXStirrupCount[" + cdm.IntXStirrupCount + "] <= 2 )");
+            steps.Add("    if (IntXStirrupCount[" + this.csm.Cdm.IntXStirrupCount + "] <= 2 )");
             steps.Add("      {");
             steps.Add("          Err：应设置复合箍筋");
             steps.Add("      }");
