@@ -16,8 +16,8 @@ namespace TianHua.AutoCAD.ThCui
             { Profile.HAVC, "暖通" },
             { Profile.STRUCTURE, "结构" },
             { Profile.ELECTRICAL, "电气" },
-            { Profile.PROJECTPLAN, "方案" },
-            { Profile.ARCHITECTURE, "建筑" },
+            { Profile.ARCHITECTURE, "方案" },
+            { Profile.CONSTRUCTION, "建筑" },
         };
 
         public static AcadPopupMenu PopupMenu

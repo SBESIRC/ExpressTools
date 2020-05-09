@@ -25,7 +25,7 @@ panels:
     items:
       - text: "柱校核\r\n（公测）"
         attributes: { "IsVisible": true, "IsEnabled": true }
-    attributes: { "IsVisible": true, "IsEnabled": true }
+    attributes: { "IsVisible": false, "IsEnabled": true }
   - UID: "pnlStatistic"
     name: "Statistic"
     title: "计算工具"

@@ -16,6 +16,7 @@ namespace TianHua.AutoCAD.ThCui
             { Profile.HAVC, ThCuiCommon.PROFILE_HAVC },
             { Profile.STRUCTURE, ThCuiCommon.PROFILE_STRUCTURE },
             { Profile.ELECTRICAL, ThCuiCommon.PROFILE_ELECTRICAL },
+            { Profile.CONSTRUCTION, ThCuiCommon.PROFILE_CONSTRUCTION },
             { Profile.ARCHITECTURE, ThCuiCommon.PROFILE_ARCHITECTURE },
         };
 

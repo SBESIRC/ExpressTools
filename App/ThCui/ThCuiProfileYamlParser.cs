@@ -17,11 +17,11 @@ namespace TianHua.AutoCAD.ThCui
             string config = null;
             switch (profile)
             {
-                case Profile.PROJECTPLAN:
-                    config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_project.yml");
-                    break;
                 case Profile.ARCHITECTURE:
                     config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_architecture.yml");
+                    break;
+                case Profile.CONSTRUCTION:
+                    config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_construction.yml");
                     break;
                 case Profile.STRUCTURE:
                     config = GetResourceFileText("TianHua.AutoCAD.ThCui.Resources.profile_ribbon_structure.yml");

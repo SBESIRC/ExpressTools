@@ -14,11 +14,11 @@ namespace TianHua.AutoCAD.ThCui
         /// <summary>
         /// 方案
         /// </summary>
-        PROJECTPLAN = 0,
+        ARCHITECTURE = 0,
         /// <summary>
-        /// 建筑
+        /// 施工
         /// </summary>
-        ARCHITECTURE = 1,
+        CONSTRUCTION = 1,
         /// <summary>
         /// 结构
         /// </summary>

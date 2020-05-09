@@ -25,7 +25,8 @@
         public static readonly string PROFILE_HAVC = "天华暖通";
         public static readonly string PROFILE_STRUCTURE = "天华结构";
         public static readonly string PROFILE_ELECTRICAL = "天华电气";
-        public static readonly string PROFILE_ARCHITECTURE = "天华建筑";
+        public static readonly string PROFILE_CONSTRUCTION = "天华建筑";
+        public static readonly string PROFILE_ARCHITECTURE = "天华方案";
         public static readonly string PROFILE_GENERAL = "天华通用";
 
         public static readonly string PATH_WSS = "给排水";
