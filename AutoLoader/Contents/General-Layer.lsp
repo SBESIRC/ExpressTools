@@ -42,25 +42,21 @@
     (setq rules (strcat *pluginContentPath* "\\Standards\\Layer\\Process.csv"))
     (if (setq data (LM:readcsv rules))
         (progn
-            ; set all non-standard layers to color 9 
-            (command "._-layer" "color" 9 "*" "")
             ; set all standard layers (layername)
             (foreach line data
                 (setq name      (nth 2 line))
                 (setq color     (nth index line))
-                (command "._-layer" "color" color name "")
+                (if (/= color "nil")
+                    (command "._-layer" "color" color name "")
+                )
             )
             ; set all xref attached standard layers (drawingname|layername)
             (foreach line data
                 (setq name      (nth 2 line))
                 (setq color     (nth index line))
-                (command "._-layer" "color" color (strcat "*" "|" name) "")
-            )
-            ; set all xref binded layers (drawingname$0$layername/drawingname$1$layername)
-            (foreach line data
-                (setq name      (nth 2 line))
-                (setq color     (nth index line))
-                (command "._-layer" "color" color (strcat "*" "$" "*" "$" name) "")
+                (if (/= color "nil")
+                    (command "._-layer" "color" color (strcat "*" "|" name) "")
+                )
             )
             (layerstate-save "½¨Öþµ×Í¼" 255 nil)
             (princ)
