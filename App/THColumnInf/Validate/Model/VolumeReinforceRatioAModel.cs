@@ -11,7 +11,13 @@ namespace ThColumnInfo.Validate
         /// <summary>
         /// 体积配筋率限值
         /// </summary>
-        public double VolumnReinforceRatioLimited { get; set; }
+        public double VolumnReinforceRatioLimited
+        {
+            get
+            {
+                return GetVolumnReinforceRatioLimited();
+            }
+        }
         /// <summary>
         /// 柱表数据信息
         /// </summary>
@@ -21,6 +27,10 @@ namespace ThColumnInfo.Validate
         /// 保护层厚度
         /// </summary>
         public double ProtectLayerThickness { get; set; }
+        /// <summary>
+        /// 抗震等级
+        /// </summary>
+        public string AntiSeismicGrade { get; set; }
         public override bool ValidateProperty()
         {
             if(!(this.Code.ToUpper().Contains("KZ")|| this.Code.ToUpper().Contains("ZHZ")))
@@ -36,6 +46,12 @@ namespace ThColumnInfo.Validate
                 return false;
             }
             return true;
+        }
+        private double GetVolumnReinforceRatioLimited()
+        {
+            double limitedValue = ThValidate.GetVolumeReinforcementRatioLimited(
+                this.Code, this.AntiSeismicGrade);
+            return limitedValue;
         }
     }
 }

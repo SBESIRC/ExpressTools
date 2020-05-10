@@ -41,6 +41,7 @@ namespace ThColumnInfo.Validate
             steps.Add("条目编号：12， 强制性：宜，适用构件：KZ、ZHZ");
             steps.Add("适用功能：图纸校核，条文编号：砼规 11.4.11-2，条文页数：175");
             steps.Add("条文：柱的剪跨比宜大于2");
+            steps.Add("柱号 = " + this.ssrm.Text);
             steps.Add("if(剪跨比[" + ssrm.ShearSpanRatio + "] < 2.0 )");
             steps.Add("  {");
             steps.Add("        Err：剪跨比小于2");
