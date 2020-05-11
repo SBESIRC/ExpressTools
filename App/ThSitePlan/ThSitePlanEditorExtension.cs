@@ -143,7 +143,7 @@ namespace ThSitePlan
                 ResultBuffer args = new ResultBuffer(
                    new TypedValue((int)LispDataType.Text, "_.-HATCH"),
                    new TypedValue((int)LispDataType.Point3d, ptin),
-                   new TypedValue((int)LispDataType.Text, ""),
+                   new TypedValue((int)LispDataType.Text, "")
                    );
                 Active.Editor.AcedCmd(args);
 #endif
