@@ -32,15 +32,15 @@ namespace ThColumnInfo.Validate
                 / (this.smsfm.Cdm.IntXStirrupCount - 1);
             double dblStirrupSpace = Math.Max(dblXSpace, dblYSpace);
 
-            if (this.smsfm.Cdm.Antiseismic.Contains("一级") &&
-                !this.smsfm.Cdm.Antiseismic.Contains("特"))
+            if (this.smsfm.AntiSeismicGrade.Contains("一级") &&
+                !this.smsfm.AntiSeismicGrade.Contains("特"))
             {
                 if (this.smsfm.Cdm.IntStirrupDia > 12 && dblStirrupSpace <= 150)
                 {
                     stirrupSpaceingLimited = 150;
                 }
             }
-            else if (this.smsfm.Cdm.Antiseismic.Contains("二级"))
+            else if (this.smsfm.AntiSeismicGrade.Contains("二级"))
             {
                 if (this.smsfm.Cdm.IntStirrupDia >= 10 && dblStirrupSpace <= 150)
                 {
@@ -92,8 +92,8 @@ namespace ThColumnInfo.Validate
             steps.Add("double dblStirrupSpace = Math.Max(dblXSpace[" + dblXSpace + "],dblYSpace[" +
                 dblYSpace + "]) = " + dblStirrupSpace);
 
-            steps.Add("if (抗震等级[" + this.smsfm.Cdm.Antiseismic + "].Contains(\"一级\") &&" +
-                " !抗震等级[" + this.smsfm.Cdm.Antiseismic + "].Contains(\"一级\"))");
+            steps.Add("if (抗震等级[" + this.smsfm.AntiSeismicGrade + "].Contains(\"一级\") &&" +
+                " !抗震等级[" + this.smsfm.AntiSeismicGrade + "].Contains(\"一级\"))");
             steps.Add("  {");
             steps.Add("        if (IntStirrupDia[" + this.smsfm.Cdm.IntStirrupDia + "] > 12 &&" +
                 " dblStirrupSpace[" + dblStirrupSpace + "] <= 150)");
@@ -101,7 +101,7 @@ namespace ThColumnInfo.Validate
             steps.Add("              IntStirrupSpacingLimited = 150");
             steps.Add("         }");
             steps.Add("  }");
-            steps.Add("else if (抗震等级[" + this.smsfm.Cdm.Antiseismic + "].Contains(\"二级\"))");
+            steps.Add("else if (抗震等级[" + this.smsfm.AntiSeismicGrade + "].Contains(\"二级\"))");
             steps.Add("  {");
             steps.Add("        if (IntStirrupDia[" + this.smsfm.Cdm.IntStirrupDia + "] >= 10 &&" +
                 " dblStirrupSpace[" + dblStirrupSpace + "] <= 150)");

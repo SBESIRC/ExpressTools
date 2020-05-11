@@ -17,7 +17,7 @@ namespace ThColumnInfo
         private List<List<Point3d>> thColumnPoints = new List<List<Point3d>>();
         public static double offsetDisScale = 3.0;
         public static double lineWidth = 200;
-        private string thColumnRegAppName = "ThColumnCalculation";
+        private string thColumnRegAppName = "ThColumnCalculation";        
         private ExtractYjkColumnInfo yjkCalculateDb = null;
         private ExtractYjkColumnInfo yjkModelDb = null;
         private Document document = null;
@@ -177,7 +177,6 @@ namespace ThColumnInfo
             }
             //如果要导入计算书，需要重新提取一次信息
             this.thStandardSign.SignExtractColumnInfo.Extract();
-
             //提取埋入的柱子范围内对应的本地图纸柱子,(校核命令可提取柱子数量)
             if (this.thStandardSign.SignExtractColumnInfo.ColumnInfs.Count == 0)
             {

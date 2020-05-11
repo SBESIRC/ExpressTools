@@ -35,8 +35,7 @@ namespace ThColumnInfo.Validate
                 if (Math.Max(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H) /
                     Math.Min(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H) > 3.0)
                 {
-                    this.ValidateResults.Add("长边大于短边的3倍 (" + Math.Max(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H) /
-                    Math.Min(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H) + ">3.0) " + "(砼规 11.4.11-3,P175)");
+                    this.ValidateResults.Add("长边大于短边的3倍");
                 }
                 else
                 {

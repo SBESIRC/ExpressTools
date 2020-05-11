@@ -619,8 +619,7 @@ namespace ThColumnInfo.Validate
             {
                 Code = this.columnRelateInf.ModelColumnInfs[0].Code,
                 Text = this.columnRelateInf.ModelColumnInfs[0].Text,
-                P1 = ThSpecificationValidate.paraSetInfo.GetLongitudinalReinforcementGrade(cdm.Ctri.BEdgeSideMiddleReinforcement),
-                P2 = ThValidate.GetConcreteStrengthValue(this.concreteStrength),
+                ConcreteStrength= this.concreteStrength,                
                 Cdm = cdm
             };
             IRule rule = new MinimumReinforcementRatioARule(mrrm);
@@ -926,7 +925,7 @@ namespace ThColumnInfo.Validate
                 Cdm = this.cdm,
                 FortificationIntensity= this.columnRelateInf.YjkColumnData.FortiCation,
                 ProtectLayerThickness = this.protectLayerThickness,
-                Antiseismic= this.antiSeismicGrade
+                AntiSeismicGrade = this.antiSeismicGrade
             };
             IRule rule = new VolumeReinforceRatioBRule(vrrb);
             return rule;

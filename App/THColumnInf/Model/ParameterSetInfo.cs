@@ -330,5 +330,56 @@ namespace ThColumnInfo
             }
             return value;
         }
+        /// <summary>
+        /// 获取纵筋符号(%%130,%%131,%%132,%%133)
+        /// </summary>
+        /// <param name="longitudinalReinforcSpec"></param>
+        /// <returns></returns>
+        public string GetLongitudinalReinforcementSign(string longitudinalReinforcSpec)
+        {
+            string sign = "";
+            if (string.IsNullOrEmpty(longitudinalReinforcSpec))
+            {
+                return sign;
+            }
+            byte[] buffers = Encoding.UTF32.GetBytes(longitudinalReinforcSpec);
+            var res1 = buffers.Where(i => i == 132);
+            if (res1 != null && res1.Count() > 0)
+            {
+                var steelBarLevel = this.steeBarLevels.Where(i => i.MatchStr.Contains("132")).FirstOrDefault();
+                if (steelBarLevel != null)
+                {
+                    return steelBarLevel.MatchStr;
+                }
+            }
+            var res2 = buffers.Where(i => i == 133);
+            if (res2 != null && res2.Count() > 0)
+            {
+                var steelBarLevel = this.steeBarLevels.Where(i => i.MatchStr.Contains("133")).FirstOrDefault();
+                if (steelBarLevel != null)
+                {
+                    return steelBarLevel.MatchStr;
+                }
+            }
+            var res3 = buffers.Where(i => i == 131);
+            if (res3 != null && res3.Count() > 0)
+            {
+                var steelBarLevel = this.steeBarLevels.Where(i => i.MatchStr.Contains("131")).FirstOrDefault();
+                if (steelBarLevel != null)
+                {
+                    return steelBarLevel.MatchStr;
+                }
+            }
+            var res4 = buffers.Where(i => i == 130);
+            if (res4 != null && res4.Count() > 0)
+            {
+                var steelBarLevel = this.steeBarLevels.Where(i => i.MatchStr.Contains("130")).FirstOrDefault();
+                if (steelBarLevel != null)
+                {
+                    return steelBarLevel.MatchStr;
+                }
+            }
+            return sign;
+        }
     }
 }

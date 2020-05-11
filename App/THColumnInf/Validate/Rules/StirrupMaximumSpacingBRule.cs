@@ -26,8 +26,7 @@ namespace ThColumnInfo.Validate
             double dblSeclower = Math.Min(this.smsb.Cdm.B, this.smsb.Cdm.H);
             if(this.smsb.Cdm.IntStirrupSpacing0> dblSeclower)
             {
-                this.ValidateResults.Add("箍筋间距大于构件截面的短边尺寸 (" + this.smsb.Cdm.IntStirrupSpacing0 +
-                    ">"+ dblSeclower+ ") (砼规 9.3.2-2)");
+                this.ValidateResults.Add("箍筋间距大于构件截面的短边尺寸");
             }
             else
             {
@@ -48,7 +47,7 @@ namespace ThColumnInfo.Validate
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      OK：箍筋间距小于构件截面的短边尺寸");
+            steps.Add("      Debugprint：箍筋间距小于构件截面的短边尺寸");
             steps.Add("  }");
             steps.Add("");
             return steps;

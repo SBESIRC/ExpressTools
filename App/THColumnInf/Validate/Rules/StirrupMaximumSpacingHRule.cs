@@ -24,11 +24,11 @@ namespace ThColumnInfo.Validate
             }
             if(smsh.Cdm.IntStirrupSpacing0> smsh.Cdm.IntStirrupSpacing*2)
             {
-                this.CorrectResults.Add("非加密区箍筋体积配箍率大于加密区的2倍");
+                this.ValidateResults.Add("非加密区箍筋体积配箍率小于加密区2倍");
             }
             else
             {
-                this.ValidateResults.Add("非加密区箍筋体积配箍率不大于加密区2倍");
+                this.CorrectResults.Add("非加密区箍筋体积配箍率不大于加密区2倍");
             }
         }
         public List<string> GetCalculationSteps()
@@ -41,11 +41,11 @@ namespace ThColumnInfo.Validate
             steps.Add("柱号 = " + this.smsh.Text);
             steps.Add("if (IntStirrupSpacing0[" + smsh.Cdm.IntStirrupSpacing0 + "] > IntStirrupSpacing[" + smsh.Cdm.IntStirrupSpacing + "] * 2)");
             steps.Add("  {");
-            steps.Add("     Debugprint: 非加密区箍筋体积配箍率大于加密区的2倍");
+            steps.Add("     Err: 非加密区箍筋体积配箍率小于加密区的2倍");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("     Err: 非加密区箍筋体积配箍率不大于加密区2倍");
+            steps.Add("     Debugprint: 非加密区箍筋体积配箍率不大于加密区2倍");
             steps.Add("  }");
             steps.Add("");
             return steps;

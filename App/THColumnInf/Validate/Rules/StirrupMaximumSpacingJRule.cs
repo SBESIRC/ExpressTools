@@ -91,7 +91,7 @@ namespace ThColumnInfo.Validate
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Ok: 非加密区箍筋间距满足抗震构造");
+            steps.Add("      Debugprint: 非加密区箍筋间距满足抗震构造");
             steps.Add("  }");
             steps.Add("");
             return steps;

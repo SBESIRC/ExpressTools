@@ -132,10 +132,6 @@ namespace ThColumnInfo
                 {
                     continue;
                 }
-                //if(this.columnRelateInfs[i].ModelColumnInfs.Count==0)
-                //{
-                //    continue;
-                //}
                 Point3d textBasePt = ThColumnInfoUtils.GetMidPt(this.columnRelateInfs[i].InModelPts[0], 
                     this.columnRelateInfs[i].InModelPts[1]);
                 DBText dBText = new DBText();
@@ -155,6 +151,8 @@ namespace ThColumnInfo
                 trans.Commit();
             }
             texts.ForEach(i => textIds.Add(i.ObjectId));
+            TypedValue tv = new TypedValue((int)DxfCode.ExtendedDataAsciiString, "*");
+            texts.ForEach(i => ThColumnInfoUtils.AddXData(i.ObjectId,ThColumnInfoUtils.thColumnFrameRegAppName,new List<TypedValue>() { tv }));
             return textIds;
         }
     }

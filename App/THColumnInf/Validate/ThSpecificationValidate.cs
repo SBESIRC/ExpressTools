@@ -312,6 +312,7 @@ namespace ThColumnInfo.Validate
             AngularReinforcementNumModel arnm = new AngularReinforcementNumModel
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 AngularReinforcementNum = cdm.IntCBarCount
             };
             IRule rule = new AngularReinforcementNumRule(arnm);
@@ -326,6 +327,7 @@ namespace ThColumnInfo.Validate
             ColumnSectionModel columnSectionModel = new ColumnSectionModel
             {
                 Code = this.columnInf.Code,
+                Text=this.columnInf.Text,
                 AntiSeismicGrade = this.antiSeismicGrade,
                 FloorTotalNums = ThSpecificationValidate.paraSetInfo.FloorCount,
                 Cdm=cdm
@@ -342,6 +344,7 @@ namespace ThColumnInfo.Validate
             ColumnSectionModel columnSectionModel = new ColumnSectionModel
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 AntiSeismicGrade = this.antiSeismicGrade,
                 FloorTotalNums = ThSpecificationValidate.paraSetInfo.FloorCount,
                 Cdm = cdm
@@ -358,6 +361,7 @@ namespace ThColumnInfo.Validate
             VerDirForceIronModel verDirForceIronModel= new VerDirForceIronModel
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm =this.cdm
             };
             IRule rule = new VerDirForceIronDiaRule(verDirForceIronModel);
@@ -372,6 +376,7 @@ namespace ThColumnInfo.Validate
             MaximumReinforcementRatioModel mrrm= new MaximumReinforcementRatioModel
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm =this.cdm
             };
             IRule rule = new MaximumReinforcementRatioRule(mrrm);
@@ -386,6 +391,7 @@ namespace ThColumnInfo.Validate
             VerDirIronClearSpaceModel vdiCSM= new VerDirIronClearSpaceModel
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 ProtectLayerThickness = this.protectLayerThickness,
                 Cdm=this.cdm
             };
@@ -401,8 +407,8 @@ namespace ThColumnInfo.Validate
             MinimumReinforceRatioAModel mrrm = new MinimumReinforceRatioAModel
             {
                 Code = this.columnInf.Code,
-                P1 = ThSpecificationValidate.paraSetInfo.GetLongitudinalReinforcementGrade(cdm.Ctri.BEdgeSideMiddleReinforcement),
-                P2 = ThValidate.GetConcreteStrengthValue(this.concreteStrength),
+                Text = this.columnInf.Text,
+                ConcreteStrength = this.concreteStrength,               
                 Cdm=cdm
             };
             IRule rule = new MinimumReinforcementRatioARule(mrrm);
@@ -416,8 +422,9 @@ namespace ThColumnInfo.Validate
         {
             MinimumReinforceRatioBModel mrrm = new MinimumReinforceRatioBModel
             {
-                Code = this.columnInf.Code, 
-                AntiSeismicGrade=this.antiSeismicGrade,
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                AntiSeismicGrade =this.antiSeismicGrade,
                 ConcreteStrength=this.concreteStrength,
                 StructureType=this.structureType,
                 IsCornerColumn=this.cornerColumn,
@@ -437,6 +444,7 @@ namespace ThColumnInfo.Validate
             StirrupLimbSpaceModel slsm = new StirrupLimbSpaceModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 AntiSeismicGrade = this.antiSeismicGrade,
                 Cdm = cdm,
                 ProtectLayerThickness = this.protectLayerThickness
@@ -454,6 +462,7 @@ namespace ThColumnInfo.Validate
             StirrupMinimumDiameterAModel smda = new StirrupMinimumDiameterAModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMinimumDiameterARule(smda);
@@ -469,6 +478,7 @@ namespace ThColumnInfo.Validate
             StirrupMinimumDiameterBModel smdb = new StirrupMinimumDiameterBModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMinimumDiameterBRule(smdb);
@@ -484,6 +494,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingAModel smsa = new StirrupMaximumSpacingAModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingARule(smsa);
@@ -499,6 +510,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingBModel smsb = new StirrupMaximumSpacingBModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingBRule(smsb);
@@ -514,6 +526,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingCModel smsc = new StirrupMaximumSpacingCModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingCRule(smsc);
@@ -529,6 +542,7 @@ namespace ThColumnInfo.Validate
             CompoundStirrupModel csm = new CompoundStirrupModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new CompoundStirrupRule(csm);
@@ -544,6 +558,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingDModel smsd = new StirrupMaximumSpacingDModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingDRule(smsd);
@@ -559,6 +574,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingEModel smse = new StirrupMaximumSpacingEModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingERule(smse);
@@ -574,6 +590,7 @@ namespace ThColumnInfo.Validate
             StirrupMinimumDiameterCModel smdc = new StirrupMinimumDiameterCModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMinimumDiameterCRule(smdc);
@@ -589,7 +606,8 @@ namespace ThColumnInfo.Validate
             StirrupMinimumDiameterDModel smdd = new StirrupMinimumDiameterDModel()
             {
                 Code=this.columnInf.Code,
-                AntiSeismicGrade=this.antiSeismicGrade,
+                Text = this.columnInf.Text,
+                AntiSeismicGrade =this.antiSeismicGrade,
                 IsFirstFloor= ThSpecificationValidate.isGroundFloor,
                 Jkb= shearSpanRatio,
                 IntStirrupDia = cdm.IntStirrupDia
@@ -607,9 +625,11 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingFModel smsf = new StirrupMaximumSpacingFModel()
             {
                 Code = this.columnInf.Code,
-                Cdm= this.cdm,
+                Text = this.columnInf.Text,
+                Cdm = this.cdm,
                 IsFirstFloor= ThSpecificationValidate.isGroundFloor,
-                AntiSeismicGrade=this.antiSeismicGrade
+                AntiSeismicGrade=this.antiSeismicGrade,
+                ProtectThickness=this.protectLayerThickness
             };
             rule = new StirrupMaximumSpacingFRule(smsf);
             return rule;
@@ -624,6 +644,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingHModel smsh = new StirrupMaximumSpacingHModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingHRule(smsh);
@@ -639,6 +660,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingJModel smsj = new StirrupMaximumSpacingJModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm =this.cdm,
                 Antiseismic= this.antiSeismicGrade
             };
