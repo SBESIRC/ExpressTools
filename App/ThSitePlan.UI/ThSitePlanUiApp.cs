@@ -280,7 +280,7 @@ namespace ThSitePlan.UI
                 //接着将需要更新的图框清空
                 foreach (var item in SortedUpdateFrames)
                 {
-                    ThSitePlanDbEngine.Instance.EraseItemInFrame(item.Item1, PolygonSelectionMode.Window);
+                    ThSitePlanDbEngine.Instance.EraseItemInFrame(item.Item1, PolygonSelectionMode.Crossing);
                 }
 
                 //启动CAD引擎，开始更新 

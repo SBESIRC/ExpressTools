@@ -26,6 +26,7 @@ namespace ThColumnInfo.View
         // 记录鼠标（左键）点击次数
         private int cnt = 0;
         private TreeNode currentNode = null;
+        private bool isMouseRightClick = false;
         /// <summary>
         /// 最后一次点击详细
         /// </summary>
@@ -105,7 +106,7 @@ namespace ThColumnInfo.View
                 }
             }
             ThStandardSignManager tm = ThStandardSignManager.LoadData("", false);
-            FillColumnDataToTreeView(tm);
+            FillColumnDataToTreeView(tm,true);
             if (this.tvCheckRes.Nodes != null && this.tvCheckRes.Nodes.Count > 0)
             {
                 foreach (TreeNode tn in this.tvCheckRes.Nodes)
@@ -439,6 +440,7 @@ namespace ThColumnInfo.View
             {
                 this.contextMenuStrip2.Visible = false;
                 this.contextMenuStrip1.Visible = false;
+                this.isMouseRightClick = true;
                 if (e.Node.Tag != null)
                 {
                     if (e.Node.Tag.GetType() == typeof(ThStandardSignManager))
@@ -457,6 +459,7 @@ namespace ThColumnInfo.View
             }
             else
             {
+                this.isMouseRightClick = false;
                 this.tvCheckRes.ContextMenuStrip = null;
                 this.contextMenuStrip1.Visible = false;
                 this.contextMenuStrip2.Visible = false;
@@ -528,7 +531,7 @@ namespace ThColumnInfo.View
                 }
             }
         }
-        private void FillColumnDataToTreeView(ThStandardSignManager tsm)
+        private void FillColumnDataToTreeView(ThStandardSignManager tsm,bool loadTree=true)
         {
             if (tsm == null)
             {
@@ -566,6 +569,10 @@ namespace ThColumnInfo.View
                     TreeNode subNode = docNode.Nodes.Add(thStandardSign.InnerFrameName);
                     subNode.ForeColor = Color.FromArgb(255, 255, 255);
                     subNode.Tag = thStandardSign;
+                    if(loadTree)
+                    {
+                        continue;
+                    }
                     UpdateCheckResult(subNode, thStandardSign);
                 }
                 if (!docNode.IsExpanded)
@@ -727,8 +734,7 @@ namespace ThColumnInfo.View
                             if (tn.Tag.GetType() == typeof(ThStandardSign))
                             {
                                 //更新当前节点数据(识别图纸中柱子和柱表)
-                                ThStandardSign thStandardSign = tn.Tag as ThStandardSign;
-                                ThStandardSignManager.UpdateThStandardSign(thStandardSign);
+                                ThStandardSign thStandardSign = tn.Tag as ThStandardSign;                                
                                 UpdateCheckResult(tn, thStandardSign);
                                 ShowDetailData(true);
                             }
@@ -737,7 +743,7 @@ namespace ThColumnInfo.View
                                 ThStandardSignManager tm = tn.Tag as ThStandardSignManager;
                                 ThStandardSignManager.LoadData(tm);
                                 tn.Nodes.Clear();
-                                FillColumnDataToTreeView(tm);
+                                FillColumnDataToTreeView(tm,false);
                                 if (tn.Nodes.Count > 0)
                                 {
                                     this.tvCheckRes.SelectedNode = tn.Nodes[0];
@@ -771,6 +777,10 @@ namespace ThColumnInfo.View
                 if (thStandardSign.SignPlantCalData != null)
                 {                    
                     thStandardSign.SignPlantCalData.Embed(showImportCalInf); //埋入
+                }    
+                else
+                {
+                    ThStandardSignManager.UpdateThStandardSign(thStandardSign);
                 }
                 //hasCheckErrorNode-> 控制是否往树节点中填充"柱平法缺失"和"柱信息不完整两个节点"
                 bool ynExportErrorNode = true; 
@@ -1303,7 +1313,7 @@ namespace ThColumnInfo.View
                 return;
             }
             bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
-            if (needHide)
+            if (needHide && !this.isMouseRightClick)
             {
                 HideTotalFrameIds(innerFrameNode);
                 doc.Editor.Regen();
@@ -1376,6 +1386,14 @@ namespace ThColumnInfo.View
             //统计左键点击次数
             if (e.Button == MouseButtons.Left)
                 cnt = e.Clicks;
+            if(e.Button == MouseButtons.Right)
+            {
+                this.isMouseRightClick = true;
+            }
+            else
+            {
+                this.isMouseRightClick = false;
+            }
             if(sender==this.tvCheckRes)
             {
                 this.contextMenuStrip1.Visible = false;

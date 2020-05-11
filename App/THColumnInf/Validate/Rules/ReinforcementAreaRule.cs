@@ -43,11 +43,11 @@ namespace ThColumnInfo.Validate
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
-            steps.Add("类别：最小配筋率B（侧面纵筋）");
+            steps.Add("类别：配筋面积");
             steps.Add("条目编号：46， 强制性：应，适用构件：LZ、KZ、ZHZ");
             steps.Add("适用功能：图纸校核，条文编号：配筋规则，条文页数：-");
             steps.Add("条文：实配钢筋应满足计算值");
-
+            steps.Add("柱号 = " + this.reinforcementAreaModel.Text);
             steps.Add(reinforcementAreaModel.Cdm.GetDblXAsCalculation());
             steps.Add("if (DblXAs[" + reinforcementAreaModel.Cdm.DblXAs + "] < DblXAsCal[" +
                 reinforcementAreaModel.DblXAsCal + "] )");
@@ -56,7 +56,7 @@ namespace ThColumnInfo.Validate
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      OK：X方向配筋满足计算");
+            steps.Add("      Debugprint：X方向配筋满足计算");
             steps.Add("  }");
 
             steps.Add(reinforcementAreaModel.Cdm.GetDblYAsCalculation());
@@ -66,7 +66,7 @@ namespace ThColumnInfo.Validate
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      OK：Y方向配筋满足计算");
+            steps.Add("      Debugprint：Y方向配筋满足计算");
             steps.Add("  }");
             steps.Add("");
             return steps;

@@ -266,6 +266,7 @@
             this.BtnExport.TabIndex = 13;
             this.BtnExport.Text = "导出";
             this.BtnExport.UseVisualStyleBackColor = true;
+            this.BtnExport.Click += new System.EventHandler(this.BtnExport_Click);
             // 
             // BtnImport
             // 

@@ -12,7 +12,7 @@ namespace ThColumnInfo.Validate
         /// <summary>
         /// 抗震等级
         /// </summary>
-        public string Antiseismic { get; set; } = "";
+        public string AntiSeismicGrade { get; set; } = "";
         /// <summary>
         /// 柱表数据信息
         /// </summary>

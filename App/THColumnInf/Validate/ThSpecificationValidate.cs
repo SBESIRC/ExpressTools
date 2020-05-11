@@ -164,11 +164,15 @@ namespace ThColumnInfo.Validate
             GetAntiSeismicGrade();
             GetProtectLayerThickness();
             GetConcreteStrength();
+            GetStructureType();
+            GetCornerColumn();
         }
         #region 需要从柱子识别、参数设置、构件属性定义来确定以下参数的值
         private string antiSeismicGrade = "";
         private double protectLayerThickness;
         private string concreteStrength = "";
+        private string structureType = "";
+        private bool cornerColumn = false;
         /// <summary>
         /// 获取抗震等级
         /// </summary>
@@ -183,11 +187,12 @@ namespace ThColumnInfo.Validate
                     return;
                 }
             }
-            if (!string.IsNullOrEmpty(this.columnInf.AntiSeismicGrade))
-            {
-                this.antiSeismicGrade = this.columnInf.AntiSeismicGrade;
-                return;
-            }
+            //暂时不考虑
+            //if (!string.IsNullOrEmpty(this.columnInf.AntiSeismicGrade))
+            //{
+            //    this.antiSeismicGrade = this.columnInf.AntiSeismicGrade;
+            //    return;
+            //}
             this.antiSeismicGrade = ThSpecificationValidate.paraSetInfo.AntiSeismicGrade;
         }
         /// <summary>
@@ -204,8 +209,7 @@ namespace ThColumnInfo.Validate
                     return;
                 }
             }
-            //柱识别
-            
+            //柱识别            
             //参数设置
             this.concreteStrength = ThSpecificationValidate.paraSetInfo.ConcreteStrength;
         }
@@ -230,6 +234,31 @@ namespace ThColumnInfo.Validate
                 }
             }
             this.protectLayerThickness = ThSpecificationValidate.paraSetInfo.ProtectLayerThickness;
+        }
+        /// <summary>
+        /// 获取结果类型
+        /// </summary>
+        private void GetStructureType()
+        {
+            //参数设置
+            this.structureType = ThSpecificationValidate.paraSetInfo.StructureType;
+        }
+        /// <summary>
+        /// 获取角柱
+        /// </summary>
+        private void GetCornerColumn()
+        {
+            if (this.columnCustomData != null)
+            {
+                if (!string.IsNullOrEmpty(this.columnCustomData.CornerColumn))
+                {
+                    if (this.columnCustomData.CornerColumn == "是")
+                    {
+                        this.cornerColumn = true;
+                        return;
+                    }
+                }
+            }
         }
         #endregion
         public void ValidateColumnInf()
@@ -283,6 +312,7 @@ namespace ThColumnInfo.Validate
             AngularReinforcementNumModel arnm = new AngularReinforcementNumModel
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 AngularReinforcementNum = cdm.IntCBarCount
             };
             IRule rule = new AngularReinforcementNumRule(arnm);
@@ -297,6 +327,7 @@ namespace ThColumnInfo.Validate
             ColumnSectionModel columnSectionModel = new ColumnSectionModel
             {
                 Code = this.columnInf.Code,
+                Text=this.columnInf.Text,
                 AntiSeismicGrade = this.antiSeismicGrade,
                 FloorTotalNums = ThSpecificationValidate.paraSetInfo.FloorCount,
                 Cdm=cdm
@@ -313,6 +344,7 @@ namespace ThColumnInfo.Validate
             ColumnSectionModel columnSectionModel = new ColumnSectionModel
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 AntiSeismicGrade = this.antiSeismicGrade,
                 FloorTotalNums = ThSpecificationValidate.paraSetInfo.FloorCount,
                 Cdm = cdm
@@ -329,6 +361,7 @@ namespace ThColumnInfo.Validate
             VerDirForceIronModel verDirForceIronModel= new VerDirForceIronModel
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm =this.cdm
             };
             IRule rule = new VerDirForceIronDiaRule(verDirForceIronModel);
@@ -343,6 +376,7 @@ namespace ThColumnInfo.Validate
             MaximumReinforcementRatioModel mrrm= new MaximumReinforcementRatioModel
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm =this.cdm
             };
             IRule rule = new MaximumReinforcementRatioRule(mrrm);
@@ -357,6 +391,7 @@ namespace ThColumnInfo.Validate
             VerDirIronClearSpaceModel vdiCSM= new VerDirIronClearSpaceModel
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 ProtectLayerThickness = this.protectLayerThickness,
                 Cdm=this.cdm
             };
@@ -372,8 +407,8 @@ namespace ThColumnInfo.Validate
             MinimumReinforceRatioAModel mrrm = new MinimumReinforceRatioAModel
             {
                 Code = this.columnInf.Code,
-                P1 = ThSpecificationValidate.paraSetInfo.GetLongitudinalReinforcementGrade(cdm.Ctri.BEdgeSideMiddleReinforcement),
-                P2 = ThValidate.GetConcreteStrengthValue(this.concreteStrength),
+                Text = this.columnInf.Text,
+                ConcreteStrength = this.concreteStrength,               
                 Cdm=cdm
             };
             IRule rule = new MinimumReinforcementRatioARule(mrrm);
@@ -385,35 +420,14 @@ namespace ThColumnInfo.Validate
         /// <returns></returns>
         private IRule BuildMinimumReinforceRatioBRule()
         {
-            ColumnTableRecordInfo ctri = ThSpecificationValidate.dataSource.ColumnTableRecordInfos.
-                Where(i => i.Code == this.columnInf.Code).Select(i => i).First();
-            string columnType = "";
-            if(this.columnCustomData.CornerColumn=="是")
-            {
-                columnType = "角柱";
-            }
-            else
-            {
-                if (this.columnInf.Code.ToUpper().Contains("KZ"))
-                {
-                    columnType = "中柱";
-                }
-                else if (this.columnInf.Code.ToUpper().Contains("ZHZ"))
-                {
-                    columnType = "框支柱";
-                }
-            }
-            double dblsespmin = ThValidate.GetIronMinimumReinforcementPercent(
-                this.antiSeismicGrade, columnType, ThSpecificationValidate.paraSetInfo.StructureType);
-            List<double> concreteValues = ThColumnInfoUtils.GetDoubleValues(this.concreteStrength);
-            if(concreteValues.Count>0 && concreteValues[0]>=60)
-            {
-                dblsespmin += 0.1;
-            }            
             MinimumReinforceRatioBModel mrrm = new MinimumReinforceRatioBModel
             {
                 Code = this.columnInf.Code,
-                Dblsespmin = dblsespmin,                
+                Text = this.columnInf.Text,
+                AntiSeismicGrade =this.antiSeismicGrade,
+                ConcreteStrength=this.concreteStrength,
+                StructureType=this.structureType,
+                IsCornerColumn=this.cornerColumn,
                 Cdm = cdm,                
                 IsFourClassHigherArchitecture= ThSpecificationValidate.paraSetInfo.IsFourClassHigherArchitecture
             };
@@ -430,6 +444,7 @@ namespace ThColumnInfo.Validate
             StirrupLimbSpaceModel slsm = new StirrupLimbSpaceModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 AntiSeismicGrade = this.antiSeismicGrade,
                 Cdm = cdm,
                 ProtectLayerThickness = this.protectLayerThickness
@@ -447,6 +462,7 @@ namespace ThColumnInfo.Validate
             StirrupMinimumDiameterAModel smda = new StirrupMinimumDiameterAModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMinimumDiameterARule(smda);
@@ -462,6 +478,7 @@ namespace ThColumnInfo.Validate
             StirrupMinimumDiameterBModel smdb = new StirrupMinimumDiameterBModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMinimumDiameterBRule(smdb);
@@ -477,6 +494,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingAModel smsa = new StirrupMaximumSpacingAModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingARule(smsa);
@@ -492,6 +510,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingBModel smsb = new StirrupMaximumSpacingBModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingBRule(smsb);
@@ -507,6 +526,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingCModel smsc = new StirrupMaximumSpacingCModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingCRule(smsc);
@@ -522,6 +542,7 @@ namespace ThColumnInfo.Validate
             CompoundStirrupModel csm = new CompoundStirrupModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new CompoundStirrupRule(csm);
@@ -537,6 +558,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingDModel smsd = new StirrupMaximumSpacingDModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingDRule(smsd);
@@ -552,6 +574,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingEModel smse = new StirrupMaximumSpacingEModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingERule(smse);
@@ -567,6 +590,7 @@ namespace ThColumnInfo.Validate
             StirrupMinimumDiameterCModel smdc = new StirrupMinimumDiameterCModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMinimumDiameterCRule(smdc);
@@ -578,18 +602,15 @@ namespace ThColumnInfo.Validate
         /// <returns></returns>
         private IRule BuildStirrupMinimumDiameterDRule()
         {
-            double stirrupDiameterLimited = ThValidate.GetStirrupMinimumDiameter(this.antiSeismicGrade,
-                ThSpecificationValidate.isGroundFloor);
             double shearSpanRatio = 2.5; //剪跨比(暂时设默认值)
-            if(shearSpanRatio<2 && this.antiSeismicGrade.Contains("四级"))
-            {
-                stirrupDiameterLimited = 8.0;
-            }
             StirrupMinimumDiameterDModel smdd = new StirrupMinimumDiameterDModel()
             {
                 Code=this.columnInf.Code,
-                IntStirrupDia = cdm.IntStirrupDia,
-                IntStirrupDiaLimited = stirrupDiameterLimited
+                Text = this.columnInf.Text,
+                AntiSeismicGrade =this.antiSeismicGrade,
+                IsFirstFloor= ThSpecificationValidate.isGroundFloor,
+                Jkb= shearSpanRatio,
+                IntStirrupDia = cdm.IntStirrupDia
             };
             IRule rule = new StirrupMinimumDiameterDRule(smdd);
             return rule;
@@ -601,46 +622,14 @@ namespace ThColumnInfo.Validate
         private IRule BuildStirrupMaximumSpaceFRule()
         {
             IRule rule = null;
-            //纵向钢筋直径最小值
-            double intBardiamin = Math.Min(this.cdm.IntXBarDia, this.cdm.IntYBarDia);
-            intBardiamin = Math.Min(intBardiamin, this.cdm.IntCBarDia);
-            bool isGroundFloor = ThSpecificationValidate.isGroundFloor;
-            //抗震等级
-            string antiSeismicGrade = "";
-            if (this.columnInf.Code.ToUpper().Contains("ZHZ"))
-            {
-                antiSeismicGrade = "抗震一级";
-            }
-            else
-            {
-                antiSeismicGrade = this.antiSeismicGrade;
-            }
-            //箍筋间距限值
-            double stirrupSpaceingLimited = ThValidate.GetStirrupMaximumDiameter(antiSeismicGrade, isGroundFloor, intBardiamin);
-            //箍筋间距限值修正
-            double dblXSpace = (this.cdm.B - 2 * this.protectLayerThickness) / (this.cdm.IntYStirrupCount - 1);
-            double dblYSpace = (this.cdm.H - 2 * this.protectLayerThickness) / (this.cdm.IntXStirrupCount - 1);
-            double dblStirrupSpace = Math.Max(dblXSpace,dblYSpace);
-
-            if(antiSeismicGrade.Contains("一级") && !antiSeismicGrade.Contains("特"))
-            {
-                if(this.cdm.IntStirrupDia>12 && dblStirrupSpace<=150)
-                {
-                    stirrupSpaceingLimited = 150;
-                }
-            }
-            else if(antiSeismicGrade.Contains("二级"))
-            {
-                if (this.cdm.IntStirrupDia >= 10 && dblStirrupSpace <= 150)
-                {
-                    stirrupSpaceingLimited = 150;
-                }
-            }
             StirrupMaximumSpacingFModel smsf = new StirrupMaximumSpacingFModel()
             {
                 Code = this.columnInf.Code,
-                IntStirrupSpacing = this.cdm.IntStirrupSpacing,
-                IntStirrupSpacingLimited = stirrupSpaceingLimited
+                Text = this.columnInf.Text,
+                Cdm = this.cdm,
+                IsFirstFloor= ThSpecificationValidate.isGroundFloor,
+                AntiSeismicGrade=this.antiSeismicGrade,
+                ProtectThickness=this.protectLayerThickness
             };
             rule = new StirrupMaximumSpacingFRule(smsf);
             return rule;
@@ -655,6 +644,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingHModel smsh = new StirrupMaximumSpacingHModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingHRule(smsh);
@@ -670,6 +660,7 @@ namespace ThColumnInfo.Validate
             StirrupMaximumSpacingJModel smsj = new StirrupMaximumSpacingJModel()
             {
                 Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
                 Cdm =this.cdm,
                 Antiseismic= this.antiSeismicGrade
             };

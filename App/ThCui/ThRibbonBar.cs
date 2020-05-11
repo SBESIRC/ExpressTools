@@ -301,63 +301,63 @@ namespace TianHua.AutoCAD.ThCui
 
                 // 颜色
                 splitButton.AddNewButton("颜色",
-                    "按颜色选择",
+                    "按颜色选取",
                     "THQS _COLOR",
-                    "颜色",
+                    "按颜色选取",
                     "IDI_THCAD_THQS_COLOR_SMALL",
                     "IDI_THCAD_THQS_COLOR_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 图层
                 splitButton.AddNewButton("图层",
-                    "按图层选择",
+                    "按图层选取",
                     "THQS _LAYER",
-                    "图层",
+                    "按图层选取",
                     "IDI_THCAD_THQS_LAYER_SMALL",
                     "IDI_THCAD_THQS_LAYER_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 线型
                 splitButton.AddNewButton("线型",
-                    "按线型选择",
+                    "按线型选取",
                     "THQS _LINETYPE",
-                    "线型",
+                    "按线型选取",
                     "IDI_THCAD_THQS_LINETYPE_SMALL",
                     "IDI_THCAD_THQS_LINETYPE_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 标注
                 splitButton.AddNewButton("标注",
-                    "按标注选择",
+                    "按标注选取",
                     "THQS _DIMENSION",
-                    "标注",
+                    "按标注选取",
                     "IDI_THCAD_THQS_ANNOTATION_SMALL",
                     "IDI_THCAD_THQS_ANNOTATION_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 填充
                 splitButton.AddNewButton("填充",
-                    "按填充选择",
+                    "按填充选取",
                     "THQS _HATCH",
-                    "填充",
+                    "按填充选取",
                     "IDI_THCAD_THQS_HATCH_SMALL",
                     "IDI_THCAD_THQS_HATCH_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 文字
                 splitButton.AddNewButton("文字",
-                    "按文字选择",
+                    "按文字选取",
                     "THQS _TEXT",
-                    "文字",
+                    "按文字选取",
                     "IDI_THCAD_THQS_TEXT_SMALL",
                     "IDI_THCAD_THQS_TEXT_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 图块名
                 splitButton.AddNewButton("图块名",
-                    "按图块名选择",
+                    "按图块名选取",
                     "THQS _BLOCK",
-                    "图块名",
+                    "按图块名选取",
                     "IDI_THCAD_THQS_BLOCK_SMALL",
                     "IDI_THCAD_THQS_BLOCK_LARGE",
                     RibbonButtonStyle.LargeWithText);

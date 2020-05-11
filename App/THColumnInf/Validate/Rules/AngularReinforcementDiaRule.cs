@@ -47,7 +47,7 @@ namespace ThColumnInfo.Validate
             steps.Add("条目编号：32， 强制性：应，适用构件：LZ、KZ、ZHZ");
             steps.Add("适用功能：图纸校核，条文编号：配筋规则，条文页数：-");
             steps.Add("条文：实配钢筋应满足计算值");
-
+            steps.Add("柱号 = " + this.angularReinforcementDiaModel.Text);
             steps.Add("if(!是否需要核对角筋["+ this.angularReinforcementDiaModel.IsCornerColumn+"])");
             steps.Add("  {");
             steps.Add("     Debugprint：柱按单偏压计算");

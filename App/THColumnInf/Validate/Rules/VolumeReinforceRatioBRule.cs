@@ -25,13 +25,16 @@ namespace ThColumnInfo.Validate
             {
                 return;
             }
-            this.intStirrupDiaArea=ThValidate.GetIronSectionArea((int)this.vrra.Cdm.IntStirrupDia);
+
+            this.intStirrupDiaArea = ThValidate.GetIronSectionArea((int)this.vrra.Cdm.IntStirrupDia);
             //体积配箍率计算
             double value1 = this.vrra.Cdm.IntXStirrupCount * intStirrupDiaArea *
                (this.vrra.Cdm.B - 2 * this.vrra.ProtectLayerThickness);
             double value2 = this.vrra.Cdm.IntYStirrupCount * intStirrupDiaArea *
                 (this.vrra.Cdm.H - 2 * this.vrra.ProtectLayerThickness);
-            double value3 = this.vrra.Cdm.B * this.vrra.Cdm.H * this.vrra.Cdm.IntStirrupSpacing;
+            double value3 = (this.vrra.Cdm.B - 2 * this.vrra.ProtectLayerThickness-2* this.vrra.Cdm.IntStirrupDia) *
+                (this.vrra.Cdm.H - 2 * this.vrra.ProtectLayerThickness - 2 * this.vrra.Cdm.IntStirrupDia) * 
+                this.vrra.Cdm.IntStirrupSpacing;
             this.calVolumnReinforceRatio = (value1 + value2) / value3;
 
             //体积配箍率限值
@@ -39,8 +42,8 @@ namespace ThColumnInfo.Validate
             {
                 this.volumeReinforceRatioLimited = 0.012;
             }
-            else if(this.vrra.FortificationIntensity== 30206 && 
-                (this.vrra.Antiseismic.Contains("一级") && !this.vrra.Antiseismic.Contains("特")))
+            else if(this.vrra.FortificationIntensity== 9 && 
+                (this.vrra.AntiSeismicGrade.Contains("一级") && !this.vrra.AntiSeismicGrade.Contains("特")))
             {
                 this.volumeReinforceRatioLimited = 0.015;
             }
@@ -66,23 +69,31 @@ namespace ThColumnInfo.Validate
             steps.Add("适用功能：图纸校核，条文编号：11.4.17-4，条文页数：P179");
             steps.Add("条文：当剪跨比A 不大于2 时，宜采用复合螺旋箍或井字复合箍，其箍筋体积配筋率不应小于1. 2%; 9 度设防烈度→级抗震等级时，不应小于1. 5% 。");
 
+            steps.Add("柱号 = " + this.vrra.Text);
             steps.Add("intStirrupDia= " + (int)this.vrra.Cdm.IntStirrupDia);
             steps.Add("intStirrupDiaArea= " + this.intStirrupDiaArea);
             steps.Add("cover= " + this.vrra.ProtectLayerThickness + "//保护层厚度");
+            steps.Add("抗震等级 = " + this.vrra.AntiSeismicGrade);
+
             steps.Add("体积配箍率计算= (intXStirrupCount[" + this.vrra.Cdm.IntXStirrupCount +
                 "]  *  intStirrupDiaArea[" + this.intStirrupDiaArea + "] * (B[" + this.vrra.Cdm.B + "] - 2 * cover[" +
-                this.vrra.ProtectLayerThickness + "] + intYStirrupCount[" + this.vrra.Cdm.IntYStirrupCount + "] * intStirrupDiaArea[" +
-                this.intStirrupDiaArea + "] * (H[" + this.vrra.Cdm.H + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "])) / (B[" +
-                this.vrra.Cdm.B + "] * H[" + this.vrra.Cdm.H + "] * intStirrupSpacing[" +
-                this.vrra.Cdm.IntStirrupSpacing + "]) = " + this.calVolumnReinforceRatio);
+                this.vrra.ProtectLayerThickness + "]) + intYStirrupCount[" + this.vrra.Cdm.IntYStirrupCount + "] * intStirrupDiaArea[" +
+                this.intStirrupDiaArea + "] * (H[" + this.vrra.Cdm.H + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "])) / ((B[" +
+                this.vrra.Cdm.B + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrra.Cdm.IntStirrupDia + "]) * " +
+                "(H[" + this.vrra.Cdm.H + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrra.Cdm.IntStirrupDia + "]) *"
+                 + "intStirrupSpacing[" + this.vrra.Cdm.IntStirrupSpacing + "]) = " + this.calVolumnReinforceRatio);
 
             steps.Add("if(剪跨比[" + this.vrra.ShearSpanRatio + "] <= 2");
             steps.Add("  {");
             steps.Add("      体积配箍率限值=0.012");
             steps.Add("  }");
-            steps.Add("else if(设防烈度[" + this.vrra.FortificationIntensity + "] == 30206 && 抗震等级[" + this.vrra.Antiseismic + "] == 一级");
+            steps.Add("else if(设防烈度[" + this.vrra.FortificationIntensity + "] == 9 && 抗震等级[" + this.vrra.AntiSeismicGrade + "] == 一级");
             steps.Add("  {");
             steps.Add("      体积配箍率限值=0.015");
+            steps.Add("  }");
+            steps.Add("else");
+            steps.Add("  {");
+            steps.Add("      return;");
             steps.Add("  }");
 
             steps.Add("if (体积配箍率计算[" + this.calVolumnReinforceRatio + "] < 体积配筋率限值[" + this.volumeReinforceRatioLimited + "])");
@@ -91,7 +102,7 @@ namespace ThColumnInfo.Validate
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Ok: 加密区箍筋体积配箍率满足抗震构造");
+            steps.Add("      Debugprint: 加密区箍筋体积配箍率满足抗震构造");
             steps.Add("  }");
             steps.Add("");
             return steps;

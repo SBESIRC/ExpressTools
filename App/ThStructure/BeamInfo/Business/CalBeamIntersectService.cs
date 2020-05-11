@@ -13,9 +13,9 @@ namespace ThStructure.BeamInfo.Business
     public class CalBeamIntersectService
     {
         private readonly double searchBeamPolylineDis = 40.0;
-        private readonly string colLayerName = "__覆盖_S30-colu_TEN25CUZ_设计区$0$S_COLU";//"__覆盖_S30-colu_TEN25CUZ_设计区$0$S_COLU";
-        private readonly string wallLayerName = "__覆盖_S30-colu_TEN25CUZ_设计区$0$S_WALL";
-        private readonly string beamLayerName = "__覆盖_S20-平面_TEN25CUZ_设计区$0$S_BEAM";//"__覆盖_S20-平面_TEN25CUZ_设计区$0$S_BEAM";
+        private readonly string colLayerName = "S_COLU";//"__覆盖_S30-colu_TEN25CUZ_设计区$0$S_COLU";
+        private readonly string wallLayerName = "S_WALL";
+        private readonly string beamLayerName = "S_BEAM";//"__覆盖_S20-平面_TEN25CUZ_设计区$0$S_BEAM";
         private Document _doc;
 
         public CalBeamIntersectService(Document document)

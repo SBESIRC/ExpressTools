@@ -24,8 +24,7 @@ namespace ThColumnInfo.Validate
             }            
             if(this.smsa.Cdm.IntStirrupSpacing0>400)
             {
-                this.ValidateResults.Add("箍筋间距大于400 (" + this.smsa.Cdm.IntStirrupSpacing0 +
-                    ">400) (砼规 9.3.2-2)");
+                this.ValidateResults.Add("箍筋间距大于400");
             }
             else
             {
@@ -39,13 +38,14 @@ namespace ThColumnInfo.Validate
             steps.Add("条目编号：53， 强制性：应，适用构件：LZ、KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 9.3.2-2，条文页数：P123");
             steps.Add("条文：箍筋间距不应大于400mm 及构件截面的短边尺寸，且不应大于15d, d 为纵向钢筋的最小直径");
+            steps.Add("柱号 = " + this.smsa.Text);
             steps.Add("if (IntStirrupSpacing0[" + this.smsa.Cdm.IntStirrupSpacing0 + "] > 400 )");
             steps.Add("  {");
             steps.Add("      Err：箍筋间距大于400");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      OK：箍筋间距小于400");
+            steps.Add("      Debugprint：箍筋间距小于400");
             steps.Add("  }");
             steps.Add("");
             return steps;

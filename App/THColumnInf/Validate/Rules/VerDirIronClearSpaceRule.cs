@@ -49,13 +49,14 @@ namespace ThColumnInfo.Validate
             steps.Add("条目编号：43， 强制性：宜，适用构件：LZ、KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 9.3.1-2，条文页数：P123");
             steps.Add("条文：柱中纵向钢筋的净间距不应小于50mm ，且不宜大于300mm");
+            steps.Add("柱号 = " + this.ruleModel.Text);
             steps.Add("dblXBarspacing=(B[" + ruleModel.Cdm.B + "]- 2 * (保护层厚度[" + ruleModel.ProtectLayerThickness + "] + IntCBarDia[" +
                 ruleModel.Cdm.IntCBarDia + "] +IntStirrupDia[" + ruleModel.Cdm.IntStirrupDia + "]) - IntXBarCount[" +
-                ruleModel.Cdm.IntXBarCount + "] * IntXBarDia[" + ruleModel.Cdm.IntXBarDia + "]) / (IntXBarCount[" + ruleModel.Cdm.IntXBarCount + "1)");
+                ruleModel.Cdm.IntXBarCount + "] * IntXBarDia[" + ruleModel.Cdm.IntXBarDia + "]) / (IntXBarCount[" + ruleModel.Cdm.IntXBarCount + "] + 1)");
 
             steps.Add("dblYBarspacing=(H["+ ruleModel.Cdm.H + "]- 2 * (保护层厚度[" + ruleModel.ProtectLayerThickness + "] + IntCBarDia[" +
                 ruleModel.Cdm.IntCBarDia + "] +IntStirrupDia[" + ruleModel.Cdm.IntStirrupDia + "]) - IntYBarCount[" +
-                ruleModel.Cdm.IntYBarCount + "] * IntYBarDia[" + ruleModel.Cdm.IntYBarDia + "]) / (InYBarCount[" + ruleModel.Cdm.IntYBarCount + "1)");
+                ruleModel.Cdm.IntYBarCount + "] * IntYBarDia[" + ruleModel.Cdm.IntYBarDia + "]) / (InYBarCount[" + ruleModel.Cdm.IntYBarCount + "] + 1)");
 
             steps.Add("if (Math.Min(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) < 50)");
             steps.Add("  {");

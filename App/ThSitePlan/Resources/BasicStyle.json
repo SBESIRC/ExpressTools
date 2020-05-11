@@ -739,12 +739,16 @@
     },
     {
         "CAD_Frame": "道路色块",
-        "CAD_Layer": [
-            {
-                "ID": "1",
-                "Name": "P-OUTD-ROAD"
-            }
-        ],
+      "CAD_Layer": [
+        {
+          "ID": "1",
+          "Name": "P-OUTD-ROAD"
+        },
+        {
+          "ID": "2",
+          "Name": "P-TRAF-CITY"
+        }
+      ],
         "CAD_Script": "线稿生成填充",
         "DataType": "0",
         "ID": "44",

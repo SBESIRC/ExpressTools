@@ -38,6 +38,8 @@ namespace ThSitePlan.UI
 
         public const string m_CloseUpKey = "+{F1}";
 
+        public string m_ColorGeneralConfig { get; set; }
+
         [DllImport("user32.dll")]
         private static extern void keybd_event(byte bVk, byte bSCan, int dwFlags, int dwExtraInfo);
 
@@ -153,7 +155,7 @@ namespace ThSitePlan.UI
 
         private void ColorEdit_ColorChanged(object sender, EventArgs e)
         {
- 
+
         }
 
         private void TreeList_CellValueChanged(object sender, DevExpress.XtraTreeList.CellValueChangedEventArgs e)
@@ -229,7 +231,7 @@ namespace ThSitePlan.UI
 
         private void m_MouseHook_MouseMoveEvent(object sender, MouseEventArgs e)
         {
- 
+
             m_fmMobilePanel.Move();
         }
 
@@ -285,7 +287,7 @@ namespace ThSitePlan.UI
 
         }
 
- 
+
 
         private void TreeList_CustomNodeCellEditForEditing(object sender, DevExpress.XtraTreeList.GetCustomNodeCellEditEventArgs e)
         {
@@ -856,6 +858,13 @@ namespace ThSitePlan.UI
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
+        {
+            TreeList.PostEditor();
+            var m_ColorGeneralConfig = FuncJson.Serialize(m_ListColorGeneral);
+            m_Presenter.UpdateConfig();
+        }
+
+        private void BtnExport_Click(object sender, EventArgs e)
         {
 
         }
