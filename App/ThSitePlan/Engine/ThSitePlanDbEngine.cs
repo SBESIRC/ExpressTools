@@ -67,7 +67,6 @@ namespace ThSitePlan.Engine
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                Polyline SelectFrame_poly = acadDatabase.Element<Polyline>(FrameId);
                 PromptSelectionResult  psr = Active.Editor.SelectByPolyline(FrameId,  mode, null);
                 if (psr.Status == PromptStatus.OK)
                 {

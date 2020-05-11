@@ -15,17 +15,12 @@
   </PropertyGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
-    <Reference Include="Interop.Photoshop">
-      <HintPath>..\..\Externals\Photoshop\2018\Interop.Photoshop.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="TianHua.Publics.BaseCode">
@@ -53,6 +48,7 @@
     <Compile Include="Engine\ThSitePlanOuterWorker.cs" />
     <Compile Include="Engine\ThSitePlanPDFGenerator.cs" />
     <Compile Include="Engine\ThSitePlanPlantWorker.cs" />
+    <Compile Include="Engine\ThSitePlanRoadHatchWorker.cs" />
     <Compile Include="Engine\ThSitePlanShadowGenerator.cs" />
     <Compile Include="Engine\ThSitePlanShadowWorker.cs" />
     <Compile Include="Engine\ThSitePlanShadowWorkerEx.cs" />
@@ -195,6 +191,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\BasicStyle.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Photoshop">
+      <Guid>{E891EE9A-D0AE-4CB4-8871-F92C0109F18E}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

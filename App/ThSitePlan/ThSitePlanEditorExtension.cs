@@ -130,6 +130,27 @@ namespace ThSitePlan
             }
         }
 
+        public static void CreateHatchWithPoint(this Editor editor, Polyline framepl,Point3d ptin)
+        {
+            using (var hatchOV = new ThSitePlanHatchOverride())
+            {
+                // 执行HATCH命令
+#if ACAD_ABOVE_2014
+                Active.Editor.Command("_.-HATCH",
+                    ptin,
+                    "");
+#else
+                ResultBuffer args = new ResultBuffer(
+                   new TypedValue((int)LispDataType.Text, "_.-HATCH"),
+                   new TypedValue((int)LispDataType.Point3d, ptin),
+                   new TypedValue((int)LispDataType.Text, ""),
+                   );
+                Active.Editor.AcedCmd(args);
+#endif
+            }
+        }
+
+
         public static void HatchEditCmd(this Editor editor, ObjectIdCollection objs)
         {
             foreach (ObjectId obj in objs)

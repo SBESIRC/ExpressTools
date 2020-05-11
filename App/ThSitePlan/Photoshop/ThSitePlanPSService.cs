@@ -47,15 +47,15 @@ namespace ThSitePlan.Photoshop
             Selection ChannelSelection = document.Selection;
             ChannelSelection.Load(document.Channels[2], PsSelectionType.psReplaceSelection, true);
             //获取配置文件中传入的
-            Color FillColor = (Color)configItem.Properties["Color"];
-            var RGB_Red = FillColor.R;
-            var RGB_Green = FillColor.G;
-            var RGB_Blue = FillColor.B;
+            string FillColor = configItem.Properties["Color"].ToString();
+            var RGB_Red = FillColor.Split(',')[0];
+            var RGB_Green = FillColor.Split(',')[1];
+            var RGB_Blue = FillColor.Split(',')[2];
 
             SolidColor ColorInPS = new SolidColor();
-            ColorInPS.RGB.Red = (double)RGB_Red;
-            ColorInPS.RGB.Green = (double)RGB_Green;
-            ColorInPS.RGB.Blue = (double)RGB_Blue;
+            ColorInPS.RGB.Red = Convert.ToDouble(RGB_Red);
+            ColorInPS.RGB.Green = Convert.ToDouble(RGB_Green);
+            ColorInPS.RGB.Blue = Convert.ToDouble(RGB_Blue);
             ChannelSelection.Fill(ColorInPS);
             ChannelSelection.Deselect();
         }
