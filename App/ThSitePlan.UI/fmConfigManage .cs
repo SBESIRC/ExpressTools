@@ -38,6 +38,8 @@ namespace ThSitePlan.UI
 
         public const string m_CloseUpKey = "+{F1}";
 
+        public string m_ColorGeneralConfig { get; set; }
+
         [DllImport("user32.dll")]
         private static extern void keybd_event(byte bVk, byte bSCan, int dwFlags, int dwExtraInfo);
 
@@ -857,8 +859,9 @@ namespace ThSitePlan.UI
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            var _XX = FuncFile.Encryption("门前大桥下，来了一群鸭！", "AI");
-            var _SS = FuncFile.Decrypt(_XX, "AI");
+            TreeList.PostEditor();
+            var m_ColorGeneralConfig = FuncJson.Serialize(m_ListColorGeneral);
+            m_Presenter.UpdateConfig();
         }
 
         private void BtnExport_Click(object sender, EventArgs e)

@@ -10,11 +10,13 @@ namespace ThSitePlan
 
         List<ColorGeneralDataModel> m_ListColorGeneral { get; set; }
 
-        List<LayerDataModel> m_ListLayer { get; set; } 
+        List<LayerDataModel> m_ListLayer { get; set; }
 
         //List<string> m_ListLayer { get; set; }
 
         List<string> m_ListScript { get; set; }
+
+        string m_ColorGeneralConfig { get; set; }
 
     }
 }
