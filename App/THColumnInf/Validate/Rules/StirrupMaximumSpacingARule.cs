@@ -8,33 +8,23 @@ namespace ThColumnInfo.Validate
 {
     public class StirrupMaximumSpacingARule : IRule
     {
-        private ColumnDataModel cdm=null;
-        public StirrupMaximumSpacingARule(ColumnDataModel columnDataModel)
+        private StirrupMaximumSpacingAModel smsa =null;
+        public StirrupMaximumSpacingARule(StirrupMaximumSpacingAModel smsa)
         {
-            this.cdm = columnDataModel;
+            this.smsa = smsa;
         }
 
         public List<string> ValidateResults { get; set; } = new List<string>();
         public List<string> CorrectResults { get; set; } = new List<string>();
-
-        private  bool ValidateProperty()
-        {
-            if (this.cdm.Code.Contains("LZ") || this.cdm.Code.Contains("KZ") || this.cdm.Code.Contains("ZHZ"))
-            {
-                return true;
-            }
-            return false;
-        }
-
         public void Validate()
         {
-            if(this.cdm == null || ValidateProperty()==false)
+            if(this.smsa == null || smsa.ValidateProperty()==false)
             {
                 return;
             }            
-            if(this.cdm.IntStirrupSpacing0>400)
+            if(this.smsa.Cdm.IntStirrupSpacing0>400)
             {
-                this.ValidateResults.Add("箍筋间距大于400 (" + this.cdm.IntStirrupSpacing0 +
+                this.ValidateResults.Add("箍筋间距大于400 (" + this.smsa.Cdm.IntStirrupSpacing0 +
                     ">400) (砼规 9.3.2-2)");
             }
             else
@@ -49,7 +39,8 @@ namespace ThColumnInfo.Validate
             steps.Add("条目编号：53， 强制性：应，适用构件：LZ、KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 9.3.2-2，条文页数：P123");
             steps.Add("条文：箍筋间距不应大于400mm 及构件截面的短边尺寸，且不应大于15d, d 为纵向钢筋的最小直径");
-            steps.Add("if (IntStirrupSpacing0[" + this.cdm.IntStirrupSpacing0 + "] > 400 )");
+            steps.Add("柱号 = " + this.smsa.Text);
+            steps.Add("if (IntStirrupSpacing0[" + this.smsa.Cdm.IntStirrupSpacing0 + "] > 400 )");
             steps.Add("  {");
             steps.Add("      Err：箍筋间距大于400");
             steps.Add("  }");

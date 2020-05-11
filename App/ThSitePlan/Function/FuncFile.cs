@@ -80,7 +80,7 @@ namespace ThSitePlan
                                     { "Color", p.PSD_Color},
                                     { "Opacity", p.PSD_Transparency },
                                     { "CADFrame", p.CAD_Frame },
-                                    { "CADLayer", p.CAD_Layer }
+                                    { "CADLayer", LayerListToListStr(p.CAD_Layer)}
                                 }
                         });
                     }

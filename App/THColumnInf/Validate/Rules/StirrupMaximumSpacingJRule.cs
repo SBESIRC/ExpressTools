@@ -42,8 +42,7 @@ namespace ThColumnInfo.Validate
             }
             if (this.smsj.Cdm.IntStirrupSpacing0> stirrupSpaceingLimited)
             {
-                this.ValidateResults.Add("非加密区箍筋间距过大 (" +
-                    this.smsj.Cdm.IntStirrupSpacing0+"> ["+ stirrupSpaceingLimited + "]) (砼规 11.4.19)");
+                this.ValidateResults.Add("非加密区箍筋间距过大");
             }
             else
             {
@@ -74,7 +73,7 @@ namespace ThColumnInfo.Validate
             steps.Add("条目编号：512， 强制性：应，适用构件：KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 11.4.19，条文页数：P179");
             steps.Add("条文：对一、二级抗震等级，箍筋间距不应大于10d，对三、四级抗震等级，箍筋间距不应大于15d ，此处， d 为纵向钢筋直径。");
-
+            steps.Add("柱号 = " + this.smsj.Text);
             steps.Add("intBardiamin=Math.Min(IntCBarDia[" + smsj.Cdm.IntCBarDia + "],IntXBarDia[" +
                 smsj.Cdm.IntXBarDia + "],IntYBarDia[" + smsj.Cdm.IntYBarDia + "]) = " + intBardiamin);
             steps.Add("if (抗震等级[" + smsj.Antiseismic + "] == 一级 || 抗震等级["+ smsj.Antiseismic+ "] == 二级)");

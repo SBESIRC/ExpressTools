@@ -69,8 +69,8 @@ namespace ThEssential
             }
         }
 
-        [CommandMethod("TIANHUACAD", "THBCONVERT", CommandFlags.Modal)]
-        public void ThBConvert()
+        [CommandMethod("TIANHUACAD", "THPBE", CommandFlags.Modal)]
+        public void ThStrongCurrentBlockConvert()
         {
             using (var cmd = new ThBlockConvertCommand())
             {

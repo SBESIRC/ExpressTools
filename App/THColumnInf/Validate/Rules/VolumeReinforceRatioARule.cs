@@ -31,13 +31,14 @@ namespace ThColumnInfo.Validate
                 (this.vrra.Cdm.B - 2 * this.vrra.ProtectLayerThickness);
             double value2 = this.vrra.Cdm.IntYStirrupCount * intStirrupDiaArea *
                 (this.vrra.Cdm.H - 2 * this.vrra.ProtectLayerThickness);
-            double value3 = this.vrra.Cdm.B * this.vrra.Cdm.H * this.vrra.Cdm.IntStirrupSpacing;
+            double value3 = (this.vrra.Cdm.B-2*this.vrra.ProtectLayerThickness-2* this.vrra.Cdm.IntStirrupDia)
+                * (this.vrra.Cdm.H - 2 * this.vrra.ProtectLayerThickness - 2 * this.vrra.Cdm.IntStirrupDia) * this.vrra.Cdm.IntStirrupSpacing;
 
             this.calVolumnReinforceRatio = (value1 + value2) / value3;
+
             if (calVolumnReinforceRatio < this.vrra.VolumnReinforceRatioLimited)
             {
-                this.ValidateResults.Add("加密区箍筋体积配箍率不足 (" + calVolumnReinforceRatio + "<[" +
-                    this.vrra.VolumnReinforceRatioLimited + "]) (11.4.17-2)");
+                this.ValidateResults.Add("加密区箍筋体积配箍率不足" );
             }
             else
             {
@@ -52,23 +53,25 @@ namespace ThColumnInfo.Validate
             steps.Add("适用功能：图纸校核，条文编号：11.4.17-2，条文页数：P179");
             steps.Add("条文：对一、二、兰、四级抗震等级的柱，其箍筋加密区的箍筋体积配筋率分别不应小于0.8% 、" +
                 "0. 6% 、0. 4%和0.4%;框支柱宜采用复合螺旋箍或井宇复合箍，其最小配箍特征值应按表11. 4. 17 中的数值增加0.02 采用，且体积配筋率不应小于1. 5%;");
+            steps.Add("柱号 = " + this.vrra.Text);
             steps.Add("intStirrupDia= " + (int)this.vrra.Cdm.IntStirrupDia);
             steps.Add("intStirrupDiaArea= " + this.intStirrupDiaArea);
-            steps.Add("cover= " + this.vrra.ProtectLayerThickness + "//保护层厚度");
-            
-            steps.Add("体积配箍率计算= (intXStirrupCount["+ this.vrra.Cdm.IntXStirrupCount+ 
-                "]  *  intStirrupDiaArea[" + this.intStirrupDiaArea+ "] * (B["+ this.vrra.Cdm.B+ "] - 2 * cover[" +
-                this.vrra.ProtectLayerThickness+ "] + intYStirrupCount[" + this.vrra.Cdm.IntYStirrupCount+ "] * intStirrupDiaArea[" +
-                this.intStirrupDiaArea+"] * (H[" + this.vrra.Cdm.H+"] - 2 * cover["+ this.vrra.ProtectLayerThickness + "])) / (B[" + 
-                this.vrra.Cdm.B + "] * H["+this.vrra.Cdm.H+ "] * intStirrupSpacing["+
-                this.vrra.Cdm.IntStirrupSpacing+"]) = "+ calVolumnReinforceRatio);
+            steps.Add("cover = " + this.vrra.ProtectLayerThickness + "//保护层厚度");
+
+            steps.Add("体积配箍率计算= (intXStirrupCount[" + this.vrra.Cdm.IntXStirrupCount +
+                "]  *  intStirrupDiaArea[" + this.intStirrupDiaArea + "] * (B[" + this.vrra.Cdm.B + "] - 2 * cover[" +
+                this.vrra.ProtectLayerThickness + "] + intYStirrupCount[" + this.vrra.Cdm.IntYStirrupCount + "] * intStirrupDiaArea[" +
+                this.intStirrupDiaArea + "] * (H[" + this.vrra.Cdm.H + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "])) / ((B[" +
+                this.vrra.Cdm.B + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrra.Cdm.IntStirrupDia + "]) * " +
+                "(H[" + this.vrra.Cdm.H + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrra.Cdm.IntStirrupDia + "]) *"
+                 + "intStirrupSpacing[" + this.vrra.Cdm.IntStirrupSpacing + "]) = " + this.calVolumnReinforceRatio);
             steps.Add("if (体积配箍率计算[" + calVolumnReinforceRatio + "] < 体积配筋率限值["+ this.vrra.VolumnReinforceRatioLimited+"])");
             steps.Add("  {");
             steps.Add("      Err: 加密区箍筋体积配箍率不足");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Ok: 加密区箍筋体积配箍率满足计算要求");
+            steps.Add("      Debugprint: 加密区箍筋体积配箍率满足计算要求");
             steps.Add("  }");
             steps.Add("");
             return steps;

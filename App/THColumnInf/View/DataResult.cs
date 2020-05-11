@@ -588,11 +588,6 @@ namespace ThColumnInfo.View
                 }
             }
         }
-        private void Regen()
-        {
-            var doc = ThColumnInfoUtils.GetMdiActiveDocument();
-            doc.Editor.Regen();
-        }
         private void dgvColumnTable_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if(!CheckTabIsActive(this.columnTableTabName))

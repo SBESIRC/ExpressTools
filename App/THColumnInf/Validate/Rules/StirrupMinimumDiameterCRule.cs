@@ -8,33 +8,24 @@ namespace ThColumnInfo.Validate
 {
     public class StirrupMinimumDiameterCRule:IRule
     {
-        private ColumnDataModel cdm;
-        public StirrupMinimumDiameterCRule(ColumnDataModel columnDataModel)
+        private StirrupMinimumDiameterCModel smdc;
+        public StirrupMinimumDiameterCRule(StirrupMinimumDiameterCModel smdc)
         {
-            this.cdm = columnDataModel;
+            this.smdc = smdc;
         }
         public List<string> ValidateResults { get; set; } = new List<string>();
         public List<string> CorrectResults { get; set; } = new List<string>();
-        private  bool ValidateProperty()
-        {
-            if (this.cdm.Code.Contains("LZ") || this.cdm.Code.Contains("KZ") || this.cdm.Code.Contains("ZHZ"))
-            {
-                return true;
-            }
-            return false;
-        }
         public void Validate()
         {
-            if(this.cdm == null || ValidateProperty()==false)
+            if(this.smdc == null || smdc.ValidateProperty()==false)
             {
                 return;
             }            
-            if(this.cdm.DblP>3)
+            if(this.smdc.Cdm.DblP>0.03)
             {
-                if(this.cdm.IntStirrupDia<8)
+                if(this.smdc.Cdm.IntStirrupDia<8)
                 {
-                    this.ValidateResults.Add("（3%）箍筋直径小于8  (" + this.cdm.IntStirrupDia +
-                    "<8) (砼规 9.3.2-5)");
+                    this.ValidateResults.Add("（3%）箍筋直径小于8");
                 }      
                 else
                 {
@@ -49,17 +40,17 @@ namespace ThColumnInfo.Validate
             steps.Add("条目编号：57， 强制性：应，适用构件：LZ、KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 9.3.2-5，条文页数：P124");
             steps.Add("条文：柱中全部纵向受力钢筋的配筋率大于3% 时，箍筋直径不应小于8mm ，间距不应大于10d ，且不应大于200mm，d为纵向受力钢筋的最小直径。");
-
-            steps.Add(this.cdm.GetDblAsCalculation());
-            steps.Add(this.cdm.GetDblpCalculation());
-            steps.Add("if (dblP [" + this.cdm.DblP + "] > 3)");
-            steps.Add("  if (IntStirrupDia[" + cdm.IntCBarDia + "] < 8 )");
+            steps.Add("柱号 = " + this.smdc.Text);
+            steps.Add(this.smdc.Cdm.GetDblAsCalculation());
+            steps.Add(this.smdc.Cdm.GetDblpCalculation());
+            steps.Add("if (dblP [" + this.smdc.Cdm.DblP + "] > 0.03)");
+            steps.Add("  if (IntStirrupDia[" + smdc.Cdm.IntCBarDia + "] < 8 )");
             steps.Add("    {");
-            steps.Add("      （3%）箍筋直径小于8");
+            steps.Add("      Err:（3%）箍筋直径小于8");
             steps.Add("    }");
             steps.Add("   else");
             steps.Add("    {");
-            steps.Add("      （3%）箍筋直径大于8");
+            steps.Add("      Debugprint：（3%）箍筋直径大于8");
             steps.Add("    }");
             steps.Add("  }");
             steps.Add("");

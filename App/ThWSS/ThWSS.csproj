@@ -24,6 +24,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bussiness\CheckPointsToWall.cs" />
+    <Compile Include="Bussiness\InsertSparyService.cs" />
+    <Compile Include="Bussiness\SprayLayoutService.cs" />
     <Compile Include="Engine\ThBeamRecognitionEngine.cs" />
     <Compile Include="Engine\ThColumnRecognitionEngine.cs" />
     <Compile Include="Engine\ThModeltRecognitionEngine.cs" />
@@ -31,8 +34,12 @@
     <Compile Include="Engine\ThRoomRecognitionEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutWorker.cs" />
+    <Compile Include="LayoutRule\LayoutInterface.cs" />
+    <Compile Include="LayoutRule\SquareLayout.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThWSSApp.cs" />
+    <Compile Include="Utlis\GeUtils.cs" />
+    <Compile Include="Utlis\OrientedBoundingBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
@@ -44,6 +51,7 @@
       <Name>ExtensionTools</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
       <ItemGroup>

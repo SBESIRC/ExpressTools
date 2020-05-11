@@ -478,7 +478,7 @@ namespace ThColumnInfo.View
                         bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
                         if (needHide)
                         {
-                            HideTotalFrameIds(innerFrameNode);
+                            HideTotalFrameIds(innerFrameNode);                            
                         }
                     }
                     if (selectNodeInnerFrameNode != null && selectNodeInnerFrameNode != innerFrameNode)
@@ -504,7 +504,6 @@ namespace ThColumnInfo.View
                         DataPalette._dateResult.SelectDataGridViewRow(columnInf, thStandardSign.InnerFrameName);
                     }
                 }
-                Regen();
             }
         }
         private void Regen()
@@ -696,6 +695,10 @@ namespace ThColumnInfo.View
             if (this.tvCheckRes.SelectedNode == null)
             {
                 return;
+            }
+            else
+            {
+                this.currentNode = this.tvCheckRes.SelectedNode;
             }
             bool isCurrentDocument = CheckRootNodeIsCurrentDocument(this.tvCheckRes.SelectedNode);
             if(!isCurrentDocument)
@@ -959,6 +962,7 @@ namespace ThColumnInfo.View
                                     {
                                         ThColumnInfoUtils.EraseObjIds(treeColumnIds.ToArray());
                                         UpdateCheckResult(tn, thStandardSign, true);
+                                        this.currentNode = tn;
                                     }
                                     trans.Commit();
                                 }   
@@ -1270,6 +1274,40 @@ namespace ThColumnInfo.View
         }
         private void tvCheckRes_MouseLeave(object sender, EventArgs e)
         {
+            Document doc= acadApp.Application.DocumentManager.MdiActiveDocument;
+            string name=doc.Name;
+            FileInfo fi = new FileInfo(name);
+            if(fi.Exists)
+            {
+                name = fi.Name;
+            }
+            TreeNode innerFrameNode = tvCheckRes.SelectedNode;
+            if(innerFrameNode==null)
+            {
+                foreach (TreeNode tn in tvCheckRes.Nodes)
+                {
+                    if (tn.Tag == null || tn.Tag.GetType() != typeof(ThStandardSign))
+                    {
+                        continue;
+                    }
+                    ThStandardSign thStandardSign = tn.Tag as ThStandardSign;
+                    if (thStandardSign.InnerFrameName == name)
+                    {
+                        innerFrameNode = tn;
+                        break;
+                    }
+                }
+            }
+            if(innerFrameNode==null)
+            {
+                return;
+            }
+            bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
+            if (needHide)
+            {
+                HideTotalFrameIds(innerFrameNode);
+                doc.Editor.Regen();
+            }
         }
         private void btnComponentDefinition_Click(object sender, EventArgs e)
         {

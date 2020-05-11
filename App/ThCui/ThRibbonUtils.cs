@@ -107,10 +107,10 @@ namespace TianHua.AutoCAD.ThCui
                             IEnumerable<RibbonItem> items = null;
                             switch (profile)
                             {
-                                case Profile.PROJECTPLAN:
+                                case Profile.ARCHITECTURE:
                                     items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _P");
                                     break;
-                                case Profile.ARCHITECTURE:
+                                case Profile.CONSTRUCTION:
                                     items = splitButton.Items.Where(bt => bt.Id == "ID_THPROFILE _A");
                                     break;
                                 case Profile.STRUCTURE:

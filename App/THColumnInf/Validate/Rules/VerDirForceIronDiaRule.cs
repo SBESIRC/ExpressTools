@@ -26,7 +26,7 @@ namespace ThColumnInfo.Validate
             minValue = Math.Min(minValue, verDirForceIronModel.Cdm.IntCBarDia);
             if(minValue<12)
             {
-                ValidateResults.Add("纵向受力钢筋直径不宜小于12mm ("+ minValue+"<12) " + "(砼规 9.3.1-1,P123)");
+                ValidateResults.Add("纵向受力钢筋直径不宜小于12mm");
             }
             else
             {
@@ -43,7 +43,7 @@ namespace ThColumnInfo.Validate
             steps.Add("条目编号：41， 强制性：宜，适用构件：LZ、KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 9.3.1-1，条文页数：P123");
             steps.Add("条文：纵向受力钢筋直径不宜小于12mm");
-
+            steps.Add("柱号 = " + this.verDirForceIronModel.Text);
             steps.Add("intBardiamin=Math.Min(IntCBarDia[" + verDirForceIronModel.Cdm.IntCBarDia + "],IntXBarDia[" + 
                 verDirForceIronModel.Cdm.IntXBarDia +"],IntYBarDia[" + verDirForceIronModel.Cdm.IntYBarDia + "]) =" + intBardiamin);
             steps.Add("if (intBardiamin[" + intBardiamin + "] < 12)");
@@ -52,7 +52,7 @@ namespace ThColumnInfo.Validate
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("     Ok: 纵向受力钢筋直径不小于12mm");
+            steps.Add("     Debugprint: 纵向受力钢筋直径不小于12mm");
             steps.Add("  }");
             steps.Add("");
             return steps;

@@ -44,6 +44,8 @@ namespace ThAnalytics
             {"THSLC", "建立结构图层"},
             {"THMLC", "建立暖通图层"},
             {"THELC", "建立电气图层"},
+            {"THAPL", "建立总图图层"},
+            {"THAUL", "建立单体图层"},
             {"THPLC", "建立给排水图层"},
             {"THLPM", "暖通用"},
             {"THLPE", "电气用"},
@@ -53,6 +55,9 @@ namespace ThAnalytics
             {"THUKA", "解锁所有图层"},
             {"THMOF", "关闭暖通图层"},
             {"THMON", "开启暖通图层"},
+            {"THTF", "通风模式"},
+            {"THSG", "水管模式"},
+            {"THXF", "消防模式"},
             
             // 计算工具
             {"THBPS", "天华单体规整"},

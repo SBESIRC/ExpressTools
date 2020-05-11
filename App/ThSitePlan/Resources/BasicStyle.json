@@ -634,7 +634,7 @@
         "CAD_Script": "NULL",
         "DataType": "0",
         "ID": "37",
-        "Name": "内部行车道路",
+        "Name": "内部车行道路",
         "PID": "36",
         "PSD_Color": "255, 255, 255",
         "PSD_Transparency": 100,
@@ -739,12 +739,16 @@
     },
     {
         "CAD_Frame": "道路色块",
-        "CAD_Layer": [
-            {
-                "ID": "1",
-                "Name": "P-OUTD-ROAD"
-            }
-        ],
+      "CAD_Layer": [
+        {
+          "ID": "1",
+          "Name": "P-OUTD-ROAD"
+        },
+        {
+          "ID": "2",
+          "Name": "P-TRAF-CITY"
+        }
+      ],
         "CAD_Script": "线稿生成填充",
         "DataType": "0",
         "ID": "44",
@@ -756,12 +760,16 @@
     },
     {
         "CAD_Frame": "道路线稿",
-        "CAD_Layer": [
-            {
-                "ID": "1",
-                "Name": "P-OUTD-ROAD"
-            }
-        ],
+      "CAD_Layer": [
+        {
+          "ID": "1",
+          "Name": "P-OUTD-ROAD"
+        },
+        {
+          "ID": "2",
+          "Name": "P-TRAF-CITY"
+        }
+      ],
         "CAD_Script": "拍平闭合优化",
         "DataType": "0",
         "ID": "45",

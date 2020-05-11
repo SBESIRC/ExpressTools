@@ -39,10 +39,11 @@
             this.LinkLab.Name = "LinkLab";
             this.LinkLab.Size = new System.Drawing.Size(180, 19);
             this.LinkLab.TabIndex = 0;
+            this.LinkLab.TabStop = true;
             this.LinkLab.Text = "airdcenter@thape.com.cn";
             this.LinkLab.Click += new System.EventHandler(this.LinkLab_Click);
             // 
-            // fmFeedBack
+            // ThFeedBackDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -56,11 +57,10 @@
             this.MaximumSize = new System.Drawing.Size(489, 337);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(489, 337);
-            this.Name = "fmFeedBack";
+            this.Name = "ThFeedBackDlg";
             this.Text = "反馈建议";
             this.Load += new System.EventHandler(this.fmFeedBack_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

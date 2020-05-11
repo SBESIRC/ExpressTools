@@ -19,11 +19,23 @@ namespace ThEssential.BlockConvert
             {
                 var table = acadDatabase.ModelSpace
                               .OfType<Table>()
-                              .First(o => 
-                              o.Cells[0, 0].Value != null &&
-                              o.Cells[0, 0].Value.ToString() == ThBConvertCommon.BLOCK_MAP_TABLE_TITLE_NAME
-                              );
+                              .First(o =>o.Cells[0, 0].Text() == ThBConvertCommon.BLOCK_MAP_RULES_TABLE_TITLE_STRONG);
                 return table.Rules();
+            }
+        }
+
+        private static string Text(this Cell cell)
+        {
+            if (cell.Value == null)
+            {
+                return string.Empty;
+            }
+            using (var mText = new MText()
+            {
+                Contents = cell.Value.ToString(),
+            })
+            {
+                return mText.Text;
             }
         }
 
@@ -42,35 +54,24 @@ namespace ThEssential.BlockConvert
                     Attributes = new Dictionary<string, object>(),
                 };
 
-                // 序号
+                // 暖通块名
                 int column = 0;
+                source.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK] = table.Cells[row, column].Text();
 
-                // 源块名
+                // 暖通设备块
                 column++;
-                source.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK] = table.Cells[row, column].Value.ToString();
-
-                // 源块
-                column++;
-
-                // 源块图层
-                column++;
-                source.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_LAYER] = table.Cells[row, column].Value.ToString();
 
                 var target = new ThBlockConvertBlock()
                 {
                     Attributes = new Dictionary<string, object>(),
                 };
 
-                // 目标块名
+                // 电气块名
                 column++;
-                target.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK] = table.Cells[row, column].Value.ToString();
+                target.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK] = table.Cells[row, column].Text();
 
-                // 目标块
+                // 电气样例
                 column++;
-
-                // 目标快图层
-                column++;
-                target.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_LAYER] = table.Cells[row, column].Value.ToString();
 
                 // 创建映射规则
                 rules.Add(new ThBlockConvertRule()

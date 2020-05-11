@@ -20,6 +20,11 @@ namespace ThColumnInfo.Validate
             {
                 return;
             }
+            if(!this.angularReinforcementDiaModel.IsCornerColumn)
+            {
+                //不是角柱，不需要验证
+                return;
+            }
             if (angularReinforcementDiaModel .AngularReinforcementDia<= 0.0 || 
                 angularReinforcementDiaModel.AngularReinforcementDiaLimited <= 0.0)
             {
@@ -28,9 +33,7 @@ namespace ThColumnInfo.Validate
             if(angularReinforcementDiaModel.AngularReinforcementDia <
                 angularReinforcementDiaModel.AngularReinforcementDiaLimited)
             {
-                ValidateResults.Add("角筋直径不满足双偏压验算 (" +
-                    angularReinforcementDiaModel.AngularReinforcementDia+"<"+
-                    angularReinforcementDiaModel.AngularReinforcementDiaLimited +")");
+                ValidateResults.Add("角筋直径不满足双偏压验算");
             }
             else
             {
@@ -44,14 +47,20 @@ namespace ThColumnInfo.Validate
             steps.Add("条目编号：32， 强制性：应，适用构件：LZ、KZ、ZHZ");
             steps.Add("适用功能：图纸校核，条文编号：配筋规则，条文页数：-");
             steps.Add("条文：实配钢筋应满足计算值");
+            steps.Add("柱号 = " + this.angularReinforcementDiaModel.Text);
+            steps.Add("if(!是否需要核对角筋["+ this.angularReinforcementDiaModel.IsCornerColumn+"])");
+            steps.Add("  {");
+            steps.Add("     Debugprint：柱按单偏压计算");
+            steps.Add("  }");
+
             steps.Add("if (角筋直径[" + angularReinforcementDiaModel.AngularReinforcementDia + "] < 角筋直径限值[" +
                 angularReinforcementDiaModel.AngularReinforcementDiaLimited + "])");
             steps.Add("  {");
-            steps.Add("    Err: 角筋直径不满足双偏压验算");
+            steps.Add("    Err: 角筋直径不满足双偏压验算限值要求");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("    OK: 角筋直径满足双偏压验算");
+            steps.Add("    Debugprint:角筋直径满足双偏压验算");
             steps.Add("  }");
             steps.Add("");
             return steps;

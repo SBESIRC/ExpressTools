@@ -40,6 +40,7 @@ namespace ThColumnInfo.Validate
             steps.Add("条目编号：31， 强制性：应，适用构件：LZ、KZ、ZHZ");
             steps.Add("适用功能：智能识图、图纸校核，条文编号：配筋规则，条文页数：-");
             steps.Add("条文：角筋根数（intCBarCount）应该是4的倍数");
+            steps.Add("柱号 = " + this.ruleModel.Text);
             steps.Add("if (角筋根数" + ruleModel.AngularReinforcementNum + "] % 4 !=0) ");
             steps.Add("  {");
             steps.Add("    Err: 角筋根数不是4的倍数");

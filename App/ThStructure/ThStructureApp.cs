@@ -83,7 +83,7 @@ namespace ThStructure
                     AllowDuplicates = false,
                     RejectObjectsOnLockedLayers = true,
                 };
-                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "ARC,LINE,LWPOLYLINE" & o.Dxf((int)DxfCode.LayerName) == "__覆盖_S20-平面_TEN25CUZ_设计区$0$S_BEAM");//"__覆盖_S20-平面_TEN25CUZ_设计区$0$S_BEAM"
+                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "ARC,LINE,LWPOLYLINE" & o.Dxf((int)DxfCode.LayerName) == "S_BEAM");//"__覆盖_S20-平面_TEN25CUZ_设计区$0$S_BEAM"
                 var entSelected = Active.Editor.GetSelection(options, filterlist);
                 if (entSelected.Status != PromptStatus.OK)
                 {

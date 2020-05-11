@@ -31,11 +31,11 @@ namespace ThColumnInfo.Validate
             double maxValue = Math.Max(dblXBarspacing, dblYBarspacing);
             if (minValue<50)  //柱中纵向钢筋的净间距不应小于50mm
             {
-                ValidateResults.Add("纵向钢筋钢筋净间距不足 ("+ minValue+"< 50) "+ "(砼规 9.3.1-1,P123)");
+                ValidateResults.Add("纵向钢筋净间距不足");
             }
             else if (maxValue > 300) //且不宜大于300mm
             {
-                ValidateResults.Add("纵向钢筋钢筋净间距过大 (" + maxValue + ">= 300) " + "(砼规 9.3.1-1,P123)");
+                ValidateResults.Add("纵向钢筋净间距过大");
             }
             else
             {
@@ -49,6 +49,7 @@ namespace ThColumnInfo.Validate
             steps.Add("条目编号：43， 强制性：宜，适用构件：LZ、KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 9.3.1-2，条文页数：P123");
             steps.Add("条文：柱中纵向钢筋的净间距不应小于50mm ，且不宜大于300mm");
+            steps.Add("柱号 = " + this.ruleModel.Text);
             steps.Add("dblXBarspacing=(B[" + ruleModel.Cdm.B + "]- 2 * (保护层厚度[" + ruleModel.ProtectLayerThickness + "] + IntCBarDia[" +
                 ruleModel.Cdm.IntCBarDia + "] +IntStirrupDia[" + ruleModel.Cdm.IntStirrupDia + "]) - IntXBarCount[" +
                 ruleModel.Cdm.IntXBarCount + "] * IntXBarDia[" + ruleModel.Cdm.IntXBarDia + "]) / (IntXBarCount[" + ruleModel.Cdm.IntXBarCount + "1)");
@@ -59,15 +60,15 @@ namespace ThColumnInfo.Validate
 
             steps.Add("if (Math.Min(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) < 50)");
             steps.Add("  {");
-            steps.Add("      Err: 纵向钢筋钢筋净间距不足");
+            steps.Add("      Err: 纵向钢筋净间距不足");
             steps.Add("  }");
             steps.Add("else if(Math.Max(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) >= 300)");
             steps.Add("  {");
-            steps.Add("      Err: 纵向钢筋钢筋净间距过大");
+            steps.Add("      Err: 纵向钢筋净间距过大");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Ok: 纵向钢筋净间距ok");
+            steps.Add("      Debugprint: 纵向钢筋净间距ok");
             steps.Add("  }");
             steps.Add("");
             return steps;

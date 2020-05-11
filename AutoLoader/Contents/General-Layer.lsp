@@ -42,25 +42,21 @@
     (setq rules (strcat *pluginContentPath* "\\Standards\\Layer\\Process.csv"))
     (if (setq data (LM:readcsv rules))
         (progn
-            ; set all non-standard layers to color 9 
-            (command "._-layer" "color" 9 "*" "")
             ; set all standard layers (layername)
             (foreach line data
                 (setq name      (nth 2 line))
                 (setq color     (nth index line))
-                (command "._-layer" "color" color name "")
+                (if (/= color "nil")
+                    (command "._-layer" "color" color name "")
+                )
             )
             ; set all xref attached standard layers (drawingname|layername)
             (foreach line data
                 (setq name      (nth 2 line))
                 (setq color     (nth index line))
-                (command "._-layer" "color" color (strcat "*" "|" name) "")
-            )
-            ; set all xref binded layers (drawingname$0$layername/drawingname$1$layername)
-            (foreach line data
-                (setq name      (nth 2 line))
-                (setq color     (nth index line))
-                (command "._-layer" "color" color (strcat "*" "$" "*" "$" name) "")
+                (if (/= color "nil")
+                    (command "._-layer" "color" color (strcat "*" "|" name) "")
+                )
             )
             (layerstate-save "建筑底图" 255 nil)
             (princ)
@@ -68,7 +64,7 @@
     )
 )
 
-(defun c:THALC ( / *error* oecho group )
+(defun c:THALC ( / *error* oecho omeasurement group )
     (defun *error* ( msg )
         (if oecho (setvar 'cmdecho oecho))
         (if omeasurement (setvar 'measurement omeasurement))
@@ -103,6 +99,100 @@
     (LM:loadlinetypes '("HIDDEN" "CENTER") nil)
     (TH:DeleteLayerGroupFilter group)
     (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Architecture.csv"))
+    (TH:RenameLayerGroupFilter *defaultParentGroup* group)
+    (TH:ShowLayerManagerPalette group)
+    (TH:ActivateLayerGroupFilter group)
+    
+    ; Line Type Scale factor globally
+    (setvar 'ltscale 1000)
+    
+    (setvar 'cmdecho oecho)
+    (setvar 'measurement omeasurement)
+    (princ)
+);defun
+
+(defun c:THAUL ( / *error* oecho omeasurement group )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if omeasurement (setvar 'measurement omeasurement))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    
+    ; we want to use imperial .lin files in a metric drawing
+    (setq omeasurement (getvar 'measurement))
+    (setvar 'measurement 0) ;Imperial
+   
+    (setq group "天华单体设计图层")
+    ; Import text styles and dimension styles from the standard drawing
+    (Steal (strcat *pluginContentPath* "\\Standards\\Style\\THArchitecture.dwg")
+        '(
+            (
+                "Text Styles"
+                ("TH-STYLE*")
+            )
+            (
+                "Dimension Styles"
+                ("TH-DIM*")
+            )
+         )
+    )
+    ; Load line types from the standard line definition file
+    (LM:loadlinetypes '("HIDDEN" "CENTER") nil)
+    (TH:DeleteLayerGroupFilter group)
+    (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Unit.csv"))
+    (TH:RenameLayerGroupFilter *defaultParentGroup* group)
+    (TH:ShowLayerManagerPalette group)
+    (TH:ActivateLayerGroupFilter group)
+    
+    ; Line Type Scale factor globally
+    (setvar 'ltscale 1000)
+    
+    (setvar 'cmdecho oecho)
+    (setvar 'measurement omeasurement)
+    (princ)
+);defun
+
+(defun c:THAPL ( / *error* oecho omeasurement group )
+    (defun *error* ( msg )
+        (if oecho (setvar 'cmdecho oecho))
+        (if omeasurement (setvar 'measurement omeasurement))
+        (if (not (member msg '("Function cancelled" "quit / exit abort")))
+            (princ (strcat "\nError: " msg))
+         )
+        (princ)
+    )
+    
+    (setq oecho (getvar 'cmdecho))
+    (setvar 'cmdecho 0)
+    
+    ; we want to use imperial .lin files in a metric drawing
+    (setq omeasurement (getvar 'measurement))
+    (setvar 'measurement 0) ;Imperial
+   
+    (setq group "天华总图设计图层")
+    ; Import text styles and dimension styles from the standard drawing
+    (Steal (strcat *pluginContentPath* "\\Standards\\Style\\THArchitecture.dwg")
+        '(
+            (
+                "Text Styles"
+                ("TH-STYLE*")
+            )
+            (
+                "Dimension Styles"
+                ("TH-DIM*")
+            )
+         )
+    )
+    ; Load line types from the standard line definition file
+    (LM:loadlinetypes '("HIDDEN" "CENTERX2" "DASH" "ACAD_ISO09W100") nil)
+    (TH:DeleteLayerGroupFilter group)
+    (TH:loadCSV (strcat *pluginContentPath* "\\Standards\\Layer\\Plan.csv"))
     (TH:RenameLayerGroupFilter *defaultParentGroup* group)
     (TH:ShowLayerManagerPalette group)
     (TH:ActivateLayerGroupFilter group)

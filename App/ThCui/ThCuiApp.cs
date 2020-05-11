@@ -26,6 +26,12 @@ namespace TianHua.AutoCAD.ThCui
 
         private readonly Dictionary<string, string> thcommanfunctiondict = new Dictionary<string, string>
         {
+            // 登录界面
+            {"THHLP", "帮助"},
+
+            // 检查更新
+            {"THUPT", "检查更新"},
+
             // 切换专业
             {"THPROFILE", "专业切换"},
 
@@ -45,6 +51,8 @@ namespace TianHua.AutoCAD.ThCui
             {"THSLC", "建立结构图层"},
             {"THMLC", "建立暖通图层"},
             {"THELC", "建立电气图层"},
+            {"THAPL", "建立总图图层"},
+            {"THAUL", "建立单体图层"},
             {"THPLC", "建立给排水图层"},
             {"THLPM", "暖通用"},
             {"THLPE", "电气用"},
@@ -54,6 +62,9 @@ namespace TianHua.AutoCAD.ThCui
             {"THUKA", "解锁所有图层"},
             {"THMOF", "关闭暖通图层"},
             {"THMON", "开启暖通图层"},
+            {"THTF", "通风模式"},
+            {"THSG", "水管模式"},
+            {"THXF", "消防模式"},
             
             // 计算工具
             {"THBPS", "天华单体规整"},
@@ -716,7 +727,7 @@ namespace TianHua.AutoCAD.ThCui
             {
                 case "ARCHITECTURE":
                     {
-                        ThCuiProfileManager.Instance.CurrentProfile = Profile.ARCHITECTURE;
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.CONSTRUCTION;
                     }
                     break;
                 case "STRUCTURE":
@@ -741,7 +752,7 @@ namespace TianHua.AutoCAD.ThCui
                     break;
                 case "PROJECT":
                     {
-                        ThCuiProfileManager.Instance.CurrentProfile = Profile.PROJECTPLAN;
+                        ThCuiProfileManager.Instance.CurrentProfile = Profile.ARCHITECTURE;
                     }
                     break;
                 default:

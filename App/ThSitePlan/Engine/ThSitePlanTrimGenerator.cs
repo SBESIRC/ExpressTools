@@ -22,6 +22,7 @@ namespace ThSitePlan.Engine
             {
                 {"原始场地叠加线稿", new ThSitePlanTrimWorker()},
                 {"道路-外部车行道路-道路线稿", new ThSitePlanTrimWorker()},
+                {"道路-外部车行道路-道路色块", new ThSitePlanTrimWorker()},
                 {"道路-外部景观道路-道路线稿", new ThSitePlanTrimWorker()},
             };
         }
