@@ -188,6 +188,11 @@ namespace ThColumnInfo.View
                         continue;
                     }
                     int errorIndex = values.IndexOf("XXXXXX");
+                    if (errorIndex == 0)
+                    {
+                        values.RemoveAt(0);
+                        errorIndex = -1;
+                    }
                     for (int i = 0; i < values.Count; i++)
                     {
                         if (errorIndex == i)
@@ -250,6 +255,11 @@ namespace ThColumnInfo.View
                         continue;
                     }
                     int errorIndex = values.IndexOf("XXXXXX");
+                    if(errorIndex==0)
+                    {
+                        values.RemoveAt(0);
+                        errorIndex = -1;
+                    }
                     for (int i = 0; i < values.Count; i++)
                     {
                         if (errorIndex == i)

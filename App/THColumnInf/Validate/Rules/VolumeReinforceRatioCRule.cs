@@ -60,7 +60,7 @@ namespace ThColumnInfo.Validate
             steps.Add("cover= " + this.vrrc.ProtectLayerThickness + "//保护层厚度");
             steps.Add("体积配箍率计算= (intXStirrupCount[" + this.vrrc.Cdm.IntXStirrupCount +
                 "]  *  intStirrupDiaArea[" + this.intStirrupDiaArea + "] * (B[" + this.vrrc.Cdm.B + "] - 2 * cover[" +
-                this.vrrc.ProtectLayerThickness + "] + intYStirrupCount[" + this.vrrc.Cdm.IntYStirrupCount + "] * intStirrupDiaArea[" +
+                this.vrrc.ProtectLayerThickness + "]) + intYStirrupCount[" + this.vrrc.Cdm.IntYStirrupCount + "] * intStirrupDiaArea[" +
                 this.intStirrupDiaArea + "] * (H[" + this.vrrc.Cdm.H + "] - 2 * cover[" + this.vrrc.ProtectLayerThickness + "])) / ((B[" +
                 this.vrrc.Cdm.B + "] - 2 * cover[" + this.vrrc.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrrc.Cdm.IntStirrupDia + "]) * " +
                 "(H[" + this.vrrc.Cdm.H + "] - 2 * cover[" + this.vrrc.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrrc.Cdm.IntStirrupDia + "]) *"

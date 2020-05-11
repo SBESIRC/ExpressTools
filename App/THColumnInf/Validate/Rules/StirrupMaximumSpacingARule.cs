@@ -24,8 +24,7 @@ namespace ThColumnInfo.Validate
             }            
             if(this.smsa.Cdm.IntStirrupSpacing0>400)
             {
-                this.ValidateResults.Add("箍筋间距大于400 (" + this.smsa.Cdm.IntStirrupSpacing0 +
-                    ">400) (砼规 9.3.2-2)");
+                this.ValidateResults.Add("箍筋间距大于400");
             }
             else
             {
@@ -46,7 +45,7 @@ namespace ThColumnInfo.Validate
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      OK：箍筋间距小于400");
+            steps.Add("      Debugprint：箍筋间距小于400");
             steps.Add("  }");
             steps.Add("");
             return steps;

@@ -27,7 +27,7 @@ namespace ThColumnInfo.Validate
             }
             if (ssrm.ShearSpanRatio < 2.0)
             {
-                this.ValidateResults.Add("剪跨比小于2 ("+ ssrm.ShearSpanRatio+ "<2) (砼规 11.4.11-2)");
+                this.ValidateResults.Add("剪跨比小于2");
             }
             else
             {

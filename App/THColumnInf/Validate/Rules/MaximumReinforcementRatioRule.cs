@@ -23,7 +23,7 @@ namespace ThColumnInfo.Validate
             }
             if (this.ruleModel.Cdm.DblP > 0.05)
             {
-                ValidateResults.Add("全部纵向钢筋的配筋率不宜大于5% ");
+                ValidateResults.Add("全部纵向钢筋的配筋率不宜大于5%");
             }
             else
             {

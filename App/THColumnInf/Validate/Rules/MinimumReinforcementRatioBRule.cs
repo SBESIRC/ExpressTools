@@ -10,6 +10,7 @@ namespace ThColumnInfo.Validate
     {
         private MinimumReinforceRatioBModel minimumReinforceRatioBModel;
         private double dblsespmin = 0.0;
+        private double dblpsessmin = 0.0;
         public MinimumReinforcementRatioBRule(MinimumReinforceRatioBModel minimumReinforceRatioBModel)
         {
             this.minimumReinforceRatioBModel = minimumReinforceRatioBModel;
@@ -24,17 +25,17 @@ namespace ThColumnInfo.Validate
                 return;
             }
             this.dblsespmin = this.minimumReinforceRatioBModel.Dblsespmin;
+            //对IV类场地上较高的高层建筑，最小配筋百分率应增加0.1
+            this.dblsespmin += this.minimumReinforceRatioBModel.P1;
+            //采用335Mpa、400Mpa纵向受力钢筋时，应分别增加0.1和0.05
+            this.dblsespmin += this.minimumReinforceRatioBModel.P2;
             //混凝土强度大于等于C60,加上0.1
-            List<double> concreteValues = ThColumnInfoUtils.GetDoubleValues(this.minimumReinforceRatioBModel.ConcreteStrength);
-            if (concreteValues.Count > 0 && concreteValues[0] >= 60)
-            {
-                this.dblsespmin += 0.1;
-            }
-            if (minimumReinforceRatioBModel.IsFourClassHigherArchitecture)
-            {
-                this.dblsespmin += 0.1;
-                minimumReinforceRatioBModel.Dblpsessmin += 0.1;
-            }
+            this.dblsespmin += this.minimumReinforceRatioBModel.P3;
+
+            //对IV类场地上较高的高层建筑,最小单侧配筋率限值加0.1
+            this.dblpsessmin = minimumReinforceRatioBModel.Dblpsessmin;
+            this.dblpsessmin += this.minimumReinforceRatioBModel.DblpsessminIncrement;
+            
             if (minimumReinforceRatioBModel.Cdm.DblP < (this.dblsespmin/100.0))
             {
                 ValidateResults.Add("全截面抗震配筋率不足");
@@ -44,7 +45,7 @@ namespace ThColumnInfo.Validate
                 CorrectResults.Add("全截面配筋率满足抗震构造");
             }
             //Y侧
-            if (minimumReinforceRatioBModel.Cdm.DblYP < (minimumReinforceRatioBModel.Dblpsessmin/100.0))
+            if (minimumReinforceRatioBModel.Cdm.DblYP < (this.dblpsessmin / 100.0))
             {
                 ValidateResults.Add("Y侧抗震配筋率不足");
             }
@@ -53,7 +54,7 @@ namespace ThColumnInfo.Validate
                 CorrectResults.Add("Y侧配筋率满足抗震构造");
             }
             //X侧
-            if (minimumReinforceRatioBModel.Cdm.DblXP < (minimumReinforceRatioBModel.Dblpsessmin/100.0))
+            if (minimumReinforceRatioBModel.Cdm.DblXP < (this.dblpsessmin / 100.0))
             {
                 ValidateResults.Add("X侧抗震配筋率不足");
             }
@@ -86,18 +87,31 @@ namespace ThColumnInfo.Validate
 
             steps.Add("最小全截面配筋率限值 -> 查表 dblsespmin = " +
                 minimumReinforceRatioBModel.Dblsespmin);
-            steps.Add("if(混凝土强度[" + minimumReinforceRatioBModel.ConcreteStrength + "] >= 60)");
-            steps.Add("  {");
-            steps.Add("     dblsespmin=dblsespmin+0.1 ="+minimumReinforceRatioBModel.Dblsespmin+0.1);
-            steps.Add("  }");
 
             steps.Add("if(是否为IV类场地较高建筑[" + minimumReinforceRatioBModel.IsFourClassHigherArchitecture + "])");
             steps.Add("  {");
-            steps.Add("      Dblsespmin=Dblsespmin+0.1= "+ this.dblsespmin);
-            steps.Add("      Dblpsessmin=Dblpsessmin+0.1= " + minimumReinforceRatioBModel.Dblpsessmin);
+            steps.Add("      Dblsespmin = Dblsespmin+0.1 ");
+            steps.Add("      Dblpsessmin = Dblpsessmin+0.1 ");
             steps.Add("  }");
-            
-            steps.Add("if (DblP[" + minimumReinforceRatioBModel.Cdm.DblP + "] < Dblsespmin[" + (minimumReinforceRatioBModel.Dblsespmin/100.0) + "])");
+
+            steps.Add("if(混凝土强度[" + minimumReinforceRatioBModel.ConcreteStrength + "] >= 60)");
+            steps.Add("  {");
+            steps.Add("     Dblsespmin= Dblsespmin + 0.1 ");
+            steps.Add("  }");
+
+            string sign = minimumReinforceRatioBModel.LongitudinalReinforceSign;
+            steps.Add("if(钢筋强度[" + sign + "].Contains(\"%%131\"))");
+            steps.Add("  {");
+            steps.Add("     Dblsespmin= Dblsespmin + 0.1 ");
+            steps.Add("  }");
+
+            steps.Add("if(钢筋强度[" + sign + "].Contains(\"%%132\"))");
+            steps.Add("  {");
+            steps.Add("     Dblsespmin= Dblsespmin + 0.05 ");
+            steps.Add("  }");
+
+
+            steps.Add("if (DblP[" + minimumReinforceRatioBModel.Cdm.DblP + "] < Dblsespmin[" + (this.dblsespmin/100.0) + "])");
             steps.Add("  {");
             steps.Add("      Err：全截面抗震配筋率不足");
             steps.Add("  }");
@@ -107,7 +121,7 @@ namespace ThColumnInfo.Validate
             steps.Add("  }");
 
             
-            steps.Add("if (DblYP[" + minimumReinforceRatioBModel.Cdm.DblYP + "] < Dblpsessmin[" + (minimumReinforceRatioBModel.Dblpsessmin/100.0) + "])");
+            steps.Add("if (DblYP[" + minimumReinforceRatioBModel.Cdm.DblYP + "] < Dblpsessmin[" + (this.dblpsessmin/100.0) + "])");
             steps.Add("  {");
             steps.Add("      Err：Y侧抗震配筋率不足");
             steps.Add("  }");
@@ -117,7 +131,7 @@ namespace ThColumnInfo.Validate
             steps.Add("  }");
 
             
-            steps.Add("if (DblXP[" + minimumReinforceRatioBModel.Cdm.DblXP + "] < Dblpsessmin[" + (minimumReinforceRatioBModel.Dblpsessmin/100.0) + "])");
+            steps.Add("if (DblXP[" + minimumReinforceRatioBModel.Cdm.DblXP + "] < Dblpsessmin[" + (this.dblpsessmin/100.0) + "])");
             steps.Add("  {");
             steps.Add("      Err：X侧抗震配筋率不足");
             steps.Add("  }");

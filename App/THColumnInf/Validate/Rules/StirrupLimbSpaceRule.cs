@@ -35,7 +35,7 @@ namespace ThColumnInfo.Validate
             {
                 if(dblStirrupSpace > 200)
                 {
-                    this.ValidateResults.Add("箍筋肢距不满足抗震构造 ("+ dblStirrupSpace + ">200) (砼规 11.4.15)");
+                    this.ValidateResults.Add("箍筋肢距不满足抗震构造");
                 }
                 else
                 {
@@ -47,8 +47,7 @@ namespace ThColumnInfo.Validate
             {
                 if(dblStirrupSpace > Math.Max(250,20* stirrupLimbSpaceModel.Cdm.IntStirrupDia))
                 {
-                    this.ValidateResults.Add("箍筋肢距不满足抗震构造 (" + dblStirrupSpace + ">"+ 
-                        Math.Max(250, 20 * stirrupLimbSpaceModel.Cdm.IntStirrupDia) +") (砼规 11.4.15)");
+                    this.ValidateResults.Add("箍筋肢距不满足抗震构造");
                 }
                 else
                 {
@@ -59,7 +58,7 @@ namespace ThColumnInfo.Validate
             {
                 if (dblStirrupSpace > 300)
                 {
-                    this.ValidateResults.Add("箍筋肢距不满足抗震构造 (" + dblStirrupSpace + ">300) (砼规 11.4.15)");
+                    this.ValidateResults.Add("箍筋肢距不满足抗震构造");
                 }
                 else
                 {
@@ -89,7 +88,7 @@ namespace ThColumnInfo.Validate
             steps.Add("       }");
             steps.Add("    else");
             steps.Add("       {");
-            steps.Add("           OK: 箍筋肢距满足抗震构造");
+            steps.Add("           Debugprint: 箍筋肢距满足抗震构造");
             steps.Add("       }");
             steps.Add("  }");
 
@@ -102,11 +101,11 @@ namespace ThColumnInfo.Validate
             steps.Add("       }");
             steps.Add("    else");
             steps.Add("       {");
-            steps.Add("           OK:箍筋肢距满足抗震构造");
+            steps.Add("           Debugprint:箍筋肢距满足抗震构造");
             steps.Add("       }");
             steps.Add("  }");
 
-            steps.Add("else if (抗震等级[" + stirrupLimbSpaceModel.AntiSeismicGrade + " == 四级 )");
+            steps.Add("else if (抗震等级[" + stirrupLimbSpaceModel.AntiSeismicGrade + "] == 四级 )");
             steps.Add("  {");
             steps.Add("    if (dblStirrupSpace[" + this.dblStirrupSpace + "] > 300)");
             steps.Add("       {");
@@ -114,7 +113,7 @@ namespace ThColumnInfo.Validate
             steps.Add("       }");
             steps.Add("    else");
             steps.Add("       {");
-            steps.Add("           OK:箍筋肢距满足抗震构造");
+            steps.Add("           Debugprint:箍筋肢距满足抗震构造");
             steps.Add("       }");
             steps.Add("  }");
             steps.Add("");

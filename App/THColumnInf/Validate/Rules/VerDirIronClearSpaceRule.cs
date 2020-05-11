@@ -52,11 +52,11 @@ namespace ThColumnInfo.Validate
             steps.Add("柱号 = " + this.ruleModel.Text);
             steps.Add("dblXBarspacing=(B[" + ruleModel.Cdm.B + "]- 2 * (保护层厚度[" + ruleModel.ProtectLayerThickness + "] + IntCBarDia[" +
                 ruleModel.Cdm.IntCBarDia + "] +IntStirrupDia[" + ruleModel.Cdm.IntStirrupDia + "]) - IntXBarCount[" +
-                ruleModel.Cdm.IntXBarCount + "] * IntXBarDia[" + ruleModel.Cdm.IntXBarDia + "]) / (IntXBarCount[" + ruleModel.Cdm.IntXBarCount + "1)");
+                ruleModel.Cdm.IntXBarCount + "] * IntXBarDia[" + ruleModel.Cdm.IntXBarDia + "]) / (IntXBarCount[" + ruleModel.Cdm.IntXBarCount + "] + 1)");
 
             steps.Add("dblYBarspacing=(H["+ ruleModel.Cdm.H + "]- 2 * (保护层厚度[" + ruleModel.ProtectLayerThickness + "] + IntCBarDia[" +
                 ruleModel.Cdm.IntCBarDia + "] +IntStirrupDia[" + ruleModel.Cdm.IntStirrupDia + "]) - IntYBarCount[" +
-                ruleModel.Cdm.IntYBarCount + "] * IntYBarDia[" + ruleModel.Cdm.IntYBarDia + "]) / (InYBarCount[" + ruleModel.Cdm.IntYBarCount + "1)");
+                ruleModel.Cdm.IntYBarCount + "] * IntYBarDia[" + ruleModel.Cdm.IntYBarDia + "]) / (InYBarCount[" + ruleModel.Cdm.IntYBarCount + "] + 1)");
 
             steps.Add("if (Math.Min(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) < 50)");
             steps.Add("  {");

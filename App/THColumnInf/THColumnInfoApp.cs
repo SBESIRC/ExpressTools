@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Autodesk.AutoCAD.DatabaseServices;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.EditorInput;
 
 [assembly: CommandClass(typeof(ThColumnInfo.ThColumnInfoCommands))]
 [assembly: ExtensionApplication(typeof(ThColumnInfo.ThColumnInfoApp))]
@@ -261,6 +262,31 @@ namespace ThColumnInfo
                 ThColumnInfoUtils.ShowObjIds(plantCal.EmbededColumnIds.ToArray(), false);
             }
         }
-        
+        [CommandMethod("TIANHUACAD", "ThEraseColumnFrame", CommandFlags.Modal)]
+        public void EraseColumnFrameOrText()
+        {
+            try
+            {
+                Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
+                TypedValue[] tvs = new TypedValue[]
+                {
+                new TypedValue((int)DxfCode.ExtendedDataRegAppName,ThColumnInfoUtils.thColumnFrameRegAppName),
+                new TypedValue((int)DxfCode.Start,"LWPOLYLINE,Text"),
+                };
+                SelectionFilter sf = new SelectionFilter(tvs);
+                PromptSelectionOptions options = new PromptSelectionOptions();
+                options.MessageForAdding = "请删除【导入计算书】或【校核】产生的框线或文字";
+                options.RejectObjectsOnLockedLayers = true;
+                PromptSelectionResult psr = doc.Editor.GetSelection(sf);
+                if (psr.Status == PromptStatus.OK)
+                {
+                    ThColumnInfoUtils.EraseObjIds(psr.Value.GetObjectIds());
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ThColumnInfoUtils.WriteException(ex, "EraseFrameIds");
+            }
+        }
     }
 }

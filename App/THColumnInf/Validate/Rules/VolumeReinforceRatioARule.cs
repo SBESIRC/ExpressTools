@@ -57,10 +57,11 @@ namespace ThColumnInfo.Validate
             steps.Add("intStirrupDia= " + (int)this.vrra.Cdm.IntStirrupDia);
             steps.Add("intStirrupDiaArea= " + this.intStirrupDiaArea);
             steps.Add("cover = " + this.vrra.ProtectLayerThickness + "//保护层厚度");
+            steps.Add("抗震等级 = " + this.vrra.AntiSeismicGrade);
 
             steps.Add("体积配箍率计算= (intXStirrupCount[" + this.vrra.Cdm.IntXStirrupCount +
                 "]  *  intStirrupDiaArea[" + this.intStirrupDiaArea + "] * (B[" + this.vrra.Cdm.B + "] - 2 * cover[" +
-                this.vrra.ProtectLayerThickness + "] + intYStirrupCount[" + this.vrra.Cdm.IntYStirrupCount + "] * intStirrupDiaArea[" +
+                this.vrra.ProtectLayerThickness + "]) + intYStirrupCount[" + this.vrra.Cdm.IntYStirrupCount + "] * intStirrupDiaArea[" +
                 this.intStirrupDiaArea + "] * (H[" + this.vrra.Cdm.H + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "])) / ((B[" +
                 this.vrra.Cdm.B + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrra.Cdm.IntStirrupDia + "]) * " +
                 "(H[" + this.vrra.Cdm.H + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrra.Cdm.IntStirrupDia + "]) *"

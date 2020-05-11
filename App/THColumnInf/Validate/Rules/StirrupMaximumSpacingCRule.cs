@@ -44,9 +44,9 @@ namespace ThColumnInfo.Validate
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 9.3.2-2，条文页数：P123");
             steps.Add("条文：箍筋间距不应大于400mm 及构件截面的短边尺寸，且不应大于15d, d 为纵向钢筋的最小直径");
             steps.Add("柱号 = " + this.smsc.Text);
-            steps.Add("intBardiamax=Math.min(IntCBarDia["+ this.smsc.Cdm.IntXBarDia+ "],IntXBarDia[" +
+            steps.Add("intBardiamin=Math.min(IntCBarDia["+ this.smsc.Cdm.IntXBarDia+ "],IntXBarDia[" +
                 this.smsc.Cdm.IntXBarDia + "],IntYBarDia["+this.smsc.Cdm.IntYBarDia+ "]) = " + intBardiaMin);
-            steps.Add("if (IntStirrupSpacing0 [" + this.smsc.Cdm.IntStirrupSpacing0 + "] > (15 * intBardiamax[" + intBardiaMin + "]))");
+            steps.Add("if (IntStirrupSpacing0 [" + this.smsc.Cdm.IntStirrupSpacing0 + "] > (15 * intBardiamin[" + intBardiaMin + "]))");
             steps.Add("  {");
             steps.Add("      Err：箍筋间距大于15倍纵筋最小直径");
             steps.Add("  }");

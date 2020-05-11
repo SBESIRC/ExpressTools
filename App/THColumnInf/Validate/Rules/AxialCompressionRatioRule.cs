@@ -23,8 +23,7 @@ namespace ThColumnInfo.Validate
             if (axialCompressionRatioModel.AxialCompressionRatio > 
                 axialCompressionRatioModel.AxialCompressionRatioLimited)
             {
-                this.ValidateResults.Add("轴压比超限 ("+ axialCompressionRatioModel.AxialCompressionRatio+
-                    ">"+ axialCompressionRatioModel.AxialCompressionRatioLimited+") " +"(砼规 11.4.16,P175)");
+                this.ValidateResults.Add("轴压比超限");
             }
             else
             {

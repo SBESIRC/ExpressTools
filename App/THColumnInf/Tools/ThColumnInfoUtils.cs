@@ -18,6 +18,7 @@ namespace ThColumnInfo
     public class ThColumnInfoUtils
     {
         public static Tolerance tolerance = new Tolerance(1e-2, 1e-2);
+        public static readonly string thColumnFrameRegAppName = "ThColumnFrame";
         public static List<Point3d> GetRetanglePts(List<Point3d> pts)
         {
             List<Point3d> recPts = new List<Point3d>();
@@ -1363,6 +1364,8 @@ namespace ThColumnInfo
 
             Polyline polyline = ThColumnInfoUtils.CreatePolyline(wcsRecPts, true, lineWeight);
             frameId = ThColumnInfoUtils.AddToBlockTable(polyline, visible);
+            TypedValue tv = new TypedValue((int)DxfCode.ExtendedDataAsciiString, "*");
+            AddXData(frameId, ThColumnInfoUtils.thColumnFrameRegAppName, new List<TypedValue>() { tv }); 
             return frameId;
         }
         public static void ChangeColor(ObjectId objId, short colorIndex)

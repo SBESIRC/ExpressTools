@@ -43,7 +43,7 @@ namespace ThColumnInfo.Validate
                 this.volumeReinforceRatioLimited = 0.012;
             }
             else if(this.vrra.FortificationIntensity== 9 && 
-                (this.vrra.Antiseismic.Contains("一级") && !this.vrra.Antiseismic.Contains("特")))
+                (this.vrra.AntiSeismicGrade.Contains("一级") && !this.vrra.AntiSeismicGrade.Contains("特")))
             {
                 this.volumeReinforceRatioLimited = 0.015;
             }
@@ -73,9 +73,11 @@ namespace ThColumnInfo.Validate
             steps.Add("intStirrupDia= " + (int)this.vrra.Cdm.IntStirrupDia);
             steps.Add("intStirrupDiaArea= " + this.intStirrupDiaArea);
             steps.Add("cover= " + this.vrra.ProtectLayerThickness + "//保护层厚度");
+            steps.Add("抗震等级 = " + this.vrra.AntiSeismicGrade);
+
             steps.Add("体积配箍率计算= (intXStirrupCount[" + this.vrra.Cdm.IntXStirrupCount +
                 "]  *  intStirrupDiaArea[" + this.intStirrupDiaArea + "] * (B[" + this.vrra.Cdm.B + "] - 2 * cover[" +
-                this.vrra.ProtectLayerThickness + "] + intYStirrupCount[" + this.vrra.Cdm.IntYStirrupCount + "] * intStirrupDiaArea[" +
+                this.vrra.ProtectLayerThickness + "]) + intYStirrupCount[" + this.vrra.Cdm.IntYStirrupCount + "] * intStirrupDiaArea[" +
                 this.intStirrupDiaArea + "] * (H[" + this.vrra.Cdm.H + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "])) / ((B[" +
                 this.vrra.Cdm.B + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrra.Cdm.IntStirrupDia + "]) * " +
                 "(H[" + this.vrra.Cdm.H + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrra.Cdm.IntStirrupDia + "]) *"
@@ -85,7 +87,7 @@ namespace ThColumnInfo.Validate
             steps.Add("  {");
             steps.Add("      体积配箍率限值=0.012");
             steps.Add("  }");
-            steps.Add("else if(设防烈度[" + this.vrra.FortificationIntensity + "] == 9 && 抗震等级[" + this.vrra.Antiseismic + "] == 一级");
+            steps.Add("else if(设防烈度[" + this.vrra.FortificationIntensity + "] == 9 && 抗震等级[" + this.vrra.AntiSeismicGrade + "] == 一级");
             steps.Add("  {");
             steps.Add("      体积配箍率限值=0.015");
             steps.Add("  }");
