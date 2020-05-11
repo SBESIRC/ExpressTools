@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5F1C37BF-9191-47E7-9DD6-546723741D4B}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>ThSitePlan.UI</RootNamespace>
     <AssemblyName>ThSitePlan.UI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -62,6 +62,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup />
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <PropertyGroup>
     <ManifestCertificateThumbprint>D681C553E389EEABC9FF06909685D634217E41F4</ManifestCertificateThumbprint>
@@ -127,7 +130,6 @@
     <Compile Include="fmMobilePanel.Designer.cs">
       <DependentUpon>fmMobilePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="FuncFile.cs" />
     <Compile Include="MouseHook.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

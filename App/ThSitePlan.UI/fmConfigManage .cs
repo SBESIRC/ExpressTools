@@ -153,7 +153,7 @@ namespace ThSitePlan.UI
 
         private void ColorEdit_ColorChanged(object sender, EventArgs e)
         {
- 
+
         }
 
         private void TreeList_CellValueChanged(object sender, DevExpress.XtraTreeList.CellValueChangedEventArgs e)
@@ -229,7 +229,7 @@ namespace ThSitePlan.UI
 
         private void m_MouseHook_MouseMoveEvent(object sender, MouseEventArgs e)
         {
- 
+
             m_fmMobilePanel.Move();
         }
 
@@ -285,7 +285,7 @@ namespace ThSitePlan.UI
 
         }
 
- 
+
 
         private void TreeList_CustomNodeCellEditForEditing(object sender, DevExpress.XtraTreeList.GetCustomNodeCellEditEventArgs e)
         {
@@ -856,6 +856,12 @@ namespace ThSitePlan.UI
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
+        {
+            var _XX = FuncFile.Encryption("门前大桥下，来了一群鸭！", "AI");
+            var _SS = FuncFile.Decrypt(_XX, "AI");
+        }
+
+        private void BtnExport_Click(object sender, EventArgs e)
         {
 
         }

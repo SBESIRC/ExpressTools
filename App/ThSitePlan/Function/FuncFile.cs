@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ThSitePlan.Configuration;
@@ -111,7 +112,6 @@ namespace ThSitePlan
             var _List = _ListColorGeneral.FindAll(p => p.PID == _ColorGeneral.ID && p.ID != _ColorGeneral.ID);
             _List.ForEach(p =>
             {
-
                 if (p.Type == "0")
                 {
                     _ConfigItemGroup.AddItem(new ThSitePlanConfigItem()
@@ -151,7 +151,31 @@ namespace ThSitePlan
             return _ListStr;
         }
 
+        //加密
+        public static byte[] Encryption(string Express, string _Key)
+        {
+            CspParameters _CspParameters = new CspParameters();
+            _CspParameters.KeyContainerName = _Key;//密匙容器的名称，保持加密解密一致才能解密成功
+            using (RSACryptoServiceProvider _Rsa = new RSACryptoServiceProvider(_CspParameters))
+            {
+                byte[] _Plaindata = Encoding.Default.GetBytes(Express);//将要加密的字符串转换为字节数组
+                byte[] _Encryptdata = _Rsa.Encrypt(_Plaindata, false);//将加密后的字节数据转换为新的加密字节数组
+                return _Encryptdata;//将加密后的字节数组转换为字符串
+            }
+        }
 
+        //解密
+        public static string Decrypt(byte[] Ciphertext, string _Key)
+        {
+            CspParameters _CspParameters = new CspParameters();
+            _CspParameters.KeyContainerName = _Key;
+            using (RSACryptoServiceProvider _Rsa = new RSACryptoServiceProvider(_CspParameters))
+            {
+                byte[] _Encryptdata = Ciphertext;
+                byte[] _Decryptdata = _Rsa.Decrypt(_Encryptdata, false);
+                return Encoding.Default.GetString(_Decryptdata);
+            }
+        }
 
     }
 }
