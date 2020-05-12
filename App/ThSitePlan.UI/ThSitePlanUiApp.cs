@@ -13,6 +13,7 @@ using ThSitePlan.Configuration;
 using ThSitePlan.Photoshop;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.ApplicationServices;
+using System.IO;
 
 namespace ThSitePlan.UI
 {
@@ -44,7 +45,25 @@ namespace ThSitePlan.UI
         {
             using (var dlg = new fmConfigManage())
             {
-                Application.ShowModalDialog(dlg);
+                var ConfigFormResult = Application.ShowModalDialog(dlg);
+
+                if (ConfigFormResult == System.Windows.Forms.DialogResult.OK)
+                {
+                    using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                    {
+                        // 创建一个XRecord
+                        ResultBuffer rb = new ResultBuffer(new TypedValue((int)DxfCode.XTextString, dlg.m_ColorGeneralConfig));
+                        Xrecord configrecord = new Xrecord()
+                        {
+                            Data = rb,
+                        };
+
+                        // 将XRecord添加到NOD中
+                        DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, true);
+                        dbdc.SetAt("ThCAD_ThSitePlanConfig", configrecord);
+                        acadDatabase.AddNewlyCreatedDBObject(configrecord);
+                    }
+                }
             }
         }
 

@@ -2,6 +2,9 @@
 using System.Drawing;
 using System.Collections.Generic;
 using TianHua.Publics.BaseCode;
+using Autodesk.AutoCAD.DatabaseServices;
+using Linq2Acad;
+using System.Linq;
 
 namespace ThSitePlan.Configuration
 {
@@ -64,7 +67,37 @@ namespace ThSitePlan.Configuration
         /// </summary>
         public void Initialize()
         {
-            InitializeWithResource();
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, false);
+                if (dbdc.Contains("ThCAD_ThSitePlanConfig"))
+                {
+                    InitializeWithDb();
+                }
+                else
+                {
+                    InitializeWithResource();
+                }
+            }
+        }
+
+        private void InitializeWithDb()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, false);
+                ObjectId obj = dbdc.GetAt("ThCAD_ThSitePlanConfig");
+                Xrecord bck = acadDatabase.Element<Xrecord>(obj, false);
+                string xrecorddata = bck.First().Value.ToString();
+                if (xrecorddata != null)
+                {
+                    InitializeFromString(xrecorddata);
+                }
+                else
+                {
+                    InitializeWithResource();
+                }
+            }
         }
 
         private void InitalizeWithCode()
@@ -199,7 +232,12 @@ namespace ThSitePlan.Configuration
         private void InitializeWithResource()
         {
             string _Txt = FuncStr.NullToStr(Properties.Resources.BasicStyle);
-            var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(_Txt);
+            InitializeFromString(_Txt);
+        }
+
+        private void InitializeFromString(string orgstring)
+        {
+            var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(orgstring);
             Root = new ThSitePlanConfigItemGroup();
             Root.Properties.Add("Name", "天华彩总");
             FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
@@ -69,7 +68,7 @@
             this.ColScript = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.ComBoxScript = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.ColType = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.images = new DevExpress.Utils.ImageCollection(this.components);
+            this.images = new DevExpress.Utils.ImageCollection();
             this.TrackBar = new DevExpress.XtraEditors.Repository.RepositoryItemTrackBar();
             this.TxtEmpty = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.ComBoxLayer = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
@@ -89,9 +88,9 @@
             this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem13 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
-            this.Tim = new System.Windows.Forms.Timer(this.components);
-            this.ContMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager();
+            this.Tim = new System.Windows.Forms.Timer();
+            this.ContMenu = new System.Windows.Forms.ContextMenuStrip();
             this.MenuItemNewPeerGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemNewGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemNewLayer = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,7 +98,7 @@
             this.MenuItemRename = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.ContextMenuTransparency = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ContextMenuTransparency = new System.Windows.Forms.ContextMenuStrip();
             this.MenuItemOpacity = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemOpacity10 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemOpacity20 = new System.Windows.Forms.ToolStripMenuItem();
@@ -250,6 +249,7 @@
             // 
             // BtnOK
             // 
+            this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnOK.Location = new System.Drawing.Point(478, 445);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(74, 22);

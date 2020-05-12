@@ -860,8 +860,7 @@ namespace ThSitePlan.UI
         private void BtnOK_Click(object sender, EventArgs e)
         {
             TreeList.PostEditor();
-            var m_ColorGeneralConfig = FuncJson.Serialize(m_ListColorGeneral);
-            m_Presenter.UpdateConfig();
+            m_ColorGeneralConfig = FuncJson.Serialize(m_ListColorGeneral);
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
