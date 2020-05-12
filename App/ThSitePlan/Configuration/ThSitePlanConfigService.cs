@@ -61,6 +61,7 @@ namespace ThSitePlan.Configuration
         //-------------SINGLETON-----------------
 
         public ThSitePlanConfigItemGroup Root { get; set; }
+        public string RootJsonString { get; set; }
 
         /// <summary>
         /// 初始化
@@ -70,7 +71,7 @@ namespace ThSitePlan.Configuration
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, false);
-                if (dbdc.Contains("ThCAD_ThSitePlanConfig"))
+                if (dbdc.Contains(ThSitePlanCommon.Configuration_Xrecord_Name))
                 {
                     InitializeWithDb();
                 }
@@ -86,11 +87,12 @@ namespace ThSitePlan.Configuration
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, false);
-                ObjectId obj = dbdc.GetAt("ThCAD_ThSitePlanConfig");
+                ObjectId obj = dbdc.GetAt(ThSitePlanCommon.Configuration_Xrecord_Name);
                 Xrecord bck = acadDatabase.Element<Xrecord>(obj, false);
                 string xrecorddata = bck.First().Value.ToString();
                 if (xrecorddata != null)
                 {
+                    RootJsonString = xrecorddata;
                     InitializeFromString(xrecorddata);
                 }
                 else
@@ -232,6 +234,7 @@ namespace ThSitePlan.Configuration
         private void InitializeWithResource()
         {
             string _Txt = FuncStr.NullToStr(Properties.Resources.BasicStyle);
+            RootJsonString = _Txt;
             InitializeFromString(_Txt);
         }
 

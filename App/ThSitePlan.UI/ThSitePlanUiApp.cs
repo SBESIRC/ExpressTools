@@ -45,8 +45,12 @@ namespace ThSitePlan.UI
         {
             using (var dlg = new fmConfigManage())
             {
-                var ConfigFormResult = Application.ShowModalDialog(dlg);
+                // 获取当前图纸中的配置
+                ThSitePlanConfigService.Instance.Initialize();
+                dlg.m_ColorGeneralConfig = ThSitePlanConfigService.Instance.RootJsonString;
 
+                // 弹出配置界面
+                var ConfigFormResult = Application.ShowModalDialog(dlg);
                 if (ConfigFormResult == System.Windows.Forms.DialogResult.OK)
                 {
                     using (AcadDatabase acadDatabase = AcadDatabase.Active())
@@ -60,7 +64,7 @@ namespace ThSitePlan.UI
 
                         // 将XRecord添加到NOD中
                         DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, true);
-                        dbdc.SetAt("ThCAD_ThSitePlanConfig", configrecord);
+                        dbdc.SetAt(ThSitePlanCommon.Configuration_Xrecord_Name, configrecord);
                         acadDatabase.AddNewlyCreatedDBObject(configrecord);
                     }
                 }
