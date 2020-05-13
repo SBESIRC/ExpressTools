@@ -1,5 +1,6 @@
 ﻿using Autodesk.AutoCAD.Runtime;
 using ThEssential.Command;
+using ThEssential.BlockConvert;
 
 namespace ThEssential
 {
@@ -72,7 +73,16 @@ namespace ThEssential
         [CommandMethod("TIANHUACAD", "THPBE", CommandFlags.Modal)]
         public void ThStrongCurrentBlockConvert()
         {
-            using (var cmd = new ThBlockConvertCommand())
+            using (var cmd = new ThBConvertCommand(ConvertMode.STRONGCURRENT))
+            {
+                cmd.Execute();
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THLBE", CommandFlags.Modal)]
+        public void ThWeakCurrentBlockConvert()
+        {
+            using (var cmd = new ThBConvertCommand(ConvertMode.WEAKCURRENT))
             {
                 cmd.Execute();
             }

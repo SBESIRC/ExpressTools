@@ -14,7 +14,7 @@ namespace ThEssential.BlockConvert
     /// <summary>
     /// 图纸中块的映射规则
     /// </summary>
-    public class ThBlockConvertRule
+    public class ThBConvertRule
     {
         public Tuple<ThBlockConvertBlock, ThBlockConvertBlock> Transformation { get; set; }
     }
