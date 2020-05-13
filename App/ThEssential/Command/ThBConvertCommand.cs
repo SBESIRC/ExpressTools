@@ -65,13 +65,21 @@ namespace ThEssential.Command
                 var objs = new ObjectIdCollection();
                 using (PointCollector pc = new PointCollector(PointCollector.Shape.Window))
                 {
-                    Point3dCollection points = pc.Collect();
+                    try
+                    {
+                        pc.Collect();
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                    Point3dCollection winCorners = pc.CollectedPoints;
                     var filterlist = OpFilter.Bulid(o =>
                         o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(BlockReference)).DxfName);
-                    var entSelected = Active.Editor.SelectWindow(points[0], points[1], filterlist);
+                    var entSelected = Active.Editor.SelectWindow(winCorners[0], winCorners[1], filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {
-                        extents.AddExtents(points.ToExtents3d());
+                        extents.AddExtents(winCorners.ToExtents3d());
                         entSelected.Value.GetObjectIds().ForEach(o => objs.Add(o));
                     }
                 }
