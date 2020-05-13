@@ -46,7 +46,7 @@ namespace ThSitePlan.UI
             ColorPEdit.EditValue = _RGB;
         }
 
-        public void Move()
+        public void MovePanel()
         {
             Top = MousePosition.Y + 20;
             Left = MousePosition.X;

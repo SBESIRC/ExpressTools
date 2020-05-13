@@ -93,6 +93,14 @@ namespace ThSitePlan
             return tmp == this;
         }
 
-
+        public override int GetHashCode()
+        {
+            var _HashCode = -465313509;
+            _HashCode = _HashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            _HashCode = _HashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ID);
+            _HashCode = _HashCode * -1521134295 + EqualityComparer<Image>.Default.GetHashCode(DeleteImg);
+            _HashCode = _HashCode * -1521134295 + EqualityComparer<object>.Default.GetHashCode(主键);
+            return _HashCode;
+        }
     }
 }

@@ -15,6 +15,10 @@
   </PropertyGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
+    <Reference Include="Interop.Photoshop">
+      <HintPath>..\..\Externals\Photoshop\2018\Interop.Photoshop.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -191,17 +195,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\BasicStyle.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="Photoshop">
-      <Guid>{E891EE9A-D0AE-4CB4-8871-F92C0109F18E}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

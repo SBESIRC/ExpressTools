@@ -52,7 +52,7 @@ namespace ThSitePlan
             return _List;
         }
 
-        private List<ColorGeneralDataModel> InitColorGeneral()
+        public List<ColorGeneralDataModel> InitColorGeneral()
         {
             string _Txt = FuncStr.NullToStr(Properties.Resources.BasicStyle);
             var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(_Txt);
@@ -67,5 +67,10 @@ namespace ThSitePlan
  
         }
 
+        public List<string> AddLayer()
+        {
+
+            return new List<string>();
+        }
     }
 }

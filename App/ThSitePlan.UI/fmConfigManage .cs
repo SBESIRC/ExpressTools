@@ -91,7 +91,7 @@ namespace ThSitePlan.UI
             TreeList.DataSource = m_ListColorGeneral;
             this.TreeList.ExpandAll();
 
-            TreeList.OptionsDragAndDrop.DragNodesMode = DragNodesMode.Multiple;
+            //TreeList.OptionsDragAndDrop.DragNodesMode = DragNodesMode.Multiple;
             this.TreeList.OptionsBehavior.ShowEditorOnMouseUp = true;
             this.TreeList.OptionsBehavior.CloseEditorOnLostFocus = false;
             this.TreeList.OptionsBehavior.KeepSelectedOnClick = false;
@@ -188,7 +188,7 @@ namespace ThSitePlan.UI
                 m_fmMobilePanel.Show();
 
                 m_Hdc = WinApi.GetDC(m_Wnd);
-                m_fmMobilePanel.Move();
+                m_fmMobilePanel.MovePanel();
             }
         }
 
@@ -232,7 +232,7 @@ namespace ThSitePlan.UI
         private void m_MouseHook_MouseMoveEvent(object sender, MouseEventArgs e)
         {
 
-            m_fmMobilePanel.Move();
+            m_fmMobilePanel.MovePanel();
         }
 
         private void m_MouseHook_MouseRightClickEvent(object sender, MouseEventArgs e)
@@ -417,7 +417,7 @@ namespace ThSitePlan.UI
                         _Node.TreeList.FocusedNode = _Node;
 
                         var _Type = _Node.TreeList.FocusedNode.GetValue("Type");
-                        if (_Type == "0")
+                        if (FuncStr.NullToStr(_Type) == "0")
                         {
                             MenuItemNewGroup.Enabled = false;
                         }
@@ -468,13 +468,24 @@ namespace ThSitePlan.UI
                 {
                     keybd_event((byte)Keys.Escape, 0, 0, 0);
                 }
+
+                if (_HitInfo.Column.FieldName == "CAD_SelectImg")
+                {
+
+
+                }
+
+
+
                 if (_HitInfo.Column == null)
                 {
                     TreeList.OptionsDragAndDrop.DragNodesMode = DragNodesMode.None;
                 }
 
-                else if (_HitInfo.Column.FieldName == "Name")
+                else if (_HitInfo.Column.FieldName == "Name" && _Node != null)
                 {
+                    TreeList.PostEditor();
+
                     _Node.TreeList.FocusedNode = _Node;
 
                     var _DataType = _Node.TreeList.FocusedNode.GetValue("DataType");
@@ -721,12 +732,6 @@ namespace ThSitePlan.UI
             }
         }
 
-        private void BtnImport_Click(object sender, EventArgs e)
-        {
-            var _Json = FuncJson.Serialize(m_ListColorGeneral);
-            var _NewList = FuncJson.Deserialize<ColorGeneralDataModel>(_Json);
-        }
-
 
 
 
@@ -866,7 +871,75 @@ namespace ThSitePlan.UI
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
+            SaveFileDialog _SaveFileDialog = new SaveFileDialog();
+            _SaveFileDialog.Filter = "Json Files(.json)|.json";
+            _SaveFileDialog.RestoreDirectory = true;
+            var DialogResult = _SaveFileDialog.ShowDialog();
+            if (DialogResult == DialogResult.OK)
+            {
+                TreeList.PostEditor();
+                var m_ColorGeneralConfig = FuncJson.Serialize(m_ListColorGeneral);
+                m_Presenter.UpdateConfig();
+                var _FilePath = _SaveFileDialog.FileName.ToString();
+                FuncFile.Write(_FilePath, m_ColorGeneralConfig);
+            }
+        }
+
+        private void BtnImport_Click(object sender, EventArgs e)
+        {
+            var _OpenFileDialog = new OpenFileDialog();
+            _OpenFileDialog.Filter = "Json Files(.json)|.json";
+            var _Result = _OpenFileDialog.ShowDialog();
+            if (_Result == DialogResult.OK)
+            {
+                var _Json = FuncFile.ReadTxt(_OpenFileDialog.FileName);
+                var _List = FuncJson.Deserialize<List<ColorGeneralDataModel>>(_Json);
+                if (_List != null && _List.Count > 0)
+                {
+                    m_ListColorGeneral = _List;
+                    TreeList.DataSource = m_ListColorGeneral;
+                    this.TreeList.ExpandAll();
+                }
+
+            }
+
+            //var _Json = FuncJson.Serialize(m_ListColorGeneral);
+            //var _NewList = FuncJson.Deserialize<ColorGeneralDataModel>(_Json);
+        }
+
+        private void BtnRestore_Click(object sender, EventArgs e)
+        {
+            m_ListColorGeneral = m_Presenter.InitColorGeneral();
+            TreeList.DataSource = m_ListColorGeneral;
+            this.TreeList.ExpandAll();
+        }
+
+
+        private void TreeList_Click(object sender, EventArgs e)
+        {
+            var _FocusedColumn = TreeList.FocusedColumn;
+            if (_FocusedColumn == null || _FocusedColumn.FieldName != "CAD_SelectImg") { return; }
+            var _ColorGeneral = TreeList.GetFocusedRow() as ColorGeneralDataModel;
+            if (_ColorGeneral == null) { return; }
+            var _List = m_Presenter.AddLayer();
+            if (_List != null || _List.Count > 0)
+            {
+                _List.ForEach(p =>
+                {
+                    var _Layer = _ColorGeneral.CAD_Layer.Find(s => s.Name == p);
+                    if (_Layer == null)
+                    {
+                        LayerDataModel _LayerModel = new LayerDataModel();
+                        _LayerModel.ID = FuncStr.NullToStr(Guid.NewGuid());
+                        _LayerModel.Name = p;
+                        _ColorGeneral.CAD_Layer.Add(_LayerModel);
+                    }
+                    TreeList.RefreshDataSource();
+                });
+            }
 
         }
+
+
     }
 }

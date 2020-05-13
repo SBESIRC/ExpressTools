@@ -1,4 +1,6 @@
-﻿namespace ThSitePlan.UI
+﻿using System;
+
+namespace ThSitePlan.UI
 {
     partial class fmConfigManage
     {
@@ -29,11 +31,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions2 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject7 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject8 = new DevExpress.Utils.SerializableAppearanceObject();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmConfigManage));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.label6 = new System.Windows.Forms.Label();
@@ -167,6 +169,8 @@
             this.layoutControl1.Controls.Add(this.BtnRestore);
             this.layoutControl1.Controls.Add(this.TreeList);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layoutControl1.HiddenItems.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlItem13});
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
             this.layoutControl1.LookAndFeel.SkinName = "Metropolis";
             this.layoutControl1.Name = "layoutControl1";
@@ -187,36 +191,36 @@
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(476, 12);
+            this.label5.Location = new System.Drawing.Point(566, 12);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(112, 20);
+            this.label5.Size = new System.Drawing.Size(134, 20);
             this.label5.TabIndex = 21;
             this.label5.Text = "CAD图层：";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(384, 12);
+            this.label4.Location = new System.Drawing.Point(437, 12);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(88, 20);
+            this.label4.Size = new System.Drawing.Size(125, 20);
             this.label4.TabIndex = 20;
             this.label4.Text = "CAD图框：";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(285, 12);
+            this.label3.Location = new System.Drawing.Point(315, 12);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(95, 20);
+            this.label3.Size = new System.Drawing.Size(118, 20);
             this.label3.TabIndex = 19;
             this.label3.Text = "PSD不透明度：";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(144, 11);
+            this.label2.Location = new System.Drawing.Point(184, 11);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(138, 22);
+            this.label2.Size = new System.Drawing.Size(128, 22);
             this.label2.TabIndex = 18;
             this.label2.Text = "PSD颜色：";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -225,7 +229,7 @@
             // 
             this.label1.Location = new System.Drawing.Point(11, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(131, 22);
+            this.label1.Size = new System.Drawing.Size(171, 22);
             this.label1.TabIndex = 17;
             this.label1.Text = "PSD图层结构：";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -286,6 +290,7 @@
             this.BtnRestore.TabIndex = 11;
             this.BtnRestore.Text = "还原";
             this.BtnRestore.UseVisualStyleBackColor = true;
+            this.BtnRestore.Click += new System.EventHandler(this.BtnRestore_Click);
             // 
             // TreeList
             // 
@@ -332,7 +337,6 @@
             this.TreeList.OptionsPrint.PrintReportFooter = false;
             this.TreeList.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.TreeList.OptionsView.FocusRectStyle = DevExpress.XtraTreeList.DrawFocusRectStyle.RowFullFocus;
-            this.TreeList.OptionsView.ShowColumns = false;
             this.TreeList.OptionsView.ShowHierarchyIndentationLines = DevExpress.Utils.DefaultBoolean.True;
             this.TreeList.OptionsView.ShowIndentAsRowStyle = true;
             this.TreeList.OptionsView.ShowIndicator = false;
@@ -360,6 +364,7 @@
             this.TreeList.ShownEditor += new System.EventHandler(this.TreeList_ShownEditor);
             this.TreeList.CellValueChanged += new DevExpress.XtraTreeList.CellValueChangedEventHandler(this.TreeList_CellValueChanged);
             this.TreeList.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.TreeList_ShowingEditor);
+            this.TreeList.Click += new System.EventHandler(this.TreeList_Click);
             this.TreeList.DragDrop += new System.Windows.Forms.DragEventHandler(this.TreeList_DragDrop);
             this.TreeList.DragEnter += new System.Windows.Forms.DragEventHandler(this.TreeList_DragEnte);
             this.TreeList.DragOver += new System.Windows.Forms.DragEventHandler(this.TreeList_DragOver);
@@ -377,7 +382,7 @@
             this.ColName.OptionsColumn.AllowMove = false;
             this.ColName.Visible = true;
             this.ColName.VisibleIndex = 0;
-            this.ColName.Width = 130;
+            this.ColName.Width = 169;
             // 
             // repositoryItemTextEdit1
             // 
@@ -397,16 +402,16 @@
             this.ColColor.OptionsColumn.AllowMove = false;
             this.ColColor.Visible = true;
             this.ColColor.VisibleIndex = 1;
-            this.ColColor.Width = 140;
+            this.ColColor.Width = 134;
             // 
             // ColorEdit
             // 
             this.ColorEdit.AutoHeight = false;
             this.ColorEdit.AutomaticColor = System.Drawing.Color.Black;
-            editorButtonImageOptions1.Image = global::ThSitePlan.UI.Properties.Resources.吸取;
+            editorButtonImageOptions2.Image = global::ThSitePlan.UI.Properties.Resources.吸取;
             this.ColorEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions2, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, serializableAppearanceObject6, serializableAppearanceObject7, serializableAppearanceObject8, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.ColorEdit.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.ColorEdit.ColorDialogOptions.AllowTransparency = false;
             this.ColorEdit.ColorDialogOptions.ShowMakeWebSafeButton = false;
@@ -434,7 +439,7 @@
             this.ColTransparency.OptionsColumn.AllowMove = false;
             this.ColTransparency.Visible = true;
             this.ColTransparency.VisibleIndex = 2;
-            this.ColTransparency.Width = 98;
+            this.ColTransparency.Width = 121;
             // 
             // SpinEdit
             // 
@@ -464,7 +469,7 @@
             this.ColFrame.OptionsColumn.AllowMove = false;
             this.ColFrame.Visible = true;
             this.ColFrame.VisibleIndex = 3;
-            this.ColFrame.Width = 92;
+            this.ColFrame.Width = 126;
             // 
             // ColLayer
             // 
@@ -479,7 +484,7 @@
             this.ColLayer.OptionsColumn.AllowMove = false;
             this.ColLayer.Visible = true;
             this.ColLayer.VisibleIndex = 4;
-            this.ColLayer.Width = 93;
+            this.ColLayer.Width = 112;
             // 
             // PopupContainer
             // 
@@ -593,6 +598,8 @@
             this.ColImg.Caption = " ";
             this.ColImg.ColumnEdit = this.PictureEdit;
             this.ColImg.FieldName = "CAD_SelectImg";
+            this.ColImg.MaxWidth = 24;
+            this.ColImg.MinWidth = 24;
             this.ColImg.Name = "ColImg";
             this.ColImg.OptionsColumn.AllowMove = false;
             this.ColImg.Visible = true;
@@ -618,8 +625,6 @@
             this.ColScript.FieldName = "CAD_Script";
             this.ColScript.Name = "ColScript";
             this.ColScript.OptionsColumn.AllowMove = false;
-            this.ColScript.Visible = true;
-            this.ColScript.VisibleIndex = 6;
             this.ColScript.Width = 109;
             // 
             // ComBoxScript
@@ -632,6 +637,8 @@
             // 
             // ColType
             // 
+            this.ColType.AppearanceHeader.Options.UseTextOptions = true;
+            this.ColType.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.ColType.Caption = "类型";
             this.ColType.FieldName = "Type";
             this.ColType.Name = "ColType";
@@ -696,7 +703,6 @@
             this.layoutControlItem10,
             this.layoutControlItem11,
             this.layoutControlItem12,
-            this.layoutControlItem13,
             this.emptySpaceItem1});
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Size = new System.Drawing.Size(712, 478);
@@ -779,44 +785,44 @@
             this.layoutControlItem7.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem7.Name = "layoutControlItem7";
             this.layoutControlItem7.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem7.Size = new System.Drawing.Size(133, 24);
+            this.layoutControlItem7.Size = new System.Drawing.Size(173, 24);
             this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem7.TextVisible = false;
             // 
             // layoutControlItem9
             // 
             this.layoutControlItem9.Control = this.label2;
-            this.layoutControlItem9.Location = new System.Drawing.Point(133, 0);
+            this.layoutControlItem9.Location = new System.Drawing.Point(173, 0);
             this.layoutControlItem9.Name = "layoutControlItem9";
             this.layoutControlItem9.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem9.Size = new System.Drawing.Size(140, 24);
+            this.layoutControlItem9.Size = new System.Drawing.Size(130, 24);
             this.layoutControlItem9.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem9.TextVisible = false;
             // 
             // layoutControlItem10
             // 
             this.layoutControlItem10.Control = this.label3;
-            this.layoutControlItem10.Location = new System.Drawing.Point(273, 0);
+            this.layoutControlItem10.Location = new System.Drawing.Point(303, 0);
             this.layoutControlItem10.Name = "layoutControlItem10";
-            this.layoutControlItem10.Size = new System.Drawing.Size(99, 24);
+            this.layoutControlItem10.Size = new System.Drawing.Size(122, 24);
             this.layoutControlItem10.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem10.TextVisible = false;
             // 
             // layoutControlItem11
             // 
             this.layoutControlItem11.Control = this.label4;
-            this.layoutControlItem11.Location = new System.Drawing.Point(372, 0);
+            this.layoutControlItem11.Location = new System.Drawing.Point(425, 0);
             this.layoutControlItem11.Name = "layoutControlItem11";
-            this.layoutControlItem11.Size = new System.Drawing.Size(92, 24);
+            this.layoutControlItem11.Size = new System.Drawing.Size(129, 24);
             this.layoutControlItem11.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem11.TextVisible = false;
             // 
             // layoutControlItem12
             // 
             this.layoutControlItem12.Control = this.label5;
-            this.layoutControlItem12.Location = new System.Drawing.Point(464, 0);
+            this.layoutControlItem12.Location = new System.Drawing.Point(554, 0);
             this.layoutControlItem12.Name = "layoutControlItem12";
-            this.layoutControlItem12.Size = new System.Drawing.Size(116, 24);
+            this.layoutControlItem12.Size = new System.Drawing.Size(138, 24);
             this.layoutControlItem12.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem12.TextVisible = false;
             // 
