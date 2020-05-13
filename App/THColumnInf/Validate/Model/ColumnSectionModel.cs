@@ -22,7 +22,11 @@
             if (FloorTotalNums<=0 || Cdm==null)
             {
                 return false;
-            }            
+            }
+            if (Cdm.B <= 0 || Cdm.H <= 0)
+            {
+                return false;
+            }
             return true;
         }
     }

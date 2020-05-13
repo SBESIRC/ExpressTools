@@ -41,6 +41,9 @@ namespace ThSitePlan
         // RegAppName
         public static readonly string RegAppName_ThSitePlan_Frame_Name = "THCAD_SP_FRAME_NAME";
 
+        // XRecord
+        public static readonly string Configuration_Xrecord_Name = "THCAD_THSITEPLAN_CONFIG";
+
         //photoshop文档尺寸
         public static readonly Dictionary<string, double> PsDocOpenPropertity = new Dictionary<string, double>
         {

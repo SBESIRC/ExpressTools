@@ -8,6 +8,7 @@ namespace ThColumnInfo.Validate
     public class MaximumReinforcementRatioRule : IRule
     {
         private MaximumReinforcementRatioModel ruleModel;
+        private string rule = "（《砼规》9.3.1-1）";
         public MaximumReinforcementRatioRule(MaximumReinforcementRatioModel ruleModel)
         {
             this.ruleModel = ruleModel;
@@ -17,17 +18,17 @@ namespace ThColumnInfo.Validate
 
         public void Validate()
         {
-            if(ruleModel==null || ruleModel.Cdm==null)
+            if(ruleModel==null || !ruleModel.ValidateProperty())
             {
                 return;
             }
             if (this.ruleModel.Cdm.DblP > 0.05)
             {
-                ValidateResults.Add("全部纵向钢筋的配筋率不宜大于5%");
+                ValidateResults.Add("全部纵向钢筋的配筋率大于5% ["+ this.ruleModel.Cdm.DblP+" > 0.05]，"+this.rule);
             }
             else
             {
-                CorrectResults.Add("全部纵向钢筋的配筋率小于5%");
+                CorrectResults.Add("全部纵向钢筋的配筋率小于等于5%" + this.rule);
             }
         }
         public List<string> GetCalculationSteps()
@@ -42,11 +43,11 @@ namespace ThColumnInfo.Validate
             steps.Add(this.ruleModel.Cdm.GetDblpCalculation());
             steps.Add("if (dblP[" + this.ruleModel.Cdm.DblP + "] > 0.05)");
             steps.Add("  {");
-            steps.Add("     Err: 全部纵向钢筋的配筋率不宜大于5%");
+            steps.Add("     Err: 全部纵向钢筋的配筋率大于5%（《砼规》9.3.1-1）");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("     Debugprint: 全部纵向钢筋的配筋率小于5%");
+            steps.Add("     Debugprint: 全部纵向钢筋的配筋率小于等于5%（《砼规》9.3.1-1）");
             steps.Add("  }");
             steps.Add("");
             return steps;

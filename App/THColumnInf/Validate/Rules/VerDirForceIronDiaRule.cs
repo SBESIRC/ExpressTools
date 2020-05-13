@@ -9,6 +9,7 @@ namespace ThColumnInfo.Validate
     public class VerDirForceIronDiaRule : IRule
     {
         private VerDirForceIronModel verDirForceIronModel;
+        private string rule = "（《砼规》9.3.1-1）";
         public VerDirForceIronDiaRule(VerDirForceIronModel verDirForceIronModel)
         {
             this.verDirForceIronModel = verDirForceIronModel;
@@ -17,7 +18,7 @@ namespace ThColumnInfo.Validate
         public List<string> CorrectResults { get; set; } = new List<string>();
         public void Validate()
         {
-            if (verDirForceIronModel == null)
+            if (verDirForceIronModel == null || !verDirForceIronModel.ValidateProperty())
             {
                 return;
             }
@@ -26,11 +27,11 @@ namespace ThColumnInfo.Validate
             minValue = Math.Min(minValue, verDirForceIronModel.Cdm.IntCBarDia);
             if(minValue<12)
             {
-                ValidateResults.Add("纵向受力钢筋直径不宜小于12mm");
+                ValidateResults.Add("纵向受力钢筋直径小于12mm ["+ minValue+" < 12]，"+this.rule);
             }
             else
             {
-                CorrectResults.Add("纵向受力钢筋直径不小于12mm");
+                CorrectResults.Add("纵向受力钢筋直径不小于12mm" + this.rule);
             }
         }
         public List<string> GetCalculationSteps()
@@ -48,11 +49,11 @@ namespace ThColumnInfo.Validate
                 verDirForceIronModel.Cdm.IntXBarDia +"],IntYBarDia[" + verDirForceIronModel.Cdm.IntYBarDia + "]) =" + intBardiamin);
             steps.Add("if (intBardiamin[" + intBardiamin + "] < 12)");
             steps.Add("  {");
-            steps.Add("     Err: 纵向受力钢筋直径不宜小于12mm");
+            steps.Add("     Err: 纵向受力钢筋直径小于12mm（《砼规》9.3.1-1）");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("     Debugprint: 纵向受力钢筋直径不小于12mm");
+            steps.Add("     Debugprint: 纵向受力钢筋直径不小于12mm（《砼规》9.3.1-1）");
             steps.Add("  }");
             steps.Add("");
             return steps;

@@ -25,7 +25,7 @@ namespace ThColumnInfo.Validate
             }
             if(reinforcementAreaModel.Cdm.DblXAs< reinforcementAreaModel.DblXAsCal)
             {
-                this.ValidateResults.Add("X方向配筋不足 (" + reinforcementAreaModel.Cdm.DblXAs + "<" + reinforcementAreaModel.DblXAsCal + ")");
+                this.ValidateResults.Add("X方向配筋不足 [" + reinforcementAreaModel.Cdm.DblXAs + " < " + reinforcementAreaModel.DblXAsCal + "]");
             }
             else
             {
@@ -33,7 +33,7 @@ namespace ThColumnInfo.Validate
             }
             if (reinforcementAreaModel.Cdm.DblYAs < reinforcementAreaModel.DblYAsCal)
             {
-                this.ValidateResults.Add("Y方向配筋不足 (" + reinforcementAreaModel.Cdm.DblYAs + "<" + reinforcementAreaModel.DblYAsCal + ")");
+                this.ValidateResults.Add("Y方向配筋不足 [" + reinforcementAreaModel.Cdm.DblYAs + " < " + reinforcementAreaModel.DblYAsCal + "]");
             }
             else
             {

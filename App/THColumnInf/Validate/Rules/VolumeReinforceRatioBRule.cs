@@ -9,6 +9,7 @@ namespace ThColumnInfo.Validate
     public class VolumeReinforceRatioBRule : IRule
     {
         private VolumeReinforceRatioBModel vrra = null;
+        private string rule = "（《砼规》11.4.17-4）";
         public VolumeReinforceRatioBRule(VolumeReinforceRatioBModel volumeRRA)
         {
             this.vrra = volumeRRA;
@@ -25,7 +26,6 @@ namespace ThColumnInfo.Validate
             {
                 return;
             }
-
             this.intStirrupDiaArea = ThValidate.GetIronSectionArea((int)this.vrra.Cdm.IntStirrupDia);
             //体积配箍率计算
             double value1 = this.vrra.Cdm.IntXStirrupCount * intStirrupDiaArea *
@@ -53,12 +53,12 @@ namespace ThColumnInfo.Validate
             }
             if (calVolumnReinforceRatio < volumeReinforceRatioLimited)
             {
-                this.ValidateResults.Add("加密区箍筋体积配箍率不足 (" + calVolumnReinforceRatio + "<[" +
-                    volumeReinforceRatioLimited + "]) (11.4.17-4)");
+                this.ValidateResults.Add("加密区箍筋体积配箍率不足 [" + calVolumnReinforceRatio + " < " +
+                    volumeReinforceRatioLimited + "]，"+this.rule);
             }
             else
             {
-                this.CorrectResults.Add("加密区箍筋体积配箍率满足抗震构造");
+                this.CorrectResults.Add("加密区箍筋体积配箍率满足抗震构造" + this.rule);
             }
         }
         public List<string> GetCalculationSteps()
@@ -98,11 +98,11 @@ namespace ThColumnInfo.Validate
 
             steps.Add("if (体积配箍率计算[" + this.calVolumnReinforceRatio + "] < 体积配筋率限值[" + this.volumeReinforceRatioLimited + "])");
             steps.Add("  {");
-            steps.Add("      Err: 加密区箍筋体积配箍率不足");
+            steps.Add("      Err: 加密区箍筋体积配箍率不足"+this.rule);
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint: 加密区箍筋体积配箍率满足抗震构造");
+            steps.Add("      Debugprint: 加密区箍筋体积配箍率满足抗震构造" + this.rule);
             steps.Add("  }");
             steps.Add("");
             return steps;

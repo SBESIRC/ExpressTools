@@ -10,24 +10,26 @@ namespace ThColumnInfo.Validate
         private AxialCompressionRatioModel axialCompressionRatioModel;
         public List<string> ValidateResults { get; set; } = new List<string>();
         public List<string> CorrectResults { get; set; } = new List<string>();
+        private string rule = "（《砼规》11.4.16）";
         public AxialCompressionRatioRule(AxialCompressionRatioModel axialCompressionRatioModel)
         {
             this.axialCompressionRatioModel = axialCompressionRatioModel;
         }
         public void Validate()
         {
-            if (axialCompressionRatioModel == null)
+            if (axialCompressionRatioModel == null || !axialCompressionRatioModel.ValidateProperty())
             {
                 return;
             }
             if (axialCompressionRatioModel.AxialCompressionRatio > 
                 axialCompressionRatioModel.AxialCompressionRatioLimited)
             {
-                this.ValidateResults.Add("轴压比超限");
+                this.ValidateResults.Add("轴压比超限 ["+ axialCompressionRatioModel.AxialCompressionRatio+" > "+
+                    axialCompressionRatioModel.AxialCompressionRatioLimited+"]，"+this.rule);
             }
             else
             {
-                this.CorrectResults.Add("轴压比Ok");
+                this.CorrectResults.Add("轴压比满足要求"+this.rule);
             }
         }
         public List<string> GetCalculationSteps()
@@ -41,11 +43,11 @@ namespace ThColumnInfo.Validate
             steps.Add("if (轴压比[" + axialCompressionRatioModel.AxialCompressionRatio + "] > 轴压比限值[" +
                 axialCompressionRatioModel.AxialCompressionRatioLimited+"])");
             steps.Add("  {");
-            steps.Add("    Err: 轴压比超限");
+            steps.Add("    Err: 轴压比超限（《砼规》11.4.16）");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("    OK: 轴压比Ok");
+            steps.Add("    Debugprint: 轴压比满足要求（《砼规》11.4.16）");
             steps.Add("  }");
             steps.Add("");
             return steps;

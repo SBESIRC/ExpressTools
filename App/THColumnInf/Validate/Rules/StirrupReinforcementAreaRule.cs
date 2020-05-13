@@ -30,7 +30,7 @@ namespace ThColumnInfo.Validate
             double compareValue1 = this.sram.DblStirrupAsCal0 * this.sram.Cdm.IntStirrupSpacing0 / this.sram.IntStirrupSpacingCal;
             if (dblStirrupAsmin< compareValue1)
             {
-                this.ValidateResults.Add("非加密区箍筋配筋不足");
+                this.ValidateResults.Add("非加密区箍筋配筋不足 [" + dblStirrupAsmin + " < " + compareValue1 + "]");
             }
             else
             {
@@ -39,7 +39,7 @@ namespace ThColumnInfo.Validate
             double compareValue2 = this.sram.DblStirrupAsCal * this.sram.Cdm.IntStirrupSpacing / this.sram.IntStirrupSpacingCal;
             if (dblStirrupAsmin< compareValue2)
             {
-                this.ValidateResults.Add("加密区箍筋配筋不足");
+                this.ValidateResults.Add("加密区箍筋配筋不足 ["+ dblStirrupAsmin + " < " + compareValue2 + "]");
             }
             else
             {

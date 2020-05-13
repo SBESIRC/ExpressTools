@@ -15,9 +15,10 @@ namespace ThColumnInfo.Validate
 
         private double dblXBarspacing;
         private double dblYBarspacing;
+        private string rule = "（《砼规》9.3.1-2）";
         public void Validate()
         {
-            if(ruleModel==null)
+            if(ruleModel==null || !ruleModel.ValidateProperty())
             {
                 return;
             }
@@ -31,15 +32,15 @@ namespace ThColumnInfo.Validate
             double maxValue = Math.Max(dblXBarspacing, dblYBarspacing);
             if (minValue<50)  //柱中纵向钢筋的净间距不应小于50mm
             {
-                ValidateResults.Add("纵向钢筋净间距不足");
+                ValidateResults.Add("纵向钢筋净间距不足 [" + minValue + " < 50]，" + this.rule);
             }
             else if (maxValue > 300) //且不宜大于300mm
             {
-                ValidateResults.Add("纵向钢筋净间距过大");
+                ValidateResults.Add("纵向钢筋净间距过大 [" + maxValue + " > 300]，" + this.rule);
             }
             else
             {
-                CorrectResults.Add("纵向钢筋净间距Ok");
+                CorrectResults.Add("纵向钢筋净间距Ok" + this.rule);
             }
         }
         public List<string> GetCalculationSteps()
@@ -60,15 +61,15 @@ namespace ThColumnInfo.Validate
 
             steps.Add("if (Math.Min(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) < 50)");
             steps.Add("  {");
-            steps.Add("      Err: 纵向钢筋净间距不足");
+            steps.Add("      Err: 纵向钢筋净间距不足 （《砼规》9.3.1-2）");
             steps.Add("  }");
             steps.Add("else if(Math.Max(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) >= 300)");
             steps.Add("  {");
-            steps.Add("      Err: 纵向钢筋净间距过大");
+            steps.Add("      Err: 纵向钢筋净间距过大（《砼规》9.3.1-2）");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint: 纵向钢筋净间距ok");
+            steps.Add("      Debugprint: 纵向钢筋净间距Ok （《砼规》9.3.1-2）");
             steps.Add("  }");
             steps.Add("");
             return steps;

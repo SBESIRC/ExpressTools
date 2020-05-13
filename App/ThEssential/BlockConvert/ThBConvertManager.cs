@@ -5,23 +5,23 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThEssential.BlockConvert
 {
-    public class ThBlockConvertManager :IDisposable
+    public class ThBConvertManager :IDisposable
     {
         /// <summary>
         /// 块转换的映射规则
         /// </summary>
-        public List<ThBlockConvertRule> Rules { get; set; }
+        public List<ThBConvertRule> Rules { get; set; }
 
         /// <summary>
         /// 从数据库中读取数据创建对象
         /// </summary>
         /// <param name="database"></param>
         /// <returns></returns>
-        public static ThBlockConvertManager CreateManager(Database database)
+        public static ThBConvertManager CreateManager(Database database, ConvertMode mode)
         {
-            return new ThBlockConvertManager()
+            return new ThBConvertManager()
             {
-                Rules = database.Rules(),
+                Rules = database.Rules(mode),
             };
         }
 
@@ -39,6 +39,20 @@ namespace ThEssential.BlockConvert
         {
             var rule = Rules.First(o =>
                 (string)o.Transformation.Item1.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK] == block);
+            return rule?.Transformation.Item2;
+        }
+
+        /// <summary>
+        /// 根据块名和可见性，或者转换后的块信息
+        /// </summary>
+        /// <param name="block"></param>
+        /// <param name="visibility"></param>
+        /// <returns></returns>
+        public ThBlockConvertBlock TransformRule(string block, string visibility)
+        {
+            var rule = Rules.First(o =>
+                (string)o.Transformation.Item1.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK] == block &&
+                (string)o.Transformation.Item1.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK_VISIBILITY] == visibility);
             return rule?.Transformation.Item2;
         }
     }

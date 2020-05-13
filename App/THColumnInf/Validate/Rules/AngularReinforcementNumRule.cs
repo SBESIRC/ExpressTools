@@ -20,13 +20,13 @@ namespace ThColumnInfo.Validate
         public List<string> CorrectResults { get; set; } = new List<string>();
         public void Validate()
         {
-            if(ruleModel==null)
+            if(ruleModel==null || !ruleModel.ValidateProperty())
             {
                 return;
             }
             if(ruleModel.AngularReinforcementNum%4!=0)
             {
-                ValidateResults.Add("角筋根数不是4的倍数");
+                ValidateResults.Add("角筋根数不是4的倍数 ["+ ruleModel.AngularReinforcementNum+" % 4 !=0 ]");
             }
             else
             {

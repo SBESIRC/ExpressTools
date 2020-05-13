@@ -16,9 +16,20 @@ using ThEssential.BlockConvert;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThEssential.Command
-{
-    public class ThBlockConvertCommand : IAcadCommand, IDisposable
+{ 
+    public class ThBConvertCommand : IAcadCommand, IDisposable
     {
+        public ConvertMode Mode { get; set; }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="mode"></param>
+        public ThBConvertCommand(ConvertMode mode)
+        {
+            Mode = mode;
+        }
+
         public void Dispose()
         {
             //
@@ -29,24 +40,46 @@ namespace ThEssential.Command
             return Path.Combine(ThCADCommon.SupportPath(), ThBConvertCommon.BLOCK_MAP_RULES_FILE);
         }
 
+        private ThBConvertEngine CreateConvertEngine(ConvertMode mode)
+        {
+            switch (mode)
+            {
+                case ConvertMode.STRONGCURRENT:
+                    return new ThBConvertEngineStrongCurrent();
+                case ConvertMode.WEAKCURRENT:
+                    return new ThBConvertEngineWeakCurrent();
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
         public void Execute()
         {
             using (AcadDatabase currentDb = AcadDatabase.Active())
+            using (ThBConvertEngine engine = CreateConvertEngine(Mode))
             using (AcadDatabase blockDb = AcadDatabase.Open(BlockDwgPath(), DwgOpenMode.ReadOnly, false))
-            using (ThBlockConvertManager manager = ThBlockConvertManager.CreateManager(blockDb.Database))
+            using (ThBConvertManager manager = ThBConvertManager.CreateManager(blockDb.Database, Mode))
             {
                 // 在当前图纸中框选一个区域，获取块引用
                 var extents = new Extents3d();
                 var objs = new ObjectIdCollection();
                 using (PointCollector pc = new PointCollector(PointCollector.Shape.Window))
                 {
-                    Point3dCollection points = pc.Collect();
+                    try
+                    {
+                        pc.Collect();
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                    Point3dCollection winCorners = pc.CollectedPoints;
                     var filterlist = OpFilter.Bulid(o =>
                         o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(BlockReference)).DxfName);
-                    var entSelected = Active.Editor.SelectWindow(points[0], points[1], filterlist);
+                    var entSelected = Active.Editor.SelectWindow(winCorners[0], winCorners[1], filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {
-                        extents.AddExtents(points.ToExtents3d());
+                        extents.AddExtents(winCorners.ToExtents3d());
                         entSelected.Value.GetObjectIds().ForEach(o => objs.Add(o));
                     }
                 }
@@ -108,14 +141,15 @@ namespace ThEssential.Command
                                         "0",
                                         name,
                                         Point3d.Origin,
-                                        new Scale3d(1.0),
-                                        0.0);
+                                        new Scale3d(transformedBlock.Scale()),
+                                        0.0,
+                                        new Dictionary<string, string>());
 
                                     // 将新插入的块引用调整到源块引用所在的位置
-                                    currentDb.Element<BlockReference>(objId, true).TransformBy(blockReference.BlockTransform);
+                                    engine.TransformBy(objId, blockReference);
 
                                     // 将源块引用的属性“刷”到新的块引用
-                                    objId.MatchProperties(blockReference);
+                                    engine.MatchProperties(objId, blockReference);
                                 }
                                 catch
                                 {

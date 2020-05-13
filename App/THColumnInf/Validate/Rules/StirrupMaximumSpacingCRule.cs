@@ -9,6 +9,7 @@ namespace ThColumnInfo.Validate
     public class StirrupMaximumSpacingCRule : IRule
     {
         private StirrupMaximumSpacingCModel smsc = null;
+        private string rule = "（《砼规》9.3.2-2）";  
         public StirrupMaximumSpacingCRule(StirrupMaximumSpacingCModel smsc)
         {
             this.smsc = smsc;
@@ -26,11 +27,12 @@ namespace ThColumnInfo.Validate
             intBardiamin = Math.Max(this.smsc.Cdm.IntCBarDia, intBardiamin);
             if (this.smsc.Cdm.IntStirrupSpacing0 > (15 * intBardiamin))
             {
-                this.ValidateResults.Add("箍筋间距大于15倍纵筋最小直径");
+                this.ValidateResults.Add("箍筋间距大于15倍纵筋最小直径 [" + this.smsc.Cdm.IntStirrupSpacing0 +
+                    " > " + (15 * intBardiamin) + "]，" + this.rule);
             }
             else
             {
-                this.CorrectResults.Add("箍筋间距小于15倍纵筋最小直径");
+                this.CorrectResults.Add("箍筋间距不大于15倍纵筋最小直径" + this.rule);
             }
         }
         public List<string> GetCalculationSteps()
@@ -48,11 +50,11 @@ namespace ThColumnInfo.Validate
                 this.smsc.Cdm.IntXBarDia + "],IntYBarDia["+this.smsc.Cdm.IntYBarDia+ "]) = " + intBardiaMin);
             steps.Add("if (IntStirrupSpacing0 [" + this.smsc.Cdm.IntStirrupSpacing0 + "] > (15 * intBardiamin[" + intBardiaMin + "]))");
             steps.Add("  {");
-            steps.Add("      Err：箍筋间距大于15倍纵筋最小直径");
+            steps.Add("      Err：箍筋间距大于15倍纵筋最小直径"+this.rule);
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint：箍筋间距小于15倍纵筋最小直径");
+            steps.Add("      Debugprint：箍筋间距不大于15倍纵筋最小直径" + this.rule);
             steps.Add("  }");
             steps.Add("");
             return steps;

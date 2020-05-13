@@ -9,6 +9,7 @@ namespace ThColumnInfo.Validate
     public class StirrupMinimumDiameterARule:IRule
     {
         private StirrupMinimumDiameterAModel smda;
+        private string rule = "（《砼规》9.3.2-1）";
         public StirrupMinimumDiameterARule(StirrupMinimumDiameterAModel smda)
         {
             this.smda = smda;
@@ -28,11 +29,12 @@ namespace ThColumnInfo.Validate
             intBarDiamax = Math.Max(intBarDiamax, this.smda.Cdm.IntYBarDia);
             if(this.smda.Cdm.IntStirrupDia<(0.25* intBarDiamax))
             {
-                this.ValidateResults.Add("箍筋直径小于1/4纵筋最大直径");
+                this.ValidateResults.Add("箍筋直径小于1/4纵筋最大直径 ["+ 
+                    this.smda.Cdm.IntStirrupDia+" < "+ (0.25 * intBarDiamax)+"]，"+this.rule);
             }
             else
             {
-                this.CorrectResults.Add("箍筋直径大于1/4纵筋最大直径");
+                this.CorrectResults.Add("箍筋直径不小于1/4纵筋最大直径"+this.rule);
             }
         }
         public List<string> GetCalculationSteps()
@@ -50,11 +52,11 @@ namespace ThColumnInfo.Validate
                 "],IntYBarDia[" + this.smda.Cdm.IntYBarDia + "]) =" + intBardiamax);         
             steps.Add("if (IntStirrupDia[" + this.smda.Cdm.IntStirrupDia + "] < (0.25 * intBardiamax["+ intBardiamax + "]))");
             steps.Add("  {");
-            steps.Add("     Err：箍筋直径小于1/4纵筋最大直径");
+            steps.Add("     Err：箍筋直径小于1/4纵筋最大直径"+this.rule);
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("     Debugprint：箍筋直径大于1/4纵筋最大直径");
+            steps.Add("     Debugprint：箍筋直径不小于1/4纵筋最大直径" + this.rule);
             steps.Add("  }");
             steps.Add("");
             return steps;

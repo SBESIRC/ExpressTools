@@ -857,7 +857,8 @@ namespace ThColumnInfo.Validate
                 AntiSeismicGrade =this.antiSeismicGrade,
                 IsFirstFloor=this.columnRelateInf.YjkColumnData.IsGroundFloor,
                 ProtectThickness=this.protectLayerThickness,
-                Cdm = this.cdm
+                Cdm = this.cdm,
+                Jkb= this.columnRelateInf.YjkColumnData.Jkb
              };
             rule = new StirrupMaximumSpacingFRule(smsf);
             return rule;

@@ -9,6 +9,7 @@ namespace ThColumnInfo.Validate
     public class StirrupMaximumSpacingARule : IRule
     {
         private StirrupMaximumSpacingAModel smsa =null;
+        private string rule = "（《砼规》9.3.2-2）";
         public StirrupMaximumSpacingARule(StirrupMaximumSpacingAModel smsa)
         {
             this.smsa = smsa;
@@ -24,11 +25,11 @@ namespace ThColumnInfo.Validate
             }            
             if(this.smsa.Cdm.IntStirrupSpacing0>400)
             {
-                this.ValidateResults.Add("箍筋间距大于400");
+                this.ValidateResults.Add("箍筋间距大于400 ["+ this.smsa.Cdm.IntStirrupSpacing0 +" > 400]，"+this.rule);
             }
             else
             {
-                this.CorrectResults.Add("箍筋间距小于400");
+                this.CorrectResults.Add("箍筋间距不大于400"+this.rule);
             }
         }
         public List<string> GetCalculationSteps()
@@ -41,11 +42,11 @@ namespace ThColumnInfo.Validate
             steps.Add("柱号 = " + this.smsa.Text);
             steps.Add("if (IntStirrupSpacing0[" + this.smsa.Cdm.IntStirrupSpacing0 + "] > 400 )");
             steps.Add("  {");
-            steps.Add("      Err：箍筋间距大于400");
+            steps.Add("      Err：箍筋间距大于400" + this.rule);
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint：箍筋间距小于400");
+            steps.Add("      Debugprint：箍筋间距不大于400" + this.rule);
             steps.Add("  }");
             steps.Add("");
             return steps;

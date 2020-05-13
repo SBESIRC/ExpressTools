@@ -9,6 +9,10 @@
             {
                 return false;
             }   
+            if(Cdm==null)
+            {
+                return false;
+            }
             return true;
         }
     }

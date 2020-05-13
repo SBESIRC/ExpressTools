@@ -9,6 +9,7 @@ namespace ThColumnInfo.Validate
     public class VolumeReinforceRatioARule : IRule
     {
         private VolumeReinforceRatioAModel vrra = null;
+        private string rule = "（《砼规》11.4.17-2）";
         public VolumeReinforceRatioARule(VolumeReinforceRatioAModel volumeRRA)
         {
             this.vrra = volumeRRA;
@@ -38,11 +39,12 @@ namespace ThColumnInfo.Validate
 
             if (calVolumnReinforceRatio < this.vrra.VolumnReinforceRatioLimited)
             {
-                this.ValidateResults.Add("加密区箍筋体积配箍率不足" );
+                this.ValidateResults.Add("加密区箍筋体积配箍率不足 [" + calVolumnReinforceRatio + 
+                    " < " + this.vrra.VolumnReinforceRatioLimited+"]，"+this.rule);
             }
             else
             {
-                this.CorrectResults.Add("加密区箍筋体积配箍率满足计算要求");
+                this.CorrectResults.Add("加密区箍筋体积配箍率满足计算要求" + this.rule);
             }
         }
         public List<string> GetCalculationSteps()
@@ -54,6 +56,8 @@ namespace ThColumnInfo.Validate
             steps.Add("条文：对一、二、兰、四级抗震等级的柱，其箍筋加密区的箍筋体积配筋率分别不应小于0.8% 、" +
                 "0. 6% 、0. 4%和0.4%;框支柱宜采用复合螺旋箍或井宇复合箍，其最小配箍特征值应按表11. 4. 17 中的数值增加0.02 采用，且体积配筋率不应小于1. 5%;");
             steps.Add("柱号 = " + this.vrra.Text);
+            steps.Add("intXStirrupCount= " + (int)this.vrra.Cdm.IntXStirrupCount);
+            steps.Add("intYStirrupCount= " + (int)this.vrra.Cdm.IntYStirrupCount);
             steps.Add("intStirrupDia= " + (int)this.vrra.Cdm.IntStirrupDia);
             steps.Add("intStirrupDiaArea= " + this.intStirrupDiaArea);
             steps.Add("cover = " + this.vrra.ProtectLayerThickness + "//保护层厚度");
@@ -68,11 +72,11 @@ namespace ThColumnInfo.Validate
                  + "intStirrupSpacing[" + this.vrra.Cdm.IntStirrupSpacing + "]) = " + this.calVolumnReinforceRatio);
             steps.Add("if (体积配箍率计算[" + calVolumnReinforceRatio + "] < 体积配筋率限值["+ this.vrra.VolumnReinforceRatioLimited+"])");
             steps.Add("  {");
-            steps.Add("      Err: 加密区箍筋体积配箍率不足");
+            steps.Add("      Err: 加密区箍筋体积配箍率不足"+this.rule);
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint: 加密区箍筋体积配箍率满足计算要求");
+            steps.Add("      Debugprint: 加密区箍筋体积配箍率满足计算要求" + this.rule);
             steps.Add("  }");
             steps.Add("");
             return steps;
