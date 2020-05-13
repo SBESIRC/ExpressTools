@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThColumnInfo.ViewModel;
 
 namespace ThColumnInfo
 {
@@ -33,10 +34,12 @@ namespace ThColumnInfo
         /// 获取数据库信息在模型中摆放的位置
         /// </summary>
         public List<ColumnRelateInf> ColumnRelateInfs { get; set; } = new List<ColumnRelateInf>();
+        private CalculationInfo calculateInfo = null;
         
-        public ThDrawColumns(List<DrawColumnInf> drawColumnInfs)
+        public ThDrawColumns(List<DrawColumnInf> drawColumnInfs, CalculationInfo calculateInfo)
         {
             this.drawColumnInfs = drawColumnInfs;
+            this.calculateInfo = calculateInfo;
             doc = ThColumnInfoUtils.GetMdiActiveDocument();
         }
         public void Draw()
@@ -60,21 +63,17 @@ namespace ThColumnInfo
                 xyColumns[0][0].Y + xyColumns[0][0].EccY,0.0);
             Matrix3d moveMt = Matrix3d.Displacement(basePt.GetVectorTo(Point3d.Origin));
             this.columnEnts.ForEach(i=>i.TransformBy(moveMt)); //把基点移动到原点
-            Matrix3d alignMt= Matrix3d.AlignCoordinateSystem(
-                Point3d.Origin, 
-                doc.Editor.CurrentUserCoordinateSystem.CoordinateSystem3d.Xaxis,
-                doc.Editor.CurrentUserCoordinateSystem.CoordinateSystem3d.Yaxis,
-                doc.Editor.CurrentUserCoordinateSystem.CoordinateSystem3d.Zaxis,
-                Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis);
-            this.columnEnts.ForEach(i => i.TransformBy(alignMt));
+
+            Matrix3d wcsToUcs= ThColumnInfoUtils.UCS2WCS();
+            this.columnEnts.ForEach(i => i.TransformBy(wcsToUcs));
+
         }
         private List<Point3d> GetPolylinePts(Polyline polyline)
         {
             List<Point3d> pts = new List<Point3d>();
             for(int i=0;i< polyline.NumberOfVertices;i++)
             {
-
-                pts.Add(polyline.GetPoint3dAt(i).TransformBy(doc.Editor.CurrentUserCoordinateSystem));
+                pts.Add(polyline.GetPoint3dAt(i));
             }
             return pts;
         }
@@ -90,7 +89,7 @@ namespace ThColumnInfo
                string[] specs= drawColumnInf.Spec.Split('x');
                 if(specs!=null && specs.Length==2)
                 {
-                    if(ThColumnInfoUtils.IsNumeric(specs[0]) && ThColumnInfoUtils.IsNumeric(specs[1]))
+                    if(BaseFunction.IsNumeric(specs[0]) && BaseFunction.IsNumeric(specs[1]))
                     {
                         double length = Convert.ToDouble(specs[0]);
                         double width = Convert.ToDouble(specs[1]);
@@ -143,18 +142,26 @@ namespace ThColumnInfo
             {
                 return;
             }
-            
             bool doMark = true;
             Point3d basePt = Point3d.Origin;
-            double modelAng = 0.0;
+            double modelAng = this.calculateInfo.Angle;
+            modelAng = ThColumnInfoUtils.AngToRad(modelAng);
+            if (modelAng != 0.0)
+            {
+                Matrix3d rotateMt = Matrix3d.Rotation(modelAng, 
+                    this.doc.Editor.CurrentUserCoordinateSystem.CoordinateSystem3d.Zaxis, basePt);
+                this.columnEnts.ForEach(i => i.TransformBy(rotateMt));
+            }
+            Point3d moveTargetPt= basePt;
+            ThColumnJig thColumnJig = new ThColumnJig(this.columnEnts, basePt);
             while (doMark)
             {
-                ThColumnJig thColumnJig = new ThColumnJig(this.columnEnts, basePt);
                 PromptResult jigRes = doc.Editor.Drag(thColumnJig);
                 if (jigRes.Status == PromptStatus.OK)
                 {
                     doMark = false;
                     this.isGoOn = true;
+                    moveTargetPt = thColumnJig.Location;
                     break;
                 }
                 else if(jigRes.Status == PromptStatus.Keyword)
@@ -162,7 +169,8 @@ namespace ThColumnInfo
                     if(thColumnJig.KeyWord=="R")
                     {
                         List<Entity> ents = this.columnEnts.Select(i => i.Clone() as Entity).ToList();
-                        ents.ForEach(i => i.TransformBy(doc.Editor.CurrentUserCoordinateSystem));
+                        thColumnJig.TransformEntities();
+                        thColumnJig.TransformEntities(ents);
                         using (Transaction trans = doc.TransactionManager.StartTransaction())
                         {
                             BlockTable bt = trans.GetObject(doc.Database.BlockTableId, OpenMode.ForRead) as BlockTable;
@@ -179,36 +187,12 @@ namespace ThColumnInfo
                         PromptPointResult ppr= doc.Editor.GetPoint(ppo);
                         if(ppr.Status==PromptStatus.OK)
                         {
-                            basePt = ppr.Value;                
+                            basePt = ppr.Value;
+                            thColumnJig.UpdateMbase(basePt);
                         }
                         if(ents!=null && ents.Count>0)
                         {
                             ThColumnInfoUtils.EraseObjIds(ents.Select(i => i.ObjectId).ToArray());
-                        }
-                    }
-                    else if(thColumnJig.KeyWord == "A")
-                    {
-                        basePt = thColumnJig.Position;
-                        PromptAngleOptions pao = new PromptAngleOptions("\n输入模型的角度");
-                        pao.AllowArbitraryInput = true;
-                        pao.AllowZero = true;
-                        pao.AllowNone = false;                        
-                        PromptDoubleResult pdr = doc.Editor.GetAngle(pao);
-                        if (pdr.Status == PromptStatus.OK)
-                        {
-                            double tempAng = pdr.Value;
-                            if (tempAng != modelAng)
-                            {
-                                if(modelAng!=0.0)
-                                {
-                                    //先旋转到0度
-                                    Matrix3d rotateMt1 = Matrix3d.Rotation(-1.0 * modelAng, Vector3d.ZAxis, basePt);
-                                    this.columnEnts.ForEach(i => i.TransformBy(rotateMt1));
-                                }                               
-                                Matrix3d rotateMt2 = Matrix3d.Rotation(tempAng, Vector3d.ZAxis, basePt);
-                                this.columnEnts.ForEach(i => i.TransformBy(rotateMt2));
-                                modelAng = tempAng;
-                            }
                         }
                     }
                     else if(thColumnJig.KeyWord == "E")
@@ -225,10 +209,32 @@ namespace ThColumnInfo
                     break;
                 }
             }
+            if(this.isGoOn)
+            {
+                doMark = true;
+                do
+                {
+                    thColumnJig.TransformEntities();
+                    MoveRotateScaleJig rotateJig = new MoveRotateScaleJig(this.columnEnts, moveTargetPt, JigWay.Rotate, 0, 1);
+                    PromptResult jigRes = doc.Editor.Drag(rotateJig);
+                    if (jigRes.Status == PromptStatus.OK)
+                    {
+                        doMark = false;
+                        rotateJig.TranformEntities();
+                        this.calculateInfo.Angle = BaseFunction.RadToAng(rotateJig.RotateAngle);
+                        break;
+                    }
+                    else if (jigRes.Status == PromptStatus.Cancel)
+                    {
+                        doMark = false;
+                    }
+                } while (doMark);
+            }
             //必须赋值完后，方可释放上面的柱子实体
             keyValuePairs.ForEach(i => this.ColumnRelateInfs.Add(new ColumnRelateInf()
             { DbColumnInf = i.Key, InModelPts = GetPolylinePts(i.Value)}));
-            this.columnEnts.ForEach(i => i.Dispose()); //释放已绘制的柱子
+            //ThColumnInfoUtils.EraseObjIds(columnObjIds.ToArray());//释放已绘制的柱子
+            this.columnEnts.ForEach(i => i.Dispose());
         }
     }
 }

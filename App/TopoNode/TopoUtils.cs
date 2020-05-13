@@ -38,10 +38,10 @@ namespace TopoNode
             if (relatedCurves == null)
                 return null;
 
-            var layers = Utils.GetLayersFromCurves(relatedCurves);
+            //var layers = Utils.GetLayersFromCurves(relatedCurves);
             //Utils.DrawProfile(relatedCurves, "related");
             //return null;
-            var profileLayer = TopoSearch.MakeSrcProfileLoopsLayerFromPoint(relatedCurves, pt);
+            var profileLayer = TopoSearch.MakeSrcProfileLoopsLayerFromPoint(srcCurves, relatedCurves, pt);
             return profileLayer;
         }
 

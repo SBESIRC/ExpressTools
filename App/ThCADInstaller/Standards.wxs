@@ -22,6 +22,12 @@
             <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_Process" Guid="{8D1A7731-8B98-4DE1-A1DF-36614F35B650}" Win64="yes">
               <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Process" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Process.csv" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_Plan" Guid="{4CC3845B-4367-491B-9B1C-1C0727D0DB82}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Plan" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Plan.csv" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Standards_Layer_Unit" Guid="{FB816B68-4739-4F2F-85F8-9F08BCCD3E35}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Standards_Layer_Unit" Source="$(var.AutoloaderContentsPath)\Standards\Layer\Unit.csv" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
         <DirectoryRef Id="DIR_Autoloader_Contents_Standards_Style">
           <Component Id="CMP_Autoloader_PackageContents_Standards_Style_Architecture" Guid="{14027AD8-8D1C-4F60-B223-30F866BDDD7D}" Win64="yes">
@@ -48,6 +54,8 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_HVAC" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Plumbing" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Process" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Plan" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Unit" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Layer_Electrical" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Style_Architecture" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Standards_Style_Structure" />

@@ -16,8 +16,8 @@ namespace TianHua.AutoCAD.ThCui
             { Profile.HAVC, "暖通" },
             { Profile.STRUCTURE, "结构" },
             { Profile.ELECTRICAL, "电气" },
-            { Profile.PROJECTPLAN, "方案" },
-            { Profile.ARCHITECTURE, "建筑" },
+            { Profile.ARCHITECTURE, "方案" },
+            { Profile.CONSTRUCTION, "建筑" },
         };
 
         public static AcadPopupMenu PopupMenu
@@ -33,21 +33,27 @@ namespace TianHua.AutoCAD.ThCui
                     return null;
                 }
 #endif
-                var acadApp = AcadApp.AcadApplication as AcadApplication;
-                foreach (AcadMenuGroup menuGroup in acadApp.MenuGroups)
+                try
                 {
-                    if (string.Equals(menuGroup.Name,
-                        ThCADCommon.CuixMenuGroup,
-                        StringComparison.OrdinalIgnoreCase))
+                    foreach (AcadMenuGroup menuGroup in AcadApp.MenuGroups as AcadMenuGroups)
                     {
-                        foreach (AcadPopupMenu popupMenu in menuGroup.Menus)
+                        if (string.Equals(menuGroup.Name,
+                            ThCADCommon.CuixMenuGroup,
+                            StringComparison.OrdinalIgnoreCase))
                         {
-                            if (popupMenu.TagString == "ID_THMenu")
+                            foreach (AcadPopupMenu popupMenu in menuGroup.Menus)
                             {
-                                return popupMenu;
+                                if (popupMenu.TagString == "ID_THMenu")
+                                {
+                                    return popupMenu;
+                                }
                             }
                         }
                     }
+                }
+                catch
+                {
+                    //
                 }
                 return null;
             }

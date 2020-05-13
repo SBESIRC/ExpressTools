@@ -4,51 +4,62 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThColumnInfo"
+        xmlns:local1="clr-namespace:ThColumnInfo.View"
+        xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
-        Title="MainWindow" Width="600" Height="400" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="导入计算书" Width="600" Height="410" MinWidth="600" MinHeight="410" 
+        MaxWidth="600" MaxHeight="410" Loaded="Window_Loaded" ResizeMode="NoResize" KeyDown="Window_KeyDown">
     <Window.Resources>
         <Style TargetType="{x:Type Window}">
             <Setter Property="FontFamily" Value="宋体" />
-            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="FontSize" Value="12"></Setter>
         </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="500"></ColumnDefinition>
-            <ColumnDefinition Width="100"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ComboBox Name="cbYjkFilePath" Grid.Row="0" Grid.Column="0" Height="30" Margin="10,0" Width="480" Text="{Binding CalculateInfo.YjkPath}"
-                  ItemsSource="{Binding CalculateInfo.YjkUsedPathList,Mode=TwoWay}" SelectionChanged="CbYjkFilePath_SelectionChanged"></ComboBox>
-        <Button Content="浏览" Grid.Row="0" Grid.Column="1" Height="30" Width="60" Command="{Binding BrowseDirectoryCommand}"></Button>
-        <GroupBox Header="模型参数" Grid.Row="1" Grid.ColumnSpan="2" Margin="10,0" Height="300">
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+            <Label Content="模型目录：" VerticalContentAlignment="Center"/>
+            <ComboBox Name="cbYjkFilePath"  Height="30" Margin="0,0" Width="430" 
+                   ItemsSource="{Binding CalculateInfo.YjkUsedPathList,Mode=TwoWay}"
+                   SelectedValue="{Binding CalculateInfo.YjkPath,Mode=TwoWay}" SelectionChanged="CbYjkFilePath_SelectionChanged"></ComboBox>
+            <Button Content="浏览" Height="20" Width="55" Margin="5,0" Command="{Binding BrowseDirectoryCommand}"></Button>
+        </StackPanel>
+        <GroupBox Header="模型参数" Grid.Row="1"  Height="280">
             <Grid>
-                <GroupBox Name="selectMode" Header="选择模式" HorizontalAlignment="Left" Height="100" Margin="19,12,0,0" VerticalAlignment="Top" Width="151">
+                <GroupBox Name="selectMode" Header="楼层选择" HorizontalAlignment="Left" Height="100" Margin="19,12,0,0" VerticalAlignment="Top" Width="151">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="21*"/>
                             <ColumnDefinition Width="118*"/>
                         </Grid.ColumnDefinitions>
                         <RadioButton Name="rbSelectByNatural"  GroupName="selectMode" Content="按自然层选择" HorizontalAlignment="Left" 
-                                     Height="19" Margin="7,20,0,0" VerticalAlignment="Top" Width="105" Checked="RbSelectByNatural_Checked" Grid.ColumnSpan="2"
-                                     IsChecked="{Binding CalculateInfo.SelectByFloor,Mode=TwoWay}"/>
+                                     Height="19" Margin="7,20,0,0" VerticalAlignment="Top" Width="105"  Grid.ColumnSpan="2"
+                                     Checked="RbSelectByNatural_Checked" Unchecked="RbSelectByNatural_Unchecked"/>
                         <RadioButton Name="rbSelectByStandard" GroupName="selectMode"  Content="按标准层选择" HorizontalAlignment="Left"
-                                     Height="19" Margin="7,50,0,0" VerticalAlignment="Top" Width="105" Grid.ColumnSpan="2" Checked="RbSelectByStandard_Checked"
-                                     IsChecked="{Binding CalculateInfo.SelectByStandard,Mode=TwoWay}"/>
+                                     Height="19" Margin="7,50,0,0" VerticalAlignment="Top" Width="105" Grid.ColumnSpan="2" 
+                                     Checked="RbSelectByStandard_Checked" Unchecked="RbSelectByStandard_Unchecked"
+                                     />
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="图纸转角" HorizontalAlignment="Left" Height="123" Margin="19,132,0,0" VerticalAlignment="Top" Width="151">
+                <GroupBox Header="埋入角度修正" HorizontalAlignment="Left" Height="123" Margin="19,132,0,0" VerticalAlignment="Top" Width="151">
                     <Grid>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="角度(逆)" Margin="0,10"></Label>
                             <TextBox Name="tbAngle"  HorizontalAlignment="Left" Height="19" Margin="7,12,0,0" VerticalAlignment="Top" Width="55"
-                                     Text="{Binding CalculateInfo.Angle,Mode=TwoWay}"/>
+                                     PreviewTextInput="TbAngle_PreviewTextInput" input:InputMethod.IsInputMethodEnabled="False">
+                                <TextBox.Text>
+                                    <Binding Path=" CalculateInfo.Angle" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <local1:NumberRule />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
                         </StackPanel>
-                        <CheckBox Name="cbModelPoint" Content="图中指定" HorizontalAlignment="Left" Height="19" Margin="7,46,0,0" 
-                                  VerticalAlignment="Top" Width="105" IsChecked="{Binding CalculateInfo.ModelAppoint}"/>
                     </Grid>
                 </GroupBox>
                 <ListBox Name="lbModelLayers" HorizontalAlignment="Left" Height="230" Margin="184,22,0,0" VerticalAlignment="Top" Width="130"
@@ -64,5 +75,9 @@
                          VerticalAlignment="Top" Width="280" Text="{Binding CalculateInfo.QuickAppoint,Mode=TwoWay}"/>-->
             </Grid>
         </GroupBox>
+        <StackPanel Grid.Row="2" Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,5,15,0">
+            <Button Name="btnImport"  Content="埋入" Width="60" Margin="5" Command="{Binding ImportCommand}"></Button>
+            <Button Name="btnExit"  Content="取消" Width="60" Margin="10,5,0,5"  Command="{Binding ExitCommand}"></Button>
+        </StackPanel>
     </Grid>
 </Window>

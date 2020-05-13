@@ -11,6 +11,18 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_YamlDotNet_Debug" Guid="{5DC7FBBF-113E-4AE0-A49A-8BC699E35B3F}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_YamlDotNet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\YamlDotNet.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NLog_Debug" Guid="{6E5D845A-701F-43BA-8A29-796A0212587A}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NLog_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\NLog.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_SQLite_Debug" Guid="{5BD4D262-55E6-423F-9704-40FC0E66B5D4}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_SQLite_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\System.Data.SQLite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Json_Debug" Guid="{B08E1445-28D1-462A-8B46-A622FB1DE526}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_Json_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Debug" Guid="{D51021CB-B3A2-47F7-8CBA-3743B99AD54E}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_RestSharp_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\RestSharp.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
@@ -19,6 +31,18 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_YamlDotNet_Debug" Guid="{45ECC086-16F3-4DA3-8A07-5478DF7E7729}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_YamlDotNet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\YamlDotNet.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NLog_Debug" Guid="{FD29A03F-DFC5-42D0-ACBD-80E58E14EEC3}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_NLog_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\NLog.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_SQLite_Debug" Guid="{F729090C-9E32-4708-A1EF-CC1F6AA02C47}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_SQLite_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\System.Data.SQLite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Json_Debug" Guid="{0DA493F5-30C4-4280-A72C-D2D8F9431A12}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_Json_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Debug" Guid="{193DA18D-3477-4499-9A94-0F4FAC2E43DD}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_RestSharp_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\RestSharp.dll" />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
@@ -29,6 +53,18 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_YamlDotNet_Debug" Guid="{8DCFFA39-56E7-46AF-8D95-6B9A931E99DB}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_YamlDotNet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\YamlDotNet.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_NLog_Debug" Guid="{FD29A03F-DFC5-42D0-ACBD-80E58E14EEC3}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_NLog_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\NLog.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_SQLite_Debug" Guid="{F729090C-9E32-4708-A1EF-CC1F6AA02C47}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_SQLite_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\System.Data.SQLite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Json_Debug" Guid="{02539043-627a-47d9-b77f-0b4a40e8c307}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_Json_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Debug" Guid="{B3572E49-B2F5-4ED8-B3B6-54D79E63EBD5}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_RestSharp_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\RestSharp.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
       <?define OutputPath_R22_Debug="bin\Debug-NET46" ?>
@@ -37,6 +73,18 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Debug" Guid="{D6143626-1C02-4928-A71A-D2F49F6B8D4E}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_YamlDotNet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\YamlDotNet.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_NLog_Debug" Guid="{CDF13D24-91E3-4E0F-83D7-E2E4D312589E}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_NLog_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\NLog.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_SQLite_Debug" Guid="{63ADA7B3-F658-49F9-8A5F-3E82EFCE8B6E}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_SQLite_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\System.Data.SQLite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_Json_Debug" Guid="{2EDAF9B3-D707-4CF7-9A3B-222CE933EB63}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_Json_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_RestSharp_Debug" Guid="{ABF7EACA-114E-4DF1-BEDD-69EB5531FA91}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_RestSharp_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\RestSharp.dll" />
       </Component>
     </DirectoryRef>
     <?elseif $(var.Configuration) = Release ?>
@@ -48,6 +96,18 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_YamlDotNet_Release" Guid="{5E9E46DB-BC5D-439F-9527-0F750CB948E5}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_YamlDotNet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\YamlDotNet.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NLog_Release" Guid="{F9ECA192-BF44-49BA-A881-AB2389B36928}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NLog_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\NLog.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_SQLite_Release" Guid="{01B9C3FF-74A7-4368-A375-88C3E499E4E9}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_SQLite_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\System.Data.SQLite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Json_Release" Guid="{EF8C94F5-B421-44DC-B0EC-FAF749C6DA7D}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_Json_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Release" Guid="{20424CB6-527E-4317-8EDB-31D39E28D019}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\RestSharp.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Release="bin\Release-NET40" ?>
@@ -56,6 +116,18 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_YamlDotNet_Release" Guid="{3E9D6164-DB17-4549-914F-590B9F76B22A}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_YamlDotNet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\YamlDotNet.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NLog_Release" Guid="{27DA2E7E-1568-432D-AC4A-55500EE38F52}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_NLog_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\NLog.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_SQLite_Release" Guid="{DB943657-6020-4902-93B0-6784CCBBF658}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_SQLite_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\System.Data.SQLite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Json_Release" Guid="{7AC27731-494B-4D75-84AD-CD603CDC0143}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_Json_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Release" Guid="{98166AAB-6287-492A-B284-7E3C5555E38E}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\RestSharp.dll" />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
@@ -66,6 +138,18 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_YamlDotNet_Release" Guid="{3B0B6EE9-9AFC-488E-82E7-D38D9445DDBB}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_YamlDotNet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\YamlDotNet.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_NLog_Release" Guid="{451B933F-124C-45F0-9C56-4E2BC25DC2F5}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_NLog_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\NLog.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_SQLite_Release" Guid="{74E0F47C-A800-4120-B696-8ABB51D0A3E3}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_SQLite_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\System.Data.SQLite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Json_Release" Guid="{11d72969-0b28-40f7-b609-a97decde703a}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_Json_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Release" Guid="{A9BD8612-1F72-4209-9FE4-4C47BD0E4773}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\RestSharp.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
       <?define OutputPath_R22_Release="bin\Release-NET46" ?>
@@ -74,7 +158,19 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Release" Guid="{CBF98D04-C2D6-4BBE-8FA6-FCF7B1206E15}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_YamlDotNet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\YamlDotNet.dll" />
-      </Component>  
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_NLog_Release" Guid="{C68D19E0-D3F2-4B1C-92A0-F7484F33AC22}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_NLog_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\NLog.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_SQLite_Release" Guid="{E78A3C2C-6C12-4714-8976-B58B97299718}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_SQLite_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\System.Data.SQLite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_Json_Release" Guid="{1957F4AE-8D43-4F79-BBB1-5ABA56B71EA0}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_Json_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_RestSharp_Release" Guid="{5D5AB4DE-C1FA-45C8-AD77-02AA52A35E9C}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\RestSharp.dll" />
+      </Component>
     </DirectoryRef>
     <?endif?>
   </Fragment>
@@ -89,6 +185,22 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_YamlDotNet_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_YamlDotNet_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NLog_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NLog_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NLog_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NLog_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_SQLite_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_SQLite_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_SQLite_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_SQLite_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Json_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Json_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Json_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_Json_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_RestSharp_Debug" />
       <?elseif $(var.Configuration) = Release ?>
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Release" />
@@ -97,7 +209,23 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_YamlDotNet_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_YamlDotNet_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_YamlDotNet_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Release" />  
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NLog_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NLog_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NLog_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NLog_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_SQLite_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_SQLite_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_SQLite_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_SQLite_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Json_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Json_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Json_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_Json_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_RestSharp_Release" />
       <?endif?>
     </ComponentGroup>
   </Fragment>

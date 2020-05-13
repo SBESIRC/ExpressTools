@@ -55,6 +55,9 @@
             <Component Id="CMP_Autoloader_PackageContents_Lisp_AutoBlockBreak" Guid="{53F579F6-E9FA-4BDA-9E2A-50AA79DABD4E}" Win64="yes">
               <File Id="FILE_Autoloader_PackageContents_Lisp_AutoBlockBreak" Source="$(var.AutoloaderContentsPath)\AutoBlockBreak.lsp" KeyPath="yes" />
             </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Lisp_HavcLayer" Guid="{26BF0EDD-543A-4274-AAF6-F740F4019932}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Lisp_HavcLayer" Source="$(var.AutoloaderContentsPath)\Havc-Layer.lsp" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -76,6 +79,7 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BreakObjectsUtils" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_BreakLines" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_AutoBlockBreak" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Lisp_HavcLayer" />
         </ComponentGroup>
     </Fragment>
 </Wix>

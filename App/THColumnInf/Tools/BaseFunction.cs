@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using Autodesk.AutoCAD.Geometry;
 
@@ -8,6 +10,160 @@ namespace ThColumnInfo
 {
     public class BaseFunction
     {
+        public static string getJsonByObject(Object obj)
+
+        {
+
+            //实例化DataContractJsonSerializer对象，需要待序列化的对象类型
+
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(obj.GetType());
+
+            //实例化一个内存流，用于存放序列化后的数据
+
+            MemoryStream stream = new MemoryStream();
+
+            //使用WriteObject序列化对象
+
+            serializer.WriteObject(stream, obj);
+
+            //写入内存流中
+
+            byte[] dataBytes = new byte[stream.Length];
+
+            stream.Position = 0;
+
+            stream.Read(dataBytes, 0, (int)stream.Length);
+
+            //通过UTF8格式转换为字符串
+
+            return Encoding.UTF8.GetString(dataBytes);
+
+        }
+        public static Object getObjectByJson(string jsonString, Object obj)
+
+        {
+            //实例化DataContractJsonSerializer对象，需要待序列化的对象类型
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(obj.GetType());
+            //把Json传入内存流中保存
+            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonString));
+            // 使用ReadObject方法反序列化成对象
+            return serializer.ReadObject(stream);
+
+        }
+        /// <summary>
+        /// 读取txt文件
+        /// </summary>
+        /// <param name="path"></param>
+        public static string Read(string path)
+        {
+            StreamReader sr = new StreamReader(path, Encoding.Default);
+            return sr.ReadLine();
+        }
+        /// <summary>
+        /// 写入txt文件
+        /// </summary>
+        /// <param name="path"></param>
+        public static void Write(string path, string str)
+        {
+            try
+            {
+                FileStream fs = new FileStream(path, FileMode.Create);
+                StreamWriter sw = new StreamWriter(fs);
+                //开始写入
+                sw.Write(str);
+                //清空缓冲区
+                sw.Flush();
+                //关闭流
+                sw.Close();
+                fs.Close();
+            }
+            catch (Exception ex)
+            {
+                ThColumnInfoUtils.WriteException(ex, "BaseFunction.Write");
+            }
+        }
+        /// <summary>
+        /// 纯数字
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool IsNumeric(string str) //接收一个string类型的参数,保存到str里
+        {
+            if (str == null || str.Length == 0)    //验证这个参数是否为空
+                return false;                           //是，就返回False
+            ASCIIEncoding ascii = new ASCIIEncoding();//new ASCIIEncoding 的实例
+            byte[] bytestr = ascii.GetBytes(str);         //把string类型的参数保存到数组里
+            int count = 0;
+            foreach (byte c in bytestr)                   //遍历这个数组里的内容
+            {
+                if (c == 46)
+                {
+                    count++;
+                }
+                else if (c < 48 || c > 57)                          //判断是否为数字
+                {
+                    return false;                              //不是，就返回False
+                }
+            }
+            if (count > 1)
+            {
+                return false;
+            }
+            return true;                                        //是，就返回True
+        }
+        public static List<string> SplitCode(string code)
+        {
+            List<string> strs = new List<string>();
+            string str = "";
+            string num = "";
+            byte[] arr = System.Text.Encoding.ASCII.GetBytes(code);
+            int startIndex = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (!((int)(arr[i]) >= 48 && (int)(arr[i]) <= 57))
+                {
+                    str += (char)arr[i];
+                }
+                else
+                {
+                    startIndex = i;
+                    break;
+                }
+            }
+            for (int i = startIndex; i < arr.Length; i++)
+            {
+                if ((int)(arr[i]) >= 48 && (int)(arr[i]) <= 57)
+                {
+                    num += (char)arr[i];
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (str != "" && num != "")
+            {
+                strs.Add(str);
+                strs.Add(num);
+            }
+            return strs;
+        }
+        public static bool IsColumnCode(string content)
+        {
+            //具体判断等有规则后再完善
+            List<string> codes = new List<string> { "KZ", "ZHZ", "XZ", "LZ", "QZ" };
+            if (string.IsNullOrEmpty(content))
+            {
+                return false;
+            }
+            content = content.Trim().ToUpper();
+            var res = codes.Where(i => content.IndexOf(i) >= 0).Select(i => i).ToList();
+            if (res != null && res.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
         /// <summary>
         /// 字符串转Unicode
         /// </summary>
@@ -157,11 +313,46 @@ namespace ThColumnInfo
         public static string GetColumnCodeChinese(string code)
         {
             string res = "";
-            if(code.ToUpper().Contains("KZ"))
+            if(string.IsNullOrEmpty(code))
+            {
+                return res;
+            }
+            code = code.ToUpper();
+            if (code.Contains("KZ"))
             {
                 res = "框架柱";
             }
+            else if(code.Contains("ZHZ"))
+            {
+                res = "转换柱";
+            }
+            else if(code.Contains("XZ"))
+            {
+                res = "芯柱";
+            }
+            else if (code.Contains("LZ"))
+            {
+                res = "梁柱";
+            }
+            else if (code.Contains("QZ"))
+            {
+                res = "墙上柱";
+            }
             return res;
+        }
+        /// <summary>
+        /// 小数点保留位数
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public static double MathRound(double value,int num)
+        {
+            if(value==0.0)
+            {
+                return 0.0;
+            }
+            return Math.Round(value, num);
         }
     }
 }

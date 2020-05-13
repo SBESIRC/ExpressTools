@@ -37,9 +37,17 @@
     <Compile Include="Download\ThT20PlugInDownloadDlg.Designer.cs">
       <DependentUpon>ThT20PlugInDownloadDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="ThFeedBackDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThFeedBackDlg.designer.cs">
+      <DependentUpon>ThFeedBackDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="ThCuiApp.cs" />
     <Compile Include="ThCuiCmdHandler.cs" />
     <Compile Include="ThCuiCommon.cs" />
+    <Compile Include="ThCuiEditorExtension.cs" />
+    <Compile Include="ThCuiFileDiaOverride.cs" />
     <Compile Include="ThCuiProfileManager.cs" />
     <Compile Include="ThCuiProfileYamlParser.cs" />
     <Compile Include="ThLoginDlg.cs">
@@ -55,21 +63,16 @@
     <Compile Include="ThRibbonUtils.cs" />
     <Compile Include="ThToolBar.cs" />
     <Compile Include="ThToolbarUtils.cs" />
-    <Compile Include="ThToolPalette.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ThToolPalette.Designer.cs">
-      <DependentUpon>ThToolPalette.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThToolPaletteUtils.cs" />
     <EmbeddedResource Include="Download\ThT20PlugInDownloadDlg.resx">
       <DependentUpon>ThT20PlugInDownloadDlg.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ThFeedBackDlg.resx">
+      <DependentUpon>ThFeedBackDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ThLoginDlg.resx">
       <DependentUpon>ThLoginDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ThToolPalette.resx">
-      <DependentUpon>ThToolPalette.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -91,10 +94,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Resources\profile_ribbon_architecture.yml" />
+    <EmbeddedResource Include="Resources\profile_ribbon_construction.yml" />
     <EmbeddedResource Include="Resources\profile_ribbon_electrical.yml" />
     <EmbeddedResource Include="Resources\profile_ribbon_havc.yml" />
-    <EmbeddedResource Include="Resources\profile_ribbon_project.yml" />
+    <EmbeddedResource Include="Resources\profile_ribbon_architecture.yml" />
     <EmbeddedResource Include="Resources\profile_ribbon_structure.yml" />
     <EmbeddedResource Include="Resources\profile_ribbon_wss.yml" />
   </ItemGroup>

@@ -12,29 +12,29 @@ namespace TianHua.AutoCAD.ThCui
     public enum Profile
     {
         /// <summary>
-        /// 建筑
+        /// 方案
         /// </summary>
         ARCHITECTURE = 0,
         /// <summary>
+        /// 施工
+        /// </summary>
+        CONSTRUCTION = 1,
+        /// <summary>
         /// 结构
         /// </summary>
-        STRUCTURE = 1,
+        STRUCTURE = 2,
         /// <summary>
         /// 暖通
         /// </summary>
-        HAVC = 2,
+        HAVC = 3,
         /// <summary>
         /// 电气
         /// </summary>
-        ELECTRICAL = 3,
+        ELECTRICAL = 4,
         /// <summary>
         /// 给排水
         /// </summary>
-        WSS = 4,
-        /// <summary>
-        /// 方案
-        /// </summary>
-        PROJECTPLAN = 5
+        WSS = 5,
     }
 
     public class ThCuiProfileManager

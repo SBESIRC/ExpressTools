@@ -8,7 +8,6 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using Linq2Acad;
-using ThLicense;
 
 [assembly: CommandClass(typeof(ThAreaFrame.ThAreaFrameCommands))]
 [assembly: ExtensionApplication(typeof(ThAreaFrame.ThAreaFrameApp))]
@@ -31,12 +30,6 @@ namespace ThAreaFrame
         [CommandMethod("TIANHUACAD", "THBAC", CommandFlags.Modal)]
         public void AreaCommand()
         {
-            /*
-            if (!ThLicenseService.Instance.IsLicensed())
-            {
-                return;
-            }
-            */
             var ed = Active.Editor;
 
             // 选取插入点
@@ -265,12 +258,6 @@ namespace ThAreaFrame
         [CommandMethod("TIANHUACAD", "THTET", CommandFlags.Modal)]
         public void AreaCommand2()
         {
-            /*
-            if (!ThLicenseService.Instance.IsLicensed())
-            {
-                return;
-            }
-            */
             var ed = Active.Editor;
 
             // 选取插入点

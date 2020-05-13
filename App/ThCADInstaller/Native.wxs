@@ -8,17 +8,26 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_x64_Pdfium_Debug" Guid="{C7A9493F-1FD1-4D01-B30E-AB4658892D49}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_x64_Pdfium_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\$(var.64bitNative)\pdfium.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_x64_SQLite_Debug" Guid="{4B58B785-D3E4-4B27-88D9-C118D9EFF102}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_x64_SQlite_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\$(var.64bitNative)\SQLite.Interop.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19_Native">
       <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_x64_Pdfium_Debug" Guid="{8965C4DD-756C-4CC6-AF9F-BB0DAF7D8924}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_x64_Pdfium_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\$(var.64bitNative)\pdfium.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_x64_SQLite_Debug" Guid="{EE958AC9-0C46-4B0E-BDDB-2F0E257659E8}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_x64_SQlite_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\$(var.64bitNative)\SQLite.Interop.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20_Native">
       <?define OutputPath_R20_Debug="bin\Debug-NET45" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_x64_Pdfium_Debug" Guid="{47ED8F48-0221-4A53-B71B-041DD84B494D}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_x64_Pdfium_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\$(var.64bitNative)\pdfium.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_x64_SQLite_Debug" Guid="{CD2D9F3F-D850-483B-AC66-7F7AE6A100FC}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_x64_SQlite_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\$(var.64bitNative)\SQLite.Interop.dll" />
       </Component>
     </DirectoryRef>
     <?elseif $(var.Configuration) = Release ?>
@@ -27,17 +36,26 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_x64_Pdfium_Release" Guid="{2B306919-BDF0-4745-B7C9-5F9E5A9E96F9}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_x64_Pdfium_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.64bitNative)\pdfium.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_x64_SQLite_Release" Guid="{CC679599-DF4D-4421-B124-0E8CDFC09030}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_x64_SQlite_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.64bitNative)\SQLite.Interop.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19_Native">
       <?define OutputPath_R19_Release="bin\Release-NET40" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_x64_Pdfium_Release" Guid="{4C5F51DC-8B80-460F-89E9-376D03366D1E}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_x64_Pdfium_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\$(var.64bitNative)\pdfium.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_x64_SQLite_Release" Guid="{692CF82C-3B2C-4E44-BDF5-7446CE65F410}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_x64_SQlite_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\$(var.64bitNative)\SQLite.Interop.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20_Native">
       <?define OutputPath_R20_Release="bin\Release-NET45" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_x64_Pdfium_Release" Guid="{33F61C27-7063-4D7C-9396-24BAFCAC2DD0}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_x64_Pdfium_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\$(var.64bitNative)\pdfium.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_x64_SQLite_Release" Guid="{7753A9A9-B41B-40AB-98EA-2E1971D927D2}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_x64_SQlite_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\$(var.64bitNative)\SQLite.Interop.dll" />
       </Component>
     </DirectoryRef>
     <?endif?>
@@ -46,12 +64,18 @@
     <ComponentGroup Id="ProductComponentsAppNative64">
       <?if $(var.Configuration) = Debug ?>
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_x64_Pdfium_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_x64_SQLite_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_x64_Pdfium_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_x64_SQLite_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_x64_Pdfium_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_x64_SQLite_Debug" />
       <?elseif $(var.Configuration) = Release ?>
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_x64_Pdfium_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_x64_SQLite_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_x64_Pdfium_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_x64_SQLite_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_x64_Pdfium_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_x64_SQLite_Release" />
       <?endif?>
     </ComponentGroup>
   </Fragment>

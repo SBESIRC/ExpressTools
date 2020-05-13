@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationPackage 
 SchemaVersion="1.0"
-AppVersion="1.7.1"
+AppVersion="1.7.2"
 Name="TIANHUA CAD Express Tools"
 NameChs="天华CAD效率工具" 
 Description="TIANHUA Express Tools for AutoCAD"
@@ -9,7 +9,7 @@ DescriptionChs="天华CAD效率工具是天华AI研究中心自主研发的以�
 Author="TIANHUA AI Research Center" 
 AuthorChs="天华AI研究中心"
 Icon="./Contents/Resources/THLOGO.ico"
-ProductCode="{98FA1C26-1B25-462B-863E-F29BAE61F3DE}" 
+ProductCode="{3CE22BA6-ABD3-483D-8047-42E56FF0D526}" 
 UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
     <RuntimeRequirements OS="Win64" Platform="AutoCAD" SupportPathChs="./Contents/Support" />
     <CompanyDetails Name="Tianhua Architectural Design Co., Ltd" Phone="+86 21 64281588" Url="http://www.thape.com/" Email="airdcenter@thape.com.cn" />
@@ -22,6 +22,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry AppName="GeneralLayerGroupUtiLisp"          ModuleName="./Contents/MakeLayerGroup.lsp"      PerDocument="True" />
         <ComponentEntry AppName="GeneralAnnotationLisp"             ModuleName="./Contents/General-Annotation.lsp"  PerDocument="True" />
         <ComponentEntry AppName="GeneralAuxiliaryLisp"              ModuleName="./Contents/General-Auxiliary.lsp"   PerDocument="True" />
+        <ComponentEntry AppName="HavcLayerUtilLisp"                 ModuleName="./Contents/Havc-Layer.lsp"          PerDocument="True" />
         <ComponentEntry AppName="StealUtilLisp"                     ModuleName="./Contents/Steal.lsp"               PerDocument="True" />
         <ComponentEntry AppName="FlattenLisp"                       ModuleName="./Contents/FLATTEN.lsp"             PerDocument="True" />
         <ComponentEntry AppName="BatchPlotPDFLisp"                  ModuleName="./Contents/BatchPlotPDF.lsp"        PerDocument="True" />
@@ -109,7 +110,8 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
-                <Command Local="THBLS" Global="THBLS" />
+                <Command Local="THBLI" Global="THBLI" />
+                <Command Local="THFBK" Global="THFBK" />
                 <Command Local="T20V4" Global="T20V4" />
                 <Command Local="T20V5" Global="T20V5" />
                 <Command Local="THPURGE" Global="THPURGE" />
@@ -123,7 +125,8 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
-                <Command Local="THBLS" Global="THBLS" />
+                <Command Local="THBLI" Global="THBLI" />
+                <Command Local="THFBK" Global="THFBK" />
                 <Command Local="T20V4" Global="T20V4" />
                 <Command Local="T20V5" Global="T20V5" />
                 <Command Local="THPURGE" Global="THPURGE" />
@@ -137,7 +140,8 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
-                <Command Local="THBLS" Global="THBLS" />
+                <Command Local="THBLI" Global="THBLI" />
+                <Command Local="THFBK" Global="THFBK" />
                 <Command Local="T20V4" Global="T20V4" />
                 <Command Local="T20V5" Global="T20V5" />
                 <Command Local="THPURGE" Global="THPURGE" />
@@ -151,7 +155,8 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCADLOGIN" Global="THCADLOGIN" />
                 <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
-                <Command Local="THBLS" Global="THBLS" />
+                <Command Local="THBLI" Global="THBLI" />
+                <Command Local="THFBK" Global="THFBK" />
                 <Command Local="T20V4" Global="T20V4" />
                 <Command Local="T20V5" Global="T20V5" />
                 <Command Local="THPURGE" Global="THPURGE" />
@@ -623,6 +628,42 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
                 <Command Global="THQS" Local="THQS" />
                 <Command Global="THCO" Local="THCO" />
                 <Command Global="THMA" Local="THMA" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+	<!--Assembly App, ThColumnInfo, 2012 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
+        <ComponentEntry ModuleName="./Contents/Win64/2012/ThColumnInfo.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for column check." AppName="ThColumnInfo" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCRC" Global="THCRC" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThColumnInfo, 2014 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2014/ThColumnInfo.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for column check." AppName="ThColumnInfo" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCRC" Global="THCRC" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThColumnInfo, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThColumnInfo.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for column check." AppName="ThColumnInfo" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCRC" Global="THCRC" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThColumnInfo, 2018 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" />
+        <ComponentEntry ModuleName="./Contents/Win64/2018/ThColumnInfo.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for column check." AppName="ThColumnInfo" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCRC" Global="THCRC" />
             </Commands>
         </ComponentEntry>
     </Components>

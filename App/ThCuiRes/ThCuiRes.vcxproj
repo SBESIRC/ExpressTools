@@ -144,6 +144,8 @@
     <Image Include="Images\THUKA_dark.ico" />
     <Image Include="Images\THUPT_dark_small.ico" />
     <Image Include="Images\THUPT_dark_large.ico" />
+    <Image Include="Images\THFBK_dark_small.ico" />
+    <Image Include="Images\THFBK_dark_large.ico" />
     <Image Include="Images\THZ0_dark_small.ico" />
     <Image Include="Images\THZ0_dark_large.ico" />
     <Image Include="Images\TZLOOK_dark.ico" />
@@ -151,6 +153,18 @@
     <Image Include="Images\THCP_dark_large.ico" />
     <Image Include="Images\THMA_dark_small.ico" />
     <Image Include="Images\THMA_dark_large.ico" />
+    <Image Include="Images\THCRC_dark_small.ico" />
+    <Image Include="Images\THCRC_dark_large.ico" />
+    <Image Include="Images\THPSTF_dark_small.ico" />
+    <Image Include="Images\THPSTF_dark_large.ico" />
+    <Image Include="Images\THSGPM_dark_small.ico" />
+    <Image Include="Images\THSGPM_dark_large.ico" />
+    <Image Include="Images\THXFPM_dark_small.ico" />
+    <Image Include="Images\THXFPM_dark_large.ico" />
+    <Image Include="Images\THAUL_dark_small.ico" />
+    <Image Include="Images\THAUL_dark_large.ico" />
+    <Image Include="Images\THAPL_dark_small.ico" />
+    <Image Include="Images\THAPL_dark_large.ico" />
     <Image Include="Images\THALIGN_bottom_dark_small.ico" />
     <Image Include="Images\THALIGN_bottom_dark_large.ico" />
     <Image Include="Images\THALIGN_horizontal_dark_small.ico" />

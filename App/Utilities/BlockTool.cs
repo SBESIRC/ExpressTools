@@ -1,11 +1,16 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.DatabaseServices;
+﻿using System;
+using System.IO;
+using DotNetARX;
+using System.Linq;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Collections.Generic;
+using System.Windows.Media.Imaging;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Windows.Data;
-using DotNetARX;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.ApplicationServices;
+using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace TianHua.AutoCAD.Utility.ExtensionTools
 {
@@ -40,7 +45,19 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             return blockName;//返回块名
         }
 
-
+        /// <summary>
+        /// 获取块引用的变换矩阵
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static Matrix3d GetBlockTransform(this ObjectId id)
+        {
+            BlockReference bref = id.GetObject(OpenMode.ForRead) as BlockReference;
+            if (bref != null)//如果是块参照
+                return bref.BlockTransform;
+            else
+                return Matrix3d.Identity;
+        }
 
         /// <summary>
         /// 从动态块定义的角度去获取普通块的handle
@@ -121,48 +138,48 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         /// <returns></returns>
         public static Dictionary<string, List<ObjectId>> GetDynablockVisibilityStatesGrp(this ObjectId blockId)
         {
-            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Document doc = AcadApp.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
 
-            var results = new Dictionary<string, List<ObjectId>>();
-            using (var tr = db.TransactionManager.StartOpenCloseTransaction())
-            {
-                var blockName = blockId.GetObjectByID<BlockReference>(tr).GetRealBlockName();
-                var bt = db.BlockTableId.GetObjectByID<BlockTable>(tr);
-
-                if (bt.Has(blockName))
+                var results = new Dictionary<string, List<ObjectId>>();
+                using (var tr = db.TransactionManager.StartOpenCloseTransaction())
                 {
-                    var btr = bt[blockName].GetObjectByID<BlockTableRecord>(tr);
+                    var blockName = blockId.GetObjectByID<BlockReference>(tr).GetRealBlockName();
+                    var bt = db.BlockTableId.GetObjectByID<BlockTable>(tr);
 
-                    if (btr != null && btr.ExtensionDictionary != null)
+                    if (bt.Has(blockName))
                     {
-                        var dico = btr.ExtensionDictionary.GetObjectByID<DBDictionary>(tr);
-                        if (dico.Contains("ACAD_ENHANCEDBLOCK"))
+                        var btr = bt[blockName].GetObjectByID<BlockTableRecord>(tr);
+
+                        if (btr != null && btr.ExtensionDictionary != null)
                         {
-                            ObjectId graphId = dico.GetAt("ACAD_ENHANCEDBLOCK");
+                            var dico = btr.ExtensionDictionary.GetObjectByID<DBDictionary>(tr);
+                            if (dico.Contains("ACAD_ENHANCEDBLOCK"))
+                            {
+                                ObjectId graphId = dico.GetAt("ACAD_ENHANCEDBLOCK");
 
-                            var parameterIds = graphId.acdbEntGetObjects(360);
+                                var parameterIds = graphId.acdbEntGetObjects(360);
 
-                            var id = parameterIds.OfType<ObjectId>().First(parameterId => parameterId.ObjectClass.Name == "AcDbBlockVisibilityParameter");
+                                var id = parameterIds.OfType<ObjectId>().First(parameterId => parameterId.ObjectClass.Name == "AcDbBlockVisibilityParameter");
 
-                            var visibilityParam = id.acdbEntGetTypedVals().AsEnumerable();
+                                var visibilityParam = id.acdbEntGetTypedVals().AsEnumerable();
 
-                            //从303开始，按303后的元素个数进行拾取，每一份归为一组
-                            var grp = visibilityParam.GroupTake(par => par.TypeCode != 303, parms => (int)parms.Skip(1).First().Value + 2);
+                                //从303开始，按303后的元素个数进行拾取，每一份归为一组
+                                var grp = visibilityParam.GroupTake(par => par.TypeCode != 303, parms => (int)parms.Skip(1).First().Value + 2);
 
-                            results = grp.ToDictionary(res => res.First().Value.ToString(), res => res.Skip(2).Select(tv => (ObjectId)tv.Value).ToList());
+                                results = grp.ToDictionary(res => res.First().Value.ToString(), res => res.Skip(2).Select(tv => (ObjectId)tv.Value).ToList());
 
+                            }
                         }
                     }
+
+                    tr.Commit();
+
                 }
 
-                tr.Commit();
+                return results;
 
             }
-
-            return results;
-
-        }
 
 
         /// <summary>
@@ -207,7 +224,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             return block.ObjectId.GetDynBlockValue("可见性1") != null;
         }
 
-        public static System.Drawing.Image CaptureThumbnail(this BlockTableRecord blk)
+        public static System.Drawing.Bitmap CaptureThumbnail(this BlockTableRecord blk)
         {
 #if ACAD2012
             // Attempt to generate an icon, where one doesn't exist
@@ -222,7 +239,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
 #else
             // https://www.keanw.com/2013/11/generating-larger-preview-images-for-all-blocks-in-an-autocad-drawing-using-net.html
             var imgsrc = CMLContentSearchPreviews.GetBlockTRThumbnail(blk);
-            return ImageSourceToGDI(imgsrc as System.Windows.Media.Imaging.BitmapSource);
+            return ImageSourceToGDI(imgsrc as System.Windows.Media.Imaging.BitmapSource) as Bitmap;
 #endif
         }
 
@@ -235,6 +252,31 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             encoder.Save(ms);
             ms.Flush();
             return System.Drawing.Image.FromStream(ms);
+        }
+
+        // Convert BitmapImage to Bitmap
+        public static Bitmap BitmapImage2Bitmap(this BitmapImage bitmapImage)
+        {
+            return new Bitmap(bitmapImage.StreamSource);
+        }
+
+        // Convert Bitmap to BitmapImage
+        public static BitmapImage Bitmap2BitmapImage(this Bitmap bitmap)
+        {
+            using (var memory = new MemoryStream())
+            {
+                bitmap.Save(memory, ImageFormat.Bmp);
+                memory.Position = 0;
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memory;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+
+                return bitmapImage;
+            }
         }
     }
 }

@@ -30,8 +30,12 @@ namespace ThSitePlan.Properties {
             get {
                 return ((string)(this["plotDeviceName"]));
             }
+            set
+            {
+                this["plotDeviceName"] = value;
+            }
         }
-        
+
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("ISO_full_bleed_A2_(420.00_x_594.00_MM)")]
@@ -39,8 +43,13 @@ namespace ThSitePlan.Properties {
             get {
                 return ((string)(this["mediaName"]));
             }
+            set
+            {
+                this["mediaName"] = value;
+            }
+
         }
-        
+
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("monochrome.ctb")]
@@ -48,6 +57,67 @@ namespace ThSitePlan.Properties {
             get {
                 return ((string)(this["styleSheetName"]));
             }
+            set
+            {
+                this["styleSheetName"] = value;
+            }
+
+        }
+
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1.5")]
+        public double shadowLengthScale {
+            get {
+                return ((double)(this["shadowLengthScale"]));
+            }
+            set
+            {
+                this["shadowLengthScale"] = value;
+            }
+
+        }
+
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("135")]
+        public double shadowAngle {
+            get {
+                return ((double)(this["shadowAngle"]));
+            }
+            set
+            {
+                this["shadowAngle"] = value;
+            }
+
+        }
+
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public double PlantRadius {
+            get {
+                return ((double)(this["PlantRadius"]));
+            }
+            set
+            {
+                this["PlantRadius"] = value;
+            }
+
+        }
+
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.8")]
+        public double PlantDensity {
+            get {
+                return ((double)(this["PlantDensity"]));
+            }
+            set
+            {
+                this["PlantDensity"] = value;
+            }
+
         }
     }
 }

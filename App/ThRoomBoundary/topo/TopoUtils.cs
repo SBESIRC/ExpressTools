@@ -67,7 +67,7 @@ namespace ThRoomBoundary.topo
     /// <summary>
     /// 内部数据
     /// </summary>
-    class RoomDataInner
+    public class RoomDataInner
     {
         public RoomDataInner(List<LineSegment2d> lines, Point2d pos, double area = 0)
         {
@@ -95,7 +95,7 @@ namespace ThRoomBoundary.topo
         }
     }
 
-    class TopoUtils
+    public class TopoUtils
     {
         /// <summary>
         /// 获取包含点的最小轮廓

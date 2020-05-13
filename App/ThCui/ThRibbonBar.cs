@@ -11,6 +11,7 @@ namespace TianHua.AutoCAD.ThCui
             if (tab != null)
             {
                 CreateHelpPanel(tab);
+                CreateCheckToolPanel(tab);
                 CreatStatisticPanel(tab);
                 CreateDrawToolPanel(tab);
                 CreatePlotToolPanel(tab);
@@ -27,29 +28,51 @@ namespace TianHua.AutoCAD.ThCui
             var row = panel.AddNewRibbonRow();
 
             // 登录
-            row.AddNewButton("登录",
-                "天华登录",
-                ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME,
-                "登录天华效率平台",
-                "IDI_THCAD_THLOGIN_SMALL",
-                "IDI_THCAD_THLOGIN_LARGE",
-                RibbonButtonStyle.LargeWithText);
+            {
+                var subPanel = row.AddNewPanel();
+
+                var subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("登录",
+                    "天华登录",
+                    ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME,
+                    "登录天华效率平台",
+                    "IDI_THCAD_THLOGIN_SMALL",
+                    "IDI_THCAD_THLOGIN_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+            }
 
             // 退出
-            row.AddNewButton("退出",
-                "天华退出",
-                ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
-                "退出天华效率平台",
-                "IDI_THCAD_THLOGOUT_SMALL",
-                "IDI_THCAD_THLOGOUT_LARGE",
-                RibbonButtonStyle.LargeWithText);
+            {
+                var subPanel = row.AddNewPanel();
+
+                var subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("退出",
+                    "天华退出",
+                    ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
+                    "退出天华效率平台",
+                    "IDI_THCAD_THLOGOUT_SMALL",
+                    "IDI_THCAD_THLOGOUT_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+            }
 
             // 专业切换
             {
-                var splitButton = row.AddNewSplitButton(
+                var subPanel = row.AddNewPanel();
+
+                var subRow = subPanel.AddNewRibbonRow();
+                var splitButton = subRow.AddNewSplitButton(
                     "专业切换",
                     RibbonSplitButtonBehavior.SplitFollow,
                     RibbonSplitButtonListStyle.IconText,
+                    RibbonButtonStyle.LargeWithText);
+
+                // 方案专业
+                splitButton.AddNewButton("方案",
+                    "天华方案",
+                    "THPROFILE _P",
+                    "切换到天华方案",
+                    "IDI_THCAD_PROJECT_PLAN_SMALL",
+                    "IDI_THCAD_PROJECT_PLAN_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 建筑专业
@@ -97,34 +120,41 @@ namespace TianHua.AutoCAD.ThCui
                     "IDI_THCAD_WATER_SMALL",
                     "IDI_THCAD_WATER_LARGE",
                     RibbonButtonStyle.LargeWithText);
-
-                // 方案专业
-                splitButton.AddNewButton("方案",
-                    "天华方案",
-                    "THPROFILE _P",
-                    "切换到天华方案",
-                    "IDI_THCAD_PROJECT_PLAN_SMALL",
-                    "IDI_THCAD_PROJECT_PLAN_LARGE",
-                    RibbonButtonStyle.LargeWithText);
             }
 
-            // 帮助
-            row.AddNewButton("帮助文档",
-                "天华帮助",
-                ThCuiCommon.CMD_THHLP_GLOBAL_NAME,
-                "获取帮助文档",
-                "IDI_THCAD_THHLP_SMALL",
-                "IDI_THCAD_THHLP_LARGE",
-                RibbonButtonStyle.LargeWithText);
+            {
+                var subPanel = row.AddNewPanel();
 
-            // 更新
-            row.AddNewButton("检查更新",
-                "天华自动更新",
-                "THUPT",
-                "检查更新",
-                "IDI_THCAD_THUPT_SMALL",
-                "IDI_THCAD_THUPT_LARGE",
-                RibbonButtonStyle.LargeWithText);
+                // 帮助文档
+                var subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("帮助文档",
+                    "天华帮助",
+                    ThCuiCommon.CMD_THHLP_GLOBAL_NAME,
+                    "获取帮助文档",
+                    "IDI_THCAD_THHLP_SMALL",
+                    "IDI_THCAD_THHLP_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+
+                // 检查更新
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("检查更新",
+                    "天华自动更新",
+                    "THUPT",
+                    "检查更新",
+                    "IDI_THCAD_THUPT_SMALL",
+                    "IDI_THCAD_THUPT_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+
+                // 反馈意见
+                subRow = subPanel.AddNewRibbonRow();
+                subRow.AddNewButton("反馈意见",
+                    "天华反馈",
+                    "THFBK",
+                    "反馈意见",
+                    "IDI_THCAD_THFBK_SMALL",
+                    "IDI_THCAD_THFBK_LARGE",
+                    RibbonButtonStyle.SmallWithText);
+            }
         }
 
         private static void CreatStatisticPanel(RibbonTabSource tab)
@@ -271,63 +301,63 @@ namespace TianHua.AutoCAD.ThCui
 
                 // 颜色
                 splitButton.AddNewButton("颜色",
-                    "按颜色选择",
+                    "按颜色选取",
                     "THQS _COLOR",
-                    "颜色",
+                    "按颜色选取",
                     "IDI_THCAD_THQS_COLOR_SMALL",
                     "IDI_THCAD_THQS_COLOR_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 图层
                 splitButton.AddNewButton("图层",
-                    "按图层选择",
+                    "按图层选取",
                     "THQS _LAYER",
-                    "图层",
+                    "按图层选取",
                     "IDI_THCAD_THQS_LAYER_SMALL",
                     "IDI_THCAD_THQS_LAYER_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 线型
                 splitButton.AddNewButton("线型",
-                    "按线型选择",
+                    "按线型选取",
                     "THQS _LINETYPE",
-                    "线型",
+                    "按线型选取",
                     "IDI_THCAD_THQS_LINETYPE_SMALL",
                     "IDI_THCAD_THQS_LINETYPE_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 标注
                 splitButton.AddNewButton("标注",
-                    "按标注选择",
+                    "按标注选取",
                     "THQS _DIMENSION",
-                    "标注",
+                    "按标注选取",
                     "IDI_THCAD_THQS_ANNOTATION_SMALL",
                     "IDI_THCAD_THQS_ANNOTATION_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 填充
                 splitButton.AddNewButton("填充",
-                    "按填充选择",
+                    "按填充选取",
                     "THQS _HATCH",
-                    "填充",
+                    "按填充选取",
                     "IDI_THCAD_THQS_HATCH_SMALL",
                     "IDI_THCAD_THQS_HATCH_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 文字
                 splitButton.AddNewButton("文字",
-                    "按文字选择",
+                    "按文字选取",
                     "THQS _TEXT",
-                    "文字",
+                    "按文字选取",
                     "IDI_THCAD_THQS_TEXT_SMALL",
                     "IDI_THCAD_THQS_TEXT_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 图块名
                 splitButton.AddNewButton("图块名",
-                    "按图块名选择",
+                    "按图块名选取",
                     "THQS _BLOCK",
-                    "图块名",
+                    "按图块名选取",
                     "IDI_THCAD_THQS_BLOCK_SMALL",
                     "IDI_THCAD_THQS_BLOCK_LARGE",
                     RibbonButtonStyle.LargeWithText);
@@ -559,6 +589,24 @@ namespace TianHua.AutoCAD.ThCui
                 "IDI_THCAD_THALC",
                 RibbonButtonStyle.LargeWithText);
 
+            // 建立总图图层
+            row.AddNewButton("建立总图\r\n图层",
+                "建立总图图层",
+                "THAPL",
+                "建立天华标准总图图层",
+                "IDI_THCAD_THAPL_SMALL",
+                "IDI_THCAD_THAPL_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            // 建立单体图层
+            row.AddNewButton("建立单体\r\n图层",
+                "建立单体图层",
+                "THAUL",
+                "建立天华标准单体图层",
+                "IDI_THCAD_THAUL_SMALL",
+                "IDI_THCAD_THAUL_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
             // 建立结构图层
             row.AddNewButton("建立结构\r\n图层",
                 "建立结构图层",
@@ -675,6 +723,41 @@ namespace TianHua.AutoCAD.ThCui
                     RibbonButtonStyle.LargeWithText);
             }
 
+            // 暖通图层模式
+            {
+                var splitButton = row.AddNewSplitButton("暖通图层模式",
+                    RibbonSplitButtonBehavior.SplitFollow,
+                    RibbonSplitButtonListStyle.IconText,
+                    RibbonButtonStyle.LargeWithText);
+
+                // 通风模式
+                splitButton.AddNewButton("通风模式",
+                    "通风模式",
+                    "THTF",
+                    "切换到通风模式",
+                    "IDI_THCAD_THPSTF_SMALL",
+                    "IDI_THCAD_THPSTF_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 水管模式
+                splitButton.AddNewButton("水管模式",
+                    "水管模式",
+                    "THSG",
+                    "切换到水管模式",
+                    "IDI_THCAD_THSGPM_SMALL",
+                    "IDI_THCAD_THSGPM_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 消防模式
+                splitButton.AddNewButton("消防模式",
+                    "消防模式",
+                    "THXF",
+                    "切换到消防模式",
+                    "IDI_THCAD_THXFPM_SMALL",
+                    "IDI_THCAD_THXFPM_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+            }
+
             // 提电气块转换
             row.AddNewButton("提电气块\r\n转换",
                 "提电气块转换",
@@ -691,15 +774,6 @@ namespace TianHua.AutoCAD.ThCui
                 "打开图块集工具选项板",
                 "IDI_THCAD_THBLI",
                 "IDI_THCAD_THBLI",
-                RibbonButtonStyle.LargeWithText);
-
-            // 图块集配置
-            row.AddNewButton("图块集配置",
-                "天华图块集配置",
-                "THBLS",
-                "配置各专业图块集",
-                "IDI_THCAD_THBLS",
-                "IDI_THCAD_THBLS",
                 RibbonButtonStyle.LargeWithText);
 
             // 图块断线
@@ -774,6 +848,21 @@ namespace TianHua.AutoCAD.ThCui
                 "获取天正看图T20V5.0插件",
                 "IDI_THCAD_T20V50",
                 "IDI_THCAD_T20V50",
+                RibbonButtonStyle.LargeWithText);
+        }
+
+        private static void CreateCheckToolPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("CheckTool", "校核审查");
+            var row = panel.AddNewRibbonRow();
+
+            //柱校核
+            row.AddNewButton("柱校核\r\n（公测）",
+                "天华柱校核",
+                "THCRC",
+                "柱配筋图纸校核",
+                "IDI_THCAD_THCRC_SMALL",
+                "IDI_THCAD_THCRC_LARGE",
                 RibbonButtonStyle.LargeWithText);
         }
     }

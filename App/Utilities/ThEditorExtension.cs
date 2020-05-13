@@ -59,6 +59,36 @@ namespace Autodesk.AutoCAD.EditorInput
             }
         }
 
+        public static PromptSelectionResult SelectByPolygon(this Editor ed,
+            Point3dCollection polygon,
+            PolygonSelectionMode mode,
+            SelectionFilter filter)
+        {
+            // 保存当前view
+            ViewTableRecord view = ed.GetCurrentView();
+
+            // zoom到polygon
+            Active.Editor.ZoomWindow(polygon.ToExtents3d());
+
+            // 选择
+            PromptSelectionResult result;
+            if (mode == PolygonSelectionMode.Crossing)
+                result = ed.SelectCrossingPolygon(polygon, filter);
+            else
+                result = ed.SelectWindowPolygon(polygon, filter);
+
+            // 恢复view
+            ed.SetCurrentView(view);
+            return result;
+
+        }
+
+        public static void ZoomWindow(this Editor ed, Extents3d ext)
+        {
+            ext.TransformBy(ed.CurrentUserCoordinateSystem.Inverse());
+            COMTool.ZoomWindow(ext.MinPoint, ext.MaxPoint);
+        }
+
         public static void ZoomObject(this Editor ed, ObjectId entId)
         {
             Database db = ed.Document.Database;

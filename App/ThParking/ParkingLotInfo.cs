@@ -1,16 +1,6 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
+﻿using System.Windows.Media.Imaging;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows.Media.Imaging;
-using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
-using DotNetARX;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace TianHua.AutoCAD.Parking
 {
@@ -47,31 +37,14 @@ namespace TianHua.AutoCAD.Parking
         private BitmapImage GetImage()
         {
             BitmapImage bitmap = new BitmapImage();
-
             if (!(this.BtrRecord.IsAnonymous || this.BtrRecord.IsLayout))
             {
                 if (this.BtrRecord.PreviewIcon != null)
                 {
-                    //将缩略图转为字节数组
-                    Bitmap b = this.BtrRecord.PreviewIcon;
-                    MemoryStream ms = new MemoryStream();
-                    b.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-                    byte[] bytes = ms.GetBuffer();
-
-                    //将字节数组以流的形式，转为bitmapImage的流的source
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-
-                    using (Stream ms2 = new MemoryStream(bytes))
-                    {
-                        bitmap.StreamSource = ms2;
-                        bitmap.EndInit();
-                        bitmap.Freeze();
-                    }
+                    bitmap = BtrRecord.PreviewIcon.Bitmap2BitmapImage();
                 }
             }
             return bitmap;
         }
-
     }
 }

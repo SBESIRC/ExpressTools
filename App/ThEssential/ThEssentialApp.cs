@@ -68,5 +68,14 @@ namespace ThEssential
                 cmd.Execute();
             }
         }
+
+        [CommandMethod("TIANHUACAD", "THPBE", CommandFlags.Modal)]
+        public void ThStrongCurrentBlockConvert()
+        {
+            using (var cmd = new ThBlockConvertCommand())
+            {
+                cmd.Execute();
+            }
+        }
     }
 }

@@ -58,9 +58,16 @@ namespace ThColumnInfo.Validate
             if (index > 0)
             {
                 double firstValue = Convert.ToDouble(reinforcementSpec.Substring(0, index));
-                double secondValue= Convert.ToDouble(reinforcementSpec.Substring(index+5));
                 values.Add(firstValue);
-                values.Add(secondValue);
+                List<double> secondValues= ThColumnInfoUtils.GetDoubleValues(reinforcementSpec.Substring(index + 5));
+                if (secondValues.Count > 0)
+                {
+                    values.Add(secondValues[0]);
+                }
+                else
+                {
+                    values.Add(0.0);
+                }
             }
             else
             {
@@ -100,47 +107,6 @@ namespace ThColumnInfo.Validate
                 values.Add(Convert.ToDouble(item.ToString()));
             }
             return values;
-        }
-        public static List<string> ValidateResultToString(List<ValidateResult> validateRes)
-        {
-            List<string> res = new List<string>();
-            validateRes.ForEach(i=> res.Add(ValidateResultToString(i)));
-            return res;
-        }
-        private static string ValidateResultToString(ValidateResult vr)
-        {
-            string res = "";
-            switch(vr)
-            {
-                case ValidateResult.AllVerDirIronReinforceRatioBiggerThanFivePercent:
-                    res = "全部纵向钢筋的配筋率不宜大于5% (砼规 9.3.1-1,P123)";
-                    break;
-                case ValidateResult.AngularReinforcementDiaIsNotEnough:
-                    res = "角筋直径不足";
-                    break;
-                case ValidateResult.AngularReinforcementNumFourTimes:
-                    res = "角筋根数应该是4的倍数";
-                    break;
-                case ValidateResult.AxialCompressionRatioTransfinite:
-                    res = "轴压比超限(砼规 11.4.16,P000)";
-                    break;
-                case ValidateResult.LongLessThanShortTriple:
-                    res = "长边小于等于短边的3倍(砼规 11.4.11-3,P000)";
-                    break;
-                case ValidateResult.SectionTooSmall:
-                    res = "截面过小(砼规 11.4.11-1,P000)";
-                    break;
-                case ValidateResult.VerDirForceBarDiaLessThanTwelveMm:
-                    res = "纵向受力钢筋直径不宜小于12mm(砼规 9.3.1-1,P123)";
-                    break;
-                case ValidateResult.VerDirIronClearSpaceNotEnough:
-                    res = "纵向钢筋钢筋净间距不足 (砼规 9.3.1-1,P123)";
-                    break;
-                case ValidateResult.VerDirIronClearSpaceNotEnoughTooLarge:
-                    res = "纵向钢筋钢筋净间距过大 (砼规 9.3.1-1,P123)";
-                    break;
-            }
-            return res;
         }
         public static int AntiSeismicGradeStringToInt(string antiSeismicGrade)
         {

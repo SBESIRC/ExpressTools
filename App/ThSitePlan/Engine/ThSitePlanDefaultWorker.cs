@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Text;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -6,6 +7,7 @@ using ThSitePlan.Configuration;
 using AcHelper;
 using Linq2Acad;
 using NFox.Cad.Collections;
+using DotNetARX;
 
 namespace ThSitePlan.Engine
 {
@@ -78,4 +80,64 @@ namespace ThSitePlan.Engine
             }
         }
     }
+
+    public class ThSitePlanAddNameTextWorker : ThSitePlanWorker
+    {
+        public override bool DoProcess(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                ObjectId frame = (ObjectId)options.Options["Frame"];
+                string frameName = (string)configItem.Properties["Name"];
+                var frameObj = acadDatabase.Element<Polyline>(frame);
+                var frameExtents = frameObj.GeometricExtents;
+                var position = new Point3d(
+                    frameExtents.MinPoint.X + ThSitePlanCommon.frame_annotation_offset_X,
+                    frameExtents.MaxPoint.Y + ThSitePlanCommon.frame_annotation_offset_Y,
+                    0);
+                DBText tx = new DBText()
+                {
+                    Position = position,
+                    TextString = frameName,
+                    Layer = ThSitePlanCommon.LAYER_FRAME,
+                    Height = 1.0 / 18.0 * frameExtents.Height(),
+                };
+                var TextobjId = acadDatabase.ModelSpace.Add(tx, true);
+
+                //
+                var utf8 = Encoding.UTF8;
+                TypedValueList valueList = new TypedValueList
+                            {
+                                { (int)DxfCode.ExtendedDataBinaryChunk, utf8.GetBytes(frameName) },
+                            };
+                frame.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name, valueList);
+
+                return true;
+            }
+        }
+
+        public override ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            return new ObjectIdCollection();
+        }
+    }
+
+    public class ThSitePlanTrimWorker : ThSitePlanWorker
+    {
+        public override bool DoProcess(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                var ent = acadDatabase.Element<Entity>((ObjectId)options.Options["Frame"]);
+                Active.Editor.TrimCmd(ent);
+            }
+            return true;
+        }
+
+        public override ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            return new ObjectIdCollection();
+        }
+    }
+
 }

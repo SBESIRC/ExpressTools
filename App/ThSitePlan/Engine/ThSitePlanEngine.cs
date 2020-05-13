@@ -26,18 +26,32 @@ namespace ThSitePlan
 
         public void Run(Database database, ThSitePlanConfigItemGroup jobs)
         {
-            foreach(var item in jobs.Items)
+            if (!jobs.IsEnabled)
             {
-                Run(database, item);
+                return;
             }
-            foreach(var group in jobs.Groups)
+
+            while (jobs.Items.Count != 0)
             {
-                Run(database, group);
+                var obj = jobs.Items.Dequeue();
+                if (obj is ThSitePlanConfigItem item)
+                {
+                    Run(database, item);
+                }
+                else if (obj is ThSitePlanConfigItemGroup group)
+                {
+                    Run(database, group);
+                }
             }
         }
 
         private void Run(Database database, ThSitePlanConfigItem job)
         {
+            if (!job.IsEnabled)
+            {
+                return;
+            }
+
             if (Containers.Count == 0)
             {
                 return;

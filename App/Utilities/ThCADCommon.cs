@@ -71,6 +71,12 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             return Path.Combine(ContentsPath(), "Support");
         }
 
+        // ToolPalette 路径
+        public static string ToolPalettePath()
+        {
+            return Path.Combine(SupportPath(), "ToolPalette");
+        }
+
         // Standard style 路径
         public static string StandardStylePath()
         {

@@ -115,12 +115,12 @@
             // 
             this.comboBox_profile.FormattingEnabled = true;
             this.comboBox_profile.Items.AddRange(new object[] {
+            "方案",
             "建筑",
             "结构",
             "暖通",
             "电气",
-            "给排水",
-            "方案"});
+            "给排水"});
             this.comboBox_profile.Location = new System.Drawing.Point(119, 101);
             this.comboBox_profile.Name = "comboBox_profile";
             this.comboBox_profile.Size = new System.Drawing.Size(134, 20);

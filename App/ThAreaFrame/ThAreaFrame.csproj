@@ -92,10 +92,6 @@
       <Project>{5ddfcada-bea4-402c-b3e4-5c7f83c2f09e}</Project>
       <Name>DotNetARX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ThLicense\ThLicense.csproj">
-      <Project>{c08dacf5-31ac-43cd-b170-9f9f9d4a7b13}</Project>
-      <Name>ThLicense</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
       <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
       <Name>ExtensionTools</Name>

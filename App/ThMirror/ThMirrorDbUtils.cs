@@ -193,8 +193,13 @@ namespace ThMirror
 
                 var layer = acadDatabase.Layers.Element(mirrorData.layerId).Name;
                 var blockName = acadDatabase.Element<BlockTableRecord>(mirrorData.mirroredBlockId).Name;
-                mirrorData.blockTransform.DecomposeBlockTransform(out Point3d insertPt, out double rotation, out Scale3d scale);
-                acadDatabase.ModelSpace.ObjectId.InsertBlockReference(layer, blockName, insertPt, scale, rotation);
+                var obj = acadDatabase.ModelSpace.ObjectId.InsertBlockReference(
+                    layer, 
+                    blockName, 
+                    Point3d.Origin, 
+                    new Scale3d(1.0), 
+                    0.0);
+                acadDatabase.Element<BlockReference>(obj, true).TransformBy(mirrorData.blockTransform);
             }
         }
 

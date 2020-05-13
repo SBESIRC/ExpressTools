@@ -79,14 +79,14 @@ namespace ThColumnInfo
         }
         public override bool IsApplicable(RXObject overruledSubject)
         {
-            Polyline2d polyline = overruledSubject as Polyline2d;
-            if(polyline!=null )
-            {
-                if(polyline.Layer== CheckResult._searchFields.ColumnRangeLayerName)
-                {
-                    return true;
-                }
-            }
+            //Polyline2d polyline = overruledSubject as Polyline2d;
+            //if(polyline!=null )
+            //{
+            //    if(polyline.Layer== CheckResult._searchFields.ColumnRangeLayerName)
+            //    {
+            //        return true;
+            //    }
+            //}
             return false;
         }
     }

@@ -20,21 +20,69 @@ namespace ThSitePlan.Photoshop
 
         public void Run(string path, ThSitePlanConfigItemGroup jobs)
         {
-            foreach (var item in jobs.Items)
+            if (!jobs.IsEnabled)
             {
-                Run(path, item);
+                return;
             }
-            foreach (var group in jobs.Groups)
+
+            while (jobs.Items.Count !=0)
             {
-                Run(path, group);
+                var obj = jobs.Items.Dequeue();
+                if (obj is ThSitePlanConfigItem item)
+                {
+                    Run(path, item);
+                }
+                else if (obj is ThSitePlanConfigItemGroup group)
+                {
+                    Run(path, group);
+                }
             }
         }
 
         private void Run(string path, ThSitePlanConfigItem job)
         {
+            if (!job.IsEnabled)
+            {
+                return;
+            }
+
             foreach (var generator in Generators)
             {
                 generator.Generate(path, job);
+            }
+        }
+
+        public void PSUpdate(string path, ThSitePlanConfigItemGroup jobs)
+        {
+            if (!jobs.IsEnabled)
+            {
+                return;
+            }
+
+            while (jobs.Items.Count != 0)
+            {
+                var obj = jobs.Items.Dequeue();
+                if (obj is ThSitePlanConfigItem item)
+                {
+                    PSUpdate(path, item);
+                }
+                else if (obj is ThSitePlanConfigItemGroup group)
+                {
+                    PSUpdate(path, group);
+                }
+            }
+        }
+
+        private void PSUpdate(string path, ThSitePlanConfigItem job)
+        {
+            if (!job.IsEnabled)
+            {
+                return;
+            }
+
+            foreach (var generator in Generators)
+            {
+                generator.Update(path, job);
             }
         }
     }

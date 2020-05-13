@@ -26,33 +26,34 @@ namespace ThSitePlan.Engine
 
                 {"建筑物-场地内建筑-建筑信息", new ThSitePlanMoveWorker()},
                 {"建筑物-场地内建筑-建筑线稿", new ThSitePlanMoveWorker()},
+                {"建筑物-场地内建筑-建筑色块", new ThSitePlanCopyWorker()},
                 {"建筑物-场地外建筑-建筑信息", new ThSitePlanMoveWorker()},
                 {"建筑物-场地外建筑-建筑线稿", new ThSitePlanMoveWorker()},
                 {"建筑物-场地外建筑-建筑色块", new ThSitePlanCopyWorker()},
-                {"建筑物-场地内建筑-建筑色块", new ThSitePlanCopyWorker()},
-                
+
+                {"全局阴影", new ThSitePlanMoveWorker()},
 
                 {"树木-景观树-树木线稿", new ThSitePlanMoveWorker()},
-                {"树木-行道树-树木线稿", new ThSitePlanMoveWorker()},
                 {"树木-景观树-树木色块", new ThSitePlanCopyWorker()},
+                {"树木-行道树-树木线稿", new ThSitePlanMoveWorker()},
                 {"树木-行道树-树木色块", new ThSitePlanCopyWorker()},
 
                 {"场地-消防登高场地-场地线稿", new ThSitePlanMoveWorker()},
-                {"场地-停车场地-场地线稿", new ThSitePlanMoveWorker()},
-                {"场地-活动场地-场地线稿", new ThSitePlanMoveWorker()},
-                {"场地-其他场地-场地线稿", new ThSitePlanMoveWorker()},
                 {"场地-消防登高场地-场地色块", new ThSitePlanCopyWorker()},
+                {"场地-停车场地-场地线稿", new ThSitePlanMoveWorker()},
                 {"场地-停车场地-场地色块", new ThSitePlanCopyWorker()},
+                {"场地-活动场地-场地线稿", new ThSitePlanMoveWorker()},
                 {"场地-活动场地-场地色块", new ThSitePlanCopyWorker()},
                 {"场地-其他场地-场地色块", new ThSitePlanCopyWorker()},
+                {"场地-其他场地-场地线稿", new ThSitePlanMoveWorker()},
 
                 {"道路-内部车行道路-道路线稿", new ThSitePlanMoveWorker()},
-                {"道路-内部人行道路-道路线稿", new ThSitePlanMoveWorker()},
-                {"道路-外部车行道路-道路线稿", new ThSitePlanMoveWorker()},
-                {"道路-外部景观道路-道路线稿", new ThSitePlanMoveWorker()},
                 {"道路-内部车行道路-道路色块", new ThSitePlanCopyWorker()},
+                {"道路-内部人行道路-道路线稿", new ThSitePlanMoveWorker()},
                 {"道路-内部人行道路-道路色块", new ThSitePlanCopyWorker()},
+                {"道路-外部车行道路-道路线稿", new ThSitePlanMoveWorker()},
                 {"道路-外部车行道路-道路色块", new ThSitePlanCopyWorker()},
+                {"道路-外部景观道路-道路线稿", new ThSitePlanMoveWorker()},
                 {"道路-外部景观道路-道路色块", new ThSitePlanCopyWorker()},
 
                 {"铺装-场地外铺地-铺装线稿", new ThSitePlanMoveWorker()},

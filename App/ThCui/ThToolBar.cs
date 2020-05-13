@@ -11,6 +11,7 @@ namespace TianHua.AutoCAD.ThCui
             CreateThHAVCToolbar(cs);
             CreateThGeneralToolbar(cs);
             CreateThStructureToolbar(cs);
+            CreateThConstructionToolbar(cs);
             CreateThElectricalToolbar(cs);
             CreateThArchitectureToolbar(cs);
         }
@@ -78,14 +79,8 @@ namespace TianHua.AutoCAD.ThCui
                 // 隐藏
                 toolbar.ToolbarVisible = ToolbarVisible.hide;
 
-                toolbar.AddToolbarButton(-1, "建立建筑图层", "ID_THALC");
-                toolbar.AddToolbarButton(-1, "车位编号", "ID_THCNU");
-                toolbar.AddSeparator(-1);
-                toolbar.AddToolbarButton(-1, "天华单体规整", "ID_THBPS");
-                toolbar.AddToolbarButton(-1, "天华总平规整", "ID_THSPS");
-                toolbar.AddToolbarButton(-1, "单体面积汇总", "ID_THBAC");
-                toolbar.AddToolbarButton(-1, "综合经济技术指标表", "ID_THTET");
-                toolbar.AddToolbarButton(-1, "防火分区疏散表", "ID_THFET");
+                toolbar.AddToolbarButton(-1, "建立总图图层", "ID_THAPL");
+                toolbar.AddToolbarButton(-1, "建立单体图层", "ID_THAUL");
             }
         }
 
@@ -98,6 +93,8 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.ToolbarVisible = ToolbarVisible.hide;
 
                 toolbar.AddToolbarButton(-1, "建立结构图层", "ID_THSLC");
+                //toolbar.AddSeparator(-1);
+                //toolbar.AddToolbarButton(-1, "柱校核（公测）", "ID_THCRC");
             }
         }
 
@@ -120,8 +117,11 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "关闭暖通图层", "ID_THMOF");
                 toolbar.AddToolbarButton(-1, "开启暖通图层", "ID_THMON");
                 toolbar.AddSeparator(-1);
+                toolbar.AddToolbarButton(-1, "通风模式", "ID_THTF");
+                toolbar.AddToolbarButton(-1, "水管模式", "ID_THSG");
+                toolbar.AddToolbarButton(-1, "消防模式", "ID_THXF");
+                toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
-                toolbar.AddToolbarButton(-1, "图块集配置", "ID_THBLS");
             }
         }
 
@@ -140,7 +140,6 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "提电气块转换", "ID_THBEE");
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
-                toolbar.AddToolbarButton(-1, "图块集配置", "ID_THBLS");
             }
         }
 
@@ -160,7 +159,25 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "处理底图", "ID_THLPP");
                 toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
-                toolbar.AddToolbarButton(-1, "图块集配置", "ID_THBLS");
+            }
+        }
+
+        public static void CreateThConstructionToolbar(CustomizationSection cs)
+        {
+            Toolbar toolbar = cs.MenuGroup.AddToolbar(ThCuiCommon.PROFILE_CONSTRUCTION);
+            if (toolbar != null)
+            {
+                // 隐藏
+                toolbar.ToolbarVisible = ToolbarVisible.hide;
+
+                toolbar.AddToolbarButton(-1, "建立建筑图层", "ID_THALC");
+                toolbar.AddToolbarButton(-1, "车位编号", "ID_THCNU");
+                toolbar.AddSeparator(-1);
+                toolbar.AddToolbarButton(-1, "天华单体规整", "ID_THBPS");
+                toolbar.AddToolbarButton(-1, "天华总平规整", "ID_THSPS");
+                toolbar.AddToolbarButton(-1, "单体面积汇总", "ID_THBAC");
+                toolbar.AddToolbarButton(-1, "综合经济技术指标表", "ID_THTET");
+                toolbar.AddToolbarButton(-1, "防火分区疏散表", "ID_THFET");
             }
         }
     }

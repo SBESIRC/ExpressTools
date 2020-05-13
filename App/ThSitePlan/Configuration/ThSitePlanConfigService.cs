@@ -1,25 +1,49 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
+using TianHua.Publics.BaseCode;
+using Autodesk.AutoCAD.DatabaseServices;
+using Linq2Acad;
+using System.Linq;
 
 namespace ThSitePlan.Configuration
 {
-    public class ThSitePlanConfigItem
+    public abstract class ThSitePlanConfigObj
     {
-        public Dictionary<string, object> Properties { get; set; }
+        public abstract bool IsEnabled { get; set; }
+        public abstract Dictionary<string, object> Properties { get; set; }
     }
 
-    public class ThSitePlanConfigItemGroup
+    public class ThSitePlanConfigItem : ThSitePlanConfigObj
     {
-        public List<ThSitePlanConfigItem> Items { get; set; }
-        public List<ThSitePlanConfigItemGroup> Groups { get; set; }
-        public Dictionary<string, object> Properties { get; set; }
+        public override bool IsEnabled { get; set; }
+        public override Dictionary<string, object> Properties { get; set; }
+        public ThSitePlanConfigItem()
+        {
+            Properties = new Dictionary<string, object>();
+        }
+    }
+
+    public class ThSitePlanConfigItemGroup : ThSitePlanConfigObj
+    {
+        public override bool IsEnabled { get; set; }
+        public Queue<ThSitePlanConfigObj> Items { get; set; }
+        public override Dictionary<string, object> Properties { get; set; }
 
         public ThSitePlanConfigItemGroup()
         {
-            Items = new List<ThSitePlanConfigItem>();
-            Groups = new List<ThSitePlanConfigItemGroup>();
+            Items = new Queue<ThSitePlanConfigObj>();
             Properties = new Dictionary<string, object>();
+        }
+
+        public void AddItem(ThSitePlanConfigItem item)
+        {
+            Items.Enqueue(item);
+        }
+
+        public void AddGroup(ThSitePlanConfigItemGroup group)
+        {
+            Items.Enqueue(group);
         }
     }
 
@@ -37,15 +61,52 @@ namespace ThSitePlan.Configuration
         //-------------SINGLETON-----------------
 
         public ThSitePlanConfigItemGroup Root { get; set; }
+        public string RootJsonString { get; set; }
 
         /// <summary>
         /// 初始化
         /// </summary>
         public void Initialize()
         {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, false);
+                if (dbdc.Contains(ThSitePlanCommon.Configuration_Xrecord_Name))
+                {
+                    InitializeWithDb();
+                }
+                else
+                {
+                    InitializeWithResource();
+                }
+            }
+        }
+
+        private void InitializeWithDb()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, false);
+                ObjectId obj = dbdc.GetAt(ThSitePlanCommon.Configuration_Xrecord_Name);
+                Xrecord bck = acadDatabase.Element<Xrecord>(obj, false);
+                string xrecorddata = bck.First().Value.ToString();
+                if (xrecorddata != null)
+                {
+                    RootJsonString = xrecorddata;
+                    InitializeFromString(xrecorddata);
+                }
+                else
+                {
+                    InitializeWithResource();
+                }
+            }
+        }
+
+        private void InitalizeWithCode()
+        {
             Root = new ThSitePlanConfigItemGroup();
             Root.Properties.Add("Name", "天华彩总");
-            Root.Items.Add(new ThSitePlanConfigItem()
+            Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
@@ -62,7 +123,7 @@ namespace ThSitePlan.Configuration
                 }
             });
 
-            Root.Items.Add(new ThSitePlanConfigItem()
+            Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
@@ -80,7 +141,7 @@ namespace ThSitePlan.Configuration
                 }
             });
 
-            Root.Items.Add(new ThSitePlanConfigItem()
+            Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
@@ -98,7 +159,7 @@ namespace ThSitePlan.Configuration
                 }
             });
 
-            Root.Items.Add(new ThSitePlanConfigItem()
+            Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
@@ -113,14 +174,12 @@ namespace ThSitePlan.Configuration
                             "P-LIMT-BUID",
                             "P-LIMT-COOR",
                             "P-BUID-UDBD",
-                            "P-CONS-FENC",
                         }
                     }
                 }
             });
 
-
-            Root.Items.Add(new ThSitePlanConfigItem()
+            Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
@@ -136,7 +195,11 @@ namespace ThSitePlan.Configuration
                 }
             });
 
-            Root.Items.Add(new ThSitePlanConfigItem()
+            // 建筑物
+            Root.AddGroup(ConstructBuilding());
+
+            // 全局阴影
+            Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
@@ -146,29 +209,125 @@ namespace ThSitePlan.Configuration
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()
                         {
-                            "P-AI-shadow"
+                            "P-BUID-HACH"
                         }
                     }
                 }
             });
 
-            // 建筑物
-            Root.Groups.Add(ConstructBuilding());
-
             // 树木
-            Root.Groups.Add(ConstructTree());
+            Root.AddGroup(ConstructTree());
 
             // 场地
-            Root.Groups.Add(ConstructSites());
+            Root.AddGroup(ConstructSites());
 
             // 道路
-            Root.Groups.Add(ConstructRoads());
+            Root.AddGroup(ConstructRoads());
 
             // 铺装
-            Root.Groups.Add(ConstructPavement());
+            Root.AddGroup(ConstructPavement());
 
             // 景观绿地
-            Root.Groups.Add(ConstructGreenland());
+            Root.AddGroup(ConstructGreenland());
+        }
+
+        private void InitializeWithResource()
+        {
+            string _Txt = FuncStr.NullToStr(Properties.Resources.BasicStyle);
+            RootJsonString = _Txt;
+            InitializeFromString(_Txt);
+        }
+
+        private void InitializeFromString(string orgstring)
+        {
+            var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(orgstring);
+            Root = new ThSitePlanConfigItemGroup();
+            Root.Properties.Add("Name", "天华彩总");
+            FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);
+            Root = ReConstructItemName(Root, null);
+        }
+
+        public void EnableAll(bool bEnable)
+        {
+            EnableItem(bEnable, Root);
+        }
+
+        public void EnableItemAndItsAncestor(string name, bool bEnable)
+        {
+            //打开所有分组
+            EnableAllGroup(true,Root);
+
+            //查找要打开的item子项，打开该项以及其兄弟节点
+            string[] namegroup = name.Split('-');
+            ThSitePlanConfigItem FindItem = null;
+
+            var SearchItems = Root.Items;
+            for (int i = 0; i < namegroup.Length; i++)
+            {
+                foreach (var item in SearchItems)
+                {
+                    if (item.Properties["Name"].ToString() == namegroup[i] || item.Properties["Name"].ToString() == name)
+                    {
+                        //找到item直接打开，对于某些只有一层的图层
+                        if (item is ThSitePlanConfigItem fdit)
+                        {
+                            item.IsEnabled = bEnable;
+                            FindItem = fdit;
+                            break;
+                        }
+
+                        //找到该项对应的Group,则进入该group继续查找，当查找子项的上一级父节点group，打开该节点中每一个子项
+                        else if (item is ThSitePlanConfigItemGroup fdgp)
+                        {
+                            if (i == namegroup.Length - 2)
+                            {
+                                item.IsEnabled = bEnable;
+                                foreach (var item2 in fdgp.Items)
+                                {
+                                    item2.IsEnabled = bEnable;
+                                }
+                            }
+
+                            SearchItems = fdgp.Items;
+                            break;
+                        }
+                    }
+                }
+
+                if (FindItem != null)
+                {
+                    break;
+                }
+            }
+        }
+
+        private void EnableItem(bool bEnable, ThSitePlanConfigObj itgrp)
+        {
+            if (itgrp is ThSitePlanConfigItemGroup group)
+            {
+                group.IsEnabled = bEnable;
+                foreach (var groupItem in group.Items)
+                {
+                    EnableItem(bEnable, groupItem);
+                }
+            }
+            else if (itgrp is ThSitePlanConfigItem item)
+            {
+                item.IsEnabled = bEnable;
+            }
+        }
+
+        private void EnableAllGroup(bool bEnable, ThSitePlanConfigObj itgrp)
+        {
+            if (itgrp is ThSitePlanConfigItemGroup group)
+            {
+                group.IsEnabled = bEnable;
+                foreach (var groupItem in group.Items)
+                {
+                    EnableAllGroup(bEnable, groupItem);
+                }
+            }
+
         }
 
         private ThSitePlanConfigItemGroup ConstructBuilding()
@@ -180,7 +339,7 @@ namespace ThSitePlan.Configuration
                 var InnerBuilding = new ThSitePlanConfigItemGroup();
                 InnerBuilding.Properties.Add("Name", "场地内建筑");
                 // 建筑物-场地内建筑-建筑信息
-                InnerBuilding.Items.Add(new ThSitePlanConfigItem()
+                InnerBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -197,31 +356,12 @@ namespace ThSitePlan.Configuration
                 }
                 });
                 // 建筑物-场地内建筑-建筑色块
-                InnerBuilding.Items.Add(new ThSitePlanConfigItem()
+                InnerBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
                     { "Name", "建筑物-场地内建筑-建筑色块"},
                     { "Color", Color.Red},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-BUID-HACH",
-                            "P-BUID-BMAX",
-                            "P-BUID-BCHA",
-
-                        }
-                    }
-                }
-                });
-                // 建筑物-场地内建筑-建筑线稿
-                InnerBuilding.Items.Add(new ThSitePlanConfigItem()
-                {
-                    Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "建筑物-场地内建筑-建筑线稿"},
-                    { "Color", Color.Blue},
                     { "Opacity", 100 },
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()
@@ -233,15 +373,33 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                building.Groups.Add(InnerBuilding);
+                // 建筑物-场地内建筑-建筑线稿
+                InnerBuilding.AddItem(new ThSitePlanConfigItem()
+                {
+                    Properties = new Dictionary<string, object>()
+                {
+                    { "Name", "建筑物-场地内建筑-建筑线稿"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()
+                        {
+                            "P-BUID-BMAX",
+                            "P-BUID-BCHA",
+                            "P-BUID-ROOF",
+                        }
+                    }
+                }
+                });
+                building.AddGroup(InnerBuilding);
             }
 
             {
                 // 建筑物-场地外建筑
                 var OuterBuilding = new ThSitePlanConfigItemGroup();
-                OuterBuilding.Properties.Add("Name", "场地内建筑");
+                OuterBuilding.Properties.Add("Name", "场地外建筑");
                 // 建筑物-场地外建筑-建筑信息
-                OuterBuilding.Items.Add(new ThSitePlanConfigItem()
+                OuterBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -256,8 +414,8 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                // 建筑物-场地内建筑-建筑色块
-                OuterBuilding.Items.Add(new ThSitePlanConfigItem()
+                // 建筑物-场地外建筑-建筑色块
+                OuterBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -272,8 +430,8 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                // 建筑物-场地内建筑-建筑线稿
-                OuterBuilding.Items.Add(new ThSitePlanConfigItem()
+                // 建筑物-场地外建筑-建筑线稿
+                OuterBuilding.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -288,7 +446,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                building.Groups.Add(OuterBuilding);
+                building.AddGroup(OuterBuilding);
             }
 
             return building;
@@ -303,7 +461,7 @@ namespace ThSitePlan.Configuration
                 var landscape_tree = new ThSitePlanConfigItemGroup();
                 landscape_tree.Properties.Add("Name", "景观树");
                 // 树木.景观树.树木色块
-                landscape_tree.Items.Add(new ThSitePlanConfigItem()
+                landscape_tree.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -320,7 +478,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 树木.景观树.树木线稿
-                landscape_tree.Items.Add(new ThSitePlanConfigItem()
+                landscape_tree.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -335,7 +493,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                tree.Groups.Add(landscape_tree);
+                tree.AddGroup(landscape_tree);
             }
 
             // 树木.行道树
@@ -343,7 +501,7 @@ namespace ThSitePlan.Configuration
                 var street_tree = new ThSitePlanConfigItemGroup();
                 street_tree.Properties.Add("Name", "行道树");
                 // 树木.行道树.树木色块
-                street_tree.Items.Add(new ThSitePlanConfigItem()
+                street_tree.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -359,7 +517,7 @@ namespace ThSitePlan.Configuration
                 }
                 });
                 // 树木.行道树.树木线稿
-                street_tree.Items.Add(new ThSitePlanConfigItem()
+                street_tree.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -374,7 +532,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                tree.Groups.Add(street_tree);
+                tree.AddGroup(street_tree);
             }
             return tree;
         }
@@ -388,12 +546,12 @@ namespace ThSitePlan.Configuration
                 var fire_site = new ThSitePlanConfigItemGroup();
                 fire_site.Properties.Add("Name", "消防登高场地");
                 // 场地.消防登高场地.场地色块
-                fire_site.Items.Add(new ThSitePlanConfigItem()
+                fire_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
                     { "Name", "场地-消防登高场地-场地色块"},
-                    { "Color", Color.Black},
+                    { "Color", Color.Yellow},
                     { "Opacity", 100 },
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()
@@ -405,7 +563,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 场地.消防登高场地.场地线稿
-                fire_site.Items.Add(new ThSitePlanConfigItem()
+                fire_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -420,7 +578,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                sites.Groups.Add(fire_site);
+                sites.AddGroup(fire_site);
             }
 
             {
@@ -428,7 +586,7 @@ namespace ThSitePlan.Configuration
                 var parking_site = new ThSitePlanConfigItemGroup();
                 parking_site.Properties.Add("Name", "停车场地");
                 // 场地.停车场地.场地色块
-                parking_site.Items.Add(new ThSitePlanConfigItem()
+                parking_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -445,7 +603,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 场地.停车场地.场地线稿
-                parking_site.Items.Add(new ThSitePlanConfigItem()
+                parking_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -460,7 +618,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                sites.Groups.Add(parking_site);
+                sites.AddGroup(parking_site);
             }
 
             {
@@ -468,7 +626,7 @@ namespace ThSitePlan.Configuration
                 var activity_site = new ThSitePlanConfigItemGroup();
                 activity_site.Properties.Add("Name", "活动场地");
                 // 场地.活动场地.场地色块
-                activity_site.Items.Add(new ThSitePlanConfigItem()
+                activity_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -485,7 +643,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 场地.活动场地.场地线稿
-                activity_site.Items.Add(new ThSitePlanConfigItem()
+                activity_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -501,7 +659,7 @@ namespace ThSitePlan.Configuration
                 }
                 });
                 
-                sites.Groups.Add(activity_site);
+                sites.AddGroup(activity_site);
             }
 
             {
@@ -509,7 +667,7 @@ namespace ThSitePlan.Configuration
                 var other_site = new ThSitePlanConfigItemGroup();
                 other_site.Properties.Add("Name", "其他场地");
                 // 场地.其他场地.场地色块
-                other_site.Items.Add(new ThSitePlanConfigItem()
+                other_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -519,6 +677,7 @@ namespace ThSitePlan.Configuration
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()
                         {
+                            ThSitePlanCommon.LAYER_SITE_FENCE,
                             ThSitePlanCommon.LAYER_SITE_MISCELLANEOUS
                         }
                     }
@@ -526,7 +685,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 场地.其他场地.场地线稿
-                other_site.Items.Add(new ThSitePlanConfigItem()
+                other_site.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -536,12 +695,13 @@ namespace ThSitePlan.Configuration
                     { "CADFrame", "" },
                     { "CADLayer", new  List<string>()
                         {
+                            ThSitePlanCommon.LAYER_SITE_FENCE,
                             ThSitePlanCommon.LAYER_SITE_MISCELLANEOUS
                         }
                     }
                 }
                 });
-                sites.Groups.Add(other_site);
+                sites.AddGroup(other_site);
             }
 
             return sites;
@@ -555,7 +715,7 @@ namespace ThSitePlan.Configuration
                 var internal_road = new ThSitePlanConfigItemGroup();
                 internal_road.Properties.Add("Name", "内部行车道路");
 
-                internal_road.Items.Add(new ThSitePlanConfigItem()
+                internal_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -571,7 +731,7 @@ namespace ThSitePlan.Configuration
                     }
                 });
 
-                internal_road.Items.Add(new ThSitePlanConfigItem()
+                internal_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -588,14 +748,14 @@ namespace ThSitePlan.Configuration
                     }
                 });
                
-                roads.Groups.Add(internal_road);
+                roads.AddGroup(internal_road);
             }
 
             {
                 var pedestrian_road= new ThSitePlanConfigItemGroup();
                 pedestrian_road.Properties.Add("Name", "内部人行道路");
 
-                pedestrian_road.Items.Add(new ThSitePlanConfigItem()
+                pedestrian_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -611,7 +771,7 @@ namespace ThSitePlan.Configuration
                     }
                 });
 
-                pedestrian_road.Items.Add(new ThSitePlanConfigItem()
+                pedestrian_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -626,14 +786,14 @@ namespace ThSitePlan.Configuration
                         }
                     }
                 });
-                roads.Groups.Add(pedestrian_road);
+                roads.AddGroup(pedestrian_road);
             }
 
             {
                 var external_road = new ThSitePlanConfigItemGroup();
                 external_road.Properties.Add("Name", "外部车行道路");
 
-                external_road.Items.Add(new ThSitePlanConfigItem()
+                external_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -649,7 +809,7 @@ namespace ThSitePlan.Configuration
                     }
                 });
 
-                external_road.Items.Add(new ThSitePlanConfigItem()
+                external_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -660,19 +820,20 @@ namespace ThSitePlan.Configuration
                         { "CADLayer", new  List<string>()
                             {
                                 ThSitePlanCommon.LAYER_ROAD_EXTERNAL,
+                                "P-TRAF-CITY"
                             }
                         }
                     }
                 });
                 
-                roads.Groups.Add(external_road);
+                roads.AddGroup(external_road);
             }
 
             {
                 var extland_road = new ThSitePlanConfigItemGroup();
                 extland_road.Properties.Add("Name", "外部景观道路");
 
-                extland_road.Items.Add(new ThSitePlanConfigItem()
+                extland_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -688,7 +849,7 @@ namespace ThSitePlan.Configuration
                     }
                 });
 
-                extland_road.Items.Add(new ThSitePlanConfigItem()
+                extland_road.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                     {
@@ -703,7 +864,7 @@ namespace ThSitePlan.Configuration
                         }
                     }
                 });
-                roads.Groups.Add(extland_road);
+                roads.AddGroup(extland_road);
             }
 
             return roads;
@@ -716,10 +877,10 @@ namespace ThSitePlan.Configuration
             {
                 //铺装-场地外铺地
                 var Pavement_Outd = new ThSitePlanConfigItemGroup();
-                Pavement_Outd.Properties.Add("Name", "景观树");
+                Pavement_Outd.Properties.Add("Name", "场地外铺地");
 
                 // 铺装-场地外铺地-铺装色块
-                Pavement_Outd.Items.Add(new ThSitePlanConfigItem()
+                Pavement_Outd.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -736,7 +897,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 铺装-场地外铺地-铺装线稿
-                Pavement_Outd.Items.Add(new ThSitePlanConfigItem()
+                Pavement_Outd.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -752,7 +913,7 @@ namespace ThSitePlan.Configuration
                 }
                 });
 
-                pave.Groups.Add(Pavement_Outd);
+                pave.AddGroup(Pavement_Outd);
             }
             return pave;
         }
@@ -767,7 +928,7 @@ namespace ThSitePlan.Configuration
                 GreenLand_Watersp.Properties.Add("Name", "水景");
 
                 // 景观绿地-水景-水景色块
-                GreenLand_Watersp.Items.Add(new ThSitePlanConfigItem()
+                GreenLand_Watersp.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -784,7 +945,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 景观绿地-水景-水景线稿
-                GreenLand_Watersp.Items.Add(new ThSitePlanConfigItem()
+                GreenLand_Watersp.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -799,7 +960,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                greenLd.Groups.Add(GreenLand_Watersp);
+                greenLd.AddGroup(GreenLand_Watersp);
             }
 
             {
@@ -808,7 +969,7 @@ namespace ThSitePlan.Configuration
                 GreenLand_LandSp.Properties.Add("Name", "景观");
 
                 // 景观绿地-景观-景观色块
-                GreenLand_LandSp.Items.Add(new ThSitePlanConfigItem()
+                GreenLand_LandSp.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -825,7 +986,7 @@ namespace ThSitePlan.Configuration
                 });
 
                 // 景观绿地-景观-景观线稿
-                GreenLand_LandSp.Items.Add(new ThSitePlanConfigItem()
+                GreenLand_LandSp.AddItem(new ThSitePlanConfigItem()
                 {
                     Properties = new Dictionary<string, object>()
                 {
@@ -840,7 +1001,7 @@ namespace ThSitePlan.Configuration
                     }
                 }
                 });
-                greenLd.Groups.Add(GreenLand_LandSp);
+                greenLd.AddGroup(GreenLand_LandSp);
             }
             return greenLd;
         }
@@ -861,6 +1022,90 @@ namespace ThSitePlan.Configuration
         public void ExportToFile(string file)
         {
             throw new NotImplementedException();
+        }
+
+        public ThSitePlanConfigItem FindItemByName(string name)
+        {
+            string[] namegroup = name.Split('-');
+            ThSitePlanConfigItem FindItem = null;
+
+            var SearchItems = Root.Items;
+            for (int i = 0; i < namegroup.Length; i++)
+            {
+                foreach (var item in SearchItems)
+                {
+                    if (item.Properties["Name"].ToString() == namegroup[i] || item.Properties["Name"].ToString() == name)
+                    {
+                        if (item is ThSitePlanConfigItem fdit)
+                        {
+                            FindItem = fdit;
+                            break;
+                        }
+                        else if (item is ThSitePlanConfigItemGroup fdgp)
+                        {
+                            SearchItems = fdgp.Items;
+                            break;
+                        }
+                    }
+                }
+
+                if (FindItem != null)
+                {
+                    break;
+                }
+            }
+            return FindItem;
+        }
+
+        public ThSitePlanConfigItemGroup FindGroupByItemName(string name)
+        {
+            string[] namegroup = name.Split('-');
+            if (namegroup.Length<=1)
+            {
+                return Root;
+            }
+
+            return FindGroupByName(namegroup[namegroup.Length - 2],Root);
+        }
+
+        private ThSitePlanConfigItemGroup FindGroupByName(string name, ThSitePlanConfigItemGroup itgrp)
+        {
+            ThSitePlanConfigItemGroup FindGroup = null;
+            foreach (var item in itgrp.Items)
+            {
+                if (item is ThSitePlanConfigItemGroup findgp)
+                {
+                    if (findgp.Properties["Name"].ToString() == name)
+                    {
+                        return findgp;
+                    }
+                    FindGroup = FindGroupByName(name, findgp);
+                    if (FindGroup != null)
+                    {
+                        return FindGroup;
+                    }
+                }
+            }
+            return FindGroup;
+        }
+
+        private ThSitePlanConfigItemGroup ReConstructItemName(ThSitePlanConfigItemGroup origingroup, string outergroupname)
+        {
+            //遍历传入的Group中所有子项，若是Group,记住名字并继续向深层遍历，若遍历到子item,将Item名扩展重建
+            foreach (var item in origingroup.Items)
+            {
+                if (item is ThSitePlanConfigItemGroup gp)
+                {
+                    string innergroupname = gp.Properties["Name"].ToString();
+                    ReConstructItemName(gp, outergroupname + innergroupname + "-");
+                }
+                else if (item is ThSitePlanConfigItem it)
+                {
+                    it.Properties["Name"] = outergroupname + it.Properties["Name"].ToString();
+                }
+            }
+
+            return origingroup;
         }
     }
 }

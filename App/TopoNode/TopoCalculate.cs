@@ -8,7 +8,7 @@ using System.Text;
 
 namespace TopoNode
 {
-    
+
 
     public class PolylineLayer
     {
@@ -227,9 +227,16 @@ namespace TopoNode
             return search.ConvertTopoEdges2Curve(tmpEdgeLoops);
         }
 
-        public static List<PolylineLayer> MakeSrcProfileLoopsLayerFromPoint(List<Curve> curves, Point3d pt)
+        public static List<PolylineLayer> MakeSrcProfileLoopsLayerFromPoint(List<Curve> totalCurves, List<Curve> relatedCurves, Point3d pt)
         {
-            var search = new TopoSearch(curves, pt);
+            var search = new TopoSearch(totalCurves, relatedCurves, pt);
+            var tmpEdgeLoops = search.TransFormProfileLoops(search.m_srcLoops);
+            return search.ConvertTopoEdges2PolylineLayer(tmpEdgeLoops);
+        }
+
+        public static List<PolylineLayer> MakeSrcProfileLoopsLayerFromPoint(List<Curve> relatedCurves, Point3d pt)
+        {
+            var search = new TopoSearch(relatedCurves, pt);
             var tmpEdgeLoops = search.TransFormProfileLoops(search.m_srcLoops);
             return search.ConvertTopoEdges2PolylineLayer(tmpEdgeLoops);
         }
@@ -296,6 +303,39 @@ namespace TopoNode
 
         }
 
+        private TopoSearch(List<Curve> totalCurves, List<Curve> relatedCurves, Point3d pt)
+        {
+            m_planeBox = new BoundBoxPlane(totalCurves);
+
+            if (m_planeBox.IsTranslation())
+            {
+                // 平移处理
+                var relatedCurvesTrans = new List<Curve>();
+                var trans = m_planeBox.TransValue;
+                foreach (var curve in relatedCurves)
+                {
+                    var transCurve = MoveTransform(curve, trans);
+                    relatedCurvesTrans.Add(transCurve);
+                }
+
+                var totalCurvesTrans = new List<Curve>();
+                foreach (var curve in totalCurves)
+                {
+                    var transTotalCurve = MoveTransform(curve, trans);
+                    totalCurvesTrans.Add(transTotalCurve);
+                }
+
+                pt = pt + new Vector3d(trans.X, trans.Y, 0);
+                m_srcLoops = TopoCalculate.MakeProfileLoopFromPoint(totalCurvesTrans, relatedCurvesTrans, pt);
+            }
+            else
+            {
+                // 不平移处理
+                m_srcLoops = TopoCalculate.MakeProfileLoopFromPoint(totalCurves, relatedCurves, pt);
+            }
+
+        }
+
         /// <summary>
         /// 转化为CAD中的数据格式, 输出为多段线的集合
         /// </summary>
@@ -340,7 +380,7 @@ namespace TopoNode
             return polylineLayers;
         }
 
-        
+
         private List<string> GetLayersFromTopoEdges(List<TopoEdge> topoEdges)
         {
             if (topoEdges == null && topoEdges.Count == 0)
@@ -637,6 +677,11 @@ namespace TopoNode
 
         private List<CurveBound> curveBoundLst = new List<CurveBound>();
 
+        public List<Profile> Profiles
+        {
+            get { return m_ProfileLoop; }
+        }
+
         public List<TopoEdge> Profile
         {
             get
@@ -650,7 +695,9 @@ namespace TopoNode
 
         private List<Profile> m_ProfileLoop = new List<Profile>();
         private HashMap m_hashMap = new HashMap();
+        private HashMap m_innerHashMap = new HashMap();
         private List<TopoEdge> m_topoEdges = new List<TopoEdge>();
+        private List<TopoEdge> m_innerEdges = new List<TopoEdge>();
         private List<Curve> srcCurves = null;
         private Point3d aimPoint;
 
@@ -736,7 +783,7 @@ namespace TopoNode
             }
         }
 
-        
+
         private CurveBound CalculateCurveBound(List<Curve> curves, Curve rightCurve)
         {
             double leftX = 0;
@@ -863,7 +910,7 @@ namespace TopoNode
                 if (rightNearCurves != null && rightNearCurves.Count != 0)
                     nearCurves.AddRange(rightNearCurves);
             }
-            
+
             return nearCurves;
         }
 
@@ -936,14 +983,154 @@ namespace TopoNode
 
                 BuildOneLoop(startRightEdge);
             }
+        }
 
-            if (m_ProfileLoop.Count == 0)
+        public void DoCal(List<Curve> totalCurves)
+        {
+            var scatterCurves = ScatterCurves.MakeNewCurves(srcCurves);
+            var layers = Utils.GetLayersFromCurves(scatterCurves);
+            var scatterRightCurves = CalcuRightCurves(scatterCurves);
+            //Utils.DrawProfile(scatterCurves, "scatter");
+            //return;
+            if (scatterRightCurves == null || scatterRightCurves.Count == 0)
                 return;
 
-            // inner
-            var profile = m_ProfileLoop.First();
-            var relatedCurves = CalcuRelatedCurves(scatterCurves, profile.TopoEdges);
-            Utils.DrawProfile(relatedCurves, "rela");
+            List<TopoEdge> rightStartEdges = new List<TopoEdge>();
+            TopoEdge startEdge = null;
+            foreach (var curve in scatterCurves)
+            {
+                startEdge = null;
+                TopoEdge.MakeTopoEdge(curve, m_topoEdges);
+                foreach (var rightCurve in scatterRightCurves)
+                {
+                    if (curve.Equals(rightCurve))
+                    {
+                        var lastEdge = m_topoEdges.Last();
+                        var startPt = lastEdge.Start;
+                        var endPt = lastEdge.End;
+
+                        if (endPt.Y > startPt.Y)
+                        {
+                            startEdge = lastEdge;
+                        }
+                        else
+                        {
+                            startEdge = m_topoEdges[m_topoEdges.Count - 2];
+                        }
+
+                        rightStartEdges.Add(startEdge);
+                    }
+                }
+
+            }
+
+            if (rightStartEdges.Count == 0)
+                return;
+
+            foreach (var topoEdge in m_topoEdges)
+            {
+                m_hashMap.Add(topoEdge);
+            }
+
+            // outer
+            foreach (var startRightEdge in rightStartEdges)
+            {
+                if (m_ProfileLoop.Count > 0)
+                    break;
+
+                BuildOneLoop(startRightEdge);
+            }
+        }
+
+        public void DoCalS(List<Curve> totalCurves)
+        {
+            var scatterCurves = ScatterCurves.MakeNewCurves(srcCurves);
+            var layers = Utils.GetLayersFromCurves(scatterCurves);
+            var scatterRightCurves = CalcuRightCurves(scatterCurves);
+            //Utils.DrawProfile(scatterCurves, "scatter");
+            //return;
+            if (scatterRightCurves == null || scatterRightCurves.Count == 0)
+                return;
+
+            List<TopoEdge> rightStartEdges = new List<TopoEdge>();
+            TopoEdge startEdge = null;
+            foreach (var curve in scatterCurves)
+            {
+                startEdge = null;
+                TopoEdge.MakeTopoEdge(curve, m_topoEdges);
+                foreach (var rightCurve in scatterRightCurves)
+                {
+                    if (curve.Equals(rightCurve))
+                    {
+                        var lastEdge = m_topoEdges.Last();
+                        var startPt = lastEdge.Start;
+                        var endPt = lastEdge.End;
+
+                        if (endPt.Y > startPt.Y)
+                        {
+                            startEdge = lastEdge;
+                        }
+                        else
+                        {
+                            startEdge = m_topoEdges[m_topoEdges.Count - 2];
+                        }
+
+                        rightStartEdges.Add(startEdge);
+                    }
+                }
+
+            }
+
+            if (rightStartEdges.Count == 0)
+                return;
+
+            foreach (var topoEdge in m_topoEdges)
+            {
+                m_hashMap.Add(topoEdge);
+            }
+
+            foreach (var startRightEdge in rightStartEdges)
+            {
+                if (m_ProfileLoop.Count > 0)
+                    break;
+
+                BuildOneLoop(startRightEdge);
+            }
+
+            //if (m_ProfileLoop.Count == 0)
+            //    return;
+
+            //var totalScatterCurves = ScatterCurves.MakeNewCurves(totalCurves);
+            //var profile = m_ProfileLoop.First();
+            //var relatedCurves = CalcuRelatedCurves(totalScatterCurves, profile.TopoEdges);
+            ////Utils.DrawProfile(relatedCurves, "rela");
+            //CalculateLoop(relatedCurves);
+        }
+
+        private void CalculateLoop(List<Curve> allCurves)
+        {
+            foreach (var curve in allCurves)
+            {
+                TopoEdge.MakeTopoEdge(curve, m_innerEdges);
+            }
+
+            m_hashMap.Clear();
+            foreach (var topoEdge in m_innerEdges)
+            {
+                m_hashMap.Add(topoEdge);
+            }
+
+            for (int i = 0; i < m_innerEdges.Count; i++)
+            {
+                if (m_innerEdges[i].IsUse)
+                    continue;
+
+                BuildInnerOneLoop(m_innerEdges[i]);
+            }
+
+            m_ProfileLoop = TopoSearch.RemoveDuplicate(m_ProfileLoop);
+            //CalculateBound();
+            //PostProcessLoop();
         }
 
         private List<Curve> CalcuRelatedCurves(List<Curve> srcCurves, List<TopoEdge> loop)
@@ -1013,6 +1200,60 @@ namespace TopoNode
             }
 
             return false;
+        }
+
+        private void BuildInnerOneLoop(TopoEdge edge)
+        {
+            var polys = new List<TopoEdge>();
+            edge.IsUse = true;
+            polys.Add(edge);
+
+            while (polys.Count != 0)
+            {
+                var curEdge = polys.Last();
+                var nextEdge = GetNextEdgeInMaps(curEdge);
+                if (nextEdge == null)
+                {
+                    PopLastEdge(polys);
+                    continue;
+                }
+
+                polys.Add(nextEdge);
+                var first = polys.First();
+                var last = polys.Last();
+
+                if (polys.Count > 1 && CommonUtils.Point3dIsEqualPoint3d(first.Start, last.End, 1e-1))
+                {
+                    if (Math.Abs(CommonUtils.CalcuLoopArea(polys)) > 1000)
+                    {
+                        m_ProfileLoop.Add(new Profile(polys, true));
+                    }
+                    break;
+                }
+
+                // 摘除环，继续寻找
+                for (int i = 0; i < polys.Count - 1; i++)
+                {
+                    var Cedge = polys[i];
+                    if (CommonUtils.Point3dIsEqualPoint3d(Cedge.End, last.End, 1e-1))
+                    {
+                        var k = i + 1;
+                        var nEraseindex = k;
+                        var edgeLoop = new List<TopoEdge>();
+                        for (; k < polys.Count; k++)
+                        {
+                            edgeLoop.Add(polys[k]);
+                        }
+
+                        if (edgeLoop.Count > 1 && Math.Abs(CommonUtils.CalcuLoopArea(polys)) > 1000)
+                        {
+                            m_ProfileLoop.Add(new Profile(edgeLoop, true));
+                        }
+                        var nEraseCnt = polys.Count - nEraseindex;
+                        polys.RemoveRange(nEraseindex, nEraseCnt);
+                    }
+                }
+            }
         }
 
         private void BuildOneLoop(TopoEdge edge)
@@ -1386,7 +1627,7 @@ namespace TopoNode
         {
             var cal = new CalInnerPoint(loop);
             cal.Do();
-           return cal.InnerPt;
+            return cal.InnerPt;
         }
     }
 
@@ -1423,6 +1664,16 @@ namespace TopoNode
             return topoCal.ProfileLoops;
         }
 
+        public static List<Profile> MakeProfileLoopFromPoint(List<Curve> totalCurves, List<Curve> curves, Point3d pt)
+        {
+            if (curves == null || curves.Count == 0)
+                return null;
+
+            var layers = Utils.GetLayersFromCurves(curves);
+            var topoCal = new TopoCalculate(totalCurves, curves, pt);
+            return topoCal.ProfileLoops;
+        }
+
         private TopoCalculate(List<Curve> SrcCurves)
         {
             m_curves = SrcCurves;
@@ -1445,6 +1696,20 @@ namespace TopoNode
             if (outEdges == null)
                 return;
             m_ProfileLoop.Add(new Profile(outEdges, true));
+        }
+
+        private TopoCalculate(List<Curve> totalCurves, List<Curve> SrcCurves, Point3d pt)
+        {
+            m_curves = SrcCurves;
+
+            var profileCalcu = new CalcuContainPointProfile(m_curves, pt);
+            profileCalcu.DoCal(totalCurves);
+            //var outEdges = profileCalcu.Profile;
+
+            //if (outEdges == null)
+            //    return;
+            //m_ProfileLoop.Add(new Profile(outEdges, true));
+            m_ProfileLoop.AddRange(profileCalcu.Profiles);
         }
 
 
@@ -1588,7 +1853,7 @@ namespace TopoNode
                 if (outterProfile.ProfileArea > innerProfile.ProfileArea)
                     return true;
             }
-            
+
             return false;
         }
 
@@ -1792,7 +2057,7 @@ namespace TopoNode
             var scatterCurves = new ScatterCurves(srcCurves);
             return scatterCurves.Curves;
         }
-        
+
         public static List<Curve> MakeScatterCurves(List<Curve> srcCurves, List<Curve> intersectCurves)
         {
             var scatterCurves = new ScatterCurves(srcCurves, intersectCurves);
@@ -1848,7 +2113,7 @@ namespace TopoNode
                 m_ScatterNodes.Add(new ScatterNode(curve, curve is Line));
             }
 
-            IntersectCurves();
+            IntersectCurvesTole();
             SortXYZPoints();
             NewCurves();
         }
@@ -1880,6 +2145,100 @@ namespace TopoNode
                     }
                 }
             }
+        }
+
+        private void IntersectCurvesTole()
+        {
+            for (int i = 0; i < m_ScatterNodes.Count; i++)
+            {
+                var curCurve = m_ScatterNodes[i].srcCurve;
+                for (int j = i + 1; j < m_ScatterNodes.Count; j++)
+                {
+                    var nextCurve = m_ScatterNodes[j].srcCurve;
+
+                    if (!CommonUtils.IntersectValid(curCurve, nextCurve))
+                        continue;
+
+                    var ptLst = CurveIntersectWithCurve(curCurve, nextCurve);
+                    if (ptLst.Count != 0)
+                    {
+                        foreach (Point3d pt in ptLst)
+                        {
+                            m_ScatterNodes[i].ptLst.Add(pt);
+                            m_ScatterNodes[j].ptLst.Add(pt);
+                        }
+                    }
+                }
+            }
+        }
+
+        private List<Point3d> CurveIntersectWithCurve(Curve curveFir, Curve curveSec)
+        {
+            var ptLst = new List<Point3d>();
+            if (curveFir is Line && curveSec is Line)
+            {
+                var lineFir = curveFir as Line;
+                var lineSec = curveSec as Line;
+                var lineFir3d = Line2Ge(lineFir);
+                var lineSec3d = Line2Ge(lineSec);
+                var intersecPts = lineFir3d.IntersectWith(lineSec3d, new Tolerance(1e-3, 1e-3));
+                if (intersecPts != null)
+                    ptLst = intersecPts.ToList();
+            }
+            else if (curveFir is Line && curveSec is Arc)
+            {
+                var lineFir = curveFir as Line;
+                var arcSec = curveSec as Arc;
+                var lineFir3d = Line2Ge(lineFir);
+                var arcSec3d = Arc2Ge(arcSec);
+                var intersecPts = arcSec3d.IntersectWith(lineFir3d, new Tolerance(1e-3, 1e-3));
+                if (intersecPts != null)
+                    ptLst = intersecPts.ToList();
+            }
+            else if (curveFir is Arc && curveSec is Line)
+            {
+                var arcFir = curveFir as Arc;
+                var lineSec = curveSec as Line;
+                var arcFir3d = Arc2Ge(arcFir);
+                var lineSec3d = Line2Ge(lineSec);
+                var intersecPts = arcFir3d.IntersectWith(lineSec3d, new Tolerance(1e-3, 1e-3));
+                if (intersecPts != null)
+                    ptLst = intersecPts.ToList();
+            }
+            else if (curveFir is Arc && curveSec is Arc)
+            {
+                var arcFir = curveFir as Arc;
+                var arcSec = curveSec as Arc;
+                var arc3dFir = Arc2Ge(arcFir);
+                var arc3dSec = Arc2Ge(arcSec);
+                var intersecPts = arc3dFir.IntersectWith(arc3dSec, new Tolerance(1e-3, 1e-3));
+                if (intersecPts != null)
+                    ptLst = intersecPts.ToList();
+            }
+
+            return ptLst;
+        }
+
+        private CircularArc3d Arc2Ge(Arc arc)
+        {
+            var ptS = arc.StartPoint;
+            var ptE = arc.EndPoint;
+            var ptMid = arc.GetPointAtParameter(0.5 * (arc.StartParam + arc.EndParam));
+            var arc3d = new CircularArc3d(ptS, ptMid, ptE);
+            return arc3d;
+        }
+
+        private Point2d P3Dto2D(Point3d point)
+        {
+            return new Point2d(point.X, point.Y);
+        }
+
+        private LineSegment3d Line2Ge(Line line)
+        {
+            var ptS = line.StartPoint;
+            var ptE = line.EndPoint;
+            var line3d = new LineSegment3d(ptS, ptE);
+            return line3d;
         }
 
         private void SortLineNode(ScatterNode lineCode)
@@ -1983,6 +2342,15 @@ namespace TopoNode
         public HashMap()
         {
             m_hashMapEdges = new List<List<TopoEdge>>();
+            for (int i = 0; i < CommonUtils.HashMapCount; i++)
+            {
+                m_hashMapEdges.Add(new List<TopoEdge>());
+            }
+        }
+
+        public void Clear()
+        {
+            m_hashMapEdges.Clear();
             for (int i = 0; i < CommonUtils.HashMapCount; i++)
             {
                 m_hashMapEdges.Add(new List<TopoEdge>());

@@ -10,7 +10,7 @@ namespace ThColumnInfo
     public enum ErrorMsg
     {
         /// <summary>
-        /// 柱编号缺失
+        /// 柱平法缺失
         /// </summary>
         CodeEmpty,
         /// <summary>
@@ -25,7 +25,7 @@ namespace ThColumnInfo
     /// <summary>
     /// 柱表记录信息
     /// </summary>
-    public class ColumnTableRecordInfo
+    public class ColumnTableRecordInfo:ICloneable
     {
         private string hoopReinforcePattern = @"([%]{2}132){1}[\s]{0,}\d+[@]{1}[\s]{0,}\d+([\s]{0,}[/]{1}[\s]{0,}\d+)?";
         /// <summary>
@@ -70,22 +70,87 @@ namespace ThColumnInfo
         public string Remark { get; set; } = "";
         public bool Validate()
         {
-            if(ValidateCode() && ValidateSpec() && ValidateHoopReinforcementTypeNumber())
-            {
-                return true;
-            }
-            else
+            if(!ValidateCode())
             {
                 return false;
             }
+            if(!ValidateSpec())
+            {
+                return false;
+            }
+            if(!ValidateHoopReinforcementTypeNumber())
+            {
+                return false;
+            }
+            if(!ValidateHoopReinforcement(this.HoopReinforcement))
+            {
+                return false;
+            }
+            if(!string.IsNullOrEmpty(this.AllLongitudinalReinforcement))
+            {
+                if(!ValidateReinforcement(this.AllLongitudinalReinforcement))
+                {
+                    return false;
+                }
+            }
+            if(!string.IsNullOrEmpty(this.AngularReinforcement))
+            {
+                if (!ValidateReinforcement(this.AngularReinforcement))
+                {
+                    return false;
+                }
+            }
+            if (!string.IsNullOrEmpty(this.BEdgeSideMiddleReinforcement))
+            {
+                if (!ValidateReinforcement(this.BEdgeSideMiddleReinforcement))
+                {
+                    return false;
+                }
+            }
+            if (!string.IsNullOrEmpty(this.HEdgeSideMiddleReinforcement))
+            {
+                if (!ValidateReinforcement(this.HEdgeSideMiddleReinforcement))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public void Handle()
+        {
+            this.AngularReinforcement = RemoveBrackets(this.AngularReinforcement);
+            this.BEdgeSideMiddleReinforcement=RemoveBrackets(this.BEdgeSideMiddleReinforcement);
+            this.HEdgeSideMiddleReinforcement = RemoveBrackets(this.HEdgeSideMiddleReinforcement);
+            this.HoopReinforcement = RemoveBrackets(this.HoopReinforcement);
+        }
+        /// <summary>
+        /// 去掉括号
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        private string RemoveBrackets(string content)
+        {
+            string result = "";
+            if(string.IsNullOrEmpty(content))
+            {
+                return result;
+            }
+            content = content.Trim();
+            content = content.Replace('（', '(');
+            int index = content.IndexOf("(");
+            if(index >0)
+            {
+                content = content.Substring(0, index);
+            }
+            return content;
         }
         /// <summary>
         /// 验证柱子代号
         /// </summary>
         /// <returns></returns>
-        private bool ValidateCode()
+        public bool ValidateCode()
         {
-            if (!string.IsNullOrEmpty(this.Code) && this.Code.ToUpper().Contains("KZ"))
+            if (!string.IsNullOrEmpty(this.Code))
             {
                 return true;
             }
@@ -98,7 +163,7 @@ namespace ThColumnInfo
         /// 验证柱子规格
         /// </summary>
         /// <returns></returns>
-        private bool ValidateSpec()
+        public bool ValidateSpec()
         {
             string pattern = @"\d+[\s]{0,}[xX×]{1}[\s]{0,}\d+";
             if (!string.IsNullOrEmpty(this.Spec) && Regex.IsMatch(this.Spec, pattern))
@@ -117,22 +182,28 @@ namespace ThColumnInfo
         /// <returns></returns>
         public bool ValidateReinforcement(string content)
         {
-            string pattern = @"\d+[\s]{0,}[%]{2}132{1}[\s]{0,}\d+";
-            if (!string.IsNullOrEmpty(content))
+            bool res = false;
+            if(string.IsNullOrEmpty(content))
             {
-                if(Regex.IsMatch(content, pattern))
+                return res;
+            }
+            string pattern = @"\d+[\s]{0,}[%]{2}132{1}[\s]{0,}\d+";
+            string[] strs= content.Split('+');
+            foreach(string str in strs)
+            {
+                if (Regex.IsMatch(str, pattern))
                 {
                     return true;
                 }
                 else
                 {
-                    byte[] buffers = Encoding.UTF32.GetBytes(content);
+                    byte[] buffers = Encoding.UTF32.GetBytes(str);
                     int a = 0;
                     int startIndex = -1;
                     bool isNumberOr132 = true; //只允许数字和132符号
-                    for(int i=0;i< buffers.Length; i=i+4)
+                    for (int i = 0; i < buffers.Length; i = i + 4)
                     {
-                        if((buffers[i]>=48 && buffers[i] <= 57) || buffers[i]==132 || buffers[i]==32)
+                        if ((buffers[i] >= 48 && buffers[i] <= 57) || buffers[i] == 132 || buffers[i] == 32)
                         {
                             if (buffers[i] == 132)
                             {
@@ -144,22 +215,16 @@ namespace ThColumnInfo
                         {
                             isNumberOr132 = false;
                             break;
-                        }                        
+                        }
                     }
-                    if(isNumberOr132 && a == 1 && startIndex>0 && startIndex< buffers.Length-1)
+                    if (isNumberOr132 && a >= 1 && startIndex > 0 && startIndex < buffers.Length - 1)
                     {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                        res= true;
+                        break;
+                    }                     
                 }
             }
-            else
-            {
-                return false;
-            }
+            return res;
         }
         /// <summary>
         /// 验证箍筋 
@@ -170,7 +235,7 @@ namespace ThColumnInfo
         {
             //8@100 / 200
             if (!string.IsNullOrEmpty(content))
-            {               
+            {
                 if (Regex.IsMatch(content, this.hoopReinforcePattern))
                 {
                     return true;
@@ -216,7 +281,7 @@ namespace ThColumnInfo
         /// 验证箍筋类型号
         /// </summary>
         /// <returns></returns>
-        private bool ValidateHoopReinforcementTypeNumber()
+        public bool ValidateHoopReinforcementTypeNumber()
         {
             string pattern = @"\d+[\s]{0,}[(（]{1}[\s]{0,}\d+[\s]{0,}[xX×]{1}[\s]{0,}\d+[\s]{0,}[)）]{1}";
             if (!string.IsNullOrEmpty(this.HoopReinforcementTypeNumber) && Regex.IsMatch(this.HoopReinforcementTypeNumber, pattern))
@@ -238,15 +303,15 @@ namespace ThColumnInfo
             List<int> datas = new List<int>();
             int strNum = 0;
             int index = -1;
-            if(ValidateReinforcement(content))
+            if (ValidateReinforcement(content))
             {
                 string firstDataStr = "";
                 string secondDataStr = "";
                 index = content.IndexOf("%%132");
-                if(index>0)
+                if (index > 0)
                 {
-                    firstDataStr = content.Substring(0,index);
-                    secondDataStr = content.Substring(index+5);
+                    firstDataStr = content.Substring(0, index);
+                    secondDataStr = content.Substring(index + 5);
 
                 }
                 else
@@ -310,7 +375,7 @@ namespace ThColumnInfo
             if (ValidateReinforcement(content))
             {
                 index = content.IndexOf("%%132");
-                if (index>0)
+                if (index > 0)
                 {
                     suffix = content.Substring(index);
                 }
@@ -335,6 +400,97 @@ namespace ThColumnInfo
                 }
             }
             return suffix;
+        }
+        /// <summary>
+        /// 验证当前的属性是否有空项
+        /// </summary>
+        /// <returns></returns>
+        public bool ValidateEmpty()
+        {
+            if (string.IsNullOrEmpty(this.Spec) || string.IsNullOrEmpty(this.AngularReinforcement) ||
+                string.IsNullOrEmpty(this.BEdgeSideMiddleReinforcement) || string.IsNullOrEmpty(this.HEdgeSideMiddleReinforcement)
+                || string.IsNullOrEmpty(this.HoopReinforcement) || string.IsNullOrEmpty(this.HoopReinforcementTypeNumber))
+            {
+                return false;
+            }
+            return true;
+        }
+        public string Replace132(string content)
+        {
+            string res = content;
+            if(content.Contains("%%132"))
+            {
+                res=content.Replace("%%132", "C");
+            }
+            else
+            {
+                byte[] buffers = Encoding.UTF32.GetBytes(content);
+                int startIndex = 0;
+                string newStr = "";
+                for (int i = 0; i < buffers.Length; i++)
+                {
+                    if (buffers[i] == 132)
+                    {
+                        int count = i - startIndex;
+                        newStr += Encoding.UTF32.GetString(buffers, startIndex, count);
+                        newStr += "C";
+                        startIndex = i + 4;
+                    }
+                }
+                if(buffers.Length- startIndex>0)
+                {
+                    newStr+= Encoding.UTF32.GetString(buffers, startIndex, buffers.Length - startIndex);
+                }
+                res = newStr;
+            }
+            return res;
+        }
+        /// <summary>
+        /// 处理所有纵筋、角筋、B边/边纵筋
+        /// </summary>
+        /// <param name="reinforceContent"></param>
+        /// <returns></returns>
+        private string HandleReinfoceContent(string reinforceContent)
+        {
+            string res = reinforceContent;
+            string[] strs = reinforceContent.Split('+');
+            List<string> contents = new List<string>();
+            foreach (string str in strs)
+            {
+                byte[] buffers = Encoding.UTF32.GetBytes(str);
+                int lastIndex = -1;
+                for (int i = 0; i < buffers.Length; i++)
+                {
+                    if (buffers[i] >= 48 && buffers[i] <= 57)
+                    {
+                        lastIndex = i;
+                    }
+                }
+                byte[] newBuffers = new byte[lastIndex + 4];
+                if (lastIndex > 0)
+                {
+                    for (int i = 0; i < lastIndex + 4; i++)
+                    {
+                        newBuffers[i] = buffers[i];
+                    }
+                }
+                string newContent = Encoding.UTF32.GetString(newBuffers);
+                contents.Add(newContent);
+            }
+            if (strs.Length > 1)
+            {
+                res = string.Join("+", contents.ToArray());
+            }
+            else
+            {
+                res = contents[0];
+            }
+            return res;
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

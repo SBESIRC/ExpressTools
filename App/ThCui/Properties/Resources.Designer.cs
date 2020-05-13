@@ -73,6 +73,16 @@ namespace TianHua.AutoCAD.ThCui.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
+        internal static byte[] profile_ribbon_construction {
+            get {
+                object obj = ResourceManager.GetObject("profile_ribbon_construction", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
         internal static byte[] profile_ribbon_electrical {
             get {
                 object obj = ResourceManager.GetObject("profile_ribbon_electrical", resourceCulture);
@@ -86,16 +96,6 @@ namespace TianHua.AutoCAD.ThCui.Properties {
         internal static byte[] profile_ribbon_havc {
             get {
                 object obj = ResourceManager.GetObject("profile_ribbon_havc", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Byte[] 类型的本地化资源。
-        /// </summary>
-        internal static byte[] profile_ribbon_project {
-            get {
-                object obj = ResourceManager.GetObject("profile_ribbon_project", resourceCulture);
                 return ((byte[])(obj));
             }
         }
