@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationPackage 
 SchemaVersion="1.0"
-AppVersion="1.7.1"
+AppVersion="1.7.2"
 Name="TIANHUA CAD Express Tools"
 NameChs="天华CAD效率工具" 
 Description="TIANHUA Express Tools for AutoCAD"
@@ -9,7 +9,7 @@ DescriptionChs="天华CAD效率工具是天华AI研究中心自主研发的以�
 Author="TIANHUA AI Research Center" 
 AuthorChs="天华AI研究中心"
 Icon="./Contents/Resources/THLOGO.ico"
-ProductCode="{98FA1C26-1B25-462B-863E-F29BAE61F3DE}" 
+ProductCode="{3CE22BA6-ABD3-483D-8047-42E56FF0D526}" 
 UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
     <RuntimeRequirements OS="Win64" Platform="AutoCAD" SupportPathChs="./Contents/Support" />
     <CompanyDetails Name="Tianhua Architectural Design Co., Ltd" Phone="+86 21 64281588" Url="http://www.thape.com/" Email="airdcenter@thape.com.cn" />
