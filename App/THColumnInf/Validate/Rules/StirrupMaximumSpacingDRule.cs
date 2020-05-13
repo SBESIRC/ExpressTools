@@ -9,6 +9,7 @@ namespace ThColumnInfo.Validate
     public class StirrupMaximumSpacingDRule : IRule
     {
         private StirrupMaximumSpacingDModel smsd = null;
+        private string rule = "（《砼规》9.3.2-5）";
         public StirrupMaximumSpacingDRule(StirrupMaximumSpacingDModel smsd)
         {
             this.smsd = smsd;
@@ -27,13 +28,14 @@ namespace ThColumnInfo.Validate
             intBardiamin = Math.Min(this.smsd.Cdm.IntCBarDia, intBardiamin);
             if(this.smsd.Cdm.DblP>0.03)
             {
-                if(smsd.Cdm.IntStirrupSpacing0>10* intBardiamin)
+                if (smsd.Cdm.IntStirrupSpacing0 > 10 * intBardiamin)
                 {
-                    this.ValidateResults.Add("（3%）箍筋间距大于10d");
+                    this.ValidateResults.Add("（3%）箍筋间距大于10d [" + smsd.Cdm.IntStirrupSpacing0 +
+                        " > " + 10 * intBardiamin+"]，"+this.rule);
                 }
                 else
                 {
-                    this.CorrectResults.Add("（3%）箍筋间距小于10d ");
+                    this.CorrectResults.Add("（3%）箍筋间距不大于10d"+this.rule);
                 }
             }            
         }
@@ -52,13 +54,13 @@ namespace ThColumnInfo.Validate
             steps.Add(this.smsd.Cdm.GetDblAsCalculation());
             steps.Add(this.smsd.Cdm.GetDblpCalculation());
             steps.Add("if (dblP [" + this.smsd.Cdm.DblP + "] > 0.03)");
-            steps.Add("    if (IntStirrupSpacing0["+ smsd.Cdm.IntStirrupSpacing0+ "] > 10 * IntBardiamax[" + intBardiamin + "] )");
+            steps.Add("    if (IntStirrupSpacing0["+ smsd.Cdm.IntStirrupSpacing0+ "] > 10 * intBardiamin[" + intBardiamin + "] )");
             steps.Add("        {");
-            steps.Add("           Err:（3%）箍筋间距大于10d");
+            steps.Add("           Err:（3%）箍筋间距大于10d" + this.rule);
             steps.Add("        }");
             steps.Add("    else");
             steps.Add("        {");
-            steps.Add("           Debugprint：（3%）箍筋间距小于10d");
+            steps.Add("           Debugprint：（3%）箍筋间距不大于10d" + this.rule);
             steps.Add("        }");
             steps.Add("  }");
             steps.Add("");

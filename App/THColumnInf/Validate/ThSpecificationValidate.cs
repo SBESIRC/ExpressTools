@@ -56,6 +56,7 @@ namespace ThColumnInfo.Validate
             if (columnInfs != null && columnInfs.Count>0)
             {
                 validColumns = columnInfs;
+                validColumns.Sort(new ColumnInfCompare());
             }
             else
             {

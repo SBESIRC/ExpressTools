@@ -15,9 +15,10 @@ namespace ThColumnInfo.Validate
         }
         public List<string> ValidateResults { get; set; } = new List<string>();
         public List<string> CorrectResults { get; set; } = new List<string>();
+        private string rule = "（《砼规》8.5.1）";
         public void Validate()
         {
-            if (this.minimumReinforceRatioAModel == null)
+            if (this.minimumReinforceRatioAModel == null || !this.minimumReinforceRatioAModel.ValidateProperty())
             {
                 return;
             }
@@ -27,29 +28,32 @@ namespace ThColumnInfo.Validate
             //全截面
             if (minimumReinforceRatioAModel.Cdm.DblP < (dblpmin/100.0))
             {
-                ValidateResults.Add("全截面配筋率不足");
+                ValidateResults.Add("全截面配筋率不足 [" + minimumReinforceRatioAModel.Cdm.DblP
+                    + " < " + (dblpmin / 100.0) + "]，" + this.rule);
             }
             else
             {
-                CorrectResults.Add("全截面配筋率满足基本构造");
+                CorrectResults.Add("全截面配筋率满足基本构造（《砼规》8.5.1）");
             }
             //Y侧
             if (minimumReinforceRatioAModel.Cdm.DblYP < (minimumReinforceRatioAModel.Dblpsmin/100.0))
             {
-                ValidateResults.Add("Y侧配筋率不足");
+                ValidateResults.Add("Y侧配筋率不足 [" + minimumReinforceRatioAModel.Cdm.DblYP
+                    + " < " + (minimumReinforceRatioAModel.Dblpsmin / 100.0) + "]，" + this.rule);
             }
             else
             {
-                CorrectResults.Add("Y侧配筋率满足基本构造");
+                CorrectResults.Add("Y侧配筋率满足基本构造"+this.rule);
             }
             //X侧
             if (minimumReinforceRatioAModel.Cdm.DblXP < (minimumReinforceRatioAModel.Dblpsmin/100.0))
             {
-                ValidateResults.Add("X侧配筋率不足");
+                ValidateResults.Add("X侧配筋率不足 [" + minimumReinforceRatioAModel.Cdm.DblXP
+                    + " < " + (minimumReinforceRatioAModel.Dblpsmin / 100.0) + "]，" + this.rule);
             }
             else
             {
-                CorrectResults.Add("X侧配筋率满足基本构造");
+                CorrectResults.Add("X侧配筋率满足基本构造" + this.rule);
             }
         }
         public List<string> GetCalculationSteps()
@@ -66,33 +70,33 @@ namespace ThColumnInfo.Validate
             steps.Add(this.minimumReinforceRatioAModel.Cdm.GetDblpCalculation());
             steps.Add("if (DblP[" + minimumReinforceRatioAModel.Cdm.DblP + "] < dblpmin[" + (dblpmin/100.0) + "] )");
             steps.Add("  {");
-            steps.Add("      Err：全截面配筋率不足");
+            steps.Add("      Err：全截面配筋率不足（《砼规》8.5.1）");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint：全截面配筋率满足基本构造");
+            steps.Add("      Debugprint：全截面配筋率满足基本构造（《砼规》8.5.1）");
             steps.Add("  }");
 
             steps.Add(this.minimumReinforceRatioAModel.Cdm.GetDblYAsCalculation());
             steps.Add(this.minimumReinforceRatioAModel.Cdm.GetDblypCalculation());
             steps.Add("if (DblYP[" + minimumReinforceRatioAModel.Cdm.DblYP + "] < Dblpsmin[" + (minimumReinforceRatioAModel.Dblpsmin/100.0) + "])");
             steps.Add("  {");
-            steps.Add("      Err：Y侧配筋率不足");
+            steps.Add("      Err：Y侧配筋率不足（《砼规》8.5.1）");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint：Y侧配筋率满足基本构造");
+            steps.Add("      Debugprint：Y侧配筋率满足基本构造（《砼规》8.5.1）");
             steps.Add("  }");
 
             steps.Add(this.minimumReinforceRatioAModel.Cdm.GetDblXAsCalculation());
             steps.Add(this.minimumReinforceRatioAModel.Cdm.GetDblxpCalculation());
             steps.Add("if (DblXP[" + minimumReinforceRatioAModel.Cdm.DblXP + "] < Dblpsmin[" + (minimumReinforceRatioAModel.Dblpsmin/100.0) + "])");
             steps.Add("  {");
-            steps.Add("      Err：X侧配筋率不足");
+            steps.Add("      Err：X侧配筋率不足（《砼规》8.5.1）");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint：X侧配筋率满足基本构造");
+            steps.Add("      Debugprint：X侧配筋率满足基本构造（《砼规》8.5.1）");
             steps.Add("  }");
             steps.Add("");
             return steps;

@@ -9,6 +9,8 @@ namespace ThColumnInfo.Validate
     public class StirrupMaximumSpacingBRule : IRule
     {
         private StirrupMaximumSpacingBModel smsb;
+        private string rule = "（《砼规》9.3.2-2）";
+
         public StirrupMaximumSpacingBRule(StirrupMaximumSpacingBModel smsb)
         {
             this.smsb = smsb;
@@ -26,11 +28,12 @@ namespace ThColumnInfo.Validate
             double dblSeclower = Math.Min(this.smsb.Cdm.B, this.smsb.Cdm.H);
             if(this.smsb.Cdm.IntStirrupSpacing0> dblSeclower)
             {
-                this.ValidateResults.Add("箍筋间距大于构件截面的短边尺寸");
+                this.ValidateResults.Add("箍筋间距大于构件截面的短边尺寸 [" +
+                    this.smsb.Cdm.IntStirrupSpacing0 + " > " + dblSeclower + "]，" + this.rule);
             }
             else
             {
-                this.CorrectResults.Add("箍筋间距小于构件截面的短边尺寸");
+                this.CorrectResults.Add("箍筋间距不大于构件截面的短边尺寸" + this.rule);
             }
         }
         public List<string> GetCalculationSteps()
@@ -41,13 +44,13 @@ namespace ThColumnInfo.Validate
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 9.3.2-2，条文页数：P123");
             steps.Add("条文：箍筋间距不应大于400mm 及构件截面的短边尺寸，且不应大于15d, d 为纵向钢筋的最小直径");
             steps.Add("柱号 = " + this.smsb.Text);
-            steps.Add("if (IntStirrupSpacing0[" + this.smsb.Cdm.IntStirrupSpacing0 + "] > Math.Min(B[" + this.smsb.Cdm.B+"] , H["+ this.smsb.Cdm.H + "])");
+            steps.Add("if (IntStirrupSpacing0[" + this.smsb.Cdm.IntStirrupSpacing0 + "] > Math.Min(B[" + this.smsb.Cdm.B + "] , H[" + this.smsb.Cdm.H + "])");
             steps.Add("  {");
-            steps.Add("      Err：箍筋间距大于构件截面的短边尺寸");
+            steps.Add("      Err：箍筋间距大于构件截面的短边尺寸" + this.rule);
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint：箍筋间距小于构件截面的短边尺寸");
+            steps.Add("      Debugprint：箍筋间距不大于构件截面的短边尺寸" + this.rule);
             steps.Add("  }");
             steps.Add("");
             return steps;

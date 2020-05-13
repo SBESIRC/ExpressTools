@@ -26,7 +26,7 @@ namespace ThColumnInfo.Validate
                 return;
             }
             //体积配箍率计算
-            this.intStirrupDiaArea = ThValidate.GetIronSectionArea((int)this.vrrc.Cdm.IntStirrupDia);
+            this.intStirrupDiaArea = ThValidate.GetIronSectionArea((int)this.vrrc.Cdm.IntStirrupDia);   
             double value1 = this.vrrc.Cdm.IntXStirrupCount * intStirrupDiaArea *
                 (this.vrrc.Cdm.B - 2 * this.vrrc.ProtectLayerThickness);
             double value2 = this.vrrc.Cdm.IntYStirrupCount * intStirrupDiaArea *
@@ -39,7 +39,8 @@ namespace ThColumnInfo.Validate
 
             if (calVolumnReinforceRatio < this.vrrc.VolumnReinforceRatioLimited)
             {
-                this.ValidateResults.Add("加密区箍筋体积配箍率不足");
+                this.ValidateResults.Add("加密区箍筋体积配箍率不足 ["+ 
+                    calVolumnReinforceRatio + " < " + this.vrrc.VolumnReinforceRatioLimited+"]");
             }
             else
             {

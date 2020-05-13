@@ -11,11 +11,15 @@ namespace ThColumnInfo.Validate
         public ColumnDataModel Cdm { get; set; }
         public override bool ValidateProperty()
         {
-            if (this.Code.Contains("LZ") || this.Code.Contains("KZ") || this.Code.Contains("ZHZ"))
+            if (!(this.Code.Contains("LZ") || this.Code.Contains("KZ") || this.Code.Contains("ZHZ")))
             {
-                return true;
+                return false;
             }
-            return false;
+            if (Cdm == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

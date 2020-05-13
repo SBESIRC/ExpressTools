@@ -6,7 +6,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
 namespace ThColumnInfo
-{
+{   
     public class ColumnInf
     {
         /// <summary>
@@ -51,39 +51,15 @@ namespace ThColumnInfo
     {
         public int Compare(ColumnInf x, ColumnInf y)
         {
-            List<string> xCodeStrs = BaseFunction.SplitCode(x.Code);
-            List<string> yCodeStrs = BaseFunction.SplitCode(y.Code);
-            int copareIndex = 0;
-
-            if(xCodeStrs.Count==2 && yCodeStrs.Count==2)
+            int compareIndex= x.Code.CompareTo(y.Code);
+            if(compareIndex == 0)
             {
-                copareIndex = xCodeStrs[0].CompareTo(yCodeStrs[0]);
-                if (copareIndex==0)
+                if(!string.IsNullOrEmpty(x.Text) && !string.IsNullOrEmpty(y.Text))
                 {
-                    if(Convert.ToDouble(xCodeStrs[1])< Convert.ToDouble(yCodeStrs[1]))
-                    {
-                        copareIndex = -1;
-                    }
-                    else if(Convert.ToDouble(xCodeStrs[1]) > Convert.ToDouble(yCodeStrs[1]))
-                    {
-                        copareIndex = 1;
-                    }
+                    compareIndex = x.Text.CompareTo(y.Text);
                 }
             }
-            else if(xCodeStrs.Count == 2)
-            {
-                copareIndex = -1;
-            }
-            else if(yCodeStrs.Count == 2)
-            {
-                copareIndex = 1;
-            }
-            else
-            {
-                copareIndex = x.Code.CompareTo(y.Code);
-            }
-            //小于0 x.Code 在y.Code前； 等于0  x.Code ，y.Code位置相同 ；大于0 x.Code 在y.Code后
-            return copareIndex;
+            return compareIndex;
         }        
     }
     class ColumnRelateInfCompare : IComparer<ColumnRelateInf>
@@ -94,37 +70,13 @@ namespace ThColumnInfo
             {
                 return 0;
             }
-            string firstCode = x.ModelColumnInfs[0].Code;
-            string secondCode = y.ModelColumnInfs[0].Code;
-            List<string> xCodeStrs = BaseFunction.SplitCode(firstCode);
-            List<string> yCodeStrs = BaseFunction.SplitCode(secondCode);
-            int copareIndex = 0;
-            if (xCodeStrs.Count == 2 && yCodeStrs.Count == 2)
+            int copareIndex = x.ModelColumnInfs[0].Code.CompareTo(y.ModelColumnInfs[0].Code);
+            if (copareIndex == 0)
             {
-                copareIndex = xCodeStrs[0].CompareTo(yCodeStrs[0]);
-                if (copareIndex == 0)
+                if (!string.IsNullOrEmpty(x.ModelColumnInfs[0].Text) && !string.IsNullOrEmpty(y.ModelColumnInfs[0].Text))
                 {
-                    if (Convert.ToDouble(xCodeStrs[1]) < Convert.ToDouble(yCodeStrs[1]))
-                    {
-                        copareIndex = -1;
-                    }
-                    else if (Convert.ToDouble(xCodeStrs[1]) > Convert.ToDouble(yCodeStrs[1]))
-                    {
-                        copareIndex = 1;
-                    }
+                    copareIndex = x.ModelColumnInfs[0].Text.CompareTo(y.ModelColumnInfs[0].Text);
                 }
-            }
-            else if (xCodeStrs.Count == 2)
-            {
-                copareIndex = -1;
-            }
-            else if (yCodeStrs.Count == 2)
-            {
-                copareIndex = 1;
-            }
-            else
-            {
-                copareIndex = firstCode.CompareTo(secondCode);
             }
             //小于0 x.Code 在y.Code前； 等于0  x.Code ，y.Code位置相同 ；大于0 x.Code 在y.Code后
             return copareIndex;
@@ -134,38 +86,7 @@ namespace ThColumnInfo
     {
         public int Compare(ColumnTableRecordInfo x, ColumnTableRecordInfo y)
         {
-            List<string> xCodeStrs = BaseFunction.SplitCode(x.Code);
-            List<string> yCodeStrs = BaseFunction.SplitCode(y.Code);
-            int copareIndex = 0;
-
-            if (xCodeStrs.Count == 2 && yCodeStrs.Count == 2)
-            {
-                copareIndex = xCodeStrs[0].CompareTo(yCodeStrs[0]);
-                if (copareIndex == 0)
-                {
-                    if (Convert.ToDouble(xCodeStrs[1]) < Convert.ToDouble(yCodeStrs[1]))
-                    {
-                        copareIndex = -1;
-                    }
-                    else if (Convert.ToDouble(xCodeStrs[1]) > Convert.ToDouble(yCodeStrs[1]))
-                    {
-                        copareIndex = 1;
-                    }
-                }
-            }
-            else if (xCodeStrs.Count == 2)
-            {
-                copareIndex = -1;
-            }
-            else if (yCodeStrs.Count == 2)
-            {
-                copareIndex = 1;
-            }
-            else
-            {
-                copareIndex = x.Code.CompareTo(y.Code);
-            }
-            //小于0 x.Code 在y.Code前； 等于0  x.Code ，y.Code位置相同 ；大于0 x.Code 在y.Code后
+            int copareIndex = x.Code.CompareTo(y.Code);
             return copareIndex;
         }
     }
