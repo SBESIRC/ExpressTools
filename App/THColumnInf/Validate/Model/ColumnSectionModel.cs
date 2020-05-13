@@ -19,7 +19,7 @@
             {
                 return false;
             }
-            if (FloorTotalNums<=0 || Cdm==null)
+            if (Cdm==null)
             {
                 return false;
             }

@@ -350,6 +350,7 @@ namespace ThColumnInfo.View
             this.dgvColumnTable.RowHeadersVisible = false;
             this.dgvColumnTable.AllowUserToAddRows = false;
             this.dgvColumnTable.AllowUserToOrderColumns = false;
+            this.dgvColumnTable.AllowUserToResizeRows=false;
         }
         private void InitDataGridView2()
         {
@@ -381,6 +382,7 @@ namespace ThColumnInfo.View
             this.dgvSpecificationRes.RowHeadersVisible = false;
             this.dgvSpecificationRes.AllowUserToAddRows = false;
             this.dgvSpecificationRes.AllowUserToOrderColumns = false;
+            this.dgvSpecificationRes.AllowUserToResizeRows = false;
         }
         private void InitDataGridView3()
         {
@@ -411,6 +413,7 @@ namespace ThColumnInfo.View
             this.dgvCalculationRes.RowHeadersVisible = false;
             this.dgvCalculationRes.AllowUserToAddRows = false;
             this.dgvCalculationRes.AllowUserToOrderColumns = false;
+            this.dgvCalculationRes.AllowUserToResizeRows = false;
         }
         private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
         {

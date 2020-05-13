@@ -42,7 +42,7 @@ namespace ThColumnInfo.Validate
             {
                 if (Math.Min(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H) < 400)
                 {
-                    this.ValidateResults.Add("最小截面不满足 [" + " < 400]" + this.rule);
+                    this.ValidateResults.Add("最小截面不满足 [" + min + " < 400]" + this.rule);
                 }
                 else
                 {

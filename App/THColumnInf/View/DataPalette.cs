@@ -37,7 +37,7 @@ namespace ThColumnInfo.View
                 _ps = new PaletteSet("", typeof(DataPalette).GUID); //新建一个面板对象，标题为 “检查结果”
                 _dateResult = new DataResult(ds, tsv, tcv, node);
                 _ps.Add("", _dateResult);
-                _ps.Load += _ps_Load;
+                _ps_Load();
                 _ps.StateChanged += _ps_StateChanged;
             }
             else
@@ -45,6 +45,7 @@ namespace ThColumnInfo.View
                 _dateResult.UpdateData(ds, tsv, tcv, node);
             }
             _ps.Visible = ShowPaletteMark;
+            _ps.Dock = DockSides.Bottom;
         }
 
         private void _ps_StateChanged(object sender, PaletteSetStateEventArgs e)
@@ -59,19 +60,14 @@ namespace ThColumnInfo.View
             }
             CheckPalette._checkResult.SwitchShowDetailPicture();
         }
-        private void _ps_Load(object sender, PalettePersistEventArgs e)
+        private void _ps_Load()
         {
             _dateResult.BackColor = System.Drawing.Color.FromArgb(92, 92, 92);
             _ps.Style = PaletteSetStyles.ShowAutoHideButton |
                     PaletteSetStyles.ShowCloseButton;
-            _ps.DockEnabled = DockSides.Bottom;
-            _ps.Dock = DockSides.Bottom;
+            _ps.DockEnabled = DockSides.Bottom;           
             _ps.Size = new System.Drawing.Size(800, 200);
             _ps.MinimumSize = new System.Drawing.Size(800, 200);
- 
-            int screenHeight=  Screen.PrimaryScreen.Bounds.Height;
-            _ps.Location = new Point(_ps.Location.X, screenHeight - _ps.Size.Height);
-            //_ps.DeviceIndependentLocation = new System.Windows.Point(0, screenHeight);
         }
     }
 }

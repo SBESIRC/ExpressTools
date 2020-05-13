@@ -290,7 +290,7 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildStirrupMaximumSpaceFRule());           // 箍筋最大间距F(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingHRule());         // 箍筋最大间距H(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceJRule());           // 箍筋最大间距J(箍筋)
-            
+            validateRules.Add(BuildVolumeReinforceRatioARule());          // 体积配箍率A(箍筋)
             for (int i = 0; i < this.validateRules.Count; i++)
             {
                 if (this.validateRules[i] == null)
@@ -346,8 +346,7 @@ namespace ThColumnInfo.Validate
             {
                 Code = this.columnInf.Code,
                 Text = this.columnInf.Text,
-                AntiSeismicGrade = this.antiSeismicGrade,
-                FloorTotalNums = ThSpecificationValidate.paraSetInfo.FloorCount,
+                AntiSeismicGrade = this.antiSeismicGrade,                
                 Cdm = cdm
             };
             IRule columnSectionRule = new LongShortEdgeRatioRule(columnSectionModel);
@@ -666,6 +665,23 @@ namespace ThColumnInfo.Validate
                 Antiseismic= this.antiSeismicGrade
             };
             rule = new StirrupMaximumSpacingJRule(smsj);
+            return rule;
+        }
+        /// <summary>
+        /// 体积配箍率A(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildVolumeReinforceRatioARule()
+        {
+            VolumeReinforceRatioAModel vrra = new VolumeReinforceRatioAModel()
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                Cdm = this.cdm,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                ProtectLayerThickness = this.protectLayerThickness
+            };
+            IRule rule = new VolumeReinforceRatioARule(vrra);
             return rule;
         }
     }

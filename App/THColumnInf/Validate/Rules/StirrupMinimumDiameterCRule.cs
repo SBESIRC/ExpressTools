@@ -45,7 +45,7 @@ namespace ThColumnInfo.Validate
             steps.Add(this.smdc.Cdm.GetDblAsCalculation());
             steps.Add(this.smdc.Cdm.GetDblpCalculation());
             steps.Add("if (dblP [" + this.smdc.Cdm.DblP + "] > 0.03)");
-            steps.Add("  if (IntStirrupDia[" + smdc.Cdm.IntCBarDia + "] < 8 )");
+            steps.Add("  if (IntStirrupDia[" + smdc.Cdm.IntStirrupDia + "] < 8 )");
             steps.Add("    {");
             steps.Add("      Err:（3%）箍筋直径小于8" + this.rule);
             steps.Add("    }");
