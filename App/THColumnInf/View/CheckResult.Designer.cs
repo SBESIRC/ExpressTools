@@ -70,7 +70,6 @@
             this.tvCheckRes.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvCheckRes_NodeMouseDoubleClick);
             this.tvCheckRes.Leave += new System.EventHandler(this.tvCheckRes_Leave);
             this.tvCheckRes.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvCheckRes_MouseDown);
-            this.tvCheckRes.MouseLeave += new System.EventHandler(this.tvCheckRes_MouseLeave);
             // 
             // contextMenuStrip1
             // 

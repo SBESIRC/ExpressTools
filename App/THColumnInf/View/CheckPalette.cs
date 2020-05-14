@@ -54,7 +54,6 @@ namespace ThColumnInfo.View
             _ps.Style = 
                 PaletteSetStyles.ShowAutoHideButton |
                 PaletteSetStyles.ShowCloseButton | 
-                PaletteSetStyles.ShowAutoHideButton |
                 PaletteSetStyles.Snappable;
             _ps.DockEnabled = DockSides.Left | DockSides.Right;            
             _ps.Size = new System.Drawing.Size(250, 1000);

@@ -171,6 +171,8 @@ namespace ThColumnInfo
             ViewTableRecord view = doc.Editor.GetCurrentView();
             try
             {
+                ParameterSetVM parameterSetVM = new ParameterSetVM();
+                this.paraSetInfo = parameterSetVM.ParaSetInfo;
                 ClearColumnInfs();
                 COMTool.ZoomWindow(ThColumnInfoUtils.TransPtFromUcsToWcs(this.rangePt1)
                     , ThColumnInfoUtils.TransPtFromUcsToWcs(this.rangePt2));

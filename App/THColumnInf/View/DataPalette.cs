@@ -43,8 +43,10 @@ namespace ThColumnInfo.View
             else
             {
                 _dateResult.UpdateData(ds, tsv, tcv, node);
+                
             }
             _ps.Visible = ShowPaletteMark;
+            _ps.Size = new System.Drawing.Size(800, 200);
             _ps.Dock = DockSides.Bottom;
         }
 
@@ -63,8 +65,9 @@ namespace ThColumnInfo.View
         private void _ps_Load()
         {
             _dateResult.BackColor = System.Drawing.Color.FromArgb(92, 92, 92);
-            _ps.Style = PaletteSetStyles.ShowAutoHideButton |
-                    PaletteSetStyles.ShowCloseButton;
+            _ps.Style =
+                    PaletteSetStyles.ShowCloseButton |
+                    PaletteSetStyles.Snappable;
             _ps.DockEnabled = DockSides.Bottom;           
             _ps.Size = new System.Drawing.Size(800, 200);
             _ps.MinimumSize = new System.Drawing.Size(800, 200);
