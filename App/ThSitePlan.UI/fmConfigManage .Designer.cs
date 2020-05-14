@@ -30,20 +30,12 @@ namespace ThSitePlan.UI
         /// </summary>
         private void InitializeComponent()
         {
-            //<<<<<<< HEAD
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions2 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject7 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject8 = new DevExpress.Utils.SerializableAppearanceObject();
-            ////=======
-            //            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            //            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
-            //            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
-            //            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
-            //            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
-            ////>>>>>>> dcd20a70d84467a44fc2b4284a2dc6d78df5321e
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmConfigManage));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.label6 = new System.Windows.Forms.Label();
@@ -79,11 +71,12 @@ namespace ThSitePlan.UI
             this.ColScript = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.ComBoxScript = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.ColType = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.images = new DevExpress.Utils.ImageCollection();
+            this.images = new DevExpress.Utils.ImageCollection(this.components);
             this.TrackBar = new DevExpress.XtraEditors.Repository.RepositoryItemTrackBar();
             this.TxtEmpty = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.ComBoxLayer = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.MEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMRUEdit();
+            this.layoutControlItem13 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -97,11 +90,10 @@ namespace ThSitePlan.UI
             this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem13 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager();
-            this.Tim = new System.Windows.Forms.Timer();
-            this.ContMenu = new System.Windows.Forms.ContextMenuStrip();
+            this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
+            this.Tim = new System.Windows.Forms.Timer(this.components);
+            this.ContMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MenuItemNewPeerGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemNewGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemNewLayer = new System.Windows.Forms.ToolStripMenuItem();
@@ -109,7 +101,7 @@ namespace ThSitePlan.UI
             this.MenuItemRename = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.ContextMenuTransparency = new System.Windows.Forms.ContextMenuStrip();
+            this.ContextMenuTransparency = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MenuItemOpacity = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemOpacity10 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemOpacity20 = new System.Windows.Forms.ToolStripMenuItem();
@@ -140,6 +132,7 @@ namespace ThSitePlan.UI
             ((System.ComponentModel.ISupportInitialize)(this.TxtEmpty)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ComBoxLayer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MEdit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
@@ -153,7 +146,6 @@ namespace ThSitePlan.UI
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
             this.ContMenu.SuspendLayout();
@@ -417,10 +409,10 @@ namespace ThSitePlan.UI
             // 
             this.ColorEdit.AutoHeight = false;
             this.ColorEdit.AutomaticColor = System.Drawing.Color.Black;
-            editorButtonImageOptions2.Image = global::ThSitePlan.UI.Properties.Resources.吸取;
+            editorButtonImageOptions1.Image = global::ThSitePlan.UI.Properties.Resources.吸取;
             this.ColorEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions2, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, serializableAppearanceObject6, serializableAppearanceObject7, serializableAppearanceObject8, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.ColorEdit.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.ColorEdit.ColorDialogOptions.AllowTransparency = false;
             this.ColorEdit.ColorDialogOptions.ShowMakeWebSafeButton = false;
@@ -622,6 +614,7 @@ namespace ThSitePlan.UI
             this.PictureEdit.Name = "PictureEdit";
             this.PictureEdit.NullText = " ";
             this.PictureEdit.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
+            this.PictureEdit.Click += new System.EventHandler(this.PictureEdit_Click);
             // 
             // ColScript
             // 
@@ -694,6 +687,15 @@ namespace ThSitePlan.UI
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.MEdit.Name = "MEdit";
             this.MEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            // 
+            // layoutControlItem13
+            // 
+            this.layoutControlItem13.Control = this.label6;
+            this.layoutControlItem13.Location = new System.Drawing.Point(580, 0);
+            this.layoutControlItem13.Name = "layoutControlItem13";
+            this.layoutControlItem13.Size = new System.Drawing.Size(112, 24);
+            this.layoutControlItem13.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem13.TextVisible = false;
             // 
             // layoutControlGroup1
             // 
@@ -834,15 +836,6 @@ namespace ThSitePlan.UI
             this.layoutControlItem12.Size = new System.Drawing.Size(138, 24);
             this.layoutControlItem12.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem12.TextVisible = false;
-            // 
-            // layoutControlItem13
-            // 
-            this.layoutControlItem13.Control = this.label6;
-            this.layoutControlItem13.Location = new System.Drawing.Point(580, 0);
-            this.layoutControlItem13.Name = "layoutControlItem13";
-            this.layoutControlItem13.Size = new System.Drawing.Size(112, 24);
-            this.layoutControlItem13.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem13.TextVisible = false;
             // 
             // emptySpaceItem1
             // 
@@ -1062,6 +1055,7 @@ namespace ThSitePlan.UI
             ((System.ComponentModel.ISupportInitialize)(this.TxtEmpty)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ComBoxLayer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MEdit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
@@ -1075,7 +1069,6 @@ namespace ThSitePlan.UI
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
             this.ContMenu.ResumeLayout(false);

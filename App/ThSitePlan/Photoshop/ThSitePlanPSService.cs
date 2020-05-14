@@ -79,11 +79,10 @@ namespace ThSitePlan.Photoshop
             newlayer.Name = CurDocNa;
             string DocName = NewOpenDoc.Name;
 
-            //设置图层的不透明度
-            newlayer.Opacity = Convert.ToDouble(configItem.Properties["Opacity"]);
+            //设置图层的不透明度和填充颜色
             if (NewOpenDoc.Name.Contains("色块"))
             {
-                newlayer.Opacity = 100;
+                newlayer.Opacity = Convert.ToDouble(configItem.Properties["Opacity"]);
                 FillBySelectChannel(NewOpenDoc.Name, configItem);
             }
             return NewOpenDoc;

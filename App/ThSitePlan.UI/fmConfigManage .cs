@@ -306,7 +306,7 @@ namespace ThSitePlan.UI
 
                 var _Gdv = _Ctl.Controls["Gdc"] as DevExpress.XtraGrid.GridControl;
 
-                _Gdv.DataSource = m_ListLayer;
+                _Gdv.DataSource = _ColorGeneral.CAD_Layer;
                 e.RepositoryItem = _Edit;
             }
         }
@@ -469,14 +469,7 @@ namespace ThSitePlan.UI
                     keybd_event((byte)Keys.Escape, 0, 0, 0);
                 }
 
-                if (_HitInfo.Column.FieldName == "CAD_SelectImg")
-                {
-
-
-                }
-
-
-
+         
                 if (_HitInfo.Column == null)
                 {
                     TreeList.OptionsDragAndDrop.DragNodesMode = DragNodesMode.None;
@@ -916,11 +909,44 @@ namespace ThSitePlan.UI
 
         private void TreeList_Click(object sender, EventArgs e)
         {
+            //var _FocusedColumn = TreeList.FocusedColumn;
+            //if (_FocusedColumn == null || _FocusedColumn.FieldName != "CAD_SelectImg") { return; }
+            //var _ColorGeneral = TreeList.GetFocusedRow() as ColorGeneralDataModel;
+            //if (_ColorGeneral == null) { return; } 
+            //TreeList.RefreshEditor(false);
+            //var _List = m_Presenter.AddLayer(this.Handle);
+            //if (_List != null || _List.Count > 0)
+            //{
+            //    _List.ForEach(p =>
+            //    {
+            //        var _Layer = _ColorGeneral.CAD_Layer.Find(s => s.Name == p);
+            //        if (_Layer == null)
+            //        {
+            //            LayerDataModel _LayerModel = new LayerDataModel();
+            //            _LayerModel.ID = FuncStr.NullToStr(Guid.NewGuid());
+            //            _LayerModel.Name = p;
+            //            _ColorGeneral.CAD_Layer.Add(_LayerModel);
+            //        }
+            //        TreeList.RefreshDataSource();
+            //    });
+            //}
+
+        }
+
+        private void PictureEdit_Click(object sender, EventArgs e)
+        {
             var _FocusedColumn = TreeList.FocusedColumn;
             if (_FocusedColumn == null || _FocusedColumn.FieldName != "CAD_SelectImg") { return; }
             var _ColorGeneral = TreeList.GetFocusedRow() as ColorGeneralDataModel;
             if (_ColorGeneral == null) { return; }
-            var _List = m_Presenter.AddLayer();
+            if (IsHandleCreated)
+                Invoke(new Action(delegate
+                {
+                    this.Hide();
+                    this.Show();
+                }));
+
+            var _List = m_Presenter.AddLayer(this.Handle);
             if (_List != null || _List.Count > 0)
             {
                 _List.ForEach(p =>

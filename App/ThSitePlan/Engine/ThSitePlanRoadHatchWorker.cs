@@ -29,14 +29,22 @@ namespace ThSitePlan.Engine
                 Polyline framepl = acadDatabase.Element<Polyline>((ObjectId)options.Options["Frame"]);
                 using (var objs = SelectByLayer(roadcenterlay, (ObjectId)options.Options["Frame"]))
                 {
-                    Dictionary<string, double> po = GetPointInRoad(objs, framepl);
-                    if (objs.Count == 0 || po == null)
+                    List<Dictionary<string, double>> post = GetPointInRoad(objs, framepl);
+                    List<Point3d> pointsinroad = new List<Point3d>();
+                    foreach (var pt in post)
                     {
-                        return false;
+                        if (objs.Count == 0 || post.Count == 0)
+                        {
+                            return false;
+                        }
+                        Point3d pointinroad = new Point3d(Convert.ToDouble(pt["X"]), Convert.ToDouble(pt["Y"]), Convert.ToDouble(pt["Z"]));
+                        pointsinroad.Add(pointinroad);
                     }
-                    Point3d pointinroad = new Point3d(Convert.ToDouble(po["X"]), Convert.ToDouble(po["Y"]), Convert.ToDouble(po["Z"]));
                     Active.Editor.EraseCmd(objs);
-                    Active.Editor.CreateHatchWithPoint(framepl, pointinroad);
+                    foreach (var item in pointsinroad)
+                    {
+                        Active.Editor.CreateHatchWithPoint(framepl, item);
+                    }
                 }
             }
             return true;
@@ -59,10 +67,11 @@ namespace ThSitePlan.Engine
         }
 
         //获取道路中心线上的一点
-        private Dictionary<string , double> GetPointInRoad(ObjectIdCollection oids,Polyline frameline)
+        private List<Dictionary<string, double>> GetPointInRoad(ObjectIdCollection oids,Polyline frameline)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
+                List<Dictionary<string, double>> innerpointlist = new List<Dictionary<string, double>>();
                 foreach (ObjectId item in oids)
                 {
                     var centerlineitem = acadDatabase.Element<Curve>(item);
@@ -74,10 +83,10 @@ namespace ThSitePlan.Engine
                     if (isendpointin == PointContainment.Inside)
                     {
                         var dc = new Dictionary<string, double> { { "X", innerlinepoint.X }, { "Y", innerlinepoint.Y }, { "Z", innerlinepoint.Z } };
-                        return dc;
+                        innerpointlist.Add(dc);
                     }
                 }
-                return null;
+                return innerpointlist;
             }
         }
 
