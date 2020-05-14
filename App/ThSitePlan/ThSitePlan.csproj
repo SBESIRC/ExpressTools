@@ -55,6 +55,7 @@
     <Compile Include="Engine\ThSitePlanShadowWorkerEx.cs" />
     <Compile Include="Engine\ThSitePlanTrimGenerator.cs" />
     <Compile Include="Engine\ThSitePlanWorker.cs" />
+    <Compile Include="Engine\ThSitePlanYardHatchWorker.cs" />
     <Compile Include="Function\FuncFile.cs" />
     <Compile Include="Photoshop\ThSitePlanPSEngine.cs" />
     <Compile Include="Photoshop\ThSitePlanPSGenerator.cs" />

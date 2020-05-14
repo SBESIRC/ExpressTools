@@ -1,15 +1,14 @@
-﻿using AcHelper;
+﻿using System;
+using AcHelper;
 using DotNetARX;
 using Linq2Acad;
 using System.Linq;
 using Dreambuild.AutoCAD;
 using GeometryExtensions;
-using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using Autodesk.AutoCAD.ApplicationServices;
 
 namespace ThSitePlan
 {
@@ -233,20 +232,23 @@ namespace ThSitePlan
             { 
                 var extents = objs.Cast<ObjectId>().GetExtents();
                 var frame = extents.Expand(1.1).CreatePolyline();
-                objs.Add(acadDatabase.CurrentSpace.Add(frame));
+                var frameId = acadDatabase.CurrentSpace.Add(frame);
                 var seedPt = extents.Expand(1.05).MinPoint;
 
-                ObjectId outermost = ObjectId.Null; 
-                ObjectEventHandler handler = (s, e) =>
+                ObjectId outermost = ObjectId.Null;
+                void handler(object s, ObjectEventArgs e)
                 {
                     if (e.DBObject is Region region)
                     {
-                        if (frame.Length == region.Perimeter)
+                        if (Math.Abs(frame.Length - region.Perimeter) <= Tolerance.Global.EqualVector)
                         {
                             outermost = e.DBObject.ObjectId;
                         }
                     }
-                };
+                }
+
+                // 将新建的框作为最外面的边界框
+                objs.Add(frameId);
 
 #if ACAD_ABOVE_2014
                 acadDatabase.Database.ObjectAppended += handler;
@@ -279,7 +281,12 @@ namespace ThSitePlan
                 Active.Editor.AcedCmd(args);
 #endif
 
-                // 删除最外面的边界
+                // 删除最外面的边界框
+                if (frameId.IsValid)
+                {
+                    acadDatabase.Element<Polyline>(frameId, true).Erase();
+                }
+                // 删除最外面的区域
                 if (outermost.IsValid)
                 {
                     acadDatabase.Element<Region>(outermost, true).Erase();
@@ -344,6 +351,24 @@ namespace ThSitePlan
                new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
                new TypedValue((int)LispDataType.Text, ""),
                new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args);
+#endif
+        }
+
+        public static void ThOverKillCmd(this Editor editor, ObjectIdCollection objs)
+        {
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("_.THOVERKILL", 
+                SelectionSet.FromObjectIds(objs.ToArray()),
+                "", 
+                ThSitePlanCommon.overkill_tolerance);
+#else
+            ResultBuffer args = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.THOVERKILL"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
+               "",
+               new TypedValue((int)LispDataType.Double, ThSitePlanCommon.overkill_tolerance),
                );
             Active.Editor.AcedCmd(args);
 #endif
