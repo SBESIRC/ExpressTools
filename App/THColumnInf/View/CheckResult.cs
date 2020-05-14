@@ -890,6 +890,10 @@ namespace ThColumnInfo.View
         }
         public static bool CheckRootNodeIsCurrentDocument(TreeNode treeNode)
         {
+            if(treeNode==null)
+            {
+                return false;
+            }
             TreeNode rootNode = CheckResult.FindRootNode(treeNode);
             ThStandardSignManager tssm = rootNode.Tag as ThStandardSignManager;
             if(acadApp.Application.DocumentManager.MdiActiveDocument.Name== tssm.DocPath)
@@ -1285,6 +1289,11 @@ namespace ThColumnInfo.View
         private void tvCheckRes_MouseLeave(object sender, EventArgs e)
         {
             Document doc= acadApp.Application.DocumentManager.MdiActiveDocument;
+            bool isCurrentDocument = CheckRootNodeIsCurrentDocument(this.tvCheckRes.SelectedNode);
+            if (!isCurrentDocument)
+            {
+                return;
+            }
             string name=doc.Name;
             FileInfo fi = new FileInfo(name);
             if(fi.Exists)
