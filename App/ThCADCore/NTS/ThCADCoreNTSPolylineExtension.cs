@@ -8,7 +8,7 @@ namespace ThCADCore.NTS
 {
     public static class ThCADCoreNTSPolylineExtension
     {
-        public static Circle MinimumBoundingCircle(this Polyline  polyline)
+        public static Circle MinimumBoundingCircle(this Polyline polyline)
         {
             var mbc = new MinimumBoundingCircle(polyline.ToNTSLineString());
             return new Circle(mbc.GetCentre().ToAcGePoint3d(), Vector3d.ZAxis, mbc.GetRadius());

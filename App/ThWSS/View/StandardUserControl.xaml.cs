@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ThWss.View;
 
 namespace ThWSS.View
 {
@@ -23,6 +24,12 @@ namespace ThWSS.View
         public StandardUserControl()
         {
             InitializeComponent();
+        }
+
+        private void HazardLvl_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            StandardBindWindow standardBindWindow = new StandardBindWindow();
+            standardBindWindow.ShowDialog();
         }
     }
 }

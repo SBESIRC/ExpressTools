@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Input;
 
 namespace ThWss.View
 {
@@ -64,6 +67,54 @@ namespace ThWss.View
         {
             PlateThickWindow plateThickWindow = new PlateThickWindow();
             plateThickWindow.ShowDialog();
+        }
+
+        private void Cancel_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Run_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (VerifyInputInfo()) { return; };
+        }
+
+        private bool VerifyInputInfo()
+        {
+            return VerifyBeamInfo();
+        }
+
+        private bool VerifyBeamInfo()
+        {
+            if (this.HasBeam.IsChecked == true)
+            {
+                if (this.plateThick.Text == null || this.beamHeight.Text == null)
+                {
+                    MessageBox.Show("在考虑梁影响的情况下默认梁高和顶板厚度都不能为空！");
+                    return false;
+                }
+                else
+                {
+                    if (Convert.ToInt32(this.plateThick.Text) > Convert.ToInt32(this.beamHeight.Text))
+                    {
+                        this.plateThick.Text = null;
+                        MessageBox.Show("顶板厚度不能超过默认梁高！");
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 控制只能输入数字
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tb_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex re = new Regex("[^0-9.-]+");
+            e.Handled = re.IsMatch(e.Text);
         }
     }
 }

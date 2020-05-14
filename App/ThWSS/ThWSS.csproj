@@ -44,6 +44,7 @@
     <Compile Include="ThWSSApp.cs" />
     <Compile Include="Utlis\GeUtils.cs" />
     <Compile Include="Utlis\OrientedBoundingBox.cs" />
+    <Compile Include="View\StandardBindWindow.xaml.cs" />
     <Compile Include="View\PlateThcikWindow.xaml.cs" />
     <Compile Include="View\DefaultBeamHeightWindow.xaml.cs" />
     <Compile Include="View\CustomizeUserControl.xaml.cs">
@@ -71,6 +72,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="View\StandardBindWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\PlateThickWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

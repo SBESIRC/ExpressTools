@@ -17,17 +17,17 @@
         
         <Label Grid.Row="0" Grid.Column="0" Content="喷头间距：" Margin="5,5,0,5" ></Label>
         <DockPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
-            <TextBox Margin="5,10,0,10" Width="45"></TextBox>
+            <TextBox Margin="5,10,0,10" Width="45" PreviewTextInput="tb_PreviewTextInput"></TextBox>
             <Label Content="mm—" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
-            <TextBox Margin="5,10,0,10" Width="45"></TextBox>
+            <TextBox Margin="5,10,0,10" Width="45" PreviewTextInput="tb_PreviewTextInput"></TextBox>
             <Label Content="mm" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,5,5"></Label>
         </DockPanel>
 
         <Label Grid.Row="1" Grid.Column="0" Content="距墙/柱间距：" Margin="5,5,0,5" ></Label>
         <DockPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
-            <TextBox Margin="5,10,0,10" Width="45"></TextBox>
+            <TextBox Margin="5,10,0,10" Width="45" PreviewTextInput="tb_PreviewTextInput"></TextBox>
             <Label Content="mm—" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
-            <TextBox Margin="5,10,0,10" Width="45"></TextBox>
+            <TextBox Margin="5,10,0,10" Width="45" PreviewTextInput="tb_PreviewTextInput"></TextBox>
             <Label Content="mm" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,5,5"></Label>
         </DockPanel>
     </Grid>
