@@ -64,6 +64,7 @@
   <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup />
+  <PropertyGroup />
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <PropertyGroup>
     <ManifestCertificateThumbprint>D681C553E389EEABC9FF06909685D634217E41F4</ManifestCertificateThumbprint>

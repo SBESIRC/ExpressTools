@@ -887,7 +887,7 @@ namespace ThSitePlan.UI
         private void BtnImport_Click(object sender, EventArgs e)
         {
             var _OpenFileDialog = new OpenFileDialog();
-            _OpenFileDialog.Filter = "Json Files(.json)|.json";
+            _OpenFileDialog.Filter = "Json Files (*.Json)|*.Json";
             var _Result = _OpenFileDialog.ShowDialog();
             if (_Result == DialogResult.OK)
             {
@@ -939,6 +939,15 @@ namespace ThSitePlan.UI
 
         }
 
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
+        private void BtnHelp_Click(object sender, EventArgs e)
+        {
+ 
+ 
+        }
     }
 }
