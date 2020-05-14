@@ -76,7 +76,7 @@ namespace ThEssential.Command
                     Point3dCollection winCorners = pc.CollectedPoints;
                     var filterlist = OpFilter.Bulid(o =>
                         o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(BlockReference)).DxfName);
-                    var entSelected = Active.Editor.SelectWindow(winCorners[0], winCorners[1], filterlist);
+                    var entSelected = Active.Editor.SelectCrossingWindow(winCorners[0], winCorners[1], filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {
                         extents.AddExtents(winCorners.ToExtents3d());
