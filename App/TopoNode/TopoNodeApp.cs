@@ -75,24 +75,51 @@ namespace TopoNode
                 Progress.Progress.HideProgress();
                 return;
             }
+
             Progress.Progress.SetValue(40);
             wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
+
+            if (windLayers != null && windLayers.Count != 0)
+            {
+                var windCurves = Utils.GetWindCurves(windLayers);
+
+                if (windCurves != null && windCurves.Count != 0)
+                {
+                    var tesslateWindCurves = TopoUtils.TesslateCurve(windCurves);
+                    wallAllCurves.AddRange(tesslateWindCurves);
+                    allCurves.AddRange(tesslateWindCurves);
+                }
+            }
+
+            if (arcDoorLayers != null && arcDoorLayers.Count != 0)
+            {
+                var doorCurves = Utils.GetWindCurves(arcDoorLayers);
+
+                if (doorCurves != null && doorCurves.Count != 0)
+                {
+                    var tesslateDoorCurves = TopoUtils.TesslateCurve(doorCurves);
+                    wallAllCurves.AddRange(tesslateDoorCurves);
+                    allCurves.AddRange(tesslateDoorCurves);
+                }
+            }
+
             // door 内门中的数据
             if (arcDoorLayers != null && arcDoorLayers.Count != 0)
             {
-                var doorBounds = Utils.GetBoundsFromLayerBlocksAndCurves(arcDoorLayers);
+                var doorBounds = Utils.GetBoundsFromWINDLayerCurves(arcDoorLayers);
                 var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, wallAllCurves, arcDoorLayers.First());
+
                 if (doorInsertCurves != null && doorInsertCurves.Count != 0)
                 {
                     layerCurves = Utils.GetLayersFromCurves(doorInsertCurves);
                     allCurves.AddRange(doorInsertCurves);
                 }
             }
-
+ 
             // wind 中的数据
             if (windLayers != null && windLayers.Count != 0)
             {
-                var windBounds = Utils.GetBoundsFromLayerBlocksAndCurves(windLayers);
+                var windBounds = Utils.GetBoundsFromWINDLayerCurves(windLayers);
 
                 var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, windLayers.First());
 
@@ -104,13 +131,9 @@ namespace TopoNode
             }
 
             Progress.Progress.SetValue(45);
-            var layerNames = Utils.GetLayersFromCurves(allCurves);
-
-            layerNames = Utils.GetLayersFromCurves(allCurves);
             allCurves = CommonUtils.RemoveCollinearLines(allCurves);
-            layerNames = Utils.GetLayersFromCurves(allCurves);
-            Utils.DrawProfileAndText(allCurves);
-            Utils.PostProcess(removeEntityLst);
+            //Utils.DrawProfileAndText(allCurves);
+            //Utils.PostProcess(removeEntityLst);
             //return;
             //Utils.DrawProfile(allCurves, "outerFile");
             //return;

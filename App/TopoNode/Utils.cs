@@ -247,6 +247,69 @@ namespace TopoNode
             return false;
         }
     }
+
+    public static class XRecordExtend
+    {
+        /// <summary>
+        /// 添加扩展记录
+        /// </summary>
+        /// <param name="id">对象的Id</param>
+        /// <param name="searchKey">扩展记录名称</param>
+        /// <param name="values">扩展记录的内容</param>
+        /// <returns>返回添加的扩展记录的Id</returns>
+        public static ObjectId AddXrecord(this BlockReference blockRef, string searchKey, TypedValueList values)
+        {
+            // 判断对象是否已经拥有扩展字典,若无扩展字典，则
+            if (blockRef.ExtensionDictionary.IsNull)
+            {
+                blockRef.UpgradeOpen(); // 切换对象为写的状态
+                blockRef.CreateExtensionDictionary();// 为对象创建扩展字典
+                blockRef.DowngradeOpen(); // 为了安全，将对象切换成读的状态
+            }
+
+            // 打开对象的扩展字典
+            DBDictionary dict = (DBDictionary)blockRef.ExtensionDictionary.GetObject(OpenMode.ForRead);
+            // 如果扩展字典中已包含指定的扩展记录对象，则返回
+            if (dict.Contains(searchKey))
+                return ObjectId.Null;
+
+            Xrecord xrec = new Xrecord();// 为对象新建一个扩展记录
+            xrec.Data = values;// 指定扩展记录的内容
+            dict.UpgradeOpen(); // 将扩展字典切换成写的状态
+            //在扩展字典中加入新建的扩展记录，并指定它的搜索关键字
+            ObjectId idXrec = dict.SetAt(searchKey, xrec);
+            blockRef.Database.TransactionManager.AddNewlyCreatedDBObject(xrec, true);
+            dict.DowngradeOpen(); // 为了安全，将扩展字典切换成读的状态            
+            return idXrec; // 返回添加的扩展记录的的Id
+        }
+
+        /// <summary>
+        /// 获取扩展记录
+        /// </summary>
+        /// <param name="id">对象的Id</param>
+        /// <param name="searchKey">扩展记录名称</param>
+        /// <returns>返回扩展记录的内容</returns>
+        public static TypedValueList GetXrecord(this BlockReference blockRef, string searchKey)
+        {
+            //获取对象的扩展字典
+            ObjectId dictId = blockRef.ExtensionDictionary;
+
+            if (dictId.IsNull)
+                return null;//若对象没有扩展字典，则返回
+
+            DBDictionary dict = (DBDictionary)dictId.GetObject(OpenMode.ForRead);
+            //在扩展字典中搜索指定关键字的扩展记录，如果没找到则返回
+            if (!dict.Contains(searchKey))
+                return null;
+
+            // 获取扩展记录的Id
+            ObjectId xrecordId = dict.GetAt(searchKey);
+            //打开扩展记录并获取扩展记录的内容
+            Xrecord xrecord = (Xrecord)xrecordId.GetObject(OpenMode.ForRead);
+            return xrecord.Data; // 返回扩展记录的内容
+        }
+    }
+
     class Utils
     {
         public static int INDEX = 0;
@@ -266,7 +329,7 @@ namespace TopoNode
             return curves;
         }
 
-        public static List<DBText> GetAllTexts(string roomLayer)
+        public static List<Entity> GetAllTexts(string roomLayer)
         {
             List<DBText> dbTexts = null;
             using (var db = AcadDatabase.Active())
@@ -274,17 +337,46 @@ namespace TopoNode
                 dbTexts = db.ModelSpace.OfType<DBText>().Where(s => s.Layer.Contains(roomLayer)).ToList();
             }
 
-            return dbTexts;
+            List<MText> mTexts = null;
+            using (var db = AcadDatabase.Active())
+            {
+                mTexts = db.ModelSpace.OfType<MText>().Where(s => s.Layer.Contains(roomLayer)).ToList();
+            }
+
+            var entityTexts = new List<Entity>();
+            if (dbTexts != null && dbTexts.Count != 0)
+                entityTexts.AddRange(dbTexts);
+
+            if (mTexts != null && mTexts.Count != 0)
+                entityTexts.AddRange(mTexts);
+
+            return entityTexts;
         }
 
         public static List<Point3d> GetRoomPoints(string roomLayer)
         {
-            var texts = GetAllTexts(roomLayer);
+            var textEntitys = GetAllTexts(roomLayer);
             var pts = new List<Point3d>();
-            for (int i = 0; i < texts.Count; i++)
+            for (int i = 0; i < textEntitys.Count; i++)
             {
-                var text = texts[i];
-                var textString = text.TextString.Trim();
+                var text = textEntitys[i];
+                string textString;
+                if (text is DBText)
+                {
+                    textString = (text as DBText).TextString.Trim();
+                }
+                else
+                {
+                    var mText = text as MText;
+                    textString = mText.Text.Trim();
+                }
+
+                if (textString.Contains("电梯厅"))
+                {
+                    pts.Add(text.Bounds.Value.CenterPoint());
+                    continue;
+                }
+
                 if (textString.Contains("强电")
                     || textString.Contains("弱电")
                     || textString.Contains("排烟")
@@ -314,7 +406,16 @@ namespace TopoNode
                     || textString.Contains("阳台")
                     || textString.Contains("露台")
                     || textString.Contains("水井")
-                    || textString.Contains("台阶"))
+                    || textString.Contains("台阶")
+                    || textString.Contains("挡烟")
+                    || textString.Contains("垂壁")
+                    || textString.Contains("管井")
+                    || textString.Contains("食梯")
+                    || textString.Contains("天井")
+                    || textString.Contains("上空")
+                    || textString.Contains("进风")
+                    || textString.Contains("雨棚")
+                    || textString.Contains("凸窗"))
                     continue;
 
                 if (textString.Length < 2)
@@ -2753,6 +2854,25 @@ namespace TopoNode
             }
         }
 
+        public static void DrawLineSegments(List<LineSegment2d> line2ds, string layerName, Color color = null)
+        {
+            if (line2ds == null || line2ds.Count == 0)
+                return;
+
+            var curves = new List<Curve>();
+            foreach (var line2d in line2ds)
+            {
+                var ptS = line2d.StartPoint;
+                var ptE = line2d.EndPoint;
+
+                var ptS3d = new Point3d(ptS.X, ptS.Y, 0);
+                var ptE3d = new Point3d(ptE.X, ptE.Y, 0);
+                curves.Add(new Line(ptS3d, ptE3d));
+            }
+
+            Utils.DrawProfile(curves, layerName, color);
+        }
+
         public static void DrawTextProfile(List<Curve> curves, List<string> layerNames, Color color = null)
         {
             if (curves == null || curves.Count == 0 || layerNames == null || layerNames.Count == 0)
@@ -3441,6 +3561,62 @@ namespace TopoNode
         }
 
         /// <summary>
+        /// 获取wind图层中的curves
+        /// </summary>
+        /// <param name="layerNames"></param>
+        /// <returns></returns>
+        public static List<Curve> GetWindCurves(List<string> layerNames)
+        {
+            List<Curve> layerCurves = null;
+            using (var db = AcadDatabase.Active())
+            {
+                layerCurves = db.ModelSpace.OfType<Curve>().Where(l =>
+                {
+                    foreach (var layerName in layerNames)
+                    {
+                        if (l.Layer == layerName)
+                            return true;
+                    }
+
+                    return false;
+                }).ToList<Curve>();
+            }
+
+            return layerCurves;
+        }
+
+        /// <summary>
+        /// 获取指定图层中连通区域的包围盒边界处理，WIND图层做特殊处理，WIND图层中非块数据做先做墙处理，后面再改过来
+        /// </summary>
+        /// <param name="layerName"></param>
+        /// <returns></returns>
+        public static List<List<LineSegment2d>> GetBoundsFromWINDLayerCurves(List<string> layerNames)
+        {
+            var blockBounds = new List<List<LineSegment2d>>();
+            using (var db = AcadDatabase.Active())
+            {
+                // 块轮廓
+                var blocks = db.ModelSpace.OfType<BlockReference>();
+                foreach (var block in blocks)
+                {
+                    if (ValidBlock(block, layerNames))
+                    {
+                        var blockCurves = GetCurvesFromBlock(block);
+                        var lines = GetBoundFromCurves(blockCurves);
+                        if (lines == null || lines.Count == 0)
+                            continue;
+
+                        blockBounds.Add(lines);
+                    }
+                }
+            }
+
+            // 生成相邻框的数据，框边缘是外扩的， 上面的框边缘都是原始的，不经过外扩的数据
+            var connectBounds = ConnectedBoxBound.MakeRelatedBoundary(blockBounds);
+            return connectBounds;
+        }
+
+        /// <summary>
         /// 线是否与曲线集相交
         /// </summary>
         /// <param name="srcLines"></param>
@@ -3565,12 +3741,29 @@ namespace TopoNode
                 });
 
                 var relatedCurvesLst = ConnectedBoxBound.MakeRelatedCurves(innerLinesLst);
-                if (relatedCurvesLst.Count == 2)
+                if (relatedCurvesLst.Count > 1)
                 {
-                    return ConnectLinesWithsLines(relatedCurvesLst.First(), relatedCurvesLst.Last(), layer);
+                    var insertCurves = new List<Curve>();
+                    // 一一匹配
+                    var nCount = relatedCurvesLst.Count;
+                    for (int i = 0; i < nCount; i++)
+                    {
+                        var curvesFir = relatedCurvesLst[i];
+                        for (int j = i + 1; j < nCount; j++)
+                        {
+                            var crurvesSec = relatedCurvesLst[j];
+                            var tmpInsertCurves = ConnectLinesWithsLines(curvesFir, crurvesSec, layer);
+                            if (tmpInsertCurves != null && tmpInsertCurves.Count != 0)
+                                insertCurves.AddRange(tmpInsertCurves);
+                        }
+                    }
+
+                    return insertCurves;
                 }
                 else
+                {
                     return null;
+                }
             }
             else
             {
@@ -3626,7 +3819,7 @@ namespace TopoNode
                         foreach (var entity in entityLst)
                         {
                             // 除了块，其余的可以用图层确定是否收集，块的图层内部数据也可能符合要求
-                            if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers))
+                            if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers) && !entity.IsErased)
                             {
                                 db.CurrentSpace.Add(entity);
                                 resEntityLst.Add(entity);
@@ -3939,17 +4132,36 @@ namespace TopoNode
                 return null;
 
             var entityLst = new List<Entity>();
+            string name;
+            var nameMaps = new List<string>();
             try
             {
-                var name = block.Name; // 块的名字
-
-                if (name.Contains("Window resuce mark"))
-                    return null;
-
-                if (name.Contains("door") && block.Visible)
+                using (var db = AcadDatabase.Active())
                 {
-                    entityLst.Add(block);
-                    return entityLst;
+                    name = block.GetEffectiveName(db.Database.TransactionManager.TopTransaction); // 块的名字
+
+                    if (name.Contains("Window resuce mark"))
+                        return null;
+
+                    BlockTableRecord btr = db.Database.TransactionManager.TopTransaction.GetObject(block.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
+                    foreach (ObjectId ociId in btr)
+                    {
+                        DBObject dbObj = db.Database.TransactionManager.TopTransaction.GetObject(ociId, OpenMode.ForRead);
+                        if (dbObj is BlockReference)
+                        {
+                            var newBr = dbObj as BlockReference;
+                            ObjectId blkRecdId = ObjectId.Null;
+                            if (newBr.IsDynamicBlock)
+                            {
+                                blkRecdId = newBr.DynamicBlockTableRecord;
+                                BlockTableRecord dynBlockRecord = db.Database.TransactionManager.TopTransaction.GetObject(blkRecdId, OpenMode.ForRead) as BlockTableRecord;
+                                if (dynBlockRecord.Name.Contains("door"))
+                                {
+                                    nameMaps.Add(newBr.Name);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 var dbCollection = new DBObjectCollection();
@@ -3959,11 +4171,25 @@ namespace TopoNode
                 {
                     foreach (var obj in dbCollection)
                     {
+                        bool bContinue = false;
                         if (obj is Entity)
                         {
                             if (obj is BlockReference)
                             {
                                 var childBlock = obj as BlockReference;
+                                foreach (var keyName in nameMaps)
+                                {
+                                    if (keyName.Equals(childBlock.Name))
+                                    {
+                                        entityLst.Add(childBlock);
+                                        bContinue = true;
+                                        break;
+                                    }
+                                }
+
+                                if (bContinue)
+                                    continue;
+
                                 if (childBlock.Visible)
                                 {
                                     var childBlockLayer = childBlock.Layer;
@@ -4137,7 +4363,8 @@ namespace TopoNode
         /// <returns></returns>
         public static bool IsCanExplode(DBObjectCollection dbCollection)
         {
-            var layerNames = new List<string>();
+            //var layerNames = new List<string>();
+            //int ArcCounts = 0;
             foreach (var obj in dbCollection)
             {
                 if (obj is Curve)
@@ -4148,14 +4375,19 @@ namespace TopoNode
                         var curveLayer = curve.Layer;
                         if (!curveLayer.Contains("AE-DOOR-INSD")
                             && !curveLayer.Contains("AE-WIND"))
-                        return true;
-                        
+                            return true;
+
                         //var layerName = curve.Layer;
                         //if (!layerNames.Contains(layerName))
                         //{
                         //    layerNames.Add(layerName);
-                        //    if (layerNames.Count > 3)
-                        //        return true;
+                        //    //if (layerNames.Count > 1)
+                        //    //    return true;
+                        //}
+
+                        //if (obj is Arc)
+                        //{
+                        //    ArcCounts++;
                         //}
                     }
                 }
@@ -4165,6 +4397,12 @@ namespace TopoNode
                         return true;
                 }
             }
+
+            //if (ArcCounts < 2)
+            //    return true;
+
+            //if (layerNames.Count > 1)
+            //    return true;
 
             return false;
         }
@@ -4220,13 +4458,16 @@ namespace TopoNode
                                                     else if (part is Entity)
                                                     {
                                                         var partEntity = part as Entity;
+                                                        if (entity.IsErased)
+                                                            continue;
+
                                                         partEntity.Layer = reference.Layer;
                                                         db.CurrentSpace.Add(partEntity);
                                                         resEntityLst.Add(partEntity);
                                                     }
                                                 }
                                             }
-                                            else if (IsValidLayer(entity, validLayers))
+                                            else if (IsValidLayer(entity, validLayers) && !entity.IsErased)
                                             {
                                                 db.CurrentSpace.Add(entity);
                                                 resEntityLst.Add(entity);
@@ -4534,6 +4775,7 @@ namespace TopoNode
                 // 收尾相连且共线的线段进行合并直线处理
                 var combineCurves = CombineCollinearLines(relatedCurves);
                 var insertCurves = InsertConnectCurves(combineCurves, layer);
+
                 if (insertCurves != null && insertCurves.Count != 0)
                 {
                     curves.AddRange(insertCurves);
@@ -4951,7 +5193,7 @@ namespace TopoNode
 
                     if (layer.Name.Contains("AE-DOOR-INSD"))
                         doorLayers.Add(layer.Name);
-                    
+
                     if (layer.Name.Contains("AE-WIND"))
                         windLayers.Add(layer.Name);
 
