@@ -5,6 +5,7 @@ using Linq2Acad;
 using System.Linq;
 using Dreambuild.AutoCAD;
 using GeometryExtensions;
+using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -235,6 +236,9 @@ namespace ThSitePlan
                 var frameId = acadDatabase.CurrentSpace.Add(frame);
                 var seedPt = extents.Expand(1.05).MinPoint;
 
+                // 将新建的框作为最外面的边界框
+                objs.Add(frameId);
+
                 ObjectId outermost = ObjectId.Null;
                 void handler(object s, ObjectEventArgs e)
                 {
@@ -246,12 +250,8 @@ namespace ThSitePlan
                         }
                     }
                 }
-
-                // 将新建的框作为最外面的边界框
-                objs.Add(frameId);
-
-#if ACAD_ABOVE_2014
                 acadDatabase.Database.ObjectAppended += handler;
+#if ACAD_ABOVE_2014
                 Active.Editor.Command("_.-BOUNDARY",
                     "_A",
                     "_B",
@@ -263,7 +263,6 @@ namespace ThSitePlan
                     "",
                     seedPt,
                     "");
-                acadDatabase.Database.ObjectAppended -= handler;
 #else
                 ResultBuffer args = new ResultBuffer(
                    new TypedValue((int)LispDataType.Text, "_.-BOUNDARY"),
@@ -280,6 +279,7 @@ namespace ThSitePlan
                    );
                 Active.Editor.AcedCmd(args);
 #endif
+                acadDatabase.Database.ObjectAppended -= handler;
 
                 // 删除最外面的边界框
                 if (frameId.IsValid)
@@ -367,8 +367,8 @@ namespace ThSitePlan
             ResultBuffer args = new ResultBuffer(
                new TypedValue((int)LispDataType.Text, "_.THOVERKILL"),
                new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
-               "",
-               new TypedValue((int)LispDataType.Double, ThSitePlanCommon.overkill_tolerance),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Double, ThSitePlanCommon.overkill_tolerance)
                );
             Active.Editor.AcedCmd(args);
 #endif

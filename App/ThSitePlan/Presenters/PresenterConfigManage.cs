@@ -79,16 +79,7 @@ namespace ThSitePlan
         public List<string> AddLayer(IntPtr hWnd)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            using (EditorUserInteraction inter = Active.Editor.StartUserInteraction(hWnd))
             {
-                // set focus to AutoCAD
-                //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
-#if ACAD2012
-                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
-#else
-                Active.Document.Window.Focus();
-#endif
-
                 List<string> laylist = new List<string>();
                 while (true)
                 {
