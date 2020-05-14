@@ -291,6 +291,8 @@ namespace ThColumnInfo.View
                 return;
             }
             ShowSelectNodeFrameIds(e.Node);
+            tvCheckRes.SelectedNode = e.Node;
+            e.Node.Expand();
         }
         private TreeNode TraverseRoot(TreeNode treeNode)
         {
@@ -381,6 +383,10 @@ namespace ThColumnInfo.View
         {
             bool has = false;
             if (this.tvCheckRes.Nodes.Count == 0)
+            {
+                return has;
+            }
+            if(currentNode==null)
             {
                 return has;
             }
@@ -476,13 +482,11 @@ namespace ThColumnInfo.View
                 if (this.currentNode != e.Node)
                 {
                     TreeNode innerFrameNode = TraverseInnerFrameRoot(this.currentNode);
-                    if (innerFrameNode != null && innerFrameNode.Tag != null)
-                    {                        
-                        bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
-                        if (needHide)
-                        {
-                            HideTotalFrameIds(innerFrameNode);                            
-                        }
+                    bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
+                    if (needHide && !this.isMouseRightClick)
+                    {
+                        HideTotalFrameIds(innerFrameNode);
+                        doc.Editor.Regen();
                     }
                     if (selectNodeInnerFrameNode != null && selectNodeInnerFrameNode != innerFrameNode)
                     {
@@ -890,6 +894,10 @@ namespace ThColumnInfo.View
         }
         public static bool CheckRootNodeIsCurrentDocument(TreeNode treeNode)
         {
+            if(treeNode==null)
+            {
+                return false;
+            }
             TreeNode rootNode = CheckResult.FindRootNode(treeNode);
             ThStandardSignManager tssm = rootNode.Tag as ThStandardSignManager;
             if(acadApp.Application.DocumentManager.MdiActiveDocument.Name== tssm.DocPath)
@@ -1278,46 +1286,18 @@ namespace ThColumnInfo.View
         }
         private void parameterSetTsmi_Click(object sender, EventArgs e)
         {
+            if(this.tvCheckRes.SelectedNode!=null)
+            {
+                bool isCurrentDocument = CheckRootNodeIsCurrentDocument(this.tvCheckRes.SelectedNode);
+                if (!isCurrentDocument)
+                {
+                    MessageBox.Show("在面板上所选节点的文档和当前不档不一致，无法进行参数设置");
+                    return;
+                }
+            }
             Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
             acadApp.Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
             doc.SendStringToExecute("\x03\x03" + "ThCpi" + " ", true, false, false);
-        }
-        private void tvCheckRes_MouseLeave(object sender, EventArgs e)
-        {
-            Document doc= acadApp.Application.DocumentManager.MdiActiveDocument;
-            string name=doc.Name;
-            FileInfo fi = new FileInfo(name);
-            if(fi.Exists)
-            {
-                name = fi.Name;
-            }
-            TreeNode innerFrameNode = tvCheckRes.SelectedNode;
-            if(innerFrameNode==null)
-            {
-                foreach (TreeNode tn in tvCheckRes.Nodes)
-                {
-                    if (tn.Tag == null || tn.Tag.GetType() != typeof(ThStandardSign))
-                    {
-                        continue;
-                    }
-                    ThStandardSign thStandardSign = tn.Tag as ThStandardSign;
-                    if (thStandardSign.InnerFrameName == name)
-                    {
-                        innerFrameNode = tn;
-                        break;
-                    }
-                }
-            }
-            if(innerFrameNode==null)
-            {
-                return;
-            }
-            bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
-            if (needHide && !this.isMouseRightClick)
-            {
-                HideTotalFrameIds(innerFrameNode);
-                doc.Editor.Regen();
-            }
         }
         private void btnComponentDefinition_Click(object sender, EventArgs e)
         {
@@ -1325,6 +1305,7 @@ namespace ThColumnInfo.View
             {
                 return;
             }
+            List<ObjectId> showObjIds = new List<ObjectId>();
             Document document = acadApp.Application.DocumentManager.MdiActiveDocument;
             using (DocumentLock docLock= document.LockDocument())
             {
@@ -1336,6 +1317,12 @@ namespace ThColumnInfo.View
                     {
                         MessageBox.Show("未能发现任何埋入的柱子实体，请运行【计算书导入】或【校核】命令后再执行此操作!");
                         return;
+                    }
+                    showObjIds = GetShowObjIds();
+                    if(showObjIds.Count>0)
+                    {
+                        ThColumnInfoUtils.ShowObjIds(showObjIds, false);
+                        //document.Editor.Regen();
                     }
                     ComponentPropDefineVM componentPropDefineVM = new ComponentPropDefineVM();
                     ComponentPropDefine componentPropDefine = new ComponentPropDefine(componentPropDefineVM);
@@ -1349,7 +1336,70 @@ namespace ThColumnInfo.View
                 {
                     ThColumnInfoUtils.WriteException(ex, "btnComponentDefinition_Click");
                 }
+                finally
+                {
+                    ThColumnInfoUtils.ShowObjIds(showObjIds, true);
+                }
             }
+        }
+        private List<ObjectId> GetShowObjIds()
+        {
+            List<ObjectId> showObjIds = new List<ObjectId>();
+            Document document = acadApp.Application.DocumentManager.MdiActiveDocument;
+            TypedValue[] tvs = new TypedValue[]
+                    {
+                new TypedValue((int)DxfCode.ExtendedDataRegAppName,ThColumnInfoUtils.thColumnFrameRegAppName),
+                new TypedValue((int)DxfCode.Start,"LWPOLYLINE,Text"),
+                    };
+            SelectionFilter sf = new SelectionFilter(tvs);
+            PromptSelectionResult psr = document.Editor.SelectAll(sf);
+            if (psr.Status == PromptStatus.OK)
+            {
+                showObjIds = psr.Value.GetObjectIds().ToList();
+                using (Transaction trans = document.TransactionManager.StartTransaction())
+                {
+                    for (int i = 0; i < showObjIds.Count; i++)
+                    {
+                        Entity ent = trans.GetObject(showObjIds[i], OpenMode.ForRead) as Entity;
+                        if (!ent.Visible)
+                        {
+                            showObjIds.RemoveAt(i);
+                            i = i - 1;
+                        }
+                    }
+                    trans.Commit();
+                }
+            }
+            return showObjIds;
+        }
+        private TreeNode GetCurrentDocumentInnerframeNode()
+        {
+            TreeNode innerFrameNode = null;
+            Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
+            FileInfo fi = new FileInfo(doc.Name);
+            string docName = "";
+            if(fi.Exists)
+            {
+                docName = fi.Name;
+            }
+            else
+            {
+                docName = doc.Name;
+            }
+            foreach (TreeNode tn in tvCheckRes.Nodes)
+            {
+                if (tn.Tag == null || tn.Tag.GetType() != typeof(ThStandardSign))
+                {
+                    continue;
+                }
+                ThStandardSign thStandardSign = tn.Tag as ThStandardSign;
+                if (thStandardSign.InnerFrameName == docName)
+                {
+                    innerFrameNode = tn;
+                    break;
+                }
+            }
+            return innerFrameNode;
         }
 
         private void btnShowDetailData_Click(object sender, EventArgs e)
@@ -1401,26 +1451,23 @@ namespace ThColumnInfo.View
                 this.tvCheckRes.SelectedNode = null;
             }
         }
-
         private void tvCheckRes_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
-            TreeNode selectedNode = this.tvCheckRes.SelectedNode;
-            if (selectedNode == null)
-                return;
             if (cnt > 1)
+                //如果是鼠标双击则禁止结点折叠
                 e.Cancel = true;
             else
+                //如果是鼠标单击则允许结点折叠
                 e.Cancel = false;
         }
 
         private void tvCheckRes_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
-            TreeNode selectedNode = this.tvCheckRes.SelectedNode;
-            if (selectedNode == null)
-                return;
             if (cnt > 1)
+                // 如果是鼠标双击则禁止结点展开
                 e.Cancel = true;
             else
+                // 如果是鼠标单击则允许结点展开
                 e.Cancel = false;
         }
 

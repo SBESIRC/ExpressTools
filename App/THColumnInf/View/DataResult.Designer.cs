@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgvColumnTable = new System.Windows.Forms.DataGridView();
@@ -55,7 +55,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(647, 244);
+            this.tabControl1.Size = new System.Drawing.Size(800, 250);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
             // 
@@ -68,7 +68,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(639, 218);
+            this.tabPage1.Size = new System.Drawing.Size(792, 224);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "识别柱列表";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -79,14 +79,14 @@
             this.dgvColumnTable.AllowUserToDeleteRows = false;
             this.dgvColumnTable.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgvColumnTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvColumnTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvColumnTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvColumnTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvColumnTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvColumnTable.EnableHeadersVisualStyles = false;
@@ -97,7 +97,7 @@
             this.dgvColumnTable.ReadOnly = true;
             this.dgvColumnTable.RowTemplate.Height = 23;
             this.dgvColumnTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvColumnTable.Size = new System.Drawing.Size(631, 210);
+            this.dgvColumnTable.Size = new System.Drawing.Size(784, 216);
             this.dgvColumnTable.TabIndex = 0;
             this.dgvColumnTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dgvColumnTable.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvColumnTable_CellMouseClick);
@@ -169,8 +169,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControl1);
+            this.MinimumSize = new System.Drawing.Size(800, 200);
             this.Name = "DataResult";
-            this.Size = new System.Drawing.Size(647, 244);
+            this.Size = new System.Drawing.Size(800, 250);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvColumnTable)).EndInit();

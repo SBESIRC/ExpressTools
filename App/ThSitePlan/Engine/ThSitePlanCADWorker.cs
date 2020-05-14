@@ -10,7 +10,7 @@ namespace ThSitePlan.Engine
     public class ThSitePlanCADWorker : ThSitePlanWorker
     {
         private string[] DxfNames { get; set; }
-        private PolygonSelectionMode SelectionMode { get; set; }
+        protected PolygonSelectionMode SelectionMode { get; set; }
         public ThSitePlanCADWorker(string[] dxfNames, 
             PolygonSelectionMode mode = PolygonSelectionMode.Window)
         {
@@ -81,7 +81,7 @@ namespace ThSitePlan.Engine
             }
         }
 
-        private ObjectIdCollection FilterRegion(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        protected ObjectIdCollection FilterRegion(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
         {
             ObjectId frame = (ObjectId)options.Options["Frame"];
             var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", new string[]

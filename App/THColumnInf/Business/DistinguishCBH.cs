@@ -319,20 +319,40 @@ namespace ThColumnInfo
             if (xDirList.Count > 0)
             {
                 tempXDirList = xDirList.Distinct().Take(3).ToList();
+                tempXDirList = tempXDirList.OrderByDescending(i => i).ToList();
             }
             if (yDirList.Count > 0)
             {
                 tempYDirList = yDirList.Distinct().Take(3).ToList();
+                tempYDirList = tempYDirList.OrderByDescending(i => i).ToList();
             }
             foreach (double length in tempXDirList)
             {
-                List<double> tempList = xDirList.Where(i => Math.Abs(i - length) <= 5.0).Select(i => i).ToList();
-                xVecLengthDic.Add(length, tempList.Count);
+                int count = 0;
+                for(int i=0;i< xDirList.Count;i++)
+                {
+                    if(Math.Abs(length- xDirList[0])<=(0.2* length))
+                    {
+                        count++;
+                        xDirList.RemoveAt(i);
+                        i--;
+                    }
+                }
+                xVecLengthDic.Add(length, count);
             }
             foreach (double length in tempYDirList)
             {
-                List<double> tempList = yDirList.Where(i => Math.Abs(i - length) <= 5.0).Select(i => i).ToList();
-                yVecLengthDic.Add(length, tempList.Count);
+                int count = 0;
+                for (int i = 0; i < yDirList.Count; i++)
+                {
+                    if (Math.Abs(length - yDirList[0]) <= (0.2 * length))
+                    {
+                        count++;
+                        yDirList.RemoveAt(i);
+                        i--;
+                    }
+                }
+                yVecLengthDic.Add(length, count);
             }
             int xNum = xVecLengthDic.OrderByDescending(i => i.Value).Select(i => i.Value).FirstOrDefault();
             int yNum = yVecLengthDic.OrderByDescending(i => i.Value).Select(i => i.Value).FirstOrDefault();

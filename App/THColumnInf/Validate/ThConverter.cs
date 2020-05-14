@@ -50,16 +50,17 @@ namespace ThColumnInfo.Validate
             }
             return value;
         }
+
         public static List<double> ReinforcementSpecToList(string reinforcementSpec)
         {
             List<double> values = new List<double>();
-            int index = -1;
-            index = reinforcementSpec.IndexOf("%%132");
+            string content = "";
+            int index = ThColumnInfoUtils.IndexOfSpecialChar(reinforcementSpec, out content);
             if (index > 0)
             {
                 double firstValue = Convert.ToDouble(reinforcementSpec.Substring(0, index));
                 values.Add(firstValue);
-                List<double> secondValues= ThColumnInfoUtils.GetDoubleValues(reinforcementSpec.Substring(index + 5));
+                List<double> secondValues= ThColumnInfoUtils.GetDoubleValues(reinforcementSpec.Substring(index + content.Length));
                 if (secondValues.Count > 0)
                 {
                     values.Add(secondValues[0]);
@@ -76,7 +77,7 @@ namespace ThColumnInfo.Validate
                 {
                     for (int i = 0; i < buffers.Length; i++)
                     {
-                        if (buffers[i] == 132)
+                        if (buffers[i] == 133 || buffers[i] == 132 || buffers[i] == 131 || buffers[i] == 130)
                         {
                             index = i;
                             break;

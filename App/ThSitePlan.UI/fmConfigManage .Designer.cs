@@ -31,11 +31,6 @@ namespace ThSitePlan.UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions2 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject7 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject8 = new DevExpress.Utils.SerializableAppearanceObject();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmConfigManage));
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
@@ -346,10 +341,6 @@ namespace ThSitePlan.UI
             // 
             this.ColorEdit.AutoHeight = false;
             this.ColorEdit.AutomaticColor = System.Drawing.Color.Black;
-            editorButtonImageOptions2.Image = global::ThSitePlan.UI.Properties.Resources.吸取;
-            this.ColorEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions2, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, serializableAppearanceObject6, serializableAppearanceObject7, serializableAppearanceObject8, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.ColorEdit.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.ColorEdit.ColorDialogOptions.AllowTransparency = false;
             this.ColorEdit.ColorDialogOptions.ShowMakeWebSafeButton = false;
@@ -377,7 +368,7 @@ namespace ThSitePlan.UI
             this.ColTransparency.OptionsColumn.AllowMove = false;
             this.ColTransparency.Visible = true;
             this.ColTransparency.VisibleIndex = 2;
-            this.ColTransparency.Width = 121;
+            this.ColTransparency.Width = 100;
             // 
             // SpinEdit
             // 
@@ -407,7 +398,7 @@ namespace ThSitePlan.UI
             this.ColFrame.OptionsColumn.AllowMove = false;
             this.ColFrame.Visible = true;
             this.ColFrame.VisibleIndex = 3;
-            this.ColFrame.Width = 126;
+            this.ColFrame.Width = 94;
             // 
             // ColLayer
             // 
@@ -422,7 +413,7 @@ namespace ThSitePlan.UI
             this.ColLayer.OptionsColumn.AllowMove = false;
             this.ColLayer.Visible = true;
             this.ColLayer.VisibleIndex = 4;
-            this.ColLayer.Width = 112;
+            this.ColLayer.Width = 165;
             // 
             // PopupContainer
             // 
@@ -544,6 +535,7 @@ namespace ThSitePlan.UI
             this.PictureEdit.Name = "PictureEdit";
             this.PictureEdit.NullText = " ";
             this.PictureEdit.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
+            this.PictureEdit.Click += new System.EventHandler(this.PictureEdit_Click);
             // 
             // ColScript
             // 

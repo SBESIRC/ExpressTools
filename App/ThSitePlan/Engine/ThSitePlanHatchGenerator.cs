@@ -40,6 +40,10 @@ namespace ThSitePlan.Engine
                 {"场地-活动场地-场地色块", new ThSitePlanRegionWorker(new string[] {
                     RXClass.GetClass(typeof(Region)).DxfName,
                 })},
+                {"场地-其他场地-场地色块", new ThSitePlanYardHatchWorker(new string[] {
+                    RXClass.GetClass(typeof(Line)).DxfName,
+                    RXClass.GetClass(typeof(Polyline)).DxfName,
+                })},
                 {"道路-外部车行道路-道路色块", new ThSitePlanRoadHatchWorker(new string[] {
                     RXClass.GetClass(typeof(Curve)).DxfName,
                 })},

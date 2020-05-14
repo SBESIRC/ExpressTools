@@ -6,6 +6,15 @@ using System.Text;
 using ThSitePlan.Configuration;
 using TianHua.Publics.BaseCode;
 
+using Autodesk.AutoCAD.Colors;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.GraphicsInterface;
+using Autodesk.Windows;
+using AcHelper;
+using Linq2Acad;
+
 namespace ThSitePlan
 {
     public class PresenterConfigManage : Presenter<IConfigManage>
@@ -67,10 +76,45 @@ namespace ThSitePlan
  
         }
 
-        public List<string> AddLayer()
+        public List<string> AddLayer(IntPtr hWnd)
         {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            using (EditorUserInteraction inter = Active.Editor.StartUserInteraction(hWnd))
+            {
+                // set focus to AutoCAD
+                //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                Active.Document.Window.Focus();
+#endif
 
-            return new List<string>();
+                List<string> laylist = new List<string>();
+                while (true)
+                {
+                    PromptEntityOptions options = new PromptEntityOptions("\n请选择对象")
+                    {
+                        AllowNone = true,
+                    };
+                    var prs = Active.Editor.GetEntity(options);
+ 
+                    if (prs.Status == PromptStatus.OK)
+                    {
+                        Entity entity = acadDatabase.Element<Entity>(prs.ObjectId);
+                        laylist.Add(entity.Layer);
+                    }
+                    else if (prs.Status == PromptStatus.None)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        return new List<string>();
+                    }
+                }
+                laylist = laylist.Distinct().ToList();
+                return laylist;
+            }
         }
     }
 }

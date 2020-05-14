@@ -148,7 +148,25 @@ namespace ThColumnInfo.ViewModel
                 ThColumnInfoUtils.AddXrecord(namedDictId, "StructureType", new List<TypedValue> { structureTypeTV });
             }
         }
-
+        public void SaveFloorCountToDatabase()
+        {
+            if(this.ParaSetInfo.FloorCount==0)
+            {
+                return;
+            }
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            using (DocumentLock docLock = doc.LockDocument())
+            {
+                ObjectId namedDictId = ThColumnInfoUtils.AddNamedDictionary(doc.Database, this.columnParameterSetKey);
+                if (namedDictId == ObjectId.Null)
+                {
+                    return;
+                }
+                //自然层总层数
+                TypedValue floorCountTV = new TypedValue((int)DxfCode.Int16, this.ParaSetInfo.FloorCount);
+                ThColumnInfoUtils.AddXrecord(namedDictId, "FloorCount", new List<TypedValue> { floorCountTV });
+            }
+        }
         private void ReadParaFromDatabase()
         {
             Document doc = Application.DocumentManager.MdiActiveDocument;

@@ -35,7 +35,10 @@ namespace ThEssential.Command
                 };
 
                 // 选择公差
-                PromptDoubleOptions promptDouble = new PromptDoubleOptions("\n 请输入允许的公差") { AllowNegative = false, DefaultValue = 0 };
+                PromptDoubleOptions promptDouble = new PromptDoubleOptions("\n请输入允许的公差") {
+                    AllowNegative = false,
+                    DefaultValue = Tolerance.Global.EqualPoint,
+                };
                 var numSelected = Active.Editor.GetDouble(promptDouble);
                 if (numSelected.Status != PromptStatus.OK)
                 {

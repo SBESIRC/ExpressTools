@@ -829,11 +829,54 @@ namespace ThColumnInfo
             }
             return values;
         }
+        /// <summary>
+        /// 获取特殊符号
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static int IndexOfSpecialChar(string str,out string content)
+        {
+            int index = -1;
+            content = "";
+            index = str.IndexOf("%%130");
+            if (index>=0)
+            {
+                content = "%%130";
+                return index;
+            }
+            index = str.IndexOf("%%131");
+            if (index >= 0)
+            {
+                content = "%%131";
+                return index;
+            }
+            index = str.IndexOf("%%132");
+            if (index >= 0)
+            {
+                content = "%%132";
+                return index;
+            }
+            index = str.IndexOf("%%133");
+            if (index >= 0)
+            {
+                content = "%%133";
+                return index;
+            }
+            return index;
+        }
         public static List<double> GetDoubleValues(string str)
         {
+            string newStr = str;
             List<double> values = new List<double>();
-            string pattern = "[-]?\\d+([.]?\\d+)?";
-            MatchCollection matches = Regex.Matches(str, pattern);
+            string content = "";
+            while(IndexOfSpecialChar(newStr,out content)>=0)
+            {
+                int startIndex = newStr.IndexOf(content);
+                newStr = newStr.Remove(startIndex, content.Length);
+            }
+            string pattern = "[-]?\\d+([.]{1}\\d+)?";
+            MatchCollection matches = Regex.Matches(newStr, pattern);
             foreach (var match in matches)
             {
                 if (!string.IsNullOrEmpty(match.ToString()))

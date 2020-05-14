@@ -27,6 +27,7 @@ namespace ThSitePlan
         public static readonly string LAYER_GREEN_LANDSP = "P-AI-landscape";
         // 由于方案图纸的单位是米（m），设置0.1米作为种子点的偏移量
         public static readonly double seed_point_offset = 30;
+        public static readonly double overkill_tolerance = 0.001;
         public static readonly Tolerance global_tolerance = new Tolerance(10e-10, 10e-10);
         // Hatch
         public static readonly int hatch_color_index = 9;

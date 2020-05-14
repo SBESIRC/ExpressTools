@@ -45,11 +45,13 @@
             this.panelUp = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.contextMenuStrip1.SuspendLayout();
             this.panelMiddle.SuspendLayout();
             this.panelDown.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.panelUp.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tvCheckRes
@@ -59,7 +61,7 @@
             this.tvCheckRes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvCheckRes.Location = new System.Drawing.Point(0, 0);
             this.tvCheckRes.Name = "tvCheckRes";
-            this.tvCheckRes.Size = new System.Drawing.Size(244, 445);
+            this.tvCheckRes.Size = new System.Drawing.Size(244, 527);
             this.tvCheckRes.TabIndex = 0;
             this.tvCheckRes.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvCheckRes_BeforeCollapse);
             this.tvCheckRes.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvCheckRes_BeforeExpand);
@@ -68,7 +70,6 @@
             this.tvCheckRes.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvCheckRes_NodeMouseDoubleClick);
             this.tvCheckRes.Leave += new System.EventHandler(this.tvCheckRes_Leave);
             this.tvCheckRes.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvCheckRes_MouseDown);
-            this.tvCheckRes.MouseLeave += new System.EventHandler(this.tvCheckRes_MouseLeave);
             // 
             // contextMenuStrip1
             // 
@@ -103,9 +104,10 @@
             // panelMiddle
             // 
             this.panelMiddle.Controls.Add(this.tvCheckRes);
-            this.panelMiddle.Location = new System.Drawing.Point(3, 23);
+            this.panelMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelMiddle.Location = new System.Drawing.Point(3, 33);
             this.panelMiddle.Name = "panelMiddle";
-            this.panelMiddle.Size = new System.Drawing.Size(244, 445);
+            this.panelMiddle.Size = new System.Drawing.Size(244, 527);
             this.panelMiddle.TabIndex = 3;
             this.panelMiddle.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.panel1_ControlAdded);
             // 
@@ -130,12 +132,12 @@
             this.panelDown.BackColor = System.Drawing.Color.Transparent;
             this.panelDown.Controls.Add(this.btnShowDetailData);
             this.panelDown.Controls.Add(this.btnComponentDefinition);
-            this.panelDown.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelDown.Location = new System.Drawing.Point(0, 474);
+            this.panelDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelDown.Location = new System.Drawing.Point(3, 566);
             this.panelDown.MaximumSize = new System.Drawing.Size(0, 30);
             this.panelDown.MinimumSize = new System.Drawing.Size(0, 20);
             this.panelDown.Name = "panelDown";
-            this.panelDown.Size = new System.Drawing.Size(250, 26);
+            this.panelDown.Size = new System.Drawing.Size(244, 24);
             this.panelDown.TabIndex = 4;
             // 
             // btnShowDetailData
@@ -148,9 +150,9 @@
             this.btnShowDetailData.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnShowDetailData.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnShowDetailData.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnShowDetailData.Location = new System.Drawing.Point(226, 0);
+            this.btnShowDetailData.Location = new System.Drawing.Point(220, 0);
             this.btnShowDetailData.Name = "btnShowDetailData";
-            this.btnShowDetailData.Size = new System.Drawing.Size(24, 26);
+            this.btnShowDetailData.Size = new System.Drawing.Size(24, 24);
             this.btnShowDetailData.TabIndex = 4;
             this.btnShowDetailData.UseVisualStyleBackColor = false;
             this.btnShowDetailData.Click += new System.EventHandler(this.btnShowDetailData_Click);
@@ -201,28 +203,44 @@
             // panelUp
             // 
             this.panelUp.Controls.Add(this.lblPaperDistinguishResult);
-            this.panelUp.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelUp.Location = new System.Drawing.Point(0, 0);
+            this.panelUp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelUp.Location = new System.Drawing.Point(3, 3);
             this.panelUp.Name = "panelUp";
-            this.panelUp.Size = new System.Drawing.Size(250, 24);
+            this.panelUp.Size = new System.Drawing.Size(244, 24);
             this.panelUp.TabIndex = 5;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.panelUp, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panelMiddle, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.panelDown, 0, 2);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(250, 593);
+            this.tableLayoutPanel1.TabIndex = 5;
             // 
             // CheckResult
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.Controls.Add(this.panelUp);
-            this.Controls.Add(this.panelDown);
-            this.Controls.Add(this.panelMiddle);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "CheckResult";
-            this.Size = new System.Drawing.Size(250, 500);
+            this.Size = new System.Drawing.Size(250, 593);
             this.contextMenuStrip1.ResumeLayout(false);
             this.panelMiddle.ResumeLayout(false);
             this.panelDown.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
             this.panelUp.ResumeLayout(false);
             this.panelUp.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -245,5 +263,6 @@
         private System.Windows.Forms.Button btnShowDetailData;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolTip toolTip2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }

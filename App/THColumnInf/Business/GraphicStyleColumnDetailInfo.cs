@@ -334,27 +334,26 @@ namespace ThColumnInfo
                     BuildInSituMarkInf buildInSituMarkInf = new BuildInSituMarkInf(situMarkFrame);
                     buildInSituMarkInf.Ctri = coluTabRi;
                     buildInSituMarkInf.Build();
-                    if (!string.IsNullOrWhiteSpace(coluTabRi.Code))
+                    if(buildInSituMarkInf.Valid)
                     {
-                        coluTabRi.Code.Replace('，', ',');
-                        string[] codeStrs = coluTabRi.Code.Split(',');
-                        if (codeStrs.Length == 1)
+                        if (!string.IsNullOrEmpty(coluTabRi.Code))
                         {
-                            this.coluTabRecordInfs.Add(coluTabRi);
-                        }
-                        else
-                        {
-                            foreach (string code in codeStrs)
+                            coluTabRi.Code.Replace('，', ',');
+                            string[] codeStrs = coluTabRi.Code.Split(',');
+                            if (codeStrs.Length == 1)
                             {
-                                ColumnTableRecordInfo ctri = coluTabRi.Clone() as ColumnTableRecordInfo;
-                                ctri.Code = code.Trim();
-                                this.coluTabRecordInfs.Add(ctri);
+                                this.coluTabRecordInfs.Add(coluTabRi);
+                            }
+                            else
+                            {
+                                foreach (string code in codeStrs)
+                                {
+                                    ColumnTableRecordInfo ctri = coluTabRi.Clone() as ColumnTableRecordInfo;
+                                    ctri.Code = code.Trim();
+                                    this.coluTabRecordInfs.Add(ctri);
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        this.coluTabRecordInfs.Add(coluTabRi);
                     }
                     ThProgressBar.MeterProgress();
                 }

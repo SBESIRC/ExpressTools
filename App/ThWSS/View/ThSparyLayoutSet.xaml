@@ -1,0 +1,102 @@
+﻿<Window x:Class="ThWss.View.ThSparyLayoutSet"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:userC="clr-namespace:ThWSS.View"
+        ResizeMode="NoResize"
+        Title="喷头布置" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" MaxWidth="320">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid MinHeight="300">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3.5*"></ColumnDefinition>
+            <ColumnDefinition Width="3.5*"></ColumnDefinition>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0"  Content="设置切换："  Margin="5,0,0,0" FontWeight="Bold"></Label>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+            <RadioButton Content="1" Width="20" Height="20" Style="{StaticResource rButton}"></RadioButton>
+            <RadioButton Content="2" Width="20" Height="20" Style="{StaticResource rButton}"></RadioButton>
+            <RadioButton Content="3" Width="20" Height="20" Style="{StaticResource rButton}"></RadioButton>
+            <RadioButton Content="4" Width="20" Height="20" Style="{StaticResource rButton}"></RadioButton>
+        </StackPanel>
+        <Line Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource solidL}"/>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="约束参数：" Margin="5,5,0,0"></Label>
+        <RadioButton Name="standard" GroupName="setType" Grid.Row="1" Grid.Column="1" Content="来自标准" Checked="StandardRb_Checked"></RadioButton>
+        <RadioButton Name="custom" GroupName="setType" Grid.Row="1" Grid.Column="2" Content="自定义" Checked="StandardRb_Checked"></RadioButton>
+        <userC:StandardUserControl x:Name="standControl" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Visibility="Collapsed"/>
+        <userC:CustomizeUserControl x:Name="customControl" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" />
+        <Line Grid.Row="3" Grid.ColumnSpan="3" Style="{StaticResource dottedL}"/>
+
+        <Label Grid.Row="3" Content="布置方式：" FontWeight="Bold" Margin="5,5,0,0"></Label>
+        <Label Grid.Row="4" Content="喷头类型：" Margin="5,5,0,0"></Label>
+        <RadioButton GroupName="nozzleType" Grid.Row="4" Grid.Column="1" Content="上喷" IsChecked="True"></RadioButton>
+        <RadioButton Grid.Row="4" Grid.Column="2" GroupName="nozzleType" Content="下喷"></RadioButton>
+        <Label Grid.Row="5" Content="保护策略：" Margin="5,5,0,0"></Label>
+        <RadioButton GroupName="proSrategy" Grid.Row="5" Grid.Column="1" Content="矩形保护" IsChecked="True"></RadioButton>
+        <DockPanel Grid.Row="5" Grid.Column="2">
+            <RadioButton GroupName="proSrategy" Content="半径保护"></RadioButton>
+            <Button Margin="5" HorizontalAlignment="Right" Width="20" Height="20" Click="ProtectStra_Btn_Click"></Button>
+        </DockPanel>
+        <Label Grid.Row="6" Grid.Column="1" Content="保护半径：" Margin="5,0,0,0"></Label>
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="2">
+            <TextBox Margin="5,5,0,5" Width="50" PreviewTextInput="tb_PreviewTextInput"></TextBox>
+            <Label Content="mm"></Label>
+        </StackPanel>
+        <DockPanel Grid.Row="7" Grid.ColumnSpan="3">
+            <CheckBox Name="HasBeam" Margin="5,10,5,5" Click="CheckBox_Checked">不考虑梁</CheckBox>
+            <Button Margin="5" HorizontalAlignment="Right" Width="20" Height="20"  Click="HasBeam_Btn_Click"></Button>
+        </DockPanel>
+        <Label Grid.Row="8" Grid.Column="0" Content="默认梁高：" Margin="5,0,0,0"></Label>
+        <DockPanel Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2">
+            <TextBox Name="beamHeight" Margin="5,5,0,5" Width="50" IsEnabled="False" PreviewTextInput="tb_PreviewTextInput"></TextBox>
+            <Label Content="mm"></Label>
+            <Button Margin="5" HorizontalAlignment="Right" Width="20" Height="20" Click="BeamHeight_Btn_Click"></Button>
+        </DockPanel>
+        <Label Grid.Row="9" Grid.Column="0" Content="顶板厚度：" Margin="5,0,0,0"></Label>
+        <DockPanel Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2">
+            <TextBox Name="plateThick" Margin="5,5,0,5" Width="50" IsEnabled="False" PreviewTextInput="tb_PreviewTextInput"></TextBox>
+            <Label Content="mm"></Label>
+            <Button Margin="5" HorizontalAlignment="Right" Width="20" Height="20" Click="PlateThick_Btn_Click"></Button>
+        </DockPanel>
+        <Line Grid.Row="10" Grid.ColumnSpan="3" Style="{StaticResource dottedL}"/>
+
+        <Label Grid.Row="10" Content="布置对象：" FontWeight="Bold" Margin="5,5,0,0"></Label>
+        <RadioButton GroupName="layoutType" Grid.Row="11" Grid.Column="0" Content="防火分区" IsChecked="True"></RadioButton>
+        <RadioButton GroupName="layoutType" Grid.Row="11" Grid.Column="1" Content="来自框线"></RadioButton>
+        <RadioButton GroupName="layoutType" Grid.Row="11" Grid.Column="2" Content="自定义区域"></RadioButton>
+
+        <Grid Grid.Row="12" Grid.ColumnSpan="3" Margin="0,15,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" Style="{StaticResource ExButton}" Click="Run_Btn_Click">确定</Button>
+            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" Style="{StaticResource ExButton}" Click="Cancel_Btn_Click">取消</Button>
+        </Grid>
+    </Grid>
+</Window>

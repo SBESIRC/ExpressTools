@@ -19,6 +19,7 @@
       <HintPath>..\..\Externals\Photoshop\2018\Interop.Photoshop.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -58,6 +59,7 @@
     <Compile Include="Engine\ThSitePlanShadowWorkerEx.cs" />
     <Compile Include="Engine\ThSitePlanTrimGenerator.cs" />
     <Compile Include="Engine\ThSitePlanWorker.cs" />
+    <Compile Include="Engine\ThSitePlanYardHatchWorker.cs" />
     <Compile Include="Function\FuncFile.cs" />
     <Compile Include="Photoshop\ThSitePlanPSEngine.cs" />
     <Compile Include="Photoshop\ThSitePlanPSGenerator.cs" />

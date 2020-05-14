@@ -156,6 +156,13 @@ namespace ThColumnInfo
         {
             try
             {
+                ParameterSetVM parameterSetVM = new ParameterSetVM();
+                if (parameterSetVM.ParaSetInfo.FloorCount == 0)
+                {
+                    var res = ThStandardSignManager.LoadData("", false);
+                    parameterSetVM.ParaSetInfo.FloorCount = res.StandardSigns.Count;
+                    parameterSetVM.SaveFloorCountToDatabase();
+                }
                 //显示结果
                 CheckPalette.Instance.Show();
             }

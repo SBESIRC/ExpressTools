@@ -33,7 +33,7 @@ namespace ThStructure.BeamInfo.Business
                             continue;
                         }
 
-                        var norComp = groupDic.Keys.Where(x => x.IsParallelTo(line.Delta.GetNormal(), Tolerance.Global)).ToList();
+                        var norComp = groupDic.Keys.Where(x => x.IsParallelTo(line.Delta.GetNormal(), new Tolerance(0.0001,0.0001))).ToList();
                         if (norComp.Count > 0)
                         {
                             groupDic[norComp.First()].Add(line, line);
@@ -181,6 +181,11 @@ namespace ThStructure.BeamInfo.Business
                         linDic.Remove(plineDic.Key);
                     }
                 }
+                else
+                {
+                    firLine.TransformBy(trans);
+                }
+
                 if (linDic.Count > 0)
                 {
                     linePair = linDic.First();
