@@ -15,13 +15,17 @@
   </PropertyGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bussiness\CheckPointsToWall.cs" />
@@ -40,6 +44,20 @@
     <Compile Include="ThWSSApp.cs" />
     <Compile Include="Utlis\GeUtils.cs" />
     <Compile Include="Utlis\OrientedBoundingBox.cs" />
+    <Compile Include="View\PlateThcikWindow.xaml.cs" />
+    <Compile Include="View\DefaultBeamHeightWindow.xaml.cs" />
+    <Compile Include="View\CustomizeUserControl.xaml.cs">
+      <DependentUpon>CustomizeUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LayoutWayUserControl.xaml.cs">
+      <DependentUpon>LayoutWayUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BeamInfluenceWindow.xaml.cs" />
+    <Compile Include="View\StandardUserControl.xaml.cs">
+      <DependentUpon>StandardUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProtectStrategyWindow.xaml.cs" />
+    <Compile Include="View\ThSparyLayoutSet.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
@@ -52,6 +70,44 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Page Include="View\PlateThickWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DefaultBeamHeightWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CustomizeUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LayoutWayUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BeamInfluenceWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\StandardUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Style\Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ProtectStrategyWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ThSparyLayoutSet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
       <ItemGroup>
