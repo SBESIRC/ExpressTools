@@ -25,7 +25,7 @@ namespace ThEssential.Overkill
                 curves.Remove(firCurve);
                 Point3d endPoint = firCurve.EndPoint;
                 Point3d startPoint = firCurve.StartPoint;
-                
+
                 foreach (Curve cuv in curves)
                 {
                     if (endPoint.IsEqualTo(cuv.StartPoint, tolerance) && startPoint.IsEqualTo(cuv.EndPoint, tolerance) ||
@@ -61,7 +61,7 @@ namespace ThEssential.Overkill
                             continue;
                         }
 
-                        Line colLine = firLine.MoveToCollinear(tempLine);
+                        Line colLine = firLine.MoveToCollinear(tempLine, tolerance);
                         if (colLine == null)
                         {
                             continue;
@@ -83,7 +83,7 @@ namespace ThEssential.Overkill
         /// </summary>
         /// <param name="firLine"></param>
         /// <param name="secLine"></param>
-        public static Line MoveToCollinear(this Line firLine, Line secLine)
+        public static Line MoveToCollinear(this Line firLine, Line secLine, Tolerance tol)
         {
             Line longerLine = firLine;
             Line shorterLine = secLine;
@@ -104,7 +104,7 @@ namespace ThEssential.Overkill
             points = points.OrderBy(x => x.X + x.Y).ToList();
             Point3d sp = points.First();
             Point3d ep = points.Last();
-            if (sp.DistanceTo(ep) > firLine.Length + secLine.Length)
+            if (sp.DistanceTo(ep) > firLine.Length + secLine.Length + tol.EqualPoint)
             {
                 return null;
             }
@@ -112,7 +112,7 @@ namespace ThEssential.Overkill
             firLine.EndPoint = ep;
             return firLine;
         }
-        
+
         #region 非代码勿提交，在这里用来测试的
         [CommandMethod("TIANHUACAD", "THSPTest", CommandFlags.Modal)]
         public static void THDbTest()
