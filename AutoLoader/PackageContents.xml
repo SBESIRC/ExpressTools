@@ -631,7 +631,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
-	<!--Assembly App, ThColumnInfo, 2012 version-->
+    <!--Assembly App, ThColumnInfo, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
         <ComponentEntry ModuleName="./Contents/Win64/2012/ThColumnInfo.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for column check." AppName="ThColumnInfo" AppType=".NET">
@@ -664,6 +664,83 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry ModuleName="./Contents/Win64/2018/ThColumnInfo.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for column check." AppName="ThColumnInfo" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCRC" Global="THCRC" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThStructure, 2012 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
+        <ComponentEntry ModuleName="./Contents/Win64/2012/ThStructure.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for structure." AppName="ThStructure" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THDISBEAM" Global="THDISBEAM" />
+                <Command Local="THSTRUCTURE" Global="THSTRUCTURE" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThStructure, 2014 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2014/ThStructure.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for structure." AppName="ThStructure" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THDISBEAM" Global="THDISBEAM" />
+                <Command Local="THSTRUCTURE" Global="THSTRUCTURE" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThStructure, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/ThStructure.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for structure." AppName="ThStructure" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THDISBEAM" Global="THDISBEAM" />
+                <Command Local="THSTRUCTURE" Global="THSTRUCTURE" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, ThStructure, 2018 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" />
+        <ComponentEntry ModuleName="./Contents/Win64/2018/ThStructure.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for structure." AppName="ThStructure" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THDISBEAM" Global="THDISBEAM" />
+                <Command Local="THSTRUCTURE" Global="THSTRUCTURE" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+
+	<!--Assembly App, THWSS, 2012 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
+        <ComponentEntry ModuleName="./Contents/Win64/2012/THWSS.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for WSS." AppName="THWSS" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCalOBB" Global="THCalOBB" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, THWSS, 2014 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2014/THWSS.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for WSS." AppName="THWSS" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCalOBB" Global="THCalOBB" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, THWSS, 2016 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
+        <ComponentEntry ModuleName="./Contents/Win64/2016/THWSS.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for WSS." AppName="THWSS" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCalOBB" Global="THCalOBB" />
+            </Commands>
+        </ComponentEntry>
+    </Components>
+    <!--Assembly App, THWSS, 2018 version-->
+    <Components>
+        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" />
+        <ComponentEntry ModuleName="./Contents/Win64/2018/THWSS.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for WSS." AppName="THWSS" AppType=".NET">
+            <Commands GroupName="TIANHUACAD">
+                <Command Local="THCalOBB" Global="THCalOBB" />
             </Commands>
         </ComponentEntry>
     </Components>
