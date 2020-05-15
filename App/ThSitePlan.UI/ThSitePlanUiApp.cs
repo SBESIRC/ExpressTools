@@ -154,8 +154,6 @@ namespace ThSitePlan.UI
             {
                 acadDatabase.Database.CopyWithMove(originFrame, offset);
                 acadDatabase.Database.ExplodeToOwnerSpace(item.Item1);
-                var ent = acadDatabase.Element<Entity>(item.Item1);
-                Active.Editor.TrimCmd(ent);
             }
 
             // CAD处理流程
