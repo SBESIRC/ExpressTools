@@ -28,7 +28,7 @@ namespace ThColumnInfo
         private SelectionFilter polylineSf;
         private SelectionFilter textSf;
         private double textSize = 0.0;
-        private List<ColumnTableRecordInfo> propertyHasProblemList = new List<ColumnTableRecordInfo>(); //记录有问题的柱表信息
+        
         private List<string> layerList = new List<string>();
         private ThStandardSign thStandardSign;
         private ParameterSetInfo paraSetInfo;
@@ -164,10 +164,16 @@ namespace ThColumnInfo
         /// <summary>
         /// 柱表详细信息(用于柱号查找)
         /// </summary>
-        public List<ColumnTableRecordInfo> ColumnTableRecordInfos { get; set; } = new List<ColumnTableRecordInfo>();
+        public List<ColumnTableRecordInfo> ColumnTableRecordInfos { get; set; } = new List<ColumnTableRecordInfo>(); 
+        /// <summary>
+        /// 无效的柱表
+        /// </summary>
+        public List<ColumnTableRecordInfo> InvalidCtris { get; set; } = new List<ColumnTableRecordInfo>();
+        private bool importCalInfo = false;
 
-        public void Extract()
+        public void Extract(bool importCalInfo =false)
         {
+            this.importCalInfo = importCalInfo;
             ViewTableRecord view = doc.Editor.GetCurrentView();
             try
             {
@@ -240,7 +246,8 @@ namespace ThColumnInfo
                 return;
             }
             this.ColumnTableRecordInfos.ForEach(i => i.Handle());
-            propertyHasProblemList.AddRange(this.ColumnTableRecordInfos.Where(i => !i.Validate()).Select(i => i).ToList());
+            //如果导入计算书，就不要用柱表来判断
+            InvalidCtris.AddRange(this.ColumnTableRecordInfos.Where(i => !i.Validate()).Select(i => i).ToList());
             for (int i = 0; i < this.ColumnInfs.Count; i++)
             {
                 if (string.IsNullOrEmpty(this.ColumnInfs[i].Code))
@@ -248,7 +255,13 @@ namespace ThColumnInfo
                     this.ColumnInfs[i].Error = ErrorMsg.CodeEmpty;
                     continue;
                 }
-                int errorCount=this.propertyHasProblemList.Where(j => j.Code == this.ColumnInfs[i].Code).Select(j => j).Count();
+                if(this.importCalInfo)
+                {
+                    //如果是导入计算书，只要有柱号，就是可以参与匹配的柱子
+                    this.ColumnInfs[i].Error = ErrorMsg.OK;
+                    continue;
+                }
+                int errorCount=InvalidCtris.Where(j => j.Code == this.ColumnInfs[i].Code).Select(j => j).Count();
                 if(errorCount>0)
                 {
                     this.ColumnInfs[i].Error = ErrorMsg.InfNotCompleted;
@@ -362,7 +375,7 @@ namespace ThColumnInfo
                             }
                             else
                             {
-                                this.propertyHasProblemList.Add(buildInSituMarkInf.Ctri);
+                                InvalidCtris.Add(buildInSituMarkInf.Ctri);
                             }
                             ThProgressBar.MeterProgress();
                         }

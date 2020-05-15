@@ -184,7 +184,20 @@ namespace ThColumnInfo.View
                         continue;
                     }
                     string currentCode = columnInfs.First().Code;
-                    ColumnTableRecordInfo ctri = dataSource.ColumnTableRecordInfos.Where(i => i.Code == currentCode).Select(i => i).First();
+                    ColumnTableRecordInfo ctri = new ColumnTableRecordInfo();
+                    var res = dataSource.ColumnTableRecordInfos.Where(i => i.Code == currentCode).Select(i => i);
+                    if(res!=null && res.Count()>0)
+                    {
+                        ctri = res.First();
+                    }
+                    else 
+                    {
+                        res = dataSource.InvalidCtris.Where(i => i.Code == currentCode).Select(i => i);
+                        if (res != null && res.Count() > 0)
+                        {
+                            ctri = res.First();
+                        }
+                    }
                     TreeNode codeSpecNode = correctParentNode.Nodes.Add(currentCode + "(" + columnInfs.Count + ")" + " " + ctri.Spec);
                     codeSpecNode.ForeColor = Color.FromArgb(0, 255, 0);
                     int index = 1;
@@ -294,7 +307,7 @@ namespace ThColumnInfo.View
             tvCheckRes.SelectedNode = e.Node;
             e.Node.Expand();
         }
-        private TreeNode TraverseRoot(TreeNode treeNode)
+        public TreeNode TraverseRoot(TreeNode treeNode)
         {
             if (treeNode == null)
             {

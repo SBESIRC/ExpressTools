@@ -160,7 +160,11 @@ namespace ThColumnInfo.Validate
             ObjectId columnId = plantCalDataToDraw.GetUnVisibleColumn(columnInf.Points);
             bool isSuccess = false;
             this.columnCustomData = plantCalDataToDraw.ReadEmbededColumnCustomData(columnId, out isSuccess);
-            cdm = ThValidate.columnDataModels.Where(i => i.Code == columnInf.Code).Select(i=>i).First();
+            var cdmRes = ThValidate.columnDataModels.Where(i => i.Code == columnInf.Code).Select(i => i);
+            if (cdmRes != null && cdmRes.Count() > 0)
+            {
+                cdm = cdmRes.First();
+            }
             //抗震等级 
             GetAntiSeismicGrade();
             GetProtectLayerThickness();

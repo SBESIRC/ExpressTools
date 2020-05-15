@@ -176,7 +176,7 @@ namespace ThColumnInfo
                 this.thStandardSign.SignExtractColumnInfo = new ExtractColumnPosition(this.thStandardSign);
             }
             //如果要导入计算书，需要重新提取一次信息
-            this.thStandardSign.SignExtractColumnInfo.Extract();
+            this.thStandardSign.SignExtractColumnInfo.Extract(emportCalculation);
             //提取埋入的柱子范围内对应的本地图纸柱子,(校核命令可提取柱子数量)
             if (this.thStandardSign.SignExtractColumnInfo.ColumnInfs.Count == 0)
             {

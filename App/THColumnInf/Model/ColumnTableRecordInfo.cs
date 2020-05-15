@@ -27,7 +27,7 @@ namespace ThColumnInfo
     /// </summary>
     public class ColumnTableRecordInfo:ICloneable
     {
-        private string hoopReinforcePattern = @"([%]{2}132){1}[\s]{0,}\d+[@]{1}[\s]{0,}\d+([\s]{0,}[/]{1}[\s]{0,}\d+)?";
+        private string hoopReinforcePattern = @"([%]{2}[130-133]{1}){1}[\s]{0,}\d+[@]{1}[\s]{0,}\d+([\s]{0,}[/]{1}[\s]{0,}\d+)?";
         /// <summary>
         /// 柱号(KZ1)
         /// </summary>
@@ -187,7 +187,7 @@ namespace ThColumnInfo
             {
                 return res;
             }
-            string pattern = @"\d+[\s]{0,}[%]{2}132{1}[\s]{0,}\d+";
+            string pattern = @"\d+[\s]{0,}[%]{2}[0-9]{3}[\s]{0,}\d+";
             string[] strs= content.Split('+');
             foreach(string str in strs)
             {
@@ -200,12 +200,12 @@ namespace ThColumnInfo
                     byte[] buffers = Encoding.UTF32.GetBytes(str);
                     int a = 0;
                     int startIndex = -1;
-                    bool isNumberOr132 = true; //只允许数字和132符号
+                    bool isNumberOr132 = true; //只允许数字和130,131,132,133符号
                     for (int i = 0; i < buffers.Length; i = i + 4)
                     {
                         if ((buffers[i] >= 48 && buffers[i] <= 57) || buffers[i] == 132 || buffers[i] == 32)
                         {
-                            if (buffers[i] == 132)
+                            if (buffers[i] == 133 || buffers[i] == 132 || buffers[i] == 131 || buffers[i] == 130)
                             {
                                 startIndex = i;
                                 a++;
@@ -250,7 +250,8 @@ namespace ThColumnInfo
                         int startIndex = -1;
                         for (int i = 0; i < buffers.Length; i++)
                         {
-                            if (buffers[i] == 132)
+                            if (buffers[i] == 130 || buffers[i] == 131 ||
+                                buffers[i] == 132 || buffers[i] == 133)
                             {
                                 startIndex = i;
                                 a++;
@@ -307,12 +308,12 @@ namespace ThColumnInfo
             {
                 string firstDataStr = "";
                 string secondDataStr = "";
-                index = content.IndexOf("%%132");
+                string match = "";
+                index = ThColumnInfoUtils.IndexOfSpecialChar(content,out match);
                 if (index > 0)
                 {
                     firstDataStr = content.Substring(0, index);
-                    secondDataStr = content.Substring(index + 5);
-
+                    secondDataStr = content.Substring(index + match.Length);
                 }
                 else
                 {
@@ -325,7 +326,8 @@ namespace ThColumnInfo
                     {
                         for (int i = 0; i < buffers.Length; i++)
                         {
-                            if (buffers[i] == 132)
+                            if (buffers[i] == 133 || buffers[i] == 132 ||
+                                buffers[i] == 131 || buffers[i] == 130)
                             {
                                 index = i;
                                 strNum = 1;
@@ -374,7 +376,8 @@ namespace ThColumnInfo
             int index = -1;
             if (ValidateReinforcement(content))
             {
-                index = content.IndexOf("%%132");
+                string match = "";
+                index = ThColumnInfoUtils.IndexOfSpecialChar(content, out match);
                 if (index > 0)
                 {
                     suffix = content.Substring(index);
@@ -386,7 +389,8 @@ namespace ThColumnInfo
                     {
                         for (int i = 0; i < buffers.Length; i++)
                         {
-                            if (buffers[i] == 132)
+                            if (buffers[i] == 133 || buffers[i] == 132 || 
+                                buffers[i] == 131 || buffers[i] == 130)
                             {
                                 index = i;
                                 break;
@@ -418,31 +422,27 @@ namespace ThColumnInfo
         public string Replace132(string content)
         {
             string res = content;
-            if(content.Contains("%%132"))
+            content = BaseFunction.ReplaceReinforceChar(content);
+            byte[] buffers = Encoding.UTF32.GetBytes(content);
+            int startIndex = 0;
+            string newStr = "";
+            for (int i = 0; i < buffers.Length; i++)
             {
-                res=content.Replace("%%132", "C");
+                if (buffers[i] == 133 || buffers[i] == 132 || buffers[i] == 131 || buffers[i] == 130)
+                {
+                    string matchChar = BaseFunction.GetReinforceChar(buffers[i]);
+                    int count = i - startIndex;
+                    newStr += Encoding.UTF32.GetString(buffers, startIndex, count);
+                    newStr += matchChar;
+                    startIndex = i + 4;
+                }
             }
-            else
+            if (buffers.Length - startIndex > 0)
             {
-                byte[] buffers = Encoding.UTF32.GetBytes(content);
-                int startIndex = 0;
-                string newStr = "";
-                for (int i = 0; i < buffers.Length; i++)
-                {
-                    if (buffers[i] == 132)
-                    {
-                        int count = i - startIndex;
-                        newStr += Encoding.UTF32.GetString(buffers, startIndex, count);
-                        newStr += "C";
-                        startIndex = i + 4;
-                    }
-                }
-                if(buffers.Length- startIndex>0)
-                {
-                    newStr+= Encoding.UTF32.GetString(buffers, startIndex, buffers.Length - startIndex);
-                }
-                res = newStr;
+                newStr += Encoding.UTF32.GetString(buffers, startIndex, buffers.Length - startIndex);
             }
+            res = newStr;
+
             return res;
         }
         /// <summary>

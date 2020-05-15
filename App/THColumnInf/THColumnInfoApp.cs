@@ -58,13 +58,17 @@ namespace ThColumnInfo
                 {
                     if(DataPalette.ShowPaletteMark)
                     {
-                        CheckPalette._checkResult.ExportDetailData(CheckPalette._checkResult.LastShowDetailNode);
+                       TreeNode root= CheckPalette._checkResult.TraverseRoot(CheckPalette._checkResult.LastShowDetailNode);
+                        if(root!=null)
+                        {
+                            ThStandardSignManager tsm = root.Tag as ThStandardSignManager;
+                            if(tsm.DocPath != e.Document.Name)
+                            {
+                                CheckPalette._checkResult.ExportDetailData(CheckPalette._checkResult.LastShowDetailNode);
+                            }
+                        }
                     }
                 }
-                //if (CheckPalette._ps!=null && !CheckPalette._ps.IsDisposed)
-                //{
-                //    CheckPalette._ps.Visible = hasCurrentFileName;
-                //}
             }
             catch (System.Exception ex)
             {

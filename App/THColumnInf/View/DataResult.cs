@@ -641,7 +641,7 @@ namespace ThColumnInfo.View
                     HideDgvCalculationRes(dgvCalculationCurrentRowIndex);
                 }
             }
-            this.dgvSpecificationCurrentRowIndex = e.RowIndex;
+            this.dgvCalculationCurrentRowIndex = e.RowIndex;
             if (this.dgvCalculationRes.Rows[e.RowIndex].Tag != null)
             {
                 ThStandardSign thStandardSign = this.dgvCalculationRes.Rows[e.RowIndex].Tag as ThStandardSign;
@@ -767,6 +767,7 @@ namespace ThColumnInfo.View
                     dgvRow.Cells["subCode"].Value.ToString() == columnInf.Text)
                 {
                     dgvRow.Selected = true;
+                    dgvColumnTable.FirstDisplayedScrollingRowIndex = dgvRow.Index;
                     break;
                 }
             }
@@ -784,6 +785,7 @@ namespace ThColumnInfo.View
                    )
                 {
                     dgvRow.Selected = true;
+                    dgvSpecificationRes.FirstDisplayedScrollingRowIndex = dgvRow.Index;
                     break;
                 }
             }
@@ -801,6 +803,7 @@ namespace ThColumnInfo.View
                    )
                 {
                     dgvRow.Selected = true;
+                    dgvCalculationRes.FirstDisplayedScrollingRowIndex = dgvRow.Index;
                     break;
                 }
             }

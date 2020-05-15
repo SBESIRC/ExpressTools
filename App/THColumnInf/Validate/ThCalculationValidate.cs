@@ -173,7 +173,11 @@ namespace ThColumnInfo.Validate
         public CalculationValidate(ColumnRelateInf columnRelateInf)
         {
             this.columnRelateInf = columnRelateInf;
-            cdm = ThValidate.columnDataModels.Where(i => i.Code == columnRelateInf.ModelColumnInfs[0].Code).Select(i => i).First();
+            var cdmRes = ThValidate.columnDataModels.Where(i => i.Code == columnRelateInf.ModelColumnInfs[0].Code).Select(i => i);
+            if(cdmRes!=null && cdmRes.Count()>0)
+            {
+                cdm = cdmRes.First();
+            }
             GetParameter getParameter = GetAntiSeismicGrade; //抗震等级
             getParameter += GetProtectLayerThickness;  //保护层厚度
             getParameter += GetConcreteStrength;      //混凝土强度

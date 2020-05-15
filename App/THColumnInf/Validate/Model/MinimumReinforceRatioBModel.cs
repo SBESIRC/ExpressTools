@@ -170,12 +170,14 @@ namespace ThColumnInfo.Validate
             }
             byte[] buffers = Encoding.UTF32.GetBytes(Cdm.Ctri.BEdgeSideMiddleReinforcement);
             var res1 = buffers.Where(i => i == 132);
-            if (res1 != null && res1.Count() > 0)
+            if ((res1 != null && res1.Count() > 0)|| 
+                Cdm.Ctri.BEdgeSideMiddleReinforcement.IndexOf("%%132")>=0)
             {
                 value = 0.05;
             }
             var res3 = buffers.Where(i => i == 131);
-            if (res3 != null && res3.Count() > 0)
+            if ((res3 != null && res3.Count() > 0) ||
+                 Cdm.Ctri.BEdgeSideMiddleReinforcement.IndexOf("%%131") >= 0)
             {
                 value = 0.1;
             }

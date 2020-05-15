@@ -140,6 +140,12 @@ namespace ThColumnInfo
                
                 //计算书校核
                 List<ColumnRelateInf> columnRelateInfs = this.SignPlantCalData.GetColumnRelateInfs(this);//从图纸中获取
+                if (columnInfs.Count>0)
+                {
+                    List<string> correctCodes = columnInfs.Select(i => i.Text).ToList();
+                    columnRelateInfs = columnRelateInfs.Where(i => i.ModelColumnInfs.Count == 1 &&
+                    correctCodes.IndexOf(i.ModelColumnInfs[0].Text) >= 0).Select(i => i).ToList();
+                }
                 ThCalculationValidate tcv = new ThCalculationValidate(this.SignExtractColumnInfo, columnRelateInfs, this.SignPlantCalData.CalInfo);
                 tcv.Validate();
                 tcv.PrintCalculation();

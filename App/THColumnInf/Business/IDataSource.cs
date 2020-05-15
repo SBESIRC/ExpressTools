@@ -10,6 +10,7 @@ namespace ThColumnInfo
     {
         List<ColumnInf> ColumnInfs { get; set; }
         List<ColumnTableRecordInfo> ColumnTableRecordInfos { get; set; }
-        void Extract();
+        List<ColumnTableRecordInfo> InvalidCtris  { get; set; } //记录有问题的柱表信息
+        void Extract(bool importCal=false);
     }
 }
