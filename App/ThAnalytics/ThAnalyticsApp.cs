@@ -208,20 +208,19 @@ namespace ThAnalytics
                     return;
                 }
 
-                // 天华Lisp命令都是以“TH”开头
-                // 特殊情况（C:THZ0）
-                if (Regex.Match(cmdName, @"^\([cC]:THZ0\)$").Success)
+                // 天华Lisp命令都是以“TH”开头，后面接不少于2个字母
+                if (Regex.Match(cmdName, @"^\([cC]:TH[A-Z]{2,}\)$").Success)
                 {
                     var lispCmdName = cmdName.Substring(3, cmdName.Length - 4);
                     ThCybrosService.Instance.RecordTHCommandEvent(lispCmdName, 0);
                     return;
                 }
 
-                // 正常情况（C:THXXX）
-                if (Regex.Match(cmdName, @"^\([cC]:TH[A-Z]{3,}\)$").Success)
+                // 特殊情况（C:THZ0）
+                if (Regex.Match(cmdName, @"^\([cC]:THZ0\)$").Success)
                 {
                     var lispCmdName = cmdName.Substring(3, cmdName.Length - 4);
-                    ThCybrosService.Instance.RecordTHCommandEvent(cmdName, 0);
+                    ThCybrosService.Instance.RecordTHCommandEvent(lispCmdName, 0);
                     return;
                 }
 
