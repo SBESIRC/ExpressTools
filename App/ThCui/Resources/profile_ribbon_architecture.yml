@@ -137,7 +137,7 @@ panels:
       - text: "图块集"
         attributes: { "IsVisible": false, "IsEnabled": true }
       - text: "图块断线"
-        attributes: { "IsVisible": true, "IsEnabled": true }
+        attributes: { "IsVisible": false, "IsEnabled": true }
       - text: "文字块镜像"
         attributes: { "IsVisible": true, "IsEnabled": true }
     attributes: { "IsVisible": true, "IsEnabled": true }
