@@ -1,5 +1,6 @@
 ﻿using AcHelper;
 using Linq2Acad;
+using System.Linq;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -17,6 +18,17 @@ namespace ThSitePlan.Engine
                 ThSitePlanDbEngine.Instance.Initialize(database);
                 string frameName = (string)configItem.Properties["Name"];
 
+                // 分解复杂的填充为简单填充
+                using (var objs = FilterHatch(database, configItem, options))
+                {
+                    if (objs.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    Active.Editor.HatchDecomposeCmd(objs);
+                }
+
                 // 获得其轮廓线
                 using (var objs = FilterHatch(database, configItem, options))
                 {
@@ -25,7 +37,7 @@ namespace ThSitePlan.Engine
                         return false;
                     }
 
-                    Active.Editor.HatchEditCmd(objs);
+                    Active.Editor.HatchBoundaryCmd(objs);
                 }
 
                 // 删除Hatch，只保留其轮廓线
@@ -37,6 +49,36 @@ namespace ThSitePlan.Engine
                     }
 
                     Active.Editor.EraseCmd(objs);
+                }
+
+                // 剔除所有内部的面域
+                using (var objs = FilterRegion(database, configItem, options))
+                {
+                    if (objs.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    Active.Editor.UnionRegions(objs);
+                }
+                using (var objs = FilterRegion(database, configItem, options))
+                {
+                    if (objs.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    Active.Editor.ExplodeCmd(objs);
+                }
+                using (var objs = FilterRegion(database, configItem, options))
+                {
+                    if (objs.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    // 设置建筑物面域图层
+                    acadDatabase.Database.MoveToLayer(objs, ThSitePlanCommon.LAYER_BUILD_HATCH);
                 }
 
                 // 根据建筑物面域生成阴影面域
@@ -89,6 +131,23 @@ namespace ThSitePlan.Engine
             ObjectId frame = (ObjectId)options.Options["Frame"];
             var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Region)).DxfName);
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                frame,
+                PolygonSelectionMode.Window,
+                filter);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
+        }
+
+        private ObjectIdCollection FilterRegion(ObjectId frame)
+        {
+            var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Region)).DxfName);
+            PromptSelectionResult psr = Active.Editor.SelectByRegion(
                 frame,
                 PolygonSelectionMode.Window,
                 filter);

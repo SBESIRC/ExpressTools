@@ -151,7 +151,7 @@ namespace ThSitePlan
         }
 
 
-        public static void HatchEditCmd(this Editor editor, ObjectIdCollection objs)
+        public static void HatchBoundaryCmd(this Editor editor, ObjectIdCollection objs)
         {
             foreach (ObjectId obj in objs)
             {
@@ -193,6 +193,25 @@ namespace ThSitePlan
                 Active.Editor.AcedCmd(args);
             }
 #endif
+        }
+
+        public static void HatchDecomposeCmd(this Editor editor, ObjectIdCollection objs)
+        {
+            foreach (ObjectId obj in objs)
+            {
+#if ACAD_ABOVE_2014
+                Active.Editor.Command("_.-HATCHEDIT", 
+                    obj, 
+                    "_H");
+#else
+                ResultBuffer args = new ResultBuffer(
+                   new TypedValue((int)LispDataType.Text, "_.-HATCHEDIT"),
+                   new TypedValue((int)LispDataType.ObjectId, obj),
+                   new TypedValue((int)LispDataType.Text, "_H")
+                   );
+                Active.Editor.AcedCmd(args);
+#endif
+            }
         }
 
         public static void BoundaryCmd(this Editor editor, ObjectIdCollection objs, Point3d seedPt)

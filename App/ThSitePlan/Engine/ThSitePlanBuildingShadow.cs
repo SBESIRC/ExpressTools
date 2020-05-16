@@ -1,6 +1,7 @@
 ﻿using System;
 using AcHelper;
 using Linq2Acad;
+using System.Linq;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
@@ -102,6 +103,7 @@ namespace ThSitePlan.Engine
                     Region
                 });
                 Active.Editor.SubtractRegions(pObjs, sObjs);
+                pObjs.Cast<ObjectId>().ForEach(o => o.CreateHatchWithPolygon());
             }
         }
     }

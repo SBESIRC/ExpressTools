@@ -83,6 +83,18 @@ namespace Autodesk.AutoCAD.EditorInput
 
         }
 
+        public static PromptSelectionResult SelectByRegion(this Editor ed,
+            ObjectId regionId,
+            PolygonSelectionMode mode,
+            SelectionFilter filter)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(regionId.Database))
+            {
+                var polygon = acadDatabase.Element<Region>(regionId).Vertices();
+                return ed.SelectByPolygon(polygon, mode, filter);
+            }
+        }
+
         public static void ZoomWindow(this Editor ed, Extents3d ext)
         {
             ext.TransformBy(ed.CurrentUserCoordinateSystem.Inverse());

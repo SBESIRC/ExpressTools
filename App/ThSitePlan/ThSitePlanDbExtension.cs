@@ -205,7 +205,7 @@ namespace ThSitePlan
                     hatch.ColorIndex = ThSitePlanCommon.hatch_color_index;
 
                     // 外圈轮廓
-                    hatch.Associative = true;
+                    hatch.Associative = false;
                     hatch.AppendLoop(HatchLoopTypes.Default, dbObjIds);
 
                     // 重新生成Hatch纹理
