@@ -23,6 +23,18 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Debug" Guid="{D51021CB-B3A2-47F7-8CBA-3743B99AD54E}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_RestSharp_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\RestSharp.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_Debug" Guid="{A5699205-EB4D-44AB-9423-0808A5B0C00B}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NTS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\NetTopologySuite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_CS_Debug" Guid="{6983481E-0D61-45EB-827E-BC46D39A0AF9}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NTS_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\NetTopologySuite.CoordinateSystems.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_Debug" Guid="{825B63C4-1C71-4529-BCB3-98C65A3CDD54}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_GeoAPI_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\GeoAPI.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_CS_Debug" Guid="{34CEE8F3-3560-4235-854C-8367028CB20A}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_GeoAPI_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\GeoAPI.CoordinateSystems.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
@@ -43,6 +55,18 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Debug" Guid="{193DA18D-3477-4499-9A94-0F4FAC2E43DD}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_RestSharp_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\RestSharp.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NTS_Debug" Guid="{705602C6-28B1-4FDF-9152-CF33693A3BCE}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_NTS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\NetTopologySuite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NTS_CS_Debug" Guid="{45EA4DE9-1F89-4C33-9044-1A9DB3863DBC}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_NTS_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\NetTopologySuite.CoordinateSystems.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_Debug" Guid="{9B811C38-F755-4DC1-9860-CCBF894802C5}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_GeoAPI_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\GeoAPI.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_CS_Debug" Guid="{62813C76-B642-4B75-9ACB-D5DD103E4BE6}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_GeoAPI_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\GeoAPI.CoordinateSystems.dll" />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
@@ -65,6 +89,18 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Debug" Guid="{B3572E49-B2F5-4ED8-B3B6-54D79E63EBD5}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_RestSharp_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\RestSharp.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_NTS_Debug" Guid="{E4FF3DC0-0D9A-4446-AC1E-DCCDFE54C86F}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_NTS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\NetTopologySuite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_NTS_CS_Debug" Guid="{25C326F8-E0EF-4477-9CEB-D7698298D110}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_NTS_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\NetTopologySuite.CoordinateSystems.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_Debug" Guid="{41B5264D-086F-42EC-852B-ED60AD610C23}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_GeoAPI_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\GeoAPI.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_CS_Debug" Guid="{849761A6-2AE9-4EF7-9AF3-DAC7FAB48AE2}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_GeoAPI_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\GeoAPI.CoordinateSystems.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
       <?define OutputPath_R22_Debug="bin\Debug-NET46" ?>
@@ -85,6 +121,18 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_RestSharp_Debug" Guid="{ABF7EACA-114E-4DF1-BEDD-69EB5531FA91}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_RestSharp_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\RestSharp.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_NTS_Debug" Guid="{CE745B06-AA37-4A34-83F4-0E7137D642AA}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_NTS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\NetTopologySuite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_NTS_CS_Debug" Guid="{A6FD6191-C9AC-4BCA-B33C-8EB90C053837}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_NTS_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\NetTopologySuite.CoordinateSystems.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_Debug" Guid="{D95BC160-7087-464B-A188-56A6D11090A4}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_GeoAPI_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\GeoAPI.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_CS_Debug" Guid="{5A9DD2F3-D349-4C5B-8E9B-A7FF08F3A09B}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_GeoAPI_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\GeoAPI.CoordinateSystems.dll" />
       </Component>
     </DirectoryRef>
     <?elseif $(var.Configuration) = Release ?>
@@ -108,6 +156,18 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Release" Guid="{20424CB6-527E-4317-8EDB-31D39E28D019}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\RestSharp.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_Release" Guid="{9747D2CF-9B02-4C65-9ABC-C5D5148804BC}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NTS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\NetTopologySuite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_CS_Release" Guid="{3D146D68-198E-441A-A90D-D79E94727893}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NTS_CS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\NetTopologySuite.CoordinateSystems.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_Release" Guid="{0F5AE8C2-2BFB-47DE-80AF-7FF4C3E3D2A7}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_GeoAPI_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\GeoAPI.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_CS_Release" Guid="{61F23EBE-B5E0-4109-9425-476C1F894BBA}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_GeoAPI_CS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\GeoAPI.CoordinateSystems.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Release="bin\Release-NET40" ?>
@@ -128,6 +188,18 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Release" Guid="{98166AAB-6287-492A-B284-7E3C5555E38E}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\RestSharp.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NTS_Release" Guid="{23B0D0C9-1125-42ED-8470-8A3A88466A20}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_NTS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\NetTopologySuite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_NTS_CS_Release" Guid="{119D97F2-275D-4E01-A0EC-CFC644F1D43B}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_NTS_CS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\NetTopologySuite.CoordinateSystems.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_Release" Guid="{D93FEAD1-380B-455B-AC52-4CCD0F0CD9B9}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_GeoAPI_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\GeoAPI.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_CS_Release" Guid="{9124B179-0AD4-48F8-9A4E-2916CBF4878B}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_GeoAPI_CS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\GeoAPI.CoordinateSystems.dll" />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
@@ -150,6 +222,18 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Release" Guid="{A9BD8612-1F72-4209-9FE4-4C47BD0E4773}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\RestSharp.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_NTS_Release" Guid="{135A57EF-FFE7-4AAC-9AB5-696E4EC636CB}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_NTS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\NetTopologySuite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_NTS_CS_Release" Guid="{39A220FB-6007-438F-BCBD-2997F89A8385}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_NTS_CS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\NetTopologySuite.CoordinateSystems.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_Release" Guid="{12A0F15A-240C-4E5F-872D-ABBCB4109FED}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_GeoAPI_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\GeoAPI.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_CS_Release" Guid="{BD71744B-403A-426E-AA1F-818158A78F0B}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_GeoAPI_CS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\GeoAPI.CoordinateSystems.dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
       <?define OutputPath_R22_Release="bin\Release-NET46" ?>
@@ -170,6 +254,18 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_RestSharp_Release" Guid="{5D5AB4DE-C1FA-45C8-AD77-02AA52A35E9C}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\RestSharp.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_NTS_Release" Guid="{6C4317CE-3273-4BEC-81CD-4E4D92B5F44F}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_NTS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\NetTopologySuite.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_NTS_CS_Release" Guid="{B134947D-2AB5-4C73-9669-82949C97F856}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_NTS_CS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\NetTopologySuite.CoordinateSystems.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_Release" Guid="{053B7316-8433-47BA-B33F-AED4B4250C76}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_GeoAPI_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\GeoAPI.dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_CS_Release" Guid="{A0A0CAC6-2AB7-479C-A3C3-378CCDD1C84A}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_GeoAPI_CS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\GeoAPI.CoordinateSystems.dll" />
       </Component>
     </DirectoryRef>
     <?endif?>
@@ -201,6 +297,22 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_RestSharp_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_CS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_CS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NTS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NTS_CS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_CS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NTS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NTS_CS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_CS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NTS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NTS_CS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_CS_Debug" />
       <?elseif $(var.Configuration) = Release ?>
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Release" />
@@ -226,6 +338,22 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_RestSharp_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_CS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_CS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NTS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NTS_CS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_CS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NTS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NTS_CS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_CS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NTS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NTS_CS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_CS_Release" />
       <?endif?>
     </ComponentGroup>
   </Fragment>

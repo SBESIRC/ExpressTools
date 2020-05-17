@@ -151,8 +151,6 @@
     <PackageReference Include="PdfiumViewer" Version="2.13.0" />
     <PackageReference Include="PdfiumViewer.Native.x86.v8-xfa" Version="2018.4.8.256" />
     <PackageReference Include="PdfiumViewer.Native.x86_64.v8-xfa" Version="2018.4.8.256" />
-    <PackageReference Include="NetOffice.PowerPoint.Net40" Version="1.7.4.4" />
-    <PackageReference Include="NetTopologySuite" Version="1.15.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Enum\" />

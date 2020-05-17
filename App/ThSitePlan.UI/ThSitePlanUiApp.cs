@@ -31,48 +31,11 @@ namespace ThSitePlan.UI
             //
         }
 
-        [CommandMethod("TIANHUACAD", "THSPSET", CommandFlags.Modal)]
-        public void ThSitePlanSet()
-        {
-            using (var dlg = new ThSitePlanForm())
-            {
-                Application.ShowModalDialog(dlg);
-            }
-        }
-
-        [CommandMethod("TIANHUACAD", "THSPCONFIG", CommandFlags.Modal)]
-        public void ThSitePlanConfig()
-        {
-            using (var dlg = new fmConfigManage())
-            {
-                // 获取当前图纸中的配置
-                ThSitePlanConfigService.Instance.Initialize();
-                dlg.m_ColorGeneralConfig = ThSitePlanConfigService.Instance.RootJsonString;
-
-                // 弹出配置界面
-                var ConfigFormResult = Application.ShowModalDialog(dlg);
-                if (ConfigFormResult == System.Windows.Forms.DialogResult.OK)
-                {
-                    using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                    {
-                        // 创建一个XRecord
-                        ResultBuffer rb = new ResultBuffer(new TypedValue((int)DxfCode.XTextString, dlg.m_ColorGeneralConfig));
-                        Xrecord configrecord = new Xrecord()
-                        {
-                            Data = rb,
-                        };
-
-                        // 将XRecord添加到NOD中
-                        DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, true);
-                        dbdc.SetAt(ThSitePlanCommon.Configuration_Xrecord_Name, configrecord);
-                        acadDatabase.AddNewlyCreatedDBObject(configrecord);
-                    }
-                }
-            }
-        }
-
-        [CommandMethod("TIANHUACAD", "THSP", CommandFlags.Modal)]
-        public void ThSitePlan()
+        /// <summary>
+        /// 一键生成
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THPGE", CommandFlags.Modal)]
+        public void ThSitePlanGenerate()
         {
             Vector3d offset;
             ObjectId originFrame = ObjectId.Null;
@@ -198,7 +161,10 @@ namespace ThSitePlan.UI
             }
         }
 
-        [CommandMethod("TIANHUACAD", "THSPUPD", CommandFlags.Modal | CommandFlags.UsePickSet)]
+        /// <summary>
+        /// 更新
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THPUD", CommandFlags.Modal | CommandFlags.UsePickSet)]
         public void ThSitePlanUpdate()
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
@@ -352,6 +318,52 @@ namespace ThSitePlan.UI
                     // 保存PS生成的文档
                     psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
                 }
+            }
+        }
+
+        /// <summary>
+        /// 映射配置器
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THPCF", CommandFlags.Modal)]
+        public void ThSitePlanConfiguration()
+        {
+            using (var dlg = new fmConfigManage())
+            {
+                // 获取当前图纸中的配置
+                ThSitePlanConfigService.Instance.Initialize();
+                dlg.m_ColorGeneralConfig = ThSitePlanConfigService.Instance.RootJsonString;
+
+                // 弹出配置界面
+                var ConfigFormResult = Application.ShowModalDialog(dlg);
+                if (ConfigFormResult == System.Windows.Forms.DialogResult.OK)
+                {
+                    using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                    {
+                        // 创建一个XRecord
+                        ResultBuffer rb = new ResultBuffer(new TypedValue((int)DxfCode.XTextString, dlg.m_ColorGeneralConfig));
+                        Xrecord configrecord = new Xrecord()
+                        {
+                            Data = rb,
+                        };
+
+                        // 将XRecord添加到NOD中
+                        DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, true);
+                        dbdc.SetAt(ThSitePlanCommon.Configuration_Xrecord_Name, configrecord);
+                        acadDatabase.AddNewlyCreatedDBObject(configrecord);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 脚本控制器
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THPOP", CommandFlags.Modal)]
+        public void ThSitePlanOptions()
+        {
+            using (var dlg = new ThSitePlanForm())
+            {
+                Application.ShowModalDialog(dlg);
             }
         }
     }

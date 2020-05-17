@@ -16,6 +16,7 @@
             <ComponentGroupRef Id="ProductComponentsAppWin64" />
             <ComponentGroupRef Id="ProductComponentsAppNative64" />
             <ComponentGroupRef Id="ProductComponentsAppExternal" />
+            <ComponentGroupRef Id="ProductComponentsAppInternal" />
             <ComponentGroupRef Id="ProductComponentsAppLanguage" />
             <ComponentGroupRef Id="ProductComponentsDevExpress" />
             <ComponentGroupRef Id="ProductComponentsOffice" />
