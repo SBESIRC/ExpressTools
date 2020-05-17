@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace ThEssential.BlockConvert
 {
@@ -26,20 +27,66 @@ namespace ThEssential.BlockConvert
         /// <returns></returns>
         public static string LoadSN(ThBConvertBlockReference blockReference)
         {
-            try
+            string name = blockReference.StringValue(ThBConvertCommon.PROPERTY_EQUIPMENT_SYMBOL);
+            if (string.IsNullOrEmpty(name))
             {
-                var value = blockReference.StringValue(ThBConvertCommon.PROPERTY_EQUIPMENT_SYMBOL);
-                if (string.IsNullOrEmpty(value))
+                name = blockReference.StringValue(ThBConvertCommon.PROPERTY_FAN_TYPE);
+            }
+            return string.Format("{0}-{1}", name, blockReference.StringValue(ThBConvertCommon.PROPERTY_STOREY_AND_NUMBER));
+        }
+
+        /// <summary>
+        /// 电量
+        /// </summary>
+        /// <param name="blockReference"></param>
+        /// <returns></returns>
+        public static string LoadPower(ThBConvertBlockReference blockReference)
+        {
+            if (blockReference.IsFirePowerSupply())
+            {
+                return LoadPowerForFirePower(blockReference);
+            }
+            else
+            {
+                return LoadPowerForNonFirePower(blockReference);
+            }
+        }
+
+        private static string LoadPowerForFirePower(ThBConvertBlockReference blockReference)
+        {
+            // 电量
+            // 1.优先从属性"电量"提取（仅数字），属性内值可能为：数字+字母
+            var value = blockReference.StringValue(ThBConvertCommon.PROPERTY_POWER_QUANTITY);
+            if (!double.TryParse(value, out double quantity))
+            {
+                // 2.如无，则从块可见性中文字"电量：*"中提取数字
+                var texts = blockReference.VisibleTexts();
+                foreach(var text in texts)
                 {
-                    value = blockReference.StringValue(ThBConvertCommon.PROPERTY_FAN_TYPE);
+                    Match match = Regex.Match(text, @"^(电量[:：])([+-]?[0-9]+(?:\.[0-9]*)?)([kK][wW])$");
+                    if (match.Success)
+                    {
+                        quantity = double.Parse(match.Groups[2].Value);
+                    }
                 }
-                return string.Format("{0}-{1}", value, 
-                    blockReference.StringValue(ThBConvertCommon.PROPERTY_STOREY_AND_NUMBER));
             }
-            catch
+
+            // 电压
+            // 1.优先从属性"电压"提取（仅数字），属性内值可能为：数字 + 字母
+            value = blockReference.StringValue(ThBConvertCommon.PROPERTY_POWER_VOLTAGE);
+            if (!double.TryParse(value, out double voltage))
             {
-                return string.Empty;
+                // 2.如无，则采用默认值380
+                voltage = ThBConvertCommon.default_voltage;
             }
+
+            return string.Format("{0}kW {1}V", quantity.ToString(), voltage.ToString());
+        }
+
+        private static string LoadPowerForNonFirePower(ThBConvertBlockReference blockReference)
+        {
+            return string.Format("{0}kW {1}V",
+                blockReference.StringValue(ThBConvertCommon.PROPERTY_POWER_QUANTITY), ThBConvertCommon.default_voltage.ToString());
         }
 
         /// <summary>
@@ -49,26 +96,62 @@ namespace ThEssential.BlockConvert
         /// <returns></returns>
         public static string LoadUsage(ThBConvertBlockReference blockReference)
         {
-            try
+            if (blockReference.IsFirePowerSupply())
             {
-                string quota = blockReference.StringValue(ThBConvertCommon.PROPERTY_QUOTA);
-                string value = blockReference.StringValue(ThBConvertCommon.PROPERTY_FAN_USAGE);
-                if (string.IsNullOrEmpty(value))
-                {
-                    value = blockReference.StringValue(ThBConvertCommon.PROPERTY_EQUIPMENT_NAME);
-                }
-                if (string.IsNullOrEmpty(value))
-                {
-                    value = blockReference.EffectiveName;
-                }
-                return string.Format("{0}({1})", value, quota);
+                return LoadUsageForFirePower(blockReference);
             }
-            catch
+            else
             {
-                return string.Empty;
+                return LoadUsageNonFirePower(blockReference);
             }
         }
 
+        private static string LoadUsageForFirePower(ThBConvertBlockReference blockReference)
+        {
+            // 设备名称
+            // 1.优先从属性"设备名称", "风机功能"提取
+            string name = blockReference.StringValue(ThBConvertCommon.PROPERTY_EQUIPMENT_NAME);
+            if (string.IsNullOrEmpty(name))
+            {
+                name = blockReference.StringValue(ThBConvertCommon.PROPERTY_FAN_USAGE);
+            }
+            if (string.IsNullOrEmpty(name))
+            {
+                // 2.如无，则采用块名，需要删除括号内值（括号不分中英文）
+                name = blockReference.EffectiveName;
+                Match match = Regex.Match(name, @"^.+([\(（].+[\)）]).+$");
+                if (match.Success)
+                {
+                    name = name.Replace(match.Groups[1].Value as string, "");
+                }
+            }
+
+            // 定频
+            // 1.优先从属性"定频", "变频", "双速"中提取
+            // 2.如无，则采用默认值定频
+            string frequency = blockReference.StringValue(ThBConvertCommon.PROPERTY_FIXED_FREQUENCY);
+            if (string.IsNullOrEmpty(frequency))
+            {
+                frequency = blockReference.StringValue(ThBConvertCommon.PROPERTY_VARIABLE_FREQUENCY);
+            }
+            if (string.IsNullOrEmpty(frequency))
+            {
+                frequency = blockReference.StringValue(ThBConvertCommon.PROPERTY_DUAL_FREQUENCY);
+            }
+            if (string.IsNullOrEmpty(frequency))
+            {
+                frequency = ThBConvertCommon.PROPERTY_FIXED_FREQUENCY;
+            }
+
+            return string.Format("{0}({1})", name, frequency);
+        }
+
+        private static string LoadUsageNonFirePower(ThBConvertBlockReference blockReference)
+        {
+            return string.Format("{0}({1})", 
+                blockReference.StringValue(ThBConvertCommon.PROPERTY_EQUIPMENT_NAME),
+                blockReference.StringValue(ThBConvertCommon.PROPERTY_FIXED_FREQUENCY));
+        }
 
         /// <summary>
         /// 获取属性（字符串）

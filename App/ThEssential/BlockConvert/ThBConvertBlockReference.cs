@@ -9,16 +9,18 @@ namespace ThEssential.BlockConvert
     public class ThBConvertBlockReference
     {
         public double Rotation { get; set; }
-        public string Visibility { get; set; }
+        public List<string> Texts { get; set; }
         public string EffectiveName { get; set; }
+        public Database HostDatabase { get; set; }
         public Matrix3d BlockTransform { get; set; }
         public SortedDictionary<string, string> Attributes { get; set; }
-        public DynamicBlockReferencePropertyCollection Properties { get; set; }
+        public DynamicBlockReferencePropertyCollection CustomProperties { get; set; }
         public ThBConvertBlockReference(ObjectId blockRef)
         {
+            HostDatabase = blockRef.Database;
             Rotation = blockRef.GetBlockRotation();
             EffectiveName = blockRef.GetBlockName();
-            Properties = blockRef.GetDynProperties();
+            CustomProperties = blockRef.GetDynProperties();
             BlockTransform = blockRef.GetBlockTransform();
             Attributes = blockRef.GetAttributesInBlockReference();
         }

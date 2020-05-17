@@ -81,7 +81,7 @@ namespace ThEssential.BlockConvert
                     else if (text.TextString == ThBConvertCommon.PROPERTY_POWER_QUANTITY)
                     {
                         // 电量：“电量”
-                        text.TextString = source.StringValue(ThBConvertCommon.PROPERTY_POWER_QUANTITY);
+                        text.TextString = ThBConvertUtils.LoadPower(source);
                     }
                     else if (text.TextString == ThBConvertCommon.PROPERTY_LOAD_USAGE)
                     {

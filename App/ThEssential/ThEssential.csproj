@@ -42,6 +42,7 @@
     <Compile Include="BlockConvert\ThBConvertBlockReference.cs" />
     <Compile Include="BlockConvert\ThBConvertCommon.cs" />
     <Compile Include="BlockConvert\ThBConvertDbUtils.cs" />
+    <Compile Include="BlockConvert\ThBConvertDynBlockUtils.cs" />
     <Compile Include="BlockConvert\ThBConvertEngine.cs" />
     <Compile Include="BlockConvert\ThBConvertEngineStrongCurrent.cs" />
     <Compile Include="BlockConvert\ThBConvertTableUtils.cs" />
