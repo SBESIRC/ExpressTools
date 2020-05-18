@@ -99,6 +99,7 @@ namespace ThSitePlan.UI
             this.MenuItemOpacity90 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemOpacity100 = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.BtnPick = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
@@ -155,7 +156,7 @@ namespace ThSitePlan.UI
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
             this.layoutControl1.LookAndFeel.SkinName = "Metropolis";
             this.layoutControl1.Name = "layoutControl1";
-            this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(499, 195, 650, 533);
+            this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(946, 252, 650, 533);
             this.layoutControl1.Root = this.layoutControlGroup1;
             this.layoutControl1.Size = new System.Drawing.Size(712, 478);
             this.layoutControl1.TabIndex = 0;
@@ -172,9 +173,9 @@ namespace ThSitePlan.UI
             // 
             // BtnHelp
             // 
-            this.BtnHelp.Location = new System.Drawing.Point(624, 445);
+            this.BtnHelp.Location = new System.Drawing.Point(620, 445);
             this.BtnHelp.Name = "BtnHelp";
-            this.BtnHelp.Size = new System.Drawing.Size(77, 22);
+            this.BtnHelp.Size = new System.Drawing.Size(81, 22);
             this.BtnHelp.TabIndex = 16;
             this.BtnHelp.Text = "帮助";
             this.BtnHelp.UseVisualStyleBackColor = true;
@@ -182,9 +183,9 @@ namespace ThSitePlan.UI
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(554, 445);
+            this.BtnCancel.Location = new System.Drawing.Point(534, 445);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(68, 22);
+            this.BtnCancel.Size = new System.Drawing.Size(84, 22);
             this.BtnCancel.TabIndex = 15;
             this.BtnCancel.Text = "取消";
             this.BtnCancel.UseVisualStyleBackColor = true;
@@ -193,9 +194,9 @@ namespace ThSitePlan.UI
             // BtnOK
             // 
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(478, 445);
+            this.BtnOK.Location = new System.Drawing.Point(447, 445);
             this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(74, 22);
+            this.BtnOK.Size = new System.Drawing.Size(85, 22);
             this.BtnOK.TabIndex = 14;
             this.BtnOK.Text = "确定";
             this.BtnOK.UseVisualStyleBackColor = true;
@@ -320,7 +321,7 @@ namespace ThSitePlan.UI
             this.ColName.OptionsColumn.AllowMove = false;
             this.ColName.Visible = true;
             this.ColName.VisibleIndex = 0;
-            this.ColName.Width = 169;
+            this.ColName.Width = 175;
             // 
             // ColColor
             // 
@@ -335,7 +336,7 @@ namespace ThSitePlan.UI
             this.ColColor.OptionsColumn.AllowMove = false;
             this.ColColor.Visible = true;
             this.ColColor.VisibleIndex = 1;
-            this.ColColor.Width = 134;
+            this.ColColor.Width = 140;
             // 
             // ColorEdit
             // 
@@ -368,7 +369,7 @@ namespace ThSitePlan.UI
             this.ColTransparency.OptionsColumn.AllowMove = false;
             this.ColTransparency.Visible = true;
             this.ColTransparency.VisibleIndex = 2;
-            this.ColTransparency.Width = 100;
+            this.ColTransparency.Width = 105;
             // 
             // SpinEdit
             // 
@@ -398,7 +399,7 @@ namespace ThSitePlan.UI
             this.ColFrame.OptionsColumn.AllowMove = false;
             this.ColFrame.Visible = true;
             this.ColFrame.VisibleIndex = 3;
-            this.ColFrame.Width = 94;
+            this.ColFrame.Width = 99;
             // 
             // ColLayer
             // 
@@ -413,7 +414,7 @@ namespace ThSitePlan.UI
             this.ColLayer.OptionsColumn.AllowMove = false;
             this.ColLayer.Visible = true;
             this.ColLayer.VisibleIndex = 4;
-            this.ColLayer.Width = 165;
+            this.ColLayer.Width = 143;
             // 
             // PopupContainer
             // 
@@ -679,30 +680,30 @@ namespace ThSitePlan.UI
             // layoutControlItem5
             // 
             this.layoutControlItem5.Control = this.BtnOK;
-            this.layoutControlItem5.Location = new System.Drawing.Point(467, 434);
+            this.layoutControlItem5.Location = new System.Drawing.Point(436, 434);
             this.layoutControlItem5.Name = "layoutControlItem5";
             this.layoutControlItem5.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem5.Size = new System.Drawing.Size(76, 24);
+            this.layoutControlItem5.Size = new System.Drawing.Size(87, 24);
             this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem5.TextVisible = false;
             // 
             // layoutControlItem6
             // 
             this.layoutControlItem6.Control = this.BtnCancel;
-            this.layoutControlItem6.Location = new System.Drawing.Point(543, 434);
+            this.layoutControlItem6.Location = new System.Drawing.Point(523, 434);
             this.layoutControlItem6.Name = "layoutControlItem6";
             this.layoutControlItem6.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem6.Size = new System.Drawing.Size(70, 24);
+            this.layoutControlItem6.Size = new System.Drawing.Size(86, 24);
             this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem6.TextVisible = false;
             // 
             // layoutControlItem8
             // 
             this.layoutControlItem8.Control = this.BtnHelp;
-            this.layoutControlItem8.Location = new System.Drawing.Point(613, 434);
+            this.layoutControlItem8.Location = new System.Drawing.Point(609, 434);
             this.layoutControlItem8.Name = "layoutControlItem8";
             this.layoutControlItem8.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem8.Size = new System.Drawing.Size(79, 24);
+            this.layoutControlItem8.Size = new System.Drawing.Size(83, 24);
             this.layoutControlItem8.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem8.TextVisible = false;
             // 
@@ -711,7 +712,7 @@ namespace ThSitePlan.UI
             this.emptySpaceItem1.AllowHotTrack = false;
             this.emptySpaceItem1.Location = new System.Drawing.Point(249, 434);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(218, 24);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(187, 24);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // Tim
@@ -887,6 +888,14 @@ namespace ThSitePlan.UI
             this.MenuItemOpacity100.Text = "不透明度：100%";
             this.MenuItemOpacity100.Click += new System.EventHandler(this.MenuItemOpacity_Click);
             // 
+            // BtnPick
+            // 
+            this.BtnPick.Location = new System.Drawing.Point(428, 446);
+            this.BtnPick.Name = "BtnPick";
+            this.BtnPick.Size = new System.Drawing.Size(16, 20);
+            this.BtnPick.TabIndex = 23;
+            this.BtnPick.Click += new System.EventHandler(this.BtnPick_Click);
+            // 
             // fmConfigManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -894,6 +903,7 @@ namespace ThSitePlan.UI
             this.ClientSize = new System.Drawing.Size(712, 478);
             this.Controls.Add(this.PopCtl);
             this.Controls.Add(this.layoutControl1);
+            this.Controls.Add(this.BtnPick);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(728, 517);
@@ -1011,5 +1021,6 @@ namespace ThSitePlan.UI
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private DevExpress.XtraEditors.SimpleButton BtnPick;
     }
 }
