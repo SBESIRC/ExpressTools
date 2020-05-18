@@ -5,16 +5,16 @@
         <link>"http://49.234.60.227/AI/thcad/appcast.xml"</link>
         <language>en</language>
         <item>
-            <title>Version 1.7.2 (3 new features added, 4 featres updated, 1 bug fixed)</title>
+            <title>Version 1.7.3 (1 crash bug fixed)</title>
             <sparkle:releaseNotesLink>
                 http://49.234.60.227/AI/thcad/ReleaseNote/release-note.md
             </sparkle:releaseNotesLink>
-            <pubDate>Wed, 13 May 2020 10:16:30 +0800</pubDate>
-            <enclosure url="http://49.234.60.227/AI/thcad/Release/ThCADInstaller.v1.7.2.msi"
-                       sparkle:version="1.7.2"
-                       length="74642056"
+            <pubDate>Fri, 15 May 2020 17:37:55 +0800</pubDate>
+            <enclosure url="http://49.234.60.227/AI/thcad/Release/ThCADInstaller.v1.7.3.msi"
+                       sparkle:version="1.7.3"
+                       length="74642080"
                        type="application/octet-stream"
-                       sparkle:dsaSignature="f/J4xFsd8C8b4YSSVXCZCgeRIx5hcZvHVtbOIqpQkBnk0wBOklRCtQ==" />
+                       sparkle:dsaSignature="dw9uB85aqWcKjglO/OXa9wdNvnMHSGZsaraj3/361j1iEGtnMfVo4Q==" />
         </item>
     </channel>
 </rss>
