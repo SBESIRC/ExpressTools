@@ -1167,6 +1167,18 @@ namespace ThPlot
             return true;
         }
 
+        public static bool CalculatePolylineRelation(RelatedData relatedData, Polyline polyline)
+        {
+            var center = relatedData.ImagePolyline.Get3DCenter();
+            if (PointInnerEntity(polyline, center))
+            {
+                relatedData.PptPolyline = polyline;
+                return true;
+            }
+            else
+                return false;
+        }
+
         /// <summary>
         /// 前者在后者图元的内部 返回true
         /// </summary>
@@ -1411,11 +1423,13 @@ namespace ThPlot
                     var curImagePolyline = relatedData.ImagePolyline;
                     foreach (var pptPolyline in pptPolylineLst)
                     {
-                        if (BoundaryIntersectWithBound(relatedData, pptPolyline) || EntityContainsEntity(relatedData, pptPolyline)
-                            || EntityContainsEntity(pptPolyline, relatedData))
-                        {
+                        if (CalculatePolylineRelation(relatedData, pptPolyline))
                             break;
-                        }
+                        //if (BoundaryIntersectWithBound(relatedData, pptPolyline) || EntityContainsEntity(relatedData, pptPolyline)
+                        //    || EntityContainsEntity(pptPolyline, relatedData))
+                        //{
+                        //    break;
+                        //}
                     }
                 }
 
