@@ -214,6 +214,7 @@ namespace ThColumnInfo.View
                         }
                     }
                     ThProgressBar.MeterProgress();
+                    columnInfs.Sort(new ColumnCordCompare());
                     foreach (ColumnInf columnInf in columnInfs)
                     {
                         columnInf.Text = currentCode + "-" + index++;
@@ -233,6 +234,7 @@ namespace ThColumnInfo.View
             codeEmptyParentNode.ForeColor = lostColor;
             if (codeEmptyList.Count > 0)
             {
+                codeEmptyList.Sort(new ColumnCordCompare());
                 for (int i = 1; i <= codeEmptyList.Count; i++)
                 {
                     TreeNode codeEmptyNode = codeEmptyParentNode.Nodes.Add(i.ToString());
@@ -264,6 +266,7 @@ namespace ThColumnInfo.View
                     {
                         continue;
                     }
+                    item.Value.Sort(new ColumnCordCompare());
                     TreeNode codeNode = uncompleteParentNode.Nodes.Add(item.Key + "(" + item.Value.Count + ")");
                     codeNode.ForeColor = unCompletedColor;
                     for (int i = 1; i <= item.Value.Count; i++)
@@ -499,7 +502,7 @@ namespace ThColumnInfo.View
                     if (needHide && !this.isMouseRightClick)
                     {
                         HideTotalFrameIds(innerFrameNode);
-                        doc.Editor.Regen();
+                        doc.SendStringToExecute("_.Regen ", true, false, true);
                     }
                     if (selectNodeInnerFrameNode != null && selectNodeInnerFrameNode != innerFrameNode)
                     {
@@ -523,28 +526,6 @@ namespace ThColumnInfo.View
                     {
                         DataPalette._dateResult.SelectDataGridViewRow(columnInf, thStandardSign.InnerFrameName);
                     }
-                }
-            }
-        }
-        private void Regen()
-        {
-            if (tvCheckRes.SelectedNode == null)
-            {
-                return;
-            }
-            bool isCurrentDocument = CheckRootNodeIsCurrentDocument(tvCheckRes.SelectedNode);
-            if (isCurrentDocument == false)
-            {
-                return;
-            }
-            TreeNode innerFrameNode = TraverseInnerFrameRoot(tvCheckRes.SelectedNode);
-            if (innerFrameNode != null)
-            {
-                bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
-                if (needHide)
-                {
-                    Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
-                    doc.Editor.Regen();
                 }
             }
         }
@@ -1088,12 +1069,49 @@ namespace ThColumnInfo.View
                 this.dwgHasCalNotNodeName, "图有计算书无(" + columnInfs.Count + ")");
             System.Drawing.Color sysColor= PlantCalDataToDraw.GetFrameSystemColor(FrameColor.DwgHasCalNot);
             dwgHasCalNotNode.ForeColor = sysColor;
-            foreach (var columnInf in columnInfs)
+            List<string> codes = columnInfs.Select(i => i.Code).Distinct().ToList();
+            codes.Sort();
+            Dictionary<string, List<ColumnInf>> codeColumnInf = new Dictionary<string, List<ColumnInf>>();
+            foreach (string code in codes)
             {
-                TreeNode leafNode = dwgHasCalNotNode.Nodes.Add(columnInf.Text);
-                leafNode.ForeColor = sysColor;
-                leafNode.Tag = columnInf;
-            }                
+                List<ColumnInf> tempColumnInfs = columnInfs.Where(i => i.Code == code).Select(i => i).ToList();
+                if (columnInfs == null || columnInfs.Count == 0)
+                {
+                    continue;
+                }
+                codeColumnInf.Add(code, tempColumnInfs);
+            }
+            foreach (var item in codeColumnInf)
+            {
+                List<ColumnInf> tempColumnInfs = item.Value;
+                if (tempColumnInfs == null && tempColumnInfs.Count == 0)
+                {
+                    continue;
+                }
+                string currentCode = item.Key;
+                int index = 1;
+                for (int i = 0; i < tempColumnInfs.Count; i++)
+                {
+                    if (tempColumnInfs[i].HasOrigin)
+                    {
+                        tempColumnInfs[i].Text = currentCode + "-" + index++;
+                        TreeNode leafNode = dwgHasCalNotNode.Nodes.Add(tempColumnInfs[i].Text);
+                        leafNode.Tag = tempColumnInfs[i];
+                        leafNode.ForeColor = sysColor;
+                        tempColumnInfs.RemoveAt(i);
+                        break;
+                    }
+                }
+                tempColumnInfs.Sort(new ColumnCordCompare());
+                foreach (ColumnInf columnInf in tempColumnInfs)
+                {
+                    columnInf.Text = currentCode + "-" + index++;
+                    TreeNode leafNode = dwgHasCalNotNode.Nodes.Add(columnInf.Text);
+                    leafNode.Tag = columnInf;
+                    leafNode.ForeColor = sysColor;
+                }
+            }
+            ThProgressBar.MeterProgress();
         }
         private string dwgNotCalHasNodeName = "DwgNotCalHas";
         private void AddDwgNotCalHasNode(TreeNode innerFrameNode)
@@ -1116,6 +1134,7 @@ namespace ThColumnInfo.View
                 this.dwgNotCalHasNodeName, "图无计算书有(" + objIds.Count + ")");
             System.Drawing.Color sysColor = PlantCalDataToDraw.GetFrameSystemColor(FrameColor.DwgNotCalHas);
             dwgNotCalHasNode.ForeColor = sysColor;
+            objIds.Sort(new ColumnPolylineCompare());
             for (int i=0;i< objIds.Count;i++)
             {
                 ObjectId objId = objIds[i];
@@ -1335,7 +1354,6 @@ namespace ThColumnInfo.View
                     if(showObjIds.Count>0)
                     {
                         ThColumnInfoUtils.ShowObjIds(showObjIds, false);
-                        //document.Editor.Regen();
                     }
                     ComponentPropDefineVM componentPropDefineVM = new ComponentPropDefineVM();
                     ComponentPropDefine componentPropDefine = new ComponentPropDefine(componentPropDefineVM);

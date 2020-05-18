@@ -153,6 +153,8 @@ namespace ThColumnInfo
             texts.ForEach(i => textIds.Add(i.ObjectId));
             TypedValue tv = new TypedValue((int)DxfCode.ExtendedDataAsciiString, "*");
             texts.ForEach(i => ThColumnInfoUtils.AddXData(i.ObjectId,ThColumnInfoUtils.thColumnFrameRegAppName,new List<TypedValue>() { tv }));
+            ObjectId layerId = BaseFunction.CreateColumnLayer();
+            textIds.ForEach(i => ThColumnInfoUtils.SetLayer(i, layerId));
             return textIds;
         }
     }

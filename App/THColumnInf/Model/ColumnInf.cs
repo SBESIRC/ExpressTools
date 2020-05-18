@@ -90,4 +90,74 @@ namespace ThColumnInfo
             return copareIndex;
         }
     }
+    class ColumnCordCompare: IComparer<ColumnInf>
+    {
+        public int Compare(ColumnInf x, ColumnInf y)
+        {
+            Point3d firstPt = ThColumnInfoUtils.GetMidPt(x.Points[0], x.Points[2]);
+            Point3d secondPt = ThColumnInfoUtils.GetMidPt(y.Points[0], y.Points[2]);
+            firstPt = ThColumnInfoUtils.TransPtFromWcsToUcs(firstPt);
+            secondPt = ThColumnInfoUtils.TransPtFromWcsToUcs(secondPt);
+            if(firstPt.Y> secondPt.Y)
+            {
+                return -1;
+            }
+            else if(firstPt.Y < secondPt.Y)
+            {
+                return 1;
+            }
+            else 
+            {
+                if(firstPt.X< secondPt.X)
+                {
+                    return -1;
+                }
+                else if(firstPt.X > secondPt.X)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+    }
+    class ColumnPolylineCompare : IComparer<ObjectId>
+    {
+        public int Compare(ObjectId x, ObjectId y)
+        {
+            List<Point3d> xPts = ThColumnInfoUtils.GetPolylinePts(x);
+            List<Point3d> yPts = ThColumnInfoUtils.GetPolylinePts(y);
+
+            Point3d firstCenPt = ThColumnInfoUtils.GetMidPt(xPts[0], xPts[2]);
+            Point3d secondCenPt = ThColumnInfoUtils.GetMidPt(yPts[0], yPts[2]);
+
+            firstCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(firstCenPt);
+            secondCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(secondCenPt);
+            if (firstCenPt.Y > secondCenPt.Y)
+            {
+                return -1;
+            }
+            else if (firstCenPt.Y < secondCenPt.Y)
+            {
+                return 1;
+            }
+            else
+            {
+                if (firstCenPt.X < secondCenPt.X)
+                {
+                    return -1;
+                }
+                else if (firstCenPt.X > secondCenPt.X)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+    }
 }

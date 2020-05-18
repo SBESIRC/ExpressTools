@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
 namespace ThColumnInfo
@@ -425,5 +426,40 @@ namespace ThColumnInfo
             }
             return result;
         }
+        /// <summary>
+        /// 创建柱图层
+        /// </summary>
+        /// <returns></returns>
+        public static ObjectId CreateColumnLayer()
+        {
+            ObjectId layerId = ObjectId.Null;
+            string columnLayer = "柱校核提醒";
+            short colorIndex = 3;
+            bool isPlottable = false;
+            var doc = ThColumnInfoUtils.GetMdiActiveDocument();
+            using (Transaction trans=doc.Database.TransactionManager.StartTransaction())
+            {
+                LayerTable lt = trans.GetObject(doc.Database.LayerTableId, OpenMode.ForRead) as LayerTable;
+                if(!lt.Has(columnLayer))
+                {
+                    LayerTableRecord ltr = new LayerTableRecord();
+                    ltr.Name = columnLayer;
+                    ltr.Color = Autodesk.AutoCAD.Colors.Color.FromColorIndex(
+                        Autodesk.AutoCAD.Colors.ColorMethod.ByLayer, colorIndex);
+                    ltr.IsPlottable = isPlottable;
+                    lt.UpgradeOpen();
+                    lt.Add(ltr);
+                    doc.Database.TransactionManager.AddNewlyCreatedDBObject(ltr, true);
+                    lt.DowngradeOpen();
+                }
+                else
+                {
+                    layerId = lt[columnLayer];
+                }
+                trans.Commit();
+            }
+            return layerId;
+        }
     }
+    
 }
