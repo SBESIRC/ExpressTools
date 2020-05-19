@@ -496,6 +496,7 @@ namespace TianHua.AutoCAD.ThCui
         private void OverridePreferences(bool bOverride = true)
         {
             OverrideSupportPathPreferences(bOverride);
+            OverridePrinterPathPreferences(bOverride);
         }
 
         private void OverridePrinterPathPreferences(bool bOverride = true)

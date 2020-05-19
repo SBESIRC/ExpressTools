@@ -130,6 +130,9 @@
       <Component Id="CMP_Autoloader_PackageContents_PlotStyles_Area" Guid="{5515A6F4-46FF-41CB-B639-51D2C8F4BC8A}" Win64="yes">
         <File Id="FILE_Autoloader_PackageContents_PlotStyles_Area" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\面积计算.ctb" KeyPath="yes" />
       </Component>
+      <Component Id="CMP_Autoloader_PackageContents_PlotStyles_A_PRINTER_CP" Guid="{A1967D0D-E9F3-486E-B8D4-ED52FCE9853C}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_PlotStyles_A_PRINTER_CP" Source="$(var.AutoloaderContentsPath)\Plotters\Plot Styles\A-PRINTER-CP.ctb" KeyPath="yes" />
+      </Component>
     </DirectoryRef>
   </Fragment>
   <Fragment>
@@ -175,6 +178,7 @@
       <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_Tree" />
       <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_Tree_Shrub" />
       <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_Area" />
+      <ComponentRef Id="CMP_Autoloader_PackageContents_PlotStyles_A_PRINTER_CP" />
     </ComponentGroup>
   </Fragment>
 </Wix>

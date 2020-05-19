@@ -52,7 +52,7 @@ namespace ThSitePlan.Properties {
 
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("monochrome.ctb")]
+        [global::System.Configuration.DefaultSettingValueAttribute("A-PRINTER-CP.ctb")]
         public string styleSheetName {
             get {
                 return ((string)(this["styleSheetName"]));
