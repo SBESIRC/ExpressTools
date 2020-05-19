@@ -91,7 +91,7 @@ namespace ThEssential.Command
                 // 过滤所选的对象
                 //  1. 对象类型是块引用
                 //  2. 块引用是外部引用(Xref)
-                //  3. 块引用是“Attach”
+                //  3. 块引用是“Overlay”
                 // 对于每一个Xref块引用，获取其Xref数据库
                 // 一个Xref块可以有多个块引用
                 var xrefs = new List<Database>();
@@ -99,7 +99,7 @@ namespace ThEssential.Command
                 {
                     var blkRef = currentDb.Element<BlockReference>(obj);
                     var blkDef = blkRef.GetEffectiveBlockTableRecord();
-                    if (blkDef.IsFromExternalReference && !blkDef.IsFromOverlayReference)
+                    if (blkDef.IsFromExternalReference && blkDef.IsFromOverlayReference)
                     {
                         // 暂时不考虑unresolved的情况
                         xrefs.Add(blkDef.GetXrefDatabase(false));
