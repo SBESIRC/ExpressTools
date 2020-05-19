@@ -3,6 +3,7 @@ using GeoAPI.Geometries;
 using Autodesk.AutoCAD.Geometry;
 using NetTopologySuite.Algorithm;
 using Autodesk.AutoCAD.DatabaseServices;
+using NetTopologySuite.Geometries;
 
 namespace ThCADCore.NTS
 {
@@ -39,6 +40,19 @@ namespace ThCADCore.NTS
         {
             var convexHull = new ConvexHull(polyline.ToNTSLineString());
             var geometry = convexHull.GetConvexHull();
+            if (geometry is IPolygon polygon)
+            {
+                return polygon.Shell.ToDbPolyline();
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public static Polyline GetOctagonalEnvelope(this Polyline polyline)
+        {
+            var geometry = OctagonalEnvelope.GetOctagonalEnvelope(polyline.ToNTSLineString());
             if (geometry is IPolygon polygon)
             {
                 return polygon.Shell.ToDbPolyline();
