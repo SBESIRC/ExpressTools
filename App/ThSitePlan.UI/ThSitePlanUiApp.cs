@@ -321,6 +321,93 @@ namespace ThSitePlan.UI
             }
         }
 
+        [CommandMethod("TIANHUACAD", "THPUD2", CommandFlags.Modal | CommandFlags.UsePickSet)]
+        public void ThSitePlanUpdate2()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                PromptSelectionOptions options = new PromptSelectionOptions()
+                {
+                    AllowDuplicates = false,
+                    RejectObjectsOnLockedLayers = true,
+                };
+                var filterlist = OpFilter.Bulid(o =>
+                    o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName &
+                    o.Dxf((int)DxfCode.LayerName) == ThSitePlanCommon.LAYER_FRAME &
+                    o.Dxf((int)DxfCode.ExtendedDataRegAppName) == ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name);
+                PromptSelectionResult SelResult = Active.Editor.GetSelection(options, filterlist);
+                if (SelResult.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                //初始化图框配置
+                //这里先“关闭”所有的图框
+                //后面会根据用户的选择“打开”需要更新的图框
+                ThSitePlanConfigService.Instance.Initialize();
+                ThSitePlanConfigService.Instance.EnableAll(false);
+
+                //读取已经被标注的图框
+                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+
+                //获取需要更新的图框
+                var updateframes = new Queue<Tuple<ObjectId, Vector3d>>();
+                foreach (ObjectId SelframeId in SelResult.Value.GetObjectIds())
+                {
+                    updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(SelframeId, new Vector3d()));
+                }
+
+                //根据用户选择，更新图框配置
+                foreach (var item in updateframes)
+                {
+                    //获取所选择的框对应的图元的图层分组名
+                    string selFrameName = ThSitePlanDbEngine.Instance.NameByFrame(item.Item1);
+
+                    //打开需要的工作
+                    ThSitePlanConfigService.Instance.EnableItemAndAncestorNoBrother(selFrameName, true);
+                }
+
+                //启动CAD引擎，开始更新 
+                ThSitePlanEngine.Instance.Containers = updateframes;
+                ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
+                 {
+                    new ThSitePlanPDFGenerator()
+                 };
+                ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
+
+                //初始化图框配置
+                //这里先“关闭”所有的图框
+                //后面会根据用户的选择“打开”需要更新的图框
+                ThSitePlanConfigService.Instance.Initialize();
+                ThSitePlanConfigService.Instance.EnableAll(false);
+
+                //根据用户选择，更新图框配置
+                foreach (var item in updateframes)
+                {
+                    //获取所选择的框对应的图元的图层分组名
+                    string selFrameName = ThSitePlanDbEngine.Instance.NameByFrame(item.Item1);
+
+                    //打开需要的工作
+                    ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(selFrameName, true);
+                }
+
+                using (var psService = new ThSitePlanPSService())
+                {
+                    //启动PS引擎，开始更新 
+                    ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+                     {
+                        new ThSitePlanPSDefaultGenerator(psService),
+                     };
+                    ThSitePlanPSEngine.Instance.PSUpdate(
+                        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        ThSitePlanConfigService.Instance.Root);
+
+                    // 保存PS生成的文档
+                    psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                }
+            }
+        }
+
         /// <summary>
         /// 映射配置器
         /// </summary>
