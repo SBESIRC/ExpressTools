@@ -47,6 +47,13 @@ namespace ThSitePlan.Engine
                 {"道路-外部车行道路-道路色块", new ThSitePlanRoadHatchWorker(new string[] {
                     RXClass.GetClass(typeof(Curve)).DxfName,
                 })},
+                {"景观绿地-水景-水景色块", new ThSitePlanCADWorker(new string[] {
+                    RXClass.GetClass(typeof(Line)).DxfName,
+                    RXClass.GetClass(typeof(Polyline)).DxfName,
+                    RXClass.GetClass(typeof(Circle)).DxfName,
+                    RXClass.GetClass(typeof(Spline)).DxfName,
+                })},
+
             };
         }
 

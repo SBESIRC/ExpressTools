@@ -915,7 +915,7 @@
         "CAD_Layer": [
             {
                 "ID": "1",
-                "Name": "P-GREN-WATER"
+                "Name": "P-GREN-WATR"
             }
         ],
         "CAD_Script": "线稿生成填充",
@@ -932,7 +932,7 @@
         "CAD_Layer": [
             {
                 "ID": "1",
-                "Name": "P-GREN-WATER"
+                "Name": "P-GREN-WATR"
             }
         ],
         "CAD_Script": "拍平闭合优化",
