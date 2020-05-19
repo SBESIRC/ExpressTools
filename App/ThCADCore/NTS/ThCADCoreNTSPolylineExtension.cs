@@ -34,5 +34,19 @@ namespace ThCADCore.NTS
                 throw new NotSupportedException();
             }
         }
+
+        public static Polyline ConvexHull(this Polyline polyline)
+        {
+            var convexHull = new ConvexHull(polyline.ToNTSLineString());
+            var geometry = convexHull.GetConvexHull();
+            if (geometry is IPolygon polygon)
+            {
+                return polygon.Shell.ToDbPolyline();
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
     }
 }
