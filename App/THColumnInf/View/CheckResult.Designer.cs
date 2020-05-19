@@ -61,7 +61,7 @@
             this.tvCheckRes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvCheckRes.Location = new System.Drawing.Point(0, 0);
             this.tvCheckRes.Name = "tvCheckRes";
-            this.tvCheckRes.Size = new System.Drawing.Size(244, 527);
+            this.tvCheckRes.Size = new System.Drawing.Size(244, 529);
             this.tvCheckRes.TabIndex = 0;
             this.tvCheckRes.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvCheckRes_BeforeCollapse);
             this.tvCheckRes.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvCheckRes_BeforeExpand);
@@ -105,21 +105,19 @@
             // 
             this.panelMiddle.Controls.Add(this.tvCheckRes);
             this.panelMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMiddle.Location = new System.Drawing.Point(3, 33);
+            this.panelMiddle.Location = new System.Drawing.Point(3, 31);
             this.panelMiddle.Name = "panelMiddle";
-            this.panelMiddle.Size = new System.Drawing.Size(244, 527);
+            this.panelMiddle.Size = new System.Drawing.Size(244, 529);
             this.panelMiddle.TabIndex = 3;
             this.panelMiddle.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.panel1_ControlAdded);
             // 
             // lblPaperDistinguishResult
             // 
-            this.lblPaperDistinguishResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPaperDistinguishResult.AutoSize = true;
             this.lblPaperDistinguishResult.BackColor = System.Drawing.Color.Transparent;
+            this.lblPaperDistinguishResult.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblPaperDistinguishResult.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblPaperDistinguishResult.Location = new System.Drawing.Point(1, 3);
+            this.lblPaperDistinguishResult.Location = new System.Drawing.Point(0, 0);
             this.lblPaperDistinguishResult.Name = "lblPaperDistinguishResult";
             this.lblPaperDistinguishResult.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.lblPaperDistinguishResult.Size = new System.Drawing.Size(77, 17);
@@ -206,7 +204,7 @@
             this.panelUp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelUp.Location = new System.Drawing.Point(3, 3);
             this.panelUp.Name = "panelUp";
-            this.panelUp.Size = new System.Drawing.Size(244, 24);
+            this.panelUp.Size = new System.Drawing.Size(244, 22);
             this.panelUp.TabIndex = 5;
             // 
             // tableLayoutPanel1
@@ -220,7 +218,7 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(250, 593);

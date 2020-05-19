@@ -216,6 +216,7 @@
     <Compile Include="View\ImportCalculation.xaml.cs" />
     <Compile Include="View\ComponentPropDefine.xaml.cs" />
     <Compile Include="View\ParameterSet.xaml.cs" />
+    <Compile Include="View\ParameterSetTip.xaml.cs" />
     <Compile Include="View\ValidateRules.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -261,6 +262,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ParameterSet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ParameterSetTip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

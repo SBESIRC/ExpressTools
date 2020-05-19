@@ -4,9 +4,9 @@ using Autodesk.AutoCAD.EditorInput;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ThColumnInfo.View;
+using System.Windows.Threading;
+using System.Windows.Input;
 
 namespace ThColumnInfo.ViewModel
 {
@@ -38,10 +38,13 @@ namespace ThColumnInfo.ViewModel
             ReadParaFromDatabase();
             //初始化柱列表
             List<string> columnTableLayers = ThColumnInfoUtils.GetLayerList("Tab");
-            if (columnTableLayers.IndexOf(this.ParaSetInfo.ColumnTableLayer) < 0)
+            if (!string.IsNullOrEmpty(this.ParaSetInfo.ColumnTableLayer))
             {
-                columnTableLayers.Add(this.ParaSetInfo.ColumnTableLayer);
-            }
+                if (columnTableLayers.IndexOf(this.ParaSetInfo.ColumnTableLayer) < 0)
+                {
+                    columnTableLayers.Add(this.ParaSetInfo.ColumnTableLayer);
+                }
+            }            
             columnTableLayers.ForEach(i => this.ParaSetInfo.ColumnTableLayerList.Add(i));
             if (string.IsNullOrEmpty(this.ParaSetInfo.AntiSeismicGrade) && this.ParaSetInfo.AntiseismicGradeList.Count > 0)
             {
@@ -57,10 +60,6 @@ namespace ThColumnInfo.ViewModel
                 {
                     this.ParaSetInfo.ConcreteStrength = this.ParaSetInfo.ConcreteStrengthList[0];
                 }
-            }
-            if(string.IsNullOrEmpty(this.ParaSetInfo.ColumnTableLayer) && this.ParaSetInfo.ColumnTableLayerList.Count>0)
-            {
-                this.ParaSetInfo.ColumnTableLayer = this.ParaSetInfo.ColumnTableLayerList[0];
             }
             if(string.IsNullOrEmpty(this.ParaSetInfo.StructureType) && this.ParaSetInfo.StructureTypeList.Count > 0)
             {
@@ -86,20 +85,37 @@ namespace ThColumnInfo.ViewModel
                 System.Windows.MessageBox.Show("柱子图层不能为空");
                 return;
             }
-            if(this.ParaSetInfo.ProtectLayerThickness<0)
+            if(this.ParaSetInfo.ProtectLayerThickness<=0)
             {
-                System.Windows.MessageBox.Show("保护层厚度不能小于0");
+                System.Windows.MessageBox.Show("保护层厚度要大于0");
                 return;
             }
-            if(this.ParaSetInfo.FloorCount<0)
+            if(this.ParaSetInfo.FloorCount<=0)
             {
-                System.Windows.MessageBox.Show("自然层总层数只能输入正整数");
+                System.Windows.MessageBox.Show("自然层总层数要大于0");
                 return;
+            }
+            if(string.IsNullOrEmpty(this.ParaSetInfo.ColumnTableLayer.Trim()))
+            {
+                ParameterSetTip parameterSetTip = new ParameterSetTip();
+                parameterSetTip.Topmost = true;
+                parameterSetTip.Owner = this.Owner;
+                parameterSetTip.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
+                parameterSetTip.ShowDialog();
+                if (!parameterSetTip.IsGoOn)
+                {
+                    SetBtnFocus();
+                    return;
+                }
             }
             SaveParaToDatabase();
             System.Windows.MessageBox.Show("参数保存成功!");
             Owner.Close();
             isOpened = false;
+        }
+        private void SetBtnFocus()
+        {
+            Owner.Dispatcher.BeginInvoke(DispatcherPriority.Background, (Action)(() => Keyboard.Focus(Owner.btnPointColumnTableLayer)));
         }
         private void SaveParaToDatabase()
         {
