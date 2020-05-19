@@ -184,7 +184,6 @@ namespace ThColumnInfo.Validate
             getParameter += GetCornerColumn; //角柱
             getParameter += GetHoopReinforceEnlargeTimes; //箍筋放大倍数
             getParameter += GetLongitudinalReinforceEnlargeTimes; //纵筋放大倍数
-            getParameter += GetHoopReinforceFullHeightEncryption; //全高度加密
             getParameter += GetStructureType; // 结构类型
             getParameter();
         }
@@ -197,8 +196,36 @@ namespace ThColumnInfo.Validate
 
         private double hoopReinforceEnlargeTimes; //箍筋放大倍数
         private double longitudinalReinforceEnlargeTimes; //纵筋放大倍数
-        private bool hoopReinforceFullHeightEncryption; //箍筋全高度加密
         private string structureType = ""; //结构类型
+
+        /// <summary>
+        /// 箍筋全高度加密
+        /// </summary>
+        private bool ReinforceFullHeightEncryption {
+            get
+            {
+                if (this.columnRelateInf != null)
+                {
+                    //构件属性定义
+                    if (this.columnRelateInf.CustomData != null)
+                    {
+                        if (!string.IsNullOrEmpty(this.columnRelateInf.CustomData.HoopReinforceFullHeightEncryption))
+                        {
+                            if (this.columnRelateInf.CustomData.HoopReinforceFullHeightEncryption == "是")
+                            {
+                                return true;
+                            }
+                            else if (this.columnRelateInf.CustomData.HoopReinforceFullHeightEncryption == "否")
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+
         /// <summary>
         /// 获取抗震等级
         /// </summary>
@@ -377,31 +404,7 @@ namespace ThColumnInfo.Validate
                 //柱识别
             }
         }        
-        private void GetHoopReinforceFullHeightEncryption()
-        {
-            if (this.columnRelateInf != null)
-            {
-                //构件属性定义
-                if (this.columnRelateInf.CustomData != null)
-                {
-                    if (!string.IsNullOrEmpty(this.columnRelateInf.CustomData.HoopReinforceFullHeightEncryption))
-                    {
-                        if (this.columnRelateInf.CustomData.HoopReinforceFullHeightEncryption == "是")
-                        {
-                            this.hoopReinforceFullHeightEncryption = true;
-                            return;
-                        }
-                        else if (this.columnRelateInf.CustomData.HoopReinforceFullHeightEncryption == "否")
-                        {
-                            this.hoopReinforceFullHeightEncryption = false;
-                            return;
-                        }
-                    }
-                }
-                //YJK
-                //柱识别
-            }
-        }
+
         /// <summary>
         /// 获取结果类型
         /// </summary>
