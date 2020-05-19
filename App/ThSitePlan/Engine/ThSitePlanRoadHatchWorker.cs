@@ -23,7 +23,7 @@ namespace ThSitePlan.Engine
 
         public override bool DoProcess(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
         {
-            string roadcenterlay = "P-TRAF-CITY";
+            string roadcenterlay = ThSitePlanCommon.LAYER_RoadCenterLine;
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 Polyline framepl = acadDatabase.Element<Polyline>((ObjectId)options.Options["Frame"]);
