@@ -124,7 +124,21 @@ namespace ThEssential.Command
                                 {
                                     // 根据块引用的“块名”，匹配转换后的块定义的信息
                                     var blockReference = blkRef.Database.GetBlockReference(blkRef);
-                                    var transformedBlock = manager.TransformRule(blockReference.EffectiveName);
+                                    ThBlockConvertBlock transformedBlock = null;
+                                    if (Mode == ConvertMode.STRONGCURRENT)
+                                    {
+                                        transformedBlock = manager.TransformRule(blockReference.EffectiveName);
+                                    }
+                                    else if (Mode == ConvertMode.WEAKCURRENT)
+                                    {
+                                        transformedBlock = manager.TransformRule(
+                                            blockReference.EffectiveName,
+                                            blockReference.CurrentVisibilityStateValue());
+                                    }
+                                    else
+                                    {
+                                        throw new NotSupportedException();
+                                    }
                                     if (transformedBlock == null)
                                     {
                                         continue;

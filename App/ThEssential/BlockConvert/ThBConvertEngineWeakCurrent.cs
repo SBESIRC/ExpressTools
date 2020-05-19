@@ -1,5 +1,6 @@
 ﻿using System;
 using Linq2Acad;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThEssential.BlockConvert
@@ -30,7 +31,7 @@ namespace ThEssential.BlockConvert
                 double rotation = srcBlockReference.Rotation;
                 if (rotation > Math.PI / 2 && rotation <= Math.PI * 3 / 2)
                 {
-                    blockReference.Rotation += Math.PI;
+                    blockReference.TransformBy(Matrix3d.Rotation(Math.PI, Vector3d.ZAxis, blockReference.Position));
                 }
             }
         }
