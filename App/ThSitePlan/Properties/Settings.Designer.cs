@@ -80,7 +80,7 @@ namespace ThSitePlan.Properties {
 
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("135")]
+        [global::System.Configuration.DefaultSettingValueAttribute("45")]
         public double shadowAngle {
             get {
                 return ((double)(this["shadowAngle"]));
