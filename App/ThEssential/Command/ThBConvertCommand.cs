@@ -115,59 +115,62 @@ namespace ThEssential.Command
                     using (var xf = XrefFileLock.LockFile(xref.XrefBlockId))
                     {
                         xref.RestoreOriginalXrefSymbols();
-                        foreach (var rule in manager.Rules)
+                        if (Path.GetFileName(xref.OriginalFileName).StartsWith("H"))
                         {
-                            var block = rule.Transformation.Item1;
-                            foreach (ObjectId blkRef in xref.GetBlockReferences(block, extents))
+                            foreach (var rule in manager.Rules)
                             {
-                                try
+                                var block = rule.Transformation.Item1;
+                                foreach (ObjectId blkRef in xref.GetBlockReferences(block, extents))
                                 {
-                                    // 根据块引用的“块名”，匹配转换后的块定义的信息
-                                    var blockReference = blkRef.Database.GetBlockReference(blkRef);
-                                    ThBlockConvertBlock transformedBlock = null;
-                                    if (Mode == ConvertMode.STRONGCURRENT)
+                                    try
                                     {
-                                        transformedBlock = manager.TransformRule(blockReference.EffectiveName);
+                                        // 根据块引用的“块名”，匹配转换后的块定义的信息
+                                        var blockReference = blkRef.Database.GetBlockReference(blkRef);
+                                        ThBlockConvertBlock transformedBlock = null;
+                                        if (Mode == ConvertMode.STRONGCURRENT)
+                                        {
+                                            transformedBlock = manager.TransformRule(blockReference.EffectiveName);
+                                        }
+                                        else if (Mode == ConvertMode.WEAKCURRENT)
+                                        {
+                                            transformedBlock = manager.TransformRule(
+                                                blockReference.EffectiveName,
+                                                blockReference.CurrentVisibilityStateValue());
+                                        }
+                                        else
+                                        {
+                                            throw new NotSupportedException();
+                                        }
+                                        if (transformedBlock == null)
+                                        {
+                                            continue;
+                                        }
+
+                                        // 在当前图纸中查找是否存在新的块定义
+                                        // 若不存在，则插入新的块定义；
+                                        // 若存在，则保持现有的块定义
+                                        var name = (string)transformedBlock.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK];
+                                        var result = currentDb.Blocks.Import(blockDb.Blocks.ElementOrDefault(name), false);
+
+                                        // 插入新的块引用
+                                        var objId = currentDb.ModelSpace.ObjectId.InsertBlockReference(
+                                            "0",
+                                            name,
+                                            Point3d.Origin,
+                                            new Scale3d(transformedBlock.Scale()),
+                                            0.0,
+                                            new Dictionary<string, string>());
+
+                                        // 将新插入的块引用调整到源块引用所在的位置
+                                        engine.TransformBy(objId, blockReference);
+
+                                        // 将源块引用的属性“刷”到新的块引用
+                                        engine.MatchProperties(objId, blockReference);
                                     }
-                                    else if (Mode == ConvertMode.WEAKCURRENT)
-                                    {
-                                        transformedBlock = manager.TransformRule(
-                                            blockReference.EffectiveName,
-                                            blockReference.CurrentVisibilityStateValue());
-                                    }
-                                    else
-                                    {
-                                        throw new NotSupportedException();
-                                    }
-                                    if (transformedBlock == null)
+                                    catch
                                     {
                                         continue;
                                     }
-
-                                    // 在当前图纸中查找是否存在新的块定义
-                                    // 若不存在，则插入新的块定义；
-                                    // 若存在，则保持现有的块定义
-                                    var name = (string)transformedBlock.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK];
-                                    var result = currentDb.Blocks.Import(blockDb.Blocks.ElementOrDefault(name), false);
-
-                                    // 插入新的块引用
-                                    var objId = currentDb.ModelSpace.ObjectId.InsertBlockReference(
-                                        "0",
-                                        name,
-                                        Point3d.Origin,
-                                        new Scale3d(transformedBlock.Scale()),
-                                        0.0,
-                                        new Dictionary<string, string>());
-
-                                    // 将新插入的块引用调整到源块引用所在的位置
-                                    engine.TransformBy(objId, blockReference);
-
-                                    // 将源块引用的属性“刷”到新的块引用
-                                    engine.MatchProperties(objId, blockReference);
-                                }
-                                catch
-                                {
-                                    continue;
                                 }
                             }
                         }
