@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using GeoAPI.Geometries;
+using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using NetTopologySuite.Operation.Union;
@@ -102,13 +103,19 @@ namespace ThCADCore.NTS
             }
             if (polyLine.Closed)
             {
-                // 闭合的情况
+                points.Add(polyLine.GetPoint3dAt(0).ToNTSCoordinate());
+                return ThCADCoreNTSService.Instance.GeometryFactory.CreateLinearRing(points.ToArray());
+            }
+            else if (polyLine.StartPoint.IsEqualTo(polyLine.EndPoint, ThCADCoreCommon.global_tolerance_architecture))
+            {
+                // 考虑到图纸的精度远小于NTS使用的精度，在图纸中认为是封闭的曲线，在NTS就认为是不封闭的
+                // 为了解决这个由于精度不同导致的误差，在曲线的末端“补偿”一个起点，从而保证曲线是封闭的
+                // NTS中的LineRing就要求起点和终点必须是一致的
                 points.Add(polyLine.GetPoint3dAt(0).ToNTSCoordinate());
                 return ThCADCoreNTSService.Instance.GeometryFactory.CreateLinearRing(points.ToArray());
             }
             else
             {
-                // 不闭合的情况
                 return ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
             }
         }
@@ -288,6 +295,10 @@ namespace ThCADCore.NTS
                         throw new NotSupportedException();
                     }
                 }
+            }
+            else if (geometry is IPolygon polygon)
+            {
+                polygons.Add(polygon);
             }
             else
             {
