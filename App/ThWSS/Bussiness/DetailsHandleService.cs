@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThWSS.Bussiness
 {
-    public class CheckPointsToWall
+    public class DetailsHandleService
     {
     }
 }

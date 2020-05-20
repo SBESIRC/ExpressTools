@@ -18,6 +18,9 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -31,6 +34,8 @@
     <Compile Include="Bussiness\CheckPointsToWall.cs" />
     <Compile Include="Bussiness\InsertSparyService.cs" />
     <Compile Include="Bussiness\SprayLayoutService.cs" />
+    <Compile Include="Config\ConfigHelper.cs" />
+    <Compile Include="Config\Model\LayoutCacheModel.cs" />
     <Compile Include="Engine\ThBeamRecognitionEngine.cs" />
     <Compile Include="Engine\ThColumnRecognitionEngine.cs" />
     <Compile Include="Engine\ThModeltRecognitionEngine.cs" />
@@ -70,7 +75,6 @@
       <Name>ExtensionTools</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="View\StandardBindWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -112,6 +116,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\config.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">

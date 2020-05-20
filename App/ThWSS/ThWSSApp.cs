@@ -8,6 +8,8 @@ using Linq2Acad;
 using NFox.Cad.Collections;
 using ThWss.View;
 using ThWSS.Bussiness;
+using ThWSS.Config;
+using ThWSS.Config.Model;
 using ThWSS.LayoutRule;
 using ThWSS.Utlis;
 
@@ -30,9 +32,9 @@ namespace ThWSS
         {
             using (AcadDatabase acdb = AcadDatabase.Active())
             {
-                ThSparyLayoutSet thSparyLayoutSet = new ThSparyLayoutSet();
-                thSparyLayoutSet.ShowDialog();
-                return;
+                //ThSparyLayoutSet thSparyLayoutSet = new ThSparyLayoutSet();
+                //thSparyLayoutSet.ShowDialog();
+                //return;
                 // 选择对象
                 PromptSelectionOptions options = new PromptSelectionOptions()
                 {
