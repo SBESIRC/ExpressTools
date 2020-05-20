@@ -139,7 +139,7 @@ namespace ThSitePlan.UI
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
 
-            //PS处理流程
+            ////PS处理流程
             ThSitePlanConfigService.Instance.Initialize();
             ThSitePlanConfigService.Instance.EnableAll(true);
             using (var psService = new ThSitePlanPSService())

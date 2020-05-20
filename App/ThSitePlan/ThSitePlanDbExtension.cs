@@ -205,8 +205,8 @@ namespace ThSitePlan
                     hatch.ColorIndex = ThSitePlanCommon.hatch_color_index;
 
                     // 外圈轮廓
-                    hatch.Associative = false;
-                    hatch.AppendLoop(HatchLoopTypes.Default, dbObjIds);
+                    hatch.Associative = true;
+                    hatch.AppendLoop(HatchLoopTypes.External, dbObjIds);
 
                     // 重新生成Hatch纹理
                     hatch.EvaluateHatch(true);
@@ -318,6 +318,21 @@ namespace ThSitePlan
                     }
                 }
                 return shadows;
+            }
+        }
+
+        public static Region CreateDifferenceShadowRegion(this ObjectId shadowObj, ObjectId buildingObj)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(shadowObj.Database))
+            {
+                var shadow = acadDatabase.Element<Region>(shadowObj);
+                var building = acadDatabase.Element<Region>(buildingObj);
+                var difference = shadow.Difference(building);
+                if (difference != null)
+                {
+                    difference.SetPropertiesFrom(shadow);
+                }
+                return difference;
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using GeoAPI.Geometries;
+﻿using System;
+using GeoAPI.Geometries;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.BoundaryRepresentation;
@@ -78,8 +79,16 @@ namespace ThCADCore.NTS
             {
                 return polygon.ToDbRegion();
             }
-
-            return null;
+            else if (rGeometry is IMultiPolygon mPolygon)
+            {
+                // 暂时不考虑MPolygon的情况
+                return null;
+            }
+            else
+            {
+                // 为止情况，抛出异常
+                throw new NotSupportedException();
+            }
         }
 
         public static IGeometry Intersect(this Region pRegion, Region sRegion)
