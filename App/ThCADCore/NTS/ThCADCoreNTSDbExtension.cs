@@ -92,35 +92,24 @@ namespace ThCADCore.NTS
             return Region.CreateFromCurves(curves)[0] as Region;
         }
 
-        public static ILineString ToNTSLineString(this Polyline polyLine)
+        public static IGeometry ToNTSLineString(this Polyline polyLine)
         {
             var points = new List<Coordinate>();
-            for(int i = 0; i < polyLine.NumberOfVertices; i++)
+            for (int i = 0; i < polyLine.NumberOfVertices; i++)
             {
-                switch(polyLine.GetSegmentType(i))
-                {
-                    case SegmentType.Line:
-                        {
-                            points.Add(polyLine.GetPoint3dAt(i).ToNTSCoordinate());
-                        }
-                        break;
-                    default:
-                        throw new NotSupportedException();
-
-                };
+                // 暂时不考虑“圆弧”的情况
+                points.Add(polyLine.GetPoint3dAt(i).ToNTSCoordinate());
             }
             if (polyLine.Closed)
             {
-                points.Add(points[0]);
-            }
-
-            if (points.Count > 1)
-            {
-                return ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
+                // 闭合的情况
+                points.Add(polyLine.GetPoint3dAt(0).ToNTSCoordinate());
+                return ThCADCoreNTSService.Instance.GeometryFactory.CreateLinearRing(points.ToArray());
             }
             else
             {
-                return null; 
+                // 不闭合的情况
+                return ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
             }
         }
 
@@ -205,6 +194,10 @@ namespace ThCADCore.NTS
                 {
                     nodedLineString = nodedLineString.Union(line.ToNTSLineString());
                 }
+                else if (curve is Polyline polyline)
+                {
+                    nodedLineString = nodedLineString.Union(polyline.ToNTSLineString());
+                }
                 else if (curve is Arc arc)
                 {
                     nodedLineString = nodedLineString.Union(arc.TessellateWithChord(chord));
@@ -273,6 +266,38 @@ namespace ThCADCore.NTS
                 // 未知错误
                 return new DBObjectCollection();
             }
+        }
+
+        public static DBObjectCollection Boundaries(this DBObjectCollection lines)
+        {
+            var polygons = new List<IPolygon>();
+            var polygonizer = new Polygonizer();
+            var boundaries = new DBObjectCollection();
+            polygonizer.Add(lines.ToNTSNodedLineStrings());
+            var geometry = UnaryUnionOp.Union(polygonizer.GetPolygons().ToList());
+            if (geometry is IMultiPolygon mPolygon)
+            {
+                foreach (var item in mPolygon.Geometries)
+                {
+                    if (item is IPolygon polygon)
+                    {
+                        polygons.Add(polygon);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException();
+                    }
+                }
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+            foreach (var item in polygons)
+            {
+                boundaries.Add(item.Shell.ToDbPolyline());
+            }
+            return boundaries;
         }
     }
 }

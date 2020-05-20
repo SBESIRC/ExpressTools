@@ -83,6 +83,27 @@ namespace ThCADCore.Test
             }
         }
 
+        [CommandMethod("TIANHUACAD", "ThBoundary", CommandFlags.Modal)]
+        public void ThBoundary()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetSelection();
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
 
+                var objs = new DBObjectCollection();
+                foreach(var obj in result.Value.GetObjectIds())
+                {
+                    objs.Add(acadDatabase.Element<Entity>(obj));
+                }
+                foreach(var obj in objs.Boundaries())
+                {
+                    acadDatabase.ModelSpace.Add(obj as Entity);
+                }
+            }
+        }
     }
 }
