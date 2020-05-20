@@ -31,7 +31,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bussiness\CheckPointsToWall.cs" />
     <Compile Include="Bussiness\InsertSparyService.cs" />
     <Compile Include="Bussiness\SprayLayoutService.cs" />
     <Compile Include="Config\ConfigHelper.cs" />
