@@ -120,12 +120,18 @@ namespace ThEssential.Command
                             foreach (var rule in manager.Rules)
                             {
                                 var block = rule.Transformation.Item1;
+                                var visibility = block.StringValue(ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK_VISIBILITY);
                                 foreach (ObjectId blkRef in xref.GetBlockReferences(block, extents))
                                 {
                                     try
                                     {
                                         // 根据块引用的“块名”，匹配转换后的块定义的信息
                                         var blockReference = blkRef.Database.GetBlockReference(blkRef);
+                                        if (blockReference.CurrentVisibilityStateValue() != visibility)
+                                        {
+                                            continue;
+                                        }
+
                                         ThBlockConvertBlock transformedBlock = null;
                                         if (Mode == ConvertMode.STRONGCURRENT)
                                         {

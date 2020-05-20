@@ -135,6 +135,24 @@ namespace ThEssential.BlockConvert
         }
 
         /// <summary>
+        /// 获取转换规则的值（字符串）
+        /// </summary>
+        /// <param name="block"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string StringValue(this ThBlockConvertBlock block, string name)
+        {
+            try
+            {
+                return block.Attributes[name] as string ?? string.Empty;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
         /// 是否为消防电源
         /// </summary>
         /// <param name="blockReference"></param>
