@@ -454,6 +454,7 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildStirrupMaximumSpacingDRule());         // 箍筋最大间距D(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingERule());         // 箍筋最大间距E(箍筋)
             validateRules.Add(BuildStirrupMinimumDiameterDRule());        // 箍筋最小直径D(箍筋)
+            validateRules.Add(BuildStirrupFullHeightEncryptionRule());    // 箍筋全高加密(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceFRule());           // 箍筋最大间距F(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingHRule());         // 箍筋最大间距H(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceJRule());           // 箍筋最大间距J(箍筋)
@@ -848,6 +849,22 @@ namespace ThColumnInfo.Validate
                 IntStirrupDia = cdm.IntStirrupDia
             };
             IRule rule = new StirrupMinimumDiameterDRule(smdd);
+            return rule;
+        }
+        /// <summary>
+        /// 箍筋全高加密(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupFullHeightEncryptionRule()
+        {
+            StirrupFullHeightEncryptionModel sfhem = new StirrupFullHeightEncryptionModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Text = this.columnRelateInf.ModelColumnInfs[0].Text,
+                Jkb = this.columnRelateInf.YjkColumnData.Jkb,
+                Cdm = cdm
+            };
+            IRule rule = new StirrupFullHeightEncryptionRule(sfhem);
             return rule;
         }
         /// <summary>

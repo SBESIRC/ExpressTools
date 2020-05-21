@@ -29,11 +29,12 @@ namespace ThColumnInfo.Validate
             this.intStirrupDiaArea = ThValidate.GetIronSectionArea((int)this.vrra.Cdm.IntStirrupDia);
 
             double value1 = this.vrra.Cdm.IntXStirrupCount * intStirrupDiaArea *
-                (this.vrra.Cdm.B - 2 * this.vrra.ProtectLayerThickness);
+                (this.vrra.Cdm.B - 2 * this.vrra.ProtectLayerThickness - this.vrra.Cdm.IntStirrupDia);
             double value2 = this.vrra.Cdm.IntYStirrupCount * intStirrupDiaArea *
-                (this.vrra.Cdm.H - 2 * this.vrra.ProtectLayerThickness);
+                (this.vrra.Cdm.H - 2 * this.vrra.ProtectLayerThickness - this.vrra.Cdm.IntStirrupDia);
             double value3 = (this.vrra.Cdm.B-2*this.vrra.ProtectLayerThickness-2* this.vrra.Cdm.IntStirrupDia)
-                * (this.vrra.Cdm.H - 2 * this.vrra.ProtectLayerThickness - 2 * this.vrra.Cdm.IntStirrupDia) * this.vrra.Cdm.IntStirrupSpacing;
+                * (this.vrra.Cdm.H - 2 * this.vrra.ProtectLayerThickness - 2 * this.vrra.Cdm.IntStirrupDia) 
+                * this.vrra.Cdm.IntStirrupSpacing;
 
             this.calVolumnReinforceRatio = (value1 + value2) / value3;
 
@@ -64,12 +65,16 @@ namespace ThColumnInfo.Validate
             steps.Add("抗震等级 = " + this.vrra.AntiSeismicGrade);
 
             steps.Add("体积配箍率计算= (intXStirrupCount[" + this.vrra.Cdm.IntXStirrupCount +
-                "]  *  intStirrupDiaArea[" + this.intStirrupDiaArea + "] * (B[" + this.vrra.Cdm.B + "] - 2 * cover[" +
-                this.vrra.ProtectLayerThickness + "]) + intYStirrupCount[" + this.vrra.Cdm.IntYStirrupCount + "] * intStirrupDiaArea[" +
-                this.intStirrupDiaArea + "] * (H[" + this.vrra.Cdm.H + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "])) / ((B[" +
-                this.vrra.Cdm.B + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrra.Cdm.IntStirrupDia + "]) * " +
-                "(H[" + this.vrra.Cdm.H + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrra.Cdm.IntStirrupDia + "]) *"
-                 + "intStirrupSpacing[" + this.vrra.Cdm.IntStirrupSpacing + "]) = " + this.calVolumnReinforceRatio);
+                "]  *  intStirrupDiaArea[" + this.intStirrupDiaArea + "] * (B[" + this.vrra.Cdm.B +
+                "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "] - intStirrupDia["+ 
+                this.vrra.Cdm.IntStirrupDia + "]) + intYStirrupCount[" + this.vrra.Cdm.IntYStirrupCount +
+                "] * intStirrupDiaArea[" + this.intStirrupDiaArea + "] * (H[" + this.vrra.Cdm.H + 
+                "] - 2 * cover[" + this.vrra.ProtectLayerThickness + "] - intStirrupDia[" +  
+                this.vrra.Cdm.IntStirrupDia + "])) / ((B[" + this.vrra.Cdm.B + "] - 2 * cover[" +
+                this.vrra.ProtectLayerThickness + "] - 2 * IntStirrupDia[" + this.vrra.Cdm.IntStirrupDia +
+                "]) * " + "(H[" + this.vrra.Cdm.H + "] - 2 * cover[" + this.vrra.ProtectLayerThickness + 
+                "] - 2 * IntStirrupDia[" + this.vrra.Cdm.IntStirrupDia + "]) *" + "intStirrupSpacing[" +
+                this.vrra.Cdm.IntStirrupSpacing + "]) = " + this.calVolumnReinforceRatio);
             steps.Add("if (体积配箍率计算[" + calVolumnReinforceRatio + "] < 体积配筋率限值["+ this.vrra.VolumnReinforceRatioLimited+"])");
             steps.Add("  {");
             steps.Add("      Err: 加密区箍筋体积配箍率不足"+this.rule);
