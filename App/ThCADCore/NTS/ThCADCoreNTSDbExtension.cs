@@ -310,5 +310,43 @@ namespace ThCADCore.NTS
             }
             return boundaries;
         }
+        public static DBObjectCollection FindLoops(this DBObjectCollection lines)
+        {
+            var polygons = new List<IPolygon>();
+            var polygonizer = new Polygonizer();
+            var loops = new DBObjectCollection();
+            polygonizer.Add(lines.ToNTSNodedLineStrings());
+            var geometries = polygonizer.GetPolygons().ToList();
+            foreach (var geometry in geometries)
+            {
+                if (geometry is IMultiPolygon mPolygon)
+                {
+                    foreach (var item in mPolygon.Geometries)
+                    {
+                        if (item is IPolygon polygon)
+                        {
+                            polygons.Add(polygon);
+                        }
+                        else
+                        {
+                            throw new NotSupportedException();
+                        }
+                    }
+                }
+                else if (geometry is IPolygon polygon)
+                {
+                    polygons.Add(polygon);
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            foreach (var item in polygons)
+            {
+                loops.Add(item.Shell.ToDbPolyline());
+            }
+            return loops;
+        }
     }
 }
