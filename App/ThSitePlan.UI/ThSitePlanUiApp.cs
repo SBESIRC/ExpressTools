@@ -20,6 +20,7 @@ namespace ThSitePlan.UI
     public class ThSitePlanApp : IExtensionApplication
     {
         public Tuple<ObjectId, Vector3d> OriginFrame { get; set; }
+        public Tuple<ObjectId, Vector3d> PlaygroundFrame { get; set; }
         public Tuple<ObjectId, Vector3d> OriginFrameCopy { get; set; }
         public void Initialize()
         {
@@ -92,7 +93,7 @@ namespace ThSitePlan.UI
 
                 for (int i = 0; i < 7; i++)
                 {
-                    for (int j = 0; j < 6; j++)
+                    for (int j = 0; j < 7; j++)
                     {
                         double deltaX = frameObj.GeometricExtents.Width() * 6.0 / 5.0 * j;
                         double deltaY = frameObj.GeometricExtents.Height() * 6.0 / 5.0 * i;
@@ -112,20 +113,20 @@ namespace ThSitePlan.UI
             // 未被移走的图元将会保留在这个图框中，并作为“未标识”对象
             // 这个图框里面的块引用将会被“炸”平成基本图元后处理
             // 解构图集放置区的第一个线框
-            var item = frames.Dequeue();
+            PlaygroundFrame = frames.First();
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 acadDatabase.Database.CopyWithMove(originFrame, offset);
-                acadDatabase.Database.ExplodeToOwnerSpace(item.Item1);
+                acadDatabase.Database.ExplodeToOwnerSpace(PlaygroundFrame.Item1);
             }
 
-            // CAD处理流程
+            // CAD数据处理流程
             ThSitePlanConfigService.Instance.Initialize();
             ThSitePlanConfigService.Instance.EnableAll(true);
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 ThSitePlanEngine.Instance.Containers = frames;
-                ThSitePlanEngine.Instance.OriginFrame = item.Item1;
+                ThSitePlanEngine.Instance.OriginFrame = PlaygroundFrame.Item1;
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                 {
                     new ThSitePlanFrameNameGenerator(),
@@ -133,13 +134,33 @@ namespace ThSitePlan.UI
                     new ThSitePlanTrimGenerator(),
                     new ThSitePlanBoundaryGenerator(),
                     new ThSitePlanHatchGenerator(),
-                    new ThSitePlanShadowGenerator(),
+                    new ThSitePlanShadowGenerator()
+                };
+                ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
+            }
+
+            // CAD打印流程
+            //读取已经被标注的图框
+            ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+            ThSitePlanConfigService.Instance.Initialize();
+            ThSitePlanConfigService.Instance.EnableAll(true);
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var plotpdfframes = new Queue<Tuple<ObjectId, Vector3d>>();
+                foreach (ObjectId fra in ThSitePlanDbEngine.Instance.Frames)
+                {
+                    plotpdfframes.Enqueue(new Tuple<ObjectId, Vector3d>(fra, new Vector3d(0, 0, 0)));
+                }
+                ThSitePlanEngine.Instance.Containers = plotpdfframes;
+                ThSitePlanEngine.Instance.OriginFrame = ObjectId.Null;
+                ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
+                {
                     new ThSitePlanPDFGenerator()
                 };
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
 
-            ////PS处理流程
+            //PS处理流程
             ThSitePlanConfigService.Instance.Initialize();
             ThSitePlanConfigService.Instance.EnableAll(true);
             using (var psService = new ThSitePlanPSService())

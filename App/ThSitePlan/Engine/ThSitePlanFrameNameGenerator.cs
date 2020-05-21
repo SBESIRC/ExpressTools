@@ -20,6 +20,7 @@ namespace ThSitePlan.Engine
         {
             Workers = new Dictionary<string, ThSitePlanWorker>()
             {
+                {"未识别对象", new ThSitePlanAddNameTextWorker()},
                 {"基本文字说明及图例", new ThSitePlanAddNameTextWorker()},
                 {"场地标高", new ThSitePlanAddNameTextWorker()},
                 {"尺寸标注", new ThSitePlanAddNameTextWorker()},

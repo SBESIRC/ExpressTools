@@ -110,6 +110,18 @@ namespace ThSitePlan.Configuration
             {
                 Properties = new Dictionary<string, object>()
                 {
+                    { "Name", "未识别对象"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()}
+                }
+            });
+
+            Root.AddItem(new ThSitePlanConfigItem()
+            {
+                Properties = new Dictionary<string, object>()
+                {
                     { "Name", "基本文字说明及图例"},
                     { "Color", Color.Black},
                     { "Opacity", 100 },
