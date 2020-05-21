@@ -105,6 +105,30 @@ namespace ThCADCore.Test
                 }
             }
         }
+
+        [CommandMethod("TIANHUACAD", "ThMerge", CommandFlags.Modal)]
+        public void ThMerge()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetSelection();
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var objs = new DBObjectCollection();
+                foreach (var obj in result.Value.GetObjectIds())
+                {
+                    objs.Add(acadDatabase.Element<Entity>(obj));
+                }
+                foreach (var obj in objs.Merge())
+                {
+                    acadDatabase.ModelSpace.Add(obj as Entity);
+                }
+            }
+        }
+
         [CommandMethod("TIANHUACAD", "ThLoops", CommandFlags.Modal)]
         public void ThLoops()
         {
