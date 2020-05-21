@@ -38,6 +38,7 @@
     <Compile Include="Engine\ThSitePlanBoundaryGenerator.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryOuterBuildingWorker.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryWorker.cs" />
+    <Compile Include="Engine\ThSitePlanBoundaryYardWorker.cs" />
     <Compile Include="Engine\ThSitePlanBuilding.cs" />
     <Compile Include="Engine\ThSitePlanBuildingAnnotations.cs" />
     <Compile Include="Engine\ThSitePlanBuildingShadow.cs" />

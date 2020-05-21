@@ -336,6 +336,19 @@ namespace ThSitePlan
             }
         }
 
+        public static ObjectIdCollection CreateBoundaries(this Database database, ObjectIdCollection objs)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                var dbObjs = new DBObjectCollection();
+                foreach(ObjectId obj in objs)
+                {
+                    dbObjs.Add(acadDatabase.Element<Entity>(obj));
+                }
+                return acadDatabase.Database.CreateRegionLoops(dbObjs.Boundaries());
+            }
+        }
+
         public static DBObjectCollection GetPolyLineBounding(this DBObjectCollection dBObjects, Tolerance tolerance)
         {
             DBObjectCollection resBounding = new DBObjectCollection();
