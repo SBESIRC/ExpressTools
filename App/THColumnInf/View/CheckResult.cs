@@ -928,8 +928,6 @@ namespace ThColumnInfo.View
                     Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
                     using (DocumentLock docLock = doc.LockDocument())
                     {
-                        ThProgressBar.Start("导入计算书...");
-                        ThProgressBar.MeterProgress();
                         try
                         {                       
                             CalculationInfoVM calculationInfoVM = new CalculationInfoVM();
@@ -957,36 +955,35 @@ namespace ThColumnInfo.View
                             importCalculation.ShowDialog();
                             if (calculationInfoVM.YnExport) 
                             {
-                                using (Transaction trans=doc.TransactionManager.StartTransaction())
+                                if (thStandardSign.SignPlantCalData != null)
                                 {
-                                    if (thStandardSign.SignPlantCalData != null)
+                                    //删除已经绘制的FrameId和TextId
+                                    thStandardSign.SignPlantCalData.ClearFrameIds();
+                                    thStandardSign.SignPlantCalData.EraseJtIdTextIds();
+                                }
+                                PlantCalDataToDraw plantData = new PlantCalDataToDraw(calculationInfoVM.CalculateInfo, thStandardSign);
+                                thStandardSign.SignPlantCalData = plantData;
+                                bool res = plantData.Plant();
+                                if (res)
+                                {
+                                    try
                                     {
-                                        //删除已经绘制的FrameId和TextId
-                                        thStandardSign.SignPlantCalData.ClearFrameIds();
+                                        ThProgressBar.Start("导入计算书...");
                                         ThProgressBar.MeterProgress();
-                                        thStandardSign.SignPlantCalData.EraseJtIdTextIds();
-                                        ThProgressBar.MeterProgress();
-                                    }
-                                    PlantCalDataToDraw plantData = new PlantCalDataToDraw(calculationInfoVM.CalculateInfo, thStandardSign);
-                                    thStandardSign.SignPlantCalData = plantData;
-                                    bool res = plantData.Plant();
-                                    if (res)
-                                    {
                                         ThColumnInfoUtils.EraseObjIds(treeColumnIds.ToArray());
                                         UpdateCheckResult(tn, thStandardSign, true);
                                         this.currentNode = tn;
                                     }
-                                    trans.Commit();
-                                }   
+                                    finally
+                                    {
+                                        ThProgressBar.Stop();
+                                    }
+                                }
                             }
                         }
                         catch (System.Exception ex)
                         {
                             ThColumnInfoUtils.WriteException(ex);
-                        }
-                        finally
-                        {
-                            ThProgressBar.Stop();
                         }
                     }
                 }
