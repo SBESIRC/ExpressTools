@@ -104,7 +104,7 @@ namespace ThCADCore.NTS
             }
             if (polyLine.Closed)
             {
-                if (polyLine.StartPoint.ToNTSCoordinate().Equals(polyLine.EndPoint.ToNTSCoordinate()))
+                if (points[0].Equals(points[points.Count-1]))
                 {
                     // 首尾端点一致的情况
                     return ThCADCoreNTSService.Instance.GeometryFactory.CreateLinearRing(points.ToArray());
@@ -112,11 +112,11 @@ namespace ThCADCore.NTS
                 else
                 {
                     // 首尾端点不一致的情况
-                    points.Add(polyLine.GetPoint3dAt(0).ToNTSCoordinate());
+                    points.Add(points[0]);
                     return ThCADCoreNTSService.Instance.GeometryFactory.CreateLinearRing(points.ToArray());
                 }
             }
-            else if (polyLine.StartPoint.ToNTSCoordinate().Equals(polyLine.EndPoint.ToNTSCoordinate()))
+            else if (points[0].Equals(points[points.Count - 1]))
             {
                 // 首尾端点一致的情况
                 return ThCADCoreNTSService.Instance.GeometryFactory.CreateLinearRing(points.ToArray());
