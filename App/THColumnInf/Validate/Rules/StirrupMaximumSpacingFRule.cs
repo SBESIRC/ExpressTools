@@ -10,7 +10,7 @@ namespace ThColumnInfo.Validate
     {
         private StirrupMaximumSpacingFModel smsfm=null;
         private double stirrupSpaceingLimited = 0.0;
-        private string rule = "（《砼规》11.4.12-2）";
+        private string rule = "（《砼规》11.4.12）";
         public StirrupMaximumSpacingFRule(StirrupMaximumSpacingFModel smsfModel)
         {
             this.smsfm = smsfModel;
@@ -56,7 +56,7 @@ namespace ThColumnInfo.Validate
             List<string> steps = new List<string>();
             steps.Add("类别：箍筋最大间距F（箍筋）");
             steps.Add("条目编号：511， 强制性：应，适用构件：KZ、ZHZ");
-            steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 11.4.12-2，条文页数：P176");
+            steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 11.4.12，条文页数：P176");
             steps.Add("条文：见图");
             steps.Add("柱号 = " + this.smsfm.Text);
             steps.Add("箍筋间距: intStirrupSpacing = " + smsfm.Cdm.IntStirrupSpacing);

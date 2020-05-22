@@ -28,11 +28,11 @@ namespace ThColumnInfo.Validate
             {
                 if(this.csm.Cdm.IntYStirrupCount<=2)
                 {
-                    this.ValidateResults.Add("X方向应设置复合箍筋 [" + this.csm.Cdm.IntYStirrupCount + " <= 2 ]" + this.rule);
+                    this.ValidateResults.Add("应设置竖向复合箍筋 [" + this.csm.Cdm.IntYStirrupCount + " <= 2 ]" + this.rule);
                 }
                 else
                 {
-                    this.CorrectResults.Add("X方向设置复合箍筋" + this.rule);
+                    this.CorrectResults.Add("已设置竖向复合箍筋" + this.rule);
                 }
             }
            if((minSize > 400 && this.csm.Cdm.IntYBarCount>1) ||
@@ -40,11 +40,11 @@ namespace ThColumnInfo.Validate
             {
                 if(this.csm.Cdm.IntXStirrupCount<=2)
                 {
-                    this.ValidateResults.Add("Y方向应设置复合箍筋 [" + this.csm.Cdm.IntXStirrupCount + " <= 2 ]" + this.rule);
+                    this.ValidateResults.Add("应设置横向复合箍筋 [" + this.csm.Cdm.IntXStirrupCount + " <= 2 ]" + this.rule);
                 }
                 else
                 {
-                    this.CorrectResults.Add("Y方向设置复合箍筋" + this.rule);
+                    this.CorrectResults.Add("已设置横向复合箍筋" + this.rule);
                 }
             }
         }
@@ -65,11 +65,11 @@ namespace ThColumnInfo.Validate
             steps.Add("  {");
             steps.Add("    if (IntYStirrupCount[" + this.csm.Cdm.IntYStirrupCount  + "] <= 2 )");
             steps.Add("      {");
-            steps.Add("          Err：X方向应设置复合箍筋"+this.rule);
+            steps.Add("          Err：应设置竖向复合箍筋" + this.rule);
             steps.Add("      }");
             steps.Add("    else");
             steps.Add("      {");
-            steps.Add("          Debugprint: X方向设置复合箍筋" + this.rule);
+            steps.Add("          Debugprint: 已设置竖向复合箍筋" + this.rule);
             steps.Add("      }");
             steps.Add("  }");
 
@@ -80,11 +80,11 @@ namespace ThColumnInfo.Validate
             steps.Add("  {");
             steps.Add("    if (IntXStirrupCount[" + this.csm.Cdm.IntXStirrupCount + "] <= 2 )");
             steps.Add("      {");
-            steps.Add("          Err：Y方向应设置复合箍筋" + this.rule);
+            steps.Add("          Err：应设置横向复合箍筋" + this.rule);
             steps.Add("      }");
             steps.Add("    else");
             steps.Add("      {");
-            steps.Add("          Debugprint:Y方向设置复合箍筋" + this.rule);
+            steps.Add("          Debugprint:已设置横向复合箍筋" + this.rule);
             steps.Add("      }");
             steps.Add("  }");
             steps.Add("");
