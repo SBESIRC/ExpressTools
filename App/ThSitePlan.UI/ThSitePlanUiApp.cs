@@ -165,6 +165,12 @@ namespace ThSitePlan.UI
             ThSitePlanConfigService.Instance.EnableAll(true);
             using (var psService = new ThSitePlanPSService())
             {
+                if (!psService.IsValid)
+                {
+                    Application.ShowAlertDialog("未识别到PhotoShop,请确认是否正确安装PhotoShop");
+                    return;
+                }
+
                 // 创建空白文档
                 psService.NewEmptyDocument("MyNewDocument");
 
@@ -327,6 +333,12 @@ namespace ThSitePlan.UI
 
                 using (var psService = new ThSitePlanPSService())
                 {
+                    if (!psService.IsValid)
+                    {
+                        Application.ShowAlertDialog("未识别到PhotoShop,请确认是否正确安装PhotoShop");
+                        return;
+                    }
+
                     //启动PS引擎，开始更新 
                     ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
                      {
