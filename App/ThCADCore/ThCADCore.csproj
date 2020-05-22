@@ -35,6 +35,7 @@
     <Compile Include="ThCADCoreCommon.cs" />
     <Compile Include="ThCADDbExtension.cs" />
     <Compile Include="ThCADGeExtension.cs" />
+    <Compile Include="ThPolygonPartition.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">

@@ -104,19 +104,26 @@ namespace ThCADCore.NTS
             }
             if (polyLine.Closed)
             {
-                points.Add(polyLine.GetPoint3dAt(0).ToNTSCoordinate());
-                return ThCADCoreNTSService.Instance.GeometryFactory.CreateLinearRing(points.ToArray());
+                if (polyLine.StartPoint.ToNTSCoordinate().Equals(polyLine.EndPoint.ToNTSCoordinate()))
+                {
+                    // 首尾端点一致的情况
+                    return ThCADCoreNTSService.Instance.GeometryFactory.CreateLinearRing(points.ToArray());
+                }
+                else
+                {
+                    // 首尾端点不一致的情况
+                    points.Add(polyLine.GetPoint3dAt(0).ToNTSCoordinate());
+                    return ThCADCoreNTSService.Instance.GeometryFactory.CreateLinearRing(points.ToArray());
+                }
             }
-            else if (polyLine.StartPoint.IsEqualTo(polyLine.EndPoint, ThCADCoreCommon.global_tolerance_architecture))
+            else if (polyLine.StartPoint.ToNTSCoordinate().Equals(polyLine.EndPoint.ToNTSCoordinate()))
             {
-                // 考虑到图纸的精度远小于NTS使用的精度，在图纸中认为是封闭的曲线，在NTS就认为是不封闭的
-                // 为了解决这个由于精度不同导致的误差，在曲线的末端“补偿”一个起点，从而保证曲线是封闭的
-                // NTS中的LineRing就要求起点和终点必须是一致的
-                points.Add(polyLine.GetPoint3dAt(0).ToNTSCoordinate());
+                // 首尾端点一致的情况
                 return ThCADCoreNTSService.Instance.GeometryFactory.CreateLinearRing(points.ToArray());
             }
             else
             {
+                // 首尾端点不一致的情况
                 return ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
             }
         }
