@@ -4,6 +4,7 @@ using Autodesk.AutoCAD.Geometry;
 using NetTopologySuite.Algorithm;
 using Autodesk.AutoCAD.DatabaseServices;
 using NetTopologySuite.Geometries;
+using NetTopologySuite.Triangulate;
 
 namespace ThCADCore.NTS
 {
@@ -61,6 +62,26 @@ namespace ThCADCore.NTS
             {
                 throw new NotSupportedException();
             }
+        }
+
+        public static DBObjectCollection VoronoiDiagram(this Polyline polyline)
+        {
+            var objs = new DBObjectCollection();
+            var voronoiDiagram = new VoronoiDiagramBuilder();
+            voronoiDiagram.SetSites(LineString.Empty.Union(polyline.ToNTSLineString()));
+            var geometries = voronoiDiagram.GetDiagram(ThCADCoreNTSService.Instance.GeometryFactory);
+            foreach(var geometry in geometries.Geometries)
+            {
+                if (geometry is IPolygon polygon)
+                {
+                    objs.Add(polygon.Shell.ToDbPolyline());
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+            return objs;
         }
     }
 }

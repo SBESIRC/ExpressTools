@@ -8,6 +8,7 @@ using NetTopologySuite.Operation.Union;
 using NetTopologySuite.Operation.Polygonize;
 using NetTopologySuite.Utilities;
 using NetTopologySuite.Operation.Linemerge;
+using NetTopologySuite.Geometries;
 
 namespace ThCADCore.NTS
 {
@@ -77,7 +78,7 @@ namespace ThCADCore.NTS
             return plines;
         }
 
-        public static Line ToDbLine(this NetTopologySuite.Geometries.LineSegment segment)
+        public static Line ToDbLine(this LineSegment segment)
         {
             return new Line()
             {
