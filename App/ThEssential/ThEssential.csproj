@@ -58,6 +58,7 @@
     <Compile Include="Command\ThBConvertCommand.cs" />
     <Compile Include="Command\ThCopyCommand.cs" />
     <Compile Include="Command\ThEquipmentCommand.cs" />
+    <Compile Include="Command\ThLayerStateCommand.cs" />
     <Compile Include="Command\ThMatchPropsCommand.cs" />
     <Compile Include="Command\ThOverkillCommand.cs" />
     <Compile Include="Command\ThQSelectCommand.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Equipment\ThEquipmentEditorExtension.cs" />
     <Compile Include="Equipment\ThEquipmentGeExtension.cs" />
     <Compile Include="Equipment\ThEquipmentHatchExtension.cs" />
+    <Compile Include="LayerState\ThLayerStateManager.cs" />
     <Compile Include="MatchProps\Model\MarchPropertySet.cs" />
     <Compile Include="MatchProps\ThMatchProps.cs" />
     <Compile Include="MatchProps\ThMatchPropsEntityExtension.cs" />
@@ -120,6 +122,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
       <ItemGroup>
