@@ -21,7 +21,12 @@ namespace ThEssential.LayerState
         /// <summary>
         /// 消防平面
         /// </summary>
-        EXTINGUISHMENT = 3,
+        EXTINGUISHMENT = 4,
+
+        /// <summary>
+        /// 全显
+        /// </summary>
+        ALL = VENTILATE | PIPE | EXTINGUISHMENT,
     }
 
     public class ThLayerStateManager : IDisposable

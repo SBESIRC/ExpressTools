@@ -23,6 +23,9 @@ namespace ThEssential.Command
                 case State.EXTINGUISHMENT:
                     StateName = "THXF";
                     break;
+                case State.ALL:
+                    StateName = "THNT";
+                    break;
                 default:
                     throw new NotSupportedException();
             }

@@ -116,5 +116,14 @@ namespace ThEssential
             }
         }
 
+        [CommandMethod("TIANHUACAD", "THNT", CommandFlags.Modal)]
+        public void ThNT()
+        {
+            using (var cmd = new ThLayerStateCommand(State.ALL))
+            {
+                cmd.Execute();
+            }
+        }
+
     }
 }
