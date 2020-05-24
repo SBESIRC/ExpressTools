@@ -149,6 +149,33 @@ namespace ThCADCore.Test
             }
         }
 
+        [CommandMethod("TIANHUACAD", "ThTrim", CommandFlags.Modal)]
+        public void ThTrim()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetEntity("请选择对象");
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var result2 = Active.Editor.GetEntity("请选择框线");
+                if (result2.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var curve = acadDatabase.Element<Polyline>(result.ObjectId);
+                var frame = acadDatabase.Element<Polyline>(result2.ObjectId);
+                foreach (Entity diagram in frame.Trim(curve))
+                {
+                    diagram.ColorIndex = 1;
+                    acadDatabase.ModelSpace.Add(diagram);
+                }
+            }
+        }
+
         [CommandMethod("TIANHUACAD", "ThLoops", CommandFlags.Modal)]
         public void ThLoops()
         {

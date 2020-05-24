@@ -26,6 +26,8 @@
   <ItemGroup>
     <Compile Include="NTS\ThCADCoreNTSDbExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSGeExtension.cs" />
+    <Compile Include="NTS\ThCADCoreNTSLocate.cs" />
+    <Compile Include="NTS\ThCADCoreNTSOperation.cs" />
     <Compile Include="NTS\ThCADCoreNTSPolylineExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSRegionExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSService.cs" />

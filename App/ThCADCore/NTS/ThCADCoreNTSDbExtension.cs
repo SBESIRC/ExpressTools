@@ -129,6 +129,19 @@ namespace ThCADCore.NTS
             }
         }
 
+        public static IPolygon ToNTSPolygon(this Polyline polyLine)
+        {
+            var geometry = polyLine.ToNTSLineString();
+            if (geometry is ILinearRing linearRing)
+            {
+                return ThCADCoreNTSService.Instance.GeometryFactory.CreatePolygon(linearRing);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static ILineString ToNTSLineString(this Line line)
         {
             var points = new List<Coordinate>();
