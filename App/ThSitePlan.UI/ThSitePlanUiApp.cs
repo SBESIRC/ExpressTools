@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.ApplicationServices;
 using AcHelper;
 using DotNetARX;
 using Linq2Acad;
@@ -12,9 +14,6 @@ using ThSitePlan.Engine;
 using ThSitePlan.Configuration;
 using ThSitePlan.Photoshop;
 using NFox.Cad.Collections;
-using Autodesk.AutoCAD.ApplicationServices;
-using System.IO;
-using System.Text;
 
 namespace ThSitePlan.UI
 {
@@ -24,12 +23,14 @@ namespace ThSitePlan.UI
         public Tuple<ObjectId, Vector3d> PlaygroundFrame { get; set; }
         public void Initialize()
         {
-            //
+            ThSitePlanDocCollectionEventHandler.Instance.Register();
+            ThSitePlanDbEventHandler.Instance.SubscribeToDb(Active.Database);
         }
 
         public void Terminate()
         {
-            //
+            ThSitePlanDocCollectionEventHandler.Instance.UnRegister();
+            ThSitePlanDbEventHandler.Instance.UnsubscribeFromDb(Active.Database);
         }
 
         /// <summary>
