@@ -14,6 +14,7 @@ using ThSitePlan.Photoshop;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.ApplicationServices;
 using System.IO;
+using System.Text;
 
 namespace ThSitePlan.UI
 {
@@ -21,7 +22,6 @@ namespace ThSitePlan.UI
     {
         public Tuple<ObjectId, Vector3d> OriginFrame { get; set; }
         public Tuple<ObjectId, Vector3d> PlaygroundFrame { get; set; }
-        public Tuple<ObjectId, Vector3d> OriginFrameCopy { get; set; }
         public void Initialize()
         {
             //
@@ -102,6 +102,16 @@ namespace ThSitePlan.UI
                         var objId = acadDatabase.ModelSpace.Add(frameObj.GetTransformedCopy(displacement));
                         frames.Enqueue(new Tuple<ObjectId, Vector3d>(objId, delta));
                     }
+                }
+
+                // 为每个框打“标签”
+                foreach (var fm in frames)
+                {
+                    TypedValueList valueList = new TypedValueList
+                    {
+                                { (int)DxfCode.ExtendedDataBinaryChunk, Encoding.UTF8.GetBytes("天华彩总") },
+                    };
+                    fm.Item1.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name, valueList);
                 }
             }
 
@@ -211,23 +221,17 @@ namespace ThSitePlan.UI
                     return;
                 }
 
-                //TODO:
-                //选择一个合适的位置作为新的图框
-                //将初始图纸中内容复制到后面一个空的图框中
-                var newframes = ThSitePlanEngine.Instance.Containers;
-                if (OriginFrameCopy.IsNull())
-                {
-                    OriginFrameCopy = newframes.Dequeue();
-                }
+                //读取已经被标注的图框
+                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+                var unusedframe = ThSitePlanDbEngine.Instance.FrameByName("天华彩总");
+                var undifineframe = ThSitePlanDbEngine.Instance.FrameByName("未识别对象");
+                Vector3d unusedtoundifineoffset = acadDatabase.Database.FrameOffset(undifineframe, unusedframe);
 
                 //初始化图框配置
                 //这里先“关闭”所有的图框
                 //后面会根据用户的选择“打开”需要更新的图框
                 ThSitePlanConfigService.Instance.Initialize();
                 ThSitePlanConfigService.Instance.EnableAll(false);
-
-                //读取已经被标注的图框
-                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
 
                 //获取需要更新的图框
                 var updateframes = new Queue<Tuple<ObjectId, Vector3d>>();
@@ -243,10 +247,7 @@ namespace ThSitePlan.UI
                         var name = CurrentItem.Properties["Name"] as string;
                         var frame = ThSitePlanDbEngine.Instance.FrameByName(name);
                         //获取选择框与复制框之间的偏移量
-                        var SelFramenPol = acadDatabase.Element<Polyline>(frame);
-                        var PolOgFmCp = acadDatabase.Element<Polyline>(OriginFrameCopy.Item1);
-                        Vector3d SelToCopyFrame = SelFramenPol.GeometricExtents.MaxPoint - PolOgFmCp.GeometricExtents.MaxPoint;
-                        updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(frame, SelToCopyFrame));
+                        updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(frame, acadDatabase.Database.FrameOffset(unusedframe, frame)));
                     }
                     else
                     {
@@ -259,10 +260,7 @@ namespace ThSitePlan.UI
                                 continue;
                             }
                             //获取选择框与复制框之间的偏移量
-                            var SelFramenPol = acadDatabase.Element<Polyline>(frame);
-                            var PolOgFmCp = acadDatabase.Element<Polyline>(OriginFrameCopy.Item1);
-                            Vector3d SelToCopyFrame = SelFramenPol.GeometricExtents.MaxPoint - PolOgFmCp.GeometricExtents.MaxPoint;
-                            updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(frame, SelToCopyFrame));
+                            updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(frame, acadDatabase.Database.FrameOffset(unusedframe, frame)));
                         }
                     }
                 }
@@ -290,8 +288,8 @@ namespace ThSitePlan.UI
                 }
 
                 //首先将原线框内的所有图元复制一份放到解构图集放置区的最后一个线框里
-                acadDatabase.Database.CopyWithMove(OriginFrame.Item1, OriginFrame.Item2 + OriginFrameCopy.Item2);
-                acadDatabase.Database.ExplodeToOwnerSpace(OriginFrameCopy.Item1);
+                acadDatabase.Database.CopyWithMove(OriginFrame.Item1, acadDatabase.Database.FrameOffset(OriginFrame.Item1, undifineframe) + unusedtoundifineoffset);
+                acadDatabase.Database.ExplodeToOwnerSpace(unusedframe);
 
                 //接着将需要更新的图框清空
                 foreach (var item in SortedUpdateFrames)
@@ -301,7 +299,7 @@ namespace ThSitePlan.UI
 
                 //启动CAD引擎，开始更新 
                 ThSitePlanEngine.Instance.Containers = SortedUpdateFrames;
-                ThSitePlanEngine.Instance.OriginFrame = OriginFrameCopy.Item1;
+                ThSitePlanEngine.Instance.OriginFrame = unusedframe;
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                  {
                     new ThSitePlanContentGenerator(),
@@ -313,7 +311,7 @@ namespace ThSitePlan.UI
                  };
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
                 //Update后先清除初始元素Copy frame内部的图元
-                ThSitePlanDbEngine.Instance.EraseItemInFrame(OriginFrameCopy.Item1, PolygonSelectionMode.Crossing);
+                ThSitePlanDbEngine.Instance.EraseItemInFrame(unusedframe, PolygonSelectionMode.Crossing);
 
                 //初始化图框配置
                 //这里先“关闭”所有的图框

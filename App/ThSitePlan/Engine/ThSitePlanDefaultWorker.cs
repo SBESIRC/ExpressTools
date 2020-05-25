@@ -104,12 +104,12 @@ namespace ThSitePlan.Engine
                 };
                 var TextobjId = acadDatabase.ModelSpace.Add(tx, true);
 
-                //
-                var utf8 = Encoding.UTF8;
+                // 更新框的标签
+                frame.RemoveXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name);
                 TypedValueList valueList = new TypedValueList
-                            {
-                                { (int)DxfCode.ExtendedDataBinaryChunk, utf8.GetBytes(frameName) },
-                            };
+                {
+                    { (int)DxfCode.ExtendedDataBinaryChunk,  Encoding.UTF8.GetBytes(frameName) },
+                };
                 frame.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name, valueList);
 
                 return true;
