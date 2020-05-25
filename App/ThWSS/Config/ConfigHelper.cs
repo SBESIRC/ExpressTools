@@ -92,7 +92,7 @@ namespace ThWSS.Config
             {
                 if (!(item.PropertyType.IsValueType || item.PropertyType.Name.StartsWith("String")))
                 {
-                    var value = item.GetValue(t);
+                    var value = item.GetValue(t, null);
                     if (value != null)
                     {
                         Serialize(value);
@@ -100,7 +100,7 @@ namespace ThWSS.Config
                 }
                 else
                 {
-                    SetValue(item.Name, item.GetValue(t).ToString());
+                    SetValue(item.Name, item.GetValue(t, null).ToString());
                 }
             }
         }
@@ -126,11 +126,11 @@ namespace ThWSS.Config
                 {
                     var temp = Activator.CreateInstance(item.PropertyType);
                     AnalysisClass(temp);
-                    item.SetValue(obj, temp);
+                    item.SetValue(obj, temp, null);
                 }
                 else
                 {
-                    item.SetValue(obj, GetValue(item.Name));
+                    item.SetValue(obj, GetValue(item.Name), null);
                 }
             }
         }
