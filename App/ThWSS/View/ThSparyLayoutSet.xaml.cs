@@ -1,10 +1,19 @@
-﻿using System;
+using AcHelper;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
+using Linq2Acad;
+using NFox.Cad.Collections;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using ThWSS.Config;
 using ThWSS.Config.Model;
+using ThWSS.Engine;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThWss.View
 {
@@ -13,13 +22,18 @@ namespace ThWss.View
     /// </summary>
     public partial class ThSparyLayoutSet : Window
     {
+        public static ThSparyLayoutSet Instance = new ThSparyLayoutSet();
+        public double sideMaxV = 4400;
+        public double sideMinV = 0;
+        public double maxLengthV = 2200;
+        public double minLengthV = 500;
+
         public ThSparyLayoutSet()
         {
             InitializeComponent();
 
             this.custom.IsChecked = true;
             this.tab1.IsChecked = true;
-
             ReadConfigInfo();
         }
 
@@ -28,13 +42,13 @@ namespace ThWss.View
         {
             if (this.standard.IsChecked == true)
             {
-                this.customControl.Visibility = Visibility.Collapsed;
-                this.standControl.Visibility = Visibility.Visible;
+                this.customControl.Visibility = System.Windows.Visibility.Collapsed;
+                this.standControl.Visibility = System.Windows.Visibility.Visible;
             }
             else
             {
-                this.customControl.Visibility = Visibility.Visible;
-                this.standControl.Visibility = Visibility.Collapsed;
+                this.customControl.Visibility = System.Windows.Visibility.Visible;
+                this.standControl.Visibility = System.Windows.Visibility.Collapsed;
             }
         }
 
@@ -52,6 +66,18 @@ namespace ThWss.View
             }
         }
 
+        private void ProtectRb_Checked(object sender, RoutedEventArgs e)
+        {
+            if (this.radiusPro.IsChecked == true)
+            {
+                this.radius.IsEnabled = true;
+            }
+            else
+            {
+                this.radius.IsEnabled = false;
+            }
+        }
+
         private void tabRB_Checked(object sender, RoutedEventArgs e)
         {
             ReadConfigInfo();
@@ -64,10 +90,11 @@ namespace ThWss.View
         /// <param name="e"></param>
         private void Cancel_Btn_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            this.Hide();
         }
         #endregion
 
+        #region Run
         /// <summary>
         /// 确定
         /// </summary>
@@ -77,17 +104,109 @@ namespace ThWss.View
         {
             try
             {
+                //验证
                 if (!VerifyInputInfo()) { return; };
+
+                //存储本次操作配置
                 SaveConfigInfo();
+
+                //插入操作信息
+                SetWindowValue();
+
+                //执行操作
+                this.Hide();
+                bool res = Run();
+                if (!res)
+                {
+                    this.Show();
+                }
             }
             catch (Exception ex)
             {
             }
             finally
             {
-                this.Close();
+                //this.Close();
             }
         }
+
+        /// <summary>
+        /// 执行布置喷淋
+        /// </summary>
+        /// <returns></returns>
+        public bool Run()
+        {
+            try
+            {
+                using (AcadDatabase acdb = AcadDatabase.Active())
+                {
+                    //防火分区
+                    if (this.fire.IsChecked == true)
+                    {
+                        ThSprayLayoutEngine.Instance.Layout(acdb.Database, null);
+                    }
+                    //来自框线
+                    if (this.frame.IsChecked == true)
+                    {
+                        PromptSelectionOptions options = new PromptSelectionOptions()
+                        {
+                            AllowDuplicates = false,
+                            RejectObjectsOnLockedLayers = true,
+                        };
+                        var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "POLYLINE,LWPOLYLINE");
+                        var entSelected = Active.Editor.GetSelection(options, filterlist);
+                        if (entSelected.Status != PromptStatus.OK)
+                        {
+                            return false;
+                        };
+
+                        // 执行操作
+                        DBObjectCollection dBObjects = new DBObjectCollection();
+                        foreach (ObjectId obj in entSelected.Value.GetObjectIds())
+                        {
+                            dBObjects.Add(acdb.Element<Entity>(obj, true));
+                        }
+
+                        List<Polyline> room = new List<Polyline>();
+                        foreach (var item in dBObjects)
+                        {
+                            room.Add(item as Polyline);
+                        }
+                        ThSprayLayoutEngine.Instance.Layout(room.Select(x => { x.Closed = true; return x; }).ToList());
+                    }
+                    //自定义区域
+                    if (this.customPart.IsChecked == true)
+                    {
+                        Polyline pline = new Polyline() { Closed = true };
+                        using (PointCollector pc = new PointCollector(PointCollector.Shape.Polygon))
+                        {
+                            try
+                            {
+                                pc.Collect();
+                            }
+                            catch
+                            {
+                                return false;
+                            }
+                            Point3dCollection winCorners = pc.CollectedPoints;
+                            for (int i = 0; i < winCorners.Count; i++)
+                            {
+                                pline.AddVertexAt(i, new Point2d(winCorners[i].X, winCorners[i].Y), 0, 0, 0);
+                            }
+                        }
+
+                        acdb.ModelSpace.Add(pline);
+                        ThSprayLayoutEngine.Instance.Layout(new List<Polyline>() { pline });
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        #endregion
 
         #region 操作配置
         /// <summary>
@@ -172,7 +291,7 @@ namespace ThWss.View
             string nodeName = GetTabName();
             ConfigHelper configHelper = new ConfigHelper();
             configHelper.elementNode = configHelper.ReadNode(nodeName).FirstOrDefault();
-            configHelper.Serialize(layoutCacheModel);
+            configHelper.SaveConfig(layoutCacheModel);
         }
 
         /// <summary>
@@ -222,14 +341,16 @@ namespace ThWss.View
             if (layoutCacheModel.protectStrategy == this.radiusPro.Name)
             {
                 this.radiusPro.IsChecked = true;
+                this.radius.IsEnabled = true;
             }
             else
             {
                 this.rectanglePro.IsChecked = true;
+                this.radius.IsEnabled = false;
             }
             this.radius.Text = layoutCacheModel.protectRadius;
             //考虑梁
-            if (layoutCacheModel.hasBeam.considerBeam != null && layoutCacheModel.hasBeam.considerBeam != "0")
+            if (!string.IsNullOrEmpty(layoutCacheModel.hasBeam.considerBeam) && layoutCacheModel.hasBeam.considerBeam != "0")
             {
                 this.HasBeam.IsChecked = true;
                 this.beamHeight.IsEnabled = true;
@@ -270,6 +391,17 @@ namespace ThWss.View
             
             return res;
         }
+
+        /// <summary>
+        /// 插入数据信息
+        /// </summary>
+        private void SetWindowValue()
+        {
+            sideMinV = Convert.ToDouble(this.customControl.sparySSpcing.Text);
+            sideMaxV = Convert.ToDouble(this.customControl.sparyESpcing.Text);
+            minLengthV = Convert.ToDouble(this.customControl.otherSSpcing.Text);
+            maxLengthV = Convert.ToDouble(this.customControl.otherESpcing.Text);
+        }
         #endregion
 
         #region 验证输入信息
@@ -279,7 +411,7 @@ namespace ThWss.View
         /// <returns></returns>
         private bool VerifyInputInfo()
         {
-            return VerifyBeamInfo();
+            return VerifySparySpacing() && VerifyBeamInfo();
         }
 
         /// <summary>
@@ -290,7 +422,7 @@ namespace ThWss.View
         {
             if (this.HasBeam.IsChecked == true)
             {
-                if (this.plateThick.Text == null || this.beamHeight.Text == null)
+                if (string.IsNullOrEmpty(this.plateThick.Text) || string.IsNullOrEmpty(this.beamHeight.Text))
                 {
                     MessageBox.Show("在考虑梁影响的情况下默认梁高和顶板厚度都不能为空！");
                     return false;
@@ -301,6 +433,47 @@ namespace ThWss.View
                     {
                         this.plateThick.Text = null;
                         MessageBox.Show("顶板厚度不能超过默认梁高！");
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 验证自定义距离约束输入信息
+        /// </summary>
+        /// <returns></returns>
+        private bool VerifySparySpacing()
+        {
+            if (this.custom.IsChecked == true)
+            {
+                if (string.IsNullOrEmpty(this.customControl.sparySSpcing.Text)|| string.IsNullOrEmpty(this.customControl.sparyESpcing.Text))
+                {
+                    MessageBox.Show("在自定义距离约束的情况下喷头间距不能为空！");
+                    return false;
+                }
+                else
+                {
+                    if (Convert.ToInt32(this.customControl.sparySSpcing.Text) >= Convert.ToInt32(this.customControl.sparyESpcing.Text))
+                    {
+                        this.customControl.sparyESpcing.Text = null;
+                        MessageBox.Show("喷头最小间距不能大于最大间距！");
+                        return false;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(this.customControl.otherSSpcing.Text) || string.IsNullOrEmpty(this.customControl.otherESpcing.Text))
+                {
+                    MessageBox.Show("在自定义距离约束的情况下距离墙/柱间距不能为空！");
+                    return false;
+                }
+                else
+                {
+                    if (Convert.ToInt32(this.customControl.otherSSpcing.Text) > Convert.ToInt32(this.customControl.otherESpcing.Text))
+                    {
+                        this.customControl.otherESpcing.Text = null;
+                        MessageBox.Show("距离墙/柱最小距离不能大于最大距离！");
                         return false;
                     }
                 }

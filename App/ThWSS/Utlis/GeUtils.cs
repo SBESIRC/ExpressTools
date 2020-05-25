@@ -137,5 +137,24 @@ namespace ThWSS.Utlis
 
             return false;
         }
+
+        /// <summary>
+        /// 判断当前点是凸点还是凹点
+        /// </summary>
+        /// <param name="poly"></param>
+        /// <param name="pt"></param>
+        /// <param name="nextP"></param>
+        /// <param name="preP"></param>
+        /// <returns></returns>
+        public static bool IsConvexPoint(Polyline poly, Point3d pt, Point3d nextP, Point3d preP)
+        {
+            Vector3d nextV = (pt - nextP).GetNormal();
+            Vector3d preV = (pt - preP).GetNormal();
+            Point3d tempP = pt + nextV * 1 + preV * 1;
+            if (CheckPointInPolyline(poly, tempP, Tolerance.Global.EqualPoint) == 1)
+                return false;
+
+            return true;
+        }
     }
 }

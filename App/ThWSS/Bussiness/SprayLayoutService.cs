@@ -17,6 +17,10 @@ namespace ThWSS.Bussiness
         {
             foreach (var room in roomsLine)
             {
+                //区域分割
+                RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
+                regionDivisionUtils.DivisionRegion(room);
+
                 //计算房间走向
                 var roomOOB = OrientedBoundingBox.Calculate(room);
                 using (AcadDatabase acdb = AcadDatabase.Active())

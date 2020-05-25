@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Linq2Acad;
+using ThWss.View;
 
 namespace ThWSS.LayoutRule
 {
     public class SquareLayout : LayoutInterface
     {
-        public double sideLength = 4400;
-        public double maxLength = 2200;
-        public double minLength = 500;
+        public double sideLength = ThSparyLayoutSet.Instance.sideMaxV;
+        public double sideMinLength = ThSparyLayoutSet.Instance.sideMinV;
+        public double maxLength = ThSparyLayoutSet.Instance.maxLengthV;
+        public double minLength = ThSparyLayoutSet.Instance.minLengthV;
 
         public List<List<Point3d>> Layout(Polyline room, Polyline polyline)
         {
@@ -43,6 +45,7 @@ namespace ThWSS.LayoutRule
             Vector3d vDir = longLine.Delta.GetNormal();  //纵向方向
             Vector3d tDir = sDis < eDis ? shortLine.Delta.GetNormal() : -shortLine.Delta.GetNormal();   //横向方向
             var layoutP = LayoutPoints(roomLines, longLine.StartPoint, tDir, vDir, shortLine.Length);
+            layoutP.AddRange(AdjustPoints(layoutP.SelectMany(x => x).ToList(), roomLines, longLine.StartPoint, tDir, vDir, longLine.Length));
 
             return layoutP;
         }
@@ -94,29 +97,78 @@ namespace ThWSS.LayoutRule
         }
 
         /// <summary>
+        /// 换方向再次排布,补充点
+        /// </summary>
+        /// <param name="vPoints"></param>
+        /// <param name="roomLines"></param>
+        /// <param name="pt"></param>
+        /// <param name="transverseDir"></param>
+        /// <param name="verticalDir"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        private List<List<Point3d>> AdjustPoints(List<Point3d> vPoints, List<Line> roomLines, Point3d pt, Vector3d transverseDir, Vector3d verticalDir, double length)
+        {
+            //竖向排布条件
+            CalLayoutWay(length, out double vRemainder, out double vNum, out double vMoveLength);
+            double dis = Math.Sqrt(maxLength * maxLength * 2);
+            List<List<Point3d>> allP = new List<List<Point3d>>();
+            pt = pt + vRemainder * verticalDir;
+            for (int i = 0; i <= vNum; i++)
+            {
+                List<Point3d> points = GetRayIntersectPoints(roomLines, pt, transverseDir);
+                points = points.OrderBy(x => x.DistanceTo(pt)).ToList();
+                while (points.Count > 0)
+                {
+                    Point3d sp = points.First();
+                    points.Remove(sp);
+                    if (points.Count <= 0)
+                    {
+                        break;
+                    }
+                    Point3d ep = points.First();
+                    points.Remove(ep);
+                    CalLayoutWay(sp.DistanceTo(ep), out double tRemainder, out double tNum, out double tMoveLength);
+
+                    List<Point3d> p = new List<Point3d>();
+                    Point3d tsp = sp + tRemainder * transverseDir;
+                    for (int j = 0; j <= tNum; j++)
+                    {
+                        if (vPoints.Where(x=>x.DistanceTo(tsp) <= dis).Count() <= 0)
+                        {
+                            p.Add(tsp);
+                        }
+                        tsp = tsp + tMoveLength * transverseDir;
+                    }
+                    allP.Add(p);
+                }
+                pt = pt + vMoveLength * verticalDir;
+            }
+
+            return allP;
+        }
+
+        /// <summary>
         /// 获取射线交点
         /// </summary>
         /// <param name="roomLines"></param>
         /// <param name="sp"></param>
         /// <param name="transverseDir"></param>
         /// <returns></returns>
-        private List<Point3d> GetRayIntersectPoints(List<Line> roomLines, Point3d sp, Vector3d transverseDir)
+        private List<Point3d> GetRayIntersectPoints(List<Line> roomLines, Point3d sp, Vector3d dir)
         {
             Ray ray = new Ray();
             ray.BasePoint = sp;
-            ray.UnitDir = transverseDir;
+            ray.UnitDir = dir;
 
             List<Point3d> allPoints = new List<Point3d>();
-            foreach (var line in roomLines)
+            var intersectLines = roomLines.Where(x => !x.Delta.GetNormal().IsParallelTo(dir, new Tolerance(0.0001, 0.0001))).ToList();
+            foreach (var line in intersectLines)
             {
                 Point3dCollection points = new Point3dCollection();
-                if (!line.Delta.GetNormal().IsParallelTo(transverseDir, Tolerance.Global))
+                line.IntersectWith(ray, Intersect.OnBothOperands, points, IntPtr.Zero, IntPtr.Zero);
+                if (points.Count > 0)
                 {
-                    line.IntersectWith(ray, Intersect.OnBothOperands, points, IntPtr.Zero, IntPtr.Zero);
-                    if (points.Count > 0)
-                    {
-                        allPoints.Add(points[0]);
-                    }
+                    allPoints.Add(points[0]);
                 }
             }
 
@@ -145,41 +197,5 @@ namespace ThWSS.LayoutRule
             }
             moveLength = (length - remainder * 2) / num;
         }
-
-        //private void AdjustPoints(List<Point3d> vPoints, List<Line> roomLines, Point3d pt, Vector3d transverseDir, Vector3d verticalDir, double length)
-        //{
-        //    //横向排布条件
-        //    CalLayoutWay(length, out double vRemainder, out double vNum, out double vMoveLength);
-
-        //    List<List<Point3d>> allP = new List<List<Point3d>>();
-        //    pt = pt + vRemainder * verticalDir;
-        //    for (int i = 0; i <= vNum; i++)
-        //    {
-        //        List<Point3d> points = GetRayIntersectPoints(roomLines, pt, verticalDir);
-        //        points = points.OrderBy(x => x.DistanceTo(pt)).ToList();
-        //        while (points.Count > 0)
-        //        {
-        //            Point3d sp = points.First();
-        //            points.Remove(sp);
-        //            if (points.Count <= 0)
-        //            {
-        //                break;
-        //            }
-        //            Point3d ep = points.First();
-        //            points.Remove(ep);
-        //            CalLayoutWay(sp.DistanceTo(ep), out double tRemainder, out double tNum, out double tMoveLength);
-
-        //            List<Point3d> p = new List<Point3d>();
-        //            Point3d tsp = sp + vRemainder * verticalDir;
-        //            for (int j = 0; j <= vNum; j++)
-        //            {
-        //                p.Add(tsp);
-        //                tsp = tsp + vMoveLength * verticalDir;
-        //            }
-        //            allP.Add(p);
-        //        }
-        //        pt = pt + vMoveLength * transverseDir;
-        //    }
-        //}
     }
 }
