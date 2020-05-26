@@ -129,6 +129,29 @@ namespace ThCADCore.Test
             }
         }
 
+        [CommandMethod("TIANHUACAD", "ThPolygonizer", CommandFlags.Modal)]
+        public void ThPolygonizer()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetSelection();
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var objs = new DBObjectCollection();
+                foreach (var obj in result.Value.GetObjectIds())
+                {
+                    objs.Add(acadDatabase.Element<Entity>(obj));
+                }
+                foreach (var obj in objs.Polygons())
+                {
+                    acadDatabase.ModelSpace.Add(obj as Entity);
+                }
+            }
+        }
+
         [CommandMethod("TIANHUACAD", "ThVoronoiDiagram", CommandFlags.Modal)]
         public void ThVoronoiDiagram()
         {
