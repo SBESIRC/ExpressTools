@@ -15,16 +15,16 @@ namespace ThEssential.Command
             switch (state)
             {
                 case State.VENTILATE:
-                    StateName = "THTF";
+                    StateName = "通风平面";
                     break;
                 case State.PIPE:
-                    StateName = "THSG";
+                    StateName = "水管平面";
                     break;
                 case State.EXTINGUISHMENT:
-                    StateName = "THXF";
+                    StateName = "消防平面";
                     break;
                 case State.ALL:
-                    StateName = "THNT";
+                    StateName = "暖通全显";
                     break;
                 default:
                     throw new NotSupportedException();

@@ -59,7 +59,7 @@ namespace ThEssential.LayerState
 
         public void RestoreLayerState(string name)
         {
-            Manager.RestoreLayerState(name, ObjectId.Null, 0, LayerStateMasks.On);
+            Manager.RestoreLayerState(name, ObjectId.Null, 0, LayerStateMasks.On | LayerStateMasks.Frozen | LayerStateMasks.Locked);
         }
 
         public void ImportLayerStateFromDb(string name, Database database)
