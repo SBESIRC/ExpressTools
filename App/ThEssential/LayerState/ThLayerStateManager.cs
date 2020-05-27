@@ -1,4 +1,5 @@
 ﻿using System;
+using AcHelper;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThEssential.LayerState
@@ -59,7 +60,10 @@ namespace ThEssential.LayerState
 
         public void RestoreLayerState(string name)
         {
-            Manager.RestoreLayerState(name, ObjectId.Null, 0, LayerStateMasks.On | LayerStateMasks.Frozen | LayerStateMasks.Locked);
+            // On: Makes the layer visible 
+            // Freezes: no regeneration, plotting, or rendering
+            // Locked: no selection or editing
+            Manager.RestoreLayerState(name, ObjectId.Null, 0, LayerStateMasks.On | LayerStateMasks.Locked);
         }
 
         public void ImportLayerStateFromDb(string name, Database database)

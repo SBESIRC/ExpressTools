@@ -79,6 +79,7 @@
     <Compile Include="Equipment\ThEquipmentGeExtension.cs" />
     <Compile Include="Equipment\ThEquipmentHatchExtension.cs" />
     <Compile Include="LayerState\ThLayerStateManager.cs" />
+    <Compile Include="LayerState\ThLayerStateUtils.cs" />
     <Compile Include="MatchProps\Model\MarchPropertySet.cs" />
     <Compile Include="MatchProps\ThMatchProps.cs" />
     <Compile Include="MatchProps\ThMatchPropsEntityExtension.cs" />
