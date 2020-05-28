@@ -157,15 +157,6 @@ namespace ThCADCore.NTS
             }
         }
 
-        public static IGeometry ToNTSGeometry(this Region region)
-        {
-            var coordinates = new List<Coordinate>(region.Vertices().ToNTSCoordinates());
-            // A LinearRing containing n coordinates is implemented with an array
-            // of Coordinates containing n+1 points, and coord[0] = coord[n]
-            coordinates.Add(coordinates[0]);
-            return ThCADCoreNTSService.Instance.GeometryFactory.CreatePolygon(coordinates.ToArray());
-        }
-
         public static IPolygon ToNTSPolygon(this Region region)
         {
             using (var objs = new DBObjectCollection())

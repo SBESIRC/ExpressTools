@@ -1,8 +1,6 @@
 ﻿using System;
 using GeoAPI.Geometries;
-using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.BoundaryRepresentation;
 
 namespace ThCADCore.NTS
 {
@@ -10,8 +8,8 @@ namespace ThCADCore.NTS
     {
         public static Region Union(this Region pRegion, Region sRegion)
         {
-            var pGeometry = pRegion.ToNTSGeometry();
-            var sGeometry = sRegion.ToNTSGeometry();
+            var pGeometry = pRegion.ToNTSPolygon();
+            var sGeometry = sRegion.ToNTSPolygon();
             if (pGeometry == null || sGeometry == null)
             {
                 return null;
@@ -35,8 +33,8 @@ namespace ThCADCore.NTS
 
         public static Region Intersection(this Region pRegion, Region sRegion)
         {
-            var pGeometry = pRegion.ToNTSGeometry();
-            var sGeometry = sRegion.ToNTSGeometry();
+            var pGeometry = pRegion.ToNTSPolygon();
+            var sGeometry = sRegion.ToNTSPolygon();
             if (pGeometry == null || sGeometry == null)
             {
                 return null;
@@ -60,8 +58,8 @@ namespace ThCADCore.NTS
 
         public static Region Difference(this Region pRegion, Region sRegion)
         {
-            var pGeometry = pRegion.ToNTSGeometry();
-            var sGeometry = sRegion.ToNTSGeometry();
+            var pGeometry = pRegion.ToNTSPolygon();
+            var sGeometry = sRegion.ToNTSPolygon();
             if (pGeometry == null || sGeometry == null)
             {
                 return null;
@@ -93,8 +91,8 @@ namespace ThCADCore.NTS
 
         public static IGeometry Intersect(this Region pRegion, Region sRegion)
         {
-            var pGeometry = pRegion.ToNTSGeometry() as IPolygon;
-            var sGeometry = sRegion.ToNTSGeometry() as IPolygon;
+            var pGeometry = pRegion.ToNTSPolygon();
+            var sGeometry = sRegion.ToNTSPolygon();
             if (pGeometry == null || sGeometry == null)
             {
                 return null;
@@ -108,28 +106,6 @@ namespace ThCADCore.NTS
 
             // 若相交，则计算相交部分
             return pGeometry.Intersection(sGeometry);
-        }
-
-        public static Point3dCollection Vertices(this Region region)
-        {
-            var vertices = new Point3dCollection();
-            if (!region.IsNull)
-            {
-                using (var brepRegion = new Brep(region))
-                {
-                    foreach (var face in brepRegion.Faces)
-                    {
-                        foreach (var loop in face.Loops)
-                        {
-                            foreach (var vertex in loop.Vertices)
-                            {
-                                vertices.Add(vertex.Point);
-                            }
-                        }
-                    }
-                }
-            }
-            return vertices;
         }
     }
 }
