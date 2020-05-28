@@ -1,6 +1,7 @@
 ﻿using System;
 using GeoAPI.Geometries;
 using Autodesk.AutoCAD.DatabaseServices;
+using NetTopologySuite.Operation.Linemerge;
 
 namespace ThCADCore.NTS
 {
@@ -24,6 +25,25 @@ namespace ThCADCore.NTS
                 throw new NotSupportedException();
             }
             return objs;
+        }
+
+        public static DBObjectCollection Merge(this DBObjectCollection lines)
+        {
+            var merger = new LineMerger();
+            merger.Add(lines.ToNTSNodedLineStrings());
+            var lineStrings = new DBObjectCollection();
+            foreach (var geometry in merger.GetMergedLineStrings())
+            {
+                if (geometry is ILineString lineString)
+                {
+                    lineStrings.Add(lineString.ToDbPolyline());
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+            return lineStrings;
         }
     }
 }

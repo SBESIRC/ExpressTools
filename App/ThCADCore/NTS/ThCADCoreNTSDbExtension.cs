@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Linq;
 using GeoAPI.Geometries;
-using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
-using Autodesk.AutoCAD.DatabaseServices;
-using NetTopologySuite.Operation.Union;
-using NetTopologySuite.Operation.Polygonize;
 using NetTopologySuite.Utilities;
-using NetTopologySuite.Operation.Linemerge;
 using NetTopologySuite.Geometries;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThCADCore.NTS
 {
@@ -258,29 +254,6 @@ namespace ThCADCore.NTS
                 }
             }
             return geometries;
-        }
-
-        public static DBObjectCollection Merge(this DBObjectCollection lines)
-        {
-            var merger = new LineMerger();
-            var boundaries = new DBObjectCollection();
-            merger.Add(lines.ToNTSNodedLineStrings());
-            foreach (var geometry in merger.GetMergedLineStrings())
-            {
-                if (geometry is ILineString lineString)
-                {
-                    boundaries.Add(lineString.ToDbPolyline());
-                }
-                else if (geometry is ILinearRing linearRing)
-                {
-                    boundaries.Add(linearRing.ToDbPolyline());
-                }
-                else
-                {
-                    throw new NotSupportedException();
-                }
-            }
-            return boundaries;
         }
     }
 }
