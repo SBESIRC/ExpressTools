@@ -45,6 +45,20 @@ namespace TopoNode
             return profileLayer;
         }
 
+        public static List<PolylineLayer> MakeProfilesFromPoints(List<Curve> srcCurves, List<Point3d> pts)
+        {
+            var profileLayer = TopoSearch.MakeSrcProfileLoopsLayerFromPoints(srcCurves, srcCurves, pts);
+            return profileLayer;
+        }
+
+        public static List<PolylineLayer> MakeProfileFromPoint2(List<Curve> srcCurves, Point3d pt)
+        {
+            //Utils.DrawProfile(srcCurves, "related");
+            //return null;
+            var profileLayer = TopoSearch.MakeSrcProfileLoopsLayerFromPoint(srcCurves, srcCurves, pt);
+            return profileLayer;
+        }
+
         class IntersectCurves
         {
             private List<UseCurve> useCurves = new List<UseCurve>();
@@ -234,6 +248,18 @@ namespace TopoNode
                     if (lineNodes != null)
                         outCurves.AddRange(lineNodes);
                 }
+                else if (curve is Polyline2d polyline2D)
+                {
+                    var lineNodes = Polyline2d2Curves(polyline2D);
+                    if (lineNodes != null)
+                        outCurves.AddRange(lineNodes);
+                }
+                else if (curve is Polyline3d polyline3D)
+                {
+                    var lineNodes = Polyline3d2Curves(curve as Polyline3d);
+                    if (lineNodes != null)
+                        outCurves.AddRange(lineNodes);
+                }
                 else if (curve is Polyline)
                 {
                     var lineNodes = Polyline2Curves(curve as Polyline);
@@ -254,6 +280,62 @@ namespace TopoNode
             }
 
             return outCurves;
+        }
+
+        public static List<Curve> Polyline2d2Curves(Polyline2d polyline)
+        {
+            if (polyline == null)
+                return null;
+
+            var curves = new List<Curve>();
+            try
+            {
+                DBObjectCollection entitySet = new DBObjectCollection();
+                polyline.Explode(entitySet);
+                foreach (Entity entity in entitySet)
+                {
+                    if (entity is Line)
+                    {
+                        curves.Add(entity as Line);
+                    }
+                    else if (entity is Arc)
+                    {
+                        curves.Add(entity as Arc);
+                    }
+                }
+            }
+            catch
+            { }
+            
+            return curves;
+        }
+
+        public static List<Curve> Polyline3d2Curves(Polyline3d polyline)
+        {
+            if (polyline == null)
+                return null;
+
+            var curves = new List<Curve>();
+            try
+            {
+                DBObjectCollection entitySet = new DBObjectCollection();
+                polyline.Explode(entitySet);
+                foreach (Entity entity in entitySet)
+                {
+                    if (entity is Line)
+                    {
+                        curves.Add(entity as Line);
+                    }
+                    else if (entity is Arc)
+                    {
+                        curves.Add(entity as Arc);
+                    }
+                }
+            }
+            catch
+            { }
+
+            return curves;
         }
 
         public static List<Curve> Polyline2Curves(Polyline polyline, bool copyLayer = true)
