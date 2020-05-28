@@ -47,6 +47,13 @@ namespace ThCADCore.NTS
             }
         }
 
+        public static ICollection<IGeometry> GetGeometries(this DBObjectCollection lines)
+        {
+            var polygonizer = new Polygonizer();
+            polygonizer.Add(lines.ToNTSNodedLineStrings());
+            return polygonizer.GetPolygons();
+        }
+
         public static DBObjectCollection Polygons(this DBObjectCollection lines)
         {
             var objs = new DBObjectCollection();

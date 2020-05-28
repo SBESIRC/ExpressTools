@@ -166,6 +166,15 @@ namespace ThCADCore.NTS
             return ThCADCoreNTSService.Instance.GeometryFactory.CreatePolygon(coordinates.ToArray());
         }
 
+        public static IPolygon ToNTSPolygon(this Region region)
+        {
+            using (var objs = new DBObjectCollection())
+            {
+                region.Explode(objs);
+                return objs.GetGeometries().FirstOrDefault() as IPolygon;
+            }
+        }
+
         public static ILineString ToNTSLineString(this Arc arc, int numPoints)
         {
             var shapeFactory = new GeometricShapeFactory(ThCADCoreNTSService.Instance.GeometryFactory)

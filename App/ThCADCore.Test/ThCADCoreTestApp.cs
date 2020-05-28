@@ -106,6 +106,23 @@ namespace ThCADCore.Test
             }
         }
 
+        [CommandMethod("TIANHUACAD", "ThRegionBoundary", CommandFlags.Modal)]
+        public void ThRegionBoundary()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetEntity("请选择对象");
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var region = acadDatabase.Element<Region>(result.ObjectId);
+                var polygon = region.ToNTSPolygon();
+                acadDatabase.ModelSpace.Add(polygon.Shell.ToDbPolyline());
+            }
+        }
+
         [CommandMethod("TIANHUACAD", "ThMerge", CommandFlags.Modal)]
         public void ThMerge()
         {
