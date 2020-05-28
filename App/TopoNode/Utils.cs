@@ -353,6 +353,90 @@ namespace TopoNode
             return entityTexts;
         }
 
+        public static bool InValidRoomName(string textString)
+        {
+            if (textString.Contains("强电")
+                   || textString.Contains("弱电")
+                   || textString.Contains("排烟")
+                   || textString.Contains("空调水管")
+                   || textString.Contains("加压")
+                   || textString.Contains("新风")
+                   || textString.Contains("排风")
+                   || textString.Contains("冷媒")
+                   || textString.Contains("给水")
+                   || textString.Contains("排水")
+                   || textString.Contains("水管")
+                   || textString.Contains("楼梯")
+                   || textString.Contains("外廊")
+                   || textString.Contains("水池")
+                   || textString.Contains("泳池")
+                   || textString.Contains("电信")
+                   || textString.Contains("IT")
+                   || textString.Contains("数据")
+                   || textString.Contains("通讯")
+                   || textString.Contains("消控")
+                   || textString.Contains("消防控制")
+                   || textString.Contains("绿化")
+                   || textString.Contains("投影")
+                   || textString.Contains("花坛")
+                   || textString.Contains("电梯")
+                   || textString.Contains("电井")
+                   || textString.Contains("阳台")
+                   || textString.Contains("露台")
+                   || textString.Contains("水井")
+                   || textString.Contains("台阶")
+                   || textString.Contains("挡烟")
+                   || textString.Contains("垂壁")
+                   || textString.Contains("管井")
+                   || textString.Contains("食梯")
+                   || textString.Contains("天井")
+                   || textString.Contains("上空")
+                   || textString.Contains("进风")
+                   || textString.Contains("雨棚")
+                   || textString.Contains("雨篷")
+                   || textString.Contains("雨蓬")
+                   || textString.Contains("凸窗")
+                   || textString.Contains("烟井")
+                   || textString.Contains("燃气井")
+                   || textString.Contains("客梯")
+                   || textString.Contains("风井")
+                   || textString.Contains("煤气井")
+                   || textString.Contains("变电站")
+                   || textString.Contains("变电间")
+                   || textString.Contains("变电房")
+                   || textString.Contains("变电室")
+                   || textString.Contains("配电站")
+                   || textString.Contains("配电间")
+                   || textString.Contains("配电房")
+                   || textString.Contains("配电室")
+                   || textString.Contains("屋面")
+                   || textString.Contains("屋顶")
+                   || textString.Contains("休息平台")
+                   || textString.Contains("休息木平台")
+                   || textString.Contains("不上人")
+                   || textString.Contains("不上人平台")
+                   || textString.Contains("不上人木平台")
+                   || textString.Contains("PT站")
+                   || textString.Contains("PT间")
+                   || textString.Contains("PT房")
+                   || textString.Contains("KT站")
+                   || textString.Contains("KT间")
+                   || textString.Contains("KT房")
+                   || textString.Contains("空腔")
+                   || textString.Contains("消防电梯")
+                   || textString.Contains("无障碍电梯")
+                   || textString.Contains("无障碍梯")
+                   || textString.Contains("室外机")
+                   || textString.Contains("室外机平台")
+                   || textString.Contains("室外平台")
+                   || textString.Contains("露天")
+                   || textString.Contains("排气")
+                   || textString.Contains("风室"))
+                return true;
+
+            return false;
+        }
+
         public static List<Point3d> GetRoomPoints(string roomLayer)
         {
             var textEntitys = GetAllTexts(roomLayer);
@@ -377,45 +461,19 @@ namespace TopoNode
                     continue;
                 }
 
-                if (textString.Contains("强电")
-                    || textString.Contains("弱电")
-                    || textString.Contains("排烟")
-                    || textString.Contains("空调水管")
-                    || textString.Contains("加压")
-                    || textString.Contains("新风")
-                    || textString.Contains("排风")
-                    || textString.Contains("冷媒")
-                    || textString.Contains("给水")
-                    || textString.Contains("排水")
-                    || textString.Contains("水管")
-                    || textString.Contains("楼梯")
-                    || textString.Contains("外廊")
-                    || textString.Contains("水池")
-                    || textString.Contains("泳池")
-                    || textString.Contains("电信")
-                    || textString.Contains("IT")
-                    || textString.Contains("数据")
-                    || textString.Contains("通讯")
-                    || textString.Contains("消控")
-                    || textString.Contains("消防控制")
-                    || textString.Contains("绿化")
-                    || textString.Contains("投影")
-                    || textString.Contains("花坛")
-                    || textString.Contains("电梯")
-                    || textString.Contains("电井")
-                    || textString.Contains("阳台")
-                    || textString.Contains("露台")
-                    || textString.Contains("水井")
-                    || textString.Contains("台阶")
-                    || textString.Contains("挡烟")
-                    || textString.Contains("垂壁")
-                    || textString.Contains("管井")
-                    || textString.Contains("食梯")
-                    || textString.Contains("天井")
-                    || textString.Contains("上空")
-                    || textString.Contains("进风")
-                    || textString.Contains("雨棚")
-                    || textString.Contains("凸窗"))
+                if (textString.Contains("客梯厅"))
+                {
+                    pts.Add(text.Bounds.Value.CenterPoint());
+                    continue;
+                }
+
+                if (textString.Contains("货梯厅"))
+                {
+                    pts.Add(text.Bounds.Value.CenterPoint());
+                    continue;
+                }
+
+                if (InValidRoomName(textString))
                     continue;
 
                 if (textString.Length < 2)
@@ -542,15 +600,53 @@ namespace TopoNode
                     line.Extend(true, ptHead);
                     line.Extend(false, ptTail);
                 }
-                else if (curve is Arc)
+                //else if (curve is Arc)
+                //{
+                //    var arc = curve as Arc;
+                //    var radius = arc.Radius;
+                //    var startParam = arc.StartParam;
+                //    var endParam = arc.EndParam;
+                //    var param = Math.Asin(length * 0.5 / radius) * 2;
+                //    arc.Extend(startParam - param);
+                //    arc.Extend(endParam + param);
+                //}
+            }
+            catch
+            {
+
+            }
+        }
+
+        public static void ExtendCurveWithTransaction(Curve curve, double length)
+        {
+            try
+            {
+                using (var db = AcadDatabase.Active())
                 {
-                    var arc = curve as Arc;
-                    var radius = arc.Radius;
-                    var startParam = arc.StartParam;
-                    var endParam = arc.EndParam;
-                    var param = Math.Asin(length * 0.5 / radius) * 2;
-                    arc.Extend(startParam - param);
-                    arc.Extend(endParam + param);
+                    if (curve is Line)
+                    {
+                        var line = curve as Line;
+                        var startPoint = line.StartPoint;
+                        var endPoint = line.EndPoint;
+                        var dir = line.GetFirstDerivative(startPoint);
+                        var ptHead = startPoint - dir.GetNormal() * length;
+                        var ptTail = endPoint + dir.GetNormal() * length;
+
+                        var openLine = db.Element<Line>(line.Id, true);
+                        openLine.Extend(true, ptHead);
+                        openLine.Extend(false, ptTail);
+                        openLine.DowngradeOpen();
+                    }
+                    //else if (curve is Arc)
+                    //{
+                    //    var arc = curve as Arc;
+                    //    var radius = arc.Radius;
+                    //    var startParam = arc.StartParam;
+                    //    var endParam = arc.EndParam;
+                    //    var param = Math.Asin(length * 0.5 / radius) * 2;
+                    //    arc.Extend(startParam - param);
+                    //    arc.Extend(endParam + param);
+                    //}
                 }
             }
             catch
@@ -761,6 +857,13 @@ namespace TopoNode
             }
         }
 
+        public static void ExtendCurvesWithTransaction(List<Curve> curves, double length)
+        {
+            foreach (var curve in curves)
+            {
+                ExtendCurveWithTransaction(curve, length);
+            }
+        }
         /// <summary>
         /// 删除无效的，即很窄的轮廓
         /// </summary>
@@ -2906,7 +3009,7 @@ namespace TopoNode
             }
         }
 
-        public static void DrawText(List<DBText> texts, string layerName)
+        public static void DrawTexts(List<DBText> texts, string layerName)
         {
             if (texts == null || texts.Count == 0)
                 return;
@@ -2930,6 +3033,29 @@ namespace TopoNode
                     var dbId = db.ModelSpace.Add(dbtext);
                     db.ModelSpace.Element(dbId, true).Layer = layerName;
                 }
+            }
+        }
+
+        public static void DrawText(string textString, Point3d pos)
+        {
+            CreateLayer(textString, Color.FromRgb(255, 0, 0));
+
+            using (var db = AcadDatabase.Active())
+            {
+                var dbtext = new DBText();
+                dbtext.Height = 50;
+                dbtext.Justify = AttachmentPoint.MiddleCenter;
+
+                dbtext.AlignmentPoint = pos;
+                dbtext.TextString = textString;
+
+                // 设置字体样式
+                var textId = GetIdFromSymbolTable();
+                if (textId != ObjectId.Null)
+                    dbtext.TextStyleId = textId;
+
+                var dbId = db.ModelSpace.Add(dbtext);
+                db.ModelSpace.Element(dbId, true).Layer = textString;
             }
         }
 
@@ -3005,6 +3131,21 @@ namespace TopoNode
                     dbtext.AlignmentPoint = midPt;
                     var dbId = db.ModelSpace.Add(dbtext);
                     db.ModelSpace.Element(dbId, true).Layer = LayerName;
+                }
+            }
+        }
+
+        public static void AddProfile(List<Curve> curves)
+        {
+            if (curves == null || curves.Count == 0)
+                return;
+
+            using (var db = AcadDatabase.Active())
+            {
+
+                foreach (var curve in curves)
+                {
+                    var objectCurveId = db.ModelSpace.Add(curve);
                 }
             }
         }
@@ -3119,7 +3260,70 @@ namespace TopoNode
         public static List<Curve> GetCurvesFromBlock(BlockReference block, bool bSetLayer = true)
         {
             DBObjectCollection collection = new DBObjectCollection();
-            block.Explode(collection);
+            try
+            {
+                block.Explode(collection);
+            }
+            catch (Exception e)
+            {
+                Utils.DrawText(e.Message, block.Position);
+                return null;
+            }
+
+            var blockCurves = new List<Curve>();
+            using (var db = AcadDatabase.Active())
+            {
+                foreach (var obj in collection)
+                {
+                    if (obj is Curve)
+                    {
+                        var curve = obj as Curve;
+                        if (bSetLayer)
+                            curve.Layer = block.Layer;
+                        blockCurves.Add(curve);
+                    }
+                    else if (obj is BlockReference)
+                    {
+                        var blockReference = obj as BlockReference;
+                        if (bSetLayer)
+                            blockReference.Layer = block.Layer;
+                        var childCurves = GetCurvesFromBlock(blockReference, bSetLayer);
+                        if (childCurves.Count != 0)
+                            blockCurves.AddRange(childCurves);
+                    }
+                }
+            }
+
+            return blockCurves;
+        }
+
+        public static List<Curve> GetCurvesFromAEWINDBlock(BlockReference block, bool bSetLayer = true)
+        {
+            DBObjectCollection collection = new DBObjectCollection();
+            try
+            {
+                // AE-WIND 中的BLOCK 中的curves 层数 必须是1， 剔除当前图纸中的无效wind图块
+                var blockInnerLayer = new List<string>();
+                block.Explode(collection);
+                int arcCount = 0;
+                foreach (Entity obj in collection)
+                {
+                    if (obj is Arc)
+                        arcCount++;
+                    //if (!blockInnerLayer.Contains(obj.Layer))
+                    //    blockInnerLayer.Add(obj.Layer);
+                    //if (blockInnerLayer.Count > 1)
+                    //    return null;
+                }
+                if (arcCount == 0)
+                    return null;
+            }
+            catch (Exception e)
+            {
+                Utils.DrawText(e.Message, block.Position);
+                return null;
+            }
+
             var blockCurves = new List<Curve>();
             using (var db = AcadDatabase.Active())
             {
@@ -3156,77 +3360,42 @@ namespace TopoNode
         {
             var curves = new List<Curve>();
             var curveIds = new List<ObjectId>();
-            var blockCurves = new List<Curve>();
             using (var db = AcadDatabase.Active())
             {
 
                 // curve 读取
                 var res = db.ModelSpace.OfType<Curve>().Where(p =>
                 {
+                    var layerTrue = false;
+                    var curLayer = p.Layer;
                     foreach (var layerName in layerNames)
                     {
-                        if (p.Layer == layerName)
+                        if (curLayer == layerName)
+                        {
+                            layerTrue = true;
+                            break;
+                        }
+                    }
+
+                    if (layerTrue)
+                    {
+                        var layerTableRecord = db.Element<LayerTableRecord>(p.LayerId);
+                        if (layerTableRecord.IsFrozen)
+                            return false;
+                        else
                             return true;
                     }
 
                     return false;
-                });
 
-                foreach (var text in res)
+                }).ToList<Curve>();
+
+                foreach (var curve in res)
                 {
-                    curveIds.Add(text.ObjectId);
-                }
-
-                //var blocks = db.ModelSpace.OfType<BlockReference>();
-                //foreach (var block in blocks)
-                //{
-                //    if (ValidBlock(block, layerNames))
-                //    {
-                //        var blockRelatedCurves = GetCurvesFromBlock(block);
-                //        if (blockRelatedCurves.Count != 0)
-                //            blockCurves.AddRange(blockRelatedCurves);
-                //    }
-                //    else
-                //    {
-                //        DBObjectCollection collection = new DBObjectCollection();
-
-                //        try
-                //        {
-                //            block.Explode(collection);
-                //            foreach (var obj in collection)
-                //            {
-                //                if (obj is Curve)
-                //                {
-                //                    var curve = obj as Curve;
-                //                    if (ValidLayer(curve.Layer, layerNames))
-                //                        blockCurves.Add(curve);
-                //                }
-                //            }
-                //        }
-                //        catch
-                //        {
-                //            // 有些block炸开的时候会抛出eCannotScaleNonUniformly异常
-                //            // 如果这个block 不能炸开，不作处理
-                //        }
-                //    }
-                //}
-            }
-
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            Database dataBase = doc.Database;
-
-            using (Transaction dataGetTrans = dataBase.TransactionManager.StartTransaction())
-            {
-                // 图片多段线
-                foreach (var curveId in curveIds)
-                {
-                    Curve curve = (Curve)dataGetTrans.GetObject(curveId, OpenMode.ForRead);
                     curves.Add((Curve)curve.Clone());
                 }
             }
 
-            if (blockCurves.Count != 0)
-                curves.AddRange(blockCurves);
             return curves;
         }
 
@@ -3454,17 +3623,25 @@ namespace TopoNode
             if (curves == null || curves.Count == 0)
                 return null;
 
-            var boundLines = new List<LineSegment2d>();
-            var lineNodes = Utils.TesslateCurve2Lines(curves);
+            // 线数据处理
             var ptLst = new List<XY>();
-            foreach (var line in lineNodes)
+            foreach (var curve in curves)
             {
-                var pxHead = line.StartPoint;
-                var pxEnd = line.EndPoint;
-                var ptS = new XY(pxHead.X, pxHead.Y);
-                var ptE = new XY(pxEnd.X, pxEnd.Y);
-                ptLst.Add(ptS);
-                ptLst.Add(ptE);
+                if (curve is Line)
+                {
+                    var line = curve as Line;
+                    var ptS = new Point2d(line.StartPoint.X, line.StartPoint.Y);
+                    var ptE = new Point2d(line.EndPoint.X, line.EndPoint.Y);
+                    ptLst.Add(new XY(line.StartPoint.X, line.StartPoint.Y));
+                    ptLst.Add(new XY(line.EndPoint.X, line.EndPoint.Y));
+                }
+                else
+                {
+                    var minPt = curve.Bounds.Value.MinPoint;
+                    var maxPt = curve.Bounds.Value.MaxPoint;
+                    ptLst.Add(new XY(minPt.X, minPt.Y));
+                    ptLst.Add(new XY(maxPt.X, maxPt.Y));
+                }
             }
 
             var leftBottom = new XY(ptLst[0].X, ptLst[0].Y);
@@ -3482,8 +3659,73 @@ namespace TopoNode
                     rightTop.Y = ptLst[i].Y;
             }
 
+            var boundLines = new List<LineSegment2d>();
             var pt1 = new Point2d(leftBottom.X, leftBottom.Y);
             var pt3 = new Point2d(rightTop.X, rightTop.Y);
+            var pt2 = new Point2d(pt3.X, pt1.Y);
+            var pt4 = new Point2d(pt1.X, pt3.Y);
+
+            var line1 = new LineSegment2d(pt1, pt2);
+            var line2 = new LineSegment2d(pt2, pt3);
+            var line3 = new LineSegment2d(pt3, pt4);
+            var line4 = new LineSegment2d(pt4, pt1);
+            boundLines.Add(line1);
+            boundLines.Add(line2);
+            boundLines.Add(line3);
+            boundLines.Add(line4);
+            return boundLines;
+        }
+
+        /// <summary>
+        ///  计算curves的外包边界
+        /// </summary>
+        /// <param name="curves"></param>
+        /// <returns></returns>
+        public static List<LineSegment2d> GetBoundFromCurvesExtend(List<Curve> curves)
+        {
+            if (curves == null || curves.Count == 0)
+                return null;
+
+            // 线数据处理
+            var ptLst = new List<XY>();
+            foreach (var curve in curves)
+            {
+                if (curve is Line)
+                {
+                    var line = curve as Line;
+                    var ptS = new Point2d(line.StartPoint.X, line.StartPoint.Y);
+                    var ptE = new Point2d(line.EndPoint.X, line.EndPoint.Y);
+                    ptLst.Add(new XY(line.StartPoint.X, line.StartPoint.Y));
+                    ptLst.Add(new XY(line.EndPoint.X, line.EndPoint.Y));
+                }
+                else
+                {
+                    var minPt = curve.Bounds.Value.MinPoint;
+                    var maxPt = curve.Bounds.Value.MaxPoint;
+                    ptLst.Add(new XY(minPt.X, minPt.Y));
+                    ptLst.Add(new XY(maxPt.X, maxPt.Y));
+                }
+            }
+
+            var leftBottom = new XY(ptLst[0].X, ptLst[0].Y);
+            var rightTop = new XY(ptLst[0].X, ptLst[0].Y);
+            for (int i = 1; i < ptLst.Count; i++)
+            {
+                if (leftBottom.X > ptLst[i].X)
+                    leftBottom.X = ptLst[i].X;
+                if (leftBottom.Y > ptLst[i].Y)
+                    leftBottom.Y = ptLst[i].Y;
+
+                if (rightTop.X < ptLst[i].X)
+                    rightTop.X = ptLst[i].X;
+                if (rightTop.Y < ptLst[i].Y)
+                    rightTop.Y = ptLst[i].Y;
+            }
+
+            var extendValue = 2;
+            var boundLines = new List<LineSegment2d>();
+            var pt1 = new Point2d(leftBottom.X - extendValue, leftBottom.Y - extendValue);
+            var pt3 = new Point2d(rightTop.X + extendValue, rightTop.Y + extendValue);
             var pt2 = new Point2d(pt3.X, pt1.Y);
             var pt4 = new Point2d(pt1.X, pt3.Y);
 
@@ -3510,10 +3752,15 @@ namespace TopoNode
             {
                 // 块轮廓
                 var blocks = db.ModelSpace.OfType<BlockReference>();
+
                 foreach (var block in blocks)
                 {
                     if (ValidBlock(block, layerNames))
                     {
+                        var layerTableRecord = db.Element<LayerTableRecord>(block.LayerId);
+                        if (layerTableRecord.IsFrozen)
+                            continue;
+
                         var blockCurves = GetCurvesFromBlock(block);
                         var lines = GetBoundFromCurves(blockCurves);
                         if (lines == null || lines.Count == 0)
@@ -3525,9 +3772,23 @@ namespace TopoNode
 
                 var layerCurves = db.ModelSpace.OfType<Curve>().Where(l =>
                 {
+                    var layerTrue = false;
+                    var curLayer = l.Layer;
                     foreach (var layerName in layerNames)
                     {
-                        if (l.Layer == layerName)
+                        if (curLayer == layerName)
+                        {
+                            layerTrue = true;
+                            break;
+                        }
+                    }
+
+                    if (layerTrue)
+                    {
+                        var layerTableRecord = db.Element<LayerTableRecord>(l.LayerId);
+                        if (layerTableRecord.IsFrozen)
+                            return false;
+                        else
                             return true;
                     }
 
@@ -3557,6 +3818,7 @@ namespace TopoNode
 
             // 生成相邻框的数据，框边缘是外扩的， 上面的框边缘都是原始的，不经过外扩的数据
             var connectBounds = ConnectedBoxBound.MakeRelatedBoundary(blockBounds);
+
             return connectBounds;
         }
 
@@ -3565,16 +3827,30 @@ namespace TopoNode
         /// </summary>
         /// <param name="layerNames"></param>
         /// <returns></returns>
-        public static List<Curve> GetWindCurves(List<string> layerNames)
+        public static List<Curve> GetWindDOORCurves(List<string> layerNames)
         {
             List<Curve> layerCurves = null;
             using (var db = AcadDatabase.Active())
             {
                 layerCurves = db.ModelSpace.OfType<Curve>().Where(l =>
                 {
+                    var layerTrue = false;
+                    var curLayer = l.Layer;
                     foreach (var layerName in layerNames)
                     {
-                        if (l.Layer == layerName)
+                        if (curLayer == layerName)
+                        {
+                            layerTrue = true;
+                            break;
+                        }
+                    }
+
+                    if (layerTrue)
+                    {
+                        var layerTableRecord = db.Element<LayerTableRecord>(l.LayerId);
+                        if (layerTableRecord.IsFrozen)
+                            return false;
+                        else
                             return true;
                     }
 
@@ -3601,7 +3877,11 @@ namespace TopoNode
                 {
                     if (ValidBlock(block, layerNames))
                     {
-                        var blockCurves = GetCurvesFromBlock(block);
+                        var layerTableRecord = db.Element<LayerTableRecord>(block.LayerId);
+                        if (layerTableRecord.IsFrozen)
+                            continue;
+
+                        var blockCurves = GetCurvesFromAEWINDBlock(block);
                         var lines = GetBoundFromCurves(blockCurves);
                         if (lines == null || lines.Count == 0)
                             continue;
@@ -3612,8 +3892,43 @@ namespace TopoNode
             }
 
             // 生成相邻框的数据，框边缘是外扩的， 上面的框边缘都是原始的，不经过外扩的数据
+            // 不同的wind块的边框需要计算合并区域
             var connectBounds = ConnectedBoxBound.MakeRelatedBoundary(blockBounds);
             return connectBounds;
+        }
+
+        public static List<List<LineSegment2d>> GetBoundsFromDOORLayerCurves(List<string> layerNames)
+        {
+            var blockBounds = new List<List<LineSegment2d>>();
+            using (var db = AcadDatabase.Active())
+            {
+                // 块轮廓
+                var blocks = db.ModelSpace.OfType<BlockReference>();
+                foreach (var block in blocks)
+                {
+                    if (ValidBlock(block, layerNames))
+                    {
+                        var layerTableRecord = db.Element<LayerTableRecord>(block.LayerId);
+                        if (layerTableRecord.IsFrozen)
+                            continue;
+
+                        var blockCurves = GetCurvesFromBlock(block);
+                        var lines = GetBoundFromCurvesExtend(blockCurves);
+                        if (lines == null || lines.Count == 0)
+                            continue;
+
+                        blockBounds.Add(lines);
+                    }
+                }
+            }
+
+            //foreach (var curves in blockBounds)
+            //{
+            //    Utils.DrawLineSegments(curves, "curves");
+            //}
+
+            // 这里的门的块的区域不计算不同门之间的合并区域
+            return blockBounds;
         }
 
         /// <summary>
@@ -3636,7 +3951,7 @@ namespace TopoNode
 
 
         // 直线处理
-        public static List<LineSegment2d> BoundRelatedBoundCurves(List<LineSegment2d> doorBound, List<Curve> wallCurves)
+        public static List<LineSegment2d> BoundRelatedBoundLines(List<LineSegment2d> doorBound, List<Curve> wallCurves)
         {
             var relatedLines = new List<LineSegment2d>();
             foreach (var curve in wallCurves)
@@ -3653,6 +3968,52 @@ namespace TopoNode
             }
 
             return relatedLines;
+        }
+
+        public static List<Curve> BoundRelatedBoundCurves(List<LineSegment2d> doorBound, List<Curve> wallCurves)
+        {
+            var relatedCurves = new List<Curve>();
+            foreach (var curve in wallCurves)
+            {
+                if (curve is Line line)
+                {
+                    var line2d = new LineSegment2d(new Point2d(line.StartPoint.X, line.StartPoint.Y), new Point2d(line.EndPoint.X, line.EndPoint.Y));
+                    if (IsLinesIntersectWithLine(doorBound, line2d) || (CommonUtils.PointInnerEntity(doorBound, line2d.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line2d.EndPoint)))
+                    {
+                        relatedCurves.Add(line);
+                    }
+                }
+                else if (curve is Arc arc)
+                {
+                    var arcS = arc.StartPoint;
+                    var arcE = arc.EndPoint;
+                    var arcMid = arc.GetPointAtParameter(0.5 * (arc.StartParam + arc.EndParam));
+                    var arc2s = new Point2d(arcS.X, arcS.Y);
+                    var arc2mid = new Point2d(arcMid.X, arcMid.Y);
+                    var arc2e = new Point2d(arcE.X, arcE.Y);
+                    CircularArc2d ar = new CircularArc2d(arc2s, arc2mid, arc2e);
+
+                    if (IsLinesIntersectWithArc(doorBound, ar)
+                        || (CommonUtils.PointInnerEntity(doorBound, arc2s) && CommonUtils.PointInnerEntity(doorBound, arc2mid) && CommonUtils.PointInnerEntity(doorBound, arc2e)))
+                    {
+                        relatedCurves.Add(arc);
+                    }
+                }
+            }
+
+            return relatedCurves;
+        }
+
+        public static bool IsLinesIntersectWithArc(List<LineSegment2d> srcLines, CircularArc2d arc2d)
+        {
+            foreach (var srcline in srcLines)
+            {
+                var intersectPts = arc2d.IntersectWith(srcline);
+                if (intersectPts != null && intersectPts.Count() != 0)
+                    return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -3672,15 +4033,22 @@ namespace TopoNode
                 var vector = ptFirS - ptSecS;
                 var angle3 = lineFir.Direction.GetAngleTo(vector);
                 var angle4 = lineFir.Direction.GetAngleTo(vector.Negate());
+
+                // 共线
                 if (CommonUtils.IsAlmostNearZero(Math.Abs(angle3), 1e-5) || CommonUtils.IsAlmostNearZero(Math.Abs(angle4), 1e-5))
                 {
                     // 共线直线之间的距离不能太小
                     var ptFirE = lineFir.EndPoint;
                     var ptSecE = lineSec.EndPoint;
-                    if (ptSecS.GetDistanceTo(ptFirS) > 10 && ptSecS.GetDistanceTo(ptFirE) > 10 && ptSecE.GetDistanceTo(ptFirS) > 10 && ptSecE.GetDistanceTo(ptFirE) > 10)
+                    if (CommonUtils.IsPointOnLine(ptSecS.toPoint3d(), new Line(ptFirS.toPoint3d(), ptFirE.toPoint3d()), 1e-4)
+                        || CommonUtils.IsPointOnLine(ptSecE.toPoint3d(), new Line(ptFirS.toPoint3d(), ptFirE.toPoint3d()), 1e-4))
+                    {
+                        return false;
+                    }
+
+                    if (ptSecS.GetDistanceTo(ptFirS) > 500 && ptSecS.GetDistanceTo(ptFirE) > 500 && ptSecE.GetDistanceTo(ptFirS) > 500 && ptSecE.GetDistanceTo(ptFirE) > 500)
                         return true;
                 }
-
             }
 
             return false;
@@ -3704,7 +4072,7 @@ namespace TopoNode
         }
 
         //共线数据生成
-        public static List<Curve> InsertConnectCurves(List<LineSegment2d> line2ds, string layer = null)
+        public static List<Curve> InsertConnectCurves(List<LineSegment2d> line2ds, List<LineSegment2d> profileBounds, string layer = null)
         {
             var relatedDatas = new List<CollinearData>();
             foreach (var line in line2ds)
@@ -3725,6 +4093,15 @@ namespace TopoNode
                     //共线
                     if (IsCollinearLines(relatedDatas[i].Line, relatedDatas[j].Line))
                     {
+                        var lineFir = relatedDatas[i].Line;
+                        var ptFirS = lineFir.StartPoint;
+                        var ptFirE = lineFir.EndPoint;
+
+                        var lineSec = relatedDatas[j].Line;
+                        var ptSecS = lineSec.StartPoint;
+                        var ptSecE = lineSec.EndPoint;
+
+
                         relatedDatas[i].RelatedCollinearLines.Add(((LineSegment2d)relatedDatas[j].Line.Clone()));
                         relatedDatas[j].Valid = false;
                     }
@@ -3751,10 +4128,27 @@ namespace TopoNode
                         var curvesFir = relatedCurvesLst[i];
                         for (int j = i + 1; j < nCount; j++)
                         {
-                            var crurvesSec = relatedCurvesLst[j];
-                            var tmpInsertCurves = ConnectLinesWithsLines(curvesFir, crurvesSec, layer);
+                            var curvesSec = relatedCurvesLst[j];
+                            var tmpInsertCurves = ConnectLinesWithsLines(curvesFir, curvesSec, layer);
                             if (tmpInsertCurves != null && tmpInsertCurves.Count != 0)
                                 insertCurves.AddRange(tmpInsertCurves);
+                        }
+                    }
+
+                    // 没有相交的直线则进行普通连接线
+                    if (insertCurves.Count == 0)
+                    {
+                        for (int i = 0; i < nCount; i++)
+                        {
+                            var curvesFir = relatedCurvesLst[i];
+
+                            for (int j = i + 1; j < nCount; j++)
+                            {
+                                var curvesSec = relatedCurvesLst[j];
+                                var tmpInsertCurves = ConnectLinesWithsLinesWithPoints(curvesFir, curvesSec, profileBounds, layer);
+                                if (tmpInsertCurves != null && tmpInsertCurves.Count != 0)
+                                    insertCurves.AddRange(tmpInsertCurves);
+                            }
                         }
                     }
 
@@ -3795,7 +4189,7 @@ namespace TopoNode
             using (var db = AcadDatabase.Active())
             {
                 var blockRefs = db.CurrentSpace.OfType<BlockReference>().Where(p => p.Visible).ToList();
-                var incre = 15 / blockRefs.Count;
+                var incre = 15.0 / blockRefs.Count;
                 foreach (var blockReference in blockRefs)
                 {
                     var layerId = blockReference.LayerId;
@@ -3803,26 +4197,41 @@ namespace TopoNode
                         continue;
 
                     LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(layerId);
-                    if (layerTableRecord.IsOff)
+                    if (layerTableRecord.IsOff && layerTableRecord.IsFrozen)
                         continue;
 
                     var blockId = blockReference.BlockTableRecord;
                     var blockRefRecord = db.Element<BlockTableRecord>(blockId);
                     if (blockRefRecord.IsFromExternalReference)
                         continue;
-                    progressPos += 0.4;
+
                     progressPos += incre;
                     Progress.Progress.SetValue((int)progressPos);
                     var entityLst = GetEntityFromBlock2(blockReference);
-                    if (entityLst != null && entityLst.Count > 1)
+                    if (entityLst != null && entityLst.Count > 0)
                     {
-                        foreach (var entity in entityLst)
+                        if (entityLst.Count == 1)
                         {
-                            // 除了块，其余的可以用图层确定是否收集，块的图层内部数据也可能符合要求
-                            if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers) && !entity.IsErased)
+                            var entity = entityLst.First();
+                            if (!(entity is BlockReference))
                             {
-                                db.CurrentSpace.Add(entity);
-                                resEntityLst.Add(entity);
+                                if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers) && !entity.IsErased)
+                                {
+                                    db.CurrentSpace.Add(entity);
+                                    resEntityLst.Add(entity);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (var entity in entityLst)
+                            {
+                                // 除了块，其余的可以用图层确定是否收集，块的图层内部数据也可能符合要求
+                                if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers) && !entity.IsErased)
+                                {
+                                    db.CurrentSpace.Add(entity);
+                                    resEntityLst.Add(entity);
+                                }
                             }
                         }
                     }
@@ -4088,7 +4497,14 @@ namespace TopoNode
                 || srcLayerName.Contains("E-MBF")
                 || srcLayerName.Contains("E-GTS")
                 || srcLayerName.Contains("E-BAS")
-                || srcLayerName.Contains("E-MOBL"))
+                || srcLayerName.Contains("E-MOBL")
+                || srcLayerName.Contains("SP_OST")
+                || srcLayerName.Contains("S_PLAN")
+                || srcLayerName.Contains("S_AXIS")
+                || srcLayerName.Contains("S_HELP")
+                || srcLayerName.Contains("S_DETL")
+                || srcLayerName.Contains("S_LEVL")
+                || srcLayerName.Contains("S_BURY"))
                 return true;
 
             return false;
@@ -4112,7 +4528,9 @@ namespace TopoNode
                 || IsValidShowLayer(srcLayerName, "S_BRIK")
                 || IsValidShowLayer(srcLayerName, "AE-FNSH")
                 || IsValidShowLayer(srcLayerName, "AE-DOOR-INSD")
-                || IsValidShowLayer(srcLayerName, "AE-WIND"))
+                || IsValidShowLayer(srcLayerName, "AE-WIND")
+                || IsValidShowLayer(srcLayerName, "-框")
+                || IsValidShowLayer(srcLayerName, "AE-SUFC"))
             {
                 return true;
             }
@@ -4162,53 +4580,85 @@ namespace TopoNode
                             }
                         }
                     }
-                }
 
-                var dbCollection = new DBObjectCollection();
-                block.Explode(dbCollection);
-                var blockLayer = block.Layer;
-                if (IsHasBlockReference(dbCollection)) // 内部包含块
-                {
-                    foreach (var obj in dbCollection)
+
+                    // 解析数据
+                    var dbCollection = new DBObjectCollection();
+                    block.Explode(dbCollection);
+                    var blockLayer = block.Layer;
+                    if (IsHasBlockReference(dbCollection)) // 内部包含块
                     {
-                        bool bContinue = false;
-                        if (obj is Entity)
+                        foreach (var obj in dbCollection)
                         {
-                            if (obj is BlockReference)
-                            {
-                                var childBlock = obj as BlockReference;
-                                foreach (var keyName in nameMaps)
-                                {
-                                    if (keyName.Equals(childBlock.Name))
-                                    {
-                                        entityLst.Add(childBlock);
-                                        bContinue = true;
-                                        break;
-                                    }
-                                }
+                            bool bContinue = false;
 
-                                if (bContinue)
+                            if (obj is Entity objEntity)
+                            {
+                                LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(objEntity.LayerId);
+                                if (layerTableRecord.IsFrozen)
                                     continue;
 
-                                if (childBlock.Visible)
+                                if (obj is BlockReference)
                                 {
-                                    var childBlockLayer = childBlock.Layer;
-                                    if (IsValidLoopLayer(childBlockLayer))
-                                        childReferences.Add(childBlock);
-                                    else if (!IsOtherStandardLayer(childBlockLayer))
+                                    var childBlock = obj as BlockReference;
+                                    foreach (var keyName in nameMaps)
                                     {
-                                        childBlock.Layer = blockLayer;
-                                        childReferences.Add(childBlock);
+                                        if (keyName.Equals(childBlock.Name))
+                                        {
+                                            entityLst.Add(childBlock);
+                                            bContinue = true;
+                                            break;
+                                        }
                                     }
-                                    else if (IsOtherStandardLayer(childBlockLayer))
+
+                                    if (bContinue)
+                                        continue;
+
+                                    if (childBlock.Visible)
                                     {
-                                        childReferences.Add(childBlock);
+                                        var childBlockLayer = childBlock.Layer;
+                                        if (IsValidLoopLayer(childBlockLayer))
+                                            childReferences.Add(childBlock);
+                                        else if (!IsOtherStandardLayer(childBlockLayer))
+                                        {
+                                            childBlock.Layer = blockLayer;
+                                            childReferences.Add(childBlock);
+                                        }
+                                        else if (IsOtherStandardLayer(childBlockLayer))
+                                        {
+                                            childReferences.Add(childBlock);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var entity = obj as Entity;
+                                    if (entity.Visible)
+                                    {
+                                        var entityLayer = entity.Layer;
+                                        if (IsValidLoopLayer(entityLayer))
+                                            entityLst.Add(entity);
+                                        else if (!IsOtherStandardLayer(entityLayer))
+                                        {
+                                            entity.Layer = blockLayer;
+                                            entityLst.Add(entity);
+                                        }
                                     }
                                 }
                             }
-                            else
+                        }
+                    }
+                    else if (IsCanExplode(dbCollection, blockLayer)) // 内部不包含块且曲线所在的图层名包含3个以上
+                    {
+                        foreach (var obj in dbCollection)
+                        {
+                            if (obj is Entity)
                             {
                                 var entity = obj as Entity;
+                                LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(entity.LayerId);
+                                if (layerTableRecord.IsFrozen)
+                                    continue;
+
                                 if (entity.Visible)
                                 {
                                     var entityLayer = entity.Layer;
@@ -4219,45 +4669,16 @@ namespace TopoNode
                                         entity.Layer = blockLayer;
                                         entityLst.Add(entity);
                                     }
-                                    else if (IsOtherStandardLayer(entityLayer))
-                                    {
-                                        entityLst.Add(entity);
-                                    }
                                 }
                             }
                         }
                     }
-                }
-                else if (IsCanExplode(dbCollection)) // 内部不包含块且曲线所在的图层名包含3个以上
-                {
-                    foreach (var obj in dbCollection)
+                    else // 内部不包含块且曲线所在的图层名小于3个图层
                     {
-                        if (obj is Entity)
-                        {
-                            var entity = obj as Entity;
-                            if (entity.Visible)
-                            {
-                                var entityLayer = entity.Layer;
-                                if (IsValidLoopLayer(entityLayer))
-                                    entityLst.Add(entity);
-                                else if (!IsOtherStandardLayer(entityLayer))
-                                {
-                                    entity.Layer = blockLayer;
-                                    entityLst.Add(entity);
-                                }
-                                else if (IsOtherStandardLayer(entityLayer))
-                                {
-                                    entityLst.Add(entity);
-                                }
-                            }
-                        }
+                        // 此时这个块不被炸开作为一个整体。
+                        if (block.Visible)
+                            entityLst.Add(block);
                     }
-                }
-                else // 内部不包含块且曲线所在的图层名小于3个图层
-                {
-                    // 此时这个块不被炸开作为一个整体。
-                    if (block.Visible)
-                        entityLst.Add(block);
                 }
             }
             catch
@@ -4361,10 +4782,11 @@ namespace TopoNode
         /// </summary>
         /// <param name="dbCollection"></param>
         /// <returns></returns>
-        public static bool IsCanExplode(DBObjectCollection dbCollection)
+        public static bool IsCanExplode(DBObjectCollection dbCollection, string blockLayer = null)
         {
-            //var layerNames = new List<string>();
-            //int ArcCounts = 0;
+            var layerNames = new List<string>();
+            int ArcCounts = 0;
+            bool bInnerValid = false;
             foreach (var obj in dbCollection)
             {
                 if (obj is Curve)
@@ -4373,22 +4795,22 @@ namespace TopoNode
                     if (curve.Visible)
                     {
                         var curveLayer = curve.Layer;
-                        if (!curveLayer.Contains("AE-DOOR-INSD")
-                            && !curveLayer.Contains("AE-WIND"))
-                            return true;
+                        if (!bInnerValid && (curveLayer.Contains("AE-DOOR-INSD")
+                            || curveLayer.Contains("AE-WIND")))
+                            bInnerValid = true;
 
-                        //var layerName = curve.Layer;
-                        //if (!layerNames.Contains(layerName))
-                        //{
-                        //    layerNames.Add(layerName);
-                        //    //if (layerNames.Count > 1)
-                        //    //    return true;
-                        //}
+                        var layerName = curve.Layer;
+                        if (!layerNames.Contains(layerName))
+                        {
+                            layerNames.Add(layerName);
+                            //if (layerNames.Count > 1)
+                            //    return true;
+                        }
 
-                        //if (obj is Arc)
-                        //{
-                        //    ArcCounts++;
-                        //}
+                        if (obj is Arc)
+                        {
+                            ArcCounts++;
+                        }
                     }
                 }
                 else if (obj is DBText text)
@@ -4398,11 +4820,15 @@ namespace TopoNode
                 }
             }
 
-            //if (ArcCounts < 2)
-            //    return true;
+            if (ArcCounts < 1)
+                return true;
 
-            //if (layerNames.Count > 1)
-            //    return true;
+            if (layerNames.Count > 1)
+                return true;
+
+            if (!blockLayer.Contains("AE-WIND") && !blockLayer.Contains("AE-DOOR-INSD")
+                && bInnerValid)
+                return true;
 
             return false;
         }
@@ -4427,8 +4853,11 @@ namespace TopoNode
                         for (int i = 0; i < blockReferences.Count(); i++)
                         {
                             var blockReference = blockReferences[i];
-                            progressPos += 0.4;
                             progressPos += incre;
+                            LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(blockReference.LayerId);
+                            if (layerTableRecord.IsOff && layerTableRecord.IsFrozen)
+                                continue;
+
                             Progress.Progress.SetValue((int)progressPos);
                             var entityLst = GetEntityFromBlock2(blockReference);
                             if (entityLst != null && entityLst.Count != 0)
@@ -4670,6 +5099,73 @@ namespace TopoNode
         /// <param name="line2dsFir"></param>
         /// <param name="line2dsSec"></param>
         /// <returns></returns>
+        public static List<Curve> ConnectLinesWithsLinesWithPoints(List<LineSegment2d> line2dsFir, List<LineSegment2d> line2dsSec, List<LineSegment2d> profileBounds, string layerName = null)
+        {
+            var ptFirLst = new List<Point2d>();
+            var ptSecLst = new List<Point2d>();
+            foreach (var curveFir in line2dsFir)
+            {
+                var ptS = curveFir.StartPoint;
+                var ptE = curveFir.EndPoint;
+                if (!ptFirLst.Contains(ptS) && CommonUtils.PtInLoop(profileBounds, ptS))
+                    ptFirLst.Add(ptS);
+
+                if (!ptFirLst.Contains(ptE) && CommonUtils.PtInLoop(profileBounds, ptE))
+                    ptFirLst.Add(ptE);
+            }
+
+            foreach (var curveSec in line2dsSec)
+            {
+                var ptS = curveSec.StartPoint;
+                var ptE = curveSec.EndPoint;
+                if (!ptSecLst.Contains(ptS) && CommonUtils.PtInLoop(profileBounds, ptS))
+                    ptSecLst.Add(ptS);
+
+                if (!ptSecLst.Contains(ptE) && CommonUtils.PtInLoop(profileBounds, ptE))
+                    ptSecLst.Add(ptE);
+            }
+
+            //var dbObjs = new DBObjectCollection();
+            //foreach (var pt in ptFirLst)
+            //    Utils.DrawPreviewPoint(dbObjs, pt.toPoint3d());
+
+            //foreach (var pt in ptSecLst)
+            //    Utils.DrawPreviewPoint(dbObjs, pt.toPoint3d());
+
+            var line2ds = new List<LineSegment2d>();
+
+            foreach (var ptOne in ptFirLst)
+            {
+                foreach (var ptTwo in ptSecLst)
+                {
+                    var line2d = new LineSegment2d(ptOne, ptTwo);
+                    if (line2d.Length > 500)
+                        line2ds.Add(line2d);
+                }
+            }
+
+            if (line2ds.Count == 0)
+                return null;
+
+            line2ds = line2ds.OrderBy(s => s.Length).ToList();
+
+            var aimLine = line2ds.First();
+
+            var aimS = aimLine.StartPoint.toPoint3d();
+            var aimE = aimLine.EndPoint.toPoint3d();
+            Line line = new Line(aimS, aimE);
+            if (layerName != null)
+                line.Layer = layerName;
+            var curves = new List<Curve>() { line };
+            return curves;
+        }
+
+        /// <summary>
+        /// 一块区域和另一块区域的连接处理
+        /// </summary>
+        /// <param name="line2dsFir"></param>
+        /// <param name="line2dsSec"></param>
+        /// <returns></returns>
         public static List<Curve> ConnectLinesWithsLines(List<LineSegment2d> line2dsFir, List<LineSegment2d> line2dsSec, string layerName = null)
         {
             //DrawCurves(line2dsFir);
@@ -4764,6 +5260,7 @@ namespace TopoNode
                 return null;
 
             var curves = new List<Curve>();
+            var lines = new List<LineSegment2d>();
             foreach (var doorBound in doorBounds)
             {
                 // 相关数据内部或者相交
@@ -4771,10 +5268,54 @@ namespace TopoNode
                 if (relatedCurves == null || relatedCurves.Count == 0)
                     continue;
 
+                //Utils.DrawLineSegments(doorBound, "doorBound");
                 // 根据相关数据进行连接处理
                 // 收尾相连且共线的线段进行合并直线处理
-                var combineCurves = CombineCollinearLines(relatedCurves);
-                var insertCurves = InsertConnectCurves(combineCurves, layer);
+                var arcCurves = new List<Curve>();
+                lines.Clear();
+                foreach (var curve in relatedCurves)
+                {
+                    if (curve is Line line)
+                    {
+                        Point3d ptS = line.StartPoint;
+                        Point3d ptE = line.EndPoint;
+                        lines.Add(new LineSegment2d(ptS.toPoint2d(), ptE.toPoint2d()));
+                    }
+                    else if (curve is Arc arc)
+                    {
+                        var arcS = arc.StartPoint.toPoint2d();
+                        var arcE = arc.EndPoint.toPoint2d();
+                        var arcMid = arc.GetPointAtParameter(0.5 * (arc.StartParam + arc.EndParam)).toPoint2d();
+                        var midParam = arc.GetParameterAtPoint(arcMid.toPoint3d());
+
+                        var arcSM = arc.GetPointAtDist(arc.Length * 0.25).toPoint2d();
+                        var arcME = arc.GetPointAtDist(arc.Length * 0.75).toPoint2d();
+                        var line1 = new LineSegment2d(arcS, arcSM);
+                        var line2 = new LineSegment2d(arcSM, arcMid);
+                        var line3 = new LineSegment2d(arcMid, arcME);
+                        var line4 = new LineSegment2d(arcME, arcE);
+                        if (IsLinesIntersectWithLine(doorBound, line1) || (CommonUtils.PointInnerEntity(doorBound, line1.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line1.EndPoint)))
+                        {
+                            lines.Add(line1);
+                        }
+                        if (IsLinesIntersectWithLine(doorBound, line2) || (CommonUtils.PointInnerEntity(doorBound, line2.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line2.EndPoint)))
+                        {
+                            lines.Add(line2);
+                        }
+
+                        if (IsLinesIntersectWithLine(doorBound, line3) || (CommonUtils.PointInnerEntity(doorBound, line3.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line3.EndPoint)))
+                        {
+                            lines.Add(line3);
+                        }
+                        if (IsLinesIntersectWithLine(doorBound, line4) || (CommonUtils.PointInnerEntity(doorBound, line4.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line4.EndPoint)))
+                        {
+                            lines.Add(line4);
+                        }
+                    }
+                }
+
+                var combineCurves = CombineCollinearLines(lines);
+                var insertCurves = InsertConnectCurves(combineCurves, doorBound, layer);
 
                 if (insertCurves != null && insertCurves.Count != 0)
                 {
@@ -5125,17 +5666,20 @@ namespace TopoNode
         {
             if (layer.Name.Contains(layerName)
                 && !layer.Name.Contains("HATCH")
+                && !layer.Name.Contains("HACH")
                 && !layer.Name.Contains("OTHE")
                 && !layer.Name.Contains("CAP")
                 && !layer.Name.Contains("TEXT")
                 && !layer.Name.Contains("DIMS")
-                && !layer.Name.Contains("DETL"))
+                && !layer.Name.Contains("OTHE")
+                && !layer.Name.Contains("DETL")
+                && !layer.Name.Contains("TPTN"))
                 return true;
 
             return false;
         }
 
-        private static bool IsValidShowLayer(string srcLayerName, string aimLayerName)
+        public static bool IsValidShowLayer(string srcLayerName, string aimLayerName)
         {
             if (srcLayerName.Contains(aimLayerName)
                 && !srcLayerName.Contains("HATCH")
