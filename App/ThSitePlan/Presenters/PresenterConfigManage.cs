@@ -41,13 +41,14 @@ namespace ThSitePlan
 
         private List<string> InitScript()
         {
-            List<string> _List = new List<string>();
-            _List.Add("无");
-            _List.Add("拍平闭合优化");
-            _List.Add("线稿生成填充");
-            _List.Add("虚拟阴影");
-            return _List;
-
+            List<string> _EnumList = new List<string>();
+            foreach (var _Item in Enum.GetValues(typeof(EnumCADScript)))
+            {
+                string _Enum = string.Empty;
+                _Enum = FuncStr.NullToStr(_Item);
+                _EnumList.Add(_Enum);
+            }
+            return _EnumList;
         }
 
         private List<LayerDataModel> InitLayer()

@@ -22,10 +22,11 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid.Views.Grid;
 using System.Collections;
 using DevExpress.XtraTreeList.Columns;
+using DevExpress.LookAndFeel;
 
 namespace ThSitePlan.UI
 {
-    public partial class fmConfigManage : Form, IConfigManage
+    public partial class fmConfigManage : DevExpress.XtraEditors.XtraForm, IConfigManage
     {
 
         public List<ColorGeneralDataModel> m_ListColorGeneral { get; set; }
@@ -39,6 +40,8 @@ namespace ThSitePlan.UI
         public const string m_CloseUpKey = "+{F1}";
 
         public string m_ColorGeneralConfig { get; set; }
+
+        public bool m_ColumnError { get; set; }
 
         [DllImport("user32.dll")]
         private static extern void keybd_event(byte bVk, byte bSCan, int dwFlags, int dwExtraInfo);
@@ -73,6 +76,7 @@ namespace ThSitePlan.UI
 
         public fmConfigManage()
         {
+
             InitializeComponent();
         }
 
@@ -175,6 +179,7 @@ namespace ThSitePlan.UI
                 TreeList.Refresh();
 
             }
+
         }
 
         private void ColorEdit_ButtonClick(object sender, ButtonPressedEventArgs e)
@@ -477,6 +482,7 @@ namespace ThSitePlan.UI
 
                 else if (_HitInfo.Column.FieldName == "Name" && _Node != null)
                 {
+
                     TreeList.PostEditor();
 
                     _Node.TreeList.FocusedNode = _Node;
@@ -494,7 +500,11 @@ namespace ThSitePlan.UI
 
                 }
 
-
+                if (TreeList.FocusedColumn != null && TreeList.FocusedColumn.FieldName == "Name")
+                {
+                    TreeList.PostEditor();
+                    _Node.TreeList.FocusedNode = _Node;
+                }
 
 
 
@@ -980,7 +990,7 @@ namespace ThSitePlan.UI
 
         private void BtnHelp_Click(object sender, EventArgs e)
         {
-
+            //this.defaultLookAndFeel1.LookAndFeel.SkinName = SkinStyle.VisualStudio2013Dark;
         }
 
         private void BtnPick_Click(object sender, EventArgs e)
@@ -1006,6 +1016,90 @@ namespace ThSitePlan.UI
                     TreeList.RefreshDataSource();
                 });
             }
+
+        }
+
+        private void TreeList_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TreeList_ValidatingEditor(object sender, BaseContainerValidateEditorEventArgs e)
+        {
+            var _TreeList = sender as TreeList;
+            if (_TreeList == null) { return; }
+            var _ColorGeneral = _TreeList.GetFocusedRow() as ColorGeneralDataModel;
+            if (_ColorGeneral == null) { return; }
+            var _FocusedColumn = _TreeList.FocusedColumn;
+            if (_FocusedColumn.FieldName == "Name")
+            {
+
+                var _List = m_ListColorGeneral.FindAll(p => p.PID == _ColorGeneral.PID && FuncStr.NullToStr(p.Name) == FuncStr.NullToStr(e.Value) && p.ID != _ColorGeneral.ID);
+                if (_List.Count > 0)
+                {
+                    e.Valid = false;
+                    e.ErrorText = "组内名称冲突!";
+                    _TreeList.PostEditor();
+                    return;
+                }
+
+            }
+            //if (_FocusedColumn.FieldName == "CAD_Script")
+            //{
+            //    var _List = m_ListColorGeneral.FindAll(p => p.PID == _ColorGeneral.PID && p.Type == "0");
+            //    if (_List.Count <= 1)
+            //    {
+            //        //e.Valid = false;
+            //        //e.ErrorText = "缺少创建脚本关联的图层对象！!";
+            //        MessageBox.Show("缺少创建脚本关联的图层对象!");
+            //        _TreeList.PostEditor();
+            //        return;
+            //    }
+
+
+            //}
+
+        }
+
+        private void TextName_EditValueChanging(object sender, ChangingEventArgs e)
+        {
+
+
+        }
+
+        private void ComBoxScript_EditValueChanging(object sender, ChangingEventArgs e)
+        {
+
+            var _ColorGeneral = TreeList.GetFocusedRow() as ColorGeneralDataModel;
+            if (_ColorGeneral == null) { return; }
+            var _FocusedColumn = TreeList.FocusedColumn;
+
+            if (FuncStr.NullToStr(e.NewValue) != EnumCADScript.无.ToString())
+            {
+
+                var _List = m_ListColorGeneral.FindAll(p => p.PID == _ColorGeneral.PID && p.Type == "0");
+                if (_List.Count <= 1)
+                {
+                    //e.Valid = false;
+                    //e.ErrorText = "缺少创建脚本关联的图层对象！!";
+                    XtraMessageBox.Show("缺少创建脚本关联的图层对象!", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    e.NewValue = e.OldValue;
+                    return;
+                }
+
+                if (FuncStr.NullToStr(e.NewValue) == EnumCADScript.阴影生成.ToString())
+                {
+                    if (_List.Count <= 2)
+                    {
+                        XtraMessageBox.Show(EnumCADScript.阴影生成.ToString() + ":创建脚本需关联两个图层对象!", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        e.NewValue = e.OldValue;
+                        return;
+                    }
+                }
+
+
+            }
+
 
         }
     }

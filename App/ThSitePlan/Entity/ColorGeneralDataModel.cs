@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using TianHua.Publics.BaseCode;
 
 namespace ThSitePlan
 {
@@ -62,6 +63,39 @@ namespace ThSitePlan
         /// CAD脚本
         /// </summary>
         public string CAD_Script { get; set; }
+
+
+        private string ScriptID;
+        public string CAD_ScriptID
+        {
+            get
+            {
+                ScriptID = this.GetScriptID();
+                return ScriptID;
+            }
+            set
+            {
+                ScriptID = value; 
+            }
+
+        }
+
+        private string GetScriptID()
+        {
+            if (FuncStr.NullToStr(CAD_Script) == string.Empty) { return ""; }
+            try
+            {
+                var _Enum = (EnumCADScript)Enum.Parse(typeof(EnumCADScript), CAD_Script);
+
+                return FuncStr.NullToStr(_Enum.GetHashCode());
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+
+        }
+
 
 
         /// <summary>

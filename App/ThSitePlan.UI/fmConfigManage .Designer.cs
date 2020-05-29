@@ -31,8 +31,13 @@ namespace ThSitePlan.UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions2 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject7 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject8 = new DevExpress.Utils.SerializableAppearanceObject();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmConfigManage));
-            this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.TxtName = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.label6 = new System.Windows.Forms.Label();
             this.BtnHelp = new System.Windows.Forms.Button();
@@ -43,6 +48,7 @@ namespace ThSitePlan.UI
             this.BtnRestore = new System.Windows.Forms.Button();
             this.TreeList = new DevExpress.XtraTreeList.TreeList();
             this.ColName = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.TextName = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.ColColor = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.ColorEdit = new DevExpress.XtraEditors.Repository.RepositoryItemColorPickEdit();
             this.ColTransparency = new DevExpress.XtraTreeList.Columns.TreeListColumn();
@@ -100,10 +106,12 @@ namespace ThSitePlan.UI
             this.MenuItemOpacity100 = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.BtnPick = new DevExpress.XtraEditors.SimpleButton();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
+            this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.TxtName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TreeList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TextName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ColorEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpinEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PopupContainer)).BeginInit();
@@ -134,10 +142,10 @@ namespace ThSitePlan.UI
             this.ContextMenuTransparency.SuspendLayout();
             this.SuspendLayout();
             // 
-            // repositoryItemTextEdit1
+            // TxtName
             // 
-            this.repositoryItemTextEdit1.AutoHeight = false;
-            this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
+            this.TxtName.AutoHeight = false;
+            this.TxtName.Name = "TxtName";
             // 
             // layoutControl1
             // 
@@ -158,7 +166,7 @@ namespace ThSitePlan.UI
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(946, 252, 650, 533);
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(712, 478);
+            this.layoutControl1.Size = new System.Drawing.Size(773, 478);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
@@ -173,9 +181,9 @@ namespace ThSitePlan.UI
             // 
             // BtnHelp
             // 
-            this.BtnHelp.Location = new System.Drawing.Point(620, 445);
+            this.BtnHelp.Location = new System.Drawing.Point(674, 445);
             this.BtnHelp.Name = "BtnHelp";
-            this.BtnHelp.Size = new System.Drawing.Size(81, 22);
+            this.BtnHelp.Size = new System.Drawing.Size(88, 22);
             this.BtnHelp.TabIndex = 16;
             this.BtnHelp.Text = "帮助";
             this.BtnHelp.UseVisualStyleBackColor = true;
@@ -183,9 +191,9 @@ namespace ThSitePlan.UI
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(534, 445);
+            this.BtnCancel.Location = new System.Drawing.Point(580, 445);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(84, 22);
+            this.BtnCancel.Size = new System.Drawing.Size(92, 22);
             this.BtnCancel.TabIndex = 15;
             this.BtnCancel.Text = "取消";
             this.BtnCancel.UseVisualStyleBackColor = true;
@@ -194,9 +202,9 @@ namespace ThSitePlan.UI
             // BtnOK
             // 
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(447, 445);
+            this.BtnOK.Location = new System.Drawing.Point(485, 445);
             this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(85, 22);
+            this.BtnOK.Size = new System.Drawing.Size(93, 22);
             this.BtnOK.TabIndex = 14;
             this.BtnOK.Text = "确定";
             this.BtnOK.UseVisualStyleBackColor = true;
@@ -204,9 +212,9 @@ namespace ThSitePlan.UI
             // 
             // BtnExport
             // 
-            this.BtnExport.Location = new System.Drawing.Point(175, 445);
+            this.BtnExport.Location = new System.Drawing.Point(189, 445);
             this.BtnExport.Name = "BtnExport";
-            this.BtnExport.Size = new System.Drawing.Size(83, 22);
+            this.BtnExport.Size = new System.Drawing.Size(91, 22);
             this.BtnExport.TabIndex = 13;
             this.BtnExport.Text = "导出";
             this.BtnExport.UseVisualStyleBackColor = true;
@@ -214,9 +222,9 @@ namespace ThSitePlan.UI
             // 
             // BtnImport
             // 
-            this.BtnImport.Location = new System.Drawing.Point(95, 445);
+            this.BtnImport.Location = new System.Drawing.Point(102, 445);
             this.BtnImport.Name = "BtnImport";
-            this.BtnImport.Size = new System.Drawing.Size(78, 22);
+            this.BtnImport.Size = new System.Drawing.Size(85, 22);
             this.BtnImport.TabIndex = 12;
             this.BtnImport.Text = "导入";
             this.BtnImport.UseVisualStyleBackColor = true;
@@ -226,7 +234,7 @@ namespace ThSitePlan.UI
             // 
             this.BtnRestore.Location = new System.Drawing.Point(11, 445);
             this.BtnRestore.Name = "BtnRestore";
-            this.BtnRestore.Size = new System.Drawing.Size(82, 22);
+            this.BtnRestore.Size = new System.Drawing.Size(89, 22);
             this.BtnRestore.TabIndex = 11;
             this.BtnRestore.Text = "还原";
             this.BtnRestore.UseVisualStyleBackColor = true;
@@ -253,7 +261,6 @@ namespace ThSitePlan.UI
             this.TreeList.HtmlImages = this.images;
             this.TreeList.Location = new System.Drawing.Point(12, 12);
             this.TreeList.LookAndFeel.SkinName = "Office 2016 Colorful";
-            this.TreeList.LookAndFeel.UseDefaultLookAndFeel = false;
             this.TreeList.Name = "TreeList";
             this.TreeList.BeginUnboundLoad();
             this.TreeList.AppendNode(new object[] {
@@ -289,16 +296,18 @@ namespace ThSitePlan.UI
             this.ComBoxScript,
             this.PictureEdit,
             this.MEdit,
-            this.PopupContainer});
+            this.PopupContainer,
+            this.TextName});
             this.TreeList.RowHeight = 28;
             this.TreeList.SelectImageList = this.images;
-            this.TreeList.Size = new System.Drawing.Size(688, 428);
+            this.TreeList.Size = new System.Drawing.Size(749, 428);
             this.TreeList.TabIndex = 4;
             this.TreeList.TreeLevelWidth = 12;
             this.TreeList.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Solid;
             this.TreeList.GetSelectImage += new DevExpress.XtraTreeList.GetSelectImageEventHandler(this.TreeList_GetSelectImage);
             this.TreeList.CustomNodeCellEditForEditing += new DevExpress.XtraTreeList.GetCustomNodeCellEditEventHandler(this.TreeList_CustomNodeCellEditForEditing);
             this.TreeList.CustomColumnDisplayText += new DevExpress.XtraTreeList.CustomColumnDisplayTextEventHandler(this.TreeList_CustomColumnDisplayText);
+            this.TreeList.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.TreeList_ValidatingEditor);
             this.TreeList.InvalidValueException += new DevExpress.XtraEditors.Controls.InvalidValueExceptionEventHandler(this.TreeList_InvalidValueException);
             this.TreeList.ShownEditor += new System.EventHandler(this.TreeList_ShownEditor);
             this.TreeList.CellValueChanged += new DevExpress.XtraTreeList.CellValueChangedEventHandler(this.TreeList_CellValueChanged);
@@ -307,6 +316,7 @@ namespace ThSitePlan.UI
             this.TreeList.DragDrop += new System.Windows.Forms.DragEventHandler(this.TreeList_DragDrop);
             this.TreeList.DragEnter += new System.Windows.Forms.DragEventHandler(this.TreeList_DragEnte);
             this.TreeList.DragOver += new System.Windows.Forms.DragEventHandler(this.TreeList_DragOver);
+            this.TreeList.DoubleClick += new System.EventHandler(this.TreeList_DoubleClick);
             this.TreeList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TreeList_MouseDoubleClick);
             this.TreeList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TreeList_MouseDown);
             // 
@@ -315,13 +325,19 @@ namespace ThSitePlan.UI
             this.ColName.AppearanceHeader.Options.UseTextOptions = true;
             this.ColName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.ColName.Caption = "PSD图层结构";
-            this.ColName.ColumnEdit = this.repositoryItemTextEdit1;
+            this.ColName.ColumnEdit = this.TextName;
             this.ColName.FieldName = "Name";
             this.ColName.Name = "ColName";
             this.ColName.OptionsColumn.AllowMove = false;
             this.ColName.Visible = true;
             this.ColName.VisibleIndex = 0;
             this.ColName.Width = 175;
+            // 
+            // TextName
+            // 
+            this.TextName.AutoHeight = false;
+            this.TextName.Name = "TextName";
+            this.TextName.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.TextName_EditValueChanging);
             // 
             // ColColor
             // 
@@ -342,6 +358,10 @@ namespace ThSitePlan.UI
             // 
             this.ColorEdit.AutoHeight = false;
             this.ColorEdit.AutomaticColor = System.Drawing.Color.Black;
+            editorButtonImageOptions2.Image = global::ThSitePlan.UI.Properties.Resources.吸取;
+            this.ColorEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo),
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions2, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, serializableAppearanceObject6, serializableAppearanceObject7, serializableAppearanceObject8, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.ColorEdit.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.ColorEdit.ColorDialogOptions.AllowTransparency = false;
             this.ColorEdit.ColorDialogOptions.ShowMakeWebSafeButton = false;
@@ -549,6 +569,8 @@ namespace ThSitePlan.UI
             this.ColScript.FieldName = "CAD_Script";
             this.ColScript.Name = "ColScript";
             this.ColScript.OptionsColumn.AllowMove = false;
+            this.ColScript.Visible = true;
+            this.ColScript.VisibleIndex = 6;
             this.ColScript.Width = 109;
             // 
             // ComBoxScript
@@ -558,6 +580,7 @@ namespace ThSitePlan.UI
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.ComBoxScript.Name = "ComBoxScript";
             this.ComBoxScript.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.ComBoxScript.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.ComBoxScript_EditValueChanging);
             // 
             // ColType
             // 
@@ -633,7 +656,7 @@ namespace ThSitePlan.UI
             this.layoutControlItem8,
             this.emptySpaceItem1});
             this.layoutControlGroup1.Name = "Root";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(712, 478);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(773, 478);
             this.layoutControlGroup1.TextVisible = false;
             this.layoutControlGroup1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.layoutControlGroup1_MouseDown);
             // 
@@ -643,7 +666,7 @@ namespace ThSitePlan.UI
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
             this.layoutControlItem1.Padding = new DevExpress.XtraLayout.Utils.Padding(2, 2, 2, 4);
-            this.layoutControlItem1.Size = new System.Drawing.Size(692, 434);
+            this.layoutControlItem1.Size = new System.Drawing.Size(753, 434);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
@@ -653,66 +676,66 @@ namespace ThSitePlan.UI
             this.layoutControlItem2.Location = new System.Drawing.Point(0, 434);
             this.layoutControlItem2.Name = "layoutControlItem2";
             this.layoutControlItem2.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem2.Size = new System.Drawing.Size(84, 24);
+            this.layoutControlItem2.Size = new System.Drawing.Size(91, 24);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.BtnImport;
-            this.layoutControlItem3.Location = new System.Drawing.Point(84, 434);
+            this.layoutControlItem3.Location = new System.Drawing.Point(91, 434);
             this.layoutControlItem3.Name = "layoutControlItem3";
             this.layoutControlItem3.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem3.Size = new System.Drawing.Size(80, 24);
+            this.layoutControlItem3.Size = new System.Drawing.Size(87, 24);
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextVisible = false;
             // 
             // layoutControlItem4
             // 
             this.layoutControlItem4.Control = this.BtnExport;
-            this.layoutControlItem4.Location = new System.Drawing.Point(164, 434);
+            this.layoutControlItem4.Location = new System.Drawing.Point(178, 434);
             this.layoutControlItem4.Name = "layoutControlItem4";
             this.layoutControlItem4.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem4.Size = new System.Drawing.Size(85, 24);
+            this.layoutControlItem4.Size = new System.Drawing.Size(93, 24);
             this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem4.TextVisible = false;
             // 
             // layoutControlItem5
             // 
             this.layoutControlItem5.Control = this.BtnOK;
-            this.layoutControlItem5.Location = new System.Drawing.Point(436, 434);
+            this.layoutControlItem5.Location = new System.Drawing.Point(474, 434);
             this.layoutControlItem5.Name = "layoutControlItem5";
             this.layoutControlItem5.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem5.Size = new System.Drawing.Size(87, 24);
+            this.layoutControlItem5.Size = new System.Drawing.Size(95, 24);
             this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem5.TextVisible = false;
             // 
             // layoutControlItem6
             // 
             this.layoutControlItem6.Control = this.BtnCancel;
-            this.layoutControlItem6.Location = new System.Drawing.Point(523, 434);
+            this.layoutControlItem6.Location = new System.Drawing.Point(569, 434);
             this.layoutControlItem6.Name = "layoutControlItem6";
             this.layoutControlItem6.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem6.Size = new System.Drawing.Size(86, 24);
+            this.layoutControlItem6.Size = new System.Drawing.Size(94, 24);
             this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem6.TextVisible = false;
             // 
             // layoutControlItem8
             // 
             this.layoutControlItem8.Control = this.BtnHelp;
-            this.layoutControlItem8.Location = new System.Drawing.Point(609, 434);
+            this.layoutControlItem8.Location = new System.Drawing.Point(663, 434);
             this.layoutControlItem8.Name = "layoutControlItem8";
             this.layoutControlItem8.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem8.Size = new System.Drawing.Size(83, 24);
+            this.layoutControlItem8.Size = new System.Drawing.Size(90, 24);
             this.layoutControlItem8.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem8.TextVisible = false;
             // 
             // emptySpaceItem1
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
-            this.emptySpaceItem1.Location = new System.Drawing.Point(249, 434);
+            this.emptySpaceItem1.Location = new System.Drawing.Point(271, 434);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(187, 24);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(203, 24);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // Tim
@@ -900,25 +923,24 @@ namespace ThSitePlan.UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(712, 478);
+            this.ClientSize = new System.Drawing.Size(773, 478);
             this.Controls.Add(this.PopCtl);
             this.Controls.Add(this.layoutControl1);
             this.Controls.Add(this.BtnPick);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(728, 517);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(728, 517);
             this.Name = "fmConfigManage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "映射配置管理";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.fmConfigManage_FormClosed);
             this.Load += new System.EventHandler(this.fmConfigManage_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.fmConfigManage_MouseDown);
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtName)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TreeList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TextName)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ColorEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpinEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PopupContainer)).EndInit();
@@ -1019,8 +1041,10 @@ namespace ThSitePlan.UI
         private System.Windows.Forms.Label label6;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem13;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
-        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit TxtName;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private DevExpress.XtraEditors.SimpleButton BtnPick;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit TextName;
+        private DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel1;
     }
 }
