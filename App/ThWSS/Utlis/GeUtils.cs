@@ -1,9 +1,12 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.BoundaryRepresentation;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using Linq2Acad;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using ThCADCore.NTS;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,7 +35,7 @@ namespace ThWSS.Utlis
             Point3dCollection points = new Point3dCollection();
             polyline.IntersectWith(ray, Intersect.OnBothOperands, points, IntPtr.Zero, IntPtr.Zero);
             FilterEqualPoints(points, tol);
-            RETRY:
+        RETRY:
             if (points.Count == 0)
             {
                 ray.Dispose();
@@ -139,22 +142,117 @@ namespace ThWSS.Utlis
         }
 
         /// <summary>
-        /// 判断当前点是凸点还是凹点
+        /// 判断当前点是凸点还是凹点(-1，凸点；1，凹点；0，点在线上，不是拐点)
         /// </summary>
         /// <param name="poly"></param>
         /// <param name="pt"></param>
         /// <param name="nextP"></param>
         /// <param name="preP"></param>
         /// <returns></returns>
-        public static bool IsConvexPoint(Polyline poly, Point3d pt, Point3d nextP, Point3d preP)
+        public static int IsConvexPoint(Polyline poly, Point3d pt, Point3d nextP, Point3d preP)
         {
-            Vector3d nextV = (pt - nextP).GetNormal();
+            Vector3d normal = poly.Normal;
+            Vector3d nextV = (nextP - pt).GetNormal();
             Vector3d preV = (pt - preP).GetNormal();
-            Point3d tempP = pt + nextV * 1 + preV * 1;
-            if (CheckPointInPolyline(poly, tempP, Tolerance.Global.EqualPoint) == 1)
-                return false;
+            Vector3d dir = preV.CrossProduct(nextV);
 
-            return true;
+            if (Math.Abs(dir.Z) < 0.001)
+            {
+                return 0;
+            }
+            else if (!((dir.Z > 0 && normal.Z > 0) || (dir.Z < 0 && normal.Z < 0)))
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+
+            //Vector3d nextV = (nextP - pt).GetNormal();
+            //Vector3d preV = (pt - preP).GetNormal();
+            //Point3d tempP = pt + nextV * 1 + preV * 1;
+            //var res = poly.PointInPolygon(tempP);
+            //if (res == LocateStatus.Exterior)
+            //    return -1;
+            //else if (res == LocateStatus.Interior)
+            //    return 1;
+            //else
+            //    return 0;
+        }
+
+        /// <summary>
+        /// 计算容差范围内的凸包
+        /// </summary>
+        /// <param name="poly"></param>
+        /// <param name="tol"></param>
+        /// <returns></returns>
+        public static Polyline CreateConvexPolygon(Polyline poly, double tol)
+        {
+            List<KeyValuePair<Point3d, bool>> pLst = new List<KeyValuePair<Point3d, bool>>();
+            for (int i = 0; i < poly.NumberOfVertices; i++)
+            {
+                var current = poly.GetPoint3dAt(i);
+                var next = poly.GetPoint3dAt((i + 1) % poly.NumberOfVertices);
+                int j = i - 1;
+                if (j < 0)
+                {
+                    j = poly.NumberOfVertices - 1;
+                }
+                var pre = poly.GetPoint3dAt(j);
+
+                bool isConvex = IsConvexPoint(poly, current, next, pre) == -1 ? true : false;
+                pLst.Add(new KeyValuePair<Point3d, bool>(poly.GetPoint3dAt(i), isConvex));
+            }
+
+            //控制第一个点是凸点（因为凹点可能被省略，凸点一定保留）
+            while (!pLst.First().Value)
+            {
+                var temp = pLst.First();
+                pLst.Remove(temp);
+                pLst.Add(temp);
+            }
+
+            Polyline convexPoly = new Polyline() { Closed = true };
+            int index = 0;
+            for (int i = 0; i < pLst.Count; i++)
+            {
+                var current = pLst[i];
+                convexPoly.AddVertexAt(index, new Point2d(current.Key.X, current.Key.Y), 0, 0, 0);
+
+                if (current.Value)
+                {
+                    var next = pLst[(i + 1) % poly.NumberOfVertices];
+                    if (!next.Value)
+                    {
+                        int j = i;
+                        while (j < pLst.Count)
+                        {
+                            var tempNext = pLst[(j + 1) % poly.NumberOfVertices];
+                            if (tempNext.Value)
+                            {
+                                if (tempNext.Key.DistanceTo(current.Key) <= tol)
+                                {
+                                    i = j;
+                                    var tp = pLst[(j + 2) % poly.NumberOfVertices];
+                                    if (tp.Value)
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            j++;
+                        }
+                    }
+                }
+                index++;
+            }
+
+            return convexPoly;
         }
     }
 }

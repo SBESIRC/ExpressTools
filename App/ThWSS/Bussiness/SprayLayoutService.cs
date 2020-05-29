@@ -7,29 +7,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ThWSS.LayoutRule;
+using ThWSS.Model;
 using ThWSS.Utlis;
 
 namespace ThWSS.Bussiness
 {
     public class SprayLayoutService
     {
-        public void LayoutSpray(List<Polyline> roomsLine)
+        public void LayoutSpray(List<Polyline> roomsLine, SparyLayoutModel layoutModel)
         {
             foreach (var room in roomsLine)
             {
                 //区域分割
+                //var rommBounding = GeUtils.CreateConvexPolygon(room, 1500);
                 RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
-                regionDivisionUtils.DivisionRegion(room);
+                var s =regionDivisionUtils.DivisionRegion(room);
 
                 //计算房间走向
                 var roomOOB = OrientedBoundingBox.Calculate(room);
                 using (AcadDatabase acdb = AcadDatabase.Active())
                 {
-                    acdb.ModelSpace.Add(roomOOB);
+                    //acdb.ModelSpace.Add(rommBounding);
+                    foreach (var item in s)
+                    {
+                        acdb.ModelSpace.Add(item);
+                    }
                 }
-
+                continue;
                 //计算出布置点
-                SquareLayout squareLayout = new SquareLayout();
+                SquareLayout squareLayout = new SquareLayout(layoutModel);
                 List<List<Point3d>> layoutPts = squareLayout.Layout(room, roomOOB);
 
                 //计算房间出房间内的点

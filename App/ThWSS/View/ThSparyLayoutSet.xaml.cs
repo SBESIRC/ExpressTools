@@ -22,12 +22,6 @@ namespace ThWss.View
     /// </summary>
     public partial class ThSparyLayoutSet : Window
     {
-        public static ThSparyLayoutSet Instance = new ThSparyLayoutSet();
-        public double sideMaxV = 4400;
-        public double sideMinV = 0;
-        public double maxLengthV = 2200;
-        public double minLengthV = 500;
-
         public ThSparyLayoutSet()
         {
             InitializeComponent();
@@ -90,11 +84,9 @@ namespace ThWss.View
         /// <param name="e"></param>
         private void Cancel_Btn_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            this.Close();
         }
-        #endregion
-
-        #region Run
+        
         /// <summary>
         /// 确定
         /// </summary>
@@ -110,16 +102,8 @@ namespace ThWss.View
                 //存储本次操作配置
                 SaveConfigInfo();
 
-                //插入操作信息
-                SetWindowValue();
-
-                //执行操作
-                this.Hide();
-                bool res = Run();
-                if (!res)
-                {
-                    this.Show();
-                }
+                this.DialogResult = true;
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -127,83 +111,6 @@ namespace ThWss.View
             finally
             {
                 //this.Close();
-            }
-        }
-
-        /// <summary>
-        /// 执行布置喷淋
-        /// </summary>
-        /// <returns></returns>
-        public bool Run()
-        {
-            try
-            {
-                using (AcadDatabase acdb = AcadDatabase.Active())
-                {
-                    //防火分区
-                    if (this.fire.IsChecked == true)
-                    {
-                        ThSprayLayoutEngine.Instance.Layout(acdb.Database, null);
-                    }
-                    //来自框线
-                    if (this.frame.IsChecked == true)
-                    {
-                        PromptSelectionOptions options = new PromptSelectionOptions()
-                        {
-                            AllowDuplicates = false,
-                            RejectObjectsOnLockedLayers = true,
-                        };
-                        var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "POLYLINE,LWPOLYLINE");
-                        var entSelected = Active.Editor.GetSelection(options, filterlist);
-                        if (entSelected.Status != PromptStatus.OK)
-                        {
-                            return false;
-                        };
-
-                        // 执行操作
-                        DBObjectCollection dBObjects = new DBObjectCollection();
-                        foreach (ObjectId obj in entSelected.Value.GetObjectIds())
-                        {
-                            dBObjects.Add(acdb.Element<Entity>(obj, true));
-                        }
-
-                        List<Polyline> room = new List<Polyline>();
-                        foreach (var item in dBObjects)
-                        {
-                            room.Add(item as Polyline);
-                        }
-                        ThSprayLayoutEngine.Instance.Layout(room.Select(x => { x.Closed = true; return x; }).ToList());
-                    }
-                    //自定义区域
-                    if (this.customPart.IsChecked == true)
-                    {
-                        Polyline pline = new Polyline() { Closed = true };
-                        using (PointCollector pc = new PointCollector(PointCollector.Shape.Polygon))
-                        {
-                            try
-                            {
-                                pc.Collect();
-                            }
-                            catch
-                            {
-                                return false;
-                            }
-                            Point3dCollection winCorners = pc.CollectedPoints;
-                            for (int i = 0; i < winCorners.Count; i++)
-                            {
-                                pline.AddVertexAt(i, new Point2d(winCorners[i].X, winCorners[i].Y), 0, 0, 0);
-                            }
-                        }
-
-                        acdb.ModelSpace.Add(pline);
-                        ThSprayLayoutEngine.Instance.Layout(new List<Polyline>() { pline });
-                    }
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
             }
         }
         #endregion
@@ -390,17 +297,6 @@ namespace ThWss.View
             }
             
             return res;
-        }
-
-        /// <summary>
-        /// 插入数据信息
-        /// </summary>
-        private void SetWindowValue()
-        {
-            sideMinV = Convert.ToDouble(this.customControl.sparySSpcing.Text);
-            sideMaxV = Convert.ToDouble(this.customControl.sparyESpcing.Text);
-            minLengthV = Convert.ToDouble(this.customControl.otherSSpcing.Text);
-            maxLengthV = Convert.ToDouble(this.customControl.otherESpcing.Text);
         }
         #endregion
 

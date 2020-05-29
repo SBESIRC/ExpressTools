@@ -7,15 +7,20 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Linq2Acad;
 using ThWss.View;
+using ThWSS.Model;
 
 namespace ThWSS.LayoutRule
 {
     public class SquareLayout : LayoutInterface
     {
-        public double sideLength = ThSparyLayoutSet.Instance.sideMaxV;
-        public double sideMinLength = ThSparyLayoutSet.Instance.sideMinV;
-        public double maxLength = ThSparyLayoutSet.Instance.maxLengthV;
-        public double minLength = ThSparyLayoutSet.Instance.minLengthV;
+        double sideLength = 4400;
+        double sideMinLength = 0;
+        double maxLength = 2200;
+        double minLength = 500;
+        public SquareLayout(SparyLayoutModel layoutModel)
+        {
+
+        }
 
         public List<List<Point3d>> Layout(Polyline room, Polyline polyline)
         {
@@ -29,7 +34,7 @@ namespace ThWSS.LayoutRule
             }
 
             //房间obb框线
-            List<Line> lineLst = new List<Line>(); 
+            List<Line> lineLst = new List<Line>();
             for (int i = 0; i < polyline.NumberOfVertices; i++)
             {
                 var current = polyline.GetPoint2dAt(i);
@@ -41,7 +46,7 @@ namespace ThWSS.LayoutRule
             Line shortLine = lineLst.Where(x => !x.Delta.GetNormal().IsParallelTo(longLine.Delta.GetNormal(), Tolerance.Global)).First();
             double sDis = longLine.StartPoint.DistanceTo(shortLine.StartPoint);
             double eDis = longLine.StartPoint.DistanceTo(shortLine.EndPoint);
-            
+
             Vector3d vDir = longLine.Delta.GetNormal();  //纵向方向
             Vector3d tDir = sDis < eDis ? shortLine.Delta.GetNormal() : -shortLine.Delta.GetNormal();   //横向方向
             var layoutP = LayoutPoints(roomLines, longLine.StartPoint, tDir, vDir, shortLine.Length);
@@ -133,7 +138,7 @@ namespace ThWSS.LayoutRule
                     Point3d tsp = sp + tRemainder * transverseDir;
                     for (int j = 0; j <= tNum; j++)
                     {
-                        if (vPoints.Where(x=>x.DistanceTo(tsp) <= dis).Count() <= 0)
+                        if (vPoints.Where(x => x.DistanceTo(tsp) <= dis).Count() <= 0)
                         {
                             p.Add(tsp);
                         }
