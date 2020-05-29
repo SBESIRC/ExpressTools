@@ -29,7 +29,7 @@ namespace ThStructure.BeamInfo.Utils
                 firstRegion.Dispose();
                 secondRegion.Dispose();
             }
-            catch (System.Exception ex)
+            catch
             {
                 return false;
             }

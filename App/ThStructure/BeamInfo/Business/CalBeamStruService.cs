@@ -25,9 +25,8 @@ namespace ThStructure.BeamInfo.Business
                 foreach (DBObject obj in dBObjects)
                 {
                     #region 直线
-                    if (obj is Line)
+                    if (obj is Line line)
                     {
-                        Line line = acdb.Element<Line>(obj.Id, true);
                         if (line.Delta.GetNormal().Z != 0)
                         {
                             continue;
@@ -45,30 +44,28 @@ namespace ThStructure.BeamInfo.Business
                     }
                     #endregion
                     #region 多线段
-                    else if (obj is Polyline)
+                    else if (obj is Polyline polyline)
                     {
-                        Polyline pline = acdb.Element<Polyline>(obj.Id, true);
-                        if (!pline.Normal.IsEqualTo(Vector3d.ZAxis))
+                        if (!polyline.Normal.IsEqualTo(Vector3d.ZAxis))
                         {
                             continue;
                         }
 
-                        var plNormal = pline.GetLineSegmentAt(0).Direction.GetNormal();
+                        var plNormal = polyline.GetLineSegmentAt(0).Direction.GetNormal();
                         var norComp = groupDic.Keys.Where(x => x.IsParallelTo(plNormal, Tolerance.Global)).ToList();
                         if (norComp.Count > 0)
                         {
-                            groupDic[norComp.First()].Add(pline, TransPlineToLine(pline));
+                            groupDic[norComp.First()].Add(polyline, TransPlineToLine(polyline));
                         }
                         else
                         {
-                            groupDic.Add(plNormal, new Dictionary<Curve, Line>() { { pline, TransPlineToLine(pline) } });
+                            groupDic.Add(plNormal, new Dictionary<Curve, Line>() { { polyline, TransPlineToLine(polyline) } });
                         }
                     }
                     #endregion
                     #region 圆弧
-                    else if (obj is Arc)
+                    else if (obj is Arc arcLine)
                     {
-                        Arc arcLine = acdb.Element<Arc>(obj.Id, true);
                         var arcLst = arcGroupDic.Keys.Where(x => x.IsEqualTo(arcLine.Center)).ToList();
                         if (arcLst.Count > 0)
                         {
