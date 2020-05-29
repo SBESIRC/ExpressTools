@@ -27,10 +27,10 @@ namespace ThColumnInfo.Validate
                 return;
             }
             this.dblXSpace = (stirrupLimbSpaceModel.Cdm.B - 2 * stirrupLimbSpaceModel.ProtectLayerThickness -
-                stirrupLimbSpaceModel.Cdm.IntYStirrupCount* stirrupLimbSpaceModel.Cdm.IntStirrupDia) /
+                stirrupLimbSpaceModel.Cdm.IntStirrupDia) /
                 (stirrupLimbSpaceModel.Cdm.IntYStirrupCount - 1);
             this.dblYSpace = (stirrupLimbSpaceModel.Cdm.H - 2 * stirrupLimbSpaceModel.ProtectLayerThickness -
-                stirrupLimbSpaceModel.Cdm.IntXStirrupCount * stirrupLimbSpaceModel.Cdm.IntStirrupDia) /
+                stirrupLimbSpaceModel.Cdm.IntStirrupDia) /
                 (stirrupLimbSpaceModel.Cdm.IntXStirrupCount - 1);
             this.dblStirrupSpace = Math.Max(dblXSpace, dblYSpace);
             if (stirrupLimbSpaceModel.AntiSeismicGrade.Contains("一级") && 
@@ -80,11 +80,11 @@ namespace ThColumnInfo.Validate
             steps.Add("条文：柱箍筋加密区内的箍筋肢距：一级抗震等级不宜大于200mm ；二、兰级抗震等级不宜大于250mm 和20 倍箍筋直径中的较大值；四级抗震等级不宜大于300mm。");
             steps.Add("柱号 = " + this.stirrupLimbSpaceModel.Text);
             steps.Add("dblXSpace = (B["+ stirrupLimbSpaceModel.Cdm.B+"] - 2 * 保护层厚度["+ stirrupLimbSpaceModel.ProtectLayerThickness+
-                "]- IntYStirrupCount[" + stirrupLimbSpaceModel.Cdm.IntYStirrupCount+ "] * IntStirrupDia[" + stirrupLimbSpaceModel.Cdm.IntStirrupDia
-                +"]) / (IntYStirrupCount[" + stirrupLimbSpaceModel.Cdm.IntYStirrupCount+"] - 1) = " + this.dblXSpace);
+                "] - IntStirrupDia[" + stirrupLimbSpaceModel.Cdm.IntStirrupDia +"]) / (IntYStirrupCount[" + 
+                stirrupLimbSpaceModel.Cdm.IntYStirrupCount+"] - 1) = " + this.dblXSpace);
             steps.Add("dblYSpace = (H[" + stirrupLimbSpaceModel.Cdm.H + "] - 2 * 保护层厚度[" + stirrupLimbSpaceModel.ProtectLayerThickness +
-                "]- IntXStirrupCount[" + stirrupLimbSpaceModel.Cdm.IntXStirrupCount + "] * IntStirrupDia[" + stirrupLimbSpaceModel.Cdm.IntStirrupDia
-                + "]) / (IntXStirrupCount[" + stirrupLimbSpaceModel.Cdm.IntXStirrupCount + "] - 1) = " + this.dblYSpace);
+                "] - IntStirrupDia[" + stirrupLimbSpaceModel.Cdm.IntStirrupDia + "]) / (IntXStirrupCount[" +
+                stirrupLimbSpaceModel.Cdm.IntXStirrupCount + "] - 1) = " + this.dblYSpace);
             steps.Add("dblStirrupSpace=Math.Max(dblXSpace["+this.dblXSpace+ "] , dblYSpace["+ this.dblYSpace+"]) = "+this.dblStirrupSpace);
             steps.Add("if (抗震等级[" + stirrupLimbSpaceModel.AntiSeismicGrade + "] == 一级 ");
             steps.Add("  {");

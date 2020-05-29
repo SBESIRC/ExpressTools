@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.ApplicationServices;
 using AcHelper;
 using DotNetARX;
 using Linq2Acad;
@@ -12,23 +14,23 @@ using ThSitePlan.Engine;
 using ThSitePlan.Configuration;
 using ThSitePlan.Photoshop;
 using NFox.Cad.Collections;
-using Autodesk.AutoCAD.ApplicationServices;
-using System.IO;
 
 namespace ThSitePlan.UI
 {
     public class ThSitePlanApp : IExtensionApplication
     {
         public Tuple<ObjectId, Vector3d> OriginFrame { get; set; }
-        public Tuple<ObjectId, Vector3d> OriginFrameCopy { get; set; }
+        public Tuple<ObjectId, Vector3d> PlaygroundFrame { get; set; }
         public void Initialize()
         {
-            //
+            ThSitePlanDocCollectionEventHandler.Instance.Register();
+            ThSitePlanDbEventHandler.Instance.SubscribeToDb(Active.Database);
         }
 
         public void Terminate()
         {
-            //
+            ThSitePlanDocCollectionEventHandler.Instance.UnRegister();
+            ThSitePlanDbEventHandler.Instance.UnsubscribeFromDb(Active.Database);
         }
 
         /// <summary>
@@ -92,7 +94,7 @@ namespace ThSitePlan.UI
 
                 for (int i = 0; i < 7; i++)
                 {
-                    for (int j = 0; j < 6; j++)
+                    for (int j = 0; j < 7; j++)
                     {
                         double deltaX = frameObj.GeometricExtents.Width() * 6.0 / 5.0 * j;
                         double deltaY = frameObj.GeometricExtents.Height() * 6.0 / 5.0 * i;
@@ -101,6 +103,16 @@ namespace ThSitePlan.UI
                         var objId = acadDatabase.ModelSpace.Add(frameObj.GetTransformedCopy(displacement));
                         frames.Enqueue(new Tuple<ObjectId, Vector3d>(objId, delta));
                     }
+                }
+
+                // 为每个框打“标签”
+                foreach (var fm in frames)
+                {
+                    TypedValueList valueList = new TypedValueList
+                    {
+                                { (int)DxfCode.ExtendedDataBinaryChunk, Encoding.UTF8.GetBytes("天华彩总") },
+                    };
+                    fm.Item1.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name, valueList);
                 }
             }
 
@@ -112,20 +124,20 @@ namespace ThSitePlan.UI
             // 未被移走的图元将会保留在这个图框中，并作为“未标识”对象
             // 这个图框里面的块引用将会被“炸”平成基本图元后处理
             // 解构图集放置区的第一个线框
-            var item = frames.Dequeue();
+            PlaygroundFrame = frames.First();
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 acadDatabase.Database.CopyWithMove(originFrame, offset);
-                acadDatabase.Database.ExplodeToOwnerSpace(item.Item1);
+                acadDatabase.Database.ExplodeToOwnerSpace(PlaygroundFrame.Item1);
             }
 
-            // CAD处理流程
+            // CAD数据处理流程
             ThSitePlanConfigService.Instance.Initialize();
             ThSitePlanConfigService.Instance.EnableAll(true);
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 ThSitePlanEngine.Instance.Containers = frames;
-                ThSitePlanEngine.Instance.OriginFrame = item.Item1;
+                ThSitePlanEngine.Instance.OriginFrame = PlaygroundFrame.Item1;
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                 {
                     new ThSitePlanFrameNameGenerator(),
@@ -133,7 +145,27 @@ namespace ThSitePlan.UI
                     new ThSitePlanTrimGenerator(),
                     new ThSitePlanBoundaryGenerator(),
                     new ThSitePlanHatchGenerator(),
-                    new ThSitePlanShadowGenerator(),
+                    new ThSitePlanShadowGenerator()
+                };
+                ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
+            }
+
+            // CAD打印流程
+            //读取已经被标注的图框
+            ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+            ThSitePlanConfigService.Instance.Initialize();
+            ThSitePlanConfigService.Instance.EnableAll(true);
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var plotpdfframes = new Queue<Tuple<ObjectId, Vector3d>>();
+                foreach (ObjectId fra in ThSitePlanDbEngine.Instance.Frames)
+                {
+                    plotpdfframes.Enqueue(new Tuple<ObjectId, Vector3d>(fra, new Vector3d(0, 0, 0)));
+                }
+                ThSitePlanEngine.Instance.Containers = plotpdfframes;
+                ThSitePlanEngine.Instance.OriginFrame = ObjectId.Null;
+                ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
+                {
                     new ThSitePlanPDFGenerator()
                 };
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
@@ -144,6 +176,12 @@ namespace ThSitePlan.UI
             ThSitePlanConfigService.Instance.EnableAll(true);
             using (var psService = new ThSitePlanPSService())
             {
+                if (!psService.IsValid)
+                {
+                    Application.ShowAlertDialog("未识别到PhotoShop,请确认是否正确安装PhotoShop");
+                    return;
+                }
+
                 // 创建空白文档
                 psService.NewEmptyDocument("MyNewDocument");
 
@@ -184,23 +222,17 @@ namespace ThSitePlan.UI
                     return;
                 }
 
-                //TODO:
-                //选择一个合适的位置作为新的图框
-                //将初始图纸中内容复制到后面一个空的图框中
-                var newframes = ThSitePlanEngine.Instance.Containers;
-                if (OriginFrameCopy.IsNull())
-                {
-                    OriginFrameCopy = newframes.Dequeue();
-                }
+                //读取已经被标注的图框
+                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+                var unusedframe = ThSitePlanDbEngine.Instance.FrameByName("天华彩总");
+                var undifineframe = ThSitePlanDbEngine.Instance.FrameByName("未识别对象");
+                Vector3d unusedtoundifineoffset = acadDatabase.Database.FrameOffset(undifineframe, unusedframe);
 
                 //初始化图框配置
                 //这里先“关闭”所有的图框
                 //后面会根据用户的选择“打开”需要更新的图框
                 ThSitePlanConfigService.Instance.Initialize();
                 ThSitePlanConfigService.Instance.EnableAll(false);
-
-                //读取已经被标注的图框
-                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
 
                 //获取需要更新的图框
                 var updateframes = new Queue<Tuple<ObjectId, Vector3d>>();
@@ -216,10 +248,7 @@ namespace ThSitePlan.UI
                         var name = CurrentItem.Properties["Name"] as string;
                         var frame = ThSitePlanDbEngine.Instance.FrameByName(name);
                         //获取选择框与复制框之间的偏移量
-                        var SelFramenPol = acadDatabase.Element<Polyline>(frame);
-                        var PolOgFmCp = acadDatabase.Element<Polyline>(OriginFrameCopy.Item1);
-                        Vector3d SelToCopyFrame = SelFramenPol.GeometricExtents.MaxPoint - PolOgFmCp.GeometricExtents.MaxPoint;
-                        updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(frame, SelToCopyFrame));
+                        updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(frame, acadDatabase.Database.FrameOffset(unusedframe, frame)));
                     }
                     else
                     {
@@ -232,10 +261,7 @@ namespace ThSitePlan.UI
                                 continue;
                             }
                             //获取选择框与复制框之间的偏移量
-                            var SelFramenPol = acadDatabase.Element<Polyline>(frame);
-                            var PolOgFmCp = acadDatabase.Element<Polyline>(OriginFrameCopy.Item1);
-                            Vector3d SelToCopyFrame = SelFramenPol.GeometricExtents.MaxPoint - PolOgFmCp.GeometricExtents.MaxPoint;
-                            updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(frame, SelToCopyFrame));
+                            updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(frame, acadDatabase.Database.FrameOffset(unusedframe, frame)));
                         }
                     }
                 }
@@ -263,8 +289,8 @@ namespace ThSitePlan.UI
                 }
 
                 //首先将原线框内的所有图元复制一份放到解构图集放置区的最后一个线框里
-                acadDatabase.Database.CopyWithMove(OriginFrame.Item1, OriginFrame.Item2 + OriginFrameCopy.Item2);
-                acadDatabase.Database.ExplodeToOwnerSpace(OriginFrameCopy.Item1);
+                acadDatabase.Database.CopyWithMove(OriginFrame.Item1, acadDatabase.Database.FrameOffset(OriginFrame.Item1, undifineframe) + unusedtoundifineoffset);
+                acadDatabase.Database.ExplodeToOwnerSpace(unusedframe);
 
                 //接着将需要更新的图框清空
                 foreach (var item in SortedUpdateFrames)
@@ -274,7 +300,7 @@ namespace ThSitePlan.UI
 
                 //启动CAD引擎，开始更新 
                 ThSitePlanEngine.Instance.Containers = SortedUpdateFrames;
-                ThSitePlanEngine.Instance.OriginFrame = OriginFrameCopy.Item1;
+                ThSitePlanEngine.Instance.OriginFrame = unusedframe;
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                  {
                     new ThSitePlanContentGenerator(),
@@ -286,7 +312,7 @@ namespace ThSitePlan.UI
                  };
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
                 //Update后先清除初始元素Copy frame内部的图元
-                ThSitePlanDbEngine.Instance.EraseItemInFrame(OriginFrameCopy.Item1, PolygonSelectionMode.Crossing);
+                ThSitePlanDbEngine.Instance.EraseItemInFrame(unusedframe, PolygonSelectionMode.Crossing);
 
                 //初始化图框配置
                 //这里先“关闭”所有的图框
@@ -306,6 +332,12 @@ namespace ThSitePlan.UI
 
                 using (var psService = new ThSitePlanPSService())
                 {
+                    if (!psService.IsValid)
+                    {
+                        Application.ShowAlertDialog("未识别到PhotoShop,请确认是否正确安装PhotoShop");
+                        return;
+                    }
+
                     //启动PS引擎，开始更新 
                     ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
                      {

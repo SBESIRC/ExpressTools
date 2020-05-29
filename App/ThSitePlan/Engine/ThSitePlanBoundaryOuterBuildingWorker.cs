@@ -21,7 +21,10 @@ namespace ThSitePlan.Engine
                         return false;
                     }
 
-                    Active.Editor.BoundaryCmdEx(objs);
+                    foreach(ObjectId boundary in acadDatabase.Database.CreateBoundaries(objs))
+                    {
+                        boundary.CreateHatchWithPolygon();
+                    }
                 }
 
                 // 删除建筑线稿
@@ -34,37 +37,6 @@ namespace ThSitePlan.Engine
 
                     Active.Editor.EraseCmd(objs);
                 }
-
-                //// 获取建筑外部面域
-                //using (var regions = FilterRegion(database, configItem, options))
-                //{
-                //    if (regions.Count == 0)
-                //    {
-                //        return false;
-                //    }
-
-                //    Active.Editor.UnionRegions(regions);
-                //}
-                //using (var regions = FilterRegion(database, configItem, options))
-                //{
-                //    if (regions.Count == 0)
-                //    {
-                //        return false;
-                //    }
-
-                //    Active.Editor.ExplodeCmd(regions);
-                //}
-
-                //// 将建筑外部面域移到指定的图层
-                //using (var regions = FilterRegion(database, configItem, options))
-                //{
-                //    if (regions.Count == 0)
-                //    {
-                //        return false;
-                //    }
-
-                //    acadDatabase.Database.MoveToLayer(regions, ThSitePlanCommon.LAYER_BUILD_HATCH);
-                //}
 
                 return true;
             }

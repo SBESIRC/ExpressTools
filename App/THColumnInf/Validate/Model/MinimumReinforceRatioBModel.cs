@@ -195,7 +195,7 @@ namespace ThColumnInfo.Validate
                 List<double> values = ThColumnInfoUtils.GetDoubleValues(this.ConcreteStrength);
                 if (values.Count > 0)
                 {
-                    if (values[0] >= 60)
+                    if (values[0] > 60)
                     {
                         value = 0.1;
                     }

@@ -57,7 +57,8 @@ namespace ThEssential.BlockConvert
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                acadDatabase.Element<BlockReference>(blkRef, true).TransformBy(srcBlockReference.BlockTransform);
+                var blockReference = acadDatabase.Element<BlockReference>(blkRef, true);
+                blockReference.Position = srcBlockReference.Position;
             }
         }
 

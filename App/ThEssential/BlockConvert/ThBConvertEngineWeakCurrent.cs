@@ -1,5 +1,6 @@
 ﻿using System;
 using Linq2Acad;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThEssential.BlockConvert
@@ -26,11 +27,11 @@ namespace ThEssential.BlockConvert
             {
                 var blockReference = acadDatabase.Element<BlockReference>(blkRef, true);
                 blockReference.TransformBy(srcBlockReference.BlockTransform);
-                // 额外调整旋转角度
                 double rotation = srcBlockReference.Rotation;
-                if (rotation > Math.PI / 2 && rotation <= Math.PI * 3 / 2)
+                if ((rotation - Math.PI / 2) > ThBConvertCommon.radian_tolerance && 
+                    (rotation - Math.PI * 3 / 2) <= ThBConvertCommon.radian_tolerance)
                 {
-                    blockReference.Rotation += Math.PI;
+                    blockReference.TransformBy(Matrix3d.Rotation(Math.PI, Vector3d.ZAxis, blockReference.Position));
                 }
             }
         }

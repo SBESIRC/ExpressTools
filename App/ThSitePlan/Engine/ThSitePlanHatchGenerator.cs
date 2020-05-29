@@ -25,9 +25,6 @@ namespace ThSitePlan.Engine
                     RXClass.GetClass(typeof(Circle)).DxfName,
                     RXClass.GetClass(typeof(Spline)).DxfName,
                 })},
-                {"建筑物-场地外建筑-建筑色块", new ThSitePlanRegionWorker(new string[] {
-                    RXClass.GetClass(typeof(Region)).DxfName,
-                }, PolygonSelectionMode.Crossing)},
                 {"建筑物-场地内建筑-建筑色块", new ThSitePlanRegionWorker(new string[] {
                     RXClass.GetClass(typeof(Region)).DxfName,
                 }, PolygonSelectionMode.Window)},
@@ -40,12 +37,14 @@ namespace ThSitePlan.Engine
                 {"场地-活动场地-场地色块", new ThSitePlanRegionWorker(new string[] {
                     RXClass.GetClass(typeof(Region)).DxfName,
                 })},
-                {"场地-其他场地-场地色块", new ThSitePlanYardHatchWorker(new string[] {
-                    RXClass.GetClass(typeof(Line)).DxfName,
-                    RXClass.GetClass(typeof(Polyline)).DxfName,
-                })},
                 {"道路-外部车行道路-道路色块", new ThSitePlanRoadHatchWorker(new string[] {
                     RXClass.GetClass(typeof(Curve)).DxfName,
+                })},
+                {"景观绿地-水景-水景色块", new ThSitePlanCADWorker(new string[] {
+                    RXClass.GetClass(typeof(Line)).DxfName,
+                    RXClass.GetClass(typeof(Polyline)).DxfName,
+                    RXClass.GetClass(typeof(Circle)).DxfName,
+                    RXClass.GetClass(typeof(Spline)).DxfName,
                 })},
             };
         }

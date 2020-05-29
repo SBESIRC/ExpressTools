@@ -3,6 +3,7 @@
     public class ThBConvertCommon
     {
         public static readonly double default_voltage = 380;
+        public static readonly double radian_tolerance = 1e-6;
         public static readonly string LAYER_FAN_DEVICE = "E-FAS-DEVC";
         public static readonly string BLOCK_MAP_ATTRIBUTES_BLOCK = "Block";
         public static readonly string BLOCK_MAP_ATTRIBUTES_BLOCK_SCALE = "Scale";

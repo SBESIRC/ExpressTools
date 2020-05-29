@@ -9,6 +9,7 @@ namespace ThEssential.BlockConvert
     public class ThBConvertBlockReference
     {
         public double Rotation { get; set; }
+        public Point3d Position { get; set; }
         public List<string> Texts { get; set; }
         public string EffectiveName { get; set; }
         public Database HostDatabase { get; set; }
@@ -18,6 +19,7 @@ namespace ThEssential.BlockConvert
         public ThBConvertBlockReference(ObjectId blockRef)
         {
             HostDatabase = blockRef.Database;
+            Position = blockRef.GetBlockPosition();
             Rotation = blockRef.GetBlockRotation();
             EffectiveName = blockRef.GetBlockName();
             CustomProperties = blockRef.GetDynProperties();

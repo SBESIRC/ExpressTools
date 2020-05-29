@@ -17,6 +17,10 @@ namespace ThWSS.Bussiness
         {
             foreach (var room in roomsLine)
             {
+                //区域分割
+                RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
+                regionDivisionUtils.DivisionRegion(room);
+
                 //计算房间走向
                 var roomOOB = OrientedBoundingBox.Calculate(room);
                 using (AcadDatabase acdb = AcadDatabase.Active())
@@ -26,16 +30,17 @@ namespace ThWSS.Bussiness
 
                 //计算出布置点
                 SquareLayout squareLayout = new SquareLayout();
-                List<List<Point3d>> layoutPts = squareLayout.Layout(roomOOB);
+                List<List<Point3d>> layoutPts = squareLayout.Layout(room, roomOOB);
 
                 //计算房间出房间内的点
                 List<Point3d> roomPts = new List<Point3d>();
                 foreach (var lpts in layoutPts)
                 {
-                    List<Point3d> checkPts = CalRoomSpray(room, lpts);
-                    roomPts.AddRange(checkPts);
+                    //List<Point3d> checkPts = CalRoomSpray(room, lpts);
+                    roomPts.AddRange(lpts);
                 }
 
+                //放置喷头
                 InsertSparyService.InsertSprayBlock(roomPts, SprayType.SPRAYDOWN);
             }
         }

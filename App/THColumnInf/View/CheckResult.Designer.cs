@@ -36,7 +36,6 @@
             this.detailDataTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMiddle = new System.Windows.Forms.Panel();
             this.lblPaperDistinguishResult = new System.Windows.Forms.Label();
-            this.panelDown = new System.Windows.Forms.Panel();
             this.btnShowDetailData = new System.Windows.Forms.Button();
             this.btnComponentDefinition = new System.Windows.Forms.Button();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -46,12 +45,15 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panelDown = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.contextMenuStrip1.SuspendLayout();
             this.panelMiddle.SuspendLayout();
-            this.panelDown.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.panelUp.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.panelDown.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tvCheckRes
@@ -60,8 +62,9 @@
             this.tvCheckRes.ContextMenuStrip = this.contextMenuStrip1;
             this.tvCheckRes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvCheckRes.Location = new System.Drawing.Point(0, 0);
+            this.tvCheckRes.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tvCheckRes.Name = "tvCheckRes";
-            this.tvCheckRes.Size = new System.Drawing.Size(244, 527);
+            this.tvCheckRes.Size = new System.Drawing.Size(244, 549);
             this.tvCheckRes.TabIndex = 0;
             this.tvCheckRes.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvCheckRes_BeforeCollapse);
             this.tvCheckRes.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvCheckRes_BeforeExpand);
@@ -105,40 +108,26 @@
             // 
             this.panelMiddle.Controls.Add(this.tvCheckRes);
             this.panelMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMiddle.Location = new System.Drawing.Point(3, 33);
+            this.panelMiddle.Location = new System.Drawing.Point(3, 20);
+            this.panelMiddle.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.panelMiddle.Name = "panelMiddle";
-            this.panelMiddle.Size = new System.Drawing.Size(244, 527);
+            this.panelMiddle.Size = new System.Drawing.Size(244, 549);
             this.panelMiddle.TabIndex = 3;
             this.panelMiddle.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.panel1_ControlAdded);
             // 
             // lblPaperDistinguishResult
             // 
-            this.lblPaperDistinguishResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPaperDistinguishResult.AutoSize = true;
             this.lblPaperDistinguishResult.BackColor = System.Drawing.Color.Transparent;
+            this.lblPaperDistinguishResult.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblPaperDistinguishResult.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblPaperDistinguishResult.Location = new System.Drawing.Point(1, 3);
+            this.lblPaperDistinguishResult.Location = new System.Drawing.Point(0, 0);
             this.lblPaperDistinguishResult.Name = "lblPaperDistinguishResult";
             this.lblPaperDistinguishResult.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.lblPaperDistinguishResult.Size = new System.Drawing.Size(77, 17);
             this.lblPaperDistinguishResult.TabIndex = 1;
             this.lblPaperDistinguishResult.Text = "图纸识别结果";
-            this.lblPaperDistinguishResult.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // panelDown
-            // 
-            this.panelDown.BackColor = System.Drawing.Color.Transparent;
-            this.panelDown.Controls.Add(this.btnShowDetailData);
-            this.panelDown.Controls.Add(this.btnComponentDefinition);
-            this.panelDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelDown.Location = new System.Drawing.Point(3, 566);
-            this.panelDown.MaximumSize = new System.Drawing.Size(0, 30);
-            this.panelDown.MinimumSize = new System.Drawing.Size(0, 20);
-            this.panelDown.Name = "panelDown";
-            this.panelDown.Size = new System.Drawing.Size(244, 24);
-            this.panelDown.TabIndex = 4;
+            this.lblPaperDistinguishResult.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnShowDetailData
             // 
@@ -150,7 +139,8 @@
             this.btnShowDetailData.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnShowDetailData.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnShowDetailData.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnShowDetailData.Location = new System.Drawing.Point(220, 0);
+            this.btnShowDetailData.Location = new System.Drawing.Point(217, 0);
+            this.btnShowDetailData.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnShowDetailData.Name = "btnShowDetailData";
             this.btnShowDetailData.Size = new System.Drawing.Size(24, 24);
             this.btnShowDetailData.TabIndex = 4;
@@ -163,12 +153,14 @@
             this.btnComponentDefinition.BackColor = System.Drawing.Color.Transparent;
             this.btnComponentDefinition.BackgroundImage = global::ThColumnInfo.Properties.Resources.ComponentPropModifyPng;
             this.btnComponentDefinition.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnComponentDefinition.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnComponentDefinition.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
             this.btnComponentDefinition.FlatAppearance.BorderSize = 0;
             this.btnComponentDefinition.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnComponentDefinition.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnComponentDefinition.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnComponentDefinition.Location = new System.Drawing.Point(195, 1);
+            this.btnComponentDefinition.Location = new System.Drawing.Point(187, 0);
+            this.btnComponentDefinition.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnComponentDefinition.Name = "btnComponentDefinition";
             this.btnComponentDefinition.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.btnComponentDefinition.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -204,9 +196,10 @@
             // 
             this.panelUp.Controls.Add(this.lblPaperDistinguishResult);
             this.panelUp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelUp.Location = new System.Drawing.Point(3, 3);
+            this.panelUp.Location = new System.Drawing.Point(3, 0);
+            this.panelUp.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.panelUp.Name = "panelUp";
-            this.panelUp.Size = new System.Drawing.Size(244, 24);
+            this.panelUp.Size = new System.Drawing.Size(244, 20);
             this.panelUp.TabIndex = 5;
             // 
             // tableLayoutPanel1
@@ -218,13 +211,43 @@
             this.tableLayoutPanel1.Controls.Add(this.panelDown, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(250, 593);
             this.tableLayoutPanel1.TabIndex = 5;
+            // 
+            // panelDown
+            // 
+            this.panelDown.BackColor = System.Drawing.Color.Transparent;
+            this.panelDown.Controls.Add(this.tableLayoutPanel2);
+            this.panelDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelDown.Location = new System.Drawing.Point(3, 569);
+            this.panelDown.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.panelDown.MaximumSize = new System.Drawing.Size(0, 30);
+            this.panelDown.MinimumSize = new System.Drawing.Size(0, 20);
+            this.panelDown.Name = "panelDown";
+            this.panelDown.Size = new System.Drawing.Size(244, 24);
+            this.panelDown.TabIndex = 4;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel2.Controls.Add(this.btnShowDetailData, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnComponentDefinition, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(244, 24);
+            this.tableLayoutPanel2.TabIndex = 0;
             // 
             // CheckResult
             // 
@@ -236,11 +259,12 @@
             this.Size = new System.Drawing.Size(250, 593);
             this.contextMenuStrip1.ResumeLayout(false);
             this.panelMiddle.ResumeLayout(false);
-            this.panelDown.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
             this.panelUp.ResumeLayout(false);
             this.panelUp.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.panelDown.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -249,7 +273,6 @@
 
         internal System.Windows.Forms.TreeView tvCheckRes;
         public System.Windows.Forms.Panel panelMiddle;
-        public System.Windows.Forms.Panel panelDown;
         private System.Windows.Forms.Label lblPaperDistinguishResult;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem importCalculationTsmi;
@@ -264,5 +287,7 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolTip toolTip2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        public System.Windows.Forms.Panel panelDown;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
     }
 }

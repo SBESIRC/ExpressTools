@@ -1376,7 +1376,8 @@ namespace ThColumnInfo
             }
             return result;
         }
-        public static ObjectId DrawOffsetColumn(List<Point3d> polylinePts, double offsetDisScale = 2.5, bool visible = false, double lineWeight=200)
+        public static ObjectId DrawOffsetColumn(List<Point3d> polylinePts, double offsetDisScale = 2.5,
+            bool visible = false, double lineWeight=200,bool setLayer=true)
         {
             ObjectId frameId = ObjectId.Null;
             if (polylinePts.Count < 2)
@@ -1407,6 +1408,11 @@ namespace ThColumnInfo
 
             Polyline polyline = ThColumnInfoUtils.CreatePolyline(wcsRecPts, true, lineWeight);
             frameId = ThColumnInfoUtils.AddToBlockTable(polyline, visible);
+            if (setLayer)
+            {
+                ObjectId layerId = BaseFunction.CreateColumnLayer();
+                ThColumnInfoUtils.SetLayer(frameId, layerId);
+            }
             TypedValue tv = new TypedValue((int)DxfCode.ExtendedDataAsciiString, "*");
             AddXData(frameId, ThColumnInfoUtils.thColumnFrameRegAppName, new List<TypedValue>() { tv }); 
             return frameId;
@@ -1556,6 +1562,33 @@ namespace ThColumnInfo
             using (var clone = entity.GetTransformedCopy(wcs2Ucs))
             {
                 return clone.GeometricExtents;
+            }
+        }
+        /// <summary>
+        /// 设置图层
+        /// </summary>
+        /// <param name="objId"></param>
+        /// <param name="layerId"></param>
+        public static void SetLayer(ObjectId objId,ObjectId layerId)
+        {
+            if(objId==ObjectId.Null || objId.IsErased || !objId.IsValid)
+            {
+                return;
+            }
+            if (layerId == ObjectId.Null || layerId.IsErased || !layerId.IsValid)
+            {
+                return;
+            }
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans=doc.Database.TransactionManager.StartTransaction())
+            {
+                if(trans.GetObject(objId,OpenMode.ForRead) is Entity ent)
+                {
+                    ent.UpgradeOpen();
+                    ent.LayerId = layerId;
+                    ent.DowngradeOpen();
+                }
+                trans.Commit();
             }
         }
     }

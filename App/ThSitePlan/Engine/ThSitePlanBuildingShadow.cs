@@ -60,19 +60,12 @@ namespace ThSitePlan.Engine
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(Database))
             {
-                // 获取阴影面域的轮廓点
-                var polygon = acadDatabase.Element<Region>(Region).Vertices();
-                if (polygon.Count == 0)
-                {
-                    return;
-                }
-
                 // 在阴影面域范围内寻找可能存在的被遮挡的建筑
                 var filterlist = OpFilter.Bulid(o => 
                     o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Region)).DxfName &
                     o.Dxf((int)DxfCode.LayerName) == ThSitePlanCommon.LAYER_BUILD_HATCH);
-                var psr = Active.Editor.SelectByPolygon(
-                    polygon,
+                var psr = Active.Editor.SelectByRegion(
+                    Region,
                     PolygonSelectionMode.Crossing,
                     filterlist);
                 if (psr.Status != PromptStatus.OK)
@@ -98,12 +91,29 @@ namespace ThSitePlan.Engine
                     }
                 }
 
-                // 计算遮挡后的阴影
-                var pObjs = new ObjectIdCollection(new ObjectId[] {
-                    Region
-                });
-                Active.Editor.SubtractRegions(pObjs, sObjs);
-                pObjs.Cast<ObjectId>().ForEach(o => o.CreateHatchWithPolygon());
+                // 暂时不考虑和多个建筑相交的情况
+                if (sObjs.Count == 1)
+                {
+                    var difference = Region.CreateDifferenceShadowRegion(sObjs[0]);
+                    if (difference != null)
+                    {
+                        //根据新阴影创建填充
+                        acadDatabase.ModelSpace.Add(difference).CreateHatchWithPolygon();
+
+                        //删除原阴影
+                        acadDatabase.Element<Region>(Region, true).Erase();
+                    }
+                    else
+                    {
+                        //根据原阴影创建填充
+                        Region.CreateHatchWithPolygon();
+                    }
+                }
+                else
+                {
+                    //根据原阴影创建填充
+                    Region.CreateHatchWithPolygon();
+                }
             }
         }
     }

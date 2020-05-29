@@ -91,18 +91,23 @@ namespace ThEssential.Command
                 // 过滤所选的对象
                 //  1. 对象类型是块引用
                 //  2. 块引用是外部引用(Xref)
-                //  3. 块引用是“Attach”
+                //  3. 块引用是“Overlay”
                 // 对于每一个Xref块引用，获取其Xref数据库
                 // 一个Xref块可以有多个块引用
-                var xrefs = new List<Database>();
+                var xrefs = new List<string>();
                 foreach (ObjectId obj in objs)
                 {
                     var blkRef = currentDb.Element<BlockReference>(obj);
                     var blkDef = blkRef.GetEffectiveBlockTableRecord();
-                    if (blkDef.IsFromExternalReference && !blkDef.IsFromOverlayReference)
+                    if (blkDef.IsFromExternalReference && blkDef.IsFromOverlayReference)
                     {
                         // 暂时不考虑unresolved的情况
-                        xrefs.Add(blkDef.GetXrefDatabase(false));
+                        var xrefDatatbase = blkDef.GetXrefDatabase(false);
+                        // 暂时只关心特定的外参图纸（暖通提资）
+                        if (Path.GetFileName(xrefDatatbase.Filename).StartsWith("H"))
+                        {
+                            xrefs.Add(xrefDatatbase.Filename);
+                        }
                     }
                 }
 
@@ -112,19 +117,44 @@ namespace ThEssential.Command
                 // 并将源块引用中的属性”刷“到新的块引用
                 foreach (var xref in xrefs)
                 {
-                    using (var xf = XrefFileLock.LockFile(xref.XrefBlockId))
+                    // 在协同环境下，外参可能是不可写的
+                    // 在外参不可读的情况下，XrefFileLock.LockFile()会抛出异常
+                    // 具体的情况可以参阅这篇文章：
+                    //  https://www.keanw.com/2015/01/modifying-the-contents-of-an-autocad-xref-using-net.html
+                    // 考虑到我们这里的情况，并不需要对外参进行写操作，我们可以直接以“只读”的方式打开外参
+                    // 从而绕过XrefFileLock.LockFile()的异常
+                    using (AcadDatabase xrefDb = AcadDatabase.Open(xref, DwgOpenMode.ReadOnly, false))
                     {
-                        xref.RestoreOriginalXrefSymbols();
                         foreach (var rule in manager.Rules)
                         {
                             var block = rule.Transformation.Item1;
-                            foreach (ObjectId blkRef in xref.GetBlockReferences(block, extents))
+                            var visibility = block.StringValue(ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK_VISIBILITY);
+                            foreach (ObjectId blkRef in xrefDb.Database.GetBlockReferences(block, extents))
                             {
                                 try
                                 {
                                     // 根据块引用的“块名”，匹配转换后的块定义的信息
                                     var blockReference = blkRef.Database.GetBlockReference(blkRef);
-                                    var transformedBlock = manager.TransformRule(blockReference.EffectiveName);
+
+                                    // 获取转换后的块信息
+                                    ThBlockConvertBlock transformedBlock = null;
+                                    if (Mode == ConvertMode.STRONGCURRENT)
+                                    {
+                                        transformedBlock = manager.TransformRule(blockReference.EffectiveName);
+                                    }
+                                    else if (Mode == ConvertMode.WEAKCURRENT)
+                                    {
+                                        if (blockReference.CurrentVisibilityStateValue() == visibility)
+                                        {
+                                            transformedBlock = manager.TransformRule(
+                                                blockReference.EffectiveName,
+                                                blockReference.CurrentVisibilityStateValue());
+                                        }
+                                    }
+                                    else
+                                    {
+                                        throw new NotSupportedException();
+                                    }
                                     if (transformedBlock == null)
                                     {
                                         continue;
@@ -157,7 +187,6 @@ namespace ThEssential.Command
                                 }
                             }
                         }
-                        xref.RestoreForwardingXrefSymbols();
                     }
                 }
             }

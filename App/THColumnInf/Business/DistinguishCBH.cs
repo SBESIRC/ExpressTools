@@ -356,7 +356,7 @@ namespace ThColumnInfo
             }
             int xNum = xVecLengthDic.OrderByDescending(i => i.Value).Select(i => i.Value).FirstOrDefault();
             int yNum = yVecLengthDic.OrderByDescending(i => i.Value).Select(i => i.Value).FirstOrDefault();
-            this.TypeNumber = "1（" + xNum.ToString() + " x " + yNum.ToString() + "）";
+            this.TypeNumber = "1（" + yNum.ToString() + " x " + xNum.ToString() + "）";
         }
         /// <summary>
         /// 左下角点Corner

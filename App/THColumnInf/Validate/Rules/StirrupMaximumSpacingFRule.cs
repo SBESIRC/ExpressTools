@@ -10,7 +10,7 @@ namespace ThColumnInfo.Validate
     {
         private StirrupMaximumSpacingFModel smsfm=null;
         private double stirrupSpaceingLimited = 0.0;
-        private string rule = "（《砼规》11.4.12-2）";
+        private string rule = "（《砼规》11.4.12）";
         public StirrupMaximumSpacingFRule(StirrupMaximumSpacingFModel smsfModel)
         {
             this.smsfm = smsfModel;
@@ -28,10 +28,10 @@ namespace ThColumnInfo.Validate
             {
                 return;
             }
-            this.dblXSpace = (this.smsfm.Cdm.B - 2 * this.smsfm.ProtectThickness - this.smsfm.Cdm.IntYStirrupCount
-                * this.smsfm.Cdm.IntStirrupDia) / (this.smsfm.Cdm.IntYStirrupCount - 1);
-            this.dblYSpace = (this.smsfm.Cdm.H - 2 * this.smsfm.ProtectThickness - this.smsfm.Cdm.IntXStirrupCount
-                * this.smsfm.Cdm.IntStirrupDia) / (this.smsfm.Cdm.IntXStirrupCount - 1);
+            this.dblXSpace = (this.smsfm.Cdm.B - 2 * this.smsfm.ProtectThickness - 
+                this.smsfm.Cdm.IntStirrupDia) / (this.smsfm.Cdm.IntYStirrupCount - 1);
+            this.dblYSpace = (this.smsfm.Cdm.H - 2 * this.smsfm.ProtectThickness - 
+                this.smsfm.Cdm.IntStirrupDia) / (this.smsfm.Cdm.IntXStirrupCount - 1);
             this.dblStirrupSpace = Math.Max(dblXSpace, dblYSpace);
 
             if (this.smsfm.Code.ToUpper().Contains("ZHZ") ||
@@ -41,20 +41,6 @@ namespace ThColumnInfo.Validate
             }
             //查表 箍筋间距限值
             this.stirrupSpaceingLimited = this.smsfm.IntStirrupSpacingLimited;
-            //箍筋间距限值修正
-            if (this.smsfm.Text.ToUpper().Contains("KZ") && this.smsfm.IsFirstFloor==false)
-            {
-                if(this.smsfm.AntiSeismicGrade.Contains("一级") && !this.smsfm.AntiSeismicGrade.Contains("特")
-                    && this.smsfm.Cdm.IntStirrupDia > 12 && dblStirrupSpace<=150)
-                {
-                    this.stirrupSpaceingLimited = 150;
-                }
-                else if (this.smsfm.AntiSeismicGrade.Contains("二级") 
-                    && this.smsfm.Cdm.IntStirrupDia >= 10 && dblStirrupSpace <= 200)
-                {
-                    this.stirrupSpaceingLimited = 150;
-                }
-            }
             if (this.smsfm.Cdm.IntStirrupSpacing > this.stirrupSpaceingLimited)
             {
                 this.ValidateResults.Add("箍筋间距不满足抗震构造 ["+ this.smsfm.Cdm.IntStirrupSpacing +
@@ -70,7 +56,7 @@ namespace ThColumnInfo.Validate
             List<string> steps = new List<string>();
             steps.Add("类别：箍筋最大间距F（箍筋）");
             steps.Add("条目编号：511， 强制性：应，适用构件：KZ、ZHZ");
-            steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 11.4.12-2，条文页数：P176");
+            steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 11.4.12，条文页数：P176");
             steps.Add("条文：见图");
             steps.Add("柱号 = " + this.smsfm.Text);
             steps.Add("箍筋间距: intStirrupSpacing = " + smsfm.Cdm.IntStirrupSpacing);
@@ -92,29 +78,14 @@ namespace ThColumnInfo.Validate
             steps.Add("箍筋间距限值(查表): IntStirrupSpacingLimited = " + smsfm.IntStirrupSpacingLimited);
 
             steps.Add("dblXSpace = (B[" + this.smsfm.Cdm.B + "] - 2 * 保护层厚度[" + this.smsfm.ProtectThickness +
-               "]- IntYStirrupCount[" + this.smsfm.Cdm.IntYStirrupCount + "] * IntStirrupDia[" + this.smsfm.Cdm.IntStirrupDia
-               + "]) / (IntYStirrupCount[" + this.smsfm.Cdm.IntYStirrupCount + "] - 1) = " + this.dblXSpace);
+               "]- IntStirrupDia[" + this.smsfm.Cdm.IntStirrupDia  + "]) / (IntYStirrupCount[" +
+               this.smsfm.Cdm.IntYStirrupCount + "] - 1) = " + this.dblXSpace);
             steps.Add("dblYSpace = (H[" + this.smsfm.Cdm.H + "] - 2 * 保护层厚度[" + this.smsfm.ProtectThickness +
-                "]- IntXStirrupCount[" + this.smsfm.Cdm.IntXStirrupCount + "] * IntStirrupDia[" + this.smsfm.Cdm.IntStirrupDia
-                + "]) / (IntXStirrupCount[" + this.smsfm.Cdm.IntXStirrupCount + "] - 1) = " + this.dblYSpace);
-            steps.Add("dblStirrupSpace=Math.Max(dblXSpace[" + this.dblXSpace + "] , dblYSpace[" + this.dblYSpace + "]) = " + this.dblStirrupSpace);
+                "]- IntStirrupDia[" + this.smsfm.Cdm.IntStirrupDia + "]) / (IntXStirrupCount[" + 
+                this.smsfm.Cdm.IntXStirrupCount + "] - 1) = " + this.dblYSpace);
+            steps.Add("dblStirrupSpace=Math.Max(dblXSpace[" + this.dblXSpace + "] , dblYSpace[" + this.dblYSpace + "]) = " 
+                + this.dblStirrupSpace);
 
-            steps.Add("if (柱号[" + this.smsfm.Text + "].Contains(\"KZ\") && 是否首层 == " + smsfm.IsFirstFloor + ")");
-            steps.Add("  {");
-            steps.Add("        if (抗震等级[" + this.smsfm.AntiSeismicGrade+ "] == \"一级\"" +
-                " && IntStirrupDia[" + this.smsfm.Cdm.IntStirrupDia + "] > 12 && dblStirrupSpace[" + dblStirrupSpace + "] <= 150)");
-            steps.Add("        {");
-            steps.Add("              箍筋间距限值修正值 IntStirrupSpacingLimited = 150");
-            steps.Add("         }");
-
-            steps.Add("        else if (抗震等级[" + this.smsfm.AntiSeismicGrade + "] == \"二级\"" +
-               " && IntStirrupDia[" + this.smsfm.Cdm.IntStirrupDia + "] >= 10 &&" +
-               " dblStirrupSpace[" + dblStirrupSpace + "] <= 200)");
-            steps.Add("        {");
-            steps.Add("              箍筋间距限值修正值 IntStirrupSpacingLimited = 150");
-            steps.Add("        }");
-            steps.Add("  }");
-  
             steps.Add("if (箍筋间距[" + smsfm.Cdm.IntStirrupSpacing + "] >" +
                 " 箍筋间距限值[" + this.stirrupSpaceingLimited + "])");
             steps.Add("  {");

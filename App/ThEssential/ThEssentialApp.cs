@@ -1,5 +1,6 @@
 ﻿using Autodesk.AutoCAD.Runtime;
 using ThEssential.Command;
+using ThEssential.LayerState;
 using ThEssential.BlockConvert;
 
 namespace ThEssential
@@ -87,5 +88,42 @@ namespace ThEssential
                 cmd.Execute();
             }
         }
+
+        [CommandMethod("TIANHUACAD", "THTF", CommandFlags.Modal)]
+        public void ThTF()
+        {
+            using (var cmd = new ThLayerStateCommand(State.VENTILATE))
+            {
+                cmd.Execute();
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THSG", CommandFlags.Modal)]
+        public void ThSG()
+        {
+            using (var cmd = new ThLayerStateCommand(State.PIPE))
+            {
+                cmd.Execute();
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THXF", CommandFlags.Modal)]
+        public void ThXF()
+        {
+            using (var cmd = new ThLayerStateCommand(State.EXTINGUISHMENT))
+            {
+                cmd.Execute();
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THNT", CommandFlags.Modal)]
+        public void ThNT()
+        {
+            using (var cmd = new ThLayerStateCommand(State.ALL))
+            {
+                cmd.Execute();
+            }
+        }
+
     }
 }

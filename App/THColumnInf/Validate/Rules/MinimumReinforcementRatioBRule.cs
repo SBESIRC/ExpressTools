@@ -98,7 +98,7 @@ namespace ThColumnInfo.Validate
             steps.Add("      Dblpsessmin = Dblpsessmin+0.1 ");
             steps.Add("  }");
 
-            steps.Add("if(混凝土强度[" + minimumReinforceRatioBModel.ConcreteStrength + "] >= 60)");
+            steps.Add("if(混凝土强度[" + minimumReinforceRatioBModel.ConcreteStrength + "] > 60)");
             steps.Add("  {");
             steps.Add("     Dblsespmin = Dblsespmin + 0.1 ");
             steps.Add("  }");

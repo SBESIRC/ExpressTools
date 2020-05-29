@@ -9,7 +9,7 @@ namespace ThColumnInfo.Validate
     public class StirrupMinimumDiameterDRule:IRule
     {
         private StirrupMinimumDiameterDModel smdd;
-        private string rule = "（《砼规》11.4.12-2）";
+        private string rule = "（《砼规》11.4.12）";
         private double stirrupDiameterLimited;
         public StirrupMinimumDiameterDRule(StirrupMinimumDiameterDModel smdd)
         {
@@ -53,8 +53,8 @@ namespace ThColumnInfo.Validate
             steps.Add("类别：箍筋最小直径D（箍筋）");
             steps.Add("条目编号：510， 强制性：应，适用构件：KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核");
-            steps.Add("条文编号：砼规 11.4.12-2，条文页数：P176");
-            steps.Add("条文：框架柱和框支柱上、下两端箍筋应加密，加密区的箍筋最大间距和箍筋最小直径应符合表11.4.12-2的规定");
+            steps.Add("条文编号：砼规 11.4.12，条文页数：P176");
+            steps.Add("条文：框架柱和框支柱上、下两端箍筋应加密，加密区的箍筋最大间距和箍筋最小直径应符合表11.4.12的规定");
             steps.Add("柱号 = " + this.smdd.Text);
 
             steps.Add("箍筋直径：IntStirrupDia = " + smdd.IntStirrupDia);

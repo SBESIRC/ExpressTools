@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:ThColumnInfo"
         xmlns:local1="clr-namespace:ThColumnInfo.View"
         mc:Ignorable="d"
-        Title="参数设置" Width="400" Height="250" MinWidth="400" MinHeight="250" 
-        MaxWidth="400" MaxHeight="250" KeyDown="Window_KeyDown" ResizeMode="NoResize" Closed="Window_Closed">
+        Title="参数设置" Width="420" Height="260" MinWidth="420" MinHeight="250" 
+        MaxWidth="420" MaxHeight="260" KeyDown="Window_KeyDown" ResizeMode="NoResize" Closed="Window_Closed">
     <Window.Resources>
         <Style TargetType="{x:Type Window}">
             <Setter Property="FontFamily" Value="宋体" />
@@ -28,11 +28,22 @@
             <Setter Property="Width" Value="100"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
+        <Style x:Key="OuterGlowStyle" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush">
+                        <Setter.Value>
+                            <SolidColorBrush Color="Orange"></SolidColorBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid Margin="10,10,10,5">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="230"></ColumnDefinition>
-            <ColumnDefinition Width="140"></ColumnDefinition>
+            <ColumnDefinition Width="235"></ColumnDefinition>
+            <ColumnDefinition Width="145"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="200"></RowDefinition>
@@ -61,15 +72,15 @@
                           Grid.Row="0" Grid.Column="2" 
                           ItemsSource="{Binding ParaSetInfo.AntiseismicGradeList}"
                           SelectedValue="{Binding ParaSetInfo.AntiSeismicGrade,Mode=TwoWay}"
-                          VerticalContentAlignment="Center" Margin="2,2,0,3"/>
+                          VerticalContentAlignment="Center" Margin="2,2,0,3" TabIndex="0"/>
                 <Label HorizontalContentAlignment="Right" Content="混凝土强度" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></Label>
                 <ComboBox Name="cbConcreteStrength" Grid.Row="1" Grid.Column="2"
                           ItemsSource="{Binding ParaSetInfo.ConcreteStrengthList}"
                           SelectedValue="{Binding ParaSetInfo.ConcreteStrength,Mode=TwoWay}" 
-                          VerticalContentAlignment="Center" Margin="2,3,0,3"/>
+                          VerticalContentAlignment="Center" Margin="2,3,0,3" TabIndex="1"/>
                 <Label HorizontalContentAlignment="Right" Content="保护层厚度(mm)" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"></Label>
                 <TextBox Name="tbProtectLayerThickness" Grid.Row="2" Grid.Column="2"
-                         VerticalContentAlignment="Center" Margin="2,3,0,2">
+                         VerticalContentAlignment="Center" Margin="2,3,0,2" TabIndex="2">
                     <TextBox.Text>
                         <Binding Path="ParaSetInfo.ProtectLayerThickness" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -82,11 +93,11 @@
                 <ComboBox Name="cbStructureType"   Grid.Row="3" Grid.Column="2"
                           ItemsSource="{Binding ParaSetInfo.StructureTypeList}"
                           SelectedValue="{Binding ParaSetInfo.StructureType,Mode=TwoWay}" 
-                          VerticalContentAlignment="Center" Margin="2,3,0,3"/>
+                          VerticalContentAlignment="Center" Margin="2,3,0,3" TabIndex="3"/>
                 <Label HorizontalContentAlignment="Right" Content="自然层总层数" Grid.Row="4" 
                        Grid.Column="0" FontSize="12" FontFamily="宋体" Grid.ColumnSpan="2"></Label>
                 <TextBox  Name="tbFloorTotalCount" Grid.Row="4" Grid.Column="2"
-                          VerticalContentAlignment="Center" Margin="2,2,0,3">
+                          VerticalContentAlignment="Center" Margin="2,2,0,3" TabIndex="4">
                     <TextBox.Text>
                         <Binding Path="ParaSetInfo.FloorCount" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -98,11 +109,14 @@
                 <CheckBox Name="chkIsFourHigherArchitecture" Margin="20,0,0,0"
                           IsChecked="{Binding ParaSetInfo.IsFourClassHigherArchitecture}"
                           Content="是否为IV类场地较高建筑" Grid.Row="6" Grid.ColumnSpan="3"
-                          VerticalContentAlignment="Center"></CheckBox>
-                <Label HorizontalContentAlignment="Right" Content="底层选择" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1"></Label>
-                <TextBox Name="tbBottomFloorSelect" Text="{Binding ParaSetInfo.BottomFloorLayer}" Grid.Row="5" Grid.Column="2" Margin="2,3,0,3"  ></TextBox>
+                          VerticalContentAlignment="Center" TabIndex="7"></CheckBox>
+                <Label HorizontalContentAlignment="Right" Content="底层选择" Grid.Row="5" Grid.Column="0" 
+                       VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,1"></Label>
+                <TextBox Name="tbBottomFloorSelect" Text="{Binding ParaSetInfo.BottomFloorLayer}"
+                         Grid.Row="5" Grid.Column="2" Margin="2,3,0,3" TabIndex="5" ></TextBox>
                 <Button Name="btnPointBottomFloor" HorizontalAlignment="Left"  Grid.Row="5" Grid.Column="3"
-                         Width="15" Height="15" Command="{Binding PointBottomFloorCommand}" Margin="0,0" Background="#00000000">
+                         Width="19" Height="19" Command="{Binding PointBottomFloorCommand}" Margin="0,0" 
+                        Background="#00000000" TabIndex="6">
                     <Image Stretch="UniformToFill" Source="/ThColumnInfo;component/Images/Select.ico">
                     </Image>
                 </Button>
@@ -122,23 +136,27 @@
                     <ColumnDefinition Width="105"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="柱框线图层" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></Label>
+                <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="柱框线图层" 
+                       Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></Label>
                 <TextBox Name="tbColumnLayer" Text="{Binding ParaSetInfo.ColumnLayer,Mode=TwoWay}" 
-                         Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalContentAlignment="Center" Margin="0,0"/>
+                         Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalContentAlignment="Center"
+                         Margin="0,0" TabIndex="8"/>
                 <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="柱表框线图层" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"></Label>
                 <ComboBox Name="cbColumnTableLayers"  Grid.Row="3" Grid.ColumnSpan="2" 
                           HorizontalAlignment="Left" VerticalAlignment="Center"
                           ItemsSource="{Binding ParaSetInfo.ColumnTableLayerList}" 
                           SelectedValue="{Binding ParaSetInfo.ColumnTableLayer,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                          VerticalContentAlignment="Center"></ComboBox>
-                <Button Name="btnPointColumnTableLayer" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Width="15" Height="15" Margin="0,0"
-                        Background="#00000000" Command="{Binding PointColumnTableLayerCommand}">
+                          VerticalContentAlignment="Center" TabIndex="9"></ComboBox>
+                <Button Name="btnPointColumnTableLayer" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Width="19" Height="19" Margin="0,0"
+                        Background="#00000000" Command="{Binding PointColumnTableLayerCommand}" TabIndex="10" Style="{StaticResource OuterGlowStyle}">
                     <Image Stretch="UniformToFill" Source="/ThColumnInfo;component/Images/Select.ico">
                     </Image>
                 </Button>
                 <StackPanel  Grid.Row="5" Grid.ColumnSpan="2" Margin="0,0,5,0" HorizontalAlignment="Right">
-                    <Button Name="btnImport"  Content="确  定" Width="60" Height="20" Margin="5" Command="{Binding SaveCommand}"></Button>
-                    <Button Name="btnExit"  Content="取  消" Grid.Row="5" Width="60" Height="20" Margin="0,5"  Command="{Binding CancelCommand}"></Button>
+                    <Button Name="btnImport"  Content="确  定" Width="60" Height="20" Margin="5"
+                            Command="{Binding SaveCommand}" TabIndex="11"></Button>
+                    <Button Name="btnExit"  Content="取  消"  Width="60" Height="20" Margin="0,5"
+                            Command="{Binding CancelCommand}" TabIndex="12"></Button>
                 </StackPanel>
             </Grid>
         </GroupBox>

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThWSS.Bussiness
+namespace ThStructure
 {
-    public class CheckPointsToWall
+    public class ThBeamCommon
     {
+        public static readonly string LAYER_BEAM = "S_BEAM";
     }
 }

@@ -13,6 +13,7 @@ namespace ThColumnInfo.Validate
         private Dictionary<ColumnInf, List<string>> columnValidResultDic = new Dictionary<ColumnInf, List<string>>();
         private Dictionary<ColumnInf, List<string>> calculationStepDic = new Dictionary<ColumnInf, List<string>>();
         public static bool isGroundFloor = false;
+        public readonly static double shearSpanRatio = 2.5; //剪跨比
         public Dictionary<ColumnInf, List<string>> ColumnValidResultDic
         {
             get
@@ -290,7 +291,8 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildStirrupMinimumDiameterCRule());        // 箍筋最小直径C(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingDRule());         // 箍筋最大间距D(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingERule());         // 箍筋最大间距E(箍筋)
-            validateRules.Add(BuildStirrupMinimumDiameterDRule());        // 箍筋最小直径D(箍筋)            
+            validateRules.Add(BuildStirrupMinimumDiameterDRule());        // 箍筋最小直径D(箍筋)   
+            validateRules.Add(BuildStirrupFullHeightEncryptionRule());    // 箍筋全高加密(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceFRule());           // 箍筋最大间距F(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingHRule());         // 箍筋最大间距H(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceJRule());           // 箍筋最大间距J(箍筋)
@@ -605,18 +607,33 @@ namespace ThColumnInfo.Validate
         /// </summary>
         /// <returns></returns>
         private IRule BuildStirrupMinimumDiameterDRule()
-        {
-            double shearSpanRatio = 2.5; //剪跨比(暂时设默认值)
+        {            
             StirrupMinimumDiameterDModel smdd = new StirrupMinimumDiameterDModel()
             {
                 Code=this.columnInf.Code,
                 Text = this.columnInf.Text,
                 AntiSeismicGrade =this.antiSeismicGrade,
                 IsFirstFloor= ThSpecificationValidate.isGroundFloor,
-                Jkb= shearSpanRatio,
+                Jkb= ThSpecificationValidate.shearSpanRatio,
                 IntStirrupDia = cdm.IntStirrupDia
             };
             IRule rule = new StirrupMinimumDiameterDRule(smdd);
+            return rule;
+        }
+        /// <summary>
+        /// 箍筋全高加密(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupFullHeightEncryptionRule()
+        {
+            StirrupFullHeightEncryptionModel sfhem = new StirrupFullHeightEncryptionModel()
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                Jkb  = ThSpecificationValidate.shearSpanRatio,
+                Cdm = cdm
+            };
+            IRule rule = new StirrupFullHeightEncryptionRule(sfhem);
             return rule;
         }
         /// <summary>

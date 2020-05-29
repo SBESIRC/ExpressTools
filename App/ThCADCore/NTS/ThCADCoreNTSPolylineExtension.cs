@@ -3,6 +3,8 @@ using GeoAPI.Geometries;
 using Autodesk.AutoCAD.Geometry;
 using NetTopologySuite.Algorithm;
 using Autodesk.AutoCAD.DatabaseServices;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.Triangulate;
 
 namespace ThCADCore.NTS
 {
@@ -33,6 +35,53 @@ namespace ThCADCore.NTS
             {
                 throw new NotSupportedException();
             }
+        }
+
+        public static Polyline ConvexHull(this Polyline polyline)
+        {
+            var convexHull = new ConvexHull(polyline.ToNTSLineString());
+            var geometry = convexHull.GetConvexHull();
+            if (geometry is IPolygon polygon)
+            {
+                return polygon.Shell.ToDbPolyline();
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public static Polyline GetOctagonalEnvelope(this Polyline polyline)
+        {
+            var geometry = OctagonalEnvelope.GetOctagonalEnvelope(polyline.ToNTSLineString());
+            if (geometry is IPolygon polygon)
+            {
+                return polygon.Shell.ToDbPolyline();
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public static DBObjectCollection VoronoiDiagram(this Polyline polyline)
+        {
+            var objs = new DBObjectCollection();
+            var voronoiDiagram = new VoronoiDiagramBuilder();
+            voronoiDiagram.SetSites(LineString.Empty.Union(polyline.ToNTSLineString()));
+            var geometries = voronoiDiagram.GetDiagram(ThCADCoreNTSService.Instance.GeometryFactory);
+            foreach(var geometry in geometries.Geometries)
+            {
+                if (geometry is IPolygon polygon)
+                {
+                    objs.Add(polygon.Shell.ToDbPolyline());
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+            return objs;
         }
     }
 }

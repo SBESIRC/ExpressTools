@@ -167,6 +167,8 @@ namespace ThColumnInfo
                     parameterSetVM.ParaSetInfo.FloorCount = res.StandardSigns.Count;
                     parameterSetVM.SaveFloorCountToDatabase();
                 }
+                //创建柱校核提醒图层
+                BaseFunction.CreateColumnLayer();
                 //显示结果
                 CheckPalette.Instance.Show();
             }

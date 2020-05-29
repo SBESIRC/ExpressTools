@@ -26,7 +26,8 @@ namespace ThSitePlan.Engine
                     }
 
                     ObjectId frame = (ObjectId)options.Options["Frame"];
-                    Active.Editor.BoundaryCmd(objs, SeedPoint(database, frame));
+                    //Active.Editor.BoundaryCmd(objs, SeedPoint(database, frame));
+                    Active.Editor.BoundaryCmdEx(objs);
                 }
 
                 // 删除建筑线稿

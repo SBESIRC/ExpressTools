@@ -70,6 +70,20 @@ namespace ThEssential.BlockConvert
         }
 
         /// <summary>
+        /// 提取动态块中当前可见性的值
+        /// </summary>
+        /// <param name="blockReference"></param>
+        /// <returns></returns>
+        public static string CurrentVisibilityStateValue(this ThBConvertBlockReference blockReference)
+        {
+            var visibilityStates = DynablockVisibilityStates(blockReference);
+            var properties = blockReference.CustomProperties
+                .Cast<DynamicBlockReferenceProperty>()
+                .Where(o => o.PropertyName == ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK_VISIBILITY);
+            return properties.First().Value as string;
+        }
+
+        /// <summary>
         /// 提取动态块中当前可见性下可见的实体
         /// </summary>
         /// <param name="blockReference"></param>

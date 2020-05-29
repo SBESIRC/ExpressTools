@@ -18,10 +18,10 @@ namespace ThWSS.Engine
         public static ThSprayLayoutEngine Instance { get { return instance; } }
         //-------------SINGLETON-----------------
 
-        public List<ThSprayLayoutWorker> Workers { get; set; }
-        public ThBeamRecognitionEngine BeamEngine { get; set; }
-        public ThRoomRecognitionEngine RoomEngine { get; set; }
-        public ThColumnRecognitionEngine ColumnEngine { get; set; }
+        public ThSprayLayoutWorker Workers = new ThSprayLayoutWorker();
+        public ThBeamRecognitionEngine BeamEngine = new ThBeamRecognitionEngine();
+        public ThRoomRecognitionEngine RoomEngine = new ThRoomRecognitionEngine();
+        public ThColumnRecognitionEngine ColumnEngine = new ThColumnRecognitionEngine();
 
         /// <summary>
         /// 喷淋布置引擎
@@ -30,11 +30,42 @@ namespace ThWSS.Engine
         /// <param name="polygon"></param>
         public void Layout(Database database, Polyline polygon)
         {
-            // 从房间引擎中获取房间信息
-            RoomEngine.Acquire(database, polygon);
+            try
+            {
+                // 从房间引擎中获取房间信息
+                RoomEngine.Acquire(database, polygon);
+                // 遍历房间，对每个房间进行布置
+                RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o));
+            }
+            catch (System.Exception ex)
+            {
+                return;
+            }
+        }
 
-            // 遍历房间，对每个房间进行布置
-            RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o));
+        /// <summary>
+        /// 喷淋布置引擎
+        /// </summary>
+        /// <param name="polylines"></param>
+        public void Layout(List<Polyline> polylines)
+        {
+            try
+            {
+                RoomEngine.Elements = new List<ThModelElement>();
+                foreach (var pLine in polylines)
+                {
+                    var thRoom = new ThRoom();
+                    thRoom.Properties = new Dictionary<string, object>() { { "room", pLine } };
+                    RoomEngine.Elements.Add(thRoom);
+                }
+                
+                // 遍历房间，对每个房间进行布置
+                RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o));
+            }
+            catch (System.Exception ex)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -43,10 +74,7 @@ namespace ThWSS.Engine
         /// <param name="room"></param>
         private void Layout(ThRoom room)
         {
-            foreach(var worker in Workers)
-            {
-                worker.DoLayout(room);
-            }
+            Workers.DoLayout(room);
         }
     }
 }

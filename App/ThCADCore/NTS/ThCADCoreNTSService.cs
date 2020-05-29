@@ -23,17 +23,22 @@ namespace ThCADCore.NTS
             {
                 if (geometryFactory == null)
                 {
-                    geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory();
+                    geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(PrecisionModel);
                 }
                 return geometryFactory;
             }
         }
 
+        private IPrecisionModel precisionModel;
         public IPrecisionModel PrecisionModel
         {
             get
             {
-                return GeometryFactory.PrecisionModel;
+                if (precisionModel == null)
+                {
+                    precisionModel = NtsGeometryServices.Instance.CreatePrecisionModel(PrecisionModels.FloatingSingle);
+                }
+                return precisionModel;
             }
         }
     }

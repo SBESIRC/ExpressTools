@@ -70,5 +70,15 @@ namespace ThCADCore.NTS
             }
             return coordinates.ToArray();
         }
+
+        public static bool IsReflex(Coordinate p1, Coordinate p2, Coordinate p3)
+        {
+            return (p3.Y - p1.Y) * (p2.X - p1.X) - (p3.X - p1.X) * (p2.Y - p1.Y) < 0;
+        }
+
+        public static bool IsConvex(Coordinate p1, Coordinate p2, Coordinate p3)
+        {
+            return (p3.Y - p1.Y) * (p2.X - p1.X) - (p3.X - p1.X) * (p2.Y - p1.Y) > 0;
+        }
     }
 }

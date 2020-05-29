@@ -2,10 +2,11 @@
 using Linq2Acad;
 using ThStructure.Model;
 using NFox.Cad.Collections;
-using Autodesk.AutoCAD.Runtime;
 using System.Collections.Generic;
-using Autodesk.AutoCAD.EditorInput;
 using ThStructure.BeamInfo.Command;
+using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 
 
@@ -83,7 +84,16 @@ namespace ThStructure
                     AllowDuplicates = false,
                     RejectObjectsOnLockedLayers = true,
                 };
-                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "ARC,LINE,LWPOLYLINE" & o.Dxf((int)DxfCode.LayerName) == "S_BEAM");//"__覆盖_S20-平面_TEN25CUZ_设计区$0$S_BEAM"
+                string[] dxfNmaes = new string[]
+                {
+                    RXClass.GetClass(typeof(Arc)).DxfName,
+                    RXClass.GetClass(typeof(Line)).DxfName,
+                    RXClass.GetClass(typeof(Polyline)).DxfName,
+                    RXClass.GetClass(typeof(BlockReference)).DxfName,
+                };
+                var filterlist = OpFilter.Bulid(o =>
+                    o.Dxf((int)DxfCode.Start) == string.Join(",", dxfNmaes) &
+                    o.Dxf((int)DxfCode.LayerName) == ThBeamCommon.LAYER_BEAM);
                 var entSelected = Active.Editor.GetSelection(options, filterlist);
                 if (entSelected.Status != PromptStatus.OK)
                 {
@@ -94,13 +104,23 @@ namespace ThStructure
                 DBObjectCollection dBObjects = new DBObjectCollection();
                 foreach (ObjectId obj in entSelected.Value.GetObjectIds())
                 {
-                    dBObjects.Add(acdb.Element<Entity>(obj));
+                    var entity = acdb.Element<Entity>(obj);
+                    if (entity is BlockReference blockReference)
+                    {
+                        foreach(DBObject item in blockReference.BeamCurves())
+                        {
+                            dBObjects.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        dBObjects.Add(entity.GetTransformedCopy(Matrix3d.Identity));
+                    }
                 }
 
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
                 thDisBeamCommand.CalBeamStruc(dBObjects);
             }
         }
-
     }
 }

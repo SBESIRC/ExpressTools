@@ -109,21 +109,20 @@ namespace TopoNode
                        || CommonUtils.IsAlmostNearZero(CommonUtils.CalAngle(CommonUtils.Vector2XY(curLine.Direction), CommonUtils.Vector2XY(nextLine.Direction.Negate())), 1e-6))
                     {
                         // 重合线
-                        if ((CommonUtils.Point2dIsEqualPoint2d(curLinePtS, nextLinePtS) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, nextLinePtE))
-                        || (CommonUtils.Point2dIsEqualPoint2d(curLinePtS, nextLinePtE) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, nextLinePtS)))
+                        if ((CommonUtils.Point2dIsEqualPoint2d(curLinePtS, nextLinePtS, 9e-1) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, nextLinePtE, 9e-1))
+                        || (CommonUtils.Point2dIsEqualPoint2d(curLinePtS, nextLinePtE, 9e-1) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, nextLinePtS, 9e-1)))
                         {
                             curEdge.IsErase = true;
                         }
-                        else if (CommonUtils.IsPointOnSegment(nextLinePtS, curLine, 1e-3) && CommonUtils.IsPointOnSegment(nextLinePtE, curLine, 1e-3)) // 完全包含线nextLine
+                        else if (CommonUtils.IsPointOnSegment(nextLinePtS, curLine, 9e-1) && CommonUtils.IsPointOnSegment(nextLinePtE, curLine, 9e-1)) // 完全包含线nextLine
                         {
                             nextEdge.IsErase = true;
-
                         }
-                        else if (CommonUtils.IsPointOnSegment(curLinePtS, nextLine, 1e-3) && CommonUtils.IsPointOnSegment(curLinePtE, nextLine, 1e-3)) // 完全包含线curLine
+                        else if (CommonUtils.IsPointOnSegment(curLinePtS, nextLine, 9e-1) && CommonUtils.IsPointOnSegment(curLinePtE, nextLine, 9e-1)) // 完全包含线curLine
                         {
                             curEdge.IsErase = true;
                         }
-                        else if (CommonUtils.IsPointOnSegment(nextLinePtS, curLine, 1e-3) || (CommonUtils.IsPointOnSegment(nextLinePtE, curLine, 1e-3))) // 部分包含线
+                        else if (CommonUtils.IsPointOnSegment(nextLinePtS, curLine, 9e-1) || (CommonUtils.IsPointOnSegment(nextLinePtE, curLine, 9e-1))) // 部分包含线
                         {
                             curEdge.RelevantLines.Add(nextEdge);
                             nextEdge.RelevantLines.Add(curEdge);
@@ -264,7 +263,7 @@ namespace TopoNode
 
     class CommonUtils
     {
-        public const int HashMapCount = 234;
+        public const int HashMapCount = 545;
         /// <summary>
         /// 返回值true 时，点在图形内
         /// </summary>

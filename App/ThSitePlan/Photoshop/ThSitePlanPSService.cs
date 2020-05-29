@@ -11,13 +11,23 @@ namespace ThSitePlan.Photoshop
 {
     public class ThSitePlanPSService : IDisposable
     {
+        public bool IsValid { get; set; }
         public PsApplication Application { get; set; }
 
         public Document CurrentFirstDocument { get; set; }
 
         public ThSitePlanPSService()
         {
-            Application = new PsApplication();
+            try
+            {
+                Application = new PsApplication();
+                IsValid = true;
+            }
+            catch 
+            {
+                Application = null;
+                IsValid = false;
+            }
         }
 
         public void Dispose()

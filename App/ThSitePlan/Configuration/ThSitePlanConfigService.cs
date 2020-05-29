@@ -110,6 +110,18 @@ namespace ThSitePlan.Configuration
             {
                 Properties = new Dictionary<string, object>()
                 {
+                    { "Name", "未识别对象"},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()}
+                }
+            });
+
+            Root.AddItem(new ThSitePlanConfigItem()
+            {
+                Properties = new Dictionary<string, object>()
+                {
                     { "Name", "基本文字说明及图例"},
                     { "Color", Color.Black},
                     { "Opacity", 100 },
@@ -299,6 +311,12 @@ namespace ThSitePlan.Configuration
                     break;
                 }
             }
+        }
+
+        public void EnableItemAndItsSiblings(string name, bool bEnable)
+        {
+            ThSitePlanConfigItemGroup siblinggroup = FindGroupByItemName(name);
+            EnableItem(true, siblinggroup);
         }
 
         private void EnableItem(bool bEnable, ThSitePlanConfigObj itgrp)
@@ -1087,6 +1105,39 @@ namespace ThSitePlan.Configuration
                 }
             }
             return FindGroup;
+        }
+
+        private ThSitePlanConfigItem FindItemByLayer(string layername, ThSitePlanConfigItemGroup findgrp)
+        {
+            ThSitePlanConfigItem finditem = null;
+            foreach (var item in findgrp.Items)
+            {
+                if (item is ThSitePlanConfigItem fdit)
+                {
+                    List<string> fdlist = fdit.Properties["CADLayer"] as List<string>;
+                    if (fdlist.Contains(layername))
+                    {
+                        return fdit;
+                    }
+                }
+                else if (item is ThSitePlanConfigItemGroup fdgp)
+                {
+                    finditem = FindItemByLayer(layername, fdgp);
+                    if (finditem != null)
+                    {
+                        return finditem;
+                    }
+                }
+            }
+            return finditem;
+        }
+
+        public ThSitePlanConfigItemGroup FindGroupByLayer(string layername)
+        {
+            ThSitePlanConfigItem finditem = FindItemByLayer(layername, Root);
+            string itemname = finditem.Properties["Name"].ToString();
+            ThSitePlanConfigItemGroup findgroup = FindGroupByItemName(itemname);
+            return findgroup;
         }
 
         private ThSitePlanConfigItemGroup ReConstructItemName(ThSitePlanConfigItemGroup origingroup, string outergroupname)

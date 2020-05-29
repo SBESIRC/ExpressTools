@@ -24,16 +24,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NTS\ThCADCoreHatchExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSDbExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSGeExtension.cs" />
+    <Compile Include="NTS\ThCADCoreNTSLocate.cs" />
+    <Compile Include="NTS\ThCADCoreNTSOperation.cs" />
+    <Compile Include="NTS\ThCADCoreNTSPolygonizer.cs" />
     <Compile Include="NTS\ThCADCoreNTSPolylineExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSRegionExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSService.cs" />
     <Compile Include="OutLiner.cs" />
     <Compile Include="PolylineValidationExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThCADCoreCommon.cs" />
     <Compile Include="ThCADDbExtension.cs" />
     <Compile Include="ThCADGeExtension.cs" />
+    <Compile Include="ThPolygonPartition.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">

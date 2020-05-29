@@ -45,6 +45,9 @@ namespace ThSitePlan
         // XRecord
         public static readonly string Configuration_Xrecord_Name = "THCAD_THSITEPLAN_CONFIG";
 
+        //RoadCenterLine
+        public static readonly string LAYER_RoadCenterLine = "P-TRAF-CITY";
+
         //photoshop文档尺寸
         public static readonly Dictionary<string, double> PsDocOpenPropertity = new Dictionary<string, double>
         {

@@ -15,10 +15,6 @@
   </PropertyGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
-    <Reference Include="Interop.Photoshop">
-      <HintPath>..\..\Externals\Photoshop\2018\Interop.Photoshop.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -38,6 +34,7 @@
     <Compile Include="Engine\ThSitePlanBoundaryGenerator.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryOuterBuildingWorker.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryWorker.cs" />
+    <Compile Include="Engine\ThSitePlanBoundaryYardWorker.cs" />
     <Compile Include="Engine\ThSitePlanBuilding.cs" />
     <Compile Include="Engine\ThSitePlanBuildingAnnotations.cs" />
     <Compile Include="Engine\ThSitePlanBuildingShadow.cs" />
@@ -195,6 +192,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\BasicStyle.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Photoshop">
+      <Guid>{E891EE9A-D0AE-4CB4-8871-F92C0109F18E}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

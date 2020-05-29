@@ -19,6 +19,7 @@ namespace ThSitePlan.Engine
                 {"场地-消防登高场地-场地色块", new ThSitePlanBoundaryWorker()},
                 {"建筑物-场地内建筑-建筑色块", new ThSitePlanBoundaryBuildingWorker()},
                 {"建筑物-场地外建筑-建筑色块", new ThSitePlanBoundaryOuterBuildingWorker()},
+                {"场地-其他场地-场地色块",    new ThSitePlanBoundaryYardWorker()},
             };
         }
 

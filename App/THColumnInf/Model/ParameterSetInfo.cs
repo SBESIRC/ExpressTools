@@ -24,7 +24,7 @@ namespace ThColumnInfo
         private string bottomFloorLayer = "";
 
         private string columnLayer = "*S_COLU";
-        private string columnTableLayer = "S_TABL";
+        private string columnTableLayer = "";
 
         public ParameterSetInfo()
         {

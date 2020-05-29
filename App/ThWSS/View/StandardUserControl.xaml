@@ -21,7 +21,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ComboBox Grid.Column="0" Margin="5,5,5,5" SelectedIndex="0">
+            <ComboBox Name="danLevel" Grid.Column="0" Margin="5,5,5,5" SelectedIndex="0">
                 <ComboBoxItem>轻危险级</ComboBoxItem>
                 <ComboBoxItem>中危险等级I级</ComboBoxItem>
                 <ComboBoxItem>中危险等级II级</ComboBoxItem>
@@ -31,7 +31,7 @@
         </Grid>
         
         <Label Grid.Row="1" Grid.Column="0" Content="喷头范围：" Margin="5,5,0,5" ></Label>
-        <RadioButton GroupName="nozzleRange" Grid.Row="1" Grid.Column="1" Content="标准覆盖"></RadioButton>
-        <RadioButton GroupName="nozzleRange" Grid.Row="1" Grid.Column="2" Content="扩大覆盖" IsChecked="True"></RadioButton>
+        <RadioButton Name="standRange" GroupName="nozzleRange" Grid.Row="1" Grid.Column="1" Content="标准覆盖"></RadioButton>
+        <RadioButton Name="expandRange" GroupName="nozzleRange" Grid.Row="1" Grid.Column="2" Content="扩大覆盖" IsChecked="True"></RadioButton>
     </Grid>
 </UserControl>
