@@ -6,12 +6,21 @@ using Autodesk.AutoCAD.Runtime;
 
 namespace ThStructureCheck.ThBeamInfo
 {
-    public class ThBeamInfoApp
+    public class ThBeamInfoApp : IExtensionApplication
+    {
+        public void Initialize()
+        {            
+        }
+
+        public void Terminate()
+        {
+        }
+    }
+    public class ThColumnInfoCommands
     {
         [CommandMethod("ThTestBeamRelate")]
         public void TestBeamRelate()
         {
-
         }
     }
 }

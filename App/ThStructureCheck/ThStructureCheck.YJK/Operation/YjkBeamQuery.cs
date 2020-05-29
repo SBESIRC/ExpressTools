@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ThStructureCheck.YJK
+{
+    class YjkBeamQuery:YjkQuery
+    {
+        public YjkBeamQuery(string dbPath):base(dbPath)
+        {
+        }
+        public override IList<IEntityInf> Extract(int floorNo)
+        {
+            return base.Extract(floorNo);
+        }
+    }
+}

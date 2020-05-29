@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThStructureCheck.YJK
 {
-    public class Class1
+    interface IEntityInf
     {
     }
 }
