@@ -36,6 +36,10 @@ namespace ThCADCore.NTS
             var boundaries = new DBObjectCollection();
             polygonizer.Add(lines.ToNTSNodedLineStrings());
             var geometry = UnaryUnionOp.Union(polygonizer.GetPolygons().ToList());
+            if(geometry == null)
+            {
+                return boundaries;
+            }
             if (geometry is IMultiPolygon mPolygon)
             {
                 foreach (var item in mPolygon.Geometries)
