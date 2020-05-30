@@ -158,7 +158,7 @@ namespace ThCADCore.NTS
             using (var objs = new DBObjectCollection())
             {
                 region.Explode(objs);
-                return objs.GetGeometries().FirstOrDefault() as IPolygon;
+                return objs.Polygonize().FirstOrDefault() as IPolygon;
             }
         }
 
