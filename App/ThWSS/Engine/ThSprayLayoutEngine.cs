@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using ThWSS.Model;
 
 namespace ThWSS.Engine
 {
@@ -28,14 +29,14 @@ namespace ThWSS.Engine
         /// </summary>
         /// <param name="database"></param>
         /// <param name="polygon"></param>
-        public void Layout(Database database, Polyline polygon)
+        public void Layout(Database database, Polyline polygon, SparyLayoutModel layoutModel)
         {
             try
             {
                 // 从房间引擎中获取房间信息
                 RoomEngine.Acquire(database, polygon);
                 // 遍历房间，对每个房间进行布置
-                RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o));
+                RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o, layoutModel));
             }
             catch (System.Exception ex)
             {
@@ -47,7 +48,7 @@ namespace ThWSS.Engine
         /// 喷淋布置引擎
         /// </summary>
         /// <param name="polylines"></param>
-        public void Layout(List<Polyline> polylines)
+        public void Layout(List<Polyline> polylines, SparyLayoutModel layoutModel)
         {
             try
             {
@@ -60,7 +61,7 @@ namespace ThWSS.Engine
                 }
                 
                 // 遍历房间，对每个房间进行布置
-                RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o));
+                RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o, layoutModel));
             }
             catch (System.Exception ex)
             {
@@ -72,9 +73,9 @@ namespace ThWSS.Engine
         /// 在一个房间内布置喷淋
         /// </summary>
         /// <param name="room"></param>
-        private void Layout(ThRoom room)
+        private void Layout(ThRoom room, SparyLayoutModel layoutModel)
         {
-            Workers.DoLayout(room);
+            Workers.DoLayout(room, layoutModel);
         }
     }
 }
