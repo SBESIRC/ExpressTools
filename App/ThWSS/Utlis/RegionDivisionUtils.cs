@@ -10,6 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ThCADCore.NTS;
+using GeometryExtensions;
+using DotNetARX;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThWSS.Utlis
 {
@@ -20,20 +23,18 @@ namespace ThWSS.Utlis
 
         public List<Polyline> DivisionRegion(Polyline room)
         {
-            var roomBounding = GeUtils.CreateConvexPolygon(room, 1500);
-
             List<Line> pLines = new List<Line>();
             List<Point3d> points = new List<Point3d>();
-            for (int i = 0; i < roomBounding.NumberOfVertices; i++)
+            for (int i = 0; i < room.NumberOfVertices; i++)
             {
-                var current = roomBounding.GetPoint3dAt(i);
-                var next = roomBounding.GetPoint3dAt((i + 1) % roomBounding.NumberOfVertices);
+                var current = room.GetPoint3dAt(i);
+                var next = room.GetPoint3dAt((i + 1) % room.NumberOfVertices);
                 int j = i - 1;
                 if (j < 0)
                 {
-                    j = roomBounding.NumberOfVertices - 1;
+                    j = room.NumberOfVertices - 1;
                 }
-                var pre = roomBounding.GetPoint3dAt(j);
+                var pre = room.GetPoint3dAt(j);
                 pLines.Add(new Line(current, next));
 
                 int res = GeUtils.IsConvexPoint(room, current, next, pre);
@@ -116,8 +117,8 @@ namespace ThWSS.Utlis
         public List<Polyline> CalMergeRule(List<Polyline> polygons)
         {
             polygons = polygons.OrderBy(x => x.Area).ToList();
-            //两个区域相交部分很多，且与多个区域相交的区域合并掉
-            RETRY:
+        //两个区域相交部分很多，且与多个区域相交的区域合并掉
+        RETRY:
             foreach (var poly1 in polygons)
             {
                 //面积太小无法排布的区域合并掉
@@ -130,25 +131,19 @@ namespace ThWSS.Utlis
                 var otherPoly = polygons.Where(x => x != poly1).ToList();
                 foreach (var poly2 in otherPoly)
                 {
-                    bool isInter = false;
-                    double intersectLength;
-                    Line line1;
-                    Line line2;
-                    if (needMerge)
-                    {
-                        isInter = CalPolyIntersect(poly1, poly2, tolerance, out intersectLength, out line1, out line2);
-                    }
-                    else
-                    {
-                        //var obb2 = OrientedBoundingBox.Calculate(poly2);
-                        isInter = CalPolyIntersect(obb1, poly2, tolerance, out intersectLength, out line1, out line2);
-                    }
+                    bool isInter = CalPolyIntersect(poly1, poly2, tolerance, out LinearEntity2d intersectPart, out Line line1, out Line line2, out bool needMergeRule2);
                     if (isInter)
                     {
-                        if (intersectLength > length && ((line1.Length * 2 / 3 < intersectLength && line2.Length * 2 / 3 < intersectLength) || needMerge))
+                        double intersectLength = (intersectPart as LineSegment2d).Length;
+                        if ((intersectLength > length && ((line1.Length * 2 / 3 < intersectLength && line2.Length * 2 / 3 < intersectLength) || needMerge)) || needMergeRule2)
                         {
                             interPoly = poly2;
                             length = intersectLength;
+
+                            if (needMergeRule2)
+                            {
+                                needMerge = true;
+                            }
                         }
                         index++;
                     }
@@ -156,31 +151,17 @@ namespace ThWSS.Utlis
 
                 if ((index >= 2 || needMerge) && interPoly != null)
                 {
-                    //var resPoly = poly1.Union(interPoly);
-
-                    var curves1 = new DBObjectCollection()
-                    {
-                        poly1
-                    };
-                    var region1 = Region.CreateFromCurves(curves1)[0] as Region;
-
-                    var curves2 = new DBObjectCollection()
-                    {
-                        interPoly
-                    };
-                    var region2 = Region.CreateFromCurves(curves2)[0] as Region;
-                    region1.BooleanOperation(BooleanOperationType.BoolUnite, region2);
-                    var resPoly = region1.ToNTSPolygon().Shell.ToDbPolyline();
-                    using (AcadDatabase ss = AcadDatabase.Active())
-                    {
-                        //ss.ModelSpace.Add(poly1);
-                        //ss.ModelSpace.Add(interPoly);
-                    }
+                    var resPoly = MergePolyline(poly1, interPoly);
                     polygons.Remove(poly1);
                     polygons.Remove(interPoly);
                     if (resPoly != null)
                     {
                         polygons.Add(resPoly);
+                    }
+                    using (AcadDatabase s = AcadDatabase.Active())
+                    {
+                        //s.ModelSpace.Add(poly1);
+                        //s.ModelSpace.Add(interPoly);
                     }
                     goto RETRY;
                 }
@@ -199,35 +180,47 @@ namespace ThWSS.Utlis
         /// <param name="line1"></param>
         /// <param name="line2"></param>
         /// <returns></returns>
-        public bool CalPolyIntersect(Polyline poly1, Polyline poly2, Tolerance tol, out double intersectLength, out Line line1, out Line line2)
+        public bool CalPolyIntersect(Polyline poly1, Polyline poly2, Tolerance tol, out LinearEntity2d intersectPart, out Line line1, out Line line2, out bool needMerge)
         {
             line1 = null;
             line2 = null;
-            for (int i = 0; i < poly1.NumberOfVertices; i++)
-            {
-                var s = poly1.GetLineSegmentAt(i);
-                for (int j = 0; j < poly2.NumberOfVertices; j++)
-                {
-                    var Line3d1 = poly1.GetLineSegmentAt(i);
-                    var Line3d2 = poly2.GetLineSegmentAt(j);
+            intersectPart = null;
+            needMerge = false;
+            bool res = false;
+            int index = 0;
 
-                    LinearEntity3d overlopCuv = Line3d1.Overlap(Line3d2, tol);
+            var segments = new PolylineSegmentCollection(poly1);
+            var segments2 = new PolylineSegmentCollection(poly2);
+            foreach (var segment1 in segments)
+            {
+                foreach (var segment2 in segments2)
+                {
+                    var Line3d1 = segment1.ToCurve2d() as LinearEntity2d;
+                    var Line3d2 = segment2.ToCurve2d() as LinearEntity2d;
+
+                    LinearEntity2d overlopCuv = Line3d1.Overlap(Line3d2, tol);
                     if (overlopCuv == null)
                     {
                         overlopCuv = Line3d2.Overlap(Line3d1, tol);
                     }
-                    if (overlopCuv != null)
+                    if (overlopCuv != null && (overlopCuv as LineSegment2d).Length > 10)
                     {
-                        line1 = new Line(Line3d1.StartPoint, Line3d1.EndPoint);
-                        line2 = new Line(Line3d2.StartPoint, Line3d2.EndPoint);
-                        intersectLength = (overlopCuv as LineSegment3d).Length;
-                        return true;
+                        line1 = new Line(Line3d1.StartPoint.toPoint3d(), Line3d1.EndPoint.toPoint3d());
+                        line2 = new Line(Line3d2.StartPoint.toPoint3d(), Line3d2.EndPoint.toPoint3d());
+                        intersectPart = overlopCuv;
+                        double minLength = line1.Length < line2.Length ? line1.Length : line2.Length;
+                        res = true;
+                        index++;
+                        if (index == 2)
+                        {
+                            needMerge = true;
+                            return res;
+                        }
                     }
                 }
             }
 
-            intersectLength = 0;
-            return false;
+            return res;
         }
 
         /// <summary>
@@ -258,6 +251,158 @@ namespace ThWSS.Utlis
         }
 
         /// <summary>
+        /// 合并两个有边相交的polyline
+        /// </summary>
+        /// <param name="pl1"></param>
+        /// <param name="pl2"></param>
+        /// <param name="interLine1"></param>
+        /// <param name="iterLine2"></param>
+        /// <returns></returns>
+        public Polyline MergePolyline(Polyline pl1, Polyline pl2)
+        {
+            List<Line> polyAllLines = new List<Line>();
+            for (int i = 0; i < pl1.NumberOfVertices; i++)
+            {
+                var next = pl1.GetPoint3dAt((i + 1) % pl1.NumberOfVertices);
+                var current = pl1.GetPoint3dAt(i);
+                polyAllLines.Add(new Line(current, next));
+            }
+
+            List<Line> polyAllLines2 = new List<Line>();
+            for (int i = 0; i < pl2.NumberOfVertices; i++)
+            {
+                var next = pl2.GetPoint3dAt((i + 1) % pl2.NumberOfVertices);
+                var current = pl2.GetPoint3dAt(i);
+                polyAllLines2.Add(new Line(current, next));
+            }
+
+            polyAllLines = RemoveLineInterPart(polyAllLines, polyAllLines2);
+            var resPolygons = CreatePolyline(polyAllLines);
+            return ReovePointOnLine(new List<Polyline>() { resPolygons }).First();
+        }
+
+        /// <summary>
+        /// 去掉重合部分的线
+        /// </summary>
+        /// <param name="lines1"></param>
+        /// <param name="lines2"></param>
+        /// <returns></returns>
+        public List<Line> RemoveLineInterPart(List<Line> lines1, List<Line> lines2)
+        {
+            List<Line> resLines = new List<Line>();
+        RETRY:
+            foreach (var line in lines1)
+            {
+                var s = line;
+                foreach (var oLine in lines2)
+                {
+                    var segLine1 = new LineSegment3d(line.StartPoint, line.EndPoint);
+                    var segLine2 = new LineSegment3d(oLine.StartPoint, oLine.EndPoint);
+
+                    LinearEntity3d overlopCuv = segLine2.Overlap(segLine1, tolerance);
+                    if (overlopCuv == null)
+                    {
+                        overlopCuv = segLine1.Overlap(segLine2, tolerance);
+                    }
+                    if (overlopCuv != null && overlopCuv.HasStartPoint && overlopCuv.HasEndPoint)
+                    {
+                        resLines.AddRange(RemoveLineInterPart(line, overlopCuv));
+                        resLines.AddRange(RemoveLineInterPart(oLine, overlopCuv));
+                        lines1.Remove(line);
+                        lines2.Remove(oLine);
+                        goto RETRY;
+                    }
+                }
+            }
+            resLines.AddRange(lines1);
+            resLines.AddRange(lines2);
+            return resLines;
+        }
+
+        /// <summary>
+        /// 去除这条线共线部分
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="linearEntity"></param>
+        /// <returns></returns>
+        public List<Line> RemoveLineInterPart(Line line, LinearEntity3d linearEntity)
+        {
+            double sDis = line.StartPoint.DistanceTo(linearEntity.StartPoint);
+            double eDis = line.StartPoint.DistanceTo(linearEntity.EndPoint);
+            List<Line> lineLst = new List<Line>();
+            if (sDis < eDis)
+            {
+                if (!line.StartPoint.IsEqualTo(linearEntity.StartPoint))
+                {
+                    lineLst.Add(new Line(line.StartPoint, linearEntity.StartPoint));
+                }
+                if (!line.EndPoint.IsEqualTo(linearEntity.EndPoint))
+                {
+                    lineLst.Add(new Line(line.EndPoint, linearEntity.EndPoint));
+                }
+            }
+            else
+            {
+                if (!line.StartPoint.IsEqualTo(linearEntity.EndPoint))
+                {
+                    lineLst.Add(new Line(line.StartPoint, linearEntity.EndPoint));
+                }
+                if (!line.EndPoint.IsEqualTo(linearEntity.StartPoint))
+                {
+                    lineLst.Add(new Line(line.EndPoint, linearEntity.StartPoint));
+                }
+            }
+
+            return lineLst;
+        }
+
+        /// <summary>
+        /// 创建polyline
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <returns></returns>
+        public Polyline CreatePolyline(List<Line> lines)
+        {
+            Line firLine = lines.First();
+            lines.Remove(firLine);
+            List<Point3d> points = new List<Point3d>() { firLine.StartPoint, firLine.EndPoint };
+            while (lines.Count > 0)
+            {
+                var matchLine = lines.Where(x => x.StartPoint.IsEqualTo(points.Last()) || x.EndPoint.IsEqualTo(points.Last())).ToList();
+                if (matchLine.Count <= 0)
+                {
+                    break;
+                }
+
+                firLine = matchLine.First();
+                if (firLine.StartPoint.IsEqualTo(points.Last()))
+                {
+                    if (firLine.EndPoint.IsEqualTo(points.First()))
+                    {
+                        break;
+                    }
+                    points.Add(firLine.EndPoint);
+                }
+                else
+                {
+                    if (firLine.StartPoint.IsEqualTo(points.First()))
+                    {
+                        break;
+                    }
+                    points.Add(firLine.StartPoint);
+                }
+                lines.Remove(firLine);
+            }
+
+            Polyline polyline = new Polyline() { Closed = true };
+            for (int i = 0; i < points.Count; i++)
+            {
+                polyline.AddVertexAt(i, points[i].ToPoint2D(), 0, 0, 0);
+            }
+            return polyline;
+        }
+
+        /// <summary>
         /// 获得所有最小轮廓线
         /// </summary>
         /// <param name="bLines"></param>
@@ -272,28 +417,48 @@ namespace ThWSS.Utlis
             var objCollection = dBObject.Polygons();
             List<Polyline> polygons = objCollection.Cast<Polyline>().ToList();
 
+            return ReovePointOnLine(polygons);
+        }
+
+        /// <summary>
+        /// 去除在线上的点
+        /// </summary>
+        /// <param name="polygons"></param>
+        /// <returns></returns>
+        public List<Polyline> ReovePointOnLine(List<Polyline> polygons)
+        {
             //去除掉多余的线上的点
-            List<Polyline> resPoly = new List<Polyline>();
+            List<Polyline> resPoly = new List<Polyline>(); 
             foreach (var polyline in polygons)
             {
+                List<Point3d> allPts = new List<Point3d>();
+                for (int i = 0; i < polyline.NumberOfVertices; i++)
+                {
+                    if (allPts.Where(x=>x.IsEqualTo(polyline.GetPoint3dAt(i), tolerance)).Count() <= 0)
+                    {
+                        allPts.Add(polyline.GetPoint3dAt(i));
+                    }
+                }
+
+                //首尾点重叠要处理
                 Polyline tempPoly = new Polyline() { Closed = true };
                 int index = 0;
-                for (int i = 0; i < polyline.NumberOfVertices - 1; i++)
+                for (int i = 0; i < allPts.Count; i++)
                 {
-                    var current = polyline.GetPoint3dAt(i);
-                    var next = polyline.GetPoint3dAt((i + 1) % (polyline.NumberOfVertices - 1));
+                    var current = allPts[i];
+                    var next = allPts[(i + 1) % allPts.Count];
                     int j = i - 1;
                     if (j < 0)
                     {
-                        j = polyline.NumberOfVertices - 2;
+                        j = allPts.Count - 1;
                     }
-                    var pre = polyline.GetPoint3dAt(j);
+                    var pre = allPts[j];
 
                     Vector3d preDir = (current - pre).GetNormal();
                     Vector3d nextDir = (next - current).GetNormal();
                     if (!preDir.IsParallelTo(nextDir, tolerance))
                     {
-                        tempPoly.AddVertexAt(index, polyline.GetPoint2dAt(i), 0, 0, 0);
+                        tempPoly.AddVertexAt(index, allPts[i].toPoint2d(), 0, 0, 0);
                         index++;
                     }
                 }

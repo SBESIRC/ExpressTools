@@ -49,8 +49,8 @@ namespace ThWSS.LayoutRule
 
             Vector3d vDir = longLine.Delta.GetNormal();  //纵向方向
             Vector3d tDir = sDis < eDis ? shortLine.Delta.GetNormal() : -shortLine.Delta.GetNormal();   //横向方向
-            var layoutP = LayoutPoints(roomLines, longLine.StartPoint, tDir, vDir, shortLine.Length);
-            layoutP.AddRange(AdjustPoints(layoutP.SelectMany(x => x).ToList(), roomLines, longLine.StartPoint, tDir, vDir, longLine.Length));
+            var layoutP = LayoutPoints(roomLines, longLine.StartPoint, vDir, tDir, longLine.Length);
+            layoutP.AddRange(AdjustPoints(layoutP.SelectMany(x => x).ToList(), roomLines, longLine.StartPoint, tDir, vDir, shortLine.Length));
 
             return layoutP;
         }

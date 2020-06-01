@@ -18,36 +18,42 @@ namespace ThWSS.Bussiness
         {
             foreach (var room in roomsLine)
             {
-                //区域分割
-                //var rommBounding = GeUtils.CreateConvexPolygon(room, 1500);
-                RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
-                var s =regionDivisionUtils.DivisionRegion(room);
+                //预处理房间
+                var rommBounding = GeUtils.CreateConvexPolygon(room, 1500);
 
-                //计算房间走向
-                var roomOOB = OrientedBoundingBox.Calculate(room);
+                //区域分割
+                RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
+                var diviRoom =regionDivisionUtils.DivisionRegion(rommBounding);
                 using (AcadDatabase acdb = AcadDatabase.Active())
                 {
                     //acdb.ModelSpace.Add(rommBounding);
-                    foreach (var item in s)
+                    foreach (var item in diviRoom)
                     {
-                        acdb.ModelSpace.Add(item);
+                        //acdb.ModelSpace.Add(item);
                     }
                 }
-                continue;
-                //计算出布置点
-                SquareLayout squareLayout = new SquareLayout(layoutModel);
-                List<List<Point3d>> layoutPts = squareLayout.Layout(room, roomOOB);
+                //continue;
 
-                //计算房间出房间内的点
-                List<Point3d> roomPts = new List<Point3d>();
-                foreach (var lpts in layoutPts)
+                foreach (var dRoom in diviRoom)
                 {
-                    //List<Point3d> checkPts = CalRoomSpray(room, lpts);
-                    roomPts.AddRange(lpts);
-                }
+                    //计算房间走向
+                    var roomOOB = OrientedBoundingBox.Calculate(dRoom);
 
-                //放置喷头
-                InsertSparyService.InsertSprayBlock(roomPts, SprayType.SPRAYDOWN);
+                    //计算出布置点
+                    SquareLayout squareLayout = new SquareLayout(layoutModel);
+                    List<List<Point3d>> layoutPts = squareLayout.Layout(dRoom, roomOOB);
+
+                    //计算房间出房间内的点
+                    List<Point3d> roomPts = new List<Point3d>();
+                    foreach (var lpts in layoutPts)
+                    {
+                        //List<Point3d> checkPts = CalRoomSpray(room, lpts);
+                        roomPts.AddRange(lpts);
+                    }
+
+                    //放置喷头
+                    InsertSparyService.InsertSprayBlock(roomPts, SprayType.SPRAYDOWN);
+                }
             }
         }
 
