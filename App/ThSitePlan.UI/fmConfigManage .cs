@@ -500,11 +500,11 @@ namespace ThSitePlan.UI
 
                 }
 
-                if (TreeList.FocusedColumn != null && TreeList.FocusedColumn.FieldName == "Name")
+                if (TreeList.FocusedColumn != null && TreeList.FocusedColumn.FieldName == "Name" && _Node != null)
                 {
                     TreeList.PostEditor();
                     _Node.TreeList.FocusedNode = _Node;
-                }
+                } 
 
 
 
