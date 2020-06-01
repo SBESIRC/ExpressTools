@@ -69,7 +69,7 @@
     </When>
   </Choose>
   <ItemGroup>
-    <PackageReference Include="NetTopologySuite" Version="1.15.2" />
+    <PackageReference Include="NetTopologySuite" Version="1.15.3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

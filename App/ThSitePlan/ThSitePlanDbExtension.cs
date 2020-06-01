@@ -299,7 +299,7 @@ namespace ThSitePlan
                 region.Explode(lines);
                 offsetRegion.Explode(lines);
                 var shadows = new ObjectIdCollection();
-                foreach (DBObject polygon in lines.PolygonizeLines())
+                foreach (DBObject polygon in lines.Outline())
                 {
                     try
                     {

@@ -153,6 +153,7 @@
     <Compile Include="ObjectIDTool.cs" />
     <Compile Include="ThAppTools.cs" />
     <Compile Include="ThBlockReferenceExtensions.cs" />
+    <Compile Include="ThCurveExtension.cs" />
     <Compile Include="ThEditorExtension.cs" />
     <Compile Include="ThMPolygonTool.cs" />
     <Compile Include="ThPickTool.cs" />

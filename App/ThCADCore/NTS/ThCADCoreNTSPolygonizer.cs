@@ -10,44 +10,7 @@ namespace ThCADCore.NTS
 {
     public static class ThCADCoreNTSPolygonizer
     {
-        public static DBObjectCollection PolygonizeLines(this DBObjectCollection lines)
-        {
-            var polygonizer = new Polygonizer();
-            polygonizer.Add(lines.ToNTSNodedLineStrings());
-            try
-            {
-                var objs = new DBObjectCollection();
-                var polygons = polygonizer.GetPolygons();
-                var solution = UnaryUnionOp.Union(polygons.ToList());
-                if (solution is ILineString lineString)
-                {
-                    objs.Add(lineString.ToDbPolyline());
-                }
-                else if (solution is ILinearRing linearRing)
-                {
-                    objs.Add(linearRing.ToDbPolyline());
-                }
-                else if (solution is IPolygon polygon)
-                {
-                    foreach (var pline in polygon.ToDbPolylines())
-                    {
-                        objs.Add(pline);
-                    }
-                }
-                else
-                {
-                    throw new NotSupportedException();
-                }
-                return objs;
-            }
-            catch
-            {
-                // 未知错误
-                return new DBObjectCollection();
-            }
-        }
-
-        public static ICollection<IGeometry> GetGeometries(this DBObjectCollection lines)
+        public static ICollection<IGeometry> Polygonize(this DBObjectCollection lines)
         {
             var polygonizer = new Polygonizer();
             polygonizer.Add(lines.ToNTSNodedLineStrings());
@@ -73,6 +36,10 @@ namespace ThCADCore.NTS
             var boundaries = new DBObjectCollection();
             polygonizer.Add(lines.ToNTSNodedLineStrings());
             var geometry = UnaryUnionOp.Union(polygonizer.GetPolygons().ToList());
+            if(geometry == null)
+            {
+                return boundaries;
+            }
             if (geometry is IMultiPolygon mPolygon)
             {
                 foreach (var item in mPolygon.Geometries)
@@ -100,6 +67,34 @@ namespace ThCADCore.NTS
                 boundaries.Add(item.Shell.ToDbPolyline());
             }
             return boundaries;
+        }
+
+        public static DBObjectCollection Outline(this DBObjectCollection lines)
+        {
+            var objs = new DBObjectCollection();
+            var polygonizer = new Polygonizer();
+            polygonizer.Add(lines.ToNTSNodedLineStrings());
+            var geometry = CascadedPolygonUnion.Union(polygonizer.GetPolygons());
+            if (geometry == null)
+            {
+                return objs;
+            }
+            if (geometry is IPolygon polygon)
+            {
+                objs.Add(polygon.Shell.ToDbPolyline());
+            }
+            else if (geometry is IMultiPolygon mPolygon)
+            {
+                foreach (IPolygon subPolygon in mPolygon.Geometries)
+                {
+                    objs.Add(subPolygon.Shell.ToDbPolyline());
+                }
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+            return objs;
         }
 
         public static DBObjectCollection FindLoops(this DBObjectCollection lines)

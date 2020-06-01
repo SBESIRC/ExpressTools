@@ -1,1006 +1,1108 @@
 [
-  {
-    "CAD_Frame": "",
-    "CAD_Layer": [],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "0",
-    "Name": "未识别对象",
-    "PID": "0",
-    "PSD_Color": "0, 0, 0",
-    "PSD_Transparency": 55,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "",
-    "CAD_Layer": [
-      {
+    {
+        "CAD_Frame": "",
+        "CAD_Layer": [],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "0",
+        "Name": "未识别对象",
+        "PID": "0",
+        "PSD_Color": "0, 0, 0",
+        "PSD_Transparency": 55,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-NOTE-PLTB"
+            },
+            {
+                "ID": "2",
+                "Name": "P-BUID-NUMB"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
         "ID": "1",
-        "Name": "P-NOTE-PLTB"
-      },
-      {
+        "Name": "基本文字说明及图例",
+        "PID": "1",
+        "PSD_Color": "0, 0, 0",
+        "PSD_Transparency": 55,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-ROAD-BEAE"
+            },
+            {
+                "ID": "2",
+                "Name": "P-ROAD-ELEV"
+            },
+            {
+                "ID": "3",
+                "Name": "P-BUID-ELEV"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
         "ID": "2",
-        "Name": "P-BUID-NUMB"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "1",
-    "Name": "基本文字说明及图例",
-    "PID": "1",
-    "PSD_Color": "0, 0, 0",
-    "PSD_Transparency": 55,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-ROAD-BEAE"
-      },
-      {
-        "ID": "2",
-        "Name": "P-ROAD-ELEV"
-      },
-      {
+        "Name": "场地标高",
+        "PID": "2",
+        "PSD_Color": "0, 0, 0",
+        "PSD_Transparency": 55,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-FIRE-DIMS"
+            },
+            {
+                "ID": "2",
+                "Name": "P-ROAD-DIMS"
+            },
+            {
+                "ID": "3",
+                "Name": "P-BUID-DIMS"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
         "ID": "3",
-        "Name": "P-BUID-ELEV"
-      }
-
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "2",
-    "Name": "场地标高",
-    "PID": "2",
-    "PSD_Color": "0, 0, 0",
-    "PSD_Transparency": 55,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-FIRE-DIMS"
-      },
-      {
-        "ID": "2",
-        "Name": "P-ROAD-DIMS"
-      },
-      {
-        "ID": "3",
-        "Name": "P-BUID-DIMS"
-      }
-
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "3",
-    "Name": "尺寸标注",
-    "PID": "3",
-    "PSD_Color": "0, 0, 0",
-    "PSD_Transparency": 55,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-LIMT"
-      },
-      {
-        "ID": "2",
-        "Name": "P-LIMT-LIPB"
-      },
-      {
-        "ID": "3",
-        "Name": "P-LIMT-BUID"
-      },
-      {
+        "Name": "尺寸标注",
+        "PID": "3",
+        "PSD_Color": "0, 0, 0",
+        "PSD_Transparency": 55,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-LIMT"
+            },
+            {
+                "ID": "2",
+                "Name": "P-LIMT-LIPB"
+            },
+            {
+                "ID": "3",
+                "Name": "P-LIMT-BUID"
+            },
+            {
+                "ID": "4",
+                "Name": "P-LIMT-COOR"
+            },
+            {
+                "ID": "5",
+                "Name": "P-BUID-UDBD"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
         "ID": "4",
-        "Name": "P-LIMT-COOR"
-      },
-      {
+        "Name": "界线",
+        "PID": "4",
+        "PSD_Color": "0, 0, 0",
+        "PSD_Transparency": 55,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-OUTD"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
         "ID": "5",
-        "Name": "P-BUID-UDBD"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "4",
-    "Name": "界线",
-    "PID": "4",
-    "PSD_Color": "0, 0, 0",
-    "PSD_Transparency": 55,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-OUTD"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "5",
-    "Name": "原始场地叠加线稿",
-    "PID": "5",
-    "PSD_Color": "0, 0, 0",
-    "PSD_Transparency": 55,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "6",
-    "Name": "建筑物",
-    "PID": "6",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "7",
-    "Name": "场地内建筑",
-    "PID": "6",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "建筑信息",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-BUID-FLOR"
-      },
-      {
-        "ID": "2",
-        "Name": "P-BUID-HIGH"
-      }
-    ],
-    "CAD_Script": "无",
-    "DataType": null,
-    "ID": "8",
-    "Name": "建筑信息",
-    "PID": "7",
-    "PSD_Color": "135, 206, 235",
-    "PSD_Transparency": 21,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "建筑色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-BUID-BMAX"
-      },
-      {
-        "ID": "2",
-        "Name": "P-BUID-BCHA"
-      },
-      {
-        "ID": "3",
-        "Name": "P-BUID-ROOF"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "9",
-    "Name": "建筑色块",
-    "PID": "7",
-    "PSD_Color": "255, 215, 0",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "建筑线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-BUID-BMAX"
-      },
-      {
-        "ID": "2",
-        "Name": "P-BUID-BCHA"
-      },
-      {
-        "ID": "3",
-        "Name": "P-BUID-ROOF"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "10",
-    "Name": "建筑线稿",
-    "PID": "7",
-    "PSD_Color": "50, 205, 50",
-    "PSD_Transparency": 51,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "11",
-    "Name": "场地外建筑",
-    "PID": "6",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "建筑信息",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-OUTD-FLOR"
-      }
-    ],
-    "CAD_Script": "无",
-    "DataType": "0",
-    "ID": "12",
-    "Name": "建筑信息",
-    "PID": "11",
-    "PSD_Color": "135, 206, 235",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "建筑色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-OUTD-BUID"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "13",
-    "Name": "建筑色块",
-    "PID": "11",
-    "PSD_Color": "255, 215, 0",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "建筑线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-OUTD-BUID"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "14",
-    "Name": "建筑线稿",
-    "PID": "11",
-    "PSD_Color": "50, 205, 50",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "全局阴影",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-BUID-HACH"
-      }
-    ],
-    "CAD_Script": "虚拟阴影",
-    "DataType": "0",
-    "ID": "15",
-    "Name": "全局阴影",
-    "PID": "15",
-    "PSD_Color": "112, 128, 144",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "16",
-    "Name": "树木",
-    "PID": "16",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "17",
-    "Name": "景观树",
-    "PID": "16",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "树木色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-Land-TREE"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "18",
-    "Name": "树木色块",
-    "PID": "17",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-  {
-    "CAD_Frame": "树木线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-Land-TREE"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "19",
-    "Name": "树木线稿",
-    "PID": "17",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "20",
-    "Name": "行道树",
-    "PID": "16",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "树木色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-AI-steettree"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "21",
-    "Name": "树木色块",
-    "PID": "20",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-  {
-    "CAD_Frame": "树木线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-AI-steettree"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "22",
-    "Name": "树木线稿",
-    "PID": "20",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "23",
-    "Name": "场地",
-    "PID": "23",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "24",
-    "Name": "消防登高场地",
-    "PID": "23",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "场地色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-FIRE"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "25",
-    "Name": "场地色块",
-    "PID": "24",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "场地线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-FIRE"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "26",
-    "Name": "场地线稿",
-    "PID": "24",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "27",
-    "Name": "停车场地",
-    "PID": "23",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "场地色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-CONS-PARK"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "28",
-    "Name": "场地色块",
-    "PID": "27",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "场地线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-CONS-PARK"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "29",
-    "Name": "场地线稿",
-    "PID": "27",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "30",
-    "Name": "活动场地",
-    "PID": "23",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "场地色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-AI-activitysite"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "31",
-    "Name": "场地色块",
-    "PID": "30",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "场地线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-AI-activitysite"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "32",
-    "Name": "场地线稿",
-    "PID": "30",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "33",
-    "Name": "其他场地",
-    "PID": "23",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "场地色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-CONS-FENC"
-      },
-      {
-        "ID": "2",
-        "Name": "P-AI-ground"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "34",
-    "Name": "场地色块",
-    "PID": "33",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "场地线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-CONS-FENC"
-      },
-      {
-        "ID": "2",
-        "Name": "P-AI-ground"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "35",
-    "Name": "场地线稿",
-    "PID": "33",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "36",
-    "Name": "道路",
-    "PID": "36",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "37",
-    "Name": "内部车行道路",
-    "PID": "36",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "道路色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-ROAD-DRWY"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "38",
-    "Name": "道路色块",
-    "PID": "37",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "道路线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-ROAD-DRWY"
-      },
-      {
-        "ID": "2",
-        "Name": "P-ROAD-AXIS"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "39",
-    "Name": "道路线稿",
-    "PID": "37",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "40",
-    "Name": "内部人行道路",
-    "PID": "36",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "道路色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-ROAD-WALK"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "41",
-    "Name": "道路色块",
-    "PID": "40",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "道路线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-ROAD-WALK"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "42",
-    "Name": "道路线稿",
-    "PID": "40",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "43",
-    "Name": "外部车行道路",
-    "PID": "36",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "道路色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-OUTD-ROAD"
-      },
-      {
-        "ID": "2",
-        "Name": "P-TRAF-CITY"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "44",
-    "Name": "道路色块",
-    "PID": "43",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "道路线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-OUTD-ROAD"
-      },
-      {
-        "ID": "2",
-        "Name": "P-TRAF-CITY"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "45",
-    "Name": "道路线稿",
-    "PID": "43",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "46",
-    "Name": "外部景观道路",
-    "PID": "36",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "道路色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-Land-ROAD"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "47",
-    "Name": "道路色块",
-    "PID": "46",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "道路线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-Land-ROAD"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "48",
-    "Name": "道路线稿",
-    "PID": "46",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "49",
-    "Name": "铺装",
-    "PID": "49",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "50",
-    "Name": "场地外铺地",
-    "PID": "49",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "铺装色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-AI-pavement"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "51",
-    "Name": "铺装色块",
-    "PID": "50",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "铺装线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-AI-pavement"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "52",
-    "Name": "铺装线稿",
-    "PID": "50",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "53",
-    "Name": "景观绿地",
-    "PID": "53",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "54",
-    "Name": "水景",
-    "PID": "53",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "水景色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-GREN-WATR"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "55",
-    "Name": "水景色块",
-    "PID": "54",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "水景线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-GREN-WATR"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "56",
-    "Name": "水景线稿",
-    "PID": "54",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-
-  {
-    "CAD_Frame": "NULL",
-    "CAD_Layer": null,
-    "CAD_Script": "NULL",
-    "DataType": "0",
-    "ID": "57",
-    "Name": "景观",
-    "PID": "53",
-    "PSD_Color": "255, 255, 255",
-    "PSD_Transparency": 100,
-    "Type": "1"
-  },
-  {
-    "CAD_Frame": "景观色块",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-AI-landscape"
-      }
-    ],
-    "CAD_Script": "线稿生成填充",
-    "DataType": "0",
-    "ID": "58",
-    "Name": "景观色块",
-    "PID": "57",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  },
-  {
-    "CAD_Frame": "景观线稿",
-    "CAD_Layer": [
-      {
-        "ID": "1",
-        "Name": "P-AI-landscape"
-      }
-    ],
-    "CAD_Script": "拍平闭合优化",
-    "DataType": "0",
-    "ID": "59",
-    "Name": "景观线稿",
-    "PID": "57",
-    "PSD_Color": "46, 139, 87",
-    "PSD_Transparency": 100,
-    "Type": "0"
-  }
+        "Name": "原始场地叠加线稿",
+        "PID": "5",
+        "PSD_Color": "0, 0, 0",
+        "PSD_Transparency": 55,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "6",
+        "Name": "建筑物",
+        "PID": "6",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "7",
+        "Name": "场地内建筑",
+        "PID": "6",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "建筑信息",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-BUID-FLOR"
+            },
+            {
+                "ID": "2",
+                "Name": "P-BUID-HIGH"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": null,
+        "ID": "8",
+        "Name": "建筑信息",
+        "PID": "7",
+        "PSD_Color": "135, 206, 235",
+        "PSD_Transparency": 21,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "建筑色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-BUID-BMAX"
+            },
+            {
+                "ID": "2",
+                "Name": "P-BUID-BCHA"
+            },
+            {
+                "ID": "3",
+                "Name": "P-BUID-ROOF"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "区域填充",
+        "CAD_ScriptID": "1",
+        "DataType": "0",
+        "ID": "9",
+        "Name": "建筑色块",
+        "PID": "7",
+        "PSD_Color": "255, 215, 0",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "建筑线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-BUID-BMAX"
+            },
+            {
+                "ID": "2",
+                "Name": "P-BUID-BCHA"
+            },
+            {
+                "ID": "3",
+                "Name": "P-BUID-ROOF"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "10",
+        "Name": "建筑线稿",
+        "PID": "7",
+        "PSD_Color": "50, 205, 50",
+        "PSD_Transparency": 51,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "11",
+        "Name": "场地外建筑",
+        "PID": "6",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "建筑信息",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-OUTD-FLOR"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "12",
+        "Name": "建筑信息",
+        "PID": "11",
+        "PSD_Color": "135, 206, 235",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "建筑色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-OUTD-BUID"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "区域填充",
+        "CAD_ScriptID": "1",
+        "DataType": "0",
+        "ID": "13",
+        "Name": "建筑色块",
+        "PID": "11",
+        "PSD_Color": "255, 215, 0",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "建筑线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-OUTD-BUID"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "14",
+        "Name": "建筑线稿",
+        "PID": "11",
+        "PSD_Color": "50, 205, 50",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "全局阴影",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-BUID-HACH"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "虚拟阴影",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "15",
+        "Name": "全局阴影",
+        "PID": "15",
+        "PSD_Color": "112, 128, 144",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "16",
+        "Name": "树木",
+        "PID": "16",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "17",
+        "Name": "景观树",
+        "PID": "16",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "树木色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-Land-TREE"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "区域填充",
+        "CAD_ScriptID": "1",
+        "DataType": "0",
+        "ID": "18",
+        "Name": "树木色块",
+        "PID": "17",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "树木线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-Land-TREE"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "19",
+        "Name": "树木线稿",
+        "PID": "17",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "20",
+        "Name": "行道树",
+        "PID": "16",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "树木色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-AI-steettree"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "区域填充",
+        "CAD_ScriptID": "1",
+        "DataType": "0",
+        "ID": "21",
+        "Name": "树木色块",
+        "PID": "20",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "树木线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-AI-steettree"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "22",
+        "Name": "树木线稿",
+        "PID": "20",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "23",
+        "Name": "场地",
+        "PID": "23",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "24",
+        "Name": "消防登高场地",
+        "PID": "23",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "场地色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-FIRE"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "区域填充",
+        "CAD_ScriptID": "1",
+        "DataType": "0",
+        "ID": "25",
+        "Name": "场地色块",
+        "PID": "24",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "场地线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-FIRE"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "26",
+        "Name": "场地线稿",
+        "PID": "24",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "27",
+        "Name": "停车场地",
+        "PID": "23",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "场地色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-CONS-PARK"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "区域填充",
+        "CAD_ScriptID": "1",
+        "DataType": "0",
+        "ID": "28",
+        "Name": "场地色块",
+        "PID": "27",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "场地线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-CONS-PARK"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "29",
+        "Name": "场地线稿",
+        "PID": "27",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "30",
+        "Name": "活动场地",
+        "PID": "23",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "场地色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-AI-activitysite"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "区域填充",
+        "CAD_ScriptID": "1",
+        "DataType": "0",
+        "ID": "31",
+        "Name": "场地色块",
+        "PID": "30",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "场地线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-AI-activitysite"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "32",
+        "Name": "场地线稿",
+        "PID": "30",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "33",
+        "Name": "其他场地",
+        "PID": "23",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "场地色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-CONS-FENC"
+            },
+            {
+                "ID": "2",
+                "Name": "P-AI-ground"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "区域填充",
+        "CAD_ScriptID": "1",
+        "DataType": "0",
+        "ID": "34",
+        "Name": "场地色块",
+        "PID": "33",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "场地线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-CONS-FENC"
+            },
+            {
+                "ID": "2",
+                "Name": "P-AI-ground"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "35",
+        "Name": "场地线稿",
+        "PID": "33",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "36",
+        "Name": "道路",
+        "PID": "36",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "37",
+        "Name": "内部车行道路",
+        "PID": "36",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "道路色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-ROAD-DRWY"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "道路填充",
+        "CAD_ScriptID": "2",
+        "DataType": "0",
+        "ID": "38",
+        "Name": "道路色块",
+        "PID": "37",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "道路线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-ROAD-DRWY"
+            },
+            {
+                "ID": "2",
+                "Name": "P-ROAD-AXIS"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "39",
+        "Name": "道路线稿",
+        "PID": "37",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "40",
+        "Name": "内部人行道路",
+        "PID": "36",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "道路色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-ROAD-WALK"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "道路填充",
+        "CAD_ScriptID": "2",
+        "DataType": "0",
+        "ID": "41",
+        "Name": "道路色块",
+        "PID": "40",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "道路线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-ROAD-WALK"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "42",
+        "Name": "道路线稿",
+        "PID": "40",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "43",
+        "Name": "外部车行道路",
+        "PID": "36",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "道路色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-OUTD-ROAD"
+            },
+            {
+                "ID": "2",
+                "Name": "P-TRAF-CITY"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "道路填充",
+        "CAD_ScriptID": "2",
+        "DataType": "0",
+        "ID": "44",
+        "Name": "道路色块",
+        "PID": "43",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "道路线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-OUTD-ROAD"
+            },
+            {
+                "ID": "2",
+                "Name": "P-TRAF-CITY"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "45",
+        "Name": "道路线稿",
+        "PID": "43",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "46",
+        "Name": "外部景观道路",
+        "PID": "36",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "道路色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-Land-ROAD"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "道路填充",
+        "CAD_ScriptID": "2",
+        "DataType": "0",
+        "ID": "47",
+        "Name": "道路色块",
+        "PID": "46",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "道路线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-Land-ROAD"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "48",
+        "Name": "道路线稿",
+        "PID": "46",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "49",
+        "Name": "铺装",
+        "PID": "49",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "50",
+        "Name": "场地外铺地",
+        "PID": "49",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "铺装色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-AI-pavement"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "区域填充",
+        "CAD_ScriptID": "1",
+        "DataType": "0",
+        "ID": "51",
+        "Name": "铺装色块",
+        "PID": "50",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "铺装线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-AI-pavement"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "52",
+        "Name": "铺装线稿",
+        "PID": "50",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "53",
+        "Name": "景观绿地",
+        "PID": "53",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "54",
+        "Name": "水景",
+        "PID": "53",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "水景色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-GREN-WATR"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "区域填充",
+        "CAD_ScriptID": "1",
+        "DataType": "0",
+        "ID": "55",
+        "Name": "水景色块",
+        "PID": "54",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "水景线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-GREN-WATR"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "56",
+        "Name": "水景线稿",
+        "PID": "54",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "NULL",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "NULL",
+        "CAD_ScriptID": "",
+        "DataType": "0",
+        "ID": "57",
+        "Name": "景观",
+        "PID": "53",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "1"
+    },
+    {
+        "CAD_Frame": "景观色块",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-AI-landscape"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "区域填充",
+        "CAD_ScriptID": "1",
+        "DataType": "0",
+        "ID": "58",
+        "Name": "景观色块",
+        "PID": "57",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
+        "CAD_Frame": "景观线稿",
+        "CAD_Layer": [
+            {
+                "ID": "1",
+                "Name": "P-AI-landscape"
+            }
+        ],
+        "CAD_Layer_Value": null,
+        "CAD_Script": "无",
+        "CAD_ScriptID": "0",
+        "DataType": "0",
+        "ID": "59",
+        "Name": "景观线稿",
+        "PID": "57",
+        "PSD_Color": "46, 139, 87",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    }
 ]

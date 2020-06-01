@@ -36,7 +36,7 @@ namespace ThCADCore.NTS
             {
                 if (precisionModel == null)
                 {
-                    precisionModel = NtsGeometryServices.Instance.CreatePrecisionModel(PrecisionModels.FloatingSingle);
+                    precisionModel = NtsGeometryServices.Instance.CreatePrecisionModel(PrecisionModels.Floating);
                 }
                 return precisionModel;
             }
