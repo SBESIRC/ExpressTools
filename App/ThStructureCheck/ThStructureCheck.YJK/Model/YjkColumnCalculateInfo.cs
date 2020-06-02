@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThStructureCheck.YJK
+namespace ThStructureCheck.YJK.Model
 {
     /// <summary>
     /// 银建科计算书信息，用于计算书校对
@@ -121,16 +121,16 @@ namespace ThStructureCheck.YJK
 
         public ICalculateInfo GetCalculateInfo(IEntityInf entInf)
         {
-            if(!(entInf is YjkColumn))
+            if(!(entInf is ModelColumnSeg))
             {
                 return null;
             }
-            YjkColumn yjkColumn = entInf as YjkColumn;
+            ModelColumnSeg modelColumnSeg = entInf as ModelColumnSeg;
             YjkColumnQuery dtlModelQuery = new YjkColumnQuery(this.dtlModelPath);
             YjkColumnQuery dtlCalcQuery = new YjkColumnQuery(this.dtlCalcPath);
             //获取jtId对应的自然层编号和柱编号（dtlModel）
             int tblFloorNo, tblColSegNo;
-            dtlModelQuery.GetTblFloorTblColSegNoFromDtlmodel(yjkColumn.JtID, out tblFloorNo, out tblColSegNo);
+            dtlModelQuery.GetTblFloorTblColSegNoFromDtlmodel(modelColumnSeg.JtID, out tblFloorNo, out tblColSegNo);
 
             //获取dtlCalc库中的柱子ID
             int columnId = dtlCalcQuery.GetTblColSegIDFromDtlCalc(tblFloorNo, tblColSegNo);
@@ -170,7 +170,7 @@ namespace ThStructureCheck.YJK
             if (!findRes)
             {
                 findRes = dtlModelQuery.GetProtectLayerThickInTblStdFlrPara(
-                    yjkColumn.StdFlrID, out protectThickness);
+                    modelColumnSeg.StdFlrID, out protectThickness);
                 if (!findRes)
                 {
                     findRes = dtlModelQuery.GetProtectLayerThickInTblProjectPara(out protectThickness);
@@ -179,7 +179,7 @@ namespace ThStructureCheck.YJK
             this.ProtectThickness = protectThickness;
 
             //判断是否为角柱
-            this.IsCorner = dtlModelQuery.CheckColumnIsCorner(yjkColumn.JtID);
+            this.IsCorner = dtlModelQuery.CheckColumnIsCorner(modelColumnSeg.JtID);
 
             double structureParaValue = dtlModelQuery.GetStructureTypeInModel();
             this.StructureType = ThYjkDatbaseExtension.GetStructureType(structureParaValue);
@@ -192,7 +192,7 @@ namespace ThStructureCheck.YJK
                 this.DblYAsCal = values[1];
             }
             //是否底层
-            this.IsGroundFloor = dtlModelQuery.CheckIsGroundFloor(yjkColumn.StdFlrID);
+            this.IsGroundFloor = dtlModelQuery.CheckIsGroundFloor(modelColumnSeg.StdFlrID);
 
             //获取设防烈度
             double fortiCation = 0.0;

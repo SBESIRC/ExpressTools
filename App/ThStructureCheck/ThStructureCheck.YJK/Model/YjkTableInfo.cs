@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThStructureCheck.YJK
+namespace ThStructureCheck.YJK.Model
 {
-    class YjkBeam:IEntityInf
+    public class YjkTableInfo
     {
+        public int ID { get; set; }
     }
 }

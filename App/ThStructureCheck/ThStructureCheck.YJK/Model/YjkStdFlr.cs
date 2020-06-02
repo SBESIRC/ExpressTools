@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ThStructureCheck.YJK.Model
 {
-    class YjkBoard:IEntityInf
+    public class YjkStdFlr:YjkTableInfo
     {
+        public int No_ { get; set; }
+        public int Height { get; set; }
     }
 }

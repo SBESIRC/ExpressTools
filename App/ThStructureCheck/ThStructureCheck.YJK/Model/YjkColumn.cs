@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ThStructureCheck.YJK
 {
-    class YjkColumn:IEntityInf
+
+    public class YjkColumn: IEntityInf
     {
         /// <summary>
         /// 柱号
@@ -54,4 +55,5 @@ namespace ThStructureCheck.YJK
         public double X { get; set; }
         public double Y { get; set; }
     }
+
 }

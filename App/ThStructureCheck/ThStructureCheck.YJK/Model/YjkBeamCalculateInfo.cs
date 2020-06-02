@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThStructureCheck.YJK
+namespace ThStructureCheck.YJK.Model
 {
     class YjkBeamCalculateInfo : ICalculateInfo
     {
@@ -17,10 +17,6 @@ namespace ThStructureCheck.YJK
         }
         public ICalculateInfo GetCalculateInfo(IEntityInf entInf)
         {
-            if (!(entInf is YjkBeam))
-            {
-                return null;
-            }
             return this;
         }
     }
