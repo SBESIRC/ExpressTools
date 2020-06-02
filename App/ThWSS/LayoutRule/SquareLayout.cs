@@ -13,10 +13,10 @@ namespace ThWSS.LayoutRule
 {
     public class SquareLayout : LayoutInterface
     {
-        double sideLength = 4400;
+        double sideLength = 3600;
         double sideMinLength = 0;
-        double maxLength = 2200;
-        double minLength = 500;
+        double maxLength = 1800;
+        double minLength = 100;
         public SquareLayout(SparyLayoutModel layoutModel)
         {
 
@@ -189,18 +189,31 @@ namespace ThWSS.LayoutRule
         /// <param name="moveLength"></param>
         private void CalLayoutWay(double length, out double remainder, out double num, out double moveLength)
         {
-            remainder = length % sideLength / 2;
             num = Math.Floor(length / sideLength);
-            if (remainder < minLength)
+            if (num >= 1)
             {
-                remainder = minLength;
+                while (true)
+                {
+                    //让边距尽量等于0.5倍间距
+                    moveLength = length / (num + 1);
+                    //间距是50的倍数
+                    moveLength = Math.Floor(moveLength / 50) * 50;
+                    remainder = (length - moveLength * num) / 2;
+                    if (remainder > maxLength)
+                    {
+                        num += 1;
+                    }
+                    else 
+                    {
+                        break;
+                    }
+                }
             }
-            else if (remainder > maxLength)
+            else
             {
-                remainder = maxLength;
-                num += 1;
+                remainder = length / 2;
+                moveLength = 0;
             }
-            moveLength = (length - remainder * 2) / num;
         }
     }
 }

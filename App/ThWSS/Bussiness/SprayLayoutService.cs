@@ -18,8 +18,18 @@ namespace ThWSS.Bussiness
         {
             foreach (var room in roomsLine)
             {
-                //预处理房间
+                //*******预处理房间*********
+                //1.处理小的凹边
                 var rommBounding = GeUtils.CreateConvexPolygon(room, 1500);
+
+                //2.去掉线上多余的点
+                rommBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { rommBounding }, new Tolerance(0.001, 0.001)).First();
+
+                //using (AcadDatabase acdb = AcadDatabase.Active())
+                //{
+                //    acdb.ModelSpace.Add(rommBounding);
+                //}
+                //continue;
 
                 //区域分割
                 RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
@@ -29,7 +39,7 @@ namespace ThWSS.Bussiness
                     //acdb.ModelSpace.Add(rommBounding);
                     foreach (var item in diviRoom)
                     {
-                        //acdb.ModelSpace.Add(item);
+                        acdb.ModelSpace.Add(item);
                     }
                 }
                 //continue;

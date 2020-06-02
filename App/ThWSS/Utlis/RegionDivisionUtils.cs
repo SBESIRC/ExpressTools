@@ -18,7 +18,7 @@ namespace ThWSS.Utlis
 {
     public class RegionDivisionUtils
     {
-        readonly Tolerance tolerance = new Tolerance(0.0001, 0.0001);
+        readonly Tolerance tolerance = new Tolerance(0.001, 0.001);
         readonly double minDis = 700;
 
         public List<Polyline> DivisionRegion(Polyline room)
@@ -278,7 +278,7 @@ namespace ThWSS.Utlis
 
             polyAllLines = RemoveLineInterPart(polyAllLines, polyAllLines2);
             var resPolygons = CreatePolyline(polyAllLines);
-            return ReovePointOnLine(new List<Polyline>() { resPolygons }).First();
+            return GeUtils.ReovePointOnLine(new List<Polyline>() { resPolygons }, tolerance).First();
         }
 
         /// <summary>
@@ -417,55 +417,7 @@ namespace ThWSS.Utlis
             var objCollection = dBObject.Polygons();
             List<Polyline> polygons = objCollection.Cast<Polyline>().ToList();
 
-            return ReovePointOnLine(polygons);
-        }
-
-        /// <summary>
-        /// 去除在线上的点
-        /// </summary>
-        /// <param name="polygons"></param>
-        /// <returns></returns>
-        public List<Polyline> ReovePointOnLine(List<Polyline> polygons)
-        {
-            //去除掉多余的线上的点
-            List<Polyline> resPoly = new List<Polyline>(); 
-            foreach (var polyline in polygons)
-            {
-                List<Point3d> allPts = new List<Point3d>();
-                for (int i = 0; i < polyline.NumberOfVertices; i++)
-                {
-                    if (allPts.Where(x=>x.IsEqualTo(polyline.GetPoint3dAt(i), tolerance)).Count() <= 0)
-                    {
-                        allPts.Add(polyline.GetPoint3dAt(i));
-                    }
-                }
-
-                //首尾点重叠要处理
-                Polyline tempPoly = new Polyline() { Closed = true };
-                int index = 0;
-                for (int i = 0; i < allPts.Count; i++)
-                {
-                    var current = allPts[i];
-                    var next = allPts[(i + 1) % allPts.Count];
-                    int j = i - 1;
-                    if (j < 0)
-                    {
-                        j = allPts.Count - 1;
-                    }
-                    var pre = allPts[j];
-
-                    Vector3d preDir = (current - pre).GetNormal();
-                    Vector3d nextDir = (next - current).GetNormal();
-                    if (!preDir.IsParallelTo(nextDir, tolerance))
-                    {
-                        tempPoly.AddVertexAt(index, allPts[i].toPoint2d(), 0, 0, 0);
-                        index++;
-                    }
-                }
-                resPoly.Add(tempPoly);
-            }
-
-            return resPoly;
+            return GeUtils.ReovePointOnLine(polygons, tolerance);
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Linq;
 using ThCADCore.NTS;
 using System.Text;
 using System.Threading.Tasks;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThWSS.Utlis
 {
@@ -121,7 +122,7 @@ namespace ThWSS.Utlis
         }
 
         /// <summary>
-        /// 判断点是否事短线段的顶点
+        /// 判断点是否是短线段的顶点
         /// </summary>
         /// <param name="pPoly"></param>
         /// <param name="pt"></param>
@@ -151,34 +152,28 @@ namespace ThWSS.Utlis
         /// <returns></returns>
         public static int IsConvexPoint(Polyline poly, Point3d pt, Point3d nextP, Point3d preP)
         {
-            Vector3d normal = poly.Normal;
             Vector3d nextV = (nextP - pt).GetNormal();
             Vector3d preV = (pt - preP).GetNormal();
-            Vector3d dir = preV.CrossProduct(nextV);
-
-            if (Math.Abs(dir.Z) < 0.001)
-            {
-                return 0;
-            }
-            else if (!((dir.Z > 0 && normal.Z > 0) || (dir.Z < 0 && normal.Z < 0)))
-            {
-                return 1;
-            }
-            else
-            {
-                return -1;
-            }
-
+            Point3d movePt = pt - nextV * 1 + preV * 1;
+            return CheckPointInPolyline(poly, movePt, 0.0001);
+            
+            //Vector3d normal = poly.Normal;
             //Vector3d nextV = (nextP - pt).GetNormal();
             //Vector3d preV = (pt - preP).GetNormal();
-            //Point3d tempP = pt + nextV * 1 + preV * 1;
-            //var res = poly.PointInPolygon(tempP);
-            //if (res == LocateStatus.Exterior)
-            //    return -1;
-            //else if (res == LocateStatus.Interior)
-            //    return 1;
-            //else
+            //Vector3d dir = preV.CrossProduct(nextV);
+
+            //if (Math.Abs(dir.Z) < 0.001)
+            //{
             //    return 0;
+            //}
+            //else if (!((dir.Z > 0 && normal.Z > 0) || (dir.Z < 0 && normal.Z < 0)))
+            //{
+            //    return 1;
+            //}
+            //else
+            //{
+            //    return -1;
+            //}
         }
 
         /// <summary>
@@ -189,20 +184,30 @@ namespace ThWSS.Utlis
         /// <returns></returns>
         public static Polyline CreateConvexPolygon(Polyline poly, double tol)
         {
-            List<KeyValuePair<Point3d, bool>> pLst = new List<KeyValuePair<Point3d, bool>>();
+            //过滤掉重复点
+            List<Point3d> allPts = new List<Point3d>();
             for (int i = 0; i < poly.NumberOfVertices; i++)
             {
-                var current = poly.GetPoint3dAt(i);
-                var next = poly.GetPoint3dAt((i + 1) % poly.NumberOfVertices);
+                if (allPts.Where(x => x.IsEqualTo(poly.GetPoint3dAt(i), Tolerance.Global)).Count() <= 0)
+                {
+                    allPts.Add(poly.GetPoint3dAt(i));
+                }
+            }
+
+            List<KeyValuePair<Point3d, bool>> pLst = new List<KeyValuePair<Point3d, bool>>();
+            for (int i = 0; i < allPts.Count; i++)
+            {
+                var current = allPts[i];
+                var next = allPts[(i + 1) % allPts.Count];
                 int j = i - 1;
                 if (j < 0)
                 {
-                    j = poly.NumberOfVertices - 1;
+                    j = allPts.Count - 1;
                 }
-                var pre = poly.GetPoint3dAt(j);
+                var pre = allPts[j];
 
                 bool isConvex = IsConvexPoint(poly, current, next, pre) == -1 ? true : false;
-                pLst.Add(new KeyValuePair<Point3d, bool>(poly.GetPoint3dAt(i), isConvex));
+                pLst.Add(new KeyValuePair<Point3d, bool>(allPts[i], isConvex));
             }
 
             //控制第一个点是凸点（因为凹点可能被省略，凸点一定保留）
@@ -222,19 +227,19 @@ namespace ThWSS.Utlis
 
                 if (current.Value)
                 {
-                    var next = pLst[(i + 1) % poly.NumberOfVertices];
+                    var next = pLst[(i + 1) % pLst.Count];
                     if (!next.Value)
                     {
                         int j = i;
                         while (j < pLst.Count)
                         {
-                            var tempNext = pLst[(j + 1) % poly.NumberOfVertices];
+                            var tempNext = pLst[(j + 1) % pLst.Count];
                             if (tempNext.Value)
                             {
                                 if (tempNext.Key.DistanceTo(current.Key) <= tol)
                                 {
                                     i = j;
-                                    var tp = pLst[(j + 2) % poly.NumberOfVertices];
+                                    var tp = pLst[(j + 2) % pLst.Count];
                                     if (tp.Value)
                                     {
                                         break;
@@ -253,6 +258,55 @@ namespace ThWSS.Utlis
             }
 
             return convexPoly;
+        }
+
+        /// <summary>
+        /// 去除在线上的点
+        /// </summary>
+        /// <param name="polygons"></param>
+        /// <returns></returns>
+        public static List<Polyline> ReovePointOnLine(List<Polyline> polygons, Tolerance tolerance)
+        {
+            //去除掉多余的线上的点
+            List<Polyline> resPoly = new List<Polyline>();
+            foreach (var polyline in polygons)
+            {
+                //去掉容差范围内相同的点
+                List<Point3d> allPts = new List<Point3d>();
+                for (int i = 0; i < polyline.NumberOfVertices; i++)
+                {
+                    if (allPts.Where(x => x.IsEqualTo(polyline.GetPoint3dAt(i), tolerance)).Count() <= 0)
+                    {
+                        allPts.Add(polyline.GetPoint3dAt(i));
+                    }
+                }
+
+                //首尾点重叠要处理
+                Polyline tempPoly = new Polyline() { Closed = true };
+                int index = 0;
+                for (int i = 0; i < allPts.Count; i++)
+                {
+                    var current = allPts[i];
+                    var next = allPts[(i + 1) % allPts.Count];
+                    int j = i - 1;
+                    if (j < 0)
+                    {
+                        j = allPts.Count - 1;
+                    }
+                    var pre = allPts[j];
+
+                    Vector3d preDir = (current - pre).GetNormal();
+                    Vector3d nextDir = (next - current).GetNormal();
+                    if (!preDir.IsParallelTo(nextDir, tolerance))
+                    {
+                        tempPoly.AddVertexAt(index, allPts[i].toPoint2d(), 0, 0, 0);
+                        index++;
+                    }
+                }
+                resPoly.Add(tempPoly);
+            }
+
+            return resPoly;
         }
     }
 }
