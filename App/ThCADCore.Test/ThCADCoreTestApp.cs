@@ -239,6 +239,29 @@ namespace ThCADCore.Test
             }
         }
 
+        [CommandMethod("TIANHUACAD", "ThOrientation", CommandFlags.Modal)]
+        public void ThOrientation()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetEntity("请选择对象");
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var pline = acadDatabase.Element<Polyline>(result.ObjectId);
+                if (pline.IsCCW())
+                {
+                    Active.Editor.WriteLine("It's oriented counter-clockwise.");
+                }
+                else
+                {
+                    Active.Editor.WriteLine("It's oriented clockwise.");
+                }
+            }
+        }
+
         [CommandMethod("TIANHUACAD", "ThLoops", CommandFlags.Modal)]
         public void ThLoops()
         {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using NetTopologySuite.Utilities;
 using NetTopologySuite.Geometries;
 using Autodesk.AutoCAD.DatabaseServices;
+using NetTopologySuite.Algorithm;
 
 namespace ThCADCore.NTS
 {
@@ -264,6 +265,11 @@ namespace ThCADCore.NTS
                 }
             }
             return geometries;
+        }
+
+        public static bool IsCCW(this Polyline pline)
+        {
+            return Orientation.IsCCW(pline.ToNTSLineString().Coordinates);
         }
     }
 }
