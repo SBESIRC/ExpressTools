@@ -21,10 +21,8 @@ namespace ThSitePlan.Engine
                         return false;
                     }
 
-                    foreach(ObjectId boundary in acadDatabase.Database.CreateBoundaries(objs))
-                    {
-                        boundary.CreateHatchWithPolygon();
-                    }
+                    ObjectId frame = (ObjectId)options.Options["Frame"];
+                    Active.Editor.SuperBoundaryCmd(objs);
                 }
 
                 // 删除建筑线稿

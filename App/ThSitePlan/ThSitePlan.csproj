@@ -40,6 +40,7 @@
     <Compile Include="Engine\ThSitePlanBuildingShadow.cs" />
     <Compile Include="Engine\ThSitePlanCADRegionWorker.cs" />
     <Compile Include="Engine\ThSitePlanDbEngine.cs" />
+    <Compile Include="Engine\ThSitePlanDerivedContentGenerator.cs" />
     <Compile Include="Engine\ThSitePlanFrameNameGenerator.cs" />
     <Compile Include="Engine\ThSitePlanParkWorker.cs" />
     <Compile Include="Engine\ThSitePlanCADWorker.cs" />
@@ -81,6 +82,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ThPSGenerator.cs" />
+    <Compile Include="Engine\ThSitePlanBoundaryPathWorker.cs" />
     <Compile Include="ThSitePlanCommon.cs" />
     <Compile Include="ThSitePlanDbExtension.cs" />
     <Compile Include="ThSitePlanEditorExtension.cs" />

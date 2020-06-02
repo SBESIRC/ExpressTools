@@ -59,6 +59,29 @@ namespace Autodesk.AutoCAD.EditorInput
             }
         }
 
+        public static PromptSelectionResult SelectByFence(this Editor ed,
+            ObjectId plineObjId,
+            Point3dCollection fence,
+            SelectionFilter filter)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                // 保存当前view
+                ViewTableRecord view = ed.GetCurrentView();
+
+                // zoom到pline
+                Active.Editor.ZoomObject(plineObjId);
+
+                // 选择
+                PromptSelectionResult result;
+                result = ed.SelectFence(fence, filter);
+
+                // 恢复view
+                ed.SetCurrentView(view);
+                return result;
+            }
+        }
+
         public static PromptSelectionResult SelectByPolygon(this Editor ed,
             Point3dCollection polygon,
             PolygonSelectionMode mode,

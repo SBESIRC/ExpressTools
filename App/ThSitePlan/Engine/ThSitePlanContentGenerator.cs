@@ -1,88 +1,79 @@
 ﻿using System;
-using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
 
-namespace ThSitePlan.Engine
-{
-    /// <summary>
-    /// 解构图集生成器
-    /// </summary>
-    public class ThSitePlanContentGenerator : ThSitePlanGenerator
-    {
-        public override ObjectId OriginFrame { get; set; }
-        public override Tuple<ObjectId, Vector3d> Frame { get; set; }
-        private Dictionary<string, ThSitePlanWorker> Workers { get; set; }
-        public ThSitePlanContentGenerator()
-        {
-            Workers = new Dictionary<string, ThSitePlanWorker>()
-            {
-                {"基本文字说明及图例", new ThSitePlanMoveWorker()},
-                {"场地标高", new ThSitePlanMoveWorker()},
-                {"尺寸标注", new ThSitePlanMoveWorker()},
-                {"界线", new ThSitePlanMoveWorker()},
-                {"原始场地叠加线稿", new ThSitePlanMoveWorker()},
-
-                {"建筑物-场地内建筑-建筑信息", new ThSitePlanMoveWorker()},
-                {"建筑物-场地内建筑-建筑线稿", new ThSitePlanMoveWorker()},
-                {"建筑物-场地内建筑-建筑色块", new ThSitePlanCopyWorker()},
-                {"建筑物-场地外建筑-建筑信息", new ThSitePlanMoveWorker()},
-                {"建筑物-场地外建筑-建筑线稿", new ThSitePlanMoveWorker()},
-                {"建筑物-场地外建筑-建筑色块", new ThSitePlanCopyWorker()},
-
-                {"全局阴影", new ThSitePlanMoveWorker()},
-
-                {"树木-景观树-树木线稿", new ThSitePlanMoveWorker()},
-                {"树木-景观树-树木色块", new ThSitePlanCopyWorker()},
-                {"树木-行道树-树木线稿", new ThSitePlanMoveWorker()},
-                {"树木-行道树-树木色块", new ThSitePlanCopyWorker()},
-
-                {"场地-消防登高场地-场地线稿", new ThSitePlanMoveWorker()},
-                {"场地-消防登高场地-场地色块", new ThSitePlanCopyWorker()},
-                {"场地-停车场地-场地线稿", new ThSitePlanMoveWorker()},
-                {"场地-停车场地-场地色块", new ThSitePlanCopyWorker()},
-                {"场地-活动场地-场地线稿", new ThSitePlanMoveWorker()},
-                {"场地-活动场地-场地色块", new ThSitePlanCopyWorker()},
-                {"场地-其他场地-场地色块", new ThSitePlanCopyWorker()},
-                {"场地-其他场地-场地线稿", new ThSitePlanMoveWorker()},
-
-                {"道路-内部车行道路-道路线稿", new ThSitePlanMoveWorker()},
-                {"道路-内部车行道路-道路色块", new ThSitePlanCopyWorker()},
-                {"道路-内部人行道路-道路线稿", new ThSitePlanMoveWorker()},
-                {"道路-内部人行道路-道路色块", new ThSitePlanCopyWorker()},
-                {"道路-外部车行道路-道路线稿", new ThSitePlanMoveWorker()},
-                {"道路-外部车行道路-道路色块", new ThSitePlanCopyWorker()},
-                {"道路-外部景观道路-道路线稿", new ThSitePlanMoveWorker()},
-                {"道路-外部景观道路-道路色块", new ThSitePlanCopyWorker()},
-
-                {"铺装-场地外铺地-铺装线稿", new ThSitePlanMoveWorker()},
-                {"铺装-场地外铺地-铺装色块", new ThSitePlanCopyWorker()},
-
-                {"景观绿地-水景-水景线稿", new ThSitePlanMoveWorker()},
-                {"景观绿地-水景-水景色块", new ThSitePlanCopyWorker()},
-                {"景观绿地-景观-景观线稿", new ThSitePlanMoveWorker()},
-                {"景观绿地-景观-景观色块", new ThSitePlanCopyWorker()},
-            };
-        }
-        public override bool Generate(Database database, ThSitePlanConfigItem configItem)
-        {
-            var options = new ThSitePlanOptions()
-            {
-                Options = new Dictionary<string, object>()
-                {
-                    {"Frame", Frame.Item1},
-                    {"Offset",  Frame.Item2},
-                    {"OriginFrame", OriginFrame},
-                }
-            };
-
-            var key = (string)configItem.Properties["Name"];
-            if (Workers.ContainsKey(key))
-            {
-                Workers[key].DoProcess(database, configItem, options);
+namespace ThSitePlan.Engine {
+      /// <summary>
+      /// 解构图集生成器
+      /// </summary>
+      public class ThSitePlanContentGenerator : ThSitePlanGenerator {
+            public override ObjectId OriginFrame { get; set; }
+            public override Tuple<ObjectId, Vector3d> Frame { get; set; }
+            private Dictionary<string, ThSitePlanWorker> Workers { get; set; }
+            public ThSitePlanContentGenerator () {
+                  //
             }
-            return true;
-        }
-    }
+            public override bool Generate (Database database, ThSitePlanConfigItem configItem) {
+                  var options = new ThSitePlanOptions()
+                  {
+                        Options = new Dictionary<string, object>() {
+                            { "Frame", Frame.Item1 },
+                            { "Offset", Frame.Item2 },
+                            { "OriginFrame", OriginFrame },
+                        }
+                  };
+
+                  var scriptId = configItem.Properties["CADScriptID"].ToString ();
+                  if (scriptId == "0")
+                  {
+                        //如果CAD脚本为0，即为线稿图框，直接从原始复制图框将相应的图形元素移动到当前图框中
+                        var worker = new ThSitePlanMoveWorker ();
+                        worker.DoProcess (database, configItem, options);
+                  } else if (scriptId == "1" || scriptId == "2" || scriptId == "4")
+                  {
+                        ////如果CAD脚本为1，即为区域填充图框，直接从原始复制图框将相应的图形元素移动到当前图框中
+                        //using (AcadDatabase acadDatabase = AcadDatabase.Active ()) {
+                        //      //查找当前item对应的分组
+                        //      ThSitePlanConfigService.Instance.Initialize ();
+                        //      var currentgroup = ThSitePlanConfigService.Instance.FindGroupByItemName (configItem.Properties["Name"].ToString ());
+
+                        //      //获取当前色块填充图框
+                        //      ThSitePlanDbEngine.Instance.Initialize (Active.Database);
+                        //      var currenthatchframe = ThSitePlanDbEngine.Instance.FrameByName (configItem.Properties["Name"].ToString ());
+
+                        //      //遍历当前group，逐一获取group中各个item的图框，将图框中的所有色块图层的元素拷贝到当前色块图框
+                        //      foreach (var item in currentgroup.Items) {
+                        //            if (item is ThSitePlanConfigItem it) {
+                        //                  //获取item的图框
+                        //                  var groupitemframe = ThSitePlanDbEngine.Instance.FrameByName (it.Properties["Name"].ToString ());
+                        //                  if (groupitemframe.IsNull) {
+                                            
+                        //                  }
+
+                        //                  //计算该图框与当前色块图框的vector3d
+                        //                  Vector3d frameoffset = acadDatabase.Database.FrameOffset (currenthatchframe, groupitemframe);
+
+                        //                  //将item图框中的元素拷贝到当前色块图框
+                        //                  var newoptions = new ThSitePlanOptions () {
+                        //                        Options = new Dictionary<string, object> () { { "Frame", currenthatchframe }, { "Offset", frameoffset }, { "OriginFrame", groupitemframe },
+                        //                        }
+                        //                  };
+                        //                  var itemworker = new ThSitePlanCopyWorker ();
+                        //                  itemworker.DoProcess (database, configItem, newoptions);
+                        //            }
+                        //      }
+                        //}
+                  } else if (scriptId == "3") {
+                        //如果CAD脚本为3，即为阴影图框，直接从原始复制图框将相应的图形元素移动到当前图框中
+                        var worker = new ThSitePlanMoveWorker ();
+                        worker.DoProcess (database, configItem, options);
+                  } else {
+                        throw new NotSupportedException ();
+                  }
+
+                  return true;
+            }
+      }
 }

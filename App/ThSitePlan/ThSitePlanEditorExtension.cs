@@ -238,6 +238,22 @@ namespace ThSitePlan
 #endif
         }
 
+        public static void SuperBoundaryCmd(this Editor editor, ObjectIdCollection objs)
+        {
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("_._SBND_ALL",
+                SelectionSet.FromObjectIds(objs.ToArray()),
+                "");
+#else
+            ResultBuffer args = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_._SBND_ALL"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args);
+#endif
+        }
+
         /// <summary>
         /// 计算图元对象的包围框，
         /// 计算一个临时的包围框（比图元对象的范围框稍大一些10%）

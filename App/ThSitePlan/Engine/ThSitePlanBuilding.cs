@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using ThSitePlan.Configuration;
 
 namespace ThSitePlan.Engine
 {
@@ -34,31 +35,6 @@ namespace ThSitePlan.Engine
             return ThSitePlanDbEngine.Instance.FrameByName(Name);
         }
 
-        private ObjectId ReferenceFrame()
-        {
-            return ThSitePlanDbEngine.Instance.FrameByName(ReferenceName(Name));
-        }
-
-        private string ReferenceName(string name)
-        {
-            if (name == "建筑物-场地内建筑-建筑色块")
-            {
-                return "建筑物-场地内建筑-建筑信息";
-            }
-            else if (name == "建筑物-场地外建筑-建筑色块")
-            {
-                return "建筑物-场地外建筑-建筑信息";
-            }
-            else if (name == "全局阴影")
-            {
-                return "建筑物-场地内建筑-建筑信息";
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-        }
-
         public Point3dCollection Polygon()
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(Database))
@@ -80,44 +56,58 @@ namespace ThSitePlan.Engine
                     return 0;
                 }
 
-                // 被引用的图框
-                var referenceFrame = ReferenceFrame();
-                // 图框直接的偏移量，用来在被引用的图框中定位相对位置（区域）
-                Vector3d offset = Database.FrameOffset(frame, referenceFrame);
-                // 已知当前图框中的某个区域，计算在被引用图框中同等相对位置的区域
-                var referencePolygon = new Point3dCollection();
-                foreach (Point3d vertex in polygon)
-                {
-                    referencePolygon.Add(vertex.TransformBy(Matrix3d.Displacement(offset)));
-                }
-
-                // 在被引用图框中的区域内提取文字图元
-                var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", new string[]
-                {
-                    RXClass.GetClass(typeof(MText)).DxfName,
-                    RXClass.GetClass(typeof(DBText)).DxfName,
-                }));
-                PromptSelectionResult psr = Active.Editor.SelectByPolygon(
-                    referencePolygon,
-                    PolygonSelectionMode.Window,
-                    filter);
-                if (psr.Status != PromptStatus.OK)
-                {
-                    return 0;
-                }
-
-                // 提取区域内的文字图元的文字信息
+                // 遍历所有同组的图框，寻找所有的文字信息
+                ThSitePlanConfigService.Instance.Initialize();
+                var currentGroup = ThSitePlanConfigService.Instance.FindGroupByItemName(Name);
                 var contents = new List<string>();
-                foreach (var item in psr.Value.GetObjectIds())
+                foreach (var item in currentGroup.Items)
                 {
-                    var text = acadDatabase.Element<Entity>(item);
-                    if (text is DBText dBText)
+                    if (item is ThSitePlanConfigItem it)
                     {
-                        contents.Add(dBText.TextString);
-                    }
-                    else if (text is MText mText)
-                    {
-                        contents.Add(mText.Contents);
+                        //获取item的图框
+                        var itemName = it.Properties["Name"] as string;
+                        var itemFrame = ThSitePlanDbEngine.Instance.FrameByName(itemName);
+                        if (frame == itemFrame)
+                        {
+                            continue;
+                        }
+
+                        // 图框直接的偏移量，用来在被引用的图框中定位相对位置（区域）
+                        Vector3d offset = Database.FrameOffset(frame, itemFrame);
+                        // 已知当前图框中的某个区域，计算在被引用图框中同等相对位置的区域
+                        var referencePolygon = new Point3dCollection();
+                        foreach (Point3d vertex in polygon)
+                        {
+                            referencePolygon.Add(vertex.TransformBy(Matrix3d.Displacement(offset)));
+                        }
+
+                        // 在被引用图框中的区域内提取文字图元
+                        var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", new string[]
+                        {
+                            RXClass.GetClass(typeof(MText)).DxfName,
+                            RXClass.GetClass(typeof(DBText)).DxfName,
+                        }));
+                        PromptSelectionResult psr = Active.Editor.SelectByPolygon(
+                            referencePolygon,
+                            PolygonSelectionMode.Window,
+                            filter);
+                        if (psr.Status != PromptStatus.OK)
+                        {
+                            continue;
+                        }
+
+                        foreach (var objId in psr.Value.GetObjectIds())
+                        {
+                            var text = acadDatabase.Element<Entity>(objId);
+                            if (text is DBText dBText)
+                            {
+                                contents.Add(dBText.TextString);
+                            }
+                            else if (text is MText mText)
+                            {
+                                contents.Add(mText.Contents);
+                            }
+                        }
                     }
                 }
 

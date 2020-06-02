@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
 
-namespace ThSitePlan
+namespace ThSitePlan.Engine
 {
     public class ThSitePlanEngine
     {
@@ -42,6 +43,55 @@ namespace ThSitePlan
                 {
                     Run(database, group);
                 }
+            }
+        }
+
+        public void Update(Database database, ThSitePlanConfigItemGroup jobs)
+        {
+            if (!jobs.IsEnabled)
+            {
+                return;
+            }
+
+            while (jobs.Items.Count != 0)
+            {
+                var obj = jobs.Items.Dequeue();
+                if (obj is ThSitePlanConfigItem item)
+                {
+                    Update(database, item);
+                }
+                else if (obj is ThSitePlanConfigItemGroup group)
+                {
+                    Update(database, group);
+                }
+            }
+        }
+
+        private void Update(Database database, ThSitePlanConfigItem job)
+        {
+            if (!job.IsEnabled)
+            {
+                return;
+            }
+
+            if (Containers.Count == 0)
+            {
+                return;
+            }
+
+            var name = job.Properties["Name"] as string;
+            var frameId = ThSitePlanDbEngine.Instance.FrameByName(name);
+            var frame = Containers.Where(o => o.Item1 == frameId).FirstOrDefault();
+            if (frame == null)
+            {
+                return;
+            }
+
+            foreach (var generator in Generators)
+            {
+                generator.Frame = frame;
+                generator.OriginFrame = OriginFrame;
+                generator.Generate(database, job);
             }
         }
 

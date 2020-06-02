@@ -319,6 +319,47 @@ namespace ThSitePlan.Configuration
             EnableItem(true, siblinggroup);
         }
 
+        public void EnableItemAndAncestorNoSib(string name, bool bEnable)
+        {
+            //打开所有分组
+            EnableAllGroup(true, Root);
+
+            //查找要打开的item子项，打开该项以及其兄弟节点
+            string[] namegroup = name.Split('-');
+            ThSitePlanConfigItem FindItem = null;
+
+            var SearchItems = Root.Items;
+            for (int i = 0; i < namegroup.Length; i++)
+            {
+                foreach (var item in SearchItems)
+                {
+                    if (item.Properties["Name"].ToString() == namegroup[i] || item.Properties["Name"].ToString() == name)
+                    {
+                        //找到item直接打开，对于某些只有一层的图层
+                        if (item is ThSitePlanConfigItem fdit)
+                        {
+                            item.IsEnabled = bEnable;
+                            FindItem = fdit;
+                            break;
+                        }
+
+                        //找到该项父结点，打开该节点
+                        else if (item is ThSitePlanConfigItemGroup fdgp)
+                        {
+                            fdgp.IsEnabled = bEnable;
+                            SearchItems = fdgp.Items;
+                            break;
+                        }
+                    }
+                }
+
+                if (FindItem != null)
+                {
+                    break;
+                }
+            }
+        }
+
         private void EnableItem(bool bEnable, ThSitePlanConfigObj itgrp)
         {
             if (itgrp is ThSitePlanConfigItemGroup group)
@@ -1135,9 +1176,12 @@ namespace ThSitePlan.Configuration
         public ThSitePlanConfigItemGroup FindGroupByLayer(string layername)
         {
             ThSitePlanConfigItem finditem = FindItemByLayer(layername, Root);
+            if (finditem == null)
+            {
+                return null;
+            }
             string itemname = finditem.Properties["Name"].ToString();
-            ThSitePlanConfigItemGroup findgroup = FindGroupByItemName(itemname);
-            return findgroup;
+            return FindGroupByItemName(itemname);
         }
 
         private ThSitePlanConfigItemGroup ReConstructItemName(ThSitePlanConfigItemGroup origingroup, string outergroupname)

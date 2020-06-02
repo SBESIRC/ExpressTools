@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
+using Linq2Acad;
+using AcHelper;
+using Autodesk.AutoCAD.EditorInput;
 
 namespace ThSitePlan.Engine
 {
@@ -18,13 +21,7 @@ namespace ThSitePlan.Engine
 
         public ThSitePlanTrimGenerator()
         {
-            Workers = new Dictionary<string, ThSitePlanWorker>()
-            {
-                {"原始场地叠加线稿", new ThSitePlanTrimWorker()},
-                {"道路-外部车行道路-道路线稿", new ThSitePlanTrimWorker()},
-                {"道路-外部车行道路-道路色块", new ThSitePlanTrimWorker()},
-                {"道路-外部景观道路-道路线稿", new ThSitePlanTrimWorker()},
-            };
+            //
         }
 
         public override bool Generate(Database database, ThSitePlanConfigItem configItem)
@@ -38,12 +35,34 @@ namespace ThSitePlan.Engine
                     {"OriginFrame", OriginFrame},
                 }
             };
-
-            var key = (string)configItem.Properties["Name"];
-            if (Workers.ContainsKey(key))
+            
+            //获取当前需要处理的图框
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                Workers[key].DoProcess(database, configItem, options);
+                  ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+                  var currenthatchframe = ThSitePlanDbEngine.Instance.FrameByName(configItem.Properties["Name"].ToString());
+
+                  //分别获取当前处理图框的Window选择集和Crossing选择集
+                  PromptSelectionResult windowprs = Active.Editor.SelectByPolyline(
+                        currenthatchframe,
+                        PolygonSelectionMode.Window,
+                        null);
+                  PromptSelectionResult crossingprs = Active.Editor.SelectByPolyline(
+                        currenthatchframe,
+                        PolygonSelectionMode.Crossing,
+                        null);
+
+                  //若两个选择集之差为空或仅有一个图框元素，不执行trim
+                  var difselection = crossingprs.Value.GetObjectIds().Except(windowprs.Value.GetObjectIds()).ToList();
+                  if (difselection.Count == 0 || (difselection.Count == 1 && difselection.First().Equals(currenthatchframe)))
+                  {
+                        return true;
+                  }
+
+                  var worker = new ThSitePlanTrimWorker();
+                  worker.DoProcess(database, configItem, options);
             }
+            
             return true;
         }
 

@@ -20,6 +20,18 @@ namespace ThSitePlan.Engine
         /// 需要更新的图层
         /// </summary>
         private readonly HashSet<string> Contents = new HashSet<string>();
+        public HashSet<string> UpdatedContents
+        {
+            get
+            {
+                return Contents;
+            }
+        }
+
+        public void Clear()
+        {
+            Contents.Clear();
+        }
 
         public void SubscribeToDb(Database db)
         {

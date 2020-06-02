@@ -34,6 +34,7 @@
     <Compile Include="Resources.wxs" />
     <Compile Include="Roaming.wxs" />
     <Compile Include="Standards.wxs" />
+    <Compile Include="SuperBoundary.wxs" />
     <Compile Include="Support.wxs" />
     <Compile Include="ToolPalette.wxs" />
   </ItemGroup>
