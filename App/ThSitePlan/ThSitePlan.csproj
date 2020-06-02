@@ -52,6 +52,7 @@
     <Compile Include="Engine\ThSitePlanPDFGenerator.cs" />
     <Compile Include="Engine\ThSitePlanPlantWorker.cs" />
     <Compile Include="Engine\ThSitePlanRoadHatchWorker.cs" />
+    <Compile Include="Engine\ThSitePlanShadowContentGenerator.cs" />
     <Compile Include="Engine\ThSitePlanShadowGenerator.cs" />
     <Compile Include="Engine\ThSitePlanShadowWorker.cs" />
     <Compile Include="Engine\ThSitePlanShadowWorkerEx.cs" />

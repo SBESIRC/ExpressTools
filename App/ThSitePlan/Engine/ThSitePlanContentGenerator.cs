@@ -11,7 +11,6 @@ namespace ThSitePlan.Engine {
       public class ThSitePlanContentGenerator : ThSitePlanGenerator {
             public override ObjectId OriginFrame { get; set; }
             public override Tuple<ObjectId, Vector3d> Frame { get; set; }
-            private Dictionary<string, ThSitePlanWorker> Workers { get; set; }
             public ThSitePlanContentGenerator () {
                   //
             }

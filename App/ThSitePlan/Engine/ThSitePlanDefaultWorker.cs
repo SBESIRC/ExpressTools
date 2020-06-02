@@ -81,6 +81,60 @@ namespace ThSitePlan.Engine
         }
     }
 
+    public class ThSitePlanCopyWorkerEx : ThSitePlanWorker
+    {
+        private string[] DxfNames { get; set; }
+        public ThSitePlanCopyWorkerEx(string[] dxfNames)
+        {
+            DxfNames = dxfNames;
+        }
+
+        public override bool DoProcess(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                using (var objs = Filter(database, configItem, options))
+                {
+                    Vector3d offset = (Vector3d)options.Options["Offset"];
+                    acadDatabase.Database.CopyWithMove(objs, Matrix3d.Displacement(offset));
+                }
+                return true;
+            }
+        }
+
+        public override ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", DxfNames));
+
+            // 首先判断图框内是否已经有指定的内容
+            ObjectId frame = (ObjectId)options.Options["Frame"];
+            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                frame,
+                PolygonSelectionMode.Crossing,
+                filterlist);
+            if (psr.Status == PromptStatus.OK)
+            {            
+                // 若已经存在，则不需要复制
+                return new ObjectIdCollection();
+            }
+
+            // 若不存在，则需要从指定图框复制指定的内容
+            ObjectId originFrame = (ObjectId)options.Options["OriginFrame"];
+            psr = Active.Editor.SelectByPolyline(
+                originFrame,
+                PolygonSelectionMode.Crossing,
+                filterlist);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
+        }
+    }
+
     public class ThSitePlanAddNameTextWorker : ThSitePlanWorker
     {
         public override bool DoProcess(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)

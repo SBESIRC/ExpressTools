@@ -242,6 +242,7 @@ namespace ThSitePlan.UI
                 ThSitePlanEngine.Instance.OriginFrame = ObjectId.Null;
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                 {
+                    new ThSitePlanShadowContentGenerator(),
                     new ThSitePlanShadowGenerator()
                 };
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
