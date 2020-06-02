@@ -321,18 +321,18 @@ namespace ThSitePlan
             }
         }
 
-        public static Region CreateDifferenceShadowRegion(this ObjectId shadowObj, ObjectId buildingObj)
+        public static List<Region> CreateDifferenceShadowRegion(this ObjectId shadowObj, ObjectId buildingObj)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(shadowObj.Database))
             {
                 var shadow = acadDatabase.Element<Region>(shadowObj);
                 var building = acadDatabase.Element<Region>(buildingObj);
-                var difference = shadow.Difference(building);
-                if (difference != null)
+                var diffRegions = shadow.Difference(building);
+                foreach (var region in diffRegions)
                 {
-                    difference.SetPropertiesFrom(shadow);
+                    region.SetPropertiesFrom(shadow);
                 }
-                return difference;
+                return diffRegions;
             }
         }
 

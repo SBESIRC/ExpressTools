@@ -91,6 +91,16 @@ namespace ThCADCore.NTS
             return Region.CreateFromCurves(curves)[0] as Region;
         }
 
+        public static List<Region> ToDbRegions(this IMultiPolygon mPolygon)
+        {
+            var regions = new List<Region>();
+            foreach (IPolygon polygon in mPolygon.Geometries)
+            {
+                regions.Add(polygon.ToDbRegion());
+            }
+            return regions;
+        }
+
         public static IGeometry ToNTSLineString(this Polyline polyLine)
         {
             var points = new List<Coordinate>();
@@ -158,7 +168,7 @@ namespace ThCADCore.NTS
             using (var objs = new DBObjectCollection())
             {
                 region.Explode(objs);
-                return objs.Polygonize().FirstOrDefault() as IPolygon;
+                return objs.Outline()[0] as IPolygon;
             }
         }
 

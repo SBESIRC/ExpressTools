@@ -1,14 +1,11 @@
 ﻿using System;
 using AcHelper;
 using Linq2Acad;
-using System.Linq;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
-using TianHua.AutoCAD.Utility.ExtensionTools;
-
 
 namespace ThSitePlan.Engine
 {
@@ -94,11 +91,14 @@ namespace ThSitePlan.Engine
                 // 暂时不考虑和多个建筑相交的情况
                 if (sObjs.Count == 1)
                 {
-                    var difference = Region.CreateDifferenceShadowRegion(sObjs[0]);
-                    if (difference != null)
+                    var differences = Region.CreateDifferenceShadowRegion(sObjs[0]);
+                    if (differences.Count != 0)
                     {
-                        //根据新阴影创建填充
-                        acadDatabase.ModelSpace.Add(difference).CreateHatchWithPolygon();
+                        foreach(var difference in differences)
+                        {
+                            //根据新阴影创建填充
+                            acadDatabase.ModelSpace.Add(difference).CreateHatchWithPolygon();
+                        }
 
                         //删除原阴影
                         acadDatabase.Element<Region>(Region, true).Erase();
