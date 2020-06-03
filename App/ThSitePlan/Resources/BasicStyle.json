@@ -382,6 +382,20 @@
         "Type": "1"
     },
     {
+        "CAD_Frame": "树木阴影",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "阴影生成",
+        "CAD_ScriptID": "3",
+        "DataType": "0",
+        "ID": "9ef8fae2-2a1d-4a11-b452-069515f77114",
+        "Name": "树木阴影",
+        "PID": "17",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "0"
+    },
+    {
         "CAD_Frame": "树木色块",
         "CAD_Layer": [
             {
@@ -432,6 +446,20 @@
         "PSD_Color": "255, 255, 255",
         "PSD_Transparency": 100,
         "Type": "1"
+    },
+    {
+        "CAD_Frame": "树木阴影",
+        "CAD_Layer": null,
+        "CAD_Layer_Value": null,
+        "CAD_Script": "阴影生成",
+        "CAD_ScriptID": "3",
+        "DataType": "0",
+        "ID": "ab7856ba-1035-4f73-a9c4-228f52a1aa9d",
+        "Name": "树木阴影",
+        "PID": "20",
+        "PSD_Color": "255, 255, 255",
+        "PSD_Transparency": 100,
+        "Type": "0"
     },
     {
         "CAD_Frame": "树木色块",
