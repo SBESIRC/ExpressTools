@@ -1,10 +1,12 @@
-﻿using Autodesk.AutoCAD.Colors;
+﻿using AcHelper;
+using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace TopoNode
 {
@@ -1156,11 +1158,13 @@ namespace TopoNode
 
         public void DoCal(List<Curve> totalCurves)
         {
+            Active.WriteMessage("1", "DoCal");
             var scatterCurves = ScatterCurves.MakeNewCurves(srcCurves);
+            Active.WriteMessage("2", "DoCal");
             var scatterRightCurves = CalcuRightCurves(scatterCurves);
             if (scatterRightCurves == null || scatterRightCurves.Count == 0)
                 return;
-
+            Active.WriteMessage("3", "DoCal");
             List<TopoEdge> rightStartEdges = new List<TopoEdge>();
             TopoEdge startEdge = null;
             foreach (var curve in scatterCurves)
@@ -1200,7 +1204,7 @@ namespace TopoNode
             {
                 m_hashMap.Add(topoEdge);
             }
-
+            Active.WriteMessage("4", "DoCal");
             // outer
             foreach (var startRightEdge in rightStartEdges)
             {
@@ -1209,6 +1213,7 @@ namespace TopoNode
 
                 BuildOneLoop(startRightEdge);
             }
+            Active.WriteMessage("5", "DoCal");
         }
 
         public void DoCalS(List<Curve> totalCurves)

@@ -36,7 +36,7 @@ namespace TopoNode.Progress
             try
             {
                 var progress = Progress.Instance;
-                progress.m_progressBar.Value = 5;
+                progress.m_progressBar.Value = 1;
                 progress.Show();
             }
             catch
@@ -45,16 +45,30 @@ namespace TopoNode.Progress
             }
         }
 
-        /// <summary>
-        /// 进度条显示
-        /// </summary>
-        /// <param name="value"></param>
-        public static void SetValue(int value)
+            /// <summary>
+            /// 进度条显示
+            /// </summary>
+            /// <param name="value"></param>
+            public static void SetValue(int value)
         {
             try
             {
                 var progress = Progress.Instance;
                 progress.m_progressBar.Value = value;
+                progress.Refresh();
+            }
+            catch
+            {
+                // 避免出现某些操作，异常崩溃， 
+            }
+        }
+
+        public static void SetTip(string tip)
+        {
+            try
+            {
+                var progress = Progress.Instance;
+                progress.m_lblTip.Text = tip;
                 progress.Refresh();
             }
             catch
