@@ -4486,6 +4486,7 @@ namespace TopoNode
 
                     progressPos += incre;
                     Progress.Progress.SetValue((int)progressPos);
+                    Progress.Progress.SetProgressValue((int)progressPos);
                     List<Entity> entityLst = null;
                     try
                     {
@@ -5154,6 +5155,7 @@ namespace TopoNode
                                 continue;
 
                             Progress.Progress.SetValue((int)progressPos);
+                            Progress.Progress.SetProgressValue((int)progressPos);
                             var entityLst = GetEntityFromBlock2(blockReference);
                             if (entityLst != null && entityLst.Count != 0)
                             {
@@ -6003,15 +6005,8 @@ namespace TopoNode
             using (var db = AcadDatabase.Active())
             {
                 var layers = db.Layers;
-                var closeLayerNames = new List<string>();
                 foreach (var layer in layers)
                 {
-                    //if (!layer.Name.Contains("AE-DOOR-INSD") && !layer.Name.Contains("AE-WALL") && !layer.Name.Contains("AE-WIND") && !layer.Name.Contains("AD-NAME-ROOM")
-                    //     && !layer.Name.Contains("AE-STRU") && !layer.Name.Contains("S_COLU") && !layer.Name.Contains("天华面积框线"))
-                    //{
-                    //    closeLayerNames.Add(layer.Name);
-                    //}
-
                     if (IsValidShowLayer(layer, "AE-WALL")
                         || IsValidShowLayer(layer, "COLU")
                         || IsValidShowLayer(layer, "AD-NAME-ROOM")
@@ -6045,11 +6040,6 @@ namespace TopoNode
 
                 allValidLayers.Add("AE-DOOR-INSD");
                 allValidLayers.Add("AE-WIND");
-
-                foreach (var lName in closeLayerNames)
-                {
-                    db.Layers.Element(lName, true).IsOff = true;
-                }
             }
 
             return allCurveLayers;

@@ -45,16 +45,32 @@ namespace TopoNode.Progress
             }
         }
 
-            /// <summary>
-            /// 进度条显示
-            /// </summary>
-            /// <param name="value"></param>
-            public static void SetValue(int value)
+        /// <summary>
+        /// 进度条显示
+        /// </summary>
+        /// <param name="value"></param>
+        public static void SetValue(int value)
         {
             try
             {
                 var progress = Progress.Instance;
                 progress.m_progressBar.Value = value;
+                progress.Refresh();
+            }
+            catch
+            {
+                // 避免出现某些操作，异常崩溃， 
+            }
+        }
+
+        public static void SetProgressValue(int value)
+        {
+            try
+            {
+                var progress = Progress.Instance;
+                var PreValue = value / 10;
+                var valueShow = string.Format("{0}%", PreValue);
+                progress.m_lblProgresss.Text = valueShow;
                 progress.Refresh();
             }
             catch

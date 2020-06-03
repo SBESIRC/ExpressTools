@@ -59,6 +59,7 @@ namespace TopoNode
             // 图元预处理
             var removeEntityLst = Utils.PreProcess2(validLayers);
             Progress.Progress.SetValue(140);
+            Progress.Progress.SetProgressValue(140);
             pickPoints = Utils.GetRoomPoints("AD-NAME-ROOM");
 
             //foreach (var pt in pickPoints)
@@ -83,6 +84,7 @@ namespace TopoNode
             }
 
             Progress.Progress.SetValue(150);
+            Progress.Progress.SetProgressValue(150);
             Progress.Progress.SetTip("区域识别中...");
             var selectCount = selectPLines.Count;
             double beginPos = 150.0;
@@ -138,6 +140,7 @@ namespace TopoNode
                     smallStep = profileFindPre / 3.0;
                     beginPos += smallStep;
                     Progress.Progress.SetValue((int)beginPos);
+                    Progress.Progress.SetProgressValue((int)beginPos);
                     // door 内门中的数据
                     if (arcDoorLayers != null && arcDoorLayers.Count != 0)
                     {
@@ -155,6 +158,7 @@ namespace TopoNode
 
                     beginPos += smallStep;
                     Progress.Progress.SetValue((int)beginPos);
+                    Progress.Progress.SetProgressValue((int)beginPos);
                     // wind 中的数据
                     if (windLayers != null && windLayers.Count != 0)
                     {
@@ -178,6 +182,7 @@ namespace TopoNode
 
                 beginPos += smallStep;
                 Progress.Progress.SetValue((int)beginPos);
+                Progress.Progress.SetProgressValue((int)beginPos);
                 //Utils.DrawProfile(allCurves, "allCurves");
                 //Utils.PostProcess(removeEntityLst);
                 //return;
@@ -204,6 +209,7 @@ namespace TopoNode
                 {
                     beginPos += inc;
                     Progress.Progress.SetValue((int)beginPos);
+                    Progress.Progress.SetProgressValue((int)beginPos);
 
                     try
                     {
@@ -228,6 +234,7 @@ namespace TopoNode
 
             Utils.PostProcess(removeEntityLst);
             Progress.Progress.SetValue(650);
+            Progress.Progress.SetProgressValue(650);
             Progress.Progress.HideProgress();
             //Utils.ErasePreviewPoint(objCollect);
         }
