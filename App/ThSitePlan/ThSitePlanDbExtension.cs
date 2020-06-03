@@ -277,6 +277,17 @@ namespace ThSitePlan
             }
         }
 
+        public static ObjectId CreateSimpleShadowRegion(this ObjectId obj, Vector3d offset)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(obj.Database))
+            {
+                var region = acadDatabase.Element<Region>(obj);
+                var displacement = Matrix3d.Displacement(offset);
+                var offsetRegion = region.GetTransformedCopy(displacement) as Region;
+                return acadDatabase.ModelSpace.Add(offsetRegion);
+            }
+        }
+
         public static ObjectIdCollection CreateShadowRegion(this ObjectId obj, Vector3d offset)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(obj.Database))

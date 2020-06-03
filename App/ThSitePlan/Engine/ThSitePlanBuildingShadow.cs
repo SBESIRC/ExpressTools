@@ -53,6 +53,28 @@ namespace ThSitePlan.Engine
             }
         }
 
+        public static ThSitePlanBuildingShadow CreateSimpleShadow(ThSitePlanBuilding building)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(building.Database))
+            {
+                const int default_floor = 3;
+                var length = Properties.Settings.Default.shadowLengthScale * default_floor;
+                var angle = Properties.Settings.Default.shadowAngle * Math.PI / 180.0;
+                Matrix3d rotation = Matrix3d.Rotation(angle, Vector3d.ZAxis, Point3d.Origin);
+                Vector3d offset = Vector3d.XAxis.TransformBy(rotation).MultiplyBy(length);
+                var shadowRegion = building.Region.CreateSimpleShadowRegion(offset);
+
+                // 返回阴影面域
+                return new ThSitePlanBuildingShadow()
+                {
+                    Floor = default_floor,
+                    Region = shadowRegion,
+                    Name = building.Name,
+                    Database = building.Database
+                };
+            }
+        }
+
         public void ProjectShadow()
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(Database))

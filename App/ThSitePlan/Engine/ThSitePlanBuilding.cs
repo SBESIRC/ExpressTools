@@ -57,7 +57,6 @@ namespace ThSitePlan.Engine
                 }
 
                 // 遍历所有同组的图框，寻找所有的文字信息
-                ThSitePlanConfigService.Instance.Initialize();
                 var currentGroup = ThSitePlanConfigService.Instance.FindGroupByItemName(Name);
                 var contents = new List<string>();
                 foreach (var item in currentGroup.Items)

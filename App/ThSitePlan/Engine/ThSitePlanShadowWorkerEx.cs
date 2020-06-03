@@ -94,6 +94,12 @@ namespace ThSitePlan.Engine
                                 // 计算阴影和建筑物的遮挡
                                 shadow.ProjectShadow();
                             }
+                            else
+                            {
+                                // 创建简易的阴影面域
+                                shadow = ThSitePlanBuildingShadow.CreateSimpleShadow(buildInfo);
+                                shadow.Region.CreateHatchWithPolygon();
+                            }
                         }
                     }
                 }
