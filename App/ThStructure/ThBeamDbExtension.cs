@@ -12,12 +12,6 @@ namespace ThStructure
             var curves = new DBObjectCollection();
             foreach (Entity obj in objs)
             {
-                // 指定图层上的图元
-                if (obj.Layer != ThBeamCommon.LAYER_BEAM)
-                {
-                    continue;
-                }
-
                 // 指定图元
                 if (obj is Line line)
                 {

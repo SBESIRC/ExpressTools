@@ -1,5 +1,6 @@
 ﻿using AcHelper;
 using Linq2Acad;
+using System.Linq;
 using ThStructure.Model;
 using NFox.Cad.Collections;
 using System.Collections.Generic;
@@ -92,15 +93,15 @@ namespace ThStructure
                     RXClass.GetClass(typeof(BlockReference)).DxfName,
                 };
                 var filterlist = OpFilter.Bulid(o =>
-                    o.Dxf((int)DxfCode.Start) == string.Join(",", dxfNmaes) &
-                    o.Dxf((int)DxfCode.LayerName) == ThBeamCommon.LAYER_BEAM);
+                    o.Dxf((int)DxfCode.Start) == string.Join(",", dxfNmaes));
                 var entSelected = Active.Editor.GetSelection(options, filterlist);
                 if (entSelected.Status != PromptStatus.OK)
                 {
                     return;
                 };
 
-                // 执行操作
+                // 提取图元对象
+                // 对于块引用，炸到最基本图元
                 DBObjectCollection dBObjects = new DBObjectCollection();
                 foreach (ObjectId obj in entSelected.Value.GetObjectIds())
                 {
@@ -118,8 +119,14 @@ namespace ThStructure
                     }
                 }
 
+                // 通过图层获取梁的几何图元
+                DBObjectCollection beamObjects = new DBObjectCollection();
+                var beamLayers = ThBeamLayerManager.GeometryLayers(acdb.Database);
+                dBObjects.Cast<Entity>().Where(o => beamLayers.Contains(o.Layer))
+                    .ForEachDbObject(o => beamObjects.Add(o));
+
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                thDisBeamCommand.CalBeamStruc(dBObjects);
+                thDisBeamCommand.CalBeamStruc(beamObjects);
             }
         }
     }
