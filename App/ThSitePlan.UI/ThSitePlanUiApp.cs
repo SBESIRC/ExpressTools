@@ -199,6 +199,30 @@ namespace ThSitePlan.UI
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
 
+            // CAD种树处理流程
+            ThSitePlanConfigService.Instance.Initialize();
+            ThSitePlanConfigService.Instance.EnableAll(true);
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var derivedframes = new Queue<Tuple<ObjectId, Vector3d>>();
+                ThSitePlanDbEngine.Instance.Initialize(acadDatabase.Database);
+                foreach (ObjectId frame in ThSitePlanDbEngine.Instance.Frames)
+                {
+                    if (!frame.Equals(originFrame))
+                    {
+                        derivedframes.Enqueue(new Tuple<ObjectId, Vector3d>(frame, new Vector3d(0, 0, 0)));
+                    }
+                }
+                ThSitePlanEngine.Instance.Containers = derivedframes;
+                ThSitePlanEngine.Instance.OriginFrame = ObjectId.Null;
+                ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
+                {
+                    new ThSitePlanPlantGenerator()
+                };
+                ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
+            }
+
+
             // CAD填充处理流程
             ThSitePlanConfigService.Instance.Initialize();
             ThSitePlanConfigService.Instance.EnableAll(true);
@@ -271,31 +295,31 @@ namespace ThSitePlan.UI
             }
 
             //PS处理流程
-            ThSitePlanConfigService.Instance.Initialize();
-            ThSitePlanConfigService.Instance.EnableAll(true);
-            using (var psService = new ThSitePlanPSService())
-            {
-                if (!psService.IsValid)
-                {
-                    Application.ShowAlertDialog("未识别到PhotoShop,请确认是否正确安装PhotoShop");
-                    return;
-                }
+            //ThSitePlanConfigService.Instance.Initialize();
+            //ThSitePlanConfigService.Instance.EnableAll(true);
+            //using (var psService = new ThSitePlanPSService())
+            //{
+            //    if (!psService.IsValid)
+            //    {
+            //        Application.ShowAlertDialog("未识别到PhotoShop,请确认是否正确安装PhotoShop");
+            //        return;
+            //    }
 
-                // 创建空白文档
-                psService.NewEmptyDocument("MyNewDocument");
+            //    // 创建空白文档
+            //    psService.NewEmptyDocument("MyNewDocument");
 
-                // PS处理流程
-                ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
-                 {
-                    new ThSitePlanPSDefaultGenerator(psService),
-                 };
-                ThSitePlanPSEngine.Instance.Run(
-                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    ThSitePlanConfigService.Instance.Root);
+            //    // PS处理流程
+            //    ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+            //     {
+            //        new ThSitePlanPSDefaultGenerator(psService),
+            //     };
+            //    ThSitePlanPSEngine.Instance.Run(
+            //        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            //        ThSitePlanConfigService.Instance.Root);
 
-                // 保存PS生成的文档
-                psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-            }
+            //    // 保存PS生成的文档
+            //    psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            //}
 
             //清除需要更新的图框
             ThSitePlanDbEventHandler.Instance.Clear();

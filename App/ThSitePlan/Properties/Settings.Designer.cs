@@ -105,19 +105,18 @@ namespace ThSitePlan.Properties {
             }
 
         }
-
+        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.8")]
-        public double PlantDensity {
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int PlantDensity {
             get {
-                return ((double)(this["PlantDensity"]));
+                return ((int)(this["PlantDensity"]));
             }
             set
             {
                 this["PlantDensity"] = value;
             }
-
         }
     }
 }

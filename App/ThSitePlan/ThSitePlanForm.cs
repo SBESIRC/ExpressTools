@@ -50,7 +50,7 @@ namespace ThSitePlan
             Properties.Settings.Default.shadowAngle = Convert.ToDouble(this.ShadowAngleSetBox.Text);
             Properties.Settings.Default.shadowLengthScale = Convert.ToDouble(this.ShadowLengthSetBox.Text);
             Properties.Settings.Default.PlantRadius = Convert.ToDouble(this.TreeRadiusSetBox.Text);
-            Properties.Settings.Default.PlantDensity = Convert.ToDouble(this.TreeDensitySetBox.Text);
+            Properties.Settings.Default.PlantDensity = Convert.ToInt32(this.TreeDensitySetBox.Text);
 
             Properties.Settings.Default.Save();
             this.Close();
@@ -77,7 +77,7 @@ namespace ThSitePlan
         private void LandTreeUpdBt_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.PlantRadius = Convert.ToDouble(this.TreeRadiusSetBox.Text);
-            Properties.Settings.Default.PlantDensity = Convert.ToDouble(this.TreeDensitySetBox.Text);
+            Properties.Settings.Default.PlantDensity = Convert.ToInt32(this.TreeDensitySetBox.Text);
             Properties.Settings.Default.Save();
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {

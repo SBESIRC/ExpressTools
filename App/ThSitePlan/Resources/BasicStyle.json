@@ -838,23 +838,19 @@
         "Type": "1"
     },
     {
-        "CAD_Frame": "道路色块",
+        "CAD_Frame": "道路树木",
         "CAD_Layer": [
             {
                 "ID": "1",
                 "Name": "P-OUTD-ROAD"
-            },
-            {
-                "ID": "2",
-                "Name": "P-TRAF-CITY"
             }
         ],
         "CAD_Layer_Value": null,
-        "CAD_Script": "道路填充",
-        "CAD_ScriptID": "2",
+        "CAD_Script": "沿线种树",
+        "CAD_ScriptID": "4",
         "DataType": "0",
         "ID": "44",
-        "Name": "道路色块",
+        "Name": "道路树木",
         "PID": "43",
         "PSD_Color": "46, 139, 87",
         "PSD_Transparency": 100,

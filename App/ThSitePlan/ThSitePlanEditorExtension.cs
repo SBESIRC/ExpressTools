@@ -360,7 +360,7 @@ namespace ThSitePlan
 #if ACAD_ABOVE_2014
             Active.Editor.Command("_.MEASURE",
                 obj,
-                ThSitePlanCommon.plant_interval_distance,
+                Properties.Settings.Default.PlantRadius * 2,
                 "");
 #else
             ResultBuffer args = new ResultBuffer(
