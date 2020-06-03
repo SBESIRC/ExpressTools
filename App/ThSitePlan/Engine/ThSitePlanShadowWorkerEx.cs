@@ -1,5 +1,6 @@
 ﻿using AcHelper;
 using Linq2Acad;
+using System.Linq;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -16,6 +17,17 @@ namespace ThSitePlan.Engine
             {
                 ThSitePlanDbEngine.Instance.Initialize(database);
                 string frameName = (string)configItem.Properties["Name"];
+
+                // 分解复杂的填充为简单填充
+                using (var objs = FilterHatch(database, configItem, options))
+                {
+                    if (objs.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    Active.Editor.HatchDecomposeCmd(objs);
+                }
 
                 // 获得其轮廓线
                 using (var objs = FilterHatch(database, configItem, options))
@@ -56,8 +68,8 @@ namespace ThSitePlan.Engine
                         return false;
                     }
 
-                        Active.Editor.ExplodeCmd(objs);
-                    }
+                    Active.Editor.ExplodeCmd(objs);
+                }
                 using (var objs = FilterRegion(database, configItem, options))
                 {
                     if (objs.Count == 0)
