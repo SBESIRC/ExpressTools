@@ -2,10 +2,11 @@
 using Linq2Acad;
 using DotNetARX;
 using System.Linq;
+using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
-using System.Collections.Generic;
 using ThCADCore.NTS;
 using GeometryExtensions;
 using Autodesk.AutoCAD.BoundaryRepresentation;
@@ -416,6 +417,31 @@ namespace ThSitePlan
                 {
                     acdb.Element<Entity>(obj, true).LayerId = layerId;
                 }
+            }
+        }
+
+        public static ObjectIdCollection FilterConcentric(this Database database, ObjectIdCollection objs)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                var items = new ObjectIdCollection();
+                var circles = new DBObjectCollection();
+                objs.Cast<ObjectId>()
+                    .Where(o => o.ObjectClass.DxfName == RXClass.GetClass(typeof(Circle)).DxfName)
+                    .ToList().ForEach(o => circles.Add(acadDatabase.Element<Circle>(o)));
+                foreach(var group in circles.Cast<Circle>().GroupBy(o => o.Center))
+                {
+                    // 获取同心圆中半径最大的圆
+                    items.Add(group.OrderBy(o => o.Radius).Last().ObjectId);
+                }
+
+                // 同时获取其他非圆的图元
+                objs.Cast<ObjectId>()
+                    .Where(o => o.ObjectClass.DxfName != RXClass.GetClass(typeof(Circle)).DxfName)
+                    .ToList().ForEach(o => items.Add(o));
+
+                // 返回结果
+                return items;
             }
         }
 

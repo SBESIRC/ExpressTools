@@ -49,7 +49,11 @@ namespace ThSitePlan.Engine
                             objs.Add(objId);
                         }
                     }
-                    Active.Editor.SuperBoundaryCmd(objs);
+
+                    // 优化1：同心圆
+                    // 在取面域的过程中，我们只需要取最大的一个圆的面域
+                    var filterObjs = acadDatabase.Database.FilterConcentric(objs);
+                    Active.Editor.SuperBoundaryCmd(filterObjs);
                 }
 
                 // 删除建筑线稿
