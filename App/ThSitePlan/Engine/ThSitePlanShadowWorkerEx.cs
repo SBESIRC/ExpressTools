@@ -138,7 +138,7 @@ namespace ThSitePlan.Engine
             var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Region)).DxfName);
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 frame,
-                PolygonSelectionMode.Window,
+                PolygonSelectionMode.Crossing,
                 filter);
             if (psr.Status == PromptStatus.OK)
             {
@@ -173,7 +173,7 @@ namespace ThSitePlan.Engine
             var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Hatch)).DxfName);
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 frame,
-                PolygonSelectionMode.Window,
+                PolygonSelectionMode.Crossing,
                 filter);
             if (psr.Status == PromptStatus.OK)
             {
