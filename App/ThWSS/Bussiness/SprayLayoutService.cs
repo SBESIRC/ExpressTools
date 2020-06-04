@@ -24,7 +24,6 @@ namespace ThWSS.Bussiness
 
                 //2.去掉线上多余的点
                 rommBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { rommBounding }, new Tolerance(0.001, 0.001)).First();
-
                 //using (AcadDatabase acdb = AcadDatabase.Active())
                 //{
                 //    acdb.ModelSpace.Add(rommBounding);
@@ -36,7 +35,6 @@ namespace ThWSS.Bussiness
                 var diviRoom =regionDivisionUtils.DivisionRegion(rommBounding);
                 using (AcadDatabase acdb = AcadDatabase.Active())
                 {
-                    //acdb.ModelSpace.Add(rommBounding);
                     foreach (var item in diviRoom)
                     {
                         acdb.ModelSpace.Add(item);
@@ -57,8 +55,8 @@ namespace ThWSS.Bussiness
                     List<Point3d> roomPts = new List<Point3d>();
                     foreach (var lpts in layoutPts)
                     {
-                        //List<Point3d> checkPts = CalRoomSpray(room, lpts);
-                        roomPts.AddRange(lpts);
+                        List<Point3d> checkPts = CalRoomSpray(dRoom, lpts);
+                        roomPts.AddRange(checkPts);
                     }
 
                     //放置喷头

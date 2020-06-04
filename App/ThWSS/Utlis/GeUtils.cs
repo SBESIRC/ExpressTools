@@ -308,5 +308,34 @@ namespace ThWSS.Utlis
 
             return resPoly;
         }
+
+        /// <summary>
+        /// 获取射线交点
+        /// </summary>
+        /// <param name="roomLines"></param>
+        /// <param name="sp"></param>
+        /// <param name="transverseDir"></param>
+        /// <returns></returns>
+        public static List<Point3d> GetRayIntersectPoints(List<Line> roomLines, Point3d sp, Vector3d dir)
+        {
+            Ray ray = new Ray();
+            ray.BasePoint = sp;
+            ray.UnitDir = dir;
+
+            List<Point3d> allPoints = new List<Point3d>();
+            var intersectLines = roomLines.Where(x => !x.Delta.GetNormal().IsParallelTo(dir, new Tolerance(0.0001, 0.0001))).ToList();
+            foreach (var line in intersectLines)
+            {
+                Point3dCollection points = new Point3dCollection();
+                line.IntersectWith(ray, Intersect.OnBothOperands, points, IntPtr.Zero, IntPtr.Zero);
+                if (points.Count > 0)
+                {
+                    allPoints.Add(points[0]);
+                }
+            }
+
+            return allPoints;
+        }
+
     }
 }
