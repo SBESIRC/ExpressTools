@@ -1,5 +1,6 @@
 ﻿using AcHelper;
 using Linq2Acad;
+using System.Linq;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
@@ -8,6 +9,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using NFox.Cad.Collections;
 using GeometryExtensions;
 using ThSitePlan.Configuration;
+using Dreambuild.AutoCAD;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThSitePlan.Engine
@@ -51,6 +53,15 @@ namespace ThSitePlan.Engine
                     //执行superboundary
                     Active.Editor.SuperBoundaryCmd(objs);
                 }
+
+                using (var objs = HatchFilter(database, configItem, options))
+                {
+                    foreach (ObjectId oid in objs)
+                    {
+                        Hatch roadhatch = acadDatabase.Element<Hatch>(oid,true);
+                        DeleteHeavyArea(database, configItem, options, roadhatch);
+                    }
+                }
             }
             return true;
         }
@@ -62,6 +73,27 @@ namespace ThSitePlan.Engine
             var filterlist = OpFilter.Bulid(o =>
                 o.Dxf((int)DxfCode.Start) != RXClass.GetClass(typeof(Hatch)).DxfName &
                 o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray())
+                );
+            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                frame,
+                PolygonSelectionMode.Crossing,
+                filterlist);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
+        }
+
+        public ObjectIdCollection HatchFilter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            ObjectId frame = (ObjectId)options.Options["Frame"];
+            var layers = configItem.Properties["CADLayer"] as List<string>;
+            var filterlist = OpFilter.Bulid(o =>
+                o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Hatch)).DxfName
                 );
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 frame,
@@ -97,6 +129,27 @@ namespace ThSitePlan.Engine
             else
             {
                 return new ObjectIdCollection();
+            }
+        }
+
+        private void DeleteHeavyArea(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options, Hatch roadhatch)
+        {
+            try
+            {
+                double hatcharea = roadhatch.Area;
+                Extents3d hatchextents = roadhatch.GeometricExtents;
+                double hatchoutsidearea = hatchextents.ToExtents2d().GetArea();
+                double hatchratio = hatcharea / hatchoutsidearea;
+                // 根据区域的密度和面积，判断是否需要剔除
+                if (hatchratio > ThSitePlanCommon.hatch_density_ratio && hatcharea > ThSitePlanCommon.hatch_area_threshold)
+                {
+                    roadhatch.Erase();
+                }
+            }
+            catch
+            {
+                //在某些情况下，获取Hatch的面积会抛出异常
+                //这里我们直接返回
             }
         }
     }

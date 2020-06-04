@@ -35,6 +35,9 @@ namespace ThSitePlan
         // Frame
         public static readonly double frame_annotation_offset_X = 0.0;
         public static readonly double frame_annotation_offset_Y = 15.0;
+        // Region
+        public static readonly double hatch_density_ratio = 0.4;
+        public static readonly double hatch_area_threshold = 400;
         // RegAppName
         public static readonly string RegAppName_ThSitePlan_Frame_Name = "THCAD_SP_FRAME_NAME";
 
