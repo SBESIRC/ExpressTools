@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThStructureCheck.YJK.Interface;
 
-namespace ThStructureCheck.YJK
+namespace ThStructureCheck.YJK.Query
 {
     public class YjkBoardQuery:YjkQuery
     {

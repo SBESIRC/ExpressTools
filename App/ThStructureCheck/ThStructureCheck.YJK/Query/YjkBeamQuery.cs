@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using ThStructureCheck.Common;
 using ThStructureCheck.YJK.Model;
 
-namespace ThStructureCheck.YJK
+namespace ThStructureCheck.YJK.Query
 {
     public class YjkBeamQuery:YjkQuery
     {
@@ -63,6 +63,7 @@ namespace ThStructureCheck.YJK
             }
             return results;
         }
+
         /// <summary>
         /// 从计算库(dtlCalc)的表(tblBeamSeg)中获取柱子ID
         /// </summary>
@@ -74,7 +75,7 @@ namespace ThStructureCheck.YJK
             int id = -1;
             try
             {
-                string sql = "select ID from tblBeamSeg where MdlFlr = " + tblFloor_No + " and MdlNo = " + tblBeamSegNo;
+                string sql = "select ID from tblBeamSeg where FlrNo = " + tblFloor_No + " and MdlNo = " + tblBeamSegNo;
                 DataTable dt = ExecuteDataTable(sql);
                 string idStr = "";
                 foreach (DataRow dr in dt.Rows)
@@ -114,6 +115,51 @@ namespace ThStructureCheck.YJK
                 calcBeamSeg.Jt2 = Convert.ToInt32(dr["Jt2"].ToString());
             }
             return calcBeamSeg;
+        }
+        public List<CalcBeamSeg> GetFloorCalcBeamSeg(int flrNo)
+        {
+            List<CalcBeamSeg> results = new List<CalcBeamSeg>();            
+            string sql = "select * from tblBeamSeg where FlrNo=" + flrNo;
+            DataTable dt = ExecuteDataTable(sql);
+            foreach (DataRow dr in dt.Rows)
+            {
+                CalcBeamSeg calcBeamSeg = new CalcBeamSeg();
+                calcBeamSeg.ID = Convert.ToInt32(dr["ID"].ToString());
+                calcBeamSeg.TowNo = Convert.ToInt32(dr["TowNo"].ToString());
+                calcBeamSeg.FlrNo = Convert.ToInt32(dr["FlrNo"].ToString());
+                calcBeamSeg.MdlFlr = Convert.ToInt32(dr["MdlFlr"].ToString());
+                calcBeamSeg.MdlNo = Convert.ToInt32(dr["MdlNo"].ToString());
+                calcBeamSeg.Jt1 = Convert.ToInt32(dr["Jt1"].ToString());
+                calcBeamSeg.Jt2 = Convert.ToInt32(dr["Jt2"].ToString());
+                results.Add(calcBeamSeg);
+            }
+            return results;
+        }
+        /// <summary>
+        /// 获取梁末端节点连接的梁
+        /// </summary>
+        /// <param name="preLinkBeam"></param>
+        /// <param name="jt"></param>
+        /// <returns></returns>
+        public List<CalcBeamSeg> GetBeamLinkBeams(CalcBeamSeg preLinkBeam,int jt)
+        {
+            List<CalcBeamSeg> results = new List<CalcBeamSeg>();
+            string sql = "select * from tblBeamSeg where FlrNo=" + 
+                preLinkBeam.FlrNo + "and ID!="+preLinkBeam.ID + "or Jt1="+jt+ "or Jt2="+jt;
+            DataTable dt = ExecuteDataTable(sql);
+            foreach (DataRow dr in dt.Rows)
+            {
+                CalcBeamSeg calcBeamSeg = new CalcBeamSeg();
+                calcBeamSeg.ID = Convert.ToInt32(dr["ID"].ToString());
+                calcBeamSeg.TowNo = Convert.ToInt32(dr["TowNo"].ToString());
+                calcBeamSeg.FlrNo = Convert.ToInt32(dr["FlrNo"].ToString());
+                calcBeamSeg.MdlFlr = Convert.ToInt32(dr["MdlFlr"].ToString());
+                calcBeamSeg.MdlNo = Convert.ToInt32(dr["MdlNo"].ToString());
+                calcBeamSeg.Jt1 = Convert.ToInt32(dr["Jt1"].ToString());
+                calcBeamSeg.Jt2 = Convert.ToInt32(dr["Jt2"].ToString());
+                results.Add(calcBeamSeg);
+            }
+            return results;
         }
     }
 }

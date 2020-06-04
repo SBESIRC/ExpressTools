@@ -4,11 +4,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThStructureCheck.YJK.Interface;
 using ThStructureCheck.YJK.Model;
 
 namespace ThStructureCheck.YJK.Query
 {
-    class YjkWallBeamQuery:YjkQuery
+    public class YjkWallBeamQuery:YjkQuery
     {
         public YjkWallBeamQuery(string dbPath) : base(dbPath)
         {
@@ -22,12 +23,11 @@ namespace ThStructureCheck.YJK.Query
         /// </summary>
         /// <param name="floorNo"></param>
         /// <returns></returns>
-        public List<CalcWallBeam> GetBeamLinkWalls(CalcBeamSeg calcBeamSeg)
+        public List<CalcWallBeam> GetBeamLinkWalls(int flrNo,int jt)
         {
             List<CalcWallBeam> results = new List<CalcWallBeam>();
-            string sql = "selct * from tblWallBeam where FlrNo =" + calcBeamSeg.FlrNo +
-                " and Jt1=" + calcBeamSeg.Jt1 + " or Jt2=" + calcBeamSeg.Jt1 +
-                "or Jt1=" + calcBeamSeg.Jt2 + "or Jt2=" + calcBeamSeg.Jt2;
+            string sql = "selct * from tblWallBeam where FlrNo =" + flrNo +
+                " and Jt1=" + jt + " or Jt2=" + jt;
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {

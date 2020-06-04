@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThStructureCheck.YJK.Interface;
 using ThStructureCheck.YJK.Model;
+using ThStructureCheck.YJK.Query;
 
 namespace ThStructureCheck.YJK
 {
@@ -33,7 +35,7 @@ namespace ThStructureCheck.YJK
 
         public IList<IEntityInf> ExtractWall(int floorNo)
         {
-            return new YjkWallQuery(this.dtlModelPath).Extract(floorNo);
+            return new YjkWallBeamQuery(this.dtlModelPath).Extract(floorNo);
         }
 
         public ICalculateInfo GetBeamCalculateInfo(IEntityInf beamInf)

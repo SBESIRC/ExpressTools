@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThStructureCheck.YJK
+namespace ThStructureCheck.YJK.Interface
 {
-    interface ICalculateInfo
+    public interface ICalculateInfo
     {
         ICalculateInfo GetCalculateInfo(IEntityInf entInf);
     }

@@ -18,12 +18,11 @@ namespace ThStructureCheck.YJK.Query
         /// </summary>
         /// <param name="floorNo"></param>
         /// <returns></returns>
-        public List<CalcWallCol> GetBeamLinkWalls(CalcBeamSeg calcBeamSeg)
+        public List<CalcWallCol> GetBeamLinkWalls(int flrNo,int jt)
         {
             List<CalcWallCol> results = new List<CalcWallCol>();
-            string sql = "selct * from tblWallCol where FlrNo =" + calcBeamSeg.FlrNo +
-                " and JtRT=" + calcBeamSeg.Jt1 + " or JtLT=" + calcBeamSeg.Jt1 +
-                "or JtRT=" + calcBeamSeg.Jt2 + "or JtLT=" + calcBeamSeg.Jt2;
+            string sql = "selct * from tblWallCol where FlrNo ="
+                + flrNo + " and JtRT=" + jt + " or JtLT=" + jt;
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {

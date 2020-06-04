@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThStructureCheck.YJK.Interface;
 
 namespace ThStructureCheck.YJK.Model
 {
-    class YjkBoardCalculateInfo:ICalculateInfo
+    public class YjkBoardCalculateInfo:ICalculateInfo
     {
         private string dtlModelPath = "";
         private string dtlCalcPath = "";

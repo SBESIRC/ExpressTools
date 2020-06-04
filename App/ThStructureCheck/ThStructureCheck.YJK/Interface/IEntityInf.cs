@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThStructureCheck.YJK
+namespace ThStructureCheck.YJK.Interface
 {
     public interface IEntityInf
     {

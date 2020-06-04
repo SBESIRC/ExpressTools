@@ -5,14 +5,17 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThStructureCheck.YJK.Interface;
 
-namespace ThStructureCheck.YJK
+namespace ThStructureCheck.YJK.Query
 {
     public class YjkQuery
     {
         private string connectionString = string.Empty;
+        protected string dbPath= string.Empty;
         public YjkQuery(string dbPath)
         {
+            this.dbPath = dbPath;
             this.connectionString= "Data Source=" + dbPath;
         }
         public DataTable ExecuteDataTable(string sql)

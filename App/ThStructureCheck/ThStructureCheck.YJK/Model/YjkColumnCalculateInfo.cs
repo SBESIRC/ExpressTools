@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThStructureCheck.YJK.Interface;
+using ThStructureCheck.YJK.Query;
 
 namespace ThStructureCheck.YJK.Model
 {
     /// <summary>
     /// 银建科计算书信息，用于计算书校对
     /// </summary>
-    class YjkColumnCalculateInfo: ICalculateInfo
+    public class YjkColumnCalculateInfo : ICalculateInfo
     {
         private string dtlModelPath = "";
         private string dtlCalcPath = "";
-        public YjkColumnCalculateInfo(string dtlModelPath,string dtlCalcPath)
+        public YjkColumnCalculateInfo(string dtlModelPath, string dtlCalcPath)
         {
             this.dtlModelPath = dtlModelPath;
             this.dtlCalcPath = dtlCalcPath;
@@ -31,7 +33,7 @@ namespace ThStructureCheck.YJK.Model
 
         private double arDiaLimited; //角筋直径
 
-        private bool isCorner ; //（角柱，框架柱）
+        private bool isCorner; //（角柱，框架柱）
 
         private string structureType = ""; //结构类型
 
@@ -43,7 +45,7 @@ namespace ThStructureCheck.YJK.Model
 
         private double volumeReinforceLimitedValue = 0.0; //体积配筋率限值
 
-        private double dblStirrupAsCal=0.0; //配筋面积限值
+        private double dblStirrupAsCal = 0.0; //配筋面积限值
 
         private double dblStirrupAsCal0 = 0.0; //配筋面积限值
 
@@ -121,7 +123,7 @@ namespace ThStructureCheck.YJK.Model
 
         public ICalculateInfo GetCalculateInfo(IEntityInf entInf)
         {
-            if(!(entInf is ModelColumnSeg))
+            if (!(entInf is ModelColumnSeg))
             {
                 return null;
             }

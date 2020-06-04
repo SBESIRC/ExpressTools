@@ -28,10 +28,10 @@ namespace ThStructureCheck.YJK.Model
         public int Jt1 { get; set; }
         public int Jt2 { get; set; }
 
-        public bool IsCollinear(CalcBeamSeg otherBeamSeg)
+        public bool IsCollinear(CalcBeamSeg otherBeamSeg,string dbPath)
         {
             bool result = false;
-            YjkJointQuery yjkJointQuery = new YjkJointQuery(MergeFloorBeams.dtlCalcPath);
+            YjkJointQuery yjkJointQuery = new YjkJointQuery(dbPath);
             Point thisStartPt  = yjkJointQuery.GetCalcJoint(this.Jt1).GetCoordinate();
             Point thisEndPt = yjkJointQuery.GetCalcJoint(this.Jt2).GetCoordinate();
             Point otherStartPt = yjkJointQuery.GetCalcJoint(otherBeamSeg.Jt1).GetCoordinate();

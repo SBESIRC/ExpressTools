@@ -8,9 +8,15 @@ namespace ThStructureCheck.YJK.Model
 {
     public class BeamLink
     {
-        public bool IsPrimary { get; set; }
+        public BeamStatus Status { get; set; }
         public List<YjkEntityInfo> Start { get; set; }
         public List<YjkEntityInfo> End { get; set; }
         public List<CalcBeamSeg> Beams { get; set; }
+    }
+    public enum BeamStatus
+    {
+        Primary,
+        Secondary,
+        Unknown
     }
 }

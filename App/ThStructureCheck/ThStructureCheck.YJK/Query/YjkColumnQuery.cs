@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ThStructureCheck.Common;
+using ThStructureCheck.YJK.Interface;
 using ThStructureCheck.YJK.Model;
 
-namespace ThStructureCheck.YJK
+namespace ThStructureCheck.YJK.Query
 {
     public class YjkColumnQuery: YjkQuery
     {
@@ -865,6 +866,26 @@ namespace ThStructureCheck.YJK
                 res = false;
             }
             return res;
+        }
+        public List<CalcColumnSeg> GetBeamLinkColumns(int flrNo, int jt)
+        {
+            List<CalcColumnSeg> results = new List<CalcColumnSeg>();
+            string sql = "selct * from tblColSeg where FlrNo =" 
+                + flrNo + " and Jt1=" + jt;
+            DataTable dt = ExecuteDataTable(sql);
+            foreach (DataRow dr in dt.Rows)
+            {
+                CalcColumnSeg item = new CalcColumnSeg();
+                item.ID = Convert.ToInt32(dr["ID"].ToString());
+                item.TowNo = Convert.ToInt32(dr["TowNo"].ToString());
+                item.FlrNo = Convert.ToInt32(dr["FlrNo"].ToString());
+                item.MdlFlr = Convert.ToInt32(dr["MdlFlr"].ToString());
+                item.MdlNo = Convert.ToInt32(dr["MdlNo"].ToString());
+                item.Jt1 = Convert.ToInt32(dr["Jt1"].ToString());
+                item.Jt2 = Convert.ToInt32(dr["Jt2"].ToString());
+                results.Add(item);
+            }
+            return results;
         }
     }
 }

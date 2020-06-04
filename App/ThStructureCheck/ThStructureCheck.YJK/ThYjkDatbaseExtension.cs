@@ -8,6 +8,9 @@ namespace ThStructureCheck.YJK
 {
     public static class ThYjkDatbaseExtension
     {
+        //用于程序中转
+        public static string DtlModelPath = "";
+        public static string DtlCalcPath = "";
         /// <summary>
         /// 获取抗震等级
         /// </summary>
@@ -104,6 +107,6 @@ namespace ThStructureCheck.YJK
                 fortication = res.First().Item2;
             }
             return findRes;
-        }
+        }        
     }
 }

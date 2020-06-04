@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThStructureCheck.YJK.Interface;
 
 namespace ThStructureCheck.YJK.Model
 {
-    class YjkWallCalculateInfo:ICalculateInfo
+    public class YjkWallCalculateInfo:ICalculateInfo
     {
         private string dtlModelPath = "";
         private string dtlCalcPath = "";
@@ -17,10 +18,6 @@ namespace ThStructureCheck.YJK.Model
         }
         public ICalculateInfo GetCalculateInfo(IEntityInf entInf)
         {
-            if (!(entInf is YjkWall))
-            {
-                return null;
-            }
             return this;
         }
     }
