@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThStructureCheck.YJK.Query;
+using ThStructureCheck.YJK.Service;
 
 namespace ThStructureCheck.YJK.Model
 {
-    public class ModelBeamSeg : YjkTableInfo
+    public class ModelBeamSeg : YjkEntityInfo
     {
         public int No_ { get; set; }
         public int StdFlrID { get; set; }
@@ -17,7 +19,7 @@ namespace ThStructureCheck.YJK.Model
         public int HDiff2 { get; set; }
         public double Rotation { get; set; }
     }
-    public class CalcBeamSeg : YjkTableInfo
+    public class CalcBeamSeg : YjkEntityInfo
     {
         public int TowNo { get; set; }
         public int FlrNo { get; set; }
@@ -25,5 +27,25 @@ namespace ThStructureCheck.YJK.Model
         public int MdlNo { get; set; }
         public int Jt1 { get; set; }
         public int Jt2 { get; set; }
+
+        public bool IsCollinear(CalcBeamSeg otherBeamSeg)
+        {
+            bool result = false;
+            YjkJointQuery yjkJointQuery = new YjkJointQuery(MergeFloorBeams.dtlCalcPath);
+            Point thisStartPt  = yjkJointQuery.GetCalcJoint(this.Jt1).GetCoordinate();
+            Point thisEndPt = yjkJointQuery.GetCalcJoint(this.Jt2).GetCoordinate();
+            Point otherStartPt = yjkJointQuery.GetCalcJoint(otherBeamSeg.Jt1).GetCoordinate();
+            Point otherEndPt = yjkJointQuery.GetCalcJoint(otherBeamSeg.Jt2).GetCoordinate();
+            //thisStartPt.ResetZ();
+            //thisEndPt.ResetZ();
+            //otherStartPt.ResetZ();
+            //otherEndPt.ResetZ();
+            if (MathLogic.CollinearThreePoints(thisStartPt, thisEndPt, otherStartPt) &&
+                MathLogic.CollinearThreePoints(thisStartPt, thisEndPt, otherEndPt))
+            {
+                result = true;
+            }
+            return result;
+        }
     }
 }

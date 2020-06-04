@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThStructureCheck.YJK.Model
 {
-    public class ModelColumnSeg : YjkTableInfo
+    public class ModelColumnSeg : YjkEntityInfo
     {
         public int No_ { get; set; }
         public int StdFlrID { get; set; }
@@ -21,7 +21,7 @@ namespace ThStructureCheck.YJK.Model
         public string Cut_Cap { get; set; }
         public string Cut_Slab { get; set; }
     }
-    public class CalcColumnSeg : YjkTableInfo
+    public class CalcColumnSeg : YjkEntityInfo
     {
         public int FlrNo { get; set; }
         public int TowNo { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThStructureCheck.YJK
 {
-    class YjkBoardQuery:YjkQuery
+    public class YjkBoardQuery:YjkQuery
     {
         public YjkBoardQuery(string dbPath) : base(dbPath)
         {

@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace ThStructureCheck.YJK.Model
 {
-    public class ModelColumnSegSectJoint
+    public class ModelBeamSegCompose
     {
         public YjkFloor Floor { get; set; }
-        public ModelColumnSeg ColumnSeg { get; set; }
-        public ModelColumnSect ColumnSect { get; set; }
-
-        public YjkJoint Joint { get; set; }
+        public ModelBeamSeg BeamSeg { get; set; }
+        public ModelBeamSect BeamSect { get; set; }
     }
-} 
+}

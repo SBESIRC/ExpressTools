@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ThStructureCheck.YJK.Model
 {
-    class MergeBeams
+    public class BeamLink
     {
         public bool IsPrimary { get; set; }
-        public CalcBeamSeg StartLink { get; set; }
-        public CalcBeamSeg EndLink { get; set; }
-        public List<CalcBeamSeg> Merges { get; set; }
+        public List<YjkEntityInfo> Start { get; set; }
+        public List<YjkEntityInfo> End { get; set; }
+        public List<CalcBeamSeg> Beams { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace ThStructureCheck.YJK.Model
     /// <summary>
     /// tblFloor
     /// </summary>
-    public class YjkFloor:YjkTableInfo
+    public class YjkFloor: YjkEntityInfo
     {
         public int No_ { get; set; }
         public string Name { get; set; }

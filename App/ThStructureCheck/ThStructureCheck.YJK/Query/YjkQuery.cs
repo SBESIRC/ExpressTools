@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ThStructureCheck.YJK
 {
-    class YjkQuery
+    public class YjkQuery
     {
         private string connectionString = string.Empty;
         public YjkQuery(string dbPath)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThStructureCheck.YJK.Model
 {
-    public class YjkTableInfo
+    public class YjkEntityInfo
     {
         public int ID { get; set; }
     }

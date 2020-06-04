@@ -9,7 +9,7 @@ using ThStructureCheck.YJK.Model;
 
 namespace ThStructureCheck.YJK
 {
-    class YjkBeamQuery:YjkQuery
+    public class YjkBeamQuery:YjkQuery
     {
         public YjkBeamQuery(string dbPath):base(dbPath)
         {
@@ -19,20 +19,21 @@ namespace ThStructureCheck.YJK
         /// </summary>
         /// <param name="floorNo"></param>
         /// <returns></returns>
-        public List<ModelBeamSegSect> GetModelBeams(int floorNo)
+        public List<ModelBeamSegCompose> GetModelBeamSegComposes(int floorNo)
         {
-            List<ModelBeamSegSect> results = new List<ModelBeamSegSect>();
+            List<ModelBeamSegCompose> results = new List<ModelBeamSegCompose>();
             string sql = "select tblFloor.ID as tblFloorID , tblFloor.No_ as tblFloorNo, tblFloor.Name as tblFloorName," +
                 "tblFloor.StdFlrID as tblFloorStdFlrID, tblFloor.LevelB,tblFloor.Height, tblBeamSeg.ID as tblBeamSegID , " +
                 "tblBeamSeg.No_ as tblBeamSegNo, tblBeamSeg.StdFlrID as tblBeamSegStdFlrID,tblBeamSeg.SectID,tblBeamSeg.GridID," +
                 "tblBeamSeg.Ecc,tblBeamSeg.HDiff1,tblBeamSeg.HDiff2,tblBeamSeg.Rotation , tblBeamSect.ID as tblBeamSectID," +
                 " tblBeamSect.No_ as tblBeamSectNo , tblBeamSect.Name as tblBeamSectName, tblBeamSect.Mat,tblBeamSect.Kind," +
                 "tblBeamSect.ShapeVal, tblBeamSect.ShapeVal1 " +
-                " where tblFloor.No_ =" + floorNo + " and tblFloor.StdFlrID = tblBeamSeg.StdFlrID and tblBeamSeg.SectID = tblBeamSect.ID";
+                "from tblFloor join tblBeamSeg join tblBeamSect on tblFloor.StdFlrID = tblBeamSeg.StdFlrID and tblBeamSeg.SectID = tblBeamSect.ID" +
+                " where tblFloor.No_ =" + floorNo;
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {
-                ModelBeamSegSect item = new ModelBeamSegSect();
+                ModelBeamSegCompose item = new ModelBeamSegCompose();
                 item.Floor.ID = Convert.ToInt32(dr["tblFloorID"].ToString());
                 item.Floor.No_= Convert.ToInt32(dr["tblFloorNo"].ToString());
                 item.Floor.Name = dr["tblFloorName"].ToString();
@@ -97,6 +98,22 @@ namespace ThStructureCheck.YJK
             }
             return id;
         }
-        
+        public CalcBeamSeg GetCalcBeamSeg(int id)
+        {
+            CalcBeamSeg calcBeamSeg = new CalcBeamSeg();
+            string sql = "select * from tblBeamSeg where ID=" + id;
+            DataTable dt = ExecuteDataTable(sql);
+            foreach (DataRow dr in dt.Rows)
+            {
+                calcBeamSeg.ID = Convert.ToInt32(dr["ID"].ToString());
+                calcBeamSeg.TowNo= Convert.ToInt32(dr["TowNo"].ToString());
+                calcBeamSeg.FlrNo = Convert.ToInt32(dr["FlrNo"].ToString());
+                calcBeamSeg.MdlFlr= Convert.ToInt32(dr["MdlFlr"].ToString());
+                calcBeamSeg.MdlNo = Convert.ToInt32(dr["MdlNo"].ToString());
+                calcBeamSeg.Jt1 = Convert.ToInt32(dr["Jt1"].ToString());
+                calcBeamSeg.Jt2 = Convert.ToInt32(dr["Jt2"].ToString());
+            }
+            return calcBeamSeg;
+        }
     }
 }

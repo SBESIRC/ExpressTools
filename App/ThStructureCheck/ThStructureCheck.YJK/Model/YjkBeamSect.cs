@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThStructureCheck.YJK.Model
 {
-    public class ModelBeamSect:YjkTableInfo
+    public class ModelBeamSect: YjkEntityInfo
     {
         public int No_ { get; set; }
         public string Name { get; set; }
