@@ -15,6 +15,7 @@ using Linq2Acad;
 using PdfiumViewer;
 using DotNetARX;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using Autodesk.AutoCAD.Colors;
 
 namespace ThPlot
 {
@@ -205,7 +206,23 @@ namespace ThPlot
 
                     double textAngle = 0;
                     if (relatedData[i].PptTextLst == null || relatedData[i].PptTextLst.Count == 0)
-                        textAngle = 0;
+                    {
+                        // 没有文字 插入文字处理
+                        try
+                        {
+                            double lineWidth = 0;
+                            double lineHeight = 0;
+                            var imagePoly = relatedData[i].ImagePolyline;
+                            CalculateProfileTwoEdge(imagePoly, ref lineWidth, ref lineHeight);
+                            if (lineHeight > lineWidth)
+                            {
+                                textAngle = 270;
+                                InsertText(imagePoly, relatedData[i], "TInsert");
+                            }
+                        }
+                        catch
+                        { }
+                    }
                     else
                         textAngle = relatedData[i].PptTextLst.First().Rotation / ThPlotData.PI * 180;
                     textAngle = StandardAngle(textAngle);
@@ -273,7 +290,14 @@ namespace ThPlot
                         else
                             GetTextPosRelatedRationWithAngle(pptTextLst[j], textAngle, pptPolyline, ref xRatio, ref yRatio);
 
-                        pptTextLst[j].Rotation = textAngle;
+                        using (var db = AcadDatabase.Active())
+                        {
+                            if (!relatedData[i].TextInsert)
+                                pptTextLst[j].Rotation = textAngle;
+                            else
+                                (db.ModelSpace.Element(pptTextLst[j].Id, true) as DBText).Rotation = textAngle;
+                        }
+                            
                         var textShape = slide.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, (float)(ThPlotData.PPTWIDTH * xRatio), (float)(ThPlotData.PPTHEIGHT * yRatio), 300, 20);
                         textShape.TextFrame.TextRange.Text = pptTextLst[j].TextString;
                         textShape.TextFrame.TextRange.Font.Name = "微软雅黑";
@@ -298,6 +322,56 @@ namespace ThPlot
             catch
             {
                 // PowerPoint文件生成失败
+            }
+        }
+
+        public static void CreateLayer(string aimLayer, Color color)
+        {
+            LayerTableRecord layerRecord = null;
+            using (var db = AcadDatabase.Active())
+            {
+                foreach (var layer in db.Layers)
+                {
+                    if (layer.Name.Equals(aimLayer))
+                    {
+                        layerRecord = db.Layers.Element(aimLayer);
+                        break;
+                    }
+                }
+
+                // 创建新的图层
+                if (layerRecord == null)
+                {
+                    layerRecord = db.Layers.Create(aimLayer);
+                    layerRecord.Color = color;
+                    layerRecord.IsPlottable = false;
+                }
+            }
+        }
+
+        public static void InsertText(Polyline imagePoly, RelatedData relatedData, string layerName)
+        {
+            var texts = relatedData.PptTextLst;
+            var ptCenter = imagePoly.Get3DCenter<Polyline>();
+            CreateLayer(layerName, Color.FromRgb(255, 0, 0));
+            using (var db = AcadDatabase.Active())
+            {
+                var dbtext = new DBText();
+                dbtext.Height = 50;
+                dbtext.Justify = AttachmentPoint.MiddleCenter;
+                // 设置字体样式
+                var textId = GetIdFromSymbolTable();
+                if (textId != ObjectId.Null)
+                    dbtext.TextStyleId = textId;
+
+                dbtext.TextString = "";
+                dbtext.AlignmentPoint = ptCenter;
+                dbtext.Rotation = 27.0 / 18.0 * ThPlotData.PI;
+                dbtext.Layer = layerName;
+                var dbId = db.ModelSpace.Add(dbtext);
+                db.ModelSpace.Element(dbId, true).Layer = layerName;
+                relatedData.TextInsert = true;
+                texts.Add(dbtext);
             }
         }
 

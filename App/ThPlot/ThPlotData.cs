@@ -21,6 +21,8 @@ namespace ThPlot
         public List<MText> PptMtextLst { get; set; } // PPT 多行说明性文档
         public DBText PageText { get; set; }        // PPT 页码说明
 
+        public bool TextInsert = false;
+
         public RelatedData(Polyline imagePolyline, Polyline pptPolyline = null, DBText pptText = null, MText pptMtext = null, DBText pageText = null)
         {
             this.ImagePolyline = imagePolyline;
