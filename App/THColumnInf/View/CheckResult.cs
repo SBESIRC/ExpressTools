@@ -163,7 +163,7 @@ namespace ThColumnInfo.View
                 codeColumnInf.Add(code, columnInfs);
             }
             ThProgressBar.MeterProgress();
-            TreeNode correctParentNode = tn.Nodes.Add(this.dataCorrectNodeName, "识别成功：数据正确(" + correctList.Count + ")");
+            TreeNode correctParentNode = tn.Nodes.Add(this.dataCorrectNodeName, "数据正确(" + correctList.Count + ")");
             System.Drawing.Color correctColor = PlantCalDataToDraw.GetFrameSystemColor(FrameColor.Related);
             correctParentNode.ForeColor = correctColor;
             if (correctList.Count > 0)
@@ -229,7 +229,7 @@ namespace ThColumnInfo.View
             {
                 return;
             }
-            TreeNode codeEmptyParentNode = tn.Nodes.Add(this.codeLostNodeName, "识别异常：柱编号缺失(" + codeEmptyList.Count + ")");
+            TreeNode codeEmptyParentNode = tn.Nodes.Add(this.codeLostNodeName, "柱编号缺失(" + codeEmptyList.Count + ")");
             System.Drawing.Color lostColor = PlantCalDataToDraw.GetFrameSystemColor(FrameColor.ColumnLost);
             codeEmptyParentNode.ForeColor = lostColor;
             if (codeEmptyList.Count > 0)
@@ -243,7 +243,7 @@ namespace ThColumnInfo.View
                 }
             }
             ThProgressBar.MeterProgress();
-            TreeNode uncompleteParentNode = tn.Nodes.Add(this.uncompleteNodeNme, "识别异常：平法参数错误(" + infCompleteList.Count + ")");
+            TreeNode uncompleteParentNode = tn.Nodes.Add(this.uncompleteNodeNme, "平法参数错误(" + infCompleteList.Count + ")");
             System.Drawing.Color unCompletedColor = PlantCalDataToDraw.GetFrameSystemColor(FrameColor.ParameterNotFull);
             uncompleteParentNode.ForeColor = unCompletedColor;
             if (infCompleteList.Count > 0)
@@ -486,28 +486,28 @@ namespace ThColumnInfo.View
                 this.contextMenuStrip1.Visible = false;
                 this.contextMenuStrip2.Visible = false;
             }
-            bool isCurrentDocument = CheckRootNodeIsCurrentDocument(e.Node);
-            if (isCurrentDocument == false)
-            {
-                return;
-            }
+            //bool isCurrentDocument = CheckRootNodeIsCurrentDocument(e.Node);
+            //if (isCurrentDocument == false)
+            //{
+            //    return;
+            //}
             TreeNode selectNodeInnerFrameNode = TraverseInnerFrameRoot(e.Node);
             Document doc = acadApp.Application.DocumentManager.MdiActiveDocument;
-            if (this.currentNode != null && CheckRootNodeIsCurrentDocument(this.currentNode))
+            if (this.currentNode != null)
             {
-                if (this.currentNode != e.Node)
+                TreeNode innerFrameNode = TraverseInnerFrameRoot(this.currentNode);
+                if (this.currentNode != e.Node && CheckRootNodeIsCurrentDocument(this.currentNode))
                 {
-                    TreeNode innerFrameNode = TraverseInnerFrameRoot(this.currentNode);
                     bool needHide = GetTreeNodeHasVisibleFrame(innerFrameNode);
                     if (needHide && !this.isMouseRightClick)
                     {
                         HideTotalFrameIds(innerFrameNode);
                         doc.SendStringToExecute("_.Regen ", true, false, true);
                     }
-                    if (selectNodeInnerFrameNode != null && selectNodeInnerFrameNode != innerFrameNode)
-                    {
-                        ShowDetailData(selectNodeInnerFrameNode);
-                    }
+                }
+                if (selectNodeInnerFrameNode != null && selectNodeInnerFrameNode != innerFrameNode)
+                {
+                    ShowDetailData(selectNodeInnerFrameNode);
                 }
             }
             this.currentNode = e.Node;

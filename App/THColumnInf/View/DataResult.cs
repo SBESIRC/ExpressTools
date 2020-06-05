@@ -129,9 +129,9 @@ namespace ThColumnInfo.View
                     this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Style.BackColor = this.cellBackColor;
                     this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Style.ForeColor = this.textForeClor;
 
-                    this.dgvColumnTable.Rows[rowIndex].Cells["all"].Value = ctri.Replace132(ctri.AllLongitudinalReinforcement);
-                    this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.BackColor = this.cellBackColor;
-                    this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.ForeColor = this.textForeClor;
+                    //this.dgvColumnTable.Rows[rowIndex].Cells["all"].Value = ctri.Replace132(ctri.AllLongitudinalReinforcement);
+                    //this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.BackColor = this.cellBackColor;
+                    //this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.ForeColor = this.textForeClor;
 
                     this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Value = ctri.Replace132(ctri.AngularReinforcement);
                     this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Style.BackColor = this.cellBackColor;
@@ -311,7 +311,7 @@ namespace ThColumnInfo.View
             this.dgvColumnTable.Columns["subCode"].HeaderCell.Style.ForeColor = Color.White;
 
             this.dgvColumnTable.Columns.Add("spec","bxh");
-            this.dgvColumnTable.Columns.Add("all", "全部纵筋");
+            //this.dgvColumnTable.Columns.Add("all", "全部纵筋");
             this.dgvColumnTable.Columns.Add("corner", "角筋");
             this.dgvColumnTable.Columns.Add("bSide", "b边一侧中部筋");
             this.dgvColumnTable.Columns.Add("hside", "h边一侧中部筋");
