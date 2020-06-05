@@ -444,6 +444,23 @@ namespace ThSitePlan.UI
                     };
                     ThSitePlanEngine.Instance.Update(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
 
+                    //启动CAD引擎，开始PlantGenerator
+                    ThSitePlanConfigService.Instance.Initialize();
+                    ThSitePlanConfigService.Instance.EnableAll(false);
+                    foreach (var item in updateframes)
+                    {
+                        //获取所选择的框对应的图元的图层分组名
+                        string selFrameName = ThSitePlanDbEngine.Instance.NameByFrame(item.Item1);
+
+                        //打开需要的工作
+                        ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(selFrameName, true);
+                    }
+                    ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
+                     {
+                        new ThSitePlanPlantGenerator(),
+                    };
+                    ThSitePlanEngine.Instance.Update(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
+
                     //启动CAD引擎，开始BoundaryGenerator
                     ThSitePlanConfigService.Instance.Initialize();
                     ThSitePlanConfigService.Instance.EnableAll(false);
@@ -474,6 +491,7 @@ namespace ThSitePlan.UI
                     }
                     ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                      {
+                        new ThSitePlanShadowContentGenerator(),
                         new ThSitePlanShadowGenerator()
                     };
                     ThSitePlanEngine.Instance.Update(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
