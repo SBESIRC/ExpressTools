@@ -1173,6 +1173,25 @@ namespace ThSitePlan.Configuration
             return finditem;
         }
 
+        public void FindItemsByCADScript(ThSitePlanConfigItemGroup findgrp, string spid, ref List<ThSitePlanConfigItem> shadowitems)
+        {
+            foreach (var item in findgrp.Items)
+            {
+                if (item is ThSitePlanConfigItem fdit)
+                {
+                    var scriptId = fdit.Properties["CADScriptID"].ToString();
+                    if (scriptId == spid)
+                    {
+                        shadowitems.Add(fdit);
+                    }
+                }
+                else if (item is ThSitePlanConfigItemGroup fdgp)
+                {
+                    FindItemsByCADScript(fdgp,spid, ref shadowitems) ;
+                }
+            }
+        }
+
         public ThSitePlanConfigItemGroup FindGroupByLayer(string layername)
         {
             ThSitePlanConfigItem finditem = FindItemByLayer(layername, Root);
