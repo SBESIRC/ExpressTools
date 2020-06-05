@@ -49,7 +49,8 @@ namespace ThStructureCheck.YJK.Service
                     beamLink.Status = BeamStatus.Unknown;
                 }
                 beamLink.Beams = linkBeams;
-                foreach(var item in beamLink.Beams)
+                this.beamLinks.Add(beamLink);
+                foreach (var item in beamLink.Beams)
                 {
                     var findRes=this.calcBeamSegs.Where(i => i.ID == item.ID).Select(i => i);
                     if(findRes!=null && findRes.Count()>0)

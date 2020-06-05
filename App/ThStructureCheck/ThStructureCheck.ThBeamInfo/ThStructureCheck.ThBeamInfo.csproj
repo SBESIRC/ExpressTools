@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ThStructureCheck.ThBeamInfo</RootNamespace>
     <AssemblyName>ThStructureCheck.ThBeamInfo</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-NET40|AnyCPU'">
     <Prefer32Bit>false</Prefer32Bit>
@@ -101,6 +102,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ThStructureCheck.Common\ThStructureCheck.Common.csproj">
+      <Project>{422f71ff-e828-4df1-8fe1-a29981579760}</Project>
+      <Name>ThStructureCheck.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThStructureCheck.YJK\ThStructureCheck.YJK.csproj">
       <Project>{656ef6e4-6243-45ee-9423-30688b93c751}</Project>
       <Name>ThStructureCheck.YJK</Name>

@@ -145,7 +145,7 @@ namespace ThStructureCheck.YJK.Query
         {
             List<CalcBeamSeg> results = new List<CalcBeamSeg>();
             string sql = "select * from tblBeamSeg where FlrNo=" + 
-                preLinkBeam.FlrNo + "and ID!="+preLinkBeam.ID + "or Jt1="+jt+ "or Jt2="+jt;
+                preLinkBeam.FlrNo + " and ID!="+preLinkBeam.ID + " and Jt1="+jt+ " or Jt2="+jt;
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {

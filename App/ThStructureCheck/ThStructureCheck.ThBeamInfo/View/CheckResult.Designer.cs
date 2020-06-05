@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tvCheckRes = new System.Windows.Forms.TreeView();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.importCalculationTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.checkTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.detailDataTsmi = new System.Windows.Forms.ToolStripMenuItem();
@@ -37,12 +38,12 @@
             this.lblPaperDistinguishResult = new System.Windows.Forms.Label();
             this.btnShowDetailData = new System.Windows.Forms.Button();
             this.btnComponentDefinition = new System.Windows.Forms.Button();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.parameterSetTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.checkAllTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.panelUp = new System.Windows.Forms.Panel();
-            this.toolTip1 = new System.Windows.Forms.ToolTip();
-            this.toolTip2 = new System.Windows.Forms.ToolTip();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panelDown = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();

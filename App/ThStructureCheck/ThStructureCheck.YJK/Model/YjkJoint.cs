@@ -37,11 +37,13 @@ namespace ThStructureCheck.YJK.Model
             string[] values = this.Coord.Split(',');
             if(values.Length==2)
             {
+                xyz = new Point();
                 xyz.X = Convert.ToDouble(values[0]);
                 xyz.Y = Convert.ToDouble(values[1]);
             }
             else if (values.Length == 3)
             {
+                xyz = new Point();
                 xyz.X = Convert.ToDouble(values[0]);
                 xyz.Y = Convert.ToDouble(values[1]);
                 xyz.Z = Convert.ToDouble(values[2]);

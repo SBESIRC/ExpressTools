@@ -44,6 +44,9 @@ namespace ThStructureCheck.YJK.Model
                 z = value;
             }
         }
+        public Point ()
+        {
+        }
         public Point(double x,double y,double z)
         {
             this.x = x;
