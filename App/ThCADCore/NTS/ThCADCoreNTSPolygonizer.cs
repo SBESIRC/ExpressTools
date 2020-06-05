@@ -69,30 +69,40 @@ namespace ThCADCore.NTS
             return boundaries;
         }
 
-        public static DBObjectCollection Outline(this DBObjectCollection lines)
+        public static List<IPolygon> OutlineGeometries(this DBObjectCollection lines)
         {
-            var objs = new DBObjectCollection();
             var polygonizer = new Polygonizer();
+            var geometries = new List<IPolygon>();
             polygonizer.Add(lines.ToNTSNodedLineStrings());
             var geometry = CascadedPolygonUnion.Union(polygonizer.GetPolygons());
             if (geometry == null)
             {
-                return objs;
+                return geometries;
             }
             if (geometry is IPolygon polygon)
             {
-                objs.Add(polygon.Shell.ToDbPolyline());
+                geometries.Add(polygon);
             }
             else if (geometry is IMultiPolygon mPolygon)
             {
                 foreach (IPolygon subPolygon in mPolygon.Geometries)
                 {
-                    objs.Add(subPolygon.Shell.ToDbPolyline());
+                    geometries.Add(subPolygon);
                 }
             }
             else
             {
                 throw new NotSupportedException();
+            }
+            return geometries;
+        }
+
+        public static DBObjectCollection Outline(this DBObjectCollection lines)
+        {
+            var objs = new DBObjectCollection();
+            foreach (var geometry in lines.OutlineGeometries())
+            {
+                objs.Add(geometry.Shell.ToDbPolyline());
             }
             return objs;
         }

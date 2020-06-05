@@ -169,7 +169,7 @@ namespace ThCADCore.NTS
             using (var objs = new DBObjectCollection())
             {
                 region.Explode(objs);
-                return objs.Outline()[0] as IPolygon;
+                return objs.OutlineGeometries()[0] as IPolygon;
             }
         }
 

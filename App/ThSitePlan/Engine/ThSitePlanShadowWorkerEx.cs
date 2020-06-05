@@ -98,7 +98,7 @@ namespace ThSitePlan.Engine
                             {
                                 // 创建简易的阴影面域
                                 shadow = ThSitePlanBuildingShadow.CreateSimpleShadow(buildInfo);
-                                shadow.Region.CreateHatchWithPolygon();
+                                shadow.Regions[0].CreateHatchWithPolygon();
                             }
                         }
                     }

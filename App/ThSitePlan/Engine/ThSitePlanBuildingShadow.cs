@@ -13,8 +13,8 @@ namespace ThSitePlan.Engine
     {
         public string Name { get; set; }
         public UInt32 Floor { get; set; }
-        public ObjectId Region { get; set; }
         public Database Database { get; set; }
+        public ObjectIdCollection Regions { get; set; }
 
         /// <summary>
         /// 根据建筑物面域和建筑物楼层，计算并创建其阴影面域
@@ -34,7 +34,7 @@ namespace ThSitePlan.Engine
                 var angle = Properties.Settings.Default.shadowAngle * Math.PI / 180.0;
                 Matrix3d rotation = Matrix3d.Rotation(angle, Vector3d.ZAxis, Point3d.Origin);
                 var shadows = building.Region.CreateShadowRegion(Vector3d.XAxis.TransformBy(rotation).MultiplyBy(length));
-                if (shadows.Count != 1)
+                if (shadows.Count < 1)
                 {
                     return null;
                 }
@@ -46,7 +46,7 @@ namespace ThSitePlan.Engine
                 return new ThSitePlanBuildingShadow()
                 {
                     Floor = floor,
-                    Region = shadows[0],
+                    Regions = shadows,
                     Name = building.Name,
                     Database = building.Database
                 };
@@ -71,7 +71,7 @@ namespace ThSitePlan.Engine
                 return new ThSitePlanBuildingShadow()
                 {
                     Floor = default_floor,
-                    Region = shadowRegion,
+                    Regions = new ObjectIdCollection() { shadowRegion },
                     Name = building.Name,
                     Database = building.Database
                 };
@@ -82,62 +82,67 @@ namespace ThSitePlan.Engine
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(Database))
             {
-                // 在阴影面域范围内寻找可能存在的被遮挡的建筑
-                var filterlist = OpFilter.Bulid(o => 
-                    o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Region)).DxfName &
-                    o.Dxf((int)DxfCode.LayerName) == ThSitePlanCommon.LAYER_BUILD_HATCH);
-                var psr = Active.Editor.SelectByRegion(
-                    Region,
-                    PolygonSelectionMode.Crossing,
-                    filterlist);
-                if (psr.Status != PromptStatus.OK)
+                foreach(ObjectId region in Regions)
                 {
-                    return;
-                }
-
-                var sObjs = new ObjectIdCollection();
-                foreach (ObjectId obj in psr.Value.GetObjectIds())
-                {
-                    if (obj == Region)
+                    region.CreateHatchWithPolygon();
+                    continue;
+                    // 在阴影面域范围内寻找可能存在的被遮挡的建筑
+                    var filterlist = OpFilter.Bulid(o =>
+                        o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Region)).DxfName &
+                        o.Dxf((int)DxfCode.LayerName) == ThSitePlanCommon.LAYER_BUILD_HATCH);
+                    var psr = Active.Editor.SelectByRegion(
+                        region,
+                        PolygonSelectionMode.Crossing,
+                        filterlist);
+                    if (psr.Status != PromptStatus.OK)
                     {
-                        continue;
+                        return;
                     }
 
-                    using (var buildInfo = new ThSitePlanBuilding(Database, obj, Name))
+                    var sObjs = new ObjectIdCollection();
+                    foreach (ObjectId obj in psr.Value.GetObjectIds())
                     {
-                        UInt32 buildFloor = buildInfo.Floor();
-                        if (buildFloor > 0 && buildFloor < Floor * 0.5)
+                        if (obj == region)
                         {
-                            sObjs.Add(obj);
+                            continue;
+                        }
+
+                        using (var buildInfo = new ThSitePlanBuilding(Database, obj, Name))
+                        {
+                            UInt32 buildFloor = buildInfo.Floor();
+                            if (buildFloor > 0 && buildFloor < Floor * 0.5)
+                            {
+                                sObjs.Add(obj);
+                            }
                         }
                     }
-                }
 
-                // 暂时不考虑和多个建筑相交的情况
-                if (sObjs.Count == 1)
-                {
-                    var differences = Region.CreateDifferenceShadowRegion(sObjs[0]);
-                    if (differences.Count != 0)
+                    // 暂时不考虑和多个建筑相交的情况
+                    if (sObjs.Count == 1)
                     {
-                        foreach(var difference in differences)
+                        var differences = region.CreateDifferenceShadowRegion(sObjs[0]);
+                        if (differences.Count != 0)
                         {
-                            //根据新阴影创建填充
-                            acadDatabase.ModelSpace.Add(difference).CreateHatchWithPolygon();
-                        }
+                            foreach (var difference in differences)
+                            {
+                                //根据新阴影创建填充
+                                acadDatabase.ModelSpace.Add(difference).CreateHatchWithPolygon();
+                            }
 
-                        //删除原阴影
-                        acadDatabase.Element<Region>(Region, true).Erase();
+                            //删除原阴影
+                            acadDatabase.Element<Region>(region, true).Erase();
+                        }
+                        else
+                        {
+                            //根据原阴影创建填充
+                            region.CreateHatchWithPolygon();
+                        }
                     }
                     else
                     {
                         //根据原阴影创建填充
-                        Region.CreateHatchWithPolygon();
+                        region.CreateHatchWithPolygon();
                     }
-                }
-                else
-                {
-                    //根据原阴影创建填充
-                    Region.CreateHatchWithPolygon();
                 }
             }
         }

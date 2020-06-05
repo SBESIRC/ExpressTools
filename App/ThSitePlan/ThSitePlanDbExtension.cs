@@ -322,7 +322,11 @@ namespace ThSitePlan
                         };
                         // 若可以创建Region，即为一个正确的loop
                         var regions = Region.CreateFromCurves(items);
-                        shadows.Add(acadDatabase.ModelSpace.Add(regions[0] as Region));
+                        var shadowRegion = regions[0] as Region;
+                        foreach(var subRegion in shadowRegion.Difference(region))
+                        {
+                            shadows.Add(acadDatabase.ModelSpace.Add(subRegion));
+                        }
                     }
                     catch
                     {
