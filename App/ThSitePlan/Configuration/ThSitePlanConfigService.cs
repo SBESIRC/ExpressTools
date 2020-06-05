@@ -105,12 +105,12 @@ namespace ThSitePlan.Configuration
         private void InitalizeWithCode()
         {
             Root = new ThSitePlanConfigItemGroup();
-            Root.Properties.Add("Name", "天华彩总");
+            Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
             Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
                 {
-                    { "Name", "未识别对象"},
+                    { "Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unrecognized},
                     { "Color", Color.Black},
                     { "Opacity", 100 },
                     { "CADFrame", "" },
@@ -254,7 +254,7 @@ namespace ThSitePlan.Configuration
         {
             var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(orgstring);
             Root = new ThSitePlanConfigItemGroup();
-            Root.Properties.Add("Name", "天华彩总");
+            Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
             FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);
             Root = ReConstructItemName(Root, null);
         }

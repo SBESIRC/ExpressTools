@@ -67,7 +67,7 @@ namespace ThSitePlan
             string _Txt = FuncStr.NullToStr(View.m_ColorGeneralConfig);
             var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(_Txt);
             ThSitePlanConfigItemGroup Root = new ThSitePlanConfigItemGroup();
-            Root.Properties.Add("Name", "天华彩总");
+            Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
             FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);
             return _ListColorGeneral;
         }

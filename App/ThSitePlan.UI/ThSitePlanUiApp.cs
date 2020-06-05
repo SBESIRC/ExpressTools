@@ -44,7 +44,7 @@ namespace ThSitePlan.UI
             {
                 // 确定图框
                 ThSitePlanDbEngine.Instance.Initialize(Active.Database);
-                originFrame = ThSitePlanDbEngine.Instance.FrameByName("天华彩总原始图框");
+                originFrame = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Original);
                 if (originFrame.IsValid)
                 {
                     PromptKeywordOptions keywordOptions = new PromptKeywordOptions("\n检测到当前图纸中已设置原始打印图框，是否使用该图框？")
@@ -81,7 +81,7 @@ namespace ThSitePlan.UI
 
                         TypedValueList valulist = new TypedValueList
                         {
-                            { (int)DxfCode.ExtendedDataBinaryChunk, Encoding.UTF8.GetBytes("天华彩总原始图框") },
+                            { (int)DxfCode.ExtendedDataBinaryChunk, Encoding.UTF8.GetBytes(ThSitePlanCommon.ThSitePlan_Frame_Name_Original) },
                         };
                         result.ObjectId.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name,valulist);
                     }
@@ -99,7 +99,7 @@ namespace ThSitePlan.UI
 
                         TypedValueList valulist = new TypedValueList
                         {
-                            { (int)DxfCode.ExtendedDataBinaryChunk, Encoding.UTF8.GetBytes("天华彩总原始图框") },
+                            { (int)DxfCode.ExtendedDataBinaryChunk, Encoding.UTF8.GetBytes(ThSitePlanCommon.ThSitePlan_Frame_Name_Original) },
                         };
                         result.ObjectId.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name, valulist);
 
@@ -138,7 +138,7 @@ namespace ThSitePlan.UI
                 {
                     TypedValueList valueList = new TypedValueList
                     {
-                        { (int)DxfCode.ExtendedDataBinaryChunk, Encoding.UTF8.GetBytes("天华彩总") },
+                        { (int)DxfCode.ExtendedDataBinaryChunk, Encoding.UTF8.GetBytes(ThSitePlanCommon.ThSitePlan_Frame_Name_Unused) },
                     };
                     fm.Item1.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name, valueList);
                 }
@@ -351,9 +351,9 @@ namespace ThSitePlan.UI
 
                 //读取已经被标注的图框
                 ThSitePlanDbEngine.Instance.Initialize(Active.Database);
-                var unusedframe = ThSitePlanDbEngine.Instance.FrameByName("天华彩总");
-                var undifineframe = ThSitePlanDbEngine.Instance.FrameByName("未识别对象");
-                var originalframe = ThSitePlanDbEngine.Instance.FrameByName("天华彩总原始图框");
+                var unusedframe = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
+                var undifineframe = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Unrecognized);
+                var originalframe = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Original);
                 Vector3d unusedtoundifineoffset = acadDatabase.Database.FrameOffset(undifineframe, unusedframe);
 
                 var frames = new ObjectIdCollection(SelResult.Value.GetObjectIds());
@@ -406,7 +406,7 @@ namespace ThSitePlan.UI
                     }
 
                     //首先将原线框内的所有图元复制一份放到解构图集放置区的最后一个线框里
-                    var originFrame = ThSitePlanDbEngine.Instance.FrameByName("天华彩总原始图框");
+                    var originFrame = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Original);
                     acadDatabase.Database.CopyWithMove(originFrame, acadDatabase.Database.FrameOffset(originFrame, undifineframe) + unusedtoundifineoffset);
                     acadDatabase.Database.ExplodeToOwnerSpace(unusedframe);
 
