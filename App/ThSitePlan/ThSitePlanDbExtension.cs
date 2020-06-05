@@ -323,10 +323,7 @@ namespace ThSitePlan
                         // 若可以创建Region，即为一个正确的loop
                         var regions = Region.CreateFromCurves(items);
                         var shadowRegion = regions[0] as Region;
-                        foreach(var subRegion in shadowRegion.Difference(region))
-                        {
-                            shadows.Add(acadDatabase.ModelSpace.Add(subRegion));
-                        }
+                        shadows.Add(acadDatabase.ModelSpace.Add(shadowRegion));
                     }
                     catch
                     {
@@ -337,13 +334,17 @@ namespace ThSitePlan
             }
         }
 
-        public static List<Region> CreateDifferenceShadowRegion(this ObjectId shadowObj, ObjectId buildingObj)
+        public static List<Polyline> CreateDifferenceShadowRegion(this ObjectId shadowObj, ObjectIdCollection buildingObjs)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(shadowObj.Database))
             {
                 var shadow = acadDatabase.Element<Region>(shadowObj);
-                var building = acadDatabase.Element<Region>(buildingObj);
-                var diffRegions = shadow.Difference(building);
+                var buildings = new DBObjectCollection();
+                foreach(ObjectId obj in buildingObjs)
+                {
+                    buildings.Add(acadDatabase.Element<Region>(obj));
+                }
+                var diffRegions = shadow.Difference(buildings);
                 foreach (var region in diffRegions)
                 {
                     region.SetPropertiesFrom(shadow);

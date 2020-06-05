@@ -23,6 +23,8 @@ namespace ThSitePlan.Engine
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(building.Database))
             {
+                // 获取建筑楼层信息失败，比如建筑信息丢失
+                // 这种情况下，没有足够信息创建阴影，返回失败
                 UInt32 floor = building.Floor();
                 if (floor == 0)
                 {
@@ -34,6 +36,8 @@ namespace ThSitePlan.Engine
                 var angle = Properties.Settings.Default.shadowAngle * Math.PI / 180.0;
                 Matrix3d rotation = Matrix3d.Rotation(angle, Vector3d.ZAxis, Point3d.Origin);
                 var shadows = building.Region.CreateShadowRegion(Vector3d.XAxis.TransformBy(rotation).MultiplyBy(length));
+                // 根据建筑面域计算阴影面域失败，比如建筑面域的形状异形
+                // 这种情况下，没有足够信息创建阴影，返回失败
                 if (shadows.Count < 1)
                 {
                     return null;
@@ -42,7 +46,7 @@ namespace ThSitePlan.Engine
                 // 设置建筑物阴影面域图层
                 acadDatabase.Database.MoveToLayer(shadows, ThSitePlanCommon.LAYER_GLOBAL_SHADOW);
 
-                // 返回阴影面域
+                // 返回阴影面域对象
                 return new ThSitePlanBuildingShadow()
                 {
                     Floor = floor,
@@ -78,14 +82,12 @@ namespace ThSitePlan.Engine
             }
         }
 
-        public void ProjectShadow()
+        public void ProjectShadow(ThSitePlanBuilding building)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(Database))
             {
                 foreach(ObjectId region in Regions)
                 {
-                    region.CreateHatchWithPolygon();
-                    continue;
                     // 在阴影面域范围内寻找可能存在的被遮挡的建筑
                     var filterlist = OpFilter.Bulid(o =>
                         o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Region)).DxfName &
@@ -96,7 +98,7 @@ namespace ThSitePlan.Engine
                         filterlist);
                     if (psr.Status != PromptStatus.OK)
                     {
-                        return;
+                        continue;
                     }
 
                     var sObjs = new ObjectIdCollection();
@@ -110,33 +112,36 @@ namespace ThSitePlan.Engine
                         using (var buildInfo = new ThSitePlanBuilding(Database, obj, Name))
                         {
                             UInt32 buildFloor = buildInfo.Floor();
-                            if (buildFloor > 0 && buildFloor < Floor * 0.5)
+                            if (buildFloor > 0 && buildFloor > Floor * 0.5)
                             {
                                 sObjs.Add(obj);
                             }
                         }
                     }
 
+                    var buildings = new ObjectIdCollection()
+                    {
+                        // 产生阴影的建筑物
+                        building.Region,
+                    };
                     // 暂时不考虑和多个建筑相交的情况
                     if (sObjs.Count == 1)
                     {
-                        var differences = region.CreateDifferenceShadowRegion(sObjs[0]);
-                        if (differences.Count != 0)
-                        {
-                            foreach (var difference in differences)
-                            {
-                                //根据新阴影创建填充
-                                acadDatabase.ModelSpace.Add(difference).CreateHatchWithPolygon();
-                            }
+                        // 被遮挡的建筑物
+                        buildings.Add(sObjs[0]);
+                    }
 
-                            //删除原阴影
-                            acadDatabase.Element<Region>(region, true).Erase();
-                        }
-                        else
+                    var differences = region.CreateDifferenceShadowRegion(buildings);
+                    if (differences.Count != 0)
+                    {
+                        foreach (var difference in differences)
                         {
-                            //根据原阴影创建填充
-                            region.CreateHatchWithPolygon();
+                            //根据新阴影创建填充
+                            acadDatabase.ModelSpace.Add(difference).CreateHatchWithPolygon();
                         }
+
+                        //删除原阴影
+                        acadDatabase.Element<Region>(region, true).Erase();
                     }
                     else
                     {

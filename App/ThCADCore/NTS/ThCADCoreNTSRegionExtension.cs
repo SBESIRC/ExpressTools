@@ -57,9 +57,9 @@ namespace ThCADCore.NTS
             return null;
         }
 
-        public static List<Region> Difference(this Region pRegion, Region sRegion)
+        public static List<Polyline> Difference(this Region pRegion, Region sRegion)
         {
-            var regions = new List<Region>();
+            var regions = new List<Polyline>();
             var pGeometry = pRegion.ToNTSPolygon();
             var sGeometry = sRegion.ToNTSPolygon();
             if (pGeometry == null || sGeometry == null)
@@ -77,11 +77,11 @@ namespace ThCADCore.NTS
             var rGeometry = pGeometry.Difference(sGeometry);
             if (rGeometry is IPolygon polygon)
             {
-                regions.Add(polygon.ToDbRegion());
+                regions.Add(polygon.Shell.ToDbPolyline());
             }
             else if (rGeometry is IMultiPolygon mPolygon)
             {
-                regions.AddRange(mPolygon.ToDbRegions());
+                regions.AddRange(mPolygon.ToDbPolylines());
             }
             else
             {
@@ -108,6 +108,40 @@ namespace ThCADCore.NTS
 
             // 若相交，则计算相交部分
             return pGeometry.Intersection(sGeometry);
+        }
+
+        public static List<Polyline> Difference(this Region pRegion, DBObjectCollection sRegions)
+        {
+            var regions = new List<Polyline>();
+            var pGeometry = pRegion.ToNTSPolygon();
+            var sGeometry = sRegions.ToNTSPolygons();
+            if (pGeometry == null || sGeometry == null)
+            {
+                return regions;
+            }
+
+            // 检查是否相交
+            if (!pGeometry.Intersects(sGeometry))
+            {
+                return regions;
+            }
+
+            // 若相交，则计算在pRegion，但不在sRegion的部分
+            var rGeometry = pGeometry.Difference(sGeometry);
+            if (rGeometry is IPolygon polygon)
+            {
+                regions.Add(polygon.Shell.ToDbPolyline());
+            }
+            else if (rGeometry is IMultiPolygon mPolygon)
+            {
+                regions.AddRange(mPolygon.ToDbPolylines());
+            }
+            else
+            {
+                // 为止情况，抛出异常
+                throw new NotSupportedException();
+            }
+            return regions;
         }
     }
 }

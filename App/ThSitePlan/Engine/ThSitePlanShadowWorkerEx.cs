@@ -1,6 +1,5 @@
 ﻿using AcHelper;
 using Linq2Acad;
-using System.Linq;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -91,8 +90,8 @@ namespace ThSitePlan.Engine
                             var shadow = ThSitePlanBuildingShadow.CreateShadow(buildInfo);
                             if (shadow != null)
                             {
-                                // 计算阴影和建筑物的遮挡
-                                shadow.ProjectShadow();
+                                // 计算阴影和其他建筑物的遮挡
+                                shadow.ProjectShadow(buildInfo);
                             }
                             else
                             {

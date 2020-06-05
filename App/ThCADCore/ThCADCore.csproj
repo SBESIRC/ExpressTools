@@ -39,6 +39,7 @@
     <Compile Include="ThCADCoreCommon.cs" />
     <Compile Include="ThCADDbExtension.cs" />
     <Compile Include="ThCADGeExtension.cs" />
+    <Compile Include="ThCADRegionExtension.cs" />
     <Compile Include="ThPolygonPartition.cs" />
   </ItemGroup>
   <Choose>

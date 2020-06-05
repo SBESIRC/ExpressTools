@@ -55,7 +55,6 @@
     <Compile Include="Engine\ThSitePlanRoadHatchWorker.cs" />
     <Compile Include="Engine\ThSitePlanShadowContentGenerator.cs" />
     <Compile Include="Engine\ThSitePlanShadowGenerator.cs" />
-    <Compile Include="Engine\ThSitePlanShadowWorker.cs" />
     <Compile Include="Engine\ThSitePlanShadowWorkerEx.cs" />
     <Compile Include="Engine\ThSitePlanSimpleShadowWorker.cs" />
     <Compile Include="Engine\ThSitePlanTrimGenerator.cs" />
