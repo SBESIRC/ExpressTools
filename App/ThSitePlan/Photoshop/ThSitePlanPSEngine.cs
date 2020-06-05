@@ -41,7 +41,7 @@ namespace ThSitePlan.Photoshop
 
         private void Run(string path, ThSitePlanConfigItem job)
         {
-            if (!job.IsEnabled)
+            if (!job.IsEnabled || job.Properties["Name"].ToString() == ThSitePlanCommon.ThSitePlan_Frame_Name_Unrecognized)
             {
                 return;
             }
