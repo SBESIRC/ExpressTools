@@ -1044,20 +1044,7 @@ namespace ThSitePlan.UI
                 }
 
             }
-            //if (_FocusedColumn.FieldName == "CAD_Script")
-            //{
-            //    var _List = m_ListColorGeneral.FindAll(p => p.PID == _ColorGeneral.PID && p.Type == "0");
-            //    if (_List.Count <= 1)
-            //    {
-            //        //e.Valid = false;
-            //        //e.ErrorText = "缺少创建脚本关联的图层对象！!";
-            //        MessageBox.Show("缺少创建脚本关联的图层对象!");
-            //        _TreeList.PostEditor();
-            //        return;
-            //    }
 
-
-            //}
 
         }
 
@@ -1086,17 +1073,6 @@ namespace ThSitePlan.UI
                     e.NewValue = e.OldValue;
                     return;
                 }
-
-                if (FuncStr.NullToStr(e.NewValue) == EnumCADScript.阴影生成.ToString())
-                {
-                    if (_List.Count <= 2)
-                    {
-                        XtraMessageBox.Show(EnumCADScript.阴影生成.ToString() + ":创建脚本需关联两个图层对象!", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        e.NewValue = e.OldValue;
-                        return;
-                    }
-                }
-
 
             }
 
