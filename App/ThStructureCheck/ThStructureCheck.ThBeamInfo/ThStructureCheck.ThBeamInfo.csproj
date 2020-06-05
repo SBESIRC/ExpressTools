@@ -80,6 +80,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ThDrawBeam.cs" />
     <Compile Include="ThBeamInfoApp.cs" />
     <Compile Include="View\CheckPalette.cs" />
     <Compile Include="View\CheckResult.cs">
@@ -92,7 +93,6 @@
   <ItemGroup>
     <Folder Include="Images\" />
     <Folder Include="Model\" />
-    <Folder Include="Service\" />
     <Folder Include="Validate\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>

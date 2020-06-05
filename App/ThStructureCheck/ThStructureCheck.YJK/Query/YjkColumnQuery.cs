@@ -870,7 +870,7 @@ namespace ThStructureCheck.YJK.Query
         public List<CalcColumnSeg> GetBeamLinkColumns(int flrNo, int jt)
         {
             List<CalcColumnSeg> results = new List<CalcColumnSeg>();
-            string sql = "selct * from tblColSeg where FlrNo =" 
+            string sql = "select * from tblColSeg where FlrNo =" 
                 + flrNo + " and Jt1=" + jt;
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)

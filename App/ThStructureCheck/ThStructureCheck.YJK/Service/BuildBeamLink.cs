@@ -30,11 +30,11 @@ namespace ThStructureCheck.YJK.Service
                 BeamLink beamLink = new BeamLink();
                 List<CalcBeamSeg> linkBeams = new List<CalcBeamSeg> { this.calcBeamSegs[0] };
                 this.calcBeamSegs.RemoveAt(0);
-                int startFindJt = ForwardFindBeam(linkBeams, this.calcBeamSegs[0].Jt1);
+                int startFindJt = ForwardFindBeam(linkBeams, linkBeams[0].Jt1);
                 bool startIsPrimary = false;
                 bool endIsPrimary = false;
                 beamLink.Start = GetEndPortLinks(linkBeams[0], startFindJt,out startIsPrimary);
-                int endFindJt = BackupFindBeam(linkBeams, this.calcBeamSegs[0].Jt2);
+                int endFindJt = BackupFindBeam(linkBeams, linkBeams[linkBeams.Count-1].Jt2);
                 beamLink.End = GetEndPortLinks(linkBeams[linkBeams.Count-1], endFindJt,out endIsPrimary);
                 if(startIsPrimary || endIsPrimary)
                 {
@@ -137,7 +137,7 @@ namespace ThStructureCheck.YJK.Service
                 {
                     findJt = linkBeamSegs[0].Jt2;
                 }
-                ForwardFindBeam(linkBeams, findJt);
+                return ForwardFindBeam(linkBeams, findJt);
             }
             else if(linkBeamSegs.Count > 1)
             {
