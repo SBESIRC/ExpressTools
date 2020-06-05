@@ -64,6 +64,9 @@ namespace ThSitePlan.Engine
                 Vector3d offset = Vector3d.XAxis.TransformBy(rotation).MultiplyBy(length);
                 var shadowRegion = building.Region.CreateSimpleShadowRegion(offset);
 
+                // 设置建筑物阴影面域图层
+                acadDatabase.Database.MoveToLayer(shadowRegion, ThSitePlanCommon.LAYER_GLOBAL_SHADOW);
+
                 // 返回阴影面域
                 return new ThSitePlanBuildingShadow()
                 {

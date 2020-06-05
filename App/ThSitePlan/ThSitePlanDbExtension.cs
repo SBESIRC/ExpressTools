@@ -420,19 +420,42 @@ namespace ThSitePlan
             }
         }
 
+        public static void MoveToLayer(this Database database, ObjectId obj, string layerName)
+        {
+            using (AcadDatabase acdb = AcadDatabase.Use(database))
+            {
+                var layerId = LayerTools.AddLayer(database, layerName);
+                acdb.Element<Entity>(obj, true).LayerId = layerId;
+            }
+        }
+
         public static ObjectIdCollection FilterConcentric(this Database database, ObjectIdCollection objs)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
                 var items = new ObjectIdCollection();
-                var circles = new DBObjectCollection();
+                var circles = new Dictionary<Point3d, Circle>();
                 objs.Cast<ObjectId>()
                     .Where(o => o.ObjectClass.DxfName == RXClass.GetClass(typeof(Circle)).DxfName)
-                    .ToList().ForEach(o => circles.Add(acadDatabase.Element<Circle>(o)));
-                foreach(var group in circles.Cast<Circle>().GroupBy(o => o.Center))
+                    .ToList().ForEach(o =>
+                    {
+                        var circle = acadDatabase.Element<Circle>(o);
+                        var concentric = circles.Keys.Where(p => p.IsEqualTo(circle.Center, ThSitePlanCommon.point_tolerance)).ToList();
+                        if (concentric.Count > 0)
+                        {
+                            if (circles[concentric.First()].Area < circle.Area)
+                            {
+                                circles[concentric.First()] = circle;
+                            }
+                        }
+                        else
+                        {
+                            circles.Add(circle.Center, circle);
+                        }
+                    });
+                foreach(var circle in circles)
                 {
-                    // 获取同心圆中半径最大的圆
-                    items.Add(group.OrderBy(o => o.Radius).Last().ObjectId);
+                    items.Add(circle.Value.ObjectId);
                 }
 
                 // 同时获取其他非圆的图元
