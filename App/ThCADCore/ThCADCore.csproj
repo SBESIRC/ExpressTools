@@ -33,6 +33,7 @@
     <Compile Include="NTS\ThCADCoreNTSPolylineExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSRegionExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSService.cs" />
+    <Compile Include="NTS\ThCADCoreNTSSpatialIndex.cs" />
     <Compile Include="OutLiner.cs" />
     <Compile Include="PolylineValidationExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
