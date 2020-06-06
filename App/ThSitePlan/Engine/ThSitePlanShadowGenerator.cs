@@ -45,7 +45,7 @@ namespace ThSitePlan.Engine
                             { "OriginFrame", null },
                          }
                     };
-                    var itemworker = new ThSitePlanShadowWorkerEx();
+                    var itemworker = new ThSitePlanShadowWorker();
                     itemworker.DoProcess(database, configItem, newoptions);
                 }
             }

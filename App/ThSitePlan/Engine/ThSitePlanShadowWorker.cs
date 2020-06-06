@@ -8,7 +8,7 @@ using ThSitePlan.Configuration;
 
 namespace ThSitePlan.Engine
 {
-    public class ThSitePlanShadowWorkerEx : ThSitePlanWorker
+    public class ThSitePlanShadowWorker : ThSitePlanWorker
     {
         public override bool DoProcess(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
         {
