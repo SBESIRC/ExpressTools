@@ -206,7 +206,9 @@ namespace ThSitePlan
                     hatch.ColorIndex = ThSitePlanCommon.hatch_color_index;
 
                     // 外圈轮廓
-                    hatch.Associative = true;
+                    // 考虑到这里的使用场景是根据轮廓线创建填充，仅此而已
+                    // 所以这里不需要保证填充及其轮廓线的关联性
+                    hatch.Associative = false;
                     hatch.AppendLoop(HatchLoopTypes.External, dbObjIds);
 
                     // 重新生成Hatch纹理
@@ -282,9 +284,9 @@ namespace ThSitePlan
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(obj.Database))
             {
-                var region = acadDatabase.Element<Region>(obj);
+                var region = acadDatabase.Element<Entity>(obj);
                 var displacement = Matrix3d.Displacement(offset);
-                var offsetRegion = region.GetTransformedCopy(displacement) as Region;
+                var offsetRegion = region.GetTransformedCopy(displacement) as Entity;
                 return acadDatabase.ModelSpace.Add(offsetRegion);
             }
         }

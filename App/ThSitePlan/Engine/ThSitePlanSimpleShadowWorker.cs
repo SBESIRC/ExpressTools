@@ -17,85 +17,25 @@ namespace ThSitePlan.Engine
                 ThSitePlanDbEngine.Instance.Initialize(database);
                 string frameName = (string)configItem.Properties["Name"];
 
-                // 分解复杂的填充为简单填充
-                using (var objs = FilterHatch(database, configItem, options))
-                {
-                    if (objs.Count == 0)
-                    {
-                        return false;
-                    }
-
-                    Active.Editor.HatchDecomposeCmd(objs);
-                }
-
-                // 获得其轮廓线
-                using (var objs = FilterHatch(database, configItem, options))
-                {
-                    if (objs.Count == 0)
-                    {
-                        return false;
-                    }
-
-                    Active.Editor.HatchBoundaryCmd(objs);
-                }
-
-                // 删除Hatch，只保留其轮廓线
-                using (var objs = FilterHatch(database, configItem, options))
-                {
-                    if (objs.Count == 0)
-                    {
-                        return false;
-                    }
-
-                    Active.Editor.EraseCmd(objs);
-                }
-
-                // 剔除所有内部的面域
-                using (var objs = FilterRegion(database, configItem, options))
-                {
-                    if (objs.Count == 0)
-                    {
-                        return false;
-                    }
-
-                    Active.Editor.UnionRegions(objs);
-                }
-                using (var objs = FilterRegion(database, configItem, options))
-                {
-                    if (objs.Count == 0)
-                    {
-                        return false;
-                    }
-
-                    Active.Editor.ExplodeCmd(objs);
-                }
-                using (var objs = FilterRegion(database, configItem, options))
-                {
-                    if (objs.Count == 0)
-                    {
-                        return false;
-                    }
-
-                    // 设置建筑物面域图层
-                    acadDatabase.Database.MoveToLayer(objs, ThSitePlanCommon.LAYER_BUILD_HATCH);
-                }
-
-                // 根据建筑物面域生成阴影面域
-                using (var objs = FilterRegion(database, configItem, options))
+                // 根据目标填充生成阴影填充
+                using (var objs = Filter(database, configItem, options))
                 {
                     foreach (ObjectId objId in objs)
                     {
                         using (var buildInfo = new ThSitePlanBuilding(database, objId, frameName))
                         {
-                            // 创建简易的阴影面域
+                            // 创建简易的阴影填充
                             var shadow = ThSitePlanBuildingShadow.CreateSimpleShadow(buildInfo);
                             shadow.Regions[0].CreateHatchWithPolygon();
                         }
                     }
                 }
 
-                // 删除建筑物面域
-                using (var objs = FilterRegion(database, configItem, options))
+                // 删除原目标填充
+                // 这里利用了CAD的一个Bug：
+                //  用代码新创建的对象，不能立即被Editor.SelectXX()选中；用命令新创建的对象却可以
+                // 所以这里用Editor.SelectXX()选中的填充都是原目标填充，正好是我们需要的
+                using (var objs = Filter(database, configItem, options))
                 {
                     Active.Editor.EraseCmd(objs);
                 }
@@ -107,46 +47,10 @@ namespace ThSitePlan.Engine
         public override ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
         {
             ObjectId frame = (ObjectId)options.Options["Frame"];
-            var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) != RXClass.GetClass(typeof(Hatch)).DxfName);
-            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
-                frame,
-                PolygonSelectionMode.Window,
-                filter);
-            if (psr.Status == PromptStatus.OK)
-            {
-                return new ObjectIdCollection(psr.Value.GetObjectIds());
-            }
-            else
-            {
-                return new ObjectIdCollection();
-            }
-        }
-
-        private ObjectIdCollection FilterRegion(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
-        {
-            ObjectId frame = (ObjectId)options.Options["Frame"];
-            var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Region)).DxfName);
-            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
-                frame,
-                PolygonSelectionMode.Crossing,
-                filter);
-            if (psr.Status == PromptStatus.OK)
-            {
-                return new ObjectIdCollection(psr.Value.GetObjectIds());
-            }
-            else
-            {
-                return new ObjectIdCollection();
-            }
-        }
-
-        private ObjectIdCollection FilterHatch(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
-        {
-            ObjectId frame = (ObjectId)options.Options["Frame"];
             var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Hatch)).DxfName);
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 frame,
-                PolygonSelectionMode.Crossing,
+                PolygonSelectionMode.Window,
                 filter);
             if (psr.Status == PromptStatus.OK)
             {
