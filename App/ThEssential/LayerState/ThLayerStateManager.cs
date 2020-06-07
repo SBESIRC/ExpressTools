@@ -66,6 +66,21 @@ namespace ThEssential.LayerState
             Manager.RestoreLayerState(name, ObjectId.Null, 0, LayerStateMasks.On | LayerStateMasks.Locked);
         }
 
+        /// <summary>
+        /// 将图层状态应用到指定视口
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        public void RestoreLayerState(string name, ObjectId id)
+        {
+            Manager.RestoreLayerState(name, id, 0, LayerStateMasks.CurrentViewport);
+        }
+
+        public ObjectId LayerStatesDictionaryId()
+        {
+            return Manager.LayerStatesDictionaryId(false);
+        }
+
         public void ImportLayerStateFromDb(string name, Database database)
         {
             Manager.ImportLayerStateFromDb(name, database);

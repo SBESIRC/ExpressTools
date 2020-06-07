@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Linq2Acad;
+using AcHelper;
 using AcHelper.Commands;
 using ThEssential.LayerState;
 using TianHua.AutoCAD.Utility.ExtensionTools;
@@ -42,24 +43,52 @@ namespace ThEssential.Command
             using (AcadDatabase layerStateDb = AcadDatabase.Open(LayerStateDwgPath(), DwgOpenMode.ReadOnly, false))
             using (ThLayerStateManager manager = new ThLayerStateManager(currentDb.Database))
             {
-                // 检查图层状态是否已经存在
-                if (string.IsNullOrEmpty(StateName))
+                if (ThLayerStateUtils.IsInModel())
                 {
-                    return;
-                }
-                // 若不存在，导入图层状态
-                if (!manager.HasLayerState(StateName))
-                {
-                    manager.ImportLayerStateFromDb(StateName, layerStateDb.Database);
-                }
-                // 若未发现图层状态，返回
-                if (!manager.HasLayerState(StateName))
-                {
-                    return;
-                }
+                    // 检查图层状态是否已经存在
+                    if (string.IsNullOrEmpty(StateName))
+                    {
+                        return;
+                    }
+                    // 若不存在，导入图层状态
+                    if (!manager.HasLayerState(StateName))
+                    {
+                        manager.ImportLayerStateFromDb(StateName, layerStateDb.Database);
+                    }
+                    // 若未发现图层状态，返回
+                    if (!manager.HasLayerState(StateName))
+                    {
+                        return;
+                    }
 
-                // 恢复图层状态
-                manager.RestoreLayerState(StateName);
+                    // 恢复图层状态
+                    manager.RestoreLayerState(StateName);
+                }
+                else if (ThLayerStateUtils.IsInLayoutViewport())
+                {
+                    // 检查图层状态是否已经存在
+                    if (string.IsNullOrEmpty(StateName))
+                    {
+                        return;
+                    }
+                    // 若不存在，导入图层状态
+                    if (!manager.HasLayerState(StateName))
+                    {
+                        manager.ImportLayerStateFromDb(StateName, layerStateDb.Database);
+                    }
+                    // 若未发现图层状态，返回
+                    if (!manager.HasLayerState(StateName))
+                    {
+                        return;
+                    }
+
+                    // 恢复图层状态（VPLayer Settings）
+                    manager.RestoreLayerState(StateName, Active.Editor.CurrentViewportObjectId);
+                }
+                else if (ThLayerStateUtils.IsInLayoutPaper())
+                {
+                    //
+                }
             }
         }
 
