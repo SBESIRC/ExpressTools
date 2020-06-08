@@ -36,7 +36,7 @@ namespace ThWSS.Beam
 
                     // 返回指定的图层
                     return true;
-                }).ForEachDbObject(o => layers.Contains(o.Name));
+                }).ForEachDbObject(o => layers.Add(o.Name));
                 return layers;
             }
         }

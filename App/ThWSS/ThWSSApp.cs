@@ -16,6 +16,8 @@ using ThWSS.Engine;
 using ThWSS.LayoutRule;
 using ThWSS.Model;
 using ThWSS.Utlis;
+using ThWSS.Beam;
+using ThStructure.BeamInfo.Command;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThWSS
@@ -44,6 +46,17 @@ namespace ThWSS
 
             var layoutModel = SetWindowValues(instance);
             Run(layoutModel);
+        }
+
+        [CommandMethod("TIANHUACAD", "THGETBEAMINFO", CommandFlags.Modal)]
+        public void THGETBEAMINFO()
+        {
+            using (AcadDatabase acdb = AcadDatabase.Active())
+            using (ThBeamDbManager beamManager = new ThBeamDbManager(acdb.Database))
+            {
+                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
+                thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(beamManager));
+            }
         }
 
         /// <summary>
