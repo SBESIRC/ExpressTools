@@ -366,7 +366,7 @@ namespace ThSitePlan
             ResultBuffer args = new ResultBuffer(
                new TypedValue((int)LispDataType.Text, "_.MEASURE"),
                new TypedValue((int)LispDataType.ObjectId, obj),
-               new TypedValue((int)LispDataType.Double, ThSitePlanCommon.plant_interval_distance),
+               new TypedValue((int)LispDataType.Double, Properties.Settings.Default.PlantRadius * 2),
                new TypedValue((int)LispDataType.Text, "")
                );
             Active.Editor.AcedCmd(args);

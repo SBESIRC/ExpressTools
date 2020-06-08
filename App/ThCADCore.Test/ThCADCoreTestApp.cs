@@ -287,7 +287,9 @@ namespace ThCADCore.Test
                 var spatialIndex = new ThCADCoreNTSSpatialIndex(objs);
 
                 var frame = acadDatabase.Element<Polyline>(result2.ObjectId);
-                foreach (Entity item in spatialIndex.Query(frame))
+                var pt1 = frame.GeometricExtents.MinPoint;
+                var pt2 = frame.GeometricExtents.MaxPoint;
+                foreach (Entity item in spatialIndex.SelectCrossingWindow(pt1, pt2))
                 {
                     item.ColorIndex = 1;
                     acadDatabase.ModelSpace.Add(item);

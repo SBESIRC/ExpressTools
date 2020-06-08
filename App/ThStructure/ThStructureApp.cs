@@ -121,10 +121,6 @@ namespace ThStructure
 
                 // 通过图层获取梁的几何图元
                 DBObjectCollection beamObjects = new DBObjectCollection();
-                var beamLayers = ThBeamLayerManager.GeometryLayers(acdb.Database);
-                dBObjects.Cast<Entity>().Where(o => beamLayers.Contains(o.Layer))
-                    .ForEachDbObject(o => beamObjects.Add(o));
-
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
                 thDisBeamCommand.CalBeamStruc(beamObjects);
             }
