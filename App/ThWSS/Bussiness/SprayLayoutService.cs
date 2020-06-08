@@ -24,11 +24,6 @@ namespace ThWSS.Bussiness
 
                 //2.去掉线上多余的点
                 rommBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { rommBounding }, new Tolerance(0.001, 0.001)).First();
-                //using (AcadDatabase acdb = AcadDatabase.Active())
-                //{
-                //    acdb.ModelSpace.Add(rommBounding);
-                //}
-                //continue;
 
                 //区域分割
                 RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();

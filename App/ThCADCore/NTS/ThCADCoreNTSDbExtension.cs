@@ -183,6 +183,11 @@ namespace ThCADCore.NTS
             }
         }
 
+        public static IPolygon ToPolygon(this ILinearRing linearRing)
+        {
+            return ThCADCoreNTSService.Instance.GeometryFactory.CreatePolygon(linearRing);
+        }
+
         public static IPolygon ToNTSPolygon(this Region region)
         {
             // 暂时不支持"复杂面域"
