@@ -37,6 +37,9 @@ namespace ThSitePlan.UI
         [CommandMethod("TIANHUACAD", "THPGE", CommandFlags.Modal)]
         public void ThSitePlanGenerate()
         {
+            //在生成前，暂时停止捕捉图纸变化的事件
+            ThSitePlanDbEventHandler.Instance.UnsubscribeFromDb(Active.Database);
+
             Vector3d offset;
             ObjectId originFrame = ObjectId.Null;
             var frames = new Queue<Tuple<ObjectId, Vector3d>>();
@@ -295,6 +298,9 @@ namespace ThSitePlan.UI
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
 
+            //在生成结束后，恢复捕捉图纸变化的事件
+            ThSitePlanDbEventHandler.Instance.SubscribeToDb(Active.Database);
+
             //PS处理流程
             ThSitePlanConfigService.Instance.Initialize();
             ThSitePlanConfigService.Instance.EnableAll(true);
@@ -321,9 +327,6 @@ namespace ThSitePlan.UI
                 // 保存PS生成的文档
                 psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
             }
-
-            //清除需要更新的图框
-            ThSitePlanDbEventHandler.Instance.Clear();
         }
 
         /// <summary>
@@ -369,7 +372,7 @@ namespace ThSitePlan.UI
 
                     //获取需要更新的图框
                     var updateframes = new Queue<Tuple<ObjectId, Vector3d>>();
-                    foreach(var layer in ThSitePlanDbEventHandler.Instance.UpdatedContents)
+                    foreach (var layer in ThSitePlanDbEventHandler.Instance.UpdatedContents)
                     {
                         var group = ThSitePlanConfigService.Instance.FindGroupByLayer(layer);
                         if (group == null)
@@ -404,6 +407,9 @@ namespace ThSitePlan.UI
                         //打开需要的工作
                         ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(selFrameName, true);
                     }
+
+                    //在更新中，暂时停止捕捉图纸变化的事件
+                    ThSitePlanDbEventHandler.Instance.UnsubscribeFromDb(acadDatabase.Database);
 
                     //首先将原线框内的所有图元复制一份放到解构图集放置区的最后一个线框里
                     var originFrame = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Original);
@@ -551,8 +557,8 @@ namespace ThSitePlan.UI
                         psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
                     }
 
-                    //清除需要更新的图框
-                    ThSitePlanDbEventHandler.Instance.Clear();
+                    //在更新结束后，恢复捕捉图纸变化的事件
+                    ThSitePlanDbEventHandler.Instance.SubscribeToDb(acadDatabase.Database);
                 }
                 else
                 {
