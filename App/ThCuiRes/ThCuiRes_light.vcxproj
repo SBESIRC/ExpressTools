@@ -160,6 +160,8 @@
     <Image Include="Images\THSGPM_light_large.ico" />
     <Image Include="Images\THXFPM_light_small.ico" />
     <Image Include="Images\THXFPM_light_large.ico" />
+    <Image Include="Images\THNT_light_small.ico" />
+    <Image Include="Images\THNT_light_large.ico" />
     <Image Include="Images\THAUL_light_small.ico" />
     <Image Include="Images\THAUL_light_large.ico" />
     <Image Include="Images\THAPL_light_small.ico" />

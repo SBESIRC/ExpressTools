@@ -756,6 +756,15 @@ namespace TianHua.AutoCAD.ThCui
                     "IDI_THCAD_THXFPM_SMALL",
                     "IDI_THCAD_THXFPM_LARGE",
                     RibbonButtonStyle.LargeWithText);
+
+                // 暖通全显
+                splitButton.AddNewButton("暖通全显",
+                    "暖通全显",
+                    "THNT",
+                    "切换到暖通全显",
+                    "IDI_THCAD_THNT_SMALL",
+                    "IDI_THCAD_THNT_LARGE",
+                    RibbonButtonStyle.LargeWithText);
             }
 
             // 提电气块转换
