@@ -79,7 +79,11 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="Interface\IBeamInfo.cs" />
+    <Compile Include="Model\BeamCustomData.cs" />
+    <Compile Include="Model\BeamRelateInf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ThBeamUtils.cs" />
     <Compile Include="Service\ThDrawBeam.cs" />
     <Compile Include="ThBeamInfoApp.cs" />
     <Compile Include="View\CheckPalette.cs" />
@@ -92,7 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
-    <Folder Include="Model\" />
     <Folder Include="Validate\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>

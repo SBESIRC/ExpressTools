@@ -105,8 +105,8 @@ namespace ThStructureCheck.YJK.Query
                 item.ColumnSect.Name = dr["tblColSectName"].ToString();
                 item.ColumnSect.Mat = Convert.ToInt32(dr["Mat"].ToString());
                 item.ColumnSect.Kind = Convert.ToInt32(dr["Kind"].ToString());
-                item.ColumnSect.ShapeVal = Convert.ToInt32(dr["ShapeVal"].ToString());
-                item.ColumnSect.ShapeVal1 = Convert.ToInt32(dr["ShapeVal1"].ToString());
+                item.ColumnSect.ShapeVal = dr["ShapeVal"].ToString();
+                item.ColumnSect.ShapeVal1 = dr["ShapeVal1"].ToString();
 
                 item.Joint.ID = Convert.ToInt32(dr["tblJointID"].ToString());
                 item.Joint.No_ = Convert.ToInt32(dr["tblJointNo"].ToString());

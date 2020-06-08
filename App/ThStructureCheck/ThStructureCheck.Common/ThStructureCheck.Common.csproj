@@ -81,6 +81,7 @@
     <Compile Include="ExtensionDictionaryTool.cs" />
     <Compile Include="CadTool.cs" />
     <Compile Include="Model\FloorInfo.cs" />
+    <Compile Include="MoveRotateScaleJig.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XDataTool.cs" />

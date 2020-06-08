@@ -86,6 +86,7 @@
     <Compile Include="Query\YjkWallCol.cs" />
     <Compile Include="Service\MathLogic.cs" />
     <Compile Include="Service\BuildBeamLink.cs" />
+    <Compile Include="Service\ThBeamJig.cs" />
     <Compile Include="ThYjkDatbaseExtension.cs" />
     <Compile Include="YjkDatabase.cs" />
   </ItemGroup>
