@@ -26,7 +26,6 @@ namespace ThSitePlan.Engine
                         {
                             // 创建简易的阴影填充
                             var shadow = ThSitePlanBuildingShadow.CreateSimpleShadow(buildInfo);
-                            shadow.Regions[0].CreateHatchWithPolygon();
                         }
                     }
                 }
