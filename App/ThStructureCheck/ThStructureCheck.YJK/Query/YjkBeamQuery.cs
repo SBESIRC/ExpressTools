@@ -22,8 +22,8 @@ namespace ThStructureCheck.YJK.Query
         public List<ModelBeamSegCompose> GetModelBeamSegComposes(int floorNo)
         {
             List<ModelBeamSegCompose> results = new List<ModelBeamSegCompose>();
-            string sql = "select tblFloor.ID as tblFloorID , tblFloor.No_ as tblFloorNo, tblFloor.Name as tblFloorName," +
-                "tblFloor.StdFlrID as tblFloorStdFlrID, tblFloor.LevelB,tblFloor.Height, tblBeamSeg.ID as tblBeamSegID , " +
+            string sql = "select tblFloor.ID as tblFlrID , tblFloor.No_ as tblFlrNo, tblFloor.Name as tblFlrName," +
+                "tblFloor.StdFlrID as tblFlrStdFlrID, tblFloor.LevelB,tblFloor.Height, tblBeamSeg.ID as tblBeamSegID , " +
                 "tblBeamSeg.No_ as tblBeamSegNo, tblBeamSeg.StdFlrID as tblBeamSegStdFlrID,tblBeamSeg.SectID,tblBeamSeg.GridID," +
                 "tblBeamSeg.Ecc,tblBeamSeg.HDiff1,tblBeamSeg.HDiff2,tblBeamSeg.Rotation , tblBeamSect.ID as tblBeamSectID," +
                 " tblBeamSect.No_ as tblBeamSectNo , tblBeamSect.Name as tblBeamSectName, tblBeamSect.Mat,tblBeamSect.Kind," +
@@ -34,10 +34,10 @@ namespace ThStructureCheck.YJK.Query
             foreach (DataRow dr in dt.Rows)
             {
                 ModelBeamSegCompose item = new ModelBeamSegCompose();
-                item.Floor.ID = Convert.ToInt32(dr["tblFloorID"].ToString());
-                item.Floor.No_= Convert.ToInt32(dr["tblFloorNo"].ToString());
-                item.Floor.Name = dr["tblFloorName"].ToString();
-                item.Floor.StdFlrID= Convert.ToInt32(dr["tblFloorStdFlrID"].ToString());
+                item.Floor.ID = Convert.ToInt32(dr["tblFlrID"].ToString());
+                item.Floor.No_= Convert.ToInt32(dr["tblFlrNo"].ToString());
+                item.Floor.Name = dr["tblFlrName"].ToString();
+                item.Floor.StdFlrID= Convert.ToInt32(dr["tblFlrStdFlrID"].ToString());
                 item.Floor.LevelB= Convert.ToDouble(dr["LevelB"].ToString());
                 item.Floor.Height = Convert.ToDouble(dr["Height"].ToString());
 

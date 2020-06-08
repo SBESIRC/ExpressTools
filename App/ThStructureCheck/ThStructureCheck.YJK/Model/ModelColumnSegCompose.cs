@@ -8,6 +8,13 @@ namespace ThStructureCheck.YJK.Model
 {
     public class ModelColumnSegCompose
     {
+        public ModelColumnSegCompose()
+        {
+            this.Floor = new YjkFloor();
+            this.ColumnSeg = new ModelColumnSeg();
+            this.ColumnSect = new ModelColumnSect();
+            this.Joint = new ModelJoint();
+        }
         public YjkFloor Floor { get; set; }
         public ModelColumnSeg ColumnSeg { get; set; }
         public ModelColumnSect ColumnSect { get; set; }

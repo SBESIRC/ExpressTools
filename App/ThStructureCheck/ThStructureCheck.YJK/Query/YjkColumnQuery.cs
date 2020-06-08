@@ -64,25 +64,24 @@ namespace ThStructureCheck.YJK.Query
         public List<ModelColumnSegCompose> GetModelColumnSegComposes(int floorNo)
         {
             List<ModelColumnSegCompose> results = new List<ModelColumnSegCompose>();
-            string sql = "select tblFloor.ID as tblFloorID,tblFloor.No_ as tblFloorNo,tblFloor.Name as tblFloorName," +
-       "tblFloor.StdFlrID as tblFloorStdFlrID, tblFloor.LevelB,tblFloor.Height," +
-       "tblColSeg.ID as tblColSegID,tblColSeg.No_ as tblColSegNo,tblColSeg.StdFlrID as tblColSegStdFlrID, " +
-       "tblColSeg.SectID,tblColSeg.JtID,tblColSeg.EccX,tblColSeg.EccY,tblColSeg.Rotation,tblColSeg.HDiffB," +
-       "tblColSeg.ColcapId,tblColSeg.Cut_Col,tblColSeg.Cut_Cap,tblColSeg.Cut_Slab," +
-       "tblColSect.ID as tblColSectID ,tblColSect.No_ as tblColSectNo,tblColSect.Name as tblColSectName," +
-       "tblColSect.Mat,tblColSect.Kind,tblColSect.ShapeVal,tblColSect.ShapeVal1," +
-       "tblJoint.ID as tblJointID, tblJoint.No_ as tblJointNo, tblJoint.StdFlrID as tblJointStdFlrID,tblJoint.X,tblJoint.Y,tblJoint.HDiff" +
-       "from tblFloor join tblColSeg join tblColSect join tblJoint" +
-       "where tblFloor.No_ =" + floorNo + "and tblFloor.StdFlrID = tblColSeg.StdFlrID and tblColSeg.SectID = tblColSect.ID and " +
+            string sql = "select tblFloor.ID as tblFlrID,tblFloor.No_ as tblFlrNo,tblFloor.Name as tblFlrName," +
+       "tblFloor.StdFlrID as tblFlrStdFlrID, tblFloor.LevelB,tblFloor.Height,tblColSeg.ID as tblColSegID," +
+       "tblColSeg.No_ as tblColSegNo,tblColSeg.StdFlrID as tblColSegStdFlrID, tblColSeg.SectID,tblColSeg.JtID," +
+       "tblColSeg.EccX,tblColSeg.EccY,tblColSeg.Rotation,tblColSeg.HDiffB,tblColSeg.ColcapId,tblColSeg.Cut_Col," +
+       "tblColSeg.Cut_Cap,tblColSeg.Cut_Slab,tblColSect.ID as tblColSectID ,tblColSect.No_ as tblColSectNo," +
+       "tblColSect.Name as tblColSectName,tblColSect.Mat,tblColSect.Kind,tblColSect.ShapeVal,tblColSect.ShapeVal1," +
+       "tblJoint.ID as tblJointID, tblJoint.No_ as tblJointNo, tblJoint.StdFlrID as tblJointStdFlrID,tblJoint.X,tblJoint.Y," +
+       "tblJoint.HDiff from tblFloor join tblColSeg join tblColSect join tblJoint where tblFloor.No_ =" + floorNo
+       + " and tblFloor.StdFlrID = tblColSeg.StdFlrID and tblColSeg.SectID = tblColSect.ID and " +
        "tblColSeg.StdFlrID = tblJoint.StdFlrID and tblColSeg.JtID = tblJoint.ID";
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {
                 ModelColumnSegCompose item = new ModelColumnSegCompose();
-                item.Floor.ID = Convert.ToInt32(dr["tblFloorID"].ToString());
-                item.Floor.No_ = Convert.ToInt32(dr["tblFloorNo"].ToString());
-                item.Floor.Name = dr["tblFloorName"].ToString();
-                item.Floor.StdFlrID = Convert.ToInt32(dr["tblFloorStdFlrID"].ToString());
+                item.Floor.ID = Convert.ToInt32(dr["tblFlrID"].ToString());
+                item.Floor.No_ = Convert.ToInt32(dr["tblFlrNo"].ToString());
+                item.Floor.Name = dr["tblFlrName"].ToString();
+                item.Floor.StdFlrID = Convert.ToInt32(dr["tblFlrStdFlrID"].ToString());
                 item.Floor.LevelB = Convert.ToDouble(dr["LevelB"].ToString());
                 item.Floor.Height = Convert.ToInt32(dr["Height"].ToString());
 
@@ -92,7 +91,7 @@ namespace ThStructureCheck.YJK.Query
                 item.ColumnSeg.SectID = Convert.ToInt32(dr["SectID"].ToString());
                 item.ColumnSeg.JtID = Convert.ToInt32(dr["JtID"].ToString());
                 item.ColumnSeg.EccX = Convert.ToInt32(dr["EccX"].ToString());
-                item.ColumnSeg.EccY = Convert.ToInt32(dr["EccX"].ToString());
+                item.ColumnSeg.EccY = Convert.ToInt32(dr["EccY"].ToString());
                 item.ColumnSeg.Rotation = Convert.ToDouble(dr["Rotation"].ToString());
                 item.ColumnSeg.HDiffB = Convert.ToInt32(dr["HDiffB"].ToString());
                 item.ColumnSeg.ColcapId = Convert.ToInt32(dr["ColcapId"].ToString());
