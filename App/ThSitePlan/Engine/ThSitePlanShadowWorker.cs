@@ -50,7 +50,27 @@ namespace ThSitePlan.Engine
                     Active.Editor.EraseCmd(objs);
                 }
 
-                // 剔除所有内部的面域
+                //// 剔除所有内部的面域
+                //using (var objs = FilterRegion(database, configItem, options))
+                //{
+                //    if (objs.Count == 0)
+                //    {
+                //        return false;
+                //    }
+
+                //    Active.Editor.UnionRegions(objs);
+                //}
+                //using (var objs = FilterRegion(database, configItem, options))
+                //{
+                //    if (objs.Count == 0)
+                //    {
+                //        return false;
+                //    }
+
+                //    Active.Editor.ExplodeCmd(objs);
+                //}
+
+                // 设置建筑物面域图层
                 using (var objs = FilterRegion(database, configItem, options))
                 {
                     if (objs.Count == 0)
@@ -58,25 +78,6 @@ namespace ThSitePlan.Engine
                         return false;
                     }
 
-                    Active.Editor.UnionRegions(objs);
-                }
-                using (var objs = FilterRegion(database, configItem, options))
-                {
-                    if (objs.Count == 0)
-                    {
-                        return false;
-                    }
-
-                    Active.Editor.ExplodeCmd(objs);
-                }
-                using (var objs = FilterRegion(database, configItem, options))
-                {
-                    if (objs.Count == 0)
-                    {
-                        return false;
-                    }
-
-                    // 设置建筑物面域图层
                     acadDatabase.Database.MoveToLayer(objs, ThSitePlanCommon.LAYER_BUILD_HATCH);
                 }
 
