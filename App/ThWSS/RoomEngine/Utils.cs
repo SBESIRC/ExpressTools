@@ -3101,7 +3101,7 @@ namespace TopoNode
                 foreach (var curveId in curveIds)
                 {
                     Curve curve = (Curve)dataGetTrans.GetObject(curveId, OpenMode.ForRead);
-                    curves.Add((Curve)curve.Clone());
+                    curves.Add(curve.GetTransformedCopy(Matrix3d.Identity) as Curve);
                 }
             }
 

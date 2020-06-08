@@ -59,6 +59,37 @@ namespace ThWSS
             }
         }
 
+        [CommandMethod("TIANHUACAD", "THGETBEAMINFO2", CommandFlags.Modal)]
+        public void THGETBEAMINFO2()
+        {
+            using (AcadDatabase acdb = AcadDatabase.Active())
+            {
+                // 选择对象
+                PromptSelectionOptions options = new PromptSelectionOptions()
+                {
+                    AllowDuplicates = false,
+                    RejectObjectsOnLockedLayers = true,
+                };
+                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "ARC,LINE,LWPOLYLINE" & o.Dxf((int)DxfCode.LayerName) == "S_BEAM");
+                var entSelected = Active.Editor.GetSelection(options, filterlist);
+                if (entSelected.Status != PromptStatus.OK)
+                {
+                    return;
+                };
+
+                // 执行操作
+                DBObjectCollection dBObjects = new DBObjectCollection();
+                foreach (ObjectId obj in entSelected.Value.GetObjectIds())
+                {
+                    var entity = acdb.Element<Entity>(obj);
+                    dBObjects.Add(entity.GetTransformedCopy(Matrix3d.Identity));
+                }
+
+                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
+                thDisBeamCommand.CalBeamStruc(dBObjects);
+            }
+        }
+
         /// <summary>
         /// 执行布置喷淋
         /// </summary>
