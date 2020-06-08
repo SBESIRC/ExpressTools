@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace ThStructure
+namespace ThWSS.Beam
 {
     public class ThBeamLayerManager
     {

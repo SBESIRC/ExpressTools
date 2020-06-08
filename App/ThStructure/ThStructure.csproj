@@ -68,7 +68,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThBeamCommon.cs" />
     <Compile Include="ThBeamDbExtension.cs" />
-    <Compile Include="ThBeamLayerManager.cs" />
     <Compile Include="ThStructureApp.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -1,17 +1,23 @@
 ﻿using System;
 using GeoAPI.Geometries;
+using Autodesk.AutoCAD.Geometry;
 using NetTopologySuite.Index.Strtree;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThCADCore.NTS
 {
-    public class ThCADCoreNTSSpatialIndex
+    public class ThCADCoreNTSSpatialIndex : IDisposable
     {
         private STRtree<IGeometry> Engine { get; set; }
         public ThCADCoreNTSSpatialIndex(DBObjectCollection objs)
         {
             Engine = new STRtree<IGeometry>();
             Initialize(objs);
+        }
+
+        public void Dispose()
+        {
+            //
         }
 
         private void Initialize(DBObjectCollection objs)
@@ -43,11 +49,16 @@ namespace ThCADCore.NTS
             Engine.Remove(geometry.EnvelopeInternal, geometry);
         }
 
-        public DBObjectCollection Query(Polyline window)
+        public DBObjectCollection SelectCrossingWindow(Point3d pt1, Point3d pt2)
+        {
+            var extents = new Extents3d(pt1, pt2);
+            return Query(extents.ToEnvelope());
+        }
+
+        private DBObjectCollection Query(Envelope envelope)
         {
             var objs = new DBObjectCollection();
-            var frame = window.ToNTSPolygon();
-            foreach(var geometry in Engine.Query(frame.EnvelopeInternal))
+            foreach(var geometry in Engine.Query(envelope))
             {
                 if (geometry is ILineString lineString)
                 {

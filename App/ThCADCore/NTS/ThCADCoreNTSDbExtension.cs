@@ -305,5 +305,11 @@ namespace ThCADCore.NTS
         {
             return Orientation.IsCCW(pline.ToNTSLineString().Coordinates);
         }
+
+        public static Envelope ToEnvelope(this Extents3d extents)
+        {
+            return new Envelope(extents.MinPoint.ToNTSCoordinate(),
+                extents.MaxPoint.ToNTSCoordinate());
+        }
     }
 }
