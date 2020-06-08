@@ -33,6 +33,7 @@
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Include="ThAutoUpdateApp.cs" />
+    <Compile Include="ThAutoUpdateUtils.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
@@ -62,8 +63,8 @@
     </When>
   </Choose>
   <ItemGroup>
-    <PackageReference Include="NetSparkle.New" Version="0.19.0" />
-    <PackageReference Include="NetSparkle.New.Tools" Version="0.19.0" />
+    <PackageReference Include="NetSparkle.New" Version="0.19.2" />
+    <PackageReference Include="NetSparkle.New.Tools" Version="0.19.2" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NetSparkle_DSA.pub">

@@ -135,16 +135,6 @@ namespace TianHua.AutoCAD.ThCui
                     "IDI_THCAD_THHLP_LARGE",
                     RibbonButtonStyle.SmallWithText);
 
-                // 检查更新
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("检查更新",
-                    "天华自动更新",
-                    "THUPT",
-                    "检查更新",
-                    "IDI_THCAD_THUPT_SMALL",
-                    "IDI_THCAD_THUPT_LARGE",
-                    RibbonButtonStyle.SmallWithText);
-
                 // 反馈意见
                 subRow = subPanel.AddNewRibbonRow();
                 subRow.AddNewButton("反馈意见",
