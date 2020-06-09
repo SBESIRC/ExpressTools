@@ -31,12 +31,12 @@ namespace ThSitePlan.UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions3 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmConfigManage));
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject9 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject10 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject11 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject12 = new DevExpress.Utils.SerializableAppearanceObject();
             this.TxtName = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.label6 = new System.Windows.Forms.Label();
@@ -280,11 +280,15 @@ namespace ThSitePlan.UI
             this.TreeList.OptionsCustomization.AllowSort = false;
             this.TreeList.OptionsDragAndDrop.AcceptOuterNodes = true;
             this.TreeList.OptionsDragAndDrop.CanCloneNodesOnDrop = true;
+            this.TreeList.OptionsFilter.ShowAllValuesInCheckedFilterPopup = false;
             this.TreeList.OptionsMenu.EnableColumnMenu = false;
             this.TreeList.OptionsMenu.EnableFooterMenu = false;
+            this.TreeList.OptionsMenu.ShowAutoFilterRowItem = false;
             this.TreeList.OptionsPrint.PrintReportFooter = false;
             this.TreeList.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.TreeList.OptionsView.FocusRectStyle = DevExpress.XtraTreeList.DrawFocusRectStyle.RowFullFocus;
+            this.TreeList.OptionsView.ShowButtons = false;
+            this.TreeList.OptionsView.ShowFilterPanelMode = DevExpress.XtraTreeList.ShowFilterPanelMode.Never;
             this.TreeList.OptionsView.ShowHierarchyIndentationLines = DevExpress.Utils.DefaultBoolean.True;
             this.TreeList.OptionsView.ShowIndentAsRowStyle = true;
             this.TreeList.OptionsView.ShowIndicator = false;
@@ -311,6 +315,7 @@ namespace ThSitePlan.UI
             this.TreeList.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.TreeList_ValidatingEditor);
             this.TreeList.InvalidValueException += new DevExpress.XtraEditors.Controls.InvalidValueExceptionEventHandler(this.TreeList_InvalidValueException);
             this.TreeList.ShownEditor += new System.EventHandler(this.TreeList_ShownEditor);
+            this.TreeList.HiddenEditor += new System.EventHandler(this.TreeList_HiddenEditor);
             this.TreeList.CellValueChanged += new DevExpress.XtraTreeList.CellValueChangedEventHandler(this.TreeList_CellValueChanged);
             this.TreeList.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.TreeList_ShowingEditor);
             this.TreeList.Click += new System.EventHandler(this.TreeList_Click);
@@ -329,6 +334,7 @@ namespace ThSitePlan.UI
             this.ColName.ColumnEdit = this.TextName;
             this.ColName.FieldName = "Name";
             this.ColName.Name = "ColName";
+            this.ColName.OptionsColumn.AllowEdit = false;
             this.ColName.OptionsColumn.AllowMove = false;
             this.ColName.Visible = true;
             this.ColName.VisibleIndex = 0;
@@ -350,6 +356,7 @@ namespace ThSitePlan.UI
             this.ColColor.ColumnEdit = this.ColorEdit;
             this.ColColor.FieldName = "PSD_Color";
             this.ColColor.Name = "ColColor";
+            this.ColColor.OptionsColumn.AllowEdit = false;
             this.ColColor.OptionsColumn.AllowMove = false;
             this.ColColor.Visible = true;
             this.ColColor.VisibleIndex = 1;
@@ -359,10 +366,10 @@ namespace ThSitePlan.UI
             // 
             this.ColorEdit.AutoHeight = false;
             this.ColorEdit.AutomaticColor = System.Drawing.Color.Black;
-            editorButtonImageOptions1.Image = global::ThSitePlan.UI.Properties.Resources.吸取;
+            editorButtonImageOptions3.Image = ((System.Drawing.Image)(resources.GetObject("editorButtonImageOptions3.Image")));
             this.ColorEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions3, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject9, serializableAppearanceObject10, serializableAppearanceObject11, serializableAppearanceObject12, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.ColorEdit.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.ColorEdit.ColorDialogOptions.AllowTransparency = false;
             this.ColorEdit.ColorDialogOptions.ShowMakeWebSafeButton = false;
@@ -387,6 +394,7 @@ namespace ThSitePlan.UI
             this.ColTransparency.ColumnEdit = this.SpinEdit;
             this.ColTransparency.FieldName = "PSD_Transparency";
             this.ColTransparency.Name = "ColTransparency";
+            this.ColTransparency.OptionsColumn.AllowEdit = false;
             this.ColTransparency.OptionsColumn.AllowMove = false;
             this.ColTransparency.Visible = true;
             this.ColTransparency.VisibleIndex = 2;
@@ -594,14 +602,9 @@ namespace ThSitePlan.UI
             // images
             // 
             this.images.ImageStream = ((DevExpress.Utils.ImageCollectionStreamer)(resources.GetObject("images.ImageStream")));
-            this.images.InsertGalleryImage("selectall_16x16.png", "images/actions/selectall_16x16.png", DevExpress.Images.ImageResourceCache.Default.GetImage("images/actions/selectall_16x16.png"), 0);
-            this.images.Images.SetKeyName(0, "selectall_16x16.png");
-            this.images.InsertGalleryImage("group2_16x16.png", "images/actions/group2_16x16.png", DevExpress.Images.ImageResourceCache.Default.GetImage("images/actions/group2_16x16.png"), 1);
-            this.images.Images.SetKeyName(1, "group2_16x16.png");
-            this.images.InsertGalleryImage("merge_16x16.png", "images/actions/merge_16x16.png", DevExpress.Images.ImageResourceCache.Default.GetImage("images/actions/merge_16x16.png"), 2);
-            this.images.Images.SetKeyName(2, "merge_16x16.png");
-            this.images.InsertGalleryImage("stop_16x16.png", "images/arrows/stop_16x16.png", DevExpress.Images.ImageResourceCache.Default.GetImage("images/arrows/stop_16x16.png"), 3);
-            this.images.Images.SetKeyName(3, "stop_16x16.png");
+            this.images.Images.SetKeyName(0, "图标-07.png");
+            this.images.Images.SetKeyName(1, "空白48.png");
+            this.images.Images.SetKeyName(2, "图标-12.png");
             // 
             // TrackBar
             // 

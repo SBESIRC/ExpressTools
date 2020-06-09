@@ -69,12 +69,29 @@ namespace ThSitePlan
             ThSitePlanConfigItemGroup Root = new ThSitePlanConfigItemGroup();
             Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
             FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);
+            SetImgType(_ListColorGeneral);
             return _ListColorGeneral;
         }
 
+
+        public List<ColorGeneralDataModel> SetImgType(List<ColorGeneralDataModel> _List)
+        {
+            if (_List == null || _List.Count == 0) { return new List<ColorGeneralDataModel>(); }
+            _List.ForEach(p =>
+            {
+                var _ListTemp = _List.FindAll(s => FuncStr.NullToStr(p.ID) == FuncStr.NullToStr(s.PID)
+                   && FuncStr.NullToInt(s.CAD_ScriptID) > 0);
+                if (_ListTemp != null && _ListTemp.Count > 0)
+                    p.ImgType = "1";
+            });
+            return _List;
+        }
+
+
+
         public void UpdateConfig()
         {
- 
+
         }
 
         public List<string> AddLayer(IntPtr hWnd)
@@ -89,7 +106,7 @@ namespace ThSitePlan
                         AllowNone = true,
                     };
                     var prs = Active.Editor.GetEntity(options);
- 
+
                     if (prs.Status == PromptStatus.OK)
                     {
                         Entity entity = acadDatabase.Element<Entity>(prs.ObjectId);

@@ -124,10 +124,15 @@ namespace ThSitePlan
             }
             else
             {
-                return Properties.Resources._24;
+                return Properties.Resources.图标_13;
             }
         }
 
+
+        /// <summary>
+        /// 图片类型：0 普通,1 链接
+        /// </summary>
+        public string ImgType { get; set; }
 
     }
 }

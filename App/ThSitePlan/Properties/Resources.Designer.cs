@@ -74,27 +74,27 @@ namespace ThSitePlan.Properties {
         ///   查找类似 [
         ///    {
         ///        &quot;CAD_Frame&quot;: &quot;&quot;,
+        ///        &quot;CAD_Layer&quot;: [],
+        ///        &quot;CAD_Layer_Value&quot;: null,
+        ///        &quot;CAD_Script&quot;: &quot;无&quot;,
+        ///        &quot;CAD_ScriptID&quot;: &quot;0&quot;,
+        ///        &quot;DataType&quot;: &quot;0&quot;,
+        ///        &quot;ID&quot;: &quot;0&quot;,
+        ///        &quot;Name&quot;: &quot;未识别对象&quot;,
+        ///        &quot;PID&quot;: &quot;0&quot;,
+        ///        &quot;PSD_Color&quot;: &quot;0, 0, 0&quot;,
+        ///        &quot;PSD_Transparency&quot;: 55,
+        ///        &quot;Type&quot;: &quot;0&quot;
+        ///    },
+        ///    {
+        ///        &quot;CAD_Frame&quot;: &quot;&quot;,
         ///        &quot;CAD_Layer&quot;: [
         ///            {
         ///                &quot;ID&quot;: &quot;1&quot;,
         ///                &quot;Name&quot;: &quot;P-NOTE-PLTB&quot;
         ///            },
         ///            {
-        ///                &quot;ID&quot;: &quot;2&quot;,
-        ///                &quot;Name&quot;: &quot;P-BUID-NUMB&quot;
-        ///            }
-        ///        ],
-        ///        &quot;CAD_Script&quot;: &quot;拍平闭合优化&quot;,
-        ///        &quot;DataType&quot;: &quot;0&quot;,
-        ///        &quot;ID&quot;: &quot;1&quot;,
-        ///        &quot;Name&quot;: &quot;基本文字说明及图例&quot;,
-        ///        &quot;PID&quot;: &quot;1&quot;,
-        ///        &quot;PSD_Color&quot;: &quot;0, 0, 0&quot;,
-        ///        &quot;PSD_Transparency&quot;: 55,
-        ///        &quot;Type&quot;: &quot;0&quot;
-        ///    },
-        ///    {
-        ///        &quot;CAD_ [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string BasicStyle {
             get {
@@ -118,6 +118,26 @@ namespace ThSitePlan.Properties {
         internal static System.Drawing.Bitmap 删除_细 {
             get {
                 object obj = ResourceManager.GetObject("删除_细", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 图标_13 {
+            get {
+                object obj = ResourceManager.GetObject("图标_13", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 拍平 {
+            get {
+                object obj = ResourceManager.GetObject("拍平", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

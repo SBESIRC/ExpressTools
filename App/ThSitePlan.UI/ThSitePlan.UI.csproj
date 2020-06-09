@@ -241,5 +241,8 @@
   <ItemGroup>
     <None Include="Resources\吸取.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\图标-13.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
