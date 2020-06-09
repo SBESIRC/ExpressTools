@@ -302,31 +302,31 @@ namespace ThSitePlan.UI
             ThSitePlanDbEventHandler.Instance.SubscribeToDb(Active.Database);
 
             //PS处理流程
-            ThSitePlanConfigService.Instance.Initialize();
-            ThSitePlanConfigService.Instance.EnableAll(true);
-            using (var psService = new ThSitePlanPSService())
-            {
-                if (!psService.IsValid)
-                {
-                    Application.ShowAlertDialog("未识别到PhotoShop,请确认是否正确安装PhotoShop");
-                    return;
-                }
+            //ThSitePlanConfigService.Instance.Initialize();
+            //ThSitePlanConfigService.Instance.EnableAll(true);
+            //using (var psService = new ThSitePlanPSService())
+            //{
+            //    if (!psService.IsValid)
+            //    {
+            //        Application.ShowAlertDialog("未识别到PhotoShop,请确认是否正确安装PhotoShop");
+            //        return;
+            //    }
 
-                // 创建空白文档
-                psService.NewEmptyDocument("MyNewDocument");
+            //    // 创建空白文档
+            //    psService.NewEmptyDocument("MyNewDocument");
 
-                // PS处理流程
-                ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
-                 {
-                    new ThSitePlanPSDefaultGenerator(psService),
-                 };
-                ThSitePlanPSEngine.Instance.Run(
-                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    ThSitePlanConfigService.Instance.Root);
+            //    // PS处理流程
+            //    ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+            //     {
+            //        new ThSitePlanPSDefaultGenerator(psService),
+            //     };
+            //    ThSitePlanPSEngine.Instance.Run(
+            //        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            //        ThSitePlanConfigService.Instance.Root);
 
-                // 保存PS生成的文档
-                psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-            }
+            //    // 保存PS生成的文档
+            //    psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            //}
         }
 
         /// <summary>
@@ -415,6 +415,7 @@ namespace ThSitePlan.UI
                     var originFrame = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Original);
                     acadDatabase.Database.CopyWithMove(originFrame, acadDatabase.Database.FrameOffset(originFrame, undifineframe) + unusedtoundifineoffset);
                     acadDatabase.Database.ExplodeToOwnerSpace(unusedframe);
+                    Active.Editor.TrimCmd(acadDatabase.Element<Polyline>(unusedframe));
 
                     //接着将需要更新的图框清空
                     foreach (var item in updateframes)
@@ -536,26 +537,26 @@ namespace ThSitePlan.UI
                     }
 
                     //PS处理流程
-                    using (var psService = new ThSitePlanPSService())
-                    {
-                        if (!psService.IsValid)
-                        {
-                            Application.ShowAlertDialog("未识别到PhotoShop,请确认是否正确安装PhotoShop");
-                            return;
-                        }
+                    //using (var psService = new ThSitePlanPSService())
+                    //{
+                    //    if (!psService.IsValid)
+                    //    {
+                    //        Application.ShowAlertDialog("未识别到PhotoShop,请确认是否正确安装PhotoShop");
+                    //        return;
+                    //    }
 
-                        //启动PS引擎，开始更新 
-                        ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
-                         {
-                            new ThSitePlanPSDefaultGenerator(psService),
-                         };
-                        ThSitePlanPSEngine.Instance.PSUpdate(
-                            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                            ThSitePlanConfigService.Instance.Root);
+                    //    //启动PS引擎，开始更新 
+                    //    ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+                    //     {
+                    //        new ThSitePlanPSDefaultGenerator(psService),
+                    //     };
+                    //    ThSitePlanPSEngine.Instance.PSUpdate(
+                    //        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    //        ThSitePlanConfigService.Instance.Root);
 
-                        // 保存PS生成的文档
-                        psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-                    }
+                    //    // 保存PS生成的文档
+                    //    psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                    //}
 
                     //在更新结束后，恢复捕捉图纸变化的事件
                     ThSitePlanDbEventHandler.Instance.SubscribeToDb(acadDatabase.Database);
@@ -619,26 +620,26 @@ namespace ThSitePlan.UI
                     }
 
                     //PS处理流程
-                    using (var psService = new ThSitePlanPSService())
-                    {
-                        if (!psService.IsValid)
-                        {
-                            Application.ShowAlertDialog("未识别到PhotoShop,请确认是否正确安装PhotoShop");
-                            return;
-                        }
+                    //using (var psService = new ThSitePlanPSService())
+                    //{
+                    //    if (!psService.IsValid)
+                    //    {
+                    //        Application.ShowAlertDialog("未识别到PhotoShop,请确认是否正确安装PhotoShop");
+                    //        return;
+                    //    }
 
-                        //启动PS引擎，开始更新 
-                        ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
-                         {
-                            new ThSitePlanPSDefaultGenerator(psService),
-                         };
-                        ThSitePlanPSEngine.Instance.PSUpdate(
-                            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                            ThSitePlanConfigService.Instance.Root);
+                    //    //启动PS引擎，开始更新 
+                    //    ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+                    //     {
+                    //        new ThSitePlanPSDefaultGenerator(psService),
+                    //     };
+                    //    ThSitePlanPSEngine.Instance.PSUpdate(
+                    //        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    //        ThSitePlanConfigService.Instance.Root);
 
-                        // 保存PS生成的文档
-                        psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-                    }
+                    //    // 保存PS生成的文档
+                    //    psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                    //}
                 }
             }
         }
