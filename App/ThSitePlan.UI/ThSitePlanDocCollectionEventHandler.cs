@@ -1,7 +1,7 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
-namespace ThSitePlan.Engine
+namespace ThSitePlan.UI
 {
     public class ThSitePlanDocCollectionEventHandler
     {

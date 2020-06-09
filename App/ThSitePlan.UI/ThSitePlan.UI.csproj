@@ -133,6 +133,7 @@
     <Compile Include="MouseHook.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThSitePlanDbEventHandleOverride.cs" />
     <Compile Include="ThSitePlanDbEventHandler.cs" />
     <Compile Include="ThSitePlanDocCollectionEventHandler.cs" />
     <Compile Include="ThSitePlanUiApp.cs" />

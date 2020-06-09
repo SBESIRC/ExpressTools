@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace ThSitePlan.Engine
+namespace ThSitePlan.UI
 {
     public class ThSitePlanDbEventHandler
     {
