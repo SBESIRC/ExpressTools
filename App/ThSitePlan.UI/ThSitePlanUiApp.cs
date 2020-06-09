@@ -383,6 +383,10 @@ namespace ThSitePlan.UI
                             {
                                 var name = item.Properties["Name"] as string;
                                 var frame = ThSitePlanDbEngine.Instance.FrameByName(name);
+                                if (frame == undifineframe)
+                                {
+                                        continue;
+                                }
                                 //获取选择框与复制框之间的偏移量
                                 if (!updateframes.Where(o => o.Item1 == frame).Any())
                                 {
