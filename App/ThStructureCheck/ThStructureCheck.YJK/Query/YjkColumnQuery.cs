@@ -58,6 +58,7 @@ namespace ThStructureCheck.YJK.Query
                 calcColumnSeg.MdlNo = Convert.ToInt32(dr["MdlNo"].ToString());
                 calcColumnSeg.Jt1 = Convert.ToInt32(dr["Jt1"].ToString());
                 calcColumnSeg.Jt2 = Convert.ToInt32(dr["Jt2"].ToString());
+                calcColumnSeg.DbPath = this.dbPath;
             }
             return calcColumnSeg;
         }
@@ -84,6 +85,7 @@ namespace ThStructureCheck.YJK.Query
                 item.Floor.StdFlrID = Convert.ToInt32(dr["tblFlrStdFlrID"].ToString());
                 item.Floor.LevelB = Convert.ToDouble(dr["LevelB"].ToString());
                 item.Floor.Height = Convert.ToInt32(dr["Height"].ToString());
+                item.Floor.DbPath = this.dbPath;
 
                 item.ColumnSeg.ID = Convert.ToInt32(dr["tblColSegID"].ToString());
                 item.ColumnSeg.No_ = Convert.ToInt32(dr["tblColSegNo"].ToString());
@@ -98,6 +100,7 @@ namespace ThStructureCheck.YJK.Query
                 item.ColumnSeg.Cut_Col = dr["Cut_Col"].ToString();
                 item.ColumnSeg.Cut_Cap = dr["Cut_Cap"].ToString();
                 item.ColumnSeg.Cut_Slab = dr["Cut_Slab"].ToString();
+                item.ColumnSeg.DbPath = this.dbPath;
 
                 item.ColumnSect.ID = Convert.ToInt32(dr["tblColSectID"].ToString());
                 item.ColumnSect.No_ = Convert.ToInt32(dr["tblColSectNo"].ToString());
@@ -106,6 +109,7 @@ namespace ThStructureCheck.YJK.Query
                 item.ColumnSect.Kind = Convert.ToInt32(dr["Kind"].ToString());
                 item.ColumnSect.ShapeVal = dr["ShapeVal"].ToString();
                 item.ColumnSect.ShapeVal1 = dr["ShapeVal1"].ToString();
+                item.ColumnSect.DbPath = this.dbPath;
 
                 item.Joint.ID = Convert.ToInt32(dr["tblJointID"].ToString());
                 item.Joint.No_ = Convert.ToInt32(dr["tblJointNo"].ToString());
@@ -113,6 +117,7 @@ namespace ThStructureCheck.YJK.Query
                 item.Joint.X = Convert.ToDouble(dr["X"].ToString());
                 item.Joint.Y = Convert.ToDouble(dr["Y"].ToString());
                 item.Joint.HDiff = Convert.ToInt32(dr["HDiff"].ToString());
+                item.Joint.DbPath = this.dbPath;
 
                 results.Add(item);
             }
@@ -866,7 +871,7 @@ namespace ThStructureCheck.YJK.Query
             }
             return res;
         }
-        public List<CalcColumnSeg> GetBeamLinkColumns(int flrNo, int jt)
+        public List<CalcColumnSeg> GetCalcBeamLinkColumns(int flrNo, int jt)
         {
             List<CalcColumnSeg> results = new List<CalcColumnSeg>();
             string sql = "select * from tblColSeg where FlrNo =" 
@@ -882,6 +887,33 @@ namespace ThStructureCheck.YJK.Query
                 item.MdlNo = Convert.ToInt32(dr["MdlNo"].ToString());
                 item.Jt1 = Convert.ToInt32(dr["Jt1"].ToString());
                 item.Jt2 = Convert.ToInt32(dr["Jt2"].ToString());
+                item.DbPath = this.dbPath;
+                results.Add(item);
+            }
+            return results;
+        }
+        public List<ModelColumnSeg> GetModelBeamLinkColumns(int stdFlrID,int jt)
+        {
+            List<ModelColumnSeg> results = new List<ModelColumnSeg>();
+            string sql = "select * from tblColSeg where StdFlrID="+ stdFlrID + " and JtID =" + jt ;
+            DataTable dt = ExecuteDataTable(sql);
+            foreach (DataRow dr in dt.Rows)
+            {
+                ModelColumnSeg item = new ModelColumnSeg();
+                item.ID = Convert.ToInt32(dr["ID"].ToString());
+                item.No_ = Convert.ToInt32(dr["No_"].ToString());
+                item.StdFlrID = Convert.ToInt32(dr["StdFlrID"].ToString());
+                item.SectID = Convert.ToInt32(dr["SectID"].ToString());
+                item.JtID = Convert.ToInt32(dr["JtID"].ToString());
+                item.EccX = Convert.ToInt32(dr["EccX"].ToString());
+                item.EccY = Convert.ToInt32(dr["EccY"].ToString());
+                item.Rotation = Convert.ToDouble(dr["Rotation"].ToString());
+                item.HDiffB = Convert.ToInt32(dr["HDiffB"].ToString());
+                item.ColcapId = Convert.ToInt32(dr["ColcapId"].ToString());
+                item.Cut_Col = dr["Cut_Col"].ToString();
+                item.Cut_Cap = dr["Cut_Cap"].ToString();
+                item.Cut_Slab = dr["Cut_Slab"].ToString();
+                item.DbPath = this.dbPath;
                 results.Add(item);
             }
             return results;

@@ -42,6 +42,7 @@ namespace ThStructureCheck.YJK.Query
                 item.Jt1 = Convert.ToInt32(dr["Jt1"].ToString());
                 item.Jt2 = Convert.ToInt32(dr["Jt2"].ToString());
                 item.Jts = dr["Jts"].ToString();
+                item.DbPath = this.dbPath;
                 results.Add(item);
             }
             return results;

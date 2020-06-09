@@ -18,6 +18,30 @@ namespace ThStructureCheck.YJK.Model
         public int HDiff1 { get; set; }
         public int HDiff2 { get; set; }
         public double Rotation { get; set; }
+        public bool IsCollinear(ModelBeamSeg otherBeamSeg)
+        {
+            bool result = false;
+            YjkJointQuery yjkJointQuery = new YjkJointQuery(otherBeamSeg.DbPath);
+            ModelGrid thisGrid = new YjkGridQuery(otherBeamSeg.DbPath).GetModelGrid(this.GridID);
+            ModelGrid otherGrid = new YjkGridQuery(otherBeamSeg.DbPath).GetModelGrid(otherBeamSeg.GridID);
+            Point thisStartPt = yjkJointQuery.GetModelJoint(thisGrid.Jt1ID).GetCoordinate();
+            Point thisEndPt = yjkJointQuery.GetModelJoint(thisGrid.Jt2ID).GetCoordinate();
+            Point otherStartPt = yjkJointQuery.GetCalcJoint(otherGrid.Jt1ID).GetCoordinate();
+            Point otherEndPt = yjkJointQuery.GetCalcJoint(otherGrid.Jt2ID).GetCoordinate();
+            if (MathLogic.CollinearThreePoints(thisStartPt, thisEndPt, otherStartPt) &&
+                MathLogic.CollinearThreePoints(thisStartPt, thisEndPt, otherEndPt))
+            {
+                result = true;
+            }
+            return result;
+        }
+        public ModelGrid Grid
+        {
+            get
+            {
+                return new YjkGridQuery(this.DbPath).GetModelGrid(this.GridID);
+            }
+        }
     }
     public class CalcBeamSeg : YjkEntityInfo
     {
@@ -28,18 +52,18 @@ namespace ThStructureCheck.YJK.Model
         public int Jt1 { get; set; }
         public int Jt2 { get; set; }
 
-        public bool IsCollinear(CalcBeamSeg otherBeamSeg,string dbPath)
+        public bool IsCollinear(CalcBeamSeg otherBeamSeg)
         {
             bool result = false;
-            YjkJointQuery yjkJointQuery = new YjkJointQuery(dbPath);
+            YjkJointQuery yjkJointQuery = new YjkJointQuery(base.DbPath);
             Point thisStartPt  = yjkJointQuery.GetCalcJoint(this.Jt1).GetCoordinate();
             Point thisEndPt = yjkJointQuery.GetCalcJoint(this.Jt2).GetCoordinate();
             Point otherStartPt = yjkJointQuery.GetCalcJoint(otherBeamSeg.Jt1).GetCoordinate();
             Point otherEndPt = yjkJointQuery.GetCalcJoint(otherBeamSeg.Jt2).GetCoordinate();
-            //thisStartPt.ResetZ();
-            //thisEndPt.ResetZ();
-            //otherStartPt.ResetZ();
-            //otherEndPt.ResetZ();
+            thisStartPt.ResetZ();
+            thisEndPt.ResetZ();
+            otherStartPt.ResetZ();
+            otherEndPt.ResetZ();
             if (MathLogic.CollinearThreePoints(thisStartPt, thisEndPt, otherStartPt) &&
                 MathLogic.CollinearThreePoints(thisStartPt, thisEndPt, otherEndPt))
             {

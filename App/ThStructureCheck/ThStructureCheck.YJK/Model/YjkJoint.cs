@@ -16,6 +16,10 @@ namespace ThStructureCheck.YJK.Model
         public double X { get; set; }
         public double Y { get; set; }
         public int HDiff { get; set; }
+        public override Point GetCoordinate()
+        {
+            return new Point(this.X, this.Y, 0);
+        }
     }
     /// <summary>
     /// 计算书节点
@@ -27,15 +31,15 @@ namespace ThStructureCheck.YJK.Model
         public int MdlFlr { get; set; }
         public int MdlNo { get; set; }
         public string Coord { get; set; }
-        public Point GetCoordinate()
+        public override Point GetCoordinate()
         {
-            Point xyz=null;
-            if(string.IsNullOrEmpty(this.Coord))
+            Point xyz = null;
+            if (string.IsNullOrEmpty(this.Coord))
             {
                 return xyz;
             }
             string[] values = this.Coord.Split(',');
-            if(values.Length==2)
+            if (values.Length == 2)
             {
                 xyz = new Point();
                 xyz.X = Convert.ToDouble(values[0]);

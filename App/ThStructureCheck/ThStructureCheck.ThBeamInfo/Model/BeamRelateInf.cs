@@ -14,7 +14,7 @@ namespace ThStructureCheck.ThBeamInfo.Model
     /// </summary>
     public class BeamRelateInf
     {
-        public CalcBeamSeg DbBeamInf
+        public YjkEntityInfo DbBeamInf
         {
             get;
             set;
