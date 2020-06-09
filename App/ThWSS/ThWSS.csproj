@@ -22,6 +22,8 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -31,6 +33,29 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\TopoNode\CommonUtils.cs">
+      <Link>Topology\CommonUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\TopoNode\Progress\Progress.cs">
+      <Link>Topology\Progress.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\TopoNode\Progress\Progress.Designer.cs">
+      <Link>Topology\Progress.Designer.cs</Link>
+      <DependentUpon>Progress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\TopoNode\ThirdUtils.cs">
+      <Link>Topology\ThirdUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\TopoNode\TopoCalculate.cs">
+      <Link>Topology\TopoCalculate.cs</Link>
+    </Compile>
+    <Compile Include="..\TopoNode\TopoUtils.cs">
+      <Link>Topology\TopoUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\TopoNode\Utils.cs">
+      <Link>Topology\Utils.cs</Link>
+    </Compile>
     <Compile Include="Beam\ThBeamDbManager.cs" />
     <Compile Include="Beam\ThBeamGeometryService.cs" />
     <Compile Include="Beam\ThBeamLayerManager.cs" />
@@ -54,11 +79,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="RoomEngine\CommonUtils.cs" />
-    <Compile Include="RoomEngine\ThirdUtils.cs" />
-    <Compile Include="RoomEngine\TopoCalculate.cs" />
-    <Compile Include="RoomEngine\TopoUtils.cs" />
-    <Compile Include="RoomEngine\Utils.cs" />
     <Compile Include="ThWSSApp.cs" />
     <Compile Include="Utlis\GeUtils.cs" />
     <Compile Include="Utlis\OrientedBoundingBox.cs" />
@@ -78,6 +98,12 @@
     </Compile>
     <Compile Include="View\ProtectStrategyWindow.xaml.cs" />
     <Compile Include="View\ThSparyLayoutSet.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\TopoNode\Progress\Progress.resx">
+      <Link>Topology\Progress.resx</Link>
+      <DependentUpon>Progress.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
