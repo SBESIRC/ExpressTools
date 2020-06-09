@@ -45,7 +45,27 @@ namespace ThSitePlan.Engine
                             { "OriginFrame", null },
                          }
                     };
-                    var itemworker = new ThSitePlanShadowWorkerEx();
+                    var itemworker = new ThSitePlanShadowWorker();
+                    itemworker.DoProcess(database, configItem, newoptions);
+                }
+            }
+            else if (scriptId == "4")
+            {
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+                    var itemName = configItem.Properties["Name"] as string;
+                    var itemFrame = ThSitePlanDbEngine.Instance.FrameByName(itemName);
+
+                    var newoptions = new ThSitePlanOptions()
+                    {
+                        Options = new Dictionary<string, object>() {
+                            { "Frame", itemFrame },
+                            { "Offset", null },
+                            { "OriginFrame", null },
+                         }
+                    };
+                    var itemworker = new ThSitePlanSimpleShadowWorker();
                     itemworker.DoProcess(database, configItem, newoptions);
                 }
             }

@@ -331,7 +331,7 @@ namespace ThColumnInfo
                 int count = 0;
                 for(int i=0;i< xDirList.Count;i++)
                 {
-                    if(Math.Abs(length- xDirList[0])<=(0.2* length))
+                    if(Math.Abs(length- xDirList[0])<=(0.025* length))
                     {
                         count++;
                         xDirList.RemoveAt(i);
@@ -345,7 +345,7 @@ namespace ThColumnInfo
                 int count = 0;
                 for (int i = 0; i < yDirList.Count; i++)
                 {
-                    if (Math.Abs(length - yDirList[0]) <= (0.2 * length))
+                    if (Math.Abs(length - yDirList[0]) <= (0.025 * length))
                     {
                         count++;
                         yDirList.RemoveAt(i);

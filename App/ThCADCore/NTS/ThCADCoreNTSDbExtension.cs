@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using GeoAPI.Geometries;
 using System.Collections.Generic;
 using NetTopologySuite.Utilities;
@@ -86,10 +85,20 @@ namespace ThCADCore.NTS
 
         public static Region ToDbRegion(this IPolygon polygon)
         {
-            // 暂时不考虑有“洞”的情况
-            var curves = new DBObjectCollection();
-            curves.Add(polygon.Shell.ToDbPolyline());
-            return Region.CreateFromCurves(curves)[0] as Region;
+            try
+            {
+                // 暂时不考虑有“洞”的情况
+                var curves = new DBObjectCollection
+                {
+                    polygon.Shell.ToDbPolyline()
+                };
+                return Region.CreateFromCurves(curves)[0] as Region;
+            }
+            catch
+            {
+                // 未知错误
+                return null;
+            }
         }
 
         public static List<Region> ToDbRegions(this IMultiPolygon mPolygon)
@@ -100,6 +109,16 @@ namespace ThCADCore.NTS
                 regions.Add(polygon.ToDbRegion());
             }
             return regions;
+        }
+
+        public static List<Polyline> ToDbPolylines(this IMultiPolygon mPolygon)
+        {
+            var plines = new List<Polyline>();
+            foreach (IPolygon polygon in mPolygon.Geometries)
+            {
+                plines.Add(polygon.Shell.ToDbPolyline());
+            }
+            return plines;
         }
 
         public static IGeometry ToNTSLineString(this Polyline polyLine)
@@ -164,13 +183,33 @@ namespace ThCADCore.NTS
             }
         }
 
+        public static IPolygon ToPolygon(this ILinearRing linearRing)
+        {
+            return ThCADCoreNTSService.Instance.GeometryFactory.CreatePolygon(linearRing);
+        }
+
         public static IPolygon ToNTSPolygon(this Region region)
         {
-            using (var objs = new DBObjectCollection())
+            // 暂时不支持"复杂面域"
+            var plines = region.ToPolylines();
+            if (plines.Count != 1)
             {
-                region.Explode(objs);
-                return objs.Outline()[0] as IPolygon;
+                throw new NotSupportedException();
             }
+
+            // 返回由面域外轮廓线封闭的多边形区域
+            var pline = plines[0] as Polyline;
+            return pline.ToNTSPolygon();
+        }
+
+        public static IMultiPolygon ToNTSPolygons(this DBObjectCollection regions)
+        {
+            var polygons = new List<IPolygon>();
+            foreach(Region region in regions)
+            {
+                polygons.Add(region.ToNTSPolygon());
+            }
+            return ThCADCoreNTSService.Instance.GeometryFactory.CreateMultiPolygon(polygons.ToArray());
         }
 
         public static ILineString ToNTSLineString(this Arc arc, int numPoints)
@@ -270,6 +309,12 @@ namespace ThCADCore.NTS
         public static bool IsCCW(this Polyline pline)
         {
             return Orientation.IsCCW(pline.ToNTSLineString().Coordinates);
+        }
+
+        public static Envelope ToEnvelope(this Extents3d extents)
+        {
+            return new Envelope(extents.MinPoint.ToNTSCoordinate(),
+                extents.MaxPoint.ToNTSCoordinate());
         }
     }
 }

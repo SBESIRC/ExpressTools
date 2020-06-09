@@ -144,7 +144,16 @@ namespace ThSitePlan.Photoshop
 
                     if (FindOrNot == false)
                     {
-                        SerLaySet = SerLaySet.LayerSets.Add();
+                        LayerSets parentlayerserts = SerLaySet.LayerSets;
+                        SerLaySet = parentlayerserts.Add();
+                        int layersetcount = parentlayerserts.Count;
+                        if (layersetcount > 1)
+                        {
+                            for (int j = layersetcount; j >1 ; j--)
+                            {
+                                parentlayerserts[layersetcount].Move(parentlayerserts[1], PsElementPlacement.psPlaceBefore);
+                            }
+                        }
                         SerLaySet.Name = DocNameSpt[i];
                         break;
                     }
@@ -173,7 +182,7 @@ namespace ThSitePlan.Photoshop
                         EndLayerSet.Name = CurDoc_Sets[i];
                     }
                 }
-                OperateLayer.Move(EndLayerSet, PsElementPlacement.psPlaceInside);
+                OperateLayer.Move(EndLayerSet, PsElementPlacement.psPlaceAtEnd);
             }
 
             else

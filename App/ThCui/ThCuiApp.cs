@@ -29,9 +29,6 @@ namespace TianHua.AutoCAD.ThCui
             // 登录界面
             {"THHLP", "帮助"},
 
-            // 检查更新
-            {"THUPT", "检查更新"},
-
             // 切换专业
             {"THPROFILE", "专业切换"},
 

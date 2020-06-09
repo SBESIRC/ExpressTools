@@ -33,29 +33,21 @@ namespace ThSitePlan.Engine
             var scriptId = configItem.Properties["CADScriptID"].ToString();
             if (scriptId == "1")
             {
-                //如果CAD脚本为1，即为区域填充图框，直接从原始复制图框将相应的图形元素移动到当前图框中
-                using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                {
-                    //获取当前色块填充图框
-                    ThSitePlanDbEngine.Instance.Initialize(Active.Database);
-                    var currenthatchframe = ThSitePlanDbEngine.Instance.FrameByName(configItem.Properties["Name"].ToString());
+                var currenthatchframe = ThSitePlanDbEngine.Instance.FrameByName(configItem.Properties["Name"].ToString());
 
-                    var newoptions = new ThSitePlanOptions()
-                    {
-                        Options = new Dictionary<string, object>() {
+                var newoptions = new ThSitePlanOptions()
+                {
+                    Options = new Dictionary<string, object>() {
                             { "Frame", currenthatchframe },
                             { "Offset", null },
                             { "OriginFrame", null },
                          }
-                    };
-                    var itemworker = new ThSitePlanBoundaryBuildingWorker();
-                    itemworker.DoProcess(database, configItem, newoptions);
-                }
+                };
+                var itemworker = new ThSitePlanBoundaryBuildingWorker();
+                itemworker.DoProcess(database, configItem, newoptions);
             }
             else if (scriptId == "2")
             {
-                //获取当前色块填充图框
-                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
                 var currenthatchframe = ThSitePlanDbEngine.Instance.FrameByName(configItem.Properties["Name"].ToString());
 
                 var newoptions = new ThSitePlanOptions()

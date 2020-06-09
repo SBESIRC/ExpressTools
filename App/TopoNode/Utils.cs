@@ -4468,6 +4468,10 @@ namespace TopoNode
             using (var db = AcadDatabase.Active())
             {
                 var blockRefs = db.CurrentSpace.OfType<BlockReference>().Where(p => p.Visible).ToList();
+                if (blockRefs.Count == 0)
+                {
+                    return resEntityLst;
+                }
                 var incre = 60.0 / blockRefs.Count;
                 foreach (var blockReference in blockRefs)
                 {

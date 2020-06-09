@@ -27,9 +27,8 @@ namespace ThSitePlan.Engine
             };
 
             var scriptId = configItem.Properties["CADScriptID"].ToString();
-            if (scriptId == "1" || scriptId == "2" || scriptId == "4")
+            if (scriptId == "1" || scriptId == "2")
             {
-                //如果CAD脚本为1，即为区域填充图框，直接从原始复制图框将相应的图形元素移动到当前图框中
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
                     //查找当前item对应的分组

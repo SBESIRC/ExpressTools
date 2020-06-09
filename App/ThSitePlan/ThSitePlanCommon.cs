@@ -42,6 +42,11 @@ namespace ThSitePlan
         // RegAppName
         public static readonly string RegAppName_ThSitePlan_Frame_Name = "THCAD_SP_FRAME_NAME";
 
+        //FrameName
+        public static readonly string ThSitePlan_Frame_Name_Unused = "天华彩总";
+        public static readonly string ThSitePlan_Frame_Name_Unrecognized = "未识别对象";
+        public static readonly string ThSitePlan_Frame_Name_Original = "天华彩总原始图框";
+
         // XRecord
         public static readonly string Configuration_Xrecord_Name = "THCAD_THSITEPLAN_CONFIG";
 

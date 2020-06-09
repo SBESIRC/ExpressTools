@@ -135,16 +135,6 @@ namespace TianHua.AutoCAD.ThCui
                     "IDI_THCAD_THHLP_LARGE",
                     RibbonButtonStyle.SmallWithText);
 
-                // 检查更新
-                subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("检查更新",
-                    "天华自动更新",
-                    "THUPT",
-                    "检查更新",
-                    "IDI_THCAD_THUPT_SMALL",
-                    "IDI_THCAD_THUPT_LARGE",
-                    RibbonButtonStyle.SmallWithText);
-
                 // 反馈意见
                 subRow = subPanel.AddNewRibbonRow();
                 subRow.AddNewButton("反馈意见",
@@ -167,8 +157,8 @@ namespace TianHua.AutoCAD.ThCui
                 "天华单体规整",
                 "THBPS",
                 "将建筑单体各层平面图中代表各区域的多段线图元设置到相应的图层，以供生成单体面积汇总表所用",
-                "IDI_THCAD_THBPS",
-                "IDI_THCAD_THBPS",
+                "IDI_THCAD_THBPS_SMALL",
+                "IDI_THCAD_THBPS_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 天华总平规整
@@ -176,8 +166,8 @@ namespace TianHua.AutoCAD.ThCui
                 "天华总平规整",
                 "THSPS",
                 "将总平面图中代表各区域的多段线图元设置到相应的图层，以供生成综合经济技术指标表所用",
-                "IDI_THCAD_THSPS",
-                "IDI_THCAD_THSPS",
+                "IDI_THCAD_THSPS_SMALL",
+                "IDI_THCAD_THSPS_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 单体面积汇总
@@ -185,8 +175,8 @@ namespace TianHua.AutoCAD.ThCui
                 "单体面积汇总",
                 "THBAC",
                 "汇总单体每层各区域建筑面积和计容面积",
-                "IDI_THCAD_THBAC",
-                "IDI_THCAD_THBAC",
+                "IDI_THCAD_THBAC_SMALL",
+                "IDI_THCAD_THBAC_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 综合经济技术指标表
@@ -194,8 +184,8 @@ namespace TianHua.AutoCAD.ThCui
                 "综合经济技术指标表",
                 "THTET",
                 "汇总总平面及各单体各区域建筑面积和计容面积，形成综合经济技术指标表",
-                "IDI_THCAD_THTET",
-                "IDI_THCAD_THTET",
+                "IDI_THCAD_THTET_SMALL",
+                "IDI_THCAD_THTET_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 防火分区疏散表
@@ -203,8 +193,8 @@ namespace TianHua.AutoCAD.ThCui
                 "防火分区疏散表",
                 "THFET",
                 "统计商业/地库各防火分区面积，自动计算应有疏散距离，并生成表格",
-                "IDI_THCAD_THFET",
-                "IDI_THCAD_THFET",
+                "IDI_THCAD_THFET_SMALL",
+                "IDI_THCAD_THFET_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 房间面积框线
@@ -212,8 +202,8 @@ namespace TianHua.AutoCAD.ThCui
                 "房间面积框线",
                 "THABC",
                 "自动生成屏幕选择范围内所有房间的框线，且可选择插入面积值",
-                "IDI_THCAD_THABC",
-                "IDI_THCAD_THABC",
+                "IDI_THCAD_THABC_SMALL",
+                "IDI_THCAD_THABC_LARGE",
                 RibbonButtonStyle.LargeWithText);
         }
 
@@ -271,8 +261,8 @@ namespace TianHua.AutoCAD.ThCui
                     "天华车位编号",
                     "THCNU",
                     "绘制多段线穿过所需编号停车位图块，根据多段线穿过停车位的先后顺序快速生成车位编号",
-                    "IDI_THCAD_THCNU",
-                    "IDI_THCAD_THCNU",
+                    "IDI_THCAD_THCNU_SMALL",
+                    "IDI_THCAD_THCNU_LARGE",
                     RibbonButtonStyle.LargeWithText);
             }
 
@@ -612,8 +602,8 @@ namespace TianHua.AutoCAD.ThCui
                 "建立结构图层",
                 "THSLC",
                 "建立结构专业天华标准图层",
-                "IDI_THCAD_THSLC",
-                "IDI_THCAD_THSLC",
+                "IDI_THCAD_THSLC_SMALL",
+                "IDI_THCAD_THSLC_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 建立暖通图层
@@ -621,8 +611,8 @@ namespace TianHua.AutoCAD.ThCui
                 "建立暖通图层",
                 "THMLC",
                 "建立暖通专业天华标准图层",
-                "IDI_THCAD_THMLC",
-                "IDI_THCAD_THMLC",
+                "IDI_THCAD_THMLC_SMALL",
+                "IDI_THCAD_THMLC_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 建立电气图层
@@ -630,8 +620,8 @@ namespace TianHua.AutoCAD.ThCui
                 "建立电气图层",
                 "THELC",
                 "建立电气专业天华标准图层",
-                "IDI_THCAD_THELC",
-                "IDI_THCAD_THELC",
+                "IDI_THCAD_THELC_SMALL",
+                "IDI_THCAD_THELC_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 建立给排水图层
@@ -639,8 +629,8 @@ namespace TianHua.AutoCAD.ThCui
                 "建立给排水图层",
                 "THPLC",
                 "建立给排专业天华标准图层",
-                "IDI_THCAD_THPLC",
-                "IDI_THCAD_THPLC",
+                "IDI_THCAD_THPLC_SMALL",
+                "IDI_THCAD_THPLC_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 处理暖通底图
@@ -648,8 +638,8 @@ namespace TianHua.AutoCAD.ThCui
                 "处理暖通底图",
                 "THLPM",
                 "处理建筑结构提暖通底图的各图层颜色至相应的色号",
-                "IDI_THCAD_THLPM",
-                "IDI_THCAD_THLPM",
+                "IDI_THCAD_THLPM_SMALL",
+                "IDI_THCAD_THLPM_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 处理电气底图
@@ -657,8 +647,8 @@ namespace TianHua.AutoCAD.ThCui
                 "处理电气底图",
                 "THLPE",
                 "处理建筑结构提电气底图的各图层颜色至相应的色号",
-                "IDI_THCAD_THLPE",
-                "IDI_THCAD_THLPE",
+                "IDI_THCAD_THLPE_SMALL",
+                "IDI_THCAD_THLPE_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 处理给排水底图
@@ -666,8 +656,8 @@ namespace TianHua.AutoCAD.ThCui
                 "处理给排水底图",
                 "THLPP",
                 "处理建筑结构提给排水底图的各图层颜色至相应的色号",
-                "IDI_THCAD_THLPP",
-                "IDI_THCAD_THLPP",
+                "IDI_THCAD_THLPP_SMALL",
+                "IDI_THCAD_THLPP_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 暖通图层管理
@@ -682,8 +672,8 @@ namespace TianHua.AutoCAD.ThCui
                     "锁定天华暖通图层",
                     "THMLK",
                     "锁定所有暖通图层",
-                    "IDI_THCAD_THMLK",
-                    "IDI_THCAD_THMLK",
+                    "IDI_THCAD_THMLK_SMALL",
+                    "IDI_THCAD_THMLK_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 隔离暖通图层
@@ -691,8 +681,8 @@ namespace TianHua.AutoCAD.ThCui
                     "隔离天华暖通图层",
                     "THMUK",
                     "解锁所有暖通图层，同时锁定其他图层",
-                    "IDI_THCAD_THMUK",
-                    "IDI_THCAD_THMUK",
+                    "IDI_THCAD_THMUK_SMALL",
+                    "IDI_THCAD_THMUK_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 解锁所有图层
@@ -700,8 +690,8 @@ namespace TianHua.AutoCAD.ThCui
                     "解锁所有天华图层",
                     "THUKA",
                     "解锁所有图层",
-                    "IDI_THCAD_THUKA",
-                    "IDI_THCAD_THUKA",
+                    "IDI_THCAD_THUKA_SMALL",
+                    "IDI_THCAD_THUKA_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 关闭暖通图层
@@ -709,8 +699,8 @@ namespace TianHua.AutoCAD.ThCui
                     "关闭天华暖通图层",
                     "THMOF",
                     "关闭所有暖通图层",
-                    "IDI_THCAD_THMOF",
-                    "IDI_THCAD_THMOF",
+                    "IDI_THCAD_THMOF_SMALL",
+                    "IDI_THCAD_THMOF_LARGE",
                     RibbonButtonStyle.LargeWithText);
 
                 // 开启暖通图层
@@ -718,8 +708,8 @@ namespace TianHua.AutoCAD.ThCui
                     "开启天华暖通图层",
                     "THMON",
                     "开启所有暖通图层",
-                    "IDI_THCAD_THMON",
-                    "IDI_THCAD_THMON",
+                    "IDI_THCAD_THMON_SMALL",
+                    "IDI_THCAD_THMON_LARGE",
                     RibbonButtonStyle.LargeWithText);
             }
 
@@ -756,6 +746,15 @@ namespace TianHua.AutoCAD.ThCui
                     "IDI_THCAD_THXFPM_SMALL",
                     "IDI_THCAD_THXFPM_LARGE",
                     RibbonButtonStyle.LargeWithText);
+
+                // 暖通全显
+                splitButton.AddNewButton("暖通全显",
+                    "暖通全显",
+                    "THNT",
+                    "切换到暖通全显",
+                    "IDI_THCAD_THNT_SMALL",
+                    "IDI_THCAD_THNT_LARGE",
+                    RibbonButtonStyle.LargeWithText);
             }
 
             // 提电气块转换
@@ -763,8 +762,8 @@ namespace TianHua.AutoCAD.ThCui
                 "提电气块转换",
                 "THBEE",
                 "将暖通和给排水专业提资给电气的图块转换为电气专业所需的图块",
-                "IDI_THCAD_THBEE",
-                "IDI_THCAD_THBEE",
+                "IDI_THCAD_THBEE_SMALL",
+                "IDI_THCAD_THBEE_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 图块集
@@ -772,8 +771,8 @@ namespace TianHua.AutoCAD.ThCui
                 "天华图块集",
                 "THBLI",
                 "打开图块集工具选项板",
-                "IDI_THCAD_THBLI",
-                "IDI_THCAD_THBLI",
+                "IDI_THCAD_THBLI_SMALL",
+                "IDI_THCAD_THBLI_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 图块断线
@@ -837,8 +836,8 @@ namespace TianHua.AutoCAD.ThCui
                 "获取天正看图T20V4.0插件",
                 "T20V4",
                 "获取天正看图T20V4.0插件",
-                "IDI_THCAD_T20V40",
-                "IDI_THCAD_T20V40",
+                "IDI_THCAD_T20V40_SMALL",
+                "IDI_THCAD_T20V40_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 获取天正看图T20V5.0插件
@@ -846,8 +845,8 @@ namespace TianHua.AutoCAD.ThCui
                 "获取天正看图T20V5.0插件",
                 "T20V5",
                 "获取天正看图T20V5.0插件",
-                "IDI_THCAD_T20V50",
-                "IDI_THCAD_T20V50",
+                "IDI_THCAD_T20V50_SMALL",
+                "IDI_THCAD_T20V50_LARGE",
                 RibbonButtonStyle.LargeWithText);
         }
 

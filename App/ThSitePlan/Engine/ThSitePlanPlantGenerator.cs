@@ -27,11 +27,10 @@ namespace ThSitePlan.Engine
             };
 
             var scriptId = configItem.Properties["CADScriptID"].ToString();
-            if (scriptId == "4")
+            if (scriptId == "5")
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
-                    //获取当前色块填充图框
                     ThSitePlanDbEngine.Instance.Initialize(Active.Database);
                     var currenthatchframe = ThSitePlanDbEngine.Instance.FrameByName(configItem.Properties["Name"].ToString());
 

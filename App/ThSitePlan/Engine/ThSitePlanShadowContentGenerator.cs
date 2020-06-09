@@ -6,6 +6,8 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
 using Autodesk.AutoCAD.Runtime;
+using NFox.Cad.Collections;
+using Autodesk.AutoCAD.EditorInput;
 
 namespace ThSitePlan.Engine
 {
@@ -30,9 +32,8 @@ namespace ThSitePlan.Engine
             };
 
             var scriptId = configItem.Properties["CADScriptID"].ToString();
-            if (scriptId == "3")
+            if (scriptId == "3" || scriptId == "4")
             {
-                //
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
                     //查找当前item对应的分组
@@ -40,7 +41,6 @@ namespace ThSitePlan.Engine
                     var currentgroup = ThSitePlanConfigService.Instance.FindGroupByItemName(configItem.Properties["Name"].ToString());
 
                     //获取当前色块填充图框
-                    ThSitePlanDbEngine.Instance.Initialize(Active.Database);
                     var currenthatchframe = ThSitePlanDbEngine.Instance.FrameByName(configItem.Properties["Name"].ToString());
 
                     //遍历当前group，逐一获取group中各个item的图框，将图框中的所有色块图层的元素拷贝到当前色块图框

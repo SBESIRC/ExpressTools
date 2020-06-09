@@ -27,32 +27,33 @@ namespace ThStructure.BeamInfo.Business
                     #region 直线
                     if (obj is Line line)
                     {
-                        if (line.Delta.GetNormal().Z != 0)
+                        var lNormal = line.Delta.GetNormal();
+                        if (!lNormal.IsEqualTo(new Vector3d(lNormal.X, lNormal.Y, 0.0)))
                         {
                             continue;
                         }
 
-                        var norComp = groupDic.Keys.Where(x => x.IsParallelTo(line.Delta.GetNormal(), new Tolerance(0.0001,0.0001))).ToList();
+                        var norComp = groupDic.Keys.Where(x => x.IsParallelTo(lNormal, new Tolerance(0.0001,0.0001))).ToList();
                         if (norComp.Count > 0)
                         {
                             groupDic[norComp.First()].Add(line, line);
                         }
                         else
                         {
-                            groupDic.Add(line.Delta.GetNormal(), new Dictionary<Curve, Line>() { { line, line } });
+                            groupDic.Add(lNormal, new Dictionary<Curve, Line>() { { line, line } });
                         }
                     }
                     #endregion
                     #region 多线段
                     else if (obj is Polyline polyline)
                     {
-                        if (!polyline.Normal.IsEqualTo(Vector3d.ZAxis))
+                        var plNormal = polyline.GetLineSegmentAt(0).Direction.GetNormal();
+                        if (!plNormal.IsEqualTo(new Vector3d(plNormal.X, plNormal.Y, 0.0)))
                         {
                             continue;
                         }
 
-                        var plNormal = polyline.GetLineSegmentAt(0).Direction.GetNormal();
-                        var norComp = groupDic.Keys.Where(x => x.IsParallelTo(plNormal, Tolerance.Global)).ToList();
+                        var norComp = groupDic.Keys.Where(x => x.IsParallelTo(plNormal, new Tolerance(0.0001, 0.0001))).ToList();
                         if (norComp.Count > 0)
                         {
                             groupDic[norComp.First()].Add(polyline, TransPlineToLine(polyline));
@@ -78,6 +79,9 @@ namespace ThStructure.BeamInfo.Business
                     }
                     #endregion
                 }
+
+                //将所有线的法相z值归零（不为0构建坐标系会出错）
+                groupDic = groupDic.ToDictionary(x => x.Key.Z == 0 ? x.Key : new Vector3d(x.Key.X, x.Key.Y, 0), k => k.Value);
 
                 foreach (var lineDic in groupDic)
                 {
@@ -161,15 +165,46 @@ namespace ThStructure.BeamInfo.Business
 
                     firLine.TransformBy(trans);
                     double sum = 0;
+                    List<Line> matchLines = new List<Line>();
                     foreach (var plineDic in paraLines)
                     {
                         var thisLine = plineDic.Value;
                         sum += thisLine.Length;
-                        if (sum > firLine.Length && Math.Abs(sum - firLine.Length) > tolerance)
+                        if ((sum > firLine.Length && Math.Abs(sum - firLine.Length) > tolerance))
                         {
                             break;
                         }
 
+                        var tempMacthNum = matchLines.Where(x =>
+                        {
+                            double xMaxX = x.StartPoint.X;
+                            double xMinX = x.EndPoint.X;
+                            if (x.StartPoint.X < x.EndPoint.X)
+                            {
+                                xMaxX = x.EndPoint.X;
+                                xMinX = x.StartPoint.X;
+                            }
+
+                            double mMaxX = thisLine.StartPoint.X;
+                            double mMinX = thisLine.EndPoint.X;
+                            if (thisLine.StartPoint.X < thisLine.EndPoint.X)
+                            {
+                                mMaxX = thisLine.EndPoint.X;
+                                mMinX = thisLine.StartPoint.X;
+                            }
+
+                            if (mMaxX <= xMinX || mMinX >= xMaxX)
+                            {
+                                return false;
+                            }
+                            return true;
+                        });
+                        if (tempMacthNum.Count() > 0)
+                        {
+                            break;
+                        }
+
+                        matchLines.Add(thisLine.Clone() as Line);
                         thisLine.TransformBy(trans);
                         LineBeam beam = new LineBeam(firLine, thisLine);
                         beam.UpBeamLine = linePair.Key;

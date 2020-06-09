@@ -5,6 +5,7 @@ using NetTopologySuite.Algorithm;
 using Autodesk.AutoCAD.DatabaseServices;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Triangulate;
+using System.Collections.Generic;
 
 namespace ThCADCore.NTS
 {
@@ -83,5 +84,39 @@ namespace ThCADCore.NTS
             }
             return objs;
         }
+
+        //public static List<Polyline> Difference(this Polyline pRegion, Region sRegion)
+        //{
+        //    var regions = new List<Polyline>();
+        //    var pGeometry = pRegion.ToNTSPolygon();
+        //    var sGeometry = sRegion.ToNTSPolygon();
+        //    if (pGeometry == null || sGeometry == null)
+        //    {
+        //        return regions;
+        //    }
+
+        //    // 检查是否相交
+        //    if (!pGeometry.Intersects(sGeometry))
+        //    {
+        //        return regions;
+        //    }
+
+        //    // 若相交，则计算在pRegion，但不在sRegion的部分
+        //    var rGeometry = pGeometry.Difference(sGeometry);
+        //    if (rGeometry is IPolygon polygon)
+        //    {
+        //        regions.Add(polygon.Shell.ToDbPolyline());
+        //    }
+        //    else if (rGeometry is IMultiPolygon mPolygon)
+        //    {
+        //        regions.AddRange(mPolygon.ToDbPolylines());
+        //    }
+        //    else
+        //    {
+        //        // 为止情况，抛出异常
+        //        throw new NotSupportedException();
+        //    }
+        //    return regions;
+        //}
     }
 }

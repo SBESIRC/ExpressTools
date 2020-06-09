@@ -120,6 +120,7 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "通风模式", "ID_THTF");
                 toolbar.AddToolbarButton(-1, "水管模式", "ID_THSG");
                 toolbar.AddToolbarButton(-1, "消防模式", "ID_THXF");
+                toolbar.AddToolbarButton(-1, "暖通全显", "ID_THNT");
                 toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
             }

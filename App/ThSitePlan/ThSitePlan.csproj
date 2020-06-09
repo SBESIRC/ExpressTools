@@ -32,23 +32,16 @@
     <Compile Include="Configuration\ThSitePlanConfigService.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryBuildingWorker.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryGenerator.cs" />
-    <Compile Include="Engine\ThSitePlanBoundaryOuterBuildingWorker.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryWorker.cs" />
-    <Compile Include="Engine\ThSitePlanBoundaryYardWorker.cs" />
     <Compile Include="Engine\ThSitePlanBuilding.cs" />
     <Compile Include="Engine\ThSitePlanBuildingAnnotations.cs" />
     <Compile Include="Engine\ThSitePlanBuildingShadow.cs" />
-    <Compile Include="Engine\ThSitePlanCADRegionWorker.cs" />
     <Compile Include="Engine\ThSitePlanDbEngine.cs" />
     <Compile Include="Engine\ThSitePlanDerivedContentGenerator.cs" />
     <Compile Include="Engine\ThSitePlanFrameNameGenerator.cs" />
-    <Compile Include="Engine\ThSitePlanParkWorker.cs" />
     <Compile Include="Engine\ThSitePlanCADWorker.cs" />
     <Compile Include="Engine\ThSitePlanContentGenerator.cs" />
-    <Compile Include="Engine\ThSitePlaneImageGenerator.cs" />
     <Compile Include="Engine\ThSitePlanDefaultWorker.cs" />
-    <Compile Include="Engine\ThSitePlanHatchGenerator.cs" />
-    <Compile Include="Engine\ThSitePlanOuterWorker.cs" />
     <Compile Include="Engine\ThSitePlanPDFGenerator.cs" />
     <Compile Include="Engine\ThSitePlanPlantGenerator.cs" />
     <Compile Include="Engine\ThSitePlanPlantWorker.cs" />
@@ -56,10 +49,9 @@
     <Compile Include="Engine\ThSitePlanShadowContentGenerator.cs" />
     <Compile Include="Engine\ThSitePlanShadowGenerator.cs" />
     <Compile Include="Engine\ThSitePlanShadowWorker.cs" />
-    <Compile Include="Engine\ThSitePlanShadowWorkerEx.cs" />
+    <Compile Include="Engine\ThSitePlanSimpleShadowWorker.cs" />
     <Compile Include="Engine\ThSitePlanTrimGenerator.cs" />
     <Compile Include="Engine\ThSitePlanWorker.cs" />
-    <Compile Include="Engine\ThSitePlanYardHatchWorker.cs" />
     <Compile Include="Enum\EnumCADScript.cs" />
     <Compile Include="Function\FuncFile.cs" />
     <Compile Include="Photoshop\ThSitePlanPSEngine.cs" />
@@ -153,11 +145,6 @@
       </ItemGroup>
     </When>
   </Choose>
-  <ItemGroup>
-    <PackageReference Include="PdfiumViewer" Version="2.13.0" />
-    <PackageReference Include="PdfiumViewer.Native.x86.v8-xfa" Version="2018.4.8.256" />
-    <PackageReference Include="PdfiumViewer.Native.x86_64.v8-xfa" Version="2018.4.8.256" />
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />
   </ItemGroup>

@@ -262,6 +262,41 @@ namespace ThCADCore.Test
             }
         }
 
+        [CommandMethod("TIANHUACAD", "ThSpatialIndex", CommandFlags.Modal)]
+        public void ThSpatialIndex()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetSelection();
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var result2 = Active.Editor.GetEntity("请选择框线");
+                if (result2.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var objs = new DBObjectCollection();
+                foreach (var obj in result.Value.GetObjectIds())
+                {
+                    objs.Add(acadDatabase.Element<Entity>(obj));
+                }
+                var spatialIndex = new ThCADCoreNTSSpatialIndex(objs);
+
+                var frame = acadDatabase.Element<Polyline>(result2.ObjectId);
+                var pt1 = frame.GeometricExtents.MinPoint;
+                var pt2 = frame.GeometricExtents.MaxPoint;
+                foreach (Entity item in spatialIndex.SelectCrossingWindow(pt1, pt2))
+                {
+                    item.ColorIndex = 1;
+                    acadDatabase.ModelSpace.Add(item);
+                }
+            }
+        }
+
         [CommandMethod("TIANHUACAD", "ThLoops", CommandFlags.Modal)]
         public void ThLoops()
         {
