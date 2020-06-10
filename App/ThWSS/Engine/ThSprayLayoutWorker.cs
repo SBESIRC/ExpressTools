@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using ThWSS.Bussiness;
+using ThWSS.Bussiness.SparyLayout;
 using ThWSS.Model;
 
 namespace ThWSS.Engine
@@ -12,7 +13,7 @@ namespace ThWSS.Engine
         {
             var polygon = room.Properties.Values.Cast<Polyline>().ToList();
 
-            SprayLayoutService sprayLayoutService = new SprayLayoutService();
+            SparyLayoutService sprayLayoutService = new SparyLayoutByBeamService();
             sprayLayoutService.LayoutSpray(polygon, layoutModel);
         }
     }

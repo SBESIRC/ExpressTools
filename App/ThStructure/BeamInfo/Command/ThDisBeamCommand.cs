@@ -13,7 +13,7 @@ namespace ThStructure.BeamInfo.Command
     {
         private Document document = Application.DocumentManager.MdiActiveDocument;
 
-        public void CalBeamStruc(DBObjectCollection dBObjects)
+        public List<Beam> CalBeamStruc(DBObjectCollection dBObjects)
         {
             using (AcadDatabase acdb = AcadDatabase.Active())
             {
@@ -48,10 +48,13 @@ namespace ThStructure.BeamInfo.Command
                 //7.打印梁外边框
                 foreach (var item in allBeam)
                 {
-                    acdb.ModelSpace.Add(item.BeamBoundary);
+                    //acdb.ModelSpace.Add(item.BeamBoundary);
                 }
 
+                //8.打印梁信息
                 PrintInfo(allBeam, true);
+
+                return allBeam;
             }
         }
 

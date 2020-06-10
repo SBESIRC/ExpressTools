@@ -121,9 +121,13 @@ namespace ThWSS.Utlis
         RETRY:
             foreach (var poly1 in polygons)
             {
+                if (poly1.Area <= 0)
+                {
+                    continue;
+                }
+
                 //面积太小无法排布的区域合并掉
-                var obb1 = OrientedBoundingBox.Calculate(poly1);
-                var needMerge = CalInvalidPolygon(obb1);
+                var needMerge = CalInvalidPolygon(poly1);
 
                 int index = 0;
                 double length = 0;
@@ -157,11 +161,6 @@ namespace ThWSS.Utlis
                     if (resPoly != null)
                     {
                         polygons.Add(resPoly);
-                    }
-                    using (AcadDatabase s = AcadDatabase.Active())
-                    {
-                        //s.ModelSpace.Add(poly1);
-                        //s.ModelSpace.Add(interPoly);
                     }
                     goto RETRY;
                 }
@@ -230,11 +229,13 @@ namespace ThWSS.Utlis
         /// <returns></returns>
         public bool CalInvalidPolygon(Polyline poly)
         {
+            var obb1 = OrientedBoundingBox.Calculate(poly);
+
             List<Line> polyAllLines = new List<Line>();
-            for (int i = 0; i < poly.NumberOfVertices; i++)
+            for (int i = 0; i < obb1.NumberOfVertices; i++)
             {
-                var next = poly.GetPoint3dAt((i + 1) % poly.NumberOfVertices);
-                polyAllLines.Add(new Line(poly.GetPoint3dAt(i), next));
+                var next = obb1.GetPoint3dAt((i + 1) % obb1.NumberOfVertices);
+                polyAllLines.Add(new Line(obb1.GetPoint3dAt(i), next));
             }
 
             Line maxLine = polyAllLines.OrderByDescending(x => x.Length).First();

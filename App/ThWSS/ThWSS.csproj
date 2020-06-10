@@ -59,8 +59,12 @@
     <Compile Include="Beam\ThBeamDbManager.cs" />
     <Compile Include="Beam\ThBeamGeometryService.cs" />
     <Compile Include="Beam\ThBeamLayerManager.cs" />
+    <Compile Include="Bussiness\CalBeamInfoService.cs" />
+    <Compile Include="Bussiness\CalColumnInfoService.cs" />
     <Compile Include="Bussiness\InsertSparyService.cs" />
-    <Compile Include="Bussiness\SprayLayoutService.cs" />
+    <Compile Include="Bussiness\SparyLayout\ISparyLayoutService.cs" />
+    <Compile Include="Bussiness\SparyLayout\SparyLayoutByBeamService.cs" />
+    <Compile Include="Bussiness\SparyLayout\SprayLayoutNoBeamService.cs" />
     <Compile Include="Config\ConfigHelper.cs" />
     <Compile Include="Config\Model\LayoutCacheModel.cs" />
     <Compile Include="Engine\ThBeamRecognitionEngine.cs" />
@@ -80,8 +84,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ThWSSApp.cs" />
+    <Compile Include="Utlis\GetObjectUtils.cs" />
     <Compile Include="Utlis\GeUtils.cs" />
     <Compile Include="Utlis\OrientedBoundingBox.cs" />
+    <Compile Include="Utlis\RegionDivisionByBeamUtils.cs" />
     <Compile Include="Utlis\RegionDivisionUtils.cs" />
     <Compile Include="View\StandardBindWindow.xaml.cs" />
     <Compile Include="View\PlateThcikWindow.xaml.cs" />

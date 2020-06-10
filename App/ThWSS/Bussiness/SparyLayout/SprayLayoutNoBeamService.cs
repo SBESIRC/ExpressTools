@@ -10,11 +10,11 @@ using ThWSS.LayoutRule;
 using ThWSS.Model;
 using ThWSS.Utlis;
 
-namespace ThWSS.Bussiness
+namespace ThWSS.Bussiness.SparyLayout
 {
-    public class SprayLayoutService
+    public class SprayLayoutNoBeamService : SparyLayoutService
     {
-        public void LayoutSpray(List<Polyline> roomsLine, SparyLayoutModel layoutModel)
+        public override void LayoutSpray(List<Polyline> roomsLine, SparyLayoutModel layoutModel)
         {
             foreach (var room in roomsLine)
             {
@@ -27,7 +27,7 @@ namespace ThWSS.Bussiness
 
                 //区域分割
                 RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
-                var diviRoom =regionDivisionUtils.DivisionRegion(rommBounding);
+                var diviRoom = regionDivisionUtils.DivisionRegion(rommBounding);
                 using (AcadDatabase acdb = AcadDatabase.Active())
                 {
                     foreach (var item in diviRoom)
@@ -58,27 +58,6 @@ namespace ThWSS.Bussiness
                     InsertSparyService.InsertSprayBlock(roomPts, SprayType.SPRAYDOWN);
                 }
             }
-        }
-
-        /// <summary>
-        /// 计算出房间内的喷淋的布置点
-        /// </summary>
-        /// <param name="room"></param>
-        /// <param name="layoutPts"></param>
-        /// <returns></returns>
-        private List<Point3d> CalRoomSpray(Polyline room, List<Point3d> layoutPts)
-        {
-            List<Point3d> roomP = new List<Point3d>();
-            foreach (var pt in layoutPts)
-            {
-                var res = GeUtils.CheckPointInPolyline(room, pt, 1.0E-4);
-                if (res == 1)
-                {
-                    roomP.Add(pt);
-                }
-            }
-
-            return roomP;
         }
     }
 }
