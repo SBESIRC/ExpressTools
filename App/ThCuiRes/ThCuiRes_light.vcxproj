@@ -233,6 +233,8 @@
     <Image Include="Images\Structure_light_large.ico" />
     <Image Include="Images\Water_Sewerage_light_small.ico" />
     <Image Include="Images\Water_Sewerage_light_large.ico" />
+    <Image Include="Images\THALIAS_light_small.ico" />
+    <Image Include="Images\THALIAS_light_large.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

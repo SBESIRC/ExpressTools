@@ -19,6 +19,13 @@ panels:
           - text: "反馈意见"
             attributes: { "IsVisible": true, "IsEnabled": true }
     attributes: { "IsVisible": true, "IsEnabled": true }
+  - UID: "pnlSettings"
+    name: "Settings"
+    title: "设置"
+    items:
+        - text: "快捷键"
+          attributes: { "IsVisible": true, "IsEnabled": true }
+    attributes: { "IsVisible": true, "IsEnabled": true }
   - UID: "pnlCheckTool"
     name: "CheckTool"
     title: "校核审查"

@@ -11,6 +11,7 @@ namespace TianHua.AutoCAD.ThCui
             if (tab != null)
             {
                 CreateHelpPanel(tab);
+                CreateSettingsPanel(tab);
                 CreateCheckToolPanel(tab);
                 CreatStatisticPanel(tab);
                 CreateDrawToolPanel(tab);
@@ -145,6 +146,22 @@ namespace TianHua.AutoCAD.ThCui
                     "IDI_THCAD_THFBK_LARGE",
                     RibbonButtonStyle.SmallWithText);
             }
+        }
+
+        private static void CreateSettingsPanel(RibbonTabSource tab)
+        {
+            // 设置
+            var panel = tab.AddNewPanel("Settings", "设置");
+            var row = panel.AddNewRibbonRow();
+
+            //柱校核
+            row.AddNewButton("快捷键",
+                "天华快捷键设置",
+                "THALIAS",
+                "设置快捷键",
+                "IDI_THCAD_THALIAS_SMALL",
+                "IDI_THCAD_THALIAS_LARGE",
+                RibbonButtonStyle.LargeWithText);
         }
 
         private static void CreatStatisticPanel(RibbonTabSource tab)
