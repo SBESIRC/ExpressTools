@@ -7,7 +7,7 @@
         xmlns:local1="clr-namespace:ThColumnInfo.View"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
-        Title="导入计算书" Width="600" Height="410" MinWidth="600" MinHeight="410" 
+        Title="{Binding CalculateInfo.Title}" Width="600" Height="410" MinWidth="600" MinHeight="410" 
         MaxWidth="600" MaxHeight="410" Loaded="Window_Loaded" ResizeMode="NoResize" KeyDown="Window_KeyDown">
     <Window.Resources>
         <Style TargetType="{x:Type Window}">
@@ -23,7 +23,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
             <Label Content="模型目录：" VerticalContentAlignment="Center"/>
-            <ComboBox Name="cbYjkFilePath"  Height="30" Margin="0,0" Width="430" 
+            <ComboBox Name="cbYjkFilePath"  Height="20" Margin="0,0" Width="430" 
                    ItemsSource="{Binding CalculateInfo.YjkUsedPathList,Mode=TwoWay}"
                    SelectedValue="{Binding CalculateInfo.YjkPath,Mode=TwoWay}" SelectionChanged="CbYjkFilePath_SelectionChanged"></ComboBox>
             <Button Content="浏览" Height="20" Width="55" Margin="5,0" Command="{Binding BrowseDirectoryCommand}"></Button>

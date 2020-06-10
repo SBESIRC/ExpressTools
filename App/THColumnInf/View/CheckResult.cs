@@ -13,6 +13,7 @@ using ThColumnInfo.ViewModel;
 using System.Drawing;
 using ThColumnInfo.Properties;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using Autodesk.AutoCAD.Geometry;
 
 namespace ThColumnInfo.View
 {
@@ -52,7 +53,6 @@ namespace ThColumnInfo.View
             this.panelMiddle.BackColor = System.Drawing.Color.FromArgb(92, 92, 92);
             this.panelDown.BackColor = System.Drawing.Color.FromArgb(92, 92, 92);
             this.tvCheckRes.BackColor = System.Drawing.Color.FromArgb(92, 92, 92);
-            this.lblPaperDistinguishResult.ForeColor = Color.White;
 
             this.nodeKeys = new List<string> { this.dataCorrectNodeName, this.codeLostNodeName, this.uncompleteNodeNme };
             this.tvCheckRes.DrawMode = TreeViewDrawMode.OwnerDrawText;
@@ -349,8 +349,16 @@ namespace ThColumnInfo.View
             TreeNode thStandardSignNode = FindThStandardSignNode(treeNode);
             if (thStandardSignNode != null)
             {
+                frameIds = frameIds.Where(i => i.IsValid).Select(i => i).ToList();
                 ThStandardSign thStandardSign = thStandardSignNode.Tag as ThStandardSign;
-                LocateInnerFrame(thStandardSign);
+                if(frameIds.Count>0)
+                {
+                    LocateColumnFrameIds(frameIds);
+                }
+                else
+                {
+                    LocateInnerFrame(thStandardSign);
+                }
             }
         }
         private TreeNode FindThStandardSignNode(TreeNode tn)
@@ -377,6 +385,41 @@ namespace ThColumnInfo.View
                 }
                 COMTool.ZoomWindow(ThColumnInfoUtils.TransPtFromUcsToWcs(extents.MinPoint)
                     , ThColumnInfoUtils.TransPtFromUcsToWcs(extents.MaxPoint));
+            }
+        }
+        private void LocateColumnFrameIds(List<ObjectId> frameIds)
+        {
+            double offsetDis = 4000;
+            Document document = acadApp.Application.DocumentManager.MdiActiveDocument;
+            using (DocumentLock docLock = document.LockDocument())
+            {
+                using (Transaction trans = document.TransactionManager.StartTransaction())
+                {
+                    List<Point3d> pts = new List<Point3d>();
+                    foreach (ObjectId objId in frameIds)
+                    {
+                        if (objId.IsNull || objId.IsErased || !objId.IsValid)
+                        {
+                            continue;
+                        }
+                        Entity ent = trans.GetObject(objId,OpenMode.ForRead) as Entity;
+                        Extents3d extents = ThColumnInfoUtils.GeometricExtentsImpl(ent);
+                        if (extents == null)
+                        {
+                            continue;
+                        }
+                        pts.Add(extents.MinPoint);
+                        pts.Add(extents.MaxPoint);
+                    }
+                    double minX = pts.OrderBy(i => i.X).First().X;
+                    double minY = pts.OrderBy(i => i.Y).First().Y;
+                    double maxX = pts.OrderByDescending(i => i.X).First().X;
+                    double maxY = pts.OrderByDescending(i => i.Y).First().Y;
+
+                    COMTool.ZoomWindow(ThColumnInfoUtils.TransPtFromUcsToWcs(new Point3d(minX,minY,0.0)+new Vector3d(-offsetDis, -offsetDis,0))
+                   , ThColumnInfoUtils.TransPtFromUcsToWcs(new Point3d(maxX, maxY, 0.0) + new Vector3d(offsetDis, offsetDis, 0)));
+                    trans.Commit();
+                }
             }
         }
         public void HideTotalFrameIds(TreeNode currentNode)
@@ -833,6 +876,10 @@ namespace ThColumnInfo.View
                     SortThCalculateValidateResult(thStandardSign, correctColumnInfs);
                 }
                 tn.Expand();
+                foreach(TreeNode tnItem in tn.Nodes)
+                {
+                    tnItem.Expand();
+                }
             }
             catch(System.Exception ex)
             {
@@ -850,7 +897,7 @@ namespace ThColumnInfo.View
             {
                 var item = thStandardSign.ThCalculateValidate.ColumnValidateResultDic.Where(i => i.Key.ModelColumnInfs.Count == 1 && i.Key.ModelColumnInfs[0].Code == columnInf.Code &&
                   i.Key.ModelColumnInfs[0].Text == columnInf.Text).Select(i => i).First();
-                if (item.Key != null)
+                if (item.Key != null && !newResDic.ContainsKey(item.Key))
                 {
                     newResDic.Add(item.Key, item.Value);
                 }
@@ -949,6 +996,7 @@ namespace ThColumnInfo.View
                                     calculationInfoVM.CalculateInfo.YjkUsedPathList = ci.YjkUsedPathList;
                                 } 
                             }
+                            calculationInfoVM.CalculateInfo.Title = "导入计算书（"+ thStandardSign.InnerFrameName+"）";
                             ImportCalculation importCalculation = new ImportCalculation(calculationInfoVM);
                             calculationInfoVM.Owner = importCalculation;
                             importCalculation.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;

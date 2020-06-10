@@ -106,6 +106,7 @@
     <Compile Include="Tools\WpfTopMostTool.cs" />
     <Compile Include="Validate\Model\AngularReinforcementNumModel.cs" />
     <Compile Include="Validate\Model\ColumnDataModel.cs" />
+    <Compile Include="Validate\Model\ColumnSpecModel.cs" />
     <Compile Include="Validate\Model\CompoundStirrupModel.cs" />
     <Compile Include="Validate\Model\MinimumReinforceRatioBModel.cs" />
     <Compile Include="Validate\Model\MinimumReinforceRatioAModel.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Validate\Rules\LongShortEdgeRatioRule.cs" />
     <Compile Include="Validate\Rules\CompoundStirrupRule.cs" />
     <Compile Include="Validate\Rules\IRule.cs" />
+    <Compile Include="Validate\Rules\SpecConsistRule.cs" />
     <Compile Include="Validate\Rules\SectionTooSmallRule.cs" />
     <Compile Include="Validate\Model\MaximumReinforcementRatioModel.cs" />
     <Compile Include="Validate\Model\AngularReinforcementDiaModel.cs" />

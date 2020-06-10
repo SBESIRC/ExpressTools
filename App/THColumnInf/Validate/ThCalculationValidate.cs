@@ -430,7 +430,8 @@ namespace ThColumnInfo.Validate
         #endregion
 
         public void ValidateColumnInf()
-        {
+        {            
+            validateRules.Add(BuildSpecConsistRule());                    // 规格一致性检查
             validateRules.Add(BuildSectionTooSmallRule());                // 最小截面
             validateRules.Add(BuildLongLessThanShortTripleRule());        // 长短边比值
             validateRules.Add(BuildShearSpanRatioRule());                 // 剪跨比(截面)
@@ -473,6 +474,23 @@ namespace ThColumnInfo.Validate
                 this.correctResults.AddRange(this.validateRules[i].CorrectResults);
                 this.calculationSteps.AddRange(this.validateRules[i].GetCalculationSteps());
             }
+        }
+        /// <summary>
+        /// 规格一致性
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildSpecConsistRule()
+        {
+            ColumnSpecModel columnSpecModel = new ColumnSpecModel
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Text = this.columnRelateInf.ModelColumnInfs[0].Text,
+                B = this.columnRelateInf.YjkColumnData.B,
+                H = this.columnRelateInf.YjkColumnData.H,
+                Cdm = cdm
+            };
+            IRule columnConsistRule = new SpecConsistRule(columnSpecModel);
+            return columnConsistRule;
         }
         /// <summary>
         /// 最小截面(截面)

@@ -644,6 +644,12 @@ namespace ThColumnInfo
         private YjkColumnDataInfo GetYjkDataInfo(ColumnRelateInf columnRelateInf)
         {
             YjkColumnDataInfo yjkColumnDataInfo = new YjkColumnDataInfo();
+            List<double> specValues = ThColumnInfoUtils.GetDoubleValues(columnRelateInf.DbColumnInf.Spec);
+            if(specValues.Count==2)
+            {
+                yjkColumnDataInfo.B = specValues[0];
+                yjkColumnDataInfo.H = specValues[1];
+            }
             double jkb = 0.0;
             //获取jtId对应的自然层编号和柱编号（dtlModel）
             int tblFloorNo, tblColSegNo;

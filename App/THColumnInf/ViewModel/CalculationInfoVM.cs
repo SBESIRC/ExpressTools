@@ -517,6 +517,11 @@ namespace ThColumnInfo.ViewModel
             ObservableCollection<string> selectLayers = new ObservableCollection<string>();
             floorNames.ForEach(i => modelLayers.Add(i));
             this.CalculateInfo.ModelLayers = modelLayers;
+            var filterRes=this.CalculateInfo.SelectLayers.Where(i => modelLayers.IndexOf(i) >= 0).Select(i=>i).ToList();
+            if(filterRes!=null && filterRes.Count>0)
+            {
+                filterRes.ForEach(i => selectLayers.Add(i));
+            }
             this.CalculateInfo.SelectLayers = selectLayers;
             Owner.lbModelLayers.ItemsSource = modelLayers;
         }

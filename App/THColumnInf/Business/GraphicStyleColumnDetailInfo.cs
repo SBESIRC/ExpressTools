@@ -524,7 +524,14 @@ namespace ThColumnInfo
                 {
                     RotatedDimension rd = dbObj as RotatedDimension;
                     vec = rd.XLine1Point.GetVectorTo(rd.XLine2Point);
-                    dimText = rd.Measurement.ToString();
+                    if(!string.IsNullOrEmpty(rd.DimensionText))
+                    {
+                        dimText = rd.DimensionText;
+                    }
+                    else
+                    {
+                        dimText = rd.Measurement.ToString();
+                    }
                 }
                 if(string.IsNullOrEmpty(dimText) || !BaseFunction.IsNumeric(dimText))
                 {

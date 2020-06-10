@@ -34,7 +34,7 @@ namespace ThColumnInfo.View
         {
             if(_ps == null)
             {
-                _ps = new PaletteSet("柱配筋校核",typeof(CheckPalette).GUID); //新建一个面板对象，标题为 “检查结果”
+                _ps = new PaletteSet("图纸列表-柱", Guid.NewGuid()); //新建一个面板对象，标题为 “检查结果” typeof(CheckPalette).GUID
                 _checkResult = new CheckResult();
                 _ps.Add("", _checkResult);
             }

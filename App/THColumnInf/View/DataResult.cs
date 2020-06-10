@@ -603,7 +603,11 @@ namespace ThColumnInfo.View
         }
         private void dgvColumnTable_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if(!CheckTabIsActive(this.columnTableTabName))
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+            if (!CheckTabIsActive(this.columnTableTabName))
             {
                 HideDgvSpecificationRes(this.dgvSpecificationCurrentRowIndex);
                 HideDgvCalculationRes(this.dgvCalculationCurrentRowIndex);
@@ -629,6 +633,10 @@ namespace ThColumnInfo.View
 
         private void dgvCalculationRes_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if(e.RowIndex<0 || e.ColumnIndex<0)
+            {
+                return;
+            }
             if (!CheckTabIsActive(this.calculationTabName))
             {
                 HideDgvColumnTable(this.dgvColumnTableCurrentRowIndex);
@@ -655,6 +663,10 @@ namespace ThColumnInfo.View
 
         private void dgvSpecificationRes_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
             if (!CheckTabIsActive(this.specificationTabName))
             {
                 HideDgvColumnTable(this.dgvColumnTableCurrentRowIndex);

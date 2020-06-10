@@ -11,6 +11,7 @@ namespace ThColumnInfo
     public class CalculationInfo : CNotifyPropertyChange
     {
         private string yjkPath = "";
+        private string title = "";
         private ObservableCollection<string> yjkUsedPathList = new ObservableCollection<string>();
         private bool selectByStandard = false;
         private double angle = 0;
@@ -47,6 +48,22 @@ namespace ThColumnInfo
             {
                 yjkPath = value;
                 NotifyPropertyChange("YjkPath");
+            }
+        }
+        public string Title
+        {
+            get
+            {
+                if(string.IsNullOrEmpty(this.title))
+                {
+                    this.title = "导入计算书";
+                }
+                return title;            
+            }
+            set
+            {
+                title = value;
+                NotifyPropertyChange("Title");
             }
         }
         /// <summary>

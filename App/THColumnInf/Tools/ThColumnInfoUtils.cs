@@ -42,33 +42,37 @@ namespace ThColumnInfo
         }
         public static List<Point3d> GetPolylinePts(Curve curve)
         {
-            List<Point3d> pts = new List<Point3d>();
+            List<Point3d> pts = new List<Point3d>();            
             if(curve==null)
             {
                 return pts;
             }
-            if (curve is Polyline polyline)
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans=doc.TransactionManager.StartTransaction())
             {
-                for (int j = 0; j < polyline.NumberOfVertices; j++)
+                if (curve is Polyline polyline)
                 {
-                    pts.Add(polyline.GetPoint3dAt(j));
+                    for (int j = 0; j < polyline.NumberOfVertices; j++)
+                    {
+                        pts.Add(polyline.GetPoint3dAt(j));
+                    }
                 }
-            }
-            else if (curve is Polyline2d polyline2d)
-            {
-                Point3dCollection allPts= polyline2d.GetAllGripPoints();
-                foreach(Point3d ptItem in allPts)
+                else if (curve is Polyline2d polyline2d)
                 {
-                    pts.Add(ptItem);
+                    foreach (ObjectId item in polyline2d)
+                    {
+                        Vertex2d itemEnt = trans.GetObject(item, OpenMode.ForRead) as Vertex2d;
+                        pts.Add(polyline2d.VertexPosition(itemEnt));
+                    }
                 }
-            }
-            else if(curve is Polyline2d polyline3d)
-            {
-                Point3dCollection allPts = polyline3d.GetAllGripPoints();
-                foreach (Point3d ptItem in allPts)
+                else if (curve is Polyline3d polyline3d)
                 {
-                    pts.Add(ptItem);
+                    foreach (ObjectId item in polyline3d)
+                    {
+                        
+                    }
                 }
+                trans.Commit();
             }
             return pts;
         }
