@@ -1,5 +1,6 @@
 ﻿using System;
 using GeoAPI.Geometries;
+using NetTopologySuite.Operation.Buffer;
 using Autodesk.AutoCAD.DatabaseServices;
 using NetTopologySuite.Operation.Linemerge;
 
@@ -44,6 +45,33 @@ namespace ThCADCore.NTS
                 }
             }
             return lineStrings;
+        }
+
+        public static DBObjectCollection Buffer(this Polyline polyline, double distance)
+        {
+            var objs = new DBObjectCollection();
+            var polygon = polyline.ToNTSPolygon();
+            var buffer = BufferOp.Buffer(polygon, distance);
+            if (buffer.IsEmpty)
+            {
+                return objs;
+            }
+            if (buffer is IPolygon bufferPolygon)
+            {
+                objs.Add(bufferPolygon.Shell.ToDbPolyline());
+            }
+            else if (buffer is IMultiPolygon mPolygon)
+            {
+                foreach(IPolygon item in mPolygon.Geometries)
+                {
+                    objs.Add(item.Shell.ToDbPolyline());
+                }
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+            return objs;
         }
     }
 }
