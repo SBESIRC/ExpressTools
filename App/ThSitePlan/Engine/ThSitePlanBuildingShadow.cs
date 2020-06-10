@@ -124,11 +124,10 @@ namespace ThSitePlan.Engine
                         // 产生阴影的建筑物
                         building.Region,
                     };
-                    // 暂时不考虑和多个建筑相交的情况
-                    if (sObjs.Count == 1)
+                    foreach(ObjectId obj in sObjs)
                     {
                         // 被遮挡的建筑物
-                        buildings.Add(sObjs[0]);
+                        buildings.Add(obj);
                     }
 
                     var differences = region.CreateDifferenceShadowRegion(buildings);
@@ -146,7 +145,27 @@ namespace ThSitePlan.Engine
                     else
                     {
                         //根据原阴影创建填充
-                        region.CreateHatchWithPolygon();
+                        var thisBuilding = new ObjectIdCollection()
+                        {
+                            // 产生阴影的建筑物
+                            building.Region,
+                        };
+                        var thisDifferences = region.CreateDifferenceShadowRegion(thisBuilding);
+                        if (thisDifferences.Count != 0)
+                        {
+                            foreach (var difference in thisDifferences)
+                            {
+                                //根据新阴影创建填充
+                                acadDatabase.ModelSpace.Add(difference).CreateHatchWithPolygon();
+                            }
+
+                            //删除原阴影
+                            acadDatabase.Element<Region>(region, true).Erase();
+                        }
+                        else
+                        {
+                            region.CreateHatchWithPolygon();
+                        }
                     }
                 }
             }
