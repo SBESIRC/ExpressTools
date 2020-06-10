@@ -8,7 +8,7 @@ namespace ThCADCore.NTS
         //==============SINGLETON============
         //fourth version from:
         //http://csharpindepth.com/Articles/General/Singleton.aspx
-        private static readonly ThCADCoreNTSService instance = new ThCADCoreNTSService();
+        private static readonly ThCADCoreNTSService instance = new ThCADCoreNTSService() { PrecisionReduce = false };
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit    
         static ThCADCoreNTSService() { }
@@ -16,16 +16,32 @@ namespace ThCADCore.NTS
         public static ThCADCoreNTSService Instance { get { return instance; } }
         //-------------SINGLETON-----------------
 
+        public bool PrecisionReduce { get; set; }
+
+
         private IGeometryFactory geometryFactory;
+        private IGeometryFactory defaultGeometryFactory;
         public IGeometryFactory GeometryFactory
         {
             get
             {
-                if (geometryFactory == null)
+                if (PrecisionReduce)
                 {
-                    geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(PrecisionModel);
+                    if (geometryFactory == null)
+                    {
+                        geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(PrecisionModel);
+                    }
+                    return geometryFactory;
+
                 }
-                return geometryFactory;
+                else
+                {
+                    if (defaultGeometryFactory == null)
+                    {
+                        defaultGeometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory();
+                    }
+                    return defaultGeometryFactory;
+                }
             }
         }
 
@@ -34,11 +50,18 @@ namespace ThCADCore.NTS
         {
             get
             {
-                if (precisionModel == null)
+                if (PrecisionReduce)
                 {
-                    precisionModel = NtsGeometryServices.Instance.CreatePrecisionModel(PrecisionModels.Floating);
+                    if (precisionModel == null)
+                    {
+                        precisionModel = NtsGeometryServices.Instance.CreatePrecisionModel(PrecisionModels.FloatingSingle);
+                    }
+                    return precisionModel;
                 }
-                return precisionModel;
+                else
+                {
+                    return NtsGeometryServices.Instance.DefaultPrecisionModel;
+                }
             }
         }
     }

@@ -73,10 +73,8 @@
     <Compile Include="Distribute\ThDistributeExtent3dExtension.cs" />
     <Compile Include="Distribute\ThDistributeObjectIdCollectionExtension.cs" />
     <Compile Include="Equipment\ThEquipmentCoordinateSystem.cs" />
-    <Compile Include="Equipment\ThEquipmentCurveExtension.cs" />
     <Compile Include="Equipment\ThEquipmentDbExtension.cs" />
     <Compile Include="Equipment\ThEquipmentEditorExtension.cs" />
-    <Compile Include="Equipment\ThEquipmentGeExtension.cs" />
     <Compile Include="Equipment\ThEquipmentHatchExtension.cs" />
     <Compile Include="LayerState\ThLayerStateManager.cs" />
     <Compile Include="LayerState\ThLayerStateUtils.cs" />

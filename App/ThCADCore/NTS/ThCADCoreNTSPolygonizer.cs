@@ -31,42 +31,45 @@ namespace ThCADCore.NTS
 
         public static DBObjectCollection Boundaries(this DBObjectCollection lines)
         {
-            var polygons = new List<IPolygon>();
-            var polygonizer = new Polygonizer();
-            var boundaries = new DBObjectCollection();
-            polygonizer.Add(lines.ToNTSNodedLineStrings());
-            var geometry = UnaryUnionOp.Union(polygonizer.GetPolygons().ToList());
-            if(geometry == null)
+            using (var ov = new ThCADCoreNTSPrecisionReducer())
             {
-                return boundaries;
-            }
-            if (geometry is IMultiPolygon mPolygon)
-            {
-                foreach (var item in mPolygon.Geometries)
+                var polygons = new List<IPolygon>();
+                var polygonizer = new Polygonizer();
+                var boundaries = new DBObjectCollection();
+                polygonizer.Add(lines.ToNTSNodedLineStrings());
+                var geometry = CascadedPolygonUnion.Union(polygonizer.GetPolygons());
+                if (geometry == null)
                 {
-                    if (item is IPolygon polygon)
+                    return boundaries;
+                }
+                if (geometry is IMultiPolygon mPolygon)
+                {
+                    foreach (var item in mPolygon.Geometries)
                     {
-                        polygons.Add(polygon);
-                    }
-                    else
-                    {
-                        throw new NotSupportedException();
+                        if (item is IPolygon polygon)
+                        {
+                            polygons.Add(polygon);
+                        }
+                        else
+                        {
+                            throw new NotSupportedException();
+                        }
                     }
                 }
+                else if (geometry is IPolygon polygon)
+                {
+                    polygons.Add(polygon);
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+                foreach (var item in polygons)
+                {
+                    boundaries.Add(item.Shell.ToDbPolyline());
+                }
+                return boundaries;
             }
-            else if (geometry is IPolygon polygon)
-            {
-                polygons.Add(polygon);
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-            foreach (var item in polygons)
-            {
-                boundaries.Add(item.Shell.ToDbPolyline());
-            }
-            return boundaries;
         }
 
         public static List<IPolygon> OutlineGeometries(this DBObjectCollection lines)

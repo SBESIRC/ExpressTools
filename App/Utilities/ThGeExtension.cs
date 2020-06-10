@@ -1,10 +1,8 @@
-﻿using System;
-using Autodesk.AutoCAD.Geometry;
-using GeometryExtensions;
+﻿using Autodesk.AutoCAD.Geometry;
 
-namespace ThEssential.Equipment
+namespace TianHua.AutoCAD.Utility.ExtensionTools
 {
-    public static class ThEquipmentGeExtension
+    public static class ThGeExtension
     {
         public static LineSegment3d To3D(this LineSegment2d lineSegment, PlanarEntity plane)
         {
@@ -67,7 +65,7 @@ namespace ThEssential.Equipment
         public static Point3dCollection To3dPoints(this Point2dCollection collection, PlanarEntity plane)
         {
             var points = new Point3dCollection();
-            foreach(var point in collection)
+            foreach (var point in collection)
             {
                 points.Add(new Point3d(plane, point));
             }

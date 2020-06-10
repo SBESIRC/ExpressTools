@@ -161,6 +161,17 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+  <COMReference Include="Photoshop">
+    <Guid>{E891EE9A-D0AE-4CB4-8871-F92C0109F18E}</Guid>
+    <VersionMajor>1</VersionMajor>
+    <VersionMinor>0</VersionMinor>
+    <Lcid>0</Lcid>
+    <WrapperTool>tlbimp</WrapperTool>
+    <Isolated>False</Isolated>
+    <EmbedInteropTypes>True</EmbedInteropTypes>
+  </COMReference>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\点击_16.png" />
   </ItemGroup>
   <ItemGroup>

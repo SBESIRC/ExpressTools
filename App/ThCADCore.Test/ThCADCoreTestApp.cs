@@ -1,6 +1,7 @@
 ﻿using AcHelper;
 using Linq2Acad;
 using ThCADCore.NTS;
+using NFox.Cad.Collections;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -102,6 +103,38 @@ namespace ThCADCore.Test
                 foreach(var obj in objs.Boundaries())
                 {
                     acadDatabase.ModelSpace.Add(obj as Entity);
+                }
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "ThMergeHatches", CommandFlags.Modal)]
+        public void ThMergeHatches()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                PromptSelectionOptions options = new PromptSelectionOptions()
+                {
+                    AllowDuplicates = false,
+                    RejectObjectsOnLockedLayers = true,
+                };
+                var filterlist = OpFilter.Bulid(o =>
+                    o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Hatch)).DxfName);
+                var result = Active.Editor.GetSelection(options, filterlist);
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var objs = new DBObjectCollection();
+                foreach (var obj in result.Value.GetObjectIds())
+                {
+                    objs.Add(acadDatabase.Element<Entity>(obj));
+                }
+                foreach (var obj in objs.MergeHatches())
+                {
+                    var entity = obj as Entity;
+                    entity.ColorIndex = 1;
+                    acadDatabase.ModelSpace.Add(entity);
                 }
             }
         }

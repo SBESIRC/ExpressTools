@@ -355,66 +355,6 @@ namespace ThSitePlan
             }
         }
 
-        public static ObjectIdCollection CreateBoundaries(this Database database, ObjectIdCollection objs)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
-            {
-                var dbObjs = new DBObjectCollection();
-                foreach(ObjectId obj in objs)
-                {
-                    dbObjs.Add(acadDatabase.Element<Entity>(obj));
-                }
-                return acadDatabase.Database.CreateRegionLoops(dbObjs.Boundaries());
-            }
-        }
-
-        public static DBObjectCollection GetPolyLineBounding(this DBObjectCollection dBObjects, Tolerance tolerance)
-        {
-            DBObjectCollection resBounding = new DBObjectCollection();
-            using (AcadDatabase acdb = AcadDatabase.Active())
-            {
-                foreach (var dbObj in dBObjects)
-                {
-                    if (dbObj is Polyline)
-                    {
-                        Polyline polyline = dbObj as Polyline;
-                        if (polyline.NumberOfVertices < 4)
-                        {
-                            continue;
-                        }
-
-                        List<Point2d> points = new List<Point2d>();
-                        for (int i = 0; i < polyline.NumberOfVertices; i++)
-                        {
-                            if (points.Where(x => x.IsEqualTo(polyline.GetPoint2dAt(i), tolerance)).Count() <= 0)
-                            {
-                                points.Add(polyline.GetPoint2dAt(i));
-                            }
-                        }
-
-                        Polyline resPolyline = new Polyline(points.Count)
-                        {
-                            Closed = true,
-                        };
-                        Point2d thisP = points.First();
-                        int index = 0;
-                        resPolyline.AddVertexAt(index, thisP, 0, 0, 0);
-                        points.Remove(thisP);
-                        while (points.Count > 0)
-                        {
-                            thisP = points.OrderBy(x => x.GetDistanceTo(thisP)).First();
-                            index++;
-                            resPolyline.AddVertexAt(index, thisP, 0, 0, 0);
-                            points.Remove(thisP);
-                        }
-                        resBounding.Add(resPolyline);
-                    }
-                }
-            }
-
-            return resBounding;
-        }
-
         public static void MoveToLayer(this Database database, ObjectIdCollection objs, string layerName)
         {
             using (AcadDatabase acdb = AcadDatabase.Use(database))
