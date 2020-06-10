@@ -147,6 +147,7 @@
             // 
             // BtnOK
             // 
+            this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnOK.Location = new System.Drawing.Point(351, 423);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(104, 22);
@@ -436,6 +437,7 @@
             // 
             // BtnCancel
             // 
+            this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.Location = new System.Drawing.Point(461, 425);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(102, 22);
@@ -673,8 +675,10 @@
             // 
             // fmQuickCmd
             // 
+            this.AcceptButton = this.BtnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(570, 454);
             this.Controls.Add(this.TxtFilter);
             this.Controls.Add(this.labelControl1);

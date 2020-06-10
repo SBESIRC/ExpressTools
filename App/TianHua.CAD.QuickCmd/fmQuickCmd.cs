@@ -17,6 +17,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TianHua.Publics.BaseCode;
+using TianHua.AutoCAD.Utility.ExtensionTools;
+using DevExpress.LookAndFeel;
 
 namespace TianHua.CAD.QuickCmd
 {
@@ -43,6 +45,9 @@ namespace TianHua.CAD.QuickCmd
         public fmQuickCmd()
         {
             InitializeComponent();
+            UserLookAndFeel.Default.SetSkinStyle(SkinStyle.VisualStudio2013Dark);
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-Hans");
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-Hans");
         }
 
         public void InitQuickCmd(string _Path)
@@ -151,7 +156,7 @@ namespace TianHua.CAD.QuickCmd
 
         private void InitForm()
         {
-            var _Json = ReadTxt(System.Environment.CurrentDirectory + @"\快捷键汇总.json");
+            var _Json = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), "快捷键汇总.json"));
             m_ListDict = FuncJson.Deserialize<List<DictDataModel>>(_Json);
 
             InitQuickCmd(m_PgpPath);
@@ -402,10 +407,10 @@ namespace TianHua.CAD.QuickCmd
 
         private void BtnDefault_Click(object sender, EventArgs e)
         {
-            var _Json = ReadTxt(System.Environment.CurrentDirectory + @"\快捷键汇总.json");
+            var _Json = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), "快捷键汇总.json"));
             m_ListDict = FuncJson.Deserialize<List<DictDataModel>>(_Json);
 
-            InitQuickCmd(System.Environment.CurrentDirectory + @"\default.pgp");
+            InitQuickCmd(Path.Combine(ThCADCommon.SupportPath(), "default.pgp"));
             InitProductivity(m_Profession);
 
             if (Tab.SelectedTabPage.Name == "PageCAD")
@@ -423,7 +428,7 @@ namespace TianHua.CAD.QuickCmd
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            //
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
@@ -431,7 +436,6 @@ namespace TianHua.CAD.QuickCmd
             Write(m_PgpPath.Replace("acad.pgp", "oldacad.pgp"), m_RichEditText);
             SavePgpTxt();
             Write(m_PgpPath, m_RichEditText);
-            this.Close();
         }
 
         private void BtnImport_Click(object sender, EventArgs e)
@@ -442,9 +446,7 @@ namespace TianHua.CAD.QuickCmd
             if (_Result == DialogResult.OK)
             {
                 InitQuickCmd(_OpenFileDialog.FileName);
-
             }
-
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
@@ -698,7 +700,7 @@ namespace TianHua.CAD.QuickCmd
 
             if (!File.Exists(m_PgpPath.Replace("acad.pgp", "oldacad.pgp"))) { DevExpress.XtraEditors.XtraMessageBox.Show("没有可还原的文件！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);return; }
 
-            var _Json = ReadTxt(System.Environment.CurrentDirectory + @"\快捷键汇总.json");
+            var _Json = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), "快捷键汇总.json"));
             m_ListDict = FuncJson.Deserialize<List<DictDataModel>>(_Json);
 
             InitQuickCmd(m_PgpPath.Replace("acad.pgp", "oldacad.pgp"));
