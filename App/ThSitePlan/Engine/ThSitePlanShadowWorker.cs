@@ -107,7 +107,10 @@ namespace ThSitePlan.Engine
                 // 删除建筑物面域
                 using (var objs = FilterRegion(database, configItem, options))
                 {
-                    Active.Editor.EraseCmd(objs);
+                    foreach (ObjectId obj in objs)
+                    {
+                        acadDatabase.Element<Entity>(obj, true).Erase();
+                    }
                 }
 
                 return true;

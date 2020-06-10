@@ -36,7 +36,10 @@ namespace ThSitePlan.Engine
                 // 所以这里用Editor.SelectXX()选中的填充都是原目标填充，正好是我们需要的
                 using (var objs = Filter(database, configItem, options))
                 {
-                    Active.Editor.EraseCmd(objs);
+                    foreach(ObjectId obj in objs)
+                    {
+                        acadDatabase.Element<Entity>(obj, true).Erase();
+                    }   
                 }
 
                 return true;

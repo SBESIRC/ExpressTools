@@ -59,12 +59,10 @@ namespace ThSitePlan.Engine
                 // 删除建筑线稿
                 using (var objs = Filter(database, configItem, options))
                 {
-                    if (objs.Count == 0)
+                    foreach (ObjectId obj in objs)
                     {
-                        return false;
+                        acadDatabase.Element<Entity>(obj, true).Erase();
                     }
-
-                    Active.Editor.EraseCmd(objs);
                 }
 
                 return true;

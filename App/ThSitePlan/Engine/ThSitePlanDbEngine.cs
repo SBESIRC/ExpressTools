@@ -73,7 +73,10 @@ namespace ThSitePlan.Engine
                     SelectionSet Selset = psr.Value;
                     ObjectIdCollection SelObjIdCol = Selset.GetObjectIds().ToObjectIdCollection();
                     SelObjIdCol.Remove(FrameId);
-                    Active.Editor.EraseCmd(SelObjIdCol);
+                    foreach(ObjectId obj in SelObjIdCol)
+                    {
+                        acadDatabase.Element<Entity>(obj, true).Erase();
+                    }
                 }
             }
         }
