@@ -69,7 +69,8 @@ namespace ThColumnInfo
                 {
                     foreach (ObjectId item in polyline3d)
                     {
-                        
+                        var rs = trans.GetObject(item, OpenMode.ForRead) as PolylineVertex3d;
+                        pts.Add(rs.Position);
                     }
                 }
                 trans.Commit();
