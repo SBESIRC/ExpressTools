@@ -35,28 +35,33 @@ namespace ThStructureCheck.Common
             {
                 return pts;
             }
-            if (curve is Polyline polyline)
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans = doc.TransactionManager.StartTransaction())
             {
-                for (int j = 0; j < polyline.NumberOfVertices; j++)
+                if (curve is Polyline polyline)
                 {
-                    pts.Add(polyline.GetPoint3dAt(j));
+                    for (int j = 0; j < polyline.NumberOfVertices; j++)
+                    {
+                        pts.Add(polyline.GetPoint3dAt(j));
+                    }
                 }
-            }
-            else if (curve is Polyline2d polyline2d)
-            {
-                Point3dCollection allPts = polyline2d.GetAllGripPoints();
-                foreach (Point3d ptItem in allPts)
+                else if (curve is Polyline2d polyline2d)
                 {
-                    pts.Add(ptItem);
+                    foreach (ObjectId item in polyline2d)
+                    {
+                        Vertex2d itemEnt = trans.GetObject(item, OpenMode.ForRead) as Vertex2d;
+                        pts.Add(polyline2d.VertexPosition(itemEnt));
+                    }
                 }
-            }
-            else if (curve is Polyline2d polyline3d)
-            {
-                Point3dCollection allPts = polyline3d.GetAllGripPoints();
-                foreach (Point3d ptItem in allPts)
+                else if (curve is Polyline3d polyline3d)
                 {
-                    pts.Add(ptItem);
+                    foreach (ObjectId item in polyline3d)
+                    {
+                        var rs = trans.GetObject(item, OpenMode.ForRead) as PolylineVertex3d;
+                        pts.Add(rs.Position);
+                    }
                 }
+                trans.Commit();
             }
             return pts;
         }
@@ -155,6 +160,21 @@ namespace ThStructureCheck.Common
         public static Document GetMdiActiveDocument()
         {
             return Application.DocumentManager.MdiActiveDocument;
+        }
+        public static T GetEntity<T>(ObjectId objectId) where T :Entity
+        {
+            T entity=null;
+            if (objectId.IsValid)
+            {
+                Document doc = GetMdiActiveDocument();
+                using (Transaction trans=doc.TransactionManager.StartTransaction())
+                {
+                    DBObject dbObj = objectId.GetObject(OpenMode.ForRead);
+                    entity = (T)dbObj;
+                    trans.Commit();
+                }
+            }
+            return entity;
         }
         /// <summary>
         /// 删除物体
