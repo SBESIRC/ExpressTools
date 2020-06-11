@@ -18,7 +18,7 @@ namespace ThStructureCheck.YJK.Query
             List<ModelWallSeg> results = new List<ModelWallSeg>();
             string sql = "select * from tblWallSeg join tblGrid " +
                 "on tblWallSeg.GridID=tblGrid.ID and tblWallSeg.StdFlrID=tblGrid.StdFlrID " +
-                "where tblWallSeg.StdFlrID="+ modelBeam.StdFlrID+ "and (tblGrid.Jt1ID="+jt+ " or tblGrid.Jt2ID="+jt+")";
+                "where tblWallSeg.StdFlrID="+ modelBeam.StdFlrID+ " and (tblGrid.Jt1ID="+jt+ " or tblGrid.Jt2ID="+jt+")";
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {

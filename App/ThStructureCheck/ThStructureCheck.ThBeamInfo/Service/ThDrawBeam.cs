@@ -184,6 +184,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
             this.beamEnts.ForEach(i => this.ColumnRelateInfs.Add(new BeamRelateInf()
             { DbBeamInf = i.Item1, InModelPts = CadTool.GetPolylinePts(i.Item2)}));
             columnBeamEnts.ForEach(i => i.Dispose());
+            //columnBeamEnts.ForEach(i=>CadTool.AddToBlockTable(i));
         }
         private void DrawCurrentFloorBeams()
         {

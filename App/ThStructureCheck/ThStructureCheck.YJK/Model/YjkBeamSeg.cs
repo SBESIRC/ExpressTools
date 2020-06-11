@@ -26,8 +26,8 @@ namespace ThStructureCheck.YJK.Model
             ModelGrid otherGrid = new YjkGridQuery(otherBeamSeg.DbPath).GetModelGrid(otherBeamSeg.GridID);
             Point thisStartPt = yjkJointQuery.GetModelJoint(thisGrid.Jt1ID).GetCoordinate();
             Point thisEndPt = yjkJointQuery.GetModelJoint(thisGrid.Jt2ID).GetCoordinate();
-            Point otherStartPt = yjkJointQuery.GetCalcJoint(otherGrid.Jt1ID).GetCoordinate();
-            Point otherEndPt = yjkJointQuery.GetCalcJoint(otherGrid.Jt2ID).GetCoordinate();
+            Point otherStartPt = yjkJointQuery.GetModelJoint(otherGrid.Jt1ID).GetCoordinate();
+            Point otherEndPt = yjkJointQuery.GetModelJoint(otherGrid.Jt2ID).GetCoordinate();
             if (MathLogic.CollinearThreePoints(thisStartPt, thisEndPt, otherStartPt) &&
                 MathLogic.CollinearThreePoints(thisStartPt, thisEndPt, otherEndPt))
             {

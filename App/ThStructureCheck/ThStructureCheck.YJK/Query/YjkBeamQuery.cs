@@ -142,7 +142,9 @@ namespace ThStructureCheck.YJK.Query
         public List<ModelBeamSeg> GetFloorModelBeamSeg(int flrNo)
         {
             List<ModelBeamSeg> results = new List<ModelBeamSeg>();
-            string sql = "select * from tblBeamSeg where No_=" + flrNo;
+            string sql = "select * from tblBeamSeg join tblFloor" +
+                " on tblBeamSeg.StdFlrID=tblFloor.StdFlrID " +
+                " where tblFloor.No_=" + flrNo;
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {
@@ -193,8 +195,8 @@ namespace ThStructureCheck.YJK.Query
             List<ModelBeamSeg> results = new List<ModelBeamSeg>();
             string sql = "select * from tblBeamSeg join tblGrid" +
                 " on tblBeamSeg.GridID = tblGrid.ID and tblBeamSeg.StdFlrID=tblGrid.StdFlrID" +
-                " where tblBeamSeg.StdFlrID="+ preLinkBeam.StdFlrID+
-                " and (tblGrid.Jt1ID = " + jt + "or tblGrid.Jt2ID =" + jt+")" ;
+                " where tblBeamSeg.ID !="+preLinkBeam.ID +" and tblBeamSeg.StdFlrID=" + preLinkBeam.StdFlrID+
+                " and (tblGrid.Jt1ID = " + jt + " or tblGrid.Jt2ID =" + jt+")" ;
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {
