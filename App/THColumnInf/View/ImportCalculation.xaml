@@ -23,10 +23,10 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
             <Label Content="模型目录：" VerticalContentAlignment="Center"/>
-            <ComboBox Name="cbYjkFilePath"  Height="20" Margin="0,0" Width="430" 
+            <ComboBox Name="cbYjkFilePath"  Height="24" Margin="0,0" Width="430" 
                    ItemsSource="{Binding CalculateInfo.YjkUsedPathList,Mode=TwoWay}"
                    SelectedValue="{Binding CalculateInfo.YjkPath,Mode=TwoWay}" SelectionChanged="CbYjkFilePath_SelectionChanged"></ComboBox>
-            <Button Content="浏览" Height="20" Width="55" Margin="5,0" Command="{Binding BrowseDirectoryCommand}"></Button>
+            <Button Content="浏览" Height="24" Width="55" Margin="5,0" Command="{Binding BrowseDirectoryCommand}"></Button>
         </StackPanel>
         <GroupBox Header="模型参数" Grid.Row="1"  Height="280">
             <Grid>
