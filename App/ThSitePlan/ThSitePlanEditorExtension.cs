@@ -451,29 +451,38 @@ namespace ThSitePlan
                     SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId }),
                     "",
                     "F",
-                    new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MinPoint.Y - 1, 0),
-                    new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0),
-                    new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0),
-                    new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MinPoint.Y - 1, 0),
-                    new Point3d(bdent.GeometricExtents.MinPoint.X - 2, bdent.GeometricExtents.MinPoint.Y - 1, 0),
+                    new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MinPoint.Y - 10, 0),
+                    new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MaxPoint.Y + 10, 0),
+                    new Point3d(bdent.GeometricExtents.MaxPoint.X + 10, bdent.GeometricExtents.MaxPoint.Y + 10, 0),
+                    new Point3d(bdent.GeometricExtents.MaxPoint.X + 10, bdent.GeometricExtents.MinPoint.Y - 10, 0),
+                    new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MinPoint.Y - 10, 0),
                     "",
                     "");
 
 #else
             ResultBuffer args1 = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.ZOOM"),
+               new TypedValue((int)LispDataType.Text, "_W"),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MinPoint.Y - 100, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 10, bdent.GeometricExtents.MaxPoint.Y + 100, 0)),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args1);
+
+            ResultBuffer args2 = new ResultBuffer(
                new TypedValue((int)LispDataType.Text, "_.TRIM"),
                new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId })),
                new TypedValue((int)LispDataType.Text, ""),
                new TypedValue((int)LispDataType.Text, "_F"),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MinPoint.Y - 1, 0)),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0)),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0)),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MinPoint.Y - 1, 0)),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 2, bdent.GeometricExtents.MinPoint.Y - 1, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MinPoint.Y - 10, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MaxPoint.Y + 10, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 10, bdent.GeometricExtents.MaxPoint.Y + 10, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 10, bdent.GeometricExtents.MinPoint.Y - 10, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MinPoint.Y - 10, 0)),
                new TypedValue((int)LispDataType.Text, ""),
                new TypedValue((int)LispDataType.Text, "")
                );
-            Active.Editor.AcedCmd(args1);
+            Active.Editor.AcedCmd(args2);
 #endif
         }
     }
