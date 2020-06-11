@@ -8,6 +8,7 @@ using ThSitePlan.Configuration;
 using Autodesk.AutoCAD.Runtime;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.EditorInput;
+using ThCADCore;
 
 namespace ThSitePlan.Engine
 {
@@ -18,6 +19,23 @@ namespace ThSitePlan.Engine
         public ThSitePlanShadowContentGenerator()
         {
 
+        }
+
+        private ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ObjectId frame, string filtertypedxf)
+        {
+            var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == filtertypedxf);
+            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                frame,
+                PolygonSelectionMode.Crossing,
+                filter);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
         }
 
         public override bool Generate(Database database, ThSitePlanConfigItem configItem)
@@ -31,18 +49,27 @@ namespace ThSitePlan.Engine
                         }
             };
 
+            //获取当前色块填充图框
+            var currenthatchframe = ThSitePlanDbEngine.Instance.FrameByName(configItem.Properties["Name"].ToString());
+            //查找当前item对应的分组
+            ThSitePlanConfigService.Instance.Initialize();
+            var currentgroup = ThSitePlanConfigService.Instance.FindGroupByItemName(configItem.Properties["Name"].ToString());
+
             var scriptId = configItem.Properties["CADScriptID"].ToString();
             if (scriptId == "3" || scriptId == "4")
-            {
+            { 
+                //获取该阴影图框中所有Hatch, 若已经存在用户hatch不再重新生成轮廓
+                using (var objs = Filter(database, configItem, currenthatchframe, RXClass.GetClass(typeof(Hatch)).DxfName))
+                {
+                    if (objs.Count != 0)
+                    {
+                        return true;
+                    }
+                }
+
+                // 从同组其他图框中复制填充到阴影图框
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {
-                    //查找当前item对应的分组
-                    ThSitePlanConfigService.Instance.Initialize();
-                    var currentgroup = ThSitePlanConfigService.Instance.FindGroupByItemName(configItem.Properties["Name"].ToString());
-
-                    //获取当前色块填充图框
-                    var currenthatchframe = ThSitePlanDbEngine.Instance.FrameByName(configItem.Properties["Name"].ToString());
-
                     //遍历当前group，逐一获取group中各个item的图框，将图框中的所有色块图层的元素拷贝到当前色块图框
                     foreach (var item in currentgroup.Items)
                     {
@@ -67,6 +94,36 @@ namespace ThSitePlan.Engine
                                 RXClass.GetClass(typeof(Hatch)).DxfName,
                             });
                             itemworker.DoProcess(database, configItem, newoptions);
+                        }
+                    }
+                }
+            }
+
+            if (scriptId == "3")
+            {
+                // 合并建筑填充为一个整体填充，便于后面的阴影计算
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    using (var objs = Filter(database, configItem, currenthatchframe, RXClass.GetClass(typeof(Hatch)).DxfName))
+                    {
+                        if (objs.Count > 0)
+                        {
+                            var entityobjs = new DBObjectCollection();
+                            foreach (ObjectId obj in objs)
+                            {
+                                entityobjs.Add(acadDatabase.Element<Hatch>(obj));
+                            }
+
+                            var hatches = new ObjectIdCollection();
+                            foreach (Entity obj in entityobjs.MergeHatches())
+                            {
+                                hatches.Add(acadDatabase.ModelSpace.Add(obj));
+                            }
+                            Active.Editor.CreateHatchWithRegions(hatches);
+                            foreach (ObjectId obj in objs)
+                            {
+                                acadDatabase.Element<Hatch>(obj, true).Erase();
+                            }
                         }
                     }
                 }

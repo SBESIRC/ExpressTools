@@ -15,9 +15,12 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             {
                 if (hatch.GetLoopAt(index).IsPolyline)
                 {
-                    var p = new Polyline();
+                    var p = new Polyline()
+                    {
+                        Closed = true,
+                    };
                     var loop = hatch.GetLoopAt(index).Polyline;
-                    for (int i = 0; i < loop.Count; i++)
+                    for (int i = 0; i < loop.Count -1; i++)
                     {
                         p.AddVertexAt(i, loop[i].Vertex, loop[i].Bulge, 0, 0);
                     }
