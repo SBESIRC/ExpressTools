@@ -721,15 +721,44 @@ namespace ThSitePlan.UI
                 Queue<Tuple<ObjectId, Vector3d>> cadupdateframe = new Queue<Tuple<ObjectId, Vector3d>>();
                 foreach (ObjectId frameid in frames)
                 {
-                    Tuple<ObjectId, Vector3d> frametuple = new Tuple<ObjectId, Vector3d>(frameid, new Vector3d(0, 0, 0));
+                    Vector3d unusedtoselectoffset = acadDatabase.Database.FrameOffset(unusedframe, frameid);
+                    Tuple<ObjectId, Vector3d> frametuple = new Tuple<ObjectId, Vector3d>(frameid, unusedtoselectoffset);
                     cadupdateframe.Enqueue(frametuple);
                 }
+
+                //首先将原线框内的所有图元复制一份放到解构图集放置区的最后一个线框里
+                acadDatabase.Database.CopyWithMove(originalframe, acadDatabase.Database.FrameOffset(originalframe, undifineframe) + unusedtoundifineoffset);
+                acadDatabase.Database.ExplodeToOwnerSpace(unusedframe);
+                Active.Editor.TrimCmd(acadDatabase.Element<Polyline>(unusedframe));
 
                 //接着将需要更新的图框清空
                 foreach (var item in cadupdateframe)
                 {
                     ThSitePlanDbEngine.Instance.EraseItemInFrame(item.Item1, PolygonSelectionMode.Crossing);
                 }
+
+                //初始化ThSitePlanEngine
+                ThSitePlanEngine.Instance.Containers = cadupdateframe;
+                ThSitePlanEngine.Instance.OriginFrame = unusedframe;
+
+                //启动CAD引擎，更新Shadow前先执行ContentGenerator
+                ThSitePlanConfigService.Instance.Initialize();
+                ThSitePlanConfigService.Instance.EnableAll(false);
+                foreach (var item in cadupdateframe)
+                {
+                    //获取所选择的框对应的图元的图层分组名
+                    string selFrameName = ThSitePlanDbEngine.Instance.NameByFrame(item.Item1);
+
+                    //打开需要的工作
+                    ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(selFrameName, true);
+                }
+                ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
+                     {
+                        new ThSitePlanContentGenerator()
+                    };
+                ThSitePlanEngine.Instance.Update(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
+                //Update后先清除初始元素Copy frame内部的图元
+                ThSitePlanDbEngine.Instance.EraseItemInFrame(unusedframe, PolygonSelectionMode.Crossing);
 
                 //启动CAD引擎，开始ShadowGenerator
                 ThSitePlanConfigService.Instance.Initialize();
@@ -742,7 +771,6 @@ namespace ThSitePlan.UI
                     //打开需要的工作
                     ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(selFrameName, true);
                 }
-                ThSitePlanEngine.Instance.Containers = cadupdateframe;
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                      {
                         new ThSitePlanShadowContentGenerator(),
@@ -761,7 +789,6 @@ namespace ThSitePlan.UI
                     //打开需要的工作
                     ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(selFrameName, true);
                 }
-                ThSitePlanEngine.Instance.Containers = cadupdateframe;
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                      {
                         new ThSitePlanDerivedContentGenerator()
@@ -779,7 +806,6 @@ namespace ThSitePlan.UI
                     //打开需要的工作
                     ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(selFrameName, true);
                 }
-                ThSitePlanEngine.Instance.Containers = cadupdateframe;
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                      {
                         new ThSitePlanPlantGenerator()
@@ -798,7 +824,6 @@ namespace ThSitePlan.UI
                     //打开需要的工作
                     ThSitePlanConfigService.Instance.EnableItemAndAncestorNoSib(selFrameName, true);
                 }
-                ThSitePlanEngine.Instance.Containers = cadupdateframe;
                 ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                     {
                         new ThSitePlanPDFGenerator()
