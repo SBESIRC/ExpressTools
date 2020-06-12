@@ -39,6 +39,8 @@
     <Compile Include="BeamInfo\Business\CalSpanBeamInfo.cs" />
     <Compile Include="BeamInfo\Business\FillBeamInfo.cs" />
     <Compile Include="BeamInfo\Business\MarkingService.cs" />
+    <Compile Include="BeamInfo\Business\ThBeamCommon.cs" />
+    <Compile Include="BeamInfo\Business\ThBeamGeExtension.cs" />
     <Compile Include="BeamInfo\Model\MarkingInfo.cs" />
     <Compile Include="BeamInfo\Model\MergeLineBeam.cs" />
     <Compile Include="BeamInfo\Model\ThOriginMarkingcs.cs" />

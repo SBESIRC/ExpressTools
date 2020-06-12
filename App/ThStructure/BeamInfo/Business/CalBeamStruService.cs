@@ -33,7 +33,7 @@ namespace ThStructure.BeamInfo.Business
                             continue;
                         }
 
-                        var norComp = groupDic.Keys.Where(x => x.IsParallelTo(lNormal, new Tolerance(0.0001,0.0001))).ToList();
+                        var norComp = groupDic.Keys.Where(x => x.IsParallelToEx(lNormal)).ToList();
                         if (norComp.Count > 0)
                         {
                             groupDic[norComp.First()].Add(line, line);
