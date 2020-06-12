@@ -53,6 +53,7 @@
     <Compile Include="BeamInfo\Model\LineBeam.cs" />
     <Compile Include="BeamInfo\Model\ThCentralizedMarking.cs" />
     <Compile Include="BeamInfo\Utils\GetObjectUtils.cs" />
+    <Compile Include="BeamInfo\Utils\ThStructureUtils.cs" />
     <Compile Include="Model\IThSComponentRenderStyle.cs" />
     <Compile Include="Model\IThSComponentRenderTarget.cs" />
     <Compile Include="Model\ThSComponent.cs" />
