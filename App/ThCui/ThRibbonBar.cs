@@ -592,8 +592,8 @@ namespace TianHua.AutoCAD.ThCui
                 "建立建筑图层",
                 "THALC",
                 "建立建筑专业天华标准图层",
-                "IDI_THCAD_THALC",
-                "IDI_THCAD_THALC",
+                "IDI_THCAD_THALC_SMALL",
+                "IDI_THCAD_THALC_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
             // 建立总图图层
