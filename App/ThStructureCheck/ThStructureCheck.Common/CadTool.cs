@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Media;
+using ThStructureCheck.Common.Interface;
 
 namespace ThStructureCheck.Common
 {
@@ -835,6 +836,50 @@ namespace ThStructureCheck.Common
                 }
                 trans.Commit();
             }
+        }
+        public static Point3d PointToPoint3d(IPoint point)
+        {
+            return new Point3d(point.X, point.Y, point.Z);
+        }
+        public static bool ThreePointsCollinear(IPoint firstPt,IPoint secondPt,IPoint pt,double range=0.0)
+        {
+            Point3d lineSp = PointToPoint3d(firstPt);
+            Point3d lineEp = PointToPoint3d(secondPt);
+            Point3d outerPt = PointToPoint3d(pt);
+            return ThreePointsCollinear(lineSp, lineEp, outerPt, range);
+        }
+        public static bool ThreePointsCollinear(Point3d lineSp, Point3d lineEp, Point3d outerPt, double range = 0.0)
+        {
+            Vector3d line1Vec = lineSp.GetVectorTo(lineEp);
+            Vector3d line2Vec = lineSp.GetVectorTo(outerPt);
+            double angle = line1Vec.GetAngleTo(line2Vec);
+            double dis = Math.Sin(angle) * line2Vec.Length;
+            if (dis <= range)
+            {
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 三点共线
+        /// </summary>
+        /// <param name="lineSp"></param>
+        /// <param name="lineEp"></param>
+        /// <param name="outerPt"></param>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public static bool ThreePointsCollinear1(Point3d lineSp, Point3d lineEp, Point3d outerPt, double range=0.0)
+        {
+            // 结果测试是对的，几何意义不理解
+            Vector3d line1Vec = lineSp.GetVectorTo(lineEp);
+            Vector3d line2Vec = lineSp.GetVectorTo(outerPt);
+            Vector3d crossProduct = line1Vec.CrossProduct(line2Vec);
+            double dis = crossProduct.Length / line1Vec.Length;
+            if (dis <= range)
+            {
+                return true;
+            }
+            return false;
         }
     }
     public enum PolygonSelectionMode

@@ -28,8 +28,8 @@ namespace ThStructureCheck.YJK.Model
             Point thisEndPt = yjkJointQuery.GetModelJoint(thisGrid.Jt2ID).GetCoordinate();
             Point otherStartPt = yjkJointQuery.GetModelJoint(otherGrid.Jt1ID).GetCoordinate();
             Point otherEndPt = yjkJointQuery.GetModelJoint(otherGrid.Jt2ID).GetCoordinate();
-            if (MathLogic.CollinearThreePoints(thisStartPt, thisEndPt, otherStartPt) &&
-                MathLogic.CollinearThreePoints(thisStartPt, thisEndPt, otherEndPt))
+            if (MathLogic.ThreePointsCollinear(thisStartPt, thisEndPt, otherStartPt) &&
+                MathLogic.ThreePointsCollinear(thisStartPt, thisEndPt, otherEndPt))
             {
                 result = true;
             }
@@ -64,8 +64,8 @@ namespace ThStructureCheck.YJK.Model
             thisEndPt.ResetZ();
             otherStartPt.ResetZ();
             otherEndPt.ResetZ();
-            if (MathLogic.CollinearThreePoints(thisStartPt, thisEndPt, otherStartPt) &&
-                MathLogic.CollinearThreePoints(thisStartPt, thisEndPt, otherEndPt))
+            if (MathLogic.ThreePointsCollinear(thisStartPt, thisEndPt, otherStartPt) &&
+                MathLogic.ThreePointsCollinear(thisStartPt, thisEndPt, otherEndPt))
             {
                 result = true;
             }

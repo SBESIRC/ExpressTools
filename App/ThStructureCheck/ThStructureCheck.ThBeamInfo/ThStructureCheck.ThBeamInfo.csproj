@@ -85,6 +85,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ThBeamUtils.cs" />
     <Compile Include="Service\ThDrawBeam.cs" />
+    <Compile Include="ThBeamInfoApp.cs" />
     <Compile Include="View\CheckPalette.cs" />
     <Compile Include="View\CheckResult.cs">
       <SubType>UserControl</SubType>
@@ -104,6 +105,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ThStructure\ThStructure.csproj">
+      <Project>{0f36f6e9-f83b-40f6-b848-b13b20e9b1be}</Project>
+      <Name>ThStructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ThWSS\ThWSS.csproj">
+      <Project>{aa99b84e-0ee2-4836-87cf-c62d075e01c7}</Project>
+      <Name>ThWSS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThStructureCheck.Common\ThStructureCheck.Common.csproj">
       <Project>{422f71ff-e828-4df1-8fe1-a29981579760}</Project>
       <Name>ThStructureCheck.Common</Name>

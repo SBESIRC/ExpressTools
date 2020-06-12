@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThStructureCheck.Common.Interface;
 
 namespace ThStructureCheck.YJK.Model
 {
-    public class Point
+    public class Point :IPoint
     {
         private double x;
         private double y;
@@ -59,6 +60,13 @@ namespace ThStructureCheck.YJK.Model
         public void ResetZ()
         {
             this.z = 0.0;
+        }
+
+        public void Set(double x, double y, double z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
         }
     }
 }
