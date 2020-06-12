@@ -42,7 +42,7 @@ namespace ThStructure.BeamInfo.Utils
                         blockRefs.RemoveAt(i);
                         i = i - 1;
                     }
-                    BlockTableRecord btr = db.Element<BlockTableRecord>(blockRefs[i].Id);
+                    BlockTableRecord btr = db.Element<BlockTableRecord>(blockRefs[i].BlockTableRecord);
                     if(!btr.IsFromExternalReference)
                     {
                         blockRefs.RemoveAt(i);
