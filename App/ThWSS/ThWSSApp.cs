@@ -9,15 +9,11 @@ using Autodesk.AutoCAD.Runtime;
 using Linq2Acad;
 using NFox.Cad.Collections;
 using ThWss.View;
-using ThWSS.Bussiness;
-using ThWSS.Config;
-using ThWSS.Config.Model;
 using ThWSS.Engine;
-using ThWSS.LayoutRule;
 using ThWSS.Model;
-using ThWSS.Utlis;
 using ThWSS.Beam;
 using ThStructure.BeamInfo.Command;
+using ThStructure.BeamInfo.Business;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThWSS
@@ -55,7 +51,59 @@ namespace ThWSS
             using (ThBeamDbManager beamManager = new ThBeamDbManager(acdb.Database))
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(beamManager));
+                // 获取所有构成梁的曲线（线，多段线，圆弧）
+                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager);
+                // 考虑到多段线的情况，需要将多段线“炸”成线来处理
+                thDisBeamCommand.CalBeamStruc(ThBeamGeometryPreprocessor.ExplodeCurves(beamCurves));
+            }
+        }
+
+
+        [CommandMethod("TIANHUACAD", "THMERGEBEAMCURVES", CommandFlags.Modal)]
+        public void ThMergeBeamCurves()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                PromptSelectionOptions options = new PromptSelectionOptions()
+                {
+                    AllowDuplicates = false,
+                    RejectObjectsOnLockedLayers = true,
+                };
+                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", new string[]
+                {
+                    RXClass.GetClass(typeof(Arc)).DxfName,
+                    RXClass.GetClass(typeof(Line)).DxfName,
+                    RXClass.GetClass(typeof(Polyline)).DxfName,
+                }));
+                var result = Active.Editor.GetSelection(options, filterlist);
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var objs = new DBObjectCollection();
+                foreach (var objId in result.Value.GetObjectIds())
+                {
+                    var obj = acadDatabase.Element<Entity>(objId, true);
+                    objs.Add(obj.GetTransformedCopy(Matrix3d.Identity));
+                }
+                var results = ThBeamGeometryPreprocessor.MergeCurves(objs);
+                if (results.Count == 0)
+                {
+                    return;
+                }
+
+                // 将合并后的图元添加到图纸中
+                // 未参与合并的图元会被重新添加到图纸中
+                foreach (Entity obj in results)
+                {
+                    acadDatabase.ModelSpace.Add(obj);
+                }
+                // 将原图元从图纸中删除
+                foreach (var objId in result.Value.GetObjectIds())
+                {
+                    acadDatabase.Element<Entity>(objId, true).Erase();
+                }
             }
         }
 

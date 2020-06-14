@@ -27,6 +27,7 @@
     <Compile Include="NTS\ThCADCoreHatchExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSDbExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSGeExtension.cs" />
+    <Compile Include="NTS\ThCADCoreNTSLineExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSLocate.cs" />
     <Compile Include="NTS\ThCADCoreNTSOperation.cs" />
     <Compile Include="NTS\ThCADCoreNTSPolygonizer.cs" />

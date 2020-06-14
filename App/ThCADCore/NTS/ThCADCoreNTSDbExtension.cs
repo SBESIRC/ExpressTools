@@ -5,6 +5,7 @@ using NetTopologySuite.Utilities;
 using NetTopologySuite.Geometries;
 using Autodesk.AutoCAD.DatabaseServices;
 using NetTopologySuite.Algorithm;
+using NetTopologySuite.Simplify;
 
 namespace ThCADCore.NTS
 {
@@ -19,6 +20,30 @@ namespace ThCADCore.NTS
             }
             pline.Closed = lineString.StartPoint.EqualsExact(lineString.EndPoint);
             return pline;
+        }
+
+        public static Line TDbline(this ILineString lineString)
+        {
+            var line = new Line
+            {
+                StartPoint = lineString.StartPoint.ToAcGePoint3d(),
+                EndPoint = lineString.EndPoint.ToAcGePoint3d()
+            };
+            return line;
+        }
+
+        public static Curve Simplify(this ILineString lineString)
+        {
+            var simplifier = new DouglasPeuckerLineSimplifier(lineString.Coordinates);
+            var result = ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(simplifier.Simplify());
+            if (result.Coordinates.Length == 2)
+            {
+                return result.TDbline();
+            }
+            else
+            {
+                return result.ToDbPolyline();
+            }
         }
 
         public static Polyline ToDbPolyline(this ILinearRing linearRing)
@@ -174,17 +199,12 @@ namespace ThCADCore.NTS
 
         public static ILineString ToNTSLineString(this Line line)
         {
-            var points = new List<Coordinate>();
-            points.Add(line.StartPoint.ToNTSCoordinate());
-            points.Add(line.EndPoint.ToNTSCoordinate());
-            if (points.Count > 1)
+            var points = new List<Coordinate>
             {
-                return ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
-            }
-            else
-            {
-                return null;
-            }
+                line.StartPoint.ToNTSCoordinate(),
+                line.EndPoint.ToNTSCoordinate()
+            };
+            return ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
         }
 
         public static IPolygon ToPolygon(this ILinearRing linearRing)

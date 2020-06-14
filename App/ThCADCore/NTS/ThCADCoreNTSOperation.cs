@@ -32,19 +32,24 @@ namespace ThCADCore.NTS
         {
             var merger = new LineMerger();
             merger.Add(lines.ToNTSNodedLineStrings());
-            var lineStrings = new DBObjectCollection();
+            var results = new DBObjectCollection();
             foreach (var geometry in merger.GetMergedLineStrings())
             {
                 if (geometry is ILineString lineString)
                 {
-                    lineStrings.Add(lineString.ToDbPolyline());
+                    // 合并后的图元需要刷成合并前的图元的属性
+                    // 假设合并的图元都有相同的属性
+                    // 这里用集合中的第一个图元“刷”到合并后的图元
+                    var result = lineString.Simplify();
+                    result.SetPropertiesFrom(lines[0] as Entity);
+                    results.Add(result);
                 }
                 else
                 {
                     throw new NotSupportedException();
                 }
             }
-            return lineStrings;
+            return results;
         }
 
         public static DBObjectCollection Buffer(this Polyline polyline, double distance)

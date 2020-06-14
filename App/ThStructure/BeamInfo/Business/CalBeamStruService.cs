@@ -24,9 +24,9 @@ namespace ThStructure.BeamInfo.Business
                 Dictionary<Point3d, List<Arc>> arcGroupDic = new Dictionary<Point3d, List<Arc>>();
                 foreach (DBObject obj in dBObjects)
                 {
-                    #region 直线
                     if (obj is Line line)
                     {
+                        // 忽略Z值不为零的情况
                         var lNormal = line.Delta.GetNormal();
                         if (!lNormal.IsEqualTo(new Vector3d(lNormal.X, lNormal.Y, 0.0)))
                         {
@@ -43,30 +43,10 @@ namespace ThStructure.BeamInfo.Business
                             groupDic.Add(lNormal, new Dictionary<Curve, Line>() { { line, line } });
                         }
                     }
-                    #endregion
-                    #region 多线段
-                    else if (obj is Polyline polyline)
-                    {
-                        var plNormal = polyline.GetLineSegmentAt(0).Direction.GetNormal();
-                        if (!plNormal.IsEqualTo(new Vector3d(plNormal.X, plNormal.Y, 0.0)))
-                        {
-                            continue;
-                        }
-
-                        var norComp = groupDic.Keys.Where(x => x.IsParallelTo(plNormal, new Tolerance(0.0001, 0.0001))).ToList();
-                        if (norComp.Count > 0)
-                        {
-                            groupDic[norComp.First()].Add(polyline, TransPlineToLine(polyline));
-                        }
-                        else
-                        {
-                            groupDic.Add(plNormal, new Dictionary<Curve, Line>() { { polyline, TransPlineToLine(polyline) } });
-                        }
-                    }
-                    #endregion
-                    #region 圆弧
                     else if (obj is Arc arcLine)
                     {
+                        // TODO: 检查Z值不为零的情况
+
                         var arcLst = arcGroupDic.Keys.Where(x => x.IsEqualTo(arcLine.Center)).ToList();
                         if (arcLst.Count > 0)
                         {
@@ -77,10 +57,10 @@ namespace ThStructure.BeamInfo.Business
                             arcGroupDic.Add(arcLine.Center, new List<Arc>() { arcLine });
                         }
                     }
-                    #endregion
                 }
 
-                //将所有线的法相z值归零（不为0构建坐标系会出错）
+                // TODO: Z归零应该在前面预处理时完成
+                //将所有线的法相z值归零（不为0构建坐标系会出错
                 groupDic = groupDic.ToDictionary(x => x.Key.Z == 0 ? x.Key : new Vector3d(x.Key.X, x.Key.Y, 0), k => k.Value);
 
                 foreach (var lineDic in groupDic)
@@ -279,23 +259,6 @@ namespace ThStructure.BeamInfo.Business
             }
 
             return beamLst;
-        }
-
-        /// <summary>
-        /// 将polyline转化成line
-        /// </summary>
-        /// <param name="pline"></param>
-        /// <returns></returns>
-        private Line TransPlineToLine(Polyline pline)
-        {
-            List<Point3d> points = new List<Point3d>();
-            for (int i = 0; i < pline.NumberOfVertices; i++)
-            {
-                points.Add(pline.GetPoint3dAt(i));
-            }
-            points = points.OrderBy(x => x.X + x.Y).ToList();
-
-            return new Line(points.First(), points.Last());
         }
     }
 }

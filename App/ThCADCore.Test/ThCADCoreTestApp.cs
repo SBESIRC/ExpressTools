@@ -356,6 +356,36 @@ namespace ThCADCore.Test
             }
         }
 
+        [CommandMethod("TIANHUACAD", "ThNeighbour", CommandFlags.Modal)]
+        public void ThNeighbour()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetSelection();
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var result2 = Active.Editor.GetEntity("请选择对象");
+                if (result2.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var objs = new DBObjectCollection();
+                foreach (var obj in result.Value.GetObjectIds())
+                {
+                    objs.Add(acadDatabase.Element<Entity>(obj));
+                }
+
+                var spatialIndex = new ThCADCoreNTSSpatialIndex(objs);
+                var nearestNeighbour = spatialIndex.NearestNeighbour(acadDatabase.Element<Curve>(result2.ObjectId));
+                nearestNeighbour.ColorIndex = 1;
+                acadDatabase.ModelSpace.Add(nearestNeighbour);
+            }
+        }
+
         [CommandMethod("TIANHUACAD", "ThLoops", CommandFlags.Modal)]
         public void ThLoops()
         {
