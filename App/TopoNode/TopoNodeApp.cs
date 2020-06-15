@@ -109,7 +109,7 @@ namespace TopoNode
                         Utils.DrawPreviewPoint(pt, "pick");
 
                     allCurves = TopoUtils.TesslateCurve(allCurves);
-                    Utils.ExtendCurves(allCurves, 3);
+                    Utils.ExtendCurves(allCurves, 10);
 
                     var wallAllCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(srcWallAllCurves, curSelectPLine);
                     wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
@@ -300,7 +300,7 @@ namespace TopoNode
             }
 
             allCurves = TopoUtils.TesslateCurve(allCurves);
-            Utils.ExtendCurves(allCurves, 3);
+            Utils.ExtendCurves(allCurves, 10);
             // wall 中的数据
             var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
             if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)

@@ -46,7 +46,7 @@ namespace ThWSS.Engine
             }
 
             allCurves = TopoUtils.TesslateCurve(allCurves);
-            Utils.ExtendCurves(allCurves, 3);
+            Utils.ExtendCurves(allCurves, 10);
 
             // wall 中的数据
             var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
