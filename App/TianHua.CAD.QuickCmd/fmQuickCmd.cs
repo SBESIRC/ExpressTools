@@ -446,13 +446,14 @@ namespace TianHua.CAD.QuickCmd
             if (_Result == DialogResult.OK)
             {
                 InitQuickCmd(_OpenFileDialog.FileName);
+                InitProductivity(m_Profession);
             }
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
             SaveFileDialog _SaveFileDialog = new SaveFileDialog();
-            _SaveFileDialog.Filter = "Pgp Files(.pgp)|.pgp";
+            _SaveFileDialog.Filter = "Pgp Files(*.pgp)|*.pgp";
             _SaveFileDialog.RestoreDirectory = true;
             var DialogResult = _SaveFileDialog.ShowDialog();
             if (DialogResult == DialogResult.OK)
