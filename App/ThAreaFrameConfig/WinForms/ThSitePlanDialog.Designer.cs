@@ -109,6 +109,7 @@
             this.ClientSize = new System.Drawing.Size(484, 261);
             this.Controls.Add(this.tabPane1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.LookAndFeel.UseDefaultLookAndFeel = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ThSitePlanDialog";

@@ -932,6 +932,7 @@ namespace ThSitePlan.UI
             this.Controls.Add(this.layoutControl1);
             this.Controls.Add(this.BtnPick);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.LookAndFeel.UseDefaultLookAndFeel = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "fmConfigManage";

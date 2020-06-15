@@ -115,6 +115,7 @@
             this.Controls.Add(this.textBox_storey);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.LookAndFeel.UseDefaultLookAndFeel = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ThFireCompartmentModifyDialog";

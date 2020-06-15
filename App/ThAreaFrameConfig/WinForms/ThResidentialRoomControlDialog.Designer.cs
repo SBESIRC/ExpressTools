@@ -190,6 +190,7 @@
             this.ClientSize = new System.Drawing.Size(525, 378);
             this.Controls.Add(this.tabPane1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.LookAndFeel.UseDefaultLookAndFeel = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
