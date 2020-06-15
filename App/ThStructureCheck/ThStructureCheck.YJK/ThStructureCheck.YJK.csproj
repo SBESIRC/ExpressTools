@@ -72,6 +72,7 @@
     <Compile Include="Model\YjkColumnSeg.cs" />
     <Compile Include="Model\YjkFloor.cs" />
     <Compile Include="Model\YjkJoint.cs" />
+    <Compile Include="Model\YjkRCBeamDsn.cs" />
     <Compile Include="Model\YjkStdFlr.cs" />
     <Compile Include="Model\YjkEntityInfo.cs" />
     <Compile Include="Model\YjkWallBeam.cs" />

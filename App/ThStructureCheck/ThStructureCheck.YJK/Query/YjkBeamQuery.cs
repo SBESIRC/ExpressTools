@@ -65,19 +65,66 @@ namespace ThStructureCheck.YJK.Query
             }
             return results;
         }
-
+        /// <summary>
+        /// 获取模型库(dtlmodel)的表(TblFloor、TblBeamSeg)表中获取tblFloor.No值和tblBeamSeg.No_
+        /// </summary>
+        /// <param name="ID">模型库中的梁ID</param>
+        /// <param name="tblFloorNo_">层编号</param>
+        /// <param name="tblBeamSegNo_">梁编号</param>
+        /// <returns></returns>
+        public bool GetDtlmodelTblBeamSegFlrNoAndNo(int ID, out int tblFloorNo_, out int tblBeamSegNo_)
+        {
+            bool result = false;
+            tblFloorNo_ = -1;
+            tblBeamSegNo_ = -1;
+            try
+            {
+                string sql = "select tblFloor.No_ as tblFloorNo,tblBeamSeg.No_ as tblBeamSegNo from tblFloor join tblBeamSeg" +
+                    " on tblFloor.StdFlrID=tblBeamSeg.StdFlrID" +
+                    " where  tblBeamSeg.ID=" + ID;
+                DataTable dt = ExecuteDataTable(sql);
+                string tblFloorNoStr = "";
+                string tblBeamSegNoStr = "";
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dr["tblFloorNo"] != null)
+                    {
+                        tblFloorNoStr = dr["tblFloorNo"].ToString();
+                    }
+                    if (dr["tblBeamSegNo"] != null)
+                    {
+                        tblBeamSegNoStr = dr["tblBeamSegNo"].ToString();
+                    }
+                    break;
+                }
+                if (!string.IsNullOrEmpty(tblFloorNoStr) && !string.IsNullOrEmpty(tblBeamSegNoStr))
+                {
+                    if (int.TryParse(tblFloorNoStr, out tblFloorNo_) &&
+                        int.TryParse(tblBeamSegNoStr, out tblBeamSegNo_)
+                        )
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.WriteException(ex, "GetTblFloorTblBeamSegNoFromDtlmodel");
+            }
+            return result;
+        }
         /// <summary>
         /// 从计算库(dtlCalc)的表(tblBeamSeg)中获取柱子ID
         /// </summary>
-        /// <param name="tblFloor_No"></param>
-        /// <param name="tblColSegNo"></param>
+        /// <param name="tblFloor_No">模型库中tblFloor.No</param>
+        /// <param name="tblBeamSegNo">模型库中tblBeamSeg.No_</param>
         /// <returns></returns>
-        public int GetTblColSegIDFromDtlCalc(int tblFloor_No, int tblBeamSegNo)
+        public int GetTblBeamSegIDFromDtlCalc(int tblFloor_No, int tblBeamSegNo)
         {
             int id = -1;
             try
             {
-                string sql = "select ID from tblBeamSeg where FlrNo = " + tblFloor_No + " and MdlNo = " + tblBeamSegNo;
+                string sql = "select ID from tblBeamSeg where MdlFlr = " + tblFloor_No + " and MdlNo = " + tblBeamSegNo;
                 DataTable dt = ExecuteDataTable(sql);
                 string idStr = "";
                 foreach (DataRow dr in dt.Rows)
@@ -97,10 +144,49 @@ namespace ThStructureCheck.YJK.Query
             }
             catch (Exception ex)
             {
-                Utils.WriteException(ex, "GetTblColSegIDFromDtlCalc");
+                Utils.WriteException(ex, "GetTblBeamSegIDFromDtlCalc");
             }
             return id;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public CalcRCBeamDsn GetCalcRcBeamDsn(int ID)
+        {
+            CalcRCBeamDsn calcRCBeamDsn = new CalcRCBeamDsn();
+            try
+            {
+                string sql = "select * from tblRCBeamDsn where ID = " + ID;
+                DataTable dt = ExecuteDataTable(sql);
+                string asTop = "";
+                foreach (DataRow dr in dt.Rows)
+                {
+                    calcRCBeamDsn.ID = Convert.ToInt32(dr["ID"].ToString());
+                    calcRCBeamDsn.AsTop= dr["AsTop"].ToString();
+                    calcRCBeamDsn.AsBtm = dr["AsBtm"].ToString();
+                    calcRCBeamDsn.Asv = dr["Asv"].ToString();
+                    calcRCBeamDsn.Ast1 = dr["Ast1"].ToString();
+                    calcRCBeamDsn.Astt = dr["Astt"].ToString();
+                    calcRCBeamDsn.Asttc = dr["Asttc"].ToString();
+                    calcRCBeamDsn.FrcAst = dr["FrcAst"].ToString();
+                    calcRCBeamDsn.FrcAsb = dr["FrcAsb"].ToString();
+                    calcRCBeamDsn.FrcAsv = dr["FrcAsv"].ToString();
+                    break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.WriteException(ex, "GetAsuFromDtlCalc");
+            }
+            return calcRCBeamDsn;
+        }
+        /// <summary>
+        /// 获取计算库中的梁段
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public CalcBeamSeg GetCalcBeamSeg(int id)
         {
             CalcBeamSeg calcBeamSeg = new CalcBeamSeg();
@@ -215,5 +301,6 @@ namespace ThStructureCheck.YJK.Query
             }
             return results;
         }
+
     }
 }
