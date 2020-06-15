@@ -1,4 +1,5 @@
-﻿using NetSparkle;
+﻿using System;
+using NetSparkle;
 using Microsoft.Win32;
 using System.Reflection;
 using Autodesk.AutoCAD.Runtime;
@@ -13,16 +14,21 @@ namespace ThAutoUpdate
         private Sparkle AutoUpdater { get; set; }
         public void Initialize()
         {
-            AutoUpdater = ThAutoUpdateUtils.CreateSparkle();
-            AutoUpdater.StartLoop(true);
+            AcadApp.Idle += Application_OnIdle_Sparkle;
         }
 
         public void Terminate()
         {
             AutoUpdater.StopLoop();
         }
-    }
 
+        private void Application_OnIdle_Sparkle(object sender, EventArgs e)
+        {
+            AcadApp.Idle -= Application_OnIdle_Sparkle;
+            AutoUpdater = ThAutoUpdateUtils.CreateSparkle();
+            AutoUpdater.StartLoop(true, true);
+        }
+    }
 
     public class ThAutoUpdateCommand
     {
