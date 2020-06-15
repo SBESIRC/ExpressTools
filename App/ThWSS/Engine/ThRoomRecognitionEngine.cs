@@ -97,22 +97,20 @@ namespace ThWSS.Engine
                 try
                 {
                     progress += inc;
-                    var profile = TopoUtils.MakeProfileFromPoint(allCurves, pickPoints[i]);
-                    if (profile == null || profile.Count == 0)
+                    var profile = TopoUtils.MakeProfileFromPoint2(allCurves, pickPoints[i]);
+                    if (profile == null)
                         continue;
 
-                    var outProfile = profile.First();
-
-                    if (CommonUtils.HasPolylines(hasPutPolys, outProfile.profile))
+                    if (CommonUtils.HasPolylines(hasPutPolys, profile.profile))
                         continue;
 
                     ThRoom thRoom = new ThRoom();
                     thRoom.Properties = new Dictionary<string, object>();
-                    thRoom.Properties.Add("ThRomm" + i, outProfile.profile);
+                    thRoom.Properties.Add("ThRomm" + i, profile.profile);
                     Elements.Add(thRoom);
 
-                    Utils.DrawProfile(new List<Curve>() { outProfile.profile }, "outProfile");
-                    Utils.DrawTextProfile(outProfile.profileCurves, outProfile.profileLayers);
+                    Utils.DrawProfile(new List<Curve>() { profile.profile }, "outProfile");
+                    Utils.DrawTextProfile(profile.profileCurves, profile.profileLayers);
                 }
                 catch
                 { }
