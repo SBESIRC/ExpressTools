@@ -24,6 +24,10 @@ namespace TianHua.AutoCAD.ThCui
                 // 隐藏
                 toolbar.ToolbarVisible = ToolbarVisible.hide;
 
+                // 设置
+                toolbar.AddToolbarButton(-1, "快捷键", "ID_THALIAS");
+                toolbar.AddSeparator(-1);
+
                 // 快速选择命令集
                 toolbar.AddToolbarButton(-1, "颜色选择", "ID_THQS _COLOR");
                 toolbar.AddToolbarButton(-1, "图层选择", "ID_THQS _LAYER");
