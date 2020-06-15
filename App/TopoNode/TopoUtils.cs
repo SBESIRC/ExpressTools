@@ -23,6 +23,13 @@ namespace TopoNode
             return profiles;
         }
 
+        public static List<List<TopoEdge>> MakeNoScatterProfile(List<TopoEdge> edges)
+        {
+            var topoCal = new TopoEdgeCalculate(edges);
+            topoCal.Do();
+            return topoCal.ProfileLoops;
+        }
+
         public static List<Curve> MakeSrcProfilesNoTes(List<Curve> curves)
         {
             var tmpCurves = CommonUtils.RemoveCollinearLines(curves);
@@ -30,7 +37,7 @@ namespace TopoNode
             return profiles;
         }
 
-        public static List<PolylineLayer> MakeProfileFromPoint(List<Curve> srcCurves, Point3d pt)
+        public static PolylineLayer MakeProfileFromPoint(List<Curve> srcCurves, Point3d pt)
         {
             //预处理
             var profileCalcu = new CalcuContainPointProfile(srcCurves, pt);
@@ -45,13 +52,13 @@ namespace TopoNode
             return profileLayer;
         }
 
-        public static List<PolylineLayer> MakeProfilesFromPoints(List<Curve> srcCurves, List<Point3d> pts)
+        public static PolylineLayer MakeProfilesFromPoints(List<Curve> srcCurves, List<Point3d> pts)
         {
             var profileLayer = TopoSearch.MakeSrcProfileLoopsLayerFromPoints(srcCurves, srcCurves, pts);
             return profileLayer;
         }
 
-        public static List<PolylineLayer> MakeProfileFromPoint2(List<Curve> srcCurves, Point3d pt)
+        public static PolylineLayer MakeProfileFromPoint2(List<Curve> srcCurves, Point3d pt)
         {
             //Utils.DrawProfile(srcCurves, "related");
             //return null;

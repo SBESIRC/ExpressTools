@@ -51,6 +51,10 @@ namespace TopoNode
             {
 
             }
+
+            if (selectPLines == null || selectPLines.Count == 0)
+                return;
+
             // 开始弹出进度条提示
             Progress.Progress.ShowProgress();
             Progress.Progress.SetTip("图纸预处理...");
@@ -177,7 +181,6 @@ namespace TopoNode
                 }
                 catch (System.Exception e)
                 {
-
                 }
 
                 beginPos += smallStep;
@@ -213,17 +216,22 @@ namespace TopoNode
 
                     try
                     {
-                        var profile = TopoUtils.MakeProfileFromPoint2(allCurves, pt);
-                        if (profile == null || profile.Count == 0)
+                        var aimProfile = TopoUtils.MakeProfileFromPoint2(allCurves, pt);
+                        if (aimProfile == null)
                             continue;
 
-                        var outProfile = profile.First();
-
-                        if (CommonUtils.HasPolylines(hasPutPolys, outProfile.profile))
+                        if (CommonUtils.HasPolylines(hasPutPolys, aimProfile.profile))
                             continue;
 
-                        Utils.DrawProfile(new List<Curve>() { outProfile.profile }, "outProfile");
+                        Utils.DrawProfile(new List<Curve>() { aimProfile.profile }, "outProfile");
                         // Utils.DrawTextProfile(outProfile.profileCurves, outProfile.profileLayers);
+                        if (aimProfile.InnerPolylineLayers.Count != 0)
+                        {
+                            foreach (var innerProfile in aimProfile.InnerPolylineLayers)
+                            {
+                                Utils.DrawProfile(new List<Curve>() { innerProfile.profile }, "innerProfile");
+                            }
+                        }
                     }
                     catch (System.Exception e)
                     {
@@ -343,16 +351,23 @@ namespace TopoNode
             {
                 try
                 {
-                    var profile = TopoUtils.MakeProfileFromPoint(allCurves, pt);
-                    if (profile == null || profile.Count == 0)
+                    var aimProfile = TopoUtils.MakeProfileFromPoint2(allCurves, pt);
+                    if (aimProfile == null)
                         continue;
 
-                    var outProfile = profile.First();
-                    if (CommonUtils.HasPolylines(hasPutPolys, outProfile.profile))
+                    if (CommonUtils.HasPolylines(hasPutPolys, aimProfile.profile))
                         continue;
 
-                    Utils.DrawProfile(new List<Curve>() { outProfile.profile }, "outProfile");
-                    Utils.DrawTextProfile(outProfile.profileCurves, outProfile.profileLayers);
+                    Utils.DrawProfile(new List<Curve>() { aimProfile.profile }, "outProfile");
+                    Utils.DrawTextProfile(aimProfile.profileCurves, aimProfile.profileLayers);
+                    if (aimProfile.InnerPolylineLayers.Count != 0)
+                    {
+                        foreach (var innerProfile in aimProfile.InnerPolylineLayers)
+                        {
+                            Utils.DrawProfile(new List<Curve>() { innerProfile.profile }, "innerProfile");
+                            Utils.DrawTextProfile(innerProfile.profileCurves, innerProfile.profileLayers);
+                        }
+                    }
                 }
                 catch
                 { }
