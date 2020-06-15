@@ -173,7 +173,7 @@ namespace ThAnalytics
                 // 这里已经无法知道命令结束的状态（正常结束，取消，失败）
                 // 但是对于数据分析来说，命令结束的状态并不重要
                 // 数据分析关心的是：那些命令被执行过
-                if (commandhashtable.ContainsKey(cmdName))
+                if (commandhashtable.ContainsKey(cmdName) & e.CurrentMode == DocumentLockMode.NotLocked)
                 {
                     Stopwatch sw = (Stopwatch)commandhashtable[cmdName];
                     // Fix THAI-862
