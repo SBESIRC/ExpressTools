@@ -148,9 +148,9 @@
             // BtnOK
             // 
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(351, 423);
+            this.BtnOK.Location = new System.Drawing.Point(353, 425);
             this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(104, 22);
+            this.BtnOK.Size = new System.Drawing.Size(100, 22);
             this.BtnOK.StyleController = this.layoutControl1;
             this.BtnOK.TabIndex = 12;
             this.BtnOK.Text = "确定";
@@ -629,6 +629,7 @@
             this.layoutControlItem1.Control = this.BtnOK;
             this.layoutControlItem1.Location = new System.Drawing.Point(346, 418);
             this.layoutControlItem1.Name = "layoutControlItem1";
+            this.layoutControlItem1.Padding = new DevExpress.XtraLayout.Utils.Padding(4, 4, 4, 4);
             this.layoutControlItem1.Size = new System.Drawing.Size(108, 30);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
