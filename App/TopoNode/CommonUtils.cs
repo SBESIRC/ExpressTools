@@ -288,6 +288,24 @@ namespace TopoNode
             return false;
         }
 
+        // 翻转方向
+        public static List<TopoEdge> ReverseTopoEdges(List<TopoEdge> loop)
+        {
+            var topoEdges = new List<TopoEdge>();
+            for (int i = loop.Count - 1; i >= 0; i--)
+            {
+                var curEdge = loop[i];
+                var curEdgeS = curEdge.Start;
+                var curEdgeE = curEdge.End;
+                var startDir = curEdge.StartDir;
+                var endDir = curEdge.EndDir;
+                var curCurve = curEdge.SrcCurve;
+                var newEdge = new TopoEdge(curEdge.End, curEdge.Start, curCurve, startDir.Negate(), endDir.Negate());
+                topoEdges.Add(newEdge);
+            }
+
+            return topoEdges;
+        }
 
         /// <summary>
         /// 数据打撒成直线段
@@ -844,6 +862,19 @@ namespace TopoNode
             return true;
         }
 
+        public static bool OutLoopContainsInnerLoop(List<TopoEdge> outerprofile, List<TopoEdge> innerProfile)
+        {
+            foreach (var edge in innerProfile)
+            {
+                var pt = edge.Start;
+                if (!PtInLoop(outerprofile, pt))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         ///// <summary>
         ///// 删除共边
         ///// </summary>
@@ -896,23 +927,6 @@ namespace TopoNode
 
         //    return outCurves;
         //}
-
-
-
-
-        public static bool OutLoopContainsInnerLoop(List<TopoEdge> outerprofile, List<TopoEdge> innerProfile)
-        {
-            foreach (var edge in innerProfile)
-            {
-                var pt = edge.Start;
-                if (!PtInLoop(outerprofile, pt))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
 
         /// <summary>
         /// 外轮廓包含内轮廓
@@ -1518,6 +1532,255 @@ namespace TopoNode
                 outCurves.AddRange(eraseLines);
 
             return outCurves;
+        }
+    }
+
+    class EdgeLoop
+    {
+        private int m_nDeep = 0;
+        public int Deep
+        {
+            get { return m_nDeep; }
+            set { m_nDeep = value; }
+        }
+
+        private List<TopoEdge> m_loop;
+        public List<TopoEdge> CurLoop
+        {
+            get { return m_loop; }
+        }
+
+        private List<EdgeLoop> m_childLoops = new List<EdgeLoop>();
+        public List<EdgeLoop> ChildLoops
+        {
+            get { return m_childLoops; }
+        }
+
+        public EdgeLoop(List<TopoEdge> edges, int nDeep)
+        {
+            m_loop = edges;
+            m_nDeep = nDeep;
+        }
+    }
+
+    /// <summary>
+    /// loop inner
+    /// </summary>
+    class LoopEntity
+    {
+        private List<EdgeLoop> m_edgeLoops;
+        private int m_nMaxDeep = 0;
+        private List<List<TopoEdge>> m_rootInnerLoop = new List<List<TopoEdge>>(); // root inner loop
+
+        public List<List<List<TopoEdge>>> m_entitys = new List<List<List<TopoEdge>>>();
+        public List<List<TopoEdge>> RootInnerLoop
+        {
+            get { return m_rootInnerLoop; }
+        }
+
+        public LoopEntity(List<List<TopoEdge>> loops)
+        {
+            m_edgeLoops = new List<EdgeLoop>();
+            for (int i = 0; i < loops.Count; i++)
+            {
+                var curLoop = loops[i];
+                var nCount = 0;
+                for (int j = 0; j < loops.Count; j++)
+                {
+                    if (i == j)
+                        continue;
+
+                    // 被包含的次数
+                    if (CommonUtils.OutLoopContainsInnerLoop(loops[j], curLoop))
+                        nCount++;
+                }
+
+                if (m_nMaxDeep < nCount)
+                    m_nMaxDeep = nCount;
+
+                m_edgeLoops.Add(new EdgeLoop(curLoop, nCount));
+            }
+        }
+
+        // calculate every entity (outLoop innerLoop)
+        public void CalcuChild()
+        {
+            for (int i = 0; i < m_edgeLoops.Count; i++)
+            {
+                var edgeLoop = m_edgeLoops[i];
+                var nDeep = edgeLoop.Deep;
+                if (nDeep == m_nMaxDeep)
+                    continue;
+
+                for (int j = 0; j < m_edgeLoops.Count; j++)
+                {
+                    if (i == j)
+                        continue;
+
+                    var nextLoop = m_edgeLoops[j];
+                    var nextDeep = nextLoop.Deep;
+                    if ((nDeep == nextDeep - 1) && (CommonUtils.OutLoopContainsInnerLoop(edgeLoop.CurLoop, nextLoop.CurLoop)))
+                    {
+                        edgeLoop.ChildLoops.Add(nextLoop);
+                    }
+                }
+
+                if (nDeep == 0)
+                {
+                    foreach (var child in edgeLoop.ChildLoops)
+                    {
+                        m_rootInnerLoop.Add(child.CurLoop);
+                    }
+
+                    return;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 内轮廓合并处理
+    /// </summary>
+    class InnerLoopProfile
+    {
+        class Profile
+        {
+            public Profile(List<TopoEdge> loop)
+            {
+                m_loop = loop;
+            }
+
+            public bool m_bUse = false;
+            public List<TopoEdge> m_loop = null;
+            public List<Profile> m_relatedLoops = new List<Profile>();
+        }
+
+        private List<List<TopoEdge>> m_srcLoops;
+        private List<List<TopoEdge>> m_outLoops = new List<List<TopoEdge>>();
+        public List<List<TopoEdge>> OutLoops
+        {
+            get { return m_outLoops; }
+        }
+
+        private List<Profile> m_profiles = new List<Profile>();
+
+        public InnerLoopProfile(List<List<TopoEdge>> edgeLoops)
+        {
+            m_srcLoops = edgeLoops;
+        }
+
+        public void Do()
+        {
+            for (int i = 0; i < m_srcLoops.Count; i++)
+            {
+                m_profiles.Add(new Profile(m_srcLoops[i]));
+            }
+
+            for (int i = 0; i < m_profiles.Count; i++)
+            {
+                var curProfile = m_profiles[i];
+                for (int j = i + 1; j < m_profiles.Count; j++)
+                {
+                    var nextProfile = m_profiles[j];
+                    if (LoopIntersectLoop(curProfile.m_loop, nextProfile.m_loop))
+                    {
+                        curProfile.m_relatedLoops.Add(nextProfile);
+                        nextProfile.m_relatedLoops.Add(curProfile);
+                    }
+                }
+            }
+
+            var edgeLoops = new List<List<TopoEdge>>();
+            // 相邻区域收集
+            for (int j = 0; j < m_profiles.Count; j++)
+            {
+                if (m_profiles[j].m_bUse)
+                    continue;
+
+                if (m_profiles[j].m_relatedLoops.Count == 0)
+                {
+                    m_profiles[j].m_bUse = true;
+                    m_outLoops.Add(m_profiles[j].m_loop);
+                }
+                else
+                {
+                    var loops = SearchFromOneProfile(m_profiles[j]);
+                    edgeLoops.Add(loops);
+                }
+            }
+
+            foreach (var edges in edgeLoops)
+            {
+                var curves = TopoUtils.MakeNoScatterProfile(edges);
+                curves.Sort((s1, s2) => { return Math.Abs(CommonUtils.CalcuLoopArea(s1)).CompareTo(Math.Abs(CommonUtils.CalcuLoopArea(s2))); });
+                List<TopoEdge> edgesN = null;
+                // 方向调整
+                if (CommonUtils.CalcuLoopArea(curves.Last()) < 0)
+                    edgesN = CommonUtils.ReverseTopoEdges(curves.Last());
+                else
+                    edgesN = curves.Last();
+
+                m_outLoops.Add(edgesN);
+            }
+        }
+
+        private List<TopoEdge> SearchFromOneProfile(Profile Searchprofile)
+        {
+            var topoEdges = new List<TopoEdge>();
+            var profiles = new List<Profile>();
+            profiles.Add(Searchprofile);
+            while (profiles.Count != 0)
+            {
+                var curProfile = profiles.First();
+                topoEdges.AddRange(curProfile.m_loop);
+                curProfile.m_bUse = true;
+                profiles.RemoveAt(0);
+                var childProfiles = curProfile.m_relatedLoops;
+                foreach (var profile in childProfiles)
+                {
+                    if (!profile.m_bUse)
+                        profiles.Add(profile);
+                }
+            }
+
+            return topoEdges;
+        }
+
+        /// <summary>
+        /// 环与环有公共区域
+        /// </summary>
+        /// <param name="loopFir"></param>
+        /// <param name="loopSec"></param>
+        /// <returns></returns>
+        private bool LoopIntersectLoop(List<TopoEdge> loopFir, List<TopoEdge> loopSec)
+        {
+            if (loopFir == null || loopFir.Count == 0)
+                return false;
+
+            if (loopSec == null || loopSec.Count == 0)
+                return false;
+
+            var loopFirCurves = new List<Curve>();
+            var loopSecCurves = new List<Curve>();
+            foreach (var loopFirCurve in loopFir)
+            {
+                loopFirCurves.Add(loopFirCurve.SrcCurve);
+            }
+
+            foreach (var loopSecCurve in loopSec)
+            {
+                loopSecCurves.Add(loopSecCurve.SrcCurve);
+            }
+
+            foreach (var curve in loopFirCurves)
+            {
+                if (Utils.CurveIntersectWithLoop(curve, loopSecCurves))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
