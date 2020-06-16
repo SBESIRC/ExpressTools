@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
   <!-- The name of the product -->
-  <?define Name = "天华CAD效率工具v1.7" ?>
+  <?define Name = "天华CAD效率工具v2.1" ?>
   <!-- The Description of the product -->
   <?define Description = "天华CAD效率工具是天华AI研究中心自主研发的以提升设计师绘图效率为目标的工具集合，从建筑、结构、电气、暖通、给排水及方案六个方面为设计师提供高效建筑出图的软件解决方案。" ?>
   <!-- The manufacturer, for setup package publisher and folder info -->
   <?define Manufacturer = "天华AI研究中心" ?>
   <!-- The version number of this setup package-->
-  <?define Version = "1.7.3" ?>
+  <?define Version = "2.1.0" ?>
   <!-- Product code -->
-  <?define ProductCode = "26309266-94AB-4E89-B7C2-59F2D321CA17" ?>
+  <?define ProductCode = "BAC08801-53A2-4453-BFA7-F2F8DEF8BBB0" ?>
   <!-- UpgradeCode must be unique and not changed once the first version of the program is installed. -->
   <?define UpgradeCode = "E8E400E7-CBC3-45A7-A870-988E8BE97ADB" ?>
   <!-- Autoloader path. -->
