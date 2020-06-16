@@ -16,6 +16,7 @@ namespace ThCADCore.NTS
         public static ThCADCoreNTSService Instance { get { return instance; } }
         //-------------SINGLETON-----------------
 
+        public double Scale { get; set; }
         public bool PrecisionReduce { get; set; }
 
 
@@ -54,7 +55,14 @@ namespace ThCADCore.NTS
                 {
                     if (precisionModel == null)
                     {
-                        precisionModel = NtsGeometryServices.Instance.CreatePrecisionModel(PrecisionModels.FloatingSingle);
+                        if (Scale == 0.0)
+                        {
+                            precisionModel = NtsGeometryServices.Instance.CreatePrecisionModel(PrecisionModels.FloatingSingle);
+                        }
+                        else
+                        {
+                            precisionModel = NtsGeometryServices.Instance.CreatePrecisionModel(Scale);
+                        }
                     }
                     return precisionModel;
                 }
