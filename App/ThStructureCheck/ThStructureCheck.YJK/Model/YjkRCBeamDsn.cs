@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThStructureCheck.YJK.Model
 {
-    class CalcRCBeamDsn : YjkEntityInfo
+    public class CalcRCBeamDsn : YjkEntityInfo
     {
         public string AsTop { get; set; }
         public string AsBtm { get; set; }
