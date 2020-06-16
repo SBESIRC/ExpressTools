@@ -25,7 +25,7 @@ namespace ThSitePlan.Engine
                         using (var buildInfo = new ThSitePlanBuilding(database, objId, frameName))
                         {
                             // 创建简易的阴影填充
-                            var shadow = ThSitePlanBuildingShadow.CreateSimpleShadow(buildInfo);
+                            var shadow = ThSitePlanBuildingShadow.CreateSimpleShadow(buildInfo, 2);
                         }
                     }
                 }
