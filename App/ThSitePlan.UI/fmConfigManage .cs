@@ -117,7 +117,12 @@ namespace ThSitePlan.UI
 
 
             var _FilterString = @" Name <>  '未识别对象'";
+
+            _FilterString += @" OR SortID  <>  0 ";
+
             TreeList.ActiveFilterString = _FilterString;
+
+          
 
             //SetEditCloseUpKey();
 
@@ -934,7 +939,21 @@ namespace ThSitePlan.UI
         private void BtnOK_Click(object sender, EventArgs e)
         {
             TreeList.PostEditor();
+            var _List = TreeList.GetNodeList();
+            SetSrotID(_List);
             m_ColorGeneralConfig = FuncJson.Serialize(m_ListColorGeneral);
+        }
+
+        private void SetSrotID(List<TreeListNode> _List)
+        {
+            if (_List == null || _List.Count == 0) { return; }
+            for (int i = 0; i < _List.Count(); i++)
+            {
+                var _ID = _List[i].GetValue("ID");
+                var _ColorGeneral = m_ListColorGeneral.Find(s => FuncStr.NullToStr(s.ID) == FuncStr.NullToStr(_ID));
+                _ColorGeneral.SortID = i;
+            }
+            m_ListColorGeneral = m_ListColorGeneral.OrderBy(p => p.SortID).ToList();
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
@@ -946,6 +965,8 @@ namespace ThSitePlan.UI
             if (DialogResult == DialogResult.OK)
             {
                 TreeList.PostEditor();
+                var _List = TreeList.GetNodeList();
+                SetSrotID(_List);
                 var m_ColorGeneralConfig = FuncJson.Serialize(m_ListColorGeneral);
                 m_Presenter.UpdateConfig();
                 var _FilePath = _SaveFileDialog.FileName.ToString();
@@ -960,6 +981,8 @@ namespace ThSitePlan.UI
             var _Result = _OpenFileDialog.ShowDialog();
             if (_Result == DialogResult.OK)
             {
+
+
                 var _Json = FuncFile.ReadTxt(_OpenFileDialog.FileName);
                 var _List = FuncJson.Deserialize<List<ColorGeneralDataModel>>(_Json);
                 if (_List != null && _List.Count > 0)
@@ -970,10 +993,9 @@ namespace ThSitePlan.UI
                     this.TreeList.ExpandAll();
                 }
 
+
             }
 
-            //var _Json = FuncJson.Serialize(m_ListColorGeneral);
-            //var _NewList = FuncJson.Deserialize<ColorGeneralDataModel>(_Json);
         }
 
         private void BtnRestore_Click(object sender, EventArgs e)
@@ -1109,6 +1131,11 @@ namespace ThSitePlan.UI
             ColName.OptionsColumn.AllowEdit = false;
             ColColor.OptionsColumn.AllowEdit = false;
             ColTransparency.OptionsColumn.AllowEdit = false;
+        }
+
+        private void TreeList_StartSorting(object sender, EventArgs e)
+        {
+
         }
     }
 }

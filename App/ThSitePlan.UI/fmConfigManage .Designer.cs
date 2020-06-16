@@ -31,12 +31,12 @@ namespace ThSitePlan.UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions3 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmConfigManage));
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject9 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject10 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject11 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject12 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             this.TxtName = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.label6 = new System.Windows.Forms.Label();
@@ -318,6 +318,7 @@ namespace ThSitePlan.UI
             this.TreeList.HiddenEditor += new System.EventHandler(this.TreeList_HiddenEditor);
             this.TreeList.CellValueChanged += new DevExpress.XtraTreeList.CellValueChangedEventHandler(this.TreeList_CellValueChanged);
             this.TreeList.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.TreeList_ShowingEditor);
+            this.TreeList.StartSorting += new System.EventHandler(this.TreeList_StartSorting);
             this.TreeList.Click += new System.EventHandler(this.TreeList_Click);
             this.TreeList.DragDrop += new System.Windows.Forms.DragEventHandler(this.TreeList_DragDrop);
             this.TreeList.DragEnter += new System.Windows.Forms.DragEventHandler(this.TreeList_DragEnte);
@@ -366,10 +367,10 @@ namespace ThSitePlan.UI
             // 
             this.ColorEdit.AutoHeight = false;
             this.ColorEdit.AutomaticColor = System.Drawing.Color.Black;
-            editorButtonImageOptions3.Image = ((System.Drawing.Image)(resources.GetObject("editorButtonImageOptions3.Image")));
+            editorButtonImageOptions1.Image = ((System.Drawing.Image)(resources.GetObject("editorButtonImageOptions1.Image")));
             this.ColorEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions3, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject9, serializableAppearanceObject10, serializableAppearanceObject11, serializableAppearanceObject12, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.ColorEdit.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.ColorEdit.ColorDialogOptions.AllowTransparency = false;
             this.ColorEdit.ColorDialogOptions.ShowMakeWebSafeButton = false;

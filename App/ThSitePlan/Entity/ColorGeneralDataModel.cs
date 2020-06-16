@@ -75,7 +75,7 @@ namespace ThSitePlan
             }
             set
             {
-                ScriptID = value; 
+                ScriptID = value;
             }
 
         }
@@ -133,6 +133,8 @@ namespace ThSitePlan
         /// 图片类型：0 普通,1 链接
         /// </summary>
         public string ImgType { get; set; }
+
+        public int SortID { get; set; }
 
     }
 }
