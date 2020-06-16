@@ -44,8 +44,8 @@ namespace ThStructure.BeamInfo.Business
         /// <returns></returns>
         public static DBObjectCollection MergeCurves(DBObjectCollection curves)
         {
-            // 保留4位小数
-            using (var ov = new ThCADCoreNTSPrecisionReducer(10000))
+            // 保留2位小数
+            using (var ov = new ThCADCoreNTSPrecisionReducer(100))
             using (var spatialIndex = new ThCADCoreNTSSpatialIndex(curves))
             {
                 // 寻找所有"孤立"的曲线

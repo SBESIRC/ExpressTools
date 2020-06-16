@@ -20,7 +20,7 @@ namespace ThStructure.BeamInfo.Business
             List<Beam> allBeam = new List<Beam>();
             using (AcadDatabase acdb = AcadDatabase.Active())
             {
-                Dictionary<Vector3d, Dictionary<Curve, Line>> groupDic = new Dictionary<Vector3d, Dictionary<Curve, Line>>();
+                Dictionary<Vector3d, List<Line>> groupDic = new Dictionary<Vector3d, List<Line>>();
                 Dictionary<Point3d, List<Arc>> arcGroupDic = new Dictionary<Point3d, List<Arc>>();
                 foreach (DBObject obj in dBObjects)
                 {
@@ -36,11 +36,11 @@ namespace ThStructure.BeamInfo.Business
                         var norComp = groupDic.Keys.Where(x => x.IsParallelToEx(lNormal)).ToList();
                         if (norComp.Count > 0)
                         {
-                            groupDic[norComp.First()].Add(line, line);
+                            groupDic[norComp.First()].Add(line);
                         }
                         else
                         {
-                            groupDic.Add(lNormal, new Dictionary<Curve, Line>() { { line, line } });
+                            groupDic.Add(lNormal, new List<Line>() { line });
                         }
                     }
                     else if (obj is Arc arcLine)
@@ -63,9 +63,14 @@ namespace ThStructure.BeamInfo.Business
                 //将所有线的法相z值归零（不为0构建坐标系会出错
                 groupDic = groupDic.ToDictionary(x => x.Key.Z == 0 ? x.Key : new Vector3d(x.Key.X, x.Key.Y, 0), k => k.Value);
 
+                // 根据组内所有的线段识别出所有梁
                 foreach (var lineDic in groupDic)
                 {
-                    var res = GetLineBeamObject(lineDic.Value, lineDic.Key, 100);
+                    //合并同组内重叠的线
+                    var objs = new DBObjectCollection();
+                    lineDic.Value.ForEachDbObject(o => objs.Add(o));
+                    var results = ThBeamGeometryPreprocessor.MergeCurves(objs);
+                    var res = GetLineBeamObject(results.Cast<Line>().ToList(), lineDic.Key, 100);
                     allBeam.AddRange(res);
                 }
 
@@ -86,7 +91,7 @@ namespace ThStructure.BeamInfo.Business
         /// <param name="lineDir"></param>
         /// <param name="tolerance"></param>
         /// <returns></returns>
-        private List<LineBeam> GetLineBeamObject(Dictionary<Curve, Line> linDic, Vector3d lineDir, double tolerance)
+        private List<LineBeam> GetLineBeamObject(List<Line> linList, Vector3d lineDir, double tolerance)
         {
             Vector3d zDir = Vector3d.ZAxis;
             Vector3d yDir = Vector3d.ZAxis.CrossProduct(lineDir);
@@ -97,18 +102,18 @@ namespace ThStructure.BeamInfo.Business
                     0.0, 0.0, 0.0, 1.0});
 
             //将所有线转到自建坐标系,方便比较
-            linDic = linDic.OrderBy(x =>
+            linList = linList.OrderBy(x =>
             {
-                x.Value.TransformBy(trans.Inverse());
-                return x.Value.StartPoint.Y;
-            }).ToDictionary(x => x.Key, x => x.Value);
+                x.TransformBy(trans.Inverse());
+                return x.StartPoint.Y;
+            }).ToList();
 
+            var linePair = linList.First();
             List<LineBeam> beamLst = new List<LineBeam>();
-            var linePair = linDic.First();
-            while (linDic.Count > 0)
+            while (linList.Count > 0)
             {
-                linDic.Remove(linePair.Key);
-                Line firLine = linePair.Value;
+                Line firLine = linePair;
+                linList.Remove(linePair);
                 double lMaxX = firLine.StartPoint.X;
                 double lMinX = firLine.EndPoint.X;
                 if (firLine.StartPoint.X < firLine.EndPoint.X)
@@ -116,29 +121,41 @@ namespace ThStructure.BeamInfo.Business
                     lMaxX = firLine.EndPoint.X;
                     lMinX = firLine.StartPoint.X;
                 }
-                var paraLines = linDic.Where(x =>
+                var paraLines = linList.Where(x =>
                 {
-                    double xMaxX = x.Value.StartPoint.X;
-                    double xMinX = x.Value.EndPoint.X;
-                    if (x.Value.StartPoint.X < x.Value.EndPoint.X)
+                    double xMaxX = x.StartPoint.X;
+                    double xMinX = x.EndPoint.X;
+                    if (x.StartPoint.X < x.EndPoint.X)
                     {
-                        xMaxX = x.Value.EndPoint.X;
-                        xMinX = x.Value.StartPoint.X;
+                        xMaxX = x.EndPoint.X;
+                        xMinX = x.StartPoint.X;
                     }
 
-                    if (Math.Abs(xMaxX - lMaxX) < tolerance || Math.Abs(xMinX - lMinX) < tolerance || (xMinX > lMinX && xMaxX < lMaxX) || (xMinX < lMinX && xMaxX > lMaxX))
+                    // 寻找可能配成梁的线
+                    //  1. 两根线有包含关系
+                    if ((xMinX > lMinX && xMaxX < lMaxX) || 
+                        (xMinX < lMinX && xMaxX > lMaxX))
                     {
                         return true;
                     }
+
+                    //  2. 两根线有重叠关系（大部分重叠）
+                    if (Math.Abs(xMaxX - lMaxX) < tolerance || 
+                        Math.Abs(xMinX - lMinX) < tolerance)
+                    {
+                        return true;
+                    }
+
+                    // 不可能配成梁的线
                     return false;
                 }).ToList();
 
                 if (paraLines.Count > 0)
                 {
-                    if (paraLines.First().Value.Length > firLine.Length)  //如果梁下边线长度大于上边线，那么就会有其他上边线遗漏
+                    if (paraLines.First().Length > firLine.Length)  //如果梁下边线长度大于上边线，那么就会有其他上边线遗漏
                     {
-                        linDic.Add(linePair.Key, linePair.Value);
-                        linDic = linDic.OrderBy(x => x.Value.StartPoint.Y).ToDictionary(x => x.Key, x => x.Value);
+                        linList.Add(linePair);
+                        linList = linList.OrderBy(x => x.StartPoint.Y).ToList();
                         linePair = paraLines.First();
                         continue;
                     }
@@ -148,7 +165,7 @@ namespace ThStructure.BeamInfo.Business
                     List<Line> matchLines = new List<Line>();
                     foreach (var plineDic in paraLines)
                     {
-                        var thisLine = plineDic.Value;
+                        var thisLine = plineDic;
                         sum += thisLine.Length;
                         if ((sum > firLine.Length && Math.Abs(sum - firLine.Length) > tolerance))
                         {
@@ -186,11 +203,13 @@ namespace ThStructure.BeamInfo.Business
 
                         matchLines.Add(thisLine.Clone() as Line);
                         thisLine.TransformBy(trans);
-                        LineBeam beam = new LineBeam(firLine, thisLine);
-                        beam.UpBeamLine = linePair.Key;
-                        beam.DownBeamLine = plineDic.Key;
+                        LineBeam beam = new LineBeam(firLine, thisLine)
+                        {
+                            UpBeamLine = linePair,
+                            DownBeamLine = plineDic
+                        };
                         beamLst.Add(beam);
-                        linDic.Remove(plineDic.Key);
+                        linList.Remove(plineDic);
                     }
                 }
                 else
@@ -198,9 +217,9 @@ namespace ThStructure.BeamInfo.Business
                     firLine.TransformBy(trans);
                 }
 
-                if (linDic.Count > 0)
+                if (linList.Count > 0)
                 {
-                    linePair = linDic.First();
+                    linePair = linList.First();
                 }
             }
 

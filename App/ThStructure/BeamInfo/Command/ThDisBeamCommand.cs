@@ -48,7 +48,7 @@ namespace ThStructure.BeamInfo.Command
                 //7.打印梁外边框
                 foreach (var item in allBeam)
                 {
-                    //acdb.ModelSpace.Add(item.BeamBoundary);
+                    acdb.ModelSpace.Add(item.BeamBoundary);
                 }
 
                 //8.打印梁信息
