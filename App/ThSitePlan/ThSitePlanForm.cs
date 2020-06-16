@@ -34,6 +34,10 @@ namespace ThSitePlan
             this.ShadowLengthSetBox.DataBindings.Add("Text", Properties.Settings.Default, "shadowLengthScale", false, DataSourceUpdateMode.OnValidation);
             this.TreeRadiusSetBox.DataBindings.Add("Text", Properties.Settings.Default, "PlantRadius", false, DataSourceUpdateMode.OnValidation);
             this.TreeDensitySetBox.DataBindings.Add("Text", Properties.Settings.Default, "PlantDensity", false, DataSourceUpdateMode.OnValidation);
+            this.WorkPathSetBox.Text = Properties.Settings.Default.FileSavePath;
+
+            //this.WorkPathSetBox.ReadOnly = true;
+            //this.WorkPathSetBox.WatermarkText = "请设定文件保存路径";
         }
 
         private void CancelBt_Click(object sender, EventArgs e)
@@ -52,6 +56,7 @@ namespace ThSitePlan
             Properties.Settings.Default.shadowLengthScale = Convert.ToDouble(this.ShadowLengthSetBox.Text);
             Properties.Settings.Default.PlantRadius = Convert.ToDouble(this.TreeRadiusSetBox.Text);
             Properties.Settings.Default.PlantDensity = Convert.ToInt32(this.TreeDensitySetBox.Text);
+            Properties.Settings.Default.FileSavePath = this.WorkPathSetBox.Text;
 
             Properties.Settings.Default.Save();
             this.Close();
@@ -140,5 +145,26 @@ namespace ThSitePlan
             HelpToolTip.SetToolTip(TreeDensitySetBox, "树木密度");
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Escape)
+            {
+                this.Close();
+            }
+
+            if (keyData == Keys.Enter)
+            {
+                this.ConfirmBt_Click(this.ConfirmBt, new EventArgs());
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void BroseBt_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog path = new FolderBrowserDialog();
+            path.ShowDialog();
+            this.WorkPathSetBox.Text = path.SelectedPath;
+        }
     }
 }

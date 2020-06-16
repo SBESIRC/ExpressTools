@@ -20,9 +20,18 @@ namespace ThSitePlan.Engine
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
+                string file = null;
                 var frame = acadDatabase.Element<Polyline>(Frame.Item1);
-                var file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
-                    (string)configItem.Properties["Name"]);
+                if (string.IsNullOrEmpty(Properties.Settings.Default.FileSavePath))
+                {
+                    file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        (string)configItem.Properties["Name"]);
+                }
+                else
+                {
+                    file = Path.Combine(Properties.Settings.Default.FileSavePath,
+                        (string)configItem.Properties["Name"]);
+                }
                 Active.Editor.ZoomObject(frame.ObjectId);
                 var extents2d = Active.Editor.ToPlotWindow(frame);
                 ThSitePlanPlotUtils.DoPlot(extents2d, file);

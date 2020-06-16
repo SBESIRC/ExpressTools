@@ -46,6 +46,8 @@
             this.ConfirmBt = new System.Windows.Forms.Button();
             this.CancelBt = new System.Windows.Forms.Button();
             this.HelpBt = new System.Windows.Forms.Button();
+            this.BroseBt = new System.Windows.Forms.Button();
+            this.WorkPathSetBox = new ThSitePlan.PlaceholderTextBox();
             this.ShadowGroup.SuspendLayout();
             this.LandTreeGroup.SuspendLayout();
             this.SuspendLayout();
@@ -56,7 +58,7 @@
             this.ShadowUpdBt.Location = new System.Drawing.Point(72, 32);
             this.ShadowUpdBt.Name = "ShadowUpdBt";
             this.ShadowUpdBt.Size = new System.Drawing.Size(48, 25);
-            this.ShadowUpdBt.TabIndex = 0;
+            this.ShadowUpdBt.TabIndex = 4;
             this.ShadowUpdBt.Text = "刷新";
             this.ShadowUpdBt.UseVisualStyleBackColor = true;
             this.ShadowUpdBt.Click += new System.EventHandler(this.ShadowUpdBt_Click);
@@ -106,7 +108,7 @@
             this.ShadowLengthSetBox.Location = new System.Drawing.Point(232, 72);
             this.ShadowLengthSetBox.Name = "ShadowLengthSetBox";
             this.ShadowLengthSetBox.Size = new System.Drawing.Size(73, 21);
-            this.ShadowLengthSetBox.TabIndex = 2;
+            this.ShadowLengthSetBox.TabIndex = 3;
             this.ShadowLengthSetBox.MouseEnter += new System.EventHandler(this.ShadowLengthHelp);
             // 
             // ShadowGroup
@@ -121,7 +123,7 @@
             this.ShadowGroup.Location = new System.Drawing.Point(12, 12);
             this.ShadowGroup.Name = "ShadowGroup";
             this.ShadowGroup.Size = new System.Drawing.Size(323, 107);
-            this.ShadowGroup.TabIndex = 3;
+            this.ShadowGroup.TabIndex = 1;
             this.ShadowGroup.TabStop = false;
             this.ShadowGroup.Text = "阴影设置";
             // 
@@ -137,7 +139,7 @@
             this.LandTreeGroup.Location = new System.Drawing.Point(12, 134);
             this.LandTreeGroup.Name = "LandTreeGroup";
             this.LandTreeGroup.Size = new System.Drawing.Size(323, 106);
-            this.LandTreeGroup.TabIndex = 3;
+            this.LandTreeGroup.TabIndex = 5;
             this.LandTreeGroup.TabStop = false;
             this.LandTreeGroup.Text = "行道树设置";
             // 
@@ -157,7 +159,7 @@
             this.LandTreeUpdBt.Location = new System.Drawing.Point(83, 32);
             this.LandTreeUpdBt.Name = "LandTreeUpdBt";
             this.LandTreeUpdBt.Size = new System.Drawing.Size(48, 25);
-            this.LandTreeUpdBt.TabIndex = 0;
+            this.LandTreeUpdBt.TabIndex = 8;
             this.LandTreeUpdBt.Text = "刷新";
             this.LandTreeUpdBt.UseVisualStyleBackColor = true;
             this.LandTreeUpdBt.Click += new System.EventHandler(this.LandTreeUpdBt_Click);
@@ -178,7 +180,7 @@
             this.TreeDensitySetBox.Location = new System.Drawing.Point(232, 72);
             this.TreeDensitySetBox.Name = "TreeDensitySetBox";
             this.TreeDensitySetBox.Size = new System.Drawing.Size(72, 21);
-            this.TreeDensitySetBox.TabIndex = 2;
+            this.TreeDensitySetBox.TabIndex = 7;
             this.TreeDensitySetBox.MouseEnter += new System.EventHandler(this.TreeDensityHelp);
             // 
             // TreeRadiusSetBox
@@ -187,7 +189,7 @@
             this.TreeRadiusSetBox.Location = new System.Drawing.Point(72, 72);
             this.TreeRadiusSetBox.Name = "TreeRadiusSetBox";
             this.TreeRadiusSetBox.Size = new System.Drawing.Size(72, 21);
-            this.TreeRadiusSetBox.TabIndex = 2;
+            this.TreeRadiusSetBox.TabIndex = 6;
             this.TreeRadiusSetBox.MouseEnter += new System.EventHandler(this.TreeRadiusHelp);
             // 
             // label6
@@ -203,10 +205,10 @@
             // ConfirmBt
             // 
             this.ConfirmBt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ConfirmBt.Location = new System.Drawing.Point(193, 247);
+            this.ConfirmBt.Location = new System.Drawing.Point(192, 297);
             this.ConfirmBt.Name = "ConfirmBt";
             this.ConfirmBt.Size = new System.Drawing.Size(68, 21);
-            this.ConfirmBt.TabIndex = 4;
+            this.ConfirmBt.TabIndex = 0;
             this.ConfirmBt.Text = "确定";
             this.ConfirmBt.UseVisualStyleBackColor = true;
             this.ConfirmBt.Click += new System.EventHandler(this.ConfirmBt_Click);
@@ -214,10 +216,10 @@
             // CancelBt
             // 
             this.CancelBt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.CancelBt.Location = new System.Drawing.Point(119, 247);
+            this.CancelBt.Location = new System.Drawing.Point(118, 297);
             this.CancelBt.Name = "CancelBt";
             this.CancelBt.Size = new System.Drawing.Size(68, 21);
-            this.CancelBt.TabIndex = 4;
+            this.CancelBt.TabIndex = 9;
             this.CancelBt.Text = "重置";
             this.CancelBt.UseVisualStyleBackColor = true;
             this.CancelBt.Click += new System.EventHandler(this.CancelBt_Click);
@@ -225,18 +227,38 @@
             // HelpBt
             // 
             this.HelpBt.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.HelpBt.Location = new System.Drawing.Point(267, 246);
+            this.HelpBt.Location = new System.Drawing.Point(266, 297);
             this.HelpBt.Name = "HelpBt";
             this.HelpBt.Size = new System.Drawing.Size(68, 21);
-            this.HelpBt.TabIndex = 4;
+            this.HelpBt.TabIndex = 10;
             this.HelpBt.Text = "帮助";
             this.HelpBt.UseVisualStyleBackColor = true;
+            // 
+            // BroseBt
+            // 
+            this.BroseBt.Location = new System.Drawing.Point(278, 258);
+            this.BroseBt.Name = "BroseBt";
+            this.BroseBt.Size = new System.Drawing.Size(57, 21);
+            this.BroseBt.TabIndex = 12;
+            this.BroseBt.Text = "浏 览";
+            this.BroseBt.UseVisualStyleBackColor = true;
+            this.BroseBt.Click += new System.EventHandler(this.BroseBt_Click);
+            // 
+            // WorkPathSetBox
+            // 
+            this.WorkPathSetBox.Location = new System.Drawing.Point(12, 258);
+            this.WorkPathSetBox.Name = "WorkPathSetBox";
+            this.WorkPathSetBox.Size = new System.Drawing.Size(249, 21);
+            this.WorkPathSetBox.TabIndex = 13;
+            this.WorkPathSetBox.WatermarkText = "请指定文件保存路径";
             // 
             // ThSitePlanForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(351, 280);
+            this.ClientSize = new System.Drawing.Size(346, 331);
+            this.Controls.Add(this.WorkPathSetBox);
+            this.Controls.Add(this.BroseBt);
             this.Controls.Add(this.HelpBt);
             this.Controls.Add(this.CancelBt);
             this.Controls.Add(this.ConfirmBt);
@@ -253,6 +275,7 @@
             this.LandTreeGroup.ResumeLayout(false);
             this.LandTreeGroup.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -275,5 +298,7 @@
         private System.Windows.Forms.Button LandTreeUpdBt;
         private System.Windows.Forms.TextBox TreeDensitySetBox;
         private System.Windows.Forms.TextBox TreeRadiusSetBox;
+        private System.Windows.Forms.Button BroseBt;
+        private PlaceholderTextBox WorkPathSetBox;
     }
 }

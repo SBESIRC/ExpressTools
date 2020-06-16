@@ -118,5 +118,18 @@ namespace ThSitePlan.Properties {
                 this["PlantDensity"] = value;
             }
         }
+
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FileSavePath {
+            get {
+                return ((string)(this["FileSavePath"]));
+            }
+            set
+            {
+                this["FileSavePath"] = value;
+            }
+        }
     }
 }
