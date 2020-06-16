@@ -22,7 +22,7 @@ namespace ThCADCore.NTS
             return pline;
         }
 
-        public static Line TDbline(this ILineString lineString)
+        public static Line ToDbline(this ILineString lineString)
         {
             var line = new Line
             {
@@ -36,14 +36,7 @@ namespace ThCADCore.NTS
         {
             var simplifier = new DouglasPeuckerLineSimplifier(lineString.Coordinates);
             var result = ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(simplifier.Simplify());
-            if (result.Coordinates.Length == 2)
-            {
-                return result.TDbline();
-            }
-            else
-            {
-                return result.ToDbPolyline();
-            }
+            return result.ToDbline();
         }
 
         public static Polyline ToDbPolyline(this ILinearRing linearRing)
