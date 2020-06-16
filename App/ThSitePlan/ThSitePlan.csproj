@@ -15,6 +15,7 @@
   </PropertyGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -31,29 +32,27 @@
     <Compile Include="Configuration\ThSitePlanConfigService.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryBuildingWorker.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryGenerator.cs" />
-    <Compile Include="Engine\ThSitePlanBoundaryOuterBuildingWorker.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryWorker.cs" />
     <Compile Include="Engine\ThSitePlanBuilding.cs" />
     <Compile Include="Engine\ThSitePlanBuildingAnnotations.cs" />
     <Compile Include="Engine\ThSitePlanBuildingShadow.cs" />
-    <Compile Include="Engine\ThSitePlanCADRegionWorker.cs" />
     <Compile Include="Engine\ThSitePlanDbEngine.cs" />
+    <Compile Include="Engine\ThSitePlanDerivedContentGenerator.cs" />
     <Compile Include="Engine\ThSitePlanFrameNameGenerator.cs" />
-    <Compile Include="Engine\ThSitePlanParkWorker.cs" />
     <Compile Include="Engine\ThSitePlanCADWorker.cs" />
     <Compile Include="Engine\ThSitePlanContentGenerator.cs" />
-    <Compile Include="Engine\ThSitePlaneImageGenerator.cs" />
     <Compile Include="Engine\ThSitePlanDefaultWorker.cs" />
-    <Compile Include="Engine\ThSitePlanHatchGenerator.cs" />
-    <Compile Include="Engine\ThSitePlanOuterWorker.cs" />
     <Compile Include="Engine\ThSitePlanPDFGenerator.cs" />
+    <Compile Include="Engine\ThSitePlanPlantGenerator.cs" />
     <Compile Include="Engine\ThSitePlanPlantWorker.cs" />
     <Compile Include="Engine\ThSitePlanRoadHatchWorker.cs" />
+    <Compile Include="Engine\ThSitePlanShadowContentGenerator.cs" />
     <Compile Include="Engine\ThSitePlanShadowGenerator.cs" />
     <Compile Include="Engine\ThSitePlanShadowWorker.cs" />
-    <Compile Include="Engine\ThSitePlanShadowWorkerEx.cs" />
+    <Compile Include="Engine\ThSitePlanSimpleShadowWorker.cs" />
     <Compile Include="Engine\ThSitePlanTrimGenerator.cs" />
     <Compile Include="Engine\ThSitePlanWorker.cs" />
+    <Compile Include="Enum\EnumCADScript.cs" />
     <Compile Include="Function\FuncFile.cs" />
     <Compile Include="Photoshop\ThSitePlanPSEngine.cs" />
     <Compile Include="Photoshop\ThSitePlanPSGenerator.cs" />
@@ -77,6 +76,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ThPSGenerator.cs" />
+    <Compile Include="Engine\ThSitePlanBoundaryPathWorker.cs" />
     <Compile Include="ThSitePlanCommon.cs" />
     <Compile Include="ThSitePlanDbExtension.cs" />
     <Compile Include="ThSitePlanEditorExtension.cs" />
@@ -146,14 +146,6 @@
     </When>
   </Choose>
   <ItemGroup>
-    <PackageReference Include="PdfiumViewer" Version="2.13.0" />
-    <PackageReference Include="PdfiumViewer.Native.x86.v8-xfa" Version="2018.4.8.256" />
-    <PackageReference Include="PdfiumViewer.Native.x86_64.v8-xfa" Version="2018.4.8.256" />
-    <PackageReference Include="NetOffice.PowerPoint.Net40" Version="1.7.4.4" />
-    <PackageReference Include="NetTopologySuite" Version="1.15.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enum\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +159,17 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+  <COMReference Include="Photoshop">
+    <Guid>{E891EE9A-D0AE-4CB4-8871-F92C0109F18E}</Guid>
+    <VersionMajor>1</VersionMajor>
+    <VersionMinor>0</VersionMinor>
+    <Lcid>0</Lcid>
+    <WrapperTool>tlbimp</WrapperTool>
+    <Isolated>False</Isolated>
+    <EmbedInteropTypes>True</EmbedInteropTypes>
+  </COMReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\点击_16.png" />
@@ -191,6 +194,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\BasicStyle.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\拍平.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\图标-13.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Photoshop">

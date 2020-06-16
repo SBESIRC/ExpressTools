@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
 namespace ThColumnInfo
@@ -354,5 +355,111 @@ namespace ThColumnInfo
             }
             return Math.Round(value, num);
         }
+        public static string GetReinforceChar(string format, out int number)
+        {
+            string reinforceChar = "";
+            number = 0;
+            if (format == "%%130")
+            {
+                reinforceChar = "A";
+                number = 130;
+            }
+            else if (format == "%%131")
+            {
+                reinforceChar = "B";
+                number = 131;
+            }
+            else if (format == "%%132")
+            {
+                reinforceChar = "C";
+                number = 132;
+            }
+            else if (format == "%%133")
+            {
+                reinforceChar = "D";
+                number = 133;
+            }
+            return reinforceChar;
+        }
+        public static string GetReinforceChar(int number)
+        {
+            string reinforceChar = "";
+            switch (number)
+            {
+                case 130:
+                    reinforceChar = "A";
+                    break;
+                case 131:
+                    reinforceChar = "B";
+                    break;
+                case 132:
+                    reinforceChar = "C";
+                    break;
+                case 133:
+                    reinforceChar = "D";
+                    break;
+            }
+            return reinforceChar;
+        }
+        public static string ReplaceReinforceChar(string content)
+        {
+            string result = content;
+            while (result.Contains("%%130") || result.Contains("%%131") ||
+                result.Contains("%%132") || result.Contains("%%133"))
+            {
+                if (result.Contains("%%130"))
+                {
+                    result = result.Replace("%%130", "A");
+                }
+                else if (result.Contains("%%131"))
+                {
+                    result = result.Replace("%%131", "B");
+                }
+                else if (result.Contains("%%132"))
+                {
+                    result = result.Replace("%%132", "C");
+                }
+                else if (result.Contains("%%133"))
+                {
+                    result = result.Replace("%%133", "D");
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        /// 创建柱图层
+        /// </summary>
+        /// <returns></returns>
+        public static ObjectId CreateColumnLayer()
+        {
+            ObjectId layerId = ObjectId.Null;
+            string columnLayer = "柱校核提醒";
+            short colorIndex = 3;
+            bool isPlottable = false;
+            var doc = ThColumnInfoUtils.GetMdiActiveDocument();
+            using (Transaction trans=doc.Database.TransactionManager.StartTransaction())
+            {
+                LayerTable lt = trans.GetObject(doc.Database.LayerTableId, OpenMode.ForRead) as LayerTable;
+                if(!lt.Has(columnLayer))
+                {
+                    LayerTableRecord ltr = new LayerTableRecord();
+                    ltr.Name = columnLayer;
+                    ltr.Color = Autodesk.AutoCAD.Colors.Color.FromColorIndex(
+                        Autodesk.AutoCAD.Colors.ColorMethod.ByLayer, colorIndex);
+                    ltr.IsPlottable = isPlottable;
+                    lt.UpgradeOpen();
+                    lt.Add(ltr);
+                    doc.Database.TransactionManager.AddNewlyCreatedDBObject(ltr, true);
+                    lt.DowngradeOpen();
+                }
+                else
+                {
+                    layerId = lt[columnLayer];
+                }
+                trans.Commit();
+            }
+            return layerId;
+        }
     }
+    
 }

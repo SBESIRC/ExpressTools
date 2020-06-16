@@ -79,8 +79,8 @@ namespace ThColumnInfo.Validate
                     List<int> limbNums = ThColumnInfoUtils.GetDatas(ctri.HoopReinforcementTypeNumber.Substring(firsBracketIndex + 1));
                     if (limbNums.Count == 2)
                     {
-                        IntXStirrupCount = limbNums[0];
-                        IntYStirrupCount = limbNums[1];
+                        IntYStirrupCount = limbNums[0]; //m
+                        IntXStirrupCount = limbNums[1]; //n
                     }
                 }
             }
@@ -219,5 +219,41 @@ namespace ThColumnInfo.Validate
         public double DblXAs { get; set; }
         public double DblYAs { get; set; }
         public double DblAs { get; set; }
+        public double IntStirrupDiaArea
+        {
+            get
+            {
+                return ThValidate.GetIronSectionArea((int)IntStirrupDia);
+            }
+        }
+        /// <summary>
+        /// 获取体积配箍率
+        /// </summary>
+        /// <param name="cover">保护层厚度</param>
+        /// <returns></returns>
+        public double GetVolumeStirrupRatio(double cover)
+        { 
+            double intStirrupDiaArea = this.IntStirrupDiaArea;
+            double value1 = IntXStirrupCount * intStirrupDiaArea * (B - 2 * cover - IntStirrupDia);
+            double value2 = IntYStirrupCount * intStirrupDiaArea * (H - 2 * cover - IntStirrupDia);
+            double value3 = (B - 2 * cover - 2 * IntStirrupDia)  * (H - 2 * cover - 2 * IntStirrupDia) * IntStirrupSpacing;
+            return (value1 + value2) / value3;
+        }
+        /// <summary>
+        /// 获取体积配箍率计算过程
+        /// </summary>
+        /// <param name="cover"></param>
+        /// <returns></returns>
+        public string GetVolumeStirrupRatioCalculation(double cover)
+        {
+            string calculation = "体积配箍率计算= (intXStirrupCount[" + IntXStirrupCount +
+                "]  *  intStirrupDiaArea[" + IntStirrupDiaArea + "] * (B[" + B + "] - 2 * cover[" + 
+                cover + "] - intStirrupDia[" + IntStirrupDia + "]) + intYStirrupCount[" + IntYStirrupCount +
+                "] * intStirrupDiaArea[" + IntStirrupDiaArea + "] * (H[" + H + "] - 2 * cover[" + cover + 
+                "] - intStirrupDia[" + IntStirrupDia + "])) / ((B[" + B + "] - 2 * cover[" + cover +
+                "] - 2 * IntStirrupDia[" + IntStirrupDia + "]) * " + "(H[" + H + "] - 2 * cover[" + cover +
+                "] - 2 * IntStirrupDia[" + IntStirrupDia + "]) *" + "intStirrupSpacing[" + IntStirrupSpacing + "]) = ";
+            return calculation;
+        }
     }
 }

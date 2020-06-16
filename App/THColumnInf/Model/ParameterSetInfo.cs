@@ -24,7 +24,7 @@ namespace ThColumnInfo
         private string bottomFloorLayer = "";
 
         private string columnLayer = "*S_COLU";
-        private string columnTableLayer = "S_TABL";
+        private string columnTableLayer = "";
 
         public ParameterSetInfo()
         {
@@ -289,7 +289,7 @@ namespace ThColumnInfo
             }
             byte[] buffers = Encoding.UTF32.GetBytes(longitudinalReinforcSpec);
             var res1 = buffers.Where(i => i == 132);
-            if(res1!=null && res1.Count()>0)
+            if((res1!=null && res1.Count()>0) || longitudinalReinforcSpec.IndexOf("%%132") >= 0)
             {
                 var steelBarLevel= this.steeBarLevels.Where(i => i.MatchStr.Contains("132")).FirstOrDefault();
                 if(steelBarLevel!=null)
@@ -297,9 +297,9 @@ namespace ThColumnInfo
                     value = steelBarLevel.Value;
                 }
                 return value;
-            }
+            }            
             var res2 = buffers.Where(i => i == 133);
-            if (res2 != null && res2.Count() > 0)
+            if ((res2 != null && res2.Count() > 0) || longitudinalReinforcSpec.IndexOf("%%133")>=0) 
             {
                 var steelBarLevel = this.steeBarLevels.Where(i => i.MatchStr.Contains("133")).FirstOrDefault();
                 if (steelBarLevel != null)
@@ -309,7 +309,7 @@ namespace ThColumnInfo
                 return value;
             }
             var res3 = buffers.Where(i => i == 131);
-            if (res3 != null && res3.Count() > 0)
+            if ((res3 != null && res3.Count() > 0) || longitudinalReinforcSpec.IndexOf("%%131") >= 0)
             {
                 var steelBarLevel = this.steeBarLevels.Where(i => i.MatchStr.Contains("131")).FirstOrDefault();
                 if (steelBarLevel != null)
@@ -319,7 +319,7 @@ namespace ThColumnInfo
                 return value;
             }
             var res4 = buffers.Where(i => i == 130);
-            if (res4 != null && res4.Count() > 0)
+            if ((res4 != null && res4.Count() > 0) || longitudinalReinforcSpec.IndexOf("%%130") >= 0)
             {
                 var steelBarLevel = this.steeBarLevels.Where(i => i.MatchStr.Contains("130")).FirstOrDefault();
                 if (steelBarLevel != null)
@@ -344,7 +344,7 @@ namespace ThColumnInfo
             }
             byte[] buffers = Encoding.UTF32.GetBytes(longitudinalReinforcSpec);
             var res1 = buffers.Where(i => i == 132);
-            if (res1 != null && res1.Count() > 0)
+            if ((res1 != null && res1.Count() > 0) || longitudinalReinforcSpec.IndexOf("%%132") >= 0)
             {
                 var steelBarLevel = this.steeBarLevels.Where(i => i.MatchStr.Contains("132")).FirstOrDefault();
                 if (steelBarLevel != null)
@@ -353,7 +353,7 @@ namespace ThColumnInfo
                 }
             }
             var res2 = buffers.Where(i => i == 133);
-            if (res2 != null && res2.Count() > 0)
+            if ((res2 != null && res2.Count() > 0) || longitudinalReinforcSpec.IndexOf("%%133") >= 0)
             {
                 var steelBarLevel = this.steeBarLevels.Where(i => i.MatchStr.Contains("133")).FirstOrDefault();
                 if (steelBarLevel != null)
@@ -362,7 +362,7 @@ namespace ThColumnInfo
                 }
             }
             var res3 = buffers.Where(i => i == 131);
-            if (res3 != null && res3.Count() > 0)
+            if ((res3 != null && res3.Count() > 0) || longitudinalReinforcSpec.IndexOf("%%131") >= 0)
             {
                 var steelBarLevel = this.steeBarLevels.Where(i => i.MatchStr.Contains("131")).FirstOrDefault();
                 if (steelBarLevel != null)
@@ -371,7 +371,7 @@ namespace ThColumnInfo
                 }
             }
             var res4 = buffers.Where(i => i == 130);
-            if (res4 != null && res4.Count() > 0)
+            if ((res4 != null && res4.Count() > 0) || longitudinalReinforcSpec.IndexOf("%%130") >= 0)
             {
                 var steelBarLevel = this.steeBarLevels.Where(i => i.MatchStr.Contains("130")).FirstOrDefault();
                 if (steelBarLevel != null)

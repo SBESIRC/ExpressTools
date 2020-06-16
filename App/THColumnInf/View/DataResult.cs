@@ -129,9 +129,9 @@ namespace ThColumnInfo.View
                     this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Style.BackColor = this.cellBackColor;
                     this.dgvColumnTable.Rows[rowIndex].Cells["spec"].Style.ForeColor = this.textForeClor;
 
-                    this.dgvColumnTable.Rows[rowIndex].Cells["all"].Value = ctri.Replace132(ctri.AllLongitudinalReinforcement);
-                    this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.BackColor = this.cellBackColor;
-                    this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.ForeColor = this.textForeClor;
+                    //this.dgvColumnTable.Rows[rowIndex].Cells["all"].Value = ctri.Replace132(ctri.AllLongitudinalReinforcement);
+                    //this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.BackColor = this.cellBackColor;
+                    //this.dgvColumnTable.Rows[rowIndex].Cells["all"].Style.ForeColor = this.textForeClor;
 
                     this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Value = ctri.Replace132(ctri.AngularReinforcement);
                     this.dgvColumnTable.Rows[rowIndex].Cells["corner"].Style.BackColor = this.cellBackColor;
@@ -311,7 +311,7 @@ namespace ThColumnInfo.View
             this.dgvColumnTable.Columns["subCode"].HeaderCell.Style.ForeColor = Color.White;
 
             this.dgvColumnTable.Columns.Add("spec","bxh");
-            this.dgvColumnTable.Columns.Add("all", "全部纵筋");
+            //this.dgvColumnTable.Columns.Add("all", "全部纵筋");
             this.dgvColumnTable.Columns.Add("corner", "角筋");
             this.dgvColumnTable.Columns.Add("bSide", "b边一侧中部筋");
             this.dgvColumnTable.Columns.Add("hside", "h边一侧中部筋");
@@ -350,6 +350,7 @@ namespace ThColumnInfo.View
             this.dgvColumnTable.RowHeadersVisible = false;
             this.dgvColumnTable.AllowUserToAddRows = false;
             this.dgvColumnTable.AllowUserToOrderColumns = false;
+            this.dgvColumnTable.AllowUserToResizeRows=false;
         }
         private void InitDataGridView2()
         {
@@ -381,6 +382,7 @@ namespace ThColumnInfo.View
             this.dgvSpecificationRes.RowHeadersVisible = false;
             this.dgvSpecificationRes.AllowUserToAddRows = false;
             this.dgvSpecificationRes.AllowUserToOrderColumns = false;
+            this.dgvSpecificationRes.AllowUserToResizeRows = false;
         }
         private void InitDataGridView3()
         {
@@ -411,6 +413,7 @@ namespace ThColumnInfo.View
             this.dgvCalculationRes.RowHeadersVisible = false;
             this.dgvCalculationRes.AllowUserToAddRows = false;
             this.dgvCalculationRes.AllowUserToOrderColumns = false;
+            this.dgvCalculationRes.AllowUserToResizeRows = false;
         }
         private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
         {
@@ -600,7 +603,11 @@ namespace ThColumnInfo.View
         }
         private void dgvColumnTable_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if(!CheckTabIsActive(this.columnTableTabName))
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+            if (!CheckTabIsActive(this.columnTableTabName))
             {
                 HideDgvSpecificationRes(this.dgvSpecificationCurrentRowIndex);
                 HideDgvCalculationRes(this.dgvCalculationCurrentRowIndex);
@@ -626,6 +633,10 @@ namespace ThColumnInfo.View
 
         private void dgvCalculationRes_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if(e.RowIndex<0 || e.ColumnIndex<0)
+            {
+                return;
+            }
             if (!CheckTabIsActive(this.calculationTabName))
             {
                 HideDgvColumnTable(this.dgvColumnTableCurrentRowIndex);
@@ -638,7 +649,7 @@ namespace ThColumnInfo.View
                     HideDgvCalculationRes(dgvCalculationCurrentRowIndex);
                 }
             }
-            this.dgvSpecificationCurrentRowIndex = e.RowIndex;
+            this.dgvCalculationCurrentRowIndex = e.RowIndex;
             if (this.dgvCalculationRes.Rows[e.RowIndex].Tag != null)
             {
                 ThStandardSign thStandardSign = this.dgvCalculationRes.Rows[e.RowIndex].Tag as ThStandardSign;
@@ -652,6 +663,10 @@ namespace ThColumnInfo.View
 
         private void dgvSpecificationRes_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
             if (!CheckTabIsActive(this.specificationTabName))
             {
                 HideDgvColumnTable(this.dgvColumnTableCurrentRowIndex);
@@ -764,6 +779,7 @@ namespace ThColumnInfo.View
                     dgvRow.Cells["subCode"].Value.ToString() == columnInf.Text)
                 {
                     dgvRow.Selected = true;
+                    dgvColumnTable.FirstDisplayedScrollingRowIndex = dgvRow.Index;
                     break;
                 }
             }
@@ -781,6 +797,7 @@ namespace ThColumnInfo.View
                    )
                 {
                     dgvRow.Selected = true;
+                    dgvSpecificationRes.FirstDisplayedScrollingRowIndex = dgvRow.Index;
                     break;
                 }
             }
@@ -798,6 +815,7 @@ namespace ThColumnInfo.View
                    )
                 {
                     dgvRow.Selected = true;
+                    dgvCalculationRes.FirstDisplayedScrollingRowIndex = dgvRow.Index;
                     break;
                 }
             }

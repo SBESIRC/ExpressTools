@@ -15,7 +15,7 @@ namespace ThSitePlan.Engine
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
-                using (var objs = Filter(database, configItem, options))
+                using (var objs = FilterByPolyline(database, configItem, options))
                 {
                     if (objs.Count == 0)
                     {
@@ -73,10 +73,10 @@ namespace ThSitePlan.Engine
                     int i = 0;
                     foreach (ObjectId pt in objs)
                     {
-                        if (++i % ThSitePlanCommon.plant_interval != 0)
+                        if (++i % Properties.Settings.Default.PlantDensity != 0)
                         {
                             var center = acadDatabase.Element<DBPoint>(pt).Position;
-                            Active.Editor.CircleCmd(center, ThSitePlanCommon.plant_radius);
+                            Active.Editor.CircleCmd(center, Properties.Settings.Default.PlantRadius);
                         }
                     }
                 }
@@ -85,17 +85,43 @@ namespace ThSitePlan.Engine
             }
         }
 
+        private  ObjectIdCollection FilterByPolyline(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            ObjectId frame = (ObjectId)options.Options["Frame"];
+            var layers = configItem.Properties["CADLayer"] as List<string>;
+            var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", new string[] {
+                RXClass.GetClass(typeof(Polyline)).DxfName}
+            ) &
+            o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray())
+            );
+            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                frame,
+                PolygonSelectionMode.Crossing,
+                filter);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
+        }
+
         public override ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
         {
             ObjectId frame = (ObjectId)options.Options["Frame"];
+            var layers = configItem.Properties["CADLayer"] as List<string>;
             var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", new string[] {
                 RXClass.GetClass(typeof(Line)).DxfName,
                 RXClass.GetClass(typeof(Polyline)).DxfName,
-                RXClass.GetClass(typeof(Arc)).DxfName,
-            }));
+                RXClass.GetClass(typeof(Arc)).DxfName}
+            ) &
+            o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray())
+            );
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 frame,
-                PolygonSelectionMode.Window,
+                PolygonSelectionMode.Crossing,
                 filter);
             if (psr.Status == PromptStatus.OK)
             {

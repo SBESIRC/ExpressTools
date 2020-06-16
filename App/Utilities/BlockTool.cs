@@ -60,6 +60,29 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
         }
 
         /// <summary>
+        /// 获取块引用的旋转角度
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static double GetBlockRotation(this ObjectId id)
+        {
+            BlockReference bref = id.GetObject(OpenMode.ForRead) as BlockReference;
+            if (bref != null)//如果是块参照
+                return bref.Rotation;
+            else
+                return 0.0;
+        }
+
+        public static Point3d GetBlockPosition(this ObjectId id)
+        {
+            BlockReference bref = id.GetObject(OpenMode.ForRead) as BlockReference;
+            if (bref != null)//如果是块参照
+                return bref.Position;
+            else
+                return Point3d.Origin;
+        }
+
+        /// <summary>
         /// 从动态块定义的角度去获取普通块的handle
         /// </summary>
         /// <param name="btr"></param>

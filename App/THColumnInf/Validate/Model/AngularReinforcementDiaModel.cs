@@ -12,6 +12,16 @@
             {
                 return false;
             }
+            if (!this.IsCornerColumn)
+            {
+                //不是角柱，不需要验证
+                return false;
+            }
+            if (this.AngularReinforcementDia <= 0.0 ||
+                this.AngularReinforcementDiaLimited <= 0.0)
+            {
+                return false;
+            }
             return true;
         }
     }

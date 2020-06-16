@@ -6,6 +6,22 @@ using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace TianHua.AutoCAD.Utility.ExtensionTools
 {
+    public class PointMonitorEventHandlerOverride : IDisposable
+    {
+        private event PointMonitorEventHandler PointMonitor;
+
+        public PointMonitorEventHandlerOverride(PointMonitorEventHandler handler)
+        {
+            PointMonitor = handler;
+            AcadApp.DocumentManager.MdiActiveDocument.Editor.PointMonitor += PointMonitor;
+        }
+
+        public void Dispose()
+        {
+            AcadApp.DocumentManager.MdiActiveDocument.Editor.PointMonitor -= PointMonitor;
+        }
+    }
+
     public class PointCollector : IDisposable
     {
         public enum Shape
@@ -41,7 +57,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
                 case Shape.Polygon:
                 case Shape.RegularPolygon:
                 case Shape.Circle:
-                    mMode = TransientDrawingMode.Contrast;
+                    mMode = TransientDrawingMode.DirectShortTerm;
                     break;
                 default:
                     mMode = TransientDrawingMode.Main;
@@ -87,7 +103,7 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             }
 
             mTempPline.TransformBy(AcadApp.DocumentManager.MdiActiveDocument.Editor.CurrentUserCoordinateSystem);
-            TransientManager.CurrentTransientManager.AddTransient(mTempPline, mMode, 0, new IntegerCollection());
+            TransientManager.CurrentTransientManager.AddTransient(mTempPline, mMode, 128, new IntegerCollection());
         }
 
         public Point3dCollection Collect()
@@ -266,21 +282,41 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
 
         private void CollectWindowPoints()
         {
-            PromptPointResult prPntRes1 = AcadApp.DocumentManager.MdiActiveDocument.Editor.GetPoint("\nThe 1st corner");
-            if (prPntRes1.Status != PromptStatus.OK)
-                throw new System.Exception("The 1st corner picking failed!");
-            m1stPoint = prPntRes1.Value;
-            CollectedPoints.Add(m1stPoint);
-            BuildupWindowVertices(m1stPoint, m1stPoint);
+            while(true)
+            {
+                PromptPointResult prPntRes1 = AcadApp.DocumentManager.MdiActiveDocument.Editor.GetPoint("\n请指定框选的第一点");
+                if (prPntRes1.Status != PromptStatus.OK)
+                    throw new System.Exception("The 1st corner picking failed!");
+                m1stPoint = prPntRes1.Value;
+                CollectedPoints.Add(m1stPoint);
+                BuildupWindowVertices(m1stPoint, m1stPoint);
 
-            AcadApp.DocumentManager.MdiActiveDocument.Editor.PointMonitor += Editor_PointMonitor;
-
-            PromptPointResult prPntRes2 = AcadApp.DocumentManager.MdiActiveDocument.Editor.GetPoint("\nThe 2nd corner");
-            if (prPntRes2.Status != PromptStatus.OK)
-                throw new System.Exception("The 2nd corner picking failed!");
-            CollectedPoints.Add(prPntRes2.Value);
-
-            AcadApp.DocumentManager.MdiActiveDocument.Editor.PointMonitor -= Editor_PointMonitor;
+                using (var ov = new PointMonitorEventHandlerOverride(Editor_PointMonitor))
+                {
+                    PromptPointOptions options = new PromptPointOptions("\n请指定框选的第二点")
+                    {
+                        AllowNone = false,
+                    };
+                    options.Keywords.Add("Undo", "Undo", "放弃(U)");
+                    PromptPointResult prPntRes2 = AcadApp.DocumentManager.MdiActiveDocument.Editor.GetPoint(options);
+                    if (prPntRes2.Status == PromptStatus.Keyword)
+                    {
+                        ClearVertices();
+                        CollectedPoints.Clear();
+                        m1stPoint = Point3d.Origin;
+                        continue;
+                    }
+                    else if (prPntRes2.Status == PromptStatus.OK)
+                    {
+                        CollectedPoints.Add(prPntRes2.Value);
+                        break;
+                    }
+                    else
+                    {
+                        throw new System.Exception("The 2nd corner picking failed!");
+                    }
+                }
+            }
         }
 
         private void BuildupWindowVertices(Point3d corner1, Point3d corner2)
@@ -294,6 +330,17 @@ namespace TianHua.AutoCAD.Utility.ExtensionTools
             mTempPline.AddVertexAt(mTempPline.NumberOfVertices, new Point2d(corner2.X, corner1.Y), 0, 1, 1);
             mTempPline.AddVertexAt(mTempPline.NumberOfVertices, new Point2d(corner2.X, corner2.Y), 0, 1, 1);
             mTempPline.AddVertexAt(mTempPline.NumberOfVertices, new Point2d(corner1.X, corner2.Y), 0, 1, 1);
+        }
+
+        private void ClearVertices()
+        {
+            if (mTempPline != null && !mTempPline.IsDisposed)
+            {
+                TransientManager.CurrentTransientManager.EraseTransient(mTempPline, new IntegerCollection());
+                mTempPline.Dispose();
+                mTempPline = null;
+            }
+
         }
 
         public void Dispose()

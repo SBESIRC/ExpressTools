@@ -9,6 +9,7 @@ namespace ThColumnInfo.Validate
     public class StirrupMinimumDiameterBRule:IRule
     {
         private StirrupMinimumDiameterBModel smdb;
+        private string rule = "（《砼规》9.3.2-1）";
         public StirrupMinimumDiameterBRule(StirrupMinimumDiameterBModel smdb)
         {
             this.smdb = smdb;
@@ -24,11 +25,11 @@ namespace ThColumnInfo.Validate
             }            
             if(this.smdb.Cdm.IntStirrupDia<6)
             {
-                this.ValidateResults.Add("箍筋直径小于6");
+                this.ValidateResults.Add("箍筋直径小于6 ["+ this.smdb.Cdm.IntStirrupDia+" < 6]，"+this.rule);
             }
             else
             {
-                this.CorrectResults.Add("箍筋直径不小于6");
+                this.CorrectResults.Add("箍筋直径不小于6"+this.rule);
             }
         }
         public List<string> GetCalculationSteps()
@@ -41,11 +42,11 @@ namespace ThColumnInfo.Validate
             steps.Add("柱号 = " + this.smdb.Text);
             steps.Add("if (IntStirrupDia[" + this.smdb.Cdm.IntStirrupDia + "] < 6)");
             steps.Add("  {");
-            steps.Add("     Err：箍筋直径小于6");
+            steps.Add("     Err：箍筋直径小于6"+this.rule);
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("     Debugprint：箍筋直径不小于6");
+            steps.Add("     Debugprint：箍筋直径不小于6" + this.rule);
             steps.Add("  }");
             steps.Add("");
             return steps;

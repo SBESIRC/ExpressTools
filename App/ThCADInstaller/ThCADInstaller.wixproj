@@ -24,6 +24,7 @@
     <Compile Include="App.wxs" />
     <Compile Include="DevExpress.wxs" />
     <Compile Include="External.wxs" />
+    <Compile Include="Internal.wxs" />
     <Compile Include="Language.wxs" />
     <Compile Include="Lisp.wxs" />
     <Compile Include="Native.wxs" />
@@ -33,6 +34,7 @@
     <Compile Include="Resources.wxs" />
     <Compile Include="Roaming.wxs" />
     <Compile Include="Standards.wxs" />
+    <Compile Include="SuperBoundary.wxs" />
     <Compile Include="Support.wxs" />
     <Compile Include="ToolPalette.wxs" />
   </ItemGroup>

@@ -173,14 +173,17 @@ namespace ThColumnInfo.Validate
         public CalculationValidate(ColumnRelateInf columnRelateInf)
         {
             this.columnRelateInf = columnRelateInf;
-            cdm = ThValidate.columnDataModels.Where(i => i.Code == columnRelateInf.ModelColumnInfs[0].Code).Select(i => i).First();
+            var cdmRes = ThValidate.columnDataModels.Where(i => i.Code == columnRelateInf.ModelColumnInfs[0].Code).Select(i => i);
+            if(cdmRes!=null && cdmRes.Count()>0)
+            {
+                cdm = cdmRes.First();
+            }
             GetParameter getParameter = GetAntiSeismicGrade; //抗震等级
             getParameter += GetProtectLayerThickness;  //保护层厚度
             getParameter += GetConcreteStrength;      //混凝土强度
             getParameter += GetCornerColumn; //角柱
             getParameter += GetHoopReinforceEnlargeTimes; //箍筋放大倍数
             getParameter += GetLongitudinalReinforceEnlargeTimes; //纵筋放大倍数
-            getParameter += GetHoopReinforceFullHeightEncryption; //全高度加密
             getParameter += GetStructureType; // 结构类型
             getParameter();
         }
@@ -193,8 +196,36 @@ namespace ThColumnInfo.Validate
 
         private double hoopReinforceEnlargeTimes; //箍筋放大倍数
         private double longitudinalReinforceEnlargeTimes; //纵筋放大倍数
-        private bool hoopReinforceFullHeightEncryption; //箍筋全高度加密
         private string structureType = ""; //结构类型
+
+        /// <summary>
+        /// 箍筋全高度加密
+        /// </summary>
+        private bool ReinforceFullHeightEncryption {
+            get
+            {
+                if (this.columnRelateInf != null)
+                {
+                    //构件属性定义
+                    if (this.columnRelateInf.CustomData != null)
+                    {
+                        if (!string.IsNullOrEmpty(this.columnRelateInf.CustomData.HoopReinforceFullHeightEncryption))
+                        {
+                            if (this.columnRelateInf.CustomData.HoopReinforceFullHeightEncryption == "是")
+                            {
+                                return true;
+                            }
+                            else if (this.columnRelateInf.CustomData.HoopReinforceFullHeightEncryption == "否")
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+
         /// <summary>
         /// 获取抗震等级
         /// </summary>
@@ -373,31 +404,7 @@ namespace ThColumnInfo.Validate
                 //柱识别
             }
         }        
-        private void GetHoopReinforceFullHeightEncryption()
-        {
-            if (this.columnRelateInf != null)
-            {
-                //构件属性定义
-                if (this.columnRelateInf.CustomData != null)
-                {
-                    if (!string.IsNullOrEmpty(this.columnRelateInf.CustomData.HoopReinforceFullHeightEncryption))
-                    {
-                        if (this.columnRelateInf.CustomData.HoopReinforceFullHeightEncryption == "是")
-                        {
-                            this.hoopReinforceFullHeightEncryption = true;
-                            return;
-                        }
-                        else if (this.columnRelateInf.CustomData.HoopReinforceFullHeightEncryption == "否")
-                        {
-                            this.hoopReinforceFullHeightEncryption = false;
-                            return;
-                        }
-                    }
-                }
-                //YJK
-                //柱识别
-            }
-        }
+
         /// <summary>
         /// 获取结果类型
         /// </summary>
@@ -423,7 +430,8 @@ namespace ThColumnInfo.Validate
         #endregion
 
         public void ValidateColumnInf()
-        {
+        {            
+            validateRules.Add(BuildSpecConsistRule());                    // 规格一致性检查
             validateRules.Add(BuildSectionTooSmallRule());                // 最小截面
             validateRules.Add(BuildLongLessThanShortTripleRule());        // 长短边比值
             validateRules.Add(BuildShearSpanRatioRule());                 // 剪跨比(截面)
@@ -447,6 +455,7 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildStirrupMaximumSpacingDRule());         // 箍筋最大间距D(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingERule());         // 箍筋最大间距E(箍筋)
             validateRules.Add(BuildStirrupMinimumDiameterDRule());        // 箍筋最小直径D(箍筋)
+            validateRules.Add(BuildStirrupFullHeightEncryptionRule());    // 箍筋全高加密(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceFRule());           // 箍筋最大间距F(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingHRule());         // 箍筋最大间距H(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceJRule());           // 箍筋最大间距J(箍筋)
@@ -465,6 +474,23 @@ namespace ThColumnInfo.Validate
                 this.correctResults.AddRange(this.validateRules[i].CorrectResults);
                 this.calculationSteps.AddRange(this.validateRules[i].GetCalculationSteps());
             }
+        }
+        /// <summary>
+        /// 规格一致性
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildSpecConsistRule()
+        {
+            ColumnSpecModel columnSpecModel = new ColumnSpecModel
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Text = this.columnRelateInf.ModelColumnInfs[0].Text,
+                B = this.columnRelateInf.YjkColumnData.B,
+                H = this.columnRelateInf.YjkColumnData.H,
+                Cdm = cdm
+            };
+            IRule columnConsistRule = new SpecConsistRule(columnSpecModel);
+            return columnConsistRule;
         }
         /// <summary>
         /// 最小截面(截面)
@@ -844,6 +870,22 @@ namespace ThColumnInfo.Validate
             return rule;
         }
         /// <summary>
+        /// 箍筋全高加密(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupFullHeightEncryptionRule()
+        {
+            StirrupFullHeightEncryptionModel sfhem = new StirrupFullHeightEncryptionModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Text = this.columnRelateInf.ModelColumnInfs[0].Text,
+                Jkb = this.columnRelateInf.YjkColumnData.Jkb,
+                Cdm = cdm
+            };
+            IRule rule = new StirrupFullHeightEncryptionRule(sfhem);
+            return rule;
+        }
+        /// <summary>
         /// 箍筋最大间距F(箍筋)
         /// </summary>
         /// <returns></returns>
@@ -857,7 +899,8 @@ namespace ThColumnInfo.Validate
                 AntiSeismicGrade =this.antiSeismicGrade,
                 IsFirstFloor=this.columnRelateInf.YjkColumnData.IsGroundFloor,
                 ProtectThickness=this.protectLayerThickness,
-                Cdm = this.cdm
+                Cdm = this.cdm,
+                Jkb= this.columnRelateInf.YjkColumnData.Jkb
              };
             rule = new StirrupMaximumSpacingFRule(smsf);
             return rule;

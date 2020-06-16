@@ -5,6 +5,7 @@ using ThStructure.BeamInfo.Model;
 using ThStructure.BeamInfo.Business;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
+using System;
 
 namespace ThStructure.BeamInfo.Command
 {
@@ -12,7 +13,7 @@ namespace ThStructure.BeamInfo.Command
     {
         private Document document = Application.DocumentManager.MdiActiveDocument;
 
-        public void CalBeamStruc(DBObjectCollection dBObjects)
+        public List<Beam> CalBeamStruc(DBObjectCollection dBObjects)
         {
             using (AcadDatabase acdb = AcadDatabase.Active())
             {
@@ -47,10 +48,13 @@ namespace ThStructure.BeamInfo.Command
                 //7.打印梁外边框
                 foreach (var item in allBeam)
                 {
-                    acdb.ModelSpace.Add(item.BeamBoundary);
+                    //acdb.ModelSpace.Add(item.BeamBoundary);
                 }
 
+                //8.打印梁信息
                 PrintInfo(allBeam, true);
+
+                return allBeam;
             }
         }
 
@@ -58,7 +62,9 @@ namespace ThStructure.BeamInfo.Command
         {
             if (print)
             {
-                string result1 = @"C:\Users\tangyongjing\Desktop\reslut.txt";
+                string result1 = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop), 
+                    "beaminfo.txt");
                 FileStream fs = new FileStream(result1, FileMode.Append);
                 StreamWriter wr = null;
                 wr = new StreamWriter(fs);

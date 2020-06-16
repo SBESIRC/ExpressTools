@@ -63,6 +63,8 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <PropertyGroup>
     <ManifestCertificateThumbprint>D681C553E389EEABC9FF06909685D634217E41F4</ManifestCertificateThumbprint>
@@ -131,9 +133,9 @@
     <Compile Include="MouseHook.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="THRIGridLookUpEdit.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="ThSitePlanDbEventHandleOverride.cs" />
+    <Compile Include="ThSitePlanDbEventHandler.cs" />
+    <Compile Include="ThSitePlanDocCollectionEventHandler.cs" />
     <Compile Include="ThSitePlanUiApp.cs" />
     <Compile Include="WinApi.cs" />
     <EmbeddedResource Include="fmConfigManage .resx">
@@ -238,6 +240,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\吸取.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\图标-13.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -132,11 +132,9 @@ namespace ThColumnInfo
                 //获取计算书路径对应的自然层的信息
                 CalculationInfoVM calculationInfoVM = new CalculationInfoVM(calculationInfo);
                 List<FloorInfo> floorInfs = calculationInfoVM.LoadYjkDbInfo();
-                ThProgressBar.MeterProgress();
                 //用户选择的自然层
                 string dtlModelPath = calculationInfo.GetDtlmodelFullPath();
                 List<string> selFloors = calculationInfoVM.GetSelectFloors();
-                ThProgressBar.MeterProgress();
                 List<FloorInfo> selectFloorInfs = new List<FloorInfo>();
                 for (int i = 0; i < floorInfs.Count; i++)
                 {
@@ -148,11 +146,9 @@ namespace ThColumnInfo
                 //提取柱子信息
                 IDatabaseDataSource dbDataSource = new ExtractYjkColumnInfo(dtlModelPath);
                 dbDataSource.Extract(selectFloorInfs[0].No);
-                ThProgressBar.MeterProgress();
                 //让用户指定柱子的位置
                 this.thDrawColumns = new ThDrawColumns(dbDataSource.ColumnInfs, this.calculationInfo);
                 thDrawColumns.Draw();
-                ThProgressBar.MeterProgress();
                 if (!this.thDrawColumns.IsGoOn)
                 {
                     result = false;
@@ -176,7 +172,7 @@ namespace ThColumnInfo
                 this.thStandardSign.SignExtractColumnInfo = new ExtractColumnPosition(this.thStandardSign);
             }
             //如果要导入计算书，需要重新提取一次信息
-            this.thStandardSign.SignExtractColumnInfo.Extract();
+            this.thStandardSign.SignExtractColumnInfo.Extract(emportCalculation);
             //提取埋入的柱子范围内对应的本地图纸柱子,(校核命令可提取柱子数量)
             if (this.thStandardSign.SignExtractColumnInfo.ColumnInfs.Count == 0)
             {
@@ -648,6 +644,12 @@ namespace ThColumnInfo
         private YjkColumnDataInfo GetYjkDataInfo(ColumnRelateInf columnRelateInf)
         {
             YjkColumnDataInfo yjkColumnDataInfo = new YjkColumnDataInfo();
+            List<double> specValues = ThColumnInfoUtils.GetDoubleValues(columnRelateInf.DbColumnInf.Spec);
+            if(specValues.Count==2)
+            {
+                yjkColumnDataInfo.B = specValues[0];
+                yjkColumnDataInfo.H = specValues[1];
+            }
             double jkb = 0.0;
             //获取jtId对应的自然层编号和柱编号（dtlModel）
             int tblFloorNo, tblColSegNo;

@@ -24,15 +24,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NTS\ThCADCoreHatchExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSDbExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSGeExtension.cs" />
+    <Compile Include="NTS\ThCADCoreNTSLineExtension.cs" />
+    <Compile Include="NTS\ThCADCoreNTSLocate.cs" />
+    <Compile Include="NTS\ThCADCoreNTSOperation.cs" />
+    <Compile Include="NTS\ThCADCoreNTSPolygonizer.cs" />
+    <Compile Include="NTS\ThCADCoreNTSPolylineExtension.cs" />
+    <Compile Include="NTS\ThCADCoreNTSPrecisionReducer.cs" />
     <Compile Include="NTS\ThCADCoreNTSRegionExtension.cs" />
     <Compile Include="NTS\ThCADCoreNTSService.cs" />
+    <Compile Include="NTS\ThCADCoreNTSSpatialIndex.cs" />
     <Compile Include="OutLiner.cs" />
     <Compile Include="PolylineValidationExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThCADDbExtension.cs" />
+    <Compile Include="ThCADCoreCommon.cs" />
     <Compile Include="ThCADGeExtension.cs" />
+    <Compile Include="ThCADHatchExtension.cs" />
+    <Compile Include="ThCADRegionExtension.cs" />
+    <Compile Include="ThPolygonPartition.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
+      <Project>{5ddfcada-bea4-402c-b3e4-5c7f83c2f09e}</Project>
+      <Name>DotNetARX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
+      <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
+      <Name>ExtensionTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
@@ -62,7 +83,7 @@
     </When>
   </Choose>
   <ItemGroup>
-    <PackageReference Include="NetTopologySuite" Version="1.15.2" />
+    <PackageReference Include="NetTopologySuite" Version="1.15.3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -22,11 +22,11 @@ namespace ThAnalytics
             // 登录界面
             {"THHLP", "帮助"},
 
-            // 检查更新
-            {"THUPT", "检查更新"},
-
             // 切换专业
             {"THPROFILE", "专业切换"},
+
+            // 设置
+            {"THALIAS", "快捷键"},
             
             // 图块图库
             {"THBLI", "图块集"},
@@ -58,6 +58,7 @@ namespace ThAnalytics
             {"THTF", "通风模式"},
             {"THSG", "水管模式"},
             {"THXF", "消防模式"},
+            {"THNT", "暖通全显"},
             
             // 计算工具
             {"THBPS", "天华单体规整"},
@@ -66,6 +67,9 @@ namespace ThAnalytics
             {"THTET", "综合经济技术指标表"},
             {"THFET", "消防疏散表"},
             {"THABC", "房间面积框线"},
+
+            // 校核工具
+            {"THCRC", "柱校核"},
 
             // 平面绘图
             {"THSPC", "喷头布置"},

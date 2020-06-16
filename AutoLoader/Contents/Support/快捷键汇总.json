@@ -1,0 +1,1994 @@
+[
+    {
+        "ID": 1,
+        "Tag": "CAD",
+        "LefthandKeys": "W",
+        "DefaultshortKeys": "L",
+        "Cmd": "LINE",
+        "Remarks": "直线"
+    },
+    {
+        "ID": 2,
+        "Tag": "CAD",
+        "LefthandKeys": "XW",
+        "DefaultshortKeys": "XL",
+        "Cmd": "XLINE",
+        "Remarks": "构造线"
+    },
+    {
+        "ID": 3,
+        "Tag": "CAD",
+        "LefthandKeys": "DW",
+        "DefaultshortKeys": "ML",
+        "Cmd": "MLINE",
+        "Remarks": "多线"
+    },
+    {
+        "ID": 4,
+        "Tag": "CAD",
+        "LefthandKeys": "WW",
+        "DefaultshortKeys": "PL",
+        "Cmd": "PLINE",
+        "Remarks": "多段线"
+    },
+    {
+        "ID": 5,
+        "Tag": "CAD",
+        "LefthandKeys": "RC",
+        "DefaultshortKeys": "REC",
+        "Cmd": "RECTANG",
+        "Remarks": "矩形"
+    },
+    {
+        "ID": 6,
+        "Tag": "CAD",
+        "LefthandKeys": "A",
+        "DefaultshortKeys": "A",
+        "Cmd": "ARC",
+        "Remarks": "圆弧"
+    },
+    {
+        "ID": 7,
+        "Tag": "CAD",
+        "LefthandKeys": "CCC",
+        "DefaultshortKeys": "C",
+        "Cmd": "CIRCLE",
+        "Remarks": "圆"
+    },
+    {
+        "ID": 8,
+        "Tag": "CAD",
+        "LefthandKeys": "SW",
+        "DefaultshortKeys": "SPL",
+        "Cmd": "SPLINE",
+        "Remarks": "样条曲线"
+    },
+    {
+        "ID": 9,
+        "Tag": "CAD",
+        "LefthandKeys": "REG",
+        "DefaultshortKeys": "REG",
+        "Cmd": "REGION",
+        "Remarks": "面域"
+    },
+    {
+        "ID": 10,
+        "Tag": "CAD",
+        "LefthandKeys": "WE",
+        "DefaultshortKeys": "WIP",
+        "Cmd": "WIPEOUT",
+        "Remarks": "区域覆盖"
+    },
+    {
+        "ID": 11,
+        "Tag": "CAD",
+        "LefthandKeys": "RV",
+        "DefaultshortKeys": "REV",
+        "Cmd": "REVCLOUD",
+        "Remarks": "修订云线"
+    },
+    {
+        "ID": 12,
+        "Tag": "CAD",
+        "LefthandKeys": "H",
+        "DefaultshortKeys": "H",
+        "Cmd": "HATCH",
+        "Remarks": "图案填充"
+    },
+    {
+        "ID": 13,
+        "Tag": "CAD",
+        "LefthandKeys": "BA",
+        "DefaultshortKeys": "BO",
+        "Cmd": "BOUNDARY",
+        "Remarks": "轮廓"
+    },
+    {
+        "ID": 14,
+        "Tag": "CAD",
+        "LefthandKeys": "V",
+        "DefaultshortKeys": "M",
+        "Cmd": "MOVE",
+        "Remarks": "移动"
+    },
+    {
+        "ID": 15,
+        "Tag": "CAD",
+        "LefthandKeys": "R",
+        "DefaultshortKeys": "RO",
+        "Cmd": "ROTATE",
+        "Remarks": "旋转"
+    },
+    {
+        "ID": 16,
+        "Tag": "CAD",
+        "LefthandKeys": "TR",
+        "DefaultshortKeys": "TR",
+        "Cmd": "TRIM",
+        "Remarks": "修剪"
+    },
+    {
+        "ID": 17,
+        "Tag": "CAD",
+        "LefthandKeys": "C",
+        "DefaultshortKeys": "CO",
+        "Cmd": "COPY",
+        "Remarks": "复制"
+    },
+    {
+        "ID": 18,
+        "Tag": "CAD",
+        "LefthandKeys": "CB",
+        "DefaultshortKeys": "CB",
+        "Cmd": "COPYBASE",
+        "Remarks": "带基点复制"
+    },
+    {
+        "ID": 19,
+        "Tag": "CAD",
+        "LefthandKeys": "RR",
+        "DefaultshortKeys": "MI",
+        "Cmd": "MIRROR",
+        "Remarks": "镜像"
+    },
+    {
+        "ID": 20,
+        "Tag": "CAD",
+        "LefthandKeys": "F",
+        "DefaultshortKeys": "F",
+        "Cmd": "FILLET",
+        "Remarks": "倒角"
+    },
+    {
+        "ID": 21,
+        "Tag": "CAD",
+        "LefthandKeys": "S",
+        "DefaultshortKeys": "S",
+        "Cmd": "STRETCH",
+        "Remarks": "拉伸"
+    },
+    {
+        "ID": 22,
+        "Tag": "CAD",
+        "LefthandKeys": "SC",
+        "DefaultshortKeys": "SC",
+        "Cmd": "SCALE",
+        "Remarks": "缩放"
+    },
+    {
+        "ID": 23,
+        "Tag": "CAD",
+        "LefthandKeys": "E",
+        "DefaultshortKeys": "E",
+        "Cmd": "ERASE",
+        "Remarks": "删除"
+    },
+    {
+        "ID": 24,
+        "Tag": "CAD",
+        "LefthandKeys": "X",
+        "DefaultshortKeys": "X",
+        "Cmd": "EXPLODE",
+        "Remarks": "炸开"
+    },
+    {
+        "ID": 25,
+        "Tag": "CAD",
+        "LefthandKeys": "FS",
+        "DefaultshortKeys": "O",
+        "Cmd": "OFFSET",
+        "Remarks": "偏移"
+    },
+    {
+        "ID": 26,
+        "Tag": "CAD",
+        "LefthandKeys": "WWE",
+        "DefaultshortKeys": "PE",
+        "Cmd": "PEDIT",
+        "Remarks": "编辑多段线"
+    },
+    {
+        "ID": 27,
+        "Tag": "CAD",
+        "LefthandKeys": "HE",
+        "DefaultshortKeys": "HE",
+        "Cmd": "HATCHEDIT",
+        "Remarks": "编辑填充"
+    },
+    {
+        "ID": 28,
+        "Tag": "CAD",
+        "LefthandKeys": "AG",
+        "DefaultshortKeys": "AL",
+        "Cmd": "ALIGN",
+        "Remarks": "对齐"
+    },
+    {
+        "ID": 29,
+        "Tag": "CAD",
+        "LefthandKeys": "BR",
+        "DefaultshortKeys": "BR",
+        "Cmd": "BREAK",
+        "Remarks": "打断"
+    },
+    {
+        "ID": 30,
+        "Tag": "CAD",
+        "LefthandKeys": "WWW",
+        "DefaultshortKeys": "J",
+        "Cmd": "JOIN",
+        "Remarks": "合并"
+    },
+    {
+        "ID": 31,
+        "Tag": "CAD",
+        "LefthandKeys": "VE",
+        "DefaultshortKeys": "OV",
+        "Cmd": "OVERKILL",
+        "Remarks": "删除重复对象"
+    },
+    {
+        "ID": 32,
+        "Tag": "CAD",
+        "LefthandKeys": "DR",
+        "DefaultshortKeys": "DR",
+        "Cmd": "DRAWORDER",
+        "Remarks": "绘图次序"
+    },
+    {
+        "ID": 33,
+        "Tag": "CAD",
+        "LefthandKeys": "QC",
+        "DefaultshortKeys": "PU",
+        "Cmd": "PURGE",
+        "Remarks": "清理"
+    },
+    {
+        "ID": 34,
+        "Tag": "CAD",
+        "LefthandKeys": "RE",
+        "DefaultshortKeys": "RE",
+        "Cmd": "REGEN",
+        "Remarks": "重生成"
+    },
+    {
+        "ID": 35,
+        "Tag": "CAD",
+        "LefthandKeys": "XX",
+        "DefaultshortKeys": "OP",
+        "Cmd": "OPTIONS",
+        "Remarks": "选项"
+    },
+    {
+        "ID": 36,
+        "Tag": "CAD",
+        "LefthandKeys": "SZ",
+        "DefaultshortKeys": "MA",
+        "Cmd": "MATCHPROP",
+        "Remarks": "特性匹配"
+    },
+    {
+        "ID": 37,
+        "Tag": "CAD",
+        "LefthandKeys": "AR",
+        "DefaultshortKeys": "AR",
+        "Cmd": "ARRAY",
+        "Remarks": "阵列"
+    },
+    {
+        "ID": 38,
+        "Tag": "CAD",
+        "LefthandKeys": "DT",
+        "DefaultshortKeys": "MT",
+        "Cmd": "MTEXT",
+        "Remarks": "多行文字"
+    },
+    {
+        "ID": 39,
+        "Tag": "CAD",
+        "LefthandKeys": "T",
+        "DefaultshortKeys": "DT",
+        "Cmd": "DTEXT",
+        "Remarks": "单行文字"
+    },
+    {
+        "ID": 40,
+        "Tag": "CAD",
+        "LefthandKeys": "XB",
+        "DefaultshortKeys": "DLI",
+        "Cmd": "DIMLINEAR",
+        "Remarks": "线性标注"
+    },
+    {
+        "ID": 41,
+        "Tag": "CAD",
+        "LefthandKeys": "DB",
+        "DefaultshortKeys": "DAL",
+        "Cmd": "DIMALIGNED",
+        "Remarks": "对齐标注"
+    },
+    {
+        "ID": 42,
+        "Tag": "CAD",
+        "LefthandKeys": "HB",
+        "DefaultshortKeys": "DAR",
+        "Cmd": "DIMARC",
+        "Remarks": "弧长标注"
+    },
+    {
+        "ID": 43,
+        "Tag": "CAD",
+        "LefthandKeys": "BB",
+        "DefaultshortKeys": "DRA",
+        "Cmd": "DIMRADIUS",
+        "Remarks": "半径标注"
+    },
+    {
+        "ID": 44,
+        "Tag": "CAD",
+        "LefthandKeys": "AB",
+        "DefaultshortKeys": "DAN",
+        "Cmd": "DIMANGULAR",
+        "Remarks": "角度标注"
+    },
+    {
+        "ID": 45,
+        "Tag": "CAD",
+        "LefthandKeys": "DC",
+        "DefaultshortKeys": "DCO",
+        "Cmd": "DIMCONTINUE",
+        "Remarks": "连续标注"
+    },
+    {
+        "ID": 46,
+        "Tag": "CAD",
+        "LefthandKeys": "YB",
+        "DefaultshortKeys": "MLD",
+        "Cmd": "MLEADER",
+        "Remarks": "多重引线"
+    },
+    {
+        "ID": 47,
+        "Tag": "CAD",
+        "LefthandKeys": "ST",
+        "DefaultshortKeys": "ST",
+        "Cmd": "STYLE",
+        "Remarks": "文字样式"
+    },
+    {
+        "ID": 48,
+        "Tag": "CAD",
+        "LefthandKeys": "D",
+        "DefaultshortKeys": "D",
+        "Cmd": "DIMSTYLE",
+        "Remarks": "标注样式"
+    },
+    {
+        "ID": 49,
+        "Tag": "CAD",
+        "LefthandKeys": "TB",
+        "DefaultshortKeys": "TB",
+        "Cmd": "TABLE",
+        "Remarks": "表格"
+    },
+    {
+        "ID": 50,
+        "Tag": "CAD",
+        "LefthandKeys": "TT",
+        "DefaultshortKeys": "LA",
+        "Cmd": "LAYER",
+        "Remarks": "图层特性"
+    },
+    {
+        "ID": 51,
+        "Tag": "CAD",
+        "LefthandKeys": "TGG",
+        "DefaultshortKeys": "LO",
+        "Cmd": "LAYON",
+        "Remarks": "打开图层"
+    },
+    {
+        "ID": 52,
+        "Tag": "CAD",
+        "LefthandKeys": "TG",
+        "DefaultshortKeys": "LAYOFF",
+        "Cmd": "LAYOFF",
+        "Remarks": "关闭图层"
+    },
+    {
+        "ID": 53,
+        "Tag": "CAD",
+        "LefthandKeys": "TD",
+        "DefaultshortKeys": "LAYISO",
+        "Cmd": "LAYISO",
+        "Remarks": "隔离图层"
+    },
+    {
+        "ID": 54,
+        "Tag": "CAD",
+        "LefthandKeys": "TS",
+        "DefaultshortKeys": "LAYLCK",
+        "Cmd": "LAYLCK",
+        "Remarks": "锁定图层"
+    },
+    {
+        "ID": 55,
+        "Tag": "CAD",
+        "LefthandKeys": "TSS",
+        "DefaultshortKeys": "LAYULK",
+        "Cmd": "LAYULK",
+        "Remarks": "解锁图层"
+    },
+    {
+        "ID": 56,
+        "Tag": "CAD",
+        "LefthandKeys": "TDD",
+        "DefaultshortKeys": "LAYMCUR",
+        "Cmd": "LAYMCUR",
+        "Remarks": "置为当前图层"
+    },
+    {
+        "ID": 57,
+        "Tag": "CAD",
+        "LefthandKeys": "STT",
+        "DefaultshortKeys": "LAYERP",
+        "Cmd": "LAYERP",
+        "Remarks": "上一个图层状态"
+    },
+    {
+        "ID": 58,
+        "Tag": "CAD",
+        "LefthandKeys": "TGQ",
+        "DefaultshortKeys": "LAYERSTATE",
+        "Cmd": "LAYERSTATE",
+        "Remarks": "图层状态管理器"
+    },
+    {
+        "ID": 59,
+        "Tag": "CAD",
+        "LefthandKeys": "CR",
+        "DefaultshortKeys": "I",
+        "Cmd": "INSERT",
+        "Remarks": "插入块"
+    },
+    {
+        "ID": 60,
+        "Tag": "CAD",
+        "LefthandKeys": "B",
+        "DefaultshortKeys": "B",
+        "Cmd": "BLOCK",
+        "Remarks": "做块"
+    },
+    {
+        "ID": 61,
+        "Tag": "CAD",
+        "LefthandKeys": "BE",
+        "DefaultshortKeys": "BE",
+        "Cmd": "BEDIT",
+        "Remarks": "块编辑器"
+    },
+    {
+        "ID": 62,
+        "Tag": "CAD",
+        "LefthandKeys": "ATT",
+        "DefaultshortKeys": "ATT",
+        "Cmd": "ATTDEF",
+        "Remarks": "定义属性"
+    },
+    {
+        "ID": 63,
+        "Tag": "CAD",
+        "LefthandKeys": "WB",
+        "DefaultshortKeys": "W",
+        "Cmd": "WBLOCK",
+        "Remarks": "写块"
+    },
+    {
+        "ID": 64,
+        "Tag": "CAD",
+        "LefthandKeys": "REF",
+        "DefaultshortKeys": "REFEDIT",
+        "Cmd": "REFEDIT",
+        "Remarks": "进块"
+    },
+    {
+        "ID": 65,
+        "Tag": "CAD",
+        "LefthandKeys": "RFC",
+        "DefaultshortKeys": "REFCLOSE",
+        "Cmd": "REFCLOSE",
+        "Remarks": "出块"
+    },
+    {
+        "ID": 66,
+        "Tag": "CAD",
+        "LefthandKeys": "RFS",
+        "DefaultshortKeys": "REFSET",
+        "Cmd": "REFSET",
+        "Remarks": "块内移除或添如"
+    },
+    {
+        "ID": 67,
+        "Tag": "CAD",
+        "LefthandKeys": "VB",
+        "DefaultshortKeys": "PASTEBLOCK",
+        "Cmd": "PASTEBLOCK",
+        "Remarks": "粘贴为块"
+    },
+    {
+        "ID": 68,
+        "Tag": "CAD",
+        "LefthandKeys": "TX",
+        "DefaultshortKeys": "PR",
+        "Cmd": "PROPERTIES",
+        "Remarks": "特性"
+    },
+    {
+        "ID": 69,
+        "Tag": "CAD",
+        "LefthandKeys": "CX",
+        "DefaultshortKeys": "LI",
+        "Cmd": "LIST",
+        "Remarks": "列表"
+    },
+    {
+        "ID": 70,
+        "Tag": "CAD",
+        "LefthandKeys": "G",
+        "DefaultshortKeys": "G",
+        "Cmd": "GROUP",
+        "Remarks": "打组"
+    },
+    {
+        "ID": 71,
+        "Tag": "CAD",
+        "LefthandKeys": "GG",
+        "DefaultshortKeys": "UNGROUP",
+        "Cmd": "UNGROUP",
+        "Remarks": "解组"
+    },
+    {
+        "ID": 72,
+        "Tag": "CAD",
+        "LefthandKeys": "DS",
+        "DefaultshortKeys": "DI",
+        "Cmd": "DIST",
+        "Remarks": "查询距离"
+    },
+    {
+        "ID": 73,
+        "Tag": "CAD",
+        "LefthandKeys": "AA",
+        "DefaultshortKeys": "AA",
+        "Cmd": "AREA",
+        "Remarks": "测量区域和周长"
+    },
+    {
+        "ID": 74,
+        "Tag": "CAD",
+        "LefthandKeys": "QS",
+        "DefaultshortKeys": "QSELECT",
+        "Cmd": "QSELECT",
+        "Remarks": "快速选择"
+    },
+    {
+        "ID": 75,
+        "Tag": "CAD",
+        "LefthandKeys": "CA",
+        "DefaultshortKeys": "CALCULATOR",
+        "Cmd": "CALCULATOR",
+        "Remarks": "计算器"
+    },
+    {
+        "ID": 76,
+        "Tag": "CAD",
+        "LefthandKeys": "REN",
+        "DefaultshortKeys": "REN",
+        "Cmd": "RENAME",
+        "Remarks": "重命名"
+    },
+    {
+        "ID": 77,
+        "Tag": "CAD",
+        "LefthandKeys": "XR",
+        "DefaultshortKeys": "XR",
+        "Cmd": "XREF",
+        "Remarks": "外部参照"
+    },
+    {
+        "ID": 78,
+        "Tag": "CAD",
+        "LefthandKeys": "XC",
+        "DefaultshortKeys": "XC",
+        "Cmd": "XCLIP",
+        "Remarks": "块裁剪"
+    },
+    {
+        "ID": 79,
+        "Tag": "CAD",
+        "LefthandKeys": "CS",
+        "DefaultshortKeys": "DDUCS",
+        "Cmd": "UCS",
+        "Remarks": "用户坐标系"
+    },
+    {
+        "ID": 80,
+        "Tag": "CAD",
+        "LefthandKeys": "VW",
+        "DefaultshortKeys": "VIEWPORTS",
+        "Cmd": "VPORTS",
+        "Remarks": "视口配置"
+    },
+    {
+        "ID": 81,
+        "Tag": "CAD",
+        "LefthandKeys": "AN",
+        "DefaultshortKeys": "PLAN",
+        "Cmd": "PLAN",
+        "Remarks": "调整平面视图"
+    },
+    {
+        "ID": 82,
+        "Tag": "CAD",
+        "LefthandKeys": "AZ",
+        "DefaultshortKeys": "AP",
+        "Cmd": "APPLOAD",
+        "Remarks": "加载应用程序"
+    },
+    {
+        "ID": 83,
+        "Tag": "CAD",
+        "LefthandKeys": "TRA",
+        "DefaultshortKeys": "LAYTRANS",
+        "Cmd": "LAYTRANS",
+        "Remarks": "图层配置器"
+    },
+    {
+        "ID": 84,
+        "Tag": "CAD",
+        "LefthandKeys": "DD",
+        "DefaultshortKeys": "PRINT",
+        "Cmd": "PLOT",
+        "Remarks": "打印"
+    },
+    {
+        "ID": 85,
+        "Tag": "CAD",
+        "LefthandKeys": "Z",
+        "DefaultshortKeys": "Z",
+        "Cmd": "ZOOM",
+        "Remarks": "缩放"
+    },
+    {
+        "ID": 86,
+        "Tag": "CAD",
+        "LefthandKeys": "DDD",
+        "DefaultshortKeys": "OPENURL",
+        "Cmd": "OPEN",
+        "Remarks": "打开文件"
+    },
+    {
+        "ID": 87,
+        "Tag": "CAD",
+        "LefthandKeys": "GGG",
+        "DefaultshortKeys": "CLOSE",
+        "Cmd": "CLOSE",
+        "Remarks": "关闭文件"
+    },
+    {
+        "ID": 1,
+        "Tag": "方案",
+        "LefthandKeys": "ZT",
+        "DefaultshortKeys": "",
+        "Cmd": "THAPL",
+        "Remarks": "新建总图图层"
+    },
+    {
+        "ID": 2,
+        "Tag": "方案",
+        "LefthandKeys": "DTC",
+        "DefaultshortKeys": "",
+        "Cmd": "THAUL",
+        "Remarks": "新建单体图层"
+    },
+    {
+        "ID": 3,
+        "Tag": "方案",
+        "LefthandKeys": "SS",
+        "DefaultshortKeys": "",
+        "Cmd": "THQS",
+        "Remarks": "快选命令集"
+    },
+    {
+        "ID": 4,
+        "Tag": "方案",
+        "LefthandKeys": "DQ",
+        "DefaultshortKeys": "",
+        "Cmd": "THAL",
+        "Remarks": "对齐命令集"
+    },
+    {
+        "ID": 5,
+        "Tag": "方案",
+        "LefthandKeys": "SSS",
+        "DefaultshortKeys": "",
+        "Cmd": "THMA",
+        "Remarks": "天华格式刷"
+    },
+    {
+        "ID": 6,
+        "Tag": "方案",
+        "LefthandKeys": "CC",
+        "DefaultshortKeys": "",
+        "Cmd": "THCO",
+        "Remarks": "天华复制"
+    },
+    {
+        "ID": 7,
+        "Tag": "方案",
+        "LefthandKeys": "SF",
+        "DefaultshortKeys": "",
+        "Cmd": "THMSC",
+        "Remarks": "批量缩放"
+    },
+    {
+        "ID": 8,
+        "Tag": "方案",
+        "LefthandKeys": "BC",
+        "DefaultshortKeys": "",
+        "Cmd": "THSVM",
+        "Remarks": "版次信息修改"
+    },
+    {
+        "ID": 9,
+        "Tag": "方案",
+        "LefthandKeys": "CBR",
+        "DefaultshortKeys": "",
+        "Cmd": "THDTA",
+        "Remarks": "尺寸避让"
+    },
+    {
+        "ID": 10,
+        "Tag": "方案",
+        "LefthandKeys": "BF",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPT",
+        "Remarks": "批量打印PDF"
+    },
+    {
+        "ID": 11,
+        "Tag": "方案",
+        "LefthandKeys": "BWF",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPD",
+        "Remarks": "批量打印DWF"
+    },
+    {
+        "ID": 12,
+        "Tag": "方案",
+        "LefthandKeys": "BT",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPP",
+        "Remarks": "批量打印PPT"
+    },
+    {
+        "ID": 13,
+        "Tag": "方案",
+        "LefthandKeys": "ZZ",
+        "DefaultshortKeys": "",
+        "Cmd": "THZ0",
+        "Remarks": "Z值归零"
+    },
+    {
+        "ID": 14,
+        "Tag": "方案",
+        "LefthandKeys": "DGG",
+        "DefaultshortKeys": "",
+        "Cmd": "DGNPURGE",
+        "Remarks": "DNG清理"
+    },
+    {
+        "ID": 15,
+        "Tag": "方案",
+        "LefthandKeys": "BBR",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBR",
+        "Remarks": "插块断线"
+    },
+    {
+        "ID": 16,
+        "Tag": "方案",
+        "LefthandKeys": "BBE",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBE",
+        "Remarks": "选块断线"
+    },
+    {
+        "ID": 17,
+        "Tag": "方案",
+        "LefthandKeys": "BBS",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBS",
+        "Remarks": "全选断线"
+    },
+    {
+        "ID": 18,
+        "Tag": "方案",
+        "LefthandKeys": "RRR",
+        "DefaultshortKeys": "",
+        "Cmd": "THMIR",
+        "Remarks": "文字块镜像"
+    },
+    {
+        "ID": 19,
+        "Tag": "方案",
+        "LefthandKeys": "TV1",
+        "DefaultshortKeys": "",
+        "Cmd": "T20V4",
+        "Remarks": "T20V4.0"
+    },
+    {
+        "ID": 20,
+        "Tag": "方案",
+        "LefthandKeys": "TV2",
+        "DefaultshortKeys": "",
+        "Cmd": "T20V5",
+        "Remarks": "T20V5.0"
+    },
+    {
+        "ID": 21,
+        "Tag": "方案",
+        "LefthandKeys": "BZ",
+        "DefaultshortKeys": "",
+        "Cmd": "THHLP",
+        "Remarks": "帮助文档"
+    },
+    {
+        "ID": 22,
+        "Tag": "方案",
+        "LefthandKeys": "GX",
+        "DefaultshortKeys": "",
+        "Cmd": "THUPT",
+        "Remarks": "检查更新"
+    },
+    {
+        "ID": 23,
+        "Tag": "方案",
+        "LefthandKeys": "AAS",
+        "DefaultshortKeys": "",
+        "Cmd": "THALIAS",
+        "Remarks": "快捷键设置"
+    },
+    {
+        "ID": 1,
+        "Tag": "建筑",
+        "LefthandKeys": "BS",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPS",
+        "Remarks": "天华单体规整"
+    },
+    {
+        "ID": 2,
+        "Tag": "建筑",
+        "LefthandKeys": "BAC",
+        "DefaultshortKeys": "",
+        "Cmd": "THBAC",
+        "Remarks": "单体面积汇总"
+    },
+    {
+        "ID": 3,
+        "Tag": "建筑",
+        "LefthandKeys": "ZS",
+        "DefaultshortKeys": "",
+        "Cmd": "THSPS",
+        "Remarks": "天华总平规整"
+    },
+    {
+        "ID": 4,
+        "Tag": "建筑",
+        "LefthandKeys": "TE",
+        "DefaultshortKeys": "",
+        "Cmd": "THTET",
+        "Remarks": "综合经济技术指标表"
+    },
+    {
+        "ID": 5,
+        "Tag": "建筑",
+        "LefthandKeys": "FE",
+        "DefaultshortKeys": "",
+        "Cmd": "THFET",
+        "Remarks": "防火分区疏散表"
+    },
+    {
+        "ID": 6,
+        "Tag": "建筑",
+        "LefthandKeys": "BH",
+        "DefaultshortKeys": "",
+        "Cmd": "THCNU",
+        "Remarks": "车位编号"
+    },
+    {
+        "ID": 7,
+        "Tag": "建筑",
+        "LefthandKeys": "DTC",
+        "DefaultshortKeys": "",
+        "Cmd": "THALC",
+        "Remarks": "建立单体图层"
+    },
+    {
+        "ID": 8,
+        "Tag": "建筑",
+        "LefthandKeys": "SS",
+        "DefaultshortKeys": "",
+        "Cmd": "THQS",
+        "Remarks": "快选命令集"
+    },
+    {
+        "ID": 9,
+        "Tag": "建筑",
+        "LefthandKeys": "DQ",
+        "DefaultshortKeys": "",
+        "Cmd": "THAL",
+        "Remarks": "对齐命令集"
+    },
+    {
+        "ID": 10,
+        "Tag": "建筑",
+        "LefthandKeys": "SSS",
+        "DefaultshortKeys": "",
+        "Cmd": "THMA",
+        "Remarks": "天华格式刷"
+    },
+    {
+        "ID": 11,
+        "Tag": "建筑",
+        "LefthandKeys": "CC",
+        "DefaultshortKeys": "",
+        "Cmd": "THCO",
+        "Remarks": "天华复制"
+    },
+    {
+        "ID": 12,
+        "Tag": "建筑",
+        "LefthandKeys": "SF",
+        "DefaultshortKeys": "",
+        "Cmd": "THMSC",
+        "Remarks": "批量缩放"
+    },
+    {
+        "ID": 13,
+        "Tag": "建筑",
+        "LefthandKeys": "BC",
+        "DefaultshortKeys": "",
+        "Cmd": "THSVM",
+        "Remarks": "版次信息修改"
+    },
+    {
+        "ID": 14,
+        "Tag": "建筑",
+        "LefthandKeys": "CBR",
+        "DefaultshortKeys": "",
+        "Cmd": "THDTA",
+        "Remarks": "尺寸避让"
+    },
+    {
+        "ID": 15,
+        "Tag": "建筑",
+        "LefthandKeys": "BF",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPT",
+        "Remarks": "批量打印PDF"
+    },
+    {
+        "ID": 16,
+        "Tag": "建筑",
+        "LefthandKeys": "BWF",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPD",
+        "Remarks": "批量打印DWF"
+    },
+    {
+        "ID": 17,
+        "Tag": "建筑",
+        "LefthandKeys": "BT",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPP",
+        "Remarks": "批量打印PPT"
+    },
+    {
+        "ID": 18,
+        "Tag": "建筑",
+        "LefthandKeys": "ZZ",
+        "DefaultshortKeys": "",
+        "Cmd": "THZ0",
+        "Remarks": "Z值归零"
+    },
+    {
+        "ID": 19,
+        "Tag": "建筑",
+        "LefthandKeys": "DGG",
+        "DefaultshortKeys": "",
+        "Cmd": "DGNPURGE",
+        "Remarks": "DNG清理"
+    },
+    {
+        "ID": 20,
+        "Tag": "建筑",
+        "LefthandKeys": "BBR",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBR",
+        "Remarks": "插块断线"
+    },
+    {
+        "ID": 21,
+        "Tag": "建筑",
+        "LefthandKeys": "BBE",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBE",
+        "Remarks": "选块断线"
+    },
+    {
+        "ID": 22,
+        "Tag": "建筑",
+        "LefthandKeys": "BBS",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBS",
+        "Remarks": "全选断线"
+    },
+    {
+        "ID": 23,
+        "Tag": "建筑",
+        "LefthandKeys": "RRR",
+        "DefaultshortKeys": "",
+        "Cmd": "THMIR",
+        "Remarks": "文字块镜像"
+    },
+    {
+        "ID": 24,
+        "Tag": "建筑",
+        "LefthandKeys": "TV1",
+        "DefaultshortKeys": "",
+        "Cmd": "T20V4",
+        "Remarks": "T20V4.0"
+    },
+    {
+        "ID": 25,
+        "Tag": "建筑",
+        "LefthandKeys": "TV2",
+        "DefaultshortKeys": "",
+        "Cmd": "T20V5",
+        "Remarks": "T20V5.0"
+    },
+    {
+        "ID": 26,
+        "Tag": "建筑",
+        "LefthandKeys": "BZ1",
+        "DefaultshortKeys": "",
+        "Cmd": "THHLP",
+        "Remarks": "帮助文档"
+    },
+    {
+        "ID": 27,
+        "Tag": "建筑",
+        "LefthandKeys": "GX1",
+        "DefaultshortKeys": "",
+        "Cmd": "THUPT",
+        "Remarks": "检查更新"
+    },
+    {
+        "ID": 28,
+        "Tag": "建筑",
+        "LefthandKeys": "AAS",
+        "DefaultshortKeys": "",
+        "Cmd": "THALIAS",
+        "Remarks": "快捷键设置"
+    },
+    {
+        "ID": 1,
+        "Tag": "结构",
+        "LefthandKeys": "EC",
+        "DefaultshortKeys": "",
+        "Cmd": "THSLC",
+        "Remarks": "建立天华结构图层"
+    },
+    {
+        "ID": 2,
+        "Tag": "结构",
+        "LefthandKeys": "SS",
+        "DefaultshortKeys": "",
+        "Cmd": "THQS",
+        "Remarks": "快选命令集"
+    },
+    {
+        "ID": 3,
+        "Tag": "结构",
+        "LefthandKeys": "DQ",
+        "DefaultshortKeys": "",
+        "Cmd": "THAL",
+        "Remarks": "对齐命令集"
+    },
+    {
+        "ID": 4,
+        "Tag": "结构",
+        "LefthandKeys": "SSS",
+        "DefaultshortKeys": "",
+        "Cmd": "THMA",
+        "Remarks": "天华格式刷"
+    },
+    {
+        "ID": 5,
+        "Tag": "结构",
+        "LefthandKeys": "CC",
+        "DefaultshortKeys": "",
+        "Cmd": "THCO",
+        "Remarks": "天华复制"
+    },
+    {
+        "ID": 6,
+        "Tag": "结构",
+        "LefthandKeys": "SF",
+        "DefaultshortKeys": "",
+        "Cmd": "THMSC",
+        "Remarks": "批量缩放"
+    },
+    {
+        "ID": 7,
+        "Tag": "结构",
+        "LefthandKeys": "BC",
+        "DefaultshortKeys": "",
+        "Cmd": "THSVM",
+        "Remarks": "版次信息修改"
+    },
+    {
+        "ID": 8,
+        "Tag": "结构",
+        "LefthandKeys": "CBR",
+        "DefaultshortKeys": "",
+        "Cmd": "THDTA",
+        "Remarks": "尺寸避让"
+    },
+    {
+        "ID": 9,
+        "Tag": "结构",
+        "LefthandKeys": "BF",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPT",
+        "Remarks": "批量打印PDF"
+    },
+    {
+        "ID": 10,
+        "Tag": "结构",
+        "LefthandKeys": "BWF",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPD",
+        "Remarks": "批量打印DWF"
+    },
+    {
+        "ID": 11,
+        "Tag": "结构",
+        "LefthandKeys": "BT",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPP",
+        "Remarks": "批量打印PPT"
+    },
+    {
+        "ID": 12,
+        "Tag": "结构",
+        "LefthandKeys": "ZZ",
+        "DefaultshortKeys": "",
+        "Cmd": "THZ0",
+        "Remarks": "Z值归零"
+    },
+    {
+        "ID": 13,
+        "Tag": "结构",
+        "LefthandKeys": "DGG",
+        "DefaultshortKeys": "",
+        "Cmd": "DGNPURGE",
+        "Remarks": "DNG清理"
+    },
+    {
+        "ID": 14,
+        "Tag": "结构",
+        "LefthandKeys": "BBR",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBR",
+        "Remarks": "插块断线"
+    },
+    {
+        "ID": 15,
+        "Tag": "结构",
+        "LefthandKeys": "BBE",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBE",
+        "Remarks": "选块断线"
+    },
+    {
+        "ID": 16,
+        "Tag": "结构",
+        "LefthandKeys": "BBS",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBS",
+        "Remarks": "全选断线"
+    },
+    {
+        "ID": 17,
+        "Tag": "结构",
+        "LefthandKeys": "RRR",
+        "DefaultshortKeys": "",
+        "Cmd": "THMIR",
+        "Remarks": "文字块镜像"
+    },
+    {
+        "ID": 18,
+        "Tag": "结构",
+        "LefthandKeys": "TV1",
+        "DefaultshortKeys": "",
+        "Cmd": "T20V4",
+        "Remarks": "T20V4.0"
+    },
+    {
+        "ID": 19,
+        "Tag": "结构",
+        "LefthandKeys": "TV2",
+        "DefaultshortKeys": "",
+        "Cmd": "T20V5",
+        "Remarks": "T20V5.0"
+    },
+    {
+        "ID": 20,
+        "Tag": "结构",
+        "LefthandKeys": "BZ1",
+        "DefaultshortKeys": "",
+        "Cmd": "THHLP",
+        "Remarks": "帮助文档"
+    },
+    {
+        "ID": 21,
+        "Tag": "结构",
+        "LefthandKeys": "GX1",
+        "DefaultshortKeys": "",
+        "Cmd": "THUPT",
+        "Remarks": "检查更新"
+    },
+    {
+        "ID": 22,
+        "Tag": "结构",
+        "LefthandKeys": "AAS",
+        "DefaultshortKeys": "",
+        "Cmd": "THALIAS",
+        "Remarks": "快捷键设置"
+    },
+    {
+        "ID": 1,
+        "Tag": "暖通",
+        "LefthandKeys": "AC",
+        "DefaultshortKeys": "",
+        "Cmd": "THABC",
+        "Remarks": "房间面积框线"
+    },
+    {
+        "ID": 2,
+        "Tag": "暖通",
+        "LefthandKeys": "GD",
+        "DefaultshortKeys": "",
+        "Cmd": "THLTR",
+        "Remarks": "管线断线"
+    },
+    {
+        "ID": 3,
+        "Tag": "暖通",
+        "LefthandKeys": "EC",
+        "DefaultshortKeys": "",
+        "Cmd": "THMLC",
+        "Remarks": "建立天华暖通图层"
+    },
+    {
+        "ID": 4,
+        "Tag": "暖通",
+        "LefthandKeys": "CT",
+        "DefaultshortKeys": "",
+        "Cmd": "THLPM",
+        "Remarks": "处理建筑结构底图"
+    },
+    {
+        "ID": 5,
+        "Tag": "暖通",
+        "LefthandKeys": "STC",
+        "DefaultshortKeys": "",
+        "Cmd": "THMLK",
+        "Remarks": "锁定暖通图层"
+    },
+    {
+        "ID": 6,
+        "Tag": "暖通",
+        "LefthandKeys": "TCG",
+        "DefaultshortKeys": "",
+        "Cmd": "THMUK",
+        "Remarks": "隔离暖通图层"
+    },
+    {
+        "ID": 7,
+        "Tag": "暖通",
+        "LefthandKeys": "SSNT",
+        "DefaultshortKeys": "",
+        "Cmd": "THUKA",
+        "Remarks": "解锁暖通图层"
+    },
+    {
+        "ID": 8,
+        "Tag": "暖通",
+        "LefthandKeys": "GNT",
+        "DefaultshortKeys": "",
+        "Cmd": "THMOF",
+        "Remarks": "关闭暖通图层"
+    },
+    {
+        "ID": 9,
+        "Tag": "暖通",
+        "LefthandKeys": "GGNT",
+        "DefaultshortKeys": "",
+        "Cmd": "THMON",
+        "Remarks": "开启暖通图层"
+    },
+    {
+        "ID": 10,
+        "Tag": "暖通",
+        "LefthandKeys": "ET",
+        "DefaultshortKeys": "",
+        "Cmd": "THNT",
+        "Remarks": "暖通图层全开"
+    },
+    {
+        "ID": 11,
+        "Tag": "暖通",
+        "LefthandKeys": "FXT",
+        "DefaultshortKeys": "",
+        "Cmd": "THTF",
+        "Remarks": "通风模式"
+    },
+    {
+        "ID": 12,
+        "Tag": "暖通",
+        "LefthandKeys": "SXT",
+        "DefaultshortKeys": "",
+        "Cmd": "THSG",
+        "Remarks": "水管模式"
+    },
+    {
+        "ID": 13,
+        "Tag": "暖通",
+        "LefthandKeys": "YXT",
+        "DefaultshortKeys": "",
+        "Cmd": "THXF",
+        "Remarks": "消防模式"
+    },
+    {
+        "ID": 14,
+        "Tag": "暖通",
+        "LefthandKeys": "EE",
+        "DefaultshortKeys": "",
+        "Cmd": "THBLI",
+        "Remarks": "设备图块集"
+    },
+    {
+        "ID": 15,
+        "Tag": "暖通",
+        "LefthandKeys": "ES",
+        "DefaultshortKeys": "",
+        "Cmd": "THBLS",
+        "Remarks": "设备图块集设置"
+    },
+    {
+        "ID": 16,
+        "Tag": "暖通",
+        "LefthandKeys": "SS",
+        "DefaultshortKeys": "",
+        "Cmd": "THQS",
+        "Remarks": "快选命令集"
+    },
+    {
+        "ID": 17,
+        "Tag": "暖通",
+        "LefthandKeys": "DQ",
+        "DefaultshortKeys": "",
+        "Cmd": "THAL",
+        "Remarks": "对齐命令集"
+    },
+    {
+        "ID": 18,
+        "Tag": "暖通",
+        "LefthandKeys": "SSS",
+        "DefaultshortKeys": "",
+        "Cmd": "THMA",
+        "Remarks": "天华格式刷"
+    },
+    {
+        "ID": 19,
+        "Tag": "暖通",
+        "LefthandKeys": "CC",
+        "DefaultshortKeys": "",
+        "Cmd": "THCO",
+        "Remarks": "天华复制"
+    },
+    {
+        "ID": 20,
+        "Tag": "暖通",
+        "LefthandKeys": "SF",
+        "DefaultshortKeys": "",
+        "Cmd": "THMSC",
+        "Remarks": "批量缩放"
+    },
+    {
+        "ID": 21,
+        "Tag": "暖通",
+        "LefthandKeys": "BC",
+        "DefaultshortKeys": "",
+        "Cmd": "THSVM",
+        "Remarks": "版次信息修改"
+    },
+    {
+        "ID": 22,
+        "Tag": "暖通",
+        "LefthandKeys": "CBR",
+        "DefaultshortKeys": "",
+        "Cmd": "THDTA",
+        "Remarks": "尺寸避让"
+    },
+    {
+        "ID": 23,
+        "Tag": "暖通",
+        "LefthandKeys": "BF",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPT",
+        "Remarks": "批量打印PDF"
+    },
+    {
+        "ID": 24,
+        "Tag": "暖通",
+        "LefthandKeys": "BWF",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPD",
+        "Remarks": "批量打印DWF"
+    },
+    {
+        "ID": 25,
+        "Tag": "暖通",
+        "LefthandKeys": "BT",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPP",
+        "Remarks": "批量打印PPT"
+    },
+    {
+        "ID": 26,
+        "Tag": "暖通",
+        "LefthandKeys": "ZZ",
+        "DefaultshortKeys": "",
+        "Cmd": "THZ0",
+        "Remarks": "Z值归零"
+    },
+    {
+        "ID": 27,
+        "Tag": "暖通",
+        "LefthandKeys": "DGG",
+        "DefaultshortKeys": "",
+        "Cmd": "DGNPURGE",
+        "Remarks": "DNG清理"
+    },
+    {
+        "ID": 28,
+        "Tag": "暖通",
+        "LefthandKeys": "BBR",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBR",
+        "Remarks": "插块断线"
+    },
+    {
+        "ID": 29,
+        "Tag": "暖通",
+        "LefthandKeys": "BBE",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBE",
+        "Remarks": "选块断线"
+    },
+    {
+        "ID": 30,
+        "Tag": "暖通",
+        "LefthandKeys": "BBS",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBS",
+        "Remarks": "全选断线"
+    },
+    {
+        "ID": 31,
+        "Tag": "暖通",
+        "LefthandKeys": "RRR",
+        "DefaultshortKeys": "",
+        "Cmd": "THMIR",
+        "Remarks": "文字块镜像"
+    },
+    {
+        "ID": 32,
+        "Tag": "暖通",
+        "LefthandKeys": "TV1",
+        "DefaultshortKeys": "",
+        "Cmd": "T20V4",
+        "Remarks": "T20V4.0"
+    },
+    {
+        "ID": 33,
+        "Tag": "暖通",
+        "LefthandKeys": "TV2",
+        "DefaultshortKeys": "",
+        "Cmd": "T20V5",
+        "Remarks": "T20V5.0"
+    },
+    {
+        "ID": 34,
+        "Tag": "暖通",
+        "LefthandKeys": "BZ1",
+        "DefaultshortKeys": "",
+        "Cmd": "THHLP",
+        "Remarks": "帮助文档"
+    },
+    {
+        "ID": 35,
+        "Tag": "暖通",
+        "LefthandKeys": "GX1",
+        "DefaultshortKeys": "",
+        "Cmd": "THUPT",
+        "Remarks": "检查更新"
+    },
+    {
+        "ID": 36,
+        "Tag": "暖通",
+        "LefthandKeys": "AAS",
+        "DefaultshortKeys": "",
+        "Cmd": "THALIAS",
+        "Remarks": "快捷键设置"
+    },
+    {
+        "ID": 1,
+        "Tag": "电气",
+        "LefthandKeys": "GD",
+        "DefaultshortKeys": "",
+        "Cmd": "THLTR",
+        "Remarks": "管线断线"
+    },
+    {
+        "ID": 2,
+        "Tag": "电气",
+        "LefthandKeys": "EC",
+        "DefaultshortKeys": "",
+        "Cmd": "THELC",
+        "Remarks": "建立天华电气图层"
+    },
+    {
+        "ID": 3,
+        "Tag": "电气",
+        "LefthandKeys": "CT",
+        "DefaultshortKeys": "",
+        "Cmd": "THLPE",
+        "Remarks": "处理建筑结构地图"
+    },
+    {
+        "ID": 4,
+        "Tag": "电气",
+        "LefthandKeys": "EX",
+        "DefaultshortKeys": "",
+        "Cmd": "THBEE",
+        "Remarks": "提电气图块转换"
+    },
+    {
+        "ID": 5,
+        "Tag": "电气",
+        "LefthandKeys": "EE",
+        "DefaultshortKeys": "",
+        "Cmd": "THBLI",
+        "Remarks": "设备图块集"
+    },
+    {
+        "ID": 6,
+        "Tag": "电气",
+        "LefthandKeys": "ES",
+        "DefaultshortKeys": "",
+        "Cmd": "THBLS",
+        "Remarks": "设备图块集设置"
+    },
+    {
+        "ID": 7,
+        "Tag": "电气",
+        "LefthandKeys": "SS",
+        "DefaultshortKeys": "",
+        "Cmd": "THQS",
+        "Remarks": "快选命令集"
+    },
+    {
+        "ID": 8,
+        "Tag": "电气",
+        "LefthandKeys": "DQ",
+        "DefaultshortKeys": "",
+        "Cmd": "THAL",
+        "Remarks": "对齐命令集"
+    },
+    {
+        "ID": 9,
+        "Tag": "电气",
+        "LefthandKeys": "SSS",
+        "DefaultshortKeys": "",
+        "Cmd": "THMA",
+        "Remarks": "天华格式刷"
+    },
+    {
+        "ID": 10,
+        "Tag": "电气",
+        "LefthandKeys": "CC",
+        "DefaultshortKeys": "",
+        "Cmd": "THCO",
+        "Remarks": "天华复制"
+    },
+    {
+        "ID": 11,
+        "Tag": "电气",
+        "LefthandKeys": "SF",
+        "DefaultshortKeys": "",
+        "Cmd": "THMSC",
+        "Remarks": "批量缩放"
+    },
+    {
+        "ID": 12,
+        "Tag": "电气",
+        "LefthandKeys": "BC",
+        "DefaultshortKeys": "",
+        "Cmd": "THSVM",
+        "Remarks": "版次信息修改"
+    },
+    {
+        "ID": 13,
+        "Tag": "电气",
+        "LefthandKeys": "CBR",
+        "DefaultshortKeys": "",
+        "Cmd": "THDTA",
+        "Remarks": "尺寸避让"
+    },
+    {
+        "ID": 14,
+        "Tag": "电气",
+        "LefthandKeys": "BF",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPT",
+        "Remarks": "批量打印PDF"
+    },
+    {
+        "ID": 15,
+        "Tag": "电气",
+        "LefthandKeys": "BWF",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPD",
+        "Remarks": "批量打印DWF"
+    },
+    {
+        "ID": 16,
+        "Tag": "电气",
+        "LefthandKeys": "BT",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPP",
+        "Remarks": "批量打印PPT"
+    },
+    {
+        "ID": 17,
+        "Tag": "电气",
+        "LefthandKeys": "ZZ",
+        "DefaultshortKeys": "",
+        "Cmd": "THZ0",
+        "Remarks": "Z值归零"
+    },
+    {
+        "ID": 18,
+        "Tag": "电气",
+        "LefthandKeys": "DGG",
+        "DefaultshortKeys": "",
+        "Cmd": "DGNPURGE",
+        "Remarks": "DNG清理"
+    },
+    {
+        "ID": 19,
+        "Tag": "电气",
+        "LefthandKeys": "BBR",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBR",
+        "Remarks": "插块断线"
+    },
+    {
+        "ID": 20,
+        "Tag": "电气",
+        "LefthandKeys": "BBE",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBE",
+        "Remarks": "选块断线"
+    },
+    {
+        "ID": 21,
+        "Tag": "电气",
+        "LefthandKeys": "BBS",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBS",
+        "Remarks": "全选断线"
+    },
+    {
+        "ID": 22,
+        "Tag": "电气",
+        "LefthandKeys": "RRR",
+        "DefaultshortKeys": "",
+        "Cmd": "THMIR",
+        "Remarks": "文字块镜像"
+    },
+    {
+        "ID": 23,
+        "Tag": "电气",
+        "LefthandKeys": "TV1",
+        "DefaultshortKeys": "",
+        "Cmd": "T20V4",
+        "Remarks": "T20V4.0"
+    },
+    {
+        "ID": 24,
+        "Tag": "电气",
+        "LefthandKeys": "TV2",
+        "DefaultshortKeys": "",
+        "Cmd": "T20V5",
+        "Remarks": "T20V5.0"
+    },
+    {
+        "ID": 25,
+        "Tag": "电气",
+        "LefthandKeys": "BZ1",
+        "DefaultshortKeys": "",
+        "Cmd": "THHLP",
+        "Remarks": "帮助文档"
+    },
+    {
+        "ID": 26,
+        "Tag": "电气",
+        "LefthandKeys": "GX1",
+        "DefaultshortKeys": "",
+        "Cmd": "THUPT",
+        "Remarks": "检查更新"
+    },
+    {
+        "ID": 27,
+        "Tag": "电气",
+        "LefthandKeys": "AAS",
+        "DefaultshortKeys": "",
+        "Cmd": "THALIAS",
+        "Remarks": "快捷键设置"
+    },
+    {
+        "ID": 1,
+        "Tag": "给排水",
+        "LefthandKeys": "GD",
+        "DefaultshortKeys": "",
+        "Cmd": "THLTR",
+        "Remarks": "管线断线"
+    },
+    {
+        "ID": 2,
+        "Tag": "给排水",
+        "LefthandKeys": "EC",
+        "DefaultshortKeys": "",
+        "Cmd": "THPLC",
+        "Remarks": "建立天华给排水图层"
+    },
+    {
+        "ID": 3,
+        "Tag": "给排水",
+        "LefthandKeys": "CT",
+        "DefaultshortKeys": "",
+        "Cmd": "THLPP",
+        "Remarks": "处理建筑结构地图"
+    },
+    {
+        "ID": 4,
+        "Tag": "给排水",
+        "LefthandKeys": "EE",
+        "DefaultshortKeys": "",
+        "Cmd": "THBLI",
+        "Remarks": "设备图块集"
+    },
+    {
+        "ID": 5,
+        "Tag": "给排水",
+        "LefthandKeys": "ES",
+        "DefaultshortKeys": "",
+        "Cmd": "THBLS",
+        "Remarks": "设备图块集设置"
+    },
+    {
+        "ID": 6,
+        "Tag": "给排水",
+        "LefthandKeys": "SS",
+        "DefaultshortKeys": "",
+        "Cmd": "THQS",
+        "Remarks": "快选命令集"
+    },
+    {
+        "ID": 7,
+        "Tag": "给排水",
+        "LefthandKeys": "DQ",
+        "DefaultshortKeys": "",
+        "Cmd": "THAL",
+        "Remarks": "对齐命令集"
+    },
+    {
+        "ID": 8,
+        "Tag": "给排水",
+        "LefthandKeys": "SSS",
+        "DefaultshortKeys": "",
+        "Cmd": "THMA",
+        "Remarks": "天华格式刷"
+    },
+    {
+        "ID": 9,
+        "Tag": "给排水",
+        "LefthandKeys": "CC",
+        "DefaultshortKeys": "",
+        "Cmd": "THCO",
+        "Remarks": "天华复制"
+    },
+    {
+        "ID": 10,
+        "Tag": "给排水",
+        "LefthandKeys": "SF",
+        "DefaultshortKeys": "",
+        "Cmd": "THMSC",
+        "Remarks": "批量缩放"
+    },
+    {
+        "ID": 11,
+        "Tag": "给排水",
+        "LefthandKeys": "BC",
+        "DefaultshortKeys": "",
+        "Cmd": "THSVM",
+        "Remarks": "版次信息修改"
+    },
+    {
+        "ID": 12,
+        "Tag": "给排水",
+        "LefthandKeys": "CBR",
+        "DefaultshortKeys": "",
+        "Cmd": "THDTA",
+        "Remarks": "尺寸避让"
+    },
+    {
+        "ID": 13,
+        "Tag": "给排水",
+        "LefthandKeys": "BF",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPT",
+        "Remarks": "批量打印PDF"
+    },
+    {
+        "ID": 14,
+        "Tag": "给排水",
+        "LefthandKeys": "BWF",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPD",
+        "Remarks": "批量打印DWF"
+    },
+    {
+        "ID": 15,
+        "Tag": "给排水",
+        "LefthandKeys": "BT",
+        "DefaultshortKeys": "",
+        "Cmd": "THBPP",
+        "Remarks": "批量打印PPT"
+    },
+    {
+        "ID": 16,
+        "Tag": "给排水",
+        "LefthandKeys": "ZZ",
+        "DefaultshortKeys": "",
+        "Cmd": "THZ0",
+        "Remarks": "Z值归零"
+    },
+    {
+        "ID": 17,
+        "Tag": "给排水",
+        "LefthandKeys": "DGG",
+        "DefaultshortKeys": "",
+        "Cmd": "DGNPURGE",
+        "Remarks": "DNG清理"
+    },
+    {
+        "ID": 18,
+        "Tag": "给排水",
+        "LefthandKeys": "BBR",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBR",
+        "Remarks": "插块断线"
+    },
+    {
+        "ID": 19,
+        "Tag": "给排水",
+        "LefthandKeys": "BBE",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBE",
+        "Remarks": "选块断线"
+    },
+    {
+        "ID": 20,
+        "Tag": "给排水",
+        "LefthandKeys": "BBS",
+        "DefaultshortKeys": "",
+        "Cmd": "THBBS",
+        "Remarks": "全选断线"
+    },
+    {
+        "ID": 21,
+        "Tag": "给排水",
+        "LefthandKeys": "RRR",
+        "DefaultshortKeys": "",
+        "Cmd": "THMIR",
+        "Remarks": "文字块镜像"
+    },
+    {
+        "ID": 22,
+        "Tag": "给排水",
+        "LefthandKeys": "TV1",
+        "DefaultshortKeys": "",
+        "Cmd": "T20V4",
+        "Remarks": "T20V4.0"
+    },
+    {
+        "ID": 23,
+        "Tag": "给排水",
+        "LefthandKeys": "TV2",
+        "DefaultshortKeys": "",
+        "Cmd": "T20V5",
+        "Remarks": "T20V5.0"
+    },
+    {
+        "ID": 24,
+        "Tag": "给排水",
+        "LefthandKeys": "BZ1",
+        "DefaultshortKeys": "",
+        "Cmd": "THHLP",
+        "Remarks": "帮助文档"
+    },
+    {
+        "ID": 25,
+        "Tag": "给排水",
+        "LefthandKeys": "GX1",
+        "DefaultshortKeys": "",
+        "Cmd": "THUPT",
+        "Remarks": "检查更新"
+    },
+    {
+        "ID": 26,
+        "Tag": "给排水",
+        "LefthandKeys": "AAS",
+        "DefaultshortKeys": "",
+        "Cmd": "THALIAS",
+        "Remarks": "快捷键设置"
+    }
+]

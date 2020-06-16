@@ -24,6 +24,10 @@ namespace TianHua.AutoCAD.ThCui
                 // 隐藏
                 toolbar.ToolbarVisible = ToolbarVisible.hide;
 
+                // 设置
+                toolbar.AddToolbarButton(-1, "快捷键", "ID_THALIAS");
+                toolbar.AddSeparator(-1);
+
                 // 快速选择命令集
                 toolbar.AddToolbarButton(-1, "颜色选择", "ID_THQS _COLOR");
                 toolbar.AddToolbarButton(-1, "图层选择", "ID_THQS _LAYER");
@@ -93,8 +97,8 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.ToolbarVisible = ToolbarVisible.hide;
 
                 toolbar.AddToolbarButton(-1, "建立结构图层", "ID_THSLC");
-                //toolbar.AddSeparator(-1);
-                //toolbar.AddToolbarButton(-1, "柱校核（公测）", "ID_THCRC");
+                toolbar.AddSeparator(-1);
+                toolbar.AddToolbarButton(-1, "柱校核（公测）", "ID_THCRC");
             }
         }
 
@@ -120,6 +124,7 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "通风模式", "ID_THTF");
                 toolbar.AddToolbarButton(-1, "水管模式", "ID_THSG");
                 toolbar.AddToolbarButton(-1, "消防模式", "ID_THXF");
+                toolbar.AddToolbarButton(-1, "暖通全显", "ID_THNT");
                 toolbar.AddSeparator(-1);
                 toolbar.AddToolbarButton(-1, "图块集", "ID_THBLI");
             }

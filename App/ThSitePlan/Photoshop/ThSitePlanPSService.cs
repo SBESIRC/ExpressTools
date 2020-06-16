@@ -11,13 +11,23 @@ namespace ThSitePlan.Photoshop
 {
     public class ThSitePlanPSService : IDisposable
     {
+        public bool IsValid { get; set; }
         public PsApplication Application { get; set; }
 
         public Document CurrentFirstDocument { get; set; }
 
         public ThSitePlanPSService()
         {
-            Application = new PsApplication();
+            try
+            {
+                Application = new PsApplication();
+                IsValid = true;
+            }
+            catch 
+            {
+                Application = null;
+                IsValid = false;
+            }
         }
 
         public void Dispose()
@@ -79,13 +89,10 @@ namespace ThSitePlan.Photoshop
             newlayer.Name = CurDocNa;
             string DocName = NewOpenDoc.Name;
 
-            //设置图层的不透明度
+            //设置图层的不透明度和填充颜色
             newlayer.Opacity = Convert.ToDouble(configItem.Properties["Opacity"]);
-            if (NewOpenDoc.Name.Contains("色块"))
-            {
-                newlayer.Opacity = 100;
-                FillBySelectChannel(NewOpenDoc.Name, configItem);
-            }
+            FillBySelectChannel(NewOpenDoc.Name, configItem);
+
             return NewOpenDoc;
 
         }
@@ -137,7 +144,16 @@ namespace ThSitePlan.Photoshop
 
                     if (FindOrNot == false)
                     {
-                        SerLaySet = SerLaySet.LayerSets.Add();
+                        LayerSets parentlayerserts = SerLaySet.LayerSets;
+                        SerLaySet = parentlayerserts.Add();
+                        int layersetcount = parentlayerserts.Count;
+                        if (layersetcount > 1)
+                        {
+                            for (int j = layersetcount; j >1 ; j--)
+                            {
+                                parentlayerserts[layersetcount].Move(parentlayerserts[1], PsElementPlacement.psPlaceBefore);
+                            }
+                        }
                         SerLaySet.Name = DocNameSpt[i];
                         break;
                     }
@@ -166,7 +182,7 @@ namespace ThSitePlan.Photoshop
                         EndLayerSet.Name = CurDoc_Sets[i];
                     }
                 }
-                OperateLayer.Move(EndLayerSet, PsElementPlacement.psPlaceInside);
+                OperateLayer.Move(EndLayerSet, PsElementPlacement.psPlaceAtEnd);
             }
 
             else

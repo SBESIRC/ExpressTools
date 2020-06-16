@@ -1,8 +1,6 @@
-﻿using System;
-using AcHelper;
+﻿using AcHelper;
 using Linq2Acad;
 using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using NFox.Cad.Collections;
@@ -18,18 +16,73 @@ namespace ThSitePlan.Engine
             {
                 ThSitePlanDbEngine.Instance.Initialize(database);
                 string frameName = (string)configItem.Properties["Name"];
-                var frame = ThSitePlanDbEngine.Instance.FrameByName(frameName);
-                var referenceFrame = ThSitePlanDbEngine.Instance.FrameByName("建筑物-场地内建筑-建筑色块");
-                var offset = database.FrameOffset(referenceFrame, frame);
 
-                // 复制建筑物面域到阴影图框
-                using (var objs = FilterByFrame(database, referenceFrame))
+                // 分解复杂的填充为简单填充
+                using (var objs = FilterHatch(database, configItem, options))
                 {
-                    database.CopyWithMove(objs, Matrix3d.Displacement(offset));
+                    if (objs.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    Active.Editor.HatchDecomposeCmd(objs);
+                }
+
+                // 获得其轮廓线
+                using (var objs = FilterHatch(database, configItem, options))
+                {
+                    if (objs.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    Active.Editor.HatchBoundaryCmd(objs);
+                }
+
+                // 删除Hatch，只保留其轮廓线
+                using (var objs = FilterHatch(database, configItem, options))
+                {
+                    if (objs.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    Active.Editor.EraseCmd(objs);
+                }
+
+                //// 剔除所有内部的面域
+                //using (var objs = FilterRegion(database, configItem, options))
+                //{
+                //    if (objs.Count == 0)
+                //    {
+                //        return false;
+                //    }
+
+                //    Active.Editor.UnionRegions(objs);
+                //}
+                //using (var objs = FilterRegion(database, configItem, options))
+                //{
+                //    if (objs.Count == 0)
+                //    {
+                //        return false;
+                //    }
+
+                //    Active.Editor.ExplodeCmd(objs);
+                //}
+
+                // 设置建筑物面域图层
+                using (var objs = FilterRegion(database, configItem, options))
+                {
+                    if (objs.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    acadDatabase.Database.MoveToLayer(objs, ThSitePlanCommon.LAYER_BUILD_HATCH);
                 }
 
                 // 根据建筑物面域生成阴影面域
-                using (var objs = FilterByFrame(database, frame))
+                using (var objs = FilterRegion(database, configItem, options))
                 {
                     foreach (ObjectId objId in objs)
                     {
@@ -38,19 +91,25 @@ namespace ThSitePlan.Engine
                             var shadow = ThSitePlanBuildingShadow.CreateShadow(buildInfo);
                             if (shadow != null)
                             {
-                                // 计算阴影和建筑物的遮挡
-                                shadow.ProjectShadow();
+                                // 计算阴影和其他建筑物的遮挡
+                                shadow.ProjectShadow(buildInfo);
+                            }
+                            else
+                            {
+                                // 创建简易的阴影面域
+                                shadow = ThSitePlanBuildingShadow.CreateSimpleShadow(buildInfo);
+                                shadow.Regions[0].CreateHatchWithPolygon();
                             }
                         }
                     }
                 }
 
                 // 删除建筑物面域
-                using (var objs = FilterByFrame(database, frame))
+                using (var objs = FilterRegion(database, configItem, options))
                 {
                     foreach (ObjectId obj in objs)
                     {
-                        acadDatabase.Element<Region>(obj, true).Erase();
+                        acadDatabase.Element<Entity>(obj, true).Erase();
                     }
                 }
 
@@ -60,18 +119,65 @@ namespace ThSitePlan.Engine
 
         public override ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
         {
-            throw new NotSupportedException();
-        }
-
-        private ObjectIdCollection FilterByFrame(Database database, ObjectId frame)
-        {
-            var filterlist = OpFilter.Bulid(o => 
-                o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Region)).DxfName &
-                o.Dxf((int)DxfCode.LayerName) == ThSitePlanCommon.LAYER_BUILD_HATCH);
+            ObjectId frame = (ObjectId)options.Options["Frame"];
+            var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) != RXClass.GetClass(typeof(Hatch)).DxfName);
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 frame,
                 PolygonSelectionMode.Window,
-                filterlist);
+                filter);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
+        }
+
+        private ObjectIdCollection FilterRegion(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            ObjectId frame = (ObjectId)options.Options["Frame"];
+            var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Region)).DxfName);
+            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                frame,
+                PolygonSelectionMode.Crossing,
+                filter);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
+        }
+
+        private ObjectIdCollection FilterRegion(ObjectId frame)
+        {
+            var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Region)).DxfName);
+            PromptSelectionResult psr = Active.Editor.SelectByRegion(
+                frame,
+                PolygonSelectionMode.Window,
+                filter);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
+        }
+
+        private ObjectIdCollection FilterHatch(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            ObjectId frame = (ObjectId)options.Options["Frame"];
+            var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Hatch)).DxfName);
+            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                frame,
+                PolygonSelectionMode.Crossing,
+                filter);
             if (psr.Status == PromptStatus.OK)
             {
                 return new ObjectIdCollection(psr.Value.GetObjectIds());

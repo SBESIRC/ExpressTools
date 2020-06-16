@@ -106,11 +106,13 @@
     <Compile Include="Tools\WpfTopMostTool.cs" />
     <Compile Include="Validate\Model\AngularReinforcementNumModel.cs" />
     <Compile Include="Validate\Model\ColumnDataModel.cs" />
+    <Compile Include="Validate\Model\ColumnSpecModel.cs" />
     <Compile Include="Validate\Model\CompoundStirrupModel.cs" />
     <Compile Include="Validate\Model\MinimumReinforceRatioBModel.cs" />
     <Compile Include="Validate\Model\MinimumReinforceRatioAModel.cs" />
     <Compile Include="Validate\Model\ReinforcementAreaModel.cs" />
     <Compile Include="Validate\Model\ShearSpanRatioModel.cs" />
+    <Compile Include="Validate\Model\StirrupFullHeightEncryptionModel.cs" />
     <Compile Include="Validate\Model\StirrupLimbSpaceModel.cs" />
     <Compile Include="Validate\Model\StirrupMaximumSpacingAModel.cs" />
     <Compile Include="Validate\Model\StirrupMaximumSpacingBModel.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="Validate\Rules\LongShortEdgeRatioRule.cs" />
     <Compile Include="Validate\Rules\CompoundStirrupRule.cs" />
     <Compile Include="Validate\Rules\IRule.cs" />
+    <Compile Include="Validate\Rules\SpecConsistRule.cs" />
     <Compile Include="Validate\Rules\SectionTooSmallRule.cs" />
     <Compile Include="Validate\Model\MaximumReinforcementRatioModel.cs" />
     <Compile Include="Validate\Model\AngularReinforcementDiaModel.cs" />
@@ -147,6 +150,7 @@
     <Compile Include="Validate\Rules\MinimumReinforcementRatioARule.cs" />
     <Compile Include="Validate\Rules\ReinforcementAreaRule.cs" />
     <Compile Include="Validate\Rules\ShearSpanRatioRule.cs" />
+    <Compile Include="Validate\Rules\StirrupFullHeightEncryptionRule.cs" />
     <Compile Include="Validate\Rules\StirrupLimbSpaceRule.cs" />
     <Compile Include="Validate\Rules\StirrupMaximumSpacingJRule.cs" />
     <Compile Include="Validate\Rules\StirrupMaximumSpacingHRule.cs" />
@@ -216,6 +220,7 @@
     <Compile Include="View\ImportCalculation.xaml.cs" />
     <Compile Include="View\ComponentPropDefine.xaml.cs" />
     <Compile Include="View\ParameterSet.xaml.cs" />
+    <Compile Include="View\ParameterSetTip.xaml.cs" />
     <Compile Include="View\ValidateRules.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -261,6 +266,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ParameterSet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ParameterSetTip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

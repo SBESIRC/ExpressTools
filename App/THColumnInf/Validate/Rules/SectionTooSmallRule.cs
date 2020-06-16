@@ -12,27 +12,29 @@ namespace ThColumnInfo.Validate
 
         public List<string> ValidateResults { get; set; } = new List<string>();
         public List<string> CorrectResults { get; set; } = new List<string>();
+        private string rule = "（《砼规》11.4.11-1）";
         public SectionTooSmallRule(ColumnSectionModel columnSectionModel)
         {
             this.columnSectionModel = columnSectionModel;
         }        
         public void Validate()
         {
-            if (columnSectionModel == null)
+            if (columnSectionModel == null || !columnSectionModel.ValidateProperty())
             {
                 return;
             }
+            double min = Math.Min(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H);
             //矩形截面柱，抗震等级为四级或层数不超过2 层时，其最小截面尺寸不宜小于300mm 
             if (columnSectionModel.AntiSeismicGrade.Contains("四级") ||
                 columnSectionModel.FloorTotalNums <= 2)
             {
-                if (Math.Min(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H) < 300)
+                if (min < 300)
                 {
-                    this.ValidateResults.Add("最小截面不满足");
+                    this.ValidateResults.Add("最小截面不满足 [" + min + " < 300]" + this.rule);
                 }
                 else
                 {
-                    this.CorrectResults.Add("最小截面满足");
+                    this.CorrectResults.Add("最小截面满足" + this.rule);
                 }
             }
             //一、二、三级抗震等级且层数超过2层时不宜小于400mm
@@ -40,11 +42,11 @@ namespace ThColumnInfo.Validate
             {
                 if (Math.Min(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H) < 400)
                 {
-                    this.ValidateResults.Add("截面过小");
+                    this.ValidateResults.Add("最小截面不满足 [" + min + " < 400]" + this.rule);
                 }
                 else
                 {
-                    this.CorrectResults.Add("最小截面满足");
+                    this.CorrectResults.Add("最小截面满足" + this.rule);
                 }
             }
         }
@@ -61,22 +63,22 @@ namespace ThColumnInfo.Validate
             steps.Add("  {");
             steps.Add("    if (Math.Min(B[" + columnSectionModel.Cdm.B +"],H["+ columnSectionModel.Cdm.H + "]) < 300 )");
             steps.Add("        {");
-            steps.Add("            Err:最小截面不满足");
+            steps.Add("            Err:最小截面不满足 （《砼规》11.4.11-1）");
             steps.Add("        }");
             steps.Add("    else");
             steps.Add("        {");
-            steps.Add("            Debugprint:最小截面满足");
+            steps.Add("            Debugprint:最小截面满足 （《砼规》11.4.11-1）");
             steps.Add("        }");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
             steps.Add("    if (Math.Min(B[" + columnSectionModel.Cdm.B + "],H[" + columnSectionModel.Cdm.H + "]) < 400 )");
             steps.Add("       {");
-            steps.Add("          Err:最小截面不满足");
+            steps.Add("          Err:最小截面不满足 （《砼规》11.4.11-1）");
             steps.Add("       }");
             steps.Add("    else");
             steps.Add("       {");
-            steps.Add("          Debugprint:最小截面满足");
+            steps.Add("          Debugprint:最小截面满足（《砼规》11.4.11-1）");
             steps.Add("       }");
             steps.Add("  }");
             steps.Add("");

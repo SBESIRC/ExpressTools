@@ -9,6 +9,7 @@ namespace ThColumnInfo.Validate
     public class StirrupMinimumDiameterCRule:IRule
     {
         private StirrupMinimumDiameterCModel smdc;
+        private string rule = "（《砼规》9.3.2-5）";
         public StirrupMinimumDiameterCRule(StirrupMinimumDiameterCModel smdc)
         {
             this.smdc = smdc;
@@ -25,11 +26,11 @@ namespace ThColumnInfo.Validate
             {
                 if(this.smdc.Cdm.IntStirrupDia<8)
                 {
-                    this.ValidateResults.Add("（3%）箍筋直径小于8");
+                    this.ValidateResults.Add("（3%）箍筋直径小于8 ["+ this.smdc.Cdm.IntStirrupDia+" < 8]，"+this.rule);
                 }      
                 else
                 {
-                    this.CorrectResults.Add("（3%）箍筋直径大于8 ");
+                    this.CorrectResults.Add("（3%）箍筋直径不小于8" + this.rule);
                 }
             }            
         }
@@ -44,13 +45,13 @@ namespace ThColumnInfo.Validate
             steps.Add(this.smdc.Cdm.GetDblAsCalculation());
             steps.Add(this.smdc.Cdm.GetDblpCalculation());
             steps.Add("if (dblP [" + this.smdc.Cdm.DblP + "] > 0.03)");
-            steps.Add("  if (IntStirrupDia[" + smdc.Cdm.IntCBarDia + "] < 8 )");
+            steps.Add("  if (IntStirrupDia[" + smdc.Cdm.IntStirrupDia + "] < 8 )");
             steps.Add("    {");
-            steps.Add("      Err:（3%）箍筋直径小于8");
+            steps.Add("      Err:（3%）箍筋直径小于8" + this.rule);
             steps.Add("    }");
             steps.Add("   else");
             steps.Add("    {");
-            steps.Add("      Debugprint：（3%）箍筋直径大于8");
+            steps.Add("      Debugprint：（3%）箍筋直径不小于8" + this.rule);
             steps.Add("    }");
             steps.Add("  }");
             steps.Add("");

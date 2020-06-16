@@ -21,15 +21,27 @@
             <Component Id="CMP_Autoloader_PackageContents_Support_Electrical_Block_Template" Guid="{B24EC0F1-FA29-4B52-8479-7940267E2069}" Win64="yes">
               <File Id="FILE_Autoloader_PackageContents_Support_Electrical_Block_Template" Source="$(var.AutoloaderContentsPath)\Support\电气块转换表.dwg" KeyPath="yes" />
             </Component>
-          <Component Id="CMP_Autoloader_PackageContents_Support_Electrical_Rule_Block_Template" Guid="{0F73028E-22A5-44C6-B49A-199318741A56}" Win64="yes">
-            <File Id="FILE_Autoloader_PackageContents_Support_Electrical_Rule_Block_Template" Source="$(var.AutoloaderContentsPath)\Support\电气系统图规则表.dwg" KeyPath="yes" />
-          </Component>
-          <Component Id="CMP_Autoloader_PackageContents_Support_Electrical_Frame_Layer_Template" Guid="{9E406929-8652-46D8-B65F-9E7DCE536627}" Win64="yes">
-            <File Id="FILE_Autoloader_PackageContents_Support_Electrical_Frame_Layer_Template" Source="$(var.AutoloaderContentsPath)\Support\图层框线示例.dwg" KeyPath="yes" />
-          </Component>
-		  <Component Id="CMP_Autoloader_PackageContents_Support_Electrical_BLOCK_SPRAY_UP_Template" Guid="{4C80E873-0D6D-4743-A7D2-245AD904AA50}" Win64="yes">
-            <File Id="FILE_Autoloader_PackageContents_Support_Electrical_BLOCK_SPRAY_UP_Template" Source="$(var.AutoloaderContentsPath)\Support\SprayBlockUp.dwg" KeyPath="yes" />
-          </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Support_Electrical_Rule_Block_Template" Guid="{0F73028E-22A5-44C6-B49A-199318741A56}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Support_Electrical_Rule_Block_Template" Source="$(var.AutoloaderContentsPath)\Support\电气系统图规则表.dwg" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Support_Electrical_Frame_Layer_Template" Guid="{9E406929-8652-46D8-B65F-9E7DCE536627}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Support_Electrical_Frame_Layer_Template" Source="$(var.AutoloaderContentsPath)\Support\图层框线示例.dwg" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Support_Electrical_BLOCK_SPRAY_UP_Template" Guid="{4C80E873-0D6D-4743-A7D2-245AD904AA50}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Support_Electrical_BLOCK_SPRAY_UP_Template" Source="$(var.AutoloaderContentsPath)\Support\SprayBlockUp.dwg" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Support_HAVC_Block_Template" Guid="{620021E8-1893-4F3F-8D31-CCE1D465B96A}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Support_HAVC_Block_Template" Source="$(var.AutoloaderContentsPath)\Support\提电气块转换配置表.机电一所.dwg" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Support_HAVC_LayerState_Template" Guid="{FA712418-5F50-401E-BC06-2ADEA7895A86}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Support_HAVC_LayerState_Template" Source="$(var.AutoloaderContentsPath)\Support\图层工具.暖通.dwg" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Support_Default_PGP" Guid="{CD9C01D8-C054-4416-97A1-4C1EA4A7517C}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Support_Default_PGP" Source="$(var.AutoloaderContentsPath)\Support\default.pgp" KeyPath="yes" />
+            </Component>
+            <Component Id="CMP_Autoloader_PackageContents_Support_CMD_ALIAS_Template" Guid="{65E275B7-501F-4760-ACCE-18342A02CD0A}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Support_CMD_ALIAS_Template" Source="$(var.AutoloaderContentsPath)\Support\快捷键汇总.json" KeyPath="yes" />
+            </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -39,10 +51,14 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Shx_Tssdeng2" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Linetype_Electrical" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Linetype_Plumbing" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_HAVC_Block_Template" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_HAVC_LayerState_Template" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Electrical_Block_Template" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Electrical_Rule_Block_Template" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Electrical_Frame_Layer_Template" />
-			<ComponentRef Id="CMP_Autoloader_PackageContents_Support_Electrical_BLOCK_SPRAY_UP_Template" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Electrical_BLOCK_SPRAY_UP_Template" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Default_PGP" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_CMD_ALIAS_Template" />
         </ComponentGroup>
     </Fragment>
 </Wix>

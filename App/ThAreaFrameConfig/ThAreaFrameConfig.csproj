@@ -304,6 +304,7 @@
     <EmbeddedResource Include="WinForms\ThUnderGroundParkingControl.resx">
       <DependentUpon>ThUnderGroundParkingControl.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -13,6 +13,7 @@ namespace ThColumnInfo.Validate
         private Dictionary<ColumnInf, List<string>> columnValidResultDic = new Dictionary<ColumnInf, List<string>>();
         private Dictionary<ColumnInf, List<string>> calculationStepDic = new Dictionary<ColumnInf, List<string>>();
         public static bool isGroundFloor = false;
+        public readonly static double shearSpanRatio = 2.5; //剪跨比
         public Dictionary<ColumnInf, List<string>> ColumnValidResultDic
         {
             get
@@ -56,6 +57,7 @@ namespace ThColumnInfo.Validate
             if (columnInfs != null && columnInfs.Count>0)
             {
                 validColumns = columnInfs;
+                validColumns.Sort(new ColumnInfCompare());
             }
             else
             {
@@ -159,7 +161,11 @@ namespace ThColumnInfo.Validate
             ObjectId columnId = plantCalDataToDraw.GetUnVisibleColumn(columnInf.Points);
             bool isSuccess = false;
             this.columnCustomData = plantCalDataToDraw.ReadEmbededColumnCustomData(columnId, out isSuccess);
-            cdm = ThValidate.columnDataModels.Where(i => i.Code == columnInf.Code).Select(i=>i).First();
+            var cdmRes = ThValidate.columnDataModels.Where(i => i.Code == columnInf.Code).Select(i => i);
+            if (cdmRes != null && cdmRes.Count() > 0)
+            {
+                cdm = cdmRes.First();
+            }
             //抗震等级 
             GetAntiSeismicGrade();
             GetProtectLayerThickness();
@@ -285,11 +291,12 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildStirrupMinimumDiameterCRule());        // 箍筋最小直径C(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingDRule());         // 箍筋最大间距D(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingERule());         // 箍筋最大间距E(箍筋)
-            validateRules.Add(BuildStirrupMinimumDiameterDRule());        // 箍筋最小直径D(箍筋)            
+            validateRules.Add(BuildStirrupMinimumDiameterDRule());        // 箍筋最小直径D(箍筋)   
+            validateRules.Add(BuildStirrupFullHeightEncryptionRule());    // 箍筋全高加密(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceFRule());           // 箍筋最大间距F(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingHRule());         // 箍筋最大间距H(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceJRule());           // 箍筋最大间距J(箍筋)
-            
+            validateRules.Add(BuildVolumeReinforceRatioARule());          // 体积配箍率A(箍筋)
             for (int i = 0; i < this.validateRules.Count; i++)
             {
                 if (this.validateRules[i] == null)
@@ -345,8 +352,7 @@ namespace ThColumnInfo.Validate
             {
                 Code = this.columnInf.Code,
                 Text = this.columnInf.Text,
-                AntiSeismicGrade = this.antiSeismicGrade,
-                FloorTotalNums = ThSpecificationValidate.paraSetInfo.FloorCount,
+                AntiSeismicGrade = this.antiSeismicGrade,                
                 Cdm = cdm
             };
             IRule columnSectionRule = new LongShortEdgeRatioRule(columnSectionModel);
@@ -601,18 +607,33 @@ namespace ThColumnInfo.Validate
         /// </summary>
         /// <returns></returns>
         private IRule BuildStirrupMinimumDiameterDRule()
-        {
-            double shearSpanRatio = 2.5; //剪跨比(暂时设默认值)
+        {            
             StirrupMinimumDiameterDModel smdd = new StirrupMinimumDiameterDModel()
             {
                 Code=this.columnInf.Code,
                 Text = this.columnInf.Text,
                 AntiSeismicGrade =this.antiSeismicGrade,
                 IsFirstFloor= ThSpecificationValidate.isGroundFloor,
-                Jkb= shearSpanRatio,
+                Jkb= ThSpecificationValidate.shearSpanRatio,
                 IntStirrupDia = cdm.IntStirrupDia
             };
             IRule rule = new StirrupMinimumDiameterDRule(smdd);
+            return rule;
+        }
+        /// <summary>
+        /// 箍筋全高加密(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupFullHeightEncryptionRule()
+        {
+            StirrupFullHeightEncryptionModel sfhem = new StirrupFullHeightEncryptionModel()
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                Jkb  = ThSpecificationValidate.shearSpanRatio,
+                Cdm = cdm
+            };
+            IRule rule = new StirrupFullHeightEncryptionRule(sfhem);
             return rule;
         }
         /// <summary>
@@ -665,6 +686,23 @@ namespace ThColumnInfo.Validate
                 Antiseismic= this.antiSeismicGrade
             };
             rule = new StirrupMaximumSpacingJRule(smsj);
+            return rule;
+        }
+        /// <summary>
+        /// 体积配箍率A(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildVolumeReinforceRatioARule()
+        {
+            VolumeReinforceRatioAModel vrra = new VolumeReinforceRatioAModel()
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                Cdm = this.cdm,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                ProtectLayerThickness = this.protectLayerThickness
+            };
+            IRule rule = new VolumeReinforceRatioARule(vrra);
             return rule;
         }
     }

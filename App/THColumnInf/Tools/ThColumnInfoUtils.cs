@@ -42,33 +42,38 @@ namespace ThColumnInfo
         }
         public static List<Point3d> GetPolylinePts(Curve curve)
         {
-            List<Point3d> pts = new List<Point3d>();
+            List<Point3d> pts = new List<Point3d>();            
             if(curve==null)
             {
                 return pts;
             }
-            if (curve is Polyline polyline)
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans=doc.TransactionManager.StartTransaction())
             {
-                for (int j = 0; j < polyline.NumberOfVertices; j++)
+                if (curve is Polyline polyline)
                 {
-                    pts.Add(polyline.GetPoint3dAt(j));
+                    for (int j = 0; j < polyline.NumberOfVertices; j++)
+                    {
+                        pts.Add(polyline.GetPoint3dAt(j));
+                    }
                 }
-            }
-            else if (curve is Polyline2d polyline2d)
-            {
-                Point3dCollection allPts= polyline2d.GetAllGripPoints();
-                foreach(Point3d ptItem in allPts)
+                else if (curve is Polyline2d polyline2d)
                 {
-                    pts.Add(ptItem);
+                    foreach (ObjectId item in polyline2d)
+                    {
+                        Vertex2d itemEnt = trans.GetObject(item, OpenMode.ForRead) as Vertex2d;
+                        pts.Add(polyline2d.VertexPosition(itemEnt));
+                    }
                 }
-            }
-            else if(curve is Polyline2d polyline3d)
-            {
-                Point3dCollection allPts = polyline3d.GetAllGripPoints();
-                foreach (Point3d ptItem in allPts)
+                else if (curve is Polyline3d polyline3d)
                 {
-                    pts.Add(ptItem);
+                    foreach (ObjectId item in polyline3d)
+                    {
+                        var rs = trans.GetObject(item, OpenMode.ForRead) as PolylineVertex3d;
+                        pts.Add(rs.Position);
+                    }
                 }
+                trans.Commit();
             }
             return pts;
         }
@@ -829,11 +834,54 @@ namespace ThColumnInfo
             }
             return values;
         }
+        /// <summary>
+        /// 获取特殊符号
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static int IndexOfSpecialChar(string str,out string content)
+        {
+            int index = -1;
+            content = "";
+            index = str.IndexOf("%%130");
+            if (index>=0)
+            {
+                content = "%%130";
+                return index;
+            }
+            index = str.IndexOf("%%131");
+            if (index >= 0)
+            {
+                content = "%%131";
+                return index;
+            }
+            index = str.IndexOf("%%132");
+            if (index >= 0)
+            {
+                content = "%%132";
+                return index;
+            }
+            index = str.IndexOf("%%133");
+            if (index >= 0)
+            {
+                content = "%%133";
+                return index;
+            }
+            return index;
+        }
         public static List<double> GetDoubleValues(string str)
         {
+            string newStr = str;
             List<double> values = new List<double>();
-            string pattern = "[-]?\\d+([.]?\\d+)?";
-            MatchCollection matches = Regex.Matches(str, pattern);
+            string content = "";
+            while(IndexOfSpecialChar(newStr,out content)>=0)
+            {
+                int startIndex = newStr.IndexOf(content);
+                newStr = newStr.Remove(startIndex, content.Length);
+            }
+            string pattern = "[-]?\\d+([.]{1}\\d+)?";
+            MatchCollection matches = Regex.Matches(newStr, pattern);
             foreach (var match in matches)
             {
                 if (!string.IsNullOrEmpty(match.ToString()))
@@ -1333,7 +1381,8 @@ namespace ThColumnInfo
             }
             return result;
         }
-        public static ObjectId DrawOffsetColumn(List<Point3d> polylinePts, double offsetDisScale = 2.5, bool visible = false, double lineWeight=200)
+        public static ObjectId DrawOffsetColumn(List<Point3d> polylinePts, double offsetDisScale = 2.5,
+            bool visible = false, double lineWeight=200,bool setLayer=true)
         {
             ObjectId frameId = ObjectId.Null;
             if (polylinePts.Count < 2)
@@ -1364,6 +1413,11 @@ namespace ThColumnInfo
 
             Polyline polyline = ThColumnInfoUtils.CreatePolyline(wcsRecPts, true, lineWeight);
             frameId = ThColumnInfoUtils.AddToBlockTable(polyline, visible);
+            if (setLayer)
+            {
+                ObjectId layerId = BaseFunction.CreateColumnLayer();
+                ThColumnInfoUtils.SetLayer(frameId, layerId);
+            }
             TypedValue tv = new TypedValue((int)DxfCode.ExtendedDataAsciiString, "*");
             AddXData(frameId, ThColumnInfoUtils.thColumnFrameRegAppName, new List<TypedValue>() { tv }); 
             return frameId;
@@ -1513,6 +1567,33 @@ namespace ThColumnInfo
             using (var clone = entity.GetTransformedCopy(wcs2Ucs))
             {
                 return clone.GeometricExtents;
+            }
+        }
+        /// <summary>
+        /// 设置图层
+        /// </summary>
+        /// <param name="objId"></param>
+        /// <param name="layerId"></param>
+        public static void SetLayer(ObjectId objId,ObjectId layerId)
+        {
+            if(objId==ObjectId.Null || objId.IsErased || !objId.IsValid)
+            {
+                return;
+            }
+            if (layerId == ObjectId.Null || layerId.IsErased || !layerId.IsValid)
+            {
+                return;
+            }
+            Document doc = GetMdiActiveDocument();
+            using (Transaction trans=doc.Database.TransactionManager.StartTransaction())
+            {
+                if(trans.GetObject(objId,OpenMode.ForRead) is Entity ent)
+                {
+                    ent.UpgradeOpen();
+                    ent.LayerId = layerId;
+                    ent.DowngradeOpen();
+                }
+                trans.Commit();
             }
         }
     }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
+using Linq2Acad;
+using AcHelper;
 
 namespace ThSitePlan.Engine
 {
@@ -13,13 +15,7 @@ namespace ThSitePlan.Engine
         private Dictionary<string, ThSitePlanWorker> Workers { get; set; }
         public ThSitePlanBoundaryGenerator()
         {
-            Workers = new Dictionary<string, ThSitePlanWorker>()
-            {
-                {"场地-活动场地-场地色块", new ThSitePlanBoundaryWorker()},
-                {"场地-消防登高场地-场地色块", new ThSitePlanBoundaryWorker()},
-                {"建筑物-场地内建筑-建筑色块", new ThSitePlanBoundaryBuildingWorker()},
-                {"建筑物-场地外建筑-建筑色块", new ThSitePlanBoundaryOuterBuildingWorker()},
-            };
+            //
         }
 
         public override bool Generate(Database database, ThSitePlanConfigItem configItem)
@@ -34,10 +30,36 @@ namespace ThSitePlan.Engine
                 }
             };
 
-            var key = (string)configItem.Properties["Name"];
-            if (Workers.ContainsKey(key))
+            var scriptId = configItem.Properties["CADScriptID"].ToString();
+            if (scriptId == "1")
             {
-                Workers[key].DoProcess(database, configItem, options);
+                var currenthatchframe = ThSitePlanDbEngine.Instance.FrameByName(configItem.Properties["Name"].ToString());
+
+                var newoptions = new ThSitePlanOptions()
+                {
+                    Options = new Dictionary<string, object>() {
+                            { "Frame", currenthatchframe },
+                            { "Offset", null },
+                            { "OriginFrame", null },
+                         }
+                };
+                var itemworker = new ThSitePlanBoundaryBuildingWorker();
+                itemworker.DoProcess(database, configItem, newoptions);
+            }
+            else if (scriptId == "2")
+            {
+                var currenthatchframe = ThSitePlanDbEngine.Instance.FrameByName(configItem.Properties["Name"].ToString());
+
+                var newoptions = new ThSitePlanOptions()
+                {
+                    Options = new Dictionary<string, object>() {
+                            { "Frame", currenthatchframe },
+                            { "Offset", null },
+                            { "OriginFrame", null },
+                         }
+                };
+                var itemworker = new ThSitePlanBoundaryPathWorker();
+                itemworker.DoProcess(database, configItem, newoptions);
             }
             return true;
         }

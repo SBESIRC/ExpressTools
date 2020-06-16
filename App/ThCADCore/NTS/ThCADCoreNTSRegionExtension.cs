@@ -1,7 +1,7 @@
-﻿using GeoAPI.Geometries;
-using Autodesk.AutoCAD.Geometry;
+﻿using System;
+using GeoAPI.Geometries;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.BoundaryRepresentation;
 
 namespace ThCADCore.NTS
 {
@@ -9,8 +9,8 @@ namespace ThCADCore.NTS
     {
         public static Region Union(this Region pRegion, Region sRegion)
         {
-            var pGeometry = pRegion.ToNTSGeometry();
-            var sGeometry = sRegion.ToNTSGeometry();
+            var pGeometry = pRegion.ToNTSPolygon();
+            var sGeometry = sRegion.ToNTSPolygon();
             if (pGeometry == null || sGeometry == null)
             {
                 return null;
@@ -34,8 +34,8 @@ namespace ThCADCore.NTS
 
         public static Region Intersection(this Region pRegion, Region sRegion)
         {
-            var pGeometry = pRegion.ToNTSGeometry();
-            var sGeometry = sRegion.ToNTSGeometry();
+            var pGeometry = pRegion.ToNTSPolygon();
+            var sGeometry = sRegion.ToNTSPolygon();
             if (pGeometry == null || sGeometry == null)
             {
                 return null;
@@ -57,35 +57,44 @@ namespace ThCADCore.NTS
             return null;
         }
 
-        public static Region Difference(this Region pRegion, Region sRegion)
+        public static List<Polyline> Difference(this Region pRegion, Region sRegion)
         {
-            var pGeometry = pRegion.ToNTSGeometry();
-            var sGeometry = sRegion.ToNTSGeometry();
+            var regions = new List<Polyline>();
+            var pGeometry = pRegion.ToNTSPolygon();
+            var sGeometry = sRegion.ToNTSPolygon();
             if (pGeometry == null || sGeometry == null)
             {
-                return null;
+                return regions;
             }
 
             // 检查是否相交
             if (!pGeometry.Intersects(sGeometry))
             {
-                return null;
+                return regions;
             }
 
             // 若相交，则计算在pRegion，但不在sRegion的部分
             var rGeometry = pGeometry.Difference(sGeometry);
             if (rGeometry is IPolygon polygon)
             {
-                return polygon.ToDbRegion();
+                regions.Add(polygon.Shell.ToDbPolyline());
             }
-
-            return null;
+            else if (rGeometry is IMultiPolygon mPolygon)
+            {
+                regions.AddRange(mPolygon.ToDbPolylines());
+            }
+            else
+            {
+                // 为止情况，抛出异常
+                throw new NotSupportedException();
+            }
+            return regions;
         }
 
         public static IGeometry Intersect(this Region pRegion, Region sRegion)
         {
-            var pGeometry = pRegion.ToNTSGeometry() as IPolygon;
-            var sGeometry = sRegion.ToNTSGeometry() as IPolygon;
+            var pGeometry = pRegion.ToNTSPolygon();
+            var sGeometry = sRegion.ToNTSPolygon();
             if (pGeometry == null || sGeometry == null)
             {
                 return null;
@@ -101,26 +110,46 @@ namespace ThCADCore.NTS
             return pGeometry.Intersection(sGeometry);
         }
 
-        public static Point3dCollection Vertices(this Region region)
+        public static List<Polyline> Difference(this Region pRegion, DBObjectCollection sRegions)
         {
-            var vertices = new Point3dCollection();
-            if (!region.IsNull)
+            var regions = new List<Polyline>();
+            try
             {
-                using (var brepRegion = new Brep(region))
+                var pGeometry = pRegion.ToNTSPolygon();
+                var sGeometry = sRegions.ToNTSPolygons();
+                if (pGeometry == null || sGeometry == null)
                 {
-                    foreach (var face in brepRegion.Faces)
-                    {
-                        foreach (var loop in face.Loops)
-                        {
-                            foreach (var vertex in loop.Vertices)
-                            {
-                                vertices.Add(vertex.Point);
-                            }
-                        }
-                    }
+                    return regions;
+                }
+
+                // 检查是否相交
+                if (!pGeometry.Intersects(sGeometry))
+                {
+                    return regions;
+                }
+
+                // 若相交，则计算在pRegion，但不在sRegion的部分
+                var rGeometry = pGeometry.Difference(sGeometry);
+                if (rGeometry is IPolygon polygon)
+                {
+                    regions.Add(polygon.Shell.ToDbPolyline());
+                }
+                else if (rGeometry is IMultiPolygon mPolygon)
+                {
+                    regions.AddRange(mPolygon.ToDbPolylines());
+                }
+                else
+                {
+                    // 为止情况，抛出异常
+                    throw new NotSupportedException();
                 }
             }
-            return vertices;
+            catch
+            {
+                // 在某些情况下，NTS会抛出异常
+                // 这里只捕捉异常，不做特殊的处理
+            }
+            return regions;
         }
     }
 }

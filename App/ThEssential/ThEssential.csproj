@@ -41,15 +41,24 @@
     <Compile Include="Align\ThAlignPolylineExtension.cs" />
     <Compile Include="BlockConvert\ThBConvertBlockReference.cs" />
     <Compile Include="BlockConvert\ThBConvertCommon.cs" />
+    <Compile Include="BlockConvert\ThBConvertDbUtils.cs" />
+    <Compile Include="BlockConvert\ThBConvertDynBlockUtils.cs" />
+    <Compile Include="BlockConvert\ThBConvertEngine.cs" />
+    <Compile Include="BlockConvert\ThBConvertEngineStrongCurrent.cs" />
     <Compile Include="BlockConvert\ThBConvertTableUtils.cs" />
     <Compile Include="BlockConvert\ThBConvertUtils.cs" />
-    <Compile Include="BlockConvert\ThBlockConvertDbExtension.cs" />
-    <Compile Include="BlockConvert\ThBlockConvertManager.cs" />
-    <Compile Include="BlockConvert\ThBlockConvertRule.cs" />
+    <Compile Include="BlockConvert\ThBConvertEngineWeakCurrent.cs" />
+    <Compile Include="BlockConvert\ThBConvertDbExtension.cs" />
+    <Compile Include="BlockConvert\ThBConvertManager.cs" />
+    <Compile Include="BlockConvert\ThBConvertRule.cs" />
+    <Compile Include="BlockConvert\ThBConvertRuleEngine.cs" />
+    <Compile Include="BlockConvert\ThBConvertRuleEngineStrongCurrent.cs" />
+    <Compile Include="BlockConvert\ThBConvertRuleEngineWeakCurrent.cs" />
     <Compile Include="Command\ThAlignCommand.cs" />
-    <Compile Include="Command\ThBlockConvertCommand.cs" />
+    <Compile Include="Command\ThBConvertCommand.cs" />
     <Compile Include="Command\ThCopyCommand.cs" />
     <Compile Include="Command\ThEquipmentCommand.cs" />
+    <Compile Include="Command\ThLayerStateCommand.cs" />
     <Compile Include="Command\ThMatchPropsCommand.cs" />
     <Compile Include="Command\ThOverkillCommand.cs" />
     <Compile Include="Command\ThQSelectCommand.cs" />
@@ -64,11 +73,11 @@
     <Compile Include="Distribute\ThDistributeExtent3dExtension.cs" />
     <Compile Include="Distribute\ThDistributeObjectIdCollectionExtension.cs" />
     <Compile Include="Equipment\ThEquipmentCoordinateSystem.cs" />
-    <Compile Include="Equipment\ThEquipmentCurveExtension.cs" />
     <Compile Include="Equipment\ThEquipmentDbExtension.cs" />
     <Compile Include="Equipment\ThEquipmentEditorExtension.cs" />
-    <Compile Include="Equipment\ThEquipmentGeExtension.cs" />
     <Compile Include="Equipment\ThEquipmentHatchExtension.cs" />
+    <Compile Include="LayerState\ThLayerStateManager.cs" />
+    <Compile Include="LayerState\ThLayerStateUtils.cs" />
     <Compile Include="MatchProps\Model\MarchPropertySet.cs" />
     <Compile Include="MatchProps\ThMatchProps.cs" />
     <Compile Include="MatchProps\ThMatchPropsEntityExtension.cs" />
@@ -112,6 +121,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
       <ItemGroup>

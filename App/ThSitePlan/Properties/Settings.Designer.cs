@@ -52,7 +52,7 @@ namespace ThSitePlan.Properties {
 
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("monochrome.ctb")]
+        [global::System.Configuration.DefaultSettingValueAttribute("A-PRINTER-CP.ctb")]
         public string styleSheetName {
             get {
                 return ((string)(this["styleSheetName"]));
@@ -80,7 +80,7 @@ namespace ThSitePlan.Properties {
 
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("135")]
+        [global::System.Configuration.DefaultSettingValueAttribute("45")]
         public double shadowAngle {
             get {
                 return ((double)(this["shadowAngle"]));
@@ -105,19 +105,18 @@ namespace ThSitePlan.Properties {
             }
 
         }
-
+        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.8")]
-        public double PlantDensity {
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int PlantDensity {
             get {
-                return ((double)(this["PlantDensity"]));
+                return ((int)(this["PlantDensity"]));
             }
             set
             {
                 this["PlantDensity"] = value;
             }
-
         }
     }
 }

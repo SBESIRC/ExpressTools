@@ -2,7 +2,6 @@
 using Autodesk.AutoCAD.PlottingServices;
 using Linq2Acad;
 using DotNetARX;
-using PdfiumViewer;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThSitePlan
@@ -28,8 +27,7 @@ namespace ThSitePlan
                     Properties.Settings.Default.plotDeviceName, 
                     Properties.Settings.Default.mediaName);
                 psv.RefreshLists(plotSetting);
-                psv.SetCurrentStyleSheet(plotSetting, 
-                    Properties.Settings.Default.styleSheetName);
+                psv.SetCurrentStyleSheet(plotSetting, Properties.Settings.Default.styleSheetName);
 
                 // 自定义打印信息
                 // 设置打印窗口等信息
@@ -65,19 +63,6 @@ namespace ThSitePlan
                     {
                         PlotTools.Plot(plotEngine, layoutObj, plotSettings, fileName, 1, false, true, true);
                     }
-                }
-            }
-        }
-
-        public static void RenderPdfToPng(string inputPdfPath, string outpdfPath)
-        {
-            using (PdfDocument document = PdfDocument.Load(inputPdfPath))
-            {
-                System.Drawing.Image image = null;
-                image = document.Render(0, 96, 96, PdfRenderFlags.Transparent);
-                if (image != null)
-                {
-                    image.Save(outpdfPath);
                 }
             }
         }

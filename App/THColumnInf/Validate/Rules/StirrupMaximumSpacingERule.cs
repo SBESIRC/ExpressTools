@@ -9,6 +9,7 @@ namespace ThColumnInfo.Validate
     public class StirrupMaximumSpacingERule : IRule
     {
         private StirrupMaximumSpacingEModel smse = null;
+        private string rule = "（《砼规》9.3.2-5）";
         public StirrupMaximumSpacingERule(StirrupMaximumSpacingEModel smse)
         {
             this.smse = smse;
@@ -27,11 +28,11 @@ namespace ThColumnInfo.Validate
             {
                 if(smse.Cdm.IntStirrupSpacing0>200)
                 {
-                    this.ValidateResults.Add("（3%）箍筋间距大于200");
+                    this.ValidateResults.Add("（3%）箍筋间距大于200 ["+ smse.Cdm.IntStirrupSpacing0+" > 200]，"+this.rule);
                 }
                 else
                 {
-                    this.CorrectResults.Add("（3%）箍筋间距小于200 ");
+                    this.CorrectResults.Add("（3%）箍筋间距不大于200" + this.rule);
                 }
             }            
         }
@@ -48,11 +49,11 @@ namespace ThColumnInfo.Validate
             steps.Add("if (dblP [" + this.smse.Cdm.DblP + "] > 0.03)");
             steps.Add("   if (IntStirrupSpacing0[" + smse.Cdm.IntStirrupSpacing0 + "] > 200)");
             steps.Add("      {");
-            steps.Add("             Err:（3%）箍筋间距大于200");
+            steps.Add("             Err:（3%）箍筋间距大于200" + this.rule);
             steps.Add("      }");
             steps.Add("   else");
             steps.Add("      {");
-            steps.Add("             Debugprint：（3%）箍筋间距小于200 ");
+            steps.Add("             Debugprint：（3%）箍筋间距不大于200" + this.rule);
             steps.Add("      }");
             steps.Add("  }");
             steps.Add("");

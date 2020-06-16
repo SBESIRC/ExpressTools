@@ -1,4 +1,5 @@
-﻿using AcHelper;
+﻿using System;
+using AcHelper;
 using DotNetARX;
 using Linq2Acad;
 using System.Linq;
@@ -9,7 +10,6 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using Autodesk.AutoCAD.ApplicationServices;
 
 namespace ThSitePlan
 {
@@ -151,7 +151,7 @@ namespace ThSitePlan
         }
 
 
-        public static void HatchEditCmd(this Editor editor, ObjectIdCollection objs)
+        public static void HatchBoundaryCmd(this Editor editor, ObjectIdCollection objs)
         {
             foreach (ObjectId obj in objs)
             {
@@ -195,6 +195,25 @@ namespace ThSitePlan
 #endif
         }
 
+        public static void HatchDecomposeCmd(this Editor editor, ObjectIdCollection objs)
+        {
+            foreach (ObjectId obj in objs)
+            {
+#if ACAD_ABOVE_2014
+                Active.Editor.Command("_.-HATCHEDIT", 
+                    obj, 
+                    "_H");
+#else
+                ResultBuffer args = new ResultBuffer(
+                   new TypedValue((int)LispDataType.Text, "_.-HATCHEDIT"),
+                   new TypedValue((int)LispDataType.ObjectId, obj),
+                   new TypedValue((int)LispDataType.Text, "_H")
+                   );
+                Active.Editor.AcedCmd(args);
+#endif
+            }
+        }
+
         public static void BoundaryCmd(this Editor editor, ObjectIdCollection objs, Point3d seedPt)
         {
 #if ACAD_ABOVE_2014
@@ -219,6 +238,22 @@ namespace ThSitePlan
 #endif
         }
 
+        public static void SuperBoundaryCmd(this Editor editor, ObjectIdCollection objs)
+        {
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("_._SBND_ALL",
+                SelectionSet.FromObjectIds(objs.ToArray()),
+                "");
+#else
+            ResultBuffer args = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_._SBND_ALL"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
+               new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args);
+#endif
+        }
+
         /// <summary>
         /// 计算图元对象的包围框，
         /// 计算一个临时的包围框（比图元对象的范围框稍大一些10%）
@@ -233,23 +268,25 @@ namespace ThSitePlan
             { 
                 var extents = objs.Cast<ObjectId>().GetExtents();
                 var frame = extents.Expand(1.1).CreatePolyline();
-                objs.Add(acadDatabase.CurrentSpace.Add(frame));
+                var frameId = acadDatabase.CurrentSpace.Add(frame);
                 var seedPt = extents.Expand(1.05).MinPoint;
 
-                ObjectId outermost = ObjectId.Null; 
-                ObjectEventHandler handler = (s, e) =>
+                // 将新建的框作为最外面的边界框
+                objs.Add(frameId);
+
+                ObjectId outermost = ObjectId.Null;
+                void handler(object s, ObjectEventArgs e)
                 {
                     if (e.DBObject is Region region)
                     {
-                        if (frame.Length == region.Perimeter)
+                        if (Math.Abs(frame.Length - region.Perimeter) <= Tolerance.Global.EqualVector)
                         {
                             outermost = e.DBObject.ObjectId;
                         }
                     }
-                };
-
-#if ACAD_ABOVE_2014
+                }
                 acadDatabase.Database.ObjectAppended += handler;
+#if ACAD_ABOVE_2014
                 Active.Editor.Command("_.-BOUNDARY",
                     "_A",
                     "_B",
@@ -261,7 +298,6 @@ namespace ThSitePlan
                     "",
                     seedPt,
                     "");
-                acadDatabase.Database.ObjectAppended -= handler;
 #else
                 ResultBuffer args = new ResultBuffer(
                    new TypedValue((int)LispDataType.Text, "_.-BOUNDARY"),
@@ -278,8 +314,14 @@ namespace ThSitePlan
                    );
                 Active.Editor.AcedCmd(args);
 #endif
+                acadDatabase.Database.ObjectAppended -= handler;
 
-                // 删除最外面的边界
+                // 删除最外面的边界框
+                if (frameId.IsValid)
+                {
+                    acadDatabase.Element<Polyline>(frameId, true).Erase();
+                }
+                // 删除最外面的区域
                 if (outermost.IsValid)
                 {
                     acadDatabase.Element<Region>(outermost, true).Erase();
@@ -318,13 +360,13 @@ namespace ThSitePlan
 #if ACAD_ABOVE_2014
             Active.Editor.Command("_.MEASURE",
                 obj,
-                ThSitePlanCommon.plant_interval_distance,
+                Properties.Settings.Default.PlantRadius * 2,
                 "");
 #else
             ResultBuffer args = new ResultBuffer(
                new TypedValue((int)LispDataType.Text, "_.MEASURE"),
                new TypedValue((int)LispDataType.ObjectId, obj),
-               new TypedValue((int)LispDataType.Double, ThSitePlanCommon.plant_interval_distance),
+               new TypedValue((int)LispDataType.Double, Properties.Settings.Default.PlantRadius * 2),
                new TypedValue((int)LispDataType.Text, "")
                );
             Active.Editor.AcedCmd(args);
@@ -344,6 +386,24 @@ namespace ThSitePlan
                new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
                new TypedValue((int)LispDataType.Text, ""),
                new TypedValue((int)LispDataType.Text, "")
+               );
+            Active.Editor.AcedCmd(args);
+#endif
+        }
+
+        public static void ThOverKillCmd(this Editor editor, ObjectIdCollection objs)
+        {
+#if ACAD_ABOVE_2014
+            Active.Editor.Command("_.THOVERKILL", 
+                SelectionSet.FromObjectIds(objs.ToArray()),
+                "", 
+                ThSitePlanCommon.overkill_tolerance);
+#else
+            ResultBuffer args = new ResultBuffer(
+               new TypedValue((int)LispDataType.Text, "_.THOVERKILL"),
+               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
+               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Double, ThSitePlanCommon.overkill_tolerance)
                );
             Active.Editor.AcedCmd(args);
 #endif
@@ -383,54 +443,28 @@ namespace ThSitePlan
         {
 #if ACAD_ABOVE_2014
             Active.Editor.Command("Zoom",
-                "_W",
+                "W",
                 new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MinPoint.Y - 100, 0),
                 new Point3d(bdent.GeometricExtents.MaxPoint.X + 10, bdent.GeometricExtents.MaxPoint.Y + 100, 0),
                 "");
             Active.Editor.Command("_.TRIM",
                     SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId }),
                     "",
-                    "_F",
-                    new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MinPoint.Y - 1, 0),
-                    new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0),
+                    "F",
+                    new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MinPoint.Y - 10, 0),
+                    new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MaxPoint.Y + 10, 0),
+                    new Point3d(bdent.GeometricExtents.MaxPoint.X + 10, bdent.GeometricExtents.MaxPoint.Y + 10, 0),
+                    new Point3d(bdent.GeometricExtents.MaxPoint.X + 10, bdent.GeometricExtents.MinPoint.Y - 10, 0),
+                    new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MinPoint.Y - 10, 0),
                     "",
                     "");
 
-            Active.Editor.Command("_.TRIM",
-                SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId }),
-                "",
-                "_F",
-                new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MinPoint.Y - 1, 0),
-                new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0),
-                "",
-                "");
-
-            Active.Editor.Command("_.TRIM",
-                SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId }),
-                "",
-                "_F",
-                new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MinPoint.Y - 1, 0),
-                new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MinPoint.Y - 1, 0),
-                "",
-                "");
-
-            Active.Editor.Command("_.TRIM",
-                SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId }),
-                "",
-                "_F",
-                new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0),
-                new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0),
-                "",
-                "");
 #else
             ResultBuffer args1 = new ResultBuffer(
-               new TypedValue((int)LispDataType.Text, "_.TRIM"),
-               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId })),
-               new TypedValue((int)LispDataType.Text, ""),
-               new TypedValue((int)LispDataType.Text, "_F"),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MinPoint.Y - 1, 0)),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0)),
-               new TypedValue((int)LispDataType.Text, ""),
+               new TypedValue((int)LispDataType.Text, "_.ZOOM"),
+               new TypedValue((int)LispDataType.Text, "_W"),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MinPoint.Y - 100, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 10, bdent.GeometricExtents.MaxPoint.Y + 100, 0)),
                new TypedValue((int)LispDataType.Text, "")
                );
             Active.Editor.AcedCmd(args1);
@@ -440,37 +474,15 @@ namespace ThSitePlan
                new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId })),
                new TypedValue((int)LispDataType.Text, ""),
                new TypedValue((int)LispDataType.Text, "_F"),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MinPoint.Y - 1, 0)),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MinPoint.Y - 10, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MaxPoint.Y + 10, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 10, bdent.GeometricExtents.MaxPoint.Y + 10, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 10, bdent.GeometricExtents.MinPoint.Y - 10, 0)),
+               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 10, bdent.GeometricExtents.MinPoint.Y - 10, 0)),
                new TypedValue((int)LispDataType.Text, ""),
                new TypedValue((int)LispDataType.Text, "")
                );
             Active.Editor.AcedCmd(args2);
-
-            ResultBuffer args3 = new ResultBuffer(
-               new TypedValue((int)LispDataType.Text, "_.TRIM"),
-               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId })),
-               new TypedValue((int)LispDataType.Text, ""),
-               new TypedValue((int)LispDataType.Text, "_F"),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MinPoint.Y - 1, 0)),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MinPoint.Y - 1, 0)),
-               new TypedValue((int)LispDataType.Text, ""),
-               new TypedValue((int)LispDataType.Text, "")
-               );
-            Active.Editor.AcedCmd(args3);
-
-            ResultBuffer args4 = new ResultBuffer(
-               new TypedValue((int)LispDataType.Text, "_.TRIM"),
-               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(new ObjectId[] { bdent.ObjectId })),
-               new TypedValue((int)LispDataType.Text, ""),
-               new TypedValue((int)LispDataType.Text, "_F"),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MinPoint.X - 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0)),
-               new TypedValue((int)LispDataType.Point3d, new Point3d(bdent.GeometricExtents.MaxPoint.X + 1, bdent.GeometricExtents.MaxPoint.Y + 1, 0)),
-               new TypedValue((int)LispDataType.Text, ""),
-               new TypedValue((int)LispDataType.Text, "")
-               );
-            Active.Editor.AcedCmd(args4);
-
 #endif
         }
     }

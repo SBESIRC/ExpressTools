@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ThSitePlan.Configuration;
 using ThSitePlan.Engine;
 
 namespace ThSitePlan
@@ -50,7 +51,7 @@ namespace ThSitePlan
             Properties.Settings.Default.shadowAngle = Convert.ToDouble(this.ShadowAngleSetBox.Text);
             Properties.Settings.Default.shadowLengthScale = Convert.ToDouble(this.ShadowLengthSetBox.Text);
             Properties.Settings.Default.PlantRadius = Convert.ToDouble(this.TreeRadiusSetBox.Text);
-            Properties.Settings.Default.PlantDensity = Convert.ToDouble(this.TreeDensitySetBox.Text);
+            Properties.Settings.Default.PlantDensity = Convert.ToInt32(this.TreeDensitySetBox.Text);
 
             Properties.Settings.Default.Save();
             this.Close();
@@ -64,30 +65,58 @@ namespace ThSitePlan
 
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
-                ObjectId frame = ThSitePlanDbEngine.Instance.FrameByName("全局阴影");
-                ObjectId[] frames = new ObjectId[] { frame };
+                //获取scriptid为阴影的所有ThSitePlanConfigItem
+                ThSitePlanConfigService.Instance.Initialize();
+                List<ThSitePlanConfigItem> shadowconfigItem = new List<ThSitePlanConfigItem>();
+                ThSitePlanConfigService.Instance.FindItemsByCADScript(ThSitePlanConfigService.Instance.Root,  "3", ref shadowconfigItem);
+                ThSitePlanConfigService.Instance.FindItemsByCADScript(ThSitePlanConfigService.Instance.Root, "4", ref shadowconfigItem);
 
-                Active.Editor.SetImpliedSelection(frames);
-                string commandst = "_.THSPUPD";
+                //获取所有阴影图框
+                List<ObjectId> frames = new List<ObjectId>();
+                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+                foreach (var item in shadowconfigItem)
+                {
+                    ObjectId frame = ThSitePlanDbEngine.Instance.FrameByName(item.Properties["Name"].ToString());
+                    frames.Add(frame);
+                }
+                
+                //创建对阴影图框的选择集，执行update命令
+                Active.Editor.SetImpliedSelection(frames.ToArray());
+                string commandst = "_.THPOPUD";
                 Active.Document.SendStringToExecute($"{commandst} ", true, false, false);
+
+                Properties.Settings.Default.Save();
+                this.Close();
             }
         }
 
         private void LandTreeUpdBt_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.PlantRadius = Convert.ToDouble(this.TreeRadiusSetBox.Text);
-            Properties.Settings.Default.PlantDensity = Convert.ToDouble(this.TreeDensitySetBox.Text);
+            Properties.Settings.Default.PlantDensity = Convert.ToInt32(this.TreeDensitySetBox.Text);
             Properties.Settings.Default.Save();
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
-                ObjectId frame = ThSitePlanDbEngine.Instance.FrameByName("树木-行道树-树木色块");
-                ObjectId[] frames = new ObjectId[] { frame };
+                //获取scriptid为种树的所有ThSitePlanConfigItem
+                ThSitePlanConfigService.Instance.Initialize();
+                List<ThSitePlanConfigItem> shadowconfigItem = new List<ThSitePlanConfigItem>();
+                ThSitePlanConfigService.Instance.FindItemsByCADScript(ThSitePlanConfigService.Instance.Root, "5", ref shadowconfigItem);
 
-                Active.Editor.SetImpliedSelection(frames);
-                string commandst = "_.THSPUPD";
+                //获取所有种树图框
+                List<ObjectId> frames = new List<ObjectId>();
+                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+                foreach (var item in shadowconfigItem)
+                {
+                    ObjectId frame = ThSitePlanDbEngine.Instance.FrameByName(item.Properties["Name"].ToString());
+                    frames.Add(frame);
+                }
+
+                Active.Editor.SetImpliedSelection(frames.ToArray());
+                string commandst = "_.THPOPUD";
                 Active.Document.SendStringToExecute($"{commandst} ",true,false,false);
+
+                Properties.Settings.Default.Save();
+                this.Close();
             }
         }
 

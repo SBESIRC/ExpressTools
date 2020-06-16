@@ -6,6 +6,15 @@ using System.Text;
 using ThSitePlan.Configuration;
 using TianHua.Publics.BaseCode;
 
+using Autodesk.AutoCAD.Colors;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.GraphicsInterface;
+using Autodesk.Windows;
+using AcHelper;
+using Linq2Acad;
+
 namespace ThSitePlan
 {
     public class PresenterConfigManage : Presenter<IConfigManage>
@@ -32,13 +41,14 @@ namespace ThSitePlan
 
         private List<string> InitScript()
         {
-            List<string> _List = new List<string>();
-            _List.Add("无");
-            _List.Add("拍平闭合优化");
-            _List.Add("线稿生成填充");
-            _List.Add("虚拟阴影");
-            return _List;
-
+            List<string> _EnumList = new List<string>();
+            foreach (var _Item in Enum.GetValues(typeof(EnumCADScript)))
+            {
+                string _Enum = string.Empty;
+                _Enum = FuncStr.NullToStr(_Item);
+                _EnumList.Add(_Enum);
+            }
+            return _EnumList;
         }
 
         private List<LayerDataModel> InitLayer()
@@ -52,20 +62,68 @@ namespace ThSitePlan
             return _List;
         }
 
-        private List<ColorGeneralDataModel> InitColorGeneral()
+        public List<ColorGeneralDataModel> InitColorGeneral()
         {
             string _Txt = FuncStr.NullToStr(View.m_ColorGeneralConfig);
             var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(_Txt);
             ThSitePlanConfigItemGroup Root = new ThSitePlanConfigItemGroup();
-            Root.Properties.Add("Name", "天华彩总");
+            Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
             FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);
+            SetImgType(_ListColorGeneral);
             return _ListColorGeneral;
         }
 
-        public void UpdateConfig()
+
+        public List<ColorGeneralDataModel> SetImgType(List<ColorGeneralDataModel> _List)
         {
- 
+            if (_List == null || _List.Count == 0) { return new List<ColorGeneralDataModel>(); }
+            _List.ForEach(p =>
+            {
+                var _ListTemp = _List.FindAll(s => FuncStr.NullToStr(p.ID) == FuncStr.NullToStr(s.PID)
+                   && FuncStr.NullToInt(s.CAD_ScriptID) > 0);
+                if (_ListTemp != null && _ListTemp.Count > 0)
+                    p.ImgType = "1";
+            });
+            return _List;
         }
 
+
+
+        public void UpdateConfig()
+        {
+
+        }
+
+        public List<string> AddLayer(IntPtr hWnd)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                List<string> laylist = new List<string>();
+                while (true)
+                {
+                    PromptEntityOptions options = new PromptEntityOptions("\n请选择对象")
+                    {
+                        AllowNone = true,
+                    };
+                    var prs = Active.Editor.GetEntity(options);
+
+                    if (prs.Status == PromptStatus.OK)
+                    {
+                        Entity entity = acadDatabase.Element<Entity>(prs.ObjectId);
+                        laylist.Add(entity.Layer);
+                    }
+                    else if (prs.Status == PromptStatus.None)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        return new List<string>();
+                    }
+                }
+                laylist = laylist.Distinct().ToList();
+                return laylist;
+            }
+        }
     }
 }

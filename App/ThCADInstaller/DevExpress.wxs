@@ -47,6 +47,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Debug" Guid="{FD9B321E-AAF8-48D0-AD66-BD1715D41C4F}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\DevExpress.XtraTreeList.$(var.DevExpressVersionSuffix).dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraRichEdit_Debug" Guid="{A6567DF4-4D35-46AB-911C-6CCD59D12115}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_DevExpress_XtraRichEdit_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\DevExpress.XtraRichEdit.$(var.DevExpressVersionSuffix).dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
@@ -91,6 +94,9 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Debug" Guid="{4ECC553B-FF0F-4316-BDBC-F83A725E95A3}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\DevExpress.XtraTreeList.$(var.DevExpressVersionSuffix).dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraRichEdit_Debug" Guid="{7FF0F9C0-1235-4552-8CE7-EADC43D8447A}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_DevExpress_XtraRichEdit_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\DevExpress.XtraRichEdit.$(var.DevExpressVersionSuffix).dll" />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
@@ -137,8 +143,10 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_XtraTreeList_Debug" Guid="{99a7ab29-ea40-409d-8841-3f1e516ec96e}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_DevExpress_XtraTreeList_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\DevExpress.XtraTreeList.$(var.DevExpressVersionSuffix).dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_XtraRichEdit_Debug" Guid="{6F9451E5-0486-45F2-B5FE-AD516C75D8C2}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_DevExpress_XtraRichEdit_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\DevExpress.XtraRichEdit.$(var.DevExpressVersionSuffix).dll" />
+      </Component>
     </DirectoryRef>
-
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
       <?define OutputPath_R22_Debug="bin\Debug-NET46" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_Utils_Debug" Guid="{4B09467D-A107-4DD7-B1F5-CF2BB8FC8B17}" Win64="yes">
@@ -182,6 +190,9 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_XtraTreeList_Debug" Guid="{E1F88C09-0B82-4C5C-B26C-C5E347C3493F}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_DevExpress_XtraTreeList_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\DevExpress.XtraTreeList.$(var.DevExpressVersionSuffix).dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_XtraRichEdit_Debug" Guid="{F82EA059-0197-44A3-AA04-3496571B97BC}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_DevExpress_XtraRichEdit_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\DevExpress.XtraRichEdit.$(var.DevExpressVersionSuffix).dll" />
       </Component>
     </DirectoryRef>
     <?elseif $(var.Configuration) = Release ?>
@@ -229,6 +240,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Release" Guid="{971A19BB-E7D6-4820-88BE-6FFD957B6C58}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\DevExpress.XtraTreeList.$(var.DevExpressVersionSuffix).dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraRichEdit_Release" Guid="{94EA0FDA-1589-483C-86A0-E431BF4D7E6E}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_DevExpress_XtraRichEdit_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\DevExpress.XtraRichEdit.$(var.DevExpressVersionSuffix).dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Release="bin\Release-NET40" ?>
@@ -273,6 +287,9 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Release" Guid="{ECC00612-ED48-45F9-B99E-A719A610CC00}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\DevExpress.XtraTreeList.$(var.DevExpressVersionSuffix).dll" />
+      </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraRichEdit_Release" Guid="{CB74D425-4F5B-43D3-B5C3-A623EE453921}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_DevExpress_XtraRichEdit_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\DevExpress.XtraRichEdit.$(var.DevExpressVersionSuffix).dll" />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
@@ -319,6 +336,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_XtraTreeList_Release" Guid="{2ae13aa1-8b69-4cb5-8b9a-0ec469973692}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_DevExpress_XtraTreeList_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\DevExpress.XtraTreeList.$(var.DevExpressVersionSuffix).dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_XtraRichEdit_Release" Guid="{16B07378-01C9-4819-A71C-B095FEE693CA}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_DevExpress_XtraRichEdit_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\DevExpress.XtraRichEdit.$(var.DevExpressVersionSuffix).dll" />
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
       <?define OutputPath_R22_Release="bin\Release-NET46" ?>
@@ -364,6 +384,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_XtraTreeList_Release" Guid="{DB914330-EB9C-4400-B641-16DD9D016047}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_DevExpress_XtraTreeList_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\DevExpress.XtraTreeList.$(var.DevExpressVersionSuffix).dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_XtraRichEdit_Release" Guid="{6CE1567F-CAEC-43FF-9826-BF850FCE92E9}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_DevExpress_XtraRichEdit_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\DevExpress.XtraRichEdit.$(var.DevExpressVersionSuffix).dll" />
+      </Component>
     </DirectoryRef>
     <?endif?>
   </Fragment>
@@ -384,6 +407,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Office_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Images_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraRichEdit_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Utils_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Data_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Printing_Debug" />
@@ -398,6 +422,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Office_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Images_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraRichEdit_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Utils_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Data_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Printing_Debug" />
@@ -412,6 +437,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Office_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Images_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_XtraTreeList_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_XtraRichEdit_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_Utils_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_Data_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_Printing_Debug" />
@@ -426,6 +452,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_Office_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_Images_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_XtraTreeList_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_XtraRichEdit_Debug" />
       <?elseif $(var.Configuration) = Release ?>
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Utils_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Data_Release" />
@@ -441,6 +468,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Office_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_Images_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraTreeList_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DevExpress_XtraRichEdit_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Utils_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Data_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Printing_Release" />
@@ -455,6 +483,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Office_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_Images_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraTreeList_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DevExpress_XtraRichEdit_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Utils_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Data_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Printing_Release" />
@@ -469,6 +498,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Office_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_Images_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_XtraTreeList_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DevExpress_XtraRichEdit_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_Utils_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_Data_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_Printing_Release" />
@@ -483,6 +513,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_Office_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_Images_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_XtraTreeList_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DevExpress_XtraRichEdit_Release" />
       <?endif?>
     </ComponentGroup>
   </Fragment>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using TianHua.Publics.BaseCode;
 
 namespace ThSitePlan
 {
@@ -64,6 +65,39 @@ namespace ThSitePlan
         public string CAD_Script { get; set; }
 
 
+        private string ScriptID;
+        public string CAD_ScriptID
+        {
+            get
+            {
+                ScriptID = this.GetScriptID();
+                return ScriptID;
+            }
+            set
+            {
+                ScriptID = value;
+            }
+
+        }
+
+        private string GetScriptID()
+        {
+            if (FuncStr.NullToStr(CAD_Script) == string.Empty) { return ""; }
+            try
+            {
+                var _Enum = (EnumCADScript)Enum.Parse(typeof(EnumCADScript), CAD_Script);
+
+                return FuncStr.NullToStr(_Enum.GetHashCode());
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+
+        }
+
+
+
         /// <summary>
         /// 数据类型：0 Sys,1 User
         /// </summary>
@@ -90,10 +124,17 @@ namespace ThSitePlan
             }
             else
             {
-                return Properties.Resources._24;
+                return Properties.Resources.图标_13;
             }
         }
 
+
+        /// <summary>
+        /// 图片类型：0 普通,1 链接
+        /// </summary>
+        public string ImgType { get; set; }
+
+        public int SortID { get; set; }
 
     }
 }

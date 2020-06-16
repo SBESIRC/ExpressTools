@@ -23,7 +23,14 @@ namespace ThColumnInfo.Validate
         /// </summary>
         public double ProtectThickness { get; set; }
         public string AntiSeismicGrade { get; set; }
+        /// <summary>
+        /// 是否是首层
+        /// </summary>
         public bool IsFirstFloor { get; set; }
+        /// <summary>
+        /// 剪跨比
+        /// </summary>
+        public double Jkb { get; set; }
 
         public override bool ValidateProperty()
         {
@@ -35,18 +42,13 @@ namespace ThColumnInfo.Validate
         }
         private double GetIntStirrupSpacingLimited()
         {
-            string antiSeismicGrade = this.AntiSeismicGrade;
-            if(this.Code.ToUpper().Contains("ZHZ"))
-            {
-                antiSeismicGrade = "一级";
-            }
             //纵向钢筋直径最小值
             double intBardiamin = Math.Min(this.Cdm.IntXBarDia, this.Cdm.IntYBarDia);
             intBardiamin = Math.Min(intBardiamin, this.Cdm.IntCBarDia);
 
             //箍筋间距限值
             double stirrupSpaceingLimited = ThValidate.GetStirrupMaximumDiameter(
-                antiSeismicGrade,
+                this.AntiSeismicGrade,
                 this.IsFirstFloor, intBardiamin);
             return stirrupSpaceingLimited;
         }

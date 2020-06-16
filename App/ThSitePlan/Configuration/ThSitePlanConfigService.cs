@@ -105,7 +105,19 @@ namespace ThSitePlan.Configuration
         private void InitalizeWithCode()
         {
             Root = new ThSitePlanConfigItemGroup();
-            Root.Properties.Add("Name", "天华彩总");
+            Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
+            Root.AddItem(new ThSitePlanConfigItem()
+            {
+                Properties = new Dictionary<string, object>()
+                {
+                    { "Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unrecognized},
+                    { "Color", Color.Black},
+                    { "Opacity", 100 },
+                    { "CADFrame", "" },
+                    { "CADLayer", new  List<string>()}
+                }
+            });
+
             Root.AddItem(new ThSitePlanConfigItem()
             {
                 Properties = new Dictionary<string, object>()
@@ -242,7 +254,7 @@ namespace ThSitePlan.Configuration
         {
             var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(orgstring);
             Root = new ThSitePlanConfigItemGroup();
-            Root.Properties.Add("Name", "天华彩总");
+            Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
             FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);
             Root = ReConstructItemName(Root, null);
         }
@@ -288,6 +300,53 @@ namespace ThSitePlan.Configuration
                                 }
                             }
 
+                            SearchItems = fdgp.Items;
+                            break;
+                        }
+                    }
+                }
+
+                if (FindItem != null)
+                {
+                    break;
+                }
+            }
+        }
+
+        public void EnableItemAndItsSiblings(string name, bool bEnable)
+        {
+            ThSitePlanConfigItemGroup siblinggroup = FindGroupByItemName(name);
+            EnableItem(true, siblinggroup);
+        }
+
+        public void EnableItemAndAncestorNoSib(string name, bool bEnable)
+        {
+            //打开所有分组
+            EnableAllGroup(true, Root);
+
+            //查找要打开的item子项，打开该项以及其兄弟节点
+            string[] namegroup = name.Split('-');
+            ThSitePlanConfigItem FindItem = null;
+
+            var SearchItems = Root.Items;
+            for (int i = 0; i < namegroup.Length; i++)
+            {
+                foreach (var item in SearchItems)
+                {
+                    if (item.Properties["Name"].ToString() == namegroup[i] || item.Properties["Name"].ToString() == name)
+                    {
+                        //找到item直接打开，对于某些只有一层的图层
+                        if (item is ThSitePlanConfigItem fdit)
+                        {
+                            item.IsEnabled = bEnable;
+                            FindItem = fdit;
+                            break;
+                        }
+
+                        //找到该项父结点，打开该节点
+                        else if (item is ThSitePlanConfigItemGroup fdgp)
+                        {
+                            fdgp.IsEnabled = bEnable;
                             SearchItems = fdgp.Items;
                             break;
                         }
@@ -1087,6 +1146,61 @@ namespace ThSitePlan.Configuration
                 }
             }
             return FindGroup;
+        }
+
+        private ThSitePlanConfigItem FindItemByLayer(string layername, ThSitePlanConfigItemGroup findgrp)
+        {
+            ThSitePlanConfigItem finditem = null;
+            foreach (var item in findgrp.Items)
+            {
+                if (item is ThSitePlanConfigItem fdit)
+                {
+                    List<string> fdlist = fdit.Properties["CADLayer"] as List<string>;
+                    if (fdlist.Contains(layername))
+                    {
+                        return fdit;
+                    }
+                }
+                else if (item is ThSitePlanConfigItemGroup fdgp)
+                {
+                    finditem = FindItemByLayer(layername, fdgp);
+                    if (finditem != null)
+                    {
+                        return finditem;
+                    }
+                }
+            }
+            return finditem;
+        }
+
+        public void FindItemsByCADScript(ThSitePlanConfigItemGroup findgrp, string spid, ref List<ThSitePlanConfigItem> shadowitems)
+        {
+            foreach (var item in findgrp.Items)
+            {
+                if (item is ThSitePlanConfigItem fdit)
+                {
+                    var scriptId = fdit.Properties["CADScriptID"].ToString();
+                    if (scriptId == spid)
+                    {
+                        shadowitems.Add(fdit);
+                    }
+                }
+                else if (item is ThSitePlanConfigItemGroup fdgp)
+                {
+                    FindItemsByCADScript(fdgp,spid, ref shadowitems) ;
+                }
+            }
+        }
+
+        public ThSitePlanConfigItemGroup FindGroupByLayer(string layername)
+        {
+            ThSitePlanConfigItem finditem = FindItemByLayer(layername, Root);
+            if (finditem == null)
+            {
+                return null;
+            }
+            string itemname = finditem.Properties["Name"].ToString();
+            return FindGroupByItemName(itemname);
         }
 
         private ThSitePlanConfigItemGroup ReConstructItemName(ThSitePlanConfigItemGroup origingroup, string outergroupname)

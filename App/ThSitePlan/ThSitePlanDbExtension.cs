@@ -2,10 +2,11 @@
 using Linq2Acad;
 using DotNetARX;
 using System.Linq;
+using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
-using System.Collections.Generic;
 using ThCADCore.NTS;
 using GeometryExtensions;
 using Autodesk.AutoCAD.BoundaryRepresentation;
@@ -205,8 +206,10 @@ namespace ThSitePlan
                     hatch.ColorIndex = ThSitePlanCommon.hatch_color_index;
 
                     // 外圈轮廓
-                    hatch.Associative = true;
-                    hatch.AppendLoop(HatchLoopTypes.Default, dbObjIds);
+                    // 考虑到这里的使用场景是根据轮廓线创建填充，仅此而已
+                    // 所以这里不需要保证填充及其轮廓线的关联性
+                    hatch.Associative = false;
+                    hatch.AppendLoop(HatchLoopTypes.External, dbObjIds);
 
                     // 重新生成Hatch纹理
                     hatch.EvaluateHatch(true);
@@ -277,6 +280,17 @@ namespace ThSitePlan
             }
         }
 
+        public static ObjectId CreateSimpleShadowRegion(this ObjectId obj, Vector3d offset)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(obj.Database))
+            {
+                var region = acadDatabase.Element<Entity>(obj);
+                var displacement = Matrix3d.Displacement(offset);
+                var offsetRegion = region.GetTransformedCopy(displacement) as Entity;
+                return acadDatabase.ModelSpace.Add(offsetRegion);
+            }
+        }
+
         public static ObjectIdCollection CreateShadowRegion(this ObjectId obj, Vector3d offset)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(obj.Database))
@@ -299,7 +313,7 @@ namespace ThSitePlan
                 region.Explode(lines);
                 offsetRegion.Explode(lines);
                 var shadows = new ObjectIdCollection();
-                foreach (DBObject polygon in lines.PolygonizeLines())
+                foreach (DBObject polygon in lines.Outline())
                 {
                     try
                     {
@@ -310,7 +324,8 @@ namespace ThSitePlan
                         };
                         // 若可以创建Region，即为一个正确的loop
                         var regions = Region.CreateFromCurves(items);
-                        shadows.Add(acadDatabase.ModelSpace.Add(regions[0] as Region));
+                        var shadowRegion = regions[0] as Region;
+                        shadows.Add(acadDatabase.ModelSpace.Add(shadowRegion));
                     }
                     catch
                     {
@@ -321,51 +336,23 @@ namespace ThSitePlan
             }
         }
 
-        public static DBObjectCollection GetPolyLineBounding(this DBObjectCollection dBObjects, Tolerance tolerance)
+        public static List<Polyline> CreateDifferenceShadowRegion(this ObjectId shadowObj, ObjectIdCollection buildingObjs)
         {
-            DBObjectCollection resBounding = new DBObjectCollection();
-            using (AcadDatabase acdb = AcadDatabase.Active())
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(shadowObj.Database))
             {
-                foreach (var dbObj in dBObjects)
+                var shadow = acadDatabase.Element<Region>(shadowObj);
+                var buildings = new DBObjectCollection();
+                foreach(ObjectId obj in buildingObjs)
                 {
-                    if (dbObj is Polyline)
-                    {
-                        Polyline polyline = dbObj as Polyline;
-                        if (polyline.NumberOfVertices < 4)
-                        {
-                            continue;
-                        }
-
-                        List<Point2d> points = new List<Point2d>();
-                        for (int i = 0; i < polyline.NumberOfVertices; i++)
-                        {
-                            if (points.Where(x => x.IsEqualTo(polyline.GetPoint2dAt(i), tolerance)).Count() <= 0)
-                            {
-                                points.Add(polyline.GetPoint2dAt(i));
-                            }
-                        }
-
-                        Polyline resPolyline = new Polyline(points.Count)
-                        {
-                            Closed = true,
-                        };
-                        Point2d thisP = points.First();
-                        int index = 0;
-                        resPolyline.AddVertexAt(index, thisP, 0, 0, 0);
-                        points.Remove(thisP);
-                        while (points.Count > 0)
-                        {
-                            thisP = points.OrderBy(x => x.GetDistanceTo(thisP)).First();
-                            index++;
-                            resPolyline.AddVertexAt(index, thisP, 0, 0, 0);
-                            points.Remove(thisP);
-                        }
-                        resBounding.Add(resPolyline);
-                    }
+                    buildings.Add(acadDatabase.Element<Region>(obj));
                 }
+                var diffRegions = shadow.Difference(buildings);
+                foreach (var region in diffRegions)
+                {
+                    region.SetPropertiesFrom(shadow);
+                }
+                return diffRegions;
             }
-
-            return resBounding;
         }
 
         public static void MoveToLayer(this Database database, ObjectIdCollection objs, string layerName)
@@ -377,6 +364,54 @@ namespace ThSitePlan
                 {
                     acdb.Element<Entity>(obj, true).LayerId = layerId;
                 }
+            }
+        }
+
+        public static void MoveToLayer(this Database database, ObjectId obj, string layerName)
+        {
+            using (AcadDatabase acdb = AcadDatabase.Use(database))
+            {
+                var layerId = LayerTools.AddLayer(database, layerName);
+                acdb.Element<Entity>(obj, true).LayerId = layerId;
+            }
+        }
+
+        public static ObjectIdCollection FilterConcentric(this Database database, ObjectIdCollection objs)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                var items = new ObjectIdCollection();
+                var circles = new Dictionary<Point3d, Circle>();
+                objs.Cast<ObjectId>()
+                    .Where(o => o.ObjectClass.DxfName == RXClass.GetClass(typeof(Circle)).DxfName)
+                    .ToList().ForEach(o =>
+                    {
+                        var circle = acadDatabase.Element<Circle>(o);
+                        var concentric = circles.Keys.Where(p => p.IsEqualTo(circle.Center, ThSitePlanCommon.point_tolerance)).ToList();
+                        if (concentric.Count > 0)
+                        {
+                            if (circles[concentric.First()].Area < circle.Area)
+                            {
+                                circles[concentric.First()] = circle;
+                            }
+                        }
+                        else
+                        {
+                            circles.Add(circle.Center, circle);
+                        }
+                    });
+                foreach(var circle in circles)
+                {
+                    items.Add(circle.Value.ObjectId);
+                }
+
+                // 同时获取其他非圆的图元
+                objs.Cast<ObjectId>()
+                    .Where(o => o.ObjectClass.DxfName != RXClass.GetClass(typeof(Circle)).DxfName)
+                    .ToList().ForEach(o => items.Add(o));
+
+                // 返回结果
+                return items;
             }
         }
 

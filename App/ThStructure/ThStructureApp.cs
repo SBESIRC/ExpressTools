@@ -1,11 +1,13 @@
 ﻿using AcHelper;
 using Linq2Acad;
+using System.Linq;
 using ThStructure.Model;
 using NFox.Cad.Collections;
-using Autodesk.AutoCAD.Runtime;
 using System.Collections.Generic;
-using Autodesk.AutoCAD.EditorInput;
 using ThStructure.BeamInfo.Command;
+using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 
 
@@ -71,36 +73,5 @@ namespace ThStructure
             var ipColumn = new ThSInplaceDetailColumn(column);
             ipColumn.Render(render);
         }
-
-        [CommandMethod("TIANHUACAD", "THDISBEAM", CommandFlags.Modal)]
-        public void ThDistinguishBeam()
-        {
-            using (AcadDatabase acdb = AcadDatabase.Active())
-            {
-                // 选择对象
-                PromptSelectionOptions options = new PromptSelectionOptions()
-                {
-                    AllowDuplicates = false,
-                    RejectObjectsOnLockedLayers = true,
-                };
-                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "ARC,LINE,LWPOLYLINE" & o.Dxf((int)DxfCode.LayerName) == "S_BEAM");//"__覆盖_S20-平面_TEN25CUZ_设计区$0$S_BEAM"
-                var entSelected = Active.Editor.GetSelection(options, filterlist);
-                if (entSelected.Status != PromptStatus.OK)
-                {
-                    return;
-                };
-
-                // 执行操作
-                DBObjectCollection dBObjects = new DBObjectCollection();
-                foreach (ObjectId obj in entSelected.Value.GetObjectIds())
-                {
-                    dBObjects.Add(acdb.Element<Entity>(obj));
-                }
-
-                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                thDisBeamCommand.CalBeamStruc(dBObjects);
-            }
-        }
-
     }
 }

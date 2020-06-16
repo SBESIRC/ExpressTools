@@ -9,19 +9,19 @@
       <Value Profile="(Default)">ISO_full_bleed_A2_(420.00_x_594.00_MM)</Value>
     </Setting>
     <Setting Name="styleSheetName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">monochrome.ctb</Value>
+      <Value Profile="(Default)">A-PRINTER-CP.ctb</Value>
     </Setting>
     <Setting Name="shadowLengthScale" Type="System.Double" Scope="Application">
       <Value Profile="(Default)">1.5</Value>
     </Setting>
     <Setting Name="shadowAngle" Type="System.Double" Scope="Application">
-      <Value Profile="(Default)">135</Value>
+      <Value Profile="(Default)">45</Value>
     </Setting>
     <Setting Name="PlantRadius" Type="System.Double" Scope="Application">
       <Value Profile="(Default)">5</Value>
     </Setting>
-    <Setting Name="PlantDensity" Type="System.Double" Scope="Application">
-      <Value Profile="(Default)">0.8</Value>
+    <Setting Name="PlantDensity" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">5</Value>
     </Setting>
   </Settings>
 </SettingsFile>
