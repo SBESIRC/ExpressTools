@@ -357,7 +357,6 @@ namespace ThSitePlan.UI
             this.ColColor.ColumnEdit = this.ColorEdit;
             this.ColColor.FieldName = "PSD_Color";
             this.ColColor.Name = "ColColor";
-            this.ColColor.OptionsColumn.AllowEdit = false;
             this.ColColor.OptionsColumn.AllowMove = false;
             this.ColColor.Visible = true;
             this.ColColor.VisibleIndex = 1;

@@ -555,7 +555,7 @@ namespace ThSitePlan.UI
                 var _TreeList = sender as TreeList;
                 if (_TreeList == null) { return; }
                 var _FocusedColumn = _TreeList.FocusedColumn;
-                if (_FocusedColumn.FieldName == "Name" || _FocusedColumn.FieldName == "PSD_Color" || _FocusedColumn.FieldName == "PSD_Transparency")
+                if (_FocusedColumn.FieldName == "Name" ||  _FocusedColumn.FieldName == "PSD_Transparency")
                 {
 
                     _FocusedColumn.OptionsColumn.AllowEdit = true;
@@ -1129,7 +1129,7 @@ namespace ThSitePlan.UI
         private void TreeList_HiddenEditor(object sender, EventArgs e)
         {
             ColName.OptionsColumn.AllowEdit = false;
-            ColColor.OptionsColumn.AllowEdit = false;
+            //ColColor.OptionsColumn.AllowEdit = false;
             ColTransparency.OptionsColumn.AllowEdit = false;
         }
 
