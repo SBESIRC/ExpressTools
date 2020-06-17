@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GeoAPI.Geometries;
 using System.Collections.Generic;
 using NetTopologySuite.Utilities;
@@ -6,6 +7,7 @@ using NetTopologySuite.Geometries;
 using Autodesk.AutoCAD.DatabaseServices;
 using NetTopologySuite.Algorithm;
 using NetTopologySuite.Simplify;
+using GeometryExtensions;
 
 namespace ThCADCore.NTS
 {
@@ -175,6 +177,17 @@ namespace ThCADCore.NTS
                 // 首尾端点不一致的情况
                 return ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
             }
+        }
+
+        public static List<LineSegment> LineSegments(this Polyline polyLine)
+        {
+            var lineSegments = new List<LineSegment>();
+            foreach(var segment in new PolylineSegmentCollection(polyLine))
+            {
+                lineSegments.Add(new LineSegment(segment.StartPoint.ToNTSCoordinate(),
+                    segment.EndPoint.ToNTSCoordinate()));
+            }
+            return lineSegments;
         }
 
         public static IPolygon ToNTSPolygon(this Polyline polyLine)
