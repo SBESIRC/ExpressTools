@@ -14,16 +14,16 @@ namespace ThWSS.LayoutRule
 {
     public class SquareLayout : LayoutInterface
     {
-        double sideLength = 3600;
-        double sideMinLength = 0;
-        double maxLength = 1800;
-        double minLength = 100;
+        protected double sideLength = 3600;
+        protected double sideMinLength = 0;
+        protected double maxLength = 1800;
+        protected double minLength = 100;
         public SquareLayout(SparyLayoutModel layoutModel)
         {
 
         }
 
-        public List<List<Point3d>> Layout(Polyline room, Polyline polyline)
+        public List<List<Point3d>> Layout(Polyline room, Polyline polyline, bool noBeam = true)
         {
             //房间线
             List<Line> roomLines = new List<Line>();
@@ -50,7 +50,7 @@ namespace ThWSS.LayoutRule
 
             Vector3d vDir = longLine.Delta.GetNormal();  //纵向方向
             Vector3d tDir = sDis < eDis ? shortLine.Delta.GetNormal() : -shortLine.Delta.GetNormal();   //横向方向
-            var layoutP = LayoutPoints(roomLines, longLine.StartPoint, vDir, tDir, longLine.Length, shortLine.Length);
+            var layoutP = LayoutPoints(roomLines, longLine.StartPoint, vDir, tDir, longLine.Length, shortLine.Length, noBeam);
             //layoutP.AddRange(AdjustPoints(layoutP.SelectMany(x => x).ToList(), roomLines, longLine.StartPoint, tDir, vDir, shortLine.Length));
 
             return layoutP;
@@ -66,12 +66,23 @@ namespace ThWSS.LayoutRule
         /// <param name="length"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        private List<List<Point3d>> LayoutPoints(List<Line> roomLines, Point3d pt, Vector3d transverseDir, Vector3d verticalDir, double length, double width)
+        private List<List<Point3d>> LayoutPoints(List<Line> roomLines, Point3d pt, Vector3d transverseDir, Vector3d verticalDir, double length, double width, bool noBeam = true)
         {
-            //竖向排布条件
-            CalLayoutWay(length, out double tRemainder, out double tNum, out double tMoveLength);
-            //横向排布条件
-            CalLayoutWay(width, out double vRemainder, out double vNum, out double vMoveLength);
+            double tRemainder, tNum, tMoveLength, vRemainder, vNum, vMoveLength;
+            if (noBeam)
+            {
+                //竖向排布条件
+                CalLayoutWay(length, out tRemainder, out tNum, out tMoveLength);
+                //横向排布条件
+                CalLayoutWay(width, out vRemainder, out vNum, out vMoveLength);
+            }
+            else
+            {
+                //竖向排布条件
+                CalLayoutWayByBeam(length, out tRemainder, out tNum, out tMoveLength);
+                //横向排布条件
+                CalLayoutWayByBeam(width, out vRemainder, out vNum, out vMoveLength);
+            }
 
             List<List<Point3d>> allP = new List<List<Point3d>>();
             pt = pt + tRemainder * transverseDir + vRemainder * verticalDir;
@@ -223,6 +234,45 @@ namespace ThWSS.LayoutRule
                 remainder = length / 2;
                 moveLength = 0;
             }
+        }
+
+        /// <summary>
+        /// 计算排布规则(边界距离,步长等)
+        /// </summary>
+        /// <param name="length"></param>
+        /// <param name="remainder"></param>
+        /// <param name="num"></param>
+        /// <param name="moveLength"></param>
+        private void CalLayoutWayByBeam(double length, out double remainder, out double num, out double moveLength)
+        {
+            if (length <= sideLength / 2)
+            {
+                num = Math.Floor(length / sideLength);
+                remainder = length / 2;
+                moveLength = 0;
+            }
+            else
+            {
+                num = Math.Ceiling(length / sideLength);
+                moveLength = length / num;
+                //间距是50的倍数
+                moveLength = Math.Floor(moveLength / 50) * 50;
+                remainder = (length - num * moveLength) / 2;
+            }
+            
+            //if (num >= 1)
+            //{
+            //    moveLength = length / num;
+            //    //间距是50的倍数
+            //    moveLength = Math.Floor(moveLength / 50) * 50;
+            //    remainder = (length - num * moveLength) / 2;
+            //}
+            //else
+            //{
+            //    remainder = length / 2;
+            //    moveLength = 0;
+            //}
+            
         }
     }
 }

@@ -46,21 +46,23 @@ namespace ThWSS.Bussiness.SparyLayout
                 {
                     foreach (var poly in respolys)
                     {
-                        acdb.ModelSpace.Add(poly);
+                        //acdb.ModelSpace.Add(poly);
                     }
+                }
+                
+                //获取房间线
+                List<Line> roomLines = new List<Line>();
+                for (int i = 0; i < room.NumberOfVertices; i++)
+                {
+                    roomLines.Add(new Line(room.GetPoint3dAt(i), room.GetPoint3dAt((i + 1) % room.NumberOfVertices)));
                 }
 
                 foreach (var poly in respolys)
                 {
                     RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
-                    //过滤无效区域
-                    if (regionDivisionUtils.CalInvalidPolygon(poly))
-                    {
-                        continue;
-                    }
 
                     //处理小的凹边
-                    var polyBounding = GeUtils.CreateConvexPolygon(poly, 1500);
+                    var polyBounding = GeUtils.CreateConvexPolygon(poly, 800);
 
                     //去掉线上多余的点
                     polyBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { polyBounding }, new Tolerance(0.001, 0.001)).First();
@@ -70,18 +72,25 @@ namespace ThWSS.Bussiness.SparyLayout
 
                     foreach (var dRoom in diviRoom)
                     {
-                        //计算房间走向
-                        var roomOOB = OrientedBoundingBox.Calculate(dRoom);
+                        //过滤无效区域
+                        if (regionDivisionUtils.CalInvalidPolygon(dRoom))
+                        {
+                            continue;
+                        }
 
+                        //去掉线上多余的点
+                        var dRoomRes = GeUtils.ReovePointOnLine(new List<Polyline>() { dRoom }, new Tolerance(0.1, 0.1)).First();
+                        
                         //计算出布置点
-                        SquareLayout squareLayout = new SquareLayout(layoutModel);
-                        List<List<Point3d>> layoutPts = squareLayout.Layout(dRoom, roomOOB);
+                        SquareLayoutByBeam squareLayout = new SquareLayoutByBeam(layoutModel);
+                        List<List<Point3d>> layoutPts = squareLayout.Layout(roomLines, dRoomRes, beamInfo);
 
                         //计算房间出房间内的点
                         List<Point3d> roomPts = new List<Point3d>();
                         foreach (var lpts in layoutPts)
                         {
-                            List<Point3d> checkPts = CalRoomSpray(dRoom, lpts);
+                            List<Point3d> checkPts = CalRoomSpray(poly, lpts);
+                            checkPts = CalRoomSpray(room, checkPts);
                             roomPts.AddRange(checkPts);
                         }
 

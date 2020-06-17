@@ -294,7 +294,6 @@ namespace ThWSS.Utlis
         RETRY:
             foreach (var line in lines1)
             {
-                var s = line;
                 foreach (var oLine in lines2)
                 {
                     var segLine1 = new LineSegment3d(line.StartPoint, line.EndPoint);
