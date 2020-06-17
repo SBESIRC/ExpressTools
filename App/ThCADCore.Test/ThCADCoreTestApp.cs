@@ -423,5 +423,38 @@ namespace ThCADCore.Test
                 }
             }
         }
+
+        [CommandMethod("TIANHUACAD", "ThRegionDifference", CommandFlags.Modal)]
+        public void ThRegionDifference()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetSelection();
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var result2 = Active.Editor.GetEntity("请选择对象");
+                if (result2.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var objs = new DBObjectCollection();
+                foreach (var obj in result.Value.GetObjectIds())
+                {
+                    objs.Add(acadDatabase.Element<Entity>(obj));
+                }
+
+
+                var region = acadDatabase.Element<Polyline>(result2.ObjectId);
+                foreach (Entity item in region.Difference(objs))
+                {
+                    item.ColorIndex = 1;
+                    acadDatabase.ModelSpace.Add(item);
+                }
+            }
+        }
     }
 }

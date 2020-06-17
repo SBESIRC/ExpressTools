@@ -65,6 +65,10 @@
     <Compile Include="Bussiness\SparyLayout\ISparyLayoutService.cs" />
     <Compile Include="Bussiness\SparyLayout\SparyLayoutByBeamService.cs" />
     <Compile Include="Bussiness\SparyLayout\SprayLayoutNoBeamService.cs" />
+    <Compile Include="Bussiness\SprayLayout\SprayLayoutData.cs" />
+    <Compile Include="Bussiness\SprayLayout\SprayLayoutDbExtension.cs" />
+    <Compile Include="Bussiness\SprayLayout\SprayLayoutGeExtension.cs" />
+    <Compile Include="Bussiness\SprayLayout\SprayLayoutPostPreprocessor.cs" />
     <Compile Include="Config\ConfigHelper.cs" />
     <Compile Include="Config\Model\LayoutCacheModel.cs" />
     <Compile Include="Engine\ThBeamRecognitionEngine.cs" />
@@ -84,6 +88,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ThWSSApp.cs" />
+    <Compile Include="ThWSSCommon.cs" />
     <Compile Include="Utlis\GetObjectUtils.cs" />
     <Compile Include="Utlis\GeUtils.cs" />
     <Compile Include="Utlis\OrientedBoundingBox.cs" />

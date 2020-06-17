@@ -229,6 +229,16 @@ namespace ThCADCore.NTS
             return ThCADCoreNTSService.Instance.GeometryFactory.CreateMultiPolygon(polygons.ToArray());
         }
 
+        public static IGeometryCollection ToNTSPolygonCollection(this DBObjectCollection curves)
+        {
+            var polygons = new List<IPolygon>();
+            foreach (Polyline polyline in curves)
+            {
+                polygons.Add(polyline.ToNTSPolygon());
+            }
+            return ThCADCoreNTSService.Instance.GeometryFactory.CreateGeometryCollection(polygons.ToArray());
+        }
+
         public static ILineString ToNTSLineString(this Arc arc, int numPoints)
         {
             var shapeFactory = new GeometricShapeFactory(ThCADCoreNTSService.Instance.GeometryFactory)

@@ -1,5 +1,6 @@
 ﻿using System;
 using GeoAPI.Geometries;
+using System.Collections.Generic;
 using NetTopologySuite.Operation.Buffer;
 using Autodesk.AutoCAD.DatabaseServices;
 using NetTopologySuite.Operation.Linemerge;
@@ -50,6 +51,11 @@ namespace ThCADCore.NTS
                 }
             }
             return results;
+        }
+
+        public static IGeometry Union(this DBObjectCollection curves)
+        {
+            return curves.ToNTSPolygonCollection().Buffer(0);
         }
 
         public static DBObjectCollection Buffer(this Polyline polyline, double distance)
