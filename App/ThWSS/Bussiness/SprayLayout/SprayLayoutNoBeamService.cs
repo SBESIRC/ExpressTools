@@ -14,7 +14,7 @@ namespace ThWSS.Bussiness.SparyLayout
 {
     public class SprayLayoutNoBeamService : SparyLayoutService
     {
-        public override void LayoutSpray(List<Polyline> roomsLine, SparyLayoutModel layoutModel)
+        public override void LayoutSpray(List<Polyline> roomsLine, SprayLayoutModel layoutModel)
         {
             foreach (var room in roomsLine)
             {
@@ -55,7 +55,7 @@ namespace ThWSS.Bussiness.SparyLayout
                     }
 
                     //放置喷头
-                    InsertSparyService.InsertSprayBlock(roomPts, SprayType.SPRAYDOWN);
+                    InsertSprayService.InsertSprayBlock(roomPts, SprayType.SPRAYDOWN);
                 }
             }
         }

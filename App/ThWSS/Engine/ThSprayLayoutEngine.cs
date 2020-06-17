@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using ThWSS.Model;
+using ThWSS.Utlis;
+using Linq2Acad;
+using Autodesk.AutoCAD.Geometry;
 
 namespace ThWSS.Engine
 {
@@ -29,7 +32,7 @@ namespace ThWSS.Engine
         /// </summary>
         /// <param name="database"></param>
         /// <param name="polygon"></param>
-        public void Layout(Database database, Polyline polygon, SparyLayoutModel layoutModel)
+        public void Layout(Database database, Polyline polygon, SprayLayoutModel layoutModel)
         {
             try
             {
@@ -48,7 +51,7 @@ namespace ThWSS.Engine
         /// 喷淋布置引擎
         /// </summary>
         /// <param name="polylines"></param>
-        public void Layout(List<Polyline> polylines, SparyLayoutModel layoutModel)
+        public void Layout(List<Polyline> polylines, SprayLayoutModel layoutModel)
         {
             try
             {
@@ -73,8 +76,26 @@ namespace ThWSS.Engine
         /// 在一个房间内布置喷淋
         /// </summary>
         /// <param name="room"></param>
-        private void Layout(ThRoom room, SparyLayoutModel layoutModel)
+        private void Layout(ThRoom room, SprayLayoutModel layoutModel)
         {
+            //var polygon = room.Properties.Values.Cast<Polyline>().ToList();
+            //foreach (var item in polygon)
+            //{
+            //    //去掉线上多余的点
+            //    var polyBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { item }, new Tolerance(0.1, 0.1)).First();
+            //    List<KeyValuePair<Line, double>> polyDic = new List<KeyValuePair<Line, double>>();
+            //    for (int i = 0; i < polyBounding.NumberOfVertices; i++)
+            //    {
+            //        polyDic.Add(new KeyValuePair<Line, double>(new Line(polyBounding.GetPoint3dAt(i), polyBounding.GetPoint3dAt((i + 1) % polyBounding.NumberOfVertices)), 300));
+            //    }
+
+            //    var res = GeUtils.PolygonBuffer(polyBounding, polyDic);
+            //    using (AcadDatabase acdb = AcadDatabase.Active())
+            //    {
+            //        acdb.ModelSpace.Add(res);
+            //    }
+            //}
+
             Workers.DoLayout(room, layoutModel);
         }
     }

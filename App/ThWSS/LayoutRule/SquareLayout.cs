@@ -18,7 +18,7 @@ namespace ThWSS.LayoutRule
         protected double sideMinLength = 0;
         protected double maxLength = 1800;
         protected double minLength = 100;
-        public SquareLayout(SparyLayoutModel layoutModel)
+        public SquareLayout(SprayLayoutModel layoutModel)
         {
 
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThWSS.Model
 {
-    public class SparyLayoutModel
+    public class SprayLayoutModel
     {
         public LayoutWay sparyLayoutWay { get; set; }
 

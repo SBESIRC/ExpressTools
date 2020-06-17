@@ -12,7 +12,7 @@ namespace ThWSS.Bussiness.SparyLayout
 {
     public abstract class SparyLayoutService
     {
-        public virtual void LayoutSpray(List<Polyline> roomsLine, SparyLayoutModel layoutModel) { }
+        public virtual void LayoutSpray(List<Polyline> roomsLine, SprayLayoutModel layoutModel) { }
 
         /// <summary>
         /// 计算出房间内的喷淋的布置点

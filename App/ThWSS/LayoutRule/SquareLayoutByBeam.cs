@@ -17,7 +17,7 @@ namespace ThWSS.LayoutRule
         double height = 1000;
         double sprayHeight = 550;
         double floorHeight = 220;
-        public SquareLayoutByBeam(SparyLayoutModel layoutModel) : base(layoutModel)
+        public SquareLayoutByBeam(SprayLayoutModel layoutModel) : base(layoutModel)
         {
 
         }

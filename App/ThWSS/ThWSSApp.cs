@@ -142,7 +142,7 @@ namespace ThWSS
         /// 执行布置喷淋
         /// </summary>
         /// <returns></returns>
-        private void Run(SparyLayoutModel layoutModel)
+        private void Run(SprayLayoutModel layoutModel)
         {
             try
             {
@@ -216,9 +216,9 @@ namespace ThWSS
 
         }
 
-        private SparyLayoutModel SetWindowValues(ThSparyLayoutSet thSpary)
+        private SprayLayoutModel SetWindowValues(ThSparyLayoutSet thSpary)
         {
-            SparyLayoutModel layoutModel = new SparyLayoutModel();
+            SprayLayoutModel layoutModel = new SprayLayoutModel();
             if (thSpary.fire.IsChecked == true)
             {
                 layoutModel.sparyLayoutWay = LayoutWay.fire;
