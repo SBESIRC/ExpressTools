@@ -478,7 +478,12 @@ namespace TopoNode
                    || textString.Contains("室外")
                    || textString.Contains("户外")
                    || (textString.Contains("上") && textString.Contains("级"))
-                   || (textString.Contains("下") && textString.Contains("级")))
+                   || (textString.Contains("下") && textString.Contains("级"))
+                   || textString.Contains("井")
+                   || textString.Contains("太阳能")
+                   || textString.Contains("PV")
+                   || textString.Contains("空地")
+                   || textString.Contains("庭院"))
                 return true;
 
             return false;
@@ -529,6 +534,9 @@ namespace TopoNode
                     var mText = text as MText;
                     textString = mText.Text.Trim();
                 }
+
+                if (textString.IsNullOrEmpty())
+                    continue;
 
                 if (ValidRoomName(textString))
                 {
@@ -4472,7 +4480,7 @@ namespace TopoNode
                 {
                     return resEntityLst;
                 }
-                var incre = 60.0 / blockRefs.Count;
+                var incre = 390.0 / blockRefs.Count;
                 foreach (var blockReference in blockRefs)
                 {
                     var layerId = blockReference.LayerId;
@@ -4490,7 +4498,7 @@ namespace TopoNode
 
                     progressPos += incre;
                     Progress.Progress.SetValue((int)progressPos);
-                    Progress.Progress.SetProgressValue((int)progressPos);
+
                     List<Entity> entityLst = null;
                     try
                     {
@@ -4500,7 +4508,7 @@ namespace TopoNode
                     {
 
                     }
-                    
+
                     if (entityLst != null && entityLst.Count > 0)
                     {
                         if (entityLst.Count == 1)
@@ -4627,6 +4635,10 @@ namespace TopoNode
                         catch
                         { }
                     }
+
+                    //
+                    //var objIds = new ObjectIdCollection(removeEntityLst.Select(o => o.ObjectId).ToArray());
+                    //db.Database.ReclaimMemoryFromErasedObjects(objIds);
                 }
             }
         }
@@ -4688,6 +4700,7 @@ namespace TopoNode
             var entityLst = new List<Entity>();
             var blockReferences = new List<BlockReference>();
             blockReferences.Add(block);
+
             while (blockReferences.Count > 0)
             {
                 var curBlock = blockReferences.First();
@@ -4935,6 +4948,9 @@ namespace TopoNode
                                     var entity = obj as Entity;
                                     if (entity.Visible)
                                     {
+                                        if (layerTableRecord.IsOff)
+                                            continue;
+
                                         var entityLayer = entity.Layer;
                                         if (IsValidLoopLayer(entityLayer))
                                             entityLst.Add(entity);
@@ -4956,7 +4972,7 @@ namespace TopoNode
                             {
                                 var entity = obj as Entity;
                                 LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(entity.LayerId);
-                                if (layerTableRecord.IsFrozen)
+                                if (layerTableRecord.IsFrozen || layerTableRecord.IsOff)
                                     continue;
 
                                 if (entity.Visible)
@@ -5137,11 +5153,14 @@ namespace TopoNode
         {
             var resEntityLst = new List<Entity>();
             // 外部参照
-            double progressPos = 70.0;
+            double progressPos = 400.0;
             using (var db = AcadDatabase.Active())
             {
                 var refs = db.XRefs;
-                var incre = 70.0 / refs.Count();
+                if (refs.Count() == 0)
+                    return resEntityLst;
+
+                var incre = 500.0 / refs.Count();
 
                 foreach (var xblock in refs)
                 {
@@ -5154,12 +5173,15 @@ namespace TopoNode
                         {
                             var blockReference = blockReferences[i];
                             progressPos += incre;
+                            var layerId = blockReference.LayerId;
+                            if (layerId == null || !layerId.IsValid)
+                                continue;
+
                             LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(blockReference.LayerId);
                             if (layerTableRecord.IsOff && layerTableRecord.IsFrozen)
                                 continue;
 
                             Progress.Progress.SetValue((int)progressPos);
-                            Progress.Progress.SetProgressValue((int)progressPos);
                             var entityLst = GetEntityFromBlock2(blockReference);
                             if (entityLst != null && entityLst.Count != 0)
                             {
@@ -5170,41 +5192,65 @@ namespace TopoNode
                                         try
                                         {
                                             if (entity is DBText || entity is MText)
-                                            {
                                                 continue;
-                                            }
-                                            if (entity is BlockReference)
-                                            {
-                                                // 块里面的数据可能是有效单元， 剔除文字的影响
-                                                var reference = entity as BlockReference;
-                                                var dbCollection = new DBObjectCollection();
-                                                reference.Explode(dbCollection);
-                                                foreach (var part in dbCollection)
-                                                {
-                                                    if (part is DBText || part is MText)
-                                                    {
-                                                        continue;
-                                                    }
-                                                    else if (part is Entity)
-                                                    {
-                                                        var partEntity = part as Entity;
-                                                        if (entity.IsErased)
-                                                            continue;
 
-                                                        partEntity.Layer = reference.Layer;
-                                                        db.CurrentSpace.Add(partEntity);
-                                                        resEntityLst.Add(partEntity);
-                                                    }
+                                            if (entity is BlockReference block)
+                                            {
+                                                if (block.Layer.Contains("AE-DOOR-INSD") || block.Layer.Contains("AE-WIND"))
+                                                {
+                                                    db.CurrentSpace.Add(block);
+                                                    resEntityLst.Add(entity);
                                                 }
                                             }
-                                            else if (IsValidLayer(entity, validLayers) && !entity.IsErased)
+                                            else if (IsValidLayer(entity, validLayers) && !entity.IsErased
+                                                   && !(entity is Hatch) && !(entity is AttributeDefinition))
                                             {
                                                 db.CurrentSpace.Add(entity);
                                                 resEntityLst.Add(entity);
                                             }
                                         }
-                                        catch
+                                        catch (Exception e)
                                         { }
+
+                                        //try
+                                        //{
+                                        //    if (entity is DBText || entity is MText)
+                                        //    {
+                                        //        continue;
+                                        //    }
+                                        //    if (entity is BlockReference)
+                                        //    {
+                                        //        // 块里面的数据可能是有效单元， 剔除文字的影响
+                                        //        var reference = entity as BlockReference;
+                                        //        var dbCollection = new DBObjectCollection();
+                                        //        reference.Explode(dbCollection);
+                                        //        foreach (var part in dbCollection)
+                                        //        {
+                                        //            if (part is DBText || part is MText)
+                                        //            {
+                                        //                continue;
+                                        //            }
+                                        //            else if (part is Entity)
+                                        //            {
+                                        //                var partEntity = part as Entity;
+                                        //                if (entity.IsErased)
+                                        //                    continue;
+
+                                        //                partEntity.Layer = reference.Layer;
+                                        //                db.CurrentSpace.Add(partEntity);
+                                        //                resEntityLst.Add(partEntity);
+                                        //            }
+                                        //        }
+                                        //    }
+                                        //    else if (IsValidLayer(entity, validLayers) && !entity.IsErased
+                                        //        && !(entity is Hatch) && !(entity is AttributeDefinition))
+                                        //    {
+                                        //        db.CurrentSpace.Add(entity);
+                                        //        resEntityLst.Add(entity);
+                                        //    }
+                                        //}
+                                        //catch
+                                        //{ }
                                     }
                                 }
                             }

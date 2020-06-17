@@ -58,12 +58,13 @@ namespace TopoNode
             // 开始弹出进度条提示
             Progress.Progress.ShowProgress();
             Progress.Progress.SetTip("图纸预处理...");
-            
 
             // 图元预处理
             var removeEntityLst = Utils.PreProcess2(validLayers);
-            Progress.Progress.SetValue(140);
-            Progress.Progress.SetProgressValue(140);
+           
+            //Utils.PostProcess(removeEntityLst);
+            //return;
+            Progress.Progress.SetValue(900);
             pickPoints = Utils.GetRoomPoints("AD-NAME-ROOM");
 
             //foreach (var pt in pickPoints)
@@ -87,12 +88,11 @@ namespace TopoNode
                 return;
             }
 
-            Progress.Progress.SetValue(150);
-            Progress.Progress.SetProgressValue(150);
+            Progress.Progress.SetValue(1000);
             Progress.Progress.SetTip("区域识别中...");
             var selectCount = selectPLines.Count;
-            double beginPos = 150.0;
-            double FFStep = 490.0 / selectCount;
+            double beginPos = 1000.0;
+            double FFStep = 5400.0 / selectCount;
 
             for (int i = 0; i < selectCount; i++)
             {
@@ -109,7 +109,7 @@ namespace TopoNode
                         Utils.DrawPreviewPoint(pt, "pick");
 
                     allCurves = TopoUtils.TesslateCurve(allCurves);
-                    Utils.ExtendCurves(allCurves, 10);
+                    Utils.ExtendCurves(allCurves, 5);
 
                     var wallAllCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(srcWallAllCurves, curSelectPLine);
                     wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
@@ -122,7 +122,7 @@ namespace TopoNode
                         if (windCurves != null && windCurves.Count != 0)
                         {
                             var tesslateWindCurves = TopoUtils.TesslateCurve(windCurves);
-                            Utils.ExtendCurvesWithTransaction(tesslateWindCurves, 3);
+                            Utils.ExtendCurvesWithTransaction(tesslateWindCurves, 5);
                             wallAllCurves.AddRange(tesslateWindCurves);
                             allCurves.AddRange(tesslateWindCurves);
                         }
@@ -144,7 +144,6 @@ namespace TopoNode
                     smallStep = profileFindPre / 3.0;
                     beginPos += smallStep;
                     Progress.Progress.SetValue((int)beginPos);
-                    Progress.Progress.SetProgressValue((int)beginPos);
                     // door 内门中的数据
                     if (arcDoorLayers != null && arcDoorLayers.Count != 0)
                     {
@@ -162,7 +161,6 @@ namespace TopoNode
 
                     beginPos += smallStep;
                     Progress.Progress.SetValue((int)beginPos);
-                    Progress.Progress.SetProgressValue((int)beginPos);
                     // wind 中的数据
                     if (windLayers != null && windLayers.Count != 0)
                     {
@@ -185,7 +183,6 @@ namespace TopoNode
 
                 beginPos += smallStep;
                 Progress.Progress.SetValue((int)beginPos);
-                Progress.Progress.SetProgressValue((int)beginPos);
                 //Utils.DrawProfile(allCurves, "allCurves");
                 //Utils.PostProcess(removeEntityLst);
                 //return;
@@ -212,7 +209,6 @@ namespace TopoNode
                 {
                     beginPos += inc;
                     Progress.Progress.SetValue((int)beginPos);
-                    Progress.Progress.SetProgressValue((int)beginPos);
 
                     try
                     {
@@ -225,13 +221,13 @@ namespace TopoNode
 
                         Utils.DrawProfile(new List<Curve>() { aimProfile.profile }, "outProfile");
                         // Utils.DrawTextProfile(outProfile.profileCurves, outProfile.profileLayers);
-                        if (aimProfile.InnerPolylineLayers.Count != 0)
-                        {
-                            foreach (var innerProfile in aimProfile.InnerPolylineLayers)
-                            {
-                                Utils.DrawProfile(new List<Curve>() { innerProfile.profile }, "innerProfile");
-                            }
-                        }
+                        //if (aimProfile.InnerPolylineLayers.Count != 0)
+                        //{
+                        //    foreach (var innerProfile in aimProfile.InnerPolylineLayers)
+                        //    {
+                        //        Utils.DrawProfile(new List<Curve>() { innerProfile.profile }, "innerProfile");
+                        //    }
+                        //}
                     }
                     catch (System.Exception e)
                     {
@@ -241,8 +237,7 @@ namespace TopoNode
             }
 
             Utils.PostProcess(removeEntityLst);
-            Progress.Progress.SetValue(650);
-            Progress.Progress.SetProgressValue(650);
+            Progress.Progress.SetValue(6500);
             Progress.Progress.HideProgress();
             //Utils.ErasePreviewPoint(objCollect);
         }
@@ -300,7 +295,7 @@ namespace TopoNode
             }
 
             allCurves = TopoUtils.TesslateCurve(allCurves);
-            Utils.ExtendCurves(allCurves, 10);
+            Utils.ExtendCurves(allCurves, 5);
             // wall 中的数据
             var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
             if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
