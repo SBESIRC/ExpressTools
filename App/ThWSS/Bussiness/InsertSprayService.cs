@@ -13,7 +13,7 @@ using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThWSS.Bussiness
 {
-    public static class InsertSparyService
+    public static class InsertSprayService
     {
         /// <summary>
         /// 插入喷淋图块
