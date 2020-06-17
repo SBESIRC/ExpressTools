@@ -40,13 +40,21 @@ namespace ThSitePlan.Photoshop
         {
             var StartUnits = Application.Preferences.RulerUnits;
             Application.Preferences.RulerUnits = PsUnits.psCM;
-            Application.Documents.Add(
+            Document currentdoc = Application.Documents.Add(
                 ThSitePlanCommon.PsDocOpenPropertity["DocWidth"],
                 ThSitePlanCommon.PsDocOpenPropertity["DocHight"],
                 ThSitePlanCommon.PsDocOpenPropertity["PPI"],
                 DocName);
-            Application.ActiveDocument.ArtLayers[1].IsBackgroundLayer = true;
             Application.Preferences.RulerUnits = StartUnits;
+
+            ArtLayer firstlayer = Application.ActiveDocument.ArtLayers[1];
+            currentdoc.ActiveLayer = firstlayer;
+            Selection ChannelSelection = currentdoc.Selection;
+            SolidColor ColorInPS = new SolidColor();
+            ColorInPS.RGB.Red = 228;
+            ColorInPS.RGB.Green = 228;
+            ColorInPS.RGB.Blue = 221;
+            ChannelSelection.Fill(ColorInPS);
         }
 
         //PS中载入Channel选区并填充
