@@ -319,11 +319,11 @@ namespace ThSitePlan.UI
                     new ThSitePlanPSDefaultGenerator(psService),
                  };
                     ThSitePlanPSEngine.Instance.Run(
-                        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        ThSitePlanSettingsService.Instance.OutputPath,
                         ThSitePlanConfigService.Instance.Root);
 
                     // 保存PS生成的文档
-                    psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                    psService.ExportToFile(ThSitePlanSettingsService.Instance.OutputPath);
                }
           }
 
@@ -413,6 +413,8 @@ namespace ThSitePlan.UI
                     //在更新中，暂时停止捕捉图纸变化的事件
                     using (var ov = new ThSitePlanDbEventHandleOverride())
                     {
+                        // 
+
                         //首先将原线框内的所有图元复制一份放到解构图集放置区的最后一个线框里
                         var originFrame = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Original);
                         acadDatabase.Database.CopyWithMove(originFrame, acadDatabase.Database.FrameOffset(originFrame, undifineframe) + unusedtoundifineoffset);
@@ -634,11 +636,11 @@ namespace ThSitePlan.UI
                             new ThSitePlanPSDefaultGenerator(psService),
                          };
                         ThSitePlanPSEngine.Instance.PSUpdate(
-                            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                            ThSitePlanSettingsService.Instance.OutputPath,
                             ThSitePlanConfigService.Instance.Root);
 
                         // 保存PS生成的文档
-                        psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                        psService.ExportToFile(ThSitePlanSettingsService.Instance.OutputPath);
                     }
                 }
             }
@@ -865,7 +867,7 @@ namespace ThSitePlan.UI
                         new ThSitePlanPSDefaultGenerator(psService),
                      };
                     ThSitePlanPSEngine.Instance.PSUpdate(
-                        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        ThSitePlanSettingsService.Instance.OutputPath,
                         ThSitePlanConfigService.Instance.Root);
 
                     // 保存PS生成的文档
