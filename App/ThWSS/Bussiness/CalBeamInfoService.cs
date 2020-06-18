@@ -10,6 +10,7 @@ using ThStructure.BeamInfo.Model;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThWSS.Utlis;
 using Autodesk.AutoCAD.Geometry;
+using ThStructure.BeamInfo.Business;
 
 namespace ThWSS.Bussiness
 {
@@ -24,9 +25,13 @@ namespace ThWSS.Bussiness
             using (ThBeamDbManager beamManager = new ThBeamDbManager(acdb.Database))
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                var allBeam = thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(beamManager));
-                var curves = ThBeamGeometryService.Instance.BeamCurves(beamManager, bPts[0], bPts[1]).Cast<Curve>();
+                // 获取所有构成梁的曲线（线，多段线，圆弧）
+                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager);
+                // 考虑到多段线的情况，需要将多段线“炸”成线来处理
+                var allBeam = thDisBeamCommand.CalBeamStruc(ThBeamGeometryPreprocessor.ExplodeCurves(beamCurves));
+
                 //筛选出房间中匹配的梁
+                var curves = ThBeamGeometryService.Instance.BeamCurves(beamManager, bPts[0], bPts[1]).Cast<Curve>();
                 beamInfo = allBeam.Where(x => curves.Where(y => (y.StartPoint.IsEqualTo(x.UpBeamLine.StartPoint) && y.EndPoint.IsEqualTo(x.UpBeamLine.EndPoint))
                                      || (y.StartPoint.IsEqualTo(x.DownBeamLine.StartPoint) && y.EndPoint.IsEqualTo(x.DownBeamLine.EndPoint))).Count() > 0).ToList();
             }

@@ -26,31 +26,45 @@ namespace ThWSS.LayoutRule
         public List<List<SprayLayoutData>> Layout(List<Line> roomLines, Polyline diviRoom, List<ThStructure.BeamInfo.Model.Beam> beamInfo)
         {
             var beamDic = CalLayoutSpaceByBeam(diviRoom, roomLines, beamInfo);
-            Polyline resPoly = GeUtils.PolygonBuffer(diviRoom, beamDic);
+            var bufferRes = diviRoom.Buffer(-beamDic.Max(x => x.Value));
+            Polyline resPoly = diviRoom;
+            bool hasBeam = true;
+            if (bufferRes.Count > 0)
+            {
+                resPoly = diviRoom.Buffer(-beamDic.Max(x => x.Value))[0] as Polyline;
+                hasBeam = false;
+            }
 
-            DBObjectCollection dBObject = new DBObjectCollection();
-            for (int i = 0; i < resPoly.NumberOfVertices; i++)
-            {
-                dBObject.Add(new Line(resPoly.GetPoint3dAt(i), resPoly.GetPoint3dAt((i + 1) % resPoly.NumberOfVertices)));
-            }
-            var objCollection = dBObject.Polygons();
-            Polyline polygon = objCollection.Cast<Polyline>().OrderByDescending(x => x.Area).FirstOrDefault();
-            if (polygon == null)
-            {
-                return null;
-            }
+            //DBObjectCollection dBObject = new DBObjectCollection();
+            //for (int i = 0; i < resPoly.NumberOfVertices; i++)
+            //{
+            //    dBObject.Add(new Line(resPoly.GetPoint3dAt(i), resPoly.GetPoint3dAt((i + 1) % resPoly.NumberOfVertices)));
+            //}
+            //var objCollection = dBObject.Polygons();
+            //Polyline polygon = objCollection.Cast<Polyline>().OrderByDescending(x => x.Area).FirstOrDefault();
+            //if (polygon == null)
+            //{
+            //    return null;
+            //}
 
             using (AcadDatabase acdb = AcadDatabase.Active())
             {
-                acdb.ModelSpace.Add(diviRoom);
-                acdb.ModelSpace.Add(polygon);
+                //acdb.ModelSpace.Add(diviRoom);
+                acdb.ModelSpace.Add(resPoly);
             }
 
             //计算房间走向
-            var roomOOB = OrientedBoundingBox.Calculate(polygon);
-            return base.Layout(polygon, roomOOB, false);
+            var roomOOB = OrientedBoundingBox.Calculate(resPoly);
+            return base.Layout(resPoly, roomOOB, hasBeam);
         }
 
+        /// <summary>
+        /// 计算可布置区域间距
+        /// </summary>
+        /// <param name="diviRoom"></param>
+        /// <param name="roomLines"></param>
+        /// <param name="beamInfo"></param>
+        /// <returns></returns>
         public List<KeyValuePair<Line, double>> CalLayoutSpaceByBeam(Polyline diviRoom, List<Line> roomLines, List<ThStructure.BeamInfo.Model.Beam> beamInfo)
         {
             List<Line> diviRoomLines = new List<Line>();
@@ -58,7 +72,7 @@ namespace ThWSS.LayoutRule
             {
                 diviRoomLines.Add(new Line(diviRoom.GetPoint3dAt(i), diviRoom.GetPoint3dAt((i + 1) % diviRoom.NumberOfVertices)));
             }
-
+            
             List<KeyValuePair<Line, double>> dic = new List<KeyValuePair<Line, double>>();
             foreach (var line in diviRoomLines)
             {
@@ -72,11 +86,13 @@ namespace ThWSS.LayoutRule
                 dic.Add(new KeyValuePair<Line, double>(line, length));
             }
 
+            double maxValue = dic.Max(x => x.Value);
             //有误差导致一根线被打成两根处理
             for (int i = 0; i < dic.Count; i++)
             {
                 if (dic[i].Value == 0)
                 {
+                    dic[i] = new KeyValuePair<Line, double>(dic[i].Key, maxValue);
                     int j = i - 1;
                     if (j < 0)
                     {
@@ -103,9 +119,16 @@ namespace ThWSS.LayoutRule
             return dic;
         }
 
+        /// <summary>
+        /// 计算每条线移动距离
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="roomLines"></param>
+        /// <param name="beamInfo"></param>
+        /// <returns></returns>
         public double CalSpaceLength(Line line, List<Line> roomLines, List<ThStructure.BeamInfo.Model.Beam> beamInfo)
         {
-            var lineSeg = new Line3d(line.StartPoint, line.EndPoint) as LinearEntity3d;
+            var lineSeg = new LineSegment3d(line.StartPoint, line.EndPoint);
             double length = 300;
             foreach (var beam in beamInfo)
             {
@@ -186,6 +209,12 @@ namespace ThWSS.LayoutRule
             return segLine.Length <= length + 50 ? 1 : 2;
         }
 
+        /// <summary>
+        /// 计算与在梁线内的墙线
+        /// </summary>
+        /// <param name="beam"></param>
+        /// <param name="roomLines"></param>
+        /// <returns></returns>
         private List<Line> CalWallLinesInBeam(ThStructure.BeamInfo.Model.Beam beam, List<Line> roomLines)
         {
             Vector3d zDir = Vector3d.ZAxis;
@@ -219,6 +248,13 @@ namespace ThWSS.LayoutRule
             return resLines;
         }
 
+        /// <summary>
+        /// 计算边梁的应移动距离
+        /// </summary>
+        /// <param name="beam"></param>
+        /// <param name="matchRoomLines"></param>
+        /// <param name="roomLine"></param>
+        /// <returns></returns>
         private double CalSpaceBySideBeam(ThStructure.BeamInfo.Model.Beam beam, List<Line> matchRoomLines, Line roomLine)
         {
             double beamHeight = height;
@@ -248,6 +284,11 @@ namespace ThWSS.LayoutRule
             return maxLength;
         }
 
+        /// <summary>
+        /// 计算中间梁应移动距离
+        /// </summary>
+        /// <param name="beam"></param>
+        /// <returns></returns>
         private double CalSapceByCenterBeam(ThStructure.BeamInfo.Model.Beam beam)
         {
             double beamHeight = height;
@@ -305,12 +346,21 @@ namespace ThWSS.LayoutRule
             return maxLength;
         }
 
+        /// <summary>
+        /// 线性增量
+        /// </summary>
+        /// <param name="bMin"></param>
+        /// <param name="bMax"></param>
+        /// <param name="aMin"></param>
+        /// <param name="aMax"></param>
+        /// <param name="bValue"></param>
+        /// <returns></returns>
         private double CalAValue(double bMin, double bMax, double aMin, double aMax, double bValue)
         {
             double aDifference = aMax - aMin;
             double ratio = (bValue - bMin) / (bMax - bMin);
 
-            return aDifference + aDifference * ratio;
+            return aMin + aDifference * ratio;
         }
     }
 }

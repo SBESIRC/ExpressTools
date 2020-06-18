@@ -84,7 +84,7 @@ namespace ThCADCore.NTS
         {
             var objs = new DBObjectCollection();
             var polygon = polyline.ToNTSPolygon();
-            var buffer = BufferOp.Buffer(polygon, distance);
+            var buffer = BufferOp.Buffer(polygon, distance, 1);
             if (buffer.IsEmpty)
             {
                 return objs;

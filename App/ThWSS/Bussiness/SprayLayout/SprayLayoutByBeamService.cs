@@ -44,7 +44,7 @@ namespace ThWSS.Bussiness
                 var respolys = regionDivision.DivisionRegion(roomBounding, polys);
                 using (AcadDatabase acdb = AcadDatabase.Active())
                 {
-                    foreach (var poly in respolys)
+                    foreach (var poly in beamInfo.Select(x=>x.BeamBoundary))
                     {
                         //acdb.ModelSpace.Add(poly);
                     }
@@ -89,7 +89,7 @@ namespace ThWSS.Bussiness
                         List<SprayLayoutData> roomSprays = new List<SprayLayoutData>();
                         foreach (var lpts in layoutPts)
                         {
-                            List<SprayLayoutData> checkPts = CalRoomSpray(poly, lpts);
+                            List<SprayLayoutData> checkPts = CalRoomSpray(dRoom, lpts);
                             checkPts = CalRoomSpray(room, checkPts);
                             roomSprays.AddRange(checkPts);
                         }
