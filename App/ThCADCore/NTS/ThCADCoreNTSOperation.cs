@@ -53,9 +53,31 @@ namespace ThCADCore.NTS
             return results;
         }
 
-        public static IGeometry Union(this DBObjectCollection curves)
+        public static IGeometry UnionGeometries(this DBObjectCollection curves)
         {
             return curves.ToNTSPolygonCollection().Buffer(0);
+        }
+
+        public static DBObjectCollection Union(this DBObjectCollection curves)
+        {
+            var objs = new DBObjectCollection();
+            var result = curves.UnionGeometries();
+            if (result is IPolygon bufferPolygon)
+            {
+                objs.Add(bufferPolygon.Shell.ToDbPolyline());
+            }
+            else if (result is IMultiPolygon mPolygon)
+            {
+                foreach (IPolygon item in mPolygon.Geometries)
+                {
+                    objs.Add(item.Shell.ToDbPolyline());
+                }
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+            return objs;
         }
 
         public static DBObjectCollection Buffer(this Polyline polyline, double distance)

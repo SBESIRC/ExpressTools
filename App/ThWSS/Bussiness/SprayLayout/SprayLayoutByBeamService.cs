@@ -13,7 +13,7 @@ using ThWSS.LayoutRule;
 using ThWSS.Model;
 using ThWSS.Utlis;
 
-namespace ThWSS.Bussiness.SparyLayout
+namespace ThWSS.Bussiness
 {
     class SprayLayoutByBeamService : SparyLayoutService
     {
@@ -83,19 +83,19 @@ namespace ThWSS.Bussiness.SparyLayout
                         
                         //计算出布置点
                         SquareLayoutByBeam squareLayout = new SquareLayoutByBeam(layoutModel);
-                        List<List<Point3d>> layoutPts = squareLayout.Layout(roomLines, dRoomRes, beamInfo);
+                        List<List<SprayLayoutData>> layoutPts = squareLayout.Layout(roomLines, dRoomRes, beamInfo);
 
                         //计算房间出房间内的点
-                        List<Point3d> roomPts = new List<Point3d>();
+                        List<SprayLayoutData> roomSprays = new List<SprayLayoutData>();
                         foreach (var lpts in layoutPts)
                         {
-                            List<Point3d> checkPts = CalRoomSpray(poly, lpts);
+                            List<SprayLayoutData> checkPts = CalRoomSpray(poly, lpts);
                             checkPts = CalRoomSpray(room, checkPts);
-                            roomPts.AddRange(checkPts);
+                            roomSprays.AddRange(checkPts);
                         }
 
                         //放置喷头
-                        InsertSprayService.InsertSprayBlock(roomPts, SprayType.SPRAYDOWN);
+                        InsertSprayService.InsertSprayBlock(roomSprays.Select(o => o.Position).ToList(), SprayType.SPRAYDOWN);
                     }
                 }
             }

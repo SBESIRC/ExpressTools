@@ -1,16 +1,14 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
-using Linq2Acad;
-using System;
-using System.Collections.Generic;
+﻿using Linq2Acad;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ThWSS.LayoutRule;
 using ThWSS.Model;
 using ThWSS.Utlis;
+using ThCADCore.NTS;
+using ThWSS.LayoutRule;
+using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
+using Autodesk.AutoCAD.DatabaseServices;
 
-namespace ThWSS.Bussiness.SparyLayout
+namespace ThWSS.Bussiness
 {
     public class SprayLayoutNoBeamService : SparyLayoutService
     {
@@ -35,8 +33,9 @@ namespace ThWSS.Bussiness.SparyLayout
                         acdb.ModelSpace.Add(item);
                     }
                 }
-                //continue;
 
+                // 统计房间内所有喷淋
+                var allSprays = new List<SprayLayoutData>();
                 foreach (var dRoom in diviRoom)
                 {
                     //计算房间走向
@@ -44,19 +43,44 @@ namespace ThWSS.Bussiness.SparyLayout
 
                     //计算出布置点
                     SquareLayout squareLayout = new SquareLayout(layoutModel);
-                    List<List<Point3d>> layoutPts = squareLayout.Layout(dRoom, roomOOB);
+                    List<List<SprayLayoutData>> layoutPts = squareLayout.Layout(dRoom, roomOOB);
 
                     //计算房间出房间内的点
-                    List<Point3d> roomPts = new List<Point3d>();
+                    List<SprayLayoutData> roomSprays = new List<SprayLayoutData>();
                     foreach (var lpts in layoutPts)
                     {
-                        List<Point3d> checkPts = CalRoomSpray(dRoom, lpts);
-                        roomPts.AddRange(checkPts);
+                        List<SprayLayoutData> checkPts = CalRoomSpray(dRoom, lpts);
+                        roomSprays.AddRange(checkPts);
                     }
+                    allSprays.AddRange(roomSprays);
 
                     //放置喷头
-                    InsertSprayService.InsertSprayBlock(roomPts, SprayType.SPRAYDOWN);
+                    InsertSprayService.InsertSprayBlock(roomSprays.Select(o => o.Position).ToList(), SprayType.SPRAYDOWN);
                 }
+
+                // 计算房间内的所有喷淋的保护半径
+                var radiis = SprayLayoutDataUtils.Radii(allSprays);
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    foreach (Entity ent in radiis)
+                    {
+                        ent.ColorIndex = 2;
+                        acadDatabase.ModelSpace.Add(ent);
+                    }
+                }
+
+                //根据房间面积和喷淋的保护半径，计算保护盲区
+                var blindRegions = room.Difference(radiis);
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    foreach (Entity ent in blindRegions)
+                    {
+                        ent.ColorIndex = 3;
+                        acadDatabase.ModelSpace.Add(ent);
+                    }
+                }
+
+                //对于每个保护盲区，计算出布置点
             }
         }
     }

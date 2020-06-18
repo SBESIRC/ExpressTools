@@ -87,7 +87,7 @@ namespace ThCADCore.NTS
         public static DBObjectCollection Difference(this Polyline region, DBObjectCollection curves)
         {
             var objs = new DBObjectCollection();
-            var geometry = region.ToNTSPolygon().Difference(curves.Union());
+            var geometry = region.ToNTSPolygon().Difference(curves.UnionGeometries());
             if (geometry is IPolygon polygon)
             {
                 objs.Add(polygon.Shell.ToDbPolyline());

@@ -44,6 +44,16 @@ namespace ThWSS
             Run(layoutModel);
         }
 
+        [CommandMethod("TIANHUACAD", "-THCalOBB", CommandFlags.Modal)]
+        public void ThDistinguishBeamCLI()
+        {
+            SprayLayoutModel layoutModel = new SprayLayoutModel()
+            {
+                sparyLayoutWay = LayoutWay.frame,
+            };
+            Run(layoutModel);
+        }
+
         [CommandMethod("TIANHUACAD", "THGETBEAMINFO", CommandFlags.Modal)]
         public void THGETBEAMINFO()
         {

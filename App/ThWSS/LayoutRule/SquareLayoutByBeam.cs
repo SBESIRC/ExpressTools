@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ThCADCore.NTS;
+using ThWSS.Bussiness;
 using ThWSS.Model;
 using ThWSS.Utlis;
 
@@ -22,7 +23,7 @@ namespace ThWSS.LayoutRule
 
         }
 
-        public List<List<Point3d>> Layout(List<Line> roomLines, Polyline diviRoom, List<ThStructure.BeamInfo.Model.Beam> beamInfo)
+        public List<List<SprayLayoutData>> Layout(List<Line> roomLines, Polyline diviRoom, List<ThStructure.BeamInfo.Model.Beam> beamInfo)
         {
             var beamDic = CalLayoutSpaceByBeam(diviRoom, roomLines, beamInfo);
             Polyline resPoly = GeUtils.PolygonBuffer(diviRoom, beamDic);

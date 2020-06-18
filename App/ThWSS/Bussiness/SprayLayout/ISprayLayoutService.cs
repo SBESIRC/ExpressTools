@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using ThWSS.Model;
 using ThWSS.Utlis;
 
-namespace ThWSS.Bussiness.SparyLayout
+namespace ThWSS.Bussiness
 {
     public abstract class SparyLayoutService
     {
@@ -20,19 +20,18 @@ namespace ThWSS.Bussiness.SparyLayout
         /// <param name="room"></param>
         /// <param name="layoutPts"></param>
         /// <returns></returns>
-        public List<Point3d> CalRoomSpray(Polyline room, List<Point3d> layoutPts)
+        public List<SprayLayoutData> CalRoomSpray(Polyline room, List<SprayLayoutData> sprays)
         {
-            List<Point3d> roomP = new List<Point3d>();
-            foreach (var pt in layoutPts)
+            var roomSprays = new List<SprayLayoutData>();
+            foreach (var spray in sprays)
             {
-                var res = GeUtils.CheckPointInPolyline(room, pt, 1.0E-4);
+                var res = GeUtils.CheckPointInPolyline(room, spray.Position, 1.0E-4);
                 if (res == 1)
                 {
-                    roomP.Add(pt);
+                    roomSprays.Add(spray);
                 }
             }
-
-            return roomP;
+            return roomSprays;
         }
     }
 }

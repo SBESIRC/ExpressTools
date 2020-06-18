@@ -4,6 +4,7 @@ using DotNetARX;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThWSS.Bussiness.SprayLayout
 {
@@ -17,12 +18,15 @@ namespace ThWSS.Bussiness.SprayLayout
             }
         }
 
-        public static void AddSprayXData(this ObjectId obj, Point3dCollection points)
+        public static void AddSprayXData(this ObjectId obj, SprayLayoutData spray)
         {
             TypedValueList valulist = new TypedValueList();
-            foreach(Point3d point in points)
+            if (spray.Radii is Polyline polyline)
             {
-                valulist.Add((int)DxfCode.ExtendedDataWorldXCoordinate, point);
+                foreach (Point3d point in polyline.Vertices())
+                {
+                    valulist.Add((int)DxfCode.ExtendedDataWorldXCoordinate, point);
+                }
             }
             obj.AddXData(ThWSSCommon.RegAppName_ThWSS_Spray, valulist);
         }

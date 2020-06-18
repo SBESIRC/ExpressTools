@@ -64,6 +64,7 @@
     <Compile Include="Bussiness\InsertSprayService.cs" />
     <Compile Include="Bussiness\SprayLayout\ISprayLayoutService.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutByBeamService.cs" />
+    <Compile Include="Bussiness\SprayLayout\SprayLayoutDataUtils.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutNoBeamService.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutData.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutDbExtension.cs" />

@@ -1,14 +1,12 @@
 using System;
-using System.Collections.Generic;
+using DotNetARX;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
-using Linq2Acad;
-using ThWss.View;
 using ThWSS.Model;
 using ThWSS.Utlis;
+using ThWSS.Bussiness;
 
 namespace ThWSS.LayoutRule
 {
@@ -23,7 +21,7 @@ namespace ThWSS.LayoutRule
 
         }
 
-        public List<List<Point3d>> Layout(Polyline room, Polyline polyline, bool noBeam = true)
+        public List<List<SprayLayoutData>> Layout(Polyline room, Polyline polyline, bool noBeam = true)
         {
             //房间线
             List<Line> roomLines = new List<Line>();
@@ -53,7 +51,34 @@ namespace ThWSS.LayoutRule
             var layoutP = LayoutPoints(roomLines, longLine.StartPoint, vDir, tDir, longLine.Length, shortLine.Length, noBeam);
             //layoutP.AddRange(AdjustPoints(layoutP.SelectMany(x => x).ToList(), roomLines, longLine.StartPoint, tDir, vDir, shortLine.Length));
 
-            return layoutP;
+            // 计算保护半径
+            // 暂时只支持矩形保护半径
+            var curve = new Polyline()
+            {
+                Closed = true,
+            };
+            double distance = Math.Sqrt(2) * (sideLength / 2.0);
+            var vertices = new Point3dCollection()
+            {
+                Point3d.Origin + distance * (vDir + tDir).GetNormal(),
+                Point3d.Origin + distance * (vDir - tDir).GetNormal(),
+                Point3d.Origin - distance * (vDir + tDir).GetNormal(),
+                Point3d.Origin - distance * (vDir - tDir).GetNormal()
+            };
+            curve.CreatePolyline(vertices);
+
+            var sprays = new List<List<SprayLayoutData>>();
+            foreach (var points in layoutP)
+            {
+                var sprayList = new List<SprayLayoutData>();
+                foreach (var point in points)
+                {
+                    var offset = Matrix3d.Displacement(point.GetAsVector());
+                    sprayList.Add(SprayLayoutData.Create(point, curve.GetTransformedCopy(offset) as Curve));
+                }
+                sprays.Add(sprayList);
+            }
+            return sprays;
         }
 
         /// <summary>
