@@ -1,32 +1,36 @@
+using System;
+using AcHelper;
 using Linq2Acad;
 using System.IO;
 using System.Collections.Generic;
 using ThStructure.BeamInfo.Model;
 using ThStructure.BeamInfo.Business;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.ApplicationServices;
-using System;
 
 namespace ThStructure.BeamInfo.Command
 {
     public class ThDisBeamCommand
     {
-        private Document document = Application.DocumentManager.MdiActiveDocument;
-
         public List<Beam> CalBeamStruc(DBObjectCollection dBObjects)
         {
             using (AcadDatabase acdb = AcadDatabase.Active())
             {
+                //0.预处理
+                //  0.1 Z值归0
+                ThBeamGeometryPreprocessor.Z0Curves(ref dBObjects);
+                //  0.2 将多段线“炸”成线段
+                var beamCurves = ThBeamGeometryPreprocessor.ExplodeCurves(dBObjects);
+
                 //1.计算出匹配的梁
                 CalBeamStruService calBeamService = new CalBeamStruService();
-                var allBeam = calBeamService.GetBeamInfo(dBObjects);
+                var allBeam = calBeamService.GetBeamInfo(beamCurves);
 
                 //2.计算出梁的搭接信息
-                CalBeamIntersectService interService = new CalBeamIntersectService(document);
+                CalBeamIntersectService interService = new CalBeamIntersectService(Active.Document);
                 interService.CalBeamIntersectInfo(allBeam, acdb);
 
                 //3.计算出梁的标注信息
-                GetBeamMarkInfo getBeamMark = new GetBeamMarkInfo(document, acdb);
+                GetBeamMarkInfo getBeamMark = new GetBeamMarkInfo(Active.Document, acdb);
                 getBeamMark.FillBeamInfo(allBeam);
 
                 //4.根据分跨信息合并梁

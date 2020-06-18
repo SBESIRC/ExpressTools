@@ -88,10 +88,8 @@ namespace ThWSS
             using (ThBeamDbManager beamManager = new ThBeamDbManager(acdb.Database))
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                // 获取所有构成梁的曲线（线，多段线，圆弧）
                 var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager);
-                // 考虑到多段线的情况，需要将多段线“炸”成线来处理
-                thDisBeamCommand.CalBeamStruc(ThBeamGeometryPreprocessor.ExplodeCurves(beamCurves));
+                thDisBeamCommand.CalBeamStruc(beamCurves);
             }
         }
 

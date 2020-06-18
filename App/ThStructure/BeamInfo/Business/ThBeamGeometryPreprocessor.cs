@@ -88,17 +88,14 @@ namespace ThStructure.BeamInfo.Business
         /// </summary>
         /// <param name="curves"></param>
         /// <returns></returns>
-        public static DBObjectCollection Z0Curves(DBObjectCollection curves)
+        public static void Z0Curves(ref DBObjectCollection curves)
         {
-            var objs = new DBObjectCollection();
             foreach (Curve curve in curves)
             {
                 curve.TransformBy(Matrix3d.Displacement(new Vector3d(0, 0, 1e99)));
                 curve.TransformBy(Matrix3d.Displacement(new Vector3d(0, 0, -1e99)));
-                objs.Add(curve.GetTransformedCopy(Matrix3d.Identity));
 
             }
-            return objs;
         }
     }
 }
