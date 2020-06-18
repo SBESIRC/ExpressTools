@@ -99,6 +99,14 @@ namespace TopoNode
                 double profileFindPre = FFStep / 4.0;
                 double smallStep = 0.0;
                 var curSelectPLine = selectPLines[i];
+                var line2ds = CommonUtils.Polyline2dLines(curSelectPLine);
+                if (CommonUtils.CalcuLoopArea(line2ds) < 0)
+                {
+                    using (var db = AcadDatabase.Active())
+                    {
+                        curSelectPLine.ReverseCurve();
+                    }
+                }
                 var curSelectPoints = Utils.GetValidFPointsFromSelectPLine(pickPoints, curSelectPLine);
                 if (curSelectPoints == null || curSelectPoints.Count == 0)
                     continue;

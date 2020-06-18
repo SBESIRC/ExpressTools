@@ -5191,9 +5191,6 @@ namespace TopoNode
                                     {
                                         try
                                         {
-                                            if (entity is DBText || entity is MText)
-                                                continue;
-
                                             if (entity is BlockReference block)
                                             {
                                                 if (block.Layer.Contains("AE-DOOR-INSD") || block.Layer.Contains("AE-WIND"))
