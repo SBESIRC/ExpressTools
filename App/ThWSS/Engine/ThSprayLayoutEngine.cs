@@ -1,11 +1,8 @@
 ﻿using System.Linq;
+using ThWSS.Model;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using ThWSS.Model;
-using ThWSS.Utlis;
-using Linq2Acad;
-using Autodesk.AutoCAD.Geometry;
 
 namespace ThWSS.Engine
 {
@@ -34,17 +31,10 @@ namespace ThWSS.Engine
         /// <param name="polygon"></param>
         public void Layout(Database database, Polyline polygon, SprayLayoutModel layoutModel)
         {
-            try
-            {
-                // 从房间引擎中获取房间信息
-                RoomEngine.Acquire(database, polygon);
-                // 遍历房间，对每个房间进行布置
-                RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o, layoutModel));
-            }
-            catch (System.Exception ex)
-            {
-                return;
-            }
+            // 从房间引擎中获取房间信息
+            RoomEngine.Acquire(database, polygon);
+            // 遍历房间，对每个房间进行布置
+            RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o, layoutModel));
         }
 
         /// <summary>
@@ -53,23 +43,16 @@ namespace ThWSS.Engine
         /// <param name="polylines"></param>
         public void Layout(List<Polyline> polylines, SprayLayoutModel layoutModel)
         {
-            try
+            RoomEngine.Elements = new List<ThModelElement>();
+            foreach (var pLine in polylines)
             {
-                RoomEngine.Elements = new List<ThModelElement>();
-                foreach (var pLine in polylines)
-                {
-                    var thRoom = new ThRoom();
-                    thRoom.Properties = new Dictionary<string, object>() { { "room", pLine } };
-                    RoomEngine.Elements.Add(thRoom);
-                }
-                
-                // 遍历房间，对每个房间进行布置
-                RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o, layoutModel));
+                var thRoom = new ThRoom();
+                thRoom.Properties = new Dictionary<string, object>() { { "room", pLine } };
+                RoomEngine.Elements.Add(thRoom);
             }
-            catch (System.Exception ex)
-            {
-                throw;
-            }
+
+            // 遍历房间，对每个房间进行布置
+            RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o, layoutModel));
         }
 
         /// <summary>

@@ -88,6 +88,10 @@ namespace ThCADCore.NTS
         {
             var objs = new DBObjectCollection();
             var geometry = region.ToNTSPolygon().Difference(curves.UnionGeometries());
+            if (geometry.IsEmpty)
+            {
+                return objs;
+            }
             if (geometry is IPolygon polygon)
             {
                 objs.Add(polygon.Shell.ToDbPolyline());

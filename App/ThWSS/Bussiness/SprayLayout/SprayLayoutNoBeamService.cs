@@ -80,7 +80,15 @@ namespace ThWSS.Bussiness
                     }
                 }
 
-                //对于每个保护盲区，计算出布置点
+                //对于每个保护盲区，用射线算法计算出布置点
+                foreach (Polyline curve in blindRegions)
+                {
+                    var obb = OrientedBoundingBox.Calculate(curve);
+                    var layout = new SquareLayoutWithRay(layoutModel);
+                    var sprays = layout.Layout(curve, obb);
+                    var points = sprays.SelectMany(o => o).ToList().Select(o => o.Position).ToList();
+                    InsertSprayService.InsertSprayBlock(points, SprayType.SPRAYDOWN);
+                }
             }
         }
     }

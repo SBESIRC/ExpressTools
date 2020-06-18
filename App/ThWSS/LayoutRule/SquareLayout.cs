@@ -136,7 +136,7 @@ namespace ThWSS.LayoutRule
         /// <param name="verticalDir"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        private List<List<Point3d>> LayoutPoints(List<Line> roomLines, Point3d pt, Vector3d transverseDir, Vector3d verticalDir, double width)
+        protected List<List<Point3d>> LayoutPoints(List<Line> roomLines, Point3d pt, Vector3d transverseDir, Vector3d verticalDir, double width)
         {
             //横向排布条件
             CalLayoutWay(width, out double tRemainder, out double tNum, out double tMoveLength);
@@ -183,7 +183,7 @@ namespace ThWSS.LayoutRule
         /// <param name="verticalDir"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        private List<List<Point3d>> AdjustPoints(List<Point3d> vPoints, List<Line> roomLines, Point3d pt, Vector3d transverseDir, Vector3d verticalDir, double length)
+        protected List<List<Point3d>> AdjustPoints(List<Point3d> vPoints, List<Line> roomLines, Point3d pt, Vector3d transverseDir, Vector3d verticalDir, double length)
         {
             //竖向排布条件
             CalLayoutWay(length, out double vRemainder, out double vNum, out double vMoveLength);
