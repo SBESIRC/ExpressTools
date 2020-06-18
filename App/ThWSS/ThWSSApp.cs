@@ -1,17 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using AcHelper;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Runtime;
 using Linq2Acad;
-using NFox.Cad.Collections;
+using DotNetARX;
 using ThWss.View;
-using ThWSS.Engine;
-using ThWSS.Model;
 using ThWSS.Beam;
+using ThWSS.Model;
+using ThWSS.Engine;
+using NFox.Cad.Collections;
+using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.DatabaseServices;
 using ThStructure.BeamInfo.Command;
 using ThStructure.BeamInfo.Business;
 using TianHua.AutoCAD.Utility.ExtensionTools;
@@ -22,12 +22,12 @@ namespace ThWSS
     {
         public void Initialize()
         {
-            //throw new NotImplementedException();
+            //
         }
 
         public void Terminate()
         {
-            //throw new NotImplementedException();
+            //
         }
 
         [CommandMethod("TIANHUACAD", "THCalOBB", CommandFlags.Modal)]
@@ -47,11 +47,38 @@ namespace ThWSS
         [CommandMethod("TIANHUACAD", "-THCalOBB", CommandFlags.Modal)]
         public void ThDistinguishBeamCLI()
         {
-            SprayLayoutModel layoutModel = new SprayLayoutModel()
+            using (AcadDatabase acdb = AcadDatabase.Active())
             {
-                sparyLayoutWay = LayoutWay.frame,
-            };
-            Run(layoutModel);
+                // 指定布置对象
+                PromptKeywordOptions keywordOptions = new PromptKeywordOptions("\n请指定布置对象：")
+                {
+                    AllowNone = true
+                };
+                keywordOptions.Keywords.Add("FrameLine", "FrameLine", "来自框线(L)");
+                keywordOptions.Keywords.Add("FireCompartment ", "FireCompartment", "防火分区(F)");
+                keywordOptions.Keywords.Add("CustomRegion", "CustomRegion", "自定义区域(C)");
+                keywordOptions.Keywords.Default = "FrameLine";
+                PromptResult result = Active.Editor.GetKeywords(keywordOptions);
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var layoutModel = new SprayLayoutModel();
+                if (result.StringResult == "FrameLine")
+                {
+                    layoutModel.sparyLayoutWay = LayoutWay.fire;
+                }
+                else if (result.StringResult == "CustomRegion")
+                {
+                    layoutModel.sparyLayoutWay = LayoutWay.customPart;
+                }
+                else if (result.StringResult == "FireCompartment")
+                {
+                    layoutModel.sparyLayoutWay = LayoutWay.frame;
+                }
+                Run(layoutModel);
+            }
         }
 
         [CommandMethod("TIANHUACAD", "THGETBEAMINFO", CommandFlags.Modal)]
@@ -68,6 +95,36 @@ namespace ThWSS
             }
         }
 
+        [CommandMethod("TIANHUACAD", "THGETBEAMINFO2", CommandFlags.Modal)]
+        public void THGETBEAMINFO2()
+        {
+            using (AcadDatabase acdb = AcadDatabase.Active())
+            {
+                // 选择对象
+                PromptSelectionOptions options = new PromptSelectionOptions()
+                {
+                    AllowDuplicates = false,
+                    RejectObjectsOnLockedLayers = true,
+                };
+                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "ARC,LINE,LWPOLYLINE" & o.Dxf((int)DxfCode.LayerName) == "S_BEAM");
+                var entSelected = Active.Editor.GetSelection(options, filterlist);
+                if (entSelected.Status != PromptStatus.OK)
+                {
+                    return;
+                };
+
+                // 执行操作
+                DBObjectCollection dBObjects = new DBObjectCollection();
+                foreach (ObjectId obj in entSelected.Value.GetObjectIds())
+                {
+                    var entity = acdb.Element<Entity>(obj);
+                    dBObjects.Add(entity.GetTransformedCopy(Matrix3d.Identity));
+                }
+
+                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
+                thDisBeamCommand.CalBeamStruc(dBObjects);
+            }
+        }
 
         [CommandMethod("TIANHUACAD", "THMERGEBEAMCURVES", CommandFlags.Modal)]
         public void ThMergeBeamCurves()
@@ -117,113 +174,73 @@ namespace ThWSS
             }
         }
 
-        [CommandMethod("TIANHUACAD", "THGETBEAMINFO2", CommandFlags.Modal)]
-        public void THGETBEAMINFO2()
-        {
-            using (AcadDatabase acdb = AcadDatabase.Active())
-            {
-                // 选择对象
-                PromptSelectionOptions options = new PromptSelectionOptions()
-                {
-                    AllowDuplicates = false,
-                    RejectObjectsOnLockedLayers = true,
-                };
-                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "ARC,LINE,LWPOLYLINE" & o.Dxf((int)DxfCode.LayerName) == "S_BEAM");
-                var entSelected = Active.Editor.GetSelection(options, filterlist);
-                if (entSelected.Status != PromptStatus.OK)
-                {
-                    return;
-                };
-
-                // 执行操作
-                DBObjectCollection dBObjects = new DBObjectCollection();
-                foreach (ObjectId obj in entSelected.Value.GetObjectIds())
-                {
-                    var entity = acdb.Element<Entity>(obj);
-                    dBObjects.Add(entity.GetTransformedCopy(Matrix3d.Identity));
-                }
-
-                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                thDisBeamCommand.CalBeamStruc(dBObjects);
-            }
-        }
-
         /// <summary>
         /// 执行布置喷淋
         /// </summary>
         /// <returns></returns>
         private void Run(SprayLayoutModel layoutModel)
         {
-            try
+            using (AcadDatabase acdb = AcadDatabase.Active())
             {
-                using (AcadDatabase acdb = AcadDatabase.Active())
+                if (layoutModel.sparyLayoutWay == LayoutWay.fire)
                 {
-                    //防火分区
-                    if (layoutModel.sparyLayoutWay == LayoutWay.fire)
+                    // 执行操作
+                    ThSprayLayoutEngine.Instance.Layout(acdb.Database, null, layoutModel);
+                }
+                else if (layoutModel.sparyLayoutWay == LayoutWay.frame)
+                {
+                    // 选取房间框线
+                    PromptSelectionOptions options = new PromptSelectionOptions()
                     {
-                        ThSprayLayoutEngine.Instance.Layout(acdb.Database, null, layoutModel);
+                        AllowDuplicates = false,
+                        RejectObjectsOnLockedLayers = true,
+                    };
+                    var filterlist = OpFilter.Bulid(o =>
+                        o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+                    var entSelected = Active.Editor.GetSelection(options, filterlist);
+                    if (entSelected.Status != PromptStatus.OK)
+                    {
+                        return;
                     }
-                    //来自框线
-                    else if (layoutModel.sparyLayoutWay == LayoutWay.frame)
+
+                    // 获取房间框线
+                    var rooms = new List<Polyline>();
+                    foreach (var obj in entSelected.Value.GetObjectIds())
                     {
-                        PromptSelectionOptions options = new PromptSelectionOptions()
+                        var pline = acdb.Element<Polyline>(obj);
+                        rooms.Add(pline.GetTransformedCopy(Matrix3d.Identity) as Polyline);
+                    }
+
+                    // 执行操作
+                    ThSprayLayoutEngine.Instance.Layout(rooms, layoutModel);
+                }
+                else if (layoutModel.sparyLayoutWay == LayoutWay.customPart)
+                {
+                    // 选择自定义区域
+                    Polyline pline = new Polyline() {
+                        Closed = true
+                    };
+                    using (PointCollector pc = new PointCollector(PointCollector.Shape.Polygon))
+                    {
+                        try
                         {
-                            AllowDuplicates = false,
-                            RejectObjectsOnLockedLayers = true,
-                        };
-                        var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "POLYLINE,LWPOLYLINE");
-                        var entSelected = Active.Editor.GetSelection(options, filterlist);
-                        if (entSelected.Status != PromptStatus.OK)
+                            pc.Collect();
+                            pline.CreatePolyline(pc.CollectedPoints);
+                        }
+                        catch
                         {
                             return;
                         }
-
-                        // 执行操作
-                        DBObjectCollection dBObjects = new DBObjectCollection();
-                        foreach (ObjectId obj in entSelected.Value.GetObjectIds())
-                        {
-                            dBObjects.Add(acdb.Element<Entity>(obj, true));
-                        }
-
-                        List<Polyline> room = new List<Polyline>();
-                        foreach (var item in dBObjects)
-                        {
-                            room.Add(item as Polyline);
-                        }
-                        var closedRoom = room.Select(x => { x.Closed = true; return x; }).ToList();
-                        ThSprayLayoutEngine.Instance.Layout(closedRoom, layoutModel);
                     }
-                    //自定义区域
-                    else if (layoutModel.sparyLayoutWay == LayoutWay.customPart)
+
+                    // 执行操作
+                    var rooms = new List<Polyline>()
                     {
-                        Polyline pline = new Polyline() { Closed = true };
-                        using (PointCollector pc = new PointCollector(PointCollector.Shape.Polygon))
-                        {
-                            try
-                            {
-                                pc.Collect();
-                            }
-                            catch (Autodesk.AutoCAD.BoundaryRepresentation.Exception ex)
-                            {
-                                throw ex;
-                            }
-                            Point3dCollection winCorners = pc.CollectedPoints;
-                            for (int i = 0; i < winCorners.Count; i++)
-                            {
-                                pline.AddVertexAt(i, new Point2d(winCorners[i].X, winCorners[i].Y), 0, 0, 0);
-                            }
-                        }
-
-                        acdb.ModelSpace.Add(pline);
-                        ThSprayLayoutEngine.Instance.Layout(new List<Polyline>() { pline }, layoutModel);
-                    }
+                        pline,
+                    };
+                    ThSprayLayoutEngine.Instance.Layout(rooms, layoutModel);
                 }
             }
-            catch (Autodesk.AutoCAD.BoundaryRepresentation.Exception ex)
-            {
-                //return false;
-            }
-
         }
 
         private SprayLayoutModel SetWindowValues(ThSparyLayoutSet thSpary)
