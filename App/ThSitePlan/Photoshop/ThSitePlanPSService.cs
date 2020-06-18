@@ -88,8 +88,8 @@ namespace ThSitePlan.Photoshop
                 return null;
             }
 
-            fileName = (string)configItem.Properties["Name"] + ".pdf";
-            fullPath = Path.Combine(path, fileName);
+            //fileName = (string)configItem.Properties["Name"] + ".pdf";
+            //fullPath = Path.Combine(path, fileName);
             //装载PDF获取图层名称
             Document NewOpenDoc = Application.Open(fullPath);
             string CurDocNa = NewOpenDoc.Name;
@@ -98,8 +98,8 @@ namespace ThSitePlan.Photoshop
             string DocName = NewOpenDoc.Name;
 
             //设置图层的不透明度和填充颜色
-            newlayer.Opacity = Convert.ToDouble(configItem.Properties["Opacity"]);
             FillBySelectChannel(NewOpenDoc.Name, configItem);
+            newlayer.Opacity = Convert.ToDouble(configItem.Properties["Opacity"]);
 
             return NewOpenDoc;
 
@@ -236,9 +236,9 @@ namespace ThSitePlan.Photoshop
             {
                 if (lyit.Name == OperateLayer.Name)
                 {
-                    lyit.Clear();
                     OperateLayer.Move(lyit, PsElementPlacement.psPlaceAfter);
-                    lyit.Merge();
+                    lyit.Delete();
+                    break;
                 }
             }
         }
