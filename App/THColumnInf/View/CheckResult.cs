@@ -1027,6 +1027,10 @@ namespace ThColumnInfo.View
                                         ThProgressBar.Stop();
                                     }
                                 }
+                                else
+                                {
+                                    return;
+                                }
                             }
                         }
                         catch (System.Exception ex)

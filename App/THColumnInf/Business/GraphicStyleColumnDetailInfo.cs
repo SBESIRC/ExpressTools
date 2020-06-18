@@ -41,7 +41,7 @@ namespace ThColumnInfo
                     base.GetColunmTableCurves();
                     CurveAnyInsidePoint curveAnyInsidePoint = new CurveAnyInsidePoint(outline as Curve);
                     curveAnyInsidePoint.FindInSidePt();
-                    Point3d cenPt = curveAnyInsidePoint.InsidePt;
+                    Point3d cenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(curveAnyInsidePoint.InsidePt);
                     bool findRes = false;
                     cenPt = FindInvalidCenPt(cenPt, out findRes);
                     List<TableCellInfo> sameColumnCells = GetSameColumnCells(cenPt, null);

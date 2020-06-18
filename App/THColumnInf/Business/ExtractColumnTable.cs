@@ -64,7 +64,7 @@ namespace ThColumnInfo
                 new TypedValue((int)DxfCode.LayerName,columnTableLayerName)
             };
             SelectionFilter sf = new SelectionFilter(tvs);
-            PromptSelectionResult psr= ThColumnInfoUtils.SelectByRectangle(ed,this.signPt1,this.signPt2,PolygonSelectionMode.Window, sf);
+            PromptSelectionResult psr= ThColumnInfoUtils.SelectByRectangle(ed, this.signPt1, this.signPt2, PolygonSelectionMode.Crossing, sf);
             ThProgressBar.MeterProgress();
             if(psr.Status!=PromptStatus.OK)
             {

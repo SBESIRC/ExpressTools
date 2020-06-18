@@ -523,6 +523,9 @@ namespace ThColumnInfo.ViewModel
                 filterRes.ForEach(i => selectLayers.Add(i));
             }
             this.CalculateInfo.SelectLayers = selectLayers;
+            List<string> filterLayers = modelLayers.Where(i => selectLayers.IndexOf(i) < 0).Select(i => i).ToList();
+            modelLayers = new ObservableCollection<string>();
+            filterLayers.ForEach(i => modelLayers.Add(i));
             Owner.lbModelLayers.ItemsSource = modelLayers;
         }
         public bool Validate()

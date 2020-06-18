@@ -68,17 +68,17 @@ namespace ThColumnInfo
             PromptPointResult prResult1 = prompts.AcquirePoint(prOptions1);
             if (prResult1.Status == PromptStatus.Cancel || prResult1.Status == PromptStatus.Error)
                 return SamplerStatus.Cancel;
-            mLocation = prResult1.Value;
-            if (prResult1.Status == PromptStatus.Cancel)
-            {
-                return SamplerStatus.Cancel;
-            }
             //拖拽时输入关键字
             if (prResult1.Status == PromptStatus.Keyword)
             {
                 this.keyWord = prResult1.StringResult;
                 return SamplerStatus.Cancel;
             }
+            if (mLocation.DistanceTo(prResult1.Value)<1e-4)
+            {
+                return SamplerStatus.NoChange;
+            }
+            mLocation = prResult1.Value;
             if (mBase.Equals(mLocation))  //Use better comparison method if necessary.
             {
                 return SamplerStatus.NoChange;

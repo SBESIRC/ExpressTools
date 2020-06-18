@@ -171,6 +171,10 @@ namespace ThColumnInfo
             {
                 this.thStandardSign.SignExtractColumnInfo = new ExtractColumnPosition(this.thStandardSign);
             }
+            else
+            {
+                this.thStandardSign.SignExtractColumnInfo.Update();
+            }
             //如果要导入计算书，需要重新提取一次信息
             this.thStandardSign.SignExtractColumnInfo.Extract(emportCalculation);
             //提取埋入的柱子范围内对应的本地图纸柱子,(校核命令可提取柱子数量)
@@ -197,7 +201,7 @@ namespace ThColumnInfo
             thRelateColumn.Relate();
             if(emportCalculation)
             {
-                this.jtTextIds.AddRange(thRelateColumn.PrintJtID()); //打印柱号
+                //this.jtTextIds.AddRange(thRelateColumn.PrintJtID()); //打印柱号
             }        
             //绘制正常或异常的柱子外框
             for (int i = 0; i < thRelateColumn.ColumnRelateInfs.Count; i++)

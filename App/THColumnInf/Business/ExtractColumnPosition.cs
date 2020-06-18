@@ -34,24 +34,6 @@ namespace ThColumnInfo
         private ParameterSetInfo paraSetInfo;
         private bool extractColumnPos = false;
 
-
-        /// <summary>
-        /// 通过两点提取对角范围内的柱子信息
-        /// </summary>
-        /// <param name="rangePt1">左下点</param>
-        /// <param name="rangePt2">右上点</param>
-        public ExtractColumnPosition(Point3d rangePt1, Point3d rangePt2, ThStandardSign thStandardSign)
-        {
-            this.rangePt1 = rangePt1;
-            this.rangePt2 = rangePt2;
-            this.thStandardSign = thStandardSign;
-            ParameterSetVM parameterSetVM = new ParameterSetVM();
-            this.paraSetInfo = parameterSetVM.ParaSetInfo;
-            ResetRangePt();
-            List<Point3d> ptList = new List<Point3d>();
-            ptList.Distinct().ToList();
-            Init();
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -64,8 +46,13 @@ namespace ThColumnInfo
             this.thStandardSign = thStandardSign;
             ParameterSetVM parameterSetVM = new ParameterSetVM();
             this.paraSetInfo = parameterSetVM.ParaSetInfo;
+            Update();
+            Init();
+        }
+        public void Update()
+        {
             var extents = ThColumnInfoUtils.GeometricExtentsImpl(thStandardSign.Br);
-            if(extents!=null)
+            if (extents != null)
             {
                 this.rangePt1 = extents.MinPoint;
                 this.rangePt2 = extents.MaxPoint;
@@ -77,7 +64,6 @@ namespace ThColumnInfo
                 this.rangePt1 = brge.GeometryExtents3d.Value.MinPoint;
                 this.rangePt2 = brge.GeometryExtents3d.Value.MaxPoint;
             }
-            Init();
         }
         private void Init()
         {

@@ -30,6 +30,7 @@ namespace ThColumnInfo
 
         private List<ObjectId> columnTableObjIds = new List<ObjectId>();
         protected List<Curve> columnTableCurves = new List<Curve>(); //支持Line和Arc
+        protected List<Curve> topoCurves = new List<Curve>(); //支持Line和Arc
 
         protected DBObjectCollection TableCells = new DBObjectCollection(); //根据columnTableCurve获取所有内部的单元格
 
@@ -211,9 +212,9 @@ namespace ThColumnInfo
                 }
                 trans.Commit();
             }
-            ThProgressBar.MeterProgress();
-            this.columnTableCurves= CommonUtils.RemoveCollinearLines(this.columnTableCurves);
-            ThProgressBar.MeterProgress();
+            this.topoCurves = CommonUtils.RemoveCollinearLines(this.columnTableCurves);
+            //更新当前单元格集合
+            UpdateTableCells();
         }
         /// <summary>
         /// 获取轮廓范围内所有Curve围成的单元格
@@ -223,10 +224,47 @@ namespace ThColumnInfo
         protected void UpdateTableCells()
         {
             this.TableCells.Dispose();
-            this.TableCells.Clear();
+            this.TableCells = new DBObjectCollection();
             var objs = new DBObjectCollection();
             this.columnTableCurves.ForEach(i => objs.Add(i));
             this.TableCells = objs.Polygons();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pt">Ucs Point3d</param>
+        /// <returns></returns>
+        protected List<Curve> TraceCells(Point3d pt)
+        {
+            List<Curve> cells = new List<Curve>();
+            Point3d wcsPt = ThColumnInfoUtils.TransPtFromUcsToWcs(pt);
+            foreach(DBObject dbObj in TableCells)
+            {
+                List<Point3d> pts = new List<Point3d>();
+                if(dbObj is Polyline polyline)
+                {
+                    pts = ThColumnInfoUtils.GetPolylinePts(polyline);
+                }
+                else if (dbObj is Polyline2d polyline2d)
+                {
+                    pts = ThColumnInfoUtils.GetPolylinePts(polyline2d);
+                }
+                if(pts.Count<4)
+                {
+                    continue;
+                }
+                Point3dCollection points = new Point3dCollection();
+                pts.ForEach(i => points.Add(i));
+                if(ThColumnInfoUtils.IsPointInPolyline(points, wcsPt))
+                {
+                    cells.Add(dbObj as Curve);
+                }
+            }
+            if(cells.Count==0)
+            {
+                cells= TopoService.TraceBoundary(this.columnTableCurves, ThColumnInfoUtils.TransPtFromUcsToWcs(wcsPt));
+            }
+            return cells;
         }
         protected DBObjectCollection ExtractTableOutline()
         {
@@ -520,7 +558,7 @@ namespace ThColumnInfo
             Point3d pt3 = originPt + new Vector3d(5, 5, 0);
             PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(doc.Editor, pt1, pt3, PolygonSelectionMode.Crossing, sf);
             ThProgressBar.MeterProgress();
-            List<Curve> dbObjs = TopoService.TraceBoundary(this.columnTableCurves,ThColumnInfoUtils.TransPtFromUcsToWcs(originPt));
+            List<Curve> dbObjs = TraceCells(originPt);
             if (psr.Status == PromptStatus.OK || dbObjs ==null || dbObjs.Count==0) //传入的点有物体，且选不到边界
             {
                 pt = FindInvalidCenPt(new Point3d(pt.X+ this.searchBoundaryOffsetDis,pt.Y+ this.searchBoundaryOffsetDis, pt.Z), out isFind);
@@ -757,7 +795,7 @@ namespace ThColumnInfo
         protected TableCellInfo GetSingleCell(Point3d cenPt,double columnWidth = 0.0, double rowHeight = 0.0)
         {
             TableCellInfo tableCellInfo = new TableCellInfo();
-            List<Curve> edgeCurves=  TopoService.TraceBoundary(this.columnTableCurves, ThColumnInfoUtils.TransPtFromUcsToWcs(cenPt));
+            List<Curve> edgeCurves= TraceCells(cenPt);
             if(edgeCurves==null)
             {
                 return tableCellInfo;

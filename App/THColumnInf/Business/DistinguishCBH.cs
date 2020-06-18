@@ -178,11 +178,11 @@ namespace ThColumnInfo
                 List<double> existAreas = polylineAreaDic.Where(j => Math.Abs(j.Key - area) <= (0.2 * j.Key)).Select(j => j.Key).ToList();
                 if (existAreas == null || existAreas.Count == 0)
                 {
-                    polylineAreaDic.Add(area, new List<Curve>() { this.curves[i] });
+                    polylineAreaDic.Add(area, new List<Curve>() { squareCurves[i] });
                 }
                 else
                 {
-                    polylineAreaDic[existAreas[0]].Add(this.curves[i]);
+                    polylineAreaDic[existAreas[0]].Add(squareCurves[i]);
                 }
             }
             foreach (var item in polylineAreaDic)
