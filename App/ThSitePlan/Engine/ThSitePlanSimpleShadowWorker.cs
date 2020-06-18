@@ -5,6 +5,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using NFox.Cad.Collections;
 using ThSitePlan.Configuration;
+using System.Windows.Forms;
 
 namespace ThSitePlan.Engine
 {
@@ -20,13 +21,33 @@ namespace ThSitePlan.Engine
                 // 根据目标填充生成阴影填充
                 using (var objs = Filter(database, configItem, options))
                 {
-                    foreach (ObjectId objId in objs)
+                    if (objs.Count == 0)
                     {
-                        using (var buildInfo = new ThSitePlanBuilding(database, objId, frameName))
+                        return false;
+                    }
+
+                    using (ProgressMeter pm = new ProgressMeter())
+                    {
+                        // 启动进度条
+                        pm.SetLimit(objs.Count);
+                        pm.Start("正在生成阴影");
+
+                        foreach (ObjectId objId in objs)
                         {
-                            // 创建简易的阴影填充
-                            var shadow = ThSitePlanBuildingShadow.CreateSimpleShadow(buildInfo, 2);
+                            using (var buildInfo = new ThSitePlanBuilding(database, objId, frameName))
+                            {
+                                // 创建简易的阴影填充
+                                var shadow = ThSitePlanBuildingShadow.CreateSimpleShadow(buildInfo, 2);
+
+                                // 更新进度条
+                                pm.MeterProgress();
+                                // 让CAD在长时间任务处理时任然能接收消息
+                                Application.DoEvents();
+                            }
                         }
+
+                        // 停止进度条
+                        pm.Stop();
                     }
                 }
 

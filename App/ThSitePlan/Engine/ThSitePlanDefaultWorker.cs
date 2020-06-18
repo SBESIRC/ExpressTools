@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Collections.Generic;
+using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -17,6 +18,15 @@ namespace ThSitePlan.Engine
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
+                if (configItem.Properties["CADScriptID"].ToString() == "0")
+                {
+                    using (var objs = FilterWithBlackList(database, configItem, options))
+                    {
+                        Vector3d offset = (Vector3d)options.Options["Offset"];
+                        acadDatabase.Database.Move(objs, Matrix3d.Displacement(offset));
+                    }
+                    return true;
+                }
                 using (var objs = Filter(database, configItem, options))
                 {
                     Vector3d offset = (Vector3d)options.Options["Offset"];
@@ -31,6 +41,31 @@ namespace ThSitePlan.Engine
             ObjectId originFrame = (ObjectId)options.Options["OriginFrame"];
             var layers = configItem.Properties["CADLayer"] as List<string>;
             var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
+            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                originFrame,
+                PolygonSelectionMode.Crossing,
+                filterlist);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
+        }
+
+        public ObjectIdCollection FilterWithBlackList(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            ObjectId originFrame = (ObjectId)options.Options["OriginFrame"];
+            var layers = configItem.Properties["CADLayer"] as List<string>;
+            var dxfNames = new string[]
+            {
+                RXClass.GetClass(typeof(Hatch)).DxfName,
+            };
+            var filterlist = OpFilter.Bulid(o => 
+                o.Dxf((int)DxfCode.Start) != string.Join(",", dxfNames) & 
+                o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 originFrame,
                 PolygonSelectionMode.Crossing,
