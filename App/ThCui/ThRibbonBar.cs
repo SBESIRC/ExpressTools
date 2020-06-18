@@ -19,6 +19,7 @@ namespace TianHua.AutoCAD.ThCui
                 CreatePurgeToolPanel(tab);
                 CreateBlockToolPanel(tab);
                 CreateMiscellaneousPanel(tab);
+                CreateSitePlanToolPanel(tab);
             }
         }
 
@@ -874,6 +875,48 @@ namespace TianHua.AutoCAD.ThCui
                 "柱配筋图纸校核",
                 "IDI_THCAD_THCRC_SMALL",
                 "IDI_THCAD_THCRC_LARGE",
+                RibbonButtonStyle.LargeWithText);
+        }
+
+        private static void CreateSitePlanToolPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("SitePlanTool", "一键彩总");
+            var row = panel.AddNewRibbonRow();
+
+            //生成
+            row.AddNewButton("生成",
+                "天华一键彩总生成",
+                "THPGE",
+                "天华一键彩总生成",
+                "IDI_THCAD_THPGE_SMALL",
+                "IDI_THCAD_THPGE_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            //更新
+            row.AddNewButton("更新",
+                "天华一键彩总更新",
+                "THPUD",
+                "天华一键彩总更新",
+                "IDI_THCAD_THPUD_SMALL",
+                "IDI_THCAD_THPUD_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            //配置
+            row.AddNewButton("配置",
+                "天华一键彩总配置",
+                "THPCF",
+                "天华一键彩总配置",
+                "IDI_THCAD_THPCF_SMALL",
+                "IDI_THCAD_THPCF_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            //设置
+            row.AddNewButton("设置",
+                "天华一键彩总设置",
+                "THPOP",
+                "天华一键彩总设置",
+                "IDI_THCAD_THPOP_SMALL",
+                "IDI_THCAD_THPOP_LARGE",
                 RibbonButtonStyle.LargeWithText);
         }
     }

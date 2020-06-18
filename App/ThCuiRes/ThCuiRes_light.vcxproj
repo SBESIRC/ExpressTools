@@ -189,6 +189,14 @@
     <Image Include="Images\THAPL_light_large.ico" />
     <Image Include="Images\THALC_light_small.ico" />
     <Image Include="Images\THALC_light_large.ico" />
+    <Image Include="Images\THPGE_light_small.ico" />
+    <Image Include="Images\THPGE_light_large.ico" />
+    <Image Include="Images\THPUD_light_small.ico" />
+    <Image Include="Images\THPUD_light_large.ico" />
+    <Image Include="Images\THPCF_light_small.ico" />
+    <Image Include="Images\THPCF_light_large.ico" />
+    <Image Include="Images\THPOP_light_small.ico" />
+    <Image Include="Images\THPOP_light_large.ico" />
     <Image Include="Images\THALIGN_bottom_light_small.ico" />
     <Image Include="Images\THALIGN_bottom_light_large.ico" />
     <Image Include="Images\THALIGN_horizontal_light_small.ico" />

@@ -83,8 +83,16 @@ namespace TianHua.AutoCAD.ThCui
                 // 隐藏
                 toolbar.ToolbarVisible = ToolbarVisible.hide;
 
+                // 图层
                 toolbar.AddToolbarButton(-1, "建立总图图层", "ID_THAPL");
                 toolbar.AddToolbarButton(-1, "建立单体图层", "ID_THAUL");
+                toolbar.AddSeparator(-1);
+
+                // 一键彩总
+                toolbar.AddToolbarButton(-1, "生成", "ID_THPGE");
+                toolbar.AddToolbarButton(-1, "更新", "ID_THPUD");
+                toolbar.AddToolbarButton(-1, "配置", "ID_THPCF");
+                toolbar.AddToolbarButton(-1, "设置", "ID_THPOP");
             }
         }
 

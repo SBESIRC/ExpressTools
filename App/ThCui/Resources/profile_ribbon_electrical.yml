@@ -33,6 +33,19 @@ panels:
       - text: "柱校核\r\n（公测）"
         attributes: { "IsVisible": true, "IsEnabled": true }
     attributes: { "IsVisible": false, "IsEnabled": true }
+  - UID: "pnlSitePlanTool"
+    name: "SitePlanTool"
+    title: "一键彩总"
+    items:
+      - text: "生成"
+        attributes: { "IsVisible": true, "IsEnabled": true }
+      - text: "更新"
+        attributes: { "IsVisible": true, "IsEnabled": true }
+      - text: "配置"
+        attributes: { "IsVisible": true, "IsEnabled": true }
+      - text: "设置"
+        attributes: { "IsVisible": true, "IsEnabled": true }
+    attributes: { "IsVisible": false, "IsEnabled": true }
   - UID: "pnlStatistic"
     name: "Statistic"
     title: "计算工具"
