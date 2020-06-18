@@ -223,6 +223,51 @@ namespace ThColumnInfo
             }
             return keepObjIds;
         }
+        protected List<ObjectId> GetColumnTableObjIds(DBObject dbObj,List<string> layerNames=null)
+        {
+            List<ObjectId> tableRangeIds = new List<ObjectId>();
+            if (!(dbObj is Polyline || dbObj is Polyline2d || dbObj is Polyline3d))
+            {
+                return tableRangeIds;
+            }
+            Extents3d extents = ThColumnInfoUtils.GeometricExtentsImpl(dbObj as Entity);
+            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(
+                doc.Editor, extents.MinPoint, extents.MaxPoint, PolygonSelectionMode.Crossing);
+            ThProgressBar.MeterProgress();
+            if (psr.Status == PromptStatus.OK)
+            {
+                tableRangeIds = psr.Value.GetObjectIds().ToList();
+            }
+            if(layerNames!=null && layerNames.Count>0)
+            {
+                using (Transaction trans = doc.TransactionManager.StartTransaction())
+                {
+                    for (int i = 0; i < tableRangeIds.Count; i++)
+                    {
+                        Entity ent = trans.GetObject(tableRangeIds[i], OpenMode.ForRead) as Entity;
+                        if (ent.Bounds == null || !ent.Bounds.HasValue)
+                        {
+                            tableRangeIds.RemoveAt(i);
+                            i = i - 1;
+                            continue;
+                        }
+                        if (!(ent is Line || ent is Polyline || ent is Polyline2d))
+                        {
+                            tableRangeIds.RemoveAt(i);
+                            i = i - 1;
+                            continue;
+                        }
+                        if (layerNames.IndexOf(ent.Layer) < 0)
+                        {
+                            tableRangeIds.RemoveAt(i);
+                            i = i - 1;
+                        }
+                    }
+                    trans.Commit();
+                }
+            }
+            return tableRangeIds;
+        }
         private List<string> GetLayerNames(Point3d pt)
         {
             List<string> layerNames = new List<string>();

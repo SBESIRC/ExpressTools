@@ -9,6 +9,9 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.ApplicationServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using TopoNode;
+using ThCADCore.NTS;
+using Linq2Acad;
+using AcHelper;
 
 namespace ThColumnInfo
 {
@@ -27,6 +30,9 @@ namespace ThColumnInfo
 
         private List<ObjectId> columnTableObjIds = new List<ObjectId>();
         protected List<Curve> columnTableCurves = new List<Curve>(); //支持Line和Arc
+
+        protected DBObjectCollection TableCells = new DBObjectCollection(); //根据columnTableCurve获取所有内部的单元格
+
         public List<ObjectId> ColumnTableObjIds
         {
             set
@@ -208,6 +214,29 @@ namespace ThColumnInfo
             ThProgressBar.MeterProgress();
             this.columnTableCurves= CommonUtils.RemoveCollinearLines(this.columnTableCurves);
             ThProgressBar.MeterProgress();
+        }
+        /// <summary>
+        /// 获取轮廓范围内所有Curve围成的单元格
+        /// 根据this.columnTableCurves生成单元格
+        /// </summary>
+        /// <returns></returns>
+        protected void UpdateTableCells()
+        {
+            this.TableCells.Dispose();
+            this.TableCells.Clear();
+            var objs = new DBObjectCollection();
+            this.columnTableCurves.ForEach(i => objs.Add(i));
+            this.TableCells = objs.Polygons();
+        }
+        protected DBObjectCollection ExtractTableOutline()
+        {
+            DBObjectCollection dbObjs = new DBObjectCollection();
+            using (Transaction trans=doc.TransactionManager.StartTransaction())
+            {
+                this.columnTableObjIds.ForEach(i => dbObjs.Add(trans.GetObject(i, OpenMode.ForRead)));
+                trans.Commit();
+            }
+            return dbObjs.Outline();
         }
         /// <summary>
         /// 提取的单元格，获取文字

@@ -144,44 +144,38 @@ namespace ThColumnInfo
                 curves = polylineObjIds.Select(i => ThColumnInfoDbUtils.GetEntity(doc.Database, i) as Curve).ToList();
             }
         }
+        private bool CheckCurveBoundingIsSquare(Curve curve)
+        {
+            Extents3d extents = ThColumnInfoUtils.GeometricExtentsImpl(curve);
+            double x = Math.Abs(extents.MaxPoint.X - extents.MinPoint.X);
+            double y = Math.Abs(extents.MaxPoint.Y - extents.MinPoint.Y);
+            if(Math.Abs(x-y)<= (0.01 *Math.Min(x,y)))
+            {
+                return true;
+            }
+            return false;
+        }
+        private double GetCurveBoundingArea(Curve curve)
+        {
+            Extents3d extents = ThColumnInfoUtils.GeometricExtentsImpl(curve);
+            double x = Math.Abs(extents.MaxPoint.X - extents.MinPoint.X);
+            double y = Math.Abs(extents.MaxPoint.Y - extents.MinPoint.Y);
+            return x * y;
+        }
         /// <summary>
         /// 获取所有小的圆圈
         /// </summary>
         private void GetSmallPolylines()
         {
             Dictionary<double, List<Curve>> polylineAreaDic = new Dictionary<double, List<Curve>>();
+            List<Curve> squareCurves = this.curves.Where(i => CheckCurveBoundingIsSquare(i)).Select(i => i).ToList();
+            //过滤面积大于4的Curve
+            squareCurves = squareCurves.Where(i => GetCurveBoundingArea(i) >= 4).Select(i => i).ToList();
             double area = 0.0;
-            for (int i = 0; i < this.curves.Count; i++)
+            for (int i = 0; i < squareCurves.Count; i++)
             {
-                if (this.curves[i] is Polyline polyline)
-                {
-                    area = polyline.Area;
-                }
-                else if (this.curves[i] is Polyline2d polyline2d)
-                {
-                    area = polyline2d.Area;
-                }
-                else if (this.curves[i] is Polyline3d polyline3d)
-                {
-                    area = polyline3d.Area;
-                }
-                else if (this.curves[i] is Circle circle)
-                {
-                    area = circle.Area;
-                }
-                else if (this.curves[i] is Ellipse ellipse)
-                {
-                    area = ellipse.Area;
-                }
-                else
-                {
-                    area = 0.0;
-                }
-                if (area == 0.0)
-                {
-                    continue;
-                }
-                List<double> existAreas = polylineAreaDic.Where(j => Math.Abs(j.Key - area) <= 2.0).Select(j => j.Key).ToList();
+                area = GetCurveBoundingArea(squareCurves[i]);
+                List<double> existAreas = polylineAreaDic.Where(j => Math.Abs(j.Key - area) <= (0.2 * j.Key)).Select(j => j.Key).ToList();
                 if (existAreas == null || existAreas.Count == 0)
                 {
                     polylineAreaDic.Add(area, new List<Curve>() { this.curves[i] });
@@ -191,8 +185,13 @@ namespace ThColumnInfo
                     polylineAreaDic[existAreas[0]].Add(this.curves[i]);
                 }
             }
-            List<double> smallPolylineAreas = polylineAreaDic.OrderBy(i => i.Key).Select(i => i.Key).ToList();
-            this.smallCurves = polylineAreaDic.OrderBy(i => i.Key).Where(i => i.Value.Count > 4).Select(i => i.Value).First();
+            foreach (var item in polylineAreaDic)
+            {
+                if (item.Value.Count > 1)
+                {
+                    this.smallCurves.AddRange(item.Value);
+                }
+            }
         }
         private void AnalyzeCornerNumber()
         {
@@ -210,20 +209,60 @@ namespace ThColumnInfo
             RemoveCorner(rightUpCorner);
             RemoveCorner(leftUpCorner);
         }
+        private bool JudgeYDirRangeIntersect(Curve first,Curve second)
+        {
+            Extents3d firstExtents = ThColumnInfoUtils.GeometricExtentsImpl(first);
+            Extents3d secondExtents = ThColumnInfoUtils.GeometricExtentsImpl(second);
+            if(secondExtents.MinPoint.Y>= firstExtents.MinPoint.Y && secondExtents.MinPoint.Y <= firstExtents.MaxPoint.Y)
+            {
+                return true;
+            }
+            if (secondExtents.MaxPoint.Y >= firstExtents.MinPoint.Y && secondExtents.MaxPoint.Y <= firstExtents.MaxPoint.Y)
+            {
+                return true;
+            }
+            if (firstExtents.MinPoint.Y >= secondExtents.MinPoint.Y && firstExtents.MinPoint.Y <= secondExtents.MaxPoint.Y)
+            {
+                return true;
+            }
+            if (firstExtents.MaxPoint.Y >= secondExtents.MinPoint.Y && firstExtents.MaxPoint.Y <= secondExtents.MaxPoint.Y)
+            {
+                return true;
+            }
+            return false;
+        }
+        private bool JudgeXDirRangeIntersect(Curve first, Curve second)
+        {
+            Extents3d firstExtents = ThColumnInfoUtils.GeometricExtentsImpl(first);
+            Extents3d secondExtents = ThColumnInfoUtils.GeometricExtentsImpl(second);
+            if (secondExtents.MinPoint.X >= firstExtents.MinPoint.X && secondExtents.MinPoint.X <= firstExtents.MaxPoint.X)
+            {
+                return true;
+            }
+            if (secondExtents.MaxPoint.X >= firstExtents.MinPoint.X && secondExtents.MaxPoint.X <= firstExtents.MaxPoint.X)
+            {
+                return true;
+            }
+            if (firstExtents.MinPoint.X >= secondExtents.MinPoint.X && firstExtents.MinPoint.X <= secondExtents.MaxPoint.X)
+            {
+                return true;
+            }
+            if (firstExtents.MaxPoint.X >= secondExtents.MinPoint.X && firstExtents.MaxPoint.X <= secondExtents.MaxPoint.X)
+            {
+                return true;
+            }
+            return false;
+        }
         private void AnalyzeBHEdgeNumber()
         {
-            Point3d originCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(this.originCurve));
+            //判断X方向纵筋的数量
+            var xDirCurves = this.smallCurves.Where(i => JudgeYDirRangeIntersect(i,originCurve)).Select(i => i).ToList();
+            //判断Y方向纵筋的数量
+            var yDirCurves = this.smallCurves.Where(i => JudgeXDirRangeIntersect(i, originCurve)).Select(i => i).ToList();
 
-            var xDirCurves = this.smallCurves.Where(i => Math.Abs(
-                 ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y - originCurveCenPt.Y) <= this.offsetDis).Select(i => i).ToList();
-
-            var yDirCurves = this.smallCurves.Where(i => Math.Abs(
-                 ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X - originCurveCenPt.X) <= this.offsetDis).Select(i => i).ToList();         
-            foreach(Curve xCurve in xDirCurves)
+            foreach (Curve xCurve in xDirCurves)
             {
-                Point3d xCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(xCurve));
-                var yLineCurves = this.smallCurves.Where(i => Math.Abs(
-                ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).X - xCurveCenPt.X) <= this.offsetDis).Select(i => i).ToList();
+                var yLineCurves = this.smallCurves.Where(i => JudgeXDirRangeIntersect(i,xCurve)).Select(i => i).ToList();
                 if(yLineCurves!=null && yLineCurves.Count()==2)
                 {
                     this.bEdgeNum += 1;
@@ -231,9 +270,7 @@ namespace ThColumnInfo
             }
             foreach (Curve yCurve in yDirCurves)
             {
-                Point3d yCurveCenPt = ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(yCurve));
-                var xLineCurves = this.smallCurves.Where(i => Math.Abs(
-                ThColumnInfoUtils.TransPtFromWcsToUcs(GetBoundingBoxCenter(i)).Y - yCurveCenPt.Y) <= this.offsetDis).Select(i => i).ToList();
+                var xLineCurves = this.smallCurves.Where(i => JudgeYDirRangeIntersect(i,yCurve)).Select(i => i).ToList();
                 if (xLineCurves != null && xLineCurves.Count() == 2)
                 {
                     this.hEdgeNum += 1;

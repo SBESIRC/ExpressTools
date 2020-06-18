@@ -26,105 +26,123 @@ namespace ThColumnInfo
         }
         public override void Extract()
         {
-            Vector3d vec = this.tableLeftDownCornerPt.GetVectorTo(this.tableRightUpCornerPt);
-            Point3d cenPt = this.tableLeftDownCornerPt+vec.GetNormal().MultiplyBy(this.extendPointRatio*vec.Length);
             try
             {
                 List<string> tableLayerNames = base.GetTableLayerName();
-                base.ColumnTableObjIds = GetColumnTableObjIds(tableLayerNames);
-                base.GetColunmTableCurves();
-                bool findRes = false;
-                cenPt = FindInvalidCenPt(cenPt, out findRes);
-                List<TableCellInfo> sameColumnCells = GetSameColumnCells(cenPt, null);
-                sameColumnCells = sameColumnCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(
-                   ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[0]),
-                   ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[2])).Y).ToList(); //对同一列的记录进行排序(从上到下)
-                List<List<TableCellInfo>> tableCells = new List<List<TableCellInfo>>();
-                int totalRow = sameColumnCells.Count;
-                List<double> xValueList = new List<double>();
-                foreach (TableCellInfo tableCellInfo in sameColumnCells)
-                {
-                    if (tableCellInfo.BoundaryPts.Count != 4)
+                //通过柱表图层获取组成表格所有的线
+                base.ColumnTableObjIds = GetColumnTableObjIds(tableLayerNames); 
+                //分析表格是否有几张表
+                DBObjectCollection outlines = base.ExtractTableOutline();
+                foreach (DBObject outline in outlines)
+                {                   
+                    //获取当前轮廓下表格的线
+                    base.ColumnTableObjIds = GetColumnTableObjIds(outline, tableLayerNames);
+                    //对组成表格的线重复处理
+                    base.GetColunmTableCurves();
+                    CurveAnyInsidePoint curveAnyInsidePoint = new CurveAnyInsidePoint(outline as Curve);
+                    curveAnyInsidePoint.FindInSidePt();
+                    Point3d cenPt = curveAnyInsidePoint.InsidePt;
+                    bool findRes = false;
+                    cenPt = FindInvalidCenPt(cenPt, out findRes);
+                    List<TableCellInfo> sameColumnCells = GetSameColumnCells(cenPt, null);
+                    sameColumnCells = sameColumnCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(
+                       ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[0]),
+                       ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[2])).Y).ToList(); //对同一列的记录进行排序(从上到下)
+                    List<List<TableCellInfo>> tableCells = new List<List<TableCellInfo>>();
+                    int totalRow = sameColumnCells.Count;
+                    List<double> xValueList = new List<double>();
+                    foreach (TableCellInfo tableCellInfo in sameColumnCells)
                     {
-                        continue;
-                    }
-                    double diagonalLine = tableCellInfo.BoundaryPts[0].DistanceTo(tableCellInfo.BoundaryPts[2]);
-                    Point3d findCenPt = ThColumnInfoUtils.GetExtendPt(tableCellInfo.BoundaryPts[0], tableCellInfo.BoundaryPts[2], this.extendPointRatio * diagonalLine);
-                    List<TableCellInfo> sameRowCells = GetSameRowCells(ThColumnInfoUtils.TransPtFromWcsToUcs(findCenPt), null, tableCellInfo.RowHeight);
-                    sameRowCells = sameRowCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(
-                        ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[0]),
-                        ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[2])).X).ToList(); //对同一行的记录进行排序
-                    tableCells.Add(sameRowCells);
-                    List<double> tempXvalues = sameRowCells.Select(i => ThColumnInfoUtils.GetMidPt(
-                        ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[0]),
-                        ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[2])).X).ToList();
-                    for (int i = 0; i < tempXvalues.Count; i++)
-                    {
-                        List<double> tempValues = xValueList.Where(j => Math.Abs(j - tempXvalues[i]) <= 2.0).Select(j => j).ToList();
-                        if (tempValues == null || tempValues.Count == 0)
+                        if (tableCellInfo.BoundaryPts.Count != 4)
                         {
-                            xValueList.Add(tempXvalues[i]);
+                            continue;
                         }
-                    }
-                    ThProgressBar.MeterProgress();
-                }
-                for (int i = 0; i < tableCells.Count; i++)
-                {
-                    tableCells[i].ForEach(j => j.Row = i);
-                }
-                int totalColumn = tableCells.OrderByDescending(i => i.Count).Select(i => i.Count).First();
-                //提取数据单元格
-                xValueList = xValueList.OrderBy(i => i).ToList();
-                Dictionary<double, List<TableCellInfo>> columnHeightCells = new Dictionary<double, List<TableCellInfo>>(); //行转成列
-                for (int m = 0; m < xValueList.Count; m++)
-                {
-                    List<TableCellInfo> columnCells = new List<TableCellInfo>();
-                    for (int i = 0; i < tableCells.Count; i++)
-                    {
-                        TableCellInfo tableCellInfo = tableCells[i].Where(j => Math.Abs(ThColumnInfoUtils.GetMidPt(
-                              ThColumnInfoUtils.TransPtFromWcsToUcs(j.BoundaryPts[0]),
-                              ThColumnInfoUtils.TransPtFromWcsToUcs(j.BoundaryPts[2])).X - xValueList[m]) <= 2.0).Select(j => j).FirstOrDefault();
-                        columnCells.Add(tableCellInfo);
-                    }
-                    columnCells.ForEach(i => i.Column = m);
-                    columnHeightCells.Add(xValueList[m], columnCells);
-                    ThProgressBar.MeterProgress();
-                }
-                this.dataColumnCells = columnHeightCells.Where(i => i.Value.Count == totalRow).Select(i => i.Value).ToList(); //具有相同列数的数据单元格
-                this.headColumnCells = columnHeightCells.Where(i => i.Value.Count != totalRow).Select(i => i.Value).ToList();
-                this.headColumnCells = this.headColumnCells.Select(i => GetNoRepeatedCells(i)).ToList();
-                if (this.headColumnCells.Count > 0)
-                {
-                    Dictionary<int, double> rowHeightDic = new Dictionary<int, double>();
-                    for (int i = 0; i < headColumnCells[0].Count; i++)
-                    {
-                        rowHeightDic.Add(i, headColumnCells[0][i].RowHeight);
-                    }
-                    Dictionary<int, double> columnWidthDic = new Dictionary<int, double>();
-                    for (int i = 0; i < headColumnCells.Count; i++)
-                    {
-                        columnWidthDic.Add(i, headColumnCells[i][0].ColumnWidth);
-                    }
-                    for (int i = 0; i < headColumnCells.Count; i++)
-                    {
-                        for (int j = 0; j < headColumnCells[i].Count; j++)
+                        double diagonalLine = tableCellInfo.BoundaryPts[0].DistanceTo(tableCellInfo.BoundaryPts[2]);
+                        Point3d findCenPt = ThColumnInfoUtils.GetExtendPt(tableCellInfo.BoundaryPts[0], tableCellInfo.BoundaryPts[2], this.extendPointRatio * diagonalLine);
+                        List<TableCellInfo> sameRowCells = GetSameRowCells(ThColumnInfoUtils.TransPtFromWcsToUcs(findCenPt), null, tableCellInfo.RowHeight);
+                        sameRowCells = sameRowCells.OrderByDescending(i => ThColumnInfoUtils.GetMidPt(
+                            ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[0]),
+                            ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[2])).X).ToList(); //对同一行的记录进行排序
+                        tableCells.Add(sameRowCells);
+                        List<double> tempXvalues = sameRowCells.Select(i => ThColumnInfoUtils.GetMidPt(
+                            ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[0]),
+                            ThColumnInfoUtils.TransPtFromWcsToUcs(i.BoundaryPts[2])).X).ToList();
+                        for (int i = 0; i < tempXvalues.Count; i++)
                         {
-                            TableCellInfo cellInfo = headColumnCells[i][j];
-                            int columnSpan = GetColumnSpan(cellInfo.Column, cellInfo.ColumnWidth, columnWidthDic);
-                            int rowSpan = GetRowSpan(cellInfo.Row, cellInfo.RowHeight, rowHeightDic);
-                            cellInfo.RowSpan = rowSpan;
-                            cellInfo.ColumnSpan = columnSpan;
+                            List<double> tempValues = xValueList.Where(j => Math.Abs(j - tempXvalues[i]) <= 2.0).Select(j => j).ToList();
+                            if (tempValues == null || tempValues.Count == 0)
+                            {
+                                xValueList.Add(tempXvalues[i]);
+                            }
                         }
                         ThProgressBar.MeterProgress();
                     }
-                }
-                else
-                {
-                    if (dataColumnCells.Count > 0)
+                    for (int i = 0; i < tableCells.Count; i++)
                     {
-                        this.headColumnCells.Add(dataColumnCells[0]);
-                        this.dataColumnCells.RemoveAt(0);
+                        tableCells[i].ForEach(j => j.Row = i);
                     }
+                    int totalColumn = tableCells.OrderByDescending(i => i.Count).Select(i => i.Count).First();
+                    //提取数据单元格
+                    xValueList = xValueList.OrderBy(i => i).ToList();
+                    Dictionary<double, List<TableCellInfo>> columnHeightCells = new Dictionary<double, List<TableCellInfo>>(); //行转成列
+                    for (int m = 0; m < xValueList.Count; m++)
+                    {
+                        List<TableCellInfo> columnCells = new List<TableCellInfo>();
+                        for (int i = 0; i < tableCells.Count; i++)
+                        {
+                            TableCellInfo tableCellInfo = tableCells[i].Where(j => Math.Abs(ThColumnInfoUtils.GetMidPt(
+                                  ThColumnInfoUtils.TransPtFromWcsToUcs(j.BoundaryPts[0]),
+                                  ThColumnInfoUtils.TransPtFromWcsToUcs(j.BoundaryPts[2])).X - xValueList[m]) <= 2.0).Select(j => j).FirstOrDefault();
+                            columnCells.Add(tableCellInfo);
+                        }
+                        columnCells.ForEach(i => 
+                        {
+                            if(i!=null)
+                            {
+                                i.Column = m;
+                            }
+                        });
+                        columnHeightCells.Add(xValueList[m], columnCells);
+                        ThProgressBar.MeterProgress();
+                    }
+                    this.dataColumnCells = columnHeightCells.Where(i => i.Value.Count == totalRow).Select(i => i.Value).ToList(); //具有相同列数的数据单元格
+                    this.headColumnCells = columnHeightCells.Where(i => i.Value.Count != totalRow).Select(i => i.Value).ToList();
+                    this.headColumnCells = this.headColumnCells.Select(i => GetNoRepeatedCells(i)).ToList();
+                    if (this.headColumnCells.Count > 0)
+                    {
+                        Dictionary<int, double> rowHeightDic = new Dictionary<int, double>();
+                        for (int i = 0; i < headColumnCells[0].Count; i++)
+                        {
+                            rowHeightDic.Add(i, headColumnCells[0][i].RowHeight);
+                        }
+                        Dictionary<int, double> columnWidthDic = new Dictionary<int, double>();
+                        for (int i = 0; i < headColumnCells.Count; i++)
+                        {
+                            columnWidthDic.Add(i, headColumnCells[i][0].ColumnWidth);
+                        }
+                        for (int i = 0; i < headColumnCells.Count; i++)
+                        {
+                            for (int j = 0; j < headColumnCells[i].Count; j++)
+                            {
+                                TableCellInfo cellInfo = headColumnCells[i][j];
+                                int columnSpan = GetColumnSpan(cellInfo.Column, cellInfo.ColumnWidth, columnWidthDic);
+                                int rowSpan = GetRowSpan(cellInfo.Row, cellInfo.RowHeight, rowHeightDic);
+                                cellInfo.RowSpan = rowSpan;
+                                cellInfo.ColumnSpan = columnSpan;
+                            }
+                            ThProgressBar.MeterProgress();
+                        }
+                    }
+                    else
+                    {
+                        if (dataColumnCells.Count > 0)
+                        {
+                            this.headColumnCells.Add(dataColumnCells[0]);
+                            this.dataColumnCells.RemoveAt(0);
+                        }
+                    }
+                    GetHeadCellText(); //先把表头的数据拿到
+                    GetDataCellText(); //获取数据单元格的文本
                 }
             }
             catch(System.Exception ex)
@@ -135,8 +153,6 @@ namespace ThColumnInfo
             {
                 Dispose();
             }
-            GetHeadCellText(); //先把表头的数据拿到
-            GetDataCellText(); //获取数据单元格的文本
         }
         /// <summary>
         ///  获取表头单元格的文本
@@ -208,20 +224,26 @@ namespace ThColumnInfo
         /// </summary>
         private void GetDataCellText()
         {
-            Dictionary<string, int> keyWordDic = new Dictionary<string, int>();
+            List<Tuple<string, int>> keyWordDic = new List<Tuple<string, int>>();
             List<TableCellInfo> headAllCells = new List<TableCellInfo>();
             this.headColumnCells.ForEach(i => headAllCells.AddRange(i));
             List<string> keyWordList = new List<string>() { "截面", "编号", "柱号", "名称", "标高", "纵筋", "箍筋", "备注" };
-            foreach (string keyWord in keyWordList)
+            foreach(TableCellInfo tci in headAllCells)
             {
-                TableCellInfo tci = headAllCells.Where(i => !string.IsNullOrEmpty(i.Text) && i.Text.Replace(" ", "").ToLower().
-                Contains(keyWord)).Select(i => i).FirstOrDefault();
-                if (tci == null)
+                if(tci==null)
                 {
                     continue;
                 }
-                keyWordDic.Add(keyWord, tci.Row);
+                var res = keyWordList.Where(i => tci.Text.Replace(" ", "").ToLower().Contains(i)).First();
+                if(res==null)
+                {
+                    continue;
+                }
+                keyWordDic.Add(Tuple.Create(res, tci.Row));
             }
+            int recordsCount = keyWordDic.Select(i => i.Item1).Distinct().Count();
+            int splitNums = keyWordDic.Count / recordsCount;
+
             TypedValue[] tvs1 = new TypedValue[] { new TypedValue((int)DxfCode.Start, "Text,MText") };
             TypedValue[] tvs2 = new TypedValue[] { new TypedValue((int)DxfCode.Start, "LWPOLYLINE,Polyline,DIMENSION,Text,MText") };
             SelectionFilter sf1 = new SelectionFilter(tvs1);
@@ -231,34 +253,38 @@ namespace ThColumnInfo
                 string cellText = "";
                 for (int i = 0; i < this.dataColumnCells.Count; i++)
                 {
-                    ColumnTableRecordInfo coluTabRi = new ColumnTableRecordInfo();
                     List<Curve> polylineObjs = new List<Curve>();
-                    for (int j = 0; j < this.dataColumnCells[i].Count; j++)
+                    for(int j=0;j< splitNums; j++)
                     {
-                        if (this.dataColumnCells[i][j].BoundaryPts.Count == 0)
+                        ColumnTableRecordInfo coluTabRi = new ColumnTableRecordInfo();
+                        for (int k = recordsCount * j; k < recordsCount * (j+ 1); k++)
                         {
-                            continue;
-                        }
-                        List<string> keyWordStrs = keyWordDic.Where(m => m.Value == this.dataColumnCells[i][j].Row).Select(m => m.Key).ToList();
-                        if (keyWordStrs == null || keyWordStrs.Count == 0)
-                        {
-                            continue;
-                        }
-                        List<Point3d> pts = new List<Point3d>();
-                        foreach (Point3d pt in this.dataColumnCells[i][j].BoundaryPts)
-                        {
-                            pts.Add(ThColumnInfoUtils.TransPtFromWcsToUcs(pt));
-                        }
-                        foreach (string keyWordStr in keyWordStrs)
-                        {
+                            if (this.dataColumnCells[i][k] == null)
+                            {
+                                continue;
+                            }
+                            if (this.dataColumnCells[i][k].BoundaryPts.Count == 0)
+                            {
+                                continue;
+                            }
+                            string keyWordStr = keyWordDic.Where(m => m.Item2 == this.dataColumnCells[i][k].Row).Select(m => m.Item1).First();
+                            if (string.IsNullOrEmpty(keyWordStr))
+                            {
+                                continue;
+                            }
+                            List<Point3d> pts = new List<Point3d>();
+                            foreach (Point3d pt in this.dataColumnCells[i][k].BoundaryPts)
+                            {
+                                pts.Add(ThColumnInfoUtils.TransPtFromWcsToUcs(pt));
+                            }
                             PromptSelectionResult psr;
                             cellText = "";
                             if (keyWordStr == "截面")
                             {
-                                double minX = pts.OrderBy(k => k.X).First().X;
-                                double minY = pts.OrderBy(k => k.Y).First().Y;
-                                double maxX = pts.OrderByDescending(k => k.X).First().X;
-                                double maxY = pts.OrderByDescending(k => k.Y).First().Y;
+                                double minX = pts.OrderBy(m => m.X).First().X;
+                                double minY = pts.OrderBy(m => m.Y).First().Y;
+                                double maxX = pts.OrderByDescending(m => m.X).First().X;
+                                double maxY = pts.OrderByDescending(m => m.Y).First().Y;
                                 Point3d point1 = new Point3d(minX, minY, 0) + new Vector3d(5, 5, 0);
                                 Point3d point3 = new Point3d(maxX, maxY, 0) + new Vector3d(-5, -5, 0);
                                 Point3d point2 = new Point3d(point3.X, point1.Y, 0);
@@ -283,7 +309,7 @@ namespace ThColumnInfo
                             else //仅仅是文字
                             {
                                 Point3dCollection ucsBoundaryPts = new Point3dCollection();
-                                pts.ForEach(k => ucsBoundaryPts.Add(k));
+                                pts.ForEach(m => ucsBoundaryPts.Add(m));
                                 psr = ThColumnInfoUtils.SelectByPolyline(doc.Editor,
                            ucsBoundaryPts, PolygonSelectionMode.Window, sf1);
                                 if (psr.Status == PromptStatus.OK)
@@ -307,50 +333,50 @@ namespace ThColumnInfo
                                     }
                                 }
                             }
-                            dataColumnCells[i][j].Text = cellText;
+                            dataColumnCells[i][k].Text = cellText;
                             switch (keyWordStr)
                             {
                                 case "编号":
                                 case "柱号":
                                 case "名称":
-                                    coluTabRi.Code = dataColumnCells[i][j].Text;
+                                    coluTabRi.Code = cellText;
                                     break;
                                 case "标高":
-                                    coluTabRi.Level = dataColumnCells[i][j].Text;
+                                    coluTabRi.Level = cellText;
                                     break;
                                 case "纵筋":
-                                    coluTabRi.AllLongitudinalReinforcement = dataColumnCells[i][j].Text;
+                                    coluTabRi.AllLongitudinalReinforcement = cellText;
                                     break;
                                 case "箍筋":
-                                    coluTabRi.HoopReinforcement = dataColumnCells[i][j].Text;
+                                    coluTabRi.HoopReinforcement = cellText;
                                     break;
                                 case "备注":
-                                    coluTabRi.Remark = dataColumnCells[i][j].Text;
+                                    coluTabRi.Remark = cellText;
                                     break;
                             }
                         }
-                    }
-                    Curve situMarkFrame = GetSituMarkFrame(polylineObjs);
-                    BuildInSituMarkInf buildInSituMarkInf = new BuildInSituMarkInf(situMarkFrame);
-                    buildInSituMarkInf.Ctri = coluTabRi;
-                    buildInSituMarkInf.Build();
-                    if(buildInSituMarkInf.Valid)
-                    {
-                        if (!string.IsNullOrEmpty(coluTabRi.Code))
+                        Curve situMarkFrame = GetSituMarkFrame(polylineObjs);
+                        BuildInSituMarkInf buildInSituMarkInf = new BuildInSituMarkInf(situMarkFrame);
+                        buildInSituMarkInf.Ctri = coluTabRi;
+                        buildInSituMarkInf.Build();
+                        if (buildInSituMarkInf.Valid)
                         {
-                            coluTabRi.Code.Replace('，', ',');
-                            string[] codeStrs = coluTabRi.Code.Split(',');
-                            if (codeStrs.Length == 1)
+                            if (!string.IsNullOrEmpty(coluTabRi.Code))
                             {
-                                this.coluTabRecordInfs.Add(coluTabRi);
-                            }
-                            else
-                            {
-                                foreach (string code in codeStrs)
+                                coluTabRi.Code.Replace('，', ',');
+                                string[] codeStrs = coluTabRi.Code.Split(',');
+                                if (codeStrs.Length == 1)
                                 {
-                                    ColumnTableRecordInfo ctri = coluTabRi.Clone() as ColumnTableRecordInfo;
-                                    ctri.Code = code.Trim();
-                                    this.coluTabRecordInfs.Add(ctri);
+                                    this.coluTabRecordInfs.Add(coluTabRi);
+                                }
+                                else
+                                {
+                                    foreach (string code in codeStrs)
+                                    {
+                                        ColumnTableRecordInfo ctri = coluTabRi.Clone() as ColumnTableRecordInfo;
+                                        ctri.Code = code.Trim();
+                                        this.coluTabRecordInfs.Add(ctri);
+                                    }
                                 }
                             }
                         }
@@ -530,7 +556,7 @@ namespace ThColumnInfo
                     }
                     else
                     {
-                        dimText = rd.Measurement.ToString();
+                        dimText = Math.Round(rd.Measurement,0).ToString();
                     }
                 }
                 if(string.IsNullOrEmpty(dimText) || !BaseFunction.IsNumeric(dimText))
