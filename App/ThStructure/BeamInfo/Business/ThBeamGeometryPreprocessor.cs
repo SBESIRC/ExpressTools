@@ -1,4 +1,5 @@
 ﻿using ThCADCore.NTS;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThStructure.BeamInfo.Business
@@ -80,6 +81,24 @@ namespace ThStructure.BeamInfo.Business
 
                 return newCurves;
             }
+        }
+
+        /// <summary>
+        /// Z值归0
+        /// </summary>
+        /// <param name="curves"></param>
+        /// <returns></returns>
+        public static DBObjectCollection Z0Curves(DBObjectCollection curves)
+        {
+            var objs = new DBObjectCollection();
+            foreach (Curve curve in curves)
+            {
+                curve.TransformBy(Matrix3d.Displacement(new Vector3d(0, 0, 1e99)));
+                curve.TransformBy(Matrix3d.Displacement(new Vector3d(0, 0, -1e99)));
+                objs.Add(curve.GetTransformedCopy(Matrix3d.Identity));
+
+            }
+            return objs;
         }
     }
 }
