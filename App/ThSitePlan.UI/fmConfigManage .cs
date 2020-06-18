@@ -122,7 +122,7 @@ namespace ThSitePlan.UI
 
             TreeList.ActiveFilterString = _FilterString;
 
-          
+
 
             //SetEditCloseUpKey();
 
@@ -555,7 +555,7 @@ namespace ThSitePlan.UI
                 var _TreeList = sender as TreeList;
                 if (_TreeList == null) { return; }
                 var _FocusedColumn = _TreeList.FocusedColumn;
-                if (_FocusedColumn.FieldName == "Name" ||  _FocusedColumn.FieldName == "PSD_Transparency")
+                if (_FocusedColumn.FieldName == "Name" || _FocusedColumn.FieldName == "PSD_Transparency")
                 {
 
                     _FocusedColumn.OptionsColumn.AllowEdit = true;
@@ -701,26 +701,54 @@ namespace ThSitePlan.UI
                 _NewColorGeneral.ID = _Guid;
             }
             _NewColorGeneral.DataType = "1";
-            _NewColorGeneral.Name = _NewColorGeneral.Name + " - 副本";
+            _NewColorGeneral.Name = SetColorGeneralName(_NewColorGeneral);
             _ListTemp.Add(_NewColorGeneral);
             CopyChildNodes(_ColorGeneral, _ListTemp, _Guid);
             var _Inidex = m_ListColorGeneral.IndexOf(_ColorGeneral);
             m_ListColorGeneral.InsertRange(_Inidex + 1, _ListTemp);
             TreeList.RefreshDataSource();
             this.TreeList.ExpandAll();
+
         }
+
+
+        public string SetColorGeneralName(ColorGeneralDataModel _NewColorGeneral)
+        {
+            var _List = m_ListColorGeneral.FindAll(p => p.Name.Contains(_NewColorGeneral.Name) && p.PID == _NewColorGeneral.PID && p.ID != _NewColorGeneral.ID);
+            if (_List == null || _List.Count == 0) { return _NewColorGeneral.Name + " - 副本"; }
+            for (int i = 1; i < 10000; i++)
+            {
+                if (i == 1)
+                {
+                    var _ListTemp1 = m_ListColorGeneral.FindAll(p => p.Name == _NewColorGeneral.Name + " - 副本" && p.PID == _NewColorGeneral.PID && p.ID != _NewColorGeneral.ID);
+                    if (_ListTemp1 == null || _ListTemp1.Count == 0) { return _NewColorGeneral.Name + " - 副本"; }
+                }
+                else
+                {
+                    var _ListTemp = m_ListColorGeneral.FindAll(p => p.Name == _NewColorGeneral.Name + " - 副本(" + i + ")" && p.PID == _NewColorGeneral.PID && p.ID != _NewColorGeneral.ID);
+                    if (_ListTemp == null || _ListTemp.Count == 0) { return _NewColorGeneral.Name + " - 副本(" + i + ")"; }
+                }
+
+            }
+            return string.Empty;
+        }
+
 
         private void MenuItemDelete_Click(object sender, EventArgs e)
         {
-            var _ColorGeneral = TreeList.GetFocusedRow() as ColorGeneralDataModel;
-            //if (_ColorGeneral == null || _ColorGeneral.DataType == "0") { return; }
-            if (_ColorGeneral == null) { return; }
-            List<ColorGeneralDataModel> _ListTemp = new List<ColorGeneralDataModel>();
-            GetChildNodes(_ColorGeneral, _ListTemp);
-            _ListTemp.ForEach(p => m_ListColorGeneral.Remove(p));
-            m_ListColorGeneral.Remove(_ColorGeneral);
-            TreeList.RefreshDataSource();
-            this.TreeList.ExpandAll();
+            TreeList.DeleteNode(TreeList.FocusedNode);
+
+
+            //var _ColorGeneral = TreeList.GetFocusedRow() as ColorGeneralDataModel;
+            ////if (_ColorGeneral == null || _ColorGeneral.DataType == "0") { return; }
+            //if (_ColorGeneral == null) { return; }
+            //List<ColorGeneralDataModel> _ListTemp = new List<ColorGeneralDataModel>();
+            //GetChildNodes(_ColorGeneral, _ListTemp);
+            //_ListTemp.ForEach(p => m_ListColorGeneral.Remove(p));
+            //m_ListColorGeneral.Remove(_ColorGeneral);
+
+            //TreeList.RefreshDataSource();
+            //this.TreeList.ExpandAll();
         }
 
         private void MenuItemOpacity_Click(object sender, EventArgs e)
@@ -745,7 +773,7 @@ namespace ThSitePlan.UI
                     _NewColorGeneral.ID = Guid.NewGuid().ToString();
                     _NewColorGeneral.PID = _Guid;
                     _NewColorGeneral.DataType = "1";
-                    _NewColorGeneral.Name = _NewColorGeneral.Name + " - 副本";
+                    _NewColorGeneral.Name = SetColorGeneralName(_NewColorGeneral);
                     _List.Add(_NewColorGeneral);
                     var _ListTemp = m_ListColorGeneral.FindAll(p => p.PID == _Tmp.ID && p.ID != p.PID);
                     if (_ListTemp.Count > 0)
