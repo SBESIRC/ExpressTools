@@ -213,9 +213,14 @@ namespace ThSitePlan.UI
                         _ColorGeneral.ImgType = "0";
                     }
                 }
+            }
 
-
-
+            if (e.Column.FieldName == "Name")
+            {
+                TreeList.PostEditor();
+                var _ID = FuncStr.NullToStr(e.Node.GetValue("ID"));
+                var _PID = FuncStr.NullToStr(e.Node.GetValue("PID"));
+                var _Type = FuncStr.NullToStr(e.Node.GetValue("Type"));
 
 
             }
@@ -669,7 +674,7 @@ namespace ThSitePlan.UI
             _NewColorGeneral.PSD_Transparency = 100;
             _NewColorGeneral.CAD_Layer = null;
             _NewColorGeneral.CAD_Script = "";
-            _NewColorGeneral.CAD_Frame = "";
+            _NewColorGeneral.CAD_Frame = "未命名图层";
             //m_ListColorGeneral.Add(_NewColorGeneral);
             var _Inidex = m_ListColorGeneral.IndexOf(_ColorGeneral);
             m_ListColorGeneral.Insert(_Inidex + 1, _NewColorGeneral);
@@ -1074,6 +1079,7 @@ namespace ThSitePlan.UI
             {
                 _List.ForEach(p =>
                 {
+                    if (_ColorGeneral.CAD_Layer == null) { _ColorGeneral.CAD_Layer = new List<LayerDataModel>(); }
                     var _Layer = _ColorGeneral.CAD_Layer.Find(s => s.Name == p);
                     if (_Layer == null)
                     {
