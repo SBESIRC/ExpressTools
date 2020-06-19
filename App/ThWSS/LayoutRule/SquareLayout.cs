@@ -284,20 +284,6 @@ namespace ThWSS.LayoutRule
                 moveLength = Math.Floor(moveLength / 50) * 50;
                 remainder = (length - num * moveLength) / 2;
             }
-            
-            //if (num >= 1)
-            //{
-            //    moveLength = length / num;
-            //    //间距是50的倍数
-            //    moveLength = Math.Floor(moveLength / 50) * 50;
-            //    remainder = (length - num * moveLength) / 2;
-            //}
-            //else
-            //{
-            //    remainder = length / 2;
-            //    moveLength = 0;
-            //}
-            
         }
     }
 }

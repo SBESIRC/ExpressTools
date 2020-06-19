@@ -106,8 +106,18 @@ namespace ThWSS.Engine
 
                     ThRoom thRoom = new ThRoom();
                     thRoom.Properties = new Dictionary<string, object>();
-                    thRoom.Properties.Add("ThRomm" + i, profile.profile);
+                    thRoom.Properties.Add("ThRoom" + i, profile.profile);
                     Elements.Add(thRoom);
+                    
+                    foreach (var plineDic in profile.InnerPolylineLayers)
+                    {
+                        if (plineDic.profileLayers.Where(x => x.ToUpper().Contains("S_COLU")).Count() > 0)
+                        {
+                            ThColumn thColumn = new ThColumn();
+                            thColumn.Properties = new Dictionary<string, object>();
+                            thColumn.Properties.Add("ThColumn" + i, plineDic.profile);
+                        }
+                    }
 
                     Utils.DrawProfile(new List<Curve>() { profile.profile }, "outProfile");
                     Utils.DrawTextProfile(profile.profileCurves, profile.profileLayers);

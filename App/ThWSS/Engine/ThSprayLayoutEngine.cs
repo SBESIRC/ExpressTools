@@ -21,7 +21,7 @@ namespace ThWSS.Engine
 
         public ThSprayLayoutWorker Workers = new ThSprayLayoutWorker();
         public ThBeamRecognitionEngine BeamEngine = new ThBeamRecognitionEngine();
-        public ThRoomRecognitionEngine RoomEngine = new ThRoomRecognitionEngine();
+        public static ThRoomRecognitionEngine RoomEngine = new ThRoomRecognitionEngine();
         public ThColumnRecognitionEngine ColumnEngine = new ThColumnRecognitionEngine();
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace ThWSS.Engine
             }
 
             // 遍历房间，对每个房间进行布置
-            RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o, layoutModel));
+            RoomEngine.Elements.Where(x=>x is ThRoom).Cast<ThRoom>().ForEach(o => Layout(o, layoutModel));
         }
 
         /// <summary>
@@ -61,24 +61,6 @@ namespace ThWSS.Engine
         /// <param name="room"></param>
         private void Layout(ThRoom room, SprayLayoutModel layoutModel)
         {
-            //var polygon = room.Properties.Values.Cast<Polyline>().ToList();
-            //foreach (var item in polygon)
-            //{
-            //    //去掉线上多余的点
-            //    var polyBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { item }, new Tolerance(0.1, 0.1)).First();
-            //    List<KeyValuePair<Line, double>> polyDic = new List<KeyValuePair<Line, double>>();
-            //    for (int i = 0; i < polyBounding.NumberOfVertices; i++)
-            //    {
-            //        polyDic.Add(new KeyValuePair<Line, double>(new Line(polyBounding.GetPoint3dAt(i), polyBounding.GetPoint3dAt((i + 1) % polyBounding.NumberOfVertices)), 300));
-            //    }
-
-            //    var res = GeUtils.PolygonBuffer(polyBounding, polyDic);
-            //    using (AcadDatabase acdb = AcadDatabase.Active())
-            //    {
-            //        acdb.ModelSpace.Add(res);
-            //    }
-            //}
-
             Workers.DoLayout(room, layoutModel);
         }
     }
