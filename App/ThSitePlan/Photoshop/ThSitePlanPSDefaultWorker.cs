@@ -20,7 +20,6 @@ namespace ThSitePlan.Photoshop
             string DocName = NewOpenDocument.Name;
 
             //2. 将新打开的PS文档图层复制到首文档
-            psService.CurrentFirstDocument= psService.Application.Documents[1];
             psService.CopyNewToFirst(NewOpenDocument, psService.CurrentFirstDocument);
 
             //3. 依据当前文档名查找其在PS中的插入位置
@@ -36,8 +35,13 @@ namespace ThSitePlan.Photoshop
         public override bool DoUpdate(string path, ThSitePlanConfigItem configItem)
         {
             //1. 在PS中打开并处理需要更新的PDF
+            psService.CurrentFirstDocument = psService.Application.ActiveDocument;
+            if (psService.CurrentFirstDocument == null)
+            {
+                return false;
+            }
+
             var NewOpenDoc = psService.OpenAndSet(path, configItem);
-            psService.CurrentFirstDocument = psService.Application.Documents[1];
 
             //1.5 依据当前打开的图纸名获取其各个图层分组名(第一步打开文档后,第二步关闭文档前)
             string NewDocName = NewOpenDoc.Name;
