@@ -60,6 +60,7 @@
     <Compile Include="Model\ModelBeamSegCompose.cs" />
     <Compile Include="Model\ModelColumnSegCompose.cs" />
     <Compile Include="Model\ModelGrid.cs" />
+    <Compile Include="Model\ModelWallSegCompose.cs" />
     <Compile Include="Model\Point.cs" />
     <Compile Include="Model\YjkBeamSect.cs" />
     <Compile Include="Model\YjkBeamSeg.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Model\YjkWallBeam.cs" />
     <Compile Include="Model\YjkWallCalculateInfo.cs" />
     <Compile Include="Model\YjkWallCol.cs" />
+    <Compile Include="Model\YjkWallSect.cs" />
     <Compile Include="Model\YjkWallSeg.cs" />
     <Compile Include="Query\YjkBeamQuery.cs" />
     <Compile Include="Query\YjkBoardQuery.cs" />

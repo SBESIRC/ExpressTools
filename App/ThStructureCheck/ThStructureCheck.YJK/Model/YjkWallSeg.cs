@@ -17,10 +17,10 @@ namespace ThStructureCheck.YJK.Model
         public int HDiff1 { get; set; }
         public int HDiff2 { get; set; }
         public int HDiffB { get; set; }
-        public int sloping { get; set; }
+        public int Sloping { get; set; }
         public int EccDown { get; set; }
-        public int offset1 { get; set; }
-        public int offset2 { get; set; }
+        public int Offset1 { get; set; }
+        public int Offset2 { get; set; }
         public ModelGrid Grid
         {
             get

@@ -15,7 +15,7 @@ namespace ThStructureCheck.YJK.Query
         {
         }
         /// <summary>
-        /// 提取dtlModel中所有的柱子信息
+        /// 提取dtlModel中所有的梁几何信息
         /// </summary>
         /// <param name="floorNo"></param>
         /// <returns></returns>

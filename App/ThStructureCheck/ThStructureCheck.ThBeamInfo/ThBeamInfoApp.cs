@@ -10,8 +10,8 @@ namespace ThStructureCheck
     {
         public static void Run()
         {
-            string dtlCalcPath = @"D:\柱校核\实例 - Send 1023\A3#楼 - 伪原位\计算模型\施工图\dtlCalc.ydb";
-            string dtlModelPath = @"D:\柱校核\实例 - Send 1023\A3#楼 - 伪原位\计算模型\施工图\dtlmodel.ydb";
+            string dtlCalcPath = @"D:\梁校核\梁图与模型\10地块4#号楼\施工图\dtlCalc.ydb";
+            string dtlModelPath = @"D:\梁校核\梁图与模型\10地块4#号楼\施工图\dtlmodel.ydb";
             ThDrawBeam thDrawBeam = new ThDrawBeam(dtlModelPath, dtlCalcPath, 3);
             thDrawBeam.Draw();
             Document document = CadTool.GetMdiActiveDocument();
