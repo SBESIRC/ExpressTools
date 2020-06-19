@@ -1286,16 +1286,16 @@ namespace TopoNode
             if (m_ProfileLoop.Count == 0)
                 return;
 
-            //var outProfile = m_ProfileLoop.First();
-            //var relatedCurves = CalcuRelatedCurves(scatterCurves, outProfile.TopoEdges);
-            ////Utils.DrawProfile(relatedCurves, "rela");
-            ////return;
-            //CalculateLoop(relatedCurves);
+            var outProfile = m_ProfileLoop.First();
+            var relatedCurves = CalcuRelatedCurves(scatterCurves, outProfile.TopoEdges);
+            //Utils.DrawProfile(relatedCurves, "rela");
+            //return;
+            CalculateLoop(relatedCurves);
 
-            //if (m_InnerProfileLoops.Count == 0)
-            //    return;
+            if (m_InnerProfileLoops.Count == 0)
+                return;
 
-            //CalInnerProfiles(outProfile.TopoEdges);
+            CalInnerProfiles(outProfile.TopoEdges);
         }
 
         private void CalInnerProfiles(List<TopoEdge> outProfile)
