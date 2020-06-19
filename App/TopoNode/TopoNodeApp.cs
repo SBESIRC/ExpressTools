@@ -61,7 +61,7 @@ namespace TopoNode
 
             // 图元预处理
             var removeEntityLst = Utils.PreProcess2(validLayers);
-           
+
             //Utils.PostProcess(removeEntityLst);
             //return;
             Progress.Progress.SetValue(900);
@@ -111,83 +111,78 @@ namespace TopoNode
                 if (curSelectPoints == null || curSelectPoints.Count == 0)
                     continue;
                 var allCurves = Utils.GetValidCurvesFromSelectPLine(srcAllCurves, curSelectPLine);
-                try
+
+                foreach (var pt in curSelectPoints)
+                    Utils.DrawPreviewPoint(pt, "pick");
+
+                allCurves = TopoUtils.TesslateCurve(allCurves);
+                Utils.ExtendCurves(allCurves, 5);
+
+                var wallAllCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(srcWallAllCurves, curSelectPLine);
+                wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
+
+                // wind线作为墙的一部分
+                if (windLayers != null && windLayers.Count != 0)
                 {
-                    foreach (var pt in curSelectPoints)
-                        Utils.DrawPreviewPoint(pt, "pick");
-
-                    allCurves = TopoUtils.TesslateCurve(allCurves);
-                    Utils.ExtendCurves(allCurves, 5);
-
-                    var wallAllCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(srcWallAllCurves, curSelectPLine);
-                    wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
-
-                    // wind线作为墙的一部分
-                    if (windLayers != null && windLayers.Count != 0)
+                    var windCurves = Utils.GetWindDOORCurves(windLayers);
+                    windCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(windCurves, curSelectPLine);
+                    if (windCurves != null && windCurves.Count != 0)
                     {
-                        var windCurves = Utils.GetWindDOORCurves(windLayers);
-                        windCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(windCurves, curSelectPLine);
-                        if (windCurves != null && windCurves.Count != 0)
-                        {
-                            var tesslateWindCurves = TopoUtils.TesslateCurve(windCurves);
-                            Utils.ExtendCurvesWithTransaction(tesslateWindCurves, 5);
-                            wallAllCurves.AddRange(tesslateWindCurves);
-                            allCurves.AddRange(tesslateWindCurves);
-                        }
+                        var tesslateWindCurves = TopoUtils.TesslateCurve(windCurves);
+                        Utils.ExtendCurvesWithTransaction(tesslateWindCurves, 5);
+                        wallAllCurves.AddRange(tesslateWindCurves);
+                        allCurves.AddRange(tesslateWindCurves);
                     }
-
-                    // door线作为墙的一部分
-                    if (arcDoorLayers != null && arcDoorLayers.Count != 0)
-                    {
-                        var doorCurves = Utils.GetWindDOORCurves(arcDoorLayers);
-                        doorCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(doorCurves, curSelectPLine);
-                        if (doorCurves != null && doorCurves.Count != 0)
-                        {
-                            var tesslateDoorCurves = TopoUtils.TesslateCurve(doorCurves);
-                            wallAllCurves.AddRange(tesslateDoorCurves);
-                            allCurves.AddRange(tesslateDoorCurves);
-                        }
-                    }
-
-                    smallStep = profileFindPre / 3.0;
-                    beginPos += smallStep;
-                    Progress.Progress.SetValue((int)beginPos);
-                    // door 内门中的数据
-                    if (arcDoorLayers != null && arcDoorLayers.Count != 0)
-                    {
-                        var doorBounds = Utils.GetBoundsFromDOORLayerCurves(arcDoorLayers);
-                        doorBounds = Utils.GetValidBoundsFromSelectPLine(doorBounds, curSelectPLine);
-                        var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, allCurves, arcDoorLayers.First());
-
-                        if (doorInsertCurves != null && doorInsertCurves.Count != 0)
-                        {
-                            allCurves.AddRange(doorInsertCurves);
-                            Utils.DrawProfile(doorInsertCurves, "doorInsertCurves");
-                            //removeEntityLst.AddRange(doorInsertCurves);
-                        }
-                    }
-
-                    beginPos += smallStep;
-                    Progress.Progress.SetValue((int)beginPos);
-                    // wind 中的数据
-                    if (windLayers != null && windLayers.Count != 0)
-                    {
-                        var windBounds = Utils.GetBoundsFromWINDLayerCurves(windLayers);
-                        windBounds = Utils.GetValidBoundsFromSelectPLine(windBounds, curSelectPLine);
-                        var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, windLayers.First());
-
-                        if (windInsertCurves != null && windInsertCurves.Count != 0)
-                        {
-                            Utils.DrawProfile(windInsertCurves, "windInsertCurves");
-                            allCurves.AddRange(windInsertCurves);
-                        }
-                    }
-
-                    allCurves = CommonUtils.RemoveCollinearLines(allCurves);
                 }
-                catch (System.Exception e)
+
+                // door线作为墙的一部分
+                if (arcDoorLayers != null && arcDoorLayers.Count != 0)
                 {
+                    var doorCurves = Utils.GetWindDOORCurves(arcDoorLayers);
+                    doorCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(doorCurves, curSelectPLine);
+                    if (doorCurves != null && doorCurves.Count != 0)
+                    {
+                        var tesslateDoorCurves = TopoUtils.TesslateCurve(doorCurves);
+                        wallAllCurves.AddRange(tesslateDoorCurves);
+                        allCurves.AddRange(tesslateDoorCurves);
+                    }
                 }
+
+                smallStep = profileFindPre / 3.0;
+                beginPos += smallStep;
+                Progress.Progress.SetValue((int)beginPos);
+                // door 内门中的数据
+                if (arcDoorLayers != null && arcDoorLayers.Count != 0)
+                {
+                    var doorBounds = Utils.GetBoundsFromDOORLayerCurves(arcDoorLayers);
+                    doorBounds = Utils.GetValidBoundsFromSelectPLine(doorBounds, curSelectPLine);
+                    var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, allCurves, arcDoorLayers.First());
+
+                    if (doorInsertCurves != null && doorInsertCurves.Count != 0)
+                    {
+                        allCurves.AddRange(doorInsertCurves);
+                        Utils.DrawProfile(doorInsertCurves, "doorInsertCurves");
+                        //removeEntityLst.AddRange(doorInsertCurves);
+                    }
+                }
+
+                beginPos += smallStep;
+                Progress.Progress.SetValue((int)beginPos);
+                // wind 中的数据
+                if (windLayers != null && windLayers.Count != 0)
+                {
+                    var windBounds = Utils.GetBoundsFromWINDLayerCurves(windLayers);
+                    windBounds = Utils.GetValidBoundsFromSelectPLine(windBounds, curSelectPLine);
+                    var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, windLayers.First());
+
+                    if (windInsertCurves != null && windInsertCurves.Count != 0)
+                    {
+                        Utils.DrawProfile(windInsertCurves, "windInsertCurves");
+                        allCurves.AddRange(windInsertCurves);
+                    }
+                }
+
+                allCurves = CommonUtils.RemoveCollinearLines(allCurves);
 
                 beginPos += smallStep;
                 Progress.Progress.SetValue((int)beginPos);

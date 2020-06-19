@@ -3521,7 +3521,7 @@ namespace TopoNode
                 return null;
 
             var obcurves = poly.GetOffsetCurves(500);
-            var curves = new List<Curve>();
+
             var lineSegments = new List<LineSegment2d>();
             CreateLayer("FLine", Color.FromRgb(0, 0, 255));
             foreach (var curve in obcurves)
@@ -3531,26 +3531,25 @@ namespace TopoNode
                     var lines = Polyline2Lines(polyline);
                     if (lines != null && lines.Count != 0)
                         lineSegments.AddRange(lines);
-
-                    var curveNodes = TopoUtils.Polyline2Curves(polyline);
-                    foreach (var node in curveNodes)
-                    {
-                        node.Layer = "FLine";
-                    }
-
-                    if (curveNodes != null && curveNodes.Count != 0)
-                        curves.AddRange(curveNodes);
                 }
             }
 
+            var curveNodes = TopoUtils.Polyline2Curves(poly);
+            foreach (var node in curveNodes)
+            {
+                node.Layer = "FLine";
+            }
+
             var validCurves = new List<Curve>();
+            if (curveNodes != null && curveNodes.Count != 0)
+                validCurves.AddRange(curveNodes);
+
             foreach (var srcCurve in allCurves)
             {
                 if (IsValidCurve(srcCurve, lineSegments))
                     validCurves.Add(srcCurve);
             }
 
-            validCurves.AddRange(curves);
             return validCurves;
         }
 
