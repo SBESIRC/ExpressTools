@@ -324,15 +324,20 @@ namespace ThColumnInfo
                 return;
             }
             string reinforce = "";
+            string angularStr = ""; //带有角筋数量的字样
             foreach(string str in strs)
             {
                 if(str.IndexOf("角筋")<0)
                 {
-                    reinforce = str;
-                    break;
+                    reinforce = str;                    
+                }
+                else
+                {
+                    angularStr = str;
                 }
             }
             List<int> reinforceDatas = new ColumnTableRecordInfo().GetReinforceDatas(reinforce);
+            List<int> angularDatas = new ColumnTableRecordInfo().GetReinforceDatas(angularStr);
             string suffix = new ColumnTableRecordInfo().GetReinforceSuffix(reinforce);           
             int reinNum = reinforceDatas[0];
 
@@ -343,17 +348,20 @@ namespace ThColumnInfo
             {
                 string bSideReinforceSuffix = new ColumnTableRecordInfo().GetReinforceSuffix(this.bSideReinforcement);
                 string hSideReinforceSuffix = new ColumnTableRecordInfo().GetReinforceSuffix(this.hSideReinforcement);
-                if (bSideReinforceSuffix!= suffix || hSideReinforceSuffix!= suffix)
+                if (bSideReinforceSuffix!= suffix && hSideReinforceSuffix!= suffix)
                 {
                     this.valid = false;
                     this.sb.Append("B边或H边格式和集中标注不一致");
                     return;
                 }
-                if(this.bSideNum+this.hSideNum!= reinNum)
+                if(angularDatas.Count>0 && angularDatas[0]== this.distinguishCBH.CornerNum * 4)
                 {
-                    this.valid = false;
-                    this.sb.Append("B边和H边的纵筋数量之和,与集中标注不一致");
-                    return;
+                    if (this.bSideNum + this.hSideNum != reinNum)
+                    {
+                        this.valid = false;
+                        this.sb.Append("B边和H边的纵筋数量之和,与集中标注不一致");
+                        return;
+                    }
                 }
                 this.bSideReinforcement = this.distinguishCBH.BEdgeNum + bSideReinforceSuffix;               
                 this.hSideReinforcement = this.distinguishCBH.HEdgeNum + hSideReinforceSuffix;

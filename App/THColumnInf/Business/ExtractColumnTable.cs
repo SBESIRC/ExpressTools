@@ -99,7 +99,7 @@ namespace ThColumnInfo
 
                 double xLen = Math.Abs(maxX - minX);
                 double yLen = Math.Abs(maxY - minY);
-                double offset = Math.Min(xLen, yLen) * 0.1;
+                double offset = 1.0;
 
                 this.leftDownPt = new Point3d(minX, minY, minZ) + new Vector3d(-offset, -offset, 0.0);
                 this.rightUpPt = new Point3d(maxX, maxY, maxZ) + new Vector3d(offset, offset, 0.0);
