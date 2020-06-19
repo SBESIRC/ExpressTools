@@ -112,6 +112,7 @@
     </Compile>
     <Compile Include="View\ProtectStrategyWindow.xaml.cs" />
     <Compile Include="View\ThProtectRangeWindow.xaml.cs" />
+    <Compile Include="View\ThRiskAlertWindow.xaml.cs" />
     <Compile Include="View\ThSparyLayoutSet.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +177,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ThProtectRangeWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ThRiskAlertWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

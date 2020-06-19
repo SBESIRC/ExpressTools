@@ -45,7 +45,7 @@ namespace ThWSS.Utlis
             }
 
             var bLines = GetDivisionines(pLines, points);
-            var diviPoly = GetMinPolygon(bLines);
+            var diviPoly = GetMinPolygon(bLines).Where(x=>x.Area>0).ToList();
             diviPoly = CalMergeRule(diviPoly);
             return diviPoly;
         }

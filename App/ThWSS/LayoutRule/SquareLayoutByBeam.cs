@@ -31,6 +31,11 @@ namespace ThWSS.LayoutRule
             bool hasBeam = true;
             if (bufferRes.Count > 0)
             {
+                using (AcadDatabase acdb = AcadDatabase.Active())
+                {
+                    acdb.ModelSpace.Add(diviRoom);
+                    //acdb.ModelSpace.Add(resPoly);
+                }
                 resPoly = diviRoom.Buffer(-beamDic.Max(x => x.Value))[0] as Polyline;
                 hasBeam = false;
             }

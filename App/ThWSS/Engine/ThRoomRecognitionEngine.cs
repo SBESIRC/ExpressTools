@@ -103,7 +103,7 @@ namespace ThWSS.Engine
 
                     if (CommonUtils.HasPolylines(hasPutPolys, profile.profile))
                         continue;
-
+                    
                     ThRoom thRoom = new ThRoom();
                     thRoom.Properties = new Dictionary<string, object>();
                     thRoom.Properties.Add("ThRoom" + i, profile.profile);
@@ -116,6 +116,7 @@ namespace ThWSS.Engine
                             ThColumn thColumn = new ThColumn();
                             thColumn.Properties = new Dictionary<string, object>();
                             thColumn.Properties.Add("ThColumn" + i, plineDic.profile);
+                            Elements.Add(thColumn);
                         }
                     }
 

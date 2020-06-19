@@ -41,12 +41,12 @@ namespace ThWSS.Bussiness
 
                 //5.根据房间分割区域
                 RegionDivisionByBeamUtils regionDivision = new RegionDivisionByBeamUtils();
-                var respolys = regionDivision.DivisionRegion(roomBounding, polys);
+                var respolys = regionDivision.DivisionRegion(room, polys);
                 using (AcadDatabase acdb = AcadDatabase.Active())
                 {
-                    foreach (var poly in beamInfo.Select(x=>x.BeamBoundary))
+                    foreach (var poly in polys)
                     {
-                        //acdb.ModelSpace.Add(poly);
+                        acdb.ModelSpace.Add(poly);
                     }
                 }
                 
@@ -94,8 +94,15 @@ namespace ThWSS.Bussiness
                             roomSprays.AddRange(checkPts);
                         }
 
+                        //计算出柱内的喷淋
+                        Dictionary<Polyline, List<SprayLayoutData>> ptInColmns;
+                        var columnSpray = columnInfoService.CalColumnSpray(columnPolys, layoutPts.SelectMany(x => x).ToList(), out ptInColmns);
+
+                        //将孤立柱打入图层
+                        columnInfoService.SetStandAloneColumnInLayer(ptInColmns.Keys.ToList());
+
                         //放置喷头
-                        InsertSprayService.InsertSprayBlock(roomSprays.Select(o => o.Position).ToList(), SprayType.SPRAYDOWN);
+                        InsertSprayService.InsertSprayBlock(columnSpray.Select(o => o.Position).ToList(), SprayType.SPRAYDOWN);
                     }
                 }
             }

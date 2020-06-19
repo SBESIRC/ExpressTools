@@ -34,7 +34,7 @@ namespace ThWSS.Engine
             // 从房间引擎中获取房间信息
             RoomEngine.Acquire(database, polygon);
             // 遍历房间，对每个房间进行布置
-            RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o, layoutModel));
+            RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => Layout(o, layoutModel));
         }
 
         /// <summary>

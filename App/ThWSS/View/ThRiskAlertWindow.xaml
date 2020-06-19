@@ -1,0 +1,41 @@
+<Window x:Class="ThWss.View.ThRiskAlertWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:userC="clr-namespace:ThWSS.View"
+        ResizeMode="NoResize"
+        Title="喷头布置" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Width="150">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Height="300">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="1"  Content="提示框" HorizontalAlignment="Right"  Margin="0,0,5,0"></Label>
+        <CheckBox Grid.Row="1" Grid.Column="1" Name="HasBeam"  HorizontalAlignment="Right" Margin="5,0,20,0"></CheckBox>
+        <Line Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource dottedL}"/>
+        <ListView>
+            
+        </ListView>
+        <Label Grid.Row="4" Grid.ColumnSpan="2" Margin="5,10,5,0"  VerticalAlignment="Bottom">
+            <TextBlock  VerticalAlignment="Bottom" TextWrapping="Wrap" Text="保护半径记录到喷头图块内。
+                       记录布置时的半径，分为矩形和圆形。" />
+        </Label>
+    </Grid>
+</Window>
