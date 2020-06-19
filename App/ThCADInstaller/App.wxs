@@ -5,6 +5,7 @@
     <?if $(var.Configuration) = Debug ?>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18">
       <?define OutputPath_R18_Debug="bin\Debug" ?>
+      <?define OutputPath_Obj_R18_Debug="obj\Debug" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Debug" Guid="{E97A5608-DA8A-4115-9AE4-0A52D70CD681}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_DotNetARX_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\DotNetARX.dll" />
       </Component>
@@ -80,6 +81,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThSitePlan_Debug" Guid="{71022713-58BD-4262-B5D1-5F9DAF627897}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThSitePlan_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThSitePlan.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Photoshop_Interop_Debug" Guid="{B798212F-A5D3-48DB-93D6-BB1DC058C5D1}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_Photoshop_Interop_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R18_Debug)\Interop.Photoshop.dll" />
+      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThSitePlanUI_Debug" Guid="{5CECA160-72C5-4FCD-96C9-621C1B2931CC}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThSitePlanUI_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThSitePlan.UI.dll" />
       </Component>
@@ -89,6 +93,7 @@
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
+      <?define OutputPath_Obj_R19_Debug="obj\Debug-NET40" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" Guid="{A2E5AE11-9269-414D-8D38-BE9367516242}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\DotNetARX.dll" />
       </Component>
@@ -164,6 +169,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlan_Debug" Guid="{547F2FC7-AACA-4863-9418-6EC858FE0140}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThSitePlan_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThSitePlan.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Photoshop_Interop_Debug" Guid="{FF7136C1-4161-48ED-BD53-AD73F80DA6AE}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_Photoshop_Interop_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R19_Debug)\Interop.Photoshop.dll" />
+      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlanUI_Debug" Guid="{2F6A316B-2806-45EA-A703-A14DD0EB7C74}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThSitePlanUI_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThSitePlan.UI.dll" />
       </Component>
@@ -173,6 +181,7 @@
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
       <?define OutputPath_R20_Debug="bin\Debug-NET45" ?>
+      <?define OutputPath_Obj_R20_Debug="obj\Debug-NET45" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" Guid="{7f4d9ae1-a101-4ce8-8051-bcc08433f87a}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\DotNetARX.dll" />
       </Component>
@@ -245,6 +254,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlan_Debug" Guid="{C273137C-1706-4ABF-AC39-61AE0D766096}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThSitePlan_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThSitePlan.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Photoshop_Interop_Debug" Guid="{C8E4BE04-9CF6-4B50-BB1F-455B2A255B80}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_Photoshop_Interop_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R20_Debug)\Interop.Photoshop.dll" />
+      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlanUI_Debug" Guid="{F7763B04-EAE6-45B1-BF41-7D922A639FD0}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThSitePlanUI_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThSitePlan.UI.dll" />
       </Component>
@@ -254,6 +266,7 @@
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
       <?define OutputPath_R22_Debug="bin\Debug-NET46" ?>
+      <?define OutputPath_Obj_R22_Debug="obj\Debug-NET46" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_DotNetARX_Debug" Guid="{C2430D8B-097D-4123-B11C-A003417F21E8}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_DotNetARX_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\DotNetARX.dll" />
       </Component>
@@ -323,6 +336,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlan_Debug" Guid="{C4D27322-3926-4ACA-9CEF-16439C611547}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThSitePlan_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ThSitePlan.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_Photoshop_Interop_Debug" Guid="{6D5B7C1B-4DDD-494C-985E-44BBAE28B927}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_Photoshop_Interop_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R22_Debug)\Interop.Photoshop.dll" />
+      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlanUI_Debug" Guid="{ED468608-CB90-4BC1-B01A-0DD8809CA2F2}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThSitePlanUI_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ThSitePlan.UI.dll" />
       </Component>
@@ -333,6 +349,7 @@
     <?elseif $(var.Configuration) = Release ?>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18">
       <?define OutputPath_R18_Release="bin\Release" ?>
+      <?define OutputPath_Obj_R18_Release="obj\Release" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Release" Guid="{E97A5608-DA8A-4115-9AE4-0A52D70CD681}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_DotNetARX_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\DotNetARX.dll" />
       </Component>
@@ -408,6 +425,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThSitePlan_Release" Guid="{65C29F6C-1C2B-42FE-BCB8-2A3CA88C1D19}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThSitePlan_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThSitePlan.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Photoshop_Interop_Release" Guid="{FBEAC7DF-AA67-44AA-AC35-AC5DF6F93D73}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R18_Photoshop_Interop_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R18_Release)\Interop.Photoshop.dll" />
+      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThSitePlanUI_Release" Guid="{20AC1F9A-AC76-4452-9D91-3C5B6809D942}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThSitePlanUI_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ThSitePlan.UI.dll" />
       </Component>
@@ -417,6 +437,7 @@
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Release="bin\Release-NET40" ?>
+      <?define OutputPath_Obj_R19_Release="obj\Release-NET40" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" Guid="{A2E5AE11-9269-414D-8D38-BE9367516242}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\DotNetARX.dll" />
       </Component>
@@ -492,6 +513,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlan_Release" Guid="{5E7BA034-DA51-4F19-B626-CB8376E90862}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThSitePlan_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThSitePlan.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Photoshop_Interop_Release" Guid="{1F911049-C425-4D9E-A10F-674E3175DDC1}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R19_Photoshop_Interop_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R19_Release)\Interop.Photoshop.dll" />
+      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlanUI_Release" Guid="{F6B33512-2DF0-4D84-9C09-21FB269176AD}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThSitePlanUI_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThSitePlan.UI.dll" />
       </Component>
@@ -501,6 +525,7 @@
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
       <?define OutputPath_R20_Release="bin\Release-NET45" ?>
+      <?define OutputPath_Obj_R20_Release="obj\Release-NET45" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" Guid="{21d0af80-c5fe-4cae-96aa-c20832955223}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\DotNetARX.dll" />
       </Component>
@@ -573,6 +598,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlan_Release" Guid="{425D41E9-0A5D-479D-A0C0-462E3A41706B}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThSitePlan_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThSitePlan.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Photoshop_Interop_Release" Guid="{59202C7C-C5A9-42CE-8056-511ADE962A1D}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R20_Photoshop_Interop_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R20_Release)\Interop.Photoshop.dll" />
+      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlanUI_Release" Guid="{BFA2E597-FAD3-4968-A2E3-76B98105DD14}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThSitePlanUI_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThSitePlan.UI.dll" />
       </Component>
@@ -582,6 +610,7 @@
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
       <?define OutputPath_R22_Release="bin\Release-NET46" ?>
+      <?define OutputPath_Obj_R22_Release="obj\Release-NET46" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_DotNetARX_Release" Guid="{88D59357-66C4-495B-9A29-64F37B396478}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_DotNetARX_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\DotNetARX.dll" />
       </Component>
@@ -654,6 +683,9 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlan_Release" Guid="{0DE09F86-A533-436F-A9EF-34EEDE85FF13}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThSitePlan_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThSitePlan.dll" />
       </Component>
+      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_Photoshop_Interop_Release" Guid="{C7738688-9E39-45A4-BC9F-4469C873AF3F}" Win64="yes">
+        <File Id="FILE_Autoloader_Contents_App_Win64_R22_Photoshop_Interop_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R22_Release)\Interop.Photoshop.dll" />
+      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlanUI_Release" Guid="{AFB55F16-A167-4792-B0B2-50C2AFC1BDAF}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThSitePlanUI_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThSitePlan.UI.dll" />
       </Component>
@@ -692,6 +724,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThCADCore_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThSitePlan_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThSitePlanUI_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Photoshop_Interop_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAlias_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Debug" />
@@ -718,6 +751,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThStructure_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCADCore_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlan_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Photoshop_Interop_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlanUI_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAlias_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" />
@@ -744,6 +778,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThStructure_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCADCore_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlan_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Photoshop_Interop_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlanUI_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAlias_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DotNetARX_Debug" />
@@ -770,6 +805,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThStructure_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThCADCore_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlan_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_Photoshop_Interop_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlanUI_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThAlias_Debug" />
       <?elseif $(var.Configuration) = Release ?>
@@ -799,6 +835,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThCADCore_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThSitePlan_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThSitePlanUI_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Photoshop_Interop_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAlias_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" />
@@ -826,6 +863,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCADCore_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlan_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlanUI_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Photoshop_Interop_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAlias_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" />
@@ -852,6 +890,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCADCore_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlan_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlanUI_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Photoshop_Interop_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAlias_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DotNetARX_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ExtensionTools_Release" />
@@ -878,6 +917,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThCADCore_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlan_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlanUI_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_Photoshop_Interop_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThAlias_Release" />
       <?endif?>
     </ComponentGroup>
