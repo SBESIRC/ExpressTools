@@ -55,6 +55,8 @@ namespace ThSitePlan.Photoshop
             ColorInPS.RGB.Green = 228;
             ColorInPS.RGB.Blue = 221;
             ChannelSelection.Fill(ColorInPS);
+
+            CurrentFirstDocument = currentdoc;
         }
 
         //PS中载入Channel选区并填充
@@ -243,10 +245,24 @@ namespace ThSitePlan.Photoshop
             }
         }
 
-        //导出并保存PSD文件
-        public void ExportToFile(string path)
+        //用于更新操作时导出并保存PSD文件
+        public void ExportToFileForUpdate(string path)
         {
             Application.ActiveDocument.SaveAs(path);
+        }
+
+        //用于生成操作时导出并保存PSD文件
+        public void ExportToFile(string path)
+        {
+            string nameprefi = "一键彩总图";
+            int originaldwgindex = 1;
+            string psfilename = nameprefi + originaldwgindex + ".psd";
+            while (File.Exists(Path.Combine(path, psfilename)))
+            {
+                originaldwgindex++;
+                psfilename = nameprefi + originaldwgindex + ".psd";
+            }
+            Application.ActiveDocument.SaveAs(Path.Combine(path, psfilename));
         }
     }
 }

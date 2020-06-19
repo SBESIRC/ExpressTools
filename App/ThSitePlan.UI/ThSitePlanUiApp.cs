@@ -560,7 +560,7 @@ namespace ThSitePlan.UI
                             ThSitePlanConfigService.Instance.Root);
 
                         // 保存PS生成的文档
-                        psService.ExportToFile(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                        psService.ExportToFileForUpdate(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
                     }
                 }
                 else
@@ -640,7 +640,7 @@ namespace ThSitePlan.UI
                             ThSitePlanConfigService.Instance.Root);
 
                         // 保存PS生成的文档
-                        psService.ExportToFile(ThSitePlanSettingsService.Instance.OutputPath);
+                        psService.ExportToFileForUpdate(ThSitePlanSettingsService.Instance.OutputPath);
                     }
                 }
             }
