@@ -37,13 +37,13 @@ panels:
     name: "SitePlanTool"
     title: "一键彩总"
     items:
-      - text: "生成"
+      - text: "一键生成"
         attributes: { "IsVisible": true, "IsEnabled": true }
-      - text: "更新"
+      - text: "局部刷新"
         attributes: { "IsVisible": true, "IsEnabled": true }
-      - text: "配置"
+      - text: "映射管理"
         attributes: { "IsVisible": true, "IsEnabled": true }
-      - text: "设置"
+      - text: "常用设置"
         attributes: { "IsVisible": true, "IsEnabled": true }
     attributes: { "IsVisible": true, "IsEnabled": true }
   - UID: "pnlStatistic"

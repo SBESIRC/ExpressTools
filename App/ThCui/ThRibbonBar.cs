@@ -883,38 +883,38 @@ namespace TianHua.AutoCAD.ThCui
             var panel = tab.AddNewPanel("SitePlanTool", "一键彩总");
             var row = panel.AddNewRibbonRow();
 
-            //生成
-            row.AddNewButton("生成",
-                "天华一键彩总生成",
+            //一键生成
+            row.AddNewButton("一键生成",
+                "天华彩总一键生成",
                 "THPGE",
-                "天华一键彩总生成",
+                "天华彩总一键生成",
                 "IDI_THCAD_THPGE_SMALL",
                 "IDI_THCAD_THPGE_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
-            //更新
-            row.AddNewButton("更新",
-                "天华一键彩总更新",
+            //局部刷新
+            row.AddNewButton("局部刷新",
+                "天华彩总局部刷新",
                 "THPUD",
-                "天华一键彩总更新",
+                "天华彩总局部刷新",
                 "IDI_THCAD_THPUD_SMALL",
                 "IDI_THCAD_THPUD_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
-            //配置
-            row.AddNewButton("配置",
-                "天华一键彩总配置",
+            //映射管理
+            row.AddNewButton("映射管理",
+                "天华彩总映射管理",
                 "THPCF",
-                "天华一键彩总配置",
+                "天华彩总映射管理",
                 "IDI_THCAD_THPCF_SMALL",
                 "IDI_THCAD_THPCF_LARGE",
                 RibbonButtonStyle.LargeWithText);
 
-            //设置
-            row.AddNewButton("设置",
-                "天华一键彩总设置",
+            //常用设置
+            row.AddNewButton("常用设置",
+                "天华彩总常用设置",
                 "THPOP",
-                "天华一键彩总设置",
+                "天华彩总常用设置",
                 "IDI_THCAD_THPOP_SMALL",
                 "IDI_THCAD_THPOP_LARGE",
                 RibbonButtonStyle.LargeWithText);
