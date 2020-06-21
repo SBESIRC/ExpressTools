@@ -182,8 +182,26 @@ namespace ThWSS
             {
                 if (layoutModel.sparyLayoutWay == LayoutWay.fire)
                 {
+                    // 选择防火分区
+                    PromptSelectionOptions options = new PromptSelectionOptions()
+                    {
+                        AllowDuplicates = false,
+                        RejectObjectsOnLockedLayers = true,
+                    };
+                    var filterlist = OpFilter.Bulid(o =>
+                        o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+                    var entSelected = Active.Editor.GetSelection(options, filterlist);
+                    if (entSelected.Status != PromptStatus.OK)
+                    {
+                        return;
+                    }
+
                     // 执行操作
-                    ThSprayLayoutEngine.Instance.Layout(acdb.Database, null, layoutModel);
+                    foreach (var obj in entSelected.Value.GetObjectIds())
+                    {
+                        var polygon = acdb.Element<Polyline>(obj);
+                        ThSprayLayoutEngine.Instance.Layout(acdb.Database, polygon, layoutModel);
+                    }
                 }
                 else if (layoutModel.sparyLayoutWay == LayoutWay.frame)
                 {

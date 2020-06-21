@@ -1,5 +1,4 @@
 using System;
-using AcHelper;
 using Linq2Acad;
 using System.IO;
 using System.Collections.Generic;
@@ -19,44 +18,49 @@ namespace ThStructure.BeamInfo.Command
                 //  0.1 Z值归0
                 ThBeamGeometryPreprocessor.Z0Curves(ref dBObjects);
                 //  0.2 将多段线“炸”成线段
-                var beamCurves = ThBeamGeometryPreprocessor.ExplodeCurves(dBObjects);
+                var curves = ThBeamGeometryPreprocessor.ExplodeCurves(dBObjects);
+                //  0.3 “合并”重叠的线段（在精度允许的范围内，考虑了完全重叠，部分重叠，已经收尾连接的情况）
+                var beamCurves = ThBeamGeometryPreprocessor.MergeCurves(curves);
 
                 //1.计算出匹配的梁
                 CalBeamStruService calBeamService = new CalBeamStruService();
                 var allBeam = calBeamService.GetBeamInfo(beamCurves);
 
-                //2.计算出梁的搭接信息
-                CalBeamIntersectService interService = new CalBeamIntersectService(Active.Document);
-                interService.CalBeamIntersectInfo(allBeam, acdb);
+                // TODO：
+                //  需要支持识别外参中的梁的标注信息
 
-                //3.计算出梁的标注信息
-                GetBeamMarkInfo getBeamMark = new GetBeamMarkInfo(Active.Document, acdb);
-                getBeamMark.FillBeamInfo(allBeam);
+                ////2.计算出梁的搭接信息
+                //CalBeamIntersectService interService = new CalBeamIntersectService(Active.Document);
+                //interService.CalBeamIntersectInfo(allBeam, acdb);
 
-                //4.根据分跨信息合并梁
-                CalSpanBeamInfo calSpanBeam = new CalSpanBeamInfo();
-                calSpanBeam.FindBeamOfCentralizeMarking(ref allBeam, out List<Beam> divisionBeams);
+                ////3.计算出梁的标注信息
+                //GetBeamMarkInfo getBeamMark = new GetBeamMarkInfo(Active.Document, acdb);
+                //getBeamMark.FillBeamInfo(allBeam);
 
-                //5.填充梁的标注信息
-                FillBeamInfo fillBeamInfo = new FillBeamInfo();
-                fillBeamInfo.FillMarkingInfo(allBeam);
+                ////4.根据分跨信息合并梁
+                //CalSpanBeamInfo calSpanBeam = new CalSpanBeamInfo();
+                //calSpanBeam.FindBeamOfCentralizeMarking(ref allBeam, out List<Beam> divisionBeams);
 
-                //6.根据分跨信息分割梁
-                foreach (var beam in divisionBeams)
-                {
-                    List<Beam> dBeams = calSpanBeam.DivisionBeams(beam, allBeam);
-                    allBeam.Remove(beam);
-                    allBeam.AddRange(dBeams);
-                }
+                ////5.填充梁的标注信息
+                //FillBeamInfo fillBeamInfo = new FillBeamInfo();
+                //fillBeamInfo.FillMarkingInfo(allBeam);
 
-                //7.打印梁外边框
-                foreach (var item in allBeam)
-                {
-                    acdb.ModelSpace.Add(item.BeamBoundary);
-                }
+                ////6.根据分跨信息分割梁
+                //foreach (var beam in divisionBeams)
+                //{
+                //    List<Beam> dBeams = calSpanBeam.DivisionBeams(beam, allBeam);
+                //    allBeam.Remove(beam);
+                //    allBeam.AddRange(dBeams);
+                //}
 
-                //8.打印梁信息
-                PrintInfo(allBeam, true);
+                ////7.打印梁外边框
+                //foreach (var item in allBeam)
+                //{
+                //    acdb.ModelSpace.Add(item.BeamBoundary);
+                //}
+
+                ////8.打印梁信息
+                //PrintInfo(allBeam, true);
 
                 return allBeam;
             }
