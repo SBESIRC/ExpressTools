@@ -32,6 +32,7 @@ namespace ThSitePlan.UI
         {
             if (e.Document != null)
             {
+                ThSitePlanDocEventHandler.Instance.SubscribeToDoc(e.Document);
                 ThSitePlanDbEventHandler.Instance.SubscribeToDb(e.Document.Database);
             }
         }
@@ -40,6 +41,7 @@ namespace ThSitePlan.UI
         {
             if (e.Document != null)
             {
+                ThSitePlanDocEventHandler.Instance.UnsubscribeFromDoc(e.Document);
                 ThSitePlanDbEventHandler.Instance.UnsubscribeFromDb(e.Document.Database);
             }
         }

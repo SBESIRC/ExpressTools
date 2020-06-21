@@ -41,9 +41,12 @@ namespace ThSitePlan.UI
             db.ObjectModified += DbEvent_ObjectModified_Handler;
         }
 
-        public void UnsubscribeFromDb(Database db)
+        public void UnsubscribeFromDb(Database db, bool reset = true)
         {
-            Contents.Clear();
+            if (reset)
+            {
+                Contents.Clear();
+            }
             db.ObjectErased -= DbEvent_ObjectErased_Handler;
             db.ObjectAppended -= DbEvent_ObjectAppended_Handler;
             db.ObjectModified -= DbEvent_ObjectModified_Handler;
