@@ -39,19 +39,6 @@ namespace ThSitePlan.Photoshop
             }
         }
 
-        private void Run(string path, ThSitePlanConfigItem job)
-        {
-            if (!job.IsEnabled || job.Properties["Name"].ToString() == ThSitePlanCommon.ThSitePlan_Frame_Name_Unrecognized)
-            {
-                return;
-            }
-
-            foreach (var generator in Generators)
-            {
-                generator.Generate(path, job);
-            }
-        }
-
         public void PSUpdate(string path, ThSitePlanConfigItemGroup jobs)
         {
             if (!jobs.IsEnabled)
@@ -73,9 +60,22 @@ namespace ThSitePlan.Photoshop
             }
         }
 
+        private void Run(string path, ThSitePlanConfigItem job)
+        {
+            if (!ValidateItem(job))
+            {
+                return;
+            }
+
+            foreach (var generator in Generators)
+            {
+                generator.Generate(path, job);
+            }
+        }
+
         private void PSUpdate(string path, ThSitePlanConfigItem job)
         {
-            if (!job.IsEnabled)
+            if (!ValidateItem(job))
             {
                 return;
             }
@@ -84,6 +84,21 @@ namespace ThSitePlan.Photoshop
             {
                 generator.Update(path, job);
             }
+        }
+
+        private bool ValidateItem(ThSitePlanConfigItem job)
+        {
+            if (!job.IsEnabled)
+            {
+                return false;
+            }
+
+            if (job.Properties["Name"].ToString() == ThSitePlanCommon.ThSitePlan_Frame_Name_Unrecognized)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

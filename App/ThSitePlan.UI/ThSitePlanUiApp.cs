@@ -561,10 +561,33 @@ namespace ThSitePlan.UI
                 {
                     // 如果只选择解构图框，则只需要打印内容
 
-                    Queue<Tuple<ObjectId, Vector3d>> cadupdateframe = new Queue<Tuple<ObjectId, Vector3d>>();
+                    var filterframes = new ObjectIdCollection();
+                    foreach(ObjectId frame in frames)
+                    {
+                        // 过滤掉未使用的空白解构框
+                        string framename = ThSitePlanDbEngine.Instance.NameByFrame(frame);
+                        if (string.IsNullOrEmpty(framename))
+                        {
+                            filterframes.Add(frame);
+                        }
+                        if (framename == ThSitePlanCommon.ThSitePlan_Frame_Name_Unused)
+                        {
+                            filterframes.Add(frame);
+                        }
+                    }
+                    foreach(ObjectId frame in filterframes)
+                    {
+                        frames.Remove(frame);
+                    }
+                    if (frames.Count == 0)
+                    {
+                        return;
+                    }
+
+                    var cadupdateframe = new Queue<Tuple<ObjectId, Vector3d>>();
                     foreach (ObjectId frameid in frames)
                     {
-                        Tuple<ObjectId, Vector3d> frametuple = new Tuple<ObjectId, Vector3d>(frameid, new Vector3d(0, 0, 0));
+                        var frametuple = new Tuple<ObjectId, Vector3d>(frameid, new Vector3d(0, 0, 0));
                         cadupdateframe.Enqueue(frametuple);
                     }
 

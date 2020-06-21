@@ -85,9 +85,11 @@ namespace ThSitePlan
                     null);
                 if (psr.Status == PromptStatus.OK)
                 {
-                    var objs = new ObjectIdCollection(psr.Value.GetObjectIds());
+                    // Crossing选择会选择到用来界定选择区域的框线
+                    // 这里需要在选择结果中过滤掉框线自己
+                    var objs = new ObjectIdCollection(psr.Value.GetObjectIds()
+                        .Where(o => o != frame).ToArray());
                     acadDatabase.Database.CopyWithMove(objs, Matrix3d.Displacement(offset));
-
                 }
             }
         }
