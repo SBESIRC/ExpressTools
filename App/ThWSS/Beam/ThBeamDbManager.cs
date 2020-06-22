@@ -43,10 +43,9 @@ namespace ThWSS.Beam
             // 处理图纸，获取处理后的构成梁的所有图元（曲线）
             Geometries = new DBObjectCollection();
             List<Entity> ents = ThStructureUtils.ExplodeAllXRef();
-            ents=ThStructureUtils.FilterByLayers(ents, this.beamColumnLayers);
-            List<Curve> curves = ents.Where(i => i is Curve).Select(i => i as Curve).ToList();
-            curves.ForEach(i => Geometries.Add(i));
-            ThStructureUtils.AddToDatabase(curves.Cast<Entity>().ToList());
+            //ents=ThStructureUtils.FilterByLayers(ents, this.beamColumnLayers);
+            ents.ForEach(i => Geometries.Add(i));
+            ThStructureUtils.AddToDatabase(ents);
         }
 
         public void PostProcess()

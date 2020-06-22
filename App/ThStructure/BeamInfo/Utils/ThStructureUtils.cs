@@ -43,11 +43,11 @@ namespace ThStructure.BeamInfo.Utils
                         i = i - 1;
                     }
                     BlockTableRecord btr = db.Element<BlockTableRecord>(blockRefs[i].BlockTableRecord);
-                    if(!btr.IsFromExternalReference)
-                    {
-                        blockRefs.RemoveAt(i);
-                        i = i - 1;
-                    }
+                    //if(!btr.IsFromExternalReference)
+                    //{
+                    //    blockRefs.RemoveAt(i);
+                    //    i = i - 1;
+                    //}
                 }
                 blockRefs.ForEach(i => resEntityLst.AddRange(Explode(db, i, keepUnvisible)));
             }
