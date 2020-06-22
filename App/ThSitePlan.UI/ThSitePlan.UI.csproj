@@ -130,6 +130,12 @@
     <Compile Include="fmMobilePanel.Designer.cs">
       <DependentUpon>fmMobilePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="fmThSitePlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmThSitePlan.Designer.cs">
+      <DependentUpon>fmThSitePlan.cs</DependentUpon>
+    </Compile>
     <Compile Include="MouseHook.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -143,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="fmMobilePanel.resx">
       <DependentUpon>fmMobilePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmThSitePlan.resx">
+      <DependentUpon>fmThSitePlan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

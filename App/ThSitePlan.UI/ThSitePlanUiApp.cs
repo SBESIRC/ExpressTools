@@ -728,7 +728,7 @@ namespace ThSitePlan.UI
         [CommandMethod("TIANHUACAD", "THPOP", CommandFlags.Modal)]
         public void ThSitePlanOptions()
         {
-            using (var dlg = new ThSitePlanForm())
+            using (var dlg = new fmThSitePlan())
             {
                 Application.ShowModalDialog(dlg);
             }

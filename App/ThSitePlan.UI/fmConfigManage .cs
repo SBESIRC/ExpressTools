@@ -78,6 +78,7 @@ namespace ThSitePlan.UI
         {
 
             InitializeComponent();
+ 
         }
 
 
@@ -218,9 +219,12 @@ namespace ThSitePlan.UI
             if (e.Column.FieldName == "Name")
             {
                 TreeList.PostEditor();
-                var _ID = FuncStr.NullToStr(e.Node.GetValue("ID"));
-                var _PID = FuncStr.NullToStr(e.Node.GetValue("PID"));
                 var _Type = FuncStr.NullToStr(e.Node.GetValue("Type"));
+                if(_Type == "0")
+                {
+                    TreeList.FocusedNode.SetValue("CAD_Frame", e.Value);
+                }
+
 
 
             }
@@ -684,6 +688,7 @@ namespace ThSitePlan.UI
 
         private void MenuItemRename_Click(object sender, EventArgs e)
         {
+            ColName.OptionsColumn.AllowEdit = true;
             keybd_event((byte)Keys.F2, 0, 0, 0);
         }
 
@@ -1064,7 +1069,8 @@ namespace ThSitePlan.UI
 
         private void BtnHelp_Click(object sender, EventArgs e)
         {
-            //this.defaultLookAndFeel1.LookAndFeel.SkinName = SkinStyle.VisualStudio2013Dark;
+            UserLookAndFeel.Default.SetSkinStyle(SkinStyle.Office2016Black);
+           // this.defaultLookAndFeel1.LookAndFeel.SkinName = SkinStyle.VisualStudio2013Dark;
         }
 
         private void BtnPick_Click(object sender, EventArgs e)
