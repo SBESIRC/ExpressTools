@@ -61,7 +61,8 @@ namespace ThSitePlan.Configuration
         //-------------SINGLETON-----------------
 
         public ThSitePlanConfigItemGroup Root { get; set; }
-        public string RootJsonString { get; set; }
+        public string RootJsonString { get; private set; }
+        public string DefaultJsonString { get; private set; }
 
         /// <summary>
         /// 初始化
@@ -102,151 +103,11 @@ namespace ThSitePlan.Configuration
             }
         }
 
-        private void InitalizeWithCode()
-        {
-            Root = new ThSitePlanConfigItemGroup();
-            Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unrecognized},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()}
-                }
-            });
-
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "基本文字说明及图例"},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-NOTE-PLTB",
-                            "P-BUID-NUMB",
-                        }
-                    }
-                }
-            });
-
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "场地标高"},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-ROAD-BEAE",
-                            "P-ROAD-ELEV",
-                            "P-BUID-ELEV",
-                        }
-                    }
-                }
-            });
-
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "尺寸标注"},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-FIRE-DIMS",
-                            "P-ROAD-DIMS",
-                            "P-BUID-DIMS",
-                        }
-                    }
-                }
-            });
-
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "界线"},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-LIMT",
-                            "P-LIMT-LIPB",
-                            "P-LIMT-BUID",
-                            "P-LIMT-COOR",
-                            "P-BUID-UDBD",
-                        }
-                    }
-                }
-            });
-
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "原始场地叠加线稿"},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-OUTD"
-                        }
-                    }
-                }
-            });
-
-            // 建筑物
-            Root.AddGroup(ConstructBuilding());
-
-            // 全局阴影
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "全局阴影"},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-BUID-HACH"
-                        }
-                    }
-                }
-            });
-
-            // 树木
-            Root.AddGroup(ConstructTree());
-
-            // 场地
-            Root.AddGroup(ConstructSites());
-
-            // 道路
-            Root.AddGroup(ConstructRoads());
-
-            // 铺装
-            Root.AddGroup(ConstructPavement());
-
-            // 景观绿地
-            Root.AddGroup(ConstructGreenland());
-        }
-
         private void InitializeWithResource()
         {
             string _Txt = FuncStr.NullToStr(Properties.Resources.BasicStyle);
             RootJsonString = _Txt;
+            DefaultJsonString = _Txt;
             InitializeFromString(_Txt);
         }
 

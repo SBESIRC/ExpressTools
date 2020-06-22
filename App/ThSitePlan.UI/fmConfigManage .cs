@@ -40,6 +40,7 @@ namespace ThSitePlan.UI
         public const string m_CloseUpKey = "+{F1}";
 
         public string m_ColorGeneralConfig { get; set; }
+        public string m_ColorDefaultConfig { get; set; }
 
         public bool m_ColumnError { get; set; }
 

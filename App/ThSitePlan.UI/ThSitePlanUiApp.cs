@@ -699,6 +699,7 @@ namespace ThSitePlan.UI
                 // 获取当前图纸中的配置
                 ThSitePlanConfigService.Instance.Initialize();
                 dlg.m_ColorGeneralConfig = ThSitePlanConfigService.Instance.RootJsonString;
+                dlg.m_ColorDefaultConfig = ThSitePlanConfigService.Instance.DefaultJsonString;
 
                 // 弹出配置界面
                 var ConfigFormResult = Application.ShowModalDialog(dlg);
