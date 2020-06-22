@@ -88,17 +88,7 @@ namespace ThSitePlan.Photoshop
 
         private bool ValidateItem(ThSitePlanConfigItem job)
         {
-            if (!job.IsEnabled)
-            {
-                return false;
-            }
-
-            if (job.Properties["Name"].ToString() == ThSitePlanCommon.ThSitePlan_Frame_Name_Unrecognized)
-            {
-                return false;
-            }
-
-            return true;
+            return job.IsEnabled;
         }
     }
 }
