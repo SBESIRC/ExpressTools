@@ -3534,15 +3534,15 @@ namespace TopoNode
                 }
             }
 
-            var curveNodes = TopoUtils.Polyline2Curves(poly);
-            foreach (var node in curveNodes)
-            {
-                node.Layer = "FLine";
-            }
-
             var validCurves = new List<Curve>();
-            if (curveNodes != null && curveNodes.Count != 0)
-                validCurves.AddRange(curveNodes);
+            //var curveNodes = TopoUtils.Polyline2Curves(poly);
+            //foreach (var node in curveNodes)
+            //{
+            //    node.Layer = "FLine";
+            //}
+
+            //if (curveNodes != null && curveNodes.Count != 0)
+            //    validCurves.AddRange(curveNodes);
 
             foreach (var srcCurve in allCurves)
             {
