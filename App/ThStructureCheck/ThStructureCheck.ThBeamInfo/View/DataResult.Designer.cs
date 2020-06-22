@@ -50,6 +50,7 @@
             // 
             // tpDistinguishRes
             // 
+            this.tpDistinguishRes.AllowDrop = true;
             this.tpDistinguishRes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tpDistinguishRes.Controls.Add(this.dgvDistinguishRes);
             this.tpDistinguishRes.Location = new System.Drawing.Point(4, 22);

@@ -12,6 +12,10 @@ namespace ThStructureCheck.YJK.Model
         public List<YjkEntityInfo> Start { get; set; }
         public List<YjkEntityInfo> End { get; set; }
         public List<YjkEntityInfo> Beams { get; set; }
+        public void GetCalculationIndex ()
+        {
+
+        }
     }
     public enum BeamStatus
     {

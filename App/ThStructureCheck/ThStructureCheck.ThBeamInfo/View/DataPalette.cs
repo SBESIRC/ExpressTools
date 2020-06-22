@@ -13,7 +13,7 @@ namespace ThStructureCheck.ThBeamInfo.View
    public class DataPalette
     {
         static DataPalette instance = null;
-        internal static PaletteSet _ps = null;
+        public static PaletteSet _ps = null;
         public static DataResult _dateResult = null;
         public static bool ShowPaletteMark = false;
         public DataPalette()
@@ -45,7 +45,10 @@ namespace ThStructureCheck.ThBeamInfo.View
             {
                 _dateResult.UpdateDgvDistinguishRes(beamDistinguishInfos);                
             }
-            _ps.Visible = ShowPaletteMark;
+            if (!_ps.Visible)
+            {
+                _ps.Visible = true;
+            }
             _ps.Size = new System.Drawing.Size(800, 200);
             _ps.Dock = DockSides.Bottom;
         }

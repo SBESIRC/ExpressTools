@@ -57,6 +57,7 @@
     <Compile Include="Interface\IDatabaseSource.cs" />
     <Compile Include="Interface\IEntityInf.cs" />
     <Compile Include="Model\BeamLink.cs" />
+    <Compile Include="Model\CalculationIndex.cs" />
     <Compile Include="Model\ModelBeamSegCompose.cs" />
     <Compile Include="Model\ModelColumnSegCompose.cs" />
     <Compile Include="Model\ModelGrid.cs" />

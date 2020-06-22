@@ -1,4 +1,6 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ThStructure.BeamInfo.Model;
 using ThStructureCheck.Common;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThStructureCheck.ThBeamInfo.Model
 {
@@ -162,23 +165,44 @@ namespace ThStructureCheck.ThBeamInfo.Model
             {
                 return;
             }
-            if(this.beam.BeamSPointSolid != null && !this.beam.BeamSPointSolid.IsDisposed)
+            var doc = CadTool.GetMdiActiveDocument();
+            using (DocumentLock docLock=doc.LockDocument())
             {
-                Polyline startOutLine = this.beam.BeamSPointSolid.Clone() as Polyline;
-                startOutLine.ColorIndex = colorIndex;
-                CadTool.AddToBlockTable(startOutLine);
-            }
-            if (this.beam.BeamBoundary != null && !this.beam.BeamBoundary.IsDisposed)
-            {
-                Polyline beamBoundary = this.beam.BeamBoundary.Clone() as Polyline;
-                beamBoundary.ColorIndex = colorIndex;
-                CadTool.AddToBlockTable(beamBoundary);
-            }
-            if (this.beam.BeamEPointSolid != null && !this.beam.BeamEPointSolid.IsDisposed)
-            {
-                Polyline endOutLine = this.beam.BeamEPointSolid.Clone() as Polyline;
-                endOutLine.ColorIndex = colorIndex;
-                CadTool.AddToBlockTable(endOutLine);
+                List<Point3d> pts = new List<Point3d>();
+                if (this.beam.BeamSPointSolid != null && !this.beam.BeamSPointSolid.IsDisposed)
+                {
+                    Polyline startOutLine = this.beam.BeamSPointSolid.Clone() as Polyline;
+                    startOutLine.ColorIndex = colorIndex;
+                    startOutLine.LineWeight = LineWeight.LineWeight050;
+                    CadTool.AddToBlockTable(startOutLine);
+                    pts.AddRange(CadTool.GetPolylinePts(startOutLine));
+                }
+                if (this.beam.BeamBoundary != null && !this.beam.BeamBoundary.IsDisposed)
+                {
+                    Polyline beamBoundary = this.beam.BeamBoundary.Clone() as Polyline;
+                    beamBoundary.ColorIndex = colorIndex;
+                    beamBoundary.LineWeight = LineWeight.LineWeight050;
+                    CadTool.AddToBlockTable(beamBoundary);
+                    pts.AddRange(CadTool.GetPolylinePts(beamBoundary));
+                }
+                if (this.beam.BeamEPointSolid != null && !this.beam.BeamEPointSolid.IsDisposed)
+                {
+                    Polyline endOutLine = this.beam.BeamEPointSolid.Clone() as Polyline;
+                    endOutLine.ColorIndex = colorIndex;
+                    endOutLine.LineWeight = LineWeight.LineWeight050;
+                    CadTool.AddToBlockTable(endOutLine);
+                    pts.AddRange(CadTool.GetPolylinePts(endOutLine));
+                }
+                if(pts.Count>1)
+                {
+                    double minX = pts.OrderBy(i => i.X).First().X;
+                    double minY = pts.OrderBy(i => i.Y).First().Y;
+                    double maxX = pts.OrderByDescending(i => i.X).First().X;
+                    double maxY = pts.OrderByDescending(i => i.Y).First().Y;
+                    Point3d leftDownPt = new Point3d(minX, minY, 0.0);
+                    Point3d rightUpPt = new Point3d(maxX, maxY, 0.0);
+                    COMTool.ZoomWindow(leftDownPt , rightUpPt);
+                }
             }
         }
     }

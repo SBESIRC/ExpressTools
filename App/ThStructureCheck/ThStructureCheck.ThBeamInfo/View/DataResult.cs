@@ -17,7 +17,7 @@ namespace ThStructureCheck.ThBeamInfo.View
         private System.Drawing.Color textForeClor;
         private int rowCount = 20;
 
-        private int dgvDistinguishResCurrentRowIndex = -1;
+        //private int dgvDistinguishResCurrentRowIndex = -1;
         public DataResult()
         {
             InitializeComponent();
@@ -41,6 +41,7 @@ namespace ThStructureCheck.ThBeamInfo.View
         }
         private void InitDistinguishResTabPage()
         {
+            this.dgvDistinguishRes.Columns.Add("index", "序号");
             this.dgvDistinguishRes.Columns.Add("code", "梁编号");
             this.dgvDistinguishRes.Columns.Add("span", "第几跨");
             this.dgvDistinguishRes.Columns.Add("spec", "截面尺寸");
@@ -52,15 +53,25 @@ namespace ThStructureCheck.ThBeamInfo.View
             this.dgvDistinguishRes.Columns.Add("beamSideSteelBar", "梁侧钢筋");
             this.dgvDistinguishRes.Columns.Add("beamTopElevationDiffer", "梁顶标高差值");
 
-            int baseWidth = 60;
+            int baseWidth = 100;
             for (int i = 0; i < this.dgvDistinguishRes.Columns.Count; i++)
             {
                 this.dgvDistinguishRes.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 this.dgvDistinguishRes.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 switch (this.dgvDistinguishRes.Columns[i].Name)
                 {
+                    case "index":
+                        this.dgvDistinguishRes.Columns[i].Width = (int)(baseWidth * 0.5);
+                        break;
                     case "beamStirrup":
+                    case "upFullLengthTendon":
+                    case "downFullLengthTendon":
+                    case "leftOrUpSupportUpPartSteelBar":
+                    case "rightOrDownSupportUpPartSteelBar":
                         this.dgvDistinguishRes.Columns[i].Width = (int)(baseWidth * 2.0);
+                        break;
+                    case "beamSideSteelBar":
+                        this.dgvDistinguishRes.Columns[i].Width = (int)(baseWidth * 1.5);
                         break;
                     default:
                         this.dgvDistinguishRes.Columns[i].Width = baseWidth;
@@ -75,9 +86,11 @@ namespace ThStructureCheck.ThBeamInfo.View
         public void UpdateDgvDistinguishRes(List<BeamDistinguishInfo> beamDistinguishInfos)
         {
             this.dgvDistinguishRes.Rows.Clear();
+            int index = 1;
             foreach (BeamDistinguishInfo beamInf in beamDistinguishInfos)
             {
                 int rowIndex = this.dgvDistinguishRes.Rows.Add();
+                this.dgvDistinguishRes.Rows[rowIndex].Cells["index"].Value = index++;
                 this.dgvDistinguishRes.Rows[rowIndex].Cells["code"].Value = beamInf.Code;
                 this.dgvDistinguishRes.Rows[rowIndex].Cells["span"].Value = beamInf.Span;
                 this.dgvDistinguishRes.Rows[rowIndex].Cells["spec"].Value = beamInf.Spec;
@@ -96,6 +109,10 @@ namespace ThStructureCheck.ThBeamInfo.View
                 {
                     this.dgvDistinguishRes.Rows[i].Cells[j].Style.BackColor= this.cellBackColor;
                     this.dgvDistinguishRes.Rows[i].Cells[j].Style.ForeColor = this.textForeClor;
+                    if(j==0)
+                    {
+                        this.dgvDistinguishRes.Rows[i].Cells[j].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    }
                 }
             }
             if (this.dgvDistinguishRes.Rows.Count < this.rowCount)
@@ -120,6 +137,7 @@ namespace ThStructureCheck.ThBeamInfo.View
             SolidBrush brush = new SolidBrush(this.dgvBackColor);
             Rectangle mainRec = tabControl1.ClientRectangle;
             e.Graphics.FillRectangle(brush, mainRec);
+            e.Graphics.FillRectangle(brush, e.Bounds);
 
             SolidBrush white = new SolidBrush(Color.White);
             StringFormat stringFormat = new StringFormat();
@@ -127,7 +145,8 @@ namespace ThStructureCheck.ThBeamInfo.View
             for (int i = 0; i < tabControl1.TabPages.Count; i++)
             {
                 Rectangle rec = tabControl1.GetTabRect(i);
-                e.Graphics.FillRectangle(brush, rec);
+                Rectangle newRec = new Rectangle(rec.X-2, rec.Y+2, rec.Width+4, rec.Height + 4);
+                e.Graphics.FillRectangle(brush, newRec);
                 e.Graphics.DrawString(tabControl1.TabPages[i].Text, new Font("宋体", 9),
                     white, rec, stringFormat);
             }

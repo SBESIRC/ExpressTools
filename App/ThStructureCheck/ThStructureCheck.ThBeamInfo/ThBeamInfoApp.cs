@@ -17,6 +17,7 @@ namespace ThStructureCheck
             string dtlModelPath = @"D:\梁校核\梁图与模型\10地块4#号楼\施工图\dtlmodel.ydb";
             ThDrawBeam thDrawBeam = new ThDrawBeam(dtlModelPath, dtlCalcPath, 3);
             thDrawBeam.Draw();
+
             Document document = CadTool.GetMdiActiveDocument();
             using (ThBeamDbManager beamManager = new ThBeamDbManager(document.Database))
             {

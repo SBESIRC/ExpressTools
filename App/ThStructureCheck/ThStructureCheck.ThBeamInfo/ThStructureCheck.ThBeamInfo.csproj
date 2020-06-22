@@ -124,6 +124,10 @@
       <Project>{aa99b84e-0ee2-4836-87cf-c62d075e01c7}</Project>
       <Name>ThWSS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\ExtensionTools.csproj">
+      <Project>{8A2E6FB5-12F2-4406-8109-D9DDC8452DFD}</Project>
+      <Name>ExtensionTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThStructureCheck.Common\ThStructureCheck.Common.csproj">
       <Project>{422f71ff-e828-4df1-8fe1-a29981579760}</Project>
       <Name>ThStructureCheck.Common</Name>

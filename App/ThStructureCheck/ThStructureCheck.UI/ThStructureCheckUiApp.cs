@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using System;
@@ -8,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ThStructureCheck.Common;
 using ThStructureCheck.ThBeamInfo.Service;
+using ThStructureCheck.ThBeamInfo.View;
+using acadApp = Autodesk.AutoCAD.ApplicationServices;
 
 namespace ThStructureCheck.UI
 {
@@ -15,10 +18,43 @@ namespace ThStructureCheck.UI
     {
         public void Initialize()
         {
+            DocumentCollection dc = acadApp.Application.DocumentManager;
+            dc.DocumentDestroyed += Dc_DocumentDestroyed;
+            dc.DocumentActivated += Dc_DocumentActivated;
+        }
+        private void Dc_DocumentActivated(object sender, DocumentCollectionEventArgs e)
+        {
+            if (e.Document == null)
+            {
+                return;
+            }
         }
 
+        private void Dc_DocumentDestroyed(object sender, DocumentDestroyedEventArgs e)
+        {
+            try
+            {
+                
+                if(DataPalette._dateResult!=null)
+                {
+                    var emptyList = new List<ThBeamInfo.Model.BeamDistinguishInfo>();
+                    DataPalette._dateResult.UpdateDgvDistinguishRes(emptyList);
+                }
+                if(DataPalette._ps!=null)
+                {
+                    DataPalette._ps.Visible = false;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Utils.WriteException(ex, "Dc_DocumentDestroyed");
+            }
+        }
         public void Terminate()
         {
+            DocumentCollection dc = acadApp.Application.DocumentManager;
+            dc.DocumentDestroyed -= Dc_DocumentDestroyed;
+            dc.DocumentActivated -= Dc_DocumentActivated;
         }
     }
     public class Commands
