@@ -52,6 +52,7 @@
     <Compile Include="Engine\ThSitePlanShadowWorker.cs" />
     <Compile Include="Engine\ThSitePlanSimpleShadowWorker.cs" />
     <Compile Include="Engine\ThSitePlanTrimGenerator.cs" />
+    <Compile Include="Engine\ThSitePlanUndefineCleanGenerator.cs" />
     <Compile Include="Engine\ThSitePlanWorker.cs" />
     <Compile Include="Enum\EnumCADScript.cs" />
     <Compile Include="Function\FuncFile.cs" />

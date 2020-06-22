@@ -141,6 +141,11 @@ namespace ThSitePlan.Photoshop
                 {
                     bool FindOrNot = false;
 
+                    if (SerLaySet.IsNull())
+                    {
+                        return null;
+                    }
+
                     foreach (LayerSet LaysetInCurDOC in SerLaySet.LayerSets)
                     {
                         if (LaysetInCurDOC.Name == DocNameSpt[i])
@@ -209,6 +214,61 @@ namespace ThSitePlan.Photoshop
             newdoc.Close(PsSaveOptions.psDoNotSaveChanges);
         }
 
+        //在指定PS文档中检索指定图层，找到插入位置
+        public ArtLayer FindUpdateLocation(string docname, Document serdoc)
+        {
+            List<string> DocNameSpt = docname.Split('-').ToList();
+            LayerSets FirstLayerSets = serdoc.LayerSets;
+            LayerSet SerLaySet = null;
+            for (int i = 0; i < DocNameSpt.Count - 1; i++)
+            {
+                if (i == 0)
+                {
+                    foreach (LayerSet LaysetInCurDOC in FirstLayerSets)
+                    {
+                        if (LaysetInCurDOC.Name == DocNameSpt[i])
+                        {
+                            SerLaySet = LaysetInCurDOC;
+                            SerLaySet.Name = DocNameSpt[i];
+                            break;
+                        }
+                    }
+
+                    if (SerLaySet.IsNull())
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    foreach (LayerSet LaysetInCurDOC in SerLaySet.LayerSets)
+                    {
+                        if (LaysetInCurDOC.Name == DocNameSpt[i])
+                        {
+                            SerLaySet = LaysetInCurDOC;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (SerLaySet == null)
+            {
+                return null;
+            }
+
+            foreach (ArtLayer artlayer in SerLaySet.ArtLayers)
+            {
+                if (DocNameSpt.Last() == artlayer.Name)
+                {
+                    return artlayer;
+                }
+            }
+
+            return null;
+        }
+
+
         //在首文档最外层layers中按名称查找需要更新层，更新其内容
         public bool UpdateLayersInOutSet(Document searchdoc, Document origdoc)
         {
@@ -230,24 +290,30 @@ namespace ThSitePlan.Photoshop
         }
 
         //在插入位置下找到该文档并替换
-        public void UpdateLayerInSet(ArtLayer OperateLayer, LayerSet EndLayerSet)
+        public void UpdateLayerInSet(ArtLayer OperateLayer, ArtLayer findlayer)
         {
             List<string> CurDoc_Sets = OperateLayer.Name.Split('-').ToList();
             OperateLayer.Name = CurDoc_Sets.Last();
-            foreach (ArtLayer lyit in EndLayerSet.ArtLayers)
-            {
-                if (lyit.Name == OperateLayer.Name)
-                {
-                    OperateLayer.Move(lyit, PsElementPlacement.psPlaceAfter);
-                    lyit.Delete();
-                    break;
-                }
-            }
+            OperateLayer.Move(findlayer, PsElementPlacement.psPlaceAfter);
+            findlayer.Delete();
+            //foreach (ArtLayer lyit in EndLayerSet.ArtLayers)
+            //{
+            //    if (lyit.Name == OperateLayer.Name)
+            //    {
+            //        OperateLayer.Move(lyit, PsElementPlacement.psPlaceAfter);
+            //        lyit.Delete();
+            //        break;
+            //    }
+            //}
         }
 
         //用于更新操作时导出并保存PSD文件
         public void ExportToFileForUpdate(string path)
         {
+            if (Application.Documents.Count == 0)
+            {
+                return;
+            }
             Application.ActiveDocument.SaveAs(path);
         }
 

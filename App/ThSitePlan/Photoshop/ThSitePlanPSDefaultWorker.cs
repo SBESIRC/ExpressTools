@@ -25,6 +25,11 @@ namespace ThSitePlan.Photoshop
             //3. 依据当前文档名查找其在PS中的插入位置
             var EndLayerSet = psService.SearchInsertLoc(DocName, psService.CurrentFirstDocument);
 
+            if (EndLayerSet == null)
+            {
+                return false;
+            }
+
             //4. 将之前新插入的图层移动到指定的插入位置
             var OperateLayer = psService.CurrentFirstDocument.ArtLayers[DocName];
             psService.MoveLayerIntoSet(OperateLayer,EndLayerSet);
@@ -35,6 +40,10 @@ namespace ThSitePlan.Photoshop
         public override bool DoUpdate(string path, ThSitePlanConfigItem configItem)
         {
             //1. 在PS中打开并处理需要更新的PDF
+            if (psService.Application.Documents.Count == 0)
+            {
+                return false;
+            }
             psService.CurrentFirstDocument = psService.Application.ActiveDocument;
             if (psService.CurrentFirstDocument == null)
             {
@@ -57,11 +66,17 @@ namespace ThSitePlan.Photoshop
             psService.CopyNewToFirst(NewOpenDoc, psService.CurrentFirstDocument);
 
             //4. 依据当前文档名查找其在PS中的插入位置
-            var EndLayerSet = psService.SearchInsertLoc(NewDocName, psService.CurrentFirstDocument);
+            var findlayer = psService.FindUpdateLocation(NewDocName, psService.CurrentFirstDocument);
+
+            if (findlayer == null)
+            {
+                psService.CurrentFirstDocument.ArtLayers[NewDocName].Delete();
+                return false;
+            }
 
             //5. 在插入位置下找到该文档并替换
             var OperateLayer = psService.CurrentFirstDocument.ArtLayers[NewDocName];
-            psService.UpdateLayerInSet(OperateLayer, EndLayerSet);
+            psService.UpdateLayerInSet(OperateLayer, findlayer);
 
             return true;
         }
