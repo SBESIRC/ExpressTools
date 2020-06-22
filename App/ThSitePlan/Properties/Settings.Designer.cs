@@ -109,9 +109,9 @@ namespace ThSitePlan.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("5")]
-        public int PlantDensity {
+        public double PlantDensity {
             get {
-                return ((int)(this["PlantDensity"]));
+                return ((double)(this["PlantDensity"]));
             }
             set
             {
