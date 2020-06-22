@@ -28,6 +28,12 @@ namespace ThStructureCheck.UI
         {
             ThBeamInfoApp.Run();
         }
+        [CommandMethod("TestBeamLinkInfo")]
+        public void TestBeamLinkInfo()
+        {
+            ThBeamInfoApp.TestModelBeamLink();
+        }
+
         [CommandMethod("ThTestApi")]
         public void ThTestApi()
         {

@@ -10,7 +10,7 @@ using System.IO;
 using Autodesk.AutoCAD.ApplicationServices;
 using System.Drawing;
 
-namespace ThStructureCheck.ThBeamInfo
+namespace ThStructureCheck.ThBeamInfo.View
 {
     public partial class CheckResult : UserControl
     {

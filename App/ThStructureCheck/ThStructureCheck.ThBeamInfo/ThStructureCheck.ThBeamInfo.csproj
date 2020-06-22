@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Interface\IBeamInfo.cs" />
     <Compile Include="Model\BeamCustomData.cs" />
+    <Compile Include="Model\BeamDistinguishInfo.cs" />
     <Compile Include="Model\BeamRelateInf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ThBeamUtils.cs" />
@@ -93,6 +94,13 @@
     <Compile Include="View\CheckResult.Designer.cs">
       <DependentUpon>CheckResult.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\DataPalette.cs" />
+    <Compile Include="View\DataResult.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\DataResult.Designer.cs">
+      <DependentUpon>DataResult.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
@@ -102,6 +110,9 @@
   <ItemGroup>
     <EmbeddedResource Include="View\CheckResult.resx">
       <DependentUpon>CheckResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DataResult.resx">
+      <DependentUpon>DataResult.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,10 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
+using System.Collections.Generic;
 using ThStructure.BeamInfo.Command;
 using ThStructureCheck.Common;
+using ThStructureCheck.ThBeamInfo.Model;
 using ThStructureCheck.ThBeamInfo.Service;
+using ThStructureCheck.ThBeamInfo.View;
 using ThWSS.Beam;
 
 namespace ThStructureCheck
@@ -19,6 +22,19 @@ namespace ThStructureCheck
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
                 thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(beamManager));
+            }
+        }
+        public static void TestModelBeamLink()
+        {
+            Document document = CadTool.GetMdiActiveDocument();
+            using (ThBeamDbManager beamManager = new ThBeamDbManager(document.Database))
+            {
+                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
+                var beams = thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(beamManager));
+
+                List<BeamDistinguishInfo> beamInfos = new List<BeamDistinguishInfo>();
+                beams.ForEach(i => beamInfos.Add(new BeamDistinguishInfo(i)));
+                DataPalette.Instance.Show(beamInfos);
             }
         }
     }

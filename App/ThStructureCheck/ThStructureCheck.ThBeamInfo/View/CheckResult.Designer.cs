@@ -1,4 +1,4 @@
-﻿namespace ThStructureCheck.ThBeamInfo
+﻿namespace ThStructureCheck.ThBeamInfo.View
 {
     partial class CheckResult
     {

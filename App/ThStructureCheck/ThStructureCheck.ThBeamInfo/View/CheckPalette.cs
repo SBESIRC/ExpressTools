@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows;
 using Autodesk.AutoCAD.ApplicationServices;
 
-namespace ThStructureCheck.ThBeamInfo
+namespace ThStructureCheck.ThBeamInfo.View
 {
     public class CheckPalette
     {
