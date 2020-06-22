@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         xmlns:userC="clr-namespace:ThWSS.View"
         ResizeMode="NoResize"
-        Title="喷头布置" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Width="170">
+        Title="风险提醒" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Width="170">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -34,8 +34,8 @@
             
         </ListView>
         <Label Grid.Row="4" Grid.ColumnSpan="2" Margin="5,5,5,0"  VerticalAlignment="Bottom">
-            <TextBlock  VerticalAlignment="Bottom" TextWrapping="Wrap" Text="保护半径记录到喷头图块内。
-                       记录布置时的半径，分为矩形和圆形。" />
+            <TextBlock  Foreground="Red" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="保护半径记录到喷头图块内。
+                              记录布置时的半径，分为矩形和圆形。" />
         </Label>
     </Grid>
 </Window>
