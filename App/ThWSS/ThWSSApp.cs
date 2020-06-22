@@ -199,7 +199,7 @@ namespace ThWSS
                     // 执行操作
                     foreach (var obj in entSelected.Value.GetObjectIds())
                     {
-                        var polygon = acdb.Element<Polyline>(obj);
+                        var polygon = acdb.Element<Polyline>(obj, true);
                         ThSprayLayoutEngine.Instance.Layout(acdb.Database, polygon, layoutModel);
                     }
                 }
