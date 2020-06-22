@@ -95,10 +95,10 @@ namespace ThStructureCheck.YJK.Query
                 modelWallSeg.HDiff1 = Convert.ToInt32(dr["HDiff1"].ToString());
                 modelWallSeg.HDiff2 = Convert.ToInt32(dr["HDiff2"].ToString());
                 modelWallSeg.HDiffB = Convert.ToInt32(dr["HDiffB"].ToString());
-                modelWallSeg.sloping = Convert.ToInt32(dr["sloping"].ToString());
+                modelWallSeg.Sloping = Convert.ToInt32(dr["sloping"].ToString());
                 modelWallSeg.EccDown = Convert.ToInt32(dr["EccDown"].ToString());
-                modelWallSeg.offset1 = Convert.ToInt32(dr["offset1"].ToString());
-                modelWallSeg.offset2 = Convert.ToInt32(dr["offset2"].ToString());
+                modelWallSeg.Offset1 = Convert.ToInt32(dr["offset1"].ToString());
+                modelWallSeg.Offset2 = Convert.ToInt32(dr["offset2"].ToString());
                 modelWallSeg.DbPath = this.dbPath;
                 results.Add(modelWallSeg);
             }

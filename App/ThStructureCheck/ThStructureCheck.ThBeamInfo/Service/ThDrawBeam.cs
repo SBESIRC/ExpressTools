@@ -71,7 +71,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
             Sort();
             DrawColumns();
             DrawBeams();
-
+            DrawWalls();
             MoveToOrigin();
             Drag();
         }
@@ -82,53 +82,20 @@ namespace ThStructureCheck.ThBeamInfo.Service
                 firstColumn.Joint.Y + firstColumn.ColumnSeg.EccY, 0.0);
             Matrix3d moveMt = Matrix3d.Displacement(basePt.GetVectorTo(Point3d.Origin));
             //把基点移动到原点
-            this.columnEnts.ForEach(i =>
-            {
-                if (i.Item2 != null)
-                {
-                    i.Item2.TransformBy(moveMt);
-                }
-            }); 
-            this.beamEnts.ForEach(i =>
-            {
-                if(i.Item2 != null)
-                {
-                    i.Item2.TransformBy(moveMt);
-                }
-            });
+            this.columnEnts.ForEach(i => i.Item2.TransformBy(moveMt));
+            this.beamEnts.ForEach(i => i.Item2.TransformBy(moveMt));
+            this.wallEnts.ForEach(i => i.Item2.TransformBy(moveMt));
             Matrix3d wcsToUcs = CadTool.UCS2WCS();
-            this.columnEnts.ForEach(i =>
-            {
-                if(i.Item2!=null)
-                {
-                    i.Item2.TransformBy(wcsToUcs);
-                }
-            });
-            this.beamEnts.ForEach(i =>
-            {
-                if (i.Item2 != null)
-                {
-                    i.Item2.TransformBy(wcsToUcs);
-                }
-            });
+            this.columnEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
+            this.beamEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
+            this.wallEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
         }
         private void Drag()
         {
             List<Polyline> columnBeamEnts = new List<Polyline>();
-            this.columnEnts.ForEach(i =>
-            {
-                if (i.Item2 != null)
-                {
-                    columnBeamEnts.Add(i.Item2);
-                }
-            });
-            this.beamEnts.ForEach(i =>
-                {
-                    if (i.Item2 != null)
-                    {
-                        columnBeamEnts.Add(i.Item2);
-                    }
-                });
+            this.columnEnts.ForEach(i => columnBeamEnts.Add(i.Item2));
+            this.beamEnts.ForEach(i => columnBeamEnts.Add(i.Item2));
+            this.wallEnts.ForEach(i => columnBeamEnts.Add(i.Item2));
             bool doMark = true;
             Point3d basePt = Point3d.Origin;
             Point3d moveTargetPt = basePt;
@@ -212,8 +179,8 @@ namespace ThStructureCheck.ThBeamInfo.Service
             //必须赋值完后，方可释放上面的柱子实体
             this.beamEnts.ForEach(i => this.ColumnRelateInfs.Add(new BeamRelateInf()
             { DbBeamInf = i.Item1, InModelPts = CadTool.GetPolylinePts(i.Item2)}));
-            columnBeamEnts.ForEach(i => i.Dispose());
-            //columnBeamEnts.ForEach(i=>CadTool.AddToBlockTable(i));
+            //columnBeamEnts.ForEach(i => i.Dispose());
+            columnBeamEnts.ForEach(i=>CadTool.AddToBlockTable(i));
         }
         private void DrawBeams()
         {
@@ -221,16 +188,16 @@ namespace ThStructureCheck.ThBeamInfo.Service
             {
                 for (int j = 0; j < this.beamLinks[i].Beams.Count; j++)
                 {
-                    var calcBeamSeg = this.beamLinks[i].Beams[j];
-                    Polyline polyline = DrawBeam(calcBeamSeg);
+                    var beamSeg = this.beamLinks[i].Beams[j];
+                    Polyline polyline = DrawBeam(beamSeg);
                     if (polyline != null)
                     {
-                        this.beamEnts.Add(Tuple.Create<YjkEntityInfo, Polyline>(calcBeamSeg, polyline));
+                        this.beamEnts.Add(Tuple.Create<YjkEntityInfo, Polyline>(beamSeg, polyline));
                     }
                 }
             }
         }
-        private Point3d GetBeamJtPoint(YjkEntityInfo yjkEntity)
+        private Point3d GetSegJtPoint(YjkEntityInfo yjkEntity)
         {
             Point jointPt = new Point();
             if (yjkEntity is CalcJoint calcJoint)
@@ -259,9 +226,13 @@ namespace ThStructureCheck.ThBeamInfo.Service
         }
         private void DrawWalls()
         {
-            foreach(var modelWallSegRecord in this.modelWallSegComposes)
+            foreach (var modelWallSegRecord in this.modelWallSegComposes)
             {
-
+                Polyline wallFace = DrawWall(modelWallSegRecord);
+                if (wallFace != null)
+                {
+                    wallEnts.Add(Tuple.Create<YjkEntityInfo, Polyline>(modelWallSegRecord.WallSeg, wallFace));
+                }
             }
         }
         private void Sort()
@@ -328,8 +299,8 @@ namespace ThStructureCheck.ThBeamInfo.Service
         private Polyline DrawBeam(CalcBeamSeg calcBeamSeg)
         {
             Polyline polyline=null;
-            Point3d startPt = GetBeamJtPoint(calcJointQuery.GetCalcJoint(calcBeamSeg.Jt1));
-            Point3d endPt = GetBeamJtPoint(calcJointQuery.GetCalcJoint(calcBeamSeg.Jt2));
+            Point3d startPt = GetSegJtPoint(calcJointQuery.GetCalcJoint(calcBeamSeg.Jt1));
+            Point3d endPt = GetSegJtPoint(calcJointQuery.GetCalcJoint(calcBeamSeg.Jt2));
             ModelBeamSegCompose modelBeamSegCompose = GetModelBeamSegCompose(calcBeamSeg);
             int ecc = modelBeamSegCompose.BeamSeg.Ecc;
             string spec = modelBeamSegCompose.BeamSect.Spec;
@@ -368,8 +339,8 @@ namespace ThStructureCheck.ThBeamInfo.Service
         {
             Polyline polyline = null;
             ModelGrid grid = modelBeamSeg.Grid;
-            Point3d startPt = GetBeamJtPoint(modelJointQuery.GetModelJoint(grid.Jt1ID));
-            Point3d endPt = GetBeamJtPoint(modelJointQuery.GetModelJoint(grid.Jt2ID));
+            Point3d startPt = GetSegJtPoint(modelJointQuery.GetModelJoint(grid.Jt1ID));
+            Point3d endPt = GetSegJtPoint(modelJointQuery.GetModelJoint(grid.Jt2ID));
             ModelBeamSegCompose modelBeamSegCompose = GetModelBeamSegCompose(modelBeamSeg);
             int ecc = modelBeamSegCompose.BeamSeg.Ecc;
             string spec = modelBeamSegCompose.BeamSect.Spec;
@@ -404,13 +375,27 @@ namespace ThStructureCheck.ThBeamInfo.Service
             }
             return polyline;
         }
+
         private Polyline DrawColumn(ModelColumnSegCompose modelColumnSegCompose)
         {
             Polyline polyline = null;
-            Point3d pt = new Point3d(modelColumnSegCompose.Joint.X + modelColumnSegCompose.ColumnSeg.EccX,
-                modelColumnSegCompose.Joint.Y + modelColumnSegCompose.ColumnSeg.EccY, 0.0);
+            switch(modelColumnSegCompose.ColumnSect.Kind)
+            {
+                case 1:
+                    polyline = DrawRectangleColumn(modelColumnSegCompose);
+                    break;
+                case 28:
+                    polyline = DrawLTypeColumn(modelColumnSegCompose);
+                    break;
+            }
+            return polyline;
+        }
+
+        private Polyline DrawRectangleColumn(ModelColumnSegCompose modelColumnSegCompose)
+        {
+            Polyline polyline = null;
+            Point3d pt = new Point3d(modelColumnSegCompose.Joint.X, modelColumnSegCompose.Joint.Y , 0.0);
             double rotateAng = Utils.AngToRad(modelColumnSegCompose.ColumnSeg.Rotation);
-            Matrix3d rotateMt = Matrix3d.Rotation(rotateAng, Vector3d.ZAxis, Point3d.Origin);
             string spec = modelColumnSegCompose.ColumnSect.Spec;
             if (!string.IsNullOrEmpty(spec))
             {
@@ -429,11 +414,70 @@ namespace ThStructureCheck.ThBeamInfo.Service
                             polyline.AddVertexAt(2, new Point2d(-length / 2.0, -width / 2.0), 0.0, 0.0, 0.0);
                             polyline.AddVertexAt(3, new Point2d(length / 2.0, -width / 2.0), 0.0, 0.0, 0.0);
                             polyline.Closed = true;
+
+                            Matrix3d rotateMt = Matrix3d.Rotation(rotateAng, Vector3d.ZAxis, Point3d.Origin);
                             polyline.TransformBy(rotateMt);
-                            Matrix3d moveMt = Matrix3d.Displacement(Point3d.Origin.GetVectorTo(pt));
+
+                            Vector3d xRotateVec = Vector3d.XAxis.TransformBy(rotateMt);
+                            Vector3d yRotateVec = Vector3d.YAxis.TransformBy(rotateMt);
+                            Point3d originPt = Point3d.Origin + xRotateVec.GetNormal().MultiplyBy(modelColumnSegCompose.ColumnSeg.EccX);
+                            originPt = originPt + yRotateVec.GetNormal().MultiplyBy(modelColumnSegCompose.ColumnSeg.EccY);
+
+                            Matrix3d moveMt = Matrix3d.Displacement(Point3d.Origin.GetVectorTo(originPt));
+                            polyline.TransformBy(moveMt);
+
+                            moveMt = Matrix3d.Displacement(Point3d.Origin.GetVectorTo(pt));
                             polyline.TransformBy(moveMt);
                         }
                     }
+                }
+            }
+            return polyline;
+        }
+        private Polyline DrawLTypeColumn(ModelColumnSegCompose modelColumnSegCompose)
+        {
+            Polyline polyline = null;
+            Point3d pt = new Point3d(modelColumnSegCompose.Joint.X, modelColumnSegCompose.Joint.Y, 0.0);
+            double rotateAng = Utils.AngToRad(modelColumnSegCompose.ColumnSeg.Rotation);
+            string spec = modelColumnSegCompose.ColumnSect.Spec;
+            if (string.IsNullOrEmpty(spec))
+            {
+                return polyline;
+            }
+            string[] specs = spec.Split('x');
+            if(specs.Length != 4)
+            {
+                return polyline;
+            }
+            if (Utils.IsNumeric(specs[0]) && Utils.IsNumeric(specs[1]) &&
+                Utils.IsNumeric(specs[2]) && Utils.IsNumeric(specs[3]))
+            {
+                double length =Convert.ToDouble(specs[0]);
+                double width = Convert.ToDouble(specs[1]);
+                length = Math.Abs(length);
+                width = Math.Abs(width);
+                if (length > 0 && width > 0)
+                {
+                    polyline = new Polyline();
+                    polyline.AddVertexAt(0, new Point2d(length / 2.0, width / 2.0), 0.0, 0.0, 0.0);
+                    polyline.AddVertexAt(1, new Point2d(-length / 2.0, width / 2.0), 0.0, 0.0, 0.0);
+                    polyline.AddVertexAt(2, new Point2d(-length / 2.0, -width / 2.0), 0.0, 0.0, 0.0);
+                    polyline.AddVertexAt(3, new Point2d(length / 2.0, -width / 2.0), 0.0, 0.0, 0.0);
+                    polyline.Closed = true;
+
+                    Matrix3d rotateMt = Matrix3d.Rotation(rotateAng, Vector3d.ZAxis, Point3d.Origin);
+                    polyline.TransformBy(rotateMt);
+
+                    Vector3d xRotateVec = Vector3d.XAxis.TransformBy(rotateMt);
+                    Vector3d yRotateVec = Vector3d.YAxis.TransformBy(rotateMt);
+                    Point3d originPt = Point3d.Origin + xRotateVec.GetNormal().MultiplyBy(modelColumnSegCompose.ColumnSeg.EccX);
+                    originPt = originPt + yRotateVec.GetNormal().MultiplyBy(modelColumnSegCompose.ColumnSeg.EccY);
+
+                    Matrix3d moveMt = Matrix3d.Displacement(Point3d.Origin.GetVectorTo(originPt));
+                    polyline.TransformBy(moveMt);
+
+                    moveMt = Matrix3d.Displacement(Point3d.Origin.GetVectorTo(pt));
+                    polyline.TransformBy(moveMt);
                 }
             }
             return polyline;
@@ -442,38 +486,27 @@ namespace ThStructureCheck.ThBeamInfo.Service
         {
             Polyline polyline = null;
             ModelGrid grid = wallSegCompose.WallSeg.Grid;
-            Point3d startPt = GetBeamJtPoint(modelJointQuery.GetModelJoint(grid.Jt1ID));
-            Point3d endPt = GetBeamJtPoint(modelJointQuery.GetModelJoint(grid.Jt2ID));
+            Point3d startPt = GetSegJtPoint(modelJointQuery.GetModelJoint(grid.Jt1ID));
+            Point3d endPt = GetSegJtPoint(modelJointQuery.GetModelJoint(grid.Jt2ID));
             int ecc = wallSegCompose.WallSeg.Ecc;
             double b = wallSegCompose.WallSect.B;
             if (b<=0.0)
             {
                 return polyline;
             }
-            if (specs != null && specs.Length == 2)
-            {
-                if (Utils.IsNumeric(specs[0]) && Utils.IsNumeric(specs[1]))
-                {
-                    double length = Convert.ToDouble(specs[0]); //截面宽度
-                    double width = Convert.ToDouble(specs[1]);  //截面高度
-                    if (length > 0 && width > 0)
-                    {
-                        polyline = new Polyline();
-                        Vector3d offsetVec = ThBeamUtils.GetBeamOffsetDirection(startPt, endPt);
-                        Point3d sp = startPt + offsetVec.GetNormal().MultiplyBy(ecc);
-                        Point3d ep = endPt + offsetVec.GetNormal().MultiplyBy(ecc);
-                        Point3d pt1 = sp + offsetVec.GetNormal().MultiplyBy(length / 2.0);
-                        Point3d pt2 = ep + offsetVec.GetNormal().MultiplyBy(length / 2.0);
-                        Point3d pt4 = sp - offsetVec.GetNormal().MultiplyBy(length / 2.0);
-                        Point3d pt3 = ep - offsetVec.GetNormal().MultiplyBy(length / 2.0);
-                        polyline.AddVertexAt(0, new Point2d(pt1.X, pt1.Y), 0.0, 0.0, 0.0);
-                        polyline.AddVertexAt(1, new Point2d(pt2.X, pt2.Y), 0.0, 0.0, 0.0);
-                        polyline.AddVertexAt(2, new Point2d(pt3.X, pt3.Y), 0.0, 0.0, 0.0);
-                        polyline.AddVertexAt(3, new Point2d(pt4.X, pt4.Y), 0.0, 0.0, 0.0);
-                        polyline.Closed = true;
-                    }
-                }
-            }
+            polyline = new Polyline();
+            Vector3d offsetVec = ThBeamUtils.GetBeamOffsetDirection(startPt, endPt);
+            Point3d sp = startPt + offsetVec.GetNormal().MultiplyBy(ecc);
+            Point3d ep = endPt + offsetVec.GetNormal().MultiplyBy(ecc);
+            Point3d pt1 = sp + offsetVec.GetNormal().MultiplyBy(b / 2.0);
+            Point3d pt2 = ep + offsetVec.GetNormal().MultiplyBy(b / 2.0);
+            Point3d pt4 = sp - offsetVec.GetNormal().MultiplyBy(b / 2.0);
+            Point3d pt3 = ep - offsetVec.GetNormal().MultiplyBy(b / 2.0);
+            polyline.AddVertexAt(0, new Point2d(pt1.X, pt1.Y), 0.0, 0.0, 0.0);
+            polyline.AddVertexAt(1, new Point2d(pt2.X, pt2.Y), 0.0, 0.0, 0.0);
+            polyline.AddVertexAt(2, new Point2d(pt3.X, pt3.Y), 0.0, 0.0, 0.0);
+            polyline.AddVertexAt(3, new Point2d(pt4.X, pt4.Y), 0.0, 0.0, 0.0);
+            polyline.Closed = true;
             return polyline;
         }
         public void Dispose()

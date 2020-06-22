@@ -21,9 +21,21 @@ namespace ThStructureCheck.YJK.Model
                 if (!string.IsNullOrEmpty(this.ShapeVal))
                 {
                     string[] strs = this.ShapeVal.Split(',');
-                    if (strs.Length > 3)
+                    if (this.Kind == 1)
                     {
-                        return strs[1] + "x" + strs[2];
+                        //方形
+                        if (strs.Length > 3)
+                        {
+                            return strs[1] + "x" + strs[2];
+                        }
+                    }
+                    else if(this.Kind == 28)
+                    {
+                        //L型
+                        if (strs.Length > 5)
+                        {
+                            return strs[1] + "x" + strs[2]+"x"+ strs[3]+"x"+ strs[4];
+                        }
                     }
                 }
                 return "";
