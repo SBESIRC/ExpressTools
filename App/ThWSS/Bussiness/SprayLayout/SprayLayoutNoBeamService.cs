@@ -12,7 +12,7 @@ namespace ThWSS.Bussiness
 {
     public class SprayLayoutNoBeamService : SparyLayoutService
     {
-        public override void LayoutSpray(List<Polyline> roomsLine, SprayLayoutModel layoutModel)
+        public override void LayoutSpray(List<Polyline> roomsLine, Polyline floor, SprayLayoutModel layoutModel)
         {
             foreach (var room in roomsLine)
             {

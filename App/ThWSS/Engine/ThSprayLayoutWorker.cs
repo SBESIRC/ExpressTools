@@ -8,12 +8,12 @@ namespace ThWSS.Engine
 {
     public class ThSprayLayoutWorker
     {
-        public void DoLayout(ThRoom room, SprayLayoutModel layoutModel)
+        public void DoLayout(ThRoom room, Polyline floor, SprayLayoutModel layoutModel)
         {
             var polygon = room.Properties.Values.Cast<Polyline>().ToList();
 
             SparyLayoutService sprayLayoutService = new SprayLayoutByBeamService();
-            sprayLayoutService.LayoutSpray(polygon, layoutModel);
+            sprayLayoutService.LayoutSpray(polygon, floor, layoutModel);
         }
     }
 }

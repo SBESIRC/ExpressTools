@@ -182,6 +182,9 @@ namespace ThWSS
             {
                 if (layoutModel.sparyLayoutWay == LayoutWay.fire)
                 {
+                    // 选择楼层区域
+                    var pline = CreateWindowArea();
+
                     // 选择防火分区
                     PromptSelectionOptions options = new PromptSelectionOptions()
                     {
@@ -200,7 +203,7 @@ namespace ThWSS
                     foreach (var obj in entSelected.Value.GetObjectIds())
                     {
                         var polygon = acdb.Element<Polyline>(obj, true);
-                        ThSprayLayoutEngine.Instance.Layout(acdb.Database, polygon, layoutModel);
+                        ThSprayLayoutEngine.Instance.Layout(acdb.Database, pline, polygon, layoutModel);
                     }
                 }
                 else if (layoutModel.sparyLayoutWay == LayoutWay.frame)
@@ -228,25 +231,15 @@ namespace ThWSS
                     }
 
                     // 执行操作
-                    ThSprayLayoutEngine.Instance.Layout(rooms, layoutModel);
+                    ThSprayLayoutEngine.Instance.Layout(rooms, null, layoutModel);
                 }
                 else if (layoutModel.sparyLayoutWay == LayoutWay.customPart)
                 {
                     // 选择自定义区域
-                    Polyline pline = new Polyline() {
-                        Closed = true
-                    };
-                    using (PointCollector pc = new PointCollector(PointCollector.Shape.Polygon))
+                    var pline = CreatePolygonArea();
+                    if (pline == null)
                     {
-                        try
-                        {
-                            pc.Collect();
-                            pline.CreatePolyline(pc.CollectedPoints);
-                        }
-                        catch
-                        {
-                            return;
-                        }
+                        return;
                     }
 
                     // 执行操作
@@ -254,9 +247,51 @@ namespace ThWSS
                     {
                         pline,
                     };
-                    ThSprayLayoutEngine.Instance.Layout(rooms, layoutModel);
+                    ThSprayLayoutEngine.Instance.Layout(rooms, null, layoutModel);
                 }
             }
+        }
+
+        private Polyline CreateWindowArea()
+        {
+            Polyline pline = new Polyline()
+            {
+                Closed = true
+            };
+            using (PointCollector pc = new PointCollector(PointCollector.Shape.Window))
+            {
+                try
+                {
+                    pc.Collect();
+                    pline.CreatePolyline(pc.CollectedPoints);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            return pline;
+        }
+
+        private Polyline CreatePolygonArea()
+        {
+            Polyline pline = new Polyline()
+            {
+                Closed = true
+            };
+            using (PointCollector pc = new PointCollector(PointCollector.Shape.Polygon))
+            {
+                try
+                {
+                    pc.Collect();
+                    pline.CreatePolyline(pc.CollectedPoints);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            return pline;
         }
 
         private SprayLayoutModel SetWindowValues(ThSparyLayoutSet thSpary)

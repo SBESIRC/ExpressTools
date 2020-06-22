@@ -37,6 +37,19 @@ namespace ThWSS.Beam
         }
 
         /// <summary>
+        /// 获取指定图纸中指定区域内的所有梁图元
+        /// </summary>
+        /// <param name="dbManager"></param>
+        /// <param name="frame"></param>
+        /// <returns></returns>
+        public DBObjectCollection BeamCurves(ThBeamDbManager dbManager, Polyline frame)
+        {
+            return BeamCurves(dbManager, 
+                frame.GeometricExtents.MinPoint, 
+                frame.GeometricExtents.MaxPoint);
+        }
+
+        /// <summary>
         /// 获取指定图纸中指定窗口内的所有梁图元
         /// </summary>
         /// <param name="database"></param>

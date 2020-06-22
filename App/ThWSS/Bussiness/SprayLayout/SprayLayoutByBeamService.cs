@@ -17,7 +17,7 @@ namespace ThWSS.Bussiness
 {
     class SprayLayoutByBeamService : SparyLayoutService
     {
-        public override void LayoutSpray(List<Polyline> roomsLine, SprayLayoutModel layoutModel)
+        public override void LayoutSpray(List<Polyline> roomsLine, Polyline floor, SprayLayoutModel layoutModel)
         {
             foreach (var room in roomsLine)
             {
@@ -30,7 +30,7 @@ namespace ThWSS.Bussiness
 
                 //3.获取梁信息
                 CalBeamInfoService beamInfoService = new CalBeamInfoService();
-                List<ThStructure.BeamInfo.Model.Beam> beamInfo = beamInfoService.GetAllBeamInfo(roomBounding);
+                List<ThStructure.BeamInfo.Model.Beam> beamInfo = beamInfoService.GetAllBeamInfo(roomBounding, floor);
 
                 //4.获取柱信息
                 CalColumnInfoService columnInfoService = new CalColumnInfoService();

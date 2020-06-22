@@ -16,7 +16,7 @@ namespace ThWSS.Bussiness
 {
     public class CalBeamInfoService
     {
-        public List<ThStructure.BeamInfo.Model.Beam> GetAllBeamInfo(Polyline room)
+        public List<ThStructure.BeamInfo.Model.Beam> GetAllBeamInfo(Polyline room, Polyline floor)
         {
             List<ThStructure.BeamInfo.Model.Beam> beamInfo = new List<ThStructure.BeamInfo.Model.Beam>();
             List<Point3d> bPts = GetBoundingPoints(room);
@@ -25,7 +25,7 @@ namespace ThWSS.Bussiness
             using (ThBeamDbManager beamManager = new ThBeamDbManager(acdb.Database))
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager);
+                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager, floor);
                 var allBeam = thDisBeamCommand.CalBeamStruc(beamCurves);
 
                 //筛选出房间中匹配的梁
