@@ -46,7 +46,7 @@ namespace ThWSS.Bussiness
                 {
                     foreach (var poly in polys)
                     {
-                        acdb.ModelSpace.Add(poly);
+                        //acdb.ModelSpace.Add(poly);
                     }
                 }
                 
@@ -96,7 +96,7 @@ namespace ThWSS.Bussiness
 
                         //计算出柱内的喷淋
                         Dictionary<Polyline, List<SprayLayoutData>> ptInColmns;
-                        var columnSpray = columnInfoService.CalColumnSpray(columnPolys, layoutPts.SelectMany(x => x).ToList(), out ptInColmns);
+                        var columnSpray = columnInfoService.CalColumnSpray(columnPolys, roomSprays, out ptInColmns);
 
                         //将孤立柱打入图层
                         columnInfoService.SetStandAloneColumnInLayer(ptInColmns.Keys.ToList());

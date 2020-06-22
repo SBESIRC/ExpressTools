@@ -40,22 +40,31 @@ namespace ThWSS.Bussiness
         {
             List<SprayLayoutData> polyline = new List<SprayLayoutData>();
             ptInColmns = new Dictionary<Polyline, List<SprayLayoutData>>();
-            foreach (var columnPoly in columns)
+            foreach (var spray in sprays)
             {
-                var roomSprays = new List<SprayLayoutData>();
-                foreach (var spray in sprays)
+                bool inColumn = false;
+                foreach (var columnPoly in columns)
                 {
                     var res = GeUtils.CheckPointInPolyline(columnPoly, spray.Position, 1.0E-4);
-                    if (res == -1)
+                    if (res != -1)
                     {
-                        polyline.Add(spray);
-                    }
-                    else
-                    {
-                        roomSprays.Add(spray);
+                        inColumn = true;
+                        if (ptInColmns.Keys.Contains(columnPoly))
+                        {
+                            ptInColmns[columnPoly].Add(spray);
+                        }
+                        else
+                        {
+                            var sprayLst = new List<SprayLayoutData>();
+                            sprayLst.Add(spray);
+                            ptInColmns.Add(columnPoly, sprayLst);
+                        }
                     }
                 }
-                ptInColmns.Add(columnPoly, roomSprays);
+                if (!inColumn)
+                {
+                    polyline.Add(spray);
+                }
             }
             
             return polyline;

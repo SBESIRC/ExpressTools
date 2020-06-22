@@ -226,6 +226,7 @@ namespace ThWSS.Engine
                                             { string.Format("ThColumn{0}", columnIndex++), plineDic.profile }
                                         }
                                     };
+                                    Elements.Add(thColumn);
                                 }
                             }
 
