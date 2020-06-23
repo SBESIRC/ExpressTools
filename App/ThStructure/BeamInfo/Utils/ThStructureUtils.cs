@@ -17,7 +17,7 @@ namespace ThStructure.BeamInfo.Utils
                 ents.ForEach(i=> db.ModelSpace.Add(i));
             }
         }
-        public static List<Entity> ExplodeAllXRef(bool keepUnvisible=false)
+        public static List<Entity> Explode(ExplodeType explodeType,bool keepUnvisible =false)
         {
             var resEntityLst = new List<Entity>();
             // 本图纸数据块处理
@@ -43,11 +43,22 @@ namespace ThStructure.BeamInfo.Utils
                         i = i - 1;
                     }
                     BlockTableRecord btr = db.Element<BlockTableRecord>(blockRefs[i].BlockTableRecord);
-                    //if(!btr.IsFromExternalReference)
-                    //{
-                    //    blockRefs.RemoveAt(i);
-                    //    i = i - 1;
-                    //}
+                    if (explodeType== ExplodeType.XRef)
+                    {
+                        if (!btr.IsFromExternalReference)
+                        {
+                            blockRefs.RemoveAt(i);
+                            i = i - 1;
+                        }
+                    }
+                    else if(explodeType == ExplodeType.Local)
+                    {
+                        if (btr.IsFromExternalReference)
+                        {
+                            blockRefs.RemoveAt(i);
+                            i = i - 1;
+                        }
+                    }
                 }
                 blockRefs.ForEach(i => resEntityLst.AddRange(Explode(db, i, keepUnvisible)));
             }
@@ -109,19 +120,20 @@ namespace ThStructure.BeamInfo.Utils
             }
             return entities;
         }
-        public static List<Entity> FilterByLayers(List<Entity> ents,List<string> layerNames,bool fullMatch=false)
+        public static List<Entity> FilterCurveByLayers(List<Entity> ents,List<string> layerNames,bool fullMatch=false)
         {
             List<Entity> filterEnts = new List<Entity>();
             layerNames = layerNames.Select(i => i.ToUpper()).ToList();
             if (fullMatch)
             {
-                filterEnts = ents.Where(i => layerNames.IndexOf(i.Layer.ToUpper()) >= 0).Select(i=>i).ToList();
+                filterEnts = ents.Where(i => layerNames.IndexOf(i.Layer.ToUpper()) >= 0 && i is Curve).Select(i=>i).ToList();
             }
             else
             {
                 filterEnts =ents.Where(i =>
                 {
-                   return ((Func<Entity, bool>)((ent) =>
+                    bool containsLayer = false;
+                    containsLayer=((Func<Entity, bool>)((ent) =>
                      {
                          bool contains = false;
                          foreach(string layerName in layerNames)
@@ -135,9 +147,62 @@ namespace ThStructure.BeamInfo.Utils
                          }
                          return contains;
                      }))(i);  
+                    if(containsLayer && i is Curve)
+                    {
+                        return true;
+                    }
+                    return false;
                 }).Select(i => i).ToList();
             }
             return filterEnts;
         }
+        public static List<Entity> FilterAnnotationByLayers(List<Entity> ents, List<string> layerNames, bool fullMatch = false)
+        {
+            List<Entity> filterEnts = new List<Entity>();
+            layerNames = layerNames.Select(i => i.ToUpper()).ToList();
+            if (fullMatch)
+            {
+                filterEnts = ents.Where(i => layerNames.IndexOf(i.Layer.ToUpper()) >= 0 &&
+                (i is DBText || i is MText || i is Dimension)).Select(i => i).ToList();
+            }
+            else
+            {
+                filterEnts = ents.Where(i =>
+                { 
+                    bool containsLayer = ((Func<Entity, bool>)((ent) =>
+                    {
+                        bool contains = false;
+                        foreach (string layerName in layerNames)
+                        {
+                            int index = ent.Layer.LastIndexOf(layerName);
+                            if (index >= 0 && (index + layerName.Length) == i.Layer.Length)
+                            {
+                                contains = true;
+                                break;
+                            }
+                        }
+                        return contains;
+                    }))(i);
+                    if(containsLayer && (i is DBText || i is MText || i is Dimension))
+                    {
+                        return true;
+                    }                    
+                    return false;
+                }).Select(i => i).ToList();
+            }
+            return filterEnts;
+        }
+    }
+    public enum ExplodeType
+    {
+        All,
+        /// <summary>
+        /// 外部参照
+        /// </summary>
+        XRef,
+        /// <summary>
+        /// 本地块
+        /// </summary>
+        Local
     }
 }

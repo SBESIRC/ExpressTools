@@ -1,19 +1,19 @@
 ﻿using System;
 using Photoshop;
-using System.Drawing;
-using ThSitePlan.Configuration;
 using System.IO;
-using System.Collections.Generic;
 using System.Linq;
+using ThSitePlan.Configuration;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using PsApplication = Photoshop.Application;
 
 namespace ThSitePlan.Photoshop
 {
     public class ThSitePlanPSService : IDisposable
     {
-        public bool IsValid { get; set; }
+        public int ErrorCode { get; private set; }
+        public string ErrorMessage { get; private set; }
         public PsApplication Application { get; set; }
-
         public Document CurrentFirstDocument { get; set; }
 
         public ThSitePlanPSService()
@@ -21,12 +21,12 @@ namespace ThSitePlan.Photoshop
             try
             {
                 Application = new PsApplication();
-                IsValid = true;
             }
-            catch 
+            catch(COMException e) 
             {
                 Application = null;
-                IsValid = false;
+                ErrorCode = e.ErrorCode;
+                ErrorMessage = e.Message;
             }
         }
 

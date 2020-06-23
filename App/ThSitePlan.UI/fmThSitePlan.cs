@@ -66,10 +66,18 @@ namespace ThSitePlan.UI
                 foreach (var item in shadowconfigItem)
                 {
                     ObjectId frame = ThSitePlanDbEngine.Instance.FrameByName(item.Properties["Name"].ToString());
-                    frames.Add(frame);
+                    if (frame.IsValid)
+                    {
+                        frames.Add(frame);
+                    }
                 }
 
                 //创建对阴影图框的选择集，执行update命令
+                if (frames.Count == 0)
+                {
+                    this.Close();
+                    return;
+                }
                 Active.Editor.SetImpliedSelection(frames.ToArray());
                 string commandst = "_.THPOPUD";
                 Active.Document.SendStringToExecute($"{commandst} ", true, false, false);
@@ -88,18 +96,26 @@ namespace ThSitePlan.UI
             {
                 //获取scriptid为种树的所有ThSitePlanConfigItem
                 ThSitePlanConfigService.Instance.Initialize();
-                List<ThSitePlanConfigItem> shadowconfigItem = new List<ThSitePlanConfigItem>();
-                ThSitePlanConfigService.Instance.FindItemsByCADScript(ThSitePlanConfigService.Instance.Root, "5", ref shadowconfigItem);
+                List<ThSitePlanConfigItem> PlantconfigItem = new List<ThSitePlanConfigItem>();
+                ThSitePlanConfigService.Instance.FindItemsByCADScript(ThSitePlanConfigService.Instance.Root, "5", ref PlantconfigItem);
 
                 //获取所有种树图框
                 List<ObjectId> frames = new List<ObjectId>();
                 ThSitePlanDbEngine.Instance.Initialize(Active.Database);
-                foreach (var item in shadowconfigItem)
+                foreach (var item in PlantconfigItem)
                 {
                     ObjectId frame = ThSitePlanDbEngine.Instance.FrameByName(item.Properties["Name"].ToString());
-                    frames.Add(frame);
+                    if (frame.IsValid)
+                    {
+                        frames.Add(frame);
+                    }
                 }
 
+                if (frames.Count == 0)
+                {
+                    this.Close();
+                    return;
+                }
                 Active.Editor.SetImpliedSelection(frames.ToArray());
                 string commandst = "_.THPOPUD";
                 Active.Document.SendStringToExecute($"{commandst} ", true, false, false);
@@ -171,6 +187,11 @@ namespace ThSitePlan.UI
             this.ToolTip.Rounded = false;
 
             this.ToolTip.ShowHint("树木密度!", TxtTreeDensity, DevExpress.Utils.ToolTipLocation.Default);
+        }
+
+        private void BtnHelp_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://info.thape.com.cn/AI/thcad/help/page_cysz.html");
         }
     }
 }
