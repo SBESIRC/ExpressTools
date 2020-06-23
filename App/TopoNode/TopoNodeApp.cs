@@ -60,7 +60,7 @@ namespace TopoNode
             Progress.Progress.SetTip("图纸预处理...");
 
             // 图元预处理
-            var removeEntityLst = Utils.PreProcess2(validLayers);
+            var objs = Utils.PreProcess2(validLayers);
 
             //Utils.PostProcess(removeEntityLst);
             //return;
@@ -74,7 +74,7 @@ namespace TopoNode
             var srcAllCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);// allCurves指所有能作为墙一部分的曲线
             if (srcAllCurves == null || srcAllCurves.Count == 0)
             {
-                Utils.PostProcess(removeEntityLst);
+                Utils.PostProcess(objs);
                 Progress.Progress.HideProgress();
                 return;
             }
@@ -83,7 +83,7 @@ namespace TopoNode
             var srcWallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
             if (srcWallAllCurves == null || srcWallAllCurves.Count == 0 || wallLayers.Count == 0)
             {
-                Utils.PostProcess(removeEntityLst);
+                Utils.PostProcess(objs);
                 Progress.Progress.HideProgress();
                 return;
             }
@@ -239,7 +239,7 @@ namespace TopoNode
                 }
             }
 
-            Utils.PostProcess(removeEntityLst);
+            Utils.PostProcess(objs);
             Progress.Progress.SetValue(6500);
             Progress.Progress.HideProgress();
             //Utils.ErasePreviewPoint(objCollect);

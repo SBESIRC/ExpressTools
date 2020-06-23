@@ -1,5 +1,6 @@
 ﻿using System;
 using TopoNode;
+using AcHelper;
 using Linq2Acad;
 using System.Linq;
 using Autodesk.AutoCAD.Geometry;
@@ -18,30 +19,20 @@ namespace ThWSS.Engine
     {
         public override List<ThModelElement> Elements { get; set; }
 
-        public override bool Acquire(Database database, Polyline polygon)
+        public override bool Acquire(Database database, ObjectId polygon)
         {
             Elements = new List<ThModelElement>();
-            var selectPLines = new List<Polyline>()
+            using (var dbManager = new ThRoomDbManager(Active.Database))
+            using (var acadDatabase = AcadDatabase.Active())
             {
-                polygon,
-            };
-
-            {
-                //打开需要的图层
-                List<string> wallLayers = null;
-                List<string> arcDoorLayers = null;
-                List<string> windLayers = null;
-                List<string> validLayers = null;
-                List<string> beamLayers = null;
-                List<string> columnLayers = null;
-                var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers, out columnLayers);
+                var selectPLines = new List<Polyline>()
+                {
+                    acadDatabase.Element<Polyline>(polygon, true),
+                };
 
                 // 开始弹出进度条提示
                 Progress.ShowProgress();
                 Progress.SetTip("图纸预处理...");
-
-                // 图元预处理
-                var removeEntityLst = Utils.PreProcess2(validLayers);
 
                 //Utils.PostProcess(removeEntityLst);
                 //return;
@@ -52,19 +43,18 @@ namespace ThWSS.Engine
                 //    Utils.DrawPreviewPoint(pt, "pick");
 
                 // 获取相关图层中的数据
-                var srcAllCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);// allCurves指所有能作为墙一部分的曲线
+                // allCurves指所有能作为墙一部分的曲线
+                var srcAllCurves = Utils.GetAllCurvesFromLayerNames(dbManager.LayerManger.AllLayers());
                 if (srcAllCurves == null || srcAllCurves.Count == 0)
                 {
-                    Utils.PostProcess(removeEntityLst);
                     Progress.HideProgress();
                     return false;
                 }
 
                 // wall 中的数据
-                var srcWallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
-                if (srcWallAllCurves == null || srcWallAllCurves.Count == 0 || wallLayers.Count == 0)
+                var srcWallAllCurves = Utils.GetAllCurvesFromLayerNames(dbManager.LayerManger.WallLayers());
+                if (srcWallAllCurves == null || srcWallAllCurves.Count == 0)
                 {
-                    Utils.PostProcess(removeEntityLst);
                     Progress.HideProgress();
                     return false;
                 }
@@ -103,9 +93,9 @@ namespace ThWSS.Engine
                     wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
 
                     // wind线作为墙的一部分
-                    if (windLayers != null && windLayers.Count != 0)
+                    if (dbManager.LayerManger.WindowLayers().Count != 0)
                     {
-                        var windCurves = Utils.GetWindDOORCurves(windLayers);
+                        var windCurves = Utils.GetWindDOORCurves(dbManager.LayerManger.WindowLayers());
                         windCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(windCurves, curSelectPLine);
                         if (windCurves != null && windCurves.Count != 0)
                         {
@@ -117,9 +107,9 @@ namespace ThWSS.Engine
                     }
 
                     // door线作为墙的一部分
-                    if (arcDoorLayers != null && arcDoorLayers.Count != 0)
+                    if (dbManager.LayerManger.DoorLayers().Count != 0)
                     {
-                        var doorCurves = Utils.GetWindDOORCurves(arcDoorLayers);
+                        var doorCurves = Utils.GetWindDOORCurves(dbManager.LayerManger.DoorLayers());
                         doorCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(doorCurves, curSelectPLine);
                         if (doorCurves != null && doorCurves.Count != 0)
                         {
@@ -133,11 +123,11 @@ namespace ThWSS.Engine
                     beginPos += smallStep;
                     Progress.SetValue((int)beginPos);
                     // door 内门中的数据
-                    if (arcDoorLayers != null && arcDoorLayers.Count != 0)
+                    if (dbManager.LayerManger.DoorLayers().Count != 0)
                     {
-                        var doorBounds = Utils.GetBoundsFromDOORLayerCurves(arcDoorLayers);
+                        var doorBounds = Utils.GetBoundsFromDOORLayerCurves(dbManager.LayerManger.DoorLayers());
                         doorBounds = Utils.GetValidBoundsFromSelectPLine(doorBounds, curSelectPLine);
-                        var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, allCurves, arcDoorLayers.First());
+                        var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, allCurves, dbManager.LayerManger.DoorLayers().First());
 
                         if (doorInsertCurves != null && doorInsertCurves.Count != 0)
                         {
@@ -150,11 +140,11 @@ namespace ThWSS.Engine
                     beginPos += smallStep;
                     Progress.SetValue((int)beginPos);
                     // wind 中的数据
-                    if (windLayers != null && windLayers.Count != 0)
+                    if (dbManager.LayerManger.WindowLayers().Count != 0)
                     {
-                        var windBounds = Utils.GetBoundsFromWINDLayerCurves(windLayers);
+                        var windBounds = Utils.GetBoundsFromWINDLayerCurves(dbManager.LayerManger.WindowLayers());
                         windBounds = Utils.GetValidBoundsFromSelectPLine(windBounds, curSelectPLine);
-                        var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, windLayers.First());
+                        var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, dbManager.LayerManger.WindowLayers().First());
 
                         if (windInsertCurves != null && windInsertCurves.Count != 0)
                         {
@@ -241,14 +231,13 @@ namespace ThWSS.Engine
                             //    }
                             //}
                         }
-                        catch (System.Exception e)
+                        catch
                         {
                             //Active.WriteMessage(e.Message);
                         }
                     }
                 }
 
-                Utils.PostProcess(removeEntityLst);
                 Progress.SetValue(6500);
                 Progress.HideProgress();
                 //Utils.ErasePreviewPoint(objCollect);

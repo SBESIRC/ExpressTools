@@ -3678,7 +3678,7 @@ namespace TopoNode
 
                 foreach (var curve in res)
                 {
-                    curves.Add((Curve)curve.Clone());
+                    curves.Add(curve.GetTransformedCopy(Matrix3d.Identity) as Curve);
                 }
             }
 
@@ -4467,9 +4467,9 @@ namespace TopoNode
             }
         }
 
-        public static List<Entity> PreProcessCurDwg2(List<string> validLayers)
+        public static ObjectIdCollection PreProcessCurDwg2(List<string> validLayers)
         {
-            var resEntityLst = new List<Entity>();
+            var objs = new ObjectIdCollection();
             double progressPos = 1;
             // 本图纸数据块处理
             using (var db = AcadDatabase.Active())
@@ -4477,7 +4477,7 @@ namespace TopoNode
                 var blockRefs = db.CurrentSpace.OfType<BlockReference>().Where(p => p.Visible).ToList();
                 if (blockRefs.Count == 0)
                 {
-                    return resEntityLst;
+                    return objs;
                 }
                 var incre = 390.0 / blockRefs.Count;
                 foreach (var blockReference in blockRefs)
@@ -4518,8 +4518,7 @@ namespace TopoNode
                                 if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers)
                                     && !entity.IsErased && !(entity is Hatch) && !(entity is AttributeDefinition))
                                 {
-                                    db.ModelSpace.Add(entity);
-                                    resEntityLst.Add(entity);
+                                    objs.Add(db.ModelSpace.Add(entity));
                                 }
                             }
                         }
@@ -4531,8 +4530,7 @@ namespace TopoNode
                                 if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers)
                                     && !entity.IsErased && !(entity is Hatch) && !(entity is AttributeDefinition))
                                 {
-                                    db.ModelSpace.Add(entity);
-                                    resEntityLst.Add(entity);
+                                    objs.Add(db.ModelSpace.Add(entity));
                                 }
                             }
                         }
@@ -4540,7 +4538,7 @@ namespace TopoNode
                 }
             }
 
-            return resEntityLst;
+            return objs;
         }
 
         public static List<Entity> PreProcessCurDwg(List<string> validLayers)
@@ -4618,28 +4616,16 @@ namespace TopoNode
             return false;
         }
 
-        public static void PostProcess(List<Entity> removeEntityLst)
+        public static void PostProcess(ObjectIdCollection objs)
         {
             using (var db = AcadDatabase.Active())
             {
-                if (removeEntityLst != null && removeEntityLst.Count != 0)
+                foreach (ObjectId obj in objs)
                 {
-                    foreach (var entity in removeEntityLst)
-                    {
-                        try
-                        {
-                            var openEntity = db.Element<Entity>(entity.Id, true);
-                            openEntity.Erase(true);
-                        }
-                        catch
-                        { }
-                    }
-
-                    //
-                    //var objIds = new ObjectIdCollection(removeEntityLst.Select(o => o.ObjectId).ToArray());
-                    //db.Database.ReclaimMemoryFromErasedObjects(objIds);
+                    db.Element<Entity>(obj, true).Erase();
                 }
             }
+            Active.Database.ReclaimMemoryFromErasedObjects(objs);
         }
 
         public static bool IsValidBlockReference(BlockReference block, List<LineSegment2d> rectLines)
@@ -5148,16 +5134,16 @@ namespace TopoNode
             return false;
         }
 
-        public static List<Entity> PreProcessXREF2(List<string> validLayers)
+        public static ObjectIdCollection PreProcessXREF2(List<string> validLayers)
         {
-            var resEntityLst = new List<Entity>();
+            var objs = new ObjectIdCollection();
             // 外部参照
             double progressPos = 400.0;
             using (var db = AcadDatabase.Active())
             {
                 var refs = db.XRefs;
                 if (refs.Count() == 0)
-                    return resEntityLst;
+                    return objs;
 
                 var incre = 500.0 / refs.Count();
 
@@ -5194,15 +5180,13 @@ namespace TopoNode
                                             {
                                                 if (block.Layer.Contains("AE-DOOR-INSD") || block.Layer.Contains("AE-WIND"))
                                                 {
-                                                    db.CurrentSpace.Add(block);
-                                                    resEntityLst.Add(entity);
+                                                    objs.Add(db.CurrentSpace.Add(block));
                                                 }
                                             }
                                             else if (IsValidLayer(entity, validLayers) && !entity.IsErased
                                                    && !(entity is Hatch) && !(entity is AttributeDefinition))
                                             {
-                                                db.CurrentSpace.Add(entity);
-                                                resEntityLst.Add(entity);
+                                                objs.Add(db.CurrentSpace.Add(entity));
                                             }
                                         }
                                         catch (Exception e)
@@ -5255,7 +5239,7 @@ namespace TopoNode
                 }
             }
 
-            return resEntityLst;
+            return objs;
         }
 
         public static List<Entity> PreProcessXREF(List<string> validLayers)
@@ -5354,19 +5338,18 @@ namespace TopoNode
         /// <summary>
         /// 图纸预处理
         /// </summary>
-        public static List<Entity> PreProcess2(List<string> validLayers)
+        public static ObjectIdCollection PreProcess2(List<string> validLayers)
         {
-            var resEntityLst = new List<Entity>();
-            var curEntityLst = PreProcessCurDwg2(validLayers);
-
-            if (curEntityLst.Count != 0)
-                resEntityLst.AddRange(curEntityLst);
-
-            var xRefEntityLst = PreProcessXREF2(validLayers);
-
-            if (xRefEntityLst.Count != 0)
-                resEntityLst.AddRange(xRefEntityLst);
-            return resEntityLst;
+            var objs = new ObjectIdCollection();
+            foreach(ObjectId obj in PreProcessCurDwg2(validLayers))
+            {
+                objs.Add(obj);
+            }
+            foreach (ObjectId obj in PreProcessXREF2(validLayers))
+            {
+                objs.Add(obj);
+            }
+            return objs;
         }
 
         /// <summary>

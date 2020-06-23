@@ -10,11 +10,13 @@ namespace ThStructure.BeamInfo.Utils
 {
     public class ThStructureUtils
     {
-        public static void AddToDatabase(List<Entity> ents)
+        public static ObjectIdCollection AddToDatabase(List<Entity> ents)
         {
             using (var db = AcadDatabase.Active())
             {
-                ents.ForEach(i=> db.ModelSpace.Add(i));
+                var objs = new ObjectIdCollection();
+                ents.ForEach(o => objs.Add(db.ModelSpace.Add(o)));
+                return objs;
             }
         }
         public static List<Entity> Explode(ExplodeType explodeType,bool keepUnvisible =false)

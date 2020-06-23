@@ -13,7 +13,7 @@ namespace ThWSS.Engine
     {
         public override List<ThModelElement> Elements { get; set; }
 
-        public override bool Acquire(Database database, Polyline polygon)
+        public override bool Acquire(Database database, ObjectId polygon)
         {
             throw new NotImplementedException();
         }
