@@ -4,7 +4,6 @@ using System.Linq;
 using Autodesk.AutoCAD.DatabaseServices;
 using System.Collections.Generic;
 using ThStructure.BeamInfo.Utils;
-using Autodesk.AutoCAD.Interop.Common;
 
 namespace ThWSS.Beam
 {
