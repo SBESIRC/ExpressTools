@@ -23,6 +23,7 @@ using DevExpress.XtraGrid.Views.Grid;
 using System.Collections;
 using DevExpress.XtraTreeList.Columns;
 using DevExpress.LookAndFeel;
+using ThSitePlan.Configuration;
 
 namespace ThSitePlan.UI
 {
@@ -40,6 +41,7 @@ namespace ThSitePlan.UI
         public const string m_CloseUpKey = "+{F1}";
 
         public string m_ColorGeneralConfig { get; set; }
+
         public string m_ColorDefaultConfig { get; set; }
 
         public bool m_ColumnError { get; set; }
@@ -79,7 +81,7 @@ namespace ThSitePlan.UI
         {
 
             InitializeComponent();
- 
+
         }
 
 
@@ -221,7 +223,7 @@ namespace ThSitePlan.UI
             {
                 TreeList.PostEditor();
                 var _Type = FuncStr.NullToStr(e.Node.GetValue("Type"));
-                if(_Type == "0")
+                if (_Type == "0")
                 {
                     TreeList.FocusedNode.SetValue("CAD_Frame", e.Value);
                 }
@@ -1039,6 +1041,13 @@ namespace ThSitePlan.UI
 
         private void BtnRestore_Click(object sender, EventArgs e)
         {
+
+            string _Txt = FuncStr.NullToStr(m_ColorDefaultConfig);
+            var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(_Txt);
+            ThSitePlanConfigItemGroup Root = new ThSitePlanConfigItemGroup();
+            Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
+            FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);
+            m_Presenter.SetImgType(_ListColorGeneral);
             m_ListColorGeneral = m_Presenter.InitColorGeneral();
             TreeList.DataSource = m_ListColorGeneral;
             this.TreeList.ExpandAll();
@@ -1070,8 +1079,8 @@ namespace ThSitePlan.UI
 
         private void BtnHelp_Click(object sender, EventArgs e)
         {
-            UserLookAndFeel.Default.SetSkinStyle(SkinStyle.Office2016Black);
-           // this.defaultLookAndFeel1.LookAndFeel.SkinName = SkinStyle.VisualStudio2013Dark;
+
+            System.Diagnostics.Process.Start("http://info.thape.com.cn/AI/thcad/help/page_ysgl.html");
         }
 
         private void BtnPick_Click(object sender, EventArgs e)

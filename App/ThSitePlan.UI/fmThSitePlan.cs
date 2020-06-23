@@ -172,5 +172,10 @@ namespace ThSitePlan.UI
 
             this.ToolTip.ShowHint("树木密度!", TxtTreeDensity, DevExpress.Utils.ToolTipLocation.Default);
         }
+
+        private void BtnHelp_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://info.thape.com.cn/AI/thcad/help/page_cysz.html");
+        }
     }
 }

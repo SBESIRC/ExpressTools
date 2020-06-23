@@ -395,6 +395,7 @@
             this.BtnHelp.StyleController = this.layoutControl1;
             this.BtnHelp.TabIndex = 10;
             this.BtnHelp.Text = "帮助";
+            this.BtnHelp.Click += new System.EventHandler(this.BtnHelp_Click);
             // 
             // layoutControlGroup1
             // 
