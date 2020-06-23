@@ -276,29 +276,6 @@ namespace ThSitePlan.UI
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
 
-            // CAD打印流程
-            ThSitePlanConfigService.Instance.Initialize();
-            ThSitePlanConfigService.Instance.EnableAll(true);
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            {
-                frames.Clear();
-                ThSitePlanDbEngine.Instance.Initialize(acadDatabase.Database);
-                foreach (ObjectId frame in ThSitePlanDbEngine.Instance.Frames)
-                {
-                    if (!frame.Equals(originFrame))
-                    {
-                        frames.Enqueue(new Tuple<ObjectId, Vector3d>(frame, new Vector3d(0, 0, 0)));
-                    }
-                }
-                ThSitePlanEngine.Instance.Containers = frames;
-                ThSitePlanEngine.Instance.OriginFrame = ObjectId.Null;
-                ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
-                {
-                    new ThSitePlanPDFGenerator()
-                };
-                ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
-            }
-
             // 未识别图框清理流程
             ThSitePlanConfigService.Instance.Initialize();
             ThSitePlanConfigService.Instance.EnableAll(true);
@@ -319,6 +296,29 @@ namespace ThSitePlan.UI
                     {
                         new ThSitePlanUndefineCleanGenerator()
                     };
+                ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
+            }
+
+            // CAD打印流程
+            ThSitePlanConfigService.Instance.Initialize();
+            ThSitePlanConfigService.Instance.EnableAll(true);
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                frames.Clear();
+                ThSitePlanDbEngine.Instance.Initialize(acadDatabase.Database);
+                foreach (ObjectId frame in ThSitePlanDbEngine.Instance.Frames)
+                {
+                    if (!frame.Equals(originFrame))
+                    {
+                        frames.Enqueue(new Tuple<ObjectId, Vector3d>(frame, new Vector3d(0, 0, 0)));
+                    }
+                }
+                ThSitePlanEngine.Instance.Containers = frames;
+                ThSitePlanEngine.Instance.OriginFrame = ObjectId.Null;
+                ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
+                {
+                    new ThSitePlanPDFGenerator()
+                };
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
 
