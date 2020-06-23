@@ -21,11 +21,11 @@ namespace ThStructure.BeamInfo.Command
                 //  0.2 将多段线“炸”成线段
                 var curves = ThBeamGeometryPreprocessor.ExplodeCurves(dBObjects);
                 //  0.3 “合并”重叠的线段（在精度允许的范围内，考虑了完全重叠，部分重叠，已经收尾连接的情况）
-                var beamCurves = ThBeamGeometryPreprocessor.MergeCurves(curves);
+                //var beamCurves = ThBeamGeometryPreprocessor.MergeCurves(curves);
 
                 //1.计算出匹配的梁
                 CalBeamStruService calBeamService = new CalBeamStruService();
-                var allBeam = calBeamService.GetBeamInfo(beamCurves);
+                var allBeam = calBeamService.GetBeamInfo(curves);
 
                 //TODO：
                 //  需要支持识别外参中的梁的标注信息
@@ -53,11 +53,11 @@ namespace ThStructure.BeamInfo.Command
                 //    allBeam.AddRange(dBeams);
                 //}
 
-                ////7.打印梁外边框
-                //foreach (var item in allBeam)
-                //{
-                //    acdb.ModelSpace.Add(item.BeamBoundary);
-                //}
+                //7.打印梁外边框
+                foreach (var item in allBeam)
+                {
+                   // acdb.ModelSpace.Add(item.BeamBoundary);
+                }
 
                 ////8.打印梁信息
                 //PrintInfo(allBeam, true);
