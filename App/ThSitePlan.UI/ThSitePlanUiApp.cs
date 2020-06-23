@@ -72,7 +72,9 @@ namespace ThSitePlan.UI
                     {
                         AllowNone = true
                     };
-                    opt.Keywords.Add("CREATE", "CREATE", "绘制图框(R)");
+                    opt.SetRejectMessage("\nMust be a polyline frame: ");
+                    opt.AddAllowedClass(typeof(Polyline), true);
+                    opt.Keywords.Add("CREATE", "CREATE", "绘制图框(C)");
                     PromptEntityResult result = Active.Editor.GetEntity(opt);
                     if (result.Status == PromptStatus.OK)
                     {
@@ -103,7 +105,7 @@ namespace ThSitePlan.UI
                         {
                             { (int)DxfCode.ExtendedDataBinaryChunk, Encoding.UTF8.GetBytes(ThSitePlanCommon.ThSitePlan_Frame_Name_Original) },
                         };
-                        result.ObjectId.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name, valulist);
+                        originFrame.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name, valulist);
 
                         // 将图框放置到指定图层
                         pline.LayerId = acadDatabase.Database.AddLayer(ThSitePlanCommon.LAYER_FRAME);
