@@ -25,13 +25,13 @@ namespace ThWSS.Bussiness
             using (ThBeamDbManager beamManager = new ThBeamDbManager(acdb.Database))
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager, floor);
+                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager);
                 var allBeam = thDisBeamCommand.CalBeamStruc(beamCurves);
 
                 //筛选出房间中匹配的梁
                 var curves = ThBeamGeometryService.Instance.BeamCurves(beamManager, bPts[0], bPts[1]).Cast<Curve>();
-                beamInfo = allBeam.Where(x => curves.Where(y => (y.StartPoint.IsEqualTo(x.UpBeamLine.StartPoint) && y.EndPoint.IsEqualTo(x.UpBeamLine.EndPoint))
-                                     || (y.StartPoint.IsEqualTo(x.DownBeamLine.StartPoint) && y.EndPoint.IsEqualTo(x.DownBeamLine.EndPoint))).Count() > 0).ToList();
+                beamInfo = allBeam.Where(x => curves.Where(y => (y.StartPoint.IsEqualTo(x.UpBeamLine.StartPoint, new Tolerance(0.1,0.1)) && y.EndPoint.IsEqualTo(x.UpBeamLine.EndPoint, new Tolerance(0.1, 0.1)))
+                                     || (y.StartPoint.IsEqualTo(x.DownBeamLine.StartPoint, new Tolerance(0.1, 0.1)) && y.EndPoint.IsEqualTo(x.DownBeamLine.EndPoint, new Tolerance(0.1, 0.1)))).Count() > 0).ToList();
             }
 
             return beamInfo;
