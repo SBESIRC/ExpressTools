@@ -71,14 +71,11 @@ namespace ThSitePlan.Configuration
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
+                InitializeWithResource();
                 DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, false);
                 if (dbdc.Contains(ThSitePlanCommon.Configuration_Xrecord_Name))
                 {
                     InitializeWithDb();
-                }
-                else
-                {
-                    InitializeWithResource();
                 }
             }
         }
@@ -91,14 +88,10 @@ namespace ThSitePlan.Configuration
                 ObjectId obj = dbdc.GetAt(ThSitePlanCommon.Configuration_Xrecord_Name);
                 Xrecord bck = acadDatabase.Element<Xrecord>(obj, false);
                 string xrecorddata = bck.Data.AsArray().First().Value.ToString();
-                if (xrecorddata != null)
+                if (!string.IsNullOrEmpty(xrecorddata))
                 {
                     RootJsonString = xrecorddata;
                     InitializeFromString(xrecorddata);
-                }
-                else
-                {
-                    InitializeWithResource();
                 }
             }
         }
