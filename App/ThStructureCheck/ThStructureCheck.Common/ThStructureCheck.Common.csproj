@@ -81,6 +81,8 @@
     <Compile Include="ExtensionDictionaryTool.cs" />
     <Compile Include="CadTool.cs" />
     <Compile Include="Interface\IPoint.cs" />
+    <Compile Include="Model\ColumnGeometry.cs" />
+    <Compile Include="Model\Coordinate.cs" />
     <Compile Include="Model\FloorInfo.cs" />
     <Compile Include="MoveRotateScaleJig.cs" />
     <Compile Include="Utils.cs" />

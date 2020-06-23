@@ -8,11 +8,29 @@ namespace ThStructureCheck.YJK.Model
 {
     public class CalcRCBeamDsn : YjkEntityInfo
     {
+        /// <summary>
+        /// 上部梁顶纵筋
+        /// </summary>
         public string AsTop { get; set; }
+        /// <summary>
+        /// 底部梁底纵筋
+        /// </summary>
         public string AsBtm { get; set; }
+        /// <summary>
+        /// 加密区箍筋
+        /// </summary>
         public string Asv { get; set; }
+        /// <summary>
+        /// 抗扭箍筋
+        /// </summary>
         public string Ast1 { get; set; }
+        /// <summary>
+        /// 梁侧纵筋
+        /// </summary>
         public string Astt { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string Asttc { get; set; }
         public string FrcAst { get; set; }
         public string FrcAsb { get; set; }
@@ -45,7 +63,51 @@ namespace ThStructureCheck.YJK.Model
             }
         }
         /// <summary>
-        /// 梁底纵筋Asd
+        /// 左侧梁顶纵筋
+        /// </summary>
+        public double LeftAsu
+        {
+            get
+            {
+                double leftAsu = 0.0;
+                if (!string.IsNullOrEmpty(this.AsTop))
+                {
+                    string[] values = this.AsTop.Split(',');
+                    if(values.Length>0)
+                    {
+                        if (!double.TryParse(values[0], out leftAsu))
+                        {
+                            leftAsu = 0.0;
+                        }
+                    }
+                }
+                return leftAsu;
+            }
+        }
+        /// <summary>
+        /// 左侧梁顶纵筋
+        /// </summary>
+        public double RightAsu
+        {
+            get
+            {
+                double rightAsu = 0.0;
+                if (!string.IsNullOrEmpty(this.AsTop))
+                {
+                    string[] values = this.AsTop.Split(',');
+                    if (values.Length > 0)
+                    {
+                        if (!double.TryParse(values[values.Length-1], out rightAsu))
+                        {
+                            rightAsu = 0.0;
+                        }
+                    }
+                }
+                return rightAsu;
+            }
+        }
+        /// <summary>
+        /// 梁底纵筋Asd (下部通长钢筋)
         /// </summary>
         public double BeamBottomLongiReinAsd
         {

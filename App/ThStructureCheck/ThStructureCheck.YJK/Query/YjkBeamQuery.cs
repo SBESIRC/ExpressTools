@@ -109,7 +109,7 @@ namespace ThStructureCheck.YJK.Query
             }
             catch (Exception ex)
             {
-                Utils.WriteException(ex, "GetTblFloorTblBeamSegNoFromDtlmodel");
+                Utils.WriteException(ex, "GetDtlmodelTblBeamSegFlrNoAndNo");
             }
             return result;
         }
@@ -301,6 +301,99 @@ namespace ThStructureCheck.YJK.Query
             }
             return results;
         }
+        /// <summary>
+        /// 获取 Model库中 tblBeamSect
+        /// </summary>
+        /// <param name="sectID"></param>
+        /// <returns></returns>
+        public ModelBeamSect GetModelBeamSect(int sectID)
+        {
+            ModelBeamSect modelBeamSect = new ModelBeamSect();
+            string sql = "select * from tblBeamSect where ID=" + sectID;
+            DataTable dt = ExecuteDataTable(sql);
+            foreach (DataRow dr in dt.Rows)
+            {
+                modelBeamSect.ID = Convert.ToInt32(dr["ID"].ToString());
+                modelBeamSect.No_ = Convert.ToInt32(dr["No_"].ToString());
+                modelBeamSect.Name = dr["Name"].ToString();
+                modelBeamSect.Mat = Convert.ToInt32(dr["Mat"].ToString());
+                modelBeamSect.Kind = Convert.ToInt32(dr["Kind"].ToString());
+                modelBeamSect.ShapeVal = dr["ShapeVal"].ToString();
+                modelBeamSect.ShapeVal1 = dr["ShapeVal1"].ToString();
+                modelBeamSect.DbPath = this.dbPath;
+            }
+            modelBeamSect.DbPath = this.dbPath;
+            return modelBeamSect;
+        }
 
+        /// <summary>
+        /// 从计算库(dtlCalc)中的表tblBeamSegPara中获取抗震等级
+        /// </summary>
+        /// <param name="columnID"></param>
+        /// <returns></returns>
+        public double GetAntiSeismicGradeInCalculation(int beamID)
+        {
+            double paraVal = 0.0;
+            try
+            {
+                string sql = "select ParaVal from tblBeamSegPara where ID =" + beamID + " and Kind=3";
+                DataTable dt = ExecuteDataTable(sql);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dr["ParaVal"] != null)
+                    {
+                        paraVal = Convert.ToDouble(dr["ParaVal"]);
+                    }
+                    break;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Utils.WriteException(ex, "GetAntiSeismicGradeInCalculation");
+            }
+            return paraVal;
+        }
+        /// <summary>
+        /// 从模型库(dtlModel)中的表tblColSegPara中获取抗震等级 获取抗震等级在
+        /// </summary>
+        /// <returns></returns>
+        public List<double> GetAntiSeismicGradeInModel()
+        {
+            List<double> res = new List<double>();
+            double paraVal = 0.0;
+            double adjustVal = 0.0;
+            try
+            {
+                string sql = "select ID,ParaVal from tblProjectPara where ID=701 or ID=704";
+                DataTable dt = ExecuteDataTable(sql);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dr["ID"] != null)
+                    {
+                        if (Convert.ToDouble(dr["ID"]) == 701)
+                        {
+                            if (dr["ParaVal"] != null)
+                            {
+                                paraVal = Convert.ToDouble(dr["ParaVal"]);
+                            }
+                        }
+                        if (Convert.ToDouble(dr["ID"]) == 704)
+                        {
+                            if (dr["ParaVal"] != null)
+                            {
+                                adjustVal = Convert.ToDouble(dr["ParaVal"]);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Utils.WriteException(ex, "GetAntiSeismicGradeInCalculation");
+            }
+            res.Add(paraVal);
+            res.Add(adjustVal);
+            return res;
+        }
     }
 }

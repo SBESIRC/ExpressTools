@@ -250,7 +250,7 @@ namespace ThStructureCheck.YJK.Service
         }
         private List<ModelWallSeg> GetBeamLinkedWall(ModelBeamSeg modelBeamSeg, int jt)
         {
-            return new YjkWallSegQuery(this.dtlModelPath).GetBeamLinkedWall(modelBeamSeg, jt);
+            return new YjkWallQuery(this.dtlModelPath).GetBeamLinkedWall(modelBeamSeg, jt);
         }
         private List<ModelBeamSeg> GetBeamLinkedBeam(ModelBeamSeg beamSeg, int jtID, bool isCollinear)
         {

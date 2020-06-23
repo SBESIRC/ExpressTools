@@ -8,9 +8,9 @@ using ThStructureCheck.YJK.Model;
 
 namespace ThStructureCheck.YJK.Query
 {
-    public class YjkWallSegQuery : YjkQuery
+    public class YjkWallQuery : YjkQuery
     {
-        public YjkWallSegQuery(string dbPath):base(dbPath)
+        public YjkWallQuery(string dbPath):base(dbPath)
         {
         }
         /// <summary>
@@ -103,6 +103,35 @@ namespace ThStructureCheck.YJK.Query
                 results.Add(modelWallSeg);
             }
             return results;
+        }
+        /// <summary>
+        /// 提取dtlModel中所有的柱子信息
+        /// </summary>
+        /// <param name="floorNo"></param>
+        /// <returns></returns>
+        public ModelWallSect GetModelWallSect(int id)
+        {
+            ModelWallSect wallSect = new ModelWallSect();
+            string sql = "select * from tblWallSect where ID=" + id;
+            DataTable dt = ExecuteDataTable(sql);
+            foreach (DataRow dr in dt.Rows)
+            {
+                wallSect.ID = Convert.ToInt32(dr["tblWallSectID"].ToString());
+                wallSect.No_ = Convert.ToInt32(dr["tblWallSectNo"].ToString());
+                wallSect.Mat = Convert.ToInt32(dr["Mat"].ToString());
+                wallSect.Kind = Convert.ToInt32(dr["Kind"].ToString());
+                wallSect.B = Convert.ToInt32(dr["B"].ToString());
+                wallSect.H = Convert.ToInt32(dr["H"].ToString());
+                wallSect.T2 = Convert.ToInt32(dr["T2"].ToString());
+                wallSect.Dis = Convert.ToDouble(dr["Dis"].ToString());
+                wallSect.Colsect1 = dr["colsect1"].ToString();
+                wallSect.ColShapeVal1 = dr["colShapeVal1"].ToString();
+                wallSect.Colsect2 = dr["colsect2"].ToString();
+                wallSect.ColShapeVal2 = dr["colShapeVal2"].ToString();
+                wallSect.DbPath = this.dbPath;
+                break;
+            }
+            return wallSect;
         }
     }
 }

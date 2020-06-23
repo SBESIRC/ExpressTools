@@ -61,9 +61,9 @@ namespace ThStructureCheck.ThBeamInfo.Service
             this.modelJointQuery= new YjkJointQuery(this.dtlModelPath);
             this.modelColumnSegComposes = new YjkColumnQuery(this.dtlModelPath).GetModelColumnSegComposes(this.floorNo);
             this.modelBeamSegComposes = new YjkBeamQuery(this.dtlModelPath).GetModelBeamSegComposes(this.floorNo);
-            this.modelWallSegComposes = new YjkWallSegQuery(this.dtlModelPath).GetModelWallSegComposes(this.floorNo);
+            this.modelWallSegComposes = new YjkWallQuery(this.dtlModelPath).GetModelWallSegComposes(this.floorNo);
             BuildModelBeamLink buildBeamLink = new BuildModelBeamLink(this.dtlModelPath, this.floorNo);
-            buildBeamLink.Build();
+            buildBeamLink.Build();            
             this.beamLinks = buildBeamLink.BeamLinks;
         }
         public void Draw()

@@ -57,7 +57,7 @@
     <Compile Include="Interface\IDatabaseSource.cs" />
     <Compile Include="Interface\IEntityInf.cs" />
     <Compile Include="Model\BeamLink.cs" />
-    <Compile Include="Model\CalculationIndex.cs" />
+    <Compile Include="Model\BeamCalculationIndex.cs" />
     <Compile Include="Model\ModelBeamSegCompose.cs" />
     <Compile Include="Model\ModelColumnSegCompose.cs" />
     <Compile Include="Model\ModelGrid.cs" />
@@ -91,10 +91,12 @@
     <Compile Include="Query\YjkWallBeamQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\YjkWallCol.cs" />
-    <Compile Include="Query\YjkWallSegQuery.cs" />
+    <Compile Include="Query\YjkWallQuery.cs" />
+    <Compile Include="Model\BeamPortEncryptStirrup.cs" />
     <Compile Include="Service\MathLogic.cs" />
     <Compile Include="Service\BuildBeamLink.cs" />
     <Compile Include="Service\ThBeamJig.cs" />
+    <Compile Include="Service\YjkTool.cs" />
     <Compile Include="ThYjkDatbaseExtension.cs" />
     <Compile Include="YjkDatabase.cs" />
   </ItemGroup>

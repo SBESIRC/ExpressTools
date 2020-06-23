@@ -123,5 +123,22 @@ namespace ThStructureCheck.Common
             // Apply config           
             NLog.LogManager.Configuration = config;
         }
+        /// <summary>
+        /// 计算差值
+        /// </summary>
+        /// <param name="A2">起始值</param>
+        /// <param name="A1">终点值</param>
+        /// <param name="A0">插入值</param>
+        /// <param name="x2">起始值对应的参数值</param>
+        /// <param name="x1">终点值对应的参数值</param>
+        /// <returns></returns>
+        public static double DifferenceMethod(double A2,double A1,double A0,double x2,double x1)
+        {
+            if (A2 - A1==0.0 || x2 - x1==0.0)
+            {
+                return 0.0;
+            }
+            return x2 - (A2 - A0) / (A2 - A1) * (x2 - x1);
+        }
     }
 }
