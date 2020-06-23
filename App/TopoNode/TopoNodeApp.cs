@@ -224,13 +224,13 @@ namespace TopoNode
 
                         Utils.DrawProfile(new List<Curve>() { aimProfile.profile }, "outProfile");
                         // Utils.DrawTextProfile(outProfile.profileCurves, outProfile.profileLayers);
-                        //if (aimProfile.InnerPolylineLayers.Count != 0)
-                        //{
-                        //    foreach (var innerProfile in aimProfile.InnerPolylineLayers)
-                        //    {
-                        //        Utils.DrawProfile(new List<Curve>() { innerProfile.profile }, "innerProfile");
-                        //    }
-                        //}
+                        if (aimProfile.InnerPolylineLayers.Count != 0)
+                        {
+                            foreach (var innerProfile in aimProfile.InnerPolylineLayers)
+                            {
+                                Utils.DrawProfile(new List<Curve>() { innerProfile.profile }, "innerProfile");
+                            }
+                        }
                     }
                     catch (System.Exception e)
                     {

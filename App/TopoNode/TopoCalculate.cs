@@ -1482,7 +1482,7 @@ namespace TopoNode
 
             if (curve is Line || curve is Arc)
             {
-                var midPt = curve.GetPointAtParameter(0.5 * (curve.StartParam + curve.EndParam));
+                var midPt = curve.GetPointAtParameter(0.5 * (curve.StartParam + curve.EndParam)) + new Vector3d(0, 0.12345, 0);
                 if (CommonUtils.PtInLoop(topoEdges, midPt))
                     return true;
             }
