@@ -35,7 +35,7 @@ namespace ThWSS.Utlis
                 }
             }
             
-            return GetDivisionines(pLines, beamPolys);
+            return GetDivisionines(room, beamPolys);
         }
 
         /// <summary>
@@ -81,6 +81,16 @@ namespace ThWSS.Utlis
             }
             
             return polygons.SelectMany(x=>(x as IPolygon).ToDbPolylines()).ToList();
+        }
+
+        private List<Polyline> GetDivisionines(Polyline polyline, List<Polyline> beamPolys)
+        {
+            DBObjectCollection dBObjects = new DBObjectCollection();
+            foreach (var bpl in beamPolys)
+            {
+                dBObjects.Add(bpl);
+            }
+            return polyline.Difference(dBObjects).Cast<Polyline>().ToList();
         }
     }
 }

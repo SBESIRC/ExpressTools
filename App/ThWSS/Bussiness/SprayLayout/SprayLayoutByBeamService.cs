@@ -44,12 +44,12 @@ namespace ThWSS.Bussiness
                 var respolys = regionDivision.DivisionRegion(room, polys);
                 using (AcadDatabase acdb = AcadDatabase.Active())
                 {
-                    foreach (var poly in polys)
+                    foreach (var poly in respolys)
                     {
-                        acdb.ModelSpace.Add(poly);
+                        //acdb.ModelSpace.Add(poly);
                     }
                 }
-                continue;
+                
                 //获取房间线
                 List<Line> roomLines = new List<Line>();
                 for (int i = 0; i < room.NumberOfVertices; i++)
@@ -66,7 +66,7 @@ namespace ThWSS.Bussiness
 
                     //去掉线上多余的点
                     polyBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { polyBounding }, new Tolerance(0.1, 0.1)).First();
-
+                    
                     //区域分割
                     var diviRoom = regionDivisionUtils.DivisionRegion(polyBounding);
 

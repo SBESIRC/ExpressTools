@@ -35,25 +35,13 @@ namespace ThWSS.LayoutRule
                 hasBeam = false;
                 using (AcadDatabase acdb = AcadDatabase.Active())
                 {
-                    //acdb.ModelSpace.Add(resPoly);
+                    acdb.ModelSpace.Add(resPoly);
                 }
             }
 
-            //DBObjectCollection dBObject = new DBObjectCollection();
-            //for (int i = 0; i < resPoly.NumberOfVertices; i++)
-            //{
-            //    dBObject.Add(new Line(resPoly.GetPoint3dAt(i), resPoly.GetPoint3dAt((i + 1) % resPoly.NumberOfVertices)));
-            //}
-            //var objCollection = dBObject.Polygons();
-            //Polyline polygon = objCollection.Cast<Polyline>().OrderByDescending(x => x.Area).FirstOrDefault();
-            //if (polygon == null)
-            //{
-            //    return null;
-            //}
-
             using (AcadDatabase acdb = AcadDatabase.Active())
             {
-                //acdb.ModelSpace.Add(diviRoom);
+                acdb.ModelSpace.Add(diviRoom);
             }
 
             //计算房间走向
