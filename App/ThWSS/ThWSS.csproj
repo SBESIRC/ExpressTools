@@ -76,6 +76,8 @@
     <Compile Include="Engine\ThColumnRecognitionEngine.cs" />
     <Compile Include="Engine\ThModeltRecognitionEngine.cs" />
     <Compile Include="Engine\ThModelElement.cs" />
+    <Compile Include="Engine\ThRoomDbManager.cs" />
+    <Compile Include="Engine\ThRoomLayerManager.cs" />
     <Compile Include="Engine\ThRoomRecognitionEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutWorker.cs" />

@@ -44,7 +44,7 @@ namespace ThWSS.Bussiness
                 var respolys = regionDivision.DivisionRegion(room, polys);
                 using (AcadDatabase acdb = AcadDatabase.Active())
                 {
-                    foreach (var poly in polys)
+                    foreach (var poly in respolys)
                     {
                         //acdb.ModelSpace.Add(poly);
                     }
@@ -65,8 +65,8 @@ namespace ThWSS.Bussiness
                     var polyBounding = GeUtils.CreateConvexPolygon(poly, 800);
 
                     //去掉线上多余的点
-                    polyBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { polyBounding }, new Tolerance(0.001, 0.001)).First();
-
+                    polyBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { polyBounding }, new Tolerance(0.1, 0.1)).First();
+                    
                     //区域分割
                     var diviRoom = regionDivisionUtils.DivisionRegion(polyBounding);
 

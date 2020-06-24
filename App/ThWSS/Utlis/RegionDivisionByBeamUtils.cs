@@ -35,7 +35,7 @@ namespace ThWSS.Utlis
                 }
             }
             
-            return GetDivisionines(pLines, beamPolys);
+            return GetDivisionines(room, beamPolys);
         }
 
         /// <summary>
@@ -52,16 +52,45 @@ namespace ThWSS.Utlis
             {
                 polygons = polygons.Where(x =>
                 {
-                    var intRes = x.Intersection(geoms);
-                    if (intRes.Area > 10)
+                    try
                     {
-                        return false;
+                        var intRes = x.Intersection(geoms);
+                        if (intRes.Area > 10)
+                        {
+                            return false;
+                        }
+                        return true;
                     }
-                    return true;
+                    catch
+                    {
+                        using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                        {
+                            var pline = (x as IPolygon).ToDbPolylines()[0];
+                            pline.ColorIndex = 2;
+                            
+                            acadDatabase.ModelSpace.Add(pline);
+
+                            pline = (geoms as IPolygon).ToDbPolylines()[0];
+                            pline.ColorIndex = 3;
+
+                            acadDatabase.ModelSpace.Add(pline);
+                            return false;
+                        }
+                    }
                 }).ToList();
             }
             
             return polygons.SelectMany(x=>(x as IPolygon).ToDbPolylines()).ToList();
+        }
+
+        private List<Polyline> GetDivisionines(Polyline polyline, List<Polyline> beamPolys)
+        {
+            DBObjectCollection dBObjects = new DBObjectCollection();
+            foreach (var bpl in beamPolys)
+            {
+                dBObjects.Add(bpl);
+            }
+            return polyline.Difference(dBObjects).Cast<Polyline>().ToList();
         }
     }
 }

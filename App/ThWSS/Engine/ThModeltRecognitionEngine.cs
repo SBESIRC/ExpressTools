@@ -23,6 +23,6 @@ namespace ThWSS.Engine
         /// <param name="database"></param>
         /// <param name="polygon"></param>
         /// <returns></returns>
-        public abstract bool Acquire(Database database, Polyline polygon);
+        public abstract bool Acquire(Database database, ObjectId polygon);
     }
 }

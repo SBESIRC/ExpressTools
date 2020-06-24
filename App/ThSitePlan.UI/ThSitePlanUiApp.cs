@@ -72,7 +72,9 @@ namespace ThSitePlan.UI
                     {
                         AllowNone = true
                     };
-                    opt.Keywords.Add("CREATE", "CREATE", "绘制图框(R)");
+                    opt.SetRejectMessage("\nMust be a polyline frame: ");
+                    opt.AddAllowedClass(typeof(Polyline), true);
+                    opt.Keywords.Add("CREATE", "CREATE", "绘制图框(C)");
                     PromptEntityResult result = Active.Editor.GetEntity(opt);
                     if (result.Status == PromptStatus.OK)
                     {
@@ -103,7 +105,7 @@ namespace ThSitePlan.UI
                         {
                             { (int)DxfCode.ExtendedDataBinaryChunk, Encoding.UTF8.GetBytes(ThSitePlanCommon.ThSitePlan_Frame_Name_Original) },
                         };
-                        result.ObjectId.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name, valulist);
+                        originFrame.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name, valulist);
 
                         // 将图框放置到指定图层
                         pline.LayerId = acadDatabase.Database.AddLayer(ThSitePlanCommon.LAYER_FRAME);
@@ -274,29 +276,6 @@ namespace ThSitePlan.UI
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
 
-            // CAD打印流程
-            ThSitePlanConfigService.Instance.Initialize();
-            ThSitePlanConfigService.Instance.EnableAll(true);
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            {
-                frames.Clear();
-                ThSitePlanDbEngine.Instance.Initialize(acadDatabase.Database);
-                foreach (ObjectId frame in ThSitePlanDbEngine.Instance.Frames)
-                {
-                    if (!frame.Equals(originFrame))
-                    {
-                        frames.Enqueue(new Tuple<ObjectId, Vector3d>(frame, new Vector3d(0, 0, 0)));
-                    }
-                }
-                ThSitePlanEngine.Instance.Containers = frames;
-                ThSitePlanEngine.Instance.OriginFrame = ObjectId.Null;
-                ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
-                {
-                    new ThSitePlanPDFGenerator()
-                };
-                ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
-            }
-
             // 未识别图框清理流程
             ThSitePlanConfigService.Instance.Initialize();
             ThSitePlanConfigService.Instance.EnableAll(true);
@@ -317,6 +296,29 @@ namespace ThSitePlan.UI
                     {
                         new ThSitePlanUndefineCleanGenerator()
                     };
+                ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
+            }
+
+            // CAD打印流程
+            ThSitePlanConfigService.Instance.Initialize();
+            ThSitePlanConfigService.Instance.EnableAll(true);
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                frames.Clear();
+                ThSitePlanDbEngine.Instance.Initialize(acadDatabase.Database);
+                foreach (ObjectId frame in ThSitePlanDbEngine.Instance.Frames)
+                {
+                    if (!frame.Equals(originFrame))
+                    {
+                        frames.Enqueue(new Tuple<ObjectId, Vector3d>(frame, new Vector3d(0, 0, 0)));
+                    }
+                }
+                ThSitePlanEngine.Instance.Containers = frames;
+                ThSitePlanEngine.Instance.OriginFrame = ObjectId.Null;
+                ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
+                {
+                    new ThSitePlanPDFGenerator()
+                };
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
 
