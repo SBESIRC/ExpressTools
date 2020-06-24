@@ -344,7 +344,7 @@ namespace ThSitePlan.UI
                  {
                     new ThSitePlanPSDefaultGenerator(psService),
                  };
-                ThSitePlanPSEngine.Instance.Run(
+                ThSitePlanPSEngine.Instance.PSRun(
                     ThSitePlanSettingsService.Instance.OutputPath,
                     ThSitePlanConfigService.Instance.Root);
 

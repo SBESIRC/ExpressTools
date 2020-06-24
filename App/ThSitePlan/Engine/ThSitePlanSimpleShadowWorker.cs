@@ -30,7 +30,7 @@ namespace ThSitePlan.Engine
                     {
                         // 启动进度条
                         pm.SetLimit(objs.Count);
-                        pm.Start("正在生成阴影");
+                        pm.Start("正在生成树木阴影");
 
                         foreach (ObjectId objId in objs)
                         {

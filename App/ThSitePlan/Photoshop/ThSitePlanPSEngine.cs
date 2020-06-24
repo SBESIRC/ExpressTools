@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Autodesk.AutoCAD.Runtime;
+using System.Collections.Generic;
+using System.Windows.Forms;
 using ThSitePlan.Configuration;
 
 namespace ThSitePlan.Photoshop
@@ -18,7 +20,7 @@ namespace ThSitePlan.Photoshop
 
         public List<ThSitePlanPSGenerator> Generators { get; set; }
 
-        public void Run(string path, ThSitePlanConfigItemGroup jobs)
+        private void Run(string path, ThSitePlanConfigItemGroup jobs)
         {
             if (!jobs.IsEnabled)
             {
@@ -39,27 +41,6 @@ namespace ThSitePlan.Photoshop
             }
         }
 
-        public void PSUpdate(string path, ThSitePlanConfigItemGroup jobs)
-        {
-            if (!jobs.IsEnabled)
-            {
-                return;
-            }
-
-            while (jobs.Items.Count != 0)
-            {
-                var obj = jobs.Items.Dequeue();
-                if (obj is ThSitePlanConfigItem item)
-                {
-                    PSUpdate(path, item);
-                }
-                else if (obj is ThSitePlanConfigItemGroup group)
-                {
-                    PSUpdate(path, group);
-                }
-            }
-        }
-
         private void Run(string path, ThSitePlanConfigItem job)
         {
             if (!ValidateItem(job))
@@ -73,7 +54,62 @@ namespace ThSitePlan.Photoshop
             }
         }
 
-        private void PSUpdate(string path, ThSitePlanConfigItem job)
+        public void PSRun(string path, ThSitePlanConfigItemGroup jobs)
+        {
+            if (!jobs.IsEnabled)
+            {
+                return;
+            }
+
+            using (ProgressMeter pm = new ProgressMeter())
+            {
+                // 启动进度条
+                int progresslimit = jobs.GetEnableItemsCount();
+                pm.SetLimit(progresslimit);
+                pm.Start("正在生成PhotoShop图形");
+                while (jobs.Items.Count != 0)
+                {
+                    var obj = jobs.Items.Dequeue();
+                    if (obj is ThSitePlanConfigItem item)
+                    {
+                        Run(path, item);
+                    }
+                    else if (obj is ThSitePlanConfigItemGroup group)
+                    {
+                        Run(path, group);
+                    }
+                    // 更新进度条
+                    pm.MeterProgress();
+                    // 让CAD在长时间任务处理时任然能接收消息
+                    Application.DoEvents();
+                }
+                // 停止进度条
+                pm.Stop();
+            }
+        }
+
+        public void Update(string path, ThSitePlanConfigItemGroup jobs)
+        {
+            if (!jobs.IsEnabled)
+            {
+                return;
+            }
+
+            while (jobs.Items.Count != 0)
+            {
+                var obj = jobs.Items.Dequeue();
+                if (obj is ThSitePlanConfigItem item)
+                {
+                    Update(path, item);
+                }
+                else if (obj is ThSitePlanConfigItemGroup group)
+                {
+                    Update(path, group);
+                }
+            }
+        }
+
+        private void Update(string path, ThSitePlanConfigItem job)
         {
             if (!ValidateItem(job))
             {
@@ -85,6 +121,44 @@ namespace ThSitePlan.Photoshop
                 generator.Update(path, job);
             }
         }
+
+        public void PSUpdate(string path, ThSitePlanConfigItemGroup jobs)
+        {
+            if (!jobs.IsEnabled)
+            {
+                return;
+            }
+
+            using (ProgressMeter pm = new ProgressMeter())
+            {
+                // 启动进度条
+                int progresslimit = jobs.GetEnableItemsCount();
+                pm.SetLimit(progresslimit);
+                pm.Start("正在更新PhotoShop图形");
+
+                while (jobs.Items.Count != 0)
+                {
+                    var obj = jobs.Items.Dequeue();
+                    if (obj is ThSitePlanConfigItem item)
+                    {
+                        Update(path, item);
+                    }
+                    else if (obj is ThSitePlanConfigItemGroup group)
+                    {
+                        Update(path, group);
+                    }
+
+                    // 更新进度条
+                    pm.MeterProgress();
+                    // 让CAD在长时间任务处理时任然能接收消息
+                    Application.DoEvents();
+                }
+
+                // 停止进度条
+                pm.Stop();
+            }
+        }
+
 
         private bool ValidateItem(ThSitePlanConfigItem job)
         {

@@ -45,6 +45,58 @@ namespace ThSitePlan.Configuration
         {
             Items.Enqueue(group);
         }
+
+        public int GetItemsCount()
+        {
+            int temp = 0;
+            foreach (var item in this.Items)
+            {
+                if (item is  ThSitePlanConfigItem it)
+                {
+                    if (item.IsEnabled)
+                    {
+                        temp++;
+                    }
+                }
+                if (item is ThSitePlanConfigItemGroup gp)
+                {
+                    if (gp.IsEnabled)
+                    {
+                        ItemsCountsInGroup(gp, ref temp);
+                    }
+                }
+            }
+            return temp;
+        }
+
+        private void ItemsCountsInGroup(ThSitePlanConfigItemGroup group, ref int temp)
+        {
+            foreach (var item in group.Items)
+            {
+                if (item is ThSitePlanConfigItem it)
+                {
+                    temp++;
+                }
+                if (item is ThSitePlanConfigItemGroup gp)
+                {
+                    ItemsCountsInGroup(gp, ref temp);
+                }
+            }
+        }
+
+        public int GetEnableItemsCount()
+        {
+            int temp = 0;
+            foreach (var item in this.Items)
+            {
+                if (item.IsEnabled)
+                {
+                    temp++;
+                }
+            }
+            return temp;
+        }
+
     }
 
     public class ThSitePlanConfigService
