@@ -62,6 +62,7 @@ namespace TopoNode
             // 图元预处理
             var removeEntityLst = Utils.PreProcess2(validLayers);
 
+            return;
             //Utils.PostProcess(removeEntityLst);
             //return;
             Progress.Progress.SetValue(900);

@@ -54,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TopoUtils.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="Xclip.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Progress\Progress.resx">

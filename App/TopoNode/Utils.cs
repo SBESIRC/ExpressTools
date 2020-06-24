@@ -4531,7 +4531,7 @@ namespace TopoNode
                                 if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers)
                                     && !entity.IsErased && !(entity is Hatch) && !(entity is AttributeDefinition))
                                 {
-                                    db.ModelSpace.Add(entity);
+                                    db.ModelSpace.Add(entity.Clone() as Entity);
                                     resEntityLst.Add(entity);
                                 }
                             }
@@ -4697,17 +4697,17 @@ namespace TopoNode
                 return null;
 
             var entityLst = new List<Entity>();
-            var blockReferences = new List<BlockReference>();
-            blockReferences.Add(block);
+            var blockXclipInfos = new List<ReferenceXclipInfo>();
+            blockXclipInfos.Add(new ReferenceXclipInfo(block));
 
-            while (blockReferences.Count > 0)
+            while (blockXclipInfos.Count > 0)
             {
-                var curBlock = blockReferences.First();
-                blockReferences.RemoveAt(0);
+                var blockXclipInfo = blockXclipInfos.First();
+                blockXclipInfos.RemoveAt(0);
 
-                if (curBlock.Visible)
+                if (blockXclipInfo.curBlock.Visible)
                 {
-                    var entitysInBlock = FromSingleBlock2(curBlock, ref blockReferences);
+                    var entitysInBlock = FromSingleBlock2(blockXclipInfo, ref blockXclipInfos);
                     if (entitysInBlock != null && entitysInBlock.Count != 0)
                     {
                         entityLst.AddRange(entitysInBlock);
@@ -4856,14 +4856,31 @@ namespace TopoNode
         /// <param name="block"></param>
         /// <param name="childReferences"></param>
         /// <returns></returns>
-        public static List<Entity> FromSingleBlock2(BlockReference block, ref List<BlockReference> childReferences)
+        public static List<Entity> FromSingleBlock2(ReferenceXclipInfo blockclip, ref List<ReferenceXclipInfo> childReferences)
         {
+            var block = blockclip.curBlock;
             if (block == null)
                 return null;
 
             var entityLst = new List<Entity>();
             string name;
             var nameMaps = new List<string>();
+            XClipInfo clipInfo = null; // 为空则没有裁剪， 不为空则当前block有裁剪
+            try
+            {
+                clipInfo = Xclip.RetrieveXClipBoundary(block);
+            }
+            catch
+            {
+            }
+
+            // 当前非block的所有图元都要经过clipInfos的逐个裁剪
+            var curBlockTotalClips = blockclip.curXclips;
+            if (clipInfo != null)
+                curBlockTotalClips.Add(clipInfo);
+
+            var dbCollection = new DBObjectCollection();
+
             try
             {
                 using (var db = AcadDatabase.Active())
@@ -4877,6 +4894,9 @@ namespace TopoNode
                     foreach (ObjectId ociId in btr)
                     {
                         DBObject dbObj = db.Database.TransactionManager.TopTransaction.GetObject(ociId, OpenMode.ForRead);
+                        if (dbObj is Entity)
+                            dbCollection.Add(dbObj);
+
                         if (dbObj is BlockReference)
                         {
                             var newBr = dbObj as BlockReference;
@@ -4893,10 +4913,10 @@ namespace TopoNode
                         }
                     }
 
-
+                    
                     // 解析数据
-                    var dbCollection = new DBObjectCollection();
-                    block.Explode(dbCollection);
+                    //var dbCollection = new DBObjectCollection();
+                    //block.Explode(dbCollection);
                     var blockLayer = block.Layer;
                     if (IsHasBlockReference(dbCollection)) // 内部包含块
                     {
@@ -4917,7 +4937,7 @@ namespace TopoNode
                                     {
                                         if (keyName.Equals(childBlock.Name))
                                         {
-                                            entityLst.Add(childBlock);
+                                            AddXclipBlock(ref entityLst, childBlock, curBlockTotalClips);
                                             bContinue = true;
                                             break;
                                         }
@@ -4930,15 +4950,17 @@ namespace TopoNode
                                     {
                                         var childBlockLayer = childBlock.Layer;
                                         if (IsValidLoopLayer(childBlockLayer))
-                                            childReferences.Add(childBlock);
+                                            childReferences.Add(new ReferenceXclipInfo(childBlock, curBlockTotalClips));
                                         else if (!IsOtherStandardLayer(childBlockLayer))
                                         {
+                                            childBlock.UpgradeOpen();
                                             childBlock.Layer = blockLayer;
-                                            childReferences.Add(childBlock);
+                                            childBlock.DowngradeOpen();
+                                            childReferences.Add(new ReferenceXclipInfo(childBlock, curBlockTotalClips));
                                         }
                                         else if (IsOtherStandardLayer(childBlockLayer))
                                         {
-                                            childReferences.Add(childBlock);
+                                            childReferences.Add(new ReferenceXclipInfo(childBlock, curBlockTotalClips));
                                         }
                                     }
                                 }
@@ -4952,11 +4974,13 @@ namespace TopoNode
 
                                         var entityLayer = entity.Layer;
                                         if (IsValidLoopLayer(entityLayer))
-                                            entityLst.Add(entity);
+                                            AddXclipEntity(ref entityLst, entity, curBlockTotalClips);
                                         else if (!IsOtherStandardLayer(entityLayer))
                                         {
+                                            entity.UpgradeOpen();
                                             entity.Layer = blockLayer;
-                                            entityLst.Add(entity);
+                                            entity.DowngradeOpen();
+                                            AddXclipEntity(ref entityLst, entity, curBlockTotalClips);
                                         }
                                     }
                                 }
@@ -4978,11 +5002,13 @@ namespace TopoNode
                                 {
                                     var entityLayer = entity.Layer;
                                     if (IsValidLoopLayer(entityLayer))
-                                        entityLst.Add(entity);
+                                        AddXclipEntity(ref entityLst, entity, curBlockTotalClips);
                                     else if (!IsOtherStandardLayer(entityLayer))
                                     {
+                                        entity.UpgradeOpen();
                                         entity.Layer = blockLayer;
-                                        entityLst.Add(entity);
+                                        entity.DowngradeOpen();
+                                        AddXclipEntity(ref entityLst, entity, curBlockTotalClips);
                                     }
                                 }
                             }
@@ -5002,6 +5028,254 @@ namespace TopoNode
             }
 
             return entityLst;
+        }
+
+        /// <summary>
+        /// 增加经过裁剪后的图元信息
+        /// </summary>
+        /// <param name="sourceEntities"></param>
+        /// <param name="aimEntity"></param>
+        /// <param name="clipInfos"></param>
+        public static void AddXclipEntity(ref List<Entity> sourceEntities, Entity aimEntity, List<XClipInfo> totalClipInfos)
+        {
+            if (totalClipInfos == null || totalClipInfos.Count == 0)
+                sourceEntities.Add(aimEntity);
+
+            if (aimEntity is Curve curve)
+            {
+                var copyTotalClipInfos = new List<XClipInfo>();
+                var totalCount = totalClipInfos.Count;
+                for (int i = totalCount - 1; i >= 0; i--)
+                {
+                    copyTotalClipInfos.Add(totalClipInfos[i]);
+                }
+
+                for (int j = 0; j < totalCount; j++)
+                {
+                    var pts = copyTotalClipInfos[j].Pts;
+                    for (int k = j; k < totalCount; k++)
+                    {
+                        var curBlockTransForm = copyTotalClipInfos[k].BlockTransForm;
+                        pts = PointsTransform(pts, curBlockTransForm);
+                    }
+
+                    copyTotalClipInfos[j].Pts = pts;
+                }
+
+                AddXclipCurve(ref sourceEntities, curve, copyTotalClipInfos);
+            }
+            else
+            {
+                sourceEntities.Add(aimEntity);
+            }
+        }
+
+        public static Point2dCollection PointsTransform(Point2dCollection srcPts, Matrix3d transform)
+        {
+            Point2dCollection pts = new Point2dCollection();
+            foreach (Point2d pt in srcPts)
+            {
+                Point3d tempPt = new Point3d(pt.X, pt.Y, 0.0);
+                tempPt = tempPt.TransformBy(transform);
+                pts.Add(new Point2d(tempPt.X, tempPt.Y));
+            }
+
+            return pts;
+        }
+
+        /// <summary>
+        /// 增加经过裁剪后的BlockReference信息
+        /// </summary>
+        /// <param name="sourceEntities"></param>
+        /// <param name="aimEntity"></param>
+        /// <param name="clipInfos"></param>
+        public static void AddXclipBlock(ref List<Entity> sourceEntities, BlockReference aimBlock, List<XClipInfo> totalClipInfos)
+        {
+            if (totalClipInfos == null || totalClipInfos.Count == 0)
+                sourceEntities.Add(aimBlock);
+
+            if (!aimBlock.Bounds.HasValue)
+                return;
+
+            var blockMinPt = aimBlock.Bounds.Value.MinPoint;
+            var blockMaxPt = aimBlock.Bounds.Value.MaxPoint;
+
+            for (int i = 0; i < totalClipInfos.Count; i++)
+            {
+                var clipInfo = totalClipInfos[i];
+                var clipLines = CalClipBoundaryPts(clipInfo.Pts);
+                if (clipLines == null || clipLines.Count < 3)
+                    continue;
+
+                bool bInner = CommonUtils.PtInLoop(clipLines, blockMinPt) && CommonUtils.PtInLoop(clipLines, blockMaxPt);
+
+                if (bInner && clipInfo.KeepExternal)
+                    return;
+
+                if (!bInner && !clipInfo.KeepExternal)
+                    return;
+            }
+
+            sourceEntities.Add(aimBlock);
+        }
+
+        /// <summary>
+        /// 裁剪curve
+        /// </summary>
+        /// <param name="sourceEntities"></param>
+        /// <param name="aimCurve"></param>
+        /// <param name="totalClipInfos"></param>
+        public static void AddXclipCurve(ref List<Entity> sourceEntities, Curve aimCurve, List<XClipInfo> totalClipInfos)
+        {
+            var tesslateCurves = TopoUtils.TesslateCurve(new List<Curve>() { aimCurve });
+            foreach (var curve in tesslateCurves)
+            {
+                AddCurve(ref sourceEntities, curve, totalClipInfos);
+            }
+        }
+
+        /// <summary>
+        /// 单段curve
+        /// </summary>
+        /// <param name="sourceEntities"></param>
+        /// <param name="aimCurve"></param>
+        /// <param name="totalClipInfos"></param>
+        public static void AddCurve(ref List<Entity> sourceEntities, Curve aimCurve, List<XClipInfo> totalClipInfos)
+        {
+            var resCurves = new List<Curve>();
+            resCurves.Add(aimCurve);
+
+            foreach (var clipInfo in totalClipInfos)
+            {
+                resCurves = ClipCurves(resCurves, clipInfo);
+            }
+
+            if (resCurves.Count != 0)
+                sourceEntities.AddRange(resCurves);
+        }
+
+        /// <summary>
+        /// 每一层curve裁剪可能生成多段
+        /// </summary>
+        /// <param name="curves"></param>
+        /// <param name="clipInfo"></param>
+        /// <returns></returns>
+        public static List<Curve> ClipCurves(List<Curve> curves, XClipInfo clipInfo)
+        {
+            if (curves == null || curves.Count == 0)
+                return null;
+
+            var clipLines = CalClipBoundaryPts(clipInfo.Pts);
+            if (clipLines == null || clipLines.Count < 3)
+                return curves;
+
+            Utils.DrawProfile(clipLines, "clipLine");
+            //裁剪
+            var innerCurves = new List<Curve>();
+            var intersectCurves = new List<Curve>();
+
+            var outerCurves = new List<Curve>();
+            foreach (var curve in curves)
+            {
+                if (LoopContainCurve(clipLines, curve))
+                {
+                    innerCurves.Add(curve);
+                }
+                else if (CurveIntersectWithLoop(curve, clipLines))
+                {
+                    intersectCurves.Add(curve);
+                }
+                else
+                {
+                    outerCurves.Add(curve);
+                }
+            }
+
+            if (intersectCurves.Count != 0)
+            {
+                var newCurves = ScatterCurves.MakeScatterCurves(intersectCurves, clipLines);
+                if (newCurves != null)
+                {
+                    foreach (var curve in newCurves)
+                    {
+                        var ptMid = curve.GetPointAtParameter((curve.StartParam + curve.EndParam) * 0.5);
+
+                        if (CommonUtils.PtOnCurves(ptMid, clipLines))
+                            continue;
+
+                        if (CommonUtils.PtInLoop(clipLines, ptMid))
+                            innerCurves.Add(curve);
+                        else
+                            outerCurves.Add(curve);
+                    }
+                }
+            }
+
+            if (clipInfo.KeepExternal)
+                return outerCurves;
+            else
+                return innerCurves;
+        }
+
+        public static Point2dCollection EraseSamePoints(Point2dCollection pts)
+        {
+            Point2dCollection resPts = new Point2dCollection();
+            foreach (Point2d pt in pts)
+            {
+                bool isExisted = false;
+                for (int i = 0; i < resPts.Count; i++)
+                {
+                    if (CommonUtils.Point2dIsEqualPoint2d(pt, resPts[i]))
+                    {
+                        isExisted = true;
+                        break;
+                    }
+                }
+
+                if (!isExisted)
+                {
+                    resPts.Add(pt);
+                }
+            }
+            return resPts;
+        }
+
+        /// <summary>
+        /// 裁剪多边形
+        /// </summary>
+        /// <param name="srcPts"></param>
+        /// <returns></returns>
+        public static List<Curve> CalClipBoundaryPts(Point2dCollection srcPts)
+        {
+            var pts = EraseSamePoints(srcPts);
+            if (pts.Count < 2)
+                return null;
+
+            var curves = new List<Curve>();
+            Point2dCollection newBoundaryPts = new Point2dCollection();
+            if (pts.Count == 2)
+            {
+                double minX = Math.Min(pts[0].X, pts[1].X);
+                double minY = Math.Min(pts[0].Y, pts[1].Y);
+                double maxX = Math.Max(pts[0].X, pts[1].X);
+                double maxY = Math.Max(pts[0].Y, pts[1].Y);
+                newBoundaryPts.AddRange(new Point2d[]{new Point2d(minX, minY), new Point2d(maxX, minY),
+                    new Point2d(maxX, maxY), new Point2d(minX, maxY)});
+            }
+            else
+            {
+                newBoundaryPts = pts;
+            }
+
+            var ptCount = newBoundaryPts.Count;
+            for (int i = 0; i < ptCount; i++)
+            {
+                var curPt = newBoundaryPts[i];
+                var nextPt = newBoundaryPts[(i + 1) % ptCount];
+                curves.Add(new Line(curPt.toPoint3d(), nextPt.toPoint3d()));
+            }
+
+            return curves;
         }
 
         /// <summary>
