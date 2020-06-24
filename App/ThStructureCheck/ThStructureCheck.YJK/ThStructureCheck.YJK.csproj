@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IAsv0Factory.cs" />
     <Compile Include="Interface\IBeamLink.cs" />
     <Compile Include="Interface\ICalculateInfo.cs" />
     <Compile Include="Interface\IDatabaseSource.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Query\YjkWallCol.cs" />
     <Compile Include="Query\YjkWallQuery.cs" />
     <Compile Include="Model\BeamPortEncryptStirrup.cs" />
+    <Compile Include="Service\Asv0Calculation.cs" />
     <Compile Include="Service\MathLogic.cs" />
     <Compile Include="Service\BuildBeamLink.cs" />
     <Compile Include="Service\ThBeamJig.cs" />

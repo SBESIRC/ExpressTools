@@ -918,5 +918,24 @@ namespace ThStructureCheck.YJK.Query
             }
             return results;
         }
+        public ModelColumnSect GetModelColumnSect(int sectID)
+        {
+            ModelColumnSect columnSect = new ModelColumnSect();
+            string sql = "select * from tblColSect where ID= " + sectID;
+            DataTable dt = ExecuteDataTable(sql);
+            foreach (DataRow dr in dt.Rows)
+            {
+                columnSect.ID = Convert.ToInt32(dr["tblColSectID"].ToString());
+                columnSect.No_ = Convert.ToInt32(dr["tblColSectNo"].ToString());
+                columnSect.Name = dr["tblColSectName"].ToString();
+                columnSect.Mat = Convert.ToInt32(dr["Mat"].ToString());
+                columnSect.Kind = Convert.ToInt32(dr["Kind"].ToString());
+                columnSect.ShapeVal = dr["ShapeVal"].ToString();
+                columnSect.ShapeVal1 = dr["ShapeVal1"].ToString();
+                columnSect.DbPath = this.dbPath;
+                break;
+            }
+            return columnSect;
+        }
     }
 }

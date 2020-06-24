@@ -12,6 +12,7 @@ using ThStructureCheck.ThBeamInfo.Model;
 using ThStructureCheck.YJK.Model;
 using ThStructureCheck.YJK.Query;
 using ThStructureCheck.YJK.Service;
+using ThStructureCheck.Common.Service;
 
 namespace ThStructureCheck.ThBeamInfo.Service
 {
@@ -318,7 +319,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
                     if (length > 0 && width > 0)
                     {
                         polyline = new Polyline();
-                        Vector3d offsetVec = ThBeamUtils.GetBeamOffsetDirection(startPt, endPt);
+                        Vector3d offsetVec = GeometricCalculation.GetOffsetDirection(startPt, endPt);
                         Point3d sp = startPt + offsetVec.GetNormal().MultiplyBy(ecc);
                         Point3d ep = endPt + offsetVec.GetNormal().MultiplyBy(ecc);
                         Point3d pt1 = sp + offsetVec.GetNormal().MultiplyBy(length / 2.0);
@@ -358,7 +359,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
                     if (length > 0 && width > 0)
                     {
                         polyline = new Polyline();
-                        Vector3d offsetVec = ThBeamUtils.GetBeamOffsetDirection(startPt, endPt);
+                        Vector3d offsetVec = GeometricCalculation.GetOffsetDirection(startPt, endPt);
                         Point3d sp = startPt + offsetVec.GetNormal().MultiplyBy(ecc);
                         Point3d ep = endPt + offsetVec.GetNormal().MultiplyBy(ecc);
                         Point3d pt1 = sp + offsetVec.GetNormal().MultiplyBy(length / 2.0);
@@ -495,7 +496,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
                 return polyline;
             }
             polyline = new Polyline();
-            Vector3d offsetVec = ThBeamUtils.GetBeamOffsetDirection(startPt, endPt);
+            Vector3d offsetVec = GeometricCalculation.GetOffsetDirection(startPt, endPt);
             Point3d sp = startPt + offsetVec.GetNormal().MultiplyBy(ecc);
             Point3d ep = endPt + offsetVec.GetNormal().MultiplyBy(ecc);
             Point3d pt1 = sp + offsetVec.GetNormal().MultiplyBy(b / 2.0);

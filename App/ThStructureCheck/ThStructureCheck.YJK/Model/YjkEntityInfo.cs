@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThStructureCheck.Common.Interface;
 using ThStructureCheck.YJK.Interface;
 
 namespace ThStructureCheck.YJK.Model
 {
-    public class YjkEntityInfo: IEntityInf
+    public abstract class YjkEntityInfo
     {
         private string dbPath = "";
         public int ID { get; set; }

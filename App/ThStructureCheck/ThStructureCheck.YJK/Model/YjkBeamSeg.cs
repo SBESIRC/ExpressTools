@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autodesk.AutoCAD.DatabaseServices;
+using ThStructureCheck.Common;
+using ThStructureCheck.Common.Interface;
+using ThStructureCheck.Common.Model;
+using ThStructureCheck.YJK.Interface;
 using ThStructureCheck.YJK.Query;
 using ThStructureCheck.YJK.Service;
 
 namespace ThStructureCheck.YJK.Model
 {
-    public class ModelBeamSeg : YjkEntityInfo
+    public class ModelBeamSeg : YjkEntityInfo,IEntityInf
     {
         public int No_ { get; set; }
         public int StdFlrID { get; set; }
@@ -41,6 +46,44 @@ namespace ThStructureCheck.YJK.Model
             {
                 return new YjkGridQuery(this.DbPath).GetModelGrid(this.GridID);
             }
+        }
+        public ModelBeamSect BeamSect
+        {
+            get
+            {
+                return new YjkBeamQuery(this.DbPath).GetModelBeamSect(this.SectID);
+            }
+        }
+        public IEntity BuildGeometry()
+        {
+            //ToDo 后续若增加弧梁
+            return BuildLineBeamGeo();
+        }
+        private LineBeamGeometry BuildLineBeamGeo()
+        {
+            YjkJointQuery yjkJointQuery = new YjkJointQuery(this.DbPath);
+            ModelGrid modelGrid = this.Grid;
+            ModelJoint startJoint = yjkJointQuery.GetModelJoint(modelGrid.Jt1ID);
+            ModelJoint endJoint = yjkJointQuery.GetModelJoint(modelGrid.Jt2ID);
+            List<double> datas = Utils.GetDoubleDatas(this.BeamSect.Spec);
+            if (datas.Count == 0)
+            {
+                datas.Add(0.0);
+                datas.Add(0.0);
+            }
+            else if (datas.Count == 1)
+            {
+                datas.Add(0.0);
+            }
+            return new LineBeamGeometry()
+            {
+                StartPoint = new Coordinate(startJoint.X, startJoint.Y),
+                EndPoint = new Coordinate(endJoint.X, endJoint.Y),
+                Ecc = this.Ecc,               
+                Rotation = this.Rotation,
+                B = datas[0],
+                H = datas[1]
+            };
         }
     }
     public class CalcBeamSeg : YjkEntityInfo

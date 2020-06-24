@@ -42,9 +42,9 @@ namespace ThStructureCheck.Common
             }
             return values;
         }
-        public static List<int> GetDoubleDatas(string str)
+        public static List<double> GetDoubleDatas(string str)
         {
-            List<int> values = new List<int>();
+            List<double> values = new List<double>();
             string pattern = @"[+-]?[\d]+[.]?[\d]+";
             MatchCollection matches = Regex.Matches(str, pattern);
             foreach (var match in matches)

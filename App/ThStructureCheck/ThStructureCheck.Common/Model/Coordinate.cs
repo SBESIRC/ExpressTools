@@ -13,7 +13,7 @@ namespace ThStructureCheck.Common.Model
         private double y;
         private double z;
 
-        private Point3d Coord
+        public Point3d Coord
         {
             get
             {
