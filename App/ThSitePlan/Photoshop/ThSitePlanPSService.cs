@@ -93,7 +93,11 @@ namespace ThSitePlan.Photoshop
             //fileName = (string)configItem.Properties["Name"] + ".pdf";
             //fullPath = Path.Combine(path, fileName);
             //装载PDF获取图层名称
-            Document NewOpenDoc = Application.Open(fullPath);
+            PDFOpenOptions pdfop = new PDFOpenOptions
+            {
+                CropPage = PsCropToType.psBoundingBox
+            };
+            Document NewOpenDoc = Application.Open(fullPath, pdfop);
             string CurDocNa = NewOpenDoc.Name;
             ArtLayer newlayer = NewOpenDoc.ArtLayers[1];
             newlayer.Name = CurDocNa;
