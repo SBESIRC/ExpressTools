@@ -81,7 +81,7 @@ namespace ThSitePlan.UI
         {
 
             InitializeComponent();
-
+            UserLookAndFeel.Default.SetSkinStyle(SkinStyle.VisualStudio2013Dark);
         }
 
 
@@ -875,7 +875,39 @@ namespace ThSitePlan.UI
             _TargetNode = _Tree.CalcHitInfo(_P).Node;
             var _Type = _TargetNode.GetValue("Type");
             var _ID = _TargetNode.GetValue("ID");
-            var _PID = _TargetNode.GetValue("PID");
+                var _PID = _TargetNode.GetValue("PID");
+            var _Name = _DragNode.GetValue("Name");
+            var _DragID = _DragNode.GetValue("ID");
+
+            if (FuncStr.NullToStr(_Type) == "1")
+            {
+                var _List = m_ListColorGeneral.FindAll(p => FuncStr.NullToStr(p.PID) == FuncStr.NullToStr(_ID) && FuncStr.NullToStr(p.ID) != FuncStr.NullToStr(_DragID));
+                if (_List != null && _List.Count > 0)
+                {
+                    var _ColorGeneral = _List.Find(p => p.Name == FuncStr.NullToStr(_Name));
+                    if (_ColorGeneral != null)
+                    {
+                        XtraMessageBox.Show("组内名称冲突!", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        e.Effect = DragDropEffects.None;
+                        return;
+                    }
+                }
+         
+            }
+            else
+            {
+                var _List = m_ListColorGeneral.FindAll(p => FuncStr.NullToStr(p.PID) == FuncStr.NullToStr(_PID) && FuncStr.NullToStr(p.ID) != FuncStr.NullToStr(_DragID));
+                if (_List != null && _List.Count > 0)
+                {
+                    var _ColorGeneral = _List.Find(p => p.Name == FuncStr.NullToStr(_Name));
+                    if (_ColorGeneral != null)
+                    {
+                        XtraMessageBox.Show("组内名称冲突!", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        e.Effect = DragDropEffects.None;
+                        return;
+                    }
+                }
+            }
 
 
 
@@ -1041,14 +1073,13 @@ namespace ThSitePlan.UI
 
         private void BtnRestore_Click(object sender, EventArgs e)
         {
-
             string _Txt = FuncStr.NullToStr(m_ColorDefaultConfig);
             var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(_Txt);
             ThSitePlanConfigItemGroup Root = new ThSitePlanConfigItemGroup();
             Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
             FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);
             m_Presenter.SetImgType(_ListColorGeneral);
-            m_ListColorGeneral = m_Presenter.InitColorGeneral();
+            m_ListColorGeneral = _ListColorGeneral;
             TreeList.DataSource = m_ListColorGeneral;
             this.TreeList.ExpandAll();
         }
