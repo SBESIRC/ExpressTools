@@ -1,6 +1,6 @@
 [
     {
-        "CAD_Frame": "",
+        "CAD_Frame": "未识别对象",
         "CAD_Layer": [],
         "CAD_Layer_Value": null,
         "CAD_Script": "无",
@@ -14,7 +14,7 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "",
+        "CAD_Frame": "基本文字说明及图例",
         "CAD_Layer": [
             {
                 "ID": "1",
@@ -37,7 +37,7 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": "场地标高",
         "CAD_Layer": [
             {
                 "ID": "1",
@@ -64,7 +64,7 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": "尺寸标注",
         "CAD_Layer": [
             {
                 "ID": "1",
@@ -91,7 +91,7 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": "界线",
         "CAD_Layer": [
             {
                 "ID": "1",
@@ -126,7 +126,7 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": "原始场地叠加线稿",
         "CAD_Layer": [
             {
                 "ID": "1",
@@ -145,11 +145,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "6",
         "Name": "建筑物",
@@ -159,11 +159,11 @@
         "Type": "1"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "7",
         "Name": "场地内建筑",
@@ -269,11 +269,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "11",
         "Name": "场地外建筑",
@@ -354,11 +354,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "16",
         "Name": "树木",
@@ -368,11 +368,11 @@
         "Type": "1"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "17",
         "Name": "景观树",
@@ -434,11 +434,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "20",
         "Name": "行道树",
@@ -500,11 +500,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "23",
         "Name": "场地",
@@ -514,11 +514,11 @@
         "Type": "1"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "24",
         "Name": "消防登高场地",
@@ -566,11 +566,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "27",
         "Name": "停车场地",
@@ -618,11 +618,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "30",
         "Name": "活动场地",
@@ -670,11 +670,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "33",
         "Name": "其他场地",
@@ -730,11 +730,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "36",
         "Name": "道路",
@@ -744,11 +744,11 @@
         "Type": "1"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "37",
         "Name": "内部车行道路",
@@ -800,11 +800,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "40",
         "Name": "内部人行道路",
@@ -852,11 +852,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "43",
         "Name": "外部车行道路",
@@ -908,11 +908,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "46",
         "Name": "外部景观道路",
@@ -960,11 +960,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "49",
         "Name": "铺装",
@@ -974,11 +974,11 @@
         "Type": "1"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "50",
         "Name": "场地外铺地",
@@ -1026,11 +1026,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "53",
         "Name": "景观绿地",
@@ -1040,11 +1040,11 @@
         "Type": "1"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "54",
         "Name": "水景",
@@ -1092,11 +1092,11 @@
         "Type": "0"
     },
     {
-        "CAD_Frame": "NULL",
+        "CAD_Frame": null,
         "CAD_Layer": null,
         "CAD_Layer_Value": null,
-        "CAD_Script": "NULL",
-        "CAD_ScriptID": "",
+        "CAD_Script": null,
+        "CAD_ScriptID": null,
         "DataType": "0",
         "ID": "57",
         "Name": "景观",
