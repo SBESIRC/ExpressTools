@@ -203,6 +203,18 @@ namespace ThCADCore.NTS
             }
         }
 
+        public static IPolygon ToNTSPolygon(this Circle circle)
+        {
+            // 获取圆的外接矩形
+            var shapeFactory = new GeometricShapeFactory(ThCADCoreNTSService.Instance.GeometryFactory)
+            {
+                NumPoints = 4,
+                Size = 2 * circle.Radius,
+                Centre = circle.Center.ToNTSCoordinate(),
+            };
+            return shapeFactory.CreateCircle();
+        }
+
         public static ILineString ToNTSLineString(this Line line)
         {
             var points = new List<Coordinate>

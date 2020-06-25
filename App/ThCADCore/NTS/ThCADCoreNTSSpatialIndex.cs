@@ -32,6 +32,10 @@ namespace ThCADCore.NTS
                 {
                     AddGeometry(polyline.ToNTSLineString());
                 }
+                else if (obj is Circle circle)
+                {
+                    AddGeometry(circle.ToNTSPolygon());
+                }
                 else
                 {
                     throw new NotSupportedException();
