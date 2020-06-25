@@ -113,5 +113,10 @@ namespace ThCADCore.NTS
             }
             return objs;
         }
+
+        public static bool Contains(this Polyline thisPline, Polyline otherPline)
+        {
+            return thisPline.ToNTSPolygon().Contains(otherPline.ToNTSPolygon());
+        }
     }
 }
