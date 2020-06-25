@@ -18,6 +18,16 @@ namespace ThWSS.Engine
             throw new NotImplementedException();
         }
 
+        public override bool Acquire(Database database, ObjectIdCollection frames)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Acquire(Database database, DBObjectCollection frames)
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool Acquire(ThModelElement element)
         {
             throw new NotImplementedException();

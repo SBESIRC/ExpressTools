@@ -246,6 +246,53 @@ namespace ThWSS.Engine
             return true;
         }
 
+        public override bool Acquire(Database database, ObjectIdCollection frames)
+        {
+            using (var acadDatabase = AcadDatabase.Active())
+            {
+                Elements = new List<ThModelElement>();
+
+                // 获取房间轮廓
+                int roomIndex = 0;
+                foreach (ObjectId frame in frames)
+                {
+                    var pline = acadDatabase.Element<Polyline>(frame);
+                    ThRoom thRoom = new ThRoom()
+                    {
+                        Properties = new Dictionary<string, object>()
+                        {
+                            { string.Format("ThRoom{0}", roomIndex++),  pline.GetTransformedCopy(Matrix3d.Identity) as Polyline }
+                        }
+                    };
+                    Elements.Add(thRoom);
+                }
+
+                return true;
+            }
+        }
+
+
+        public override bool Acquire(Database database, DBObjectCollection frames)
+        {
+            Elements = new List<ThModelElement>();
+
+            // 获取房间轮廓
+            int roomIndex = 0;
+            foreach (Polyline frame in frames)
+            {
+                ThRoom thRoom = new ThRoom()
+                {
+                    Properties = new Dictionary<string, object>()
+                    {
+                        { string.Format("ThRoom{0}", roomIndex++),  frame.GetTransformedCopy(Matrix3d.Identity) as Polyline }
+                    }
+                };
+                Elements.Add(thRoom);
+            }
+
+            return true;
+        }
+
         public override bool Acquire(ThModelElement element)
         {
             throw new NotImplementedException();

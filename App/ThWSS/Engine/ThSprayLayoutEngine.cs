@@ -25,7 +25,7 @@ namespace ThWSS.Engine
         public ThColumnRecognitionEngine ColumnEngine = new ThColumnRecognitionEngine();
 
         /// <summary>
-        /// 喷淋布置引擎
+        /// 按防火分区布置喷淋
         /// </summary>
         /// <param name="database"></param>
         /// <param name="fire"></param>
@@ -34,11 +34,24 @@ namespace ThWSS.Engine
             // 获取防火分区内的房间信息
             RoomEngine.Acquire(database, fire);
             // 遍历房间，对每个房间进行布置
-            //RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => Layout(o, floor, layoutModel));
+            RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => Layout(o, floor, layoutModel));
         }
 
         /// <summary>
-        /// 喷淋布置引擎
+        /// 按房间轮廓线布置喷淋
+        /// </summary>
+        /// <param name="database"></param>
+        /// <param name="fire"></param>
+        public void Layout(Database database, Polyline floor, ObjectIdCollection frames, SprayLayoutModel layoutModel)
+        {
+            // 获取防火分区内的房间信息
+            RoomEngine.Acquire(database, frames);
+            // 遍历房间，对每个房间进行布置
+            RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => Layout(o, floor, layoutModel));
+        }
+
+        /// <summary>
+        ///按自定义区域布置喷淋
         /// </summary>
         /// <param name="polylines"></param>
         public void Layout(List<Polyline> polylines, Polyline floor, SprayLayoutModel layoutModel)

@@ -47,15 +47,14 @@ namespace ThWSS
         [CommandMethod("TIANHUACAD", "-THCalOBB", CommandFlags.Modal)]
         public void ThDistinguishBeamCLI()
         {
-            // 指定布置对象
-            PromptKeywordOptions keywordOptions = new PromptKeywordOptions("\n请指定布置对象：")
+            PromptKeywordOptions keywordOptions = new PromptKeywordOptions("\n请指定布置区域：")
             {
                 AllowNone = true
             };
-            keywordOptions.Keywords.Add("Firecompartment ", "Firecompartment", "防火分区(F)");
+            keywordOptions.Keywords.Add("Firecompartment", "Firecompartment", "防火分区(F)");
             keywordOptions.Keywords.Add("frameLine", "frameLine", "来自框线(L)");
             keywordOptions.Keywords.Add("Custom", "Custom", "自定义区域(C)");
-            keywordOptions.Keywords.Default = "FrameLine";
+            keywordOptions.Keywords.Default = "Firecompartment";
             PromptResult result = Active.Editor.GetKeywords(keywordOptions);
             if (result.Status != PromptStatus.OK)
             {
@@ -63,17 +62,17 @@ namespace ThWSS
             }
 
             var layoutModel = new SprayLayoutModel();
-            if (result.StringResult == "FrameLine")
+            if (result.StringResult == "Firecompartment")
             {
                 layoutModel.sparyLayoutWay = LayoutWay.fire;
             }
-            else if (result.StringResult == "CustomRegion")
-            {
-                layoutModel.sparyLayoutWay = LayoutWay.customPart;
-            }
-            else if (result.StringResult == "FireCompartment")
+            else if (result.StringResult == "frameLine")
             {
                 layoutModel.sparyLayoutWay = LayoutWay.frame;
+            }
+            else if (result.StringResult == "Custom")
+            {
+                layoutModel.sparyLayoutWay = LayoutWay.customPart;
             }
             Run(layoutModel);
         }
@@ -227,7 +226,15 @@ namespace ThWSS
             }
             else if (layoutModel.sparyLayoutWay == LayoutWay.frame)
             {
-                // 选取房间框线
+                // 选择楼层区域
+                // 暂时只支持矩形区域
+                var pline = CreateWindowArea();
+                if (pline == null)
+                {
+                    return;
+                }
+
+                // 选取框线
                 PromptSelectionOptions options = new PromptSelectionOptions()
                 {
                     AllowDuplicates = false,
@@ -241,32 +248,33 @@ namespace ThWSS
                     return;
                 }
 
-                // 获取房间框线
-                var rooms = new List<Polyline>();
-                foreach (var obj in entSelected.Value.GetObjectIds())
-                {
-                    var pline = obj.GetObject(OpenMode.ForRead) as Polyline;
-                    rooms.Add(pline.GetTransformedCopy(Matrix3d.Identity) as Polyline);
-                }
-
                 // 执行操作
-                ThSprayLayoutEngine.Instance.Layout(rooms, null, layoutModel);
+                var frames = new ObjectIdCollection(entSelected.Value.GetObjectIds());
+                ThSprayLayoutEngine.Instance.Layout(Active.Database, pline, frames, layoutModel);
             }
             else if (layoutModel.sparyLayoutWay == LayoutWay.customPart)
             {
-                // 选择自定义区域
-                var pline = CreatePolygonArea();
+                // 选择楼层区域
+                // 暂时只支持矩形区域
+                var pline = CreateWindowArea();
                 if (pline == null)
                 {
                     return;
                 }
 
+                // 选择自定义区域
+                var frame = CreatePolygonArea();
+                if (frame == null)
+                {
+                    return;
+                }
+
                 // 执行操作
-                var rooms = new List<Polyline>()
-                    {
-                        pline,
-                    };
-                ThSprayLayoutEngine.Instance.Layout(rooms, null, layoutModel);
+                var frames = new List<Polyline>()
+                {
+                    frame
+                };
+                ThSprayLayoutEngine.Instance.Layout(frames, pline, layoutModel);
             }
         }
 

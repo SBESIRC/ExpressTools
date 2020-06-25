@@ -23,6 +23,23 @@ namespace ThWSS.Engine
         /// <param name="database"></param>
         /// <param name="polygon"></param>
         /// <returns></returns>
-        public abstract bool Acquire(Database database, ObjectId polygon);
+        public abstract bool Acquire(Database database, ObjectId floor);
+
+        /// <summary>
+        /// 从图纸的指定框线提取对象
+        /// </summary>
+        /// <param name="database"></param>
+        /// <param name="polygon"></param>
+        /// <returns></returns>
+        public abstract bool Acquire(Database database, ObjectIdCollection frames);
+
+
+        /// <summary>
+        /// 从图纸的指定框线提取对象
+        /// </summary>
+        /// <param name="database"></param>
+        /// <param name="frames"></param>
+        /// <returns></returns>
+        public abstract bool Acquire(Database database, DBObjectCollection frames);
     }
 }
