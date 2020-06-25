@@ -52,9 +52,9 @@ namespace ThWSS
             {
                 AllowNone = true
             };
-            keywordOptions.Keywords.Add("FrameLine", "FrameLine", "来自框线(L)");
-            keywordOptions.Keywords.Add("FireCompartment ", "FireCompartment", "防火分区(F)");
-            keywordOptions.Keywords.Add("CustomRegion", "CustomRegion", "自定义区域(C)");
+            keywordOptions.Keywords.Add("Firecompartment ", "Firecompartment", "防火分区(F)");
+            keywordOptions.Keywords.Add("frameLine", "frameLine", "来自框线(L)");
+            keywordOptions.Keywords.Add("Custom", "Custom", "自定义区域(C)");
             keywordOptions.Keywords.Default = "FrameLine";
             PromptResult result = Active.Editor.GetKeywords(keywordOptions);
             if (result.Status != PromptStatus.OK)
@@ -198,7 +198,12 @@ namespace ThWSS
             if (layoutModel.sparyLayoutWay == LayoutWay.fire)
             {
                 // 选择楼层区域
+                // 暂时只支持矩形区域
                 var pline = CreateWindowArea();
+                if (pline == null)
+                {
+                    return;
+                }
 
                 // 选择防火分区
                 PromptSelectionOptions options = new PromptSelectionOptions()

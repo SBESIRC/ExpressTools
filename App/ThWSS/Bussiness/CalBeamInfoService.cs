@@ -1,5 +1,6 @@
 ﻿using Linq2Acad;
 using System;
+using AcHelper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,12 +21,13 @@ namespace ThWSS.Bussiness
         {
             List<ThStructure.BeamInfo.Model.Beam> beamInfo = new List<ThStructure.BeamInfo.Model.Beam>();
             List<Point3d> bPts = GetBoundingPoints(room);
-            
+
+            using (ThBeamDbManager beamManager = new ThBeamDbManager(Active.Database))
             using (AcadDatabase acdb = AcadDatabase.Active())
-            using (ThBeamDbManager beamManager = new ThBeamDbManager(acdb.Database))
             {
+                // 只提取指定区域（楼层）内的梁信息
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager);
+                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager, floor);
                 var allBeam = thDisBeamCommand.CalBeamStruc(beamCurves);
 
                 //筛选出房间中匹配的梁
