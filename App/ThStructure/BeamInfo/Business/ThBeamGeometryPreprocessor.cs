@@ -1,4 +1,5 @@
-﻿using ThCADCore.NTS;
+﻿using System;
+using ThCADCore.NTS;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 
@@ -81,6 +82,43 @@ namespace ThStructure.BeamInfo.Business
 
                 return newCurves;
             }
+        }
+
+        /// <summary>
+        /// 投影曲线到XY平面
+        /// </summary>
+        /// <param name="curves"></param>
+        /// https://spiderinnet1.typepad.com/blog/2013/12/autocad-net-matrix-transformations-project-entity-to-plane.html
+        public static DBObjectCollection ProjectXYCurves(DBObjectCollection curves)
+        {
+            var objs = new DBObjectCollection();
+            Plane XYPlane = new Plane(Point3d.Origin, Vector3d.ZAxis);
+            Matrix3d matrix = Matrix3d.Projection(XYPlane, XYPlane.Normal);
+            foreach (Curve curve in curves)
+            {
+                if (curve is Line line)
+                {
+                    if (line.Normal.IsParallelTo(Vector3d.ZAxis))
+                    {
+                        objs.Add(line);
+                    }
+                    else
+                    {
+                        //
+                        objs.Add(new Line(line.StartPoint.TransformBy(matrix), line.EndPoint.TransformBy(matrix)));
+                    }
+                }
+                else if (curve is Arc arc)
+                {
+                    // TODO: 
+                    //暂时不支持圆弧
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+            return objs;
         }
 
         /// <summary>

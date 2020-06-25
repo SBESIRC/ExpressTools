@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using ThStructure.BeamInfo.Model;
 using ThStructure.BeamInfo.Business;
 using Autodesk.AutoCAD.DatabaseServices;
-using AcHelper;
 
 namespace ThStructure.BeamInfo.Command
 {
@@ -16,16 +15,16 @@ namespace ThStructure.BeamInfo.Command
             using (AcadDatabase acdb = AcadDatabase.Active())
             {
                 //0.预处理
-                //  0.1 Z值归0
-                ThBeamGeometryPreprocessor.Z0Curves(ref dBObjects);
-                //  0.2 将多段线“炸”成线段
+                //  0.1 将多段线“炸”成线段
                 var curves = ThBeamGeometryPreprocessor.ExplodeCurves(dBObjects);
-                //  0.3 “合并”重叠的线段（在精度允许的范围内，考虑了完全重叠，部分重叠，已经收尾连接的情况）
-                //var beamCurves = ThBeamGeometryPreprocessor.MergeCurves(curves);
+                //  0.2 为了处理法向量和Z轴不平行的情况，需要将曲线投影到XY平面
+                var beamCurves = ThBeamGeometryPreprocessor.ProjectXYCurves(curves);
+                //  0.3 为了处理Z值不为0的情况，需要将曲线Z值设为0
+                ThBeamGeometryPreprocessor.Z0Curves(ref beamCurves);
 
                 //1.计算出匹配的梁
                 CalBeamStruService calBeamService = new CalBeamStruService();
-                var allBeam = calBeamService.GetBeamInfo(curves);
+                var allBeam = calBeamService.GetBeamInfo(beamCurves);
 
                 //TODO：
                 //  需要支持识别外参中的梁的标注信息
