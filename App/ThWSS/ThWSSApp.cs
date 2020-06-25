@@ -81,11 +81,19 @@ namespace ThWSS
         [CommandMethod("TIANHUACAD", "THGETBEAMINFO", CommandFlags.Modal)]
         public void THGETBEAMINFO()
         {
+            // 选择楼层区域
+            // 暂时只支持矩形区域
+            var pline = CreateWindowArea();
+            if (pline == null)
+            {
+                return;
+            }
+
             using (ThBeamDbManager beamManager = new ThBeamDbManager(Active.Database))
             using (AcadDatabase acdb = AcadDatabase.Active())
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager);
+                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager, pline);
                 thDisBeamCommand.CalBeamStruc(beamCurves);
             }
         }
@@ -101,7 +109,19 @@ namespace ThWSS
                     AllowDuplicates = false,
                     RejectObjectsOnLockedLayers = true,
                 };
-                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "ARC,LINE,LWPOLYLINE" & o.Dxf((int)DxfCode.LayerName) == "S_BEAM");
+
+                // 梁线的图元类型
+                // 暂时不支持弧梁
+                var dxfNames = new string[]
+                {
+                    RXClass.GetClass(typeof(Line)).DxfName,
+                    RXClass.GetClass(typeof(Polyline)).DxfName,
+                };
+                // 梁线的图元图层
+                var layers = ThBeamLayerManager.GeometryLayers(acdb.Database);
+                var filterlist = OpFilter.Bulid(o => 
+                    o.Dxf((int)DxfCode.Start) == string.Join(",", dxfNames) & 
+                    o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
                 var entSelected = Active.Editor.GetSelection(options, filterlist);
                 if (entSelected.Status != PromptStatus.OK)
                 {
@@ -256,14 +276,16 @@ namespace ThWSS
                 try
                 {
                     pc.Collect();
-                    pline.CreatePolyline(pc.CollectedPoints);
+                    pline.CreateRectangle(
+                        pc.CollectedPoints[0].ToPoint2D(),
+                        pc.CollectedPoints[1].ToPoint2D());
+                    return pline;
                 }
                 catch
                 {
                     return null;
                 }
             }
-            return pline;
         }
 
         private Polyline CreatePolygonArea()
