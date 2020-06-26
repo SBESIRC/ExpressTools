@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AcHelper;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Geometry;
-using Linq2Acad;
-using NFox.Cad.Collections;
-using ThWSS.LayoutRule;
+﻿using Linq2Acad;
+using ThWSS.Layout;
 using ThWSS.Model;
 using ThWSS.Utlis;
+using System.Linq;
+using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThWSS.Bussiness
 {

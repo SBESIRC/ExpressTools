@@ -8,9 +8,9 @@ using ThWSS.Model;
 using ThWSS.Utlis;
 using ThWSS.Bussiness;
 
-namespace ThWSS.LayoutRule
+namespace ThWSS.Layout
 {
-    public class SquareLayout : LayoutInterface
+    public class SquareLayout : ILayoutInterface
     {
         protected double sideLength = 3600;
         protected double sideMinLength = 0;

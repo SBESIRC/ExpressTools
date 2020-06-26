@@ -2,8 +2,8 @@
 using System.Linq;
 using ThWSS.Model;
 using ThWSS.Utlis;
+using ThWSS.Layout;
 using ThCADCore.NTS;
-using ThWSS.LayoutRule;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;

@@ -1,15 +1,10 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
-using System;
+﻿using ThWSS.Bussiness;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ThWSS.Bussiness;
+using Autodesk.AutoCAD.DatabaseServices;
 
-namespace ThWSS.LayoutRule
+namespace ThWSS.Layout
 {
-    interface LayoutInterface
+    public interface ILayoutInterface
     {
         /// <summary>
         /// 排布

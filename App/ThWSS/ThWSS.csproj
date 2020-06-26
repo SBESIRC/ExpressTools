@@ -84,10 +84,10 @@
     <Compile Include="Engine\ThRoomRecognitionEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutWorker.cs" />
-    <Compile Include="LayoutRule\LayoutInterface.cs" />
-    <Compile Include="LayoutRule\SquareLayout.cs" />
-    <Compile Include="LayoutRule\SquareLayoutByBeam.cs" />
-    <Compile Include="LayoutRule\SquareLayoutWithRay.cs" />
+    <Compile Include="Layout\ILayoutInterface.cs" />
+    <Compile Include="Layout\SquareLayout.cs" />
+    <Compile Include="Layout\SquareLayoutByBeam.cs" />
+    <Compile Include="Layout\SquareLayoutWithRay.cs" />
     <Compile Include="Model\SprayLayoutModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

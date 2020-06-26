@@ -9,7 +9,7 @@ using ThWSS.Utlis;
 using ThWSS.Bussiness;
 
 
-namespace ThWSS.LayoutRule
+namespace ThWSS.Layout
 {
     class SquareLayoutWithRay : SquareLayout
     {

@@ -11,7 +11,7 @@ using ThWSS.Bussiness;
 using ThWSS.Model;
 using ThWSS.Utlis;
 
-namespace ThWSS.LayoutRule
+namespace ThWSS.Layout
 {
     public class SquareLayoutByBeam : SquareLayout
     {
