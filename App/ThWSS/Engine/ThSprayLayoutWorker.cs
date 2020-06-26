@@ -1,8 +1,7 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
-using System;
+﻿using ThWSS.Model;
 using System.Linq;
 using ThWSS.Bussiness;
-using ThWSS.Model;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThWSS.Engine
 {
@@ -10,10 +9,17 @@ namespace ThWSS.Engine
     {
         public void DoLayout(ThRoom room, Polyline floor, SprayLayoutModel layoutModel)
         {
-            var polygon = room.Properties.Values.Cast<Polyline>().ToList();
-
-            SparyLayoutService sprayLayoutService = new SprayLayoutByBeamService();
-            sprayLayoutService.LayoutSpray(polygon, floor, layoutModel);
+            var frames = room.Properties.Values.Cast<Polyline>().ToList();
+            SparyLayoutService service = null;
+            if (layoutModel.UseBeam)
+            {
+                service = new SprayLayoutByBeamService();
+            }
+            else
+            {
+                service = new SprayLayoutNoBeamService();
+            }
+            service.LayoutSpray(frames, floor, layoutModel);
         }
     }
 }

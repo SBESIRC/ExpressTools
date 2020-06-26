@@ -61,7 +61,7 @@ namespace ThWSS
                 return;
             }
 
-            var layoutModel = new SprayLayoutModel();
+            var layoutModel = SprayLayoutModel.Create();
             if (result.StringResult == "Firecompartment")
             {
                 layoutModel.sparyLayoutWay = LayoutWay.fire;
@@ -351,7 +351,7 @@ namespace ThWSS
 
         private SprayLayoutModel SetWindowValues(ThSparyLayoutSet thSpary)
         {
-            SprayLayoutModel layoutModel = new SprayLayoutModel();
+            SprayLayoutModel layoutModel = SprayLayoutModel.Create();
             if (thSpary.fire.IsChecked == true)
             {
                 layoutModel.sparyLayoutWay = LayoutWay.fire;

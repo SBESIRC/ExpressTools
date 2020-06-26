@@ -17,6 +17,19 @@ namespace ThWSS.Model
         public double otherSSpcing { get; set; }
 
         public double otherESpcing { get; set; }
+
+        /// <summary>
+        /// 是否考虑梁
+        /// </summary>
+        public bool UseBeam { get; set; }
+
+        public static SprayLayoutModel Create()
+        {
+            return new SprayLayoutModel()
+            {
+                UseBeam = true,
+            };
+        }
     }
 
     public enum LayoutWay

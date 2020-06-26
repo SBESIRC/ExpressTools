@@ -62,7 +62,7 @@
     <Compile Include="Bussiness\CalBeamInfoService.cs" />
     <Compile Include="Bussiness\CalColumnInfoService.cs" />
     <Compile Include="Bussiness\InsertSprayService.cs" />
-    <Compile Include="Bussiness\SprayLayout\ISprayLayoutService.cs" />
+    <Compile Include="Bussiness\SprayLayout\SprayLayoutService.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutByBeamService.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutDataUtils.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutNoBeamService.cs" />
