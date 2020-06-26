@@ -108,38 +108,6 @@ namespace ThWSS.Bussiness
             }
         }
 
-        private List<Polyline> GetBeamStruc()
-        {
-            List<Polyline> beam = new List<Polyline>();
-            using (AcadDatabase acdb = AcadDatabase.Active())
-            {
-                PromptSelectionOptions options = new PromptSelectionOptions()
-                {
-                    AllowDuplicates = false,
-                    RejectObjectsOnLockedLayers = true,
-                };
-                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "POLYLINE,LWPOLYLINE");
-                var entSelected = Active.Editor.GetSelection(options, filterlist);
-                if (entSelected.Status != PromptStatus.OK)
-                {
-                    return beam;
-                }
-
-                // 执行操作
-                DBObjectCollection dBObjects = new DBObjectCollection();
-                foreach (ObjectId obj in entSelected.Value.GetObjectIds())
-                {
-                    dBObjects.Add(acdb.Element<Entity>(obj, true));
-                }
-                
-                foreach (var item in dBObjects)
-                {
-                    beam.Add(item as Polyline);
-                }
-            }
-            return beam;
-        }
-
         private List<Polyline> ExtendPolygons(List<Polyline> polys, double offset)
         {
             List<Polyline> resPoly = new List<Polyline>();

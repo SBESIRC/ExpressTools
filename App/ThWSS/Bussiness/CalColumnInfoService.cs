@@ -21,7 +21,7 @@ namespace ThWSS.Bussiness
         public List<Polyline> GetColumnStruc()
         {
             List<Polyline> column = new List<Polyline>();
-            var thcolumn = ThSprayLayoutEngine.RoomEngine.Elements.Where(x => x is ThColumn).ToList();
+            var thcolumn = ThSprayLayoutEngine.Instance.RoomEngine.Elements.Where(x => x is ThColumn).ToList();
             if (thcolumn.Count > 0)
             {
                 column = thcolumn.SelectMany(x => x.Properties.Values).Cast<Polyline>().ToList();

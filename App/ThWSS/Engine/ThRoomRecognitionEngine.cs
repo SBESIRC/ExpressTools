@@ -7,6 +7,7 @@ using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using TopoNode.Progress;
+using ThWSS.Column;
 
 namespace ThWSS.Engine
 {
@@ -248,7 +249,8 @@ namespace ThWSS.Engine
 
         public override bool Acquire(Database database, ObjectIdCollection frames)
         {
-            using (var acadDatabase = AcadDatabase.Active())
+            using (var dbManager = new ThColumnDbManager(database))
+            using (var acadDatabase = AcadDatabase.Use(database))
             {
                 Elements = new List<ThModelElement>();
 
@@ -267,6 +269,17 @@ namespace ThWSS.Engine
                     Elements.Add(thRoom);
                 }
 
+                // 获取房间内的柱
+                using (var columnEngine = new ThColumnRecognitionEngine(dbManager))
+                {
+                    columnEngine.Acquire(database, frames);
+                    Elements.AddRange(columnEngine.Elements);
+                    //foreach (var column in columnEngine.Elements)
+                    //{
+                    //    acadDatabase.ModelSpace.Add(column.Properties.First().Value as Polyline);
+                    //}
+                }
+
                 return true;
             }
         }
@@ -274,23 +287,38 @@ namespace ThWSS.Engine
 
         public override bool Acquire(Database database, DBObjectCollection frames)
         {
-            Elements = new List<ThModelElement>();
-
-            // 获取房间轮廓
-            int roomIndex = 0;
-            foreach (Polyline frame in frames)
+            using (var dbManager = new ThColumnDbManager(database))
+            using (var acadDatabase = AcadDatabase.Use(database))
             {
-                ThRoom thRoom = new ThRoom()
-                {
-                    Properties = new Dictionary<string, object>()
-                    {
-                        { string.Format("ThRoom{0}", roomIndex++),  frame.GetTransformedCopy(Matrix3d.Identity) as Polyline }
-                    }
-                };
-                Elements.Add(thRoom);
-            }
+                Elements = new List<ThModelElement>();
 
-            return true;
+                // 获取房间轮廓
+                int roomIndex = 0;
+                foreach (Polyline frame in frames)
+                {
+                    ThRoom thRoom = new ThRoom()
+                    {
+                        Properties = new Dictionary<string, object>()
+                        {
+                            { string.Format("ThRoom{0}", roomIndex++),  frame.GetTransformedCopy(Matrix3d.Identity) as Polyline }
+                        }
+                    };
+                    Elements.Add(thRoom);
+                }
+
+                // 获取房间内的柱
+                using (var columnEngine = new ThColumnRecognitionEngine(dbManager))
+                {
+                    columnEngine.Acquire(database, frames);
+                    Elements.AddRange(columnEngine.Elements);
+                    //foreach(var column in columnEngine.Elements)
+                    //{
+                    //    acadDatabase.ModelSpace.Add(column.Properties.First().Value as Polyline);
+                    //}
+                }
+
+                return true;
+            }
         }
 
         public override bool Acquire(ThModelElement element)

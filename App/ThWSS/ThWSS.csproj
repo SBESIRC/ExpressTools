@@ -70,6 +70,9 @@
     <Compile Include="Bussiness\SprayLayout\SprayLayoutDbExtension.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutGeExtension.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutPostPreprocessor.cs" />
+    <Compile Include="Column\ThColumnDbManager.cs" />
+    <Compile Include="Column\ThColumnGeometryService.cs" />
+    <Compile Include="Column\ThColumnLayerManager.cs" />
     <Compile Include="Config\ConfigHelper.cs" />
     <Compile Include="Config\Model\LayoutCacheModel.cs" />
     <Compile Include="Engine\ThBeamRecognitionEngine.cs" />

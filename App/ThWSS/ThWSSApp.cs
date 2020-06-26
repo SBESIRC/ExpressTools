@@ -270,11 +270,11 @@ namespace ThWSS
                 }
 
                 // 执行操作
-                var frames = new List<Polyline>()
+                var frames = new DBObjectCollection()
                 {
                     frame
                 };
-                ThSprayLayoutEngine.Instance.Layout(frames, pline, layoutModel);
+                ThSprayLayoutEngine.Instance.Layout(Active.Database, pline, frames, layoutModel);
             }
         }
 
