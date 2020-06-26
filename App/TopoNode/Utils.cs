@@ -4499,15 +4499,8 @@ namespace TopoNode
                     Progress.Progress.SetValue((int)progressPos);
 
                     List<Entity> entityLst = null;
-                    try
-                    {
-                        entityLst = GetEntityFromBlock2(blockReference);
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
-
+                    entityLst = GetEntityFromBlock2(blockReference);
+                    var entities = new List<Entity>();
                     if (entityLst != null && entityLst.Count > 0)
                     {
                         if (entityLst.Count == 1)
@@ -4515,10 +4508,13 @@ namespace TopoNode
                             var entity = entityLst.First();
                             if (!(entity is BlockReference))
                             {
-                                if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers)
-                                    && !entity.IsErased && !(entity is Hatch) && !(entity is AttributeDefinition))
+                                if (!entity.Equals(blockReference) 
+                                    && IsValidLayer(entity, validLayers)
+                                    && !entity.IsErased 
+                                    && !(entity is Hatch) 
+                                    && !(entity is AttributeDefinition))
                                 {
-                                    objs.Add(db.ModelSpace.Add(entity));
+                                    entities.Add(entity);
                                 }
                             }
                         }
@@ -4527,13 +4523,28 @@ namespace TopoNode
                             foreach (var entity in entityLst)
                             {
                                 // 除了块，其余的可以用图层确定是否收集，块的图层内部数据也可能符合要求
-                                if (!entity.Equals(blockReference) && IsValidLayer(entity, validLayers)
-                                    && !entity.IsErased && !(entity is Hatch) && !(entity is AttributeDefinition))
+                                if (!entity.Equals(blockReference) 
+                                    && IsValidLayer(entity, validLayers)
+                                    && !entity.IsErased 
+                                    && !(entity is Hatch) 
+                                    && !(entity is AttributeDefinition))
                                 {
-                                    objs.Add(db.ModelSpace.Add(entity));
+                                    entities.Add(entity);
                                 }
                             }
                         }
+                    }
+
+                    // 将目标图元添加到图纸中
+                    foreach (Entity entity in entities)
+                    {
+                        objs.Add(db.ModelSpace.Add(entity));
+                    }
+
+                    // 释放不用的图元对象
+                    if (entityLst != null)
+                    {
+                        entityLst.Where(o => !entities.Contains(o)).ForEach(o => o.Dispose());
                     }
                 }
             }
@@ -5167,6 +5178,7 @@ namespace TopoNode
                                 continue;
 
                             Progress.Progress.SetValue((int)progressPos);
+                            var entities = new List<Entity>();
                             var entityLst = GetEntityFromBlock2(blockReference);
                             if (entityLst != null && entityLst.Count != 0)
                             {
@@ -5174,65 +5186,32 @@ namespace TopoNode
                                 {
                                     if (!entity.Equals(blockReference))
                                     {
-                                        try
+                                        if (entity is BlockReference block)
                                         {
-                                            if (entity is BlockReference block)
+                                            if (block.Layer.Contains("AE-DOOR-INSD") || block.Layer.Contains("AE-WIND"))
                                             {
-                                                if (block.Layer.Contains("AE-DOOR-INSD") || block.Layer.Contains("AE-WIND"))
-                                                {
-                                                    objs.Add(db.CurrentSpace.Add(block));
-                                                }
-                                            }
-                                            else if (IsValidLayer(entity, validLayers) && !entity.IsErased
-                                                   && !(entity is Hatch) && !(entity is AttributeDefinition))
-                                            {
-                                                objs.Add(db.CurrentSpace.Add(entity));
+                                                entities.Add(entity);
                                             }
                                         }
-                                        catch (Exception e)
-                                        { }
-
-                                        //try
-                                        //{
-                                        //    if (entity is DBText || entity is MText)
-                                        //    {
-                                        //        continue;
-                                        //    }
-                                        //    if (entity is BlockReference)
-                                        //    {
-                                        //        // 块里面的数据可能是有效单元， 剔除文字的影响
-                                        //        var reference = entity as BlockReference;
-                                        //        var dbCollection = new DBObjectCollection();
-                                        //        reference.Explode(dbCollection);
-                                        //        foreach (var part in dbCollection)
-                                        //        {
-                                        //            if (part is DBText || part is MText)
-                                        //            {
-                                        //                continue;
-                                        //            }
-                                        //            else if (part is Entity)
-                                        //            {
-                                        //                var partEntity = part as Entity;
-                                        //                if (entity.IsErased)
-                                        //                    continue;
-
-                                        //                partEntity.Layer = reference.Layer;
-                                        //                db.CurrentSpace.Add(partEntity);
-                                        //                resEntityLst.Add(partEntity);
-                                        //            }
-                                        //        }
-                                        //    }
-                                        //    else if (IsValidLayer(entity, validLayers) && !entity.IsErased
-                                        //        && !(entity is Hatch) && !(entity is AttributeDefinition))
-                                        //    {
-                                        //        db.CurrentSpace.Add(entity);
-                                        //        resEntityLst.Add(entity);
-                                        //    }
-                                        //}
-                                        //catch
-                                        //{ }
+                                        else if (IsValidLayer(entity, validLayers) 
+                                            && !entity.IsErased
+                                            && !(entity is Hatch) && !(entity is AttributeDefinition))
+                                        {
+                                            entities.Add(entity);
+                                        }
                                     }
                                 }
+                            }
+                            // 将目标图元添加到图纸中
+                            foreach (Entity entity in entities)
+                            {
+                                objs.Add(db.ModelSpace.Add(entity));
+                            }
+
+                            // 释放不用的图元对象
+                            if (entityLst != null)
+                            {
+                                entityLst.Where(o => !entities.Contains(o)).ForEach(o => o.Dispose());
                             }
                         }
                     }
