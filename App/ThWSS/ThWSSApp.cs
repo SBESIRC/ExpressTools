@@ -140,6 +140,33 @@ namespace ThWSS
             }
         }
 
+        [CommandMethod("TIANHUACAD", "THGETROOMINFO", CommandFlags.Modal)]
+        public void ThGetRoomInfo()
+        {
+            // 选择防火分区
+            PromptSelectionOptions options = new PromptSelectionOptions()
+            {
+                AllowDuplicates = false,
+                RejectObjectsOnLockedLayers = true,
+            };
+            var filterlist = OpFilter.Bulid(o =>
+                o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+            var entSelected = Active.Editor.GetSelection(options, filterlist);
+            if (entSelected.Status != PromptStatus.OK)
+            {
+                return;
+            }
+
+            // 获取房间轮廓线
+            using (var engine = new ThRoomRecognitionEngine())
+            {
+                foreach(ObjectId frame in entSelected.Value.GetObjectIds())
+                {
+                    engine.Acquire(Active.Database, frame);
+                }
+            }
+        }
+
         [CommandMethod("TIANHUACAD", "THMERGEBEAMCURVES", CommandFlags.Modal)]
         public void ThMergeBeamCurves()
         {

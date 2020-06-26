@@ -16,13 +16,28 @@ namespace ThWSS.Engine
         public override Dictionary<string, object> Properties { get; set; }
     }
 
-    public class ThRoomRecognitionEngine : ThModeltRecognitionEngine
+    public class ThRoomRecognitionEngine : ThModeltRecognitionEngine, IDisposable
     {
         public override List<ThModelElement> Elements { get; set; }
 
-        public override bool Acquire(Database database, ObjectId polygon)
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public ThRoomRecognitionEngine()
         {
             Elements = new List<ThModelElement>();
+        }
+
+        /// <summary>
+        /// 析构函数
+        /// </summary>
+        public void Dispose()
+        {
+            //
+        }
+
+        public override bool Acquire(Database database, ObjectId polygon)
+        {
             using (var dbManager = new ThRoomDbManager(Active.Database))
             using (var acadDatabase = AcadDatabase.Active())
             {
@@ -252,8 +267,6 @@ namespace ThWSS.Engine
             using (var dbManager = new ThColumnDbManager(database))
             using (var acadDatabase = AcadDatabase.Use(database))
             {
-                Elements = new List<ThModelElement>();
-
                 // 获取房间轮廓
                 int roomIndex = 0;
                 foreach (ObjectId frame in frames)
@@ -284,14 +297,11 @@ namespace ThWSS.Engine
             }
         }
 
-
         public override bool Acquire(Database database, DBObjectCollection frames)
         {
             using (var dbManager = new ThColumnDbManager(database))
             using (var acadDatabase = AcadDatabase.Use(database))
             {
-                Elements = new List<ThModelElement>();
-
                 // 获取房间轮廓
                 int roomIndex = 0;
                 foreach (Polyline frame in frames)
