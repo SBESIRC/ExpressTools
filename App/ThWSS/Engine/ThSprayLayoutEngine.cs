@@ -29,7 +29,7 @@ namespace ThWSS.Engine
         /// <param name="fire"></param>
         public void Layout(Database database, Polyline floor, ObjectId fire, SprayLayoutModel layoutModel)
         {
-            RoomEngine.Acquire(database, fire);
+            RoomEngine.Acquire(database, floor, fire);
             RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
         }
 
@@ -40,7 +40,7 @@ namespace ThWSS.Engine
         /// <param name="fire"></param>
         public void Layout(Database database, Polyline floor, ObjectIdCollection frames, SprayLayoutModel layoutModel)
         {
-            RoomEngine.Acquire(database, frames);
+            RoomEngine.Acquire(database, floor, frames);
             RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
         }
 
@@ -50,7 +50,7 @@ namespace ThWSS.Engine
         /// <param name="polylines"></param>
         public void Layout(Database database, Polyline floor, DBObjectCollection frames, SprayLayoutModel layoutModel)
         {
-            RoomEngine.Acquire(database, frames);
+            RoomEngine.Acquire(database, floor, frames);
             RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
         }
 

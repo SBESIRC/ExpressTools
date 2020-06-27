@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using AcHelper;
 using System.IO;
+using Dreambuild.AutoCAD;
 using System.Text.RegularExpressions;
 using TopoNode.Progress;
 
@@ -4467,6 +4468,96 @@ namespace TopoNode
             }
         }
 
+        public static ObjectIdCollection PreProcessCurDwg3(List<string> validLayers, Extents3d extents)
+        {
+            var objs = new ObjectIdCollection();
+            double progressPos = 1;
+            // 本图纸数据块处理
+            using (var db = AcadDatabase.Active())
+            {
+                var blockRefs = db.CurrentSpace.OfType<BlockReference>().Where(p => p.Visible).ToList();
+                if (blockRefs.Count == 0)
+                {
+                    return objs;
+                }
+                var incre = 390.0 / blockRefs.Count;
+                foreach (var blockReference in blockRefs)
+                {
+                    var layerId = blockReference.LayerId;
+                    if (layerId == null || !layerId.IsValid)
+                        continue;
+
+                    LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(layerId);
+                    if (layerTableRecord.IsOff && layerTableRecord.IsFrozen)
+                        continue;
+
+                    var blockId = blockReference.BlockTableRecord;
+                    var blockRefRecord = db.Element<BlockTableRecord>(blockId);
+                    if (blockRefRecord.IsFromExternalReference)
+                        continue;
+
+                    progressPos += incre;
+                    Progress.Progress.SetValue((int)progressPos);
+
+                    List<Entity> entityLst = null;
+                    entityLst = GetEntityFromBlock2(blockReference);
+                    var entities = new List<Entity>();
+                    if (entityLst != null && entityLst.Count > 0)
+                    {
+                        if (entityLst.Count == 1)
+                        {
+                            var entity = entityLst.First();
+                            if (!(entity is BlockReference))
+                            {
+                                if (!entity.Equals(blockReference)
+                                    && IsValidLayer(entity, validLayers)
+                                    && IsInValidExtents(entity, extents)
+                                    && !entity.IsErased
+                                    && !(entity is Hatch)
+                                    && !(entity is AttributeDefinition))
+                                {
+                                    entities.Add(entity);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (var entity in entityLst)
+                            {
+                                // 除了块，其余的可以用图层确定是否收集，块的图层内部数据也可能符合要求
+                                if (!entity.Equals(blockReference)
+                                    && IsValidLayer(entity, validLayers)
+                                    && IsInValidExtents(entity, extents)
+                                    && !entity.IsErased
+                                    && !(entity is Hatch)
+                                    && !(entity is AttributeDefinition))
+                                {
+                                    entities.Add(entity);
+                                }
+                            }
+                        }
+                    }
+
+                    // 将目标图元添加到图纸中
+                    foreach (Entity entity in entities)
+                    {
+                        objs.Add(db.ModelSpace.Add(entity));
+                    }
+
+                    // 释放不用的图元对象
+                    if (entityLst != null)
+                    {
+                        foreach(Entity entity in entityLst.Where(o => !entities.Contains(o)))
+                        {
+                            entity.Dispose();
+                        }
+                    }
+                }
+            }
+
+            return objs;
+        }
+
         public static ObjectIdCollection PreProcessCurDwg2(List<string> validLayers)
         {
             var objs = new ObjectIdCollection();
@@ -4544,7 +4635,10 @@ namespace TopoNode
                     // 释放不用的图元对象
                     if (entityLst != null)
                     {
-                        entityLst.Where(o => !entities.Contains(o)).ForEach(o => o.Dispose());
+                        foreach(Entity entity in entityLst.Where(o => !entities.Contains(o)))
+                        {
+                            entity.Dispose();
+                        }
                     }
                 }
             }
@@ -4610,6 +4704,24 @@ namespace TopoNode
                     return true;
             }
             return false;
+        }
+
+        public static bool IsInValidExtents(Entity entity, Extents3d extents)
+        {
+            try
+            {
+                Plane XYPlane = new Plane(Point3d.Origin, Vector3d.ZAxis);
+                Matrix3d matrix = Matrix3d.Projection(XYPlane, XYPlane.Normal);
+                Extents2d extents2d = new Extents2d(
+                    extents.MinPoint.TransformBy(matrix).ToPoint2d(),
+                    extents.MaxPoint.TransformBy(matrix).ToPoint2d());
+                return extents2d.IsPointIn(entity.GeometricExtents.MinPoint.TransformBy(matrix).ToPoint2d())
+                    && extents2d.IsPointIn(entity.GeometricExtents.MaxPoint.TransformBy(matrix).ToPoint2d());
+            }
+            catch
+            {
+                return true;
+            }
         }
 
         public static bool IsLinesIntersectWithLines(List<LineSegment2d> srcLines, List<LineSegment2d> rectLines)
@@ -5145,6 +5257,89 @@ namespace TopoNode
             return false;
         }
 
+        public static ObjectIdCollection PreProcessXREF3(List<string> validLayers, Extents3d extents)
+        {
+            var objs = new ObjectIdCollection();
+            // 外部参照
+            double progressPos = 400.0;
+            using (var db = AcadDatabase.Active())
+            {
+                var refs = db.XRefs;
+                if (refs.Count() == 0)
+                    return objs;
+
+                var incre = 500.0 / refs.Count();
+
+                foreach (var xblock in refs)
+                {
+                    if (xblock.Block.XrefStatus == XrefStatus.Resolved)
+                    {
+                        ObjectIdCollection idCollection = new ObjectIdCollection();
+                        BlockTableRecord blockTableRecord = xblock.Block;
+                        List<BlockReference> blockReferences = blockTableRecord.GetAllBlockReferences(true, true).ToList();
+                        for (int i = 0; i < blockReferences.Count(); i++)
+                        {
+                            var blockReference = blockReferences[i];
+                            progressPos += incre;
+                            var layerId = blockReference.LayerId;
+                            if (layerId == null || !layerId.IsValid)
+                                continue;
+
+                            LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(blockReference.LayerId);
+                            if (layerTableRecord.IsOff && layerTableRecord.IsFrozen)
+                                continue;
+
+                            Progress.Progress.SetValue((int)progressPos);
+                            var entities = new List<Entity>();
+                            var entityLst = GetEntityFromBlock2(blockReference);
+                            if (entityLst != null && entityLst.Count != 0)
+                            {
+                                foreach (var entity in entityLst)
+                                {
+                                    if (!entity.Equals(blockReference))
+                                    {
+                                        if (entity is BlockReference block)
+                                        {
+                                            if (block.Layer.Contains("AE-DOOR-INSD") || block.Layer.Contains("AE-WIND"))
+                                            {
+                                                if (IsInValidExtents(block, extents))
+                                                {
+                                                    entities.Add(entity);
+                                                }
+                                            }
+                                        }
+                                        else if (IsValidLayer(entity, validLayers)
+                                            && IsInValidExtents(entity, extents)
+                                            && !entity.IsErased
+                                            && !(entity is Hatch) && !(entity is AttributeDefinition))
+                                        {
+                                            entities.Add(entity);
+                                        }
+                                    }
+                                }
+                            }
+                            // 将目标图元添加到图纸中
+                            foreach (Entity entity in entities)
+                            {
+                                objs.Add(db.ModelSpace.Add(entity));
+                            }
+
+                            // 释放不用的图元对象
+                            if (entityLst != null)
+                            {
+                                foreach(Entity entity in entityLst.Where(o => !entities.Contains(o)))
+                                {
+                                    entity.Dispose();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return objs;
+        }
+
         public static ObjectIdCollection PreProcessXREF2(List<string> validLayers)
         {
             var objs = new ObjectIdCollection();
@@ -5211,7 +5406,10 @@ namespace TopoNode
                             // 释放不用的图元对象
                             if (entityLst != null)
                             {
-                                entityLst.Where(o => !entities.Contains(o)).ForEach(o => o.Dispose());
+                                foreach(Entity entity in entityLst.Where(o => !entities.Contains(o)))
+                                {
+                                    entity.Dispose();
+                                }
                             }
                         }
                     }
@@ -5325,6 +5523,26 @@ namespace TopoNode
                 objs.Add(obj);
             }
             foreach (ObjectId obj in PreProcessXREF2(validLayers))
+            {
+                objs.Add(obj);
+            }
+            return objs;
+        }
+
+        /// <summary>
+        /// 图纸预处理3
+        /// </summary>
+        /// <param name="validLayers"></param>
+        /// <param name="extents"></param>
+        /// <returns></returns>
+        public static ObjectIdCollection PreProcess3(List<string> validLayers, Extents3d extents)
+        {
+            var objs = new ObjectIdCollection();
+            foreach (ObjectId obj in PreProcessCurDwg3(validLayers, extents))
+            {
+                objs.Add(obj);
+            }
+            foreach (ObjectId obj in PreProcessXREF3(validLayers, extents))
             {
                 objs.Add(obj);
             }

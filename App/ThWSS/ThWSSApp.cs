@@ -143,6 +143,14 @@ namespace ThWSS
         [CommandMethod("TIANHUACAD", "THGETROOMINFO", CommandFlags.Modal)]
         public void ThGetRoomInfo()
         {
+            // 选择楼层区域
+            // 暂时只支持矩形区域
+            var pline = CreateWindowArea();
+            if (pline == null)
+            {
+                return;
+            }
+
             // 选择防火分区
             PromptSelectionOptions options = new PromptSelectionOptions()
             {
@@ -162,7 +170,7 @@ namespace ThWSS
             {
                 foreach(ObjectId frame in entSelected.Value.GetObjectIds())
                 {
-                    engine.Acquire(Active.Database, frame);
+                    engine.Acquire(Active.Database, pline, frame);
                 }
             }
         }

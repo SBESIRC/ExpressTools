@@ -28,12 +28,12 @@ namespace ThWSS.Engine
             //
         }
 
-        public override bool Acquire(Database database, ObjectId polygon)
+        public override bool Acquire(Database database, Polyline floor, ObjectId frame)
         {
             throw new NotImplementedException();
         }
 
-        public override bool Acquire(Database database, ObjectIdCollection frames)
+        public override bool Acquire(Database database, Polyline floor, ObjectIdCollection frames)
         {
             var objs = new DBObjectCollection();
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
@@ -43,10 +43,10 @@ namespace ThWSS.Engine
                     objs.Add(acadDatabase.Element<Polyline>(fame));
                 }
             }
-            return Acquire(database, objs);
+            return Acquire(database, floor, objs);
         }
 
-        public override bool Acquire(Database database, DBObjectCollection frames)
+        public override bool Acquire(Database database, Polyline floor, DBObjectCollection frames)
         {
             int columnIndex = 0;
             Elements = new List<ThModelElement>();

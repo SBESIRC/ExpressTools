@@ -23,7 +23,7 @@ namespace ThWSS.Engine
         /// <param name="database"></param>
         /// <param name="polygon"></param>
         /// <returns></returns>
-        public abstract bool Acquire(Database database, ObjectId floor);
+        public abstract bool Acquire(Database database, Polyline floor, ObjectId frame);
 
         /// <summary>
         /// 从图纸的指定框线提取对象
@@ -31,7 +31,7 @@ namespace ThWSS.Engine
         /// <param name="database"></param>
         /// <param name="polygon"></param>
         /// <returns></returns>
-        public abstract bool Acquire(Database database, ObjectIdCollection frames);
+        public abstract bool Acquire(Database database, Polyline floor, ObjectIdCollection frames);
 
 
         /// <summary>
@@ -40,6 +40,6 @@ namespace ThWSS.Engine
         /// <param name="database"></param>
         /// <param name="frames"></param>
         /// <returns></returns>
-        public abstract bool Acquire(Database database, DBObjectCollection frames);
+        public abstract bool Acquire(Database database, Polyline floor, DBObjectCollection frames);
     }
 }

@@ -36,14 +36,14 @@ namespace ThWSS.Engine
             //
         }
 
-        public override bool Acquire(Database database, ObjectId polygon)
+        public override bool Acquire(Database database, Polyline floor, ObjectId frame)
         {
-            using (var dbManager = new ThRoomDbManager(Active.Database))
+            using (var dbManager = new ThRoomDbManager(Active.Database, floor.GeometricExtents))
             using (var acadDatabase = AcadDatabase.Active())
             {
                 var selectPLines = new List<Polyline>()
                 {
-                    acadDatabase.Element<Polyline>(polygon, true),
+                    acadDatabase.Element<Polyline>(frame, true),
                 };
 
                 // 开始弹出进度条提示
@@ -262,7 +262,7 @@ namespace ThWSS.Engine
             return true;
         }
 
-        public override bool Acquire(Database database, ObjectIdCollection frames)
+        public override bool Acquire(Database database, Polyline floor, ObjectIdCollection frames)
         {
             using (var dbManager = new ThColumnDbManager(database))
             using (var acadDatabase = AcadDatabase.Use(database))
@@ -285,7 +285,7 @@ namespace ThWSS.Engine
                 // 获取房间内的柱
                 using (var columnEngine = new ThColumnRecognitionEngine(dbManager))
                 {
-                    columnEngine.Acquire(database, frames);
+                    columnEngine.Acquire(database, floor, frames);
                     Elements.AddRange(columnEngine.Elements);
                     //foreach (var column in columnEngine.Elements)
                     //{
@@ -297,7 +297,7 @@ namespace ThWSS.Engine
             }
         }
 
-        public override bool Acquire(Database database, DBObjectCollection frames)
+        public override bool Acquire(Database database, Polyline floor, DBObjectCollection frames)
         {
             using (var dbManager = new ThColumnDbManager(database))
             using (var acadDatabase = AcadDatabase.Use(database))
@@ -319,7 +319,7 @@ namespace ThWSS.Engine
                 // 获取房间内的柱
                 using (var columnEngine = new ThColumnRecognitionEngine(dbManager))
                 {
-                    columnEngine.Acquire(database, frames);
+                    columnEngine.Acquire(database, floor, frames);
                     Elements.AddRange(columnEngine.Elements);
                     //foreach(var column in columnEngine.Elements)
                     //{
