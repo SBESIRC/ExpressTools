@@ -1,8 +1,8 @@
 ﻿using System;
-using TopoNode;
 using System.Linq;
-using Autodesk.AutoCAD.DatabaseServices;
+using Dreambuild.AutoCAD;
 using System.Collections.Generic;
+using Autodesk.AutoCAD.DatabaseServices;
 using ThStructure.BeamInfo.Utils;
 
 namespace ThWSS.Beam
@@ -44,14 +44,15 @@ namespace ThWSS.Beam
             List<Entity> ents = ThStructureUtils.Explode(ExplodeType.All);
             List<Entity> geometryEnts = ThStructureUtils.FilterCurveByLayers(ents, geometryLayers);
             List<Entity> annoationEnts = ThStructureUtils.FilterAnnotationByLayers(ents, annotationLayers);
+            ents.Where(o => !geometryEnts.Contains(o) && !annoationEnts.Contains(o)).ForEach(o => o.Dispose());
             Geometries = ThStructureUtils.AddToDatabase(geometryEnts);
             Annotations = ThStructureUtils.AddToDatabase(annoationEnts);
         }
 
         public void PostProcess()
         {
-            Utils.PostProcess(Geometries);
-            Utils.PostProcess(Annotations);
+            TopoNode.Utils.PostProcess(Geometries);
+            TopoNode.Utils.PostProcess(Annotations);
         }
     }
 }
