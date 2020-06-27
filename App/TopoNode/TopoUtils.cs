@@ -60,8 +60,8 @@ namespace TopoNode
 
         public static PolylineLayer MakeProfileFromPoint2(List<Curve> srcCurves, Point3d pt)
         {
-            //Utils.DrawProfile(srcCurves, "related");
             //return null;
+            //Utils.DrawProfile(srcCurves, "related");
             var profileLayer = TopoSearch.MakeSrcProfileLoopsLayerFromPoint(srcCurves, srcCurves, pt);
             return profileLayer;
         }
@@ -231,13 +231,17 @@ namespace TopoNode
             var outCurves = new List<Curve>();
             foreach (var curve in curves)
             {
-                if (curve is Line)
+                if (curve is Line line)
                 {
-                    outCurves.Add(curve);
+                    var lineBack = line.Clone() as Line;
+                    lineBack.Layer = line.Layer;
+                    outCurves.Add(lineBack);
                 }
-                else if (curve is Arc)
+                else if (curve is Arc arc)
                 {
-                    outCurves.Add(curve);
+                    var arcBack = arc.Clone() as Arc;
+                    arcBack.Layer = arc.Layer;
+                    outCurves.Add(arcBack);
                 }
                 else if (curve is Circle)
                 {

@@ -1506,13 +1506,37 @@ namespace TopoNode
             var lines3d = new List<Line>();
             foreach (var curve in srcCurves)
             {
-                if (curve is Line)
+                if (curve is Line line)
                 {
-                    lines3d.Add(curve as Line);
+                    if (!IsAlmostNearZero(line.StartPoint.Z, 1E-10))
+                    {
+                        var ptS = line.StartPoint;
+                        var ptE = line.EndPoint;
+                        var lineZ0 = new Line(new Point3d(ptS.X, ptS.Y, 0), new Point3d(ptE.X, ptE.Y, 0));
+                        lineZ0.Layer = line.Layer;
+                        lines3d.Add(lineZ0);
+                    }
+                    else
+                        lines3d.Add(line);
                 }
-                else
+                else if (curve is Arc arc)
                 {
-                    outCurves.Add(curve);
+                    if (!IsAlmostNearZero(arc.Center.Z, 1E-10))
+                    {
+                        var ptS = arc.StartPoint;
+                        var ptSZ0 = new Point3d(ptS.X, ptS.Y, 0);
+                        var ptMid = arc.GetPointAtParameter(0.5 * (arc.StartParam + arc.EndParam));
+                        var ptMidZ0 = new Point3d(ptMid.X, ptMid.Y, 0);
+                        var ptE = arc.EndPoint;
+                        var ptEZ0 = new Point3d(ptE.X, ptE.Y, 0);
+
+                        var arcZ0 = new Arc();
+                        arcZ0.CreateArc(ptSZ0, ptMidZ0, ptEZ0);
+                        arcZ0.Layer = arc.Layer;
+                        outCurves.Add(arcZ0);
+                    }
+                    else
+                        outCurves.Add(curve);
                 }
             }
 
