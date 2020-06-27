@@ -92,7 +92,7 @@ namespace ThWSS
             using (AcadDatabase acdb = AcadDatabase.Active())
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager, pline);
+                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(acdb.Database, pline);
                 thDisBeamCommand.CalBeamStruc(beamCurves);
             }
         }

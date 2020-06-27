@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using TopoNode.Progress;
 using ThWSS.Column;
+using ThWSS.Beam;
 
 namespace ThWSS.Engine
 {
@@ -38,6 +39,7 @@ namespace ThWSS.Engine
 
         public override bool Acquire(Database database, Polyline floor, ObjectId frame)
         {
+            using (var beamManager = new ThBeamDbManager(Active.Database))
             using (var dbManager = new ThRoomDbManager(Active.Database, floor.GeometricExtents))
             using (var acadDatabase = AcadDatabase.Active())
             {
@@ -264,7 +266,8 @@ namespace ThWSS.Engine
 
         public override bool Acquire(Database database, Polyline floor, ObjectIdCollection frames)
         {
-            using (var dbManager = new ThColumnDbManager(database))
+            using (var beamDbManager = new ThBeamDbManager(database))
+            using (var columnDbManager = new ThColumnDbManager(database))
             using (var acadDatabase = AcadDatabase.Use(database))
             {
                 // 获取房间轮廓
@@ -283,7 +286,7 @@ namespace ThWSS.Engine
                 }
 
                 // 获取房间内的柱
-                using (var columnEngine = new ThColumnRecognitionEngine(dbManager))
+                using (var columnEngine = new ThColumnRecognitionEngine(columnDbManager))
                 {
                     columnEngine.Acquire(database, floor, frames);
                     Elements.AddRange(columnEngine.Elements);
@@ -299,7 +302,8 @@ namespace ThWSS.Engine
 
         public override bool Acquire(Database database, Polyline floor, DBObjectCollection frames)
         {
-            using (var dbManager = new ThColumnDbManager(database))
+            using (var beamDbManager = new ThBeamDbManager(database))
+            using (var columnDbManager = new ThColumnDbManager(database))
             using (var acadDatabase = AcadDatabase.Use(database))
             {
                 // 获取房间轮廓
@@ -317,7 +321,7 @@ namespace ThWSS.Engine
                 }
 
                 // 获取房间内的柱
-                using (var columnEngine = new ThColumnRecognitionEngine(dbManager))
+                using (var columnEngine = new ThColumnRecognitionEngine(columnDbManager))
                 {
                     columnEngine.Acquire(database, floor, frames);
                     Elements.AddRange(columnEngine.Elements);
