@@ -1,4 +1,5 @@
 ﻿using AcHelper;
+using Linq2Acad;
 using System.Linq;
 using ThWSS.Beam;
 using ThWSS.Utlis;
@@ -16,15 +17,19 @@ namespace ThWSS.Bussiness
             List<ThStructure.BeamInfo.Model.Beam> beamInfo = new List<ThStructure.BeamInfo.Model.Beam>();
             List<Point3d> bPts = GetBoundingPoints(room);
 
-            // 只提取指定区域（楼层）内的梁信息
-            ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-            var beamCurves = ThBeamGeometryService.Instance.BeamCurves(Active.Database, floor);
-            var allBeam = thDisBeamCommand.CalBeamStruc(beamCurves);
+            using (ThBeamDbManager beamManager = new ThBeamDbManager(Active.Database))
+            using (AcadDatabase acdb = AcadDatabase.Active())
+            {
+                // 只提取指定区域（楼层）内的梁信息
+                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
+                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager.HostDb, floor);
+                var allBeam = thDisBeamCommand.CalBeamStruc(beamCurves);
 
-            //筛选出房间中匹配的梁
-            var curves = ThBeamGeometryService.Instance.BeamCurves(Active.Database, bPts[0], bPts[1]).Cast<Curve>();
-            beamInfo = allBeam.Where(x => curves.Where(y => (y.StartPoint.IsEqualTo(x.UpBeamLine.StartPoint, new Tolerance(0.1, 0.1)) && y.EndPoint.IsEqualTo(x.UpBeamLine.EndPoint, new Tolerance(0.1, 0.1)))
-                                 || (y.StartPoint.IsEqualTo(x.DownBeamLine.StartPoint, new Tolerance(0.1, 0.1)) && y.EndPoint.IsEqualTo(x.DownBeamLine.EndPoint, new Tolerance(0.1, 0.1)))).Count() > 0).ToList();
+                //筛选出房间中匹配的梁
+                var curves = ThBeamGeometryService.Instance.BeamCurves(beamManager.HostDb, bPts[0], bPts[1]).Cast<Curve>();
+                beamInfo = allBeam.Where(x => curves.Where(y => (y.StartPoint.IsEqualTo(x.UpBeamLine.StartPoint, new Tolerance(0.1, 0.1)) && y.EndPoint.IsEqualTo(x.UpBeamLine.EndPoint, new Tolerance(0.1, 0.1)))
+                                     || (y.StartPoint.IsEqualTo(x.DownBeamLine.StartPoint, new Tolerance(0.1, 0.1)) && y.EndPoint.IsEqualTo(x.DownBeamLine.EndPoint, new Tolerance(0.1, 0.1)))).Count() > 0).ToList();
+            }
 
             return beamInfo;
         }

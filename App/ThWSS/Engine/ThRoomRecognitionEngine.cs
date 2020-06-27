@@ -39,7 +39,6 @@ namespace ThWSS.Engine
 
         public override bool Acquire(Database database, Polyline floor, ObjectId frame)
         {
-            using (var beamManager = new ThBeamDbManager(Active.Database))
             using (var dbManager = new ThRoomDbManager(Active.Database, floor.GeometricExtents))
             using (var acadDatabase = AcadDatabase.Active())
             {
@@ -259,14 +258,13 @@ namespace ThWSS.Engine
                 Progress.SetValue(6500);
                 Progress.HideProgress();
                 //Utils.ErasePreviewPoint(objCollect);
-            }
 
-            return true;
+                return true;
+            }
         }
 
         public override bool Acquire(Database database, Polyline floor, ObjectIdCollection frames)
         {
-            using (var beamDbManager = new ThBeamDbManager(database))
             using (var columnDbManager = new ThColumnDbManager(database))
             using (var acadDatabase = AcadDatabase.Use(database))
             {
@@ -302,7 +300,6 @@ namespace ThWSS.Engine
 
         public override bool Acquire(Database database, Polyline floor, DBObjectCollection frames)
         {
-            using (var beamDbManager = new ThBeamDbManager(database))
             using (var columnDbManager = new ThColumnDbManager(database))
             using (var acadDatabase = AcadDatabase.Use(database))
             {
