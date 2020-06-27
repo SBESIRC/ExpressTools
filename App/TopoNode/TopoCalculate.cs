@@ -1229,6 +1229,7 @@ namespace TopoNode
         public void DoCal(List<Curve> totalCurves)
         {
             var scatterCurves = ScatterCurves.MakeNewCurves(srcCurves);
+            //Utils.DrawProfile(scatterCurves, "scatter");
             var scatterRightCurves = CalcuRightCurves(scatterCurves);
             if (scatterRightCurves == null || scatterRightCurves.Count == 0)
                 return;
@@ -1283,19 +1284,19 @@ namespace TopoNode
             }
 
             // inner
-            if (m_ProfileLoop.Count == 0)
-                return;
+            //if (m_ProfileLoop.Count == 0)
+            //    return;
 
-            var outProfile = m_ProfileLoop.First();
-            var relatedCurves = CalcuRelatedCurves(scatterCurves, outProfile.TopoEdges);
-            //Utils.DrawProfile(relatedCurves, "rela");
-            //return;
-            CalculateLoop(relatedCurves);
+            //var outProfile = m_ProfileLoop.First();
+            //var relatedCurves = CalcuRelatedCurves(scatterCurves, outProfile.TopoEdges);
+            ////Utils.DrawProfile(relatedCurves, "rela");
+            ////return;
+            //CalculateLoop(relatedCurves);
 
-            if (m_InnerProfileLoops.Count == 0)
-                return;
+            //if (m_InnerProfileLoops.Count == 0)
+            //    return;
 
-            CalInnerProfiles(outProfile.TopoEdges);
+            //CalInnerProfiles(outProfile.TopoEdges);
         }
 
         private void CalInnerProfiles(List<TopoEdge> outProfile)
@@ -3005,7 +3006,8 @@ namespace TopoNode
             double val = m_x * dir.X + m_y * dir.Y;
             double tmp = Math.Sqrt(Math.Pow(m_x, 2) + Math.Pow(m_y, 2)) * Math.Sqrt(Math.Pow(dir.X, 2) + Math.Pow(dir.Y, 2));
             double angleRad = Math.Acos(CommonUtils.CutRadRange(val / tmp));
-
+            if (CommonUtils.IsAlmostNearZero((angleRad - Math.PI)))
+                return angleRad;
             if (CrossProduct(dir) < 0)
                 return -angleRad;
             return angleRad;

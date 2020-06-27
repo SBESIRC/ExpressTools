@@ -4605,7 +4605,18 @@ namespace TopoNode
                                     && !(entity is Hatch) 
                                     && !(entity is AttributeDefinition))
                                 {
-                                    entities.Add(entity);
+                                    if (entity is Region region)
+                                    {
+                                        var dbObjects = new DBObjectCollection();
+                                        region.Explode(dbObjects);
+                                        foreach (var obj in dbObjects)
+                                        {
+                                            if (obj is Entity entityRe)
+                                                objs.Add(db.ModelSpace.Add(entityRe));
+                                        }
+                                    }
+                                    else
+                                        objs.Add(db.ModelSpace.Add(entity));
                                 }
                             }
                         }
@@ -4620,7 +4631,18 @@ namespace TopoNode
                                     && !(entity is Hatch) 
                                     && !(entity is AttributeDefinition))
                                 {
-                                    entities.Add(entity);
+                                    if (entity is Region region)
+                                    {
+                                        var dbObjects = new DBObjectCollection();
+                                        region.Explode(dbObjects);
+                                        foreach (var obj in dbObjects)
+                                        {
+                                            if (obj is Entity entityRe)
+                                                objs.Add(db.ModelSpace.Add(entityRe));
+                                        }
+                                    }
+                                    else
+                                        objs.Add(db.ModelSpace.Add(entity));
                                 }
                             }
                         }
@@ -5247,7 +5269,8 @@ namespace TopoNode
             if (ArcCounts < 1)
                 return true;
 
-            if (layerNames.Count > 1)
+            // 门里含有0或者文字等多个图层DEFPOINTS
+            if (layerNames.Count > 3)
                 return true;
 
             if (!blockLayer.Contains("AE-WIND") && !blockLayer.Contains("AE-DOOR-INSD")
@@ -5518,7 +5541,7 @@ namespace TopoNode
         public static ObjectIdCollection PreProcess2(List<string> validLayers)
         {
             var objs = new ObjectIdCollection();
-            foreach(ObjectId obj in PreProcessCurDwg2(validLayers))
+            foreach (ObjectId obj in PreProcessCurDwg2(validLayers))
             {
                 objs.Add(obj);
             }
@@ -5526,6 +5549,42 @@ namespace TopoNode
             {
                 objs.Add(obj);
             }
+
+            foreach (ObjectId obj in PreProcessRegion(validLayers))
+            {
+                objs.Add(obj);
+            }
+            return objs;
+        }
+
+        public static ObjectIdCollection PreProcessRegion(List<string> validLayers)
+        {
+            var objs = new ObjectIdCollection();
+            using (var db = AcadDatabase.Active())
+            {
+                var regions = db.ModelSpace.OfType<Region>().Where(p =>
+               {
+                   foreach (var layer in validLayers)
+                   {
+                       if (layer.Contains(p.Layer))
+                           return true;
+                   }
+
+                   return false;
+               }).ToList();
+
+                foreach (var region in regions)
+                {
+                    var dbObjects = new DBObjectCollection();
+                    region.Explode(dbObjects);
+                    foreach (var obj in dbObjects)
+                    {
+                        if (obj is Entity entityRe)
+                            objs.Add(db.ModelSpace.Add(entityRe));
+                    }
+                }
+            }
+
             return objs;
         }
 
@@ -5607,12 +5666,12 @@ namespace TopoNode
             return false;
         }
 
-        public static LineSegment2d ExtendLine(LineSegment2d line)
+        public static LineSegment2d ExtendLine(LineSegment2d line, double length = 1000000)
         {
             var ptS = line.StartPoint;
             var ptE = line.EndPoint;
-            ptS = ptS - line.Direction * 1000000;
-            ptE = ptE + line.Direction * 1000000;
+            ptS = ptS - line.Direction * length;
+            ptE = ptE + line.Direction * length;
             return new LineSegment2d(ptS, ptE);
         }
 
@@ -5671,6 +5730,16 @@ namespace TopoNode
                 return null;
 
             line2ds = line2ds.OrderBy(s => s.Length).ToList();
+            //var curves = new List<Curve>();
+            //foreach (var line2d in line2ds)
+            //{
+            //    var aimS = line2d.StartPoint.toPoint3d();
+            //    var aimE = line2d.EndPoint.toPoint3d();
+            //    Line line = new Line(aimS, aimE);
+            //    if (layerName != null)
+            //        line.Layer = layerName;
+            //    curves.Add(line);
+            //}
 
             var aimLine = line2ds.First();
 
@@ -5731,6 +5800,7 @@ namespace TopoNode
 
                         if (line != null)
                         {
+                            //ExtendCurve(line, 200);
                             if (layerName != null)
                                 line.Layer = layerName;
 
@@ -5772,6 +5842,31 @@ namespace TopoNode
             return false;
         }
 
+        public static List<Line> ArcPts2Lines(List<Point3d> arcPts, string layer)
+        {
+            if (arcPts == null || arcPts.Count == 0)
+                return null;
+
+            var lines = new List<Line>();
+            for (int i = 0; i < arcPts.Count; i++)
+            {
+                var curPt = arcPts[i];
+                for (int j = i + 1; j < arcPts.Count; j++)
+                {
+                    var nextPt = arcPts[j];
+                    try
+                    {
+                        var line = new Line(curPt, nextPt);
+                        line.Layer = layer;
+                        lines.Add(line);
+                    }
+                    catch
+                    { }
+                }
+            }
+            return lines;
+        }
+
         /// <summary>
         /// 门和墙的曲线连接
         /// </summary>
@@ -5796,6 +5891,9 @@ namespace TopoNode
                 // 收尾相连且共线的线段进行合并直线处理
                 var arcCurves = new List<Curve>();
                 lines.Clear();
+
+                var arcPts = new List<Point3d>(); // 存储圆弧的点
+                int arcCount = 0; // 
                 foreach (var curve in relatedCurves)
                 {
                     if (curve is Line line)
@@ -5806,43 +5904,89 @@ namespace TopoNode
                     }
                     else if (curve is Arc arc)
                     {
-                        var arcS = arc.StartPoint.toPoint2d();
-                        var arcE = arc.EndPoint.toPoint2d();
-                        var arcMid = arc.GetPointAtParameter(0.5 * (arc.StartParam + arc.EndParam)).toPoint2d();
-                        var midParam = arc.GetParameterAtPoint(arcMid.toPoint3d());
+                        arcCount++;
+                        var ptLst = new List<Point3d>();
+                        var arcS3d = arc.StartPoint;
+                        var arcS = arcS3d.toPoint2d();
+                        if (CommonUtils.PointInnerEntity(doorBound, arcS))
+                            ptLst.Add(arcS3d);
+                        var arcE3d = arc.EndPoint;
+                        var arcE = arcE3d.toPoint2d();
+                        if (CommonUtils.PointInnerEntity(doorBound, arcE))
+                            ptLst.Add(arcE3d);
+                        arcPts.AddRange(ptLst);
+                        foreach (var aimPt in ptLst)
+                        {
+                            var vec = arc.GetFirstDerivative(aimPt).GetNormal();
+                            var lineS = (aimPt - vec * 0.5).toPoint2d();
+                            var lineE = (aimPt + vec * 0.5).toPoint2d();
+                            lines.Add(new LineSegment2d(lineS, aimPt.toPoint2d()));
+                            lines.Add(new LineSegment2d(lineE, aimPt.toPoint2d()));
+                        }
+                        //var polyline = arc.Spline.ToPolyline();
+                        //var lineNodes = Polyline2Lines(polyline as Polyline);
+                        //if (lineNodes != null && lineNodes.Count != 0)
+                        //{
+                        //    foreach (var line2d in lineNodes)
+                        //    {
+                        //        if (IsLinesIntersectWithLine(doorBound, line2d) || (CommonUtils.PointInnerEntity(doorBound, line2d.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line2d.EndPoint)))
+                        //        {
+                        //            lines.Add(line2d);
+                        //        }
+                        //    }
+                        //}
+                        //var arcS = arc.StartPoint.toPoint2d();
+                        //var arcE = arc.EndPoint.toPoint2d();
+                        //var arcMid = arc.GetPointAtParameter(0.5 * (arc.StartParam + arc.EndParam)).toPoint2d();
+                        ////var midParam = arc.GetParameterAtPoint(arcMid.toPoint3d());
 
-                        var arcSM = arc.GetPointAtDist(arc.Length * 0.25).toPoint2d();
-                        var arcME = arc.GetPointAtDist(arc.Length * 0.75).toPoint2d();
-                        var line1 = new LineSegment2d(arcS, arcSM);
-                        var line2 = new LineSegment2d(arcSM, arcMid);
-                        var line3 = new LineSegment2d(arcMid, arcME);
-                        var line4 = new LineSegment2d(arcME, arcE);
-                        if (IsLinesIntersectWithLine(doorBound, line1) || (CommonUtils.PointInnerEntity(doorBound, line1.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line1.EndPoint)))
-                        {
-                            lines.Add(line1);
-                        }
-                        if (IsLinesIntersectWithLine(doorBound, line2) || (CommonUtils.PointInnerEntity(doorBound, line2.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line2.EndPoint)))
-                        {
-                            lines.Add(line2);
-                        }
+                        //var arcSM = arc.GetPointAtDist(arc.Length * 0.25).toPoint2d();
+                        //var arcME = arc.GetPointAtDist(arc.Length * 0.75).toPoint2d();
+                        //var line1 = new LineSegment2d(arcS, arcSM);
+                        //var line2 = new LineSegment2d(arcSM, arcMid);
+                        //var line3 = new LineSegment2d(arcMid, arcME);
+                        //var line4 = new LineSegment2d(arcME, arcE);
+                        //if (IsLinesIntersectWithLine(doorBound, line1) || (CommonUtils.PointInnerEntity(doorBound, line1.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line1.EndPoint)))
+                        //{
+                        //    lines.Add(line1);
+                        //}
+                        //if (IsLinesIntersectWithLine(doorBound, line2) || (CommonUtils.PointInnerEntity(doorBound, line2.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line2.EndPoint)))
+                        //{
+                        //    lines.Add(line2);
+                        //}
 
-                        if (IsLinesIntersectWithLine(doorBound, line3) || (CommonUtils.PointInnerEntity(doorBound, line3.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line3.EndPoint)))
-                        {
-                            lines.Add(line3);
-                        }
-                        if (IsLinesIntersectWithLine(doorBound, line4) || (CommonUtils.PointInnerEntity(doorBound, line4.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line4.EndPoint)))
-                        {
-                            lines.Add(line4);
-                        }
+                        //if (IsLinesIntersectWithLine(doorBound, line3) || (CommonUtils.PointInnerEntity(doorBound, line3.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line3.EndPoint)))
+                        //{
+                        //    lines.Add(line3);
+                        //}
+                        //if (IsLinesIntersectWithLine(doorBound, line4) || (CommonUtils.PointInnerEntity(doorBound, line4.StartPoint) && CommonUtils.PointInnerEntity(doorBound, line4.EndPoint)))
+                        //{
+                        //    lines.Add(line4);
+                        //}
                     }
                 }
 
-                var combineCurves = CombineCollinearLines(lines);
-                var insertCurves = InsertConnectCurves(combineCurves, doorBound, layer);
-
-                if (insertCurves != null && insertCurves.Count != 0)
+                //Utils.DrawLineSegments(lines, "lines");
+                //Utils.DrawProfile(lines, "lines");
+                if (arcCount != relatedCurves.Count())
                 {
-                    curves.AddRange(insertCurves);
+                    var combineCurves = CombineCollinearLines(lines);
+                    var insertCurves = InsertConnectCurves(combineCurves, doorBound, layer);
+                    if (insertCurves != null && insertCurves.Count != 0)
+                    {
+                        foreach (var insertCurve in insertCurves)
+                        {
+                            if (insertCurve.GetLength() < 2000)
+                                curves.Add(insertCurve);
+                        }
+                    }
+                }
+                else if (arcPts.Count != 0)
+                {
+                    // 两端都是圆弧的情形处理
+                    var tempLines = ArcPts2Lines(arcPts, layer);
+                    if (tempLines != null && tempLines.Count != 0)
+                        curves.AddRange(tempLines);
                 }
             }
 
@@ -6188,8 +6332,8 @@ namespace TopoNode
         private static bool IsValidShowLayer(LayerTableRecord layer, string layerName)
         {
             if (layer.Name.Contains(layerName)
-                && !layer.Name.Contains("HATCH")
-                && !layer.Name.Contains("HACH")
+                //&& !layer.Name.Contains("HATCH")
+                //&& !layer.Name.Contains("HACH")
                 && !layer.Name.Contains("OTHE")
                 && !layer.Name.Contains("CAP")
                 && !layer.Name.Contains("TEXT")
@@ -6205,7 +6349,7 @@ namespace TopoNode
         public static bool IsValidShowLayer(string srcLayerName, string aimLayerName)
         {
             if (srcLayerName.Contains(aimLayerName)
-                && !srcLayerName.Contains("HATCH")
+                //&& !srcLayerName.Contains("HATCH")
                 && !srcLayerName.Contains("OTHE")
                 && !srcLayerName.Contains("CAP")
                 && !srcLayerName.Contains("TEXT")
@@ -6236,7 +6380,7 @@ namespace TopoNode
                     if (IsValidShowLayer(layer, "AE-WALL")
                         || IsValidShowLayer(layer, "COLU")
                         || IsValidShowLayer(layer, "AD-NAME-ROOM")
-                        || IsValidShowLayer(layer, "AE-STRU")
+                        || IsValidShowLayer(layer, "STRU")
                         || IsValidShowLayer(layer, "AE-HDWR")
                         || IsValidShowLayer(layer, "AE-FLOR")
                         || IsValidShowLayer(layer, "S_WALL")

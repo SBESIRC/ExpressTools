@@ -40,7 +40,6 @@ namespace TopoNode
             List<string> beamLayers = null;
             List<string> columnLayers = null;
             var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers, out columnLayers);
-
             var pickPoints = new List<Point3d>();
             List<Polyline> selectPLines = null;
             try
@@ -61,11 +60,27 @@ namespace TopoNode
 
             // 图元预处理
             var objs = Utils.PreProcess2(validLayers);
-
-            //Utils.PostProcess(removeEntityLst);
             //return;
+            //Utils.PostProcess(removeEntityLst);
+            
             Progress.Progress.SetValue(900);
             pickPoints = Utils.GetRoomPoints("AD-NAME-ROOM");
+            //var ed = AcadApp.DocumentManager.MdiActiveDocument.Editor;
+            //while (true)
+            //{
+            //    PromptPointOptions ppo = new PromptPointOptions("\n请点击");
+            //    ppo.AllowNone = true;
+            //    PromptPointResult ppr = ed.GetPoint(ppo);
+            //    if (ppr.Status == PromptStatus.None)
+            //        break;
+            //    if (ppr.Status == PromptStatus.Cancel)
+            //    {
+            //        return;
+            //    }
+
+            //    var pickPoint = ppr.Value;
+            //    pickPoints.Add(pickPoint);
+            //}
 
             //foreach (var pt in pickPoints)
             //    Utils.DrawPreviewPoint(pt, "pick");
@@ -116,7 +131,7 @@ namespace TopoNode
                     Utils.DrawPreviewPoint(pt, "pick");
 
                 allCurves = TopoUtils.TesslateCurve(allCurves);
-                Utils.ExtendCurves(allCurves, 5);
+                Utils.ExtendCurves(allCurves, 20);
 
                 var wallAllCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(srcWallAllCurves, curSelectPLine);
                 wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
@@ -182,6 +197,7 @@ namespace TopoNode
                     }
                 }
 
+                //Utils.ExtendCurves(allCurves, 5);
                 allCurves = CommonUtils.RemoveCollinearLines(allCurves);
 
                 beginPos += smallStep;
@@ -213,6 +229,8 @@ namespace TopoNode
                     beginPos += inc;
                     Progress.Progress.SetValue((int)beginPos);
 
+                    //Utils.DrawProfile(allCurves, "SRCaLL");
+                    //continue;
                     try
                     {
                         var aimProfile = TopoUtils.MakeProfileFromPoint2(allCurves, pt);
