@@ -558,7 +558,8 @@ namespace TopoNode
 
                 if (IsValidString(textString, "-"))
                 {
-                    pts.Add(text.Bounds.Value.CenterPoint());
+                    if (text.Bounds.HasValue)
+                        pts.Add(text.Bounds.Value.CenterPoint());
                 }
             }
 
@@ -661,7 +662,7 @@ namespace TopoNode
         /// </summary>
         /// <param name="curve"></param>
         /// <param name="length"></param>
-        public static void ExtendCurve(Curve curve, double length)
+        public static Curve ExtendCurve(Curve curve, double length)
         {
             try
             {
@@ -670,12 +671,14 @@ namespace TopoNode
                     var line = curve as Line;
                     var startPoint = line.StartPoint;
                     var endPoint = line.EndPoint;
-                    var dir = line.GetFirstDerivative(startPoint);
-                    var ptHead = startPoint - dir.GetNormal() * length;
-                    var ptTail = endPoint + dir.GetNormal() * length;
+                    var dir = line.GetFirstDerivative(endPoint).GetNormal();
+                    var ptHead = startPoint - dir * length;
+                    var ptTail = endPoint + dir * length;
 
-                    line.Extend(true, ptHead);
-                    line.Extend(false, ptTail);
+
+                    var extendLine = new Line(ptHead, ptTail);
+                    extendLine.Layer = curve.Layer;
+                    return extendLine;
                 }
                 //else if (curve is Arc)
                 //{
@@ -692,6 +695,7 @@ namespace TopoNode
             {
 
             }
+            return curve;
         }
 
         public static void ExtendCurveWithTransaction(Curve curve, double length)
@@ -972,12 +976,18 @@ namespace TopoNode
         /// </summary>
         /// <param name="curves"></param>
         /// <param name="length"></param>
-        public static void ExtendCurves(List<Curve> curves, double length)
+        public static List<Curve> ExtendCurves(List<Curve> curves, double length)
         {
+            if (curves == null || curves.Count == 0)
+                return null;
+            var resCurves = new List<Curve>();
             foreach (var curve in curves)
             {
-                ExtendCurve(curve, length);
+                var resCurve = ExtendCurve(curve, length);
+                resCurves.Add(resCurve);
             }
+
+            return resCurves;
         }
 
         public static void ExtendCurvesWithTransaction(List<Curve> curves, double length)
@@ -5952,6 +5962,9 @@ namespace TopoNode
                 int arcCount = 0; // 
                 foreach (var curve in relatedCurves)
                 {
+                    if (curve.Layer.Contains("colu") && ((curve is Arc) || curve is Circle))
+                        continue;
+
                     if (curve is Line line)
                     {
                         Point3d ptS = line.StartPoint;

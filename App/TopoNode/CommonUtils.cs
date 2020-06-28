@@ -1083,6 +1083,31 @@ namespace TopoNode
 
             foreach (var edge in loop)
             {
+                if (edge.IsLine)
+                    area += 0.5 * (edge.Start.X * edge.End.Y - edge.Start.Y * edge.End.X);
+                else
+                {
+                    var srcCurve = edge.SrcCurve;
+                    var topoEdgeMidPt = srcCurve.GetPointAtParameter(0.5 * (srcCurve.StartParam + srcCurve.EndParam));
+                    area += 0.5 * (edge.Start.X * topoEdgeMidPt.Y - edge.Start.Y * topoEdgeMidPt.X);
+                    area += 0.5 * (topoEdgeMidPt.X * edge.End.Y - topoEdgeMidPt.Y * edge.End.X);
+                }
+            }
+
+            return area;
+        }
+
+        /// <summary>
+        /// 计算离散后的面积
+        /// </summary>
+        /// <param name="loop"></param>
+        /// <returns></returns>
+        public static double CalcuTesslateLoopArea(List<TopoEdge> loop)
+        {
+            double area = 0.0;
+
+            foreach (var edge in loop)
+            {
                 area += 0.5 * (edge.Start.X * edge.End.Y - edge.Start.Y * edge.End.X);
             }
 

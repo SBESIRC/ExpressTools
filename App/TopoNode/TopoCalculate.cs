@@ -691,7 +691,7 @@ namespace TopoNode
                 //if (ptCen.GetDistanceTo(new Point3d(0, 0)) > 1e7)
                 //    ptCen = new Point2d(ptCen.X * 1e-6, ptCen.Y * 1e-6);
 
-                var curLoopArea = CommonUtils.CalcuLoopArea(resEdges);
+                var curLoopArea = CommonUtils.CalcuTesslateLoopArea(resEdges);
                 //if (Math.Abs(curLoopArea) > 1e7)
                 //    curLoopArea *= 1e-6;
                 proLoops.Add(new ProductLoop(srcEdgeLoops[i].TopoEdges, curLoopArea, ptCen));
@@ -1230,6 +1230,7 @@ namespace TopoNode
         {
             var scatterCurves = ScatterCurves.MakeNewCurves(srcCurves);
             //Utils.DrawProfile(scatterCurves, "scatter");
+            //return;
             var scatterRightCurves = CalcuRightCurves(scatterCurves);
             if (scatterRightCurves == null || scatterRightCurves.Count == 0)
                 return;
@@ -1284,19 +1285,30 @@ namespace TopoNode
             }
 
             // inner
-            //if (m_ProfileLoop.Count == 0)
-            //    return;
+            if (m_ProfileLoop.Count == 0)
+                return;
 
-            //var outProfile = m_ProfileLoop.First();
-            //var relatedCurves = CalcuRelatedCurves(scatterCurves, outProfile.TopoEdges);
-            ////Utils.DrawProfile(relatedCurves, "rela");
-            ////return;
-            //CalculateLoop(relatedCurves);
+            var outProfile = m_ProfileLoop.First();
+            // 包含column
+            var columnScatterCurves = scatterCurves.Where(p =>
+            {
+                if (p.Layer.Contains("colu"))
+                    return true;
+                return false;
+            }).ToList();
 
-            //if (m_InnerProfileLoops.Count == 0)
-            //    return;
+            if (columnScatterCurves.Count == 0)
+                return;
 
-            //CalInnerProfiles(outProfile.TopoEdges);
+            var relatedCurves = CalcuRelatedCurves(columnScatterCurves, outProfile.TopoEdges);
+            //Utils.DrawProfile(relatedCurves, "rela");
+            //return;
+            CalculateLoop(relatedCurves);
+
+            if (m_InnerProfileLoops.Count == 0)
+                return;
+
+            CalInnerProfiles(outProfile.TopoEdges);
         }
 
         private void CalInnerProfiles(List<TopoEdge> outProfile)
