@@ -18,7 +18,10 @@ namespace ThWSS.Layout
         protected double minLength = 100;
         public SquareLayout(SprayLayoutModel layoutModel)
         {
-
+            sideLength = layoutModel.sparyESpcing;
+            sideMinLength = layoutModel.sparySSpcing;
+            maxLength = layoutModel.otherESpcing;
+            minLength = layoutModel.otherSSpcing;
         }
 
         public List<List<SprayLayoutData>> Layout(Polyline room, Polyline polyline, bool noBeam = true)

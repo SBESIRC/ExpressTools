@@ -372,11 +372,59 @@ namespace ThWSS
             {
                 layoutModel.sparyLayoutWay = LayoutWay.customPart;
             }
+            
+            if (thSpary.custom.IsChecked == true)
+            {
+                layoutModel.sparySSpcing = Convert.ToDouble(thSpary.customControl.sparySSpcing.Text);
+                layoutModel.sparyESpcing = Convert.ToDouble(thSpary.customControl.sparyESpcing.Text);
+                layoutModel.otherSSpcing = Convert.ToDouble(thSpary.customControl.otherSSpcing.Text);
+                layoutModel.otherESpcing = Convert.ToDouble(thSpary.customControl.otherESpcing.Text);
+            }
+            else if (thSpary.standard.IsChecked == true)
+            {
+                if (thSpary.standControl.danLevel.SelectedIndex == 0)
+                {
+                    layoutModel.sparySSpcing = 100;
+                    layoutModel.sparyESpcing = 4400;
+                    layoutModel.otherSSpcing = 2200;
+                    layoutModel.otherESpcing = 100;
+                }
+                else if (thSpary.standControl.danLevel.SelectedIndex == 1)
+                {
+                    layoutModel.sparySSpcing = 100;
+                    layoutModel.sparyESpcing = 3600;
+                    layoutModel.otherSSpcing = 100;
+                    layoutModel.otherESpcing = 1800;
+                }
+                else if (thSpary.standControl.danLevel.SelectedIndex == 2)
+                {
+                    layoutModel.sparySSpcing = 100;
+                    layoutModel.sparyESpcing = 3400;
+                    layoutModel.otherSSpcing = 100;
+                    layoutModel.otherESpcing = 1700;
+                }
+                else if (thSpary.standControl.danLevel.SelectedIndex == 3)
+                {
+                    layoutModel.sparySSpcing = 100;
+                    layoutModel.sparyESpcing = 3000;
+                    layoutModel.otherSSpcing = 100;
+                    layoutModel.otherESpcing = 1500;
+                }
+            }
 
-            layoutModel.sparySSpcing = Convert.ToDouble(thSpary.customControl.sparySSpcing.Text);
-            layoutModel.sparyESpcing = Convert.ToDouble(thSpary.customControl.sparyESpcing.Text);
-            layoutModel.otherSSpcing = Convert.ToDouble(thSpary.customControl.otherSSpcing.Text);
-            layoutModel.otherESpcing = Convert.ToDouble(thSpary.customControl.otherESpcing.Text);
+            if (thSpary.upSpary.IsChecked == true)
+            {
+                layoutModel.sprayType = 0;
+            }
+            else if (thSpary.downSpary.IsChecked == true)
+            {
+                layoutModel.sprayType = 1;
+            }
+
+            layoutModel.protectRadius = Convert.ToDouble(thSpary.radius.Text);
+            layoutModel.UseBeam = thSpary.HasBeam.IsChecked == true;
+            layoutModel.beamHeight = Convert.ToDouble(thSpary.beamHeight.Text);
+            layoutModel.floorThcik = Convert.ToDouble(thSpary.plateThick.Text);
 
             return layoutModel;
         }

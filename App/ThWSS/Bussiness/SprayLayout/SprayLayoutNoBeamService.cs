@@ -55,6 +55,7 @@ namespace ThWSS.Bussiness
                     allSprays.AddRange(roomSprays);
 
                     //放置喷头
+                    var spraType = layoutModel.sprayType == 0 ? SprayType.SPRAYUP : SprayType.SPRAYDOWN;
                     InsertSprayService.InsertSprayBlock(roomSprays.Select(o => o.Position).ToList(), SprayType.SPRAYDOWN);
                 }
 

@@ -16,11 +16,12 @@ namespace ThWSS.Layout
     public class SquareLayoutByBeam : SquareLayout
     {
         double height = 1000;
-        double sprayHeight = 550;
         double floorHeight = 220;
+        double sprayHeight = 550;
         public SquareLayoutByBeam(SprayLayoutModel layoutModel) : base(layoutModel)
         {
-
+            height = layoutModel.beamHeight;
+            floorHeight = layoutModel.floorThcik;
         }
 
         public List<List<SprayLayoutData>> Layout(List<Line> roomLines, Polyline diviRoom, List<ThStructure.BeamInfo.Model.Beam> beamInfo)

@@ -83,6 +83,12 @@ namespace ThWSS.Utlis
             return polygons.SelectMany(x=>(x as IPolygon).ToDbPolylines()).ToList();
         }
 
+        /// <summary>
+        /// 计算区域分割
+        /// </summary>
+        /// <param name="polyline"></param>
+        /// <param name="beamPolys"></param>
+        /// <returns></returns>
         private List<Polyline> GetDivisionines(Polyline polyline, List<Polyline> beamPolys)
         {
             DBObjectCollection dBObjects = new DBObjectCollection();

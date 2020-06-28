@@ -96,7 +96,8 @@ namespace ThWSS.Bussiness
                         columnInfoService.SetStandAloneColumnInLayer(ptInColmns.Keys.ToList());
 
                         //放置喷头
-                        InsertSprayService.InsertSprayBlock(columnSpray.Select(o => o.Position).ToList(), SprayType.SPRAYDOWN);
+                        var spraType = layoutModel.sprayType == 0 ? SprayType.SPRAYUP : SprayType.SPRAYDOWN;
+                        InsertSprayService.InsertSprayBlock(columnSpray.Select(o => o.Position).ToList(), spraType);
                     }
                 }
             }
