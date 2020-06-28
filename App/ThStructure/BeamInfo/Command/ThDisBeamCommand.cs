@@ -21,10 +21,12 @@ namespace ThStructure.BeamInfo.Command
                 var beamCurves = ThBeamGeometryPreprocessor.ProjectXYCurves(curves);
                 //  0.3 为了处理Z值不为0的情况，需要将曲线Z值设为0
                 ThBeamGeometryPreprocessor.Z0Curves(ref beamCurves);
+                //  0.4 过滤掉长度过短梁线
+                var results = ThBeamGeometryPreprocessor.FilterCurves(beamCurves);
 
                 //1.计算出匹配的梁
                 CalBeamStruService calBeamService = new CalBeamStruService();
-                var allBeam = calBeamService.GetBeamInfo(beamCurves);
+                var allBeam = calBeamService.GetBeamInfo(results);
 
                 //TODO：
                 //  需要支持识别外参中的梁的标注信息

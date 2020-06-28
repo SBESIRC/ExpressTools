@@ -131,20 +131,23 @@ namespace ThStructure.BeamInfo.Business
                         xMinX = x.StartPoint.X;
                     }
 
-                    // 寻找可能配成梁的线
-                    //  1. 两根线有包含关系
-                    if ((xMinX > lMinX && xMaxX < lMaxX) || 
-                        (xMinX < lMinX && xMaxX > lMaxX))
+                    if (Math.Abs(firLine.StartPoint.Y - x.StartPoint.Y) > 1500)
+                    {
+                        return false;
+                    }
+
+                    //  两根线有重叠关系
+                    if (xMinX <= lMaxX && xMaxX >= lMinX)
                     {
                         return true;
                     }
 
                     //  2. 两根线有重叠关系（大部分重叠）
-                    if (Math.Abs(xMaxX - lMaxX) < tolerance || 
-                        Math.Abs(xMinX - lMinX) < tolerance)
-                    {
-                        return true;
-                    }
+                    //if (Math.Abs(xMaxX - lMaxX) < tolerance || 
+                    //    Math.Abs(xMinX - lMinX) < tolerance)
+                    //{
+                    //    return true;
+                    //}
 
                     // 不可能配成梁的线
                     return false;
