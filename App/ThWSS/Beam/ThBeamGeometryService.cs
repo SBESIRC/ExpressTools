@@ -31,7 +31,15 @@ namespace ThWSS.Beam
             var layers = ThBeamLayerManager.GeometryLayers(database);
             foreach(var curve in Utils.GetAllCurvesFromLayerNames(layers))
             {
-                objs.Add(curve);
+                // 暂时只处理线和多段线
+                if (curve is Line || curve is Polyline)
+                {
+                    objs.Add(curve);
+                }
+                else
+                {
+                    curve.Dispose();
+                }
             }
             return objs;
         }
