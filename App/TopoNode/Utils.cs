@@ -4516,7 +4516,22 @@ namespace TopoNode
                                     && !(entity is Hatch)
                                     && !(entity is AttributeDefinition))
                                 {
-                                    entities.Add(entity);
+                                    if (entity is Region region)
+                                    {
+                                        var dbObjects = new DBObjectCollection();
+                                        region.Explode(dbObjects);
+                                        foreach (var obj in dbObjects)
+                                        {
+                                            if (obj is Entity entityRe)
+                                            {
+                                                entities.Add(entityRe);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        entities.Add(entity);
+                                    }
                                 }
                             }
                         }
@@ -4532,7 +4547,22 @@ namespace TopoNode
                                     && !(entity is Hatch)
                                     && !(entity is AttributeDefinition))
                                 {
-                                    entities.Add(entity);
+                                    if (entity is Region region)
+                                    {
+                                        var dbObjects = new DBObjectCollection();
+                                        region.Explode(dbObjects);
+                                        foreach (var obj in dbObjects)
+                                        {
+                                            if (obj is Entity entityRe)
+                                            {
+                                                entities.Add(entityRe);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        entities.Add(entity);
+                                    }
                                 }
                             }
                         }
@@ -4547,7 +4577,7 @@ namespace TopoNode
                     // 释放不用的图元对象
                     if (entityLst != null)
                     {
-                        foreach(Entity entity in entityLst.Where(o => !entities.Contains(o)))
+                        foreach (Entity entity in entityLst.Where(o => !entities.Contains(o)))
                         {
                             entity.Dispose();
                         }
@@ -4612,11 +4642,15 @@ namespace TopoNode
                                         foreach (var obj in dbObjects)
                                         {
                                             if (obj is Entity entityRe)
-                                                objs.Add(db.ModelSpace.Add(entityRe));
+                                            {
+                                                entities.Add(entityRe);
+                                            }
                                         }
                                     }
                                     else
-                                        objs.Add(db.ModelSpace.Add(entity));
+                                    {
+                                        entities.Add(entity);
+                                    }
                                 }
                             }
                         }
@@ -4638,11 +4672,15 @@ namespace TopoNode
                                         foreach (var obj in dbObjects)
                                         {
                                             if (obj is Entity entityRe)
-                                                objs.Add(db.ModelSpace.Add(entityRe));
+                                            {
+                                                entities.Add(entityRe);
+                                            }
                                         }
                                     }
                                     else
-                                        objs.Add(db.ModelSpace.Add(entity));
+                                    {
+                                        entities.Add(entity);
+                                    }
                                 }
                             }
                         }
