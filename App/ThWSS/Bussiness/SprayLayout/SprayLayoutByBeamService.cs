@@ -3,6 +3,7 @@ using ThWSS.Layout;
 using ThWSS.Model;
 using ThWSS.Utlis;
 using System.Linq;
+using ThStructure.BeamInfo.Model;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -24,13 +25,24 @@ namespace ThWSS.Bussiness
 
                 //3.获取梁信息
                 CalBeamInfoService beamInfoService = new CalBeamInfoService();
-                List<ThStructure.BeamInfo.Model.Beam> beamInfo = beamInfoService.GetAllBeamInfo(roomBounding, floor);
+                List<ThStructure.BeamInfo.Model.Beam> beams = beamInfoService.GetAllBeamInfo(roomBounding, floor);
+                using (AcadDatabase acdb = AcadDatabase.Active())
+                {
+                    foreach (var beam in beams)
+                    {
+                        if (beam is LineBeam lineBeam)
+                        {
+                            acdb.ModelSpace.Add(lineBeam.BeamBoundary);
+                        }
+
+                    }
+                }
 
                 //4.获取柱信息
                 CalColumnInfoService columnInfoService = new CalColumnInfoService();
                 List<Polyline> columnPolys = columnInfoService.GetColumnStruc();
 
-                List<Polyline> polys = ExtendPolygons(beamInfo.Select(x => x.BeamBoundary).ToList(), 20);
+                List<Polyline> polys = ExtendPolygons(beams.Select(x => x.BeamBoundary).ToList(), 20);
                 polys.AddRange(columnPolys);
 
                 //5.根据房间分割区域
@@ -77,7 +89,7 @@ namespace ThWSS.Bussiness
                         
                         //计算出布置点
                         SquareLayoutByBeam squareLayout = new SquareLayoutByBeam(layoutModel);
-                        List<List<SprayLayoutData>> layoutPts = squareLayout.Layout(roomLines, dRoomRes, beamInfo);
+                        List<List<SprayLayoutData>> layoutPts = squareLayout.Layout(roomLines, dRoomRes, beams);
 
                         //计算房间出房间内的点
                         List<SprayLayoutData> roomSprays = new List<SprayLayoutData>();

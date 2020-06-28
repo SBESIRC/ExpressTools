@@ -93,7 +93,11 @@ namespace ThWSS
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
                 var beamCurves = ThBeamGeometryService.Instance.BeamCurves(acdb.Database, pline);
-                thDisBeamCommand.CalBeamStruc(beamCurves);
+                var beams = thDisBeamCommand.CalBeamStruc(beamCurves);
+                foreach(var beam in beams)
+                {
+                    acdb.ModelSpace.Add(beam.BeamBoundary);
+                }
             }
         }
 

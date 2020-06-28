@@ -52,13 +52,5 @@ namespace ThSitePlan
 
         //RoadCenterLine
         public static readonly string LAYER_RoadCenterLine = "P-TRAF-CITY";
-
-        //photoshop文档尺寸
-        public static readonly Dictionary<string, double> PsDocOpenPropertity = new Dictionary<string, double>
-        {
-            {"DocWidth", 41.84},
-            {"DocHight", 59.17},
-            {"PPI", 300},
-        };
     }
 }

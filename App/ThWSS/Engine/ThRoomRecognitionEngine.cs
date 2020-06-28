@@ -104,7 +104,7 @@ namespace ThWSS.Engine
                         Utils.DrawPreviewPoint(pt, "pick");
 
                     allCurves = TopoUtils.TesslateCurve(allCurves);
-                    Utils.ExtendCurves(allCurves, 5);
+                    allCurves = Utils.ExtendCurves(allCurves, 20);
 
                     var wallAllCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(srcWallAllCurves, curSelectPLine);
                     wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
@@ -117,7 +117,7 @@ namespace ThWSS.Engine
                         if (windCurves != null && windCurves.Count != 0)
                         {
                             var tesslateWindCurves = TopoUtils.TesslateCurve(windCurves);
-                            Utils.ExtendCurvesWithTransaction(tesslateWindCurves, 5);
+                            tesslateWindCurves = Utils.ExtendCurves(tesslateWindCurves, 5);
                             wallAllCurves.AddRange(tesslateWindCurves);
                             allCurves.AddRange(tesslateWindCurves);
                         }

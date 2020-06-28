@@ -558,7 +558,8 @@ namespace TopoNode
 
                 if (IsValidString(textString, "-"))
                 {
-                    pts.Add(text.Bounds.Value.CenterPoint());
+                    if (text.Bounds.HasValue)
+                        pts.Add(text.Bounds.Value.CenterPoint());
                 }
             }
 
@@ -661,7 +662,7 @@ namespace TopoNode
         /// </summary>
         /// <param name="curve"></param>
         /// <param name="length"></param>
-        public static void ExtendCurve(Curve curve, double length)
+        public static Curve ExtendCurve(Curve curve, double length)
         {
             try
             {
@@ -670,12 +671,14 @@ namespace TopoNode
                     var line = curve as Line;
                     var startPoint = line.StartPoint;
                     var endPoint = line.EndPoint;
-                    var dir = line.GetFirstDerivative(startPoint);
-                    var ptHead = startPoint - dir.GetNormal() * length;
-                    var ptTail = endPoint + dir.GetNormal() * length;
+                    var dir = line.GetFirstDerivative(endPoint).GetNormal();
+                    var ptHead = startPoint - dir * length;
+                    var ptTail = endPoint + dir * length;
 
-                    line.Extend(true, ptHead);
-                    line.Extend(false, ptTail);
+
+                    var extendLine = new Line(ptHead, ptTail);
+                    extendLine.Layer = curve.Layer;
+                    return extendLine;
                 }
                 //else if (curve is Arc)
                 //{
@@ -692,6 +695,7 @@ namespace TopoNode
             {
 
             }
+            return curve;
         }
 
         public static void ExtendCurveWithTransaction(Curve curve, double length)
@@ -972,12 +976,18 @@ namespace TopoNode
         /// </summary>
         /// <param name="curves"></param>
         /// <param name="length"></param>
-        public static void ExtendCurves(List<Curve> curves, double length)
+        public static List<Curve> ExtendCurves(List<Curve> curves, double length)
         {
+            if (curves == null || curves.Count == 0)
+                return null;
+            var resCurves = new List<Curve>();
             foreach (var curve in curves)
             {
-                ExtendCurve(curve, length);
+                var resCurve = ExtendCurve(curve, length);
+                resCurves.Add(resCurve);
             }
+
+            return resCurves;
         }
 
         public static void ExtendCurvesWithTransaction(List<Curve> curves, double length)
@@ -4516,7 +4526,22 @@ namespace TopoNode
                                     && !(entity is Hatch)
                                     && !(entity is AttributeDefinition))
                                 {
-                                    entities.Add(entity);
+                                    if (entity is Region region)
+                                    {
+                                        var dbObjects = new DBObjectCollection();
+                                        region.Explode(dbObjects);
+                                        foreach (var obj in dbObjects)
+                                        {
+                                            if (obj is Entity entityRe)
+                                            {
+                                                entities.Add(entityRe);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        entities.Add(entity);
+                                    }
                                 }
                             }
                         }
@@ -4532,7 +4557,22 @@ namespace TopoNode
                                     && !(entity is Hatch)
                                     && !(entity is AttributeDefinition))
                                 {
-                                    entities.Add(entity);
+                                    if (entity is Region region)
+                                    {
+                                        var dbObjects = new DBObjectCollection();
+                                        region.Explode(dbObjects);
+                                        foreach (var obj in dbObjects)
+                                        {
+                                            if (obj is Entity entityRe)
+                                            {
+                                                entities.Add(entityRe);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        entities.Add(entity);
+                                    }
                                 }
                             }
                         }
@@ -4547,7 +4587,7 @@ namespace TopoNode
                     // 释放不用的图元对象
                     if (entityLst != null)
                     {
-                        foreach(Entity entity in entityLst.Where(o => !entities.Contains(o)))
+                        foreach (Entity entity in entityLst.Where(o => !entities.Contains(o)))
                         {
                             entity.Dispose();
                         }
@@ -4612,11 +4652,15 @@ namespace TopoNode
                                         foreach (var obj in dbObjects)
                                         {
                                             if (obj is Entity entityRe)
-                                                objs.Add(db.ModelSpace.Add(entityRe));
+                                            {
+                                                entities.Add(entityRe);
+                                            }
                                         }
                                     }
                                     else
-                                        objs.Add(db.ModelSpace.Add(entity));
+                                    {
+                                        entities.Add(entity);
+                                    }
                                 }
                             }
                         }
@@ -4638,11 +4682,15 @@ namespace TopoNode
                                         foreach (var obj in dbObjects)
                                         {
                                             if (obj is Entity entityRe)
-                                                objs.Add(db.ModelSpace.Add(entityRe));
+                                            {
+                                                entities.Add(entityRe);
+                                            }
                                         }
                                     }
                                     else
-                                        objs.Add(db.ModelSpace.Add(entity));
+                                    {
+                                        entities.Add(entity);
+                                    }
                                 }
                             }
                         }
@@ -4992,7 +5040,6 @@ namespace TopoNode
             if (block == null)
                 return null;
 
-            var entityLst = new List<Entity>();
             string name;
             var nameMaps = new List<string>();
             try
@@ -5026,11 +5073,13 @@ namespace TopoNode
 
 
                     // 解析数据
+                    var entityLst = new List<Entity>();
                     var dbCollection = new DBObjectCollection();
                     block.Explode(dbCollection);
                     var blockLayer = block.Layer;
-                    if (IsHasBlockReference(dbCollection)) // 内部包含块
+                    if (IsHasBlockReference(dbCollection))
                     {
+                        // 内部包含块
                         foreach (var obj in dbCollection)
                         {
                             bool bContinue = false;
@@ -5094,8 +5143,9 @@ namespace TopoNode
                             }
                         }
                     }
-                    else if (IsCanExplode(dbCollection, blockLayer)) // 内部不包含块且曲线所在的图层名包含3个以上
+                    else if (IsCanExplode(dbCollection, blockLayer))
                     {
+                        // 内部不包含块且曲线所在的图层名包含3个以上
                         foreach (var obj in dbCollection)
                         {
                             if (obj is Entity)
@@ -5119,20 +5169,36 @@ namespace TopoNode
                             }
                         }
                     }
-                    else // 内部不包含块且曲线所在的图层名小于3个图层
+                    else
                     {
+                        // 内部不包含块且曲线所在的图层名小于3个图层
                         // 此时这个块不被炸开作为一个整体。
                         if (block.Visible)
                             entityLst.Add(block);
                     }
+
+                    // 释放不需要的图元
+                    foreach (Entity obj in dbCollection)
+                    {
+                        if (childReferences.Contains(obj))
+                        {
+                            continue;
+                        }
+                        if (entityLst.Contains(obj))
+                        {
+                            continue;
+                        }
+                        obj.Dispose();
+                    }
+
+                    // 返回需要的图元
+                    return entityLst;
                 }
             }
             catch
             {
                 return null;
             }
-
-            return entityLst;
         }
 
         /// <summary>
@@ -5896,6 +5962,9 @@ namespace TopoNode
                 int arcCount = 0; // 
                 foreach (var curve in relatedCurves)
                 {
+                    if (curve.Layer.Contains("colu") && ((curve is Arc) || curve is Circle))
+                        continue;
+
                     if (curve is Line line)
                     {
                         Point3d ptS = line.StartPoint;

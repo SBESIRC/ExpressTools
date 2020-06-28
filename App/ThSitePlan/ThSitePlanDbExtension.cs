@@ -79,10 +79,31 @@ namespace ThSitePlan
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
+                // 暂时忽略掉在锁定图层中的图元
+                // https://www.keanw.com/2011/08/preventing-autocad-objects-from-being-selected-using-net.html
+                // https://forums.autodesk.com/t5/net/editor-selectall-to-get-selection-of-object-ids-not-on-locked/td-p/4584613
+                void ed_SelectionAdded(object sender, SelectionAddedEventArgs e)
+                {
+                    using (AcadDatabase acdb = AcadDatabase.Use(database))
+                    {
+                        var lockedLayers = acdb.Layers.Where(o => o.IsLocked).Select(o => o.ObjectId);
+                        ObjectId[] ids = e.AddedObjects.GetObjectIds();
+                        for (int i = 0; i < ids.Length; i++)
+                        {
+                            var entity = acdb.Element<Entity>(ids[i]);
+                            if (lockedLayers.Contains(entity.LayerId))
+                            {
+                                e.Remove(i);
+                            }
+                        }
+                    }
+                }
+                Active.Editor.SelectionAdded += ed_SelectionAdded;
                 PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                     frame,
                     PolygonSelectionMode.Crossing,
                     null);
+                Active.Editor.SelectionAdded -= ed_SelectionAdded;
                 if (psr.Status == PromptStatus.OK)
                 {
                     // Crossing选择会选择到用来界定选择区域的框线
@@ -184,6 +205,14 @@ namespace ThSitePlan
                     // 图元不是块引用
                     return false;
                 }
+            }
+        }
+
+        public static bool IsBlockReferenceOnLockedLayer(this BlockReference blockReference)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                return acadDatabase.Layers.Where(o => o.ObjectId == blockReference.LayerId && o.IsLocked).Any();
             }
         }
 

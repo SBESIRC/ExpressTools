@@ -7,6 +7,8 @@ namespace ThStructure.BeamInfo.Business
 {
     public class ThBeamGeometryPreprocessor
     {
+        static readonly double beamCurveShortestLength = 100;
+
         /// <summary>
         /// 分解曲线
         /// </summary>
@@ -132,8 +134,26 @@ namespace ThStructure.BeamInfo.Business
             {
                 curve.TransformBy(Matrix3d.Displacement(new Vector3d(0, 0, 1e99)));
                 curve.TransformBy(Matrix3d.Displacement(new Vector3d(0, 0, -1e99)));
-
             }
+        }
+
+        /// <summary>
+        /// 过滤曲线
+        /// </summary>
+        /// <param name="curves"></param>
+        /// <returns></returns>
+        public static DBObjectCollection FilterCurves(DBObjectCollection curves)
+        {
+            DBObjectCollection objs = new DBObjectCollection();
+            foreach (Curve curve in curves)
+            {
+                if (curve.GetLength() > beamCurveShortestLength)
+                {
+                    objs.Add(curve);
+                }
+            }
+
+            return objs;
         }
     }
 }

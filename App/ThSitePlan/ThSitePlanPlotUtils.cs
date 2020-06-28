@@ -8,7 +8,7 @@ namespace ThSitePlan
 {
     public static class ThSitePlanPlotUtils
     {
-        public static PlotSettings CreatePlotSettings(Extents2d window)
+        public static PlotSettings CreatePlotSettings(Extents2d window,bool islandscape)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
@@ -37,7 +37,8 @@ namespace ThSitePlan
                 psv.SetUseStandardScale(plotSetting, true);
                 psv.SetStdScaleType(plotSetting, StdScaleType.ScaleToFit);
                 // 图形方向（默认是横向）
-                psv.SetPlotRotation(plotSetting, PlotRotation.Degrees000);
+                var rotation = islandscape ? PlotRotation.Degrees090 : PlotRotation.Degrees000;
+                psv.SetPlotRotation(plotSetting, rotation);
                 // 打印偏移-居中打印
                 psv.SetPlotCentered(plotSetting, true);
 
@@ -46,7 +47,7 @@ namespace ThSitePlan
             }
         }
 
-        public static void DoPlot(Extents2d window, string fileName)
+        public static void DoPlot(Extents2d window, string fileName,bool islandscape)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
@@ -56,7 +57,7 @@ namespace ThSitePlan
                     Layout layoutObj = acadDatabase.Layouts.Element(LayoutManager.Current.CurrentLayout);
 
                     // 打印设置
-                    PlotSettings plotSettings = CreatePlotSettings(window);
+                    PlotSettings plotSettings = CreatePlotSettings(window, islandscape);
 
                     // 进行打印
                     using (var plotEngine = PlotFactory.CreatePublishEngine())

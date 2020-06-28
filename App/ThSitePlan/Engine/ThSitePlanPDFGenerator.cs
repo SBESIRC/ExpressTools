@@ -25,9 +25,15 @@ namespace ThSitePlan.Engine
                 var frame = acadDatabase.Element<Polyline>(Frame.Item1);
                 Active.Editor.ZoomObject(frame.ObjectId);
                 var extents2d = Active.Editor.ToPlotWindow(frame);
-                ThSitePlanPlotUtils.DoPlot(extents2d, file);
+                ThSitePlanPlotUtils.DoPlot(extents2d, file, IsLandscapFrame(frame));
                 return true;
             }
+        }
+
+        public bool IsLandscapFrame(Polyline frame)
+        {
+            Extents3d frameextent = frame.GeometricExtents;
+            return frameextent.Width() > frameextent.Height();
         }
     }
 }

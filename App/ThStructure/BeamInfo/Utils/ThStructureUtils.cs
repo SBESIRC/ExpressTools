@@ -140,7 +140,7 @@ namespace ThStructure.BeamInfo.Utils
                          bool contains = false;
                          foreach(string layerName in layerNames)
                          {
-                             int index = ent.Layer.LastIndexOf(layerName);
+                             int index = ent.Layer.ToUpper().LastIndexOf(layerName);
                              if (index >= 0 && (index + layerName.Length) == i.Layer.Length)
                              {
                                  contains = true;
@@ -176,7 +176,7 @@ namespace ThStructure.BeamInfo.Utils
                         bool contains = false;
                         foreach (string layerName in layerNames)
                         {
-                            int index = ent.Layer.LastIndexOf(layerName);
+                            int index = ent.Layer.ToUpper().LastIndexOf(layerName);
                             if (index >= 0 && (index + layerName.Length) == i.Layer.Length)
                             {
                                 contains = true;
