@@ -5030,7 +5030,6 @@ namespace TopoNode
             if (block == null)
                 return null;
 
-            var entityLst = new List<Entity>();
             string name;
             var nameMaps = new List<string>();
             try
@@ -5064,11 +5063,13 @@ namespace TopoNode
 
 
                     // 解析数据
+                    var entityLst = new List<Entity>();
                     var dbCollection = new DBObjectCollection();
                     block.Explode(dbCollection);
                     var blockLayer = block.Layer;
-                    if (IsHasBlockReference(dbCollection)) // 内部包含块
+                    if (IsHasBlockReference(dbCollection))
                     {
+                        // 内部包含块
                         foreach (var obj in dbCollection)
                         {
                             bool bContinue = false;
@@ -5132,8 +5133,9 @@ namespace TopoNode
                             }
                         }
                     }
-                    else if (IsCanExplode(dbCollection, blockLayer)) // 内部不包含块且曲线所在的图层名包含3个以上
+                    else if (IsCanExplode(dbCollection, blockLayer))
                     {
+                        // 内部不包含块且曲线所在的图层名包含3个以上
                         foreach (var obj in dbCollection)
                         {
                             if (obj is Entity)
@@ -5157,20 +5159,36 @@ namespace TopoNode
                             }
                         }
                     }
-                    else // 内部不包含块且曲线所在的图层名小于3个图层
+                    else
                     {
+                        // 内部不包含块且曲线所在的图层名小于3个图层
                         // 此时这个块不被炸开作为一个整体。
                         if (block.Visible)
                             entityLst.Add(block);
                     }
+
+                    // 释放不需要的图元
+                    foreach (Entity obj in dbCollection)
+                    {
+                        if (childReferences.Contains(obj))
+                        {
+                            continue;
+                        }
+                        if (entityLst.Contains(obj))
+                        {
+                            continue;
+                        }
+                        obj.Dispose();
+                    }
+
+                    // 返回需要的图元
+                    return entityLst;
                 }
             }
             catch
             {
                 return null;
             }
-
-            return entityLst;
         }
 
         /// <summary>
