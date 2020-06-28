@@ -881,6 +881,25 @@ namespace ThStructureCheck.Common
             }
             return false;
         }
+        public static bool IsCollinear(Vector3d firstVec, Vector3d secondVec)
+        {
+            firstVec = firstVec.GetNormal();
+            secondVec = secondVec.GetNormal();
+
+            double x1 = firstVec.X;
+            double y1 = firstVec.Y;
+            double z1 = firstVec.Z;
+
+            double x2 = secondVec.X;
+            double y2 = secondVec.Y;
+            double z2 = secondVec.Z;
+
+            if(x1*y2==x2*y1 && y1*z2==z1*y2 && x1*z2==x2*z1)
+            {
+                return true;
+            }
+            return false;
+        }
     }
     public enum PolygonSelectionMode
     {

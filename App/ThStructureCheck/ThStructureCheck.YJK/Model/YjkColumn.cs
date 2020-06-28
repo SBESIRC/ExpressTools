@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThStructureCheck.Common.Interface;
 using ThStructureCheck.YJK.Interface;
 
 namespace ThStructureCheck.YJK
@@ -55,6 +56,11 @@ namespace ThStructureCheck.YJK
         public string ShapeVal { get; set; } = "";
         public double X { get; set; }
         public double Y { get; set; }
+
+        public IEntity BuildGeometry()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
