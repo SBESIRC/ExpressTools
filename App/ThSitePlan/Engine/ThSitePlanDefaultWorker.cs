@@ -1,6 +1,6 @@
 ﻿using System.Text;
+using System.Linq;
 using System.Collections.Generic;
-using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -12,75 +12,6 @@ using DotNetARX;
 
 namespace ThSitePlan.Engine
 {
-    //public class ThSitePlanMoveWorker : ThSitePlanWorker
-    //{
-    //    public override bool DoProcess(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
-    //    {
-    //        using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
-    //        {
-    //            if (configItem.Properties["CADScriptID"].ToString() == "0")
-    //            {
-    //                using (var objs = FilterWithBlackList(database, configItem, options))
-    //                {
-    //                    Vector3d offset = (Vector3d)options.Options["Offset"];
-    //                    acadDatabase.Database.Move(objs, Matrix3d.Displacement(offset));
-    //                }
-    //                return true;
-    //            }
-    //            using (var objs = Filter(database, configItem, options))
-    //            {
-    //                Vector3d offset = (Vector3d)options.Options["Offset"];
-    //                acadDatabase.Database.Move(objs, Matrix3d.Displacement(offset));
-    //            }
-    //            return true;
-    //        }
-    //    }
-
-    //    public override ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
-    //    {
-    //        ObjectId originFrame = (ObjectId)options.Options["OriginFrame"];
-    //        var layers = configItem.Properties["CADLayer"] as List<string>;
-    //        var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
-    //        PromptSelectionResult psr = Active.Editor.SelectByPolyline(
-    //            originFrame,
-    //            PolygonSelectionMode.Crossing,
-    //            filterlist);
-    //        if (psr.Status == PromptStatus.OK)
-    //        {
-    //            return new ObjectIdCollection(psr.Value.GetObjectIds());
-    //        }
-    //        else
-    //        {
-    //            return new ObjectIdCollection();
-    //        }
-    //    }
-
-    //    public ObjectIdCollection FilterWithBlackList(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
-    //    {
-    //        ObjectId originFrame = (ObjectId)options.Options["OriginFrame"];
-    //        var layers = configItem.Properties["CADLayer"] as List<string>;
-    //        var dxfNames = new string[]
-    //        {
-    //            RXClass.GetClass(typeof(Hatch)).DxfName,
-    //        };
-    //        var filterlist = OpFilter.Bulid(o => 
-    //            o.Dxf((int)DxfCode.Start) != string.Join(",", dxfNames) & 
-    //            o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
-    //        PromptSelectionResult psr = Active.Editor.SelectByPolyline(
-    //            originFrame,
-    //            PolygonSelectionMode.Crossing,
-    //            filterlist);
-    //        if (psr.Status == PromptStatus.OK)
-    //        {
-    //            return new ObjectIdCollection(psr.Value.GetObjectIds());
-    //        }
-    //        else
-    //        {
-    //            return new ObjectIdCollection();
-    //        }
-    //    }
-    //}
-
     public class ThSitePlanCopyWorker : ThSitePlanWorker
     {
         public override bool DoProcess(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
@@ -101,10 +32,31 @@ namespace ThSitePlan.Engine
             ObjectId originFrame = (ObjectId)options.Options["OriginFrame"];
             var layers = configItem.Properties["CADLayer"] as List<string>;
             var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
+            // 前面已经在选择时过滤掉了锁定图层上的图元，为什么这里还会有在锁定图层上的图元
+            // 原因是将块引用炸开后，其子图元被释放出来，其子图元可能放置在锁定图层中
+            // 这里暂时忽略掉在锁定图层中的图元
+            void ed_SelectionAdded(object sender, SelectionAddedEventArgs e)
+            {
+                using (AcadDatabase acdb = AcadDatabase.Use(database))
+                {
+                    var lockedLayers = acdb.Layers.Where(o => o.IsLocked).Select(o => o.ObjectId);
+                    ObjectId[] ids = e.AddedObjects.GetObjectIds();
+                    for (int i = 0; i < ids.Length; i++)
+                    {
+                        var entity = acdb.Element<Entity>(ids[i]);
+                        if (lockedLayers.Contains(entity.LayerId))
+                        {
+                            e.Remove(i);
+                        }
+                    }
+                }
+            }
+            Active.Editor.SelectionAdded += ed_SelectionAdded;
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 originFrame,
                 PolygonSelectionMode.Crossing,
                 filterlist);
+            Active.Editor.SelectionAdded -= ed_SelectionAdded;
             if (psr.Status == PromptStatus.OK)
             {
                 return new ObjectIdCollection(psr.Value.GetObjectIds());

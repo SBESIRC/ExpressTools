@@ -11,6 +11,7 @@ using NFox.Cad.Collections;
 using Autodesk.AutoCAD.EditorInput;
 using AcHelper;
 using DotNetARX;
+using Linq2Acad;
 
 namespace ThSitePlan.Engine
 {
@@ -39,10 +40,31 @@ namespace ThSitePlan.Engine
         {
             var layers = configItem.Properties["CADLayer"] as List<string>;
             var filterlist = OpFilter.Bulid(o =>o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
+            // 前面已经在选择时过滤掉了锁定图层上的图元，为什么这里还会有在锁定图层上的图元
+            // 原因是将块引用炸开后，其子图元被释放出来，其子图元可能放置在锁定图层中
+            // 这里暂时忽略掉在锁定图层中的图元
+            void ed_SelectionAdded(object sender, SelectionAddedEventArgs e)
+            {
+                using (AcadDatabase acdb = AcadDatabase.Use(database))
+                {
+                    var lockedLayers = acdb.Layers.Where(o => o.IsLocked).Select(o => o.ObjectId);
+                    ObjectId[] ids = e.AddedObjects.GetObjectIds();
+                    for (int i = 0; i < ids.Length; i++)
+                    {
+                        var entity = acdb.Element<Entity>(ids[i]);
+                        if (lockedLayers.Contains(entity.LayerId))
+                        {
+                            e.Remove(i);
+                        }
+                    }
+                }
+            }
+            Active.Editor.SelectionAdded += ed_SelectionAdded;
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 OriginFrame,
                 PolygonSelectionMode.Crossing,
                 filterlist);
+            Active.Editor.SelectionAdded -= ed_SelectionAdded;
             if (psr.Status == PromptStatus.OK)
             {
                 return new ObjectIdCollection(psr.Value.GetObjectIds());
