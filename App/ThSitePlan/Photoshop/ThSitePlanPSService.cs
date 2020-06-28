@@ -36,14 +36,14 @@ namespace ThSitePlan.Photoshop
         }
 
         // 创建一个空白图纸
-        public void NewEmptyDocument(string DocName)
+        public void NewEmptyDocument(string DocName, double psdocwidth, double psdochight)
         {
             var StartUnits = Application.Preferences.RulerUnits;
             Application.Preferences.RulerUnits = PsUnits.psCM;
             Document currentdoc = Application.Documents.Add(
-                ThSitePlanCommon.PsDocOpenPropertity["DocWidth"],
-                ThSitePlanCommon.PsDocOpenPropertity["DocHight"],
-                ThSitePlanCommon.PsDocOpenPropertity["PPI"],
+                psdocwidth,
+                psdochight,
+                300,
                 DocName);
             Application.Preferences.RulerUnits = StartUnits;
 

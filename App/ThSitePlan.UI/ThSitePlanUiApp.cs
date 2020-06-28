@@ -41,6 +41,7 @@ namespace ThSitePlan.UI
         {
             Vector3d offset;
             ObjectId originFrame = ObjectId.Null;
+            Extents3d originFrameExtents = new Extents3d();
             var frames = new Queue<Tuple<ObjectId, Vector3d>>();
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
@@ -118,6 +119,7 @@ namespace ThSitePlan.UI
 
                 // 指定解构图集的放置区
                 var frameObj = acadDatabase.Element<Polyline>(originFrame);
+                originFrameExtents = frameObj.GeometricExtents;
                 offset = ThSitePlanFrameUtils.PickFrameOffset(frameObj);
                 if (offset.IsZeroLength())
                 {
@@ -334,10 +336,17 @@ namespace ThSitePlan.UI
                     return;
                 }
 
-                //获取文档尺寸
-
                 // 创建空白文档
-                psService.NewEmptyDocument("MyNewDocument");
+                // 因为用A1纸打印，所以PS文档默认为Portrait
+                // 若打印图框为Landscape，则设置PS文档为Landscape
+                double psdocwidth = 41.84;
+                double psdocheight = 59.17;
+                if (originFrameExtents.Width() > originFrameExtents.Height())
+                {
+                    psdocwidth = 59.17;
+                    psdocheight = 41.84;
+                }
+                psService.NewEmptyDocument("MyNewDocument", psdocwidth, psdocheight);
 
                 // PS处理流程
                 ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
