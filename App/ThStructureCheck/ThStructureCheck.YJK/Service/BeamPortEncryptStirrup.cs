@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThStructureCheck.YJK.Model
+namespace ThStructureCheck.YJK.Service
 {
     /// <summary>
     /// 梁端箍筋加密区

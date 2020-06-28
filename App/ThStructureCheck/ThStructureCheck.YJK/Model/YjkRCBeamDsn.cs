@@ -36,6 +36,22 @@ namespace ThStructureCheck.YJK.Model
         public string FrcAsb { get; set; }
         public string FrcAsv { get; set; }
         /// <summary>
+        /// 把加密区箍筋字符串转成double集合
+        /// </summary>
+        public List<double> AsvCollection
+        {
+            get
+            {
+                string[] values = this.AsTop.Split(',');
+                List<double> datas = new List<double>();
+                foreach(string value in values)
+                {
+                    datas.Add(Convert.ToDouble(value));
+                }
+                return datas;
+            }
+        }
+        /// <summary>
         /// 梁顶纵筋Asu
         /// </summary>
         public double BeamTopLongiReinAsu

@@ -34,5 +34,9 @@ namespace ThStructureCheck.Common.Model
         public Coordinate()
         {
         }
+        public double DistanceTo(Coordinate coordinate)
+        {
+            return this.Coord.DistanceTo(coordinate.Coord);
+        }
     }
 }

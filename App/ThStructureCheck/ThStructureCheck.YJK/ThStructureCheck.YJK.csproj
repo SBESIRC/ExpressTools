@@ -92,7 +92,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\YjkWallCol.cs" />
     <Compile Include="Query\YjkWallQuery.cs" />
-    <Compile Include="Model\BeamPortEncryptStirrup.cs" />
+    <Compile Include="Service\BeamPortEncryptStirrup.cs" />
     <Compile Include="Service\ArcBeamArcWallAsv0.cs" />
     <Compile Include="Service\ArcBeamLTypeColumnAsv0.cs" />
     <Compile Include="Service\Asv0Calculation.cs" />
@@ -105,7 +105,6 @@
     <Compile Include="Service\MathLogic.cs" />
     <Compile Include="Service\BuildBeamLink.cs" />
     <Compile Include="Service\ThBeamJig.cs" />
-    <Compile Include="Service\YjkTool.cs" />
     <Compile Include="ThYjkDatbaseExtension.cs" />
     <Compile Include="YjkDatabase.cs" />
   </ItemGroup>

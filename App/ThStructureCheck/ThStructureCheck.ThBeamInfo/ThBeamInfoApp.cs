@@ -22,7 +22,7 @@ namespace ThStructureCheck
             using (ThBeamDbManager beamManager = new ThBeamDbManager(document.Database))
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(beamManager));
+                thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(document.Database));
             }
         }
         public static void TestModelBeamLink()
@@ -31,7 +31,7 @@ namespace ThStructureCheck
             using (ThBeamDbManager beamManager = new ThBeamDbManager(document.Database))
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                var beams = thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(beamManager));
+                var beams = thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(document.Database));
 
                 List<BeamDistinguishInfo> beamInfos = new List<BeamDistinguishInfo>();
                 beams.ForEach(i => beamInfos.Add(new BeamDistinguishInfo(i)));

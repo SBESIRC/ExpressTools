@@ -85,6 +85,19 @@ namespace ThStructureCheck.YJK.Model
                 H = datas[1]
             };
         }
+        public double Length => GetBeamLength();
+        private double GetBeamLength()
+        {
+            ModelGrid modelGrid = this.Grid;
+            YjkJointQuery yjkJointQuery = new YjkJointQuery(this.DbPath);
+            ModelJoint startJoint = yjkJointQuery.GetModelJoint(modelGrid.Jt1ID);
+            ModelJoint endJoint = yjkJointQuery.GetModelJoint(modelGrid.Jt2ID);
+            Point startPoint = startJoint.GetCoordinate();
+            Point endPoint = endJoint.GetCoordinate();
+            Coordinate startCoord = new Coordinate(startPoint.X, startPoint.Y);
+            Coordinate endCoord = new Coordinate(startPoint.X, endPoint.Y);
+            return startCoord.DistanceTo(endCoord);
+        }
     }
     public class CalcBeamSeg : YjkEntityInfo
     {
