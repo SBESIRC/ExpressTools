@@ -44,7 +44,15 @@ namespace ThWSS.Beam
             List<Entity> ents = ThStructureUtils.Explode(ExplodeType.All);
             List<Entity> geometryEnts = ThStructureUtils.FilterCurveByLayers(ents, geometryLayers);
             List<Entity> annoationEnts = ThStructureUtils.FilterAnnotationByLayers(ents, annotationLayers);
-            ents.Where(o => !geometryEnts.Contains(o) && !annoationEnts.Contains(o)).ForEach(o => o.Dispose());
+            foreach(var entity in geometryEnts)
+            {
+                ents.Remove(entity);
+            }
+            foreach (var entity in annoationEnts)
+            {
+                ents.Remove(entity);
+            }
+            ents.ForEach(o => o.Dispose());
             Geometries = ThStructureUtils.AddToDatabase(geometryEnts);
             Annotations = ThStructureUtils.AddToDatabase(annoationEnts);
         }
