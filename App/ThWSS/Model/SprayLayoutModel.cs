@@ -59,6 +59,14 @@ namespace ThWSS.Model
         {
             return new SprayLayoutModel()
             {
+                sparySSpcing = 100.0,
+                sparyESpcing = 3600.0,
+                otherSSpcing = 100.0,
+                otherESpcing = 1800.0,
+                sprayType = 0,
+                protectRadius = 4000.0,
+                beamHeight = 1000.0,
+                floorThcik = 220.0,
                 UseBeam = true,
             };
         }
