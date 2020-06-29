@@ -65,6 +65,8 @@ namespace TopoNode
             
             Progress.Progress.SetValue(900);
             pickPoints = Utils.GetRoomPoints("AD-NAME-ROOM");
+            //foreach (var pt in pickPoints)
+            //    Utils.DrawPreviewPoint(pt, "pick");
             //var ed = AcadApp.DocumentManager.MdiActiveDocument.Editor;
             //while (true)
             //{
@@ -82,8 +84,7 @@ namespace TopoNode
             //    pickPoints.Add(pickPoint);
             //}
 
-            //foreach (var pt in pickPoints)
-            //    Utils.DrawPreviewPoint(pt, "pick");
+
 
             // 获取相关图层中的数据
             var srcAllCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);// allCurves指所有能作为墙一部分的曲线

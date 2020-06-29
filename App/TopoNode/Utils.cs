@@ -3509,6 +3509,9 @@ namespace TopoNode
         {
             var resPts = new List<Point3d>();
             var obcurves = poly.GetOffsetCurves(500);
+            //Utils.DrawProfile(new List<Curve>() { poly }, "poly");
+            if (obcurves.Count == 0)
+                obcurves.Add(poly);
             var lineSegments = new List<LineSegment2d>();
             foreach (Polyline curve in obcurves)
             {
@@ -3532,7 +3535,8 @@ namespace TopoNode
                 return null;
 
             var obcurves = poly.GetOffsetCurves(500);
-
+            if (obcurves.Count == 0)
+                obcurves.Add(poly);
             var lineSegments = new List<LineSegment2d>();
             CreateLayer("FLine", Color.FromRgb(0, 0, 255));
             foreach (var curve in obcurves)
@@ -3570,6 +3574,8 @@ namespace TopoNode
                 return null;
 
             var obcurves = poly.GetOffsetCurves(500);
+            if (obcurves.Count == 0)
+                obcurves.Add(poly);
             var lineSegments = new List<LineSegment2d>();
 
             foreach (var curve in obcurves)
@@ -3598,6 +3604,8 @@ namespace TopoNode
                 return null;
 
             var obcurves = poly.GetOffsetCurves(500);
+            if (obcurves.Count == 0)
+                obcurves.Add(poly);
             var lineSegments = new List<LineSegment2d>();
             foreach (Polyline curve in obcurves)
             {
