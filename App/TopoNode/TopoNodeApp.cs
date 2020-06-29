@@ -175,6 +175,7 @@ namespace TopoNode
 
                     if (doorInsertCurves != null && doorInsertCurves.Count != 0)
                     {
+                        doorInsertCurves = Utils.ExtendCurves(doorInsertCurves, 5);
                         allCurves.AddRange(doorInsertCurves);
                         Utils.DrawProfile(doorInsertCurves, "doorInsertCurves");
                         //removeEntityLst.AddRange(doorInsertCurves);
@@ -192,6 +193,7 @@ namespace TopoNode
 
                     if (windInsertCurves != null && windInsertCurves.Count != 0)
                     {
+                        windInsertCurves = Utils.ExtendCurves(windInsertCurves, 5);
                         Utils.DrawProfile(windInsertCurves, "windInsertCurves");
                         allCurves.AddRange(windInsertCurves);
                     }

@@ -137,6 +137,7 @@ namespace TopoNode
         /// </summary>
         private void CoEdgeEraseDo()
         {
+            double tole = 1e-3;
             for (int i = 0; i < m_coEdges.Count; i++)
             {
                 var curEdge = m_coEdges[i];
@@ -162,13 +163,13 @@ namespace TopoNode
                     var releLinePtE = releLine.EndPoint;
 
                     // 当前段被相关重合段裁剪
-                    if (CommonUtils.IsPointOnSegment(releLinePtS, curLine) && !CommonUtils.IsPointOnSegment(releLinePtE, curLine)) // 部分包含当前线条
+                    if (CommonUtils.IsPointOnSegment(releLinePtS, curLine, tole) && !CommonUtils.IsPointOnSegment(releLinePtE, curLine, tole)) // 部分包含当前线条
                     {
-                        if (CommonUtils.IsPointOnSegment(curLinePtS, releLine))
+                        if (CommonUtils.IsPointOnSegment(curLinePtS, releLine, tole))
                         {
                             curEdge.CoNode.Line2d = new LineSegment2d(releLinePtS, curLinePtE); // 裁剪当前线段
                         }
-                        else if (CommonUtils.IsPointOnSegment(curLinePtE, releLine))
+                        else if (CommonUtils.IsPointOnSegment(curLinePtE, releLine, tole))
                         {
                             curEdge.CoNode.Line2d = new LineSegment2d(releLinePtS, curLinePtS);
                         }
@@ -176,13 +177,13 @@ namespace TopoNode
                         curEdge.ChangeCount++;
                         continue;
                     }
-                    else if (CommonUtils.IsPointOnSegment(releLinePtE, curLine) && !CommonUtils.IsPointOnSegment(releLinePtS, curLine)) // 部分包含当前线条
+                    else if (CommonUtils.IsPointOnSegment(releLinePtE, curLine, tole) && !CommonUtils.IsPointOnSegment(releLinePtS, curLine, tole)) // 部分包含当前线条
                     {
                         if (CommonUtils.IsPointOnSegment(curLinePtS, releLine))
                         {
                             curEdge.CoNode.Line2d = new LineSegment2d(releLinePtE, curLinePtE);
                         }
-                        else if (CommonUtils.IsPointOnSegment(curLinePtE, releLine))
+                        else if (CommonUtils.IsPointOnSegment(curLinePtE, releLine, tole))
                         {
                             curEdge.CoNode.Line2d = new LineSegment2d(releLinePtE, curLinePtS);
                         }
@@ -194,12 +195,12 @@ namespace TopoNode
                     // 部分裁剪完出现完全包含或者相同的情况
                     if (curEdge.ChangeCount != 0)
                     {
-                        if ((CommonUtils.Point2dIsEqualPoint2d(curLinePtS, releLinePtS) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, releLinePtE))
-                           || (CommonUtils.Point2dIsEqualPoint2d(curLinePtS, releLinePtE) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, releLinePtS)))
+                        if ((CommonUtils.Point2dIsEqualPoint2d(curLinePtS, releLinePtS, tole) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, releLinePtE, tole))
+                           || (CommonUtils.Point2dIsEqualPoint2d(curLinePtS, releLinePtE, tole) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, releLinePtS, tole)))
                         {
                             curEdge.IsErase = true;
                         }
-                        else if (CommonUtils.IsPointOnSegment(curLinePtS, releLine) && CommonUtils.IsPointOnSegment(curLinePtE, releLine))
+                        else if (CommonUtils.IsPointOnSegment(curLinePtS, releLine, tole) && CommonUtils.IsPointOnSegment(curLinePtE, releLine, tole))
                         {
                             curEdge.IsErase = true;
                         }
