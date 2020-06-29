@@ -42,12 +42,15 @@ namespace ThStructureCheck.Common.Service
             }
             else
             {
-                bool isPerdicular = firstVec.IsParallelTo(secondVec);
+                bool isPerdicular = firstVec.IsPerpendicularTo(secondVec);
                 if (isPerdicular)
                 {
                     relationships.Add(Relationship.Perpendicular);
                 }
-                relationships.Add(Relationship.UnRegular);
+                else
+                {
+                    relationships.Add(Relationship.UnRegular);
+                }
             }
         }
     }

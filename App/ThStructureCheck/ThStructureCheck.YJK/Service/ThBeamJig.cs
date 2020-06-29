@@ -12,17 +12,17 @@ namespace ThStructureCheck.YJK.Service
         private string keyWord = "";
         private Point3d mBase;
         private Point3d mLocation;
-        private List<Autodesk.AutoCAD.DatabaseServices.Polyline> polylines = new List<Autodesk.AutoCAD.DatabaseServices.Polyline>();
+        private List<Autodesk.AutoCAD.DatabaseServices.Entity> entities = new List<Autodesk.AutoCAD.DatabaseServices.Entity>();
         private Matrix3d currentUcs;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="polylines"></param>
         /// <param name="basePt">Ucs Point</param>
-        public ThBeamJig(List<Database.Polyline> polylines, Point3d basePt)
+        public ThBeamJig(List<Autodesk.AutoCAD.DatabaseServices.Entity> entities, Point3d basePt)
         {
             this.currentUcs = CadTool.GetMdiActiveDocument().Editor.CurrentUserCoordinateSystem;
-            this.polylines = polylines;
+            this.entities = entities;
             this.keyWord = "";
             UpdateMbase(basePt);
         }
@@ -55,7 +55,7 @@ namespace ThStructureCheck.YJK.Service
         public void TransformEntities()
         {
             Matrix3d mat = Matrix3d.Displacement(mBase.GetVectorTo(mLocation));
-            foreach (Database.Entity ent in this.polylines)
+            foreach (Database.Entity ent in this.entities)
             {
                 ent.TransformBy(mat);
             }
@@ -94,9 +94,9 @@ namespace ThStructureCheck.YJK.Service
             if (geo != null)
             {
                 geo.PushModelTransform(mt);
-                for (int i = 0; i < this.polylines.Count; i++)
+                for (int i = 0; i < this.entities.Count; i++)
                 {
-                    geo.Draw(this.polylines[i]);
+                    geo.Draw(this.entities[i]);
                 }
                 geo.PopModelTransform();
             }

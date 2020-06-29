@@ -18,14 +18,14 @@ namespace ThStructureCheck.Common
     }
     public class MoveRotateScaleJig : DrawJig
     {
-        private List<Autodesk.AutoCAD.DatabaseServices.Polyline> entities = new List<Autodesk.AutoCAD.DatabaseServices.Polyline>();
+        private List<Autodesk.AutoCAD.DatabaseServices.Entity> entities = new List<Autodesk.AutoCAD.DatabaseServices.Entity>();
         private Point3d moveStartPt;
         private Point3d moveEndPt;
         private double rotateAngle;
         private double scaleFactor;
 
         private JigWay jigWay = JigWay.None;
-        public MoveRotateScaleJig(List<Autodesk.AutoCAD.DatabaseServices.Polyline> entities, Point3d basePt, JigWay jigWay, double rotateAngle = 0, double scaleFactor = 1)
+        public MoveRotateScaleJig(List<Autodesk.AutoCAD.DatabaseServices.Entity> entities, Point3d basePt, JigWay jigWay, double rotateAngle = 0, double scaleFactor = 1)
         {
             this.entities = entities;
             this.moveStartPt = basePt;

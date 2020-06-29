@@ -31,11 +31,12 @@ namespace ThStructureCheck.Common.Model
             Point3d pt2 = ep + offsetVec.GetNormal().MultiplyBy(this.B / 2.0);
             Point3d pt4 = sp - offsetVec.GetNormal().MultiplyBy(this.B / 2.0);
             Point3d pt3 = ep - offsetVec.GetNormal().MultiplyBy(this.B / 2.0);
-            polyline.AddVertexAt(0, new Point2d(pt1.X, pt1.Y), 0.0, 0.0, 0.0);
-            polyline.AddVertexAt(1, new Point2d(pt2.X, pt2.Y), 0.0, 0.0, 0.0);
-            polyline.AddVertexAt(2, new Point2d(pt3.X, pt3.Y), 0.0, 0.0, 0.0);
-            polyline.AddVertexAt(3, new Point2d(pt4.X, pt4.Y), 0.0, 0.0, 0.0);
-            polyline.Closed = true;
+            Point3dCollection pts = new Point3dCollection();
+            pts.Add(pt1);
+            pts.Add(pt2);
+            pts.Add(pt3);
+            pts.Add(pt4);
+            polyline=CadTool.CreatePolyline(pts);
             return polyline;
         }
     }

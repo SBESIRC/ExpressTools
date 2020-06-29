@@ -34,10 +34,12 @@ namespace ThStructureCheck.ThBeamInfo.Service
         private List<Tuple<int, Polyline>> columnEnts = new List<Tuple<int, Polyline>>();
         private List<Tuple<YjkEntityInfo, Polyline>> beamEnts = new List<Tuple<YjkEntityInfo, Polyline>>();
         private List<Tuple<YjkEntityInfo, Polyline>> wallEnts = new List<Tuple<YjkEntityInfo, Polyline>>();
+        private List<Tuple<BeamLink, List<Entity>>> textEnts = new List<Tuple<BeamLink, List<Entity>>>();
         public List<BeamRelateInf> ColumnRelateInfs { get; set; } = new List<BeamRelateInf>();
         private YjkJointQuery calcJointQuery;
         private YjkJointQuery modelJointQuery;
         private Document doc;
+        private double textHeight = 250.0;
         /// <summary>
         /// 是否继续
         /// </summary>
@@ -66,6 +68,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
             BuildModelBeamLink buildBeamLink = new BuildModelBeamLink(this.dtlModelPath, this.floorNo);
             buildBeamLink.Build();            
             this.beamLinks = buildBeamLink.BeamLinks;
+            this.beamLinks.ForEach(i => i.GenerateBeamCalculationIndex(this.dtlCalcPath));
         }
         public void Draw()
         {
@@ -73,6 +76,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
             DrawColumns();
             DrawBeams();
             DrawWalls();
+            DrawTexts();
             MoveToOrigin();
             Drag();
         }
@@ -90,13 +94,15 @@ namespace ThStructureCheck.ThBeamInfo.Service
             this.columnEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
             this.beamEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
             this.wallEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
+            this.textEnts.ForEach(i => i.Item2.ForEach(j => j.TransformBy(wcsToUcs)));
         }
         private void Drag()
         {
-            List<Polyline> columnBeamEnts = new List<Polyline>();
+            List<Entity> columnBeamEnts = new List<Entity>();
             this.columnEnts.ForEach(i => columnBeamEnts.Add(i.Item2));
             this.beamEnts.ForEach(i => columnBeamEnts.Add(i.Item2));
             this.wallEnts.ForEach(i => columnBeamEnts.Add(i.Item2));
+            this.textEnts.ForEach(i=> columnBeamEnts.AddRange(i.Item2));
             bool doMark = true;
             Point3d basePt = Point3d.Origin;
             Point3d moveTargetPt = basePt;
@@ -198,6 +204,14 @@ namespace ThStructureCheck.ThBeamInfo.Service
                 }
             }
         }
+        private void DrawTexts()
+        {
+            for (int i = 0; i < this.beamLinks.Count; i++)
+            {
+                List<Entity> texts = DrawTexts(this.beamLinks[i]);
+                this.textEnts.Add(Tuple.Create <BeamLink, List <Entity>> (this.beamLinks[i], texts));
+            }
+        }
         private Point3d GetSegJtPoint(YjkEntityInfo yjkEntity)
         {
             Point jointPt = new Point();
@@ -296,7 +310,6 @@ namespace ThStructureCheck.ThBeamInfo.Service
                 return null;
             }
         }
-
         private Polyline DrawBeam(CalcBeamSeg calcBeamSeg)
         {
             Polyline polyline=null;
@@ -376,7 +389,93 @@ namespace ThStructureCheck.ThBeamInfo.Service
             }
             return polyline;
         }
-
+        private List<Entity> DrawTexts(BeamLink beamLink)
+        {
+            List<Entity> texts = new List<Entity>();
+            List<Point3d> pts = new List<Point3d>();
+            for (int i = 0; i < beamLink.Beams.Count; i++)
+            {
+                if(beamLink.Beams[i] is ModelBeamSeg modelBeamSeg)
+                {
+                    ModelGrid grid = modelBeamSeg.Grid;
+                    Point3d startPt = GetSegJtPoint(modelJointQuery.GetModelJoint(grid.Jt1ID));
+                    Point3d endPt = GetSegJtPoint(modelJointQuery.GetModelJoint(grid.Jt2ID));
+                    pts.Add(startPt);
+                    pts.Add(endPt);
+                }
+            }
+            int m = 0;
+            int n = 1;
+            double maxDis = pts[m].DistanceTo(pts[n]);
+            for (int i=0;i<pts.Count;i++)
+            {
+                for (int j = 0; j < pts.Count; j++)
+                {
+                    if(i==j)
+                    {
+                        continue;
+                    }
+                    if(pts[i].DistanceTo(pts[j])> maxDis)
+                    {
+                        m = i;
+                        n = j;
+                        maxDis = pts[i].DistanceTo(pts[j]);
+                    }
+                }
+            }
+            Point3d beamSpt = pts[m];
+            Point3d beamEpt = pts[n];
+            double textRotation = TextRotateAngle(beamSpt, beamEpt);
+            Point3d midPt = CadTool.GetMidPt(beamSpt, beamEpt);
+            Vector3d perpendVec = GeometricCalculation.GetOffsetDirection(beamSpt, beamEpt);
+            texts.Add(CreateText(beamLink.BeamCalIndex.AsuFormat, midPt, textHeight * 0.0, perpendVec, textRotation));
+            texts.Add(CreateText(beamLink.BeamCalIndex.GFormat, midPt, textHeight * 1.0, perpendVec, textRotation));
+            texts.Add(CreateText(beamLink.BeamCalIndex.Asd.ToString(), midPt, textHeight * -1.0, perpendVec, textRotation));
+            texts.Add(CreateText(beamLink.BeamCalIndex.VtFormat, midPt, textHeight * -2.0, perpendVec, textRotation));
+            texts.Add(CreateText(beamLink.BeamCalIndex.Spec, midPt, textHeight * -3.0, perpendVec, textRotation));
+            return texts;
+        }
+        private DBText CreateText(string content,Point3d basePt,double offsetHeight,Vector3d offsetVec,double textRotation)
+        {
+            DBText dBText = new DBText();
+            dBText.TextString = content;
+            Point3d position = basePt + offsetVec.GetNormal().MultiplyBy(offsetHeight);
+            dBText.Position = position;
+            Matrix3d mt = Matrix3d.Rotation(textRotation, Vector3d.ZAxis, basePt);
+            dBText.TransformBy(mt);
+            return dBText;
+        }
+        private double TextRotateAngle(Point3d firstPt,Point3d secondPt)
+        {
+            Vector3d vec = secondPt - firstPt;
+            double rad = vec.GetAngleTo(Vector3d.XAxis);
+            double ang = Utils.RadToAng(rad);
+            if(ang == 0.0 || ang == 180.0 || ang == 360.0)
+            {
+                return 0.0;
+            }
+            if (ang == 90.0 || ang == 270.0)
+            {
+                return Math.PI/2.0;
+            }
+            if(ang>0 && ang<90)
+            {
+                return rad;
+            }
+            if(ang>90 && ang<180)
+            {
+                return rad-Math.PI;
+            }
+            if (ang > 180 && ang < 270)
+            {
+                return rad - Math.PI;
+            }
+            if(ang > 270 && ang < 360)
+            {
+                return rad - Math.PI*2;
+            }
+            return rad;
+        }
         private Polyline DrawColumn(ModelColumnSegCompose modelColumnSegCompose)
         {
             Polyline polyline = null;
@@ -391,7 +490,6 @@ namespace ThStructureCheck.ThBeamInfo.Service
             }
             return polyline;
         }
-
         private Polyline DrawRectangleColumn(ModelColumnSegCompose modelColumnSegCompose)
         {
             Polyline polyline = null;

@@ -116,8 +116,8 @@ namespace ThStructureCheck.YJK.Query
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {
-                wallSect.ID = Convert.ToInt32(dr["tblWallSectID"].ToString());
-                wallSect.No_ = Convert.ToInt32(dr["tblWallSectNo"].ToString());
+                wallSect.ID = Convert.ToInt32(dr["ID"].ToString());
+                wallSect.No_ = Convert.ToInt32(dr["No_"].ToString());
                 wallSect.Mat = Convert.ToInt32(dr["Mat"].ToString());
                 wallSect.Kind = Convert.ToInt32(dr["Kind"].ToString());
                 wallSect.B = Convert.ToInt32(dr["B"].ToString());

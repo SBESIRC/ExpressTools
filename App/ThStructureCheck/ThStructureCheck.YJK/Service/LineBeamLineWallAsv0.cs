@@ -14,12 +14,12 @@ namespace ThStructureCheck.YJK.Service
     /// <summary>
     /// 直梁和直墙
     /// </summary>
-    class LineBeamLineWallAsv0 : Asv0Calculation
+    class LineBeamLineWallAsv0 : LineBeamRecColumnAsv0
     {
         private ModelBeamSeg modelBeamSeg;
         private ModelWallSeg modelWallSeg;
         public LineBeamLineWallAsv0(ModelBeamSeg modelBeamSeg, ModelWallSeg modelWallSeg,string dtlCalcPath)
-            :base(dtlCalcPath)
+            :base(modelBeamSeg, modelWallSeg.BuildGeometry(), dtlCalcPath)
         {
             this.modelBeamSeg = modelBeamSeg;
             this.modelWallSeg = modelWallSeg;
@@ -27,7 +27,7 @@ namespace ThStructureCheck.YJK.Service
 
         public override void Calculate(List<ModelBeamSeg> beamSegs)
         {
-            //ToDo
+            base.Calculate(beamSegs);
         }
     }
 }

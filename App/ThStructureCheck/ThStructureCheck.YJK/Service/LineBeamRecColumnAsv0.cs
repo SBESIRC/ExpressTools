@@ -23,28 +23,40 @@ namespace ThStructureCheck.YJK.Service
         private YjkBeamQuery modelBeamQuery;
         private double b;
         private double h;
+        private IEntity beamGeo ;
+        private IEntity columnGeo ;
         public LineBeamRecColumnAsv0(ModelBeamSeg modelBeamSeg, ModelColumnSeg modelColumnSeg,string dtlCalcPath)
             :base(dtlCalcPath)
         {
             this.modelBeamSeg = modelBeamSeg;
-            this.modelColumnSeg = modelColumnSeg;
+            this.modelColumnSeg = modelColumnSeg;           
+            columnGeo = this.modelColumnSeg.BuildGeometry();
+            Init();
+        }
+        public LineBeamRecColumnAsv0(ModelBeamSeg modelBeamSeg, IEntity recGeo, string dtlCalcPath)
+            :base(dtlCalcPath)
+        {
+            this.modelBeamSeg = modelBeamSeg;
+            columnGeo = recGeo;
+            Init();
+        }
+        private void Init()
+        {
             this.calcBeamQuery = new YjkBeamQuery(dtlCalcPath);
             this.modelBeamQuery = new YjkBeamQuery(modelBeamSeg.DbPath);
-
             List<double> specDatas = Utils.GetDoubleDatas(modelBeamSeg.BeamSect.Spec);
-            if(specDatas.Count>=2)
+            if (specDatas.Count >= 2)
             {
                 this.b = specDatas[0];
                 this.h = specDatas[1];
             }
+            beamGeo = this.modelBeamSeg.BuildGeometry();
         }
         private List<ModelBeamSeg> modelBeamSegs = new List<ModelBeamSeg>();
 
         public override void Calculate(List<ModelBeamSeg> modelBeamSegs)
         {
-            this.modelBeamSegs = modelBeamSegs;
-            IEntity beamGeo = this.modelBeamSeg.BuildGeometry();
-            IEntity columnGeo = this.modelColumnSeg.BuildGeometry();
+            this.modelBeamSegs = modelBeamSegs;           
             //箍筋插入到柱子或墙中的深度
             double dis = GeometricCalculation.GetInsertBeamDis(columnGeo, beamGeo);
             int floorNo;

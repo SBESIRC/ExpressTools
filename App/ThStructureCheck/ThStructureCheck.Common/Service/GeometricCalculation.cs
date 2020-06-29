@@ -77,9 +77,9 @@ namespace ThStructureCheck.Common.Service
         public static double GetInsertBeamDis(IEntity colunmOrWall,IEntity beam)
         {
             if((colunmOrWall is RectangleColumnGeometry || colunmOrWall is LineWallGeometry) &&
-                beam is LineBeamGeometry)
+                beam is LineBeamGeometry lineBeamGeometry)
             {
-                return GetInsertBeamDis(colunmOrWall, beam as LineBeamGeometry);
+                return GetInsertBeamDis(colunmOrWall, lineBeamGeometry);
             }
             return 0.0;
         }

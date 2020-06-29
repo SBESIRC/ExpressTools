@@ -28,9 +28,13 @@ namespace ThStructureCheck.Common.Model
             Vector3d offsetVec = GeometricCalculation.GetOffsetDirection(StartPoint.Coord, EndPoint.Coord);
             Point3d sp = StartPoint.Coord + offsetVec.GetNormal().MultiplyBy(this.Ecc);
             Point3d ep = EndPoint.Coord + offsetVec.GetNormal().MultiplyBy(this.Ecc);
-            polyline.AddVertexAt(0, new Point2d(sp.X, sp.Y), 0.0, 0.0, 0.0);
-            polyline.AddVertexAt(1, new Point2d(ep.X, ep.Y), 0.0, 0.0, 0.0);
-            polyline.Closed = false;
+            if(sp.DistanceTo(ep)>0.0)
+            {
+                polyline = new Polyline();
+                polyline.AddVertexAt(0, new Point2d(sp.X, sp.Y), 0.0, 0.0, 0.0);
+                polyline.AddVertexAt(1, new Point2d(ep.X, ep.Y), 0.0, 0.0, 0.0);
+                polyline.Closed = false;
+            }
             return polyline;
         }
         public Entity Draw()

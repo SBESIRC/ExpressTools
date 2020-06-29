@@ -17,29 +17,53 @@ namespace ThStructureCheck.YJK.Model
         public BeamStatus Status { get; set; }
         public List<YjkEntityInfo> Start { get; set; }
         public List<YjkEntityInfo> End { get; set; }
-        public List<YjkEntityInfo> Beams { get; set; }
-        ///// <summary>
-        ///// 先默认用Yjk数据库连接，后续根据需要判断
-        ///// 从左到右
-        ///// </summary>
-        //private bool Forward
-        //{
-        //    get
-        //    {
-        //        return forward;
-        //    }
-        //}
-        //private bool forward = true;
+        public List<YjkEntityInfo> Beams { get; set; }        
         private string dtlCalcPath = "";
-        public BeamCalculationIndex GenerateBeamCalculationIndex 
+        private BeamCalculationIndex beamCalIndex;
+        public BeamCalculationIndex BeamCalIndex => beamCalIndex;
+        public void GenerateBeamCalculationIndex 
             (string dtlCalcPath)
         {
-            BeamCalculationIndex beamCalculationIndex = new BeamCalculationIndex();
+            this.beamCalIndex = new BeamCalculationIndex();
             this.dtlCalcPath = dtlCalcPath;
             List<BeamCalculationIndex> beamCalIndexes = new List<BeamCalculationIndex>();
             this.Beams.ForEach(i => beamCalIndexes.Add(new BeamCalculationIndex(i, dtlCalcPath)));
-            double asv0=CalculateAsv0();
-            return beamCalculationIndex;
+            if(beamCalIndexes.Count==1)
+            {
+                this.beamCalIndex = beamCalIndexes[0];
+            }
+            else
+            {
+                foreach(var calculateIndex in beamCalIndexes)
+                {
+                    if(calculateIndex.Asv> this.beamCalIndex.Asv)
+                    {
+                        this.beamCalIndex.Asv = calculateIndex.Asv;
+                    }
+                    if(calculateIndex.LeftAsu> this.beamCalIndex.LeftAsu)
+                    {
+                        this.beamCalIndex.LeftAsu = calculateIndex.LeftAsu;
+                    }
+                    if(calculateIndex.RightAsu> this.beamCalIndex.RightAsu)
+                    {
+                        this.beamCalIndex.RightAsu = calculateIndex.RightAsu;
+                    }
+                    if(calculateIndex.Ast1> this.beamCalIndex.Ast1)
+                    {
+                        this.beamCalIndex.Ast1 = calculateIndex.Ast1;
+                    }
+                    if (calculateIndex.Ast > this.beamCalIndex.Ast)
+                    {
+                        this.beamCalIndex.Ast = calculateIndex.Ast;
+                    }
+                    if (calculateIndex.Asd > this.beamCalIndex.Asd)
+                    {
+                        this.beamCalIndex.Asd = calculateIndex.Asd;
+                    }
+                }
+                this.beamCalIndex.Spec = beamCalIndexes[0].Spec;
+            }
+            this.beamCalIndex.Asv0= CalculateAsv0();
         }
         /// <summary>
         /// 计算梁段非加密区数值
@@ -127,22 +151,25 @@ namespace ThStructureCheck.YJK.Model
             else if (this.End[0] is ModelWallSeg modelWallSeg)
             {
                 ModelWallSeg currentWallSeg = modelWallSeg;
-                foreach (YjkEntityInfo wallEnt in this.End)
+                if(this.End.Count>1)
                 {
-                    if (wallEnt is ModelWallSeg wallSeg)
+                    foreach (YjkEntityInfo wallEnt in this.End)
                     {
-                        ModelGrid modelGrid = wallSeg.Grid;
-                        ModelJoint startJoint = new YjkJointQuery(wallSeg.DbPath).GetModelJoint(modelGrid.Jt1ID);
-                        ModelJoint endJoint = new YjkJointQuery(wallSeg.DbPath).GetModelJoint(modelGrid.Jt2ID);
-                        Coordinate wallStartCoord = new Coordinate(startJoint.X, startJoint.Y);
-                        Coordinate wallEndCoord = new Coordinate(endJoint.X, endJoint.Y);
-                        LineRelation lineRelation = new LineRelation(beamStartCoord, beamEndCoord, wallStartCoord, wallEndCoord);
-                        lineRelation.Relation();
-                        if (lineRelation.Relationships.IndexOf(Relationship.Perpendicular) >= 0 ||
-                           lineRelation.Relationships.IndexOf(Relationship.UnRegular) >= 0)
+                        if (wallEnt is ModelWallSeg wallSeg)
                         {
-                            currentWallSeg = wallSeg;
-                            break;
+                            ModelGrid modelGrid = wallSeg.Grid;
+                            ModelJoint startJoint = new YjkJointQuery(wallSeg.DbPath).GetModelJoint(modelGrid.Jt1ID);
+                            ModelJoint endJoint = new YjkJointQuery(wallSeg.DbPath).GetModelJoint(modelGrid.Jt2ID);
+                            Coordinate wallStartCoord = new Coordinate(startJoint.X, startJoint.Y);
+                            Coordinate wallEndCoord = new Coordinate(endJoint.X, endJoint.Y);
+                            LineRelation lineRelation = new LineRelation(beamStartCoord, beamEndCoord, wallStartCoord, wallEndCoord);
+                            lineRelation.Relation();
+                            if (lineRelation.Relationships.IndexOf(Relationship.Perpendicular) >= 0 ||
+                               lineRelation.Relationships.IndexOf(Relationship.UnRegular) >= 0)
+                            {
+                                currentWallSeg = wallSeg;
+                                break;
+                            }
                         }
                     }
                 }

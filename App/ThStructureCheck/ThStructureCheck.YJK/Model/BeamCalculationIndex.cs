@@ -114,8 +114,7 @@ namespace ThStructureCheck.YJK.Model
                 //梁侧面纵筋
                 this.Ast = calcRCBeamDsn.BeamSideLongiReinforceAst;
                 //梁截面
-                ModelBeamSect modelBeamSect = modelQuery.GetModelBeamSect(modelBeamSeg.SectID);
-                this.Spec = modelBeamSect.Spec;
+                this.Spec = modelBeamSeg.BeamSect.Spec;
 
                 //左侧梁顶纵筋
                 this.LeftAsu = calcRCBeamDsn.LeftAsu;
@@ -123,6 +122,18 @@ namespace ThStructureCheck.YJK.Model
                 this.RightAsu = calcRCBeamDsn.RightAsu;
                 //梁底纵筋Asd (下部通长钢筋)
                 this.Asd = calcRCBeamDsn.BeamBottomLongiReinAsd;
+
+                //获取抗震等级(dtlCalc)
+                double antiSeismicGradeParaValue = calcQuery.GetAntiSeismicGradeInCalculation(calcBeamID);
+                if (antiSeismicGradeParaValue != 0.0)
+                {
+                    this.AntiSeismicGrade = ThYjkDatbaseExtension.GetAntiSeismicGrade(antiSeismicGradeParaValue);
+                }
+                else
+                {
+                    List<double> antiSeismicGradeValues = modelQuery.GetAntiSeismicGradeInModel();
+                    this.AntiSeismicGrade = ThYjkDatbaseExtension.GetAntiSeismicGrade(antiSeismicGradeValues[0], 0.0); //目前不修正，打开 0.0->antiSeismicGradeValues[1]
+                }
             }
         }
     }

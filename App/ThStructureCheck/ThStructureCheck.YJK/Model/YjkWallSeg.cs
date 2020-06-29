@@ -45,7 +45,7 @@ namespace ThStructureCheck.YJK.Model
             //ToDo 后续增加弧墙
             return BuildLineWallGeometry();
         }
-        public LineWallGeometry BuildLineWallGeometry()
+        private LineWallGeometry BuildLineWallGeometry()
         {
             YjkJointQuery yjkJointQuery = new YjkJointQuery(this.DbPath);
             ModelGrid modelGrid = this.Grid;
