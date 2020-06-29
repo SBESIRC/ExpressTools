@@ -5330,7 +5330,7 @@ namespace TopoNode
                     if (obj is AttributeDefinition)
                         continue;
 
-                    if (text.Visible && (text.Layer.Contains("AE-DOOR-INSD") || text.Layer.Contains("AE-WIND")))
+                    if (text.Visible && text.Layer.Contains("AD-NAME-ROOM"))
                         return true;
                 }
             }
