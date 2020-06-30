@@ -390,8 +390,8 @@ namespace ThWSS
                 {
                     layoutModel.sparySSpcing = 100;
                     layoutModel.sparyESpcing = 4400;
-                    layoutModel.otherSSpcing = 2200;
-                    layoutModel.otherESpcing = 100;
+                    layoutModel.otherSSpcing = 100;
+                    layoutModel.otherESpcing = 2200;
                 }
                 else if (thSpary.standControl.danLevel.SelectedIndex == 1)
                 {
@@ -431,8 +431,11 @@ namespace ThWSS
             }
             
             layoutModel.UseBeam = thSpary.HasBeam.IsChecked == true;
-            layoutModel.beamHeight = Convert.ToDouble(thSpary.beamHeight.Text);
-            layoutModel.floorThcik = Convert.ToDouble(thSpary.plateThick.Text);
+            if (layoutModel.UseBeam)
+            {
+                layoutModel.beamHeight = Convert.ToDouble(thSpary.beamHeight.Text);
+                layoutModel.floorThcik = Convert.ToDouble(thSpary.plateThick.Text);
+            }
 
             return layoutModel;
         }
