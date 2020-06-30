@@ -102,11 +102,13 @@ namespace ThEssential.Command
                     if (blkDef.IsFromExternalReference && blkDef.IsFromOverlayReference)
                     {
                         // 暂时不考虑unresolved的情况
-                        var xrefDatatbase = blkDef.GetXrefDatabase(false);
-                        // 暂时只关心特定的外参图纸（暖通提资）
-                        if (Path.GetFileName(xrefDatatbase.Filename).StartsWith("H"))
+                        using (var xrefDatatbase = blkDef.GetXrefDatabase(false))
                         {
-                            xrefs.Add(xrefDatatbase.Filename);
+                            // 暂时只关心特定的外参图纸（暖通提资）
+                            if (Path.GetFileName(xrefDatatbase.Filename).StartsWith("H"))
+                            {
+                                xrefs.Add(xrefDatatbase.Filename);
+                            }
                         }
                     }
                 }
