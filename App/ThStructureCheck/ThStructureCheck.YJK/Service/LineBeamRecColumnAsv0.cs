@@ -53,10 +53,12 @@ namespace ThStructureCheck.YJK.Service
             beamGeo = this.modelBeamSeg.BuildGeometry();
         }
         private List<ModelBeamSeg> modelBeamSegs = new List<ModelBeamSeg>();
+        private bool start;
 
-        public override void Calculate(List<ModelBeamSeg> modelBeamSegs)
+        public override void Calculate(List<ModelBeamSeg> modelBeamSegs,bool start)
         {
-            this.modelBeamSegs = modelBeamSegs;           
+            this.modelBeamSegs = modelBeamSegs;
+            this.start = start;
             //箍筋插入到柱子或墙中的深度
             double dis = GeometricCalculation.GetInsertBeamDis(columnGeo, beamGeo);
             int floorNo;

@@ -22,7 +22,7 @@ namespace ThStructureCheck.YJK.Service
             this.modelColumnSeg = modelColumnSeg;
         }
 
-        public override void Calculate(List<ModelBeamSeg> beamSegs)
+        public override void Calculate(List<ModelBeamSeg> beamSegs,bool start)
         {
            //ToDo
         }
