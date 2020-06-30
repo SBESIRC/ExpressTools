@@ -15,9 +15,10 @@ namespace ThWSS.Layout
 {
     public class SquareLayoutByBeam : SquareLayout
     {
-        double height = 1000;
-        double floorHeight = 220;
+        double height = 600;
+        double floorHeight = 100;
         double sprayHeight = 550;
+        double length = 50;  //最小的内缩距离
         public SquareLayoutByBeam(SprayLayoutModel layoutModel) : base(layoutModel)
         {
             height = layoutModel.beamHeight;
@@ -121,7 +122,6 @@ namespace ThWSS.Layout
         public double CalSpaceLength(Line line, List<Line> roomLines, List<ThStructure.BeamInfo.Model.Beam> beamInfo)
         {
             var lineSeg = new LineSegment3d(line.StartPoint, line.EndPoint);
-            double length = 300;
             foreach (var beam in beamInfo)
             {
                 List<LineSegment3d> beamLine = new List<LineSegment3d>()

@@ -425,7 +425,11 @@ namespace ThWSS
                 layoutModel.sprayType = 1;
             }
 
-            layoutModel.protectRadius = Convert.ToDouble(thSpary.radius.Text);
+            if (string.IsNullOrEmpty(thSpary.radius.Text))
+            {
+                layoutModel.protectRadius = Convert.ToDouble(thSpary.radius.Text);
+            }
+            
             layoutModel.UseBeam = thSpary.HasBeam.IsChecked == true;
             layoutModel.beamHeight = Convert.ToDouble(thSpary.beamHeight.Text);
             layoutModel.floorThcik = Convert.ToDouble(thSpary.plateThick.Text);

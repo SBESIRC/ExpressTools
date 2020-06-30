@@ -65,8 +65,8 @@ namespace ThWSS.Model
                 otherESpcing = 1800.0,
                 sprayType = 0,
                 protectRadius = 4000.0,
-                beamHeight = 1000.0,
-                floorThcik = 220.0,
+                beamHeight = 600.0,
+                floorThcik = 100.0,
                 UseBeam = true,
             };
         }
