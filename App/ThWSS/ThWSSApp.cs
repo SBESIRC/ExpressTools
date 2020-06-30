@@ -425,7 +425,7 @@ namespace ThWSS
                 layoutModel.sprayType = 1;
             }
 
-            if (string.IsNullOrEmpty(thSpary.radius.Text))
+            if (!string.IsNullOrEmpty(thSpary.radius.Text))
             {
                 layoutModel.protectRadius = Convert.ToDouble(thSpary.radius.Text);
             }
