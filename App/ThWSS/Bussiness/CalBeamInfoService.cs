@@ -27,10 +27,10 @@ namespace ThWSS.Bussiness
                 
                 //筛选出房间中匹配的梁
                 var curves = ThBeamGeometryService.Instance.BeamCurves(beamManager.HostDb, bPts[0], bPts[1]).Cast<Curve>();
-                Tolerance tol = new Tolerance(0.1, 01);
+                Tolerance tol = new Tolerance(0.1, 0.1);
                 beamInfo = allBeam.Where(x => curves.Any(y=> {
                     var beamUp3dLine = new LineSegment3d(x.UpStartPoint, x.UpEndPoint);
-                    var beamDowm3dLine = new LineSegment3d(x.UpStartPoint, x.UpEndPoint);
+                    var beamDowm3dLine = new LineSegment3d(x.DownStartPoint, x.DownEndPoint);
                     var curveLine = new LineSegment3d(y.StartPoint, y.EndPoint);
                     if (beamUp3dLine.Overlap(curveLine, tol) != null || curveLine.Overlap(beamUp3dLine, tol) != null ||
                         beamDowm3dLine.Overlap(curveLine, tol) != null || curveLine.Overlap(beamDowm3dLine, tol) != null)
