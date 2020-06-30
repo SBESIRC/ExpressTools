@@ -1,11 +1,10 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using Dreambuild.AutoCAD;
 using Linq2Acad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ThStructure.BeamInfo.Utils
 {
@@ -22,50 +21,17 @@ namespace ThStructure.BeamInfo.Utils
         }
         public static List<Entity> Explode(ExplodeType explodeType, bool keepUnvisible = false)
         {
-            var resEntityLst = new List<Entity>();
-            // 本图纸数据块处理
             using (var db = AcadDatabase.Active())
             {
-                var blockRefs = db.CurrentSpace.OfType<BlockReference>().Where(p => p.Visible).ToList();
-                if (blockRefs.Count == 0)
-                {
-                    return resEntityLst;
-                }
-                for (int i = 0; i < blockRefs.Count; i++)
-                {
-                    var layerId = blockRefs[i].LayerId;
-                    if (layerId == null || !layerId.IsValid)
-                    {
-                        blockRefs.RemoveAt(i);
-                        i = i - 1;
-                    }
-                    LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(layerId);
-                    if (layerTableRecord.IsOff && layerTableRecord.IsFrozen)
-                    {
-                        blockRefs.RemoveAt(i);
-                        i = i - 1;
-                    }
-                    BlockTableRecord btr = db.Element<BlockTableRecord>(blockRefs[i].BlockTableRecord);
-                    if (explodeType == ExplodeType.XRef)
-                    {
-                        if (!btr.IsFromExternalReference)
-                        {
-                            blockRefs.RemoveAt(i);
-                            i = i - 1;
-                        }
-                    }
-                    else if (explodeType == ExplodeType.Local)
-                    {
-                        if (btr.IsFromExternalReference)
-                        {
-                            blockRefs.RemoveAt(i);
-                            i = i - 1;
-                        }
-                    }
-                }
+                var resEntityLst = new List<Entity>();
+                var blockRefs = db.ModelSpace
+                    .OfType<BlockReference>()
+                    .Where(p => p.Visible)
+                    .Where(p => p.IsBlockReferenceExplodable())
+                    .Where(p => p.IsBlockReferenceOnValidLayer());
                 blockRefs.ForEach(i => resEntityLst.AddRange(Explode(db, i, keepUnvisible)));
+                return resEntityLst;
             }
-            return resEntityLst;
         }
         /// <summary>
         /// 炸块
@@ -76,71 +42,64 @@ namespace ThStructure.BeamInfo.Utils
         public static List<Entity> Explode(AcadDatabase db, BlockReference br, bool keepUnVisible = true)
         {
             List<Entity> entities = new List<Entity>();
-            if (br == null || br.IsErased)
+            if (!br.Visible)
             {
                 return entities;
             }
-            var btr = db.Element<BlockTableRecord>(br.BlockTableRecord, true) as BlockTableRecord;
-            bool go = true;
-            if (btr.IsFromExternalReference && btr.IsFromOverlayReference)
+            if (!br.IsBlockReferenceExplodable())
             {
-                // 暂时不考虑unresolved的情况
-                var xrefDatatbase = btr.GetXrefDatabase(false);
-                if (xrefDatatbase == null)
-                {
-                    go = false;
-                }
+                return entities;
             }
-            if (go)
+            if (!br.IsBlockReferenceOnValidLayer())
             {
-                try
+                return entities;
+            }
+
+            try
+            {
+                DBObjectCollection collection = new DBObjectCollection();
+                br.Explode(collection);
+                foreach (Entity ent in collection)
                 {
-                    DBObjectCollection collection = new DBObjectCollection();
-                    br.Explode(collection);
-                    foreach (Entity ent in collection)
+                    if (!keepUnVisible && ent.Visible == false)
                     {
-                        if (!keepUnVisible && ent.Visible == false)
+                        continue;
+                    }
+                    if (ent is BlockReference newBr)
+                    {
+                        entities.AddRange(Explode(db, newBr, keepUnVisible));
+                    }
+                    else if (ent is Mline mline)
+                    {
+                        var sunEntities = new DBObjectCollection();
+                        mline.Explode(sunEntities);
+                        foreach (Entity subEntity in sunEntities)
                         {
-                            continue;
-                        }
-                        if (ent is BlockReference newBr)
-                        {
-                            var childEnts = Explode(db, newBr, keepUnVisible);
-                            if (childEnts != null)
+                            if (subEntity is Line line)
                             {
-                                entities.AddRange(childEnts);
-                            }
-                        }
-                        else if (ent is Mline mline)
-                        {
-                            var sunEntities = new DBObjectCollection();
-                            mline.Explode(sunEntities);
-                            foreach (Entity subEntity in sunEntities)
-                            {
-                                if(subEntity is Line line)
+                                Line lineEnt = new Line(line.StartPoint, line.EndPoint)
                                 {
-                                    Line lineEnt = new Line(line.StartPoint, line.EndPoint);
-                                    lineEnt.Layer = mline.Layer;
-                                    entities.Add(lineEnt);
-                                }
+                                    Layer = mline.Layer
+                                };
+                                entities.Add(lineEnt);
                             }
-                            sunEntities.Dispose();
                         }
-                        else
-                        {
-                            if(ent is DBPoint)
-                            {
-                                continue;
-                            }
-                            entities.Add(ent);
-                        }
+                        sunEntities.Dispose();
+                    }
+                    else if (ent is DBPoint)
+                    {
+                        continue;
+                    }else
+                    {
+                        entities.Add(ent);
                     }
                 }
-                catch
-                {
-                    //
-                }
             }
+            catch
+            {
+                // 
+            }
+
             return entities;
         }
         private static DBObjectCollection dbObjs;
