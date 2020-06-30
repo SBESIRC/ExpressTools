@@ -25,7 +25,7 @@ namespace ThStructureCheck.YJK.Service
             this.modelWallSeg = modelWallSeg;
         }
 
-        public override void Calculate(List<ModelBeamSeg> beamSegs)
+        public override void Calculate(List<ModelBeamSeg> beamSegs,bool start)
         {
             //ToDo
         }

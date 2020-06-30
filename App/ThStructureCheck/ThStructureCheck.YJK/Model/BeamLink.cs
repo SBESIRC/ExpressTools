@@ -124,7 +124,7 @@ namespace ThStructureCheck.YJK.Model
             }
             if(asv0Calculation!=null)
             {
-                asv0Calculation.Calculate(this.Beams.Cast<ModelBeamSeg>().ToList());
+                asv0Calculation.Calculate(this.Beams.Cast<ModelBeamSeg>().ToList(),true);
                 asv0 = asv0Calculation.Asv0;
             }
             return asv0;
@@ -177,7 +177,7 @@ namespace ThStructureCheck.YJK.Model
             }
             if (asv0Calculation != null)
             {
-                asv0Calculation.Calculate(this.Beams.Cast<ModelBeamSeg>().ToList());
+                asv0Calculation.Calculate(this.Beams.Cast<ModelBeamSeg>().ToList(),false);
                 asv0 = asv0Calculation.Asv0;
             }
             return asv0;

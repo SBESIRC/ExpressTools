@@ -25,6 +25,6 @@ namespace ThStructureCheck.YJK.Service
         {
             this.dtlCalcPath = dtlCalcPath;
         }
-        public abstract void Calculate(List<ModelBeamSeg> beamSegs);
+        public abstract void Calculate(List<ModelBeamSeg> beamSegs,bool start);
     }
 }
