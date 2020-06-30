@@ -16,18 +16,16 @@ namespace ThStructureCheck.YJK.Service
     /// </summary>
     class LineBeamLineWallAsv0 : LineBeamRecColumnAsv0
     {
-        private ModelBeamSeg modelBeamSeg;
         private ModelWallSeg modelWallSeg;
-        public LineBeamLineWallAsv0(ModelBeamSeg modelBeamSeg, ModelWallSeg modelWallSeg,string dtlCalcPath)
-            :base(modelBeamSeg, modelWallSeg.BuildGeometry(), dtlCalcPath)
+        public LineBeamLineWallAsv0(List<ModelBeamSeg> beamSegs, ModelWallSeg modelWallSeg,bool start,string dtlCalcPath)
+            :base(beamSegs, modelWallSeg.BuildGeometry(), start ,dtlCalcPath)
         {
-            this.modelBeamSeg = modelBeamSeg;
             this.modelWallSeg = modelWallSeg;
+            base.linkEnty = modelWallSeg;
         }
-
-        public override void Calculate(List<ModelBeamSeg> beamSegs)
+        public override void Calculate()
         {
-            base.Calculate(beamSegs);
+            base.Calculate();
         }
     }
 }

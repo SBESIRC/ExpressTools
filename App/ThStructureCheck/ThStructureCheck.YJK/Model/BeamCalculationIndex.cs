@@ -13,6 +13,7 @@ namespace ThStructureCheck.YJK.Model
     /// </summary>
     public class BeamCalculationIndex
     {
+        private int keepPointNum = 1;
         #region---------Property----------
         /// <summary>
         /// 加密区箍筋
@@ -55,7 +56,8 @@ namespace ThStructureCheck.YJK.Model
         {
             get
             {
-                return LeftAsu + "-" + RightAsu;
+                return Math.Round(LeftAsu, keepPointNum) + "-" +
+                    Math.Round(RightAsu, keepPointNum);
             }  
         }
         /// <summary>
@@ -66,7 +68,8 @@ namespace ThStructureCheck.YJK.Model
         {
             get
             {
-                return "G" + this.Asv + " - " + this.Asv0;
+                return "G" + Math.Round(this.Asv, keepPointNum)  + " - " +
+                    Math.Round(this.Asv0, keepPointNum);
             }
         }
         /// <summary>
@@ -76,7 +79,8 @@ namespace ThStructureCheck.YJK.Model
         {
             get
             {
-                return "VT" + this.Ast + "-" + this.Ast1;
+                return "VT" + Math.Round(this.Ast, keepPointNum) + "-" +
+                    Math.Round(this.Ast1, keepPointNum);
             }
         }
         #endregion
@@ -108,14 +112,12 @@ namespace ThStructureCheck.YJK.Model
                 CalcRCBeamDsn calcRCBeamDsn = calcQuery.GetCalcRcBeamDsn(calcBeamID);
                 //加密区箍筋
                 this.Asv = calcRCBeamDsn.EncryptStirrupAsv;
-                //this.Asv0=calcRCBeamDsn.
                 //单肢箍筋面积
                 this.Ast1 = calcRCBeamDsn.ResistTwistStirrupAst1;
                 //梁侧面纵筋
                 this.Ast = calcRCBeamDsn.BeamSideLongiReinforceAst;
                 //梁截面
                 this.Spec = modelBeamSeg.BeamSect.Spec;
-
                 //左侧梁顶纵筋
                 this.LeftAsu = calcRCBeamDsn.LeftAsu;
                 //右侧梁顶纵筋

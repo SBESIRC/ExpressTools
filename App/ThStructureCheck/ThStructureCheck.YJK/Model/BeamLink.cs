@@ -70,11 +70,6 @@ namespace ThStructureCheck.YJK.Model
         /// </summary>
         private double CalculateAsv0()
         {
-            double asv0 = 0.0;
-            if(this.Status!= BeamStatus.Primary)
-            {
-                return asv0;
-            }
             double startAsv0=CalculateStartAsv0();
             double endAsv0 = CalculateEndAsv0();
             return Math.Max(startAsv0, endAsv0);
@@ -96,7 +91,7 @@ namespace ThStructureCheck.YJK.Model
             Coordinate beamEndCoord = new Coordinate(beamEndJoint.X, beamEndJoint.Y);       
             if (this.Start[0] is ModelColumnSeg modelColumnSeg)
             {
-                asv0Calculation = new LineBeamRecColumnAsv0(beamSeg, this.Start[0] as ModelColumnSeg,this.dtlCalcPath);
+                asv0Calculation = new LineBeamRecColumnAsv0(this.Beams.Cast<ModelBeamSeg>().ToList(), this.Start[0] as ModelColumnSeg, true, this.dtlCalcPath);
             }
             else if (this.Start[0] is ModelWallSeg modelWallSeg)
             {
@@ -120,11 +115,11 @@ namespace ThStructureCheck.YJK.Model
                         }
                     }
                 }
-                asv0Calculation = new LineBeamLineWallAsv0(beamSeg, currentWallSeg, this.dtlCalcPath);
+                asv0Calculation = new LineBeamLineWallAsv0(this.Beams.Cast<ModelBeamSeg>().ToList(), currentWallSeg, true, this.dtlCalcPath);
             }
             if(asv0Calculation!=null)
             {
-                asv0Calculation.Calculate(this.Beams.Cast<ModelBeamSeg>().ToList(),true);
+                asv0Calculation.Calculate();
                 asv0 = asv0Calculation.Asv0;
             }
             return asv0;
@@ -146,7 +141,7 @@ namespace ThStructureCheck.YJK.Model
             Coordinate beamEndCoord = new Coordinate(beamEndJoint.X, beamEndJoint.Y);
             if (this.End[0] is ModelColumnSeg modelColumnSeg)
             {
-                asv0Calculation = new LineBeamRecColumnAsv0(beamSeg, modelColumnSeg, this.dtlCalcPath);
+                asv0Calculation = new LineBeamRecColumnAsv0(this.Beams.Cast<ModelBeamSeg>().ToList(), modelColumnSeg,false, this.dtlCalcPath);
             }
             else if (this.End[0] is ModelWallSeg modelWallSeg)
             {
@@ -173,11 +168,11 @@ namespace ThStructureCheck.YJK.Model
                         }
                     }
                 }
-                asv0Calculation = new LineBeamLineWallAsv0(beamSeg, currentWallSeg, this.dtlCalcPath);
+                asv0Calculation = new LineBeamLineWallAsv0(this.Beams.Cast<ModelBeamSeg>().ToList(), currentWallSeg,false, this.dtlCalcPath);
             }
             if (asv0Calculation != null)
             {
-                asv0Calculation.Calculate(this.Beams.Cast<ModelBeamSeg>().ToList(),false);
+                asv0Calculation.Calculate();
                 asv0 = asv0Calculation.Asv0;
             }
             return asv0;

@@ -13,16 +13,14 @@ namespace ThStructureCheck.YJK.Service
     /// </summary>
     class LineBeamLTypeColumnAsv0 :Asv0Calculation
     {
-        private ModelBeamSeg modelBeamSeg;
         private ModelColumnSeg modelColumnSeg;
-        public LineBeamLTypeColumnAsv0(ModelBeamSeg modelBeamSeg, ModelColumnSeg modelColumnSeg, string dtlCalcPath)
-            : base(dtlCalcPath)
+        public LineBeamLTypeColumnAsv0(List<ModelBeamSeg> beamSegs, ModelColumnSeg modelColumnSeg,bool start, string dtlCalcPath)
+            : base(beamSegs, modelColumnSeg, start,dtlCalcPath)
         {
-            this.modelBeamSeg = modelBeamSeg;
             this.modelColumnSeg = modelColumnSeg;
         }
 
-        public override void Calculate(List<ModelBeamSeg> beamSegs,bool start)
+        public override void Calculate()
         {
            //ToDo
         }

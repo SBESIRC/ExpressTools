@@ -95,7 +95,7 @@ namespace ThStructureCheck.YJK.Model
             Point startPoint = startJoint.GetCoordinate();
             Point endPoint = endJoint.GetCoordinate();
             Coordinate startCoord = new Coordinate(startPoint.X, startPoint.Y);
-            Coordinate endCoord = new Coordinate(startPoint.X, endPoint.Y);
+            Coordinate endCoord = new Coordinate(endPoint.X, endPoint.Y);
             return startCoord.DistanceTo(endCoord);
         }
     }

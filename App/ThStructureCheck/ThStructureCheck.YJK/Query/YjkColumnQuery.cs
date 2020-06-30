@@ -925,9 +925,9 @@ namespace ThStructureCheck.YJK.Query
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {
-                columnSect.ID = Convert.ToInt32(dr["tblColSectID"].ToString());
-                columnSect.No_ = Convert.ToInt32(dr["tblColSectNo"].ToString());
-                columnSect.Name = dr["tblColSectName"].ToString();
+                columnSect.ID = Convert.ToInt32(dr["ID"].ToString());
+                columnSect.No_ = Convert.ToInt32(dr["No_"].ToString());
+                columnSect.Name = dr["Name"].ToString();
                 columnSect.Mat = Convert.ToInt32(dr["Mat"].ToString());
                 columnSect.Kind = Convert.ToInt32(dr["Kind"].ToString());
                 columnSect.ShapeVal = dr["ShapeVal"].ToString();

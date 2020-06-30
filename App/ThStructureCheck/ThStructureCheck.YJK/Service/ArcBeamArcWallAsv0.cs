@@ -16,16 +16,13 @@ namespace ThStructureCheck.YJK.Service
     /// </summary>
     class ArcBeamArcWallAsv0 : Asv0Calculation
     {
-        private ModelBeamSeg modelBeamSeg;
         private ModelWallSeg modelWallSeg;
-        public ArcBeamArcWallAsv0(ModelBeamSeg modelBeamSeg, ModelWallSeg modelWallSeg,string dtlCalcPath)
-            :base(dtlCalcPath)
+        public ArcBeamArcWallAsv0(List<ModelBeamSeg> beamSegs, ModelWallSeg modelWallSeg, bool start, string dtlCalcPath)
+            :base(beamSegs, modelWallSeg, start,dtlCalcPath)
         {
-            this.modelBeamSeg = modelBeamSeg;
             this.modelWallSeg = modelWallSeg;
         }
-
-        public override void Calculate(List<ModelBeamSeg> beamSegs,bool start)
+        public override void Calculate()
         {
             //ToDo
         }

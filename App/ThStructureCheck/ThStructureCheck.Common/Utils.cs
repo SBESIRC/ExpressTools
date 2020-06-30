@@ -134,7 +134,7 @@ namespace ThStructureCheck.Common
         /// <returns></returns>
         public static double DifferenceMethod(double A2,double A1,double A0,double x2,double x1)
         {
-            if (A2 - A1==0.0 || x2 - x1==0.0)
+            if (A2 - A1==0.0)
             {
                 return 0.0;
             }

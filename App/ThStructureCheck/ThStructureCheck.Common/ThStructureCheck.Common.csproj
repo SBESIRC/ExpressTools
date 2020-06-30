@@ -89,6 +89,7 @@
     <Compile Include="Model\WallGeometry.cs" />
     <Compile Include="MoveRotateScaleJig.cs" />
     <Compile Include="Service\GeometricCalculation.cs" />
+    <Compile Include="Service\InsertDepthCalculate.cs" />
     <Compile Include="Service\LineRelation.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

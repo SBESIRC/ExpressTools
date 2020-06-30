@@ -68,7 +68,11 @@ namespace ThStructureCheck.ThBeamInfo.Service
             BuildModelBeamLink buildBeamLink = new BuildModelBeamLink(this.dtlModelPath, this.floorNo);
             buildBeamLink.Build();            
             this.beamLinks = buildBeamLink.BeamLinks;
-            this.beamLinks.ForEach(i => i.GenerateBeamCalculationIndex(this.dtlCalcPath));
+            //this.beamLinks.ForEach(o => o.GenerateBeamCalculationIndex(this.dtlCalcPath));
+            for(int i=0;i< this.beamLinks.Count;i++)
+            {
+                this.beamLinks[i].GenerateBeamCalculationIndex(this.dtlCalcPath);
+            }
         }
         public void Draw()
         {
@@ -90,6 +94,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
             this.columnEnts.ForEach(i => i.Item2.TransformBy(moveMt));
             this.beamEnts.ForEach(i => i.Item2.TransformBy(moveMt));
             this.wallEnts.ForEach(i => i.Item2.TransformBy(moveMt));
+            this.textEnts.ForEach(i => i.Item2.ForEach(j => j.TransformBy(moveMt)));
             Matrix3d wcsToUcs = CadTool.UCS2WCS();
             this.columnEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
             this.beamEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
@@ -439,10 +444,13 @@ namespace ThStructureCheck.ThBeamInfo.Service
         {
             DBText dBText = new DBText();
             dBText.TextString = content;
-            Point3d position = basePt + offsetVec.GetNormal().MultiplyBy(offsetHeight);
-            dBText.Position = position;
-            Matrix3d mt = Matrix3d.Rotation(textRotation, Vector3d.ZAxis, basePt);
+            dBText.Position = Point3d.Origin;
+            Matrix3d mt = Matrix3d.Rotation(textRotation, Vector3d.ZAxis, Point3d.Origin);
             dBText.TransformBy(mt);
+            Point3d position = basePt + offsetVec.GetNormal().MultiplyBy(offsetHeight);
+            Vector3d vec = Point3d.Origin.GetVectorTo(position);
+            Matrix3d moveMt = Matrix3d.Displacement(vec);
+            dBText.TransformBy(moveMt);
             return dBText;
         }
         private double TextRotateAngle(Point3d firstPt,Point3d secondPt)

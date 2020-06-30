@@ -17,133 +17,111 @@ namespace ThStructureCheck.YJK.Service
     /// </summary>
     class LineBeamRecColumnAsv0 : Asv0Calculation
     {
-        private ModelBeamSeg modelBeamSeg;
         private ModelColumnSeg modelColumnSeg;
-        private YjkBeamQuery calcBeamQuery;
-        private YjkBeamQuery modelBeamQuery;
         private double b;
         private double h;
-        private IEntity beamGeo ;
-        private IEntity columnGeo ;
-        public LineBeamRecColumnAsv0(ModelBeamSeg modelBeamSeg, ModelColumnSeg modelColumnSeg,string dtlCalcPath)
-            :base(dtlCalcPath)
+        private IEntity beamGeo;
+        private IEntity columnGeo;
+       
+        public LineBeamRecColumnAsv0(List<ModelBeamSeg> modelBeamSegs, ModelColumnSeg modelColumnSeg, bool start, string dtlCalcPath)
+            :base(modelBeamSegs, modelColumnSeg, start,dtlCalcPath)
         {
-            this.modelBeamSeg = modelBeamSeg;
             this.modelColumnSeg = modelColumnSeg;           
             columnGeo = this.modelColumnSeg.BuildGeometry();
             Init();
         }
-        public LineBeamRecColumnAsv0(ModelBeamSeg modelBeamSeg, IEntity recGeo, string dtlCalcPath)
-            :base(dtlCalcPath)
+        public LineBeamRecColumnAsv0(List<ModelBeamSeg> modelBeamSegs, IEntity recGeo, bool start, string dtlCalcPath)
+            :base(modelBeamSegs,null, start,dtlCalcPath)
         {
-            this.modelBeamSeg = modelBeamSeg;
             columnGeo = recGeo;
             Init();
         }
         private void Init()
-        {
-            this.calcBeamQuery = new YjkBeamQuery(dtlCalcPath);
-            this.modelBeamQuery = new YjkBeamQuery(modelBeamSeg.DbPath);
+        {            
             List<double> specDatas = Utils.GetDoubleDatas(modelBeamSeg.BeamSect.Spec);
             if (specDatas.Count >= 2)
             {
                 this.b = specDatas[0];
                 this.h = specDatas[1];
             }
-            beamGeo = this.modelBeamSeg.BuildGeometry();
-        }
-        private List<ModelBeamSeg> modelBeamSegs = new List<ModelBeamSeg>();
-        private bool start;
-
-        public override void Calculate(List<ModelBeamSeg> modelBeamSegs,bool start)
-        {
-            this.modelBeamSegs = modelBeamSegs;
-            this.start = start;
-            //箍筋插入到柱子或墙中的深度
-            double dis = GeometricCalculation.GetInsertBeamDis(columnGeo, beamGeo);
+            beamGeo = base.modelBeamSeg.BuildGeometry();
+            InsertDepthCalculate insertDepthCalculate = new InsertDepthCalculate(beamGeo, columnGeo);
+            insertDepthCalculate.Calculate();
+            base.insertDepth = insertDepthCalculate.InsertDepth;
             int floorNo;
-            int beamSegNo;          
+            int beamSegNo;
             bool res = this.modelBeamQuery.GetDtlmodelTblBeamSegFlrNoAndNo(modelBeamSeg.ID, out floorNo, out beamSegNo);
             int calcBeamId = this.calcBeamQuery.GetTblBeamSegIDFromDtlCalc(floorNo, beamSegNo);
             string antiSeismicGrade = GetAntiSeismicGrade(calcBeamId); //抗震等级
             BeamPortEncryptStirrup beamPortEncryptStirrup = new BeamPortEncryptStirrup(antiSeismicGrade);
-            double asvLength = beamPortEncryptStirrup.GetAsvLength(this.h);
-            asvLength += dis;
-            CalcRCBeamDsn calcRCBeamDsn = calcBeamQuery.GetCalcRcBeamDsn(calcBeamId);
-            List<double> asves = calcRCBeamDsn.AsvCollection;
-            double maxAsv = asves.OrderByDescending(i => i).First();
-            int index = asves.IndexOf(maxAsv);
-            if (asvLength < this.modelBeamSeg.Length)
+            this.asvLength = beamPortEncryptStirrup.GetAsvLength(this.h);
+            this.asvLength += base.insertDepth;
+        }
+        public override void Calculate()
+        {
+            if(base.linkEnty==null || base.modelBeamSeg==null)
             {
-                if (index==0)
-                {
-                    CalculateForward(asves, asvLength, this.modelBeamSeg.Length / 8.0);
-                }
-                else if(index == asves.Count-1)
-                {
-                    CalculateOpposite(asves, asvLength, this.modelBeamSeg.Length / 8.0);
-                }
+                return;
             }
-            else if (modelBeamSegs.Count > 1)
+            if(base.start)
             {
-                if(index == 0)
-                {
-                    double totalLength = this.modelBeamSeg.Length;
-                    for (int i=1;i< modelBeamSegs.Count;i++)
-                    {
-                        totalLength += modelBeamSegs[i].Length;
-                        if(asvLength<= totalLength)
-                        {
-                            double preLength = 0.0;
-                            for(int j=0;j< i;j++)
-                            {
-                                preLength += modelBeamSegs[j].Length;
-                            }
-                            int middlefloorNo;
-                            int middlebeamSegNo;
-                            bool middleRes = this.modelBeamQuery.GetDtlmodelTblBeamSegFlrNoAndNo(modelBeamSegs[i].ID, out middlefloorNo, out middlebeamSegNo);
-                            int middleCalcBeamId = this.calcBeamQuery.GetTblBeamSegIDFromDtlCalc(middlefloorNo, middlebeamSegNo);
-                            CalcRCBeamDsn middleCalcRCBeamDsn = calcBeamQuery.GetCalcRcBeamDsn(middleCalcBeamId);
-                            List<double> middleAsves = middleCalcRCBeamDsn.AsvCollection;
-                            CalculateForward(middleAsves, asvLength - preLength, modelBeamSegs[i].Length / 8.0);
-                            break;
-                        }
-                    }
-                }
-                else if (index == asves.Count - 1)
-                {
-                    double totalLength = 0.0;
-                    for (int i = modelBeamSegs.Count-1; i >=0 ; i--)
-                    {
-                        totalLength += modelBeamSegs[i].Length;
-                        if (asvLength <= totalLength)
-                        {
-                            double preLength = 0.0;
-                            for (int j = modelBeamSegs.Count - 1; j >i; j--)
-                            {
-                                preLength += modelBeamSegs[j].Length;
-                            }
-                            int middlefloorNo;
-                            int middlebeamSegNo;
-                            bool middleRes = this.modelBeamQuery.GetDtlmodelTblBeamSegFlrNoAndNo(modelBeamSegs[i].ID, out middlefloorNo, out middlebeamSegNo);
-                            int middleCalcBeamId = this.calcBeamQuery.GetTblBeamSegIDFromDtlCalc(middlefloorNo, middlebeamSegNo);
-                            CalcRCBeamDsn middleCalcRCBeamDsn = calcBeamQuery.GetCalcRcBeamDsn(middleCalcBeamId);
-                            List<double> middleAsves = middleCalcRCBeamDsn.AsvCollection;
-                            CalculateOpposite(middleAsves, asvLength - preLength, modelBeamSegs[i].Length / 8.0);
-                            break;
-                        }
-                    }
-                }
+                CalculateStart();
+            }
+            else
+            {
+                CalculateEnd();
             }
         }
-        private void CalculateForward(List<double> asves, double asvLength, double splitLength)
+        private void CalculateStart()
+        {
+            double totalLength = 0.0;
+            double preLength = 0.0;
+            for(int i=0;i< base.beamSegs.Count;i++)
+            {
+                totalLength += base.beamSegs[i].Length;
+                if (asvLength <= base.beamSegs[i].Length)
+                {
+                    int floorNo;
+                    int beamSegNo;
+                    bool res = this.modelBeamQuery.GetDtlmodelTblBeamSegFlrNoAndNo(beamSegs[i].ID, out floorNo, out beamSegNo);
+                    int calcBeamId = this.calcBeamQuery.GetTblBeamSegIDFromDtlCalc(floorNo, beamSegNo);
+                    CalcRCBeamDsn calcRCBeamDsn = calcBeamQuery.GetCalcRcBeamDsn(calcBeamId);
+                    List<double> asves = calcRCBeamDsn.AsvCollection;
+                    CalculateForward(asves, asvLength - preLength, base.beamSegs[i].Length / 8.0);
+                    break;
+                }
+                preLength += base.beamSegs[i].Length;
+            }
+        }
+        private void CalculateEnd()
+        {
+            double totalLength = 0.0;
+            double preLength = 0.0;
+            for (int i = base.beamSegs.Count -1; i >= 0; i--)
+            {
+                totalLength += base.beamSegs[i].Length;
+                if (asvLength <= base.beamSegs[i].Length)
+                {
+                    int floorNo;
+                    int beamSegNo;
+                    bool res = this.modelBeamQuery.GetDtlmodelTblBeamSegFlrNoAndNo(beamSegs[i].ID, out floorNo, out beamSegNo);
+                    int calcBeamId = this.calcBeamQuery.GetTblBeamSegIDFromDtlCalc(floorNo, beamSegNo);
+                    CalcRCBeamDsn calcRCBeamDsn = calcBeamQuery.GetCalcRcBeamDsn(calcBeamId);
+                    List<double> asves = calcRCBeamDsn.AsvCollection;
+                    CalculateOpposite(asves, asvLength - preLength, base.beamSegs[i].Length / 8.0);
+                    break;
+                }
+                preLength += base.beamSegs[i].Length;
+            }
+        }
+        private void CalculateForward(List<double> asves, double diffL, double splitLength)
         {
             //正向
             for (int i = 1; i <= 8; i++)
             {
                 if (asvLength == i * splitLength)
                 {
-                    this.Asv0 = asves[i];
+                    base.asv0 = asves[i];
                     break;
                 }
                 if (asvLength < i * splitLength)
@@ -152,20 +130,19 @@ namespace ThStructureCheck.YJK.Service
                     double endV = asves[i];
                     double startL = (i - 1) * splitLength;
                     double endL = (i) * splitLength;
-                    double diffL = asvLength - startL;
-                    this.Asv0 = Utils.DifferenceMethod(startL, endL, diffL, startV, endV);
+                    base.asv0 = Utils.DifferenceMethod(startL, endL, diffL, startV, endV);
                     break;
                 }
             }
         }
-        private void CalculateOpposite(List<double> asves, double asvLength, double splitLength)
+        private void CalculateOpposite(List<double> asves, double diffL, double splitLength)
         {
             //负向
             for (int i = 1; i <= 8; i++)
             {
                 if (asvLength == i * splitLength)
                 {
-                    this.Asv0 = asves[asves.Count - 1 - i];
+                    base.asv0 = asves[asves.Count - 1 - i];
                     break;
                 }
                 if (asvLength < i * splitLength)
@@ -174,8 +151,7 @@ namespace ThStructureCheck.YJK.Service
                     double endV = asves[asves.Count - 1 - i];
                     double startL = (i - 1) * splitLength;
                     double endL = (i) * splitLength;
-                    double diffL = asvLength - startL;
-                    this.Asv0 = Utils.DifferenceMethod(startL, endL, diffL, startV, endV);
+                    base.asv0 = Utils.DifferenceMethod(startL, endL, diffL, startV, endV);
                     break;
                 }
             }
