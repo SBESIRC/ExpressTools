@@ -160,7 +160,7 @@ namespace ThCADCore.NTS
             {
                 // 三个点，其中起点和终点重合
                 // 多段线退化成一根线段
-                if (polyLine.NumberOfVertices == 3)
+                if (points.Count == 3)
                 {
                     return ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
                 }
