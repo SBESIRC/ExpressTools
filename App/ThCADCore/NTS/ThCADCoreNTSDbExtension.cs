@@ -149,21 +149,14 @@ namespace ThCADCore.NTS
                 // 暂时不考虑“圆弧”的情况
                 points.Add(polyLine.GetPoint3dAt(i).ToNTSCoordinate());
             }
-            if (polyLine.Closed)
+
+            // 对于处于“闭合”状态的多段线，要保证其首尾点一致
+            if(polyLine.Closed && !points[0].Equals(points[points.Count - 1]))
             {
-                if (points[0].Equals(points[points.Count-1]))
-                {
-                    // 首尾端点一致的情况
-                    return ThCADCoreNTSService.Instance.GeometryFactory.CreateLinearRing(points.ToArray());
-                }
-                else
-                {
-                    // 首尾端点不一致的情况
-                    points.Add(points[0]);
-                    return ThCADCoreNTSService.Instance.GeometryFactory.CreateLinearRing(points.ToArray());
-                }
+                points.Add(points[0]);
             }
-            else if (points[0].Equals(points[points.Count - 1]))
+
+            if (points[0].Equals(points[points.Count - 1]))
             {
                 // 三个点，其中起点和终点重合
                 // 多段线退化成一根线段
@@ -205,8 +198,8 @@ namespace ThCADCore.NTS
                 return ThCADCoreNTSService.Instance.GeometryFactory.CreatePolygon(linearRing);
             }
             else
-            {
-                return null;
+            { 
+                return ThCADCoreNTSService.Instance.GeometryFactory.CreatePolygon();
             }
         }
 
