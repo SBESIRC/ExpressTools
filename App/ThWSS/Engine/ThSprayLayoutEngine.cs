@@ -1,6 +1,6 @@
 ﻿using ThWSS.Model;
+using ThWSS.Beam;
 using System.Linq;
-using ThWSS.Bussiness;
 using Dreambuild.AutoCAD;
 using Autodesk.AutoCAD.DatabaseServices;
 
@@ -29,8 +29,12 @@ namespace ThWSS.Engine
         /// <param name="fire"></param>
         public void Layout(Database database, Polyline floor, ObjectId fire, SprayLayoutModel layoutModel)
         {
-            RoomEngine.Acquire(database, floor, fire);
-            RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
+            using (var beamManager = new ThBeamDbManager(database))
+            using (var roomManager = new ThRoomDbManager(database))
+            {
+                RoomEngine.Acquire(database, floor, fire);
+                RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
+            }
         }
 
         /// <summary>
@@ -40,8 +44,11 @@ namespace ThWSS.Engine
         /// <param name="fire"></param>
         public void Layout(Database database, Polyline floor, ObjectIdCollection frames, SprayLayoutModel layoutModel)
         {
-            RoomEngine.Acquire(database, floor, frames);
-            RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
+            using (var explodeManager = new ThSprayDbExplodeManager(database))
+            {
+                RoomEngine.Acquire(database, floor, frames);
+                RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
+            }
         }
 
         /// <summary>
@@ -50,8 +57,11 @@ namespace ThWSS.Engine
         /// <param name="polylines"></param>
         public void Layout(Database database, Polyline floor, DBObjectCollection frames, SprayLayoutModel layoutModel)
         {
-            RoomEngine.Acquire(database, floor, frames);
-            RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
+            using (var explodeManager = new ThSprayDbExplodeManager(database))
+            {
+                RoomEngine.Acquire(database, floor, frames);
+                RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
+            }
         }
 
         /// <summary>

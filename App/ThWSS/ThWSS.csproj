@@ -95,6 +95,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Engine\ThSprayDbExplodeManager.cs" />
     <Compile Include="ThWSSApp.cs" />
     <Compile Include="ThWSSCommon.cs" />
     <Compile Include="Utlis\GetObjectUtils.cs" />

@@ -1,8 +1,7 @@
-﻿using AcHelper;
-using Linq2Acad;
-using System.Linq;
+﻿using Linq2Acad;
 using ThWSS.Beam;
 using ThWSS.Utlis;
+using System.Linq;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using ThStructure.BeamInfo.Command;
@@ -17,16 +16,15 @@ namespace ThWSS.Bussiness
             List<ThStructure.BeamInfo.Model.Beam> beamInfo = new List<ThStructure.BeamInfo.Model.Beam>();
             List<Point3d> bPts = GetBoundingPoints(room);
 
-            using (ThBeamDbManager beamManager = new ThBeamDbManager(Active.Database))
             using (AcadDatabase acdb = AcadDatabase.Active())
             {
                 // 只提取指定区域（楼层）内的梁信息
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager.HostDb, floor);
+                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(acdb.Database, floor);
                 var allBeam = thDisBeamCommand.CalBeamStruc(beamCurves);
                 
                 //筛选出房间中匹配的梁
-                var curves = ThBeamGeometryService.Instance.BeamCurves(beamManager.HostDb, bPts[0], bPts[1]).Cast<Curve>();
+                var curves = ThBeamGeometryService.Instance.BeamCurves(acdb.Database, bPts[0], bPts[1]).Cast<Curve>();
                 Tolerance tol = new Tolerance(0.1, 0.1);
                 beamInfo = allBeam.Where(x => curves.Any(y=> {
                     var beamUp3dLine = new LineSegment3d(x.UpStartPoint, x.UpEndPoint);

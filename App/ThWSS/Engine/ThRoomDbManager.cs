@@ -1,26 +1,20 @@
 ﻿using System;
 using TopoNode;
-using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThWSS.Engine
 {
     public class ThRoomDbManager : IDisposable
     {
-        public Extents3d Extents { get; set; }
         public Database HostDb { get; private set; }
         private ObjectIdCollection Geometries { get; set; }
-        public ThRoomLayerManager LayerManger { get; private set; }
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public ThRoomDbManager(Database database, Extents3d extents)
+        public ThRoomDbManager(Database database)
         {
             HostDb = database;
-            Extents = extents;
-            LayerManger = new ThRoomLayerManager();
-            LayerManger.Initialize();
             PreProcess();
         }
 
@@ -38,7 +32,8 @@ namespace ThWSS.Engine
         /// <returns></returns>
         public void PreProcess()
         {
-            Geometries = Utils.PreProcess2(LayerManger.ValidLayers());
+            ThRoomLayerManager.Instance.Initialize();
+            Geometries = Utils.PreProcess2(ThRoomLayerManager.Instance.ValidLayers());
         }
 
         /// <summary>

@@ -38,7 +38,7 @@ namespace ThWSS.Column
             // 处理图纸，获取处理后的构成梁的所有图元（曲线）
             Geometries = new ObjectIdCollection();
             var geometryLayers = ThColumnLayerManager.GeometryLayers(this.HostDb);
-            List<Entity> ents = ThStructureUtils.Explode(ExplodeType.All);
+            List<Entity> ents = ThStructureUtils.Explode(this.HostDb);
             List<Entity> geometryEnts = ThStructureUtils.FilterCurveByLayers(ents, geometryLayers);
             Geometries = ThStructureUtils.AddToDatabase(geometryEnts);
         }

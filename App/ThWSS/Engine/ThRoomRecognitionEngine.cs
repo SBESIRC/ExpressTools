@@ -39,7 +39,6 @@ namespace ThWSS.Engine
 
         public override bool Acquire(Database database, Polyline floor, ObjectId frame)
         {
-            using (var dbManager = new ThRoomDbManager(Active.Database, floor.GeometricExtents))
             using (var acadDatabase = AcadDatabase.Active())
             {
                 var selectPLines = new List<Polyline>()
@@ -61,7 +60,7 @@ namespace ThWSS.Engine
 
                 // 获取相关图层中的数据
                 // allCurves指所有能作为墙一部分的曲线
-                var srcAllCurves = Utils.GetAllCurvesFromLayerNames(dbManager.LayerManger.AllLayers());
+                var srcAllCurves = Utils.GetAllCurvesFromLayerNames(ThRoomLayerManager.Instance.AllLayers());
                 if (srcAllCurves == null || srcAllCurves.Count == 0)
                 {
                     Progress.HideProgress();
@@ -69,7 +68,7 @@ namespace ThWSS.Engine
                 }
 
                 // wall 中的数据
-                var srcWallAllCurves = Utils.GetAllCurvesFromLayerNames(dbManager.LayerManger.WallLayers());
+                var srcWallAllCurves = Utils.GetAllCurvesFromLayerNames(ThRoomLayerManager.Instance.WallLayers());
                 if (srcWallAllCurves == null || srcWallAllCurves.Count == 0)
                 {
                     Progress.HideProgress();
@@ -110,9 +109,9 @@ namespace ThWSS.Engine
                     wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
 
                     // wind线作为墙的一部分
-                    if (dbManager.LayerManger.WindowLayers().Count != 0)
+                    if (ThRoomLayerManager.Instance.WindowLayers().Count != 0)
                     {
-                        var windCurves = Utils.GetWindDOORCurves(dbManager.LayerManger.WindowLayers());
+                        var windCurves = Utils.GetWindDOORCurves(ThRoomLayerManager.Instance.WindowLayers());
                         windCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(windCurves, curSelectPLine);
                         if (windCurves != null && windCurves.Count != 0)
                         {
@@ -124,9 +123,9 @@ namespace ThWSS.Engine
                     }
 
                     // door线作为墙的一部分
-                    if (dbManager.LayerManger.DoorLayers().Count != 0)
+                    if (ThRoomLayerManager.Instance.DoorLayers().Count != 0)
                     {
-                        var doorCurves = Utils.GetWindDOORCurves(dbManager.LayerManger.DoorLayers());
+                        var doorCurves = Utils.GetWindDOORCurves(ThRoomLayerManager.Instance.DoorLayers());
                         doorCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(doorCurves, curSelectPLine);
                         if (doorCurves != null && doorCurves.Count != 0)
                         {
@@ -140,11 +139,11 @@ namespace ThWSS.Engine
                     beginPos += smallStep;
                     Progress.SetValue((int)beginPos);
                     // door 内门中的数据
-                    if (dbManager.LayerManger.DoorLayers().Count != 0)
+                    if (ThRoomLayerManager.Instance.DoorLayers().Count != 0)
                     {
-                        var doorBounds = Utils.GetBoundsFromDOORLayerCurves(dbManager.LayerManger.DoorLayers());
+                        var doorBounds = Utils.GetBoundsFromDOORLayerCurves(ThRoomLayerManager.Instance.DoorLayers());
                         doorBounds = Utils.GetValidBoundsFromSelectPLine(doorBounds, curSelectPLine);
-                        var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, allCurves, dbManager.LayerManger.DoorLayers().First());
+                        var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, allCurves, ThRoomLayerManager.Instance.DoorLayers().First());
 
                         if (doorInsertCurves != null && doorInsertCurves.Count != 0)
                         {
@@ -157,11 +156,11 @@ namespace ThWSS.Engine
                     beginPos += smallStep;
                     Progress.SetValue((int)beginPos);
                     // wind 中的数据
-                    if (dbManager.LayerManger.WindowLayers().Count != 0)
+                    if (ThRoomLayerManager.Instance.WindowLayers().Count != 0)
                     {
-                        var windBounds = Utils.GetBoundsFromWINDLayerCurves(dbManager.LayerManger.WindowLayers());
+                        var windBounds = Utils.GetBoundsFromWINDLayerCurves(ThRoomLayerManager.Instance.WindowLayers());
                         windBounds = Utils.GetValidBoundsFromSelectPLine(windBounds, curSelectPLine);
-                        var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, dbManager.LayerManger.WindowLayers().First());
+                        var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, ThRoomLayerManager.Instance.WindowLayers().First());
 
                         if (windInsertCurves != null && windInsertCurves.Count != 0)
                         {
@@ -265,7 +264,6 @@ namespace ThWSS.Engine
 
         public override bool Acquire(Database database, Polyline floor, ObjectIdCollection frames)
         {
-            using (var columnDbManager = new ThColumnDbManager(database))
             using (var acadDatabase = AcadDatabase.Use(database))
             {
                 // 获取房间轮廓
@@ -284,7 +282,7 @@ namespace ThWSS.Engine
                 }
 
                 // 获取房间内的柱
-                using (var columnEngine = new ThColumnRecognitionEngine(columnDbManager))
+                using (var columnEngine = new ThColumnRecognitionEngine(database))
                 {
                     columnEngine.Acquire(database, floor, frames);
                     Elements.AddRange(columnEngine.Elements);
@@ -300,7 +298,6 @@ namespace ThWSS.Engine
 
         public override bool Acquire(Database database, Polyline floor, DBObjectCollection frames)
         {
-            using (var columnDbManager = new ThColumnDbManager(database))
             using (var acadDatabase = AcadDatabase.Use(database))
             {
                 // 获取房间轮廓
@@ -318,7 +315,7 @@ namespace ThWSS.Engine
                 }
 
                 // 获取房间内的柱
-                using (var columnEngine = new ThColumnRecognitionEngine(columnDbManager))
+                using (var columnEngine = new ThColumnRecognitionEngine(database))
                 {
                     columnEngine.Acquire(database, floor, frames);
                     Elements.AddRange(columnEngine.Elements);

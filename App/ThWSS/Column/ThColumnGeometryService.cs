@@ -26,10 +26,10 @@ namespace ThWSS.Column
         /// <returns></returns>
         /// 通过图层信息获取图纸中的所有梁图元
         /// 其中也包括块里面的以及外部参照里面的梁图元
-        public DBObjectCollection ColumnCurves(ThColumnDbManager dbManager)
+        public DBObjectCollection ColumnCurves(Database database)
         {
             var objs = new DBObjectCollection();
-            var layers = ThColumnLayerManager.GeometryLayers(dbManager.HostDb);
+            var layers = ThColumnLayerManager.GeometryLayers(database);
             foreach (var curve in Utils.GetAllCurvesFromLayerNames(layers))
             {
                 objs.Add(curve);
@@ -43,9 +43,9 @@ namespace ThWSS.Column
         /// <param name="dbManager"></param>
         /// <param name="frame"></param>
         /// <returns></returns>
-        public DBObjectCollection ColumnCurves(ThColumnDbManager dbManager, Polyline frame)
+        public DBObjectCollection ColumnCurves(Database database, Polyline frame)
         {
-            return BeamCurves(dbManager,
+            return BeamCurves(database,
                 frame.GeometricExtents.MinPoint,
                 frame.GeometricExtents.MaxPoint);
         }
@@ -57,9 +57,9 @@ namespace ThWSS.Column
         /// <param name="pt1"></param>
         /// <param name="pt2"></param>
         /// <returns></returns>
-        public DBObjectCollection BeamCurves(ThColumnDbManager dbManager, Point3d pt1, Point3d pt2)
+        public DBObjectCollection BeamCurves(Database database, Point3d pt1, Point3d pt2)
         {
-            var curves = ColumnCurves(dbManager);
+            var curves = ColumnCurves(database);
             using (var spatialIndex = new ThCADCoreNTSSpatialIndex(curves))
             {
                 return spatialIndex.SelectCrossingWindow(pt1, pt2);

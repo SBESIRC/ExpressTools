@@ -41,7 +41,7 @@ namespace ThWSS.Beam
             Annotations = new ObjectIdCollection();
             var geometryLayers = ThBeamLayerManager.GeometryLayers(this.HostDb);
             var annotationLayers= ThBeamLayerManager.AnnotationLayers(this.HostDb);
-            List<Entity> ents = ThStructureUtils.Explode(ExplodeType.All);
+            List<Entity> ents = ThStructureUtils.Explode(this.HostDb);
             List<Entity> geometryEnts = ThStructureUtils.FilterCurveByLayers(ents, geometryLayers);
             List<Entity> annoationEnts = ThStructureUtils.FilterAnnotationByLayers(ents, annotationLayers);
             foreach(var entity in geometryEnts)

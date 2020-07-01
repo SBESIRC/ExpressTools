@@ -19,9 +19,9 @@ namespace ThStructure.BeamInfo.Utils
                 return objs;
             }
         }
-        public static List<Entity> Explode(ExplodeType explodeType, bool keepUnvisible = false)
+        public static List<Entity> Explode(Database database, bool keepUnvisible = false)
         {
-            using (var db = AcadDatabase.Active())
+            using (var db = AcadDatabase.Use(database))
             {
                 var resEntityLst = new List<Entity>();
                 var blockRefs = db.ModelSpace
@@ -203,17 +203,5 @@ namespace ThStructure.BeamInfo.Utils
             }
             return filterEnts;
         }
-    }
-    public enum ExplodeType
-    {
-        All,
-        /// <summary>
-        /// 外部参照
-        /// </summary>
-        XRef,
-        /// <summary>
-        /// 本地块
-        /// </summary>
-        Local
     }
 }
