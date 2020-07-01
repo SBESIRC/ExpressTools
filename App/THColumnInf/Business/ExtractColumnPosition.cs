@@ -485,6 +485,7 @@ namespace ThColumnInfo
             Extents3d codeTextExtents = ThColumnInfoUtils.GeometricExtentsImpl(codeText);
             Point3d minPt = codeTextExtents.MinPoint;
             Point3d maxPt = codeTextExtents.MaxPoint;
+            minPt = minPt + new Vector3d(0, (maxPt.Y - minPt.Y) / 2.0, 0);
             maxPt = new Point3d(maxPt.X, minPt.Y - 5 * this.textSize, minPt.Z);           
             psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor, minPt, maxPt, PolygonSelectionMode.Crossing, this.textSf);
             if (psr.Status == PromptStatus.OK)
