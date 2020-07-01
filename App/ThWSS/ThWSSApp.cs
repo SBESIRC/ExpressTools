@@ -170,6 +170,7 @@ namespace ThWSS
             }
 
             // 获取房间轮廓线
+            using (var roomManager = new ThRoomDbManager(Active.Database))
             using (var engine = new ThRoomRecognitionEngine())
             {
                 foreach(ObjectId frame in entSelected.Value.GetObjectIds())
