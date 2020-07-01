@@ -233,6 +233,9 @@ namespace ThWSS
         /// <returns></returns>
         private void Run(SprayLayoutModel layoutModel)
         {
+            //清空数据
+            ThSprayLayoutEngine.Instance.RoomEngine = new ThRoomRecognitionEngine();
+
             if (layoutModel.sparyLayoutWay == LayoutWay.fire)
             {
                 // 选择楼层区域
@@ -376,22 +379,34 @@ namespace ThWSS
             {
                 layoutModel.sparyLayoutWay = LayoutWay.customPart;
             }
-            
+
+            if (!string.IsNullOrEmpty(thSpary.radius.Text))
+            {
+                layoutModel.protectRadius = Convert.ToDouble(thSpary.radius.Text);
+            }
+
             if (thSpary.custom.IsChecked == true)
             {
                 layoutModel.sparySSpcing = Convert.ToDouble(thSpary.customControl.sparySSpcing.Text);
                 layoutModel.sparyESpcing = Convert.ToDouble(thSpary.customControl.sparyESpcing.Text);
                 layoutModel.otherSSpcing = Convert.ToDouble(thSpary.customControl.otherSSpcing.Text);
                 layoutModel.otherESpcing = Convert.ToDouble(thSpary.customControl.otherESpcing.Text);
+
+                if (string.IsNullOrEmpty(thSpary.radius.Text))
+                {
+                    layoutModel.protectRadius = Math.Sqrt((layoutModel.otherESpcing * layoutModel.otherESpcing * 4) / Math.PI);
+                }
             }
             else if (thSpary.standard.IsChecked == true)
             {
+                double radius = 0;
                 if (thSpary.standControl.danLevel.SelectedIndex == 0)
                 {
                     layoutModel.sparySSpcing = 100;
                     layoutModel.sparyESpcing = 4400;
                     layoutModel.otherSSpcing = 100;
                     layoutModel.otherESpcing = 2200;
+                    radius = 20000000;
                 }
                 else if (thSpary.standControl.danLevel.SelectedIndex == 1)
                 {
@@ -399,6 +414,7 @@ namespace ThWSS
                     layoutModel.sparyESpcing = 3600;
                     layoutModel.otherSSpcing = 100;
                     layoutModel.otherESpcing = 1800;
+                    radius = 12500000;
                 }
                 else if (thSpary.standControl.danLevel.SelectedIndex == 2)
                 {
@@ -406,6 +422,7 @@ namespace ThWSS
                     layoutModel.sparyESpcing = 3400;
                     layoutModel.otherSSpcing = 100;
                     layoutModel.otherESpcing = 1700;
+                    radius = 11500000;
                 }
                 else if (thSpary.standControl.danLevel.SelectedIndex == 3)
                 {
@@ -413,6 +430,12 @@ namespace ThWSS
                     layoutModel.sparyESpcing = 3000;
                     layoutModel.otherSSpcing = 100;
                     layoutModel.otherESpcing = 1500;
+                    radius = 9000000;
+                }
+
+                if (string.IsNullOrEmpty(thSpary.radius.Text))
+                {
+                    layoutModel.protectRadius = Math.Sqrt(radius / Math.PI);
                 }
             }
 
@@ -423,11 +446,6 @@ namespace ThWSS
             else if (thSpary.downSpary.IsChecked == true)
             {
                 layoutModel.sprayType = 1;
-            }
-
-            if (!string.IsNullOrEmpty(thSpary.radius.Text))
-            {
-                layoutModel.protectRadius = Convert.ToDouble(thSpary.radius.Text);
             }
             
             layoutModel.UseBeam = thSpary.HasBeam.IsChecked == true;

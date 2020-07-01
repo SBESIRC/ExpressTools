@@ -32,9 +32,8 @@ namespace ThWSS.Bussiness
                     {
                         if (beam is LineBeam lineBeam)
                         {
-                            acdb.ModelSpace.Add(lineBeam.BeamBoundary);
+                            //acdb.ModelSpace.Add(lineBeam.BeamBoundary);
                         }
-
                     }
                 }
 
@@ -69,7 +68,7 @@ namespace ThWSS.Bussiness
 
                     //处理小的凹边
                     var polyBounding = GeUtils.CreateConvexPolygon(poly, 800);
-
+                   
                     //去掉线上多余的点
                     polyBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { polyBounding }, new Tolerance(0.1, 0.1)).First();
                     
@@ -83,20 +82,26 @@ namespace ThWSS.Bussiness
                         {
                             continue;
                         }
-
+                        using (AcadDatabase acdb = AcadDatabase.Active())
+                        {
+                            acdb.ModelSpace.Add(dRoom);
+                        }
                         //去掉线上多余的点
                         var dRoomRes = GeUtils.ReovePointOnLine(new List<Polyline>() { dRoom }, new Tolerance(0.1, 0.1)).First();
-                        
+
+                        //计算房间走向
+                        var roomOOB = OrientedBoundingBox.Calculate(dRoom);
+
                         //计算出布置点
-                        SquareLayoutByBeam squareLayout = new SquareLayoutByBeam(layoutModel);
-                        List<List<SprayLayoutData>> layoutPts = squareLayout.Layout(roomLines, dRoomRes, beams);
+                        SquareLayoutWithRay squareLayout = new SquareLayoutWithRay(layoutModel);
+                        List<List<SprayLayoutData>> layoutPts = squareLayout.Layout(dRoomRes, roomOOB);
 
                         //计算房间出房间内的点
                         List<SprayLayoutData> roomSprays = new List<SprayLayoutData>();
                         foreach (var lpts in layoutPts)
                         {
                             List<SprayLayoutData> checkPts = CalRoomSpray(dRoom, lpts);
-                            checkPts = CalRoomSpray(room, checkPts);
+                            //checkPts = CalRoomSpray(room, checkPts);
                             roomSprays.AddRange(checkPts);
                         }
 

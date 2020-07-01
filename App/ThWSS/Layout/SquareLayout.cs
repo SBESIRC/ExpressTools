@@ -16,12 +16,14 @@ namespace ThWSS.Layout
         protected double sideMinLength = 0;
         protected double maxLength = 1800;
         protected double minLength = 100;
+        protected double protectRaduis = 0;
         public SquareLayout(SprayLayoutModel layoutModel)
         {
             sideLength = layoutModel.sparyESpcing;
             sideMinLength = layoutModel.sparySSpcing;
             maxLength = layoutModel.otherESpcing;
             minLength = layoutModel.otherSSpcing;
+            protectRaduis = layoutModel.protectRadius;
         }
 
         public List<List<SprayLayoutData>> Layout(Polyline room, Polyline polyline, bool noBeam = true)
@@ -107,9 +109,9 @@ namespace ThWSS.Layout
             else
             {
                 //竖向排布条件
-                CalLayoutWayByBeam(length, out tRemainder, out tNum, out tMoveLength);
+                CalLayoutWay(length, out tRemainder, out tNum, out tMoveLength);
                 //横向排布条件
-                CalLayoutWayByBeam(width, out vRemainder, out vNum, out vMoveLength);
+                CalLayoutWay(width, out vRemainder, out vNum, out vMoveLength);
             }
 
             List<List<Point3d>> allP = new List<List<Point3d>>();
@@ -129,9 +131,8 @@ namespace ThWSS.Layout
             return allP;
         }
 
-        #region 暂不用
         /// <summary>
-        /// 按正方形保护排布点
+        /// 按正方形保护排布点(射线法)
         /// </summary>
         /// <param name="roomLines"></param>
         /// <param name="pt"></param>
@@ -160,6 +161,10 @@ namespace ThWSS.Layout
                     }
                     Point3d ep = points.First();
                     points.Remove(ep);
+                    if (sp.DistanceTo(ep) < 200)
+                    {
+                        continue;
+                    }
                     CalLayoutWay(sp.DistanceTo(ep), out double vRemainder, out double vNum, out double vMoveLength);
 
                     List<Point3d> p = new List<Point3d>();
@@ -226,7 +231,6 @@ namespace ThWSS.Layout
 
             return allP;
         }
-        #endregion
         
         /// <summary>
         /// 计算排布规则(边界距离,步长等)
