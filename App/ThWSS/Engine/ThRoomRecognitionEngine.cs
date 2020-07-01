@@ -270,12 +270,16 @@ namespace ThWSS.Engine
                 int roomIndex = 0;
                 foreach (ObjectId frame in frames)
                 {
+                    // 为了确保选择的多段线可以形成封闭的房间轮廓
+                    // 把多段线的Closed状态设置成true
                     var pline = acadDatabase.Element<Polyline>(frame);
+                    var clone = pline.GetTransformedCopy(Matrix3d.Identity) as Polyline;
+                    clone.Closed = true;
                     ThRoom thRoom = new ThRoom()
                     {
                         Properties = new Dictionary<string, object>()
                         {
-                            { string.Format("ThRoom{0}", roomIndex++),  pline.GetTransformedCopy(Matrix3d.Identity) as Polyline }
+                            { string.Format("ThRoom{0}", roomIndex++), clone }
                         }
                     };
                     Elements.Add(thRoom);
@@ -304,11 +308,15 @@ namespace ThWSS.Engine
                 int roomIndex = 0;
                 foreach (Polyline frame in frames)
                 {
+                    // 为了确保选择的多段线可以形成封闭的房间轮廓
+                    // 把多段线的Closed状态设置成true
+                    var clone = frame.GetTransformedCopy(Matrix3d.Identity) as Polyline;
+                    clone.Closed = true;
                     ThRoom thRoom = new ThRoom()
                     {
                         Properties = new Dictionary<string, object>()
                         {
-                            { string.Format("ThRoom{0}", roomIndex++),  frame.GetTransformedCopy(Matrix3d.Identity) as Polyline }
+                            { string.Format("ThRoom{0}", roomIndex++), clone }
                         }
                     };
                     Elements.Add(thRoom);
