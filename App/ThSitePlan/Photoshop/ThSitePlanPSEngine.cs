@@ -22,7 +22,7 @@ namespace ThSitePlan.Photoshop
 
         private void Run(string path, ThSitePlanConfigItemGroup jobs)
         {
-            if (!jobs.IsEnabled)
+            if (jobs.Status == UpdateStaus.NoUpdate)
             {
                 return;
             }
@@ -43,7 +43,7 @@ namespace ThSitePlan.Photoshop
 
         private void Run(string path, ThSitePlanConfigItem job)
         {
-            if (!ValidateItem(job))
+            if (ValidateItem(job) == UpdateStaus.NoUpdate)
             {
                 return;
             }
@@ -56,7 +56,7 @@ namespace ThSitePlan.Photoshop
 
         public void PSRun(string path, ThSitePlanConfigItemGroup jobs)
         {
-            if (!jobs.IsEnabled)
+            if (jobs.Status == UpdateStaus.NoUpdate)
             {
                 return;
             }
@@ -90,7 +90,7 @@ namespace ThSitePlan.Photoshop
 
         public void Update(string path, ThSitePlanConfigItemGroup jobs)
         {
-            if (!jobs.IsEnabled)
+            if (jobs.Status == UpdateStaus.NoUpdate)
             {
                 return;
             }
@@ -111,7 +111,7 @@ namespace ThSitePlan.Photoshop
 
         private void Update(string path, ThSitePlanConfigItem job)
         {
-            if (!ValidateItem(job))
+            if (ValidateItem(job) == UpdateStaus.NoUpdate)
             {
                 return;
             }
@@ -124,7 +124,7 @@ namespace ThSitePlan.Photoshop
 
         public void PSUpdate(string path, ThSitePlanConfigItemGroup jobs)
         {
-            if (!jobs.IsEnabled)
+            if (jobs.Status == UpdateStaus.NoUpdate)
             {
                 return;
             }
@@ -160,9 +160,9 @@ namespace ThSitePlan.Photoshop
         }
 
 
-        private bool ValidateItem(ThSitePlanConfigItem job)
+        private UpdateStaus ValidateItem(ThSitePlanConfigItem job)
         {
-            return job.IsEnabled;
+            return job.Status;
         }
     }
 }

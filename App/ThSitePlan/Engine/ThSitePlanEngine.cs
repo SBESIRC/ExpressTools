@@ -27,7 +27,7 @@ namespace ThSitePlan.Engine
 
         public void Run(Database database, ThSitePlanConfigItemGroup jobs)
         {
-            if (!jobs.IsEnabled)
+            if (jobs.Status == UpdateStaus.NoUpdate)
             {
                 return;
             }
@@ -48,7 +48,7 @@ namespace ThSitePlan.Engine
 
         public void Update(Database database, ThSitePlanConfigItemGroup jobs)
         {
-            if (!jobs.IsEnabled)
+            if (jobs.Status == UpdateStaus.NoUpdate)
             {
                 return;
             }
@@ -69,7 +69,7 @@ namespace ThSitePlan.Engine
 
         private void Update(Database database, ThSitePlanConfigItem job)
         {
-            if (!job.IsEnabled)
+            if (job.Status == UpdateStaus.NoUpdate)
             {
                 return;
             }
@@ -97,7 +97,7 @@ namespace ThSitePlan.Engine
 
         private void Run(Database database, ThSitePlanConfigItem job)
         {
-            if (!job.IsEnabled)
+            if (job.Status == UpdateStaus.NoUpdate)
             {
                 return;
             }

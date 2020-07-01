@@ -8,15 +8,23 @@ using System.Linq;
 
 namespace ThSitePlan.Configuration
 {
+    public enum UpdateStaus
+    {
+        NoUpdate = 0 ,
+        UpdatePS = 1,
+        UpdateCAD = 2,
+
+    }
+
     public abstract class ThSitePlanConfigObj
     {
-        public abstract bool IsEnabled { get; set; }
+        public abstract UpdateStaus Status { get; set; }
         public abstract Dictionary<string, object> Properties { get; set; }
     }
 
     public class ThSitePlanConfigItem : ThSitePlanConfigObj
     {
-        public override bool IsEnabled { get; set; }
+        public override UpdateStaus Status { get; set; }
         public override Dictionary<string, object> Properties { get; set; }
         public ThSitePlanConfigItem()
         {
@@ -26,7 +34,7 @@ namespace ThSitePlan.Configuration
 
     public class ThSitePlanConfigItemGroup : ThSitePlanConfigObj
     {
-        public override bool IsEnabled { get; set; }
+        public override UpdateStaus Status { get; set; }
         public Queue<ThSitePlanConfigObj> Items { get; set; }
         public override Dictionary<string, object> Properties { get; set; }
 
@@ -53,14 +61,14 @@ namespace ThSitePlan.Configuration
             {
                 if (item is  ThSitePlanConfigItem it)
                 {
-                    if (item.IsEnabled)
+                    if (item.Status != UpdateStaus.NoUpdate)
                     {
                         temp++;
                     }
                 }
                 if (item is ThSitePlanConfigItemGroup gp)
                 {
-                    if (gp.IsEnabled)
+                    if (item.Status != UpdateStaus.NoUpdate)
                     {
                         ItemsCountsInGroup(gp, ref temp);
                     }
@@ -89,7 +97,7 @@ namespace ThSitePlan.Configuration
             int temp = 0;
             foreach (var item in this.Items)
             {
-                if (item.IsEnabled)
+                if (item.Status != UpdateStaus.NoUpdate)
                 {
                     temp++;
                 }
@@ -165,15 +173,15 @@ namespace ThSitePlan.Configuration
             Root = ReConstructItemName(Root, null);
         }
 
-        public void EnableAll(bool bEnable)
+        public void EnableAll(UpdateStaus upstaus)
         {
-            EnableItem(bEnable, Root);
+            EnableItem(upstaus, Root);
         }
 
-        public void EnableItemAndItsAncestor(string name, bool bEnable)
+        public void EnableItemAndItsAncestor(string name, UpdateStaus upstaus)
         {
             //打开所有分组
-            EnableAllGroup(true,Root);
+            EnableAllGroup(upstaus, Root);
 
             //查找要打开的item子项，打开该项以及其兄弟节点
             string[] namegroup = name.Split('-');
@@ -189,7 +197,7 @@ namespace ThSitePlan.Configuration
                         //找到item直接打开，对于某些只有一层的图层
                         if (item is ThSitePlanConfigItem fdit)
                         {
-                            item.IsEnabled = bEnable;
+                            item.Status = upstaus;
                             FindItem = fdit;
                             break;
                         }
@@ -199,10 +207,10 @@ namespace ThSitePlan.Configuration
                         {
                             if (i == namegroup.Length - 2)
                             {
-                                item.IsEnabled = bEnable;
+                                item.Status = upstaus;
                                 foreach (var item2 in fdgp.Items)
                                 {
-                                    item2.IsEnabled = bEnable;
+                                    item2.Status = upstaus;
                                 }
                             }
 
@@ -219,16 +227,16 @@ namespace ThSitePlan.Configuration
             }
         }
 
-        public void EnableItemAndItsSiblings(string name, bool bEnable)
+        public void EnableItemAndItsSiblings(string name, UpdateStaus upstaus)
         {
             ThSitePlanConfigItemGroup siblinggroup = FindGroupByItemName(name);
-            EnableItem(true, siblinggroup);
+            EnableItem(upstaus, siblinggroup);
         }
 
-        public void EnableItemAndAncestorNoSib(string name, bool bEnable)
+        public void EnableItemAndAncestorNoSib(string name, UpdateStaus upstaus)
         {
             //打开所有分组
-            EnableAllGroup(true, Root);
+            EnableAllGroup(upstaus, Root);
 
             //查找要打开的item子项，打开该项以及其兄弟节点
             string[] namegroup = name.Split('-');
@@ -244,7 +252,7 @@ namespace ThSitePlan.Configuration
                         //找到item直接打开，对于某些只有一层的图层
                         if (item is ThSitePlanConfigItem fdit)
                         {
-                            item.IsEnabled = bEnable;
+                            item.Status = upstaus;
                             FindItem = fdit;
                             break;
                         }
@@ -252,7 +260,7 @@ namespace ThSitePlan.Configuration
                         //找到该项父结点，打开该节点
                         else if (item is ThSitePlanConfigItemGroup fdgp)
                         {
-                            fdgp.IsEnabled = bEnable;
+                            fdgp.Status = upstaus;
                             SearchItems = fdgp.Items;
                             break;
                         }
@@ -266,30 +274,30 @@ namespace ThSitePlan.Configuration
             }
         }
 
-        private void EnableItem(bool bEnable, ThSitePlanConfigObj itgrp)
+        private void EnableItem(UpdateStaus upstaus, ThSitePlanConfigObj itgrp)
         {
             if (itgrp is ThSitePlanConfigItemGroup group)
             {
-                group.IsEnabled = bEnable;
+                group.Status = upstaus;
                 foreach (var groupItem in group.Items)
                 {
-                    EnableItem(bEnable, groupItem);
+                    EnableItem(upstaus, groupItem);
                 }
             }
             else if (itgrp is ThSitePlanConfigItem item)
             {
-                item.IsEnabled = bEnable;
+                item.Status = upstaus;
             }
         }
 
-        private void EnableAllGroup(bool bEnable, ThSitePlanConfigObj itgrp)
+        private void EnableAllGroup(UpdateStaus upstaus, ThSitePlanConfigObj itgrp)
         {
             if (itgrp is ThSitePlanConfigItemGroup group)
             {
-                group.IsEnabled = bEnable;
+                group.Status = upstaus;
                 foreach (var groupItem in group.Items)
                 {
-                    EnableAllGroup(bEnable, groupItem);
+                    EnableAllGroup(upstaus, groupItem);
                 }
             }
 
