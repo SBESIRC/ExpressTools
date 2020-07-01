@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThCADCore.NTS;
 using ThWSS.Model;
 using ThWSS.Utlis;
 
@@ -25,8 +26,7 @@ namespace ThWSS.Bussiness
             var roomSprays = new List<SprayLayoutData>();
             foreach (var spray in sprays)
             {
-                var res = GeUtils.CheckPointInPolyline(room, spray.Position, 1.0E-4);
-                if (res == 1)
+                if(room.PointInPolygon(spray.Position) == LocateStatus.Interior)
                 {
                     roomSprays.Add(spray);
                 }
