@@ -16,14 +16,14 @@ namespace ThWSS.Layout
         protected double sideMinLength = 0;
         protected double maxLength = 1800;
         protected double minLength = 100;
-        protected double protectRaduis = 0;
+        protected double raduisLength = 0;
         public SquareLayout(SprayLayoutModel layoutModel)
         {
             sideLength = layoutModel.sparyESpcing;
             sideMinLength = layoutModel.sparySSpcing;
             maxLength = layoutModel.otherESpcing;
             minLength = layoutModel.otherSSpcing;
-            protectRaduis = layoutModel.protectRadius;
+            raduisLength = Math.Sqrt(layoutModel.protectRadius * layoutModel.protectRadius / 2);
         }
 
         public List<List<SprayLayoutData>> Layout(Polyline room, Polyline polyline, bool noBeam = true)
@@ -246,12 +246,11 @@ namespace ThWSS.Layout
             {
                 while (true)
                 {
-                    //让边距尽量等于0.5倍间距
-                    moveLength = length / (num + 1);
+                    moveLength = (length - raduisLength * 2) / num;
                     //间距是50的倍数
-                    moveLength = Math.Floor(moveLength / 50) * 50;
+                    moveLength = Math.Ceiling(moveLength / 50) * 50;
                     remainder = (length - moveLength * num) / 2;
-                    if (remainder > maxLength)
+                    if (remainder > raduisLength || moveLength > sideLength)
                     {
                         num += 1;
                     }
