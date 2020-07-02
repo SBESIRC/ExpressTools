@@ -78,6 +78,9 @@
     <Compile Include="..\TopoNode\Utils.cs">
       <Link>Topology\Utils.cs</Link>
     </Compile>
+    <Compile Include="..\TopoNode\Xclip.cs">
+      <Link>Topology\Xclip.cs</Link>
+    </Compile>
     <Compile Include="Business\BuildInSituMarkInf.cs" />
     <Compile Include="Business\BlockReferenceGeometryExtents3d.cs" />
     <Compile Include="Business\ColumnBindTextManager.cs" />
