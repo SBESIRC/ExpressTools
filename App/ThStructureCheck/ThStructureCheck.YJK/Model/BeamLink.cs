@@ -91,7 +91,7 @@ namespace ThStructureCheck.YJK.Model
             Coordinate beamEndCoord = new Coordinate(beamEndJoint.X, beamEndJoint.Y);       
             if (this.Start[0] is ModelColumnSeg modelColumnSeg)
             {
-                asv0Calculation = new LineBeamRecColumnAsv0(this.Beams.Cast<ModelBeamSeg>().ToList(), this.Start[0] as ModelColumnSeg, true, this.dtlCalcPath);
+                asv0Calculation = new LineBeamRecColumnAsv0(this.Beams.Cast<ModelBeamSeg>().ToList(), this.Start[0] as ModelRecColumnSeg, true, this.dtlCalcPath);
             }
             else if (this.Start[0] is ModelWallSeg modelWallSeg)
             {
@@ -115,7 +115,7 @@ namespace ThStructureCheck.YJK.Model
                         }
                     }
                 }
-                asv0Calculation = new LineBeamLineWallAsv0(this.Beams.Cast<ModelBeamSeg>().ToList(), currentWallSeg, true, this.dtlCalcPath);
+                asv0Calculation = new LineBeamLineWallAsv0(this.Beams.Cast<ModelBeamSeg>().ToList(), currentWallSeg as ModelLineWallSeg, true, this.dtlCalcPath);
             }
             if(asv0Calculation!=null)
             {
@@ -141,7 +141,7 @@ namespace ThStructureCheck.YJK.Model
             Coordinate beamEndCoord = new Coordinate(beamEndJoint.X, beamEndJoint.Y);
             if (this.End[0] is ModelColumnSeg modelColumnSeg)
             {
-                asv0Calculation = new LineBeamRecColumnAsv0(this.Beams.Cast<ModelBeamSeg>().ToList(), modelColumnSeg,false, this.dtlCalcPath);
+                asv0Calculation = new LineBeamRecColumnAsv0(this.Beams.Cast<ModelBeamSeg>().ToList(), modelColumnSeg as ModelRecColumnSeg,false, this.dtlCalcPath);
             }
             else if (this.End[0] is ModelWallSeg modelWallSeg)
             {
@@ -168,7 +168,7 @@ namespace ThStructureCheck.YJK.Model
                         }
                     }
                 }
-                asv0Calculation = new LineBeamLineWallAsv0(this.Beams.Cast<ModelBeamSeg>().ToList(), currentWallSeg,false, this.dtlCalcPath);
+                asv0Calculation = new LineBeamLineWallAsv0(this.Beams.Cast<ModelBeamSeg>().ToList(), currentWallSeg as ModelLineWallSeg,false, this.dtlCalcPath);
             }
             if (asv0Calculation != null)
             {

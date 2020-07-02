@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autodesk.AutoCAD.DatabaseServices;
 using ThStructureCheck.Common.Interface;
-using ThStructureCheck.YJK.Interface;
 
-namespace ThStructureCheck.YJK.Model
+namespace ThStructureCheck.Common.Model.Column
 {
-    public class YjkBoard : IEntityInf
+    public class LTypeColumnGeometry : ColumnGeometry, IEntity
     {
-        public IEntity BuildGeometry()
+        public Entity Draw()
         {
+            //Todo
             throw new NotImplementedException();
         }
     }

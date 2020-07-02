@@ -13,7 +13,7 @@ using ThStructureCheck.YJK.Service;
 
 namespace ThStructureCheck.YJK.Model
 {
-    public class ModelBeamSeg : YjkEntityInfo,IEntityInf
+    public class ModelBeamSeg : YjkEntityInfo
     {
         public int No_ { get; set; }
         public int StdFlrID { get; set; }
@@ -23,23 +23,7 @@ namespace ThStructureCheck.YJK.Model
         public int HDiff1 { get; set; }
         public int HDiff2 { get; set; }
         public double Rotation { get; set; }
-        public bool IsCollinear(ModelBeamSeg otherBeamSeg)
-        {
-            bool result = false;
-            YjkJointQuery yjkJointQuery = new YjkJointQuery(otherBeamSeg.DbPath);
-            ModelGrid thisGrid = new YjkGridQuery(otherBeamSeg.DbPath).GetModelGrid(this.GridID);
-            ModelGrid otherGrid = new YjkGridQuery(otherBeamSeg.DbPath).GetModelGrid(otherBeamSeg.GridID);
-            Point thisStartPt = yjkJointQuery.GetModelJoint(thisGrid.Jt1ID).GetCoordinate();
-            Point thisEndPt = yjkJointQuery.GetModelJoint(thisGrid.Jt2ID).GetCoordinate();
-            Point otherStartPt = yjkJointQuery.GetModelJoint(otherGrid.Jt1ID).GetCoordinate();
-            Point otherEndPt = yjkJointQuery.GetModelJoint(otherGrid.Jt2ID).GetCoordinate();
-            if (MathLogic.ThreePointsCollinear(thisStartPt, thisEndPt, otherStartPt) &&
-                MathLogic.ThreePointsCollinear(thisStartPt, thisEndPt, otherEndPt))
-            {
-                result = true;
-            }
-            return result;
-        }
+
         public ModelGrid Grid
         {
             get
@@ -54,49 +38,17 @@ namespace ThStructureCheck.YJK.Model
                 return new YjkBeamQuery(this.DbPath).GetModelBeamSect(this.SectID);
             }
         }
-        public IEntity BuildGeometry()
+        public static ModelBeamSeg TransModelBeamSeg(string dtlModelPath, int sectID)
         {
-            //ToDo 后续若增加弧梁
-            return BuildLineBeamGeo();
-        }
-        private LineBeamGeometry BuildLineBeamGeo()
-        {
-            YjkJointQuery yjkJointQuery = new YjkJointQuery(this.DbPath);
-            ModelGrid modelGrid = this.Grid;
-            ModelJoint startJoint = yjkJointQuery.GetModelJoint(modelGrid.Jt1ID);
-            ModelJoint endJoint = yjkJointQuery.GetModelJoint(modelGrid.Jt2ID);
-            List<double> datas = Utils.GetDoubleDatas(this.BeamSect.Spec);
-            if (datas.Count == 0)
+            //ToDo
+            ModelBeamSeg modelBeamSeg = new ModelBeamSeg()
             {
-                datas.Add(0.0);
-                datas.Add(0.0);
-            }
-            else if (datas.Count == 1)
-            {
-                datas.Add(0.0);
-            }
-            return new LineBeamGeometry()
-            {
-                StartPoint = new Coordinate(startJoint.X, startJoint.Y),
-                EndPoint = new Coordinate(endJoint.X, endJoint.Y),
-                Ecc = this.Ecc,               
-                Rotation = this.Rotation,
-                B = datas[0],
-                H = datas[1]
+                SectID = sectID,
+                DbPath= dtlModelPath
             };
-        }
-        public double Length => GetBeamLength();
-        private double GetBeamLength()
-        {
-            ModelGrid modelGrid = this.Grid;
-            YjkJointQuery yjkJointQuery = new YjkJointQuery(this.DbPath);
-            ModelJoint startJoint = yjkJointQuery.GetModelJoint(modelGrid.Jt1ID);
-            ModelJoint endJoint = yjkJointQuery.GetModelJoint(modelGrid.Jt2ID);
-            Point startPoint = startJoint.GetCoordinate();
-            Point endPoint = endJoint.GetCoordinate();
-            Coordinate startCoord = new Coordinate(startPoint.X, startPoint.Y);
-            Coordinate endCoord = new Coordinate(endPoint.X, endPoint.Y);
-            return startCoord.DistanceTo(endCoord);
+            int kind = modelBeamSeg.BeamSect.Kind;
+            //根据Kind来判断
+            return new ModelLineBeamSeg();
         }
     }
     public class CalcBeamSeg : YjkEntityInfo

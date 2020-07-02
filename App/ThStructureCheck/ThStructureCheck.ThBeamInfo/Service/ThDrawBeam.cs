@@ -29,7 +29,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
         private List<ModelWallSegCompose> modelWallSegComposes = new List<ModelWallSegCompose>();
         private List<List<int>> xyColumns = new List<List<int>>(); //按XY坐标排序 (记录ModelColumnSeg->JtID)
         private List<Tuple<int, Polyline>> columnEnts = new List<Tuple<int, Polyline>>();
-        private List<Tuple<YjkEntityInfo, Polyline>> beamEnts = new List<Tuple<YjkEntityInfo, Polyline>>();
+        private List<Tuple<YjkEntityInfo, Polyline,Curve>> beamEnts = new List<Tuple<YjkEntityInfo, Polyline, Curve>>();
         private List<Tuple<YjkEntityInfo, Polyline>> wallEnts = new List<Tuple<YjkEntityInfo, Polyline>>();
         private YjkJointQuery modelJointQuery;
         private Document doc;
@@ -37,7 +37,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
         /// <summary>
         /// Yjk中Model库中梁段对应Cad中的几何图形
         /// </summary>
-        public List<Tuple<YjkEntityInfo, Polyline>> BeamEnts => beamEnts;
+        public List<Tuple<YjkEntityInfo, Polyline, Curve>> BeamEnts => beamEnts;
         /// <summary>
         /// 是否继续
         /// </summary>
@@ -80,17 +80,41 @@ namespace ThStructureCheck.ThBeamInfo.Service
             Matrix3d moveMt = Matrix3d.Displacement(basePt.GetVectorTo(Point3d.Origin));
             //把基点移动到原点
             this.columnEnts.ForEach(i => i.Item2.TransformBy(moveMt));
-            this.beamEnts.ForEach(i => i.Item2.TransformBy(moveMt));
+            this.beamEnts.ForEach(i => 
+            {
+                if(i.Item2!=null)
+                {
+                    i.Item2.TransformBy(moveMt);
+                }
+                if(i.Item3 != null)
+                {
+                    i.Item3.TransformBy(moveMt);
+                }                
+            });
             this.wallEnts.ForEach(i => i.Item2.TransformBy(moveMt));
             Matrix3d wcsToUcs = CadTool.UCS2WCS();
             this.columnEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
-            this.beamEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
+            this.beamEnts.ForEach(i => 
+            {
+                if(i.Item2!=null)
+                {
+                    i.Item2.TransformBy(wcsToUcs);
+                }
+                if (i.Item3 != null)
+                {
+                    i.Item3.TransformBy(wcsToUcs);
+                }
+            });
             this.wallEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
         }
         private void Drag()
         {            
             this.columnEnts.ForEach(i => this.columnBeamEnts.Add(i.Item2));
-            this.beamEnts.ForEach(i => this.columnBeamEnts.Add(i.Item2));
+            this.beamEnts.ForEach(i => 
+            {
+                this.columnBeamEnts.Add(i.Item2);
+                this.columnBeamEnts.Add(i.Item3);
+            });
             this.wallEnts.ForEach(i => this.columnBeamEnts.Add(i.Item2));
             bool doMark = true;
             Point3d basePt = Point3d.Origin;
@@ -206,10 +230,11 @@ namespace ThStructureCheck.ThBeamInfo.Service
         {
             foreach (var modelBeamSegCompose in this.modelBeamSegComposes)
             {
-                Polyline beamFace = DrawBeam(modelBeamSegCompose);
-                if (beamFace != null)
+                var res = DrawLineBeam(modelBeamSegCompose);
+                if (res != null)
                 {
-                    this.beamEnts.Add(Tuple.Create<YjkEntityInfo, Polyline>(modelBeamSegCompose.BeamSeg, beamFace));
+                    this.beamEnts.Add(Tuple.Create<YjkEntityInfo, Polyline,Curve>(
+                        modelBeamSegCompose.BeamSeg, res.Item1,res.Item2));
                 }
             }
         }
@@ -256,9 +281,15 @@ namespace ThStructureCheck.ThBeamInfo.Service
         {
            return this.modelColumnSegComposes.Where(i => i.ColumnSeg.JtID == jtID).Select(i=>i).First();
         }
-        private Polyline DrawBeam(ModelBeamSegCompose modelBeamSegCompose)
+        /// <summary>
+        /// 绘制直梁
+        /// </summary>
+        /// <param name="modelBeamSegCompose"></param>
+        /// <returns></returns>
+        private Tuple<Polyline,Curve> DrawLineBeam(ModelBeamSegCompose modelBeamSegCompose)
         {
             Polyline polyline = null;
+            Line line = null;
             ModelGrid grid = modelBeamSegCompose.BeamSeg.Grid;
             Point3d startPt = GetSegJtPoint(modelJointQuery.GetModelJoint(grid.Jt1ID));
             Point3d endPt = GetSegJtPoint(modelJointQuery.GetModelJoint(grid.Jt2ID));
@@ -266,7 +297,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
             string spec = modelBeamSegCompose.BeamSect.Spec;
             if (string.IsNullOrEmpty(spec))
             {
-                return polyline;
+                return null;
             }
             string[] specs = spec.Split('x');
             if (specs != null && specs.Length == 2)
@@ -281,6 +312,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
                         Vector3d offsetVec = GeometricCalculation.GetOffsetDirection(startPt, endPt);
                         Point3d sp = startPt + offsetVec.GetNormal().MultiplyBy(ecc);
                         Point3d ep = endPt + offsetVec.GetNormal().MultiplyBy(ecc);
+                        line = new Line(sp, ep);
                         Point3d pt1 = sp + offsetVec.GetNormal().MultiplyBy(length / 2.0);
                         Point3d pt2 = ep + offsetVec.GetNormal().MultiplyBy(length / 2.0);
                         Point3d pt4 = sp - offsetVec.GetNormal().MultiplyBy(length / 2.0);
@@ -293,7 +325,19 @@ namespace ThStructureCheck.ThBeamInfo.Service
                     }
                 }
             }
-            return polyline;
+            return Tuple.Create<Polyline, Curve>(polyline, line);
+        }
+        /// <summary>
+        /// 绘制弧梁
+        /// </summary>
+        /// <param name="modelBeamSegCompose"></param>
+        /// <returns></returns>
+        private Tuple<Polyline, Curve> DrawArcBeam(ModelBeamSegCompose modelBeamSegCompose)
+        {
+            //ToDo Draw arc beam later
+            Polyline polyline = null;
+            Line line = null;            
+            return Tuple.Create<Polyline, Curve>(polyline, line);
         }
         private Polyline DrawColumn(ModelColumnSegCompose modelColumnSegCompose)
         {

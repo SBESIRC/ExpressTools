@@ -44,20 +44,23 @@ namespace ThStructureCheck.YJK.Query
                 item.Floor.Height = Convert.ToDouble(dr["Height"].ToString());
                 item.Floor.DbPath = this.dbPath;
 
-                item.WallSeg.ID = Convert.ToInt32(dr["tblWallSegID"].ToString());
-                item.WallSeg.No_ = Convert.ToInt32(dr["tblWallSegNo"].ToString());
-                item.WallSeg.StdFlrID = Convert.ToInt32(dr["tblWallSegStdFlrID"].ToString());
-                item.WallSeg.SectID = Convert.ToInt32(dr["SectID"].ToString());
-                item.WallSeg.GridID = Convert.ToInt32(dr["GridID"].ToString());
-                item.WallSeg.Ecc = Convert.ToInt32(dr["Ecc"].ToString());
-                item.WallSeg.HDiff1 = Convert.ToInt32(dr["HDiff1"].ToString());
-                item.WallSeg.HDiff2 = Convert.ToInt32(dr["HDiff2"].ToString());
-                item.WallSeg.HDiffB = Convert.ToInt32(dr["HDiffB"].ToString());
-                item.WallSeg.Sloping = Convert.ToInt32(dr["sloping"].ToString());
-                item.WallSeg.EccDown = Convert.ToInt32(dr["EccDown"].ToString());
-                item.WallSeg.Offset1 = Convert.ToInt32(dr["offset1"].ToString());
-                item.WallSeg.Offset2 = Convert.ToInt32(dr["offset2"].ToString());
-                item.WallSeg.DbPath = this.dbPath;
+                ModelWallSeg modelWallSeg = ModelWallSeg.TransModelWallSeg(
+                    this.dbPath, Convert.ToInt32(dr["SectID"].ToString()));
+                modelWallSeg.ID = Convert.ToInt32(dr["tblWallSegID"].ToString());
+                modelWallSeg.No_ = Convert.ToInt32(dr["tblWallSegNo"].ToString());
+                modelWallSeg.StdFlrID = Convert.ToInt32(dr["tblWallSegStdFlrID"].ToString());
+                modelWallSeg.SectID = Convert.ToInt32(dr["SectID"].ToString());
+                modelWallSeg.GridID = Convert.ToInt32(dr["GridID"].ToString());
+                modelWallSeg.Ecc = Convert.ToInt32(dr["Ecc"].ToString());
+                modelWallSeg.HDiff1 = Convert.ToInt32(dr["HDiff1"].ToString());
+                modelWallSeg.HDiff2 = Convert.ToInt32(dr["HDiff2"].ToString());
+                modelWallSeg.HDiffB = Convert.ToInt32(dr["HDiffB"].ToString());
+                modelWallSeg.Sloping = Convert.ToInt32(dr["sloping"].ToString());
+                modelWallSeg.EccDown = Convert.ToInt32(dr["EccDown"].ToString());
+                modelWallSeg.Offset1 = Convert.ToInt32(dr["offset1"].ToString());
+                modelWallSeg.Offset2 = Convert.ToInt32(dr["offset2"].ToString());
+                modelWallSeg.DbPath = this.dbPath;
+                item.WallSeg = modelWallSeg;
 
                 item.WallSect.ID = Convert.ToInt32(dr["tblWallSectID"].ToString());
                 item.WallSect.No_ = Convert.ToInt32(dr["tblWallSectNo"].ToString());

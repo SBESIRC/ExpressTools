@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using ThStructureCheck.Common.Interface;
 using ThStructureCheck.Common.Model;
+using ThStructureCheck.Common.Model.Beam;
+using ThStructureCheck.Common.Model.Column;
+using ThStructureCheck.Common.Model.Wall;
 
 namespace ThStructureCheck.Common.Service
 {
@@ -30,7 +33,7 @@ namespace ThStructureCheck.Common.Service
             {
                 return;
             }
-            if ((this.linkEntity is RectangleColumnGeometry || this.linkEntity is LineWallGeometry) &&
+            if ((this.linkEntity is RecColumnGeometry || this.linkEntity is LineWallGeometry) &&
                 this.beam is LineBeamGeometry)
             {
                this.insertDepth = GetLineBeamRecEntInsertDepth();

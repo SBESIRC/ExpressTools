@@ -9,6 +9,7 @@ namespace ThStructureCheck.YJK.Interface
 {
     public interface IEntityInf
     {
+        double Length { get;}
         IEntity BuildGeometry();
     }
 }

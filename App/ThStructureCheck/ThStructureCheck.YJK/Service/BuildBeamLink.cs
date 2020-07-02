@@ -257,7 +257,7 @@ namespace ThStructureCheck.YJK.Service
             List<ModelBeamSeg> linkBeamSegs = new YjkBeamQuery(this.dtlModelPath).GetBeamLinkBeams(beamSeg, jtID);
             for (int i = 0; i < linkBeamSegs.Count; i++)
             {
-                bool res = beamSeg.IsCollinear(linkBeamSegs[i]);
+                bool res = (beamSeg as ModelLineBeamSeg).IsCollinear(linkBeamSegs[i] as ModelLineBeamSeg);
                 if (isCollinear) //要共线
                 {
                     if (!res)

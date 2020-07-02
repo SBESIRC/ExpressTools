@@ -11,7 +11,7 @@ using ThStructureCheck.YJK.Query;
 
 namespace ThStructureCheck.YJK.Model
 {
-    public class ModelWallSeg : YjkEntityInfo,IEntityInf
+    public class ModelWallSeg : YjkEntityInfo
     {
         public int No_ { get; set; }
         public int StdFlrID { get; set; }
@@ -39,26 +39,17 @@ namespace ThStructureCheck.YJK.Model
                 return new YjkWallQuery(this.DbPath).GetModelWallSect(this.SectID);
             }
         }
-
-        public IEntity BuildGeometry()
+        public static ModelWallSeg TransModelWallSeg(string dtlModelPath, int sectID)
         {
-            //ToDo 后续增加弧墙
-            return BuildLineWallGeometry();
-        }
-        private LineWallGeometry BuildLineWallGeometry()
-        {
-            YjkJointQuery yjkJointQuery = new YjkJointQuery(this.DbPath);
-            ModelGrid modelGrid = this.Grid;
-            ModelJoint startJoint = yjkJointQuery.GetModelJoint(modelGrid.Jt1ID);
-            ModelJoint endJoint = yjkJointQuery.GetModelJoint(modelGrid.Jt2ID);
-            return new LineWallGeometry()
+            //ToDo
+            ModelWallSeg modelWallSeg = new ModelWallSeg()
             {
-                StartPoint = new Coordinate(startJoint.X, startJoint.Y),
-                EndPoint = new Coordinate(endJoint.X, endJoint.Y),
-                Ecc = this.Ecc,               
-                B = this.WallSect.B,
-                H = this.WallSect.H
+                SectID = sectID,
+                DbPath = dtlModelPath
             };
+            int kind = modelWallSeg.WallSect.Kind;
+            //根据Kind来判断
+            return new ModelLineWallSeg();
         }
     }
 }

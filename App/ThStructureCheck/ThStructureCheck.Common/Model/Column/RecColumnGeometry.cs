@@ -7,19 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using ThStructureCheck.Common.Interface;
 
-namespace ThStructureCheck.Common.Model
+namespace ThStructureCheck.Common.Model.Column
 {
-    public abstract class ColumnGeometry
+    public class RecColumnGeometry : ColumnGeometry, IEntity
     {
-        public Coordinate Origin { get; set; }
-        public double EccX { get; set; }
-        public double EccY { get; set; }
-        public double Rotation { get; set; }
-        public double B { get; set; }
-        public double H { get; set; }        
-    }
-    public class RectangleColumnGeometry: ColumnGeometry,IEntity
-    {        
         public Entity Draw()
         {
             Polyline polyline = null;
@@ -40,5 +31,4 @@ namespace ThStructureCheck.Common.Model
             return polyline;
         }
     }
-
 }

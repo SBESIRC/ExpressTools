@@ -43,11 +43,6 @@ namespace ThStructureCheck.YJK
             return new YjkBeamCalculateInfo(this.dtlModelPath, this.dtlCalculatePath).GetCalculateInfo(beamInf);
         }
 
-        public ICalculateInfo GetBoardCalculateInfo(IEntityInf boardInf)
-        {
-            return new YjkBoardCalculateInfo(this.dtlModelPath, this.dtlCalculatePath).GetCalculateInfo(boardInf);
-        }
-
         public ICalculateInfo GetColumnCalculateInfo(IEntityInf columnInf)
         {
             return new YjkColumnCalculateInfo(this.dtlModelPath,this.dtlCalculatePath).GetCalculateInfo(columnInf);

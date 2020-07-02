@@ -13,7 +13,6 @@ namespace ThStructureCheck.YJK.Interface
         IList<IEntityInf> ExtractWall(int floorNo);
         IList<IEntityInf> ExtractBoard(int floorNo);
         ICalculateInfo GetColumnCalculateInfo(IEntityInf columnInf);
-        ICalculateInfo GetBoardCalculateInfo(IEntityInf columnInf);
         ICalculateInfo GetBeamCalculateInfo(IEntityInf columnInf);
         ICalculateInfo GetWallCalculateInfo(IEntityInf wallInf);
     }

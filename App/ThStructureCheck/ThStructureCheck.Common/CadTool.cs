@@ -620,6 +620,14 @@ namespace ThStructureCheck.Common
             bool result = false;
             try
             {
+                if(curve1==null || curve2==null)
+                {
+                    return result;
+                }
+                if(curve1.IsDisposed || curve2.IsDisposed)
+                {
+                    result = false
+                }
                 DBObjectCollection dbObjCo11 = new DBObjectCollection();
                 dbObjCo11.Add(curve1);
                 DBObjectCollection dbObjCo12 = new DBObjectCollection();
@@ -900,6 +908,7 @@ namespace ThStructureCheck.Common
             }
             return false;
         }
+        
     }
     public enum PolygonSelectionMode
     {

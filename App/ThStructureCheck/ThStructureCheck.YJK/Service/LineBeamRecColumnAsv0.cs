@@ -17,17 +17,17 @@ namespace ThStructureCheck.YJK.Service
     /// </summary>
     class LineBeamRecColumnAsv0 : Asv0Calculation
     {
-        private ModelColumnSeg modelColumnSeg;
+        private ModelRecColumnSeg modelRecColumnSeg;
         private double b;
         private double h;
         private IEntity beamGeo;
         private IEntity columnGeo;
        
-        public LineBeamRecColumnAsv0(List<ModelBeamSeg> modelBeamSegs, ModelColumnSeg modelColumnSeg, bool start, string dtlCalcPath)
-            :base(modelBeamSegs, modelColumnSeg, start,dtlCalcPath)
+        public LineBeamRecColumnAsv0(List<ModelBeamSeg> modelBeamSegs, ModelRecColumnSeg modelRecColumnSeg, bool start, string dtlCalcPath)
+            :base(modelBeamSegs, modelRecColumnSeg, start,dtlCalcPath)
         {
-            this.modelColumnSeg = modelColumnSeg;           
-            columnGeo = this.modelColumnSeg.BuildGeometry();
+            this.modelRecColumnSeg = modelRecColumnSeg;           
+            columnGeo = this.modelRecColumnSeg.BuildGeometry();
             Init();
         }
         public LineBeamRecColumnAsv0(List<ModelBeamSeg> modelBeamSegs, IEntity recGeo, bool start, string dtlCalcPath)
@@ -44,7 +44,7 @@ namespace ThStructureCheck.YJK.Service
                 this.b = specDatas[0];
                 this.h = specDatas[1];
             }
-            beamGeo = base.modelBeamSeg.BuildGeometry();
+            beamGeo = (base.modelBeamSeg as ModelLineBeamSeg).BuildGeometry();
             InsertDepthCalculate insertDepthCalculate = new InsertDepthCalculate(beamGeo, columnGeo);
             insertDepthCalculate.Calculate();
             base.insertDepth = insertDepthCalculate.InsertDepth;
@@ -78,8 +78,9 @@ namespace ThStructureCheck.YJK.Service
             double preLength = 0.0;
             for(int i=0;i< base.beamSegs.Count;i++)
             {
-                totalLength += base.beamSegs[i].Length;
-                if (asvLength <= base.beamSegs[i].Length)
+                ModelLineBeamSeg modelLineBeamSeg= base.beamSegs[i] as ModelLineBeamSeg;
+                totalLength += modelLineBeamSeg.Length;
+                if (asvLength <= modelLineBeamSeg.Length)
                 {
                     int floorNo;
                     int beamSegNo;
@@ -87,10 +88,10 @@ namespace ThStructureCheck.YJK.Service
                     int calcBeamId = this.calcBeamQuery.GetTblBeamSegIDFromDtlCalc(floorNo, beamSegNo);
                     CalcRCBeamDsn calcRCBeamDsn = calcBeamQuery.GetCalcRcBeamDsn(calcBeamId);
                     List<double> asves = calcRCBeamDsn.AsvCollection;
-                    CalculateForward(asves, asvLength - preLength, base.beamSegs[i].Length / 8.0);
+                    CalculateForward(asves, asvLength - preLength, modelLineBeamSeg.Length / 8.0);
                     break;
                 }
-                preLength += base.beamSegs[i].Length;
+                preLength += modelLineBeamSeg.Length;
             }
         }
         private void CalculateEnd()
@@ -99,8 +100,9 @@ namespace ThStructureCheck.YJK.Service
             double preLength = 0.0;
             for (int i = base.beamSegs.Count -1; i >= 0; i--)
             {
-                totalLength += base.beamSegs[i].Length;
-                if (asvLength <= base.beamSegs[i].Length)
+                ModelLineBeamSeg modelLineBeamSeg = base.beamSegs[i] as ModelLineBeamSeg;
+                totalLength += modelLineBeamSeg.Length;
+                if (asvLength <= modelLineBeamSeg.Length)
                 {
                     int floorNo;
                     int beamSegNo;
@@ -108,10 +110,10 @@ namespace ThStructureCheck.YJK.Service
                     int calcBeamId = this.calcBeamQuery.GetTblBeamSegIDFromDtlCalc(floorNo, beamSegNo);
                     CalcRCBeamDsn calcRCBeamDsn = calcBeamQuery.GetCalcRcBeamDsn(calcBeamId);
                     List<double> asves = calcRCBeamDsn.AsvCollection;
-                    CalculateOpposite(asves, asvLength - preLength, base.beamSegs[i].Length / 8.0);
+                    CalculateOpposite(asves, asvLength - preLength, modelLineBeamSeg.Length / 8.0);
                     break;
                 }
-                preLength += base.beamSegs[i].Length;
+                preLength += modelLineBeamSeg.Length;
             }
         }
         private void CalculateForward(List<double> asves, double diffL, double splitLength)

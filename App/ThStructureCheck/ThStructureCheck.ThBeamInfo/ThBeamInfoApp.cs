@@ -44,8 +44,9 @@ namespace ThStructureCheck
                 dwgBeams=thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(document.Database, polyline));
             }
 
+            //关联Dwg识别的梁断和Yjk导入的梁断
             ThBeamMatch thBeamMatch = new ThBeamMatch(thDrawBeam.BeamEnts, dwgBeams);
-            //拆分从计算书识别的梁端
+            thBeamMatch.Match();
 
             //计算拆分后的梁端的配筋信息
 

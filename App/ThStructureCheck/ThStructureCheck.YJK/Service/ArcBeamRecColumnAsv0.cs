@@ -16,11 +16,11 @@ namespace ThStructureCheck.YJK.Service
     /// </summary>
     class ArcBeamRecColumnAsv0 : Asv0Calculation
     {
-        private ModelColumnSeg modelColumnSeg;
-        public ArcBeamRecColumnAsv0(List<ModelBeamSeg> beamSegs,ModelColumnSeg modelColumnSeg, bool start,string dtlCalcPath)
-            :base(beamSegs, modelColumnSeg, start,dtlCalcPath)
+        private ModelRecColumnSeg modelRecColumnSeg;
+        public ArcBeamRecColumnAsv0(List<ModelBeamSeg> beamSegs,ModelRecColumnSeg modelRecColumnSeg, bool start,string dtlCalcPath)
+            :base(beamSegs, modelRecColumnSeg, start,dtlCalcPath)
         {
-            this.modelColumnSeg = modelColumnSeg;
+            this.modelRecColumnSeg = modelRecColumnSeg;
         }
         public override void Calculate()
         {

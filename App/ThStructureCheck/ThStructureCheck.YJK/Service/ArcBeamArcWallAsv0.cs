@@ -17,7 +17,7 @@ namespace ThStructureCheck.YJK.Service
     class ArcBeamArcWallAsv0 : Asv0Calculation
     {
         private ModelWallSeg modelWallSeg;
-        public ArcBeamArcWallAsv0(List<ModelBeamSeg> beamSegs, ModelWallSeg modelWallSeg, bool start, string dtlCalcPath)
+        public ArcBeamArcWallAsv0(List<ModelBeamSeg> beamSegs, ModelArcWallSeg modelWallSeg, bool start, string dtlCalcPath)
             :base(beamSegs, modelWallSeg, start,dtlCalcPath)
         {
             this.modelWallSeg = modelWallSeg;

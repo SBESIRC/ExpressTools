@@ -15,35 +15,6 @@ namespace ThStructureCheck.YJK.Query
         public YjkColumnQuery(string dbPath):base(dbPath)
         {
         }
-        /// <summary>
-        /// 提取dtlModel中所有的柱子信息
-        /// </summary>
-        /// <param name="floorNo"></param>
-        /// <returns></returns>
-        public override IList<IEntityInf> Extract(int floorNo)
-        {
-            List<IEntityInf> yjkColumns=null;
-            string sql = "select tblFloor.ID, tblColSeg.StdFlrID,tblColSeg.JtID,tblColSeg.EccX,tblColSeg.EccY,tblColSeg.Rotation," +
-                "tblColSect.ShapeVal,tblJoint.X,tblJoint.Y from tblFloor join tblColSeg join tblColSect join tblJoint" +
-                " where tblFloor.No_ =" + floorNo + " and tblFloor.StdFlrID = tblColSeg.StdFlrID and tblColSeg.SectID = tblColSect.ID and" +
-                " tblColSeg.StdFlrID = tblJoint.StdFlrID and tblColSeg.JtID = tblJoint.ID";
-            DataTable dt = ExecuteDataTable(sql);
-            foreach (DataRow dr in dt.Rows)
-            {
-                YjkColumn yjkColumnInf = new YjkColumn();
-                yjkColumnInf.FloorID = Convert.ToInt32(dr["ID"].ToString());
-                yjkColumnInf.StdFlrID = Convert.ToInt32(dr["StdFlrID"].ToString());
-                yjkColumnInf.JtID = Convert.ToInt32(dr["JtID"].ToString());
-                yjkColumnInf.EccX = Convert.ToDouble(dr["EccX"].ToString());
-                yjkColumnInf.EccY = Convert.ToDouble(dr["EccY"].ToString());
-                yjkColumnInf.Rotation = Convert.ToDouble(dr["Rotation"].ToString());
-                yjkColumnInf.ShapeVal = dr["ShapeVal"].ToString();
-                yjkColumnInf.X = Convert.ToDouble(dr["X"].ToString());
-                yjkColumnInf.Y = Convert.ToDouble(dr["Y"].ToString());
-                yjkColumns.Add(yjkColumnInf);
-            }
-            return yjkColumns;
-        }
         public CalcColumnSeg GetCalcColumnSeg(int id)
         {
             CalcColumnSeg calcColumnSeg = new CalcColumnSeg();
@@ -87,21 +58,6 @@ namespace ThStructureCheck.YJK.Query
                 item.Floor.Height = Convert.ToInt32(dr["Height"].ToString());
                 item.Floor.DbPath = this.dbPath;
 
-                item.ColumnSeg.ID = Convert.ToInt32(dr["tblColSegID"].ToString());
-                item.ColumnSeg.No_ = Convert.ToInt32(dr["tblColSegNo"].ToString());
-                item.ColumnSeg.StdFlrID = Convert.ToInt32(dr["tblColSegStdFlrID"].ToString());
-                item.ColumnSeg.SectID = Convert.ToInt32(dr["SectID"].ToString());
-                item.ColumnSeg.JtID = Convert.ToInt32(dr["JtID"].ToString());
-                item.ColumnSeg.EccX = Convert.ToInt32(dr["EccX"].ToString());
-                item.ColumnSeg.EccY = Convert.ToInt32(dr["EccY"].ToString());
-                item.ColumnSeg.Rotation = Convert.ToDouble(dr["Rotation"].ToString());
-                item.ColumnSeg.HDiffB = Convert.ToInt32(dr["HDiffB"].ToString());
-                item.ColumnSeg.ColcapId = Convert.ToInt32(dr["ColcapId"].ToString());
-                item.ColumnSeg.Cut_Col = dr["Cut_Col"].ToString();
-                item.ColumnSeg.Cut_Cap = dr["Cut_Cap"].ToString();
-                item.ColumnSeg.Cut_Slab = dr["Cut_Slab"].ToString();
-                item.ColumnSeg.DbPath = this.dbPath;
-
                 item.ColumnSect.ID = Convert.ToInt32(dr["tblColSectID"].ToString());
                 item.ColumnSect.No_ = Convert.ToInt32(dr["tblColSectNo"].ToString());
                 item.ColumnSect.Name = dr["tblColSectName"].ToString();
@@ -110,6 +66,24 @@ namespace ThStructureCheck.YJK.Query
                 item.ColumnSect.ShapeVal = dr["ShapeVal"].ToString();
                 item.ColumnSect.ShapeVal1 = dr["ShapeVal1"].ToString();
                 item.ColumnSect.DbPath = this.dbPath;
+
+                //后续根据Kind类型来实例化对应的柱子    
+                ModelColumnSeg modelColumnSeg = ModelColumnSeg.TransModelColumnSeg(this.dbPath,Convert.ToInt32(dr["SectID"].ToString()));
+                modelColumnSeg.ID = Convert.ToInt32(dr["tblColSegID"].ToString());
+                modelColumnSeg.No_ = Convert.ToInt32(dr["tblColSegNo"].ToString());
+                modelColumnSeg.StdFlrID = Convert.ToInt32(dr["tblColSegStdFlrID"].ToString());
+                modelColumnSeg.SectID = Convert.ToInt32(dr["SectID"].ToString());
+                modelColumnSeg.JtID = Convert.ToInt32(dr["JtID"].ToString());
+                modelColumnSeg.EccX = Convert.ToInt32(dr["EccX"].ToString());
+                modelColumnSeg.EccY = Convert.ToInt32(dr["EccY"].ToString());
+                modelColumnSeg.Rotation = Convert.ToDouble(dr["Rotation"].ToString());
+                modelColumnSeg.HDiffB = Convert.ToInt32(dr["HDiffB"].ToString());
+                modelColumnSeg.ColcapId = Convert.ToInt32(dr["ColcapId"].ToString());
+                modelColumnSeg.Cut_Col = dr["Cut_Col"].ToString();
+                modelColumnSeg.Cut_Cap = dr["Cut_Cap"].ToString();
+                modelColumnSeg.Cut_Slab = dr["Cut_Slab"].ToString();
+                modelColumnSeg.DbPath = this.dbPath;
+                item.ColumnSeg = modelColumnSeg;
 
                 item.Joint.ID = Convert.ToInt32(dr["tblJointID"].ToString());
                 item.Joint.No_ = Convert.ToInt32(dr["tblJointNo"].ToString());
@@ -388,48 +362,6 @@ namespace ThStructureCheck.YJK.Query
                 Utils.WriteException(ex, "GetAntiSeismicGradeInCalculation");
             }
             return paraVal;
-        }
-        /// <summary>
-        /// 从模型库(dtlModel)中的表tblColSegPara中获取抗震等级 获取抗震等级在
-        /// </summary>
-        /// <returns></returns>
-        public List<double> GetAntiSeismicGradeInModel()
-        {
-            List<double> res = new List<double>();
-            double paraVal = 0.0;
-            double adjustVal = 0.0;
-            try
-            {
-                string sql = "select ID,ParaVal from tblProjectPara where ID=701 or ID=704";
-                DataTable dt = ExecuteDataTable(sql);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    if (dr["ID"] != null)
-                    {
-                        if (Convert.ToDouble(dr["ID"]) == 701)
-                        {
-                            if (dr["ParaVal"] != null)
-                            {
-                                paraVal = Convert.ToDouble(dr["ParaVal"]);
-                            }
-                        }
-                        if (Convert.ToDouble(dr["ID"]) == 704)
-                        {
-                            if (dr["ParaVal"] != null)
-                            {
-                                adjustVal = Convert.ToDouble(dr["ParaVal"]);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (System.Exception ex)
-            {
-                Utils.WriteException(ex, "GetAntiSeismicGradeInCalculation");
-            }
-            res.Add(paraVal);
-            res.Add(adjustVal);
-            return res;
         }
         /// <summary>
         /// 从计算库(dtlCalc)的表(tblColSegPara)中获取保护层厚度
@@ -899,7 +831,7 @@ namespace ThStructureCheck.YJK.Query
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {
-                ModelColumnSeg item = new ModelColumnSeg();
+                ModelColumnSeg item = ModelColumnSeg.TransModelColumnSeg(this.dbPath, Convert.ToInt32(dr["SectID"].ToString()));
                 item.ID = Convert.ToInt32(dr["ID"].ToString());
                 item.No_ = Convert.ToInt32(dr["No_"].ToString());
                 item.StdFlrID = Convert.ToInt32(dr["StdFlrID"].ToString());

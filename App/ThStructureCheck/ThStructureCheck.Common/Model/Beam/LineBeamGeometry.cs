@@ -8,19 +8,9 @@ using System.Threading.Tasks;
 using ThStructureCheck.Common.Interface;
 using ThStructureCheck.Common.Service;
 
-namespace ThStructureCheck.Common.Model
+namespace ThStructureCheck.Common.Model.Beam
 {
-    public abstract class BeamGeometry
-    {
-        public Coordinate StartPoint { get; set; }
-        public Coordinate EndPoint { get; set; }
-        public double Ecc { get; set; }
-        public double Rotation { get; set; }
-        public double B { get; set; }
-        public double H { get; set; }
-        public abstract Polyline DrawCenterLine();
-    }
-    public class LineBeamGeometry: BeamGeometry,IEntity
+    public class LineBeamGeometry : BeamGeometry, IEntity
     {
         public override Polyline DrawCenterLine()
         {
@@ -28,7 +18,7 @@ namespace ThStructureCheck.Common.Model
             Vector3d offsetVec = GeometricCalculation.GetOffsetDirection(StartPoint.Coord, EndPoint.Coord);
             Point3d sp = StartPoint.Coord + offsetVec.GetNormal().MultiplyBy(this.Ecc);
             Point3d ep = EndPoint.Coord + offsetVec.GetNormal().MultiplyBy(this.Ecc);
-            if(sp.DistanceTo(ep)>0.0)
+            if (sp.DistanceTo(ep) > 0.0)
             {
                 polyline = new Polyline();
                 polyline.AddVertexAt(0, new Point2d(sp.X, sp.Y), 0.0, 0.0, 0.0);

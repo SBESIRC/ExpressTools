@@ -12,7 +12,7 @@ using ThStructureCheck.YJK.Query;
 
 namespace ThStructureCheck.YJK.Model
 {
-    public class ModelColumnSeg : YjkEntityInfo,IEntityInf
+    public class ModelColumnSeg : YjkEntityInfo
     {
         public int No_ { get; set; }
         public int StdFlrID { get; set; }
@@ -34,34 +34,17 @@ namespace ThStructureCheck.YJK.Model
                 return new YjkColumnQuery(this.DbPath).GetModelColumnSect(this.SectID);
             }
         }
-        public IEntity BuildGeometry()
+        public static ModelColumnSeg TransModelColumnSeg(string dtlModelPath, int sectID)
         {
-            //Todo 后续要增加弧梁
-            return RectangleColumnGeo();
-        }
-        public RectangleColumnGeometry RectangleColumnGeo()
-        {
-            YjkJointQuery yjkJointQuery = new YjkJointQuery(this.DbPath);
-            ModelJoint columnJoint = yjkJointQuery.GetModelJoint(this.JtID);
-            List<double> datas = Utils.GetDoubleDatas(this.ColumnSect.Spec);
-            if (datas.Count == 0)
+            //ToDo
+            ModelColumnSeg modelColumnSeg = new ModelColumnSeg()
             {
-                datas.Add(0.0);
-                datas.Add(0.0);
-            }
-            else if (datas.Count == 1)
-            {
-                datas.Add(0.0);
-            }
-            return new RectangleColumnGeometry()
-            {
-                Origin = new Coordinate(columnJoint.X, columnJoint.Y),
-                EccX = this.EccX,
-                EccY = this.EccY,
-                Rotation = this.Rotation,
-                B = datas[0],
-                H = datas[1]
+                SectID = sectID,
+                DbPath= dtlModelPath
             };
+            int kind = modelColumnSeg.ColumnSect.Kind;
+            //根据Kind来判断
+            return new ModelRecColumnSeg();
         }
     }
     public class CalcColumnSeg : YjkEntityInfo

@@ -8,18 +8,9 @@ using System.Threading.Tasks;
 using ThStructureCheck.Common.Interface;
 using ThStructureCheck.Common.Service;
 
-namespace ThStructureCheck.Common.Model
+namespace ThStructureCheck.Common.Model.Wall
 {
-    public abstract class WallGeometry
-    {
-        public Coordinate StartPoint { get; set; }
-        public Coordinate EndPoint { get; set; }
-        public double Ecc { get; set; }
-        public double B { get; set; }
-        public double H { get; set; }
-       
-    }
-    public class LineWallGeometry : WallGeometry,IEntity
+    public class LineWallGeometry : WallGeometry, IEntity
     {
         public Entity Draw()
         {
@@ -36,7 +27,7 @@ namespace ThStructureCheck.Common.Model
             pts.Add(pt2);
             pts.Add(pt3);
             pts.Add(pt4);
-            polyline=CadTool.CreatePolyline(pts);
+            polyline = CadTool.CreatePolyline(pts);
             return polyline;
         }
     }

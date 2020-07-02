@@ -42,25 +42,30 @@ namespace ThStructureCheck.YJK.Query
                 item.Floor.Height = Convert.ToDouble(dr["Height"].ToString());
                 item.Floor.DbPath = this.dbPath;
 
-                item.BeamSeg.ID = Convert.ToInt32(dr["tblBeamSegID"].ToString());
-                item.BeamSeg.No_= Convert.ToInt32(dr["tblBeamSegNo"].ToString());
-                item.BeamSeg.StdFlrID = Convert.ToInt32(dr["tblBeamSegStdFlrID"].ToString());
-                item.BeamSeg.SectID= Convert.ToInt32(dr["SectID"].ToString());
-                item.BeamSeg.GridID = Convert.ToInt32(dr["GridID"].ToString());
-                item.BeamSeg.Ecc = Convert.ToInt32(dr["Ecc"].ToString());
-                item.BeamSeg.HDiff1 = Convert.ToInt32(dr["HDiff1"].ToString());
-                item.BeamSeg.HDiff2 = Convert.ToInt32(dr["HDiff2"].ToString());
-                item.BeamSeg.Rotation = Convert.ToInt32(dr["Rotation"].ToString());
-                item.BeamSeg.DbPath = this.dbPath;
-
-                item.BeamSect.ID= Convert.ToInt32(dr["tblBeamSectID"].ToString());
-                item.BeamSect.No_= Convert.ToInt32(dr["tblBeamSectNo"].ToString());
+                item.BeamSect.ID = Convert.ToInt32(dr["tblBeamSectID"].ToString());
+                item.BeamSect.No_ = Convert.ToInt32(dr["tblBeamSectNo"].ToString());
                 item.BeamSect.Name = dr["tblBeamSectName"].ToString();
-                item.BeamSect.Mat=Convert.ToInt32(dr["Mat"].ToString());
+                item.BeamSect.Mat = Convert.ToInt32(dr["Mat"].ToString());
                 item.BeamSect.Kind = Convert.ToInt32(dr["Kind"].ToString());
-                item.BeamSect.ShapeVal= dr["ShapeVal"].ToString();
+                item.BeamSect.ShapeVal = dr["ShapeVal"].ToString();
                 item.BeamSect.ShapeVal1 = dr["ShapeVal1"].ToString();
                 item.BeamSect.DbPath = this.dbPath;
+
+                //后期根据梁类型构造梁实例
+                ModelBeamSeg modelBeamSeg = ModelBeamSeg.TransModelBeamSeg(
+                    this.dbPath,Convert.ToInt32(dr["SectID"].ToString()));
+                modelBeamSeg.ID = Convert.ToInt32(dr["tblBeamSegID"].ToString());
+                modelBeamSeg.No_= Convert.ToInt32(dr["tblBeamSegNo"].ToString());
+                modelBeamSeg.StdFlrID = Convert.ToInt32(dr["tblBeamSegStdFlrID"].ToString());
+                modelBeamSeg.SectID= Convert.ToInt32(dr["SectID"].ToString());
+                modelBeamSeg.GridID = Convert.ToInt32(dr["GridID"].ToString());
+                modelBeamSeg.Ecc = Convert.ToInt32(dr["Ecc"].ToString());
+                modelBeamSeg.HDiff1 = Convert.ToInt32(dr["HDiff1"].ToString());
+                modelBeamSeg.HDiff2 = Convert.ToInt32(dr["HDiff2"].ToString());
+                modelBeamSeg.Rotation = Convert.ToInt32(dr["Rotation"].ToString());
+                modelBeamSeg.DbPath = this.dbPath;
+                item.BeamSeg = modelBeamSeg;
+
                 results.Add(item);
             }
             return results;
@@ -160,7 +165,6 @@ namespace ThStructureCheck.YJK.Query
             {
                 string sql = "select * from tblRCBeamDsn where ID = " + ID;
                 DataTable dt = ExecuteDataTable(sql);
-                string asTop = "";
                 foreach (DataRow dr in dt.Rows)
                 {
                     calcRCBeamDsn.ID = Convert.ToInt32(dr["ID"].ToString());
@@ -234,7 +238,8 @@ namespace ThStructureCheck.YJK.Query
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {
-                ModelBeamSeg modelBeamSeg = new ModelBeamSeg();
+                ModelBeamSeg modelBeamSeg = ModelBeamSeg.TransModelBeamSeg(
+                    this.dbPath, Convert.ToInt32(dr["SectID"].ToString()));
                 modelBeamSeg.ID = Convert.ToInt32(dr["ID"].ToString());
                 modelBeamSeg.No_= Convert.ToInt32(dr["No_"].ToString());
                 modelBeamSeg.StdFlrID = Convert.ToInt32(dr["StdFlrID"].ToString());
@@ -286,7 +291,8 @@ namespace ThStructureCheck.YJK.Query
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {
-                ModelBeamSeg modelBeamSeg = new ModelBeamSeg();
+                ModelBeamSeg modelBeamSeg = ModelBeamSeg.TransModelBeamSeg(
+                    this.dbPath, Convert.ToInt32(dr["SectID"].ToString()));
                 modelBeamSeg.ID = Convert.ToInt32(dr["ID"].ToString());
                 modelBeamSeg.No_ = Convert.ToInt32(dr["No_"].ToString());
                 modelBeamSeg.StdFlrID = Convert.ToInt32(dr["StdFlrID"].ToString());
