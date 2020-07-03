@@ -7,8 +7,8 @@
     <ProjectGuid>{0F36F6E9-F83B-40F6-B848-B13B20E9B1BE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ThStructure</RootNamespace>
-    <AssemblyName>ThStructure</AssemblyName>
+    <RootNamespace>ThBeam</RootNamespace>
+    <AssemblyName>ThBeam</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -38,44 +38,29 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BeamInfo\Business\CalBeamIntersectService.cs" />
-    <Compile Include="BeamInfo\Business\CalBeamStruService.cs" />
-    <Compile Include="BeamInfo\Business\CalSpanBeamInfo.cs" />
-    <Compile Include="BeamInfo\Business\FillBeamInfo.cs" />
-    <Compile Include="BeamInfo\Business\MarkingService.cs" />
-    <Compile Include="BeamInfo\Business\ThBeamCommon.cs" />
-    <Compile Include="BeamInfo\Business\ThBeamGeExtension.cs" />
-    <Compile Include="BeamInfo\Business\ThBeamGeometryPreprocessor.cs" />
-    <Compile Include="BeamInfo\Model\MarkingInfo.cs" />
-    <Compile Include="BeamInfo\Model\MergeLineBeam.cs" />
-    <Compile Include="BeamInfo\Model\ThOriginMarkingcs.cs" />
-    <Compile Include="BeamInfo\Utils\CalBeamIntersect.cs" />
-    <Compile Include="BeamInfo\Business\GetBeamMarkInfo.cs" />
-    <Compile Include="BeamInfo\Command\ThDisBeamCommand.cs" />
-    <Compile Include="BeamInfo\Model\ArcBeam.cs" />
-    <Compile Include="BeamInfo\Model\Beam.cs" />
-    <Compile Include="BeamInfo\Model\BeamIntersectInfo.cs" />
-    <Compile Include="BeamInfo\Model\LineBeam.cs" />
-    <Compile Include="BeamInfo\Model\ThCentralizedMarking.cs" />
-    <Compile Include="BeamInfo\Utils\GetObjectUtils.cs" />
-    <Compile Include="BeamInfo\Utils\ThStructureDbExtension.cs" />
-    <Compile Include="BeamInfo\Utils\ThStructureUtils.cs" />
-    <Compile Include="Model\IThSComponentRenderStyle.cs" />
-    <Compile Include="Model\IThSComponentRenderTarget.cs" />
-    <Compile Include="Model\ThSComponent.cs" />
-    <Compile Include="Model\ThSComponentCurveCollection.cs" />
-    <Compile Include="Model\ThSComponentDbRender.cs" />
-    <Compile Include="Model\ThSComponentDecorator.cs" />
-    <Compile Include="Model\ThSComponentParameterCollection.cs" />
-    <Compile Include="Model\ThSComponentDbStyleManager.cs" />
-    <Compile Include="Model\ThSDetailColumn.cs" />
-    <Compile Include="Model\ThSDetailRein.cs" />
-    <Compile Include="Model\ThSDetailReinPoint.cs" />
-    <Compile Include="Model\ThSDetailReinPointCollection.cs" />
-    <Compile Include="Model\ThSDetailSection.cs" />
-    <Compile Include="Model\ThSInplaceDetailColumn.cs" />
+    <Compile Include="Business\CalBeamIntersectService.cs" />
+    <Compile Include="Business\CalBeamStruService.cs" />
+    <Compile Include="Business\CalSpanBeamInfo.cs" />
+    <Compile Include="Business\FillBeamInfo.cs" />
+    <Compile Include="Business\MarkingService.cs" />
+    <Compile Include="Business\ThBeamCommon.cs" />
+    <Compile Include="Business\ThBeamGeExtension.cs" />
+    <Compile Include="Business\ThBeamGeometryPreprocessor.cs" />
+    <Compile Include="Model\MarkingInfo.cs" />
+    <Compile Include="Model\MergeLineBeam.cs" />
+    <Compile Include="Model\ThOriginMarkingcs.cs" />
+    <Compile Include="Utils\CalBeamIntersect.cs" />
+    <Compile Include="Business\GetBeamMarkInfo.cs" />
+    <Compile Include="Command\ThDisBeamCommand.cs" />
+    <Compile Include="Model\ArcBeam.cs" />
+    <Compile Include="Model\Beam.cs" />
+    <Compile Include="Model\BeamIntersectInfo.cs" />
+    <Compile Include="Model\LineBeam.cs" />
+    <Compile Include="Model\ThCentralizedMarking.cs" />
+    <Compile Include="Utils\GetObjectUtils.cs" />
+    <Compile Include="Utils\ThStructureDbExtension.cs" />
+    <Compile Include="Utils\ThStructureUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThStructureApp.cs" />
   </ItemGroup>
   <ItemGroup />
   <Choose>
