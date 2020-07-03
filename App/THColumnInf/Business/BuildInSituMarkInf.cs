@@ -203,11 +203,11 @@ namespace ThColumnInfo
                     return false;
                 }
             }
-            if (this.sideTextDic.Count != 0 && this.sideTextDic.Count != 2)
-            {
-                sb.Append("\nB、H边标注只能标两个或不标");
-                res = false;
-            }
+            //if (this.sideTextDic.Count != 0 && this.sideTextDic.Count != 2)
+            //{
+            //    sb.Append("\nB、H边标注只能标两个或不标");
+            //    res = false;
+            //}
             return res;
         }
         /// <summary>
@@ -348,37 +348,196 @@ namespace ThColumnInfo
             {
                 string bSideReinforceSuffix = new ColumnTableRecordInfo().GetReinforceSuffix(this.bSideReinforcement);
                 string hSideReinforceSuffix = new ColumnTableRecordInfo().GetReinforceSuffix(this.hSideReinforcement);
-                if (bSideReinforceSuffix!= suffix && hSideReinforceSuffix!= suffix)
+                List<int> bSideDatas= new ColumnTableRecordInfo().GetReinforceDatas(this.bSideReinforcement);
+                List<int> hSideDatas = new ColumnTableRecordInfo().GetReinforceDatas(this.hSideReinforcement);
+                if(!(bSideDatas[0]==this.distinguishCBH.BEdgeNum &&
+                   hSideDatas[0] == this.distinguishCBH.HEdgeNum))
                 {
-                    this.valid = false;
                     this.sb.Append("B边或H边格式和集中标注不一致");
+                    this.valid = false;
                     return;
                 }
-                if(angularDatas.Count>0 && angularDatas[0]== this.distinguishCBH.CornerNum * 4)
+                //含角筋字样的数量和识别角筋数量一致
+                if(angularDatas[0] == this.distinguishCBH.CornerNum * 4)
                 {
-                    if (this.bSideNum + this.hSideNum != reinNum)
+                    //B、H边标注文字的格式和纵筋不一致
+                    if (bSideReinforceSuffix != suffix && hSideReinforceSuffix != suffix)
                     {
                         this.valid = false;
-                        this.sb.Append("B边和H边的纵筋数量之和,与集中标注不一致");
+                        this.sb.Append("B边或H边格式和集中标注不一致");
                         return;
                     }
+                    if(reinNum==(this.distinguishCBH.BEdgeNum+ this.distinguishCBH.HEdgeNum)*2)
+                    {
+                        this.bSideReinforcement = this.distinguishCBH.BEdgeNum + bSideReinforceSuffix;
+                        this.hSideReinforcement = this.distinguishCBH.HEdgeNum + hSideReinforceSuffix;
+                    }
                 }
-                this.bSideReinforcement = this.distinguishCBH.BEdgeNum + bSideReinforceSuffix;               
-                this.hSideReinforcement = this.distinguishCBH.HEdgeNum + hSideReinforceSuffix;
+                else
+                {
+                    //表示有一部分分到角筋里面
+                    int cornerLeftNum = angularDatas[0] - this.distinguishCBH.CornerNum * 4;
+                    if(cornerLeftNum== this.distinguishCBH.BEdgeNum &&
+                        cornerReinforceSuffix == bSideReinforceSuffix)
+                    {
+                        this.bSideReinforcement = this.distinguishCBH.BEdgeNum + cornerReinforceSuffix;
+                        if(reinNum== this.distinguishCBH.HEdgeNum*2 && suffix== hSideReinforceSuffix)
+                        {
+                            this.hSideReinforcement = this.distinguishCBH.HEdgeNum + hSideReinforceSuffix;
+                        }
+                    }
+                    else if(cornerLeftNum== this.distinguishCBH.HEdgeNum &&
+                        cornerReinforceSuffix == hSideReinforceSuffix)
+                    {
+                        this.hSideReinforcement = this.distinguishCBH.HEdgeNum + cornerReinforceSuffix;
+                        if (reinNum == this.distinguishCBH.BEdgeNum * 2 && suffix == bSideReinforceSuffix)
+                        {
+                            this.bSideReinforcement = this.distinguishCBH.BEdgeNum + bSideReinforceSuffix;
+                        }
+                    }
+                }                
+            }
+            else if(this.sideTextDic.Count == 1)
+            {
+                //B边有标注
+                if(this.sideTextDic.ContainsKey(TextRotation.Horizontal))
+                {
+                    string bMarkText = this.sideTextDic[TextRotation.Horizontal].TextString;
+                    List<int> bMarkDatas = new ColumnTableRecordInfo().GetReinforceDatas(bMarkText);
+                    string bMarkSuffix = new ColumnTableRecordInfo().GetReinforceSuffix(bMarkText);
+                    //如果含角筋字样的纵筋数量和识别的角筋数量一致，其余归B、H边分
+                    if (angularDatas[0] == this.distinguishCBH.CornerNum * 4)
+                    {
+                        //B边纵筋和文字中的纵筋格式一致
+                        if (bMarkSuffix == suffix && reinNum > bMarkDatas[0] &&
+                            reinNum == (this.distinguishCBH.BEdgeNum + this.distinguishCBH.HEdgeNum) * 2)
+                        {
+                            this.bSideReinforcement = this.distinguishCBH.BEdgeNum + suffix;
+                            this.hSideReinforcement = this.distinguishCBH.HEdgeNum + suffix;
+                        }
+                    }
+                    else
+                    {
+                        if (bMarkDatas.Count == 2)
+                        {
+                            //表示B边表达的文字和该纵筋是一致
+                            if (bMarkDatas[0] == reinNum && bMarkSuffix == suffix)
+                            {
+                                //表示B边识别的纵筋数量也保持一致
+                                if (this.distinguishCBH.BEdgeNum * 2 == reinNum)
+                                {
+                                    this.bSideReinforcement = this.distinguishCBH.BEdgeNum + suffix;
+                                    //剩余归角筋和H边纵筋分配
+                                    if (angularDatas[0] == this.distinguishCBH.CornerNum * 4 + this.distinguishCBH.HEdgeNum * 2)
+                                    {
+                                        this.bSideReinforcement = this.distinguishCBH.BEdgeNum + cornerReinforceSuffix;
+                                    }
+                                }
+                            }
+                            //未能正确分配
+                            if (string.IsNullOrEmpty(this.bSideReinforcement) && string.IsNullOrEmpty(this.hSideReinforcement))
+                            {
+                                //B边纵筋分配到角筋里了
+                                if (angularDatas[0] == this.distinguishCBH.CornerNum * 4 + bMarkDatas[0] * 2 &&
+                                    cornerReinforceSuffix == bMarkSuffix)
+                                {
+                                    this.bSideReinforcement = this.distinguishCBH.BEdgeNum + cornerReinforceSuffix;
+                                    //未分配的纵筋数量和H边数量一致
+                                    if (reinNum == this.distinguishCBH.HEdgeNum * 2)
+                                    {
+                                        this.hSideReinforcement = this.distinguishCBH.HEdgeNum + suffix;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                //H边有标注
+                else if (this.sideTextDic.ContainsKey(TextRotation.Vertical))
+                {
+                    string hMarkText = this.sideTextDic[TextRotation.Vertical].TextString;
+                    List<int> hMarkDatas = new ColumnTableRecordInfo().GetReinforceDatas(hMarkText);
+                    string hMarkSuffix = new ColumnTableRecordInfo().GetReinforceSuffix(hMarkText);
+                    //角筋文字的数量和识别的角筋数量一致
+                    if (angularDatas[0] == this.distinguishCBH.CornerNum * 4)
+                    {
+                        //H边纵筋和文字中的纵筋格式一致
+                        if (hMarkSuffix == suffix && reinNum > hMarkDatas[0] &&
+                            reinNum == (this.distinguishCBH.BEdgeNum + this.distinguishCBH.HEdgeNum) * 2)
+                        {
+                            this.bSideReinforcement = this.distinguishCBH.BEdgeNum + suffix;
+                            this.hSideReinforcement = this.distinguishCBH.HEdgeNum + suffix;
+                        }
+                    }
+                    //角筋文字的数量大于识别的角筋数量，说明包括纵筋数量
+                    else
+                    {
+                        if (hMarkDatas.Count == 2)
+                        {
+                            //表示H边表达的文字和该纵筋是一致
+                            if (hMarkDatas[0] == reinNum && hMarkSuffix == suffix)
+                            {
+                                //表示H边识别的纵筋数量也保持一致
+                                if (this.distinguishCBH.HEdgeNum * 2 == reinNum)
+                                {
+                                    this.hSideReinforcement = this.distinguishCBH.HEdgeNum + suffix;
+                                    //剩余归角筋和H边纵筋分配
+                                    if (angularDatas[0] == this.distinguishCBH.CornerNum * 4 + this.distinguishCBH.BEdgeNum * 2)
+                                    {
+                                        this.bSideReinforcement = this.distinguishCBH.BEdgeNum + cornerReinforceSuffix;
+                                    }
+                                }
+                            }
+                            //未能正确分配
+                            if(string.IsNullOrEmpty(this.bSideReinforcement) && string.IsNullOrEmpty(this.hSideReinforcement))
+                            {
+                                //H边纵筋分配到角筋里了
+                                if (angularDatas[0]== this.distinguishCBH.CornerNum * 4 + hMarkDatas[0]*2 &&
+                                    cornerReinforceSuffix== hMarkSuffix)
+                                {
+                                    this.hSideReinforcement = this.distinguishCBH.HEdgeNum + cornerReinforceSuffix;
+                                    //未分配的纵筋数量和B边数量一致
+                                    if(reinNum== this.distinguishCBH.BEdgeNum*2)
+                                    {
+                                        this.bSideReinforcement = this.distinguishCBH.BEdgeNum + suffix;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
             else
             {
                 //集中标注第一个与识别的B边数量一致
-                if (reinNum == this.distinguishCBH.BEdgeNum * 2+ this.distinguishCBH.HEdgeNum * 2)
+                //如果含角筋字样的纵筋数量和识别的角筋数量一致，其余归B、H边分
+                if (angularDatas[0] == this.distinguishCBH.CornerNum * 4)
                 {
-                    this.bSideReinforcement = this.distinguishCBH.BEdgeNum + suffix;
-                    this.hSideReinforcement = this.distinguishCBH.HEdgeNum + suffix;
+                    //B边纵筋和文字中的纵筋格式一致
+                    if (reinNum == (this.distinguishCBH.BEdgeNum + this.distinguishCBH.HEdgeNum) * 2)
+                    {
+                        this.bSideReinforcement = this.distinguishCBH.BEdgeNum + suffix;
+                        this.hSideReinforcement = this.distinguishCBH.HEdgeNum + suffix;
+                    }
                 }
                 else
                 {
-                    this.sb.Append("\n集中标注的B、H边纵筋数量之和，与识别的B、H边纵筋数量之和不一致");
-                    this.valid = false;
-                    return;
+                    int cornerLeftNum = angularDatas[0] - this.distinguishCBH.CornerNum * 4;
+                    if(cornerLeftNum!=reinNum)
+                    {
+                        if(this.distinguishCBH.BEdgeNum*2== cornerLeftNum &&
+                            this.distinguishCBH.HEdgeNum * 2== reinNum)
+                        {
+                            this.bSideReinforcement = this.distinguishCBH.BEdgeNum + cornerReinforceSuffix;
+                            this.hSideReinforcement = this.distinguishCBH.HEdgeNum + suffix;
+                        }
+                        else if (this.distinguishCBH.BEdgeNum * 2 == reinNum &&
+                            this.distinguishCBH.HEdgeNum * 2 == cornerLeftNum)
+                        {
+                            this.bSideReinforcement = this.distinguishCBH.BEdgeNum + suffix;
+                            this.hSideReinforcement = this.distinguishCBH.HEdgeNum + cornerReinforceSuffix;
+                        }
+                    }                    
                 }
             }
         }
@@ -503,7 +662,7 @@ namespace ThColumnInfo
             {
                 bool isMatched = false;
                 //集中标注第一个与识别的B边数量一致
-                if (firstReinNum == this.distinguishCBH.BEdgeNum * 2 && firstReinNum != this.distinguishCBH.HEdgeNum * 2)
+                if (firstReinNum == this.distinguishCBH.BEdgeNum * 2 )
                 {
                     //集中标注第二个数量等于识别的H边+角筋数量，表示角筋在第二个字符串里
                     if (secondReinNum == this.distinguishCBH.HEdgeNum * 2 + this.distinguishCBH.CornerNum * 4)
@@ -515,7 +674,7 @@ namespace ThColumnInfo
                     }                   
                 }
                 //集中标注第一个与识别的H边数量一致
-                else if (firstReinNum == this.distinguishCBH.HEdgeNum * 2 && firstReinNum != this.distinguishCBH.BEdgeNum * 2)
+                else if (firstReinNum == this.distinguishCBH.HEdgeNum * 2)
                 {
                     //集中标注第二个数量等于识别的B边+角筋数量，表示角筋在第二个字符串里
                     if (secondReinNum == this.distinguishCBH.BEdgeNum * 2 + this.distinguishCBH.CornerNum * 4)
@@ -527,7 +686,7 @@ namespace ThColumnInfo
                     }                   
                 }
                 //集中标注第二个与识别的B边数量一致
-                else if (secondReinNum == this.distinguishCBH.BEdgeNum * 2 && secondReinNum != this.distinguishCBH.HEdgeNum * 2)
+                else if (secondReinNum == this.distinguishCBH.BEdgeNum * 2)
                 {
                     //集中标注第一个数量等于识别的H边+角筋数量，表示角筋在第一个字符串里
                     if (firstReinNum == this.distinguishCBH.HEdgeNum * 2 + this.distinguishCBH.CornerNum * 4)
@@ -539,7 +698,7 @@ namespace ThColumnInfo
                     }
                 }
                 //集中标注第二个与识别的H边数量一致
-                else if (secondReinNum == this.distinguishCBH.HEdgeNum * 2 && secondReinNum != this.distinguishCBH.BEdgeNum * 2)
+                else if (secondReinNum == this.distinguishCBH.HEdgeNum * 2)
                 {
                     //集中标注第一个数量等于识别的B边+角筋数量，表示角筋在第一个字符串里
                     if (firstReinNum == this.distinguishCBH.BEdgeNum * 2 + this.distinguishCBH.CornerNum * 4)
@@ -893,6 +1052,27 @@ namespace ThColumnInfo
                 if (hSideReinforceDatas.Count == 2)
                 {
                     this.hSideNum = hSideReinforceDatas[0]*2;
+                }
+            }
+            else if(this.sideTextDic.Count==1)
+            {
+                if(this.sideTextDic.ContainsKey(TextRotation.Horizontal))
+                {
+                    this.bSideReinforcement = this.sideTextDic[TextRotation.Horizontal].TextString;
+                    List<int> bSideReinforceDatas = new ColumnTableRecordInfo().GetReinforceDatas(this.bSideReinforcement);
+                    if (bSideReinforceDatas.Count == 2)
+                    {
+                        this.bSideNum = bSideReinforceDatas[0] * 2;
+                    }
+                }
+                if(this.sideTextDic.ContainsKey(TextRotation.Vertical))
+                {
+                    this.hSideReinforcement = this.sideTextDic[TextRotation.Vertical].TextString;
+                    List<int> hSideReinforceDatas = new ColumnTableRecordInfo().GetReinforceDatas(this.hSideReinforcement);
+                    if (hSideReinforceDatas.Count == 2)
+                    {
+                        this.hSideNum = hSideReinforceDatas[0] * 2;
+                    }
                 }
             }
         }

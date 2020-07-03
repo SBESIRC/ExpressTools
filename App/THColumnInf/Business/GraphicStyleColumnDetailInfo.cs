@@ -563,11 +563,11 @@ namespace ThColumnInfo
                 {
                     continue;
                 }
-                if(string.IsNullOrEmpty(xSpec) && vec.GetNormal().IsEqualTo(Vector3d.XAxis, new Tolerance(1e-1, 1e-1)))
+                if(string.IsNullOrEmpty(xSpec) && vec.GetNormal().IsParallelTo(Vector3d.XAxis, new Tolerance(1e-1, 1e-1)))
                 {
                     xSpec = dimText;
                 }
-                if (string.IsNullOrEmpty(ySpec) && vec.GetNormal().IsEqualTo(Vector3d.YAxis, new Tolerance(1e-1, 1e-1)))
+                if (string.IsNullOrEmpty(ySpec) && vec.GetNormal().IsParallelTo(Vector3d.YAxis, new Tolerance(1e-1, 1e-1)))
                 {
                     ySpec = dimText;
                 }

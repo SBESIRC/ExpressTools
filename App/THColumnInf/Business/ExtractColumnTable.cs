@@ -87,7 +87,7 @@ namespace ThColumnInfo
                 }
                 trans.Commit();
             }       
-            if(pts.Count>2)
+            if(pts.Count>=2)
             {
                 double minX = pts.OrderBy(i => i.X).First().X;
                 double minY = pts.OrderBy(i => i.Y).First().Y;

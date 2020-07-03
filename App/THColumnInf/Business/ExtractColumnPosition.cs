@@ -125,6 +125,10 @@ namespace ThColumnInfo
                     textSizeDic.Add(textSizeV, tempList.Count);
                 }
                 this.textSize = textSizeDic.OrderByDescending(i => i.Value).Select(i => i.Key).FirstOrDefault();
+                if(this.textSize<300)
+                {
+                    this.textSize = 300;
+                }
             }
             else
             {
@@ -286,12 +290,69 @@ namespace ThColumnInfo
                     }
                     ThProgressBar.MeterProgress();
                 }
+                if(string.IsNullOrEmpty(columnInfo.Code))
+                {
+                    FindColumnCode(columnInfo);
+                }
                 if (string.IsNullOrEmpty(columnInfo.Code) && columnInfo.Points.Count == 0)
                 {
                     continue;
                 }
                 this.ColumnInfs.Add(columnInfo);
                 ThProgressBar.MeterProgress();
+            }
+        }
+        private void FindColumnCode(ColumnInf columnInfo)
+        {
+            if(columnInfo.Points.Count==0)
+            {
+                return;
+            }
+            double minX = columnInfo.Points.OrderBy(i => i.X).First().X;
+            double minY = columnInfo.Points.OrderBy(i => i.Y).First().Y;
+            double maxX = columnInfo.Points.OrderByDescending(i => i.X).First().X;
+            double maxY = columnInfo.Points.OrderByDescending(i => i.Y).First().Y;
+            Point3d leftPt = new Point3d(minX, minY, 0.0);
+            Point3d rightPt = new Point3d(maxX, maxY, 0.0);
+            double offsetSize = (Math.Abs(rightPt.Y-leftPt.Y)+ Math.Abs(rightPt.X- leftPt.X))/2.0;
+            leftPt += new Vector3d(offsetSize*-1.0, offsetSize * -1.0,0.0);
+            rightPt += new Vector3d(offsetSize, offsetSize, 0.0);
+            Point3d pt1 = leftPt.TransformBy(this.doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            Point3d pt2 = rightPt.TransformBy(this.doc.Editor.CurrentUserCoordinateSystem.Inverse());
+            List<ObjectId> findDbTextIds = new List<ObjectId>();
+            PromptSelectionResult psr = ThColumnInfoUtils.SelectByRectangle(this.doc.Editor,
+                pt1, pt2, PolygonSelectionMode.Crossing, this.textSf);
+            if (psr.Status == PromptStatus.OK)
+            {
+                findDbTextIds = psr.Value.GetObjectIds().ToList();
+            }
+            List<DBText> dBTexts = findDbTextIds.Select(j => ThColumnInfoDbUtils.GetEntity(Application.DocumentManager.MdiActiveDocument.Database, j) as DBText).ToList();
+            List<DBText> findCodeRes = findCodeRes = dBTexts.Where(j => BaseFunction.IsColumnCode(j.TextString)).Select(j => j).ToList();
+            for (int i = 0; i < dBTexts.Count; i++)
+            {
+                if (string.IsNullOrEmpty(dBTexts[i].TextString))
+                {
+                    continue;
+                }
+                if (string.IsNullOrEmpty(columnInfo.Code))
+                {
+                    if (BaseFunction.IsColumnCode(dBTexts[i].TextString)) //如果没有原位标注，则只查找柱号
+                    {
+                        columnInfo.Code = dBTexts[i].TextString;
+                    }
+                }
+                if (string.IsNullOrEmpty(columnInfo.AntiSeismicGrade))
+                {
+                    if (dBTexts[i].TextString.ToUpper().Contains("抗震"))
+                    {
+                        columnInfo.AntiSeismicGrade = dBTexts[i].TextString;
+                    }
+                }
+                if (!string.IsNullOrEmpty(columnInfo.Code) &&
+                    !string.IsNullOrEmpty(columnInfo.AntiSeismicGrade))
+                {
+                    break;
+                }
             }
         }
         /// <summary>
