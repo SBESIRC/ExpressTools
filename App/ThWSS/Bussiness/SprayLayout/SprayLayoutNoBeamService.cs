@@ -16,47 +16,72 @@ namespace ThWSS.Bussiness
         {
             foreach (var room in roomsLine)
             {
+                //0.获取喷头类型
+                var spraType = layoutModel.sprayType == 0 ? SprayType.SPRAYUP : SprayType.SPRAYDOWN;
+
                 //*******预处理房间*********
                 //1.处理小的凹边
-                var rommBounding = GeUtils.CreateConvexPolygon(room, 1500);
+                var roomBounding = GeUtils.CreateConvexPolygon(room, 1500);
 
                 //2.去掉线上多余的点
-                rommBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { rommBounding }, new Tolerance(0.001, 0.001)).First();
+                roomBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { roomBounding }, new Tolerance(0.001, 0.001)).First();
 
-                //区域分割
-                RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
-                var diviRoom = regionDivisionUtils.DivisionRegion(rommBounding);
-                using (AcadDatabase acdb = AcadDatabase.Active())
-                {
-                    foreach (var item in diviRoom)
-                    {
-                        acdb.ModelSpace.Add(item);
-                    }
-                }
+                //3.获取柱信息
+                CalColumnInfoService columnInfoService = new CalColumnInfoService();
+                List<Polyline> columnPolys = columnInfoService.GetColumnStruc();
+
+                //4.获取梁信息
+                CalBeamInfoService beamInfoService = new CalBeamInfoService();
+                List<Polyline> beams = beamInfoService.GetAllBeamInfo(roomBounding, floor, columnPolys, true);
+
+                List<Polyline> polys = GeUtils.ExtendPolygons(beams, 20);
+                polys.AddRange(columnPolys);
+
+                //5.根据房间分割区域
+                RegionDivisionByBeamUtils regionDivision = new RegionDivisionByBeamUtils();
+                var respolys = regionDivision.DivisionRegion(roomBounding, polys);
 
                 // 统计房间内所有喷淋
-                var allSprays = new List<SprayLayoutData>();
-                foreach (var dRoom in diviRoom)
+                var allSprays = new List<SprayLayoutData>();   //房间内的喷淋
+                var otherSprays = new List<SprayLayoutData>(); //房间外的喷淋
+                foreach (var poly in respolys)
                 {
-                    //计算房间走向
-                    var roomOOB = OrientedBoundingBox.Calculate(dRoom);
+                    RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
+                    //处理小的凹边
+                    var polyBounding = GeUtils.CreateConvexPolygon(poly, 800);
 
-                    //计算出布置点
-                    SquareLayout squareLayout = new SquareLayout(layoutModel);
-                    List<List<SprayLayoutData>> layoutPts = squareLayout.Layout(dRoom, roomOOB);
+                    //去掉线上多余的点
+                    polyBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { polyBounding }, new Tolerance(0.1, 0.1)).First();
 
-                    //计算房间出房间内的点
-                    List<SprayLayoutData> roomSprays = new List<SprayLayoutData>();
-                    foreach (var lpts in layoutPts)
+                    //区域分割
+                    var diviRooms = regionDivisionUtils.DivisionRegion(polyBounding);
+
+                    foreach (var dRoom in diviRooms)
                     {
-                        List<SprayLayoutData> checkPts = CalRoomSpray(dRoom, lpts);
-                        roomSprays.AddRange(checkPts);
-                    }
-                    allSprays.AddRange(roomSprays);
+                        using (AcadDatabase acdb = AcadDatabase.Active())
+                        {
+                            acdb.ModelSpace.Add(dRoom);
+                        }
+                        //计算房间走向
+                        var roomOOB = OrientedBoundingBox.Calculate(dRoom);
 
-                    //放置喷头
-                    var spraType = layoutModel.sprayType == 0 ? SprayType.SPRAYUP : SprayType.SPRAYDOWN;
-                    InsertSprayService.InsertSprayBlock(roomSprays.Select(o => o.Position).ToList(), SprayType.SPRAYDOWN);
+                        //计算出布置点
+                        SquareLayout squareLayout = new SquareLayout(layoutModel);
+                        List<List<SprayLayoutData>> layoutPts = squareLayout.Layout(dRoom, roomOOB);
+
+                        //计算房间出房间内的点
+                        List<SprayLayoutData> roomSprays = new List<SprayLayoutData>();
+                        foreach (var lpts in layoutPts)
+                        {
+                            List<SprayLayoutData> checkPts = CalRoomSpray(dRoom, lpts, out List<SprayLayoutData> outsideSpray);
+                            roomSprays.AddRange(checkPts);
+                            otherSprays.AddRange(outsideSpray);
+                        }
+                        allSprays.AddRange(roomSprays);
+
+                        //放置喷头
+                        InsertSprayService.InsertSprayBlock(roomSprays.Select(o => o.Position).ToList(), SprayType.SPRAYDOWN);
+                    }
                 }
 
                 // 计算房间内的所有喷淋的保护半径
@@ -81,15 +106,15 @@ namespace ThWSS.Bussiness
                     }
                 }
 
-                //对于每个保护盲区，用射线算法计算出布置点
-                foreach (Polyline curve in blindRegions)
-                {
-                    var obb = OrientedBoundingBox.Calculate(curve);
-                    var layout = new SquareLayoutWithRay(layoutModel);
-                    var sprays = layout.Layout(curve, obb);
-                    var points = sprays.SelectMany(o => o).ToList().Select(o => o.Position).ToList();
-                    InsertSprayService.InsertSprayBlock(points, SprayType.SPRAYDOWN);
-                }
+                //获取需要调整的喷淋
+                var adSpray = SprayLayoutDataUtils.CalAdjustmentSpray(otherSprays, blindRegions);
+
+                //排布盲区内喷淋和调整需要调整的喷淋
+                AdjustmentLayoutSpray adjustmentLayout = new AdjustmentLayoutSpray(layoutModel);
+                var sprays = adjustmentLayout.Layout(adSpray);
+
+                //放置喷头
+                InsertSprayService.InsertSprayBlock(sprays.Select(o => o.Position).ToList(), spraType);
             }
         }
     }

@@ -1,4 +1,5 @@
 using Autodesk.AutoCAD.DatabaseServices;
+using ThCADCore.NTS;
 
 namespace ThStructure.BeamInfo.Utils
 {
@@ -13,7 +14,6 @@ namespace ThStructure.BeamInfo.Utils
                 {
                     boundary = GetObjectUtils.ExpansionPolyline(boundary, offset);
                 }
-
                 DBObjectCollection dbObjCo11 = new DBObjectCollection();
                 dbObjCo11.Add(beamBoundary);
                 DBObjectCollection dbObjCo12 = new DBObjectCollection();
@@ -28,6 +28,27 @@ namespace ThStructure.BeamInfo.Utils
                 }
                 firstRegion.Dispose();
                 secondRegion.Dispose();
+            }
+            catch
+            {
+                return false;
+            }
+            return result;
+        }
+
+        public static bool NtsJudgeBeamIntersect(Polyline beamBoundary, Polyline boundary, double offset = 0)
+        {
+            bool result = false;
+            try
+            {
+                if (offset != 0)
+                {
+                    boundary = GetObjectUtils.ExpansionPolyline(boundary, offset);
+                }
+
+                var boundaryPolygon = boundary.ToNTSPolygon();
+                var beamPolygon = beamBoundary.ToNTSPolygon();
+                result = boundaryPolygon.Intersects(beamPolygon);
             }
             catch
             {

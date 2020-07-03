@@ -17,7 +17,7 @@ namespace ThStructure.BeamInfo.Utils
 
                 if (acadDatabase.Layers.Where(o => o.ObjectId == blockReference.LayerId && o.IsOff).Any())
                 {
-                    return false;
+                    //return false;
                 }
 
                 if (acadDatabase.Layers.Where(o => o.ObjectId == blockReference.LayerId && o.IsFrozen).Any())
