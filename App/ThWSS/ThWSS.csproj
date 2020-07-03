@@ -87,6 +87,7 @@
     <Compile Include="Engine\ThRoomRecognitionEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutWorker.cs" />
+    <Compile Include="Layout\AdjustmentLayoutSpray.cs" />
     <Compile Include="Layout\ILayoutInterface.cs" />
     <Compile Include="Layout\SquareLayout.cs" />
     <Compile Include="Layout\SquareLayoutByBeam.cs" />

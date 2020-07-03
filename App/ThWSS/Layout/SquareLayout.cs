@@ -56,34 +56,7 @@ namespace ThWSS.Layout
             var layoutP = LayoutPoints(roomLines, longLine.StartPoint, vDir, tDir, longLine.Length, shortLine.Length, noBeam);
             //layoutP.AddRange(AdjustPoints(layoutP.SelectMany(x => x).ToList(), roomLines, longLine.StartPoint, tDir, vDir, shortLine.Length));
 
-            // 计算保护半径
-            // 暂时只支持矩形保护半径
-            var curve = new Polyline()
-            {
-                Closed = true,
-            };
-            double distance = Math.Sqrt(2) * (sideLength / 2.0);
-            var vertices = new Point3dCollection()
-            {
-                Point3d.Origin + distance * (vDir + tDir).GetNormal(),
-                Point3d.Origin + distance * (vDir - tDir).GetNormal(),
-                Point3d.Origin - distance * (vDir + tDir).GetNormal(),
-                Point3d.Origin - distance * (vDir - tDir).GetNormal()
-            };
-            curve.CreatePolyline(vertices);
-
-            var sprays = new List<List<SprayLayoutData>>();
-            foreach (var points in layoutP)
-            {
-                var sprayList = new List<SprayLayoutData>();
-                foreach (var point in points)
-                {
-                    var offset = Matrix3d.Displacement(point.GetAsVector());
-                    sprayList.Add(SprayLayoutData.Create(point, curve.GetTransformedCopy(offset) as Curve));
-                }
-                sprays.Add(sprayList);
-            }
-            return sprays;
+            return CreateSprayModels(layoutP, vDir, tDir);
         }
 
         /// <summary>
@@ -290,6 +263,48 @@ namespace ThWSS.Layout
                 moveLength = Math.Floor(moveLength / 50) * 50;
                 remainder = (length - num * moveLength) / 2;
             }
+        }
+
+        /// <summary>
+        /// 创建喷淋对象
+        /// </summary>
+        /// <param name="layoutP"></param>
+        /// <param name="vDir"></param>
+        /// <param name="tDir"></param>
+        public List<List<SprayLayoutData>> CreateSprayModels(List<List<Point3d>> layoutP, Vector3d vDir, Vector3d tDir)
+        {
+            // 计算保护半径
+            // 暂时只支持矩形保护半径
+            var curve = new Polyline()
+            {
+                Closed = true,
+            };
+            double distance = Math.Sqrt(2) * (sideLength / 2.0);
+            var vertices = new Point3dCollection()
+            {
+                Point3d.Origin + distance * (vDir + tDir).GetNormal(),
+                Point3d.Origin + distance * (vDir - tDir).GetNormal(),
+                Point3d.Origin - distance * (vDir + tDir).GetNormal(),
+                Point3d.Origin - distance * (vDir - tDir).GetNormal()
+            };
+            curve.CreatePolyline(vertices);
+
+            var sprays = new List<List<SprayLayoutData>>();
+            foreach (var points in layoutP)
+            {
+                var sprayList = new List<SprayLayoutData>();
+                foreach (var point in points)
+                {
+                    var offset = Matrix3d.Displacement(point.GetAsVector());
+                    var spray = SprayLayoutData.Create(point, curve.GetTransformedCopy(offset) as Curve);
+                    spray.mainDir = vDir;
+                    spray.otherDir = tDir;
+                    sprayList.Add(spray);
+                }
+                sprays.Add(sprayList);
+            }
+
+            return sprays;
         }
     }
 }

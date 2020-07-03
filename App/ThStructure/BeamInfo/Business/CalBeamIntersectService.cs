@@ -50,6 +50,33 @@ namespace ThStructure.BeamInfo.Business
         }
 
         /// <summary>
+        /// 计算梁的搭接信息
+        /// </summary>
+        /// <param name="allBeam"></param>
+        public void CalBeamIntersectInfo(List<Beam> allBeam, List<Curve> columnCurves, List<Curve> wallCurves, List<Curve> beamCurves)
+        {
+            foreach (var beam in allBeam)
+            {
+                if (columnCurves != null && columnCurves.Count > 0)
+                {
+                    SupplementBeamIntersInfo(allBeam, beam, columnCurves, IntersectType.Column, 10);
+                }
+
+                if (wallCurves != null && wallCurves.Count > 0)
+                {
+                    SupplementBeamIntersInfo(allBeam, beam, wallCurves, IntersectType.Wall, 10);
+                }
+
+                if (beamCurves != null && beamCurves.Count > 0)
+                {
+                    //CalIntersectLine(beam, beamFilter, acdb, out List<Curve> beamCurve);
+                    //beamCurve = beamCurve.Except(new List<Curve>() { beam.UpBeamLine, beam.DownBeamLine }).ToList();
+                    //SupplementBeamIntersInfo(allBeam, beam, beamCurve, IntersectType.Beam, 10);
+                }
+            }
+        }
+
+        /// <summary>
         /// 填充梁的搭接信息
         /// </summary>
         /// <param name="beam"></param>
@@ -127,7 +154,7 @@ namespace ThStructure.BeamInfo.Business
                    .ToList();
                 foreach (var beamCuv in beamSolid)
                 {
-                    res = CalBeamIntersect.JudgeBeamIntersect(polyline, beamCuv, offset);
+                    res = CalBeamIntersect.NtsJudgeBeamIntersect(polyline, beamCuv, offset);
                     if (res)
                     {
                         break;
@@ -136,7 +163,7 @@ namespace ThStructure.BeamInfo.Business
             }
             else
             {
-                res = CalBeamIntersect.JudgeBeamIntersect(polyline, curve as Polyline, offset);
+                res = CalBeamIntersect.NtsJudgeBeamIntersect(polyline, curve as Polyline, offset);
             }
 
             return res;

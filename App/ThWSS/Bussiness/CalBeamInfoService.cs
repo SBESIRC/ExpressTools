@@ -6,14 +6,19 @@ using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using ThStructure.BeamInfo.Command;
 using Autodesk.AutoCAD.DatabaseServices;
+using ThStructure.BeamInfo.Model;
+using ThStructure.BeamInfo.Business;
+using AcHelper;
+using ThCADCore.NTS;
+using Dreambuild.AutoCAD;
 
 namespace ThWSS.Bussiness
 {
     public class CalBeamInfoService
     {
-        public List<ThStructure.BeamInfo.Model.Beam> GetAllBeamInfo(Polyline room, Polyline floor)
+        public List<Polyline> GetAllBeamInfo(Polyline room, Polyline floor, List<Polyline> columnCurves = null,  bool mainBeam = false)
         {
-            List<ThStructure.BeamInfo.Model.Beam> beamInfo = new List<ThStructure.BeamInfo.Model.Beam>();
+            List<Polyline> beamInfo = new List<Polyline>();
             List<Point3d> bPts = GetBoundingPoints(room);
 
             using (AcadDatabase acdb = AcadDatabase.Active())
@@ -26,7 +31,7 @@ namespace ThWSS.Bussiness
                 //筛选出房间中匹配的梁
                 var curves = ThBeamGeometryService.Instance.BeamCurves(acdb.Database, bPts[0], bPts[1]).Cast<Curve>();
                 Tolerance tol = new Tolerance(0.1, 0.1);
-                beamInfo = allBeam.Where(x => curves.Any(y=> {
+                beamInfo = allBeam.Where(x => curves.Any(y => {
                     var beamUp3dLine = new LineSegment3d(x.UpStartPoint, x.UpEndPoint);
                     var beamDowm3dLine = new LineSegment3d(x.DownStartPoint, x.DownEndPoint);
                     var curveLine = new LineSegment3d(y.StartPoint, y.EndPoint);
@@ -36,12 +41,52 @@ namespace ThWSS.Bussiness
                         return true;
                     }
                     return false;
-                })).ToList();
+                })).Select(x => x.BeamBoundary).ToList();
+
+                if (mainBeam)
+                {
+                    beamInfo = CalBeamIntersectInfo(beamInfo, columnCurves);
+                }
             }
 
             return beamInfo;
         }
 
+        /// <summary>
+        /// 计算梁的搭接信息
+        /// </summary>
+        /// <param name="allBeam"></param>
+        /// <param name="columnCurves"></param>
+        public List<Polyline> CalBeamIntersectInfo(List<Polyline> allBeam, List<Polyline> columnCurves)
+        {
+            List<Polyline> beamPolys = new List<Polyline>();
+            DBObjectCollection dBObject = new DBObjectCollection();
+            foreach (var beam in allBeam)
+            {
+                dBObject.Add(beam);
+            }
+            ThCADCoreNTSSpatialIndex thPatialIndex = new ThCADCoreNTSSpatialIndex(dBObject);
+            foreach (var cCurve in columnCurves)
+            {
+                var neighbourBeams = GeUtils.ExtendPolygons(thPatialIndex.NearestNeighbour(cCurve, 4).Cast<Polyline>().ToList(), 20);
+                foreach (var nBeam in neighbourBeams)
+                {
+                    if(cCurve.ToNTSPolygon().Intersects(nBeam.ToNTSPolygon()))
+                    {
+                        beamPolys.Add(nBeam);
+                    }
+                }
+            }
+
+            return beamPolys;
+        }
+
+        /// <summary>
+        /// 获取房间boundingbox的两点
+        /// </summary>
+        /// <param name="room"></param>
+        /// <param name="offset"></param>
+        /// <returns></returns>
         private List<Point3d> GetBoundingPoints(Polyline room, double offset = 0)
         {
             var roomOOB = OrientedBoundingBox.Calculate(room);

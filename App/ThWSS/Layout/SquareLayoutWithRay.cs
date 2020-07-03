@@ -47,34 +47,7 @@ namespace ThWSS.Layout
             var layoutP = LayoutPoints(roomLines, longLine.StartPoint, vDir, tDir, longLine.Length);
             //layoutP.AddRange(AdjustPoints(layoutP.SelectMany(x => x).ToList(), roomLines, longLine.StartPoint, tDir, vDir, shortLine.Length));
 
-            // 计算保护半径
-            // 暂时只支持矩形保护半径
-            var curve = new Polyline()
-            {
-                Closed = true,
-            };
-            double distance = Math.Sqrt(2) * (sideLength / 2.0);
-            var vertices = new Point3dCollection()
-            {
-                Point3d.Origin + distance * (vDir + tDir).GetNormal(),
-                Point3d.Origin + distance * (vDir - tDir).GetNormal(),
-                Point3d.Origin - distance * (vDir + tDir).GetNormal(),
-                Point3d.Origin - distance * (vDir - tDir).GetNormal()
-            };
-            curve.CreatePolyline(vertices);
-
-            var sprays = new List<List<SprayLayoutData>>();
-            foreach (var points in layoutP)
-            {
-                var sprayList = new List<SprayLayoutData>();
-                foreach (var point in points)
-                {
-                    var offset = Matrix3d.Displacement(point.GetAsVector());
-                    sprayList.Add(SprayLayoutData.Create(point, curve.GetTransformedCopy(offset) as Curve));
-                }
-                sprays.Add(sprayList);
-            }
-            return sprays;
+            return CreateSprayModels(layoutP, vDir, tDir);
         }
     }
 }

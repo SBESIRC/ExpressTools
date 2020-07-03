@@ -420,6 +420,34 @@ namespace ThWSS.Utlis
             }
             return resPoly;
         }
+
+        /// <summary>
+        /// 延展Polyline
+        /// </summary>
+        /// <param name="polys"></param>
+        /// <param name="offset"></param>
+        /// <returns></returns>
+        public static List<Polyline> ExtendPolygons(List<Polyline> polys, double offset)
+        {
+            List<Polyline> resPoly = new List<Polyline>();
+            foreach (var pls in polys)
+            {
+                List<Line> lines = new List<Line>();
+                for (int i = 0; i < pls.NumberOfVertices; i++)
+                {
+                    lines.Add(new Line(pls.GetPoint3dAt(i), pls.GetPoint3dAt((i + 1) % pls.NumberOfVertices)));
+                }
+
+                lines = lines.OrderByDescending(x => x.Length).ToList();
+                Polyline polyline = new Polyline() { Closed = true };
+                polyline.AddVertexAt(0, (lines[0].StartPoint - lines[0].Delta.GetNormal() * offset).ToPoint2D(), 0, 0, 0);
+                polyline.AddVertexAt(1, (lines[0].EndPoint + lines[0].Delta.GetNormal() * offset).ToPoint2D(), 0, 0, 0);
+                polyline.AddVertexAt(2, (lines[1].StartPoint - lines[1].Delta.GetNormal() * offset).ToPoint2D(), 0, 0, 0);
+                polyline.AddVertexAt(3, (lines[1].EndPoint + lines[1].Delta.GetNormal() * offset).ToPoint2D(), 0, 0, 0);
+                resPoly.Add(polyline);
+            }
+            return resPoly;
+        }
     }
 }
                                 
