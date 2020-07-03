@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ThStructure.BeamInfo.Model;
 using ThStructure.BeamInfo.Business;
 using Autodesk.AutoCAD.DatabaseServices;
+using AcHelper;
 
 namespace ThStructure.BeamInfo.Command
 {
@@ -30,7 +31,7 @@ namespace ThStructure.BeamInfo.Command
 
                 //TODO：
                 //  需要支持识别外参中的梁的标注信息
-                //2.计算出梁的搭接信息
+                ////2.计算出梁的搭接信息
                 //CalBeamIntersectService interService = new CalBeamIntersectService(Active.Document);
                 //interService.CalBeamIntersectInfo(allBeam, acdb);
 

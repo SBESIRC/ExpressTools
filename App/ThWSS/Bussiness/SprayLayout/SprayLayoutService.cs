@@ -21,14 +21,19 @@ namespace ThWSS.Bussiness
         /// <param name="room"></param>
         /// <param name="layoutPts"></param>
         /// <returns></returns>
-        public List<SprayLayoutData> CalRoomSpray(Polyline room, List<SprayLayoutData> sprays)
+        public List<SprayLayoutData> CalRoomSpray(Polyline room, List<SprayLayoutData> sprays, out List<SprayLayoutData> outsideSpray)
         {
+            outsideSpray = new List<SprayLayoutData>();
             var roomSprays = new List<SprayLayoutData>();
             foreach (var spray in sprays)
             {
                 if(room.PointInPolygon(spray.Position) == LocateStatus.Interior)
                 {
                     roomSprays.Add(spray);
+                }
+                else
+                {
+                    outsideSpray.Add(spray);
                 }
             }
             return roomSprays;

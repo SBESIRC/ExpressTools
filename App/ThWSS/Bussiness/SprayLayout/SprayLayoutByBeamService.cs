@@ -25,15 +25,12 @@ namespace ThWSS.Bussiness
 
                 //3.获取梁信息
                 CalBeamInfoService beamInfoService = new CalBeamInfoService();
-                List<ThStructure.BeamInfo.Model.Beam> beams = beamInfoService.GetAllBeamInfo(roomBounding, floor);
+                List<Polyline> beams = beamInfoService.GetAllBeamInfo(roomBounding, floor);
                 using (AcadDatabase acdb = AcadDatabase.Active())
                 {
                     foreach (var beam in beams)
                     {
-                        if (beam is LineBeam lineBeam)
-                        {
-                            //acdb.ModelSpace.Add(lineBeam.BeamBoundary);
-                        }
+                        //acdb.ModelSpace.Add(lineBeam.BeamBoundary);
                     }
                 }
 
@@ -41,7 +38,7 @@ namespace ThWSS.Bussiness
                 CalColumnInfoService columnInfoService = new CalColumnInfoService();
                 List<Polyline> columnPolys = columnInfoService.GetColumnStruc();
 
-                List<Polyline> polys = ExtendPolygons(beams.Select(x => x.BeamBoundary).ToList(), 20);
+                List<Polyline> polys = GeUtils.ExtendPolygons(beams, 20);
                 polys.AddRange(columnPolys);
 
                 //5.根据房间分割区域
@@ -53,13 +50,6 @@ namespace ThWSS.Bussiness
                     {
                         //acdb.ModelSpace.Add(poly);
                     }
-                }
-                
-                //获取房间线
-                List<Line> roomLines = new List<Line>();
-                for (int i = 0; i < room.NumberOfVertices; i++)
-                {
-                    roomLines.Add(new Line(room.GetPoint3dAt(i), room.GetPoint3dAt((i + 1) % room.NumberOfVertices)));
                 }
 
                 foreach (var poly in respolys)
@@ -100,7 +90,7 @@ namespace ThWSS.Bussiness
                         List<SprayLayoutData> roomSprays = new List<SprayLayoutData>();
                         foreach (var lpts in layoutPts)
                         {
-                            List<SprayLayoutData> checkPts = CalRoomSpray(dRoom, lpts);
+                            List<SprayLayoutData> checkPts = CalRoomSpray(dRoom, lpts, out List<SprayLayoutData> outsideSpray);
                             //checkPts = CalRoomSpray(room, checkPts);
                             roomSprays.AddRange(checkPts);
                         }
@@ -109,37 +99,12 @@ namespace ThWSS.Bussiness
                         Dictionary<Polyline, List<SprayLayoutData>> ptInColmns;
                         var columnSpray = columnInfoService.CalColumnSpray(columnPolys, roomSprays, out ptInColmns);
 
-                        //将孤立柱打入图层
-                        columnInfoService.SetStandAloneColumnInLayer(ptInColmns.Keys.ToList());
-
                         //放置喷头
                         var spraType = layoutModel.sprayType == 0 ? SprayType.SPRAYUP : SprayType.SPRAYDOWN;
                         InsertSprayService.InsertSprayBlock(columnSpray.Select(o => o.Position).ToList(), spraType);
                     }
                 }
             }
-        }
-
-        private List<Polyline> ExtendPolygons(List<Polyline> polys, double offset)
-        {
-            List<Polyline> resPoly = new List<Polyline>();
-            foreach (var pls in polys)
-            {
-                List<Line> lines = new List<Line>();
-                for (int i = 0; i < pls.NumberOfVertices; i++)
-                {
-                    lines.Add(new Line(pls.GetPoint3dAt(i), pls.GetPoint3dAt((i + 1) % pls.NumberOfVertices)));
-                }
-
-                lines = lines.OrderByDescending(x => x.Length).ToList();
-                Polyline polyline = new Polyline() { Closed = true };
-                polyline.AddVertexAt(0, (lines[0].StartPoint - lines[0].Delta.GetNormal() * offset).ToPoint2D(), 0, 0, 0);
-                polyline.AddVertexAt(1, (lines[0].EndPoint + lines[0].Delta.GetNormal() * offset).ToPoint2D(), 0, 0, 0);
-                polyline.AddVertexAt(2, (lines[1].StartPoint - lines[1].Delta.GetNormal() * offset).ToPoint2D(), 0, 0, 0);
-                polyline.AddVertexAt(3, (lines[1].EndPoint + lines[1].Delta.GetNormal() * offset).ToPoint2D(), 0, 0, 0);
-                resPoly.Add(polyline);
-            }
-            return resPoly;
         }
     }
 }
