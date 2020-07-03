@@ -428,6 +428,9 @@ namespace ThSitePlan.UI
                 dlg.m_ColorGeneralConfig = ThSitePlanConfigService.Instance.RootJsonString;
                 dlg.m_ColorDefaultConfig = ThSitePlanConfigService.Instance.DefaultJsonString;
 
+                // 记住当前配置界面的设置
+                var previousConfig = dlg.m_ColorGeneralConfig;
+
                 // 弹出配置界面
                 var ConfigFormResult = Application.ShowModalDialog(dlg);
                 if (ConfigFormResult == System.Windows.Forms.DialogResult.OK)
@@ -446,6 +449,12 @@ namespace ThSitePlan.UI
                         dbdc.SetAt(ThSitePlanCommon.Configuration_Xrecord_Name, configrecord);
                         acadDatabase.AddNewlyCreatedDBObject(configrecord);
                     }
+
+                    //记住配置界面的新的设置
+                    var currentConfig = dlg.m_ColorGeneralConfig;
+
+                    // 比较配置变化，判断更新
+                    CompareCurAndPreConfig(previousConfig, currentConfig);
                 }
             }
         }
@@ -514,6 +523,213 @@ namespace ThSitePlan.UI
             }
         }
 
+        public void CompareCurAndPreConfig(string preconfig, string curconfig)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                ThSitePlanConfigService.Instance.Initialize();
+
+                ThSitePlanConfigItemGroup curroot = ThSitePlanConfigService.Instance.StringToRoot(curconfig);
+                ThSitePlanConfigItemGroup preroot = ThSitePlanConfigService.Instance.StringToRoot(preconfig);
+
+                if (preroot.IsNull())
+                {
+                    return;
+                }
+                List<ThSitePlanConfigItem> currentallitems = curroot.GetAllItems();
+                List<ThSitePlanConfigItem> previousitems = preroot.GetAllItems();
+
+                Queue<Tuple<ObjectId, Vector3d>> psupdateframes = new Queue<Tuple<ObjectId, Vector3d>>();
+                Queue<Tuple<ObjectId, Vector3d>> psinsertframes = new Queue<Tuple<ObjectId, Vector3d>>();
+                ObjectIdCollection cadupdateframeid = new ObjectIdCollection();
+
+                ThSitePlanDbEngine.Instance.Initialize(Active.Database);
+
+                foreach (var curitem in currentallitems)
+                {
+                    bool preidincurrent = false;
+                    foreach (var preitem in previousitems)
+                    {
+                        //若新的item的ID能在旧的item列表中能找到对应项，则进一步查看新的item有无改名，变组，改值
+                        if (curitem.Properties["ID"].ToString().Equals(preitem.Properties["ID"].ToString()))
+                        {
+                            string curfullname = curitem.Properties["Name"].ToString();
+                            string prefullname = preitem.Properties["Name"].ToString();
+                            //全名完全相等，说明既没有改名也没有变组
+                            if (curfullname.Equals(prefullname))
+                            {
+                                //仅仅只是改了配置面板中的PS颜色及透明度
+                                var curlayers = curitem.Properties["CADLayer"] as List<string>;
+                                var prelayers = preitem.Properties["CADLayer"] as List<string>;
+                                if (curitem.Properties["CADScriptID"].ToString() == preitem.Properties["CADScriptID"].ToString()&&
+                                    curlayers.Count == prelayers.Count && curlayers.Count(t => !prelayers.Contains(t)) == 0)
+                                {
+                                    if (curitem.Properties["Color"].ToString() != preitem.Properties["Color"].ToString() ||
+                                    curitem.Properties["Opacity"].ToString() != preitem.Properties["Opacity"].ToString())
+                                    {
+                                        ObjectId updframeid = ThSitePlanDbEngine.Instance.FrameByName(prefullname);
+                                        Tuple<ObjectId, Vector3d> updframe = new Tuple<ObjectId, Vector3d>(updframeid, new Vector3d(0, 0, 0));
+                                        psupdateframes.Enqueue(updframe);
+                                    }
+                                }
+
+                                //改变了CAD图层名或者脚本ID
+                                else
+                                {
+                                    ObjectId updframeid = ThSitePlanDbEngine.Instance.FrameByName(prefullname);
+                                    cadupdateframeid.Add(updframeid);
+                                }
+                            }
+                            //全名不一致，或变组或改名
+                            else
+                            {
+                                ObjectId updframeid = ThSitePlanDbEngine.Instance.FrameByName(prefullname);
+                                //改变图框Xdate
+                                // 更新框的标签
+                                updframeid.RemoveXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name);
+                                TypedValueList valueList = new TypedValueList
+                                    {
+                                        { (int)DxfCode.ExtendedDataBinaryChunk,  Encoding.UTF8.GetBytes(curfullname) },
+                                    };
+                                updframeid.AddXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name, valueList);
+                                Tuple<ObjectId, Vector3d> updframe = new Tuple<ObjectId, Vector3d>(updframeid, new Vector3d(0, 0, 0));
+                                psinsertframes.Enqueue(updframe);
+                            }
+                            preidincurrent = true;
+                            break;
+                        }
+                    }
+                    //新item的ID在旧的item列表中找不到对应项，则该项为新增
+                    if (!preidincurrent)
+                    {
+
+                    }
+                }
+
+                var unusedframe = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
+                if (unusedframe.IsNull)
+                {
+                    return;
+                }
+                var undifineframe = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Unrecognized);
+                if (undifineframe.IsNull)
+                {
+                    return;
+                }
+                var originalframe = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Original);
+                if (originalframe.IsNull)
+                {
+                    return;
+                }
+
+                if (cadupdateframeid.Count != 0)
+                {
+                    //初始化图框配置
+                    //这里先“关闭”所有的图框
+                    //后面会根据用户的选择“打开”需要更新的图框
+                    ThSitePlanConfigService.Instance.Initialize();
+                    ThSitePlanConfigService.Instance.EnableAll(UpdateStaus.NoUpdate);
+
+                    //首先将原线框内的所有图元复制一份放到解构图集放置区的最后一个线框里
+                    Vector3d unusedtoundifineoffset = acadDatabase.Database.FrameOffset(undifineframe, unusedframe);
+                    acadDatabase.Database.CopyWithMove(originalframe, acadDatabase.Database.FrameOffset(originalframe, undifineframe) + unusedtoundifineoffset);
+                    acadDatabase.Database.ExplodeToOwnerSpace(unusedframe);
+                    Active.Editor.TrimCmd(acadDatabase.Element<Polyline>(unusedframe));
+
+                    //创建所有更新图框与拷贝图框的位移关系Vector3d
+                    Queue<Tuple<ObjectId, Vector3d>> cadupdateframes = new Queue<Tuple<ObjectId, Vector3d>>();
+                    foreach (ObjectId frameid in cadupdateframeid)
+                    {
+                        Vector3d unusedtoselectoffset = acadDatabase.Database.FrameOffset(unusedframe, frameid);
+                        Tuple<ObjectId, Vector3d> frametuple = new Tuple<ObjectId, Vector3d>(frameid, unusedtoselectoffset);
+                        cadupdateframes.Enqueue(frametuple);
+                    }
+
+                    //接着将需要更新的图框清空
+                    foreach (var item in cadupdateframes)
+                    {
+                        ThSitePlanDbEngine.Instance.EraseItemInFrame(item.Item1, PolygonSelectionMode.Crossing);
+                    }
+                    CADUpdatePreocess(undifineframe, unusedframe, cadupdateframes, false);
+                    PhotoshopUpdatePreocess(undifineframe, unusedframe, cadupdateframes, true);
+                }
+
+                InsertToPhotoshop(psinsertframes);
+
+                PhotoshopUpdatePreocess(undifineframe, unusedframe, psupdateframes, true);
+
+            }
+        }
+
+        private bool SameGroupName(string groupnamea, string groupnameb)
+        {
+            List<string> groupa = groupnamea.Split('-').ToList();
+            List<string> groupb = groupnameb.Split('-').ToList();
+
+            groupa.RemoveAt(groupa.Count-1);
+            groupb.RemoveAt(groupb.Count-1);
+
+            if (groupa.Count == groupb.Count && groupa.Count(t => !groupb.Contains(t)) == 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void InsertToPhotoshop(Queue<Tuple<ObjectId, Vector3d>> updateframes)
+        {
+            if (updateframes.Count == 0)
+            {
+                return;
+            }
+            // CAD打印流程
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                //启动CAD引擎，开始FrameNameGenerator
+                ItemGeneratePreocess(updateframes,
+                    ObjectId.Null,
+                    new List<ThSitePlanGenerator>() { new ThSitePlanFrameNameGenerator() },
+                    false,
+                    false,
+                    true);
+
+                //启动CAD引擎，开始PDFGenerator
+                ItemGeneratePreocess(updateframes,
+                    ObjectId.Null,
+                    new List<ThSitePlanGenerator>() { new ThSitePlanPDFGenerator() },
+                    false,
+                    false,
+                    true);
+            }
+
+            //PS处理流程
+            ThSitePlanConfigService.Instance.Initialize();
+            ThSitePlanConfigService.Instance.EnableAll(UpdateStaus.NoUpdate);
+            using (var psService = new ThSitePlanPSService())
+            {
+                // 连接PS失败
+                if (psService.ErrorCode != 0)
+                {
+                    Application.ShowAlertDialog(psService.ErrorMessage);
+                    return;
+                }
+
+                // PS处理流程
+                ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+                 {
+                    new ThSitePlanPSDefaultGenerator(psService),
+                 };
+                OpenUpdateItems(ThSitePlanConfigService.Instance.Root, updateframes, UpdateStaus.UpdateCAD, true);
+                ThSitePlanPSEngine.Instance.PSRun(
+                    ThSitePlanSettingsService.Instance.OutputPath,
+                    ThSitePlanConfigService.Instance.Root);
+
+                // 保存PS生成的文档
+                psService.ExportToFile(ThSitePlanSettingsService.Instance.OutputPath);
+            }
+        }
+
         /// <summary>
         /// Generate与update通用流程
         /// </summary>
@@ -559,6 +775,10 @@ namespace ThSitePlan.UI
 
         public void CADUpdatePreocess(ObjectId undifineframe, ObjectId unusedframe, Queue<Tuple<ObjectId, Vector3d>> updateframes, bool ifnosid)
         {
+            if (updateframes.Count == 0)
+            {
+                return;
+            }
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 ThSitePlanEngine.Instance.Containers = updateframes;
@@ -611,6 +831,10 @@ namespace ThSitePlan.UI
 
         public void PhotoshopUpdatePreocess(ObjectId undifineframe, ObjectId unusedframe, Queue<Tuple<ObjectId, Vector3d>> updateframes, bool ifnosid)
         {
+            if (updateframes.Count==0)
+            {
+                return;
+            }
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 //启动CAD引擎，开始PDFGenerator
@@ -672,6 +896,11 @@ namespace ThSitePlan.UI
                 ThSitePlanConfigService.Instance.EnableItemAndItsAncestor(selFrameName, staus);
             }
             root = ThSitePlanConfigService.Instance.Root;
+        }
+
+        public void InsertToCADProcess()
+        {
+
         }
     }
 }

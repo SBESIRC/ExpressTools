@@ -54,6 +54,42 @@ namespace ThSitePlan.Configuration
             Items.Enqueue(group);
         }
 
+        public List<ThSitePlanConfigItem> GetAllItems()
+        {
+            List<ThSitePlanConfigItem> allitems = new List<ThSitePlanConfigItem>();
+            foreach (var item in this.Items)
+            {
+                if (item is ThSitePlanConfigItem it)
+                {
+                    if (it.Properties["Name"].ToString() == ThSitePlanCommon.ThSitePlan_Frame_Name_Unrecognized)
+                    {
+                        continue;
+                    }
+                    allitems.Add(it);
+                }
+                if (item is ThSitePlanConfigItemGroup gp)
+                {
+                    AllItemsInGroup(gp, ref allitems);
+                }
+            }
+            return allitems;
+        }
+
+        private void AllItemsInGroup(ThSitePlanConfigItemGroup group, ref List<ThSitePlanConfigItem> allitems)
+        {
+            foreach (var item in group.Items)
+            {
+                if (item is ThSitePlanConfigItem it)
+                {
+                    allitems.Add(it);
+                }
+                if (item is ThSitePlanConfigItemGroup gp)
+                {
+                    AllItemsInGroup(gp, ref allitems);
+                }
+            }
+        }
+
         public int GetItemsCount()
         {
             int temp = 0;
@@ -166,11 +202,18 @@ namespace ThSitePlan.Configuration
 
         private void InitializeFromString(string orgstring)
         {
+            Root = StringToRoot(orgstring);
+        }
+
+        public ThSitePlanConfigItemGroup StringToRoot(string orgstring)
+        {
             var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(orgstring);
-            Root = new ThSitePlanConfigItemGroup();
-            Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
-            FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);
-            Root = ReConstructItemName(Root, null);
+            var orgroot = new ThSitePlanConfigItemGroup();
+            orgroot.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
+            FuncFile.ToConfigItemGroup(_ListColorGeneral, orgroot);
+            orgroot = ReConstructItemName(orgroot, null);
+
+            return orgroot;
         }
 
         public void EnableAll(UpdateStaus upstaus)
@@ -1115,6 +1158,24 @@ namespace ThSitePlan.Configuration
             }
             string itemname = finditem.Properties["Name"].ToString();
             return FindGroupByItemName(itemname);
+        }
+
+        public ThSitePlanConfigItem FindItemByID(string id, ThSitePlanConfigItemGroup findgrp)
+        {
+            ThSitePlanConfigItem finditem = new ThSitePlanConfigItem();
+            foreach (var item in findgrp.Items)
+            {
+                if (item is ThSitePlanConfigItemGroup gp)
+                {
+                    FindItemByID(id, gp);
+                }
+                else if (item is ThSitePlanConfigItem it && item.Properties["ID"].ToString().Equals(id))
+                {
+                    finditem = it;
+                    break;
+                }
+            }
+            return finditem;
         }
 
         private ThSitePlanConfigItemGroup ReConstructItemName(ThSitePlanConfigItemGroup origingroup, string outergroupname)

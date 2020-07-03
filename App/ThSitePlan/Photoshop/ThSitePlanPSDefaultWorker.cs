@@ -13,6 +13,10 @@ namespace ThSitePlan.Photoshop
 
         public override bool DoProcess(string path, ThSitePlanConfigItem configItem)
         {
+            if (psService.CurrentFirstDocument == null)
+            {
+                psService.CurrentFirstDocument = psService.Application.ActiveDocument;
+            }
             //1. 在PS中打开并处理PDF
             var NewOpenDocument = psService.OpenAndSet(path, configItem);
 
