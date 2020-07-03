@@ -626,7 +626,7 @@ namespace ThStructureCheck.Common
                 }
                 if(curve1.IsDisposed || curve2.IsDisposed)
                 {
-                    result = false
+                    result = false;
                 }
                 DBObjectCollection dbObjCo11 = new DBObjectCollection();
                 dbObjCo11.Add(curve1);

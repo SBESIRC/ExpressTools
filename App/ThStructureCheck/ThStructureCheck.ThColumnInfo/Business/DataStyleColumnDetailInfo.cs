@@ -8,7 +8,6 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.ApplicationServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using TopoNode;
 using ThCADCore.NTS;
 using Linq2Acad;
 using AcHelper;
@@ -212,7 +211,7 @@ namespace ThColumnInfo
                 }
                 trans.Commit();
             }
-            this.topoCurves = CommonUtils.RemoveCollinearLines(this.columnTableCurves);
+            //this.topoCurves = CommonUtils.RemoveCollinearLines(this.columnTableCurves);
             //更新当前单元格集合
             UpdateTableCells();
         }
@@ -259,10 +258,6 @@ namespace ThColumnInfo
                 {
                     cells.Add(dbObj as Curve);
                 }
-            }
-            if(cells.Count==0)
-            {
-                cells= TopoService.TraceBoundary(this.columnTableCurves, ThColumnInfoUtils.TransPtFromUcsToWcs(wcsPt));
             }
             return cells;
         }

@@ -117,7 +117,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ThStructure\ThStructure.csproj">
+    <ProjectReference Include="..\..\ThBeam\ThBeam.csproj">
       <Project>{0f36f6e9-f83b-40f6-b848-b13b20e9b1be}</Project>
       <Name>ThStructure</Name>
     </ProjectReference>
