@@ -4,6 +4,7 @@ using DotNetARX;
 using ThWSS.Column;
 using ThCADCore.NTS;
 using Dreambuild.AutoCAD;
+using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
@@ -40,7 +41,12 @@ namespace ThWSS.Engine
             {
                 foreach(ObjectId fame in frames)
                 {
-                    objs.Add(acadDatabase.Element<Polyline>(fame));
+                    // 为了确保选择的多段线可以形成封闭的房间轮廓
+                    // 把多段线的Closed状态设置成true
+                    var pline = acadDatabase.Element<Polyline>(fame);
+                    var clone = pline.GetTransformedCopy(Matrix3d.Identity) as Polyline;
+                    clone.Closed = true;
+                    objs.Add(clone);
                 }
             }
             return Acquire(database, floor, objs);
