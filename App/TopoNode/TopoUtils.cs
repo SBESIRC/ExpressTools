@@ -317,7 +317,7 @@ namespace TopoNode
             }
             catch
             { }
-
+            
             return curves;
         }
 

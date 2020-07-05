@@ -4647,10 +4647,10 @@ namespace TopoNode
                             var entity = entityLst.First();
                             if (!(entity is BlockReference))
                             {
-                                if (!entity.Equals(blockReference)
+                                if (!entity.Equals(blockReference) 
                                     && IsValidLayer(entity, validLayers)
-                                    && !entity.IsErased
-                                    && !(entity is Hatch)
+                                    && !entity.IsErased 
+                                    && !(entity is Hatch) 
                                     && !(entity is AttributeDefinition))
                                 {
                                     if (entity is Region region)
@@ -4677,10 +4677,10 @@ namespace TopoNode
                             foreach (var entity in entityLst)
                             {
                                 // 除了块，其余的可以用图层确定是否收集，块的图层内部数据也可能符合要求
-                                if (!entity.Equals(blockReference)
+                                if (!entity.Equals(blockReference) 
                                     && IsValidLayer(entity, validLayers)
-                                    && !entity.IsErased
-                                    && !(entity is Hatch)
+                                    && !entity.IsErased 
+                                    && !(entity is Hatch) 
                                     && !(entity is AttributeDefinition))
                                 {
                                     if (entity is Region region)
@@ -4713,7 +4713,7 @@ namespace TopoNode
                     // 释放不用的图元对象
                     if (entityLst != null)
                     {
-                        foreach (Entity entity in entityLst.Where(o => !entities.Contains(o)))
+                        foreach(Entity entity in entityLst.Where(o => !entities.Contains(o)))
                         {
                             entity.Dispose();
                         }
@@ -4826,19 +4826,7 @@ namespace TopoNode
                     db.Element<Entity>(obj, true).Erase();
                 }
             }
-
             Active.Database.ReclaimMemoryFromErasedObjects(objs);
-        }
-
-        public static void EraseInvalidBlocks(ObjectIdCollection objs)
-        {
-            using (var db = AcadDatabase.Active())
-            {
-                foreach (ObjectId obj in objs)
-                {
-                    db.Element<Entity>(obj, true).Erase();
-                }
-            }
         }
 
         public static bool IsValidBlockReference(BlockReference block, List<LineSegment2d> rectLines)
@@ -4896,18 +4884,17 @@ namespace TopoNode
                 return null;
 
             var entityLst = new List<Entity>();
-            var blockXclipInfos = new List<ReferenceXclipInfo>();
-            var eraseBlocks = new ObjectIdCollection();
-            blockXclipInfos.Add(new ReferenceXclipInfo(block));
+            var blockReferences = new List<BlockReference>();
+            blockReferences.Add(block);
 
-            while (blockXclipInfos.Count > 0)
+            while (blockReferences.Count > 0)
             {
-                var blockXclipInfo = blockXclipInfos.First();
-                blockXclipInfos.RemoveAt(0);
+                var curBlock = blockReferences.First();
+                blockReferences.RemoveAt(0);
 
-                if (blockXclipInfo.curBlock.Visible)
+                if (curBlock.Visible)
                 {
-                    var entitysInBlock = FromSingleBlock2(blockXclipInfo, ref blockXclipInfos, ref eraseBlocks);
+                    var entitysInBlock = FromSingleBlock2(curBlock, ref blockReferences);
                     if (entitysInBlock != null && entitysInBlock.Count != 0)
                     {
                         entityLst.AddRange(entitysInBlock);
@@ -4915,8 +4902,6 @@ namespace TopoNode
                 }
             }
 
-            // 删除中间多余的DB块数据
-            Utils.EraseInvalidBlocks(eraseBlocks);
             return entityLst;
         }
 
@@ -5058,61 +5043,29 @@ namespace TopoNode
         /// <param name="block"></param>
         /// <param name="childReferences"></param>
         /// <returns></returns>
-        public static List<Entity> FromSingleBlock2(ReferenceXclipInfo blockclip, ref List<ReferenceXclipInfo> childReferences, ref ObjectIdCollection eraseBlocks)
+        public static List<Entity> FromSingleBlock2(BlockReference block, ref List<BlockReference> childReferences)
         {
-            var block = blockclip.curBlock;
             if (block == null)
                 return null;
 
             string name;
             var nameMaps = new List<string>();
-            XClipInfo clipInfo = null; // 为空则没有裁剪， 不为空则当前block有裁剪
-            try
-            {
-                clipInfo = Xclip.RetrieveXClipBoundary(block);
-            }
-            catch
-            {
-            }
-
-            // 当前非block的所有图元都要经过clipInfos的逐个裁剪
-            var curBlockTotalClips = blockclip.curXclips;
-            if (clipInfo != null)
-            {
-                var clipPts = clipInfo.Pts;
-                var nClipPtsCount = clipPts.Count;
-                for (int k = 0; k < nClipPtsCount; k++)
-                {
-                    clipPts[k] = clipPts[k].toPoint3d().TransformBy(clipInfo.curBlockTransform).toPoint2d();
-                }
-                //curBlockTotalClips.Add(clipInfo);
-                //var clipLines = CalClipBoundaryPts(clipInfo.Pts);
-                //Utils.DrawProfile(clipLines, "clipLine");
-            }
-
-            var innerBlocks = new List<BlockReference>(); // 记录从块定义中读取的块信息
             try
             {
                 using (var db = AcadDatabase.Active())
                 {
-                    var transactionManager = db.Database.TransactionManager;
-                    name = block.GetEffectiveName(transactionManager.TopTransaction); // 块的名字
+                    name = block.GetEffectiveName(db.Database.TransactionManager.TopTransaction); // 块的名字
 
                     if (name.Contains("Window resuce mark"))
                         return null;
 
-                    BlockTableRecord btr = transactionManager.TopTransaction.GetObject(block.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
+                    BlockTableRecord btr = db.Database.TransactionManager.TopTransaction.GetObject(block.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
                     foreach (ObjectId ociId in btr)
                     {
-                        DBObject dbObj = transactionManager.TopTransaction.GetObject(ociId, OpenMode.ForRead);
-                        if (dbObj is BlockReference newBr)
+                        DBObject dbObj = db.Database.TransactionManager.TopTransaction.GetObject(ociId, OpenMode.ForRead);
+                        if (dbObj is BlockReference)
                         {
-                            var transformBlockId = ThEntTool.DeepClone(newBr.Id);
-                            var transformBlock = transactionManager.TopTransaction.GetObject(transformBlockId, OpenMode.ForWrite) as BlockReference;
-                            transformBlock.TransformBy(block.BlockTransform);
-                            //innerBlocks.Add(transformBlock); // 收集块定义中的块信息
-                            eraseBlocks.Add(transformBlock.Id);
-
+                            var newBr = dbObj as BlockReference;
                             ObjectId blkRecdId = ObjectId.Null;
                             if (newBr.IsDynamicBlock)
                             {
@@ -5126,82 +5079,77 @@ namespace TopoNode
                         }
                     }
 
+
                     // 解析数据
                     var entityLst = new List<Entity>();
                     var dbCollection = new DBObjectCollection();
                     block.Explode(dbCollection);
-                    if (dbCollection.Count == 0)
-                        return null;
                     var blockLayer = block.Layer;
                     if (IsHasBlockReference(dbCollection))
                     {
-                        // 处理entity中非块信息
+                        // 内部包含块
                         foreach (var obj in dbCollection)
                         {
+                            bool bContinue = false;
+
                             if (obj is Entity objEntity)
                             {
+                                LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(objEntity.LayerId);
+                                if (layerTableRecord.IsFrozen)
+                                    continue;
+
                                 if (obj is BlockReference)
                                 {
-                                    innerBlocks.Add(obj as BlockReference);
-                                    continue;
-                                }
-
-                                LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(objEntity.LayerId);
-                                if (layerTableRecord.IsFrozen || layerTableRecord.IsOff)
-                                    continue;
-
-                                if (objEntity.Visible)
-                                {
-                                    var entityLayer = objEntity.Layer;
-                                    if (IsValidLoopLayer(entityLayer))
+                                    var childBlock = obj as BlockReference;
+                                    foreach (var keyName in nameMaps)
                                     {
-                                        //AddXclipEntity(ref entityLst, objEntity, curBlockTotalClips);
-                                        entityLst.Add(objEntity);
+                                        if (keyName.Equals(childBlock.Name))
+                                        {
+                                            entityLst.Add(childBlock);
+                                            bContinue = true;
+                                            break;
+                                        }
                                     }
-                                    else if (!IsOtherStandardLayer(entityLayer))
+
+                                    if (bContinue)
+                                        continue;
+
+                                    if (childBlock.Visible)
                                     {
-                                        objEntity.Layer = blockLayer;
-                                        //AddXclipEntity(ref entityLst, objEntity, curBlockTotalClips);
-                                        entityLst.Add(objEntity);
+                                        var childBlockLayer = childBlock.Layer;
+                                        if (IsValidLoopLayer(childBlockLayer))
+                                            childReferences.Add(childBlock);
+                                        else if (!IsOtherStandardLayer(childBlockLayer))
+                                        {
+                                            childBlock.Layer = blockLayer;
+                                            childReferences.Add(childBlock);
+                                        }
+                                        else if (IsOtherStandardLayer(childBlockLayer))
+                                        {
+                                            childReferences.Add(childBlock);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var entity = obj as Entity;
+                                    if (entity.Visible)
+                                    {
+                                        if (layerTableRecord.IsOff)
+                                            continue;
+
+                                        var entityLayer = entity.Layer;
+                                        if (IsValidLoopLayer(entityLayer))
+                                            entityLst.Add(entity);
+                                        else if (!IsOtherStandardLayer(entityLayer))
+                                        {
+                                            entity.Layer = blockLayer;
+                                            entityLst.Add(entity);
+                                        }
                                     }
                                 }
                             }
                         }
-
-                        // 处理块信息
-                        foreach (var childBlock in innerBlocks)
-                        {
-                            var bContinue = false;
-                            foreach (var keyName in nameMaps)
-                            {
-                                if (keyName.Equals(childBlock.Name))
-                                {
-                                    entityLst.Add(childBlock.Clone() as BlockReference);
-                                    bContinue = true;
-                                    break;
-                                }
-                            }
-
-                            if (bContinue)
-                                continue;
-
-                            if (childBlock.Visible)
-                            {
-                                var childBlockLayer = childBlock.Layer;
-                                if (IsValidLoopLayer(childBlockLayer))
-                                    childReferences.Add(new ReferenceXclipInfo(childBlock, curBlockTotalClips));
-                                else if (!IsOtherStandardLayer(childBlockLayer))
-                                {
-                                    childBlock.Layer = blockLayer;
-                                    childReferences.Add(new ReferenceXclipInfo(childBlock, curBlockTotalClips));
-                                }
-                                else if (IsOtherStandardLayer(childBlockLayer))
-                                {
-                                    childReferences.Add(new ReferenceXclipInfo(childBlock, curBlockTotalClips));
-                                }
-                            }
-                        }
-                        // IsHasBlockReference- End
                     }
                     else if (IsCanExplode(dbCollection, blockLayer))
                     {
@@ -5219,14 +5167,10 @@ namespace TopoNode
                                 {
                                     var entityLayer = entity.Layer;
                                     if (IsValidLoopLayer(entityLayer))
-                                    {
-                                        //AddXclipEntity(ref entityLst, entity, curBlockTotalClips);
                                         entityLst.Add(entity);
-                                    }
                                     else if (!IsOtherStandardLayer(entityLayer))
                                     {
                                         entity.Layer = blockLayer;
-                                        //AddXclipEntity(ref entityLst, entity, curBlockTotalClips);
                                         entityLst.Add(entity);
                                     }
                                 }
@@ -5238,17 +5182,20 @@ namespace TopoNode
                         // 内部不包含块且曲线所在的图层名小于3个图层
                         // 此时这个块不被炸开作为一个整体。
                         if (block.Visible)
-                            entityLst.Add(block.Clone() as BlockReference);
+                            entityLst.Add(block);
                     }
 
                     // 释放不需要的图元
                     foreach (Entity obj in dbCollection)
                     {
-                        if (obj is BlockReference || entityLst.Contains(obj))
+                        if (childReferences.Contains(obj))
                         {
                             continue;
                         }
-
+                        if (entityLst.Contains(obj))
+                        {
+                            continue;
+                        }
                         obj.Dispose();
                     }
 
@@ -5260,223 +5207,6 @@ namespace TopoNode
             {
                 return null;
             }
-        }
-
-        /// <summary>
-        /// 增加经过裁剪后的图元信息
-        /// </summary>
-        /// <param name="sourceEntities"></param>
-        /// <param name="aimEntity"></param>
-        /// <param name="clipInfos"></param>
-        public static void AddXclipEntity(ref List<Entity> sourceEntities, Entity aimEntity, List<XClipInfo> totalClipInfos)
-        {
-            if (totalClipInfos == null || totalClipInfos.Count == 0)
-                sourceEntities.Add(aimEntity);
-
-            if (aimEntity is Curve curve)
-            {
-                //// 调整矩阵顺序
-                //var totalBackClips = ReverseXclipInfos(totalClipInfos);
-                //if (totalBackClips == null || totalBackClips.Count == 0)
-                //    return;
-
-                AddXclipCurve(ref sourceEntities, curve, totalClipInfos);
-            }
-            else
-            {
-                sourceEntities.Add(aimEntity);
-            }
-        }
-
-        public static List<XClipInfo> ReverseXclipInfos(List<XClipInfo> srcXclipInfos)
-        {
-            if (srcXclipInfos == null || srcXclipInfos.Count == 0)
-                return null;
-
-            var resXClipInfos = new List<XClipInfo>();
-            var nClipCount = srcXclipInfos.Count;
-
-            for (int i = nClipCount - 1; i >= 0; i--)
-            {
-                resXClipInfos.Add(srcXclipInfos[i]);
-            }
-
-            return resXClipInfos;
-        }
-
-        /// <summary>
-        /// 裁剪curve
-        /// </summary>
-        /// <param name="sourceEntities"></param>
-        /// <param name="aimCurve"></param>
-        /// <param name="totalClipInfos"></param>
-        public static void AddXclipCurve(ref List<Entity> sourceEntities, Curve aimCurve, List<XClipInfo> totalClipInfos)
-        {
-            var tesslateCurves = TopoUtils.TesslateCurve(new List<Curve>() { aimCurve });
-            foreach (var curve in tesslateCurves)
-            {
-                AddCurve(ref sourceEntities, curve, totalClipInfos);
-            }
-        }
-
-        /// <summary>
-        /// 单段curve
-        /// </summary>
-        /// <param name="sourceEntities"></param>
-        /// <param name="aimCurve"></param>
-        /// <param name="totalClipInfos"></param>
-        public static void AddCurve(ref List<Entity> sourceEntities, Curve aimCurve, List<XClipInfo> totalClipInfos)
-        {
-            var resCurves = new List<Curve>();
-            resCurves.Add(aimCurve);
-            var layer = aimCurve.Layer;
-            var nClipCount = totalClipInfos.Count;
-            for (int i = 0; i < nClipCount; i++)
-            {
-                //// 当前矩阵的关系计算是从当前累计到最后的连续矩阵变幻
-                var curClipInfo = totalClipInfos[i];
-                //var curBlockTransform = curClipInfo.curBlockTransform;
-                //for (int j = i + 1; j < nClipCount; j++)
-                //{
-                //    var nextClipInfo = totalClipInfos[j];
-                //    var nextTransform = nextClipInfo.curBlockTransform;
-                //    curBlockTransform = curBlockTransform.PreMultiplyBy(nextTransform);
-                //}
-
-                //curClipInfo.curBlockTransform = curBlockTransform;
-                //var clipPts = curClipInfo.Pts;
-                //var nClipPtsCount = clipPts.Count;
-                //for (int k = 0; k < nClipPtsCount; k++)
-                //{
-                //    clipPts[k] = clipPts[k].toPoint3d().TransformBy(curClipInfo.curBlockTransform).toPoint2d();
-                //}
-
-                resCurves = ClipCurves(resCurves, curClipInfo);
-            }
-
-            if (resCurves != null && resCurves.Count != 0)
-                sourceEntities.AddRange(resCurves);
-        }
-
-        /// <summary>
-        /// 每一层curve裁剪可能生成多段
-        /// </summary>
-        /// <param name="curves"></param>
-        /// <param name="clipInfo"></param>
-        /// <returns></returns>
-        public static List<Curve> ClipCurves(List<Curve> curves, XClipInfo clipInfo)
-        {
-            if (curves == null || curves.Count == 0)
-                return null;
-
-            var clipLines = CalClipBoundaryPts(clipInfo.Pts);
-            if (clipLines == null || clipLines.Count < 3)
-                return curves;
-
-            //Utils.DrawProfile(clipLines, "clipLine");
-            //裁剪
-            var innerCurves = new List<Curve>();
-            var intersectCurves = new List<Curve>();
-            var outerCurves = new List<Curve>();
-            foreach (var curve in curves)
-            {
-                if (LoopContainCurve(clipLines, curve))
-                {
-                    innerCurves.Add(curve);
-                }
-                else if (CurveIntersectWithLoop(curve, clipLines))
-                {
-                    intersectCurves.Add(curve);
-                }
-                else
-                    outerCurves.Add(curve);
-            }
-
-            if (intersectCurves.Count != 0)
-            {
-                var newCurves = ScatterCurves.MakeScatterCurves(intersectCurves, clipLines);
-                if (newCurves != null)
-                {
-                    foreach (var curve in newCurves)
-                    {
-                        var ptMid = curve.GetPointAtParameter((curve.StartParam + curve.EndParam) * 0.5);
-
-                        if (CommonUtils.PtOnCurves(ptMid, clipLines))
-                            continue;
-
-                        if (CommonUtils.PtInLoop(clipLines, ptMid))
-                            innerCurves.Add(curve);
-                        else
-                            outerCurves.Add(curve);
-                    }
-                }
-            }
-
-            if (clipInfo.KeepExternal)
-                return outerCurves;
-            else
-                return innerCurves;
-        }
-
-        public static Point2dCollection EraseSamePoints(Point2dCollection pts)
-        {
-            Point2dCollection resPts = new Point2dCollection();
-            foreach (Point2d pt in pts)
-            {
-                bool isExisted = false;
-                for (int i = 0; i < resPts.Count; i++)
-                {
-                    if (CommonUtils.Point2dIsEqualPoint2d(pt, resPts[i]))
-                    {
-                        isExisted = true;
-                        break;
-                    }
-                }
-
-                if (!isExisted)
-                {
-                    resPts.Add(pt);
-                }
-            }
-            return resPts;
-        }
-
-        /// <summary>
-        /// 裁剪多边形
-        /// </summary>
-        /// <param name="srcPts"></param>
-        /// <returns></returns>
-        public static List<Curve> CalClipBoundaryPts(Point2dCollection srcPts)
-        {
-            var pts = EraseSamePoints(srcPts);
-            if (pts.Count < 2)
-                return null;
-
-            var curves = new List<Curve>();
-            Point2dCollection newBoundaryPts = new Point2dCollection();
-            if (pts.Count == 2)
-            {
-                double minX = Math.Min(pts[0].X, pts[1].X);
-                double minY = Math.Min(pts[0].Y, pts[1].Y);
-                double maxX = Math.Max(pts[0].X, pts[1].X);
-                double maxY = Math.Max(pts[0].Y, pts[1].Y);
-                newBoundaryPts.AddRange(new Point2d[]{new Point2d(minX, minY), new Point2d(maxX, minY),
-                    new Point2d(maxX, maxY), new Point2d(minX, maxY)});
-            }
-            else
-            {
-                newBoundaryPts = pts;
-            }
-
-            var ptCount = newBoundaryPts.Count;
-            for (int i = 0; i < ptCount; i++)
-            {
-                var curPt = newBoundaryPts[i];
-                var nextPt = newBoundaryPts[(i + 1) % ptCount];
-                curves.Add(new Line(curPt.toPoint3d(), nextPt.toPoint3d()));
-            }
-
-            return curves;
         }
 
         /// <summary>
@@ -5697,7 +5427,7 @@ namespace TopoNode
                             // 释放不用的图元对象
                             if (entityLst != null)
                             {
-                                foreach (Entity entity in entityLst.Where(o => !entities.Contains(o)))
+                                foreach(Entity entity in entityLst.Where(o => !entities.Contains(o)))
                                 {
                                     entity.Dispose();
                                 }
@@ -5758,26 +5488,11 @@ namespace TopoNode
                                                 entities.Add(entity);
                                             }
                                         }
-                                        else if (IsValidLayer(entity, validLayers)
+                                        else if (IsValidLayer(entity, validLayers) 
                                             && !entity.IsErased
                                             && !(entity is Hatch) && !(entity is AttributeDefinition))
                                         {
-                                            if (entity is Region region)
-                                            {
-                                                var dbObjects = new DBObjectCollection();
-                                                region.Explode(dbObjects);
-                                                foreach (var obj in dbObjects)
-                                                {
-                                                    if (obj is Entity entityRe)
-                                                    {
-                                                        entities.Add(entityRe);
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                entities.Add(entity);
-                                            }
+                                            entities.Add(entity);
                                         }
                                     }
                                 }
@@ -5785,19 +5500,13 @@ namespace TopoNode
                             // 将目标图元添加到图纸中
                             foreach (Entity entity in entities)
                             {
-                                try
-                                {
-                                    objs.Add(db.ModelSpace.Add(entity));
-                                }
-                                catch (Exception e)
-                                {
-                                }
+                                objs.Add(db.ModelSpace.Add(entity));
                             }
 
                             // 释放不用的图元对象
                             if (entityLst != null)
                             {
-                                foreach (Entity entity in entityLst.Where(o => !entities.Contains(o)))
+                                foreach(Entity entity in entityLst.Where(o => !entities.Contains(o)))
                                 {
                                     entity.Dispose();
                                 }
