@@ -307,7 +307,7 @@ namespace ThWSS
 
                 // 选择自定义区域
                 var frame = CreatePolygonArea();
-                if (frame == null)
+                if (frame == null || frame.NumberOfVertices == 0)
                 {
                     return;
                 }

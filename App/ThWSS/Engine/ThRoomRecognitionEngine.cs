@@ -264,77 +264,49 @@ namespace ThWSS.Engine
 
         public override bool Acquire(Database database, Polyline floor, ObjectIdCollection frames)
         {
+            var plines = new DBObjectCollection();
             using (var acadDatabase = AcadDatabase.Use(database))
             {
-                // 获取房间轮廓
-                int roomIndex = 0;
+                // 为了确保选择的多段线可以形成封闭的房间轮廓
+                // 把多段线的Closed状态设置成true
                 foreach (ObjectId frame in frames)
                 {
-                    // 为了确保选择的多段线可以形成封闭的房间轮廓
-                    // 把多段线的Closed状态设置成true
                     var pline = acadDatabase.Element<Polyline>(frame);
                     var clone = pline.GetTransformedCopy(Matrix3d.Identity) as Polyline;
                     clone.Closed = true;
-                    ThRoom thRoom = new ThRoom()
-                    {
-                        Properties = new Dictionary<string, object>()
-                        {
-                            { string.Format("ThRoom{0}", roomIndex++), clone }
-                        }
-                    };
-                    Elements.Add(thRoom);
+                    plines.Add(clone);
                 }
-
-                // 获取房间内的柱
-                using (var columnEngine = new ThColumnRecognitionEngine(database))
-                {
-                    columnEngine.Acquire(database, floor, frames);
-                    Elements.AddRange(columnEngine.Elements);
-                    //foreach (var column in columnEngine.Elements)
-                    //{
-                    //    acadDatabase.ModelSpace.Add(column.Properties.First().Value as Polyline);
-                    //}
-                }
-
-                return true;
             }
+            return Acquire(database, floor, plines);
         }
 
         public override bool Acquire(Database database, Polyline floor, DBObjectCollection frames)
         {
+            // 获取房间轮廓
             using (var acadDatabase = AcadDatabase.Use(database))
             {
-                // 获取房间轮廓
                 int roomIndex = 0;
                 foreach (Polyline frame in frames)
                 {
-                    // 为了确保选择的多段线可以形成封闭的房间轮廓
-                    // 把多段线的Closed状态设置成true
-                    var clone = frame.GetTransformedCopy(Matrix3d.Identity) as Polyline;
-                    clone.Closed = true;
                     ThRoom thRoom = new ThRoom()
                     {
                         Properties = new Dictionary<string, object>()
                         {
-                            { string.Format("ThRoom{0}", roomIndex++), clone }
+                            { string.Format("ThRoom{0}", roomIndex++), frame }
                         }
                     };
                     Elements.Add(thRoom);
                 }
-
-                // 获取房间内的柱
-                using (var columnEngine = new ThColumnRecognitionEngine(database))
-                {
-                    columnEngine.Acquire(database, floor, frames);
-                    Elements.AddRange(columnEngine.Elements);
-                    //foreach(var column in columnEngine.Elements)
-                    //{
-                    //    acadDatabase.ModelSpace.Add(column.Properties.First().Value as Polyline);
-                    //}
-                }
-
-                return true;
             }
+
+            // 获取房间内的柱
+            using (var columnEngine = new ThColumnRecognitionEngine(database))
+            {
+                columnEngine.Acquire(database, floor, frames);
+                Elements.AddRange(columnEngine.Elements);
+            }
+
+            return true;
         }
 
         public override bool Acquire(ThModelElement element)
