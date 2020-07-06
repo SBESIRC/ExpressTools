@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{95F58474-91E6-430D-8F8B-9D1E931B8155}</ProjectGuid>
+    <ProjectGuid>{1B5BED9D-48D9-444B-A869-A78D4068D2CC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ThColumnInfo</RootNamespace>
@@ -39,7 +39,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <Import Project="..\TIANHUA.CSharp.General.targets" />
+  <Import Project="..\..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -56,28 +56,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\TopoNode\CommonUtils.cs">
-      <Link>Topology\CommonUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\TopoNode\Progress\Progress.cs">
-      <Link>Topology\Progress.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\TopoNode\Progress\Progress.Designer.cs">
-      <Link>Topology\Progress.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\TopoNode\ThirdUtils.cs">
-      <Link>Topology\ThirdUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\TopoNode\TopoCalculate.cs">
-      <Link>Topology\TopoCalculate.cs</Link>
-    </Compile>
-    <Compile Include="..\TopoNode\TopoUtils.cs">
-      <Link>Topology\TopoUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\TopoNode\Utils.cs">
-      <Link>Topology\Utils.cs</Link>
-    </Compile>
     <Compile Include="Business\BuildInSituMarkInf.cs" />
     <Compile Include="Business\BlockReferenceGeometryExtents3d.cs" />
     <Compile Include="Business\ColumnBindTextManager.cs" />
@@ -225,23 +203,20 @@
     <Compile Include="View\ValidateRules.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
+    <ProjectReference Include="..\..\DotNetARX\2010\DotNetARX.csproj">
       <Project>{5ddfcada-bea4-402c-b3e4-5c7f83c2f09e}</Project>
       <Name>DotNetARX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ThCADCore\ThCADCore.csproj">
+    <ProjectReference Include="..\..\ThCADCore\ThCADCore.csproj">
       <Project>{c6ac9e68-9059-4ddd-8fa7-58e2656d572e}</Project>
       <Name>ThCADCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
+    <ProjectReference Include="..\..\Utilities\ExtensionTools.csproj">
       <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
       <Name>ExtensionTools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\TopoNode\Progress\Progress.resx">
-      <Link>Topology\Progress.resx</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
