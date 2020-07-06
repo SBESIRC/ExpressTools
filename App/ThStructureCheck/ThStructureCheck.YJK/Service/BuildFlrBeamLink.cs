@@ -19,7 +19,7 @@ namespace ThStructureCheck.YJK.Service
         private List<CalcBeamSeg> calcBeamSegs; //计算书某一层中的所有梁
         private string dtlCalcPath;
         private int flrNo;
-        public BuildCalcBeamLink(string dtlCalcPath, int flrNo )
+        public BuildFlrCalcBeamLink(string dtlCalcPath, int flrNo )
         {
             this.dtlCalcPath = dtlCalcPath;
             this.flrNo = flrNo;
@@ -179,7 +179,7 @@ namespace ThStructureCheck.YJK.Service
         private string dtlModelPath;
         private int flrNo;
         private YjkGridQuery yjkGridQuery;
-        public BuildModelBeamLink(string dtlModelPath, int flrNo)
+        public BuildFlrModelBeamLink(string dtlModelPath, int flrNo)
         {
             this.dtlModelPath = dtlModelPath;
             this.flrNo = flrNo;

@@ -245,5 +245,6 @@ namespace ThStructureCheck.ThBeamInfo.Service
             }
             return rad;
         }
+        #endregion
     }
 }
