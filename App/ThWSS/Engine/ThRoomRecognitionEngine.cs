@@ -53,7 +53,7 @@ namespace ThWSS.Engine
                 //Utils.PostProcess(removeEntityLst);
                 //return;
                 Progress.SetValue(900);
-                var pickPoints = Utils.GetRoomPoints("AD-NAME-ROOM");
+                var pickTextNodes = Utils.GetRoomTextNodes("AD-NAME-ROOM");
 
                 //foreach (var pt in pickPoints)
                 //    Utils.DrawPreviewPoint(pt, "pick");
@@ -94,13 +94,15 @@ namespace ThWSS.Engine
                             curSelectPLine.ReverseCurve();
                         }
                     }
-                    var curSelectPoints = Utils.GetValidFPointsFromSelectPLine(pickPoints, curSelectPLine);
-                    if (curSelectPoints == null || curSelectPoints.Count == 0)
+
+                    var curSelectTextNodes = Utils.GetValidFRoomNodeFromSelectPLine(pickTextNodes, curSelectPLine);
+                    if (curSelectTextNodes == null || curSelectTextNodes.Count == 0)
                         continue;
+
                     var allCurves = Utils.GetValidCurvesFromSelectPLine(srcAllCurves, curSelectPLine);
 
-                    foreach (var pt in curSelectPoints)
-                        Utils.DrawPreviewPoint(pt, "pick");
+                    foreach (var textNode in curSelectTextNodes)
+                        Utils.DrawPreviewPoint(textNode.textPoint, "pick");
 
                     allCurves = TopoUtils.TesslateCurve(allCurves);
                     allCurves = Utils.ExtendCurves(allCurves, 20);
@@ -179,7 +181,7 @@ namespace ThWSS.Engine
                     //Utils.DrawProfile(allCurves, "allCurves");
                     //return;
 
-                    var inc = (profileFindPre * 3.0) / curSelectPoints.Count;
+                    var inc = (profileFindPre * 3.0) / curSelectTextNodes.Count;
                     var hasPutPolys = new List<Tuple<Point3d, double>>();
 
                     //var profiles = TopoUtils.MakeProfilesFromPoints(allCurves, pickPoints);
@@ -196,19 +198,27 @@ namespace ThWSS.Engine
                     //}
 
                     int roomIndex = 0;
-                    foreach (var pt in curSelectPoints)
+                    foreach (var selectTextNode in curSelectTextNodes)
                     {
                         beginPos += inc;
                         Progress.SetValue((int)beginPos);
 
                         try
                         {
-                            var aimProfile = TopoUtils.MakeProfileFromPoint2(allCurves, pt);
+                            var aimProfile = TopoUtils.MakeProfileFromPoint2(allCurves, selectTextNode.textPoint);
                             if (aimProfile == null)
                                 continue;
 
                             if (CommonUtils.HasPolylines(hasPutPolys, aimProfile.profile))
                                 continue;
+
+                            // 包含水和井且面积大于3平米，则布置
+                            var roomTextName = selectTextNode.textString;
+                            if (roomTextName.Contains("水") && roomTextName.Contains("井"))
+                            {
+                                if ((Math.Abs(aimProfile.profile.Area) / 1e6) < 3)
+                                    continue;
+                            }
 
                             // 获取房间轮廓
                             ThRoom thRoom = new ThRoom()
