@@ -18,6 +18,22 @@ using TopoNode.Progress;
 
 namespace TopoNode
 {
+    /// <summary>
+    /// 文字信息记录插入点和房间名字
+    /// </summary>
+    public class RoomTextNode
+    {
+        public Point3d textPoint;
+        public String textString;
+
+        public RoomTextNode(Point3d srcPt, String srcTextString)
+        {
+            textPoint = srcPt;
+            textString = srcTextString;
+        }
+    }
+
+
     public class ConnectedNode
     {
         public ConnectedNode(List<LineSegment2d> relatedCurvesNode)
@@ -510,7 +526,8 @@ namespace TopoNode
                 || textString.Contains("水泵间")
                 || textString.Contains("水泵机房")
                 || textString.Contains("排烟机房")
-                || textString.Contains("储藏"))
+                || textString.Contains("储藏")
+                || (textString.Contains("水") && textString.Contains("井")))
             {
                 return true;
             }
@@ -564,6 +581,63 @@ namespace TopoNode
             }
 
             return pts;
+        }
+
+        public static List<RoomTextNode> GetRoomTextNodes(string roomLayer)
+        {
+            var textEntitys = GetAllTexts(roomLayer);
+
+            // 房间文字信息
+            var roomTextNodes = new List<RoomTextNode>();
+            for (int i = 0; i < textEntitys.Count; i++)
+            {
+                var text = textEntitys[i];
+                string textString;
+                if (text is DBText)
+                {
+                    textString = (text as DBText).TextString.Trim();
+                }
+                else
+                {
+                    var mText = text as MText;
+                    textString = mText.Text.Trim();
+                }
+
+                if (textString.IsNullOrEmpty())
+                    continue;
+
+                if (ValidRoomName(textString))
+                {
+                    if (text.Bounds.HasValue)
+                    {
+                        var roomPt = text.Bounds.Value.CenterPoint();
+                        roomTextNodes.Add(new RoomTextNode(roomPt, textString));
+                    }
+                    continue;
+                }
+
+                if (textString.Length == 2 && textString.Contains("平台"))
+                {
+                    continue;
+                }
+
+                if (InValidRoomName(textString))
+                    continue;
+
+                if (textString.Length < 2)
+                    continue;
+
+                if (IsValidString(textString, "-"))
+                {
+                    if (text.Bounds.HasValue)
+                    {
+                        var roomPt = text.Bounds.Value.CenterPoint();
+                        roomTextNodes.Add(new RoomTextNode(roomPt, textString));
+                    }
+                }
+            }
+
+            return roomTextNodes;
         }
 
         private static bool IsValidString(string source, string aimTag)
@@ -3529,6 +3603,30 @@ namespace TopoNode
             return resPts;
         }
 
+        public static List<RoomTextNode> GetValidFRoomNodeFromSelectPLine(List<RoomTextNode> roomTextNodes, Polyline poly)
+        {
+            var resRoomNodes = new List<RoomTextNode>();
+            var obcurves = poly.GetOffsetCurves(500);
+            //Utils.DrawProfile(new List<Curve>() { poly }, "poly");
+            if (obcurves.Count == 0)
+                obcurves.Add(poly);
+            var lineSegments = new List<LineSegment2d>();
+            foreach (Polyline curve in obcurves)
+            {
+                var lines = Polyline2Lines(curve);
+                if (lines != null && lines.Count != 0)
+                    lineSegments.AddRange(lines);
+            }
+
+            foreach (var roomNode in roomTextNodes)
+            {
+                if (CommonUtils.PtInLoop(lineSegments, roomNode.textPoint.toPoint2d()))
+                    resRoomNodes.Add(roomNode);
+            }
+
+            return resRoomNodes;
+        }
+
         public static List<Curve> GetValidCurvesFromSelectPLine(List<Curve> allCurves, Polyline poly)
         {
             if (allCurves == null || allCurves.Count == 0)
@@ -4647,10 +4745,10 @@ namespace TopoNode
                             var entity = entityLst.First();
                             if (!(entity is BlockReference))
                             {
-                                if (!entity.Equals(blockReference) 
+                                if (!entity.Equals(blockReference)
                                     && IsValidLayer(entity, validLayers)
-                                    && !entity.IsErased 
-                                    && !(entity is Hatch) 
+                                    && !entity.IsErased
+                                    && !(entity is Hatch)
                                     && !(entity is AttributeDefinition))
                                 {
                                     if (entity is Region region)
@@ -4677,10 +4775,10 @@ namespace TopoNode
                             foreach (var entity in entityLst)
                             {
                                 // 除了块，其余的可以用图层确定是否收集，块的图层内部数据也可能符合要求
-                                if (!entity.Equals(blockReference) 
+                                if (!entity.Equals(blockReference)
                                     && IsValidLayer(entity, validLayers)
-                                    && !entity.IsErased 
-                                    && !(entity is Hatch) 
+                                    && !entity.IsErased
+                                    && !(entity is Hatch)
                                     && !(entity is AttributeDefinition))
                                 {
                                     if (entity is Region region)
@@ -4713,7 +4811,7 @@ namespace TopoNode
                     // 释放不用的图元对象
                     if (entityLst != null)
                     {
-                        foreach(Entity entity in entityLst.Where(o => !entities.Contains(o)))
+                        foreach (Entity entity in entityLst.Where(o => !entities.Contains(o)))
                         {
                             entity.Dispose();
                         }
@@ -5021,7 +5119,7 @@ namespace TopoNode
                 || IsValidShowLayer(srcLayerName, "AD-NAME-ROOM")
                 || IsValidShowLayer(srcLayerName, "AE-STRU")
                 || IsValidShowLayer(srcLayerName, "AE-HDWR")
-                || IsValidShowLayer(srcLayerName, "AE-FLOR")
+                //|| IsValidShowLayer(srcLayerName, "AE-FLOR")
                 || IsValidShowLayer(srcLayerName, "S_WALL")
                 || IsValidShowLayer(srcLayerName, "S_WALL_DETL")
                 || IsValidShowLayer(srcLayerName, "S_BRIK")
@@ -5427,7 +5525,7 @@ namespace TopoNode
                             // 释放不用的图元对象
                             if (entityLst != null)
                             {
-                                foreach(Entity entity in entityLst.Where(o => !entities.Contains(o)))
+                                foreach (Entity entity in entityLst.Where(o => !entities.Contains(o)))
                                 {
                                     entity.Dispose();
                                 }
@@ -5488,7 +5586,7 @@ namespace TopoNode
                                                 entities.Add(entity);
                                             }
                                         }
-                                        else if (IsValidLayer(entity, validLayers) 
+                                        else if (IsValidLayer(entity, validLayers)
                                             && !entity.IsErased
                                             && !(entity is Hatch) && !(entity is AttributeDefinition))
                                         {
@@ -5506,7 +5604,7 @@ namespace TopoNode
                             // 释放不用的图元对象
                             if (entityLst != null)
                             {
-                                foreach(Entity entity in entityLst.Where(o => !entities.Contains(o)))
+                                foreach (Entity entity in entityLst.Where(o => !entities.Contains(o)))
                                 {
                                     entity.Dispose();
                                 }
@@ -6462,7 +6560,7 @@ namespace TopoNode
                         || IsValidShowLayer(layer, "AD-NAME-ROOM")
                         || IsValidShowLayer(layer, "STRU")
                         || IsValidShowLayer(layer, "AE-HDWR")
-                        || IsValidShowLayer(layer, "AE-FLOR")
+                        //|| IsValidShowLayer(layer, "AE-FLOR")
                         || IsValidShowLayer(layer, "S_WALL")
                         || IsValidShowLayer(layer, "S_WALL_DETL")
                         || IsValidShowLayer(layer, "S_BRIK")
