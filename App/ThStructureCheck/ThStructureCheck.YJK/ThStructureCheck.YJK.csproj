@@ -101,13 +101,14 @@
     <Compile Include="Service\ArcBeamLTypeColumnAsv0.cs" />
     <Compile Include="Service\Asv0Calculation.cs" />
     <Compile Include="Service\ArcBeamRecColumnAsv0.cs" />
+    <Compile Include="Service\BuildBeamLink.cs" />
     <Compile Include="Service\LineBeamArcWallAsv0.cs" />
     <Compile Include="Service\ArcBeamLineWallAsv0.cs" />
     <Compile Include="Service\LineBeamLTypeColumnAsv0.cs" />
     <Compile Include="Service\LineBeamLineWallAsv0.cs" />
     <Compile Include="Service\LineBeamRecColumnAsv0.cs" />
     <Compile Include="Service\MathLogic.cs" />
-    <Compile Include="Service\BuildBeamLink.cs" />
+    <Compile Include="Service\BuildFlrBeamLink.cs" />
     <Compile Include="Service\ThBeamJig.cs" />
     <Compile Include="ThYjkDatbaseExtension.cs" />
     <Compile Include="YjkDatabase.cs" />

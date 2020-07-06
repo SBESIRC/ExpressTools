@@ -41,14 +41,12 @@ namespace ThStructureCheck
             using (ThBeamDbManager beamManager = new ThBeamDbManager(document.Database))
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                dwgBeams=thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(document.Database, polyline));
+                dwgBeams=thDisBeamCommand.CalBeamStrucWithInfo(ThBeamGeometryService.Instance.BeamCurves(document.Database, polyline));
             }
 
             //关联Dwg识别的梁断和Yjk导入的梁断
             ThBeamMatch thBeamMatch = new ThBeamMatch(thDrawBeam.BeamEnts, dwgBeams);
             thBeamMatch.Match();
-
-            //计算拆分后的梁端的配筋信息
 
             //对图纸中梁段进行校核 
         }
