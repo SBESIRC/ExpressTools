@@ -133,7 +133,7 @@ namespace TopoNode
                     Utils.DrawPreviewPoint(textNode.textPoint, "pick");
 
                 allCurves = TopoUtils.TesslateCurve(allCurves);
-                allCurves = Utils.ExtendCurves(allCurves, 20);
+                allCurves = Utils.ExtendCurves(allCurves, 100);
 
                 var wallAllCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(srcWallAllCurves, curSelectPLine);
                 wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
@@ -146,7 +146,7 @@ namespace TopoNode
                     if (windCurves != null && windCurves.Count != 0)
                     {
                         var tesslateWindCurves = TopoUtils.TesslateCurve(windCurves);
-                        tesslateWindCurves = Utils.ExtendCurves(tesslateWindCurves, 5);
+                        tesslateWindCurves = Utils.ExtendCurves(tesslateWindCurves, 100);
                         wallAllCurves.AddRange(tesslateWindCurves);
                         allCurves.AddRange(tesslateWindCurves);
                     }
@@ -160,6 +160,7 @@ namespace TopoNode
                     if (doorCurves != null && doorCurves.Count != 0)
                     {
                         var tesslateDoorCurves = TopoUtils.TesslateCurve(doorCurves);
+                        tesslateDoorCurves = Utils.ExtendCurves(tesslateDoorCurves, 100);
                         wallAllCurves.AddRange(tesslateDoorCurves);
                         allCurves.AddRange(tesslateDoorCurves);
                     }
@@ -177,7 +178,7 @@ namespace TopoNode
 
                     if (doorInsertCurves != null && doorInsertCurves.Count != 0)
                     {
-                        doorInsertCurves = Utils.ExtendCurves(doorInsertCurves, 5);
+                        doorInsertCurves = Utils.ExtendCurves(doorInsertCurves, 100);
                         allCurves.AddRange(doorInsertCurves);
                         Utils.DrawProfile(doorInsertCurves, "doorInsertCurves");
                         //removeEntityLst.AddRange(doorInsertCurves);
@@ -195,7 +196,7 @@ namespace TopoNode
 
                     if (windInsertCurves != null && windInsertCurves.Count != 0)
                     {
-                        windInsertCurves = Utils.ExtendCurves(windInsertCurves, 5);
+                        windInsertCurves = Utils.ExtendCurves(windInsertCurves, 100);
                         Utils.DrawProfile(windInsertCurves, "windInsertCurves");
                         allCurves.AddRange(windInsertCurves);
                     }
