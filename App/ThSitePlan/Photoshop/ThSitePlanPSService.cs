@@ -334,5 +334,23 @@ namespace ThSitePlan.Photoshop
             }
             Application.ActiveDocument.SaveAs(Path.Combine(path, psfilename));
         }
+
+        //在当前文档中查找指定名称的图层
+        public ArtLayer FindLayerByName(string docname)
+        {
+            Document searchdoc = Application.ActiveDocument;
+            //在PS根节点下检索，若找到直接返回
+            foreach (ArtLayer outlayer in searchdoc.ArtLayers)
+            {
+                if (outlayer.Name == docname)
+                {
+                    return outlayer;
+                }
+            }
+
+            //在PS中所有图层组中检索
+            return FindUpdateLocation(docname, searchdoc);
+        }
+
     }
 }

@@ -81,7 +81,8 @@ namespace ThSitePlan
                                     { "Opacity", p.PSD_Transparency },
                                     { "CADFrame", p.CAD_Frame },
                                     { "CADScriptID", p.CAD_ScriptID },
-                                    { "CADLayer", LayerListToListStr(p.CAD_Layer)}
+                                    { "CADLayer", LayerListToListStr(p.CAD_Layer)},
+                                    { "ID", p.ID}
                                 }
                         });
                     }
@@ -124,7 +125,8 @@ namespace ThSitePlan
                                     { "Opacity", p.PSD_Transparency },
                                     { "CADFrame", p.CAD_Frame },
                                     { "CADScriptID", p.CAD_ScriptID },
-                                    { "CADLayer", LayerListToListStr(p.CAD_Layer) }
+                                    { "CADLayer", LayerListToListStr(p.CAD_Layer) },
+                                    { "ID", p.ID}
                                 }
                     });
                 }

@@ -159,6 +159,57 @@ namespace ThSitePlan.Photoshop
             }
         }
 
+        public void PSClean(ThSitePlanConfigItemGroup jobs)
+        {
+            while (jobs.Items.Count != 0)
+            {
+                var obj = jobs.Items.Dequeue();
+                if (obj is ThSitePlanConfigItem item)
+                {
+                    Clean(item);
+                }
+                else if (obj is ThSitePlanConfigItemGroup group)
+                {
+                    Clean(group);
+                }
+            }
+
+        }
+
+        public void Clean(ThSitePlanConfigItemGroup jobs)
+        {
+            if (jobs.Status == UpdateStaus.NoUpdate)
+            {
+                return;
+            }
+
+            while (jobs.Items.Count != 0)
+            {
+                var obj = jobs.Items.Dequeue();
+                if (obj is ThSitePlanConfigItem item)
+                {
+                    Clean(item);
+                }
+                else if (obj is ThSitePlanConfigItemGroup group)
+                {
+                    Clean(group);
+                }
+            }
+        }
+
+        private void Clean(ThSitePlanConfigItem job)
+        {
+            if (job.Status == UpdateStaus.NoUpdate)
+            {
+                return;
+            }
+
+            foreach (var generator in Generators)
+            {
+                generator.Clean(job);
+            }
+        }
+
 
         private UpdateStaus ValidateItem(ThSitePlanConfigItem job)
         {

@@ -13,9 +13,16 @@ namespace ThSitePlan.Photoshop
 
         public override bool DoProcess(string path, ThSitePlanConfigItem configItem)
         {
+            if (psService.CurrentFirstDocument == null)
+            {
+                psService.CurrentFirstDocument = psService.Application.ActiveDocument;
+            }
             //1. 在PS中打开并处理PDF
             var NewOpenDocument = psService.OpenAndSet(path, configItem);
-
+            if (NewOpenDocument == null)
+            {
+                return false;
+            }
             //1.5 依据当前打开的图纸名获取其各个图层分组名(第一步打开文档后,第二步关闭文档前)
             string DocName = NewOpenDocument.Name;
 
@@ -51,6 +58,10 @@ namespace ThSitePlan.Photoshop
             }
 
             var NewOpenDoc = psService.OpenAndSet(path, configItem);
+            if (NewOpenDoc == null)
+            {
+                return false;
+            }
 
             //1.5 依据当前打开的图纸名获取其各个图层分组名(第一步打开文档后,第二步关闭文档前)
             string NewDocName = NewOpenDoc.Name;
@@ -79,6 +90,22 @@ namespace ThSitePlan.Photoshop
             psService.UpdateLayerInSet(OperateLayer, findlayer);
 
             return true;
+        }
+
+        public bool CleanInPS(ThSitePlanConfigItem configItem)
+        {
+            string itemname = configItem.Properties["Name"].ToString();
+            // 依据当前文档名查找其在PS中的插入位置
+            var findlayer = psService.FindLayerByName(itemname);
+
+            if (findlayer == null)
+            {
+                return false;
+            }
+
+            findlayer.Delete();
+            return true;
+
         }
     }
 }

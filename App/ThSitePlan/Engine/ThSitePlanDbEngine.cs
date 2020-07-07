@@ -80,5 +80,23 @@ namespace ThSitePlan.Engine
                 }
             }
         }
+
+        public ObjectIdCollection FindAllUnusedFrame()
+        {
+            if (Frames.IsNull() || Frames.Count == 0)
+            {
+                return new ObjectIdCollection();
+            }
+            ObjectIdCollection unusedframes = new ObjectIdCollection();
+            foreach (ObjectId item in this.Frames)
+            {
+                string framename = NameByFrame(item);
+                if (framename == ThSitePlanCommon.ThSitePlan_Frame_Name_Unused)
+                {
+                    unusedframes.Add(item);
+                }
+            }
+            return unusedframes;
+        }
     }
 }
