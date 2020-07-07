@@ -5,11 +5,12 @@ using DotNetARX;
 using ThWss.View;
 using ThWSS.Beam;
 using ThWSS.Model;
+using ThWSS.Utlis;
 using ThWSS.Engine;
+using ThCADCore.NTS;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
-using System.Collections.Generic;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThStructure.BeamInfo.Command;
@@ -224,6 +225,36 @@ namespace ThWSS
                 foreach (var objId in result.Value.GetObjectIds())
                 {
                     acadDatabase.Element<Entity>(objId, true).Erase();
+                }
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THAREAOUTLINES", CommandFlags.Modal)]
+        public void ThAreaOutlines()
+        {
+            // 选择楼层区域
+            // 暂时只支持矩形区域
+            var pline = CreateWindowArea();
+            if (pline == null)
+            {
+                return;
+            }
+
+            // 通过“炸”外参获取的房间框线被创建在由外参引入的临时图层上
+            // 当外参“卸载”后，这个临时外参图层将失效
+            // 为了避免这个情况，将置于临时外参图层的房间框线复制到指定图层中
+            // https://www.keanw.com/2009/05/importing-autocad-layers-from-xrefs-using-net.html
+            using (var outlines = new ThRoomLineDbManager(Active.Database))
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                foreach(ObjectId obj in outlines.Geometries)
+                {
+                    var outline = acadDatabase.Database.AreaOutline(obj);
+                    if (pline.Contains(outline))
+                    {
+                        acadDatabase.ModelSpace.Add(outline);
+                        outline.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
+                    }
                 }
             }
         }

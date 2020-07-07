@@ -81,6 +81,8 @@
     <Compile Include="Engine\ThModelElement.cs" />
     <Compile Include="Engine\ThRoomDbManager.cs" />
     <Compile Include="Engine\ThRoomLayerManager.cs" />
+    <Compile Include="Engine\ThRoomLineDbManager.cs" />
+    <Compile Include="Engine\ThRoomLineLayerManager.cs" />
     <Compile Include="Engine\ThRoomRecognitionEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutWorker.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Utlis\OrientedBoundingBox.cs" />
     <Compile Include="Utlis\RegionDivisionByBeamUtils.cs" />
     <Compile Include="Utlis\RegionDivisionUtils.cs" />
+    <Compile Include="Utlis\ThWSSDbExtension.cs" />
     <Compile Include="View\StandardBindWindow.xaml.cs" />
     <Compile Include="View\PlateThcikWindow.xaml.cs" />
     <Compile Include="View\DefaultBeamHeightWindow.xaml.cs" />
