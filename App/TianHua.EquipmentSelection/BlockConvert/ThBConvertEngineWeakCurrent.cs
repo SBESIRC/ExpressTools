@@ -3,7 +3,7 @@ using Linq2Acad;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace ThEssential.BlockConvert
+namespace TianHua.AutoCAD.BlockConvert
 {
     public class ThBConvertEngineWeakCurrent : ThBConvertEngine
     {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
-namespace ThEssential.BlockConvert
+namespace TianHua.AutoCAD.BlockConvert
 {
     public static class ThBConvertDbExtension
     {

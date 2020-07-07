@@ -39,28 +39,11 @@
     <Compile Include="Align\ThAlignExtent3dExtension.cs" />
     <Compile Include="Align\ThAlignMTextExtension.cs" />
     <Compile Include="Align\ThAlignPolylineExtension.cs" />
-    <Compile Include="BlockConvert\ThBConvertBlockReference.cs" />
-    <Compile Include="BlockConvert\ThBConvertCommon.cs" />
-    <Compile Include="BlockConvert\ThBConvertDbUtils.cs" />
-    <Compile Include="BlockConvert\ThBConvertDynBlockUtils.cs" />
-    <Compile Include="BlockConvert\ThBConvertEngine.cs" />
-    <Compile Include="BlockConvert\ThBConvertEngineStrongCurrent.cs" />
-    <Compile Include="BlockConvert\ThBConvertTableUtils.cs" />
-    <Compile Include="BlockConvert\ThBConvertUtils.cs" />
-    <Compile Include="BlockConvert\ThBConvertEngineWeakCurrent.cs" />
-    <Compile Include="BlockConvert\ThBConvertDbExtension.cs" />
-    <Compile Include="BlockConvert\ThBConvertManager.cs" />
-    <Compile Include="BlockConvert\ThBConvertRule.cs" />
-    <Compile Include="BlockConvert\ThBConvertRuleEngine.cs" />
-    <Compile Include="BlockConvert\ThBConvertRuleEngineStrongCurrent.cs" />
-    <Compile Include="BlockConvert\ThBConvertRuleEngineWeakCurrent.cs" />
     <Compile Include="Command\ThAlignCommand.cs" />
-    <Compile Include="Command\ThBConvertCommand.cs" />
     <Compile Include="Command\ThCopyCommand.cs" />
     <Compile Include="Command\ThEquipmentCommand.cs" />
     <Compile Include="Command\ThLayerStateCommand.cs" />
     <Compile Include="Command\ThMatchPropsCommand.cs" />
-    <Compile Include="Command\ThOverkillCommand.cs" />
     <Compile Include="Command\ThQSelectCommand.cs" />
     <Compile Include="Copy\ThCopyArrayJig.cs" />
     <Compile Include="Copy\ThCopyArrayOptions.cs" />
@@ -86,7 +69,6 @@
     <Compile Include="MatchProps\View\MarchProperty.xaml.cs">
       <DependentUpon>MarchProperty.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Overkill\ThOverkillDbExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

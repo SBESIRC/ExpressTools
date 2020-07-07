@@ -3,7 +3,7 @@ using DotNetARX;
 using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace ThEssential.BlockConvert
+namespace TianHua.AutoCAD.BlockConvert
 {
     public class ThBConvertDbUtils
     {

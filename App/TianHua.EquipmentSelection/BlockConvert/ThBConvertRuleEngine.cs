@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace ThEssential.BlockConvert
+namespace TianHua.AutoCAD.BlockConvert
 {
     public abstract class ThBConvertRuleEngine
     {

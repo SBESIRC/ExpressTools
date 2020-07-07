@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace ThEssential.BlockConvert
+namespace TianHua.AutoCAD.BlockConvert
 {
     /// <summary>
     /// 转换模式

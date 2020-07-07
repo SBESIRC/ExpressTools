@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
-namespace ThEssential.BlockConvert
+namespace TianHua.AutoCAD.BlockConvert
 {
     public static class ThBConvertDynBlockUtils
     {
