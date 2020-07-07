@@ -344,6 +344,10 @@ namespace ThSitePlan.UI
                                 //获取选择框与复制框之间的偏移量
                                 var name = item.Properties["Name"] as string;
                                 var frame = ThSitePlanDbEngine.Instance.FrameByName(name);
+                                if (frame.IsNull)
+                                {
+                                    return;
+                                }
                                 if (!updateframes.Where(o => o.Item1 == frame).Any())
                                 {
                                     updateframes.Enqueue(new Tuple<ObjectId, Vector3d>(frame, acadDatabase.Database.FrameOffset(unusedframe, frame)));
@@ -599,6 +603,10 @@ namespace ThSitePlan.UI
                                     curitem.Properties["Opacity"].ToString() != preitem.Properties["Opacity"].ToString())
                                     {
                                         ObjectId updframeid = ThSitePlanDbEngine.Instance.FrameByName(prefullname);
+                                        if (updframeid.IsNull)
+                                        {
+                                            return;
+                                        }
                                         Tuple<ObjectId, Vector3d> updframe = new Tuple<ObjectId, Vector3d>(updframeid, new Vector3d(0, 0, 0));
                                         psupdateframes.Enqueue(updframe);
 
@@ -610,6 +618,10 @@ namespace ThSitePlan.UI
                                 else
                                 {
                                     ObjectId updframeid = ThSitePlanDbEngine.Instance.FrameByName(prefullname);
+                                    if (updframeid.IsNull)
+                                    {
+                                        return;
+                                    }
                                     cadupdateframeid.Add(updframeid);
 
                                     anyconfigchange = true;
@@ -620,6 +632,10 @@ namespace ThSitePlan.UI
                             else
                             {
                                 ObjectId updframeid = ThSitePlanDbEngine.Instance.FrameByName(prefullname);
+                                if (updframeid.IsNull)
+                                {
+                                    return;
+                                }
                                 //改变图框Xdate
                                 // 更新框的标签
                                 updframeid.RemoveXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name);
@@ -1034,6 +1050,10 @@ namespace ThSitePlan.UI
                     return;
                 }
                 var orgframe = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Original);
+                if (orgframe.IsNull)
+                {
+                    return;
+                }
 
                 ThSitePlanDbEngine.Instance.Initialize(Active.Database);
                 ObjectIdCollection allunusedframes = ThSitePlanDbEngine.Instance.FindAllUnusedFrame();

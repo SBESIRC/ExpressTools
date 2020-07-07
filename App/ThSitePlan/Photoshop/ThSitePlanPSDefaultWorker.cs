@@ -13,8 +13,16 @@ namespace ThSitePlan.Photoshop
 
         public override bool DoProcess(string path, ThSitePlanConfigItem configItem)
         {
+            //DoProcess用于新生成PSD和部分configupdate更新操作
+            //configupdate更新操作是基于当前图纸操作，不会新开一张空白图纸为背景图
+            //此时CurrentFirstDocument为空
             if (psService.CurrentFirstDocument == null)
             {
+                //configupdate时，若PS未打开图纸，此时返回
+                if (psService.Application.Documents.Count == 0)
+                {
+                    return false;
+                }
                 psService.CurrentFirstDocument = psService.Application.ActiveDocument;
             }
             //1. 在PS中打开并处理PDF
@@ -94,6 +102,11 @@ namespace ThSitePlan.Photoshop
 
         public bool CleanInPS(ThSitePlanConfigItem configItem)
         {
+            //执行configupdate时，若PS未打开图纸，直接返回
+            if (psService.Application.Documents.Count == 0)
+            {
+                return false;
+            }
             string itemname = configItem.Properties["Name"].ToString();
             // 依据当前文档名查找其在PS中的插入位置
             var findlayer = psService.FindLayerByName(itemname);
