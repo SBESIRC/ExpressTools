@@ -1,14 +1,9 @@
-﻿using Autodesk.AutoCAD.Colors;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
+﻿using System;
 using DotNetARX;
 using Linq2Acad;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThWSS.Bussiness
@@ -21,54 +16,39 @@ namespace ThWSS.Bussiness
         /// <param name="insertPts"></param>
         public static void InsertSprayBlock(List<Point3d> insertPts, SprayType type)
         {
-            CreateLayer("W-FRPT-SPRL", Color.FromRgb(191, 255, 0));
-
-            string propName = "上喷";
-            if (type == SprayType.SPRAYDOWN)
-                propName = "下喷";
             using (var db = AcadDatabase.Active())
             {
-                var filePath = Path.Combine(ThCADCommon.SupportPath(), "SprayBlockUp.dwg");
+                LayerTools.AddLayer(db.Database, ThWSSCommon.SprayLayerName);
+                var filePath = Path.Combine(ThCADCommon.SupportPath(), ThWSSCommon.SprayDwgName);
                 db.Database.ImportBlocksFromDwg(filePath);
                 foreach (var insertPoint in insertPts)
                 {
-                    var blockId = db.ModelSpace.ObjectId.InsertBlockReference("W-FRPT-SPRL", "喷头", insertPoint, new Scale3d(1, 1, 1), 0);
-                    var props = blockId.GetDynProperties();
-                    foreach (DynamicBlockReferenceProperty prop in props)
-                    {
-                        // 如果动态属性的名称与输入的名称相同
-                        prop.Value = propName;
-                    }
+                    var blockId = db.ModelSpace.ObjectId.InsertBlockReference(
+                        ThWSSCommon.SprayLayerName, 
+                        ThWSSCommon.SprayBlockName, 
+                        insertPoint,
+                        new Scale3d(1, 1, 1), 
+                        0);
+                    blockId.SetDynBlockValue(ThWSSCommon.BLOCK_MAP_ATTRIBUTES_BLOCK_VISIBILITY, SprayVisibilityPropValue(type));
                 }
             }
         }
 
         /// <summary>
-        /// 创建新的图层
+        /// 喷淋块属性值
         /// </summary>
-        /// <param name="allLayers"></param>
-        /// <param name="aimLayer"></param>
-        public static void CreateLayer(string aimLayer, Color color)
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string SprayVisibilityPropValue(SprayType type)
         {
-            LayerTableRecord layerRecord = null;
-            using (var db = AcadDatabase.Active())
+            switch (type)
             {
-                foreach (var layer in db.Layers)
-                {
-                    if (layer.Name.Equals(aimLayer))
-                    {
-                        layerRecord = db.Layers.Element(aimLayer);
-                        break;
-                    }
-                }
-
-                // 创建新的图层
-                if (layerRecord == null)
-                {
-                    layerRecord = db.Layers.Create(aimLayer);
-                    layerRecord.Color = color;
-                    layerRecord.IsPlottable = false;
-                }
+                case SprayType.SPRAYUP:
+                    return "上喷";
+                case SprayType.SPRAYDOWN:
+                    return "下喷";
+                default:
+                    throw new NotSupportedException();
             }
         }
     }

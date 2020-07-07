@@ -3158,8 +3158,9 @@ namespace TopoNode
 
                 foreach (var curve in curves)
                 {
-                    var objectCurveId = db.ModelSpace.Add(curve.Clone() as Curve);
-                    db.ModelSpace.Element(objectCurveId, true).Layer = LayerName;
+                    var clone = curve.Clone() as Curve;
+                    clone.Layer = LayerName;
+                    db.ModelSpace.Add(clone);
                 }
             }
         }

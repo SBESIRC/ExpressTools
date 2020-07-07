@@ -146,8 +146,11 @@ namespace ThWSS
             }
         }
 
-        [CommandMethod("TIANHUACAD", "THGETROOMINFO", CommandFlags.Modal)]
-        public void ThGetRoomInfo()
+        /// <summary>
+        /// 自动识别图纸中的面积框线
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THAUTOAREAOUTLINES", CommandFlags.Modal)]
+        public void ThAutoAreaOutlines()
         {
             // 选择楼层区域
             // 暂时只支持矩形区域
@@ -171,7 +174,36 @@ namespace ThWSS
                 return;
             }
 
+            // 先获取现有的面积框线
+            var objs = new ObjectIdCollection();
+            filterlist = OpFilter.Bulid(o =>
+                o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
+                o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+            var result = Active.Editor.SelectByWindow(
+                pline.GeometricExtents.MinPoint,
+                pline.GeometricExtents.MaxPoint,
+                PolygonSelectionMode.Window,
+                filterlist);
+            if (result.Status == PromptStatus.OK)
+            {
+                foreach (ObjectId obj in result.Value.GetObjectIds())
+                {
+                    objs.Add(obj);
+                }
+            }
+
             // 获取房间轮廓线
+            void handler(object s, ObjectEventArgs e)
+            {
+                if (e.DBObject is Polyline polyline)
+                {
+                    if (polyline.Layer == ThWSSCommon.AreaOutlineLayer)
+                    {
+                        objs.Add(e.DBObject.ObjectId);
+                    }
+                }
+            }
+            Active.Database.ObjectAppended += handler;
             using (var roomManager = new ThRoomDbManager(Active.Database))
             using (var engine = new ThRoomRecognitionEngine())
             {
@@ -180,56 +212,41 @@ namespace ThWSS
                     engine.Acquire(Active.Database, pline, frame);
                 }
             }
-        }
+            Active.Database.ObjectAppended -= handler;
 
-        [CommandMethod("TIANHUACAD", "THMERGEBEAMCURVES", CommandFlags.Modal)]
-        public void ThMergeBeamCurves()
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            // 剔除重合的面积框线
+            if (objs.Count > 0)
             {
-                PromptSelectionOptions options = new PromptSelectionOptions()
-                {
-                    AllowDuplicates = false,
-                    RejectObjectsOnLockedLayers = true,
-                };
-                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", new string[]
-                {
-                    RXClass.GetClass(typeof(Arc)).DxfName,
-                    RXClass.GetClass(typeof(Line)).DxfName,
-                    RXClass.GetClass(typeof(Polyline)).DxfName,
-                }));
-                var result = Active.Editor.GetSelection(options, filterlist);
-                if (result.Status != PromptStatus.OK)
-                {
-                    return;
-                }
-
-                var objs = new DBObjectCollection();
-                foreach (var objId in result.Value.GetObjectIds())
-                {
-                    var obj = acadDatabase.Element<Entity>(objId, true);
-                    objs.Add(obj.GetTransformedCopy(Matrix3d.Identity));
-                }
-                var results = ThBeamGeometryPreprocessor.MergeCurves(objs);
-                if (results.Count == 0)
-                {
-                    return;
-                }
-
-                // 将合并后的图元添加到图纸中
-                // 未参与合并的图元会被重新添加到图纸中
-                foreach (Entity obj in results)
-                {
-                    acadDatabase.ModelSpace.Add(obj);
-                }
-                // 将原图元从图纸中删除
-                foreach (var objId in result.Value.GetObjectIds())
-                {
-                    acadDatabase.Element<Entity>(objId, true).Erase();
-                }
+                Active.Editor.OverkillCmd(objs);
             }
         }
 
+        /// <summary>
+        /// 用户自绘面积框线
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THCUSTOMAREAOUTLINES", CommandFlags.Modal)]
+        public void ThCustomAreaOutlines()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                // 选择自定义区域
+                var frame = CreatePolygonArea();
+                if (frame == null || frame.NumberOfVertices == 0)
+                {
+                    return;
+                }
+
+                // 设置到指定图层
+                frame.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
+
+                // 添加到当前图纸
+                acadDatabase.ModelSpace.Add(frame);
+            }
+        }
+
+        /// <summary>
+        /// 识别已绘制的面积框线
+        /// </summary>
         [CommandMethod("TIANHUACAD", "THAREAOUTLINES", CommandFlags.Modal)]
         public void ThAreaOutlines()
         {
@@ -278,7 +295,10 @@ namespace ThWSS
             }
 
             // 剔除重合的面积框线
-            Active.Editor.OverkillCmd(objs);
+            if (objs.Count > 0)
+            {
+                Active.Editor.OverkillCmd(objs);
+            }
         }
 
         /// <summary>

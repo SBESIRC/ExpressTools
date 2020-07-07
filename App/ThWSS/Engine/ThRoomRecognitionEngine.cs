@@ -247,15 +247,7 @@ namespace ThWSS.Engine
                             }
 
                             // 输出房间轮廓曲线
-                            Utils.DrawProfile(new List<Curve>() { aimProfile.profile }, "outProfile");
-                            // Utils.DrawTextProfile(outProfile.profileCurves, outProfile.profileLayers);
-                            //if (aimProfile.InnerPolylineLayers.Count != 0)
-                            //{
-                            //    foreach (var innerProfile in aimProfile.InnerPolylineLayers)
-                            //    {
-                            //        Utils.DrawProfile(new List<Curve>() { innerProfile.profile }, "innerProfile");
-                            //    }
-                            //}
+                            Utils.DrawProfile(new List<Curve>() { aimProfile.profile }, ThWSSCommon.AreaOutlineLayer);
                         }
                         catch
                         {
