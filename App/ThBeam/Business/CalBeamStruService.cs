@@ -5,6 +5,7 @@ using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using ThStructure.BeamInfo.Model;
 using Autodesk.AutoCAD.DatabaseServices;
+using ThStructure.BeamInfo.Utils;
 
 namespace ThStructure.BeamInfo.Business
 {
@@ -69,7 +70,8 @@ namespace ThStructure.BeamInfo.Business
                     //合并同组内重叠的线
                     var objs = new DBObjectCollection();
                     lineDic.Value.ForEachDbObject(o => objs.Add(o));
-                    var results = ThBeamGeometryPreprocessor.MergeCurves(objs);
+                    // ThBeamGeometryPreprocessor.MergeCurves(objs);
+                    var results = objs.GetMergeOverlappingCurves(new Tolerance(1, 1)); 
                     var res = GetLineBeamObject(results.Cast<Line>().ToList(), lineDic.Key, 100);
                     allBeam.AddRange(res);
                 }
@@ -131,23 +133,19 @@ namespace ThStructure.BeamInfo.Business
                         xMinX = x.StartPoint.X;
                     }
 
-                    if (Math.Abs(firLine.StartPoint.Y - x.StartPoint.Y) > 1500)
+                    //两根线距离太宽或者太近也不认为是一组梁
+                    if (Math.Abs(firLine.StartPoint.Y - x.StartPoint.Y) > 1500 || Math.Abs(firLine.StartPoint.Y - x.StartPoint.Y) < 10)
                     {
                         return false;
                     }
 
-                    //  两根线有重叠关系
-                    if (xMinX <= lMaxX && xMaxX >= lMinX)
+                    //  两根线有重叠关系(大部分重叠)
+                    if ((xMinX <= lMaxX && xMaxX >= lMinX) && 
+                        Math.Abs(xMaxX - lMaxX) < firLine.Length / 2 &&
+                        Math.Abs(xMinX - lMinX) < firLine.Length / 2)
                     {
                         return true;
                     }
-
-                    //  2. 两根线有重叠关系（大部分重叠）
-                    //if (Math.Abs(xMaxX - lMaxX) < tolerance || 
-                    //    Math.Abs(xMinX - lMinX) < tolerance)
-                    //{
-                    //    return true;
-                    //}
 
                     // 不可能配成梁的线
                     return false;

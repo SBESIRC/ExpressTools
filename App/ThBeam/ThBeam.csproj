@@ -58,6 +58,7 @@
     <Compile Include="Model\LineBeam.cs" />
     <Compile Include="Model\ThCentralizedMarking.cs" />
     <Compile Include="Utils\GetObjectUtils.cs" />
+    <Compile Include="Utils\ThOverkillDbExtension.cs" />
     <Compile Include="Utils\ThStructureDbExtension.cs" />
     <Compile Include="Utils\ThStructureUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
