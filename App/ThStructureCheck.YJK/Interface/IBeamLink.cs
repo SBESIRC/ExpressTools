@@ -9,7 +9,8 @@ namespace ThStructureCheck.YJK.Interface
 {
     public interface IBeamLink
     {
-        List<BeamLink> BeamLinks { get;}
+        List<BeamLink> MainBeamLinks { get;}
+        List<BeamLink> SecondaryBeamLinks { get; }
         void Build(); 
     }
 }

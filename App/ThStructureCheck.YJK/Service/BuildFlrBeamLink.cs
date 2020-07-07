@@ -10,183 +10,28 @@ using ThStructureCheck.YJK.Query;
 namespace ThStructureCheck.YJK.Service
 {
     /// <summary>
-    /// 创建计算书中某层的所有梁连接
-    /// </summary>
-    public class BuildFlrCalcBeamLink : IBeamLink
-    {
-        //主梁一定有一端是连在柱子上
-        private List<BeamLink> beamLinks = new List<BeamLink>();
-        private List<CalcBeamSeg> calcBeamSegs; //计算书某一层中的所有梁
-        private string dtlCalcPath;
-        private int flrNo;
-        public BuildFlrCalcBeamLink(string dtlCalcPath, int flrNo )
-        {
-            this.dtlCalcPath = dtlCalcPath;
-            this.flrNo = flrNo;
-            this.calcBeamSegs = new YjkBeamQuery(dtlCalcPath).GetFloorCalcBeamSeg(flrNo);
-        }
-        public List<BeamLink> BeamLinks => this.beamLinks;
-        public void Build()
-        {
-            while(this.calcBeamSegs.Count>0)
-            {
-                BeamLink beamLink = new BeamLink();
-                List<CalcBeamSeg> linkBeams = new List<CalcBeamSeg> { this.calcBeamSegs[0] };
-                this.calcBeamSegs.RemoveAt(0);
-                int startFindJt = ForwardFindBeam(linkBeams, linkBeams[0].Jt1);
-                bool startIsPrimary = false;
-                bool endIsPrimary = false;
-                beamLink.Start = GetEndPortLinks(linkBeams[0], startFindJt,out startIsPrimary);
-                int endFindJt = BackupFindBeam(linkBeams, linkBeams[linkBeams.Count-1].Jt2);
-                beamLink.End = GetEndPortLinks(linkBeams[linkBeams.Count-1], endFindJt,out endIsPrimary);
-                if(startIsPrimary || endIsPrimary)
-                {
-                    beamLink.Status = BeamStatus.Primary;
-                }
-                else if(beamLink.Start.Count>0 && beamLink.End.Count > 0)
-                {
-                    beamLink.Status = BeamStatus.Secondary;
-                }
-                else
-                {
-                    beamLink.Status = BeamStatus.Unknown;
-                }
-                beamLink.Beams = linkBeams.Cast<YjkEntityInfo>().ToList();
-                this.beamLinks.Add(beamLink);
-                foreach (var item in beamLink.Beams)
-                {
-                    var findRes=this.calcBeamSegs.Where(i => i.ID == item.ID).Select(i => i);
-                    if(findRes!=null && findRes.Count()>0)
-                    {
-                        this.calcBeamSegs.Remove(findRes.First());
-                    }
-                }
-            }
-        }
-        private List<YjkEntityInfo> GetEndPortLinks(CalcBeamSeg calcBeamSeg,int jt,out bool isPrimary)
-        {
-            List<YjkEntityInfo> yjkEntities = new List<YjkEntityInfo>();
-            isPrimary = false;
-            List<CalcColumnSeg> linkedColumns = GetBeamLinkedColumns(calcBeamSeg.FlrNo, jt);
-            if(linkedColumns.Count>0)
-            {
-                isPrimary = true;
-                return linkedColumns.Cast<YjkEntityInfo>().ToList();
-            }
-            List<CalcWallBeam> linkedWallBeam = GetBeamLinkedWallBeam(calcBeamSeg.FlrNo, jt);
-            if(linkedWallBeam.Count>0)
-            {
-                isPrimary = true;
-                return linkedWallBeam.Cast<YjkEntityInfo>().ToList();
-            }
-            List<CalcWallCol> linkedWallCol = GetBeamLinkedWallCol(calcBeamSeg.FlrNo, jt);
-            if(linkedWallCol.Count > 0)
-            {
-                isPrimary = true;
-                return linkedWallCol.Cast<YjkEntityInfo>().ToList();
-            }
-            List<CalcBeamSeg> linkedBeams = GetBeamLinkedBeam(calcBeamSeg, jt,false);
-            if(linkedBeams.Count>0)
-            {
-                return linkedBeams.Cast<YjkEntityInfo>().ToList();
-            }
-            return yjkEntities;
-        }
-        private List<CalcColumnSeg> GetBeamLinkedColumns(int flrNo,int jt)
-        {
-            return new YjkColumnQuery(this.dtlCalcPath).GetCalcBeamLinkColumns(flrNo, jt);
-        }
-        private List<CalcWallBeam> GetBeamLinkedWallBeam(int flrNo,int jt)
-        {
-            return new YjkWallBeamQuery(this.dtlCalcPath).GetBeamLinkWalls(flrNo, jt);
-        }
-        private List<CalcWallCol> GetBeamLinkedWallCol(int flrNo,int jt)
-        {
-            return new YjkWallColQuery(this.dtlCalcPath).GetBeamLinkWalls(flrNo, jt);
-        }
-        private List<CalcBeamSeg> GetBeamLinkedBeam(CalcBeamSeg beamSeg,int jtID,bool isCollinear)
-        {
-            List<CalcBeamSeg> linkBeamSegs = new YjkBeamQuery(this.dtlCalcPath).GetBeamLinkBeams(beamSeg, jtID);
-            for (int i = 0; i < linkBeamSegs.Count; i++)
-            {
-                bool res = beamSeg.IsCollinear(linkBeamSegs[i]);
-                if(isCollinear) //要共线
-                {
-                    if(!res)
-                    {
-                        linkBeamSegs.RemoveAt(i);
-                        i = i - 1;
-                    }
-                }
-                else  //不要共线
-                {
-                    if(res)
-                    {
-                        linkBeamSegs.RemoveAt(i);
-                        i = i - 1;
-                    }
-                }
-            }
-            return linkBeamSegs;
-        }
-        private int ForwardFindBeam(List<CalcBeamSeg> linkBeams,int jtID)
-        {
-            List<CalcBeamSeg> linkBeamSegs = GetBeamLinkedBeam(linkBeams[0], jtID,true);
-            if (linkBeamSegs.Count==1)
-            {
-                linkBeams.Insert(0,linkBeamSegs[0]);
-                int findJt = linkBeamSegs[0].Jt1;
-                if (linkBeamSegs[0].Jt1== jtID)
-                {
-                    findJt = linkBeamSegs[0].Jt2;
-                }
-                return ForwardFindBeam(linkBeams, findJt);
-            }
-            else if(linkBeamSegs.Count > 1)
-            {
-                throw new Exception("查找到了"+ linkBeamSegs.Count + "个以上共线的梁");
-            }
-            return jtID;
-        }
-        private int BackupFindBeam(List<CalcBeamSeg> linkBeams, int jtID)
-        {
-            List<CalcBeamSeg> linkBeamSegs = GetBeamLinkedBeam(linkBeams[linkBeams.Count-1], jtID,true);
-            if (linkBeamSegs.Count == 1)
-            {
-                linkBeams.Add(linkBeamSegs[0]);
-                int findJt = linkBeamSegs[0].Jt2;
-                if (linkBeamSegs[0].Jt2 == jtID)
-                {
-                    findJt = linkBeamSegs[0].Jt1;
-                }
-                BackupFindBeam(linkBeams, findJt);
-            }
-            else if (linkBeamSegs.Count > 1)
-            {
-                throw new Exception("查找到了" + linkBeamSegs.Count + "个以上共线的梁");
-            }
-            return jtID;
-        }
-    }
-    /// <summary>
     /// 创建模型库中某层的所有梁连接
     /// </summary>
-    public class BuildFlrModelBeamLink : IBeamLink
+    public class BuildFlrBeamLink : IBeamLink
     {
-        //主梁一定有一端是连在柱子上
-        private List<BeamLink> beamLinks = new List<BeamLink>();
+        private List<BeamLink> allBeamLinks = new List<BeamLink>();
+        private List<BeamLink> mainBeamLinks = new List<BeamLink>(); //主梁一定有一端是连在柱子上或墙上
+        private List<BeamLink> secondaryBeamLinks = new List<BeamLink>();//次梁集合
+
         private List<ModelBeamSeg> modelBeamSegs; //计算书某一层中的所有梁
         private string dtlModelPath;
         private int flrNo;
         private YjkGridQuery yjkGridQuery;
-        public BuildFlrModelBeamLink(string dtlModelPath, int flrNo)
+        public BuildFlrBeamLink(string dtlModelPath, int flrNo)
         {
             this.dtlModelPath = dtlModelPath;
             this.flrNo = flrNo;
             this.modelBeamSegs = new YjkBeamQuery(dtlModelPath).GetFloorModelBeamSeg(flrNo);
             yjkGridQuery = new YjkGridQuery(this.dtlModelPath);
         }
-        public List<BeamLink> BeamLinks => this.beamLinks;
+        public List<BeamLink> MainBeamLinks => this.mainBeamLinks;
+        public List<BeamLink> SecondaryBeamLinks => this.secondaryBeamLinks;
+
         public void Build()
         {
             while (this.modelBeamSegs.Count > 0)
@@ -214,7 +59,7 @@ namespace ThStructureCheck.YJK.Service
                     beamLink.Status = BeamStatus.Unknown;
                 }
                 beamLink.Beams = linkBeams.Cast<YjkEntityInfo>().ToList();
-                this.beamLinks.Add(beamLink);
+                this.allBeamLinks.Add(beamLink);
                 foreach (var item in beamLink.Beams)
                 {
                     var findRes = this.modelBeamSegs.Where(i => i.ID == item.ID).Select(i => i);
@@ -224,6 +69,88 @@ namespace ThStructureCheck.YJK.Service
                     }
                 }
             }
+            //对主梁分类
+            this.mainBeamLinks = this.allBeamLinks.Where(o => o.Status == BeamStatus.Primary).ToList();
+            //对次梁分跨
+            SecondaryBeamSplitSpan();
+        }
+        /// <summary>
+        /// 次梁分跨
+        /// </summary>
+        private void SecondaryBeamSplitSpan()
+        {
+            var secondaryBeams = this.allBeamLinks.Where(o => o.Status == BeamStatus.Secondary).ToList();
+            secondaryBeams.ForEach(o => this.secondaryBeamLinks.AddRange(SplitSpanBeamLink(o)));
+        }
+        /// <summary>
+        /// 分跨梁段
+        /// </summary>
+        /// <param name="beamLink"></param>
+        /// <returns></returns>
+        private List<BeamLink> SplitSpanBeamLink(BeamLink beamLink)
+        {
+            List<BeamLink> splitSpanBeamLinks = new List<BeamLink>();
+            List<ModelBeamSeg> modelBeamSegs = beamLink.Beams.Cast<ModelBeamSeg>().ToList();
+            for (int i = 0; i < modelBeamSegs.Count; i++)
+            {
+                BeamLink subBeamLink = new BeamLink();
+                List<YjkEntityInfo> startLink = new List<YjkEntityInfo>();
+                bool startIsPrimary = false;
+                if (i == 0)
+                {
+                    startLink = beamLink.Start;
+                }
+                else
+                {
+                    ModelGrid currentBeamGrid = yjkGridQuery.GetModelGrid(modelBeamSegs[i].GridID);
+                    startLink = GetEndPortLinks(modelBeamSegs[i], currentBeamGrid.Jt1ID, out startIsPrimary);
+                }
+                List<YjkEntityInfo> splitBeams = new List<YjkEntityInfo>();
+                List<YjkEntityInfo> endLink = new List<YjkEntityInfo>();
+                for (int j = i; j < modelBeamSegs.Count; j++)
+                {
+                    splitBeams.Add(modelBeamSegs[j]);
+                    bool endIsPrimary = false;
+                    if (j == modelBeamSegs.Count - 1)
+                    {
+                        endLink = beamLink.End;
+                    }
+                    else
+                    {
+                        ModelGrid currentBeamGrid = yjkGridQuery.GetModelGrid(modelBeamSegs[j].GridID);
+                        endLink = GetEndPortLinks(modelBeamSegs[j], currentBeamGrid.Jt2ID, out endIsPrimary);
+                        if(endIsPrimary || JudgeBeamPortLinkedBeamOnMainBeam(endLink))
+                        {
+                            //如果遇到柱子和，就停止
+                            i = j;
+                            break;
+                        }
+                    }
+                }
+                subBeamLink.Start = startLink;
+                subBeamLink.End = endLink;
+                subBeamLink.Beams = splitBeams;
+                splitSpanBeamLinks.Add(subBeamLink);
+            }
+            return splitSpanBeamLinks;
+        }
+        private bool JudgeBeamPortLinkedBeamOnMainBeam(List<YjkEntityInfo> linkedBeams)
+        {
+            foreach (var beam in linkedBeams)
+            {
+                if(beam is ModelBeamSeg modelBeamSeg)
+                {
+                    foreach(var mainBeamLink in this.mainBeamLinks)
+                    {
+                        var findBeams = mainBeamLink.Beams.Where(o => o is ModelBeamSeg beamSeg && beamSeg.ID == modelBeamSeg.ID);
+                        if (findBeams.Count() > 0)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
         private List<YjkEntityInfo> GetEndPortLinks(ModelBeamSeg modelBeamSeg, int jt, out bool isPrimary)
         {
@@ -282,7 +209,7 @@ namespace ThStructureCheck.YJK.Service
                 }
             }
             return linkBeamSegs;
-        }
+        }        
         private int ForwardFindBeam(List<ModelBeamSeg> linkBeams, int jtID)
         {
             List<ModelBeamSeg> linkBeamSegs = GetBeamLinkedBeam(linkBeams[0], jtID, true);
@@ -315,7 +242,7 @@ namespace ThStructureCheck.YJK.Service
                 {
                     findJt = mg.Jt1ID;
                 }
-                BackupFindBeam(linkBeams, findJt);
+                return BackupFindBeam(linkBeams, findJt);
             }
             else if (linkBeamSegs.Count > 1)
             {

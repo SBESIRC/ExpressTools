@@ -30,14 +30,18 @@ namespace ThStructureCheck.ThBeamInfo.Service
         private List<List<int>> xyColumns = new List<List<int>>(); //按XY坐标排序 (记录ModelColumnSeg->JtID)
         private List<Tuple<int, Polyline>> columnEnts = new List<Tuple<int, Polyline>>();
         private List<Tuple<YjkEntityInfo, Polyline,Curve>> beamEnts = new List<Tuple<YjkEntityInfo, Polyline, Curve>>();
+        private List<Tuple<BeamLink, List<Polyline>, List<Curve>>> splitSpanBeams = new List<Tuple<BeamLink, List<Polyline>, List<Curve>>>();
         private List<Tuple<YjkEntityInfo, Polyline>> wallEnts = new List<Tuple<YjkEntityInfo, Polyline>>();
         private YjkJointQuery modelJointQuery;
         private Document doc;
         private List<Entity> columnBeamEnts = new List<Entity>(); //储存Drag显示的物体
+        private BuildFlrBeamLink buildFlrBeamLink;
+
         /// <summary>
         /// Yjk中Model库中梁段对应Cad中的几何图形
         /// </summary>
         public List<Tuple<YjkEntityInfo, Polyline, Curve>> BeamEnts => beamEnts;
+        public List<Tuple<BeamLink, List<Polyline>, List<Curve>>> SplitSpanBeams => splitSpanBeams;
         /// <summary>
         /// 是否继续
         /// </summary>
@@ -62,6 +66,8 @@ namespace ThStructureCheck.ThBeamInfo.Service
             this.modelColumnSegComposes = new YjkColumnQuery(this.dtlModelPath).GetModelColumnSegComposes(this.floorNo);
             this.modelBeamSegComposes = new YjkBeamQuery(this.dtlModelPath).GetModelBeamSegComposes(this.floorNo);
             this.modelWallSegComposes = new YjkWallQuery(this.dtlModelPath).GetModelWallSegComposes(this.floorNo);
+            this.buildFlrBeamLink = new BuildFlrBeamLink(this.dtlModelPath, this.floorNo);
+            this.buildFlrBeamLink.Build();
         }
         public void Draw()
         {
@@ -79,43 +85,43 @@ namespace ThStructureCheck.ThBeamInfo.Service
                 firstColumn.Joint.Y + firstColumn.ColumnSeg.EccY, 0.0);
             Matrix3d moveMt = Matrix3d.Displacement(basePt.GetVectorTo(Point3d.Origin));
             //把基点移动到原点
-            this.columnEnts.ForEach(i => i.Item2.TransformBy(moveMt));
-            this.beamEnts.ForEach(i => 
+            this.columnEnts.ForEach(o => o.Item2.TransformBy(moveMt));
+            this.splitSpanBeams.ForEach(o => 
             {
-                if(i.Item2!=null)
+                if(o.Item2!=null)
                 {
-                    i.Item2.TransformBy(moveMt);
+                    o.Item2.ForEach(m => m.TransformBy(moveMt));
                 }
-                if(i.Item3 != null)
+                if(o.Item3 != null)
                 {
-                    i.Item3.TransformBy(moveMt);
+                    o.Item3.ForEach(m => m.TransformBy(moveMt));
                 }                
             });
-            this.wallEnts.ForEach(i => i.Item2.TransformBy(moveMt));
+            this.wallEnts.ForEach(o => o.Item2.TransformBy(moveMt));
             Matrix3d wcsToUcs = CadTool.UCS2WCS();
-            this.columnEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
-            this.beamEnts.ForEach(i => 
+            this.columnEnts.ForEach(o => o.Item2.TransformBy(wcsToUcs));
+            this.splitSpanBeams.ForEach(o =>
             {
-                if(i.Item2!=null)
+                if (o.Item2 != null)
                 {
-                    i.Item2.TransformBy(wcsToUcs);
+                    o.Item2.ForEach(m => m.TransformBy(wcsToUcs));
                 }
-                if (i.Item3 != null)
+                if (o.Item3 != null)
                 {
-                    i.Item3.TransformBy(wcsToUcs);
+                    o.Item3.ForEach(m => m.TransformBy(wcsToUcs));
                 }
             });
             this.wallEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
         }
         private void Drag()
         {            
-            this.columnEnts.ForEach(i => this.columnBeamEnts.Add(i.Item2));
-            this.beamEnts.ForEach(i => 
+            this.columnEnts.ForEach(o => this.columnBeamEnts.Add(o.Item2));
+            this.splitSpanBeams.ForEach(o => 
             {
-                this.columnBeamEnts.Add(i.Item2);
-                this.columnBeamEnts.Add(i.Item3);
+                this.columnBeamEnts.AddRange(o.Item2);
+                this.columnBeamEnts.AddRange(o.Item3);
             });
-            this.wallEnts.ForEach(i => this.columnBeamEnts.Add(i.Item2));
+            this.wallEnts.ForEach(o => this.columnBeamEnts.Add(o.Item2));
             bool doMark = true;
             Point3d basePt = Point3d.Origin;
             Point3d moveTargetPt = basePt;
@@ -221,6 +227,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
                     Polyline polyline = DrawColumn(GetModelColumnSeg(xyColumns[i][j]));
                     if(polyline!=null)
                     {
+                        polyline.ColorIndex = 6;
                         this.columnEnts.Add(Tuple.Create<int, Polyline>(xyColumns[i][j], polyline));
                     }
                 }
@@ -228,14 +235,53 @@ namespace ThStructureCheck.ThBeamInfo.Service
         }
         private void DrawBeams()
         {
-            foreach (var modelBeamSegCompose in this.modelBeamSegComposes)
+            for (int i=0;i< this.buildFlrBeamLink.MainBeamLinks.Count;i++)
             {
-                var res = DrawLineBeam(modelBeamSegCompose);
-                if (res != null)
+                List<Polyline> outLines = new List<Polyline>();
+                List<Curve> centerLines = new List<Curve>();
+                foreach(var beamSeg in this.buildFlrBeamLink.MainBeamLinks[i].Beams)
                 {
-                    this.beamEnts.Add(Tuple.Create<YjkEntityInfo, Polyline,Curve>(
-                        modelBeamSegCompose.BeamSeg, res.Item1,res.Item2));
+                    var res = DrawLineBeam(beamSeg as ModelBeamSeg);
+                    if (res != null)
+                    {
+                        if(i%2==0)
+                        {
+                            res.Item1.ColorIndex = 1;
+                        }
+                        else
+                        {
+                            res.Item1.ColorIndex = 2;
+                        }
+                        outLines.Add(res.Item1);
+                        centerLines.Add(res.Item2);                        
+                    }
                 }
+                this.splitSpanBeams.Add(Tuple.Create<BeamLink, List<Polyline>, List<Curve>>
+                    (this.buildFlrBeamLink.MainBeamLinks[i], outLines, centerLines));
+            }
+            for (int i = 0; i < this.buildFlrBeamLink.SecondaryBeamLinks.Count; i++)
+            {
+                List<Polyline> outLines = new List<Polyline>();
+                List<Curve> centerLines = new List<Curve>();
+                foreach (var beamSeg in this.buildFlrBeamLink.SecondaryBeamLinks[i].Beams)
+                {
+                    var res = DrawLineBeam(beamSeg as ModelBeamSeg);
+                    if (res != null)
+                    {
+                        if (i % 2 == 0)
+                        {
+                            res.Item1.ColorIndex = 3;
+                        }
+                        else
+                        {
+                            res.Item1.ColorIndex = 4;
+                        }
+                        outLines.Add(res.Item1);
+                        centerLines.Add(res.Item2);
+                    }
+                }
+                this.splitSpanBeams.Add(Tuple.Create<BeamLink, List<Polyline>, List<Curve>>
+                    (this.buildFlrBeamLink.SecondaryBeamLinks[i], outLines, centerLines));
             }
         }
         private void DrawWalls()
@@ -245,6 +291,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
                 Polyline wallFace = DrawWall(modelWallSegRecord);
                 if (wallFace != null)
                 {
+                    wallFace.ColorIndex = 5;
                     wallEnts.Add(Tuple.Create<YjkEntityInfo, Polyline>(modelWallSegRecord.WallSeg, wallFace));
                 }
             }
@@ -281,15 +328,20 @@ namespace ThStructureCheck.ThBeamInfo.Service
         {
            return this.modelColumnSegComposes.Where(i => i.ColumnSeg.JtID == jtID).Select(i=>i).First();
         }
+        private ModelBeamSegCompose GetModelBeamSeg(ModelBeamSeg modelBeamSeg)
+        {
+            return this.modelBeamSegComposes.Where(o => o.BeamSeg.ID == modelBeamSeg.ID).First();
+        }
         /// <summary>
         /// 绘制直梁
         /// </summary>
         /// <param name="modelBeamSegCompose"></param>
         /// <returns></returns>
-        private Tuple<Polyline,Curve> DrawLineBeam(ModelBeamSegCompose modelBeamSegCompose)
+        private Tuple<Polyline,Curve> DrawLineBeam(ModelBeamSeg modelBeamSeg)
         {
             Polyline polyline = null;
             Line line = null;
+            ModelBeamSegCompose modelBeamSegCompose = GetModelBeamSeg(modelBeamSeg);
             ModelGrid grid = modelBeamSegCompose.BeamSeg.Grid;
             Point3d startPt = GetSegJtPoint(modelJointQuery.GetModelJoint(grid.Jt1ID));
             Point3d endPt = GetSegJtPoint(modelJointQuery.GetModelJoint(grid.Jt2ID));
