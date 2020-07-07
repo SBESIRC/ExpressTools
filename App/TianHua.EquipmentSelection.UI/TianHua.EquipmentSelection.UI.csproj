@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5A202950-BF0E-4887-AA2A-B6AF1C949FF4}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>TianHua.FanSelection.UI</RootNamespace>
     <AssemblyName>TianHua.FanSelection.UI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -29,30 +29,12 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+  <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
-    <Reference Include="DevExpress.BonusSkins.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\DevExpress 17.2\Components\Bin\Framework\DevExpress.BonusSkins.v17.2.dll</HintPath>
-    </Reference>
+    <Reference Include="DevExpress.BonusSkins.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Charts.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Data.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.DataAccess.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -62,39 +44,20 @@
     <Reference Include="DevExpress.Printing.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.RichEdit.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Spreadsheet.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Utils.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\TianHua.Git\TianHua\TianHua.CAD\TianHua.Electric\bin\Debug\DevExpress.Utils.v17.2.dll</HintPath>
-    </Reference>
+    <Reference Include="DevExpress.Utils.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v17.2.UI, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraBars.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraCharts.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraGrid.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\TianHua.Git\TianHua\Client\Dev\DevExpress.XtraGrid.v17.2.dll</HintPath>
-    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraLayout.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraNavBar.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraPrinting.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraRichEdit.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraSpreadsheet.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraTreeList.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
-    </Reference>
-    <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -104,9 +67,8 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="TianHua.Publics.BaseCode, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\TianHua.CAD.Git\Externals\TianHua.Publics\TianHua.Publics.BaseCode.dll</HintPath>
+    <Reference Include="TianHua.Publics.BaseCode">
+      <HintPath>..\..\Externals\TianHua.Publics\TianHua.Publics.BaseCode.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -181,7 +143,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -196,7 +157,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TianHua.FanSelection\TianHua.EquipmentSelection.csproj">
+    <ProjectReference Include="..\TianHua.EquipmentSelection\TianHua.EquipmentSelection.csproj">
       <Project>{6fadc5fa-f54f-4742-bacd-9f1f855e8210}</Project>
       <Name>TianHua.EquipmentSelection</Name>
     </ProjectReference>
@@ -234,19 +195,72 @@
   <ItemGroup>
     <None Include="Resources\全部-选中.png" />
   </ItemGroup>
+  <Choose>
+    <When Condition="$(DefineConstants.Contains('ACAD2012'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD-2012.Net.Base" Version="1.0.0" />
+        <PackageReference Include="AutoCAD-2012.Net.Interop.x64" Version="1.0.0" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('ACAD2014'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD-2014.Net.Base" Version="1.0.0" />
+        <PackageReference Include="AutoCAD-2014.Net.Interop.x64" Version="1.0.0" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('ACAD2016'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD-2016.Net.Base" Version="1.0.0" />
+        <PackageReference Include="AutoCAD-2016.Net.Interop.x86" Version="1.0.0" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('ACAD2018'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET" Version="22.0.0" />
+        <PackageReference Include="AutoCAD.NET.Core" Version="22.0.0" />
+        <PackageReference Include="AutoCAD.NET.Model" Version="22.0.0" />
+      </ItemGroup>
+    </When>
+  </Choose>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
+    <PackageReference Include="EmptyLicensesLicx" Version="2.0.0" GeneratePathProperty="true">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\EmptyLicensesLicx.2.0.1\build\EmptyLicensesLicx.targets" Condition="Exists('..\packages\EmptyLicensesLicx.2.0.1\build\EmptyLicensesLicx.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\EmptyLicensesLicx.2.0.1\build\EmptyLicensesLicx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EmptyLicensesLicx.2.0.1\build\EmptyLicensesLicx.targets'))" />
-  </Target>
 </Project>
