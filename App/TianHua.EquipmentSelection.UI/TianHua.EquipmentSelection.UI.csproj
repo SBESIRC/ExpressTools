@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataManager.cs" />
+    <Compile Include="EquipmentSelectionApp.cs" />
     <Compile Include="ExcelLoader.cs" />
     <Compile Include="Excl2JsonViewModels.cs" />
     <Compile Include="fmConvert.cs">
