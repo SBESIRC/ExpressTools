@@ -80,7 +80,7 @@ namespace ThWSS.Bussiness
                         allSprays.AddRange(roomSprays);
 
                         //放置喷头
-                        InsertSprayService.InsertSprayBlock(roomSprays.Select(o => o.Position).ToList(), SprayType.SPRAYDOWN);
+                        InsertSprayService.InsertSprayBlock(roomSprays.Select(o => o.Position).ToList(), spraType);
                     }
                 }
 
