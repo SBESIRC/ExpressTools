@@ -5013,6 +5013,7 @@ namespace TopoNode
         {
             if (srcLayerName.Contains("AE-EQPM")
                 || srcLayerName.Contains("AE-ABOV")
+                || srcLayerName.Contains("AE-FLOR")
                 || srcLayerName.Contains("AE-STAR")
                 || srcLayerName.Contains("AE-ROOF")
                 || srcLayerName.Contains("AE-HOLE")
@@ -5194,7 +5195,7 @@ namespace TopoNode
                             if (obj is Entity objEntity)
                             {
                                 LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(objEntity.LayerId);
-                                if (layerTableRecord.IsFrozen)
+                                if (layerTableRecord.IsFrozen && !IsContainsZeroLayer(objEntity.Layer))
                                     continue;
 
                                 if (obj is BlockReference)
@@ -5234,7 +5235,7 @@ namespace TopoNode
                                     var entity = obj as Entity;
                                     if (entity.Visible)
                                     {
-                                        if (layerTableRecord.IsOff)
+                                        if (layerTableRecord.IsOff && !IsContainsZeroLayer(entity.Layer))
                                             continue;
 
                                         var entityLayer = entity.Layer;
@@ -5259,7 +5260,7 @@ namespace TopoNode
                             {
                                 var entity = obj as Entity;
                                 LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(entity.LayerId);
-                                if (layerTableRecord.IsFrozen || layerTableRecord.IsOff)
+                                if ((layerTableRecord.IsFrozen || layerTableRecord.IsOff) && !IsContainsZeroLayer(entity.Layer))
                                     continue;
 
                                 if (entity.Visible)
@@ -5306,6 +5307,15 @@ namespace TopoNode
             {
                 return null;
             }
+        }
+
+        public static bool IsContainsZeroLayer(string layerName)
+        {
+            var trimName = layerName.Trim();
+            if (trimName.Length == 1 && trimName.Contains("0"))
+                return true;
+
+            return false;
         }
 
         /// <summary>
