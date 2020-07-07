@@ -320,9 +320,10 @@ namespace ThWSS
                     return;
                 }
 
-                // 选择防火分区
+                // 考虑到性能问题，暂时只支持选择一个防火分区
                 PromptSelectionOptions options = new PromptSelectionOptions()
                 {
+                    SingleOnly = true,
                     AllowDuplicates = false,
                     RejectObjectsOnLockedLayers = true,
                 };
@@ -334,11 +335,22 @@ namespace ThWSS
                     return;
                 }
 
-                // 执行操作
-                foreach (var obj in entSelected.Value.GetObjectIds())
+
+                // 获取防火分区内的房间框线
+                var objs = new ObjectIdCollection();
+                filterlist = OpFilter.Bulid(o =>
+                    o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
+                    o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+                entSelected = Active.Editor.SelectByPolyline(entSelected.Value.GetObjectIds()[0],
+                    PolygonSelectionMode.Crossing, filterlist);
+                if (entSelected.Status != PromptStatus.OK)
                 {
-                    ThSprayLayoutEngine.Instance.Layout(Active.Database, pline, obj, layoutModel);
+                    return;
                 }
+
+                // 执行操作
+                var frames = new ObjectIdCollection(entSelected.Value.GetObjectIds());
+                ThSprayLayoutEngine.Instance.Layout(Active.Database, pline, frames, layoutModel);
             }
             else if (layoutModel.sparyLayoutWay == LayoutWay.frame)
             {
