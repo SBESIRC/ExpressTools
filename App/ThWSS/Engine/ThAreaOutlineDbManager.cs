@@ -5,7 +5,7 @@ using ThStructure.BeamInfo.Utils;
 
 namespace ThWSS.Engine
 {
-    public class ThRoomLineDbManager : IDisposable
+    public class ThAreaOutlineDbManager : IDisposable
     {
         public Database HostDb { get; set; }
         public ObjectIdCollection Geometries { get; set; }
@@ -13,7 +13,7 @@ namespace ThWSS.Engine
         /// <summary>
         /// 构造函数
         /// </summary>
-        public ThRoomLineDbManager(Database database)
+        public ThAreaOutlineDbManager(Database database)
         {
             HostDb = database;
             PreProcess();
@@ -34,7 +34,7 @@ namespace ThWSS.Engine
         public void PreProcess()
         {
             Geometries = new ObjectIdCollection();
-            var geometryLayers = ThRoomLineLayerManager.GeometryLayers(this.HostDb);
+            var geometryLayers = ThAreaOutlineLayerManager.GeometryLayers(this.HostDb);
             List<Entity> ents = ThStructureUtils.Explode(this.HostDb);
             List<Entity> geometryEnts = ThStructureUtils.FilterCurveByLayers(ents, geometryLayers);
             Geometries = ThStructureUtils.AddToDatabase(geometryEnts);

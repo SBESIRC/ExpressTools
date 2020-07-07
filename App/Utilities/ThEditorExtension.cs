@@ -106,6 +106,30 @@ namespace Autodesk.AutoCAD.EditorInput
 
         }
 
+        public static PromptSelectionResult SelectByWindow(this Editor ed,
+            Point3d pt1,
+            Point3d pt2,
+            PolygonSelectionMode mode,
+            SelectionFilter filter)
+        {
+            // 保存当前view
+            ViewTableRecord view = ed.GetCurrentView();
+
+            // zoom到polygon
+            Active.Editor.ZoomWindow(new Extents3d(pt1, pt2));
+
+            // 选择
+            PromptSelectionResult result;
+            if (mode == PolygonSelectionMode.Crossing)
+                result = ed.SelectCrossingWindow(pt1, pt2, filter);
+            else
+                result = ed.SelectWindow(pt1, pt2, filter);
+
+            // 恢复view
+            ed.SetCurrentView(view);
+            return result;
+        }
+
         public static PromptSelectionResult SelectByRegion(this Editor ed,
             ObjectId regionId,
             PolygonSelectionMode mode,

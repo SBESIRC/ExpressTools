@@ -8,6 +8,7 @@ using ThWSS.Model;
 using ThWSS.Utlis;
 using ThWSS.Engine;
 using ThCADCore.NTS;
+using System.Linq;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
@@ -240,11 +241,29 @@ namespace ThWSS
                 return;
             }
 
+            // 先获取现有的面积框线
+            var objs = new ObjectIdCollection();
+            var filterlist = OpFilter.Bulid(o =>
+                o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
+                o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+            var result = Active.Editor.SelectByWindow(
+                pline.GeometricExtents.MinPoint,
+                pline.GeometricExtents.MaxPoint,
+                PolygonSelectionMode.Window,
+                filterlist);
+            if (result.Status == PromptStatus.OK)
+            {
+                foreach (ObjectId obj in result.Value.GetObjectIds())
+                {
+                    objs.Add(obj);
+                }
+            }
+
             // 通过“炸”外参获取的房间框线被创建在由外参引入的临时图层上
             // 当外参“卸载”后，这个临时外参图层将失效
             // 为了避免这个情况，将置于临时外参图层的房间框线复制到指定图层中
             // https://www.keanw.com/2009/05/importing-autocad-layers-from-xrefs-using-net.html
-            using (var outlines = new ThRoomLineDbManager(Active.Database))
+            using (var outlines = new ThAreaOutlineDbManager(Active.Database))
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 foreach(ObjectId obj in outlines.Geometries)
@@ -252,11 +271,14 @@ namespace ThWSS
                     var outline = acadDatabase.Database.AreaOutline(obj);
                     if (pline.Contains(outline))
                     {
-                        acadDatabase.ModelSpace.Add(outline);
+                        objs.Add(acadDatabase.ModelSpace.Add(outline));
                         outline.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
                     }
                 }
             }
+
+            // 剔除重合的面积框线
+            Active.Editor.OverkillCmd(objs);
         }
 
         /// <summary>

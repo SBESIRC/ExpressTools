@@ -6,7 +6,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThWSS.Engine
 {
-    public class ThRoomLineLayerManager
+    public class ThAreaOutlineLayerManager
     {
         public static List<string> GeometryLayers(Database database)
         {
