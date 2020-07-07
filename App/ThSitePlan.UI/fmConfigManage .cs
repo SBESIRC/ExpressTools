@@ -1101,6 +1101,7 @@ namespace ThSitePlan.UI
         {
 
             BtnPick.PerformClick();
+  
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -1110,7 +1111,7 @@ namespace ThSitePlan.UI
 
         private void BtnHelp_Click(object sender, EventArgs e)
         {
-
+ 
             System.Diagnostics.Process.Start("http://info.thape.com.cn/AI/thcad/help/page_ysgl.html");
         }
 
@@ -1120,6 +1121,7 @@ namespace ThSitePlan.UI
             var _FocusedColumn = TreeList.FocusedColumn;
             var _ColorGeneral = TreeList.GetFocusedRow() as ColorGeneralDataModel;
             if (_ColorGeneral == null) { return; }
+            this.Hide();
             var _List = m_Presenter.AddLayer(this.Handle);
 
             if (_List != null || _List.Count > 0)
@@ -1138,7 +1140,7 @@ namespace ThSitePlan.UI
                     TreeList.RefreshDataSource();
                 });
             }
-
+            this.Show();
         }
 
         private void TreeList_DoubleClick(object sender, EventArgs e)
