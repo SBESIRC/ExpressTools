@@ -15,7 +15,6 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThStructure.BeamInfo.Command;
-using ThStructure.BeamInfo.Business;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThWSS
@@ -32,7 +31,10 @@ namespace ThWSS
             //
         }
 
-        [CommandMethod("TIANHUACAD", "THCalOBB", CommandFlags.Modal)]
+        /// <summary>
+        /// 喷淋布置命令（界面）
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THPT", CommandFlags.Modal)]
         public void ThDistinguishBeam()
         {
             ThSparyLayoutSet instance = new ThSparyLayoutSet();
@@ -46,7 +48,10 @@ namespace ThWSS
             Run(layoutModel);
         }
 
-        [CommandMethod("TIANHUACAD", "-THCalOBB", CommandFlags.Modal)]
+        /// <summary>
+        /// 喷淋布置命令（命令行）
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "-THPT", CommandFlags.Modal)]
         public void ThDistinguishBeamCLI()
         {
             PromptKeywordOptions keywordOptions = new PromptKeywordOptions("\n请指定布置区域：")
@@ -79,77 +84,10 @@ namespace ThWSS
             Run(layoutModel);
         }
 
-        [CommandMethod("TIANHUACAD", "THGETBEAMINFO", CommandFlags.Modal)]
-        public void THGETBEAMINFO()
-        {
-            // 选择楼层区域
-            // 暂时只支持矩形区域
-            var pline = CreateWindowArea();
-            if (pline == null)
-            {
-                return;
-            }
-
-            using (ThBeamDbManager beamManager = new ThBeamDbManager(Active.Database))
-            using (AcadDatabase acdb = AcadDatabase.Active())
-            {
-                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(acdb.Database, pline);
-                var beams = thDisBeamCommand.CalBeamStruc(beamCurves);
-                foreach(var beam in beams)
-                {
-                    acdb.ModelSpace.Add(beam.BeamBoundary);
-                }
-            }
-        }
-
-        [CommandMethod("TIANHUACAD", "THGETBEAMINFO2", CommandFlags.Modal)]
-        public void THGETBEAMINFO2()
-        {
-            using (AcadDatabase acdb = AcadDatabase.Active())
-            {
-                // 选择对象
-                PromptSelectionOptions options = new PromptSelectionOptions()
-                {
-                    AllowDuplicates = false,
-                    RejectObjectsOnLockedLayers = true,
-                };
-
-                // 梁线的图元类型
-                // 暂时不支持弧梁
-                var dxfNames = new string[]
-                {
-                    RXClass.GetClass(typeof(Line)).DxfName,
-                    RXClass.GetClass(typeof(Polyline)).DxfName,
-                };
-                // 梁线的图元图层
-                var layers = ThBeamLayerManager.GeometryLayers(acdb.Database);
-                var filterlist = OpFilter.Bulid(o => 
-                    o.Dxf((int)DxfCode.Start) == string.Join(",", dxfNames) & 
-                    o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
-                var entSelected = Active.Editor.GetSelection(options, filterlist);
-                if (entSelected.Status != PromptStatus.OK)
-                {
-                    return;
-                };
-
-                // 执行操作
-                DBObjectCollection dBObjects = new DBObjectCollection();
-                foreach (ObjectId obj in entSelected.Value.GetObjectIds())
-                {
-                    var entity = acdb.Element<Entity>(obj);
-                    dBObjects.Add(entity.GetTransformedCopy(Matrix3d.Identity));
-                }
-
-                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                thDisBeamCommand.CalBeamStruc(dBObjects);
-            }
-        }
-
         /// <summary>
         /// 自动识别图纸中的面积框线
         /// </summary>
-        [CommandMethod("TIANHUACAD", "THAUTOAREAOUTLINES", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THWRI", CommandFlags.Modal)]
         public void ThAutoAreaOutlines()
         {
             // 选择楼层区域
@@ -224,7 +162,7 @@ namespace ThWSS
         /// <summary>
         /// 用户自绘面积框线
         /// </summary>
-        [CommandMethod("TIANHUACAD", "THCUSTOMAREAOUTLINES", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THWRD", CommandFlags.Modal)]
         public void ThCustomAreaOutlines()
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
@@ -247,7 +185,7 @@ namespace ThWSS
         /// <summary>
         /// 识别已绘制的面积框线
         /// </summary>
-        [CommandMethod("TIANHUACAD", "THAREAOUTLINES", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THWRR", CommandFlags.Modal)]
         public void ThAreaOutlines()
         {
             // 选择楼层区域
@@ -300,6 +238,83 @@ namespace ThWSS
             //    Active.Editor.OverkillCmd(objs);
             //}
         }
+
+#if DEBUG
+
+        /// <summary>
+        /// 提取指定区域内的梁信息
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THGETBEAMINFO", CommandFlags.Modal)]
+        public void THGETBEAMINFO()
+        {
+            // 选择楼层区域
+            // 暂时只支持矩形区域
+            var pline = CreateWindowArea();
+            if (pline == null)
+            {
+                return;
+            }
+
+            using (ThBeamDbManager beamManager = new ThBeamDbManager(Active.Database))
+            using (AcadDatabase acdb = AcadDatabase.Active())
+            {
+                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
+                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(acdb.Database, pline);
+                var beams = thDisBeamCommand.CalBeamStruc(beamCurves);
+                foreach (var beam in beams)
+                {
+                    acdb.ModelSpace.Add(beam.BeamBoundary);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 提取所选图元的梁信息
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THGETBEAMINFO2", CommandFlags.Modal)]
+        public void THGETBEAMINFO2()
+        {
+            using (AcadDatabase acdb = AcadDatabase.Active())
+            {
+                // 选择对象
+                PromptSelectionOptions options = new PromptSelectionOptions()
+                {
+                    AllowDuplicates = false,
+                    RejectObjectsOnLockedLayers = true,
+                };
+
+                // 梁线的图元类型
+                // 暂时不支持弧梁
+                var dxfNames = new string[]
+                {
+                    RXClass.GetClass(typeof(Line)).DxfName,
+                    RXClass.GetClass(typeof(Polyline)).DxfName,
+                };
+                // 梁线的图元图层
+                var layers = ThBeamLayerManager.GeometryLayers(acdb.Database);
+                var filterlist = OpFilter.Bulid(o =>
+                    o.Dxf((int)DxfCode.Start) == string.Join(",", dxfNames) &
+                    o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
+                var entSelected = Active.Editor.GetSelection(options, filterlist);
+                if (entSelected.Status != PromptStatus.OK)
+                {
+                    return;
+                };
+
+                // 执行操作
+                DBObjectCollection dBObjects = new DBObjectCollection();
+                foreach (ObjectId obj in entSelected.Value.GetObjectIds())
+                {
+                    var entity = acdb.Element<Entity>(obj);
+                    dBObjects.Add(entity.GetTransformedCopy(Matrix3d.Identity));
+                }
+
+                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
+                thDisBeamCommand.CalBeamStruc(dBObjects);
+            }
+        }
+
+#endif
 
         /// <summary>
         /// 执行布置喷淋
