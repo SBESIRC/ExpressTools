@@ -488,33 +488,33 @@ namespace ThWSS
                 double radius = 0;
                 if (thSpary.standControl.danLevel.SelectedIndex == 0)
                 {
-                    layoutModel.sparySSpcing = 100;
+                    layoutModel.sparySSpcing = 300;
                     layoutModel.sparyESpcing = 4400;
-                    layoutModel.otherSSpcing = 100;
+                    layoutModel.otherSSpcing = 300;
                     layoutModel.otherESpcing = 2200;
                     radius = 20000000;
                 }
                 else if (thSpary.standControl.danLevel.SelectedIndex == 1)
                 {
-                    layoutModel.sparySSpcing = 100;
+                    layoutModel.sparySSpcing = 300;
                     layoutModel.sparyESpcing = 3600;
-                    layoutModel.otherSSpcing = 100;
+                    layoutModel.otherSSpcing = 300;
                     layoutModel.otherESpcing = 1800;
                     radius = 12500000;
                 }
                 else if (thSpary.standControl.danLevel.SelectedIndex == 2)
                 {
-                    layoutModel.sparySSpcing = 100;
+                    layoutModel.sparySSpcing = 300;
                     layoutModel.sparyESpcing = 3400;
-                    layoutModel.otherSSpcing = 100;
+                    layoutModel.otherSSpcing = 300;
                     layoutModel.otherESpcing = 1700;
                     radius = 11500000;
                 }
                 else if (thSpary.standControl.danLevel.SelectedIndex == 3)
                 {
-                    layoutModel.sparySSpcing = 100;
+                    layoutModel.sparySSpcing = 300;
                     layoutModel.sparyESpcing = 3000;
-                    layoutModel.otherSSpcing = 100;
+                    layoutModel.otherSSpcing = 300;
                     layoutModel.otherESpcing = 1500;
                     radius = 9000000;
                 }

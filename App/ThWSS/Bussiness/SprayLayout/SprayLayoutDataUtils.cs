@@ -27,11 +27,11 @@ namespace ThWSS.Bussiness
         public static Dictionary<Polyline, List<SprayLayoutData>> CalAdjustmentSpray(List<SprayLayoutData> sprays, DBObjectCollection blindRegions)
         {
             Dictionary<Polyline, List<SprayLayoutData>> resDic = new Dictionary<Polyline, List<SprayLayoutData>>();
-            foreach (var spray in sprays)
+            foreach (var bRegion in blindRegions.Cast<Polyline>())
             {
-                foreach (var bRegion in blindRegions.Cast<Polyline>())
+                foreach (var spray in sprays)
                 {
-                    if((spray.Radii as Polyline).ToNTSPolygon().Intersects(bRegion.ToNTSPolygon()))
+                    if ((spray.Radii as Polyline).ToNTSPolygon().Intersects(bRegion.ToNTSPolygon()))
                     {
                         if (resDic.Keys.Contains(bRegion))
                         {
@@ -42,6 +42,11 @@ namespace ThWSS.Bussiness
                             resDic.Add(bRegion, new List<SprayLayoutData>() { spray });
                         }
                     }
+                }
+
+                if (!resDic.Keys.Contains(bRegion))
+                {
+                    resDic.Add(bRegion, new List<SprayLayoutData>() { });
                 }
             }
 

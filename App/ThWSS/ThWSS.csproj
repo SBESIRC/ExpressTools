@@ -61,6 +61,7 @@
     <Compile Include="Beam\ThBeamLayerManager.cs" />
     <Compile Include="Bussiness\CalBeamInfoService.cs" />
     <Compile Include="Bussiness\CalColumnInfoService.cs" />
+    <Compile Include="Bussiness\DetailsHandleService.cs" />
     <Compile Include="Bussiness\InsertSprayService.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutService.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutByBeamService.cs" />

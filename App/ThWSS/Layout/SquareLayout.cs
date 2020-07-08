@@ -53,8 +53,17 @@ namespace ThWSS.Layout
 
             Vector3d vDir = longLine.Delta.GetNormal();  //纵向方向
             Vector3d tDir = sDis < eDis ? shortLine.Delta.GetNormal() : -shortLine.Delta.GetNormal();   //横向方向
-            var layoutP = LayoutPoints(roomLines, longLine.StartPoint, vDir, tDir, longLine.Length, shortLine.Length, noBeam);
-            //layoutP.AddRange(AdjustPoints(layoutP.SelectMany(x => x).ToList(), roomLines, longLine.StartPoint, tDir, vDir, shortLine.Length));
+            List<List<Point3d>> layoutP = null;
+            if (shortLine.Length > sideLength)
+            {
+                // 多个点用矩形排布
+                layoutP = LayoutPoints(roomLines, longLine.StartPoint, vDir, tDir, longLine.Length, shortLine.Length, noBeam);
+            }
+            else
+            {
+                // 单排点用射线
+                layoutP = LayoutPoints(roomLines, longLine.StartPoint, vDir, tDir, longLine.Length);  
+            }
 
             return CreateSprayModels(layoutP, vDir, tDir);
         }
@@ -134,7 +143,7 @@ namespace ThWSS.Layout
                     }
                     Point3d ep = points.First();
                     points.Remove(ep);
-                    if (sp.DistanceTo(ep) < 200)
+                    if (sp.DistanceTo(ep) < minLength * 2)
                     {
                         continue;
                     }
@@ -217,21 +226,45 @@ namespace ThWSS.Layout
             num = Math.Floor(length / sideLength);
             if (num >= 1)
             {
-                while (true)
+                moveLength = length / (num + 1);
+                //间距是50的倍数
+                moveLength = Math.Ceiling(moveLength / 50) * 50;
+                remainder = (length - moveLength * num) / 2;
+                if (remainder > raduisLength)
                 {
-                    moveLength = (length - raduisLength * 2) / num;
-                    //间距是50的倍数
-                    moveLength = Math.Ceiling(moveLength / 50) * 50;
-                    remainder = (length - moveLength * num) / 2;
-                    if (remainder > raduisLength || moveLength > sideLength)
+                    while (true)
                     {
-                        num += 1;
-                    }
-                    else 
-                    {
-                        break;
+                        moveLength = (length - raduisLength * 2) / num;
+                        //间距是50的倍数
+                        moveLength = Math.Ceiling(moveLength / 50) * 50;
+                        remainder = (length - moveLength * num) / 2;
+                        if (remainder > raduisLength || moveLength > sideLength)
+                        {
+                            num += 1;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
+                #region 
+                //while (true)
+                //{
+                    //moveLength = (length - raduisLength * 2) / num;
+                    ////间距是50的倍数
+                    //moveLength = Math.Ceiling(moveLength / 50) * 50;
+                    //remainder = (length - moveLength * num) / 2;
+                    //if (remainder > raduisLength || moveLength > sideLength)
+                    //{
+                    //    num += 1;
+                    //}
+                    //else 
+                    //{
+                    //    break;
+                    //}
+                //}
+                #endregion
             }
             else
             {
