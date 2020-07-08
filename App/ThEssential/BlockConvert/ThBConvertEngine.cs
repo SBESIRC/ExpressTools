@@ -1,7 +1,7 @@
 ﻿using System;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace TianHua.AutoCAD.BlockConvert
+namespace ThEssential.BlockConvert
 {
     public abstract class ThBConvertEngine : IDisposable
     {

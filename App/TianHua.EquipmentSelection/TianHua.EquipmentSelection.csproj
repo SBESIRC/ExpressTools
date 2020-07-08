@@ -30,32 +30,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
-      <Project>{5ddfcada-bea4-402c-b3e4-5c7f83c2f09e}</Project>
-      <Name>DotNetARX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
-      <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
-      <Name>ExtensionTools</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BlockConvert\ThBConvertBlockReference.cs" />
-    <Compile Include="BlockConvert\ThBConvertCommon.cs" />
-    <Compile Include="BlockConvert\ThBConvertDbExtension.cs" />
-    <Compile Include="BlockConvert\ThBConvertDbUtils.cs" />
-    <Compile Include="BlockConvert\ThBConvertDynBlockUtils.cs" />
-    <Compile Include="BlockConvert\ThBConvertEngine.cs" />
-    <Compile Include="BlockConvert\ThBConvertEngineStrongCurrent.cs" />
-    <Compile Include="BlockConvert\ThBConvertEngineWeakCurrent.cs" />
-    <Compile Include="BlockConvert\ThBConvertManager.cs" />
-    <Compile Include="BlockConvert\ThBConvertRule.cs" />
-    <Compile Include="BlockConvert\ThBConvertRuleEngine.cs" />
-    <Compile Include="BlockConvert\ThBConvertRuleEngineStrongCurrent.cs" />
-    <Compile Include="BlockConvert\ThBConvertRuleEngineWeakCurrent.cs" />
-    <Compile Include="BlockConvert\ThBConvertTableUtils.cs" />
-    <Compile Include="BlockConvert\ThBConvertUtils.cs" />
-    <Compile Include="Command\ThBConvertCommand.cs" />
     <Compile Include="Entity\ExportFanParaModel.cs" />
     <Compile Include="Entity\FanDataModel.cs" />
     <Compile Include="Entity\FanDesignDataModel.cs" />

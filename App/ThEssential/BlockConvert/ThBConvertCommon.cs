@@ -1,4 +1,4 @@
-﻿namespace TianHua.AutoCAD.BlockConvert
+﻿namespace ThEssential.BlockConvert
 {
     public class ThBConvertCommon
     {

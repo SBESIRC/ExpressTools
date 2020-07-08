@@ -12,10 +12,10 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
 using NFox.Cad.Collections;
 using GeometryExtensions;
-using TianHua.AutoCAD.BlockConvert;
+using ThEssential.BlockConvert;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
-namespace TianHua.AutoCAD.Command
+namespace ThEssential.Command
 { 
     public class ThBConvertCommand : IAcadCommand, IDisposable
     {

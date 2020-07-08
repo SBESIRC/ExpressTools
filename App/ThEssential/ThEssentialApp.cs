@@ -1,6 +1,7 @@
 ﻿using Autodesk.AutoCAD.Runtime;
 using ThEssential.Command;
 using ThEssential.LayerState;
+using ThEssential.BlockConvert;
 
 namespace ThEssential
 {
@@ -56,6 +57,33 @@ namespace ThEssential
         public void THEquipment()
         {
             using (var cmd = new ThEquipmentCommand())
+            {
+                cmd.Execute();
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THOVERKILL", CommandFlags.Modal)]
+        public void THOverkill()
+        {
+            using (var cmd = new ThOverkillCommand())
+            {
+                cmd.Execute();
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THPBE", CommandFlags.Modal)]
+        public void ThStrongCurrentBlockConvert()
+        {
+            using (var cmd = new ThBConvertCommand(ConvertMode.STRONGCURRENT))
+            {
+                cmd.Execute();
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THLBE", CommandFlags.Modal)]
+        public void ThWeakCurrentBlockConvert()
+        {
+            using (var cmd = new ThBConvertCommand(ConvertMode.WEAKCURRENT))
             {
                 cmd.Execute();
             }
