@@ -12,6 +12,7 @@ using Autodesk.AutoCAD.EditorInput;
 using AcHelper;
 using DotNetARX;
 using Linq2Acad;
+using Autodesk.AutoCAD.Runtime;
 
 namespace ThSitePlan.Engine
 {
@@ -39,7 +40,9 @@ namespace ThSitePlan.Engine
         public ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem)
         {
             var layers = configItem.Properties["CADLayer"] as List<string>;
-            var filterlist = OpFilter.Bulid(o =>o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
+            var filterlist = OpFilter.Bulid(o => 
+            o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Hatch)).DxfName | 
+            o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
             // 前面已经在选择时过滤掉了锁定图层上的图元，为什么这里还会有在锁定图层上的图元
             // 原因是将块引用炸开后，其子图元被释放出来，其子图元可能放置在锁定图层中
             // 这里暂时忽略掉在锁定图层中的图元
