@@ -151,12 +151,6 @@ namespace ThWSS
                 }
             }
             Active.Database.ObjectAppended -= handler;
-
-            //// 剔除重合的面积框线
-            //if (objs.Count > 0)
-            //{
-            //    Active.Editor.OverkillCmd(objs);
-            //}
         }
 
         /// <summary>
@@ -221,22 +215,16 @@ namespace ThWSS
             using (var outlines = new ThAreaOutlineDbManager(Active.Database))
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                foreach(ObjectId obj in outlines.Geometries)
+                foreach (ObjectId obj in outlines.Geometries)
                 {
                     var outline = acadDatabase.Database.AreaOutline(obj);
-                    if (pline.Contains(outline))
+                    if (outline != null && pline.Contains(outline))
                     {
                         objs.Add(acadDatabase.ModelSpace.Add(outline));
                         outline.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
                     }
                 }
             }
-
-            //// 剔除重合的面积框线
-            //if (objs.Count > 0)
-            //{
-            //    Active.Editor.OverkillCmd(objs);
-            //}
         }
 
 #if DEBUG

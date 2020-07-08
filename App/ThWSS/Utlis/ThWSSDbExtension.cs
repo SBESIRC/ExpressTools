@@ -17,9 +17,16 @@ namespace ThWSS.Utlis
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
-                var pline = acadDatabase.Element<Polyline>(plineId);
-                var segments = new PolylineSegmentCollection(pline);
-                return segments.ToPolyline();
+                var curve = acadDatabase.Element<Curve>(plineId);
+                if (curve is Polyline pline)
+                {
+                    var segments = new PolylineSegmentCollection(pline);
+                    return segments.ToPolyline();
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
