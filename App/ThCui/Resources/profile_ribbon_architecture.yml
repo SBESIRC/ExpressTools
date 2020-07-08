@@ -45,6 +45,8 @@ panels:
         attributes: { "IsVisible": true, "IsEnabled": true }
       - text: "常用设置"
         attributes: { "IsVisible": true, "IsEnabled": true }
+      - text: "生成查看"
+        attributes: { "IsVisible": true, "IsEnabled": true }
     attributes: { "IsVisible": true, "IsEnabled": true }
   - UID: "pnlStatistic"
     name: "Statistic"

@@ -199,6 +199,8 @@
     <Image Include="Images\THPCF_dark_large.ico" />
     <Image Include="Images\THPOP_dark_small.ico" />
     <Image Include="Images\THPOP_dark_large.ico" />
+    <Image Include="Images\THPBR_dark_small.ico" />
+    <Image Include="Images\THPBR_dark_large.ico" />
     <Image Include="Images\THALIGN_bottom_dark_small.ico" />
     <Image Include="Images\THALIGN_bottom_dark_large.ico" />
     <Image Include="Images\THALIGN_horizontal_dark_small.ico" />

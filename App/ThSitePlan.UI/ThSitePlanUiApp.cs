@@ -546,7 +546,7 @@ namespace ThSitePlan.UI
             }
         }
 
-        [CommandMethod("TIANHUACAD", "THPxx", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THPBR", CommandFlags.Modal)]
         public void ThSitePlanOpenFilePath()
         {
             System.Diagnostics.Process.Start(ThSitePlanSettingsService.Instance.OutputPath);

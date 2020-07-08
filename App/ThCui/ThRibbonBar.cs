@@ -918,6 +918,15 @@ namespace TianHua.AutoCAD.ThCui
                 "IDI_THCAD_THPOP_SMALL",
                 "IDI_THCAD_THPOP_LARGE",
                 RibbonButtonStyle.LargeWithText);
+
+            //生成查看
+            row.AddNewButton("生成查看",
+                "天华彩总生成查看",
+                "THPBR",
+                "天华彩总生成查看",
+                "IDI_THCAD_THPBR_SMALL",
+                "IDI_THCAD_THPBR_LARGE",
+                RibbonButtonStyle.LargeWithText);
         }
     }
 }

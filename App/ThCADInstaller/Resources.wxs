@@ -11,22 +11,22 @@
       <Component Id="CMP_Autoloader_PackageContents_Resources_Dll_2012" Guid="{CD7CBFC1-AFB8-4A30-9205-A91F899FE837}" Win64="yes">
         <File Id="FILE_Autoloader_PackageContents_Resources_Dll_2012" Name="ThCAD.dll" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD_light.dll" KeyPath="yes" />
       </Component>
+      <Component Id="CMP_Autoloader_PackageContents_Resources_Mnr_2012" Guid="{EF8776B3-F17F-455C-A27E-76672AE31729}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Resources_Mnr_2012" Name="ThCAD.mnr" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD_light.mnr" KeyPath="yes" />
+      </Component>
       <Component Id="CMP_Autoloader_PackageContents_Resources_Cuix_2012" Guid="{5B98F472-CE36-4D47-B724-56C247CF75CD}" Win64="yes">
         <File Id="FILE_Autoloader_PackageContents_Resources_Cuix_2012" Name="ThCAD.cuix" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD.cuix" KeyPath="yes" />
-      </Component>
-      <Component Id="CMP_Autoloader_PackageContents_Resources_Mnr_2012" Guid="{EF8776B3-F17F-455C-A27E-76672AE31729}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Resources_Mnr_2012" Name="ThCAD.mnr" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD.mnr" KeyPath="yes" />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_Resources_2014">
       <Component Id="CMP_Autoloader_PackageContents_Resources_Dll_2014" Guid="{51E614EA-8E34-4D8A-83A1-FA1235509B9C}" Win64="yes">
         <File Id="FILE_Autoloader_PackageContents_Resources_Dll_2014" Name="ThCAD.dll" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD_light.dll" KeyPath="yes" />
       </Component>
+      <Component Id="CMP_Autoloader_PackageContents_Resources_Mnr_2014" Guid="{C171CD71-5E63-45A3-9DB4-5532ECFAA6C8}" Win64="yes">
+        <File Id="FILE_Autoloader_PackageContents_Resources_Mnr_2014" Name="ThCAD.mnr" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD_light.mnr" KeyPath="yes" />
+      </Component>
       <Component Id="CMP_Autoloader_PackageContents_Resources_Cuix_2014" Guid="{E52C5805-F3A9-4617-9D64-3D3EBC7A681A}" Win64="yes">
         <File Id="FILE_Autoloader_PackageContents_Resources_Cuix_2014" Name="ThCAD.cuix" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD.cuix" KeyPath="yes" />
-      </Component>
-      <Component Id="CMP_Autoloader_PackageContents_Resources_Mnr_2014" Guid="{C171CD71-5E63-45A3-9DB4-5532ECFAA6C8}" Win64="yes">
-        <File Id="FILE_Autoloader_PackageContents_Resources_Mnr_2014" Name="ThCAD.mnr" Source="$(var.AutoloaderContentsPath)\Resources\ThCAD.mnr" KeyPath="yes" />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_Resources_2016">

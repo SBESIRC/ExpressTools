@@ -93,6 +93,7 @@ namespace TianHua.AutoCAD.ThCui
                 toolbar.AddToolbarButton(-1, "局部刷新", "ID_THPUD");
                 toolbar.AddToolbarButton(-1, "映射管理", "ID_THPCF");
                 toolbar.AddToolbarButton(-1, "常用设置", "ID_THPOP");
+                toolbar.AddToolbarButton(-1, "生成查看", "ID_THPBR");
             }
         }
 
