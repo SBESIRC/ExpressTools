@@ -50,22 +50,54 @@ namespace ThSitePlan.UI
                 // 确定图框
                 ThSitePlanDbEngine.Instance.Initialize(Active.Database);
                 originFrame = ThSitePlanDbEngine.Instance.FrameByName(ThSitePlanCommon.ThSitePlan_Frame_Name_Original);
+
+                //首先检查当前图纸中是否已存在之前生成的图框，则先清除所有旧图框
+                bool environmentclean = true;
+                if (ThSitePlanDbEngine.Instance.Frames.Count != 0)
+                {
+                    ObjectIdCollection framesexorg = new ObjectIdCollection();
+                    foreach (ObjectId item in ThSitePlanDbEngine.Instance.Frames)
+                    {
+                        if (originFrame.IsValid && item.Equals(originFrame))
+                        {
+                            continue;
+                        }
+                        framesexorg.Add(item);
+                    }
+                    if (framesexorg.Count != 0)
+                    {
+                        environmentclean = EnvironmentInitialize(framesexorg);
+                    }
+                }
+                if (!environmentclean)
+                {
+                    return;
+                }
+
                 if (originFrame.IsValid)
                 {
-                    PromptKeywordOptions keywordOptions = new PromptKeywordOptions("\n检测到当前图纸中已设置原始打印图框，是否使用该图框？")
-                    {
-                        AllowNone = true
-                    };
-                    keywordOptions.Keywords.Add("Yes", "Yes", "是(Y)");
-                    keywordOptions.Keywords.Add("No", "No", "否(N)");
-                    keywordOptions.Keywords.Default = "Yes";
-                    PromptResult userresult = Active.Editor.GetKeywords(keywordOptions);
-                    if (userresult.StringResult == "No")
+                    DialogResult clrsu = MessageBox.Show("检测到当前图纸中已设置原始打印图框，是否使用该图框？", "选择原始打印图框", MessageBoxButtons.YesNo);
+                    if (clrsu != DialogResult.Yes)
                     {
                         //删除之前设置的原始图框的Xdat
                         originFrame.RemoveXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name);
                         originFrame = ObjectId.Null;
                     }
+
+                    //PromptKeywordOptions keywordOptions = new PromptKeywordOptions("\n检测到当前图纸中已设置原始打印图框，是否使用该图框？")
+                    //{
+                    //    AllowNone = true
+                    //};
+                    //keywordOptions.Keywords.Add("Yes", "Yes", "是(Y)");
+                    //keywordOptions.Keywords.Add("No", "No", "否(N)");
+                    //keywordOptions.Keywords.Default = "Yes";
+                    //PromptResult userresult = Active.Editor.GetKeywords(keywordOptions);
+                    //if (userresult.StringResult == "No")
+                    //{
+                    //    //删除之前设置的原始图框的Xdat
+                    //    originFrame.RemoveXData(ThSitePlanCommon.RegAppName_ThSitePlan_Frame_Name);
+                    //    originFrame = ObjectId.Null;
+                    //}
                 }
 
                 if (originFrame.IsNull)
@@ -550,6 +582,37 @@ namespace ThSitePlan.UI
         public void ThSitePlanOpenFilePath()
         {
             System.Diagnostics.Process.Start(ThSitePlanSettingsService.Instance.OutputPath);
+        }
+
+        public bool EnvironmentInitialize(ObjectIdCollection dbframes)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                DialogResult clrsu = MessageBox.Show("当前图纸中存在上次生成的解构图框，需清理后再执行生成操作，是否清理 ?","清理解构图框",MessageBoxButtons.YesNo);
+                if (clrsu != DialogResult.Yes)
+                {
+                    return false;
+                }
+                Extents3d totalframeexten = new Extents3d();
+                foreach (ObjectId frameid in dbframes)
+                {
+                    Entity frameent = acadDatabase.Element<Entity>(frameid,false);
+                    totalframeexten.AddExtents(frameent.GeometricExtents);
+                }
+
+                Point3d newmaxpoint = new Point3d(totalframeexten.MaxPoint.X,
+                    totalframeexten.MaxPoint.Y+ ThSitePlanCommon.frame_annotation_offset_Y+5, 
+                    totalframeexten.MaxPoint.Z);
+                PromptSelectionResult psr = Active.Editor.SelectByWindow(totalframeexten.MinPoint,
+                newmaxpoint,
+                PolygonSelectionMode.Crossing,
+                null);
+                if (psr.Status == PromptStatus.OK)
+                {
+                    Active.Editor.EraseCmd(psr.Value.GetObjectIds().ToObjectIdCollection());
+                }
+                return true;
+            }
         }
 
         public void CompareCurAndPreConfig(string preconfig, string curconfig)
