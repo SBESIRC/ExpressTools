@@ -6,6 +6,8 @@ using NetTopologySuite.Utilities;
 using NetTopologySuite.Geometries;
 using Autodesk.AutoCAD.DatabaseServices;
 using NetTopologySuite.Algorithm;
+using NetTopologySuite.Operation.Polygonize;
+using NetTopologySuite.Geometries.Utilities;
 using NetTopologySuite.Simplify;
 using GeometryExtensions;
 
@@ -192,14 +194,18 @@ namespace ThCADCore.NTS
 
         public static IPolygon ToNTSPolygon(this Polyline polyLine)
         {
-            var geometry = polyLine.ToNTSLineString();
-            if (geometry is ILinearRing linearRing)
+            var polygons = polyLine.Polygonize();
+            if (polygons.Count == 1)
             {
-                return ThCADCoreNTSService.Instance.GeometryFactory.CreatePolygon(linearRing);
+                return polygons.First() as IPolygon;
+            }
+            else if (polygons.Count == 0)
+            {
+                return ThCADCoreNTSService.Instance.GeometryFactory.CreatePolygon();
             }
             else
-            { 
-                return ThCADCoreNTSService.Instance.GeometryFactory.CreatePolygon();
+            {
+                throw new NotSupportedException();
             }
         }
 
