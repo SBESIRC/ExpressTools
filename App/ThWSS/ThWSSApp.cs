@@ -113,24 +113,25 @@ namespace ThWSS
             }
 
             // 先获取现有的面积框线
-            var objs = new ObjectIdCollection();
-            filterlist = OpFilter.Bulid(o =>
-                o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
-                o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
-            var result = Active.Editor.SelectByWindow(
-                pline.GeometricExtents.MinPoint,
-                pline.GeometricExtents.MaxPoint,
-                PolygonSelectionMode.Window,
-                filterlist);
-            if (result.Status == PromptStatus.OK)
-            {
-                foreach (ObjectId obj in result.Value.GetObjectIds())
-                {
-                    objs.Add(obj);
-                }
-            }
+            //var objs = new ObjectIdCollection();
+            //filterlist = OpFilter.Bulid(o =>
+            //    o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
+            //    o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+            //var result = Active.Editor.SelectByWindow(
+            //    pline.GeometricExtents.MinPoint,
+            //    pline.GeometricExtents.MaxPoint,
+            //    PolygonSelectionMode.Window,
+            //    filterlist);
+            //if (result.Status == PromptStatus.OK)
+            //{
+            //    foreach (ObjectId obj in result.Value.GetObjectIds())
+            //    {
+            //        objs.Add(obj);
+            //    }
+            //}
 
             // 获取房间轮廓线
+            var objs = new ObjectIdCollection();
             void handler(object s, ObjectEventArgs e)
             {
                 if (e.DBObject is Polyline polyline)
@@ -151,6 +152,15 @@ namespace ThWSS
                 }
             }
             Active.Database.ObjectAppended -= handler;
+
+            // 设置房间轮廓线颜色
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                foreach (ObjectId obj in objs)
+                {
+                    acadDatabase.Element<Polyline>(obj, true).ColorIndex = 130;
+                }
+            }
         }
 
         /// <summary>
@@ -168,11 +178,12 @@ namespace ThWSS
                     return;
                 }
 
-                // 设置到指定图层
-                frame.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
-
                 // 添加到当前图纸
                 acadDatabase.ModelSpace.Add(frame);
+
+                // 设置颜色和图层
+                frame.ColorIndex = 191;
+                frame.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
             }
         }
 
@@ -221,6 +232,7 @@ namespace ThWSS
                     if (outline != null && pline.Contains(outline))
                     {
                         objs.Add(acadDatabase.ModelSpace.Add(outline));
+                        outline.ColorIndex = 70;
                         outline.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
                     }
                 }
