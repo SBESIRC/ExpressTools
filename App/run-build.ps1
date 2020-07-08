@@ -35,8 +35,8 @@ Task Compile.Assembly.R18 -Depends Requires.MSBuild {
     exec {
             & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCADApp.sln" /p:Configuration=$buildType /t:restore
             & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCADApp.sln" /p:Configuration=$buildType /t:rebuild
-            & $msbuildExe /verbosity:minimal /property:OutDir="..\..\build\bin\$buildType\",IntermediateOutputPath="..\..\build\obj\$buildType\" ".\TianHuaCAD.Structure.sln" /p:Configuration=$buildType /t:restore
-            & $msbuildExe /verbosity:minimal /property:OutDir="..\..\build\bin\$buildType\",IntermediateOutputPath="..\..\build\obj\$buildType\" ".\TianHuaCAD.Structure.sln" /p:Configuration=$buildType /t:rebuild
+            & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCAD.Structure.sln" /p:Configuration=$buildType /t:restore
+            & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCAD.Structure.sln" /p:Configuration=$buildType /t:rebuild
             & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration=$buildType /t:restore
             & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration=$buildType /t:rebuild
             & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCAD.WSS.sln" /p:Configuration=$buildType /t:restore
@@ -64,8 +64,8 @@ Task Compile.Assembly.R19 -Depends Requires.MSBuild {
     exec {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCADApp.sln" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCADApp.sln" /p:Configuration="${buildType}-NET40" /t:rebuild
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET40" /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET40" /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET40" /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET40" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration="${buildType}-NET40" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.WSS.sln" /p:Configuration="${buildType}-NET40" /t:restore
@@ -93,8 +93,8 @@ Task Compile.Assembly.R20 -Depends Requires.MSBuild {
     exec {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCADApp.sln" /p:Configuration="${buildType}-NET45" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCADApp.sln" /p:Configuration="${buildType}-NET45" /t:rebuild
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET45" /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET45" /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET45" /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET45" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration="${buildType}-NET45" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration="${buildType}-NET45" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.WSS.sln" /p:Configuration="${buildType}-NET45" /t:restore
@@ -122,8 +122,8 @@ Task Compile.Assembly.R22 -Depends Requires.MSBuild {
     exec {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCADApp.sln" /p:Configuration="${buildType}-NET46" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCADApp.sln" /p:Configuration="${buildType}-NET46" /t:rebuild
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET46" /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET46" /t:rebuild
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET46" /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET46" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration="${buildType}-NET46" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration="${buildType}-NET46" /t:rebuild
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.WSS.sln" /p:Configuration="${buildType}-NET46" /t:restore

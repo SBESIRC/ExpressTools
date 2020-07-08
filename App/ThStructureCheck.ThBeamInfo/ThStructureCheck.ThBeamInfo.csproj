@@ -4,14 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{648A8400-4E52-4DA1-80D6-2B081A057C53}</ProjectGuid>
+    <ProjectGuid>{064E09A3-788C-4B6D-B539-A5052406F48E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ThStructureCheck.UI</RootNamespace>
-    <AssemblyName>ThStructureCheck.UI</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RootNamespace>ThStructureCheck.ThBeamInfo</RootNamespace>
+    <AssemblyName>ThStructureCheck.ThBeamInfo</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-NET40|AnyCPU'">
     <Prefer32Bit>false</Prefer32Bit>
@@ -37,10 +38,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <Import Project="..\..\TIANHUA.CSharp.General.targets" />
+  <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -77,17 +79,63 @@
     </When>
   </Choose>
   <ItemGroup>
-    <Compile Include="ThStructureCheckUiApp.cs" />
+    <Compile Include="Interface\IBeamInfo.cs" />
+    <Compile Include="Model\BeamCustomData.cs" />
+    <Compile Include="Model\BeamDistinguishInfo.cs" />
+    <Compile Include="Model\BeamRelateInf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ThBeamMatch.cs" />
+    <Compile Include="Service\ThBeamUtils.cs" />
+    <Compile Include="Service\ThDrawBeam.cs" />
+    <Compile Include="ThBeamInfoApp.cs" />
+    <Compile Include="View\CheckPalette.cs" />
+    <Compile Include="View\CheckResult.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\CheckResult.Designer.cs">
+      <DependentUpon>CheckResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\DataPalette.cs" />
+    <Compile Include="View\DataResult.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\DataResult.Designer.cs">
+      <DependentUpon>DataResult.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Images\" />
+    <Folder Include="Validate\" />
+    <Folder Include="ViewModel\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="View\CheckResult.resx">
+      <DependentUpon>CheckResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DataResult.resx">
+      <DependentUpon>DataResult.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThBeam\ThBeam.csproj">
+      <Project>{0f36f6e9-f83b-40f6-b848-b13b20e9b1be}</Project>
+      <Name>ThStructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThWSS\ThWSS.csproj">
+      <Project>{aa99b84e-0ee2-4836-87cf-c62d075e01c7}</Project>
+      <Name>ThWSS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
+      <Project>{8A2E6FB5-12F2-4406-8109-D9DDC8452DFD}</Project>
+      <Name>ExtensionTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThStructureCheck.Common\ThStructureCheck.Common.csproj">
       <Project>{422f71ff-e828-4df1-8fe1-a29981579760}</Project>
       <Name>ThStructureCheck.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ThStructureCheck.ThBeamInfo\ThStructureCheck.ThBeamInfo.csproj">
-      <Project>{064e09a3-788c-4b6d-b539-a5052406f48e}</Project>
-      <Name>ThStructureCheck.ThBeamInfo</Name>
+    <ProjectReference Include="..\ThStructureCheck.YJK\ThStructureCheck.YJK.csproj">
+      <Project>{656ef6e4-6243-45ee-9423-30688b93c751}</Project>
+      <Name>ThStructureCheck.YJK</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
