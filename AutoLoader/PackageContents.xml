@@ -767,6 +767,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
                 <Command Local="THPUD" Global="THPUD" />
                 <Command Local="THPCF" Global="THPCF" />
                 <Command Local="THPOP" Global="THPOP" />
+                <Command Local="THPBR" Global="THPBR" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -779,6 +780,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
                 <Command Local="THPUD" Global="THPUD" />
                 <Command Local="THPCF" Global="THPCF" />
                 <Command Local="THPOP" Global="THPOP" />
+                <Command Local="THPBR" Global="THPBR" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -791,6 +793,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
                 <Command Local="THPUD" Global="THPUD" />
                 <Command Local="THPCF" Global="THPCF" />
                 <Command Local="THPOP" Global="THPOP" />
+                <Command Local="THPBR" Global="THPBR" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -803,6 +806,7 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
                 <Command Local="THPUD" Global="THPUD" />
                 <Command Local="THPCF" Global="THPCF" />
                 <Command Local="THPOP" Global="THPOP" />
+                <Command Local="THPBR" Global="THPBR" />
             </Commands>
         </ComponentEntry>
     </Components>
