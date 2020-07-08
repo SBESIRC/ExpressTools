@@ -46,17 +46,13 @@ namespace ThWSS.Engine
                     acadDatabase.Element<Polyline>(frame, true),
                 };
 
+                var extendLength = 100;
                 // 开始弹出进度条提示
                 Progress.ShowProgress();
                 Progress.SetTip("图纸预处理...");
 
-                //Utils.PostProcess(removeEntityLst);
-                //return;
                 Progress.SetValue(900);
                 var pickTextNodes = Utils.GetRoomTextNodes("AD-NAME-ROOM");
-
-                //foreach (var pt in pickPoints)
-                //    Utils.DrawPreviewPoint(pt, "pick");
 
                 // 获取相关图层中的数据
                 // allCurves指所有能作为墙一部分的曲线
@@ -105,7 +101,7 @@ namespace ThWSS.Engine
                         Utils.DrawPreviewPoint(textNode.textPoint, "pick");
 
                     allCurves = TopoUtils.TesslateCurve(allCurves);
-                    allCurves = Utils.ExtendCurves(allCurves, 20);
+                    allCurves = Utils.ExtendCurves(allCurves, extendLength);
 
                     var wallAllCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(srcWallAllCurves, curSelectPLine);
                     wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
@@ -118,7 +114,7 @@ namespace ThWSS.Engine
                         if (windCurves != null && windCurves.Count != 0)
                         {
                             var tesslateWindCurves = TopoUtils.TesslateCurve(windCurves);
-                            tesslateWindCurves = Utils.ExtendCurves(tesslateWindCurves, 5);
+                            tesslateWindCurves = Utils.ExtendCurves(tesslateWindCurves, extendLength);
                             wallAllCurves.AddRange(tesslateWindCurves);
                             allCurves.AddRange(tesslateWindCurves);
                         }
@@ -149,9 +145,9 @@ namespace ThWSS.Engine
 
                         if (doorInsertCurves != null && doorInsertCurves.Count != 0)
                         {
+                            doorInsertCurves = Utils.ExtendCurves(doorInsertCurves, extendLength);
                             allCurves.AddRange(doorInsertCurves);
                             Utils.DrawProfile(doorInsertCurves, "doorInsertCurves");
-                            //removeEntityLst.AddRange(doorInsertCurves);
                         }
                     }
 
@@ -166,6 +162,7 @@ namespace ThWSS.Engine
 
                         if (windInsertCurves != null && windInsertCurves.Count != 0)
                         {
+                            windInsertCurves = Utils.ExtendCurves(windInsertCurves, extendLength);
                             Utils.DrawProfile(windInsertCurves, "windInsertCurves");
                             allCurves.AddRange(windInsertCurves);
                         }
@@ -175,27 +172,8 @@ namespace ThWSS.Engine
 
                     beginPos += smallStep;
                     Progress.SetValue((int)beginPos);
-                    //Utils.DrawProfile(allCurves, "allCurves");
-                    //Utils.PostProcess(removeEntityLst);
-                    //return;
-                    //Utils.DrawProfile(allCurves, "allCurves");
-                    //return;
-
                     var inc = (profileFindPre * 3.0) / curSelectTextNodes.Count;
                     var hasPutPolys = new List<Tuple<Point3d, double>>();
-
-                    //var profiles = TopoUtils.MakeProfilesFromPoints(allCurves, pickPoints);
-
-                    //if (profiles != null && profiles.Count != 0)
-                    //{
-                    //    foreach (var profile in profiles)
-                    //    {
-                    //        //if (CommonUtils.HasPolylines(hasPutPolys, profile.profile))
-                    //        //    continue;
-
-                    //        Utils.DrawProfile(new List<Curve>() { profile.profile }, "outProfile");
-                    //    }
-                    //}
 
                     int roomIndex = 0;
                     foreach (var selectTextNode in curSelectTextNodes)
@@ -258,8 +236,6 @@ namespace ThWSS.Engine
 
                 Progress.SetValue(6500);
                 Progress.HideProgress();
-                //Utils.ErasePreviewPoint(objCollect);
-
                 return true;
             }
         }

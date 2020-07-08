@@ -214,11 +214,11 @@ namespace ThWSS
             }
             Active.Database.ObjectAppended -= handler;
 
-            // 剔除重合的面积框线
-            if (objs.Count > 0)
-            {
-                Active.Editor.OverkillCmd(objs);
-            }
+            //// 剔除重合的面积框线
+            //if (objs.Count > 0)
+            //{
+            //    Active.Editor.OverkillCmd(objs);
+            //}
         }
 
         /// <summary>
@@ -294,11 +294,11 @@ namespace ThWSS
                 }
             }
 
-            // 剔除重合的面积框线
-            if (objs.Count > 0)
-            {
-                Active.Editor.OverkillCmd(objs);
-            }
+            //// 剔除重合的面积框线
+            //if (objs.Count > 0)
+            //{
+            //    Active.Editor.OverkillCmd(objs);
+            //}
         }
 
         /// <summary>
