@@ -480,5 +480,21 @@ namespace ThCADCore.Test
                 acadDatabase.ModelSpace.Add(resultLine);
             }
         }
+
+        [CommandMethod("TIANHUACAD", "ThMeasure", CommandFlags.Modal)]
+        public void ThMeasure()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetEntity("请选择对象");
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var pline = acadDatabase.Element<Polyline>(result.ObjectId);
+                Active.Editor.WriteLine(pline.Measure(pline));
+            }
+        }
     }
 }
