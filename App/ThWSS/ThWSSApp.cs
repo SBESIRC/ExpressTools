@@ -90,103 +90,96 @@ namespace ThWSS
         [CommandMethod("TIANHUACAD", "THWRI", CommandFlags.Modal)]
         public void ThAutoAreaOutlines()
         {
-            // 选择楼层区域
-            // 暂时只支持矩形区域
-            var pline = CreateWindowArea();
-            if (pline == null)
-            {
-                return;
-            }
-
             // 选择防火分区
             PromptSelectionOptions options = new PromptSelectionOptions()
             {
+                SingleOnly = true,
                 AllowDuplicates = false,
+                MessageForAdding = "请选择防火分区",
                 RejectObjectsOnLockedLayers = true,
             };
             var filterlist = OpFilter.Bulid(o =>
                 o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
-            var entSelected = Active.Editor.GetSelection(options, filterlist);
-            if (entSelected.Status != PromptStatus.OK)
+            var result = Active.Editor.GetSelection(options, filterlist);
+            if (result.Status != PromptStatus.OK)
             {
                 return;
             }
 
-            // 先获取现有的面积框线
-            var outlines = new ObjectIdCollection();
-            filterlist = OpFilter.Bulid(o =>
-                o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
-                o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
-            var result = Active.Editor.SelectByWindow(
-                pline.GeometricExtents.MinPoint,
-                pline.GeometricExtents.MaxPoint,
-                PolygonSelectionMode.Window,
-                filterlist);
-            if (result.Status == PromptStatus.OK)
+            foreach(ObjectId frame in result.Value.GetObjectIds())
             {
-                foreach (ObjectId obj in result.Value.GetObjectIds())
+                // 先获取现有的面积框线
+                var outlines = new ObjectIdCollection();
+                filterlist = OpFilter.Bulid(o =>
+                    o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
+                    o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+                result = Active.Editor.SelectByPolyline(
+                    frame,
+                    PolygonSelectionMode.Window,
+                    filterlist);
+                if (result.Status == PromptStatus.OK)
                 {
-                    outlines.Add(obj);
-                }
-            }
-
-            // 获取房间轮廓线
-            var newOutlines = new ObjectIdCollection();
-            void handler(object s, ObjectEventArgs e)
-            {
-                if (e.DBObject is Polyline polyline)
-                {
-                    if (polyline.Layer == ThWSSCommon.AreaOutlineLayer)
+                    foreach (ObjectId obj in result.Value.GetObjectIds())
                     {
-                        newOutlines.Add(e.DBObject.ObjectId);
+                        outlines.Add(obj);
                     }
                 }
-            }
-            Active.Database.ObjectAppended += handler;
-            using (var roomManager = new ThRoomDbManager(Active.Database))
-            using (var engine = new ThRoomRecognitionEngine())
-            {
-                foreach(ObjectId frame in entSelected.Value.GetObjectIds())
-                {
-                    engine.Acquire(Active.Database, pline, frame);
-                }
-            }
-            Active.Database.ObjectAppended -= handler;
 
-            // 设置房间轮廓线颜色
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            {
-                foreach (ObjectId obj in newOutlines)
+                // 获取房间轮廓线
+                var newOutlines = new ObjectIdCollection();
+                void handler(object s, ObjectEventArgs e)
                 {
-                    acadDatabase.Element<Polyline>(obj, true).ColorIndex = 130;
-                }
-            }
-
-            // 删除重复的轮廓线
-            var frames = new DBObjectCollection();
-            var newFrames = new DBObjectCollection();
-            var duplicatedFrames = new DBObjectCollection();
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            {
-                foreach (ObjectId obj in outlines)
-                {
-                    frames.Add(acadDatabase.Element<Polyline>(obj));
-                }
-                foreach(ObjectId obj in newOutlines)
-                {
-                    newFrames.Add(acadDatabase.Element<Polyline>(obj));
-                }
-                foreach(Polyline polyline in newFrames)
-                {
-                    if (frames.ContainsDuplication(polyline))
+                    if (e.DBObject is Polyline polyline)
                     {
-                        duplicatedFrames.Add(polyline);
+                        if (polyline.Layer == ThWSSCommon.AreaOutlineLayer)
+                        {
+                            newOutlines.Add(e.DBObject.ObjectId);
+                        }
                     }
                 }
-                foreach(Polyline polyline in duplicatedFrames)
+                Active.Database.ObjectAppended += handler;
+                using (var roomManager = new ThRoomDbManager(Active.Database))
+                using (var engine = new ThRoomRecognitionEngine())
                 {
-                    polyline.UpgradeOpen();
-                    polyline.Erase();
+                    engine.Acquire(Active.Database, null, frame);
+                }
+                Active.Database.ObjectAppended -= handler;
+
+                // 设置房间轮廓线颜色
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    foreach (ObjectId obj in newOutlines)
+                    {
+                        acadDatabase.Element<Polyline>(obj, true).ColorIndex = 130;
+                    }
+                }
+
+                // 删除重复的轮廓线
+                var frames = new DBObjectCollection();
+                var newFrames = new DBObjectCollection();
+                var duplicatedFrames = new DBObjectCollection();
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    foreach (ObjectId obj in outlines)
+                    {
+                        frames.Add(acadDatabase.Element<Polyline>(obj));
+                    }
+                    foreach (ObjectId obj in newOutlines)
+                    {
+                        newFrames.Add(acadDatabase.Element<Polyline>(obj));
+                    }
+                    foreach (Polyline polyline in newFrames)
+                    {
+                        if (frames.ContainsDuplication(polyline))
+                        {
+                            duplicatedFrames.Add(polyline);
+                        }
+                    }
+                    foreach (Polyline polyline in duplicatedFrames)
+                    {
+                        polyline.UpgradeOpen();
+                        polyline.Erase();
+                    }
                 }
             }
         }
