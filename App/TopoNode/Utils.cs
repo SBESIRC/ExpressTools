@@ -6155,7 +6155,6 @@ namespace TopoNode
                     }
                 }
 
-                var maxLength = CalMaxLength(doorBound);
                 //Utils.DrawLineSegments(lines, "lines");
                 //Utils.DrawProfile(lines, "lines");
                 if (arcCount != relatedCurves.Count())
@@ -6164,9 +6163,10 @@ namespace TopoNode
                     var insertCurves = InsertConnectCurves(combineCurves, doorBound, layer);
                     if (insertCurves != null && insertCurves.Count != 0)
                     {
+                        var maxLength = CalMaxLength(doorBound);
                         foreach (var insertCurve in insertCurves)
                         {
-                            if (insertCurve.GetLength() < (maxLength))
+                            if (insertCurve.GetLength() < maxLength)
                                 curves.Add(insertCurve);
                         }
                     }
@@ -6188,13 +6188,9 @@ namespace TopoNode
             if (line2ds == null || line2ds.Count < 2)
                 return 0;
 
-            var maxLength = line2ds.First().Length;
-            for (int i = 1; i < line2ds.Count; i++)
-            {
-                if (line2ds[i].Length > maxLength)
-                    maxLength = line2ds[i].Length;
-            }
-
+            var lengths = line2ds.Select(p => p.Length).ToList();
+            lengths.Sort();
+            var maxLength = lengths.First() + lengths.Last();
             return maxLength;
         }
 
