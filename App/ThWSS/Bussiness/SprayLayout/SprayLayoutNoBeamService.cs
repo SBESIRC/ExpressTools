@@ -7,12 +7,16 @@ using ThCADCore.NTS;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Internal.Calculator;
 
 namespace ThWSS.Bussiness
 {
     public class SprayLayoutNoBeamService : SparyLayoutService
     {
+        public override void CleanSpray(List<Polyline> roomsLine)
+        {
+            DoCleanSpray(roomsLine);
+        }
+
         public override void LayoutSpray(List<Polyline> roomsLine, Polyline floor, SprayLayoutModel layoutModel)
         {
             foreach (var room in roomsLine)

@@ -19,6 +19,7 @@ namespace ThWSS.Engine
             {
                 service = new SprayLayoutNoBeamService();
             }
+            service.CleanSpray(frames);
             service.LayoutSpray(frames, floor, layoutModel);
         }
     }

@@ -1,18 +1,22 @@
 ﻿using Linq2Acad;
-using ThWSS.Layout;
 using ThWSS.Model;
 using ThWSS.Utlis;
 using System.Linq;
-using ThStructure.BeamInfo.Model;
+using ThWSS.Layout;
+using ThCADCore.NTS;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
-using ThCADCore.NTS;
 
 namespace ThWSS.Bussiness
 {
     class SprayLayoutByBeamService : SparyLayoutService
     {
+        public override void CleanSpray(List<Polyline> roomsLine)
+        {
+            DoCleanSpray(roomsLine);
+        }
+
         public override void LayoutSpray(List<Polyline> roomsLine, Polyline floor, SprayLayoutModel layoutModel)
         {
             foreach (var room in roomsLine)

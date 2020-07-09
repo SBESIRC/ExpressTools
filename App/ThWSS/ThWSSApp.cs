@@ -113,32 +113,32 @@ namespace ThWSS
             }
 
             // 先获取现有的面积框线
-            //var objs = new ObjectIdCollection();
-            //filterlist = OpFilter.Bulid(o =>
-            //    o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
-            //    o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
-            //var result = Active.Editor.SelectByWindow(
-            //    pline.GeometricExtents.MinPoint,
-            //    pline.GeometricExtents.MaxPoint,
-            //    PolygonSelectionMode.Window,
-            //    filterlist);
-            //if (result.Status == PromptStatus.OK)
-            //{
-            //    foreach (ObjectId obj in result.Value.GetObjectIds())
-            //    {
-            //        objs.Add(obj);
-            //    }
-            //}
+            var outlines = new ObjectIdCollection();
+            filterlist = OpFilter.Bulid(o =>
+                o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
+                o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+            var result = Active.Editor.SelectByWindow(
+                pline.GeometricExtents.MinPoint,
+                pline.GeometricExtents.MaxPoint,
+                PolygonSelectionMode.Window,
+                filterlist);
+            if (result.Status == PromptStatus.OK)
+            {
+                foreach (ObjectId obj in result.Value.GetObjectIds())
+                {
+                    outlines.Add(obj);
+                }
+            }
 
             // 获取房间轮廓线
-            var objs = new ObjectIdCollection();
+            var newOutlines = new ObjectIdCollection();
             void handler(object s, ObjectEventArgs e)
             {
                 if (e.DBObject is Polyline polyline)
                 {
                     if (polyline.Layer == ThWSSCommon.AreaOutlineLayer)
                     {
-                        objs.Add(e.DBObject.ObjectId);
+                        newOutlines.Add(e.DBObject.ObjectId);
                     }
                 }
             }
@@ -156,9 +156,37 @@ namespace ThWSS
             // 设置房间轮廓线颜色
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                foreach (ObjectId obj in objs)
+                foreach (ObjectId obj in newOutlines)
                 {
                     acadDatabase.Element<Polyline>(obj, true).ColorIndex = 130;
+                }
+            }
+
+            // 删除重复的轮廓线
+            var frames = new DBObjectCollection();
+            var newFrames = new DBObjectCollection();
+            var duplicatedFrames = new DBObjectCollection();
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                foreach (ObjectId obj in outlines)
+                {
+                    frames.Add(acadDatabase.Element<Polyline>(obj));
+                }
+                foreach(ObjectId obj in newOutlines)
+                {
+                    newFrames.Add(acadDatabase.Element<Polyline>(obj));
+                }
+                foreach(Polyline polyline in newFrames)
+                {
+                    if (frames.ContainsDuplication(polyline))
+                    {
+                        duplicatedFrames.Add(polyline);
+                    }
+                }
+                foreach(Polyline polyline in duplicatedFrames)
+                {
+                    polyline.UpgradeOpen();
+                    polyline.Erase();
                 }
             }
         }
@@ -202,7 +230,7 @@ namespace ThWSS
             }
 
             // 先获取现有的面积框线
-            var objs = new ObjectIdCollection();
+            var outlines = new ObjectIdCollection();
             var filterlist = OpFilter.Bulid(o =>
                 o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
                 o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
@@ -215,7 +243,7 @@ namespace ThWSS
             {
                 foreach (ObjectId obj in result.Value.GetObjectIds())
                 {
-                    objs.Add(obj);
+                    outlines.Add(obj);
                 }
             }
 
@@ -223,15 +251,23 @@ namespace ThWSS
             // 当外参“卸载”后，这个临时外参图层将失效
             // 为了避免这个情况，将置于临时外参图层的房间框线复制到指定图层中
             // https://www.keanw.com/2009/05/importing-autocad-layers-from-xrefs-using-net.html
-            using (var outlines = new ThAreaOutlineDbManager(Active.Database))
+            using (var outlineManager = new ThAreaOutlineDbManager(Active.Database))
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                foreach (ObjectId obj in outlines.Geometries)
+                var frames = new DBObjectCollection();
+                foreach (ObjectId obj in outlines)
+                {
+                    frames.Add(acadDatabase.Element<Polyline>(obj));
+                }
+
+                foreach (ObjectId obj in outlineManager.Geometries)
                 {
                     var outline = acadDatabase.Database.AreaOutline(obj);
-                    if (outline != null && pline.Contains(outline))
+                    if (outline != null && 
+                        pline.Contains(outline) && 
+                        !frames.ContainsDuplication(outline))
                     {
-                        objs.Add(acadDatabase.ModelSpace.Add(outline));
+                        acadDatabase.ModelSpace.Add(outline);
                         outline.ColorIndex = 70;
                         outline.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
                     }
