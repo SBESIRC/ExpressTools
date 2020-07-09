@@ -31,7 +31,7 @@ namespace ThWSS.Utlis
         }
 
         /// <summary>
-        /// 
+        /// 喷淋面积框线图层
         /// </summary>
         /// <param name="database"></param>
         /// <returns></returns>
@@ -41,6 +41,36 @@ namespace ThWSS.Utlis
             {
                 var objId = LayerTools.AddLayer(database, ThWSSCommon.AreaOutlineLayer);
                 LayerTools.SetLayerColor(database, ThWSSCommon.AreaOutlineLayer, 3);
+                return objId;
+            }
+        }
+
+        /// <summary>
+        /// 喷淋保护盲区框线图层
+        /// </summary>
+        /// <param name="database"></param>
+        /// <returns></returns>
+        public static ObjectId CreateSprayLayoutBlindRegionLayer(this Database database)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                var objId = LayerTools.AddLayer(database, ThWSSCommon.SprayLayoutBlindRegionLayer);
+                LayerTools.SetLayerColor(database, ThWSSCommon.SprayLayoutBlindRegionLayer, 11);
+                return objId;
+            }
+        }
+
+        /// <summary>
+        /// 喷淋可布区域框线图层
+        /// </summary>
+        /// <param name="database"></param>
+        /// <returns></returns>
+        public static ObjectId CreateSprayLayoutRegionLayer(this Database database)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                var objId = LayerTools.AddLayer(database, ThWSSCommon.SprayLayoutRegionLayer);
+                LayerTools.SetLayerColor(database, ThWSSCommon.SprayLayoutRegionLayer, 52);
                 return objId;
             }
         }

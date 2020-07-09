@@ -68,7 +68,6 @@
     <Compile Include="Bussiness\SprayLayout\SprayLayoutDataUtils.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutNoBeamService.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutData.cs" />
-    <Compile Include="Bussiness\SprayLayout\SprayLayoutGeExtension.cs" />
     <Compile Include="Column\ThColumnDbManager.cs" />
     <Compile Include="Column\ThColumnGeometryService.cs" />
     <Compile Include="Column\ThColumnLayerManager.cs" />

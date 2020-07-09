@@ -59,23 +59,23 @@ namespace ThWSS.Bussiness
                    
                     //去掉线上多余的点
                     polyBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { polyBounding }, new Tolerance(0.1, 0.1)).First();
-                    
+
                     //区域分割
-                    var diviRoom = regionDivisionUtils.DivisionRegion(polyBounding);
+                    var diviRooms = regionDivisionUtils.DivisionRegion(polyBounding);
+                    var validDiviRooms = diviRooms.Where(o => !regionDivisionUtils.CalInvalidPolygon(o)).ToList();
+                    using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                    {
+                        foreach (var dRoom in validDiviRooms)
+                        {
+                            acadDatabase.ModelSpace.Add(dRoom);
+                            dRoom.LayerId = acadDatabase.Database.CreateSprayLayoutRegionLayer();
+                        }
+                    }
 
                     var allSprays = new List<SprayLayoutData>();   //房间内的喷淋
                     var otherSprays = new List<SprayLayoutData>(); //房间外的喷淋
-                    foreach (var dRoom in diviRoom)
+                    foreach (var dRoom in validDiviRooms)
                     {
-                        //过滤无效区域
-                        if (regionDivisionUtils.CalInvalidPolygon(dRoom))
-                        {
-                            continue;
-                        }
-                        using (AcadDatabase acdb = AcadDatabase.Active())
-                        {
-                            acdb.ModelSpace.Add(dRoom);
-                        }
                         //去掉线上多余的点
                         var dRoomRes = GeUtils.ReovePointOnLine(new List<Polyline>() { dRoom }, new Tolerance(0.1, 0.1)).First();
 
@@ -101,14 +101,14 @@ namespace ThWSS.Bussiness
                     {
                         // 计算房间内的所有喷淋的保护半径
                         var radiis = SprayLayoutDataUtils.Radii(allSprays);
-                        using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                        {
-                            foreach (Entity ent in radiis)
-                            {
-                                ent.ColorIndex = 2;
-                                acadDatabase.ModelSpace.Add(ent);
-                            }
-                        }
+                        //using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                        //{
+                        //    foreach (Entity ent in radiis)
+                        //    {
+                        //        ent.ColorIndex = 2;
+                        //        acadDatabase.ModelSpace.Add(ent);
+                        //    }
+                        //}
 
                         //根据房间面积和喷淋的保护半径，计算保护盲区
                         var blindRegions = poly.Difference(radiis);
@@ -116,8 +116,8 @@ namespace ThWSS.Bussiness
                         {
                             foreach (Entity ent in blindRegions)
                             {
-                                ent.ColorIndex = 3;
                                 acadDatabase.ModelSpace.Add(ent);
+                                ent.LayerId = acadDatabase.Database.CreateSprayLayoutBlindRegionLayer();
                             }
                         }
 

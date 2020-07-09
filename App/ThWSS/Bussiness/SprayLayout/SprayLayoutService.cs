@@ -27,7 +27,7 @@ namespace ThWSS.Bussiness
             var roomSprays = new List<SprayLayoutData>();
             foreach (var spray in sprays)
             {
-                if(room.PointInPolygon(spray.Position) == LocateStatus.Interior)
+                if(room.Contains(spray.Position))
                 {
                     roomSprays.Add(spray);
                 }
@@ -53,13 +53,40 @@ namespace ThWSS.Bussiness
                     .Where(o => o.GetEffectiveName() == ThWSSCommon.SprayBlockName);
                 foreach (var room in roomsLine)
                 {
-                    sprays.Where(o => room.PointInPolygon(o.Position) == LocateStatus.Interior)
+                    sprays.Where(o => room.Contains(o.Position))
                         .ForEachDbObject(o => objs.Add(o));
                 }
                 foreach (BlockReference spray in objs)
                 {
                     spray.UpgradeOpen();
                     spray.Erase();
+                }
+
+                // 删除房间内的辅助框线
+                objs.Clear();
+                var regions = acadDatabase.ModelSpace
+                    .OfType<Polyline>()
+                    .Where(o => 
+                    {
+                        if (o.Layer == ThWSSCommon.SprayLayoutRegionLayer)
+                        {
+                            return true;
+                        }
+                        if (o.Layer == ThWSSCommon.SprayLayoutBlindRegionLayer)
+                        {
+                            return true;
+                        }
+                        return false;
+                    });
+                foreach (var room in roomsLine)
+                {
+                    regions.Where(o => room.Contains(o))
+                        .ForEachDbObject(o => objs.Add(o));
+                }
+                foreach (Polyline frame in objs)
+                {
+                    frame.UpgradeOpen();
+                    frame.Erase();
                 }
             }
         }

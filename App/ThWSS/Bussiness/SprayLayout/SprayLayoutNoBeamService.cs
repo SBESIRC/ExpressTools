@@ -53,16 +53,20 @@ namespace ThWSS.Bussiness
 
                     //区域分割
                     var diviRooms = regionDivisionUtils.DivisionRegion(polyBounding);
+                    using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                    {
+                        foreach (var dRoom in diviRooms)
+                        {
+                            acadDatabase.ModelSpace.Add(dRoom);
+                            dRoom.LayerId = acadDatabase.Database.CreateSprayLayoutRegionLayer();
+                        }
+                    }
 
                     // 统计房间内所有喷淋
                     var allSprays = new List<SprayLayoutData>();   //房间内的喷淋
                     var otherSprays = new List<SprayLayoutData>(); //房间外的喷淋
                     foreach (var dRoom in diviRooms)
                     {
-                        using (AcadDatabase acdb = AcadDatabase.Active())
-                        {
-                            acdb.ModelSpace.Add(dRoom);
-                        }
                         //计算房间走向
                         var roomOOB = OrientedBoundingBox.Calculate(dRoom);
 
@@ -85,14 +89,14 @@ namespace ThWSS.Bussiness
                     {
                         // 计算房间内的所有喷淋的保护半径
                         var radiis = SprayLayoutDataUtils.Radii(allSprays);
-                        using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                        {
-                            foreach (Entity ent in radiis)
-                            {
-                                ent.ColorIndex = 2;
-                                acadDatabase.ModelSpace.Add(ent);
-                            }
-                        }
+                        //using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                        //{
+                        //    foreach (Entity ent in radiis)
+                        //    {
+                        //        ent.ColorIndex = 2;
+                        //        acadDatabase.ModelSpace.Add(ent);
+                        //    }
+                        //}
 
                         //根据房间面积和喷淋的保护半径，计算保护盲区
                         var blindRegions = poly.Difference(radiis);
@@ -100,8 +104,8 @@ namespace ThWSS.Bussiness
                         {
                             foreach (Entity ent in blindRegions)
                             {
-                                ent.ColorIndex = 3;
                                 acadDatabase.ModelSpace.Add(ent);
+                                ent.LayerId = acadDatabase.Database.CreateSprayLayoutBlindRegionLayer();
                             }
                         }
 
