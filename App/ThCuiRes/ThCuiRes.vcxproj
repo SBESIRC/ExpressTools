@@ -201,6 +201,14 @@
     <Image Include="Images\THPOP_dark_large.ico" />
     <Image Include="Images\THPBR_dark_small.ico" />
     <Image Include="Images\THPBR_dark_large.ico" />
+    <Image Include="Images\THWRD_dark_small.ico" />
+    <Image Include="Images\THWRD_dark_large.ico" />
+    <Image Include="Images\THWRI_dark_small.ico" />
+    <Image Include="Images\THWRI_dark_large.ico" />
+    <Image Include="Images\THWRR_dark_small.ico" />
+    <Image Include="Images\THWRR_dark_large.ico" />
+    <Image Include="Images\THPT_dark_small.ico" />
+    <Image Include="Images\THPT_dark_large.ico" />
     <Image Include="Images\THALIGN_bottom_dark_small.ico" />
     <Image Include="Images\THALIGN_bottom_dark_large.ico" />
     <Image Include="Images\THALIGN_horizontal_dark_small.ico" />

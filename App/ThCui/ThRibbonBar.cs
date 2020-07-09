@@ -279,17 +279,53 @@ namespace TianHua.AutoCAD.ThCui
                     RibbonButtonStyle.LargeWithText);
             }
 
+            // 房间框线
+            {
+                var subPanel = row.AddNewPanel();
+                var subRow = subPanel.AddNewRibbonRow();
+                var splitButton = subRow.AddNewSplitButton("房间框线",
+                    RibbonSplitButtonBehavior.SplitFollow,
+                    RibbonSplitButtonListStyle.IconText,
+                    RibbonButtonStyle.LargeWithText);
+
+                // 建筑已绘
+                splitButton.AddNewButton("建筑已绘",
+                    "提取建筑绘制框线",
+                    "THWRR",
+                    "提取建筑绘制框线",
+                    "IDI_THCAD_THWRR_SMALL",
+                    "IDI_THCAD_THWRR_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 自动识别
+                splitButton.AddNewButton("自动识别",
+                    "自动识别框线",
+                    "THWRI",
+                    "自动识别框线",
+                    "IDI_THCAD_THWRI_SMALL",
+                    "IDI_THCAD_THWRI_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+
+                // 手动绘制
+                splitButton.AddNewButton("手动绘制",
+                    "手动绘制框线",
+                    "THWRD",
+                    "手动绘制框线",
+                    "IDI_THCAD_THWRD_SMALL",
+                    "IDI_THCAD_THWRD_LARGE",
+                    RibbonButtonStyle.LargeWithText);
+            }
+
             // 喷头布置
             {
                 var subPanel = row.AddNewPanel();
-
                 var subRow = subPanel.AddNewRibbonRow();
                 subRow.AddNewButton("喷头布置",
-                    "喷头布置",
-                    "THSPC",
-                    "1. 点击房间内一点自动布置喷淋点位 2.选择房间框线布置喷淋点位 3.绘制房间框线布置喷淋点位",
-                    "IDI_THCAD_THSPC",
-                    "IDI_THCAD_THSPC",
+                    "自动喷淋喷头布置",
+                    "THPT",
+                    "自动喷淋喷头布置",
+                    "IDI_THCAD_THPT_SMALL",
+                    "IDI_THCAD_THPT_SMALL",
                     RibbonButtonStyle.LargeWithText);
             }
 
