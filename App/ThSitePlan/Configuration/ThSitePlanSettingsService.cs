@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,10 @@ namespace ThSitePlan.Configuration
                 //
                 if (Properties.Settings.Default.FileSavePath.IsNullOrEmpty())
                 {
-                    return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    string mydoc = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    string filepath = Path.Combine(mydoc, ThSitePlanCommon.ThSitePlan_File_Save_Path);
+                    Directory.CreateDirectory(filepath);
+                    return filepath;
                 }
                 else
                 {

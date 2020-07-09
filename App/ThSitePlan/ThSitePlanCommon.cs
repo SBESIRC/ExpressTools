@@ -52,5 +52,8 @@ namespace ThSitePlan
 
         //RoadCenterLine
         public static readonly string LAYER_RoadCenterLine = "P-TRAF-CITY";
+
+        //文件保存路径名
+        public static readonly string ThSitePlan_File_Save_Path = "一键彩总PDF图纸文件";
     }
 }

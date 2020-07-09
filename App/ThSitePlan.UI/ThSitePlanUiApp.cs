@@ -1073,7 +1073,7 @@ namespace ThSitePlan.UI
                     };
                     OpenUpdateItems(ThSitePlanConfigService.Instance.Root, updateframes, UpdateStaus.UpdateCAD, ifnosid);
                     ThSitePlanPSEngine.Instance.PSUpdate(
-                        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        ThSitePlanSettingsService.Instance.OutputPath,
                         ThSitePlanConfigService.Instance.Root);
 
                     // 保存PS生成的文档
