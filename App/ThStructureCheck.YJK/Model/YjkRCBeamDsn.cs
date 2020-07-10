@@ -42,11 +42,14 @@ namespace ThStructureCheck.YJK.Model
         {
             get
             {
-                string[] values = this.AsTop.Split(',');
                 List<double> datas = new List<double>();
-                foreach(string value in values)
+                if(!string.IsNullOrEmpty(this.AsTop))
                 {
-                    datas.Add(Convert.ToDouble(value));
+                    string[] values = this.AsTop.Split(',');
+                    foreach (string value in values)
+                    {
+                        datas.Add(Convert.ToDouble(value));
+                    }
                 }
                 return datas;
             }

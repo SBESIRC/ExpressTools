@@ -88,7 +88,8 @@ namespace ThStructureCheck.YJK.Query
             DataTable dt = ExecuteDataTable(sql);
             foreach (DataRow dr in dt.Rows)
             {
-                ModelWallSeg modelWallSeg = new ModelWallSeg();
+                ModelWallSeg modelWallSeg = ModelWallSeg.TransModelWallSeg(
+                    this.dbPath, Convert.ToInt32(dr["SectID"].ToString()));
                 modelWallSeg.ID = Convert.ToInt32(dr["ID"].ToString());
                 modelWallSeg.No_ = Convert.ToInt32(dr["No_"].ToString());
                 modelWallSeg.StdFlrID = Convert.ToInt32(dr["StdFlrID"].ToString());

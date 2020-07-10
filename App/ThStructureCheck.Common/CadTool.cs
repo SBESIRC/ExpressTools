@@ -907,8 +907,7 @@ namespace ThStructureCheck.Common
                 return true;
             }
             return false;
-        }
-        
+        }        
     }
     public enum PolygonSelectionMode
     {

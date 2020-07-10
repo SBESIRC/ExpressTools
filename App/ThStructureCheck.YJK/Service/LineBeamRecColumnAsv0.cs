@@ -86,9 +86,12 @@ namespace ThStructureCheck.YJK.Service
                     int beamSegNo;
                     bool res = this.modelBeamQuery.GetDtlmodelTblBeamSegFlrNoAndNo(beamSegs[i].ID, out floorNo, out beamSegNo);
                     int calcBeamId = this.calcBeamQuery.GetTblBeamSegIDFromDtlCalc(floorNo, beamSegNo);
-                    CalcRCBeamDsn calcRCBeamDsn = calcBeamQuery.GetCalcRcBeamDsn(calcBeamId);
-                    List<double> asves = calcRCBeamDsn.AsvCollection;
-                    CalculateForward(asves, asvLength - preLength, modelLineBeamSeg.Length / 8.0);
+                    if(calcBeamId>-1)
+                    {
+                        CalcRCBeamDsn calcRCBeamDsn = calcBeamQuery.GetCalcRcBeamDsn(calcBeamId);
+                        List<double> asves = calcRCBeamDsn.AsvCollection;
+                        CalculateForward(asves, asvLength - preLength, modelLineBeamSeg.Length / 8.0);
+                    }
                     break;
                 }
                 preLength += modelLineBeamSeg.Length;
@@ -108,9 +111,12 @@ namespace ThStructureCheck.YJK.Service
                     int beamSegNo;
                     bool res = this.modelBeamQuery.GetDtlmodelTblBeamSegFlrNoAndNo(beamSegs[i].ID, out floorNo, out beamSegNo);
                     int calcBeamId = this.calcBeamQuery.GetTblBeamSegIDFromDtlCalc(floorNo, beamSegNo);
-                    CalcRCBeamDsn calcRCBeamDsn = calcBeamQuery.GetCalcRcBeamDsn(calcBeamId);
-                    List<double> asves = calcRCBeamDsn.AsvCollection;
-                    CalculateOpposite(asves, asvLength - preLength, modelLineBeamSeg.Length / 8.0);
+                    if(calcBeamId>-1)
+                    {
+                        CalcRCBeamDsn calcRCBeamDsn = calcBeamQuery.GetCalcRcBeamDsn(calcBeamId);
+                        List<double> asves = calcRCBeamDsn.AsvCollection;
+                        CalculateOpposite(asves, asvLength - preLength, modelLineBeamSeg.Length / 8.0);
+                    }
                     break;
                 }
                 preLength += modelLineBeamSeg.Length;

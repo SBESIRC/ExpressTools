@@ -7,20 +7,69 @@ using ThStructureCheck.ThBeamInfo.Model;
 using ThStructureCheck.ThBeamInfo.Service;
 using ThStructureCheck.ThBeamInfo.View;
 using ThWSS.Beam;
+using System.IO;
+using System.Windows.Forms;
+using Autodesk.AutoCAD.DatabaseServices;
+using System;
+using ThStructureCheck.YJK.Model;
+using Autodesk.AutoCAD.Geometry;
 
 namespace ThStructureCheck
 {
     public class ThBeamInfoApp
     {
-        public static void Run()
+        public static void Run(int flrNo)
         {
-            string dtlCalcPath = @"D:\梁校核\梁图与模型\10地块4#号楼\施工图\dtlCalc.ydb";
-            string dtlModelPath = @"D:\梁校核\梁图与模型\10地块4#号楼\施工图\dtlmodel.ydb";
+            TbBeamLayerManager.CreateLayer();            
+            string dtlCalcPath = "";
+            string dtlModelPath = "";
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "请选择计算书文件路径";
+            if(dialog.ShowDialog()==DialogResult.OK)
+            {
+                dtlCalcPath = dialog.SelectedPath + "\\施工图\\dtlCalc.ydb";
+                dtlModelPath = dialog.SelectedPath + "\\施工图\\dtlmodel.ydb";
+            }
+            else
+            {
+                return;
+            }
+            if(string.IsNullOrEmpty(dtlCalcPath) || !File.Exists(dtlCalcPath))
+            {
+                MessageBox.Show("dtlCalc.ydb 文件不存在!");
+            }
+            if (string.IsNullOrEmpty(dtlModelPath) || !File.Exists(dtlModelPath))
+            {
+                MessageBox.Show("dtlmodel.ydb 文件不存在!");
+            }
             //从Yjk导入柱、梁集合信息，在
-            ThDrawBeam thDrawBeam = new ThDrawBeam(dtlModelPath, dtlCalcPath, 3);
+            ThDrawBeam thDrawBeam = new ThDrawBeam(dtlModelPath, dtlCalcPath, flrNo);
             thDrawBeam.Draw();
+            if(!thDrawBeam.IsGoOn)
+            {
+                return;
+            }
+            //打印配筋信息
+            List<Entity> textEnts = new List<Entity>();
+            thDrawBeam.GenerateBeamCalculateInfo();
+            thDrawBeam.BeamSegIndicator.ForEach(o =>
+            {
+                textEnts.AddRange(new BeamLinkExtension().DrawTexts(o.Item2, o.Item3));
+            });
+            textEnts.ForEach(o => o.Layer = TbBeamLayerManager.ThBeamTextLayer);
+            
+            //组块
+            Document doc = CadTool.GetMdiActiveDocument();
+            List<Entity> blockEnts = new List<Entity>();
+            blockEnts.AddRange(thDrawBeam.TotalDrawEnts);
+            blockEnts.AddRange(textEnts);
 
-            ////识别图纸
+            string blkName = "ThBeam"+ DateTime.Now.ToString("yyyyMMddHHmmss");
+            ObjectId objId = doc.Database.CreateBlock(blkName, blockEnts);
+            Scale3d scale = new Scale3d(1.0, 1.0, 1.0);
+            doc.Database.InsertBlock(Point3d.Origin, blkName, scale, 0.0);
+
+            //识别图纸
             //Document document = CadTool.GetMdiActiveDocument();
             //var promptRes = document.Editor.GetEntity("\nPlease select a polyline");
             //Autodesk.AutoCAD.DatabaseServices.Polyline polyline = null;

@@ -84,6 +84,9 @@
     <Compile Include="Model\BeamDistinguishInfo.cs" />
     <Compile Include="Model\BeamRelateInf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\BeamLinkExtension.cs" />
+    <Compile Include="Service\TbBeamLayerManager.cs" />
+    <Compile Include="Service\ThBeamColorManager.cs" />
     <Compile Include="Service\ThBeamMatch.cs" />
     <Compile Include="Service\ThBeamUtils.cs" />
     <Compile Include="Service\ThDrawBeam.cs" />

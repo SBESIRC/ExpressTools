@@ -78,6 +78,7 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="BlockTool.cs" />
     <Compile Include="ExtensionDictionaryTool.cs" />
     <Compile Include="CadTool.cs" />
     <Compile Include="Interface\IEntity.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Service\CloseCurveOverlap.cs" />
     <Compile Include="Service\GeometricCalculation.cs" />
     <Compile Include="Service\InsertDepthCalculate.cs" />
+    <Compile Include="LayerTool.cs" />
     <Compile Include="Service\LineRelation.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

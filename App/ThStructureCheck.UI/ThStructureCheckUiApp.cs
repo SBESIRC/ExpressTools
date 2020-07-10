@@ -5,6 +5,7 @@ using Autodesk.AutoCAD.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using ThStructureCheck.Common;
@@ -62,7 +63,12 @@ namespace ThStructureCheck.UI
         [CommandMethod("ThBeamCheck")]
         public void TestBeamRelate()
         {
-            ThBeamInfoApp.Run();
+            Document doc = CadTool.GetMdiActiveDocument();
+            var res = doc.Editor.GetInteger("输入自然层号");
+            if (res.Status == Autodesk.AutoCAD.EditorInput.PromptStatus.OK)
+            {
+                ThBeamInfoApp.Run(res.Value);
+            }
         }
         [CommandMethod("TestBeamLinkInfo")]
         public void TestBeamLinkInfo()

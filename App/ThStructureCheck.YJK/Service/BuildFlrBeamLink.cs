@@ -29,6 +29,11 @@ namespace ThStructureCheck.YJK.Service
             this.modelBeamSegs = new YjkBeamQuery(dtlModelPath).GetFloorModelBeamSeg(flrNo);
             yjkGridQuery = new YjkGridQuery(this.dtlModelPath);
         }
+        public BuildFlrBeamLink(string dtlModelPath)
+        {
+            this.dtlModelPath = dtlModelPath;
+            yjkGridQuery = new YjkGridQuery(this.dtlModelPath);
+        }
         public List<BeamLink> MainBeamLinks => this.mainBeamLinks;
         public List<BeamLink> SecondaryBeamLinks => this.secondaryBeamLinks;
 
@@ -113,6 +118,7 @@ namespace ThStructureCheck.YJK.Service
                     bool endIsPrimary = false;
                     if (j == modelBeamSegs.Count - 1)
                     {
+                        i = j;
                         endLink = beamLink.End;
                     }
                     else
@@ -129,6 +135,7 @@ namespace ThStructureCheck.YJK.Service
                 }
                 subBeamLink.Start = startLink;
                 subBeamLink.End = endLink;
+                subBeamLink.Status = beamLink.Status;
                 subBeamLink.Beams = splitBeams;
                 splitSpanBeamLinks.Add(subBeamLink);
             }
@@ -152,7 +159,7 @@ namespace ThStructureCheck.YJK.Service
             }
             return false;
         }
-        private List<YjkEntityInfo> GetEndPortLinks(ModelBeamSeg modelBeamSeg, int jt, out bool isPrimary)
+        public List<YjkEntityInfo> GetEndPortLinks(ModelBeamSeg modelBeamSeg, int jt, out bool isPrimary)
         {
             List<YjkEntityInfo> yjkEntities = new List<YjkEntityInfo>();
             isPrimary = false;
@@ -173,6 +180,21 @@ namespace ThStructureCheck.YJK.Service
             {
                 return linkedBeams.Cast<YjkEntityInfo>().ToList();
             }
+            return yjkEntities;
+        }
+        private List<YjkEntityInfo> GetBeamPortLinkColumnOrWall(ModelBeamSeg modelBeamSeg, int jt)
+        {
+            List<YjkEntityInfo> yjkEntities = new List<YjkEntityInfo>();
+            List<ModelColumnSeg> linkedColumns = GetBeamLinkedColumns(modelBeamSeg.StdFlrID, jt);
+            if (linkedColumns.Count > 0)
+            {
+                return linkedColumns.Cast<YjkEntityInfo>().ToList();
+            }
+            List<ModelWallSeg> linkedWall = GetBeamLinkedWall(modelBeamSeg, jt);
+            if (linkedWall.Count > 0)
+            {
+                return linkedWall.Cast<YjkEntityInfo>().ToList();
+            }            
             return yjkEntities;
         }
         private List<ModelColumnSeg> GetBeamLinkedColumns(int stdFlrId, int jt)
@@ -212,9 +234,15 @@ namespace ThStructureCheck.YJK.Service
         }        
         private int ForwardFindBeam(List<ModelBeamSeg> linkBeams, int jtID)
         {
+            List<YjkEntityInfo> portLinkColumnOrWall = GetBeamPortLinkColumnOrWall(linkBeams[0], jtID);
+            if(portLinkColumnOrWall.Count>0)
+            {
+                return jtID;
+            }
             List<ModelBeamSeg> linkBeamSegs = GetBeamLinkedBeam(linkBeams[0], jtID, true);
             if (linkBeamSegs.Count == 1)
             {
+
                 linkBeams.Insert(0, linkBeamSegs[0]);
                 ModelGrid mg = linkBeamSegs[0].Grid;
                 int findJt = mg.Jt1ID;
@@ -232,6 +260,11 @@ namespace ThStructureCheck.YJK.Service
         }
         private int BackupFindBeam(List<ModelBeamSeg> linkBeams, int jtID)
         {
+            List<YjkEntityInfo> portLinkColumnOrWall = GetBeamPortLinkColumnOrWall(linkBeams[linkBeams.Count - 1], jtID);
+            if (portLinkColumnOrWall.Count > 0)
+            {
+                return jtID;
+            }
             List<ModelBeamSeg> linkBeamSegs = GetBeamLinkedBeam(linkBeams[linkBeams.Count - 1], jtID, true);
             if (linkBeamSegs.Count == 1)
             {

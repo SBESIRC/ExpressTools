@@ -50,6 +50,10 @@ namespace ThStructureCheck.YJK.Model
             //根据Kind来判断
             return new ModelLineBeamSeg();
         }
+        public BeamCalculationIndex GetBeamIndicator(string dtlCalcPath)
+        {
+            return new BeamCalculationIndex(this, dtlCalcPath);
+        }
     }
     public class CalcBeamSeg : YjkEntityInfo
     {

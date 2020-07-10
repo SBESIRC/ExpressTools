@@ -36,12 +36,15 @@ namespace ThStructureCheck.ThBeamInfo.Service
         private Document doc;
         private List<Entity> columnBeamEnts = new List<Entity>(); //储存Drag显示的物体
         private BuildFlrBeamLink buildFlrBeamLink;
+        private List<Entity> beamInfoEntities = new List<Entity>();
+        private List<Tuple<ModelBeamSeg, BeamCalculationIndex, Curve>> beamSegIndicator=new List<Tuple<ModelBeamSeg, BeamCalculationIndex, Curve>>();
 
         /// <summary>
         /// Yjk中Model库中梁段对应Cad中的几何图形
         /// </summary>
-        public List<Tuple<YjkEntityInfo, Polyline, Curve>> BeamEnts => beamEnts;
+        public List<Entity> TotalDrawEnts => columnBeamEnts;
         public List<Tuple<BeamLink, List<Polyline>, List<Curve>>> SplitSpanBeams => splitSpanBeams;
+        public List<Tuple<ModelBeamSeg, BeamCalculationIndex, Curve>> BeamSegIndicator=> beamSegIndicator;
         /// <summary>
         /// 是否继续
         /// </summary>
@@ -74,9 +77,22 @@ namespace ThStructureCheck.ThBeamInfo.Service
             Sort();
             DrawColumns();
             DrawBeams();
+            DrawInfo();
             DrawWalls();
             MoveToOrigin();
             Drag();
+        }
+        public void GenerateBeamCalculateInfo()
+        {
+            this.splitSpanBeams.ForEach(o =>
+            {
+                for (int i = 0; i < o.Item1.Beams.Count; i++)
+                {
+                    ModelBeamSeg modelBeamSeg = o.Item1.Beams[i] as ModelBeamSeg;
+                    BeamCalculationIndex beamCalculationIndex = (o.Item1.Beams[i] as ModelBeamSeg).GetBeamIndicator(dtlCalcPath);
+                    this.beamSegIndicator.Add(Tuple.Create<ModelBeamSeg, BeamCalculationIndex,Curve>(modelBeamSeg, beamCalculationIndex, o.Item3[i]));
+                }
+            });
         }
         private void MoveToOrigin()
         {
@@ -98,6 +114,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
                 }                
             });
             this.wallEnts.ForEach(o => o.Item2.TransformBy(moveMt));
+            this.beamInfoEntities.ForEach(o => o.TransformBy(moveMt));
             Matrix3d wcsToUcs = CadTool.UCS2WCS();
             this.columnEnts.ForEach(o => o.Item2.TransformBy(wcsToUcs));
             this.splitSpanBeams.ForEach(o =>
@@ -112,6 +129,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
                 }
             });
             this.wallEnts.ForEach(i => i.Item2.TransformBy(wcsToUcs));
+            this.beamInfoEntities.ForEach(o => o.TransformBy(wcsToUcs));
         }
         private void Drag()
         {            
@@ -122,6 +140,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
                 this.columnBeamEnts.AddRange(o.Item3);
             });
             this.wallEnts.ForEach(o => this.columnBeamEnts.Add(o.Item2));
+            this.beamInfoEntities.ForEach(o=>this.columnBeamEnts.Add(o));
             bool doMark = true;
             Point3d basePt = Point3d.Origin;
             Point3d moveTargetPt = basePt;
@@ -193,7 +212,7 @@ namespace ThStructureCheck.ThBeamInfo.Service
                     {
                         doMark = false;
                         rotateJig.TranformEntities();
-                        this.rotateAngle= Utils.RadToAng(rotateJig.RotateAngle);
+                        this.rotateAngle = Utils.RadToAng(rotateJig.RotateAngle);
                         break;
                     }
                     else if (jigRes.Status == PromptStatus.Cancel)
@@ -202,8 +221,6 @@ namespace ThStructureCheck.ThBeamInfo.Service
                     }
                 } while (doMark);
             }
-            //必须赋值完后，方可释放上面的柱子实体
-            columnBeamEnts.ForEach(i=>CadTool.AddToBlockTable(i));
         }
         private Point3d GetSegJtPoint(YjkEntityInfo yjkEntity)
         {
@@ -224,15 +241,17 @@ namespace ThStructureCheck.ThBeamInfo.Service
             {
                 for (int j = 0; j < xyColumns[i].Count; j++)
                 {
-                    Polyline polyline = DrawColumn(GetModelColumnSeg(xyColumns[i][j]));
+                    Polyline polyline = DrawColumn(GetModelColumnSeg(xyColumns[i][j]));                    
                     if(polyline!=null)
                     {
-                        polyline.ColorIndex = 6;
+                        polyline.Layer = TbBeamLayerManager.ThColumnOutLineLayer;
+                        polyline.ColorIndex = ThBeamColorManager.ThColumnOutlineColorIndex;
                         this.columnEnts.Add(Tuple.Create<int, Polyline>(xyColumns[i][j], polyline));
                     }
                 }
             }
         }
+
         private void DrawBeams()
         {
             for (int i=0;i< this.buildFlrBeamLink.MainBeamLinks.Count;i++)
@@ -244,14 +263,10 @@ namespace ThStructureCheck.ThBeamInfo.Service
                     var res = DrawLineBeam(beamSeg as ModelBeamSeg);
                     if (res != null)
                     {
-                        if(i%2==0)
-                        {
-                            res.Item1.ColorIndex = 1;
-                        }
-                        else
-                        {
-                            res.Item1.ColorIndex = 2;
-                        }
+                        res.Item1.ColorIndex = ThBeamColorManager.GetBeamColorIndex(this.buildFlrBeamLink.MainBeamLinks[i].Status);
+                        res.Item2.ColorIndex = ThBeamColorManager.GetBeamColorIndex(this.buildFlrBeamLink.MainBeamLinks[i].Status);
+                        res.Item1.Layer = TbBeamLayerManager.ThBeamOutlineLayer;
+                        res.Item2.Layer = TbBeamLayerManager.ThBeamCenterLineLayer;
                         outLines.Add(res.Item1);
                         centerLines.Add(res.Item2);                        
                     }
@@ -268,14 +283,10 @@ namespace ThStructureCheck.ThBeamInfo.Service
                     var res = DrawLineBeam(beamSeg as ModelBeamSeg);
                     if (res != null)
                     {
-                        if (i % 2 == 0)
-                        {
-                            res.Item1.ColorIndex = 3;
-                        }
-                        else
-                        {
-                            res.Item1.ColorIndex = 4;
-                        }
+                        res.Item1.ColorIndex = ThBeamColorManager.GetBeamColorIndex(this.buildFlrBeamLink.SecondaryBeamLinks[i].Status);
+                        res.Item2.ColorIndex = ThBeamColorManager.GetBeamColorIndex(this.buildFlrBeamLink.SecondaryBeamLinks[i].Status);
+                        res.Item1.Layer = TbBeamLayerManager.ThBeamOutlineLayer;
+                        res.Item2.Layer = TbBeamLayerManager.ThBeamCenterLineLayer;
                         outLines.Add(res.Item1);
                         centerLines.Add(res.Item2);
                     }
@@ -284,6 +295,15 @@ namespace ThStructureCheck.ThBeamInfo.Service
                     (this.buildFlrBeamLink.SecondaryBeamLinks[i], outLines, centerLines));
             }
         }
+        private void DrawInfo()
+        {
+            this.splitSpanBeams.ForEach(o =>
+            {
+                BeamLinkExtension beamLinkExtension = new BeamLinkExtension(o);
+                this.beamInfoEntities.AddRange(beamLinkExtension.DrawInfo());
+            });
+            this.beamInfoEntities.ForEach(o => o.Layer = TbBeamLayerManager.ThBeamSegIdLayer);
+        }
         private void DrawWalls()
         {
             foreach (var modelWallSegRecord in this.modelWallSegComposes)
@@ -291,7 +311,8 @@ namespace ThStructureCheck.ThBeamInfo.Service
                 Polyline wallFace = DrawWall(modelWallSegRecord);
                 if (wallFace != null)
                 {
-                    wallFace.ColorIndex = 5;
+                    wallFace.Layer = TbBeamLayerManager.ThWallOutLineLayer;
+                    wallFace.ColorIndex = ThBeamColorManager.ThWallOutlineColorIndex;
                     wallEnts.Add(Tuple.Create<YjkEntityInfo, Polyline>(modelWallSegRecord.WallSeg, wallFace));
                 }
             }
@@ -530,5 +551,6 @@ namespace ThStructureCheck.ThBeamInfo.Service
             this.modelWallSegComposes.Clear();
             this.columnBeamEnts.Clear();
         }
+        private double textHeight = 250.0;
     }
 }
