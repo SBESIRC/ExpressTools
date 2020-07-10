@@ -45,7 +45,7 @@ namespace ThWSS.Column
         /// <returns></returns>
         public DBObjectCollection ColumnCurves(Database database, Polyline frame)
         {
-            return BeamCurves(database,
+            return ColumnCurves(database,
                 frame.GeometricExtents.MinPoint,
                 frame.GeometricExtents.MaxPoint);
         }
@@ -57,7 +57,7 @@ namespace ThWSS.Column
         /// <param name="pt1"></param>
         /// <param name="pt2"></param>
         /// <returns></returns>
-        public DBObjectCollection BeamCurves(Database database, Point3d pt1, Point3d pt2)
+        public DBObjectCollection ColumnCurves(Database database, Point3d pt1, Point3d pt2)
         {
             var curves = ColumnCurves(database);
             using (var spatialIndex = new ThCADCoreNTSSpatialIndex(curves))
