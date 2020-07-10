@@ -59,9 +59,9 @@ namespace ThWSS.Model
         {
             return new SprayLayoutModel()
             {
-                sparySSpcing = 100.0,
+                sparySSpcing = 300.0,
                 sparyESpcing = 3600.0,
-                otherSSpcing = 100.0,
+                otherSSpcing = 300.0,
                 otherESpcing = 1800.0,
                 sprayType = 0,
                 protectRadius = 4000.0,
@@ -80,13 +80,8 @@ namespace ThWSS.Model
         fire,
 
         /// <summary>
-        /// 来自框线
+        /// 已绘房间
         /// </summary>
         frame,
-
-        /// <summary>
-        /// 自定义区域
-        /// </summary>
-        customPart
     }
 }

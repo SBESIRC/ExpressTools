@@ -77,10 +77,6 @@ namespace ThWSS
             {
                 layoutModel.sparyLayoutWay = LayoutWay.frame;
             }
-            else if (result.StringResult == "Custom")
-            {
-                layoutModel.sparyLayoutWay = LayoutWay.customPart;
-            }
             Run(layoutModel);
         }
 
@@ -424,30 +420,6 @@ namespace ThWSS
                 var frames = new ObjectIdCollection(entSelected.Value.GetObjectIds());
                 ThSprayLayoutEngine.Instance.Layout(Active.Database, pline, frames, layoutModel);
             }
-            else if (layoutModel.sparyLayoutWay == LayoutWay.customPart)
-            {
-                // 选择楼层区域
-                // 暂时只支持矩形区域
-                var pline = CreateWindowArea();
-                if (pline == null)
-                {
-                    return;
-                }
-
-                // 选择自定义区域
-                var frame = CreatePolygonArea();
-                if (frame == null || frame.NumberOfVertices == 0)
-                {
-                    return;
-                }
-
-                // 执行操作
-                var frames = new DBObjectCollection()
-                {
-                    frame
-                };
-                ThSprayLayoutEngine.Instance.Layout(Active.Database, pline, frames, layoutModel);
-            }
         }
 
         private Polyline CreateWindowArea()
@@ -505,15 +477,6 @@ namespace ThWSS
             {
                 layoutModel.sparyLayoutWay = LayoutWay.frame;
             }
-            else if (thSpary.customPart.IsChecked == true)
-            {
-                layoutModel.sparyLayoutWay = LayoutWay.customPart;
-            }
-
-            if (!string.IsNullOrEmpty(thSpary.radius.Text))
-            {
-                layoutModel.protectRadius = Convert.ToDouble(thSpary.radius.Text);
-            }
 
             if (thSpary.custom.IsChecked == true)
             {
@@ -521,52 +484,88 @@ namespace ThWSS
                 layoutModel.sparyESpcing = Convert.ToDouble(thSpary.customControl.sparyESpcing.Text);
                 layoutModel.otherSSpcing = Convert.ToDouble(thSpary.customControl.otherSSpcing.Text);
                 layoutModel.otherESpcing = Convert.ToDouble(thSpary.customControl.otherESpcing.Text);
-
-                if (string.IsNullOrEmpty(thSpary.radius.Text))
-                {
-                    layoutModel.protectRadius = Math.Sqrt((layoutModel.otherESpcing * layoutModel.otherESpcing * 4) / Math.PI);
-                }
+                layoutModel.protectRadius = Math.Sqrt((layoutModel.otherESpcing * layoutModel.otherESpcing * 4) / Math.PI);
             }
             else if (thSpary.standard.IsChecked == true)
             {
                 double radius = 0;
                 if (thSpary.standControl.danLevel.SelectedIndex == 0)
                 {
-                    layoutModel.sparySSpcing = 300;
-                    layoutModel.sparyESpcing = 4400;
-                    layoutModel.otherSSpcing = 300;
-                    layoutModel.otherESpcing = 2200;
-                    radius = 20000000;
+                    if (thSpary.standControl.standRange.IsChecked == true)
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 4400;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 2200;
+                        radius = 20000000;
+                    }
+                    else
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 5400;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 2700;
+                        radius = 29000000;
+                    }
                 }
                 else if (thSpary.standControl.danLevel.SelectedIndex == 1)
                 {
-                    layoutModel.sparySSpcing = 300;
-                    layoutModel.sparyESpcing = 3600;
-                    layoutModel.otherSSpcing = 300;
-                    layoutModel.otherESpcing = 1800;
-                    radius = 12500000;
+                    if (thSpary.standControl.standRange.IsChecked == true)
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 3600;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 1800;
+                        radius = 12500000;
+                    }
+                    else
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 4800;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 2400;
+                        radius = 23000000;
+                    }
                 }
                 else if (thSpary.standControl.danLevel.SelectedIndex == 2)
                 {
-                    layoutModel.sparySSpcing = 300;
-                    layoutModel.sparyESpcing = 3400;
-                    layoutModel.otherSSpcing = 300;
-                    layoutModel.otherESpcing = 1700;
-                    radius = 11500000;
+                    if (thSpary.standControl.standRange.IsChecked == true)
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 3400;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 1700;
+                        radius = 11500000;
+                    }
+                    else
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 4200;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 2100;
+                        radius = 17500000;
+                    }
                 }
                 else if (thSpary.standControl.danLevel.SelectedIndex == 3)
                 {
-                    layoutModel.sparySSpcing = 300;
-                    layoutModel.sparyESpcing = 3000;
-                    layoutModel.otherSSpcing = 300;
-                    layoutModel.otherESpcing = 1500;
-                    radius = 9000000;
+                    if (thSpary.standControl.standRange.IsChecked == true)
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 3000;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 1500;
+                        radius = 9000000;
+                    }
+                    else
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 3600;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 1800;
+                        radius = 13000000;
+                    }
                 }
-
-                if (string.IsNullOrEmpty(thSpary.radius.Text))
-                {
-                    layoutModel.protectRadius = Math.Sqrt(radius / Math.PI);
-                }
+                layoutModel.protectRadius = Math.Sqrt(radius / Math.PI);
             }
 
             if (thSpary.upSpary.IsChecked == true)

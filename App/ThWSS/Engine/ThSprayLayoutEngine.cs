@@ -52,19 +52,6 @@ namespace ThWSS.Engine
         }
 
         /// <summary>
-        ///按自定义区域布置喷淋
-        /// </summary>
-        /// <param name="polylines"></param>
-        public void Layout(Database database, Polyline floor, DBObjectCollection frames, SprayLayoutModel layoutModel)
-        {
-            using (var explodeManager = new ThSprayDbExplodeManager(database))
-            {
-                RoomEngine.Acquire(database, floor, frames);
-                RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
-            }
-        }
-
-        /// <summary>
         /// 在一个房间内布置喷淋
         /// </summary>
         /// <param name="room"></param>

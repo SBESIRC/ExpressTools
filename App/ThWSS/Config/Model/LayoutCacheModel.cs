@@ -8,6 +8,8 @@ namespace ThWSS.Config.Model
 {
     public class LayoutCacheModel
     {
+        public string tanName { get; set; }
+
         public Constraint constraint { get; set; }
 
         public string nozzleType { get; set; }

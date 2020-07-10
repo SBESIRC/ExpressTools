@@ -46,7 +46,7 @@ namespace ThWSS.Bussiness
                 {
                     RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
                     //处理小的凹边
-                    var polyBounding = GeUtils.CreateConvexPolygon(poly, 800);
+                    var polyBounding = GeUtils.CreateConvexPolygon(poly, 1500);
 
                     //去掉线上多余的点
                     polyBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { polyBounding }, new Tolerance(0.1, 0.1)).First();
