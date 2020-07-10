@@ -4759,12 +4759,13 @@ namespace TopoNode
                                     && IsValidLayer(entity, validLayers)
                                     && !entity.IsErased
                                     && !(entity is Hatch)
-                                    && !(entity is AttributeDefinition))
+                                    && !(entity is AttributeDefinition)
+                                    && !(entity is Wipeout))
                                 {
-                                    if (entity is Region region)
+                                    if (entity is Region || entity is Mline)
                                     {
                                         var dbObjects = new DBObjectCollection();
-                                        region.Explode(dbObjects);
+                                        entity.Explode(dbObjects);
                                         foreach (var obj in dbObjects)
                                         {
                                             if (obj is Entity entityRe)
@@ -4789,12 +4790,13 @@ namespace TopoNode
                                     && IsValidLayer(entity, validLayers)
                                     && !entity.IsErased
                                     && !(entity is Hatch)
-                                    && !(entity is AttributeDefinition))
+                                    && !(entity is AttributeDefinition)
+                                    && !(entity is Wipeout))
                                 {
-                                    if (entity is Region region)
+                                    if (entity is Region || entity is Mline)
                                     {
                                         var dbObjects = new DBObjectCollection();
-                                        region.Explode(dbObjects);
+                                        entity.Explode(dbObjects);
                                         foreach (var obj in dbObjects)
                                         {
                                             if (obj is Entity entityRe)
@@ -4815,7 +4817,12 @@ namespace TopoNode
                     // 将目标图元添加到图纸中
                     foreach (Entity entity in entities)
                     {
-                        objs.Add(db.ModelSpace.Add(entity));
+                        try
+                        {
+                            objs.Add(db.ModelSpace.Add(entity));
+                        }
+                        catch (Exception e)
+                        { }
                     }
 
                     // 释放不用的图元对象
@@ -4931,7 +4938,16 @@ namespace TopoNode
             {
                 foreach (ObjectId obj in objs)
                 {
-                    db.Element<Entity>(obj, true).Erase();
+                    try
+                    {
+                        var entity = db.Element<Entity>(obj, true);
+                        var entityLayer = db.Element<LayerTableRecord>(entity.LayerId);
+                        if (entityLayer.IsLocked)
+                            continue;
+                        entity.Erase();
+                    }
+                    catch (Exception e)
+                    { }
                 }
             }
             Active.Database.ReclaimMemoryFromErasedObjects(objs);
@@ -5608,9 +5624,24 @@ namespace TopoNode
                                         }
                                         else if (IsValidLayer(entity, validLayers)
                                             && !entity.IsErased
-                                            && !(entity is Hatch) && !(entity is AttributeDefinition))
+                                            && !(entity is Hatch) && !(entity is AttributeDefinition) && !(entity is Wipeout))
                                         {
-                                            entities.Add(entity);
+                                            if (entity is Region || entity is Mline)
+                                            {
+                                                var dbObjects = new DBObjectCollection();
+                                                entity.Explode(dbObjects);
+                                                foreach (var obj in dbObjects)
+                                                {
+                                                    if (obj is Entity entityRe)
+                                                    {
+                                                        entities.Add(entityRe);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                entities.Add(entity);
+                                            }
                                         }
                                     }
                                 }
@@ -5618,7 +5649,14 @@ namespace TopoNode
                             // 将目标图元添加到图纸中
                             foreach (Entity entity in entities)
                             {
-                                objs.Add(db.ModelSpace.Add(entity));
+                                try
+                                {
+                                    var id = db.ModelSpace.Add(entity);
+                                    objs.Add(id);
+                                }
+                                catch (Exception e)
+                                {
+                                }
                             }
 
                             // 释放不用的图元对象
