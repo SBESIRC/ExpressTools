@@ -3796,7 +3796,16 @@ namespace TopoNode
 
                 foreach (var curve in res)
                 {
-                    curves.Add(curve.GetTransformedCopy(Matrix3d.Identity) as Curve);
+                    if (curve is Polyline2d polyline2d)
+                    {
+                        var pline = new Polyline();
+                        pline.ConvertFrom(polyline2d, false);
+                        curves.Add(pline);
+                    }
+                    else
+                    {
+                        curves.Add(curve.GetTransformedCopy(Matrix3d.Identity) as Curve);
+                    }
                 }
             }
 
