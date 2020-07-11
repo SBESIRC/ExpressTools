@@ -7,14 +7,10 @@ using Dreambuild.AutoCAD;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
+using ThWSS.Model;
 
 namespace ThWSS.Engine
 {
-    public class ThColumn : ThModelElement
-    {
-        public override Dictionary<string, object> Properties { get; set; }
-    }
-
     public class ThColumnRecognitionEngine : ThModeltRecognitionEngine, IDisposable
     {
         public Database HostDb { get; set; }

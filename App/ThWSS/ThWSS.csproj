@@ -60,7 +60,6 @@
     <Compile Include="Beam\ThBeamGeometryService.cs" />
     <Compile Include="Beam\ThBeamLayerManager.cs" />
     <Compile Include="Bussiness\CalBeamInfoService.cs" />
-    <Compile Include="Bussiness\CalColumnInfoService.cs" />
     <Compile Include="Bussiness\DetailsHandleService.cs" />
     <Compile Include="Bussiness\InsertSprayService.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutService.cs" />
@@ -76,20 +75,22 @@
     <Compile Include="Engine\ThBeamRecognitionEngine.cs" />
     <Compile Include="Engine\ThColumnRecognitionEngine.cs" />
     <Compile Include="Engine\ThModeltRecognitionEngine.cs" />
-    <Compile Include="Engine\ThModelElement.cs" />
+    <Compile Include="Model\ThBeam.cs" />
+    <Compile Include="Model\ThColumn.cs" />
+    <Compile Include="Model\ThModelElement.cs" />
     <Compile Include="Engine\ThRoomDbManager.cs" />
     <Compile Include="Engine\ThRoomLayerManager.cs" />
     <Compile Include="Engine\ThAreaOutlineDbManager.cs" />
     <Compile Include="Engine\ThAreaOutlineLayerManager.cs" />
     <Compile Include="Engine\ThRoomRecognitionEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutEngine.cs" />
-    <Compile Include="Engine\ThSprayLayoutWorker.cs" />
     <Compile Include="Layout\AdjustmentLayoutSpray.cs" />
     <Compile Include="Layout\ILayoutInterface.cs" />
     <Compile Include="Layout\SquareLayout.cs" />
     <Compile Include="Layout\SquareLayoutByBeam.cs" />
     <Compile Include="Layout\SquareLayoutWithRay.cs" />
     <Compile Include="Model\SprayLayoutModel.cs" />
+    <Compile Include="Model\ThRoom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

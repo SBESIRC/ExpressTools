@@ -1,22 +1,15 @@
 ﻿using System;
 using TopoNode;
-using AcHelper;
 using Linq2Acad;
 using System.Linq;
+using ThWSS.Model;
+using TopoNode.Progress;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
-using TopoNode.Progress;
-using ThWSS.Column;
-using ThWSS.Beam;
 
 namespace ThWSS.Engine
 {
-    public class ThRoom : ThModelElement
-    {
-        public override Dictionary<string, object> Properties { get; set; }
-    }
-
     public class ThRoomRecognitionEngine : ThModeltRecognitionEngine, IDisposable
     {
         public override List<ThModelElement> Elements { get; set; }
@@ -208,7 +201,9 @@ namespace ThWSS.Engine
                             };
                             Elements.Add(thRoom);
 
+                            // 获取房间内孤立柱
                             int columnIndex = 0;
+                            thRoom.Columns = new List<ThModelElement>();
                             foreach (var plineDic in aimProfile.InnerPolylineLayers)
                             {
                                 if (plineDic.profileLayers.Where(x => x.ToUpper().Contains("S_COLU")).Count() > 0)
@@ -220,7 +215,7 @@ namespace ThWSS.Engine
                                             { string.Format("ThColumn{0}", columnIndex++), plineDic.profile }
                                         }
                                     };
-                                    Elements.Add(thColumn);
+                                    thRoom.Columns.Add(thColumn);
                                 }
                             }
 
@@ -260,12 +255,12 @@ namespace ThWSS.Engine
 
         public override bool Acquire(Database database, Polyline floor, DBObjectCollection frames)
         {
-            // 获取房间轮廓
             using (var acadDatabase = AcadDatabase.Use(database))
             {
                 int roomIndex = 0;
                 foreach (Polyline frame in frames)
                 {
+                    // 获取房间轮廓
                     ThRoom thRoom = new ThRoom()
                     {
                         Properties = new Dictionary<string, object>()
@@ -273,15 +268,19 @@ namespace ThWSS.Engine
                             { string.Format("ThRoom{0}", roomIndex++), frame }
                         }
                     };
+
+                    // 获取房间内的柱
+                    using (var columnEngine = new ThColumnRecognitionEngine(database))
+                    {
+                        columnEngine.Acquire(database, floor, new DBObjectCollection()
+                        {
+                            frame,
+                        });
+                        thRoom.Columns = columnEngine.Elements;
+                    }
+
                     Elements.Add(thRoom);
                 }
-            }
-
-            // 获取房间内的柱
-            using (var columnEngine = new ThColumnRecognitionEngine(database))
-            {
-                columnEngine.Acquire(database, floor, frames);
-                Elements.AddRange(columnEngine.Elements);
             }
 
             return true;

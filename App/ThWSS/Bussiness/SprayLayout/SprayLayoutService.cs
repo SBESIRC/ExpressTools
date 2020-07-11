@@ -1,10 +1,8 @@
 ﻿using Linq2Acad;
 using ThWSS.Model;
-using ThWSS.Utlis;
 using System.Linq;
-using ThWSS.Layout;
+using ThWSS.Engine;
 using ThCADCore.NTS;
-using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
@@ -12,8 +10,8 @@ namespace ThWSS.Bussiness
 {
     public abstract class SparyLayoutService
     {
-        public virtual void CleanSpray(List<Polyline> roomsLine) { }
-        public virtual void LayoutSpray(List<Polyline> roomsLine, Polyline floor, SprayLayoutModel layoutModel) { }
+        public virtual void CleanSpray(ThRoom room) { }
+        public virtual void LayoutSpray(ThRoom room, Polyline floor, SprayLayoutModel layoutModel) { }
 
         /// <summary>
         /// 计算出房间内的喷淋的布置点

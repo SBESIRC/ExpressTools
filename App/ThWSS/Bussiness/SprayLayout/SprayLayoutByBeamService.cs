@@ -7,23 +7,24 @@ using ThCADCore.NTS;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
+using ThWSS.Engine;
 
 namespace ThWSS.Bussiness
 {
     class SprayLayoutByBeamService : SparyLayoutService
     {
-        public override void CleanSpray(List<Polyline> roomsLine)
+        public override void CleanSpray(ThRoom room)
         {
-            DoCleanSpray(roomsLine);
+            DoCleanSpray(room.Properties.Values.Cast<Polyline>().ToList());
         }
 
-        public override void LayoutSpray(List<Polyline> roomsLine, Polyline floor, SprayLayoutModel layoutModel)
+        public override void LayoutSpray(ThRoom room, Polyline floor, SprayLayoutModel layoutModel)
         {
-            foreach (var room in roomsLine)
+            foreach (var outline in room.Properties.Values.Cast<Polyline>())
             {
                 // 获取梁信息
                 CalBeamInfoService beamInfoService = new CalBeamInfoService();
-                List<Polyline> beams = beamInfoService.GetAllBeamInfo(room, floor);
+                List<Polyline> beams = beamInfoService.GetAllBeamInfo(outline, floor);
                 using (AcadDatabase acdb = AcadDatabase.Active())
                 {
                     foreach (var beam in beams)
@@ -33,15 +34,16 @@ namespace ThWSS.Bussiness
                 }
 
                 // 获取柱信息
-                CalColumnInfoService columnInfoService = new CalColumnInfoService();
-                List<Polyline> columnPolys = columnInfoService.GetColumnStruc();
+                List<Polyline> columnPolys = room.Columns
+                    .SelectMany(x => x.Properties.Values)
+                    .Cast<Polyline>().ToList();
 
                 List<Polyline> polys = GeUtils.ExtendPolygons(beams, 20);
                 polys.AddRange(columnPolys);
 
                 // 根据房间分割区域
                 RegionDivisionByBeamUtils regionDivision = new RegionDivisionByBeamUtils();
-                var respolys = regionDivision.DivisionRegion(room, polys);
+                var respolys = regionDivision.DivisionRegion(outline, polys);
                 using (AcadDatabase acdb = AcadDatabase.Active())
                 {
                     foreach (var poly in respolys)
@@ -56,7 +58,7 @@ namespace ThWSS.Bussiness
 
                     //处理小的凹边
                     var polyBounding = GeUtils.CreateConvexPolygon(poly, 1500);
-                   
+
                     //去掉线上多余的点
                     polyBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { polyBounding }, new Tolerance(0.1, 0.1)).First();
 

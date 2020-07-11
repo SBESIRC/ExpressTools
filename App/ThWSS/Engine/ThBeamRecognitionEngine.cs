@@ -1,14 +1,10 @@
 ﻿using System;
+using ThWSS.Model;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThWSS.Engine
 {
-    public class ThBeam : ThModelElement
-    {
-        public override Dictionary<string, object> Properties { get; set; }
-    }
-
     public class ThBeamRecognitionEngine : ThModeltRecognitionEngine
     {
         public override List<ThModelElement> Elements { get; set; }

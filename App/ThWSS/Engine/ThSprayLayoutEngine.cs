@@ -1,6 +1,6 @@
 ﻿using ThWSS.Model;
-using ThWSS.Beam;
 using System.Linq;
+using ThWSS.Bussiness;
 using Dreambuild.AutoCAD;
 using Autodesk.AutoCAD.DatabaseServices;
 
@@ -19,24 +19,6 @@ namespace ThWSS.Engine
         public static ThSprayLayoutEngine Instance { get { return instance; } }
         //-------------SINGLETON-----------------
 
-        public ThSprayLayoutWorker Worker = new ThSprayLayoutWorker();
-        public ThRoomRecognitionEngine RoomEngine = new ThRoomRecognitionEngine();
-
-        /// <summary>
-        /// 按防火分区布置喷淋
-        /// </summary>
-        /// <param name="database"></param>
-        /// <param name="fire"></param>
-        public void Layout(Database database, Polyline floor, ObjectId fire, SprayLayoutModel layoutModel)
-        {
-            using (var beamManager = new ThBeamDbManager(database))
-            using (var roomManager = new ThRoomDbManager(database))
-            {
-                RoomEngine.Acquire(database, floor, fire);
-                RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
-            }
-        }
-
         /// <summary>
         /// 按房间轮廓线布置喷淋
         /// </summary>
@@ -44,10 +26,11 @@ namespace ThWSS.Engine
         /// <param name="fire"></param>
         public void Layout(Database database, Polyline floor, ObjectIdCollection frames, SprayLayoutModel layoutModel)
         {
+            using (var roomEngine = new ThRoomRecognitionEngine())
             using (var explodeManager = new ThSprayDbExplodeManager(database))
             {
-                RoomEngine.Acquire(database, floor, frames);
-                RoomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
+                roomEngine.Acquire(database, floor, frames);
+                roomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
             }
         }
 
@@ -57,7 +40,17 @@ namespace ThWSS.Engine
         /// <param name="room"></param>
         private void DoLayout(ThRoom room, Polyline floor, SprayLayoutModel layoutModel)
         {
-            Worker.DoLayout(room, floor, layoutModel);
+            SparyLayoutService service = null;
+            if (layoutModel.UseBeam)
+            {
+                service = new SprayLayoutByBeamService();
+            }
+            else
+            {
+                service = new SprayLayoutNoBeamService();
+            }
+            service.CleanSpray(room);
+            service.LayoutSpray(room, floor, layoutModel);
         }
     }
 }

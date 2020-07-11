@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ThWSS.Engine
+namespace ThWSS.Model
 {
     public abstract class ThModelElement
     {
-        public abstract Dictionary<string, object> Properties { get; set; }
+        public Dictionary<string, object> Properties { get; set; }
     }
 }

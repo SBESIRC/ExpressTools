@@ -4,6 +4,7 @@ using ThWSS.Model;
 using ThWSS.Utlis;
 using ThWSS.Layout;
 using ThCADCore.NTS;
+using ThWSS.Engine;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -12,22 +13,23 @@ namespace ThWSS.Bussiness
 {
     public class SprayLayoutNoBeamService : SparyLayoutService
     {
-        public override void CleanSpray(List<Polyline> roomsLine)
+        public override void CleanSpray(ThRoom room)
         {
-            DoCleanSpray(roomsLine);
+            DoCleanSpray(room.Properties.Values.Cast<Polyline>().ToList());
         }
 
-        public override void LayoutSpray(List<Polyline> roomsLine, Polyline floor, SprayLayoutModel layoutModel)
+        public override void LayoutSpray(ThRoom room, Polyline floor, SprayLayoutModel layoutModel)
         {
-            foreach (var room in roomsLine)
-            {    
+            foreach (var outline in room.Properties.Values.Cast<Polyline>())
+            {
                 // 获取柱信息
-                CalColumnInfoService columnInfoService = new CalColumnInfoService();
-                List<Polyline> columnPolys = columnInfoService.GetColumnStruc();
+                List<Polyline> columnPolys = room.Columns
+                    .SelectMany(x => x.Properties.Values)
+                    .Cast<Polyline>().ToList();
 
                 // 获取梁信息
                 CalBeamInfoService beamInfoService = new CalBeamInfoService();
-                List<Polyline> beams = beamInfoService.GetAllBeamInfo(room, floor, columnPolys, true);
+                List<Polyline> beams = beamInfoService.GetAllBeamInfo(outline, floor, columnPolys, true);
 
                 List<Polyline> polys = GeUtils.ExtendPolygons(beams, 20);
                 polys.AddRange(columnPolys);
@@ -40,7 +42,7 @@ namespace ThWSS.Bussiness
                 }
                 // 根据房间分割区域
                 RegionDivisionByBeamUtils regionDivision = new RegionDivisionByBeamUtils();
-                var respolys = regionDivision.DivisionRegion(room, polys);
+                var respolys = regionDivision.DivisionRegion(outline, polys);
 
                 foreach (var poly in respolys)
                 {

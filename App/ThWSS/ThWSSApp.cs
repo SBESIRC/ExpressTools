@@ -347,9 +347,6 @@ namespace ThWSS
         /// <returns></returns>
         private void Run(SprayLayoutModel layoutModel)
         {
-            //清空数据
-            ThSprayLayoutEngine.Instance.RoomEngine = new ThRoomRecognitionEngine();
-
             if (layoutModel.sparyLayoutWay == LayoutWay.fire)
             {
                 // 选择楼层区域
