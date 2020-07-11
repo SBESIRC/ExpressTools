@@ -270,7 +270,7 @@ namespace ThWSS.Engine
                     };
 
                     // 获取房间内的柱
-                    using (var columnEngine = new ThColumnRecognitionEngine(database))
+                    using (var columnEngine = new ThColumnRecognitionEngine())
                     {
                         columnEngine.Acquire(database, floor, new DBObjectCollection()
                         {

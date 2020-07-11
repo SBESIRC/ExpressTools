@@ -23,12 +23,13 @@ namespace ThStructure.BeamInfo.Utils
         {
             using (var db = AcadDatabase.Use(database))
             {
-                var resEntityLst = new List<Entity>();
+                // 炸对象只需要以“只读”的方式打开对象
+                // 所以这里无需考虑图层对“炸”对象的影响
                 var blockRefs = db.ModelSpace
                     .OfType<BlockReference>()
                     .Where(p => p.Visible)
-                    .Where(p => p.IsBlockReferenceExplodable())
-                    .Where(p => p.IsBlockReferenceOnValidLayer());
+                    .Where(p => p.IsBlockReferenceExplodable());
+                var resEntityLst = new List<Entity>();
                 blockRefs.ForEach(i => resEntityLst.AddRange(Explode(db, i, keepUnvisible)));
                 return resEntityLst;
             }
@@ -41,16 +42,10 @@ namespace ThStructure.BeamInfo.Utils
         /// <returns></returns>
         public static List<Entity> Explode(AcadDatabase db, BlockReference br, bool keepUnVisible = true)
         {
+            // 炸对象只需要以“只读”的方式打开对象
+            // 所以这里无需考虑图层对“炸”对象的影响
             List<Entity> entities = new List<Entity>();
-            if (!br.Visible)
-            {
-                return entities;
-            }
-            if (!br.IsBlockReferenceExplodable())
-            {
-                return entities;
-            }
-            if (!br.IsBlockReferenceOnValidLayer())
+            if (!br.Visible || !br.IsBlockReferenceExplodable())
             {
                 return entities;
             }
@@ -102,35 +97,14 @@ namespace ThStructure.BeamInfo.Utils
 
             return entities;
         }
-        private static DBObjectCollection dbObjs;
-        public static DBObjectCollection ExplodeToOwnerSpace3(this BlockReference br)
-        {
-            dbObjs = new DBObjectCollection();
-            LoopThroughInsertAndAddEntity2n3(br.BlockTransform, br);
-            return dbObjs;
-        }
 
-        public static void LoopThroughInsertAndAddEntity2n3(Matrix3d mat, BlockReference br)
-        {
-            Transaction tr = br.Database.TransactionManager.TopTransaction;
-            BlockTableRecord btr = tr.GetObject(br.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
-
-            foreach (ObjectId id in btr)
-            {
-                DBObject obj = tr.GetObject(id, OpenMode.ForRead);
-                Entity ent = obj.Clone() as Entity;
-                if (ent is BlockReference)
-                {
-                    BlockReference br1 = (BlockReference)ent;
-                    LoopThroughInsertAndAddEntity2n3(br1.BlockTransform.PreMultiplyBy(mat), br1);
-                }
-                else
-                {
-                    ent.TransformBy(mat);
-                    dbObjs.Add(ent);
-                }
-            }
-        }
+        /// <summary>
+        /// 过滤指定图层上的曲线
+        /// </summary>
+        /// <param name="ents"></param>
+        /// <param name="layerNames"></param>
+        /// <param name="fullMatch"></param>
+        /// <returns></returns>
         public static List<Entity> FilterCurveByLayers(List<Entity> ents, List<string> layerNames, bool fullMatch = false)
         {
             List<Entity> filterEnts = new List<Entity>();
@@ -167,6 +141,14 @@ namespace ThStructure.BeamInfo.Utils
             }
             return filterEnts;
         }
+
+        /// <summary>
+        /// 过滤指定图层上的文字
+        /// </summary>
+        /// <param name="ents"></param>
+        /// <param name="layerNames"></param>
+        /// <param name="fullMatch"></param>
+        /// <returns></returns>
         public static List<Entity> FilterAnnotationByLayers(List<Entity> ents, List<string> layerNames, bool fullMatch = false)
         {
             List<Entity> filterEnts = new List<Entity>();

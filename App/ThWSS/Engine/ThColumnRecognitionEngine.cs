@@ -13,11 +13,10 @@ namespace ThWSS.Engine
 {
     public class ThColumnRecognitionEngine : ThModeltRecognitionEngine, IDisposable
     {
-        public Database HostDb { get; set; }
         public override List<ThModelElement> Elements { get; set; }
-        public ThColumnRecognitionEngine(Database database)
+        public ThColumnRecognitionEngine()
         {
-            HostDb = database;
+            //
         }
 
         public void Dispose()
@@ -54,7 +53,7 @@ namespace ThWSS.Engine
             Elements = new List<ThModelElement>();
             foreach (Polyline frame in frames)
             {
-                var columnCurves = ThColumnGeometryService.Instance.ColumnCurves(HostDb, frame);
+                var columnCurves = ThColumnGeometryService.Instance.ColumnCurves(database, frame);
                 // 构成柱的几何图元包括：
                 //  1. 圆
                 //  2. 多段线构成的矩形

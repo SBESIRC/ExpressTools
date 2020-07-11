@@ -1,34 +1,10 @@
 ﻿using Linq2Acad;
-using System.Linq;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThStructure.BeamInfo.Utils
 {
     public static class ThStructureDbExtension
     {
-        public static bool IsBlockReferenceOnValidLayer(this BlockReference blockReference)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            {
-                if (acadDatabase.Layers.Where(o => o.ObjectId == blockReference.LayerId && o.IsLocked).Any())
-                {
-                    return false;
-                }
-
-                if (acadDatabase.Layers.Where(o => o.ObjectId == blockReference.LayerId && o.IsOff).Any())
-                {
-                    //return false;
-                }
-
-                if (acadDatabase.Layers.Where(o => o.ObjectId == blockReference.LayerId && o.IsFrozen).Any())
-                {
-                    return false;
-                }
-
-                return true;
-            }
-        }
-
         public static bool IsBlockReferenceExplodable(this ObjectId blockReferenceId)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())

@@ -1,5 +1,6 @@
 ﻿using System;
 using Linq2Acad;
+using System.Linq;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThStructure.BeamInfo.Utils;
@@ -50,9 +51,30 @@ namespace ThWSS
         /// </summary>
         public void PostProcess()
         {
-            TopoNode.Utils.PostProcess(BeamCurves);
-            TopoNode.Utils.PostProcess(ColumnCurves);
-            TopoNode.Utils.PostProcess(BeamAnnotations);
+            EraseObjs(BeamCurves);
+            EraseObjs(ColumnCurves);
+            EraseObjs(BeamAnnotations);
+        }
+
+        private void EraseObjs(ObjectIdCollection objs)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(this.HostDb))
+            {
+                foreach (ObjectId obj in objs)
+                {
+                    if (!obj.IsErased)
+                    {
+                        // 删除数据清理过程中临时“炸”到当前图纸中的对象
+                        // 对于“炸”到锁定图层上的对象，我们仍然需要将他们删除
+                        acadDatabase.Element<Entity>(obj, true, true).Erase();
+                    }
+                }
+            }
+
+            // A collection of object ids whose memory is to be reclaimed by deleting their objects.
+            // All object ids in the collection must correspond to erased objects, which must be entirely closed
+            var ids = objs.Cast<ObjectId>().Where(o => o.IsErased).ToArray();
+            HostDb.ReclaimMemoryFromErasedObjects(new ObjectIdCollection(ids));
         }
 
         private void Explode()
