@@ -31,19 +31,18 @@ namespace ThWSS.Bussiness
                 CalBeamInfoService beamInfoService = new CalBeamInfoService();
                 List<Polyline> beams = beamInfoService.GetAllBeamInfo(outline, floor, columnPolys, true);
 
+                // 由于存在绘图不规范，梁线和柱线没有在“几何”意义上搭接起来
+                // 为了处理这样的情况，这里采用了“Dissolve（溶解）”的思路
+                // 通过扩大梁的范围使梁和柱搭接起来
                 List<Polyline> polys = GeUtils.ExtendPolygons(beams, 20);
                 polys.AddRange(columnPolys);
-                using (AcadDatabase acad = AcadDatabase.Active())
-                {
-                    foreach (var item in polys)
-                    {
-                        //acad.ModelSpace.Add(item);
-                    }
-                }
-                // 根据房间分割区域
+
+
+                // 在房间区域内按照梁和柱的搭接关系，分割房间区域
                 RegionDivisionByBeamUtils regionDivision = new RegionDivisionByBeamUtils();
                 var respolys = regionDivision.DivisionRegion(outline, polys);
 
+                // 为每一个分割后的“子区域”布置喷头
                 foreach (var poly in respolys)
                 {
                     RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();

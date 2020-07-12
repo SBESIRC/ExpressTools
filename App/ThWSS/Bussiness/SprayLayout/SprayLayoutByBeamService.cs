@@ -7,7 +7,6 @@ using ThCADCore.NTS;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
-using ThWSS.Engine;
 
 namespace ThWSS.Bussiness
 {
@@ -25,33 +24,23 @@ namespace ThWSS.Bussiness
                 // 获取梁信息
                 CalBeamInfoService beamInfoService = new CalBeamInfoService();
                 List<Polyline> beams = beamInfoService.GetAllBeamInfo(outline, floor);
-                using (AcadDatabase acdb = AcadDatabase.Active())
-                {
-                    foreach (var beam in beams)
-                    {
-                        //acdb.ModelSpace.Add(lineBeam.BeamBoundary);
-                    }
-                }
 
                 // 获取柱信息
                 List<Polyline> columnPolys = room.Columns
                     .SelectMany(x => x.Properties.Values)
                     .Cast<Polyline>().ToList();
 
+                // 由于存在绘图不规范，梁线和柱线没有在“几何”意义上搭接起来
+                // 为了处理这样的情况，这里采用了“Dissolve（溶解）”的思路
+                // 通过扩大梁的范围使梁和柱搭接起来
                 List<Polyline> polys = GeUtils.ExtendPolygons(beams, 20);
                 polys.AddRange(columnPolys);
 
-                // 根据房间分割区域
+                // 在房间区域内按照梁和柱的搭接关系，分割房间区域
                 RegionDivisionByBeamUtils regionDivision = new RegionDivisionByBeamUtils();
                 var respolys = regionDivision.DivisionRegion(outline, polys);
-                using (AcadDatabase acdb = AcadDatabase.Active())
-                {
-                    foreach (var poly in respolys)
-                    {
-                        //acdb.ModelSpace.Add(poly);
-                    }
-                }
 
+                // 为每一个分割后的“子区域”布置喷头
                 foreach (var poly in respolys)
                 {
                     RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
