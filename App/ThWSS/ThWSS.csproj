@@ -56,7 +56,6 @@
     <Compile Include="..\TopoNode\Utils.cs">
       <Link>Topology\Utils.cs</Link>
     </Compile>
-    <Compile Include="Beam\ThBeamDbManager.cs" />
     <Compile Include="Beam\ThBeamGeometryService.cs" />
     <Compile Include="Beam\ThBeamLayerManager.cs" />
     <Compile Include="Bussiness\CalBeamInfoService.cs" />
@@ -68,7 +67,6 @@
     <Compile Include="Bussiness\SprayLayout\SprayLayoutDataUtils.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutNoBeamService.cs" />
     <Compile Include="Bussiness\SprayLayout\SprayLayoutData.cs" />
-    <Compile Include="Column\ThColumnDbManager.cs" />
     <Compile Include="Column\ThColumnGeometryService.cs" />
     <Compile Include="Column\ThColumnLayerManager.cs" />
     <Compile Include="Config\ConfigHelper.cs" />

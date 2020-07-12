@@ -280,15 +280,17 @@ namespace ThWSS
                 return;
             }
 
-            using (ThBeamDbManager beamManager = new ThBeamDbManager(Active.Database))
-            using (AcadDatabase acdb = AcadDatabase.Active())
+            using (var explodeManager = new ThSprayDbExplodeManager(Active.Database))
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(acdb.Database, pline);
+                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(Active.Database, pline);
                 var beams = thDisBeamCommand.CalBeamStruc(beamCurves);
-                foreach (var beam in beams)
+                using (var acadDatabase = AcadDatabase.Active())
                 {
-                    acdb.ModelSpace.Add(beam.BeamBoundary);
+                    foreach (var beam in beams)
+                    {
+                        acadDatabase.ModelSpace.Add(beam.BeamBoundary);
+                    }
                 }
             }
         }
@@ -335,7 +337,14 @@ namespace ThWSS
                 }
 
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                thDisBeamCommand.CalBeamStruc(dBObjects);
+                var beams = thDisBeamCommand.CalBeamStruc(dBObjects);
+                using (var acadDatabase = AcadDatabase.Active())
+                {
+                    foreach (var beam in beams)
+                    {
+                        acadDatabase.ModelSpace.Add(beam.BeamBoundary);
+                    }
+                }
             }
         }
 
