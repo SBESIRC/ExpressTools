@@ -4,6 +4,7 @@ using ThWSS.Utlis;
 using System.Linq;
 using ThWSS.Layout;
 using ThCADCore.NTS;
+using TopoNode.Progress;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -21,14 +22,20 @@ namespace ThWSS.Bussiness
         {
             foreach (var outline in room.Properties.Values.Cast<Polyline>())
             {
-                // 获取梁信息
+                // 显示进度条窗口
+                Progress.ShowProgress();
+
+                // 提取梁信息
+                Progress.SetValue(0);
+                Progress.SetTip("开始提取梁信息...");
                 CalBeamInfoService beamInfoService = new CalBeamInfoService();
                 List<Polyline> beams = beamInfoService.GetAllBeamInfo(outline, floor);
 
-                // 获取柱信息
-                List<Polyline> columnPolys = room.Columns
-                    .SelectMany(x => x.Properties.Values)
-                    .Cast<Polyline>().ToList();
+                // 提取柱信息
+                Progress.SetValue(2000);
+                Progress.SetTip("开始提取柱信息...");
+                CalColumnInfoService columnInfoService = new CalColumnInfoService();
+                List<Polyline> columnPolys = columnInfoService.GetAllColumnInfo(outline, floor);
 
                 // 由于存在绘图不规范，梁线和柱线没有在“几何”意义上搭接起来
                 // 为了处理这样的情况，这里采用了“Dissolve（溶解）”的思路
@@ -37,14 +44,16 @@ namespace ThWSS.Bussiness
                 polys.AddRange(columnPolys);
 
                 // 在房间区域内按照梁和柱的搭接关系，分割房间区域
+                Progress.SetValue(4000);
+                Progress.SetTip("开始分割区域...");
                 RegionDivisionByBeamUtils regionDivision = new RegionDivisionByBeamUtils();
                 var respolys = regionDivision.DivisionRegion(outline, polys);
 
                 // 为每一个分割后的“子区域”布置喷头
+                Progress.SetValue(6000);
+                Progress.SetTip("开始布置喷头...");
                 foreach (var poly in respolys)
                 {
-                    RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
-
                     //处理小的凹边
                     var polyBounding = GeUtils.CreateConvexPolygon(poly, 1500);
 
@@ -52,6 +61,7 @@ namespace ThWSS.Bussiness
                     polyBounding = GeUtils.ReovePointOnLine(new List<Polyline>() { polyBounding }, new Tolerance(0.1, 0.1)).First();
 
                     //区域分割
+                    RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
                     var diviRooms = regionDivisionUtils.DivisionRegion(polyBounding);
                     var validDiviRooms = diviRooms.Where(o => !regionDivisionUtils.CalInvalidPolygon(o)).ToList();
                     using (AcadDatabase acadDatabase = AcadDatabase.Active())
@@ -92,14 +102,6 @@ namespace ThWSS.Bussiness
                     {
                         // 计算房间内的所有喷淋的保护半径
                         var radiis = SprayLayoutDataUtils.Radii(allSprays);
-                        //using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                        //{
-                        //    foreach (Entity ent in radiis)
-                        //    {
-                        //        ent.ColorIndex = 2;
-                        //        acadDatabase.ModelSpace.Add(ent);
-                        //    }
-                        //}
 
                         //根据房间面积和喷淋的保护半径，计算保护盲区
                         var blindRegions = poly.Difference(radiis);
@@ -127,8 +129,14 @@ namespace ThWSS.Bussiness
                         //放置喷头
                         var spraType = layoutModel.sprayType == 0 ? SprayType.SPRAYUP : SprayType.SPRAYDOWN;
                         InsertSprayService.InsertSprayBlock(allSprays.Select(o => o.Position).ToList(), spraType);
+
+                        // 更新进度条窗口状态
+                        Progress.SetValue(6000 + 4000 / respolys.Count * respolys.IndexOf(poly));
                     }
                 }
+
+                // 隐藏进度条窗口
+                Progress.HideProgress();
             }
         }
     }

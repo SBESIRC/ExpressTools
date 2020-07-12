@@ -268,17 +268,6 @@ namespace ThWSS.Engine
                             { string.Format("ThRoom{0}", roomIndex++), frame }
                         }
                     };
-
-                    // 获取房间内的柱
-                    using (var columnEngine = new ThColumnRecognitionEngine())
-                    {
-                        columnEngine.Acquire(database, floor, new DBObjectCollection()
-                        {
-                            frame,
-                        });
-                        thRoom.Columns = columnEngine.Elements;
-                    }
-
                     Elements.Add(thRoom);
                 }
             }
