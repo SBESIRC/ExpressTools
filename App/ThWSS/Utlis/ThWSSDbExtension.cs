@@ -1,7 +1,7 @@
 ﻿using Linq2Acad;
 using DotNetARX;
 using System.Linq;
-using GeometryExtensions;
+using ThCADCore.NTS;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThWSS.Utlis
@@ -21,8 +21,23 @@ namespace ThWSS.Utlis
                 var curve = acadDatabase.Element<Curve>(plineId);
                 if (curve is Polyline pline)
                 {
-                    var segments = new PolylineSegmentCollection(pline);
-                    return segments.ToPolyline();
+                    var objs = new DBObjectCollection();
+                    pline.Explode(objs);
+                    var outlines = objs.Polygons();
+                    if (outlines.Count == 1)
+                    {
+                        return outlines[0] as Polyline;
+                    }
+                    else if (outlines.Count > 1)
+                    {
+                        // 自交的多段线会形成多个多边形
+                        // 暂时不考虑这种复杂的多段线
+                        return null;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
                 else
                 {
