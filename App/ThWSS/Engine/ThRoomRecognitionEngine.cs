@@ -13,6 +13,7 @@ namespace ThWSS.Engine
     public class ThRoomRecognitionEngine : ThModeltRecognitionEngine, IDisposable
     {
         public override List<ThModelElement> Elements { get; set; }
+        public List<ThRoom> Rooms => Elements.Where(o => o is ThRoom).Cast<ThRoom>().ToList();
 
         /// <summary>
         /// 构造函数

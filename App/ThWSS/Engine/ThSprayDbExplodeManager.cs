@@ -14,7 +14,6 @@ namespace ThWSS
         private Database HostDb { get; set; }
         private List<Entity> Entities { get; set; }
         private ObjectIdCollection BeamCurves { get; set; }
-        private ObjectIdCollection BeamAnnotations { get; set; }
         private ObjectIdCollection ColumnCurves { get; set; }
 
         /// <summary>
@@ -43,7 +42,6 @@ namespace ThWSS
             Explode();
             BeamCurves = AddBeamCurvesToDatabase();
             ColumnCurves = AddColumnCurvesToDatabase();
-            BeamAnnotations = AddBeamAnnotationsToDatabase();
         }
 
         /// <summary>
@@ -53,7 +51,6 @@ namespace ThWSS
         {
             HostDb.EraseObjs(BeamCurves);
             HostDb.EraseObjs(ColumnCurves);
-            HostDb.EraseObjs(BeamAnnotations);
         }
 
         private void Explode()
@@ -68,25 +65,6 @@ namespace ThWSS
                 var geometryLayers = ThBeamLayerManager.GeometryLayers(this.HostDb);
                 var entities = ThStructureUtils.FilterCurveByLayers(Entities, geometryLayers);
                 foreach(var entity in entities)
-                {
-                    Entities.Remove(entity);
-                }
-                var objs = new ObjectIdCollection();
-                foreach (var entity in entities)
-                {
-                    objs.Add(acadDatabase.ModelSpace.Add(entity));
-                }
-                return objs;
-            }
-        }
-
-        private ObjectIdCollection AddBeamAnnotationsToDatabase()
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(this.HostDb))
-            {
-                var annotationLayers = ThBeamLayerManager.AnnotationLayers(this.HostDb);
-                var entities = ThStructureUtils.FilterAnnotationByLayers(Entities, annotationLayers);
-                foreach (var entity in entities)
                 {
                     Entities.Remove(entity);
                 }

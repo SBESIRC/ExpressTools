@@ -1,7 +1,5 @@
 ﻿using ThWSS.Model;
-using System.Linq;
 using ThWSS.Bussiness;
-using Dreambuild.AutoCAD;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThWSS.Engine
@@ -26,11 +24,13 @@ namespace ThWSS.Engine
         /// <param name="fire"></param>
         public void Layout(Database database, Polyline floor, ObjectIdCollection frames, SprayLayoutModel layoutModel)
         {
-            using (var roomEngine = new ThRoomRecognitionEngine())
             using (var explodeManager = new ThSprayDbExplodeManager(database))
             {
-                roomEngine.Acquire(database, floor, frames);
-                roomEngine.Elements.Where(x => x is ThRoom).Cast<ThRoom>().ForEach(o => DoLayout(o, floor, layoutModel));
+                using (var roomEngine = new ThRoomRecognitionEngine())
+                {
+                    roomEngine.Acquire(database, floor, frames);
+                    roomEngine.Rooms.ForEach(o => DoLayout(o, floor, layoutModel));
+                }
             }
         }
 
