@@ -6119,6 +6119,7 @@ namespace TopoNode
                 if (relatedCurves == null || relatedCurves.Count == 0)
                     continue;
 
+                relatedCurves = CommonUtils.RemoveCollinearLines(relatedCurves);
                 //Utils.DrawLineSegments(doorBound, "doorBound");
                 // 根据相关数据进行连接处理
                 // 收尾相连且共线的线段进行合并直线处理
@@ -6207,6 +6208,8 @@ namespace TopoNode
                 if (arcCount != relatedCurves.Count())
                 {
                     var combineCurves = CombineCollinearLines(lines);
+                    if (combineCurves == null || combineCurves.Count == 0)
+                        continue;
                     var insertCurves = InsertConnectCurves(combineCurves, doorBound, layer);
                     if (insertCurves != null && insertCurves.Count != 0)
                     {

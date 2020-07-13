@@ -1292,7 +1292,7 @@ namespace TopoNode
             // 包含column
             var columnScatterCurves = scatterCurves.Where(p =>
             {
-                if (p.Layer.Contains("colu"))
+                if (p.Layer.ToUpper().Contains("COLU"))
                     return true;
                 return false;
             }).ToList();

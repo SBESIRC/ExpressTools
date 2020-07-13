@@ -34,9 +34,11 @@ namespace ThWSS.Engine
         {
             using (var acadDatabase = AcadDatabase.Active())
             {
+                var plBack = acadDatabase.Element<Polyline>(frame).Clone() as Polyline;
+                plBack.Closed = true;
                 var selectPLines = new List<Polyline>()
                 {
-                    acadDatabase.Element<Polyline>(frame, true),
+                    plBack
                 };
 
                 var extendLength = 100;
