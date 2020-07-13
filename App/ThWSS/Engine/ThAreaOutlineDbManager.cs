@@ -1,7 +1,8 @@
 ﻿using System;
+using ThWSS.Utlis;
+using ThStructure.BeamInfo.Utils;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
-using ThStructure.BeamInfo.Utils;
 
 namespace ThWSS.Engine
 {
@@ -45,7 +46,7 @@ namespace ThWSS.Engine
         /// </summary>
         public void PostProcess()
         {
-            TopoNode.Utils.PostProcess(Geometries);
+            HostDb.EraseObjs(Geometries);
         }
     }
 }

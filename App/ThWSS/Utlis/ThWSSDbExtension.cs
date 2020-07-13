@@ -1,5 +1,6 @@
 ﻿using Linq2Acad;
 using DotNetARX;
+using System.Linq;
 using GeometryExtensions;
 using Autodesk.AutoCAD.DatabaseServices;
 
@@ -73,6 +74,27 @@ namespace ThWSS.Utlis
                 LayerTools.SetLayerColor(database, ThWSSCommon.SprayLayoutRegionLayer, 52);
                 return objId;
             }
+        }
+
+        public static void EraseObjs(this Database database, ObjectIdCollection objs)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                foreach (ObjectId obj in objs)
+                {
+                    if (!obj.IsErased)
+                    {
+                        // 删除数据清理过程中临时“炸”到当前图纸中的对象
+                        // 对于“炸”到锁定图层上的对象，我们仍然需要将他们删除
+                        acadDatabase.Element<Entity>(obj, true, true).Erase();
+                    }
+                }
+            }
+
+            // A collection of object ids whose memory is to be reclaimed by deleting their objects.
+            // All object ids in the collection must correspond to erased objects, which must be entirely closed
+            var ids = objs.Cast<ObjectId>().Where(o => o.IsErased).ToArray();
+            database.ReclaimMemoryFromErasedObjects(new ObjectIdCollection(ids));
         }
     }
 }
