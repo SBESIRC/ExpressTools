@@ -49,7 +49,7 @@ namespace ThSitePlan.Engine
                     itemworker.DoProcess(database, configItem, newoptions);
                 }
             }
-            else if (scriptId == "4")
+            else if (scriptId == "4" || scriptId == "5")
             {
                 using (AcadDatabase acadDatabase = AcadDatabase.Active())
                 {

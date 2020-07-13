@@ -6,6 +6,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
 using NFox.Cad.Collections;
 using Linq2Acad;
+using DotNetARX;
 
 namespace ThSitePlan.Engine
 {
@@ -71,14 +72,23 @@ namespace ThSitePlan.Engine
 
                     // 执行CIRCLE命令种树
                     int i = 0;
+                    ObjectIdCollection plantids = new ObjectIdCollection();
                     foreach (ObjectId pt in objs)
                     {
                         if (++i % Properties.Settings.Default.PlantDensity != 0)
                         {
                             var center = acadDatabase.Element<DBPoint>(pt).Position;
-                            Active.Editor.CircleCmd(center, Properties.Settings.Default.PlantRadius);
+
+                            Circle plantcircle = new Circle()
+                            {
+                                Center = acadDatabase.Element<DBPoint>(pt).Position,
+                                Radius = Properties.Settings.Default.PlantRadius
+                            };
+                            plantids.Add(acadDatabase.ModelSpace.Add(plantcircle));
+                            plantcircle.LayerId = LayerTools.AddLayer(acadDatabase.Database, ThSitePlanCommon.LAYER_TREE);
                         }
                     }
+                    Active.Editor.SuperBoundaryCmd(plantids);
                 }
 
                 return true;

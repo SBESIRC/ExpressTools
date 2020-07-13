@@ -51,6 +51,13 @@ namespace ThSitePlan.Engine
                     }
                 }
 
+                //对于自己生成的种树色块，在生成阴影后不执行删除现有色块操作
+                var scriptId = configItem.Properties["CADScriptID"].ToString();
+                if (scriptId == "5")
+                {
+                    return true;
+                }
+
                 // 删除原目标填充
                 // 这里利用了CAD的一个Bug：
                 //  用代码新创建的对象，不能立即被Editor.SelectXX()选中；用命令新创建的对象却可以

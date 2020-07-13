@@ -25,6 +25,7 @@ namespace ThSitePlan
         public static readonly string LAYER_PAVE_OUTD = "P-AI-pavement";
         public static readonly string LAYER_GREEN_WATER = "P-GREN-WATER";
         public static readonly string LAYER_GREEN_LANDSP = "P-AI-landscape";
+        public static readonly string LAYER_TREE = "P-AI-tree";
         // 由于方案图纸的单位是米（m），设置0.1米作为种子点的偏移量
         public static readonly double seed_point_offset = 30;
         public static readonly double overkill_tolerance = 0.001;
