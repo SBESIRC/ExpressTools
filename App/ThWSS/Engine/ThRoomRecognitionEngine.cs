@@ -208,8 +208,9 @@ namespace ThWSS.Engine
                             thRoom.Columns = new List<ThModelElement>();
                             foreach (var plineDic in aimProfile.InnerPolylineLayers)
                             {
-                                if (plineDic.profileLayers.Where(x => x.ToUpper().Contains("S_COLU")).Count() > 0)
+                                if (plineDic.profileLayers.Where(x => x.ToUpper().Contains("COLU")).Count() > 0)
                                 {
+                                    Utils.DrawProfile(new List<Curve>() { plineDic.profile }, "inner");
                                     ThColumn thColumn = new ThColumn()
                                     {
                                         Properties = new Dictionary<string, object>()
