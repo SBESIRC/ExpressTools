@@ -109,7 +109,10 @@ namespace ThWSS.Utlis
             // A collection of object ids whose memory is to be reclaimed by deleting their objects.
             // All object ids in the collection must correspond to erased objects, which must be entirely closed
             var ids = objs.Cast<ObjectId>().Where(o => o.IsErased).ToArray();
-            database.ReclaimMemoryFromErasedObjects(new ObjectIdCollection(ids));
+            if (ids.Count() > 0)
+            {
+                database.ReclaimMemoryFromErasedObjects(new ObjectIdCollection(ids));
+            }
         }
     }
 }
