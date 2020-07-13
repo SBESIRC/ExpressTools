@@ -15,6 +15,8 @@ namespace TianHua.FanSelection.UI
     {
         public FanDataModel m_Fan = new FanDataModel();
 
+        public List<FanDataModel> m_ListFan = new List<FanDataModel>();
+
         public fmFanModel()
         {
             InitializeComponent();
@@ -26,9 +28,10 @@ namespace TianHua.FanSelection.UI
         }
 
 
-        public void InitForm(FanDataModel _FanDataModel)
+        public void InitForm(FanDataModel _FanDataModel,List<FanDataModel> _ListFan)
         {
             m_Fan = _FanDataModel;
+            m_ListFan = _ListFan;
             if (FuncStr.NullToStr(_FanDataModel.VentStyle) == "轴流")
             {
                 layouLX.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
@@ -43,8 +46,8 @@ namespace TianHua.FanSelection.UI
 
             LabModelNum.Text = _FanDataModel.FanModelNum;
             LabCCFC.Text = _FanDataModel.FanModelCCCF;
-            LabAir.Text = _FanDataModel.FanModelAirVolume;
-            LabPa.Text = _FanDataModel.FanModelPa;
+            LabAir.Text = FuncStr.NullToStr( _FanDataModel.AirVolume);
+            LabPa.Text = FuncStr.NullToStr(_FanDataModel.WindResis);
             LabMotorPower.Text = _FanDataModel.FanModelMotorPower;
             LabNoise.Text = _FanDataModel.FanModelNoise;
             LabFanSpeed.Text = _FanDataModel.FanModelFanSpeed;
@@ -64,8 +67,32 @@ namespace TianHua.FanSelection.UI
             CheckFrequency.EditValue = _FanDataModel.IsFre;
             RGroupPower.EditValue = _FanDataModel.PowerType;
 
+            if (FuncStr.NullToStr(_FanDataModel.Scenario).Contains("消防") || FuncStr.NullToStr(_FanDataModel.Scenario).Contains("事故"))
+            {
+                RGroupPower.Enabled = false;
+            }
+            else
+            {
+                RGroupPower.Enabled = true;
+            }
+     
 
 
+            if (_FanDataModel.Scenario == "平时送风" || _FanDataModel.Scenario == "平时排风")
+            {
+                var _List = _ListFan.FindAll(p => p.PID == _FanDataModel.ID);
+                if(_List != null && _List.Count > 0)
+                {
+                    RGroupFanControl.EditValue = "双速";
+
+                    RGroupFanControl.Enabled = false;
+                }
+                else
+                {
+                    RGroupFanControl.Enabled = true;
+                }
+
+            }
 
         }
 
@@ -75,9 +102,9 @@ namespace TianHua.FanSelection.UI
             m_Fan.FanModelCCCF = FuncStr.NullToStr(LabCCFC.Text);
 
 
-            m_Fan.FanModelAirVolume = FuncStr.NullToStr(LabAir.Text);
+            m_Fan.AirVolume = FuncStr.NullToInt(LabAir.Text);
 
-            m_Fan.FanModelPa = FuncStr.NullToStr(LabPa.Text);
+            m_Fan.WindResis = FuncStr.NullToInt(LabPa.Text);
 
             m_Fan.FanModelMotorPower = FuncStr.NullToStr(LabMotorPower.Text);
             m_Fan.FanModelNoise = FuncStr.NullToStr(LabNoise.Text);
@@ -102,6 +129,20 @@ namespace TianHua.FanSelection.UI
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void RGroupFanControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(FuncStr.NullToStr(RGroupFanControl.EditValue) == "单速")
+            {
+                CheckFrequency.Enabled = true;
+            }
+            else
+            {
+                CheckFrequency.Checked = false;
+                CheckFrequency.Enabled = false;
+            }
 
         }
     }
