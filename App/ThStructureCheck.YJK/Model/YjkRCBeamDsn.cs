@@ -43,9 +43,9 @@ namespace ThStructureCheck.YJK.Model
             get
             {
                 List<double> datas = new List<double>();
-                if(!string.IsNullOrEmpty(this.AsTop))
+                if(!string.IsNullOrEmpty(this.Asv))
                 {
-                    string[] values = this.AsTop.Split(',');
+                    string[] values = this.Asv.Split(',');
                     foreach (string value in values)
                     {
                         datas.Add(Convert.ToDouble(value));
