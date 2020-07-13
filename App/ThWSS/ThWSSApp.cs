@@ -219,7 +219,7 @@ namespace ThWSS
             }
 
             // 先获取现有的面积框线
-            var outlines = new ObjectIdCollection();
+            var frames = new ObjectIdCollection();
             var filterlist = OpFilter.Bulid(o =>
                 o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
                 o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
@@ -232,7 +232,7 @@ namespace ThWSS
             {
                 foreach (ObjectId obj in result.Value.GetObjectIds())
                 {
-                    outlines.Add(obj);
+                    frames.Add(obj);
                 }
             }
 
@@ -243,19 +243,22 @@ namespace ThWSS
             using (var outlineManager = new ThAreaOutlineDbManager(Active.Database))
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                var frames = new DBObjectCollection();
-                foreach (ObjectId obj in outlines)
+                var outlines = new DBObjectCollection();
+                foreach (ObjectId obj in frames)
                 {
-                    frames.Add(acadDatabase.Element<Polyline>(obj));
+                    outlines.Add(acadDatabase.Element<Polyline>(obj));
                 }
 
+                var newOutlines = new DBObjectCollection();
                 foreach (ObjectId obj in outlineManager.Geometries)
                 {
                     var outline = acadDatabase.Database.AreaOutline(obj);
                     if (outline != null && 
                         pline.Contains(outline) && 
-                        !frames.ContainsDuplication(outline))
+                        !outlines.ContainsDuplication(outline) &&
+                        !newOutlines.ContainsDuplication(outline))
                     {
+                        newOutlines.Add(outline);
                         acadDatabase.ModelSpace.Add(outline);
                         outline.ColorIndex = 70;
                         outline.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
