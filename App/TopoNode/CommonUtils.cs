@@ -867,7 +867,7 @@ namespace TopoNode
         {
             foreach (var edge in innerProfile)
             {
-                var pt = edge.Start;
+                var pt = edge.Start + new Vector3d(0, 0.001, 0);
                 if (!PtInLoop(outerprofile, pt))
                 {
                     return false;
