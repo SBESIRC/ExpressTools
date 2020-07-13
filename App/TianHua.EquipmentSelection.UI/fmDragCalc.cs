@@ -95,11 +95,21 @@ namespace TianHua.FanSelection.UI
             }
             if (_Fan.DuctResistance > 0 && _Fan.Damper > 0 && _Fan.DynPress > 0)
             {
-
-                _Fan.WindResis = FuncStr.NullToInt((_Fan.DuctResistance + _Fan.Damper + _Fan.DynPress) * 1.1);
-
+                var _Tmp = FuncStr.NullToInt((_Fan.DuctResistance + _Fan.Damper) * 1.1 + _Fan.DynPress);
+                var _UnitsDigit = FindNum(_Tmp, 1);
+                if (_UnitsDigit != 0)
+                {
+                    _Tmp = _Tmp + 10 - _UnitsDigit;
+                }
+                _Fan.WindResis = _Tmp;
                 Gdv.RefreshData();
             }
+        }
+
+        public int FindNum(int _Num, int _N)
+        {
+            int _Power = (int)Math.Pow(10, _N);
+            return (_Num - _Num / _Power * _Power) * 10 / _Power;
         }
     }
 }

@@ -95,5 +95,11 @@ namespace ThSitePlan.Configuration
         {
             Properties.Settings.Default.Save();
         }
+
+
+        public void DefaultReset()
+        {
+            Properties.Settings.Default.Reset();
+        }
     }
 }

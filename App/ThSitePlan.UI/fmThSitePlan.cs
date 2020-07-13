@@ -31,7 +31,13 @@ namespace ThSitePlan.UI
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Reset();
+            ThSitePlanSettingsService.Instance.DefaultReset();
+
+            this.TxtShadowAngle.Text = FuncStr.NullToStr(ThSitePlanSettingsService.Instance.ShadowAngle);
+            this.TxtShadowLength.Text = FuncStr.NullToStr(ThSitePlanSettingsService.Instance.ShadowLengthScale);
+            this.TxtTreeRadius.Text = FuncStr.NullToStr(ThSitePlanSettingsService.Instance.PlantRadius);
+            this.TxtTreeDensity.Text = FuncStr.NullToStr(ThSitePlanSettingsService.Instance.PlantDensity);
+            this.TxtWorkPath.Text = ThSitePlanSettingsService.Instance.OutputPath;
         }
 
         private void BtnConfirm_Click(object sender, EventArgs e)

@@ -36,6 +36,7 @@
             this.BarBtnSave = new DevExpress.XtraBars.BarButtonItem();
             this.BarBtnSaveAs = new DevExpress.XtraBars.BarButtonItem();
             this.BarBtnExportFanPara = new DevExpress.XtraBars.BarButtonItem();
+            this.BarBtnExportFanCalc = new DevExpress.XtraBars.BarButtonItem();
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
@@ -118,7 +119,7 @@
             this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.BarBtnExportFanCalc = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnNew = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.BarManager)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
@@ -173,9 +174,10 @@
             this.BarBtnExportFanPara,
             this.barSubItem1,
             this.barButtonItem1,
-            this.BarBtnExportFanCalc});
+            this.BarBtnExportFanCalc,
+            this.barBtnNew});
             this.BarManager.MainMenu = this.bar2;
-            this.BarManager.MaxItemId = 7;
+            this.BarManager.MaxItemId = 8;
             // 
             // bar2
             // 
@@ -185,6 +187,7 @@
             this.bar2.DockRow = 0;
             this.bar2.DockStyle = DevExpress.XtraBars.BarDockStyle.Top;
             this.bar2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barBtnNew),
             new DevExpress.XtraBars.LinkPersistInfo(this.BarBtnOpen),
             new DevExpress.XtraBars.LinkPersistInfo(this.BarBtnSave),
             new DevExpress.XtraBars.LinkPersistInfo(this.BarBtnSaveAs),
@@ -237,6 +240,16 @@
             this.BarBtnExportFanPara.Name = "BarBtnExportFanPara";
             this.BarBtnExportFanPara.PaintStyle = DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph;
             this.BarBtnExportFanPara.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.BarBtnExportFanPara_ItemClick);
+            // 
+            // BarBtnExportFanCalc
+            // 
+            this.BarBtnExportFanCalc.Caption = "导出风机计算书";
+            this.BarBtnExportFanCalc.Id = 6;
+            this.BarBtnExportFanCalc.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BarBtnExportFanCalc.ImageOptions.Image")));
+            this.BarBtnExportFanCalc.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("BarBtnExportFanCalc.ImageOptions.LargeImage")));
+            this.BarBtnExportFanCalc.Name = "BarBtnExportFanCalc";
+            this.BarBtnExportFanCalc.PaintStyle = DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph;
+            this.BarBtnExportFanCalc.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.BarBtnExportFanCalc_ItemClick);
             // 
             // barDockControlTop
             // 
@@ -671,6 +684,8 @@
             // TxtAirVolume
             // 
             this.TxtAirVolume.AutoHeight = false;
+            this.TxtAirVolume.ContextImageOptions.Alignment = DevExpress.XtraEditors.ContextImageAlignment.Far;
+            this.TxtAirVolume.ContextImageOptions.SvgImage = global::TianHua.FanSelection.UI.Properties.Resources.计算器;
             this.TxtAirVolume.Mask.EditMask = "[1-9]\\d*";
             this.TxtAirVolume.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtAirVolume.Name = "TxtAirVolume";
@@ -740,6 +755,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.ComBoxVentStyle.Name = "ComBoxVentStyle";
             this.ComBoxVentStyle.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.ComBoxVentStyle.EditValueChanged += new System.EventHandler(this.ComBoxVentStyle_EditValueChanged);
             // 
             // treeListBand10
             // 
@@ -1199,15 +1215,15 @@
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
-            // BarBtnExportFanCalc
+            // barBtnNew
             // 
-            this.BarBtnExportFanCalc.Caption = "导出风机计算书";
-            this.BarBtnExportFanCalc.Id = 6;
-            this.BarBtnExportFanCalc.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BarBtnExportFanCalc.ImageOptions.Image")));
-            this.BarBtnExportFanCalc.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("BarBtnExportFanCalc.ImageOptions.LargeImage")));
-            this.BarBtnExportFanCalc.Name = "BarBtnExportFanCalc";
-            this.BarBtnExportFanCalc.PaintStyle = DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph;
-            this.BarBtnExportFanCalc.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.BarBtnExportFanCalc_ItemClick);
+            this.barBtnNew.Caption = "新建";
+            this.barBtnNew.Id = 7;
+            this.barBtnNew.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barBtnNew.ImageOptions.Image")));
+            this.barBtnNew.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barBtnNew.ImageOptions.LargeImage")));
+            this.barBtnNew.Name = "barBtnNew";
+            this.barBtnNew.PaintStyle = DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph;
+            this.barBtnNew.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnNew_ItemClick);
             // 
             // fmFanSelection
             // 
@@ -1358,5 +1374,6 @@
         private DevExpress.XtraBars.BarSubItem barSubItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarButtonItem BarBtnExportFanCalc;
+        private DevExpress.XtraBars.BarButtonItem barBtnNew;
     }
 }

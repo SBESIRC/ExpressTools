@@ -228,7 +228,7 @@ namespace TianHua.FanSelection.UI
             if (_Fan == null) { return; }
 
             fmFanModel _fmFanModel = new fmFanModel();
-            _fmFanModel.InitForm(_Fan);
+            _fmFanModel.InitForm(_Fan, m_ListFan);
             if (_fmFanModel.ShowDialog() == DialogResult.OK)
             {
                 if (_fmFanModel.m_Fan != null)
@@ -242,18 +242,18 @@ namespace TianHua.FanSelection.UI
         {
             var _Fan = TreeList.GetFocusedRow() as FanDataModel;
             if (_Fan == null) { return; }
-            if (e.Column.FieldName == "VentStyle")
-            {
-                if (FuncStr.NullToStr(_Fan.VentStyle) == "轴流")
-                {
-                    _Fan.VentConnect = "直连";
-                    _Fan.IntakeForm = "直进式";
-                    TreeList.Refresh();
-                }
+            //if (e.Column.FieldName == "VentStyle")
+            //{
+            //    if (FuncStr.NullToStr(_Fan.VentStyle) == "轴流")
+            //    {
+            //        _Fan.VentConnect = "直连";
+            //        _Fan.IntakeForm = "直进式";
+            //        TreeList.Refresh();
+            //    }
 
 
-                SetFanModel();
-            }
+            //    SetFanModel();
+            //}
 
             if (e.Column.FieldName == "VentNum")
             {
@@ -300,6 +300,24 @@ namespace TianHua.FanSelection.UI
 
             if (e.Column.FieldName == "AirVolume")
             {
+                var _Rem = FuncStr.NullToInt(e.Value) % 50;
+                if (_Rem != 0)
+                {
+                    var _UnitsDigit = FindNum(FuncStr.NullToInt(e.Value), 1);
+
+                    var _TensDigit = FindNum(FuncStr.NullToInt(e.Value), 2);
+
+                    var _Tmp = FuncStr.NullToInt(_TensDigit.ToString() + _UnitsDigit.ToString());
+
+                    if (_Tmp < 50)
+                        _Fan.AirVolume = FuncStr.NullToInt(FuncStr.NullToStr(e.Value).Replace(FuncStr.NullToStr(_Tmp), "50"));
+                    else
+                    {
+                        var _DifferenceValue = 100 - _Tmp;
+                        _Fan.AirVolume = FuncStr.NullToInt(e.Value) + _DifferenceValue;
+                    }
+                }
+
 
                 SetFanModel();
             }
@@ -312,6 +330,7 @@ namespace TianHua.FanSelection.UI
             if (TreeList == null) { return; }
             var _Fan = TreeList.GetFocusedRow() as FanDataModel;
             if (_Fan == null) { return; }
+            if (_Fan.AirVolume == 0 || _Fan.WindResis == 0) { return; }
             if (FuncStr.NullToStr(_Fan.AirVolume) == string.Empty || FuncStr.NullToStr(_Fan.VentStyle) == string.Empty || FuncStr.NullToStr(_Fan.WindResis) == string.Empty)
             {
                 ClearFanModel(_Fan);
@@ -531,8 +550,21 @@ namespace TianHua.FanSelection.UI
 
             TreeList.ActiveFilterString = _FilterString;
 
+            if (m_ListFan == null) { m_ListFan = new List<FanDataModel>(); }
 
+            if (m_ListFan == null || m_ListFan.Count == 0)
+            {
+                BtnAdd_Click(null, null);
+                return;
+            }
 
+            var _List = m_ListFan.FindAll(p => p.Scenario == FuncStr.NullToStr(ComBoxScene.EditValue));
+
+            if (_List == null || _List.Count == 0)
+            {
+                BtnAdd_Click(null, null);
+                return;
+            }
         }
 
         private void PictAddAuxiliary_Click(object sender, EventArgs e)
@@ -563,6 +595,7 @@ namespace TianHua.FanSelection.UI
                 _FanDataModel.MountType = "-";
                 m_ListFan.Add(_FanDataModel);
             }
+            _Fan.Control = "双速";
             TreeList.RefreshDataSource();
             this.TreeList.ExpandAll();
         }
@@ -643,6 +676,8 @@ namespace TianHua.FanSelection.UI
             _FanDataModel.MotorTempo = 1450;
             _FanDataModel.FanModelName = string.Empty;
             _FanDataModel.MountType = "吊装";
+            _FanDataModel.Control = "单速";
+            _FanDataModel.PowerType = "普通";
             _FanDataModel.SortID = m_ListFan.Count + 1;
             var _FanPrefixDict = PubVar.g_ListFanPrefixDict.Find(s => s.FanUse == _FanDataModel.Scenario);
             if (_FanPrefixDict != null)
@@ -653,7 +688,7 @@ namespace TianHua.FanSelection.UI
             {
                 _FanDataModel.Remark = "消防兼用";
                 _FanDataModel.Use = "消防排烟";
-
+                _FanDataModel.Control = "双速";
                 AddAuxiliary(_FanDataModel);
             }
 
@@ -661,8 +696,20 @@ namespace TianHua.FanSelection.UI
             {
                 _FanDataModel.Remark = "事故兼用";
                 _FanDataModel.Use = "事故排风";
-
+                _FanDataModel.Control = "双速";
                 AddAuxiliary(_FanDataModel);
+            }
+
+            if (FuncStr.NullToStr(_FanDataModel.Scenario).Contains("消防"))
+            {
+                _FanDataModel.PowerType = "消防";
+                _FanDataModel.VentStyle = "轴流";
+                _FanDataModel.VentConnect = "直连";
+                _FanDataModel.IntakeForm = "直进式";
+            }
+            if (FuncStr.NullToStr(_FanDataModel.Scenario).Contains("事故"))
+            {
+                _FanDataModel.PowerType = "事故";
             }
 
             m_ListFan.Add(_FanDataModel);
@@ -718,26 +765,52 @@ namespace TianHua.FanSelection.UI
             TreeList.PostEditor();
             var _Fan = TreeList.GetFocusedRow() as FanDataModel;
             if (_Fan == null || TreeList.FocusedNode == null) { return; }
-            if (XtraMessageBox.Show(" 已插入图纸的风机图块也将被删除，是否继续？ ", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (_Fan.Scenario == "平时送风" || _Fan.Scenario == "平时排风")
             {
                 if (_Fan.PID == "0")
                 {
-                    TreeList.DeleteSelectedNodes();
+                    if (XtraMessageBox.Show(" 已插入图纸的风机图块也将被删除，是否继续？ ", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        TreeList.DeleteSelectedNodes();
+                    }
                 }
                 else
                 {
-                    TreeList.DeleteSelectedNodes();
-                    var _MainFan = m_ListFan.Find(p => p.ID == _Fan.PID);
-                    if (_MainFan != null)
+                    if (XtraMessageBox.Show(" 是否确认删除低速工况？ ", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        m_ListFan.Remove(_MainFan);
-                        TreeList.RefreshDataSource();
-                        this.TreeList.ExpandAll();
+                        TreeList.DeleteSelectedNodes();
                     }
                 }
 
+            }
+            else
+            {
+                if (XtraMessageBox.Show(" 已插入图纸的风机图块也将被删除，是否继续？ ", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    if (_Fan.PID == "0")
+                    {
+                        TreeList.DeleteSelectedNodes();
+                    }
+                    else
+                    {
+                        TreeList.DeleteSelectedNodes();
+                        var _MainFan = m_ListFan.Find(p => p.ID == _Fan.PID);
+                        if (_MainFan != null)
+                        {
+                            m_ListFan.Remove(_MainFan);
+                            TreeList.RefreshDataSource();
+                            this.TreeList.ExpandAll();
+                        }
+                    }
+
+
+                }
 
             }
+
+
+
+
 
             //var _List = TreeList.GetAllCheckedNodes();
             //List<FanDataModel> _ListFan = new List<FanDataModel>();
@@ -1033,6 +1106,7 @@ namespace TianHua.FanSelection.UI
             Microsoft.Office.Interop.Excel.Worksheet _Sheet = _WorkBook.Worksheets[1];
 
             var _List = GetListExportFanPara();
+            if (_List == null || _List.Count == 0) { return; }
             if (_List != null && _List.Count > 0) _List = _List.OrderBy(p => p.SortScenario).OrderBy(p => p.SortID).ToList();
             var i = 4;
             _List.ForEach(p =>
@@ -1076,7 +1150,7 @@ namespace TianHua.FanSelection.UI
             SaveFileDialog _SaveFileDialog = new SaveFileDialog();
             _SaveFileDialog.Filter = "Xlsx Files(*.xlsx)|*.xlsx";
             _SaveFileDialog.RestoreDirectory = true;
-            _SaveFileDialog.FileName = "风机参数表 - " + DateTime.Now.ToString("yyyy-MM-dd") ;
+            _SaveFileDialog.FileName = "风机参数表 - " + DateTime.Now.ToString("yyyy.MM.dd HH.mm");
             var DialogResult = _SaveFileDialog.ShowDialog();
             if (DialogResult == DialogResult.OK)
             {
@@ -1111,6 +1185,7 @@ namespace TianHua.FanSelection.UI
             List<ExportFanParaModel> _List = new List<ExportFanParaModel>();
             m_ListFan.ForEach(p =>
            {
+               if (p.FanModelName == string.Empty || p.FanModelName == "无此风机") { return; }
                var _FanPrefixDict = PubVar.g_ListFanPrefixDict.Find(s => s.FanUse == p.Scenario);
                if (_FanPrefixDict == null) return;
                ExportFanParaModel _ExportFanPara = new ExportFanParaModel();
@@ -1120,7 +1195,8 @@ namespace TianHua.FanSelection.UI
                _ExportFanPara.No = _FanPrefixDict.Prefix + p.InstallFloor + p.VentNum;
                _ExportFanPara.Coverage = p.Name;
                _ExportFanPara.FanForm = p.VentStyle;
-               _ExportFanPara.CalcAirVolume = FuncStr.NullToStr(p.AirVolume);
+               //_ExportFanPara.CalcAirVolume = FuncStr.NullToStr(p.AirVolume);
+               _ExportFanPara.CalcAirVolume = string.Empty;
                _ExportFanPara.FanEnergyLevel = p.VentLev;
                _ExportFanPara.DriveMode = p.VentConnect;
                _ExportFanPara.ElectricalEnergyLevel = p.EleLev;
@@ -1138,8 +1214,8 @@ namespace TianHua.FanSelection.UI
                {
                    var _FanParameters = m_ListAxialFanParameters.Find(s => s.No == FuncStr.NullToStr(p.FanModelID) && s.ModelNum == p.FanModelName);
                    if (_FanParameters == null) return;
-                   _ExportFanPara.FanDelivery = _FanParameters.AirVolume;
-                   _ExportFanPara.Pa = _FanParameters.Pa;
+                   _ExportFanPara.FanDelivery = FuncStr.NullToStr(p.AirVolume);
+                   _ExportFanPara.Pa = FuncStr.NullToStr(p.WindResis);
                    _ExportFanPara.FanEfficiency = string.Empty;
                    _ExportFanPara.FanRpm = _FanParameters.Rpm;
                    _ExportFanPara.dB = _FanParameters.Noise;
@@ -1152,8 +1228,8 @@ namespace TianHua.FanSelection.UI
                {
                    var _FanParameters = m_ListFanParameters.Find(s => s.Suffix == FuncStr.NullToStr(p.FanModelID) && s.CCCF_Spec == p.FanModelName);
                    if (_FanParameters == null) return;
-                   _ExportFanPara.FanDelivery = _FanParameters.AirVolume;
-                   _ExportFanPara.Pa = _FanParameters.Pa;
+                   _ExportFanPara.FanDelivery = FuncStr.NullToStr(p.AirVolume);
+                   _ExportFanPara.Pa = FuncStr.NullToStr(p.WindResis);
                    _ExportFanPara.FanEfficiency = string.Empty;
                    _ExportFanPara.FanRpm = _FanParameters.Rpm;
                    _ExportFanPara.dB = _FanParameters.Noise;
@@ -1183,9 +1259,11 @@ namespace TianHua.FanSelection.UI
 
             var _List = m_ListFan;
             if (_List != null && _List.Count > 0) _List = _List.OrderBy(p => p.SortScenario).OrderBy(p => p.SortID).ToList();
+
             var i = 4;
             _List.ForEach(p =>
             {
+                if (p.FanModelName == string.Empty || p.FanModelName == "无此风机") { return; }
                 var _FanPrefixDict = PubVar.g_ListFanPrefixDict.Find(s => s.FanUse == p.Scenario);
                 if (_FanPrefixDict == null) return;
                 _Sheet.Cells[i, 1] = _FanPrefixDict.Prefix + p.InstallFloor + p.VentNum;
@@ -1225,20 +1303,74 @@ namespace TianHua.FanSelection.UI
             SaveFileDialog _SaveFileDialog = new SaveFileDialog();
             _SaveFileDialog.Filter = "Xlsx Files(*.xlsx)|*.xlsx";
             _SaveFileDialog.RestoreDirectory = true;
-            _SaveFileDialog.FileName = "风机计算书 - " + DateTime.Now.ToString("yyyy-MM-dd");
+            _SaveFileDialog.FileName = "风机计算书 - " + DateTime.Now.ToString("yyyy.MM.dd HH.mm");
             var DialogResult = _SaveFileDialog.ShowDialog();
 
             if (DialogResult == DialogResult.OK)
             {
                 TreeList.PostEditor();
                 var _FilePath = _SaveFileDialog.FileName.ToString();
-    
+
                 _WorkBook.SaveAs(_FilePath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, XlSaveAsAccessMode.xlNoChange,
                    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
                 ClosePro(_ExclApp, _WorkBook);
             }
 
 
+        }
+
+
+        public int FindNum(int _Num, int _N)
+        {
+            int _Power = (int)Math.Pow(10, _N);
+            return (_Num - _Num / _Power * _Power) * 10 / _Power;
+        }
+
+        private void ComBoxVentStyle_EditValueChanged(object sender, EventArgs e)
+        {
+            TreeList.PostEditor();
+            var _Fan = TreeList.GetFocusedRow() as FanDataModel;
+            if (_Fan == null) { return; }
+            if (FuncStr.NullToStr(_Fan.VentStyle) == "轴流")
+            {
+                _Fan.VentConnect = "直连";
+                _Fan.IntakeForm = "直进式";
+                TreeList.Refresh();
+            }
+            SetFanModel();
+        }
+
+        private void barBtnNew_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            if (m_ListFan == null || m_ListFan.Count == 0)
+            {
+                NewFanList();
+                return;
+            }
+            var _List = m_ListFan.FindAll(p => p.FanModelName != string.Empty && p.FanModelName != "无此风机");
+            if (_List == null || _List.Count == 0)
+            {
+                NewFanList();
+                return;
+            }
+            var _Result = XtraMessageBox.Show(" 否保存当前版本？ ", "提示", MessageBoxButtons.YesNoCancel);
+            if (_Result == DialogResult.Yes)
+            {
+                BarBtnSave.PerformClick();
+                NewFanList();
+            }
+            else if (_Result == DialogResult.No)
+            {
+                NewFanList();
+            }
+        }
+
+        private void NewFanList()
+        {
+            m_ListFan = new List<FanDataModel>();
+            TreeList.DataSource = m_ListFan;
+            this.TreeList.ExpandAll();
+            ComBoxScene_SelectedValueChanged(null, null);
         }
     }
 }
