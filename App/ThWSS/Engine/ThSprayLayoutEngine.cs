@@ -1,6 +1,7 @@
 ﻿using ThWSS.Model;
 using ThWSS.Bussiness;
 using Autodesk.AutoCAD.DatabaseServices;
+using TopoNode.Progress;
 
 namespace ThWSS.Engine
 {
@@ -24,14 +25,23 @@ namespace ThWSS.Engine
         /// <param name="fire"></param>
         public void Layout(Database database, Polyline floor, ObjectIdCollection frames, SprayLayoutModel layoutModel)
         {
+            // 显示进度条窗口
+            Progress.ShowProgress();
+            Progress.SetTip("正在清洗数据...");
             using (var explodeManager = new ThSprayDbExplodeManager(database))
             {
                 using (var roomEngine = new ThRoomRecognitionEngine())
                 {
                     roomEngine.Acquire(database, floor, frames);
-                    roomEngine.Rooms.ForEach(o => DoLayout(o, floor, layoutModel));
+                    for (int i = 0; i < roomEngine.Rooms.Count; i++)
+                    {
+                        Progress.SetTip(string.Format("正在布置喷淋{0}/{1}", i+1, roomEngine.Rooms.Count));
+                        DoLayout(roomEngine.Rooms[i], floor, layoutModel);
+                    }
                 }
             }
+            // 隐藏进度条窗口
+            Progress.HideProgress();
         }
 
         /// <summary>

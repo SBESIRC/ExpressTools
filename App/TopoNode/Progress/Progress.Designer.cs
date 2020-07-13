@@ -61,9 +61,8 @@
             this.m_lblProgresss.ForeColor = System.Drawing.SystemColors.ControlText;
             this.m_lblProgresss.Location = new System.Drawing.Point(324, 13);
             this.m_lblProgresss.Name = "m_lblProgresss";
-            this.m_lblProgresss.Size = new System.Drawing.Size(56, 16);
+            this.m_lblProgresss.Size = new System.Drawing.Size(0, 16);
             this.m_lblProgresss.TabIndex = 2;
-            this.m_lblProgresss.Text = "10%100";
             this.m_lblProgresss.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.m_lblProgresss.UseWaitCursor = true;
             // 

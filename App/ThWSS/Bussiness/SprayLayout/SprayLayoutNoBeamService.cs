@@ -22,18 +22,13 @@ namespace ThWSS.Bussiness
         {
             foreach (var outline in room.Properties.Values.Cast<Polyline>())
             {
-                // 显示进度条窗口
-                Progress.ShowProgress();
-
                 // 提取柱信息
                 Progress.SetValue(0);
-                Progress.SetTip("开始提取柱信息...");
                 CalColumnInfoService columnInfoService = new CalColumnInfoService();
                 List<Polyline> columnPolys = columnInfoService.GetAllColumnInfo(outline, floor);
 
                 // 提取梁信息
                 Progress.SetValue(2000);
-                Progress.SetTip("开始提取梁信息...");
                 CalBeamInfoService beamInfoService = new CalBeamInfoService();
                 List<Polyline> beams = beamInfoService.GetAllBeamInfo(outline, floor, columnPolys, true);
 
@@ -45,14 +40,12 @@ namespace ThWSS.Bussiness
 
 
                 // 在房间区域内按照梁和柱的搭接关系，分割房间区域
-                Progress.SetValue(4000);
-                Progress.SetTip("开始分割区域...");
+                Progress.SetValue(3000);
                 RegionDivisionByBeamUtils regionDivision = new RegionDivisionByBeamUtils();
                 var respolys = regionDivision.DivisionRegion(outline, polys);
 
                 // 为每一个分割后的“子区域”布置喷头
-                Progress.SetValue(6000);
-                Progress.SetTip("开始布置喷头...");
+                Progress.SetValue(5000);
                 foreach (var poly in respolys)
                 {
                     //处理小的凹边
@@ -129,12 +122,9 @@ namespace ThWSS.Bussiness
                         InsertSprayService.InsertSprayBlock(allSprays.Select(o => o.Position).ToList(), spraType);
 
                         // 更新进度条窗口状态
-                        Progress.SetValue(6000 + 4000 / respolys.Count * respolys.IndexOf(poly));
+                        Progress.SetValue(5000 + 5000 / respolys.Count * respolys.IndexOf(poly));
                     }
                 }
-
-                // 隐藏进度条窗口
-                Progress.HideProgress();
             }
         }
     }
