@@ -90,8 +90,8 @@ namespace ThWSS.Engine
 
                     var allCurves = Utils.GetValidCurvesFromSelectPLine(srcAllCurves, curSelectPLine);
 
-                    foreach (var textNode in curSelectTextNodes)
-                        Utils.DrawPreviewPoint(textNode.textPoint, "pick");
+                    //foreach (var textNode in curSelectTextNodes)
+                    //    Utils.DrawPreviewPoint(textNode.textPoint, "pick");
 
                     allCurves = TopoUtils.TesslateCurve(allCurves);
                     allCurves = Utils.ExtendCurves(allCurves, extendLength);
@@ -140,7 +140,7 @@ namespace ThWSS.Engine
                         {
                             doorInsertCurves = Utils.ExtendCurves(doorInsertCurves, extendLength);
                             allCurves.AddRange(doorInsertCurves);
-                            Utils.DrawProfile(doorInsertCurves, "doorInsertCurves");
+                            //Utils.DrawProfile(doorInsertCurves, "doorInsertCurves");
                         }
                     }
 
@@ -156,7 +156,7 @@ namespace ThWSS.Engine
                         if (windInsertCurves != null && windInsertCurves.Count != 0)
                         {
                             windInsertCurves = Utils.ExtendCurves(windInsertCurves, extendLength);
-                            Utils.DrawProfile(windInsertCurves, "windInsertCurves");
+                            //Utils.DrawProfile(windInsertCurves, "windInsertCurves");
                             allCurves.AddRange(windInsertCurves);
                         }
                     }
