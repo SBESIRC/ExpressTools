@@ -149,7 +149,7 @@ namespace ThWSS
                 {
                     foreach (ObjectId obj in newOutlines)
                     {
-                        acadDatabase.Element<Polyline>(obj, true).ColorIndex = 130;
+                        acadDatabase.Element<Polyline>(obj, true).ColorIndex = 30;
                     }
                 }
 
@@ -209,7 +209,7 @@ namespace ThWSS
                 acadDatabase.ModelSpace.Add(outline);
 
                 // 设置颜色和图层
-                outline.ColorIndex = 191;
+                outline.ColorIndex = 50;
                 outline.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
             }
         }
@@ -273,7 +273,7 @@ namespace ThWSS
                     {
                         newOutlines.Add(outline);
                         acadDatabase.ModelSpace.Add(outline);
-                        outline.ColorIndex = 70;
+                        outline.ColorIndex = 1;
                         outline.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
                     }
                 }
