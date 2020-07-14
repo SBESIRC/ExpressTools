@@ -78,7 +78,7 @@ namespace ThWSS.Bussiness
                     });
                 foreach (var room in roomsLine)
                 {
-                    regions.Where(o => room.Contains(o))
+                    regions.Where(o => room.ApproximateContains(o))
                         .ForEachDbObject(o => objs.Add(o));
                 }
                 foreach (Polyline frame in objs)

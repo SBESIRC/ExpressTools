@@ -119,6 +119,14 @@ namespace ThCADCore.NTS
             return thisPline.ToNTSPolygon().Contains(otherPline.ToNTSPolygon());
         }
 
+        public static bool ApproximateContains(this Polyline thisPline, Polyline otherPline)
+        {
+            var thisPolygon = thisPline.ToNTSPolygon();
+            var otherPolygon = otherPline.ToNTSPolygon();
+            var geometry = thisPolygon.Intersection(otherPolygon);
+            return (geometry.Area / otherPolygon.Area) > 0.9;
+        }
+
         public static bool Contains(this Polyline thisPline, Point3d pt)
         {
             return thisPline.PointInPolygon(pt) == LocateStatus.Interior;
