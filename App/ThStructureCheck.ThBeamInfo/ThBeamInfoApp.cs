@@ -189,15 +189,15 @@ namespace ThStructureCheck
             {
                 return;
             }
-            using (ThBeamDbManager beamManager = new ThBeamDbManager(document.Database))
-            {
-                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                var beams = thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(document.Database, polyline));
+            //using (ThBeamDbManager beamManager = new ThBeamDbManager(document.Database))
+            //{
+            //    ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
+            //    var beams = thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(document.Database, polyline));
 
-                List<BeamDistinguishInfo> beamInfos = new List<BeamDistinguishInfo>();
-                beams.ForEach(i => beamInfos.Add(new BeamDistinguishInfo(i)));
-                DataPalette.Instance.Show(beamInfos);
-            }
+            //    List<BeamDistinguishInfo> beamInfos = new List<BeamDistinguishInfo>();
+            //    beams.ForEach(i => beamInfos.Add(new BeamDistinguishInfo(i)));
+            //    DataPalette.Instance.Show(beamInfos);
+            //}
         }
     }
     class TestBeamInfo : ThOriginMarkingcs

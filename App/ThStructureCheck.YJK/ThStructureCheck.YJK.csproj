@@ -104,6 +104,7 @@
     <Compile Include="Service\BuildBeamLink.cs" />
     <Compile Include="Service\LineBeamArcWallAsv0.cs" />
     <Compile Include="Service\ArcBeamLineWallAsv0.cs" />
+    <Compile Include="Service\LineBeamLineBeamAsv0.cs" />
     <Compile Include="Service\LineBeamLTypeColumnAsv0.cs" />
     <Compile Include="Service\LineBeamLineWallAsv0.cs" />
     <Compile Include="Service\LineBeamRecColumnAsv0.cs" />

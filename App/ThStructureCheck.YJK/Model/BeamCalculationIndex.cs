@@ -50,6 +50,7 @@ namespace ThStructureCheck.YJK.Model
         /// </summary>
         public string Spec { get; set; }
         public string AntiSeismicGrade { get; set; }
+        #region----------组合和计算属性----------
         /// <summary>
         /// 获取 左侧梁顶纵筋 - 右侧梁顶纵筋
         /// </summary>
@@ -58,8 +59,7 @@ namespace ThStructureCheck.YJK.Model
         {
             get
             {
-                return Math.Round(LeftAsu, keepPointNum) + "-" +
-                    Math.Round(RightAsu, keepPointNum);
+                return this.LeftAsuCalValue + "-" + this.RightAsuCalValue;
             }  
         }
         /// <summary>
@@ -69,9 +69,8 @@ namespace ThStructureCheck.YJK.Model
         public string GFormat
         {
             get
-            {
-                return "G" + Math.Round(this.Asv, keepPointNum)  + "-" +
-                    Math.Round(this.Asv0, keepPointNum);
+            {                
+                return "G" + this.AsvCalValue  + "-" + this.Asv0CalValue;
             }
         }
         /// <summary>
@@ -81,10 +80,106 @@ namespace ThStructureCheck.YJK.Model
         {
             get
             {
-                return "VT" + Math.Round(this.Ast, keepPointNum) + "-" +
-                    Math.Round(this.Ast1, keepPointNum);
+                if(AstCalValue==0.0 && Ast1CalValue==0.0)
+                {
+                    return "";
+                }
+                return "VT" + AstCalValue + "-" + Ast1CalValue;
             }
         }
+        public string AsdFormat
+        {
+            get
+            {
+                return AsdCalValue.ToString();
+            }
+        }
+        /// <summary>
+        /// Asd计算值
+        /// </summary>
+        public double AsdCalValue
+        {
+            get
+            {
+                double asd = Math.Ceiling(this.Asd / 100.0);
+                asd = Math.Round(asd, 0);
+                return asd;
+            }
+        }
+        public double AstCalValue
+        {
+            get
+            {
+                double ast = this.Ast / 100.0;
+                if (ast * 10 - Math.Floor(ast * 10) > 0.0)
+                {
+                    ast = Math.Ceiling(ast * 10) / 10.0;
+                }
+                ast = Math.Round(ast, keepPointNum);
+                return ast;
+            }
+        }
+        /// <summary>
+        ///  Ast1计算值
+        /// </summary>
+        public double Ast1CalValue
+        {
+            get
+            {
+                double ast1 = this.Ast1 / 100.0;
+                double tempValue = Math.Floor(ast1 * 10);
+                if (ast1 - tempValue / 10.0 > 0.0)
+                {
+                    ast1 = tempValue + Math.Ceiling(ast1 - tempValue / 10.0);
+                    ast1 /= 10.0;
+                }
+                ast1 = Math.Round(ast1, keepPointNum);
+                return ast1;
+            }
+        }
+        /// <summary>
+        /// Asv计算值
+        /// </summary>
+        public double AsvCalValue
+        {
+            get
+            {
+                double asvValue = this.Asv / 100.0;
+                asvValue += 0.05;
+                asvValue = Math.Round(asvValue, keepPointNum);
+                return asvValue;
+            }
+        }
+        /// <summary>
+        /// Asv0计算值
+        /// </summary>
+        public double Asv0CalValue
+        {
+            get
+            {
+                double asv0Value = this.Asv0 / 100.0;
+                asv0Value += 0.05;
+                asv0Value=Math.Round(asv0Value, keepPointNum);
+                return asv0Value;
+            }
+        }
+        public double LeftAsuCalValue
+        {
+            get
+            {
+                double leftAsu = Math.Ceiling(this.LeftAsu / 100.0);
+                return Math.Round(leftAsu, 0); 
+            }
+        }
+        public double RightAsuCalValue
+        {
+            get
+            {
+                double rightAsu = Math.Ceiling(this.RightAsu / 100.0);
+                return Math.Round(rightAsu, 0);
+            }
+        }
+        #endregion
         #endregion
         private string dtlCalcPath = "";
         private YjkEntityInfo beam;
@@ -196,6 +291,30 @@ namespace ThStructureCheck.YJK.Model
                 }
                 asv0Calculation = new LineBeamLineWallAsv0(new List<ModelBeamSeg>() { beamSeg }, currentWallSeg as ModelLineWallSeg, true, this.dtlCalcPath);
             }
+            else if(startLinks[0] is ModelBeamSeg modelBeamSeg)
+            {
+                ModelBeamSeg currentBeamSeg = modelBeamSeg;
+                foreach (YjkEntityInfo beamEnt in startLinks)
+                {
+                    if (beamEnt is ModelBeamSeg linkBeamSeg)
+                    {
+                        ModelGrid modelGrid = linkBeamSeg.Grid;
+                        ModelJoint startJoint = new YjkJointQuery(linkBeamSeg.DbPath).GetModelJoint(modelGrid.Jt1ID);
+                        ModelJoint endJoint = new YjkJointQuery(linkBeamSeg.DbPath).GetModelJoint(modelGrid.Jt2ID);
+                        Coordinate linkBeamStartCoord = new Coordinate(startJoint.X, startJoint.Y);
+                        Coordinate linkBeamEndCoord = new Coordinate(endJoint.X, endJoint.Y);
+                        LineRelation lineRelation = new LineRelation(beamStartCoord, beamEndCoord, linkBeamStartCoord, linkBeamEndCoord);
+                        lineRelation.Relation();
+                        if (lineRelation.Relationships.IndexOf(Relationship.Perpendicular) >= 0 ||
+                           lineRelation.Relationships.IndexOf(Relationship.UnRegular) >= 0)
+                        {
+                            currentBeamSeg = linkBeamSeg;
+                            break;
+                        }
+                    }
+                }
+                asv0Calculation = new LineBeamLineBeamAsv0(new List<ModelBeamSeg>() { beamSeg }, currentBeamSeg as ModelLineBeamSeg, true, this.dtlCalcPath);
+            }
             if (asv0Calculation != null)
             {
                 asv0Calculation.Calculate();
@@ -248,6 +367,30 @@ namespace ThStructureCheck.YJK.Model
                     }
                 }
                 asv0Calculation = new LineBeamLineWallAsv0(new List<ModelBeamSeg>() { beamSeg }, currentWallSeg as ModelLineWallSeg, false, this.dtlCalcPath);
+            }
+            else if (endLinks[0] is ModelBeamSeg modelBeamSeg)
+            {
+                ModelBeamSeg currentBeamSeg = modelBeamSeg;
+                foreach (YjkEntityInfo beamEnt in endLinks)
+                {
+                    if (beamEnt is ModelBeamSeg linkBeamSeg)
+                    {
+                        ModelGrid modelGrid = linkBeamSeg.Grid;
+                        ModelJoint startJoint = new YjkJointQuery(linkBeamSeg.DbPath).GetModelJoint(modelGrid.Jt1ID);
+                        ModelJoint endJoint = new YjkJointQuery(linkBeamSeg.DbPath).GetModelJoint(modelGrid.Jt2ID);
+                        Coordinate linkBeamStartCoord = new Coordinate(startJoint.X, startJoint.Y);
+                        Coordinate linkBeamEndCoord = new Coordinate(endJoint.X, endJoint.Y);
+                        LineRelation lineRelation = new LineRelation(beamStartCoord, beamEndCoord, linkBeamStartCoord, linkBeamEndCoord);
+                        lineRelation.Relation();
+                        if (lineRelation.Relationships.IndexOf(Relationship.Perpendicular) >= 0 ||
+                           lineRelation.Relationships.IndexOf(Relationship.UnRegular) >= 0)
+                        {
+                            currentBeamSeg = linkBeamSeg;
+                            break;
+                        }
+                    }
+                }
+                asv0Calculation = new LineBeamLineBeamAsv0(new List<ModelBeamSeg>() { beamSeg }, currentBeamSeg as ModelLineBeamSeg, false, this.dtlCalcPath);
             }
             if (asv0Calculation != null)
             {

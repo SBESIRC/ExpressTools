@@ -47,11 +47,19 @@ namespace ThStructureCheck.ThBeamInfo.Service
             double textRotation = TextRotateAngle(beamSpt, beamEpt);
             Point3d midPt = CadTool.GetMidPt(beamSpt, beamEpt);
             Vector3d perpendVec = GeometricCalculation.GetOffsetDirection(beamSpt, beamEpt);
-            texts.Add(CreateText(beamCalculationIndex.AsuFormat, midPt, textHeight * 0.0, perpendVec, textRotation));
-            texts.Add(CreateText(beamCalculationIndex.GFormat, midPt, textHeight * 1.0, perpendVec, textRotation));
-            texts.Add(CreateText(beamCalculationIndex.Asd.ToString(), midPt, textHeight * -1.0, perpendVec, textRotation));
-            texts.Add(CreateText(beamCalculationIndex.VtFormat, midPt, textHeight * -2.0, perpendVec, textRotation));
-            texts.Add(CreateText(beamCalculationIndex.Spec, midPt, textHeight * -3.0, perpendVec, textRotation));
+            double offsetHeight = textHeight * 1.1;
+            texts.Add(CreateText(beamCalculationIndex.AsuFormat, midPt, offsetHeight * 0.0, perpendVec, textRotation));
+            texts.Add(CreateText(beamCalculationIndex.GFormat, midPt, offsetHeight * 1.0, perpendVec, textRotation));
+            texts.Add(CreateText(beamCalculationIndex.AsdFormat, midPt, offsetHeight * -1.0, perpendVec, textRotation));
+            if(!string.IsNullOrEmpty(beamCalculationIndex.VtFormat))
+            {
+                texts.Add(CreateText(beamCalculationIndex.VtFormat, midPt, offsetHeight * -2.0, perpendVec, textRotation));
+                texts.Add(CreateText(beamCalculationIndex.Spec, midPt, offsetHeight * -3.0, perpendVec, textRotation));
+            }
+            else
+            {
+                texts.Add(CreateText(beamCalculationIndex.Spec, midPt, offsetHeight * -2.0, perpendVec, textRotation));
+            }
             return texts;
         }
         #region ----------Print Calculation IndicatorText
@@ -93,11 +101,19 @@ namespace ThStructureCheck.ThBeamInfo.Service
             double textRotation = TextRotateAngle(beamSpt, beamEpt);
             Point3d midPt = CadTool.GetMidPt(beamSpt, beamEpt);
             Vector3d perpendVec = GeometricCalculation.GetOffsetDirection(beamSpt, beamEpt);
-            texts.Add(CreateText(beamLink.Item1.BeamCalIndex.AsuFormat, midPt, textHeight * 0.0, perpendVec, textRotation));
-            texts.Add(CreateText(beamLink.Item1.BeamCalIndex.GFormat, midPt, textHeight * 1.0, perpendVec, textRotation));
-            texts.Add(CreateText(beamLink.Item1.BeamCalIndex.Asd.ToString(), midPt, textHeight * -1.0, perpendVec, textRotation));
-            texts.Add(CreateText(beamLink.Item1.BeamCalIndex.VtFormat, midPt, textHeight * -2.0, perpendVec, textRotation));
-            texts.Add(CreateText(beamLink.Item1.BeamCalIndex.Spec, midPt, textHeight * -3.0, perpendVec, textRotation));
+            double offsetHeight = textHeight * 1.1;
+            texts.Add(CreateText(beamLink.Item1.BeamCalIndex.AsuFormat, midPt, offsetHeight * 0.0, perpendVec, textRotation));
+            texts.Add(CreateText(beamLink.Item1.BeamCalIndex.GFormat, midPt, offsetHeight * 1.0, perpendVec, textRotation));
+            texts.Add(CreateText(beamLink.Item1.BeamCalIndex.AsdFormat, midPt, offsetHeight * -1.0, perpendVec, textRotation));
+            if(!string.IsNullOrEmpty(beamLink.Item1.BeamCalIndex.VtFormat))
+            {
+                texts.Add(CreateText(beamLink.Item1.BeamCalIndex.VtFormat, midPt, offsetHeight * -2.0, perpendVec, textRotation));
+                texts.Add(CreateText(beamLink.Item1.BeamCalIndex.Spec, midPt, offsetHeight * -3.0, perpendVec, textRotation));
+            }
+            else
+            {
+                texts.Add(CreateText(beamLink.Item1.BeamCalIndex.Spec, midPt, offsetHeight * -2.0, perpendVec, textRotation));
+            }
             return texts;
         }
         private DBText CreateText(string content, Point3d basePt, double offsetHeight, Vector3d offsetVec, double textRotation)
@@ -105,7 +121,9 @@ namespace ThStructureCheck.ThBeamInfo.Service
             DBText dBText = new DBText();
             dBText.TextString = content;
             dBText.Position = Point3d.Origin;
-            dBText.Height = this.textHeight;            
+            dBText.Height = this.textHeight;
+            dBText.HorizontalMode = TextHorizontalMode.TextMid;
+            dBText.VerticalMode = TextVerticalMode.TextVerticalMid;
             Matrix3d mt = Matrix3d.Rotation(textRotation, Vector3d.ZAxis, Point3d.Origin);
             dBText.TransformBy(mt);
             Point3d position = basePt + offsetVec.GetNormal().MultiplyBy(offsetHeight);

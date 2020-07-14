@@ -122,15 +122,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ThBeam\ThBeam.csproj">
       <Project>{0f36f6e9-f83b-40f6-b848-b13b20e9b1be}</Project>
-      <Name>ThStructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ThWSS\ThWSS.csproj">
-      <Project>{aa99b84e-0ee2-4836-87cf-c62d075e01c7}</Project>
-      <Name>ThWSS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
-      <Project>{8A2E6FB5-12F2-4406-8109-D9DDC8452DFD}</Project>
-      <Name>ExtensionTools</Name>
+      <Name>ThBeam</Name>
     </ProjectReference>
     <ProjectReference Include="..\ThStructureCheck.Common\ThStructureCheck.Common.csproj">
       <Project>{422f71ff-e828-4df1-8fe1-a29981579760}</Project>
@@ -139,6 +131,14 @@
     <ProjectReference Include="..\ThStructureCheck.YJK\ThStructureCheck.YJK.csproj">
       <Project>{656ef6e4-6243-45ee-9423-30688b93c751}</Project>
       <Name>ThStructureCheck.YJK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThWSS\ThWSS.csproj">
+      <Project>{aa99b84e-0ee2-4836-87cf-c62d075e01c7}</Project>
+      <Name>ThWSS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
+      <Project>{8A2E6FB5-12F2-4406-8109-D9DDC8452DFD}</Project>
+      <Name>ExtensionTools</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
