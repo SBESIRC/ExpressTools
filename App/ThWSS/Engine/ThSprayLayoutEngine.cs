@@ -25,7 +25,7 @@ namespace ThWSS.Engine
         /// <param name="fire"></param>
         public void Layout(Database database, Polyline floor, ObjectIdCollection frames, SprayLayoutModel layoutModel)
         {
-            // 显示进度条窗口
+            Progress.Reset();
             Progress.ShowProgress();
             Progress.SetTip("正在清洗数据...");
             using (var explodeManager = new ThSprayDbExplodeManager(database))
@@ -40,7 +40,6 @@ namespace ThWSS.Engine
                     }
                 }
             }
-            // 隐藏进度条窗口
             Progress.HideProgress();
         }
 

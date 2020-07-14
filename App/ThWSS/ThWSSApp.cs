@@ -9,6 +9,7 @@ using ThWSS.Utlis;
 using ThWSS.Engine;
 using ThCADCore.NTS;
 using System.Linq;
+using TopoNode.Progress;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
@@ -240,6 +241,9 @@ namespace ThWSS
             // 当外参“卸载”后，这个临时外参图层将失效
             // 为了避免这个情况，将置于临时外参图层的房间框线复制到指定图层中
             // https://www.keanw.com/2009/05/importing-autocad-layers-from-xrefs-using-net.html
+            Progress.Reset();
+            Progress.ShowProgress();
+            Progress.SetTip("正在提取信息...");
             using (var outlineManager = new ThAreaOutlineDbManager(Active.Database))
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
@@ -265,6 +269,7 @@ namespace ThWSS
                     }
                 }
             }
+            Progress.HideProgress();
         }
 
 #if DEBUG

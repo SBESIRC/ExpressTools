@@ -72,6 +72,21 @@ namespace TopoNode.Progress
             {
                 var progress = Progress.Instance;
                 progress.m_lblTip.Text = tip;
+                progress.m_lblTip.Refresh();
+            }
+            catch
+            {
+                // 避免出现某些操作，异常崩溃， 
+            }
+        }
+
+        public static void Reset()
+        {
+            try
+            {
+                var progress = Progress.Instance;
+                progress.m_lblTip.Text = string.Empty;
+                progress.m_lblProgresss.Text = string.Empty;
                 progress.Refresh();
             }
             catch
