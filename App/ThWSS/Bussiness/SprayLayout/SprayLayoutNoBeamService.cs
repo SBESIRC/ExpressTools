@@ -57,14 +57,6 @@ namespace ThWSS.Bussiness
                     //区域分割
                     RegionDivisionUtils regionDivisionUtils = new RegionDivisionUtils();
                     var diviRooms = regionDivisionUtils.DivisionRegion(polyBounding);
-                    using (AcadDatabase acadDatabase = AcadDatabase.Active())
-                    {
-                        foreach (var dRoom in diviRooms)
-                        {
-                            acadDatabase.ModelSpace.Add(dRoom);
-                            dRoom.LayerId = acadDatabase.Database.CreateSprayLayoutRegionLayer();
-                        }
-                    }
 
                     // 统计房间内所有喷淋
                     var allSprays = new List<SprayLayoutData>();   //房间内的喷淋
