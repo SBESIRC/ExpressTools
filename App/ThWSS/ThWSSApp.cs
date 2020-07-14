@@ -369,10 +369,8 @@ namespace ThWSS
                     return;
                 }
 
-                // 考虑到性能问题，暂时只支持选择一个防火分区
                 PromptSelectionOptions options = new PromptSelectionOptions()
                 {
-                    SingleOnly = true,
                     AllowDuplicates = false,
                     RejectObjectsOnLockedLayers = true,
                 };
@@ -384,21 +382,32 @@ namespace ThWSS
                     return;
                 }
 
-
-                // 获取防火分区内的房间框线
-                var objs = new ObjectIdCollection();
-                filterlist = OpFilter.Bulid(o =>
-                    o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
-                    o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
-                entSelected = Active.Editor.SelectByPolyline(entSelected.Value.GetObjectIds()[0],
-                    PolygonSelectionMode.Crossing, filterlist);
-                if (entSelected.Status != PromptStatus.OK)
+                var frames = new ObjectIdCollection();
+                foreach (ObjectId obj in entSelected.Value.GetObjectIds())
+                {
+                    // 获取防火分区内的房间框线
+                    filterlist = OpFilter.Bulid(o =>
+                        o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
+                        o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+                    var result = Active.Editor.SelectByPolyline(obj,
+                        PolygonSelectionMode.Window, filterlist);
+                    if (result.Status == PromptStatus.OK)
+                    {
+                        foreach(ObjectId frame in result.Value.GetObjectIds())
+                        {
+                            if (!frames.Contains(frame))
+                            {
+                                frames.Add(frame);
+                            }
+                        }
+                    }
+                }
+                if (frames.Count == 0)
                 {
                     return;
                 }
 
                 // 执行操作
-                var frames = new ObjectIdCollection(entSelected.Value.GetObjectIds());
                 ThSprayLayoutEngine.Instance.Layout(Active.Database, pline, frames, layoutModel);
             }
             else if (layoutModel.sparyLayoutWay == LayoutWay.frame)
