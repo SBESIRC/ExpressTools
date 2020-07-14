@@ -5162,6 +5162,20 @@ namespace TopoNode
             return false;
         }
 
+        public static void AddRegion(Entity srcEntity, string layerName, ref List<Entity> entityLst)
+        {
+            var dbObjects = new DBObjectCollection();
+            srcEntity.Explode(dbObjects);
+            foreach (var innerObj in dbObjects)
+            {
+                if (innerObj is Entity entityRe)
+                {
+                    entityRe.Layer = layerName;
+                    entityLst.Add(entityRe);
+                }
+            }
+        }
+
         /// <summary>
         /// 判断单个能否炸开，以及返回的数据
         /// </summary>
@@ -5215,15 +5229,21 @@ namespace TopoNode
                         // 内部包含块
                         foreach (var obj in dbCollection)
                         {
-                            bool bContinue = false;
+                            if (obj is Region || obj is Mline)
+                            {
+                                var reEntity = obj as Entity;
+                                AddRegion(reEntity, blockLayer, ref entityLst);
+                                continue;
+                            }
 
+                            bool bContinue = false;
                             if (obj is Entity objEntity)
                             {
                                 LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(objEntity.LayerId);
                                 if (layerTableRecord.IsFrozen && !IsContainsZeroLayer(objEntity.Layer))
                                     continue;
 
-                                if (obj is BlockReference)
+                                if (objEntity is BlockReference)
                                 {
                                     var childBlock = obj as BlockReference;
                                     foreach (var keyName in nameMaps)
@@ -5281,9 +5301,13 @@ namespace TopoNode
                         // 内部不包含块且曲线所在的图层名包含3个以上
                         foreach (var obj in dbCollection)
                         {
-                            if (obj is Entity)
+                            if (obj is Region || obj is Mline)
                             {
-                                var entity = obj as Entity;
+                                var reEntity = obj as Entity;
+                                AddRegion(reEntity, blockLayer, ref entityLst);
+                            }
+                            else if (obj is Entity entity)
+                            {
                                 LayerTableRecord layerTableRecord = db.Element<LayerTableRecord>(entity.LayerId);
                                 if ((layerTableRecord.IsFrozen || layerTableRecord.IsOff) && !IsContainsZeroLayer(entity.Layer))
                                     continue;

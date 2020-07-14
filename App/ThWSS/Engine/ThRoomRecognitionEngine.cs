@@ -91,13 +91,13 @@ namespace ThWSS.Engine
                     if (curSelectTextNodes == null || curSelectTextNodes.Count == 0)
                         continue;
 
+                    srcAllCurves = TopoUtils.TesslateCurve(srcAllCurves);
                     var allCurves = Utils.GetValidCurvesFromSelectPLine(srcAllCurves, curSelectPLine);
 #if DEBUG
                     foreach (var textNode in curSelectTextNodes)
                         Utils.DrawPreviewPoint(textNode.textPoint, "pick");
 #endif
 
-                    allCurves = TopoUtils.TesslateCurve(allCurves);
                     allCurves = Utils.ExtendCurves(allCurves, extendLength);
 
                     var wallAllCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(srcWallAllCurves, curSelectPLine);
@@ -181,7 +181,9 @@ namespace ThWSS.Engine
                     {
                         beginPos += inc;
                         Progress.SetValue((int)beginPos);
-
+//#if DEBUG
+//                        Utils.DrawProfile(allCurves, "allCurves");
+//#endif
                         try
                         {
                             var aimProfile = TopoUtils.MakeProfileFromPoint2(allCurves, selectTextNode.textPoint);
