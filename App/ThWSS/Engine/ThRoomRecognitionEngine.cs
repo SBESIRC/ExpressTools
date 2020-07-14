@@ -92,9 +92,10 @@ namespace ThWSS.Engine
                         continue;
 
                     var allCurves = Utils.GetValidCurvesFromSelectPLine(srcAllCurves, curSelectPLine);
-
-                    //foreach (var textNode in curSelectTextNodes)
-                    //    Utils.DrawPreviewPoint(textNode.textPoint, "pick");
+#if DEBUG
+                    foreach (var textNode in curSelectTextNodes)
+                        Utils.DrawPreviewPoint(textNode.textPoint, "pick");
+#endif
 
                     allCurves = TopoUtils.TesslateCurve(allCurves);
                     allCurves = Utils.ExtendCurves(allCurves, extendLength);
@@ -143,7 +144,9 @@ namespace ThWSS.Engine
                         {
                             doorInsertCurves = Utils.ExtendCurves(doorInsertCurves, extendLength);
                             allCurves.AddRange(doorInsertCurves);
-                            //Utils.DrawProfile(doorInsertCurves, "doorInsertCurves");
+#if DEBUG
+                            Utils.DrawProfile(doorInsertCurves, "doorInsertCurves");
+#endif
                         }
                     }
 
@@ -159,7 +162,9 @@ namespace ThWSS.Engine
                         if (windInsertCurves != null && windInsertCurves.Count != 0)
                         {
                             windInsertCurves = Utils.ExtendCurves(windInsertCurves, extendLength);
-                            //Utils.DrawProfile(windInsertCurves, "windInsertCurves");
+#if DEBUG
+                            Utils.DrawProfile(windInsertCurves, "windInsertCurves");
+#endif
                             allCurves.AddRange(windInsertCurves);
                         }
                     }
@@ -211,7 +216,9 @@ namespace ThWSS.Engine
                             {
                                 if (plineDic.profileLayers.Where(x => x.ToUpper().Contains("COLU")).Count() > 0)
                                 {
+#if DEBUG
                                     Utils.DrawProfile(new List<Curve>() { plineDic.profile }, "inner");
+#endif
                                     ThColumn thColumn = new ThColumn()
                                     {
                                         Properties = new Dictionary<string, object>()
