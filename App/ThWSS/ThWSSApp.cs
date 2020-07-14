@@ -190,18 +190,25 @@ namespace ThWSS
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 // 选择自定义区域
-                var frame = CreatePolygonArea();
-                if (frame == null || frame.NumberOfVertices == 0)
+                var polygon = CreatePolygonArea();
+                if (polygon == null || polygon.NumberOfVertices == 0)
+                {
+                    return;
+                }
+
+                // 判断是否可以作为面积框线
+                var outline = acadDatabase.Database.AreaOutline(polygon);
+                if (outline == null)
                 {
                     return;
                 }
 
                 // 添加到当前图纸
-                acadDatabase.ModelSpace.Add(frame);
+                acadDatabase.ModelSpace.Add(outline);
 
                 // 设置颜色和图层
-                frame.ColorIndex = 191;
-                frame.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
+                outline.ColorIndex = 191;
+                outline.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
             }
         }
 

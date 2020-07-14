@@ -21,28 +21,39 @@ namespace ThWSS.Utlis
                 var curve = acadDatabase.Element<Curve>(plineId);
                 if (curve is Polyline pline)
                 {
-                    var objs = new DBObjectCollection();
-                    pline.Explode(objs);
-                    var outlines = objs.Polygons();
-                    if (outlines.Count == 1)
-                    {
-                        return outlines[0] as Polyline;
-                    }
-                    else if (outlines.Count > 1)
-                    {
-                        // 自交的多段线会形成多个多边形
-                        // 暂时不考虑这种复杂的多段线
-                        return null;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return database.AreaOutline(pline);
                 }
                 else
                 {
                     return null;
                 }
+            }
+        }
+
+        /// <summary>
+        /// 从一个多段线获取房间面积框线
+        /// </summary>
+        /// <param name="database"></param>
+        /// <param name="plineId"></param>
+        /// <returns></returns>
+        public static Polyline AreaOutline(this Database database, Polyline pline)
+        {
+            var objs = new DBObjectCollection();
+            pline.Explode(objs);
+            var outlines = objs.Polygons();
+            if (outlines.Count == 1)
+            {
+                return outlines[0] as Polyline;
+            }
+            else if (outlines.Count > 1)
+            {
+                // 自交的多段线会形成多个多边形
+                // 暂时不考虑这种复杂的多段线
+                return null;
+            }
+            else
+            {
+                return null;
             }
         }
 
