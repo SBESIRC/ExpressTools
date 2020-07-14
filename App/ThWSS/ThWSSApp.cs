@@ -45,6 +45,8 @@ namespace ThWSS
                 return;
             }
 
+            //存储本次操作配置
+            instance.SaveConfigInfo();
             var layoutModel = SetWindowValues(instance);
             Run(layoutModel);
         }

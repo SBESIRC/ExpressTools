@@ -48,17 +48,40 @@
         <Setter Property="Margin" Value="5,5,5,5"></Setter>
         <Setter Property="Template">
             <Setter.Value>
+                <!--<ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Grid>
+                        <Border Name="bd" BorderThickness="1" BorderBrush="#586c88">
+                            <TextBlock x:Name="text" Text="{TemplateBinding Content}" Margin="2,2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        --><!--选中或者鼠标移入颜色--><!--
+                        <Grid x:Name="B" Visibility="Collapsed" Background="#D7D7D7"/>
+                        --><!--默认颜色--><!--
+                        <Grid x:Name="A" Background="{TemplateBinding Background}"/>
+                        <ContentPresenter x:Name="contentPresenter" RecognizesAccessKey="True" Visibility="Collapsed"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Visibility" TargetName="A" Value="Collapsed"/>
+                            <Setter Property="Visibility" TargetName="B" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            --><!--<Setter Property="Visibility" TargetName="contentPresenter" Value="Visible"/>--><!--
+                            <Setter Property="Visibility" TargetName="A" Value="Collapsed"/>
+                            <Setter Property="Visibility" TargetName="B" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>-->
                 <ControlTemplate TargetType="RadioButton">
                     <Border Name="bd" BorderThickness="1" BorderBrush="#586c88">
-                        <TextBlock x:Name="text" Text="{TemplateBinding Content}" Margin="3,2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Name="textBD" Text="{TemplateBinding Content}" Margin="3,2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="bd" Property="BorderBrush" Value="#D7D7D7" />
+                            <Setter TargetName="bd" Property="Background" Value="#D7D7D7" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="bd" Property="Background" Value="#D7D7D7" />
-                            <Setter TargetName="bd" Property="BorderBrush" Value="#D7D7D7" />
+                            <Setter TargetName="bd" Property="BorderBrush"  Value="#D7D7D7" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

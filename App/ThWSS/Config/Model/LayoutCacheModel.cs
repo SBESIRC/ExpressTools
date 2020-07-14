@@ -14,8 +14,6 @@ namespace ThWSS.Config.Model
 
         public string nozzleType { get; set; }
 
-        public string protectStrategy { get; set; }
-
         public string protectRadius { get; set; }
 
         public HasBeam hasBeam { get; set; }

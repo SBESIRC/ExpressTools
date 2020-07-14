@@ -71,7 +71,7 @@ namespace ThWss.View
         /// <param name="e"></param>
         private void Cancel_Btn_Click(object sender, RoutedEventArgs e)
         {
-            SaveConfigInfo();
+            //SaveConfigInfo();
             this.Close();
         }
         
@@ -86,9 +86,6 @@ namespace ThWss.View
             {
                 //验证
                 if (!VerifyInputInfo()) { return; };
-
-                //存储本次操作配置
-                SaveConfigInfo();
 
                 this.DialogResult = true;
                 this.Close();
@@ -107,7 +104,7 @@ namespace ThWss.View
         /// <summary>
         /// 存储上一次信息
         /// </summary>
-        private void SaveConfigInfo()
+        public void SaveConfigInfo()
         {
             LayoutCacheModel layoutCacheModel = new LayoutCacheModel();
             Constraint constraint = new Constraint();
@@ -166,15 +163,6 @@ namespace ThWss.View
             else
             {
                 layoutCacheModel.nozzleType = upSpary.Name;
-            }
-            //保护策略
-            if (this.radiusPro.IsChecked == true)
-            {
-                layoutCacheModel.protectStrategy = this.radiusPro.Name;
-            }
-            else
-            {
-                layoutCacheModel.protectStrategy = this.rectanglePro.Name;
             }
             //考虑梁
             HasBeam hasBeam = new HasBeam();
@@ -280,15 +268,6 @@ namespace ThWss.View
             else
             {
                 this.upSpary.IsChecked = true;
-            }
-            //保护策略
-            if (layoutCacheModel.protectStrategy == this.radiusPro.Name)
-            {
-                this.radiusPro.IsChecked = true;
-            }
-            else
-            {
-                this.rectanglePro.IsChecked = true;
             }
             //考虑梁
             if (!string.IsNullOrEmpty(layoutCacheModel.hasBeam.considerBeam) && layoutCacheModel.hasBeam.considerBeam == "0")
@@ -490,16 +469,6 @@ namespace ThWss.View
         #endregion
 
         /// <summary>
-        /// 窗体关闭事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            SaveConfigInfo();
-        }
-
-        /// <summary>
         /// 按ESC关闭窗口
         /// </summary>
         /// <param name="sender"></param>
@@ -508,7 +477,7 @@ namespace ThWss.View
         {
             if (e.Key == Key.Escape)//Esc键  
             {
-                SaveConfigInfo();
+                //SaveConfigInfo();
                 this.Close();
             }
         }
