@@ -60,20 +60,31 @@ namespace ThWSS.Bussiness
         public List<Polyline> CalBeamIntersectInfo(List<Polyline> allBeam, List<Polyline> columnCurves)
         {
             List<Polyline> beamPolys = new List<Polyline>();
-            DBObjectCollection dBObject = new DBObjectCollection();
-            foreach (var beam in allBeam)
-            {
-                dBObject.Add(beam);
-            }
-            ThCADCoreNTSSpatialIndex thPatialIndex = new ThCADCoreNTSSpatialIndex(dBObject);
             foreach (var cCurve in columnCurves)
             {
-                var neighbourBeams = GeUtils.ExtendPolygons(thPatialIndex.NearestNeighbour(cCurve, 4).Cast<Polyline>().ToList(), 20);
-                foreach (var nBeam in neighbourBeams)
+                DBObjectCollection dBObject = new DBObjectCollection();
+                foreach (var beam in allBeam)
                 {
-                    if(cCurve.ToNTSPolygon().Intersects(nBeam.ToNTSPolygon()))
+                    dBObject.Add(beam);
+                }
+                ThCADCoreNTSSpatialIndex thPatialIndex = new ThCADCoreNTSSpatialIndex(dBObject);
+
+                while (true)
+                {
+                    var neighbourCurve = thPatialIndex.NearestNeighbourRemove(cCurve);
+                    if (neighbourCurve == null)
                     {
-                        beamPolys.Add(nBeam);
+                        break;
+                    }
+                    
+                    var neighbourBeam = GeUtils.ExtendPolygons(new List<Polyline>() { neighbourCurve as Polyline }, 20).First();
+                    if (cCurve.ToNTSPolygon().Intersects(neighbourBeam.ToNTSPolygon()))
+                    {
+                        beamPolys.Add(neighbourBeam);
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
             }

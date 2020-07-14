@@ -141,8 +141,8 @@ namespace ThStructure.BeamInfo.Business
 
                     //  两根线有重叠关系(大部分重叠)
                     if ((xMinX <= lMaxX && xMaxX >= lMinX) && 
-                        Math.Abs(xMaxX - lMaxX) < firLine.Length / 2 &&
-                        Math.Abs(xMinX - lMinX) < firLine.Length / 2)
+                        (Math.Abs(xMaxX - lMaxX) < firLine.Length / 2 ||
+                        Math.Abs(xMinX - lMinX) < firLine.Length / 2))
                     {
                         return true;
                     }
