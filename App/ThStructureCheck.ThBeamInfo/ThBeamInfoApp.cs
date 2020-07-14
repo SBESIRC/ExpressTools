@@ -6,6 +6,7 @@ using ThStructureCheck.Common;
 using ThStructureCheck.ThBeamInfo.Model;
 using ThStructureCheck.ThBeamInfo.Service;
 using ThStructureCheck.ThBeamInfo.View;
+using ThWSS;
 using ThWSS.Beam;
 
 namespace ThStructureCheck
@@ -38,7 +39,7 @@ namespace ThStructureCheck
                 return;
             }
             List<Beam> dwgBeams = new List<Beam>();
-            using (ThBeamDbManager beamManager = new ThBeamDbManager(document.Database))
+            using (var explodeManager = new ThSprayDbExplodeManager(document.Database))
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
                 dwgBeams=thDisBeamCommand.CalBeamStrucWithInfo(ThBeamGeometryService.Instance.BeamCurves(document.Database, polyline));
@@ -68,7 +69,7 @@ namespace ThStructureCheck
             {
                 return;
             }
-            using (ThBeamDbManager beamManager = new ThBeamDbManager(document.Database))
+            using (var explodeManager = new ThSprayDbExplodeManager(document.Database))
             {
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
                 var beams = thDisBeamCommand.CalBeamStruc(ThBeamGeometryService.Instance.BeamCurves(document.Database, polyline));
