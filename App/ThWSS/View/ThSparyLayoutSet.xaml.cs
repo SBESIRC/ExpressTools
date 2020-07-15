@@ -236,7 +236,17 @@ namespace ThWss.View
                 }
             }
             //自定义/标准约束
-            if(layoutCacheModel.constraint.constraintType == this.standard.Name)
+            if(layoutCacheModel.constraint.constraintType == this.custom.Name)
+            {
+                this.custom.IsChecked = true;
+                var spcing = layoutCacheModel.constraint.custom.sparySpacing.Split(',');
+                this.customControl.sparySSpcing.Text = spcing[0];
+                this.customControl.sparyESpcing.Text = spcing.Length > 1 ? spcing[1] : null;
+                spcing = layoutCacheModel.constraint.custom.otherSpacing.Split(',');
+                this.customControl.otherSSpcing.Text = spcing[0];
+                this.customControl.otherESpcing.Text = spcing.Length > 1 ? spcing[1] : null;
+            }
+            else
             {
                 this.standard.IsChecked = true;
                 bool parse = int.TryParse(layoutCacheModel.constraint.standard.hazardLevel, out int res);
@@ -249,16 +259,6 @@ namespace ThWss.View
                 {
                     this.standControl.standRange.IsChecked = true;
                 }
-            }
-            else
-            {
-                this.custom.IsChecked = true;
-                var spcing = layoutCacheModel.constraint.custom.sparySpacing.Split(',');
-                this.customControl.sparySSpcing.Text = spcing[0];
-                this.customControl.sparyESpcing.Text = spcing.Length > 1 ? spcing[1] : null;
-                spcing = layoutCacheModel.constraint.custom.otherSpacing.Split(',');
-                this.customControl.otherSSpcing.Text = spcing[0];
-                this.customControl.otherESpcing.Text = spcing.Length > 1 ? spcing[1] : null;
             }
             //上喷下喷
             if (layoutCacheModel.nozzleType == this.downSpary.Name)
