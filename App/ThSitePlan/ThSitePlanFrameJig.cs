@@ -1,4 +1,5 @@
 ﻿using AcHelper;
+using GeometryExtensions;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.GraphicsInterface;
@@ -23,8 +24,8 @@ namespace ThSitePlan
         public ThSitePlanFrameJig(AcDbPolyline frame)
         {
             Frame = frame;
-            // 设置Jig的起点为图框的左上角
-            BasePoint = Frame.GeometricExtents.MinPoint + Frame.GeometricExtents.Height() * Vector3d.YAxis;
+            // 设置Jig的起点为图框的中心
+            BasePoint = Frame.Centroid();
         }
 
         protected override SamplerStatus Sampler(JigPrompts prompts)
@@ -41,8 +42,7 @@ namespace ThSitePlan
                 return SamplerStatus.Cancel;
             }
 
-            Point3d tmpPt = prResult.Value.TransformBy(UCS.Inverse());
-            Displacement = tmpPt - BasePoint;
+            Displacement = prResult.Value - BasePoint;
             if (!Displacement.IsZeroLength(ThSitePlanCommon.global_tolerance))
             {
                 return SamplerStatus.OK;
@@ -65,7 +65,7 @@ namespace ThSitePlan
                     {
                         double deltaX = Frame.GeometricExtents.Width() * 6.0 / 5.0 * j;
                         double deltaY = Frame.GeometricExtents.Height() * 6.0 / 5.0 * i;
-                        Vector3d delta = new Vector3d(deltaX, -deltaY, 0.0);
+                        Vector3d delta = new Vector3d(deltaX, -deltaY, 0.0).TransformBy(Active.Editor.CurrentUserCoordinateSystem);
                         geometry.PushPositionTransform(PositionBehavior.World, (Displacement + delta).Offset());
                         geometry.Polyline(Frame, 0, 4);
                         geometry.PopModelTransform();
