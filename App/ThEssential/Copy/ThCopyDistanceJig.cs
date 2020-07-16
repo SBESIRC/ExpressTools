@@ -57,8 +57,7 @@ namespace ThEssential.Copy
             PromptPointResult prResult = prompts.AcquirePoint(prOptions);
             if (prResult.Status == PromptStatus.OK)
             {
-                Point3d tmpPt = prResult.Value.TransformBy(UCS.Inverse());
-                Displacement = tmpPt - BasePoint;
+                Displacement = prResult.Value - BasePoint;
                 if (!Displacement.IsZeroLength())
                 {
                     return SamplerStatus.OK;
@@ -83,11 +82,14 @@ namespace ThEssential.Copy
             WorldGeometry geo = draw.Geometry;
             if (geo != null)
             {
-                geo.PushModelTransform(Matrix3d.Displacement(Displacement));
+                geo.PushModelTransform(UCS);
+                var offset = new Point3d(Displacement.ToArray());
+                geo.PushPositionTransform(PositionBehavior.World, offset);
                 foreach (Entity ent in Entities)
                 {
                     geo.Draw(ent);
                 }
+                geo.PopModelTransform();
                 geo.PopModelTransform();
             }
 

@@ -62,7 +62,6 @@
     <Compile Include="Command\ThMatchPropsCommand.cs" />
     <Compile Include="Command\ThOverkillCommand.cs" />
     <Compile Include="Command\ThQSelectCommand.cs" />
-    <Compile Include="Copy\ThCopyArrayJig.cs" />
     <Compile Include="Copy\ThCopyArrayOptions.cs" />
     <Compile Include="Copy\ThCopyArrayTransient.cs" />
     <Compile Include="Copy\ThCopyArrayUtils.cs" />
