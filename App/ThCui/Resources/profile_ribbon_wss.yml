@@ -75,12 +75,6 @@ panels:
             attributes: { "IsVisible": false, "IsEnabled": true }
       - text: ""
         items:
-          - text: "房间框线"
-            attributes: { "IsVisible": true, "IsEnabled": true }
-          - text: "喷头布置"
-            attributes: { "IsVisible": true, "IsEnabled": true }
-      - text: ""
-        items:
           - text: "快选命令集"
             attributes: { "IsVisible": true, "IsEnabled": true }
       - text: ""
@@ -164,6 +158,24 @@ panels:
         attributes: { "IsVisible": true, "IsEnabled": true }
       - text: "文字块镜像"
         attributes: { "IsVisible": true, "IsEnabled": true }
+    attributes: { "IsVisible": true, "IsEnabled": true }
+  - UID: "pnlOutlineTool"
+    name: "OutlineTool"
+    title: "房间框线"
+    items:  
+       - text: "建筑已绘"
+         attributes: { "IsVisible": true, "IsEnabled": true }
+       - text: "自动识别"
+         attributes: { "IsVisible": true, "IsEnabled": true }
+       - text: "手动绘制"
+         attributes: { "IsVisible": true, "IsEnabled": true }
+    attributes: { "IsVisible": true, "IsEnabled": true }
+  - UID: "pnlFireControlTool"
+    name: "FireControlTool"
+    title: "消防喷淋"
+    items:
+       - text: "喷头布置"
+         attributes: { "IsVisible": true, "IsEnabled": true }
     attributes: { "IsVisible": true, "IsEnabled": true }
   - UID: "pnlMiscellaneous"
     name: "Miscellaneous"

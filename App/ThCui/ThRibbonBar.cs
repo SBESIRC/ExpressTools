@@ -18,6 +18,8 @@ namespace TianHua.AutoCAD.ThCui
                 CreatePlotToolPanel(tab);
                 CreatePurgeToolPanel(tab);
                 CreateBlockToolPanel(tab);
+                CreateOutlineToolPanel(tab);
+                CreateFireControlToolPanel(tab);
                 CreateMiscellaneousPanel(tab);
                 CreateSitePlanToolPanel(tab);
             }
@@ -260,6 +262,54 @@ namespace TianHua.AutoCAD.ThCui
             }
         }
 
+        private static void CreateOutlineToolPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("OutlineTool", "房间框线");
+            var row = panel.AddNewRibbonRow();
+
+            // 建筑已绘
+            row.AddNewButton("建筑已绘",
+                "提取建筑绘制框线",
+                "THWRR",
+                "提取建筑绘制框线",
+                "IDI_THCAD_THWRR_SMALL",
+                "IDI_THCAD_THWRR_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            // 自动识别
+            row.AddNewButton("自动识别",
+                "自动识别框线",
+                "THWRI",
+                "自动识别框线",
+                "IDI_THCAD_THWRI_SMALL",
+                "IDI_THCAD_THWRI_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            // 手动绘制
+            row.AddNewButton("手动绘制",
+                "手动绘制框线",
+                "THWRD",
+                "手动绘制框线",
+                "IDI_THCAD_THWRD_SMALL",
+                "IDI_THCAD_THWRD_LARGE",
+                RibbonButtonStyle.LargeWithText);
+        }
+
+        private static void CreateFireControlToolPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("FireControlTool", "消防喷淋");
+            var row = panel.AddNewRibbonRow();
+
+            // 喷头布置
+            row.AddNewButton("喷头布置",
+                "自动喷淋喷头布置",
+                "THPT",
+                "自动喷淋喷头布置",
+                "IDI_THCAD_THPT_SMALL",
+                "IDI_THCAD_THPT_SMALL",
+                RibbonButtonStyle.LargeWithText);
+        }
+
         private static void CreateDrawToolPanel(RibbonTabSource tab)
         {
             var panel = tab.AddNewPanel("DrawTool", "绘图修改");
@@ -276,56 +326,6 @@ namespace TianHua.AutoCAD.ThCui
                     "绘制多段线穿过所需编号停车位图块，根据多段线穿过停车位的先后顺序快速生成车位编号",
                     "IDI_THCAD_THCNU_SMALL",
                     "IDI_THCAD_THCNU_LARGE",
-                    RibbonButtonStyle.LargeWithText);
-            }
-
-            // 房间框线
-            {
-                var subPanel = row.AddNewPanel();
-                var subRow = subPanel.AddNewRibbonRow();
-                var splitButton = subRow.AddNewSplitButton("房间框线",
-                    RibbonSplitButtonBehavior.SplitFollow,
-                    RibbonSplitButtonListStyle.IconText,
-                    RibbonButtonStyle.LargeWithText);
-
-                // 建筑已绘
-                splitButton.AddNewButton("建筑已绘",
-                    "提取建筑绘制框线",
-                    "THWRR",
-                    "提取建筑绘制框线",
-                    "IDI_THCAD_THWRR_SMALL",
-                    "IDI_THCAD_THWRR_LARGE",
-                    RibbonButtonStyle.LargeWithText);
-
-                // 自动识别
-                splitButton.AddNewButton("自动识别",
-                    "自动识别框线",
-                    "THWRI",
-                    "自动识别框线",
-                    "IDI_THCAD_THWRI_SMALL",
-                    "IDI_THCAD_THWRI_LARGE",
-                    RibbonButtonStyle.LargeWithText);
-
-                // 手动绘制
-                splitButton.AddNewButton("手动绘制",
-                    "手动绘制框线",
-                    "THWRD",
-                    "手动绘制框线",
-                    "IDI_THCAD_THWRD_SMALL",
-                    "IDI_THCAD_THWRD_LARGE",
-                    RibbonButtonStyle.LargeWithText);
-            }
-
-            // 喷头布置
-            {
-                var subPanel = row.AddNewPanel();
-                var subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("喷头布置",
-                    "自动喷淋喷头布置",
-                    "THPT",
-                    "自动喷淋喷头布置",
-                    "IDI_THCAD_THPT_SMALL",
-                    "IDI_THCAD_THPT_SMALL",
                     RibbonButtonStyle.LargeWithText);
             }
 
