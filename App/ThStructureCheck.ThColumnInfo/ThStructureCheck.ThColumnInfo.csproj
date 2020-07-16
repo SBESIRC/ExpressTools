@@ -79,6 +79,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Service\CheckResultCadInteractive.cs" />
+    <Compile Include="Service\ThColunmDocManager.cs" />
     <Compile Include="ThProgressBar.cs" />
     <Compile Include="Tools\CurveAnyInsidePoint.cs" />
     <Compile Include="Tools\TopoService.cs" />
@@ -179,6 +181,7 @@
     <Compile Include="THColumnInfoApp.cs" />
     <Compile Include="Tools\ThColumnInfoUtils.cs" />
     <Compile Include="Business\DataStyleColumnDetailInfo.cs" />
+    <Compile Include="ViewModel\CheckResultVM.cs" />
     <Compile Include="ViewModel\ComponentPropDefineVM.cs" />
     <Compile Include="ViewModel\ParameterSetVM.cs" />
     <Compile Include="View\CheckPalette.cs" />
@@ -284,6 +287,7 @@
   <ItemGroup>
     <PackageReference Include="NLog" Version="4.6.8" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
+    <PackageReference Include="NPOI" Version="2.5.1" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Select.ico">

@@ -40,7 +40,7 @@ namespace ThColumnInfo.View
             }
             else
             {
-                _checkResult.LoadTree(acadApp.Application.DocumentManager.MdiActiveDocument.Name);
+                _checkResult.CheckResVM.Load(acadApp.Application.DocumentManager.MdiActiveDocument.Name);
             }
             _ps_Load();
             if (!_ps.Visible)

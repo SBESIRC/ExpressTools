@@ -60,7 +60,7 @@ namespace ThColumnInfo.View
             {
                 ShowPaletteMark = true;
             }
-            CheckPalette._checkResult.SwitchShowDetailPicture();
+            CheckPalette._checkResult.CheckResVM.SwitchShowDetailPicture();
         }
         private void _ps_Load()
         {

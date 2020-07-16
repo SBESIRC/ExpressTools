@@ -38,7 +38,7 @@ namespace ThColumnInfo.View
             this.thSpecificationValidate = tsv;
             this.thCalculationValidate = tcv;
             this.currentNode = node;
-            this.innerframeNode = CheckPalette._checkResult.TraverseInnerFrameRoot(node);
+            this.innerframeNode = CheckPalette._checkResult.CheckResVM.TraverseRoot(node);
             InitializeComponent();
             SetColor();
             InitDataGridView1();
@@ -80,7 +80,7 @@ namespace ThColumnInfo.View
             this.thSpecificationValidate = tsv;
             this.thCalculationValidate = tcv;
             this.currentNode = node;
-            this.innerframeNode = CheckPalette._checkResult.TraverseInnerFrameRoot(node);
+            this.innerframeNode = CheckPalette._checkResult.CheckResVM.TraverseRoot(node);
             UpdateData();
         }
         public void ClearDataGridView()
@@ -105,10 +105,10 @@ namespace ThColumnInfo.View
         private void AddDataToDataGridView1()
         {
             this.dgvColumnTable.Rows.Clear();
-            bool findCorrectNode = CheckPalette._checkResult.TraverseDataCorrectNode(this.currentNode);
+            bool findCorrectNode = CheckPalette._checkResult.CheckResVM.TraverseDataCorrectNode(this.currentNode);
             if(findCorrectNode)
             {
-                List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.GetDataCorrectColumnInfs(this.currentNode);
+                List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.CheckResVM.GetDataCorrectColumnInfs(this.currentNode);
                 foreach (ColumnInf columnInf in correctColumnInfs)
                 {
                     ColumnTableRecordInfo ctri = this.ds.ColumnTableRecordInfos.Where(j => j.Code == columnInf.Code).FirstOrDefault();
@@ -175,10 +175,10 @@ namespace ThColumnInfo.View
         private void AddDataToDataGridView2()
         {
             this.dgvSpecificationRes.Rows.Clear();
-            bool findCorrectNode = CheckPalette._checkResult.TraverseDataCorrectNode(this.currentNode);
+            bool findCorrectNode = CheckPalette._checkResult.CheckResVM.TraverseDataCorrectNode(this.currentNode);
             if (findCorrectNode && this.thSpecificationValidate != null)
             {
-                List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.GetDataCorrectColumnInfs(this.currentNode);
+                List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.CheckResVM.GetDataCorrectColumnInfs(this.currentNode);
                 foreach (ColumnInf columnInf in correctColumnInfs)
                 {
                     var values = thSpecificationValidate.ColumnValidResultDic.Where(
@@ -242,10 +242,10 @@ namespace ThColumnInfo.View
         private void AddDataToDataGridView3()
         {
             this.dgvCalculationRes.Rows.Clear();
-            bool findCorrectNode = CheckPalette._checkResult.TraverseDataCorrectNode(this.currentNode);
+            bool findCorrectNode = CheckPalette._checkResult.CheckResVM.TraverseDataCorrectNode(this.currentNode);
             if (findCorrectNode && this.thCalculationValidate != null)
             {
-                List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.GetDataCorrectColumnInfs(this.currentNode);
+                List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.CheckResVM.GetDataCorrectColumnInfs(this.currentNode);
                 foreach (ColumnInf columnInf in correctColumnInfs)
                 {
                     var values = this.thCalculationValidate.ColumnValidateResultDic.Where(i => i.Key.ModelColumnInfs.Count == 1 &&
@@ -473,10 +473,11 @@ namespace ThColumnInfo.View
                 {
                     return;
                 }
-                TreeNode findTreeCode = CheckPalette._checkResult.FindTreeCode(thStandardSign.InnerFrameName, GetFindNodeMode(columnName), codeText, subcodeText);
+                TreeNode findTreeCode = CheckPalette._checkResult.CheckResVM.
+                    FindTreeCode(thStandardSign.InnerFrameName, GetFindNodeMode(columnName), codeText, subcodeText);
                 if (findTreeCode != null)
                 {
-                    CheckPalette._checkResult.ShowSelectNodeFrameIds(findTreeCode);
+                    CheckPalette._checkResult.CheckResVM.ShowSelectNodeFrameIds(findTreeCode);
                 }
             }
             catch (System.Exception ex)
@@ -527,10 +528,10 @@ namespace ThColumnInfo.View
                 }
                 //搜索叶子节点，列名不能设为code
 
-                TreeNode findTreeCode = CheckPalette._checkResult.FindTreeCode(thStandardSign.InnerFrameName, GetFindNodeMode(columnName), "", codeText);
+                TreeNode findTreeCode = CheckPalette._checkResult.CheckResVM.FindTreeCode(thStandardSign.InnerFrameName, GetFindNodeMode(columnName), "", codeText);
                 if (findTreeCode != null)
                 {
-                    CheckPalette._checkResult.ShowSelectNodeFrameIds(findTreeCode);
+                    CheckPalette._checkResult.CheckResVM.ShowSelectNodeFrameIds(findTreeCode);
                 }
             }
             catch (System.Exception ex)
@@ -562,10 +563,10 @@ namespace ThColumnInfo.View
                 {
                     return;
                 }
-                TreeNode findTreeCode = CheckPalette._checkResult.FindTreeCode(thStandardSign.InnerFrameName, GetFindNodeMode(columnName), "", codeText);
+                TreeNode findTreeCode = CheckPalette._checkResult.CheckResVM.FindTreeCode(thStandardSign.InnerFrameName, GetFindNodeMode(columnName), "", codeText);
                 if (findTreeCode != null)
                 {
-                    CheckPalette._checkResult.ShowSelectNodeFrameIds(findTreeCode);
+                    CheckPalette._checkResult.CheckResVM.ShowSelectNodeFrameIds(findTreeCode);
                 }
             }
             catch (System.Exception ex)
@@ -587,17 +588,17 @@ namespace ThColumnInfo.View
                 {
                     return;
                 }
-                TreeNode findTreeCode = CheckPalette._checkResult.FindTreeCode(thStandardSign.InnerFrameName, FindNodeMode.SubCode, "", codeText);
+                TreeNode findTreeCode = CheckPalette._checkResult.CheckResVM.FindTreeCode(thStandardSign.InnerFrameName, FindNodeMode.SubCode, "", codeText);
                 if (findTreeCode != null)
                 {
-                    CheckPalette._checkResult.HideTotalFrameIds(findTreeCode);
+                    CheckPalette._checkResult.CheckResVM.HideTotalFrameIds(findTreeCode);
                 }
             }
             else
             {
                 if(this.innerframeNode!=null)
                 {
-                    CheckPalette._checkResult.HideTotalFrameIds(this.innerframeNode);
+                    CheckPalette._checkResult.CheckResVM.HideTotalFrameIds(this.innerframeNode);
                 }
             }
         }
@@ -626,7 +627,7 @@ namespace ThColumnInfo.View
                 object value=this.dgvColumnTable.Rows[e.RowIndex].Cells["subCode"].Value;
                 if(value!=null)
                 {
-                    CheckPalette._checkResult.SelectTreeNode(thStandardSign.InnerFrameName, value.ToString());
+                    CheckPalette._checkResult.CheckResVM.SelectTreeNode(thStandardSign.InnerFrameName, value.ToString());
                 }
             }
         }
@@ -656,7 +657,7 @@ namespace ThColumnInfo.View
                 object value = this.dgvCalculationRes.Rows[e.RowIndex].Cells["code"].Value;
                 if (value != null)
                 {
-                    CheckPalette._checkResult.SelectTreeNode(thStandardSign.InnerFrameName, value.ToString());
+                    CheckPalette._checkResult.CheckResVM.SelectTreeNode(thStandardSign.InnerFrameName, value.ToString());
                 }
             }
         }
@@ -686,7 +687,7 @@ namespace ThColumnInfo.View
                 object value = this.dgvSpecificationRes.Rows[e.RowIndex].Cells["code"].Value;
                 if (value != null)
                 {
-                    CheckPalette._checkResult.SelectTreeNode(thStandardSign.InnerFrameName, value.ToString());
+                    CheckPalette._checkResult.CheckResVM.SelectTreeNode(thStandardSign.InnerFrameName, value.ToString());
                 }
             }
         }
@@ -714,7 +715,7 @@ namespace ThColumnInfo.View
             {
                 if (this.innerframeNode != null)
                 {
-                    CheckPalette._checkResult.HideTotalFrameIds(this.innerframeNode);
+                    CheckPalette._checkResult.CheckResVM.HideTotalFrameIds(this.innerframeNode);
                 }
             }
             else
@@ -726,10 +727,10 @@ namespace ThColumnInfo.View
                 {
                     return;
                 }
-                TreeNode findTreeCode = CheckPalette._checkResult.FindTreeCode(thStandardSign.InnerFrameName, FindNodeMode.Code, codeText, subcodeText);
+                TreeNode findTreeCode = CheckPalette._checkResult.CheckResVM.FindTreeCode(thStandardSign.InnerFrameName, FindNodeMode.Code, codeText, subcodeText);
                 if (findTreeCode != null)
                 {
-                    CheckPalette._checkResult.HideTotalFrameIds(findTreeCode);
+                    CheckPalette._checkResult.CheckResVM.HideTotalFrameIds(findTreeCode);
                 }
             }
         }
@@ -747,17 +748,17 @@ namespace ThColumnInfo.View
                 {
                     return;
                 }
-                TreeNode findTreeCode = CheckPalette._checkResult.FindTreeCode(thStandardSign.InnerFrameName, FindNodeMode.SubCode, "", codeText);
+                TreeNode findTreeCode = CheckPalette._checkResult.CheckResVM.FindTreeCode(thStandardSign.InnerFrameName, FindNodeMode.SubCode, "", codeText);
                 if (findTreeCode != null)
                 {
-                    CheckPalette._checkResult.HideTotalFrameIds(findTreeCode);
+                    CheckPalette._checkResult.CheckResVM.HideTotalFrameIds(findTreeCode);
                 }
             }
             else
             {
                 if(this.innerframeNode!=null)
                 {
-                    CheckPalette._checkResult.HideTotalFrameIds(this.innerframeNode);
+                    CheckPalette._checkResult.CheckResVM.HideTotalFrameIds(this.innerframeNode);
                 }
             }
         }
