@@ -145,7 +145,7 @@ namespace ThCADCore.NTS
                     throw new NotSupportedException();
                 }
             }
-            catch(Exception x)
+            catch
             {
                 // 在某些情况下，NTS会抛出异常
                 // 这里只捕捉异常，不做特殊的处理
@@ -180,7 +180,6 @@ namespace ThCADCore.NTS
                         if (rGeometry is IPolygon polygon)
                         {
                             pGeometrys = new List<IPolygon>() { polygon };
-                            //regions.Add(polygon.Shell.ToDbPolyline());
                         }
                         else if (rGeometry is IMultiPolygon mPolygon)
                         {
@@ -198,7 +197,7 @@ namespace ThCADCore.NTS
                     }
                 }
             }
-            catch (Exception x)
+            catch
             {
                 // 在某些情况下，NTS会抛出异常
                 // 这里只捕捉异常，不做特殊的处理
