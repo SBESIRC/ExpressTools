@@ -357,6 +357,7 @@ namespace ThSitePlan
                         var regions = Region.CreateFromCurves(items);
                         var shadowRegion = regions[0] as Region;
                         shadows.Add(acadDatabase.ModelSpace.Add(shadowRegion));
+                        //shadows.Add(shadowRegion.Id);
                     }
                     catch
                     {
@@ -394,9 +395,12 @@ namespace ThSitePlan
                 var buildings = new DBObjectCollection();
                 foreach (var obj in buildingObjs)
                 {
-                    buildings.Add(obj);
+                    if (obj.Area > 0)
+                    {
+                        buildings.Add(obj);
+                    }
                 }
-                var diffRegions = shadow.Difference(buildings);
+                var diffRegions = shadow.Differences(buildings);
                 foreach (var region in diffRegions)
                 {
                     region.SetPropertiesFrom(shadow);

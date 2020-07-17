@@ -271,6 +271,25 @@ namespace ThCADCore.NTS
             return ThCADCoreNTSService.Instance.GeometryFactory.CreateMultiPolygon(polygons.ToArray());
         }
 
+        public static IMultiPolygon ToNTSPolygons(this DBObject obj)
+        {
+            var polygons = new List<IPolygon>();
+            if (obj is Polyline polyline)
+            {
+                polygons.Add(polyline.ToNTSPolygon());
+            }
+            else if (obj is Region region)
+            {
+                polygons.Add(region.ToNTSPolygon());
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+
+            return ThCADCoreNTSService.Instance.GeometryFactory.CreateMultiPolygon(polygons.ToArray());
+        }
+
         public static IGeometryCollection ToNTSPolygonCollection(this DBObjectCollection curves)
         {
             var polygons = new List<IPolygon>();

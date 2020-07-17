@@ -53,7 +53,7 @@ namespace ThSitePlan.Engine
                 var polygon = Polygon();
                 if (polygon.Count == 0)
                 {
-                    return 0;
+                    return 2;
                 }
 
                 // 遍历所有同组的图框，寻找所有的文字信息
@@ -113,7 +113,7 @@ namespace ThSitePlan.Engine
                 // 识别标注信息，获取楼层信息
                 using (var annoations = new ThSitePlanBuildingAnnotations(contents.ToArray()))
                 {
-                    return annoations.Floor();
+                    return annoations.Floor() == 0 ? 2 : annoations.Floor();
                 }
             }
         }

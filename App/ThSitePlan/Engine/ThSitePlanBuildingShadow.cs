@@ -30,12 +30,12 @@ namespace ThSitePlan.Engine
                 UInt32 floor = building.Floor();
                 if (floor == 0)
                 {
-                    return null;
+                    floor  = 2;
                 }
 
                 // 创建建筑物阴影面域
                 var angle = Properties.Settings.Default.shadowAngle * Math.PI / 180.0;
-                var length = floor / Math.Tan(angle);
+                var length = Math.Abs(floor / Math.Tan(angle));
                 Matrix3d rotation = Matrix3d.Rotation(angle, Vector3d.ZAxis, Point3d.Origin);
                 var shadows = building.Region.CreateShadowRegion(Vector3d.XAxis.TransformBy(rotation).MultiplyBy(length));
                 // 根据建筑面域计算阴影面域失败，比如建筑面域的形状异形
@@ -123,7 +123,7 @@ namespace ThSitePlan.Engine
                         building.Region,
                     };
 
-                    var differences = region.CreateDifferenceShadowRegion(sObjs);
+                    List<Polyline> differences = region.CreateDifferenceShadowRegion(sObjs);
                     if (differences.Count != 0)
                     {
                         foreach (var difference in differences)
@@ -137,28 +137,28 @@ namespace ThSitePlan.Engine
                     }
                     else
                     {
-                        //根据原阴影创建填充
-                        var thisBuilding = new ObjectIdCollection()
-                        {
-                            // 产生阴影的建筑物
-                            building.Region,
-                        };
-                        var thisDifferences = region.CreateDifferenceShadowRegion(thisBuilding);
-                        if (thisDifferences.Count != 0)
-                        {
-                            foreach (var difference in thisDifferences)
-                            {
-                                //根据新阴影创建填充
-                                acadDatabase.ModelSpace.Add(difference).CreateHatchWithPolygon();
-                            }
+                        ////根据原阴影创建填充
+                        //var thisBuilding = new ObjectIdCollection()
+                        //{
+                        //    // 产生阴影的建筑物
+                        //    building.Region,
+                        //};
+                        //var thisDifferences = region.CreateDifferenceShadowRegion(thisBuilding);
+                        //if (thisDifferences.Count != 0)
+                        //{
+                        //    foreach (var difference in thisDifferences)
+                        //    {
+                        //        //根据新阴影创建填充
+                        //        acadDatabase.ModelSpace.Add(difference).CreateHatchWithPolygon();
+                        //    }
 
-                            //删除原阴影
-                            acadDatabase.Element<Region>(region, true).Erase();
-                        }
-                        else
-                        {
-                            region.CreateHatchWithPolygon();
-                        }
+                        //    //删除原阴影
+                        //    acadDatabase.Element<Region>(region, true).Erase();
+                        //}
+                        //else
+                        //{
+                        //    region.CreateHatchWithPolygon();
+                        //}
                     }
                 }
             }
@@ -183,7 +183,7 @@ namespace ThSitePlan.Engine
 
                 // 创建建筑物阴影面域
                 var angle = Properties.Settings.Default.shadowAngle * Math.PI / 180.0;
-                var length = (building.Floor() - blockBuilding.Floor()) / Math.Tan(angle);
+                var length = Math.Abs((building.Floor() - blockBuilding.Floor()) / Math.Tan(angle));
                 Matrix3d rotation = Matrix3d.Rotation(angle, Vector3d.ZAxis, Point3d.Origin);
                 var shadows = building.Region.CreateShadowRegion(Vector3d.XAxis.TransformBy(rotation).MultiplyBy(length));
 
