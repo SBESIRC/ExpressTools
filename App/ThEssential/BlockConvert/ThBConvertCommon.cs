@@ -8,6 +8,8 @@
         public static readonly string BLOCK_MAP_ATTRIBUTES_BLOCK = "Block";
         public static readonly string BLOCK_MAP_ATTRIBUTES_BLOCK_SCALE = "Scale";
         public static readonly string BLOCK_MAP_ATTRIBUTES_BLOCK_VISIBILITY = "可见性";
+        public static readonly string BLOCK_MAP_ATTRIBUTES_BLOCK_FIREPOWER = "FirePowerBlock";
+        public static readonly string BLOCK_MAP_ATTRIBUTES_BLOCK_NON_FIREPOWER = "NonFirePowerBlock";
 
         public static readonly string PROPERTY_POWER_VOLTAGE = "电压";
         public static readonly string PROPERTY_POWER_QUANTITY = "电量";

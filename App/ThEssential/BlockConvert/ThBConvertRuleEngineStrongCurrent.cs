@@ -43,10 +43,18 @@ namespace ThEssential.BlockConvert
 
                 // 电气块名
                 column++;
-                target.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK] = table.Cells[row, column].Text();
 
-                // 电气样例
+                // 电气样例（非消防）
                 column++;
+                target.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK_NON_FIREPOWER] = table.Cells[row, column].BlockName();
+
+                // 电气样例（消防）
+                column++;
+                target.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK_FIREPOWER] = table.Cells[row, column].BlockName();
+
+                // 比例
+                column++;
+                target.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK_SCALE] = "100";
 
                 // 创建映射规则
                 rules.Add(new ThBConvertRule()
