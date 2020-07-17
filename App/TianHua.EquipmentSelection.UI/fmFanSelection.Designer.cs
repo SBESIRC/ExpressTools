@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmFanSelection));
-            this.BarManager = new DevExpress.XtraBars.BarManager(this.components);
+            this.BarManager = new DevExpress.XtraBars.BarManager();
             this.bar2 = new DevExpress.XtraBars.Bar();
+            this.barBtnNew = new DevExpress.XtraBars.BarButtonItem();
             this.BarBtnOpen = new DevExpress.XtraBars.BarButtonItem();
             this.BarBtnSave = new DevExpress.XtraBars.BarButtonItem();
             this.BarBtnSaveAs = new DevExpress.XtraBars.BarButtonItem();
@@ -112,14 +112,13 @@
             this.ComBoxScene = new DevExpress.XtraEditors.ComboBoxEdit();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.barBtnNew = new DevExpress.XtraBars.BarButtonItem();
+            this.emptySpaceItem4 = new DevExpress.XtraLayout.EmptySpaceItem();
             ((System.ComponentModel.ISupportInitialize)(this.BarManager)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
@@ -148,13 +147,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.ComBoxScene.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem4)).BeginInit();
             this.SuspendLayout();
             // 
             // BarManager
@@ -200,6 +199,16 @@
             this.bar2.OptionsBar.MultiLine = true;
             this.bar2.OptionsBar.UseWholeRow = true;
             this.bar2.Text = "Main menu";
+            // 
+            // barBtnNew
+            // 
+            this.barBtnNew.Caption = "新建";
+            this.barBtnNew.Id = 7;
+            this.barBtnNew.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barBtnNew.ImageOptions.Image")));
+            this.barBtnNew.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barBtnNew.ImageOptions.LargeImage")));
+            this.barBtnNew.Name = "barBtnNew";
+            this.barBtnNew.PaintStyle = DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph;
+            this.barBtnNew.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnNew_ItemClick);
             // 
             // BarBtnOpen
             // 
@@ -311,7 +320,7 @@
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutControl1.Location = new System.Drawing.Point(0, 24);
             this.layoutControl1.Name = "layoutControl1";
-            this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(520, 245, 650, 400);
+            this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(543, 327, 650, 400);
             this.layoutControl1.Root = this.layoutControlGroup1;
             this.layoutControl1.Size = new System.Drawing.Size(1377, 490);
             this.layoutControl1.TabIndex = 4;
@@ -689,6 +698,7 @@
             this.TxtAirVolume.Mask.EditMask = "[1-9]\\d*";
             this.TxtAirVolume.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtAirVolume.Name = "TxtAirVolume";
+            this.TxtAirVolume.Click += new System.EventHandler(this.TxtAirVolume_Click);
             // 
             // treeListBand8
             // 
@@ -1040,6 +1050,7 @@
             this.PicInsertMap.AllowFocused = false;
             this.PicInsertMap.Name = "PicInsertMap";
             this.PicInsertMap.NullText = " ";
+            this.PicInsertMap.Click += new System.EventHandler(this.PicInsertMap_Click);
             // 
             // ColSortID
             // 
@@ -1062,7 +1073,7 @@
             this.BtnCopy.AllowFocus = false;
             this.BtnCopy.Location = new System.Drawing.Point(846, 5);
             this.BtnCopy.Name = "BtnCopy";
-            this.BtnCopy.Size = new System.Drawing.Size(110, 22);
+            this.BtnCopy.Size = new System.Drawing.Size(103, 22);
             this.BtnCopy.StyleController = this.layoutControl1;
             this.BtnCopy.TabIndex = 10;
             this.BtnCopy.Text = "复制";
@@ -1132,13 +1143,13 @@
             this.layoutControlGroup1.GroupBordersVisible = false;
             this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem1,
-            this.emptySpaceItem1,
             this.layoutControlItem3,
             this.layoutControlItem4,
             this.layoutControlItem5,
             this.layoutControlItem6,
             this.layoutControlItem7,
-            this.layoutControlItem2});
+            this.layoutControlItem2,
+            this.emptySpaceItem4});
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(3, 3, 3, 3);
             this.layoutControlGroup1.Size = new System.Drawing.Size(1377, 490);
@@ -1152,14 +1163,6 @@
             this.layoutControlItem1.Size = new System.Drawing.Size(394, 26);
             this.layoutControlItem1.Text = "应用场景";
             this.layoutControlItem1.TextSize = new System.Drawing.Size(48, 14);
-            // 
-            // emptySpaceItem1
-            // 
-            this.emptySpaceItem1.AllowHotTrack = false;
-            this.emptySpaceItem1.Location = new System.Drawing.Point(955, 0);
-            this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(416, 26);
-            this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // layoutControlItem3
             // 
@@ -1202,7 +1205,7 @@
             this.layoutControlItem7.Control = this.BtnCopy;
             this.layoutControlItem7.Location = new System.Drawing.Point(841, 0);
             this.layoutControlItem7.Name = "layoutControlItem7";
-            this.layoutControlItem7.Size = new System.Drawing.Size(114, 26);
+            this.layoutControlItem7.Size = new System.Drawing.Size(107, 26);
             this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem7.TextVisible = false;
             // 
@@ -1215,15 +1218,13 @@
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
-            // barBtnNew
+            // emptySpaceItem4
             // 
-            this.barBtnNew.Caption = "新建";
-            this.barBtnNew.Id = 7;
-            this.barBtnNew.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barBtnNew.ImageOptions.Image")));
-            this.barBtnNew.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barBtnNew.ImageOptions.LargeImage")));
-            this.barBtnNew.Name = "barBtnNew";
-            this.barBtnNew.PaintStyle = DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph;
-            this.barBtnNew.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnNew_ItemClick);
+            this.emptySpaceItem4.AllowHotTrack = false;
+            this.emptySpaceItem4.Location = new System.Drawing.Point(948, 0);
+            this.emptySpaceItem4.Name = "emptySpaceItem4";
+            this.emptySpaceItem4.Size = new System.Drawing.Size(423, 26);
+            this.emptySpaceItem4.TextSize = new System.Drawing.Size(0, 0);
             // 
             // fmFanSelection
             // 
@@ -1271,13 +1272,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.ComBoxScene.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1298,7 +1299,6 @@
         private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
         private DevExpress.XtraEditors.ComboBoxEdit ComBoxScene;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
-        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
         private DevExpress.XtraEditors.SimpleButton BtnCopy;
         private DevExpress.XtraEditors.SimpleButton BtnDown;
         private DevExpress.XtraEditors.SimpleButton BtnUp;
@@ -1375,5 +1375,6 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarButtonItem BarBtnExportFanCalc;
         private DevExpress.XtraBars.BarButtonItem barBtnNew;
+        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem4;
     }
 }

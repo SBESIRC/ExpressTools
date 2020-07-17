@@ -222,6 +222,39 @@ namespace TianHua.FanSelection.UI
             }
         }
 
+        private void TxtAirVolume_Click(object sender, EventArgs e)
+        {
+            var _Fan = TreeList.GetFocusedRow() as FanDataModel;
+            if (_Fan == null) { return; }
+            if (_Fan.AirCalcFactor == 0)
+            {
+                if(_Fan.ScenarioType == 1)
+                {
+                    _Fan.AirCalcFactor = 1.2;
+                }
+                else
+                {
+                    _Fan.AirCalcFactor = 1.1;
+                }
+
+            }
+            fmAirVolumeCalc _fmAirVolumeCalc = new fmAirVolumeCalc();
+
+            _fmAirVolumeCalc.InitForm(_Fan);
+            if (_fmAirVolumeCalc.ShowDialog() == DialogResult.OK)
+            {
+                if (_fmAirVolumeCalc.m_ListFan != null && _fmAirVolumeCalc.m_ListFan.Count > 0)
+                {
+                    _Fan.AirVolume = _fmAirVolumeCalc.m_ListFan.First().AirVolume;
+                    _Fan.AirCalcFactor = _fmAirVolumeCalc.m_ListFan.First().AirCalcFactor;
+                    _Fan.AirCalcValue = _fmAirVolumeCalc.m_ListFan.First().AirCalcValue;
+                }
+                 
+                SetFanModel();
+                TreeList.Refresh();
+            }
+        }
+
         private void TxtModelName_Click(object sender, EventArgs e)
         {
             var _Fan = TreeList.GetFocusedRow() as FanDataModel;
@@ -679,6 +712,15 @@ namespace TianHua.FanSelection.UI
             _FanDataModel.Control = "单速";
             _FanDataModel.PowerType = "普通";
             _FanDataModel.SortID = m_ListFan.Count + 1;
+            if (_FanDataModel.Scenario.Contains("消防"))
+            {
+                _FanDataModel.ScenarioType = 1;
+            }
+            else
+            {
+                _FanDataModel.ScenarioType = 2;
+            }
+
             var _FanPrefixDict = PubVar.g_ListFanPrefixDict.Find(s => s.FanUse == _FanDataModel.Scenario);
             if (_FanPrefixDict != null)
             {
@@ -1372,5 +1414,17 @@ namespace TianHua.FanSelection.UI
             this.TreeList.ExpandAll();
             ComBoxScene_SelectedValueChanged(null, null);
         }
+
+        private void PicInsertMap_Click(object sender, EventArgs e)
+        {
+            var _FocusedColumn = TreeList.FocusedColumn;
+            var _FanDataModel = TreeList.GetFocusedRow() as FanDataModel;
+            if (_FanDataModel == null) { return; }
+            this.Hide();
+           //TODO：
+            this.Show();
+
+        }
     }
 }
+ 

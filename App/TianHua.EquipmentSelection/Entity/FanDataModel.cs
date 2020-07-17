@@ -14,6 +14,8 @@ namespace TianHua.FanSelection
         /// </summary>
         public string Scenario { get; set; }
 
+        public int ScenarioType { get; set; }
+
         /// <summary>
         /// 唯一ID
         /// </summary>
@@ -325,6 +327,17 @@ namespace TianHua.FanSelection
         ///  进风形式
         /// </summary>
         public string IntakeForm { get; set; }
+
+        /// <summary>
+        /// 风量计算值
+        /// </summary>
+        public int AirCalcValue { get; set; }
+
+
+        /// <summary>
+        /// 风量计算系数
+        /// </summary>
+        public double AirCalcFactor { get; set; }
 
     }
 }

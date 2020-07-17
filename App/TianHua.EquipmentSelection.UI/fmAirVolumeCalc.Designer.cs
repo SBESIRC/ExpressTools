@@ -29,34 +29,38 @@
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
-            this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.BtnOK = new DevExpress.XtraEditors.SimpleButton();
             this.Gdc = new DevExpress.XtraGrid.GridControl();
             this.Gdv = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
+            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.ColCalcValue = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.TxtAirCalcValue = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.ColFactor = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.TxtAirCalcFactor = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.ColAirVolume = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.TxtDuctLength = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.TxtFriction = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.TxtLocRes = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.TxtDamper = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.TxtDynPress = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.BtnOK = new DevExpress.XtraEditors.SimpleButton();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.ColCalcValue = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.ColFactor = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.ColAirVolume = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gdc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gdv)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtAirCalcValue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtAirCalcFactor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtDuctLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtFriction)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtLocRes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtDamper)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtDynPress)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
@@ -75,17 +79,16 @@
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
-            // layoutControlGroup1
+            // BtnOK
             // 
-            this.layoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
-            this.layoutControlGroup1.GroupBordersVisible = false;
-            this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.layoutControlItem1,
-            this.layoutControlItem2,
-            this.emptySpaceItem1});
-            this.layoutControlGroup1.Name = "Root";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(326, 143);
-            this.layoutControlGroup1.TextVisible = false;
+            this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.BtnOK.Location = new System.Drawing.Point(210, 109);
+            this.BtnOK.Name = "BtnOK";
+            this.BtnOK.Size = new System.Drawing.Size(104, 22);
+            this.BtnOK.StyleController = this.layoutControl1;
+            this.BtnOK.TabIndex = 33;
+            this.BtnOK.Text = "确定";
+            this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
             // 
             // Gdc
             // 
@@ -101,7 +104,9 @@
             this.TxtFriction,
             this.TxtLocRes,
             this.TxtDamper,
-            this.TxtDynPress});
+            this.TxtDynPress,
+            this.TxtAirCalcValue,
+            this.TxtAirCalcFactor});
             this.Gdc.Size = new System.Drawing.Size(302, 93);
             this.Gdc.TabIndex = 32;
             this.Gdc.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -147,6 +152,82 @@
             this.Gdv.OptionsView.ShowGroupPanel = false;
             this.Gdv.OptionsView.ShowIndicator = false;
             this.Gdv.RowHeight = 23;
+            this.Gdv.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.Gdv_CellValueChanged);
+            // 
+            // gridBand1
+            // 
+            this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand1.Caption = "计算值\r\n（m³/h）";
+            this.gridBand1.Columns.Add(this.ColCalcValue);
+            this.gridBand1.Name = "gridBand1";
+            this.gridBand1.VisibleIndex = 0;
+            this.gridBand1.Width = 75;
+            // 
+            // ColCalcValue
+            // 
+            this.ColCalcValue.AppearanceCell.Options.UseTextOptions = true;
+            this.ColCalcValue.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.ColCalcValue.Caption = "计算值";
+            this.ColCalcValue.ColumnEdit = this.TxtAirCalcValue;
+            this.ColCalcValue.FieldName = "AirCalcValue";
+            this.ColCalcValue.Name = "ColCalcValue";
+            this.ColCalcValue.Visible = true;
+            // 
+            // TxtAirCalcValue
+            // 
+            this.TxtAirCalcValue.AutoHeight = false;
+            this.TxtAirCalcValue.Mask.EditMask = "([0-9]{1,})";
+            this.TxtAirCalcValue.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.TxtAirCalcValue.Name = "TxtAirCalcValue";
+            // 
+            // gridBand2
+            // 
+            this.gridBand2.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand2.Caption = "选型系数";
+            this.gridBand2.Columns.Add(this.ColFactor);
+            this.gridBand2.Name = "gridBand2";
+            this.gridBand2.VisibleIndex = 1;
+            this.gridBand2.Width = 75;
+            // 
+            // ColFactor
+            // 
+            this.ColFactor.AppearanceCell.Options.UseTextOptions = true;
+            this.ColFactor.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.ColFactor.Caption = "选型系数";
+            this.ColFactor.ColumnEdit = this.TxtAirCalcFactor;
+            this.ColFactor.FieldName = "AirCalcFactor";
+            this.ColFactor.Name = "ColFactor";
+            this.ColFactor.Visible = true;
+            // 
+            // TxtAirCalcFactor
+            // 
+            this.TxtAirCalcFactor.AutoHeight = false;
+            this.TxtAirCalcFactor.Mask.EditMask = "\\d*\\.{0,1}\\d{0,1}";
+            this.TxtAirCalcFactor.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.TxtAirCalcFactor.Name = "TxtAirCalcFactor";
+            // 
+            // gridBand3
+            // 
+            this.gridBand3.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand3.Caption = "风量\r\n（m³/h）";
+            this.gridBand3.Columns.Add(this.ColAirVolume);
+            this.gridBand3.Name = "gridBand3";
+            this.gridBand3.RowCount = 2;
+            this.gridBand3.VisibleIndex = 2;
+            this.gridBand3.Width = 75;
+            // 
+            // ColAirVolume
+            // 
+            this.ColAirVolume.AppearanceCell.Options.UseTextOptions = true;
+            this.ColAirVolume.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.ColAirVolume.Caption = "风量";
+            this.ColAirVolume.FieldName = "AirVolume";
+            this.ColAirVolume.Name = "ColAirVolume";
+            this.ColAirVolume.OptionsColumn.AllowEdit = false;
+            this.ColAirVolume.Visible = true;
             // 
             // TxtDuctLength
             // 
@@ -183,6 +264,18 @@
             this.TxtDynPress.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtDynPress.Name = "TxtDynPress";
             // 
+            // layoutControlGroup1
+            // 
+            this.layoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
+            this.layoutControlGroup1.GroupBordersVisible = false;
+            this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlItem1,
+            this.layoutControlItem2,
+            this.emptySpaceItem1});
+            this.layoutControlGroup1.Name = "Root";
+            this.layoutControlGroup1.Size = new System.Drawing.Size(326, 143);
+            this.layoutControlGroup1.TextVisible = false;
+            // 
             // layoutControlItem1
             // 
             this.layoutControlItem1.Control = this.Gdc;
@@ -191,16 +284,6 @@
             this.layoutControlItem1.Size = new System.Drawing.Size(306, 97);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
-            // 
-            // BtnOK
-            // 
-            this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(210, 109);
-            this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(104, 22);
-            this.BtnOK.StyleController = this.layoutControl1;
-            this.BtnOK.TabIndex = 33;
-            this.BtnOK.Text = "确定";
             // 
             // layoutControlItem2
             // 
@@ -219,57 +302,6 @@
             this.emptySpaceItem1.Size = new System.Drawing.Size(198, 26);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
-            // ColCalcValue
-            // 
-            this.ColCalcValue.Caption = "计算值";
-            this.ColCalcValue.Name = "ColCalcValue";
-            this.ColCalcValue.Visible = true;
-            // 
-            // ColFactor
-            // 
-            this.ColFactor.Caption = "选型系数";
-            this.ColFactor.FieldName = "Factor";
-            this.ColFactor.Name = "ColFactor";
-            this.ColFactor.Visible = true;
-            // 
-            // ColAirVolume
-            // 
-            this.ColAirVolume.Caption = "风量";
-            this.ColAirVolume.FieldName = "AirVolume";
-            this.ColAirVolume.Name = "ColAirVolume";
-            this.ColAirVolume.Visible = true;
-            // 
-            // gridBand1
-            // 
-            this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand1.Caption = "计算值\r\n（m³/h）";
-            this.gridBand1.Columns.Add(this.ColCalcValue);
-            this.gridBand1.Name = "gridBand1";
-            this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 75;
-            // 
-            // gridBand2
-            // 
-            this.gridBand2.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand2.Caption = "选型系数";
-            this.gridBand2.Columns.Add(this.ColFactor);
-            this.gridBand2.Name = "gridBand2";
-            this.gridBand2.VisibleIndex = 1;
-            this.gridBand2.Width = 75;
-            // 
-            // gridBand3
-            // 
-            this.gridBand3.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand3.Caption = "风量\r\n（m³/h）";
-            this.gridBand3.Columns.Add(this.ColAirVolume);
-            this.gridBand3.Name = "gridBand3";
-            this.gridBand3.RowCount = 2;
-            this.gridBand3.VisibleIndex = 2;
-            this.gridBand3.Width = 75;
-            // 
             // fmAirVolumeCalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -284,14 +316,16 @@
             this.Text = "风量计算器";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gdc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gdv)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtAirCalcValue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtAirCalcFactor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtDuctLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtFriction)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtLocRes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtDamper)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtDynPress)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
@@ -320,5 +354,7 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn ColFactor;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn ColAirVolume;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit TxtAirCalcValue;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit TxtAirCalcFactor;
     }
 }

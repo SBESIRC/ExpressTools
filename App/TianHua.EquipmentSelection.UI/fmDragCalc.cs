@@ -16,6 +16,8 @@ namespace TianHua.FanSelection.UI
 
         public List<FanDataModel> m_ListFan = new List<FanDataModel>();
 
+        public FanDataModel m_Fan { get; set; }
+
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -42,10 +44,13 @@ namespace TianHua.FanSelection.UI
             ;
         }
 
-        public void InitForm(FanDataModel _Fan)
+        public void InitForm(FanDataModel _FanDataModel)
         {
+            //var _Json = FuncJson.Serialize(_FanDataModel);
+            //m_Fan = FuncJson.Deserialize<FanDataModel>(_Json);
+            m_Fan = _FanDataModel;
             m_ListFan = new List<FanDataModel>();
-            m_ListFan.Add(_Fan);
+            m_ListFan.Add(m_Fan);
             Gdc.DataSource = m_ListFan;
             Gdc.Refresh();
 
