@@ -41,7 +41,7 @@ namespace ThColumnInfo
                 }
                 else
                 {
-                    CheckPalette._checkResult.CheckResVM.Load(acadApp.Application.DocumentManager.MdiActiveDocument.Name,false);
+                    CheckPalette._checkResult.CheckResVM.Reset(acadApp.Application.DocumentManager.MdiActiveDocument.Name);
                     if (DataPalette.ShowPaletteMark)
                     {
                         CheckPalette._checkResult.CheckResVM.ExportDetailData(CheckPalette._checkResult.CheckResVM.LastShowDetailNode);
@@ -53,7 +53,6 @@ namespace ThColumnInfo
                 ThColumnInfoUtils.WriteException(ex, "Dc_DocumentActivated");
             }
         }
-
         private void Dc_DocumentDestroyed(object sender, DocumentDestroyedEventArgs e)
         {
             try

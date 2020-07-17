@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ThColumnInfo.Validate;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThColumnInfo.View
 {
@@ -23,8 +24,8 @@ namespace ThColumnInfo.View
         private System.Drawing.Color textForeClor;
 
         private int dgvColumnTableCurrentRowIndex = -1;
-        private int dgvSpecificationCurrentRowIndex = -1;
-        private int dgvCalculationCurrentRowIndex = -1;
+        private int dgvIndicatorCurrentRowIndex = -1;
+        private int dgvCheckResCurrentRowIndex = -1;
 
         private string columnTableTabName = "";
         private string specificationTabName = "";
@@ -55,18 +56,25 @@ namespace ThColumnInfo.View
             this.cellBackColor = System.Drawing.Color.FromArgb(92, 92, 92);
             this.dgvBackColor = System.Drawing.Color.FromArgb(92, 92, 92);
             this.dgvColumnTable.BackgroundColor = this.dgvBackColor;
-            this.dgvSpecificationRes.BackgroundColor = this.dgvBackColor;
-            this.dgvCalculationRes.BackgroundColor = this.dgvBackColor;
+            this.dgvIndicator.BackgroundColor = this.dgvBackColor;
+            this.dgvCheckRes.BackgroundColor = this.dgvBackColor;
+
+            this.tableLayoutPanel1.BackColor= this.dgvBackColor;
+            this.groupBox1.BackColor = this.dgvBackColor;
+            this.rbShowAll.BackColor = this.dgvBackColor;
+            this.rbShowInvalid.BackColor = this.dgvBackColor;
+            this.rbShowAll.ForeColor= this.textForeClor;
+            this.rbShowInvalid.ForeColor = this.textForeClor;
 
             this.dgvColumnTable.GridColor = Color.Black;
-            this.dgvSpecificationRes.GridColor = Color.Black;
-            this.dgvCalculationRes.GridColor = Color.Black;
+            this.dgvIndicator.GridColor = Color.Black;
+            this.dgvCheckRes.GridColor = Color.Black;
             this.dgvColumnTable.ColumnHeadersDefaultCellStyle.BackColor = this.dgvBackColor;
-            this.dgvSpecificationRes.ColumnHeadersDefaultCellStyle.BackColor = this.dgvBackColor;
-            this.dgvCalculationRes.ColumnHeadersDefaultCellStyle.BackColor = this.dgvBackColor;
+            this.dgvIndicator.ColumnHeadersDefaultCellStyle.BackColor = this.dgvBackColor;
+            this.dgvCheckRes.ColumnHeadersDefaultCellStyle.BackColor = this.dgvBackColor;
             this.dgvColumnTable.ColumnHeadersDefaultCellStyle.ForeColor = this.textForeClor;
-            this.dgvSpecificationRes.ColumnHeadersDefaultCellStyle.ForeColor = this.textForeClor;
-            this.dgvCalculationRes.ColumnHeadersDefaultCellStyle.ForeColor = this.textForeClor;
+            this.dgvIndicator.ColumnHeadersDefaultCellStyle.ForeColor = this.textForeClor;
+            this.dgvCheckRes.ColumnHeadersDefaultCellStyle.ForeColor = this.textForeClor;
 
             this.tabControl1.BackColor = this.dgvBackColor;
             this.tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
@@ -86,15 +94,14 @@ namespace ThColumnInfo.View
         public void ClearDataGridView()
         {
             this.dgvColumnTable.Rows.Clear();
-            this.dgvSpecificationRes.Rows.Clear();
-            this.dgvCalculationRes.Rows.Clear();
+            this.dgvIndicator.Rows.Clear();
+            this.dgvCheckRes.Rows.Clear();
         }
         private void UpdateData()
         {
             this.flrName = "";
             if(this.innerframeNode!=null && this.innerframeNode.Tag!=null && this.innerframeNode.Tag.GetType()==typeof(ThStandardSign))
             {
-
                 ThStandardSign thStandardSign = this.innerframeNode.Tag as ThStandardSign;
                 this.flrName = thStandardSign.InnerFrameName;
             }
@@ -174,9 +181,155 @@ namespace ThColumnInfo.View
         }
         private void AddDataToDataGridView2()
         {
-            this.dgvSpecificationRes.Rows.Clear();
+            this.dgvIndicator.Rows.Clear();
+            if(ThValidate.columnDataModels==null)
+            {
+                return;
+            }
+            if (this.thCalculationValidate != null)
+            {
+                FillThValidationIndicator();
+            }
+            else if (this.thSpecificationValidate != null)
+            {
+                FillThSpecificationIndicator();
+            }           
+        }
+        private void FillThSpecificationIndicator()
+        {
             bool findCorrectNode = CheckPalette._checkResult.CheckResVM.TraverseDataCorrectNode(this.currentNode);
-            if (findCorrectNode && this.thSpecificationValidate != null)
+            if (findCorrectNode)
+            {
+                List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.CheckResVM.GetDataCorrectColumnInfs(this.currentNode);
+                foreach (ColumnInf columnInf in correctColumnInfs)
+                {
+                    ColumnDataModel cdm = null;
+                    var cdmRes = ThValidate.columnDataModels.Where(i => i.Code == columnInf.Code).Select(i => i);
+                    if (cdmRes != null && cdmRes.Count() > 0)
+                    {
+                        cdm = cdmRes.First();
+                    }
+                    if(cdm==null)
+                    {
+                        continue;
+                    }
+                    int rowIndex = this.dgvIndicator.Rows.Add();
+                    this.dgvIndicator.Rows[rowIndex].Cells["code"].Value = columnInf.Code;
+                    this.dgvIndicator.Rows[rowIndex].Cells["subCode"].Value = columnInf.Text;
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblXSpace"].Value = cdm.DblXAs;
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblYSpace"].Value = cdm.DblYAs;
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblP"].Value = cdm.DblYAs;
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblXP"].Value = cdm.DblXP;
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblYP"].Value = cdm.DblYP;
+                    NoCalculationValidate noCV = new NoCalculationValidate(columnInf);
+                    this.dgvIndicator.Rows[rowIndex].Cells["volumeStirrupRatio"].Value = cdm.GetVolumeStirrupRatio(noCV.ProtectLayerThickness);
+                    this.dgvIndicator.Rows[rowIndex].Cells["shearSpanRatio"].Value = "";
+                }
+                for(int i=0;i<this.dgvIndicator.Rows.Count;i++)
+                {
+                    for(int j=0;j<this.dgvIndicator.Columns.Count;j++)
+                    {
+                        this.dgvIndicator.Rows[i].Cells[j].Style.BackColor = this.cellBackColor;
+                        this.dgvIndicator.Rows[i].Cells[j].Style.ForeColor = this.textForeClor;
+                    }
+                }
+            }
+            if (this.dgvIndicator.Rows.Count < this.rowCount)
+            {
+                int addRowCount = this.rowCount - this.dgvIndicator.Rows.Count;
+                for (int i = 0; i < addRowCount; i++)
+                {
+                    int rowIndex = this.dgvIndicator.Rows.Add();
+                    for (int j = 0; j < this.dgvIndicator.Columns.Count; j++)
+                    {
+                        this.dgvIndicator.Rows[rowIndex].Cells[j].Style.BackColor = this.cellBackColor;
+                        this.dgvIndicator.Rows[rowIndex].Cells[j].Style.ForeColor = this.textForeClor;
+                        this.dgvIndicator.Rows[rowIndex].Cells[j].Value = "";
+                    }
+                }
+            }
+        }
+        private void FillThValidationIndicator()
+        {
+            bool findCorrectNode = CheckPalette._checkResult.CheckResVM.TraverseDataCorrectNode(this.currentNode);
+            if (findCorrectNode)
+            {
+                List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.CheckResVM.GetDataCorrectColumnInfs(this.currentNode);
+                foreach (ColumnInf columnInf in correctColumnInfs)
+                {
+                    ColumnDataModel cdm = null;
+                    var cdmRes = ThValidate.columnDataModels.Where(i => i.Code == columnInf.Code).Select(i => i);
+                    if (cdmRes != null && cdmRes.Count() > 0)
+                    {
+                        cdm = cdmRes.First();
+                    }
+                    if (cdm == null)
+                    {
+                        continue;
+                    }
+                    int rowIndex = this.dgvCheckRes.Rows.Add();
+                    this.dgvIndicator.Rows[rowIndex].Cells["code"].Value = columnInf.Code;
+                    this.dgvIndicator.Rows[rowIndex].Cells["subCode"].Value = columnInf.Text;
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblXSpace"].Value = cdm.DblXAs;
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblYSpace"].Value = cdm.DblYAs;
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblP"].Value = cdm.DblYAs;
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblXP"].Value = cdm.DblXP;
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblYP"].Value = cdm.DblYP;
+
+                    double protectThickness = 0.0;
+                    double jkb = 0.0;
+                    ColumnRelateInf columnRelateInf = this.thCalculationValidate.
+                        ColumnValidateResultDic.Where(i => i.Key.ModelColumnInfs.Count == 1 &&
+              i.Key.ModelColumnInfs[0].Code == columnInf.Code).Select(i => i.Key).FirstOrDefault();
+                    if (columnRelateInf != null)
+                    {
+                        CalculationValidate calculationValidate = new CalculationValidate(columnRelateInf);
+                        protectThickness = calculationValidate.ProtectLayerThickness;
+                        jkb = columnRelateInf.YjkColumnData.Jkb;
+                    }
+                    this.dgvIndicator.Rows[rowIndex].Cells["volumeStirrupRatio"].Value = cdm.GetVolumeStirrupRatio(protectThickness);
+                    this.dgvIndicator.Rows[rowIndex].Cells["shearSpanRatio"].Value = jkb;
+                }
+                for (int i = 0; i < this.dgvIndicator.Rows.Count; i++)
+                {
+                    for (int j = 0; j < this.dgvIndicator.Columns.Count; j++)
+                    {
+                        this.dgvIndicator.Rows[i].Cells[j].Style.BackColor = this.cellBackColor;
+                        this.dgvIndicator.Rows[i].Cells[j].Style.ForeColor = this.textForeClor;
+                    }
+                }
+            }
+            if (this.dgvIndicator.Rows.Count < this.rowCount)
+            {
+                int addRowCount = this.rowCount - this.dgvIndicator.Rows.Count;
+                for (int i = 0; i < addRowCount; i++)
+                {
+                    int rowIndex = this.dgvIndicator.Rows.Add();
+                    for (int j = 0; j < this.dgvIndicator.Columns.Count; j++)
+                    {
+                        this.dgvIndicator.Rows[rowIndex].Cells[j].Style.BackColor = this.cellBackColor;
+                        this.dgvIndicator.Rows[rowIndex].Cells[j].Style.ForeColor = this.textForeClor;
+                        this.dgvIndicator.Rows[rowIndex].Cells[j].Value = "";
+                    }
+                }
+            }
+        }
+        private void AddDataToDataGridView3()
+        {
+            this.dgvCheckRes.Rows.Clear();
+            if(this.thCalculationValidate != null)
+            {
+                FillThValidationData();
+            }
+            else if(this.thSpecificationValidate != null)
+            {
+                FillThSpecificationData();
+            }
+        }
+        private void FillThSpecificationData()
+        {
+            bool findCorrectNode = CheckPalette._checkResult.CheckResVM.TraverseDataCorrectNode(this.currentNode);
+            if (findCorrectNode)
             {
                 List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.CheckResVM.GetDataCorrectColumnInfs(this.currentNode);
                 foreach (ColumnInf columnInf in correctColumnInfs)
@@ -199,49 +352,48 @@ namespace ThColumnInfo.View
                         {
                             continue;
                         }
-                        int rowIndex = this.dgvSpecificationRes.Rows.Add();
+                        int rowIndex = this.dgvCheckRes.Rows.Add();
                         if (i == 0)
                         {
-                            this.dgvSpecificationRes.Rows[rowIndex].Cells["code"].Value = columnInf.Text;
-                            this.dgvSpecificationRes.Rows[rowIndex].Cells["flrName"].Value = this.flrName;
+                            this.dgvCheckRes.Rows[rowIndex].Cells["code"].Value = columnInf.Code;
+                            this.dgvCheckRes.Rows[rowIndex].Cells["subCode"].Value = columnInf.Text;
                         }
-                        this.dgvSpecificationRes.Rows[rowIndex].Cells["detail"].Value = values[i];
+                        this.dgvCheckRes.Rows[rowIndex].Cells["detail"].Value = values[i];
 
-                        this.dgvSpecificationRes.Rows[rowIndex].Cells["code"].Style.BackColor = this.cellBackColor;
-                        this.dgvSpecificationRes.Rows[rowIndex].Cells["code"].Style.ForeColor = this.textForeClor;
-                        this.dgvSpecificationRes.Rows[rowIndex].Cells["flrName"].Style.BackColor = this.cellBackColor;
-                        this.dgvSpecificationRes.Rows[rowIndex].Cells["flrName"].Style.ForeColor = this.textForeClor;
-                        this.dgvSpecificationRes.Rows[rowIndex].Cells["detail"].Style.BackColor = this.cellBackColor;
-                        this.dgvSpecificationRes.Rows[rowIndex].Cells["detail"].Style.ForeColor = this.textForeClor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["code"].Style.BackColor = this.cellBackColor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["code"].Style.ForeColor = this.textForeClor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["subCode"].Style.BackColor = this.cellBackColor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["subCode"].Style.ForeColor = this.textForeClor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["detail"].Style.BackColor = this.cellBackColor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["detail"].Style.ForeColor = this.textForeClor;
 
                         if (i < errorIndex)
                         {
-                            this.dgvSpecificationRes.Rows[rowIndex].Cells["detail"].Style.ForeColor = Color.Red;
+                            this.dgvCheckRes.Rows[rowIndex].Cells["detail"].Style.ForeColor = Color.Red;
                         }
-                        this.dgvSpecificationRes.Rows[rowIndex].Tag = this.innerframeNode.Tag;
+                        this.dgvCheckRes.Rows[rowIndex].Tag = this.innerframeNode.Tag;
                     }
                 }
             }
-            
-            if (this.dgvSpecificationRes.Rows.Count < this.rowCount)
+
+            if (this.dgvCheckRes.Rows.Count < this.rowCount)
             {
-                int addRowCount = this.rowCount - this.dgvSpecificationRes.Rows.Count;
+                int addRowCount = this.rowCount - this.dgvCheckRes.Rows.Count;
                 for (int i = 0; i < addRowCount; i++)
                 {
-                    int rowIndex = this.dgvSpecificationRes.Rows.Add();
-                    for (int j = 0; j < this.dgvSpecificationRes.Columns.Count; j++)
+                    int rowIndex = this.dgvCheckRes.Rows.Add();
+                    for (int j = 0; j < this.dgvCheckRes.Columns.Count; j++)
                     {
-                        this.dgvSpecificationRes.Rows[rowIndex].Cells[j].Style.BackColor = this.cellBackColor;
-                        this.dgvSpecificationRes.Rows[rowIndex].Cells[j].Style.ForeColor = this.textForeClor;
-                        this.dgvSpecificationRes.Rows[rowIndex].Cells[j].Value = "";
+                        this.dgvCheckRes.Rows[rowIndex].Cells[j].Style.BackColor = this.cellBackColor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells[j].Style.ForeColor = this.textForeClor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells[j].Value = "";
                     }
-                    this.dgvSpecificationRes.Rows[rowIndex].Tag = this.innerframeNode.Tag;
+                    this.dgvCheckRes.Rows[rowIndex].Tag = this.innerframeNode.Tag;
                 }
             }
         }
-        private void AddDataToDataGridView3()
+        private void FillThValidationData()
         {
-            this.dgvCalculationRes.Rows.Clear();
             bool findCorrectNode = CheckPalette._checkResult.CheckResVM.TraverseDataCorrectNode(this.currentNode);
             if (findCorrectNode && this.thCalculationValidate != null)
             {
@@ -255,7 +407,7 @@ namespace ThColumnInfo.View
                         continue;
                     }
                     int errorIndex = values.IndexOf("XXXXXX");
-                    if(errorIndex==0)
+                    if (errorIndex == 0)
                     {
                         values.RemoveAt(0);
                         errorIndex = -1;
@@ -266,50 +418,52 @@ namespace ThColumnInfo.View
                         {
                             continue;
                         }
-                        int rowIndex = this.dgvCalculationRes.Rows.Add();
+                        int rowIndex = this.dgvCheckRes.Rows.Add();
                         if (i == 0)
                         {
-                            this.dgvCalculationRes.Rows[rowIndex].Cells["code"].Value = columnInf.Text;
-                            this.dgvCalculationRes.Rows[rowIndex].Cells["flrName"].Value = this.flrName;
+                            this.dgvCheckRes.Rows[rowIndex].Cells["code"].Value = columnInf.Text;
+                            this.dgvCheckRes.Rows[rowIndex].Cells["flrName"].Value = this.flrName;
                         }
-                        this.dgvCalculationRes.Rows[rowIndex].Cells["detail"].Value = values[i];
+                        this.dgvCheckRes.Rows[rowIndex].Cells["detail"].Value = values[i];
 
-                        this.dgvCalculationRes.Rows[rowIndex].Cells["code"].Style.BackColor = this.cellBackColor;
-                        this.dgvCalculationRes.Rows[rowIndex].Cells["code"].Style.ForeColor = this.textForeClor;
-                        this.dgvCalculationRes.Rows[rowIndex].Cells["flrName"].Style.BackColor = this.cellBackColor;
-                        this.dgvCalculationRes.Rows[rowIndex].Cells["flrName"].Style.ForeColor = this.textForeClor;
-                        this.dgvCalculationRes.Rows[rowIndex].Cells["detail"].Style.BackColor = this.cellBackColor;
-                        this.dgvCalculationRes.Rows[rowIndex].Cells["detail"].Style.ForeColor = this.textForeClor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["code"].Style.BackColor = this.cellBackColor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["code"].Style.ForeColor = this.textForeClor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["flrName"].Style.BackColor = this.cellBackColor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["flrName"].Style.ForeColor = this.textForeClor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["detail"].Style.BackColor = this.cellBackColor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["detail"].Style.ForeColor = this.textForeClor;
                         if (i < errorIndex)
                         {
-                            this.dgvCalculationRes.Rows[rowIndex].Cells["detail"].Style.ForeColor = Color.Red;
+                            this.dgvCheckRes.Rows[rowIndex].Cells["detail"].Style.ForeColor = Color.Red;
                         }
-                        this.dgvCalculationRes.Rows[rowIndex].Tag = this.innerframeNode.Tag;
+                        this.dgvCheckRes.Rows[rowIndex].Tag = this.innerframeNode.Tag;
                     }
                 }
             }
-            if (this.dgvCalculationRes.Rows.Count < this.rowCount)
+            if (this.dgvCheckRes.Rows.Count < this.rowCount)
             {
-                int addRowCount = this.rowCount - this.dgvCalculationRes.Rows.Count;
+                int addRowCount = this.rowCount - this.dgvCheckRes.Rows.Count;
                 for (int i = 0; i < addRowCount; i++)
                 {
-                    int rowIndex = this.dgvCalculationRes.Rows.Add();
-                    for (int j = 0; j < this.dgvCalculationRes.Columns.Count; j++)
+                    int rowIndex = this.dgvCheckRes.Rows.Add();
+                    for (int j = 0; j < this.dgvCheckRes.Columns.Count; j++)
                     {
-                        this.dgvCalculationRes.Rows[rowIndex].Cells[j].Style.BackColor = this.cellBackColor;
-                        this.dgvCalculationRes.Rows[rowIndex].Cells[j].Style.ForeColor = this.textForeClor;
-                        this.dgvCalculationRes.Rows[rowIndex].Cells[j].Value = "";
+                        this.dgvCheckRes.Rows[rowIndex].Cells[j].Style.BackColor = this.cellBackColor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells[j].Style.ForeColor = this.textForeClor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells[j].Value = "";
                     }
-                    this.dgvCalculationRes.Rows[rowIndex].Tag = this.innerframeNode.Tag;
+                    this.dgvCheckRes.Rows[rowIndex].Tag = this.innerframeNode.Tag;
                 }
             }
         }
+        /// <summary>
+        /// 柱表
+        /// </summary>
         private void InitDataGridView1()
         {
             this.dgvColumnTable.Columns.Add("code","柱编号");
             this.dgvColumnTable.Columns.Add("subCode", "子编号");
             this.dgvColumnTable.Columns["subCode"].HeaderCell.Style.ForeColor = Color.White;
-
             this.dgvColumnTable.Columns.Add("spec","bxh");
             //this.dgvColumnTable.Columns.Add("all", "全部纵筋");
             this.dgvColumnTable.Columns.Add("corner", "角筋");
@@ -319,31 +473,30 @@ namespace ThColumnInfo.View
             this.dgvColumnTable.Columns.Add("hoopType", "箍筋类型号");
 
             int baseWidth = 80;
-            for(int i=0;i<this.dgvColumnTable.Columns.Count;i++)
+            foreach (DataGridViewColumn dgvCol in this.dgvColumnTable.Columns)
             {
-                this.dgvColumnTable.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                this.dgvColumnTable.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-                switch (this.dgvColumnTable.Columns[i].Name)
+                dgvCol.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvCol.SortMode = DataGridViewColumnSortMode.NotSortable;
+                switch (dgvCol.Name)
                 {
                     case "all":
-                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth*2.5);
+                        dgvCol.Width = (int)(baseWidth * 2.5);
                         break;
                     case "bSide":
                     case "hside":
-                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth * 1.75);
+                        dgvCol.Width = (int)(baseWidth * 1.75);
                         break;
                     case "hooping":
-                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth * 1.5);
+                        dgvCol.Width = (int)(baseWidth * 1.5);
                         break;
                     case "limbNum":
-                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth * 1.5);
+                        dgvCol.Width = (int)(baseWidth * 1.5);
                         break;
                     case "hoopType":
-                        this.dgvColumnTable.Columns[i].Width = (int)(baseWidth * 1.5);
+                        dgvCol.Width = (int)(baseWidth * 1.5);
                         break;
                     default:
-                        this.dgvColumnTable.Columns[i].Width = baseWidth;
+                        dgvCol.Width = baseWidth;
                         break;
                 }
             }
@@ -352,68 +505,72 @@ namespace ThColumnInfo.View
             this.dgvColumnTable.AllowUserToOrderColumns = false;
             this.dgvColumnTable.AllowUserToResizeRows=false;
         }
+        /// <summary>
+        /// 计算指标
+        /// </summary>
         private void InitDataGridView2()
         {
-            this.dgvSpecificationRes.Columns.Add("flrName", "楼层");
-            this.dgvSpecificationRes.Columns.Add("code", "编号");
-            this.dgvSpecificationRes.Columns.Add("detail", "详细");
-            this.dgvSpecificationRes.Columns["flrName"].HeaderCell.Style.BackColor = this.cellBackColor;
-            this.dgvSpecificationRes.Columns["code"].HeaderCell.Style.BackColor = this.cellBackColor;
-            this.dgvSpecificationRes.Columns["detail"].HeaderCell.Style.BackColor = this.cellBackColor;
+            this.dgvIndicator.Columns.Add("code", "柱编号");
+            this.dgvIndicator.Columns.Add("subCode", "子编号");
+            this.dgvIndicator.Columns.Add("dblXSpace", "X侧肢距");
+            this.dgvIndicator.Columns.Add("dblYSpace", "Y侧肢距");
+            this.dgvIndicator.Columns.Add("dblP", "配筋率");
+            this.dgvIndicator.Columns.Add("dblXP", "X侧配筋率");
+            this.dgvIndicator.Columns.Add("dblYP", "Y侧配筋率");
+            this.dgvIndicator.Columns.Add("volumeStirrupRatio", "体积配箍率");
+            this.dgvIndicator.Columns.Add("shearSpanRatio", "剪跨比");
 
             int baseWidth = 80;
-            for (int i = 0; i < this.dgvSpecificationRes.Columns.Count; i++)
+            foreach (DataGridViewColumn dgvColumn in this.dgvIndicator.Columns)
             {
-                this.dgvSpecificationRes.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                this.dgvSpecificationRes.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                switch (this.dgvSpecificationRes.Columns[i].Name)
+                dgvColumn.HeaderCell.Style.BackColor= this.cellBackColor;
+                dgvColumn.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+                switch (dgvColumn.Name)
                 {
-                    case "detail":
-                        this.dgvSpecificationRes.Columns[i].Width = (int)(baseWidth * 6);
-                        break;
-                    case "flrName":
-                        this.dgvSpecificationRes.Columns[i].Width = (int)(baseWidth * 3);
+                    case "dblXP":
+                    case "dblYP":
+                    case "volumeStirrupRatio":
+                        dgvColumn.Width = (int)(baseWidth * 2);
                         break;
                     default:
-                        this.dgvSpecificationRes.Columns[i].Width = baseWidth;
+                        dgvColumn.Width = baseWidth;
                         break;
                 }
             }
-            this.dgvSpecificationRes.RowHeadersVisible = false;
-            this.dgvSpecificationRes.AllowUserToAddRows = false;
-            this.dgvSpecificationRes.AllowUserToOrderColumns = false;
-            this.dgvSpecificationRes.AllowUserToResizeRows = false;
+            this.dgvIndicator.RowHeadersVisible = false;
+            this.dgvIndicator.AllowUserToAddRows = false;
+            this.dgvIndicator.AllowUserToOrderColumns = false;
+            this.dgvIndicator.AllowUserToResizeRows = false;
         }
+        /// <summary>
+        /// 校核结果
+        /// </summary>
         private void InitDataGridView3()
         {
-            this.dgvCalculationRes.Columns.Add("flrName", "楼层");
-            this.dgvCalculationRes.Columns.Add("code", "编号");
-            this.dgvCalculationRes.Columns.Add("detail", "详细");
-            this.dgvCalculationRes.Columns["flrName"].HeaderCell.Style.BackColor = this.cellBackColor;
-            this.dgvCalculationRes.Columns["code"].HeaderCell.Style.BackColor = this.cellBackColor;
-            this.dgvCalculationRes.Columns["detail"].HeaderCell.Style.BackColor = this.cellBackColor;
+            this.dgvCheckRes.Columns.Add("code", "编号");
+            this.dgvCheckRes.Columns.Add("subCode", "子编号");
+            this.dgvCheckRes.Columns.Add("detail", "详细");
             int baseWidth = 80;
-            for (int i = 0; i < this.dgvCalculationRes.Columns.Count; i++)
+            foreach (DataGridViewColumn dgvColumn in this.dgvCheckRes.Columns)
             {
-                this.dgvCalculationRes.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                this.dgvCalculationRes.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                switch (this.dgvCalculationRes.Columns[i].Name)
+                dgvColumn.HeaderCell.Style.BackColor = this.cellBackColor;
+                dgvColumn.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+                switch (dgvColumn.Name)
                 {
                     case "detail":
-                        this.dgvCalculationRes.Columns[i].Width = (int)(baseWidth * 6);
-                        break;
-                    case "flrName":
-                        this.dgvCalculationRes.Columns[i].Width = (int)(baseWidth * 3);
-                        break;
+                        dgvColumn.Width = (int)(baseWidth * 6);
+                        break;                   
                     default:
-                        this.dgvCalculationRes.Columns[i].Width = baseWidth;
+                        dgvColumn.Width = baseWidth;
                         break;
                 }
             }
-            this.dgvCalculationRes.RowHeadersVisible = false;
-            this.dgvCalculationRes.AllowUserToAddRows = false;
-            this.dgvCalculationRes.AllowUserToOrderColumns = false;
-            this.dgvCalculationRes.AllowUserToResizeRows = false;
+            this.dgvCheckRes.RowHeadersVisible = false;
+            this.dgvCheckRes.AllowUserToAddRows = false;
+            this.dgvCheckRes.AllowUserToOrderColumns = false;
+            this.dgvCheckRes.AllowUserToResizeRows = false;
         }
         private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
         {
@@ -428,18 +585,16 @@ namespace ThColumnInfo.View
             {
                 Rectangle rec = tabControl1.GetTabRect(i);
                 e.Graphics.FillRectangle(brush, rec);
-                e.Graphics.DrawString(tabControl1.TabPages[i].Text, new Font("宋体", 9),
+                e.Graphics.DrawString(tabControl1.TabPages[i].Text, new System.Drawing.Font("宋体", 9),
                     white, rec, stringFormat);
             }
         }
-
         private void dgvColumnTable_Paint(object sender, PaintEventArgs e)
         {
             DataGridView dgv = sender as DataGridView;
             Pen pen = new Pen(this.dgvBackColor);
             e.Graphics.DrawRectangle(pen,new Rectangle(0,0,dgv.Width,dgv.Height));
         }
-
         private void dgvSpecificationRes_Paint(object sender, PaintEventArgs e)
         {
             DataGridView dgv = sender as DataGridView;
@@ -502,7 +657,7 @@ namespace ThColumnInfo.View
             }
             return findNodeMode;
         }
-        private void dgvSpecificationRes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvCheckRes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex < 0 || e.RowIndex < 0)
             {
@@ -510,44 +665,7 @@ namespace ThColumnInfo.View
             }
             try
             {
-                string columnName = this.dgvSpecificationRes.Columns[e.ColumnIndex].Name;
-                if (columnName != "code" && columnName != "flrName")
-                {
-                    return;
-                }
-                if(columnName== "code")
-                {
-                    columnName = "subCode";
-                }
-                this.dgvSpecificationCurrentRowIndex = e.RowIndex;
-                string codeText = this.dgvSpecificationRes.Rows[e.RowIndex].Cells["code"].Value.ToString();
-                ThStandardSign thStandardSign = this.dgvSpecificationRes.Rows[e.RowIndex].Tag as ThStandardSign;
-                if (thStandardSign == null)
-                {
-                    return;
-                }
-                //搜索叶子节点，列名不能设为code
-
-                TreeNode findTreeCode = CheckPalette._checkResult.CheckResVM.FindTreeCode(thStandardSign.InnerFrameName, GetFindNodeMode(columnName), "", codeText);
-                if (findTreeCode != null)
-                {
-                    CheckPalette._checkResult.CheckResVM.ShowSelectNodeFrameIds(findTreeCode);
-                }
-            }
-            catch (System.Exception ex)
-            {
-                ThColumnInfoUtils.WriteException(ex, "dgvSpecificationRes_CellDoubleClick");
-            }
-        }
-        private void dgvCalculationRes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex < 0 || e.RowIndex < 0)
-            {
-                return;
-            }
-            try
-            {
-                string columnName = this.dgvCalculationRes.Columns[e.ColumnIndex].Name;
+                string columnName = this.dgvCheckRes.Columns[e.ColumnIndex].Name;
                 if (columnName != "code" && columnName != "flrName")
                 {
                     return;
@@ -556,9 +674,9 @@ namespace ThColumnInfo.View
                 {
                     columnName = "subCode";
                 }
-                this.dgvCalculationCurrentRowIndex = e.RowIndex;
-                string codeText = this.dgvCalculationRes.Rows[e.RowIndex].Cells["code"].Value.ToString();
-                ThStandardSign thStandardSign = this.dgvCalculationRes.Rows[e.RowIndex].Tag as ThStandardSign;
+                this.dgvCheckResCurrentRowIndex = e.RowIndex;
+                string codeText = this.dgvCheckRes.Rows[e.RowIndex].Cells["code"].Value.ToString();
+                ThStandardSign thStandardSign = this.dgvCheckRes.Rows[e.RowIndex].Tag as ThStandardSign;
                 if (thStandardSign == null)
                 {
                     return;
@@ -580,10 +698,10 @@ namespace ThColumnInfo.View
             {
                 return;
             }
-            if(this.dgvCalculationRes.Rows[rowIndex].Cells["code"].Value!=null)
+            if(this.dgvCheckRes.Rows[rowIndex].Cells["code"].Value!=null)
             {
-                string codeText = this.dgvCalculationRes.Rows[rowIndex].Cells["code"].Value.ToString();
-                ThStandardSign thStandardSign = this.dgvCalculationRes.Rows[rowIndex].Tag as ThStandardSign;
+                string codeText = this.dgvCheckRes.Rows[rowIndex].Cells["code"].Value.ToString();
+                ThStandardSign thStandardSign = this.dgvCheckRes.Rows[rowIndex].Tag as ThStandardSign;
                 if (thStandardSign == null)
                 {
                     return;
@@ -610,8 +728,8 @@ namespace ThColumnInfo.View
             }
             if (!CheckTabIsActive(this.columnTableTabName))
             {
-                HideDgvSpecificationRes(this.dgvSpecificationCurrentRowIndex);
-                HideDgvCalculationRes(this.dgvCalculationCurrentRowIndex);
+                HideDgvSpecificationRes(this.dgvIndicatorCurrentRowIndex);
+                HideDgvCalculationRes(this.dgvCheckResCurrentRowIndex);
             }
             if (this.dgvColumnTableCurrentRowIndex >= 0) 
             {
@@ -631,8 +749,7 @@ namespace ThColumnInfo.View
                 }
             }
         }
-
-        private void dgvCalculationRes_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvCheckRes_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if(e.RowIndex<0 || e.ColumnIndex<0)
             {
@@ -641,50 +758,20 @@ namespace ThColumnInfo.View
             if (!CheckTabIsActive(this.calculationTabName))
             {
                 HideDgvColumnTable(this.dgvColumnTableCurrentRowIndex);
-                HideDgvSpecificationRes(this.dgvSpecificationCurrentRowIndex);
+                HideDgvSpecificationRes(this.dgvIndicatorCurrentRowIndex);
             }
-            if (dgvCalculationCurrentRowIndex >= 0)
+            if (dgvCheckResCurrentRowIndex >= 0)
             {
-                if (this.dgvCalculationCurrentRowIndex != e.RowIndex)
+                if (this.dgvCheckResCurrentRowIndex != e.RowIndex)
                 {
-                    HideDgvCalculationRes(dgvCalculationCurrentRowIndex);
+                    HideDgvCalculationRes(dgvCheckResCurrentRowIndex);
                 }
             }
-            this.dgvCalculationCurrentRowIndex = e.RowIndex;
-            if (this.dgvCalculationRes.Rows[e.RowIndex].Tag != null)
+            this.dgvCheckResCurrentRowIndex = e.RowIndex;
+            if (this.dgvCheckRes.Rows[e.RowIndex].Tag != null)
             {
-                ThStandardSign thStandardSign = this.dgvCalculationRes.Rows[e.RowIndex].Tag as ThStandardSign;
-                object value = this.dgvCalculationRes.Rows[e.RowIndex].Cells["code"].Value;
-                if (value != null)
-                {
-                    CheckPalette._checkResult.CheckResVM.SelectTreeNode(thStandardSign.InnerFrameName, value.ToString());
-                }
-            }
-        }
-
-        private void dgvSpecificationRes_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
-            {
-                return;
-            }
-            if (!CheckTabIsActive(this.specificationTabName))
-            {
-                HideDgvColumnTable(this.dgvColumnTableCurrentRowIndex);
-                HideDgvCalculationRes(this.dgvCalculationCurrentRowIndex);
-            }
-            if (this.dgvSpecificationCurrentRowIndex >= 0)
-            {
-                if (this.dgvSpecificationCurrentRowIndex != e.RowIndex)
-                {
-                    HideDgvSpecificationRes(dgvSpecificationCurrentRowIndex);
-                }
-            }
-            this.dgvSpecificationCurrentRowIndex = e.RowIndex;
-            if (this.dgvSpecificationRes.Rows[e.RowIndex].Tag != null)
-            {
-                ThStandardSign thStandardSign = this.dgvSpecificationRes.Rows[e.RowIndex].Tag as ThStandardSign;
-                object value = this.dgvSpecificationRes.Rows[e.RowIndex].Cells["code"].Value;
+                ThStandardSign thStandardSign = this.dgvCheckRes.Rows[e.RowIndex].Tag as ThStandardSign;
+                object value = this.dgvCheckRes.Rows[e.RowIndex].Cells["code"].Value;
                 if (value != null)
                 {
                     CheckPalette._checkResult.CheckResVM.SelectTreeNode(thStandardSign.InnerFrameName, value.ToString());
@@ -701,7 +788,6 @@ namespace ThColumnInfo.View
             {
                 return false;
             }
-
         }
         private void HideDgvColumnTable(int rowIndex)
         {
@@ -740,10 +826,10 @@ namespace ThColumnInfo.View
             {
                 return;
             }
-            if(this.dgvSpecificationRes.Rows[rowIndex].Cells["code"].Value!=null)
+            if(this.dgvIndicator.Rows[rowIndex].Cells["code"].Value!=null)
             {
-                string codeText = this.dgvSpecificationRes.Rows[rowIndex].Cells["code"].Value.ToString();
-                ThStandardSign thStandardSign = this.dgvSpecificationRes.Rows[rowIndex].Tag as ThStandardSign;
+                string codeText = this.dgvIndicator.Rows[rowIndex].Cells["code"].Value.ToString();
+                ThStandardSign thStandardSign = this.dgvIndicator.Rows[rowIndex].Tag as ThStandardSign;
                 if (thStandardSign == null)
                 {
                     return;
@@ -787,37 +873,82 @@ namespace ThColumnInfo.View
         }
         private void SelectDgvSpecificationRow(ColumnInf columnInf, string innerName)
         {
-            foreach (DataGridViewRow dgvRow in this.dgvSpecificationRes.Rows)
+            foreach (DataGridViewRow dgvRow in this.dgvIndicator.Rows)
             {
-                if (dgvRow.Cells["flrName"].Value == null || dgvRow.Cells["code"].Value == null)
+                if (dgvRow.Cells["code"].Value == null || dgvRow.Cells["subCode"].Value == null)
                 {
                     continue;
                 }
-                if (dgvRow.Cells["flrName"].Value.ToString() == innerName && 
-                    dgvRow.Cells["code"].Value.ToString() == columnInf.Text
+                if (dgvRow.Cells["code"].Value.ToString() == columnInf.Code && 
+                    dgvRow.Cells["subCode"].Value.ToString() == columnInf.Text
                    )
                 {
                     dgvRow.Selected = true;
-                    dgvSpecificationRes.FirstDisplayedScrollingRowIndex = dgvRow.Index;
+                    dgvIndicator.FirstDisplayedScrollingRowIndex = dgvRow.Index;
                     break;
                 }
             }
         }
         private void SelectDgvCalculationRow(ColumnInf columnInf, string innerName)
         {
-            foreach (DataGridViewRow dgvRow in this.dgvCalculationRes.Rows)
+            foreach (DataGridViewRow dgvRow in this.dgvCheckRes.Rows)
             {
-                if (dgvRow.Cells["flrName"].Value == null || dgvRow.Cells["code"].Value == null)
+                if (dgvRow.Cells["code"].Value == null || dgvRow.Cells["subCode"].Value == null)
                 {
                     continue;
                 }
-                if (dgvRow.Cells["flrName"].Value.ToString() == innerName &&
-                    dgvRow.Cells["code"].Value.ToString() == columnInf.Text
+                if (dgvRow.Cells["code"].Value.ToString() == columnInf.Code &&
+                    dgvRow.Cells["subCode"].Value.ToString() == columnInf.Text
                    )
                 {
                     dgvRow.Selected = true;
-                    dgvCalculationRes.FirstDisplayedScrollingRowIndex = dgvRow.Index;
+                    dgvCheckRes.FirstDisplayedScrollingRowIndex = dgvRow.Index;
                     break;
+                }
+            }
+        }
+
+        private void groupBox1_Paint(object sender, PaintEventArgs e)
+        {
+            GroupBox gBox = (GroupBox)sender;
+            e.Graphics.Clear(this.dgvBackColor);
+            e.Graphics.DrawString(gBox.Text, gBox.Font, Brushes.White, 10, 1);
+            var vSize = e.Graphics.MeasureString(gBox.Text, gBox.Font);
+            Pen vPen = new Pen(this.dgvBackColor);
+            e.Graphics.DrawLine(vPen, 1, vSize.Height / 2, 8, vSize.Height / 2);
+            e.Graphics.DrawLine(vPen, vSize.Width + 8, vSize.Height / 2, gBox.Width - 2, vSize.Height / 2);
+            e.Graphics.DrawLine(vPen, 1, vSize.Height / 2, 1, gBox.Height - 2);
+            e.Graphics.DrawLine(vPen, 1, gBox.Height - 2, gBox.Width - 2, gBox.Height - 2);
+            e.Graphics.DrawLine(vPen, gBox.Width - 2, vSize.Height / 2, gBox.Width - 2, gBox.Height - 2);
+        }
+
+        private void rbShowAll_CheckedChanged(object sender, EventArgs e)
+        {
+            ShowDgvCheckRows();
+        }
+
+        private void rbShowInvalid_CheckedChanged(object sender, EventArgs e)
+        {
+            ShowDgvCheckRows(false);
+        }
+        private void ShowDgvCheckRows(bool showAll = true)
+        {
+            foreach(DataGridViewRow dgvRow in this.dgvCheckRes.Rows)
+            {
+                if(showAll)
+                {
+                    dgvRow.Visible = true;
+                }
+                else
+                {
+                    if(dgvRow.Cells["detail"].Style.ForeColor == Color.Red)
+                    {
+                        dgvRow.Visible = true;
+                    }
+                    else
+                    {
+                        dgvRow.Visible = false;
+                    }
                 }
             }
         }

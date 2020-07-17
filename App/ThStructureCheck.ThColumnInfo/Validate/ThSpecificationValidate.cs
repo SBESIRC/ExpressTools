@@ -179,6 +179,7 @@ namespace ThColumnInfo.Validate
         private string concreteStrength = "";
         private string structureType = "";
         private bool cornerColumn = false;
+        public double ProtectLayerThickness => protectLayerThickness;
         /// <summary>
         /// 获取抗震等级
         /// </summary>

@@ -37,7 +37,6 @@
             this.detailDataTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.panelUp = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnExportExcel = new System.Windows.Forms.Button();
             this.btnCheckAll = new System.Windows.Forms.Button();
             this.btnParameterSet = new System.Windows.Forms.Button();
             this.btnShowDetailData = new System.Windows.Forms.Button();
@@ -46,6 +45,7 @@
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panelTree = new System.Windows.Forms.Panel();
+            this.btnExportExcel = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.panelUp.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -79,33 +79,33 @@
             this.checkTsmi,
             this.detailDataTsmi});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 114);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(137, 92);
             // 
             // addColumnTableTsmi
             // 
             this.addColumnTableTsmi.Name = "addColumnTableTsmi";
-            this.addColumnTableTsmi.Size = new System.Drawing.Size(180, 22);
+            this.addColumnTableTsmi.Size = new System.Drawing.Size(136, 22);
             this.addColumnTableTsmi.Text = "附加柱表";
             this.addColumnTableTsmi.Click += new System.EventHandler(this.addColumnTableTsmi_Click);
             // 
             // importCalculationTsmi
             // 
             this.importCalculationTsmi.Name = "importCalculationTsmi";
-            this.importCalculationTsmi.Size = new System.Drawing.Size(180, 22);
+            this.importCalculationTsmi.Size = new System.Drawing.Size(136, 22);
             this.importCalculationTsmi.Text = "导入计算书";
             this.importCalculationTsmi.Click += new System.EventHandler(this.importCalculationTsmi_Click);
             // 
             // checkTsmi
             // 
             this.checkTsmi.Name = "checkTsmi";
-            this.checkTsmi.Size = new System.Drawing.Size(180, 22);
+            this.checkTsmi.Size = new System.Drawing.Size(136, 22);
             this.checkTsmi.Text = "校核";
             this.checkTsmi.Click += new System.EventHandler(this.checkTsmi_Click);
             // 
             // detailDataTsmi
             // 
             this.detailDataTsmi.Name = "detailDataTsmi";
-            this.detailDataTsmi.Size = new System.Drawing.Size(180, 22);
+            this.detailDataTsmi.Size = new System.Drawing.Size(136, 22);
             this.detailDataTsmi.Text = "详细数据";
             this.detailDataTsmi.Click += new System.EventHandler(this.detailDataTsmi_Click);
             // 
@@ -130,7 +130,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel2.Controls.Add(this.btnExportExcel, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnCheckAll, 3, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btnParameterSet, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnParameterSet, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnShowDetailData, 4, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnComponentDefinition, 2, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -141,28 +141,6 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(244, 32);
             this.tableLayoutPanel2.TabIndex = 0;
-            // 
-            // btnExportExcel
-            // 
-            this.btnExportExcel.BackColor = System.Drawing.Color.Transparent;
-            this.btnExportExcel.BackgroundImage = global::ThColumnInfo.Properties.Resources.ComponentPropModifyPng;
-            this.btnExportExcel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnExportExcel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnExportExcel.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnExportExcel.FlatAppearance.BorderSize = 0;
-            this.btnExportExcel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnExportExcel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnExportExcel.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnExportExcel.Location = new System.Drawing.Point(127, 0);
-            this.btnExportExcel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnExportExcel.Name = "btnExportExcel";
-            this.btnExportExcel.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.btnExportExcel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnExportExcel.Size = new System.Drawing.Size(24, 32);
-            this.btnExportExcel.TabIndex = 7;
-            this.toolTip1.SetToolTip(this.btnExportExcel, "构件属性定义");
-            this.btnExportExcel.UseVisualStyleBackColor = false;
-            this.btnExportExcel.Click += new System.EventHandler(this.btnExportExcel_Click);
             // 
             // btnCheckAll
             // 
@@ -197,7 +175,7 @@
             this.btnParameterSet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnParameterSet.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnParameterSet.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnParameterSet.Location = new System.Drawing.Point(97, 0);
+            this.btnParameterSet.Location = new System.Drawing.Point(127, 0);
             this.btnParameterSet.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnParameterSet.Name = "btnParameterSet";
             this.btnParameterSet.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
@@ -275,6 +253,29 @@
             this.panelTree.Size = new System.Drawing.Size(244, 555);
             this.panelTree.TabIndex = 4;
             // 
+            // btnExportExcel
+            // 
+            this.btnExportExcel.BackColor = System.Drawing.Color.Transparent;
+            this.btnExportExcel.BackgroundImage = global::ThColumnInfo.Properties.Resources.ComponentPropModifyPng;
+            this.btnExportExcel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnExportExcel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnExportExcel.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnExportExcel.FlatAppearance.BorderSize = 0;
+            this.btnExportExcel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnExportExcel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnExportExcel.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnExportExcel.Location = new System.Drawing.Point(97, 0);
+            this.btnExportExcel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnExportExcel.Name = "btnExportExcel";
+            this.btnExportExcel.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.btnExportExcel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnExportExcel.Size = new System.Drawing.Size(24, 32);
+            this.btnExportExcel.TabIndex = 7;
+            this.toolTip1.SetToolTip(this.btnExportExcel, "构件属性定义");
+            this.btnExportExcel.UseVisualStyleBackColor = false;
+            this.btnExportExcel.Visible = false;
+            this.btnExportExcel.Click += new System.EventHandler(this.btnExportExcel_Click);
+            // 
             // CheckResult
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -307,9 +308,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Panel panelTree;
-        private System.Windows.Forms.Button btnExportExcel;
         private System.Windows.Forms.Button btnCheckAll;
         private System.Windows.Forms.Button btnParameterSet;
         private System.Windows.Forms.ToolStripMenuItem addColumnTableTsmi;
+        private System.Windows.Forms.Button btnExportExcel;
     }
 }

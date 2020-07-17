@@ -198,6 +198,7 @@ namespace ThColumnInfo.Validate
         private double longitudinalReinforceEnlargeTimes; //纵筋放大倍数
         private string structureType = ""; //结构类型
 
+        public double ProtectLayerThickness => protectLayerThickness;
         /// <summary>
         /// 箍筋全高度加密
         /// </summary>

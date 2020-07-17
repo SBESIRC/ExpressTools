@@ -221,7 +221,7 @@ namespace ThColumnInfo.ViewModel
                         ThColumnInfoUtils.EraseObjIds(treeColumnIds.ToArray());
                         ThStandardSignManager tm = ThColunmDocManager.GetThStandardSignManager(doc.Name);
                         ThStandardSignManager.LoadData(tm);
-                        FillColumnDataToTreeView(tm, false);
+                        FillColumnDataToTreeView(tm);
                         ThProgressBar.MeterProgress();
                     }
                     catch (Exception ex)
@@ -414,13 +414,10 @@ namespace ThColumnInfo.ViewModel
                 return;
             }
             UpdateDataCorrectNode(innerFrameNode);
-            ThProgressBar.MeterProgress();
             AddDwgHasCalNotNode(innerFrameNode);
-            ThProgressBar.MeterProgress();
             AddDwgNotCalHasNode(innerFrameNode);
-            ThProgressBar.MeterProgress();
         }
-        private void FillColumnDataToTreeView(ThStandardSignManager tsm, bool loadTree = true)
+        private void FillColumnDataToTreeView(ThStandardSignManager tsm,bool loadTree=true)
         {
             if (tsm == null)
             {
@@ -465,7 +462,6 @@ namespace ThColumnInfo.ViewModel
                         break;
                 }
             }
-            ThProgressBar.MeterProgress();
             List<string> codes = correctList.Select(i => i.Code).Distinct().ToList();
             Dictionary<string, List<ColumnInf>> codeColumnInf = new Dictionary<string, List<ColumnInf>>();
             foreach (string code in codes)
@@ -554,7 +550,6 @@ namespace ThColumnInfo.ViewModel
                     codeEmptyNode.ForeColor = lostColor;
                 }
             }
-            ThProgressBar.MeterProgress();
             TreeNode uncompleteParentNode = tn.Nodes.Add(this.uncompleteNodeNme, "平法参数错误(" + infCompleteList.Count + ")");
             System.Drawing.Color unCompletedColor = PlantCalDataToDraw.GetFrameSystemColor(FrameColor.ParameterNotFull);
             uncompleteParentNode.ForeColor = unCompletedColor;
@@ -588,7 +583,6 @@ namespace ThColumnInfo.ViewModel
                         leafNode.ForeColor = unCompletedColor;
                     }
                 }
-                ThProgressBar.MeterProgress();
             }
         }
         private TreeNode GetCurrentDocumentInnerframeNode()
@@ -792,7 +786,7 @@ namespace ThColumnInfo.ViewModel
                 }
             }
         }
-        public void Load(string docFullPath = "",bool forLoadTree=true)
+        public void Load(string docFullPath = "",bool loadTree=false)
         {
             if (string.IsNullOrEmpty(docFullPath))
             {
@@ -803,7 +797,37 @@ namespace ThColumnInfo.ViewModel
                 ThColunmDocManager.AddThStandardSignManager(docFullPath);
             }
             var tm = ThColunmDocManager.GetThStandardSignManager(docFullPath);
-            FillColumnDataToTreeView(tm, forLoadTree);
+            FillColumnDataToTreeView(tm, loadTree);
+        }
+        public void Reset(string docFullPath)
+        {
+            if (string.IsNullOrEmpty(docFullPath))
+            {
+                docFullPath = ThColumnInfoUtils.GetMdiActiveDocument().Name;
+            }
+            if (!ThColunmDocManager.IsExisted(docFullPath))
+            {
+                return;
+            }
+            try
+            {
+                var tm = ThColunmDocManager.GetThStandardSignManager(docFullPath);
+                owner.tvCheckRes.Nodes.Clear();
+                var enumerator = tm.GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    ThStandardSign thStandardSign = enumerator.Current as ThStandardSign;
+                    TreeNode subNode = owner.tvCheckRes.Nodes.Add(thStandardSign.InnerFrameName);
+                    subNode.ForeColor = Color.FromArgb(255, 255, 255);
+                    subNode.Tag = thStandardSign;
+                    FillDrawCheckInfToTreeView(thStandardSign.SignExtractColumnInfo, subNode, true);
+                    FillPlantCalResultToTree(subNode);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ThColumnInfoUtils.WriteException(ex, "Reset");
+            }
         }
         public void ParameterSetCmd()
         {

@@ -45,7 +45,7 @@ namespace ThColumnInfo.View
             this.tvCheckRes.DrawMode = TreeViewDrawMode.OwnerDrawText;
             this.tvCheckRes.HideSelection = false;
             this.tvCheckRes.DrawNode += tvCheckRes_DrawNode;
-            this.checkResultVM.Load();
+            this.checkResultVM.Load("",true);
             this.checkResultVM.SwitchShowDetailPicture();
         }
         private void btnParameterSet_Click(object sender, EventArgs e)
