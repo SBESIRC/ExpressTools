@@ -386,6 +386,25 @@ namespace ThSitePlan
             }
         }
 
+        public static List<Polyline> CreateDifferenceShadowRegion(this ObjectId shadowObj, List<Polyline> buildingObjs)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(shadowObj.Database))
+            {
+                var shadow = acadDatabase.Element<Region>(shadowObj);
+                var buildings = new DBObjectCollection();
+                foreach (var obj in buildingObjs)
+                {
+                    buildings.Add(obj);
+                }
+                var diffRegions = shadow.Difference(buildings);
+                foreach (var region in diffRegions)
+                {
+                    region.SetPropertiesFrom(shadow);
+                }
+                return diffRegions;
+            }
+        }
+
         public static void MoveToLayer(this Database database, ObjectIdCollection objs, string layerName)
         {
             using (AcadDatabase acdb = AcadDatabase.Use(database))

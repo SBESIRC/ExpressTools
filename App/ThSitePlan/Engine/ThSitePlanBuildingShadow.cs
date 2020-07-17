@@ -1,11 +1,13 @@
 ﻿using System;
 using AcHelper;
 using Linq2Acad;
+using ThCADCore.NTS;
 using NFox.Cad.Collections;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
+using System.Collections.Generic;
 
 namespace ThSitePlan.Engine
 {
@@ -32,8 +34,8 @@ namespace ThSitePlan.Engine
                 }
 
                 // 创建建筑物阴影面域
-                var length = Properties.Settings.Default.shadowLengthScale * floor;
                 var angle = Properties.Settings.Default.shadowAngle * Math.PI / 180.0;
+                var length = floor / Math.Tan(angle);
                 Matrix3d rotation = Matrix3d.Rotation(angle, Vector3d.ZAxis, Point3d.Origin);
                 var shadows = building.Region.CreateShadowRegion(Vector3d.XAxis.TransformBy(rotation).MultiplyBy(length));
                 // 根据建筑面域计算阴影面域失败，比如建筑面域的形状异形
@@ -100,7 +102,7 @@ namespace ThSitePlan.Engine
                         continue;
                     }
 
-                    var sObjs = new ObjectIdCollection();
+                    var sObjs = new List<Polyline>();
                     foreach (ObjectId obj in psr.Value.GetObjectIds())
                     {
                         if (obj == region)
@@ -110,11 +112,8 @@ namespace ThSitePlan.Engine
 
                         using (var buildInfo = new ThSitePlanBuilding(Database, obj, Name))
                         {
-                            UInt32 buildFloor = buildInfo.Floor();
-                            if (buildFloor > 0 && buildFloor > Floor * 0.5)
-                            {
-                                sObjs.Add(obj);
-                            }
+                            //遮挡建筑物
+                            sObjs.AddRange(CalShadowBlockByBuliding(building, buildInfo));
                         }
                     }
 
@@ -123,13 +122,8 @@ namespace ThSitePlan.Engine
                         // 产生阴影的建筑物
                         building.Region,
                     };
-                    foreach(ObjectId obj in sObjs)
-                    {
-                        // 被遮挡的建筑物
-                        buildings.Add(obj);
-                    }
 
-                    var differences = region.CreateDifferenceShadowRegion(buildings);
+                    var differences = region.CreateDifferenceShadowRegion(sObjs);
                     if (differences.Count != 0)
                     {
                         foreach (var difference in differences)
@@ -168,6 +162,36 @@ namespace ThSitePlan.Engine
                     }
                 }
             }
+        }
+
+        public List<Polyline> CalShadowBlockByBuliding(ThSitePlanBuilding building, ThSitePlanBuilding blockBuilding)
+        {
+            List<Polyline> resPoly = new List<Polyline>();
+            using (AcadDatabase acad = AcadDatabase.Active())
+            {
+                var blockShadow = acad.Element<Region>(blockBuilding.Region);
+                Polyline bBuildingPoly = blockShadow.ToNTSPolygon().Shell.ToDbPolyline();
+
+                var shadow = acad.Element<Region>(building.Region);
+                Polyline buildingPoly = shadow.ToNTSPolygon().Shell.ToDbPolyline();
+                if (building.Floor() <= blockBuilding.Floor())
+                {
+                    resPoly.Add(bBuildingPoly);
+                    return resPoly;
+                }
+
+
+                // 创建建筑物阴影面域
+                var angle = Properties.Settings.Default.shadowAngle * Math.PI / 180.0;
+                var length = (building.Floor() - blockBuilding.Floor()) / Math.Tan(angle);
+                Matrix3d rotation = Matrix3d.Rotation(angle, Vector3d.ZAxis, Point3d.Origin);
+                var shadows = building.Region.CreateShadowRegion(Vector3d.XAxis.TransformBy(rotation).MultiplyBy(length));
+
+                resPoly = blockBuilding.Region.CreateDifferenceShadowRegion(shadows);
+            }
+            
+
+            return resPoly;
         }
     }
 }

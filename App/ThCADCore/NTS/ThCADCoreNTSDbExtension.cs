@@ -250,12 +250,23 @@ namespace ThCADCore.NTS
             return pline.ToNTSPolygon();
         }
 
-        public static IMultiPolygon ToNTSPolygons(this DBObjectCollection regions)
+        public static IMultiPolygon ToNTSPolygons(this DBObjectCollection objs)
         {
             var polygons = new List<IPolygon>();
-            foreach(Region region in regions)
+            foreach(Entity entity in objs)
             {
-                polygons.Add(region.ToNTSPolygon());
+                if (entity is Polyline polyline)
+                {
+                    polygons.Add(polyline.ToNTSPolygon());
+                }
+                else if (entity is Region region)
+                {
+                    polygons.Add(region.ToNTSPolygon());
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
             }
             return ThCADCoreNTSService.Instance.GeometryFactory.CreateMultiPolygon(polygons.ToArray());
         }
