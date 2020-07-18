@@ -32,6 +32,7 @@ namespace ThWSS
         public void Dispose()
         {
             PostProcess();
+            DisposeEntities();
         }
 
         /// <summary>
@@ -51,11 +52,26 @@ namespace ThWSS
         {
             HostDb.EraseObjs(BeamCurves);
             HostDb.EraseObjs(ColumnCurves);
+            foreach (Entity entity in Entities)
+            {
+                entity.Dispose();
+            }
         }
 
         private void Explode()
         {
             Entities = ThStructureUtils.Explode(HostDb);
+        }
+
+        /// <summary>
+        /// 释放不关心的图元对象
+        /// </summary>
+        private void DisposeEntities()
+        {
+            foreach(Entity entity in Entities)
+            {
+                entity.Dispose();
+            }
         }
 
         private ObjectIdCollection AddBeamCurvesToDatabase()
@@ -71,7 +87,13 @@ namespace ThWSS
                 var objs = new ObjectIdCollection();
                 foreach (var entity in entities)
                 {
-                    objs.Add(acadDatabase.ModelSpace.Add(entity));
+                    // 在AutoCAD2012下炸出的图元添加到当前图纸时会报告eWrongDatabase错误
+                    // 在未排除出原因之前，采用一个“变通方法”，把炸出的图元复制后将“复制”添加到当前图纸中
+                    objs.Add(acadDatabase.ModelSpace.Add(entity.Clone() as Entity));
+                }
+                foreach (var entity in entities)
+                {
+                    entity.Dispose();
                 }
                 return objs;
             }
@@ -90,7 +112,13 @@ namespace ThWSS
                 var objs = new ObjectIdCollection();
                 foreach (var entity in entities)
                 {
-                    objs.Add(acadDatabase.ModelSpace.Add(entity));
+                    // 在AutoCAD2012下炸出的图元添加到当前图纸时会报告eWrongDatabase错误
+                    // 在未排除出原因之前，采用一个“变通方法”，把炸出的图元复制后将“复制”添加到当前图纸中
+                    objs.Add(acadDatabase.ModelSpace.Add(entity.Clone() as Entity));
+                }
+                foreach (var entity in entities)
+                {
+                    entity.Dispose();
                 }
                 return objs;
             }

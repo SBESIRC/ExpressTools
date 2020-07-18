@@ -66,25 +66,15 @@ namespace ThStructure.BeamInfo.Utils
                     }
                     else if (ent is Mline mline)
                     {
-                        var sunEntities = new DBObjectCollection();
-                        mline.Explode(sunEntities);
-                        foreach (Entity subEntity in sunEntities)
-                        {
-                            if (subEntity is Line line)
-                            {
-                                Line lineEnt = new Line(line.StartPoint, line.EndPoint)
-                                {
-                                    Layer = mline.Layer
-                                };
-                                entities.Add(lineEnt);
-                            }
-                        }
-                        sunEntities.Dispose();
+                        var lines = new DBObjectCollection();
+                        mline.Explode(lines);
+                        entities.AddRange(lines.Cast<Entity>());
                     }
                     else if (ent is DBPoint)
                     {
                         continue;
-                    }else
+                    }
+                    else
                     {
                         entities.Add(ent);
                     }

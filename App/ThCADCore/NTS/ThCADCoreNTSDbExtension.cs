@@ -167,6 +167,13 @@ namespace ThCADCore.NTS
                     return ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(points.ToArray());
                 }
 
+                // 三个点，其中起点和终点重合
+                // 多段线退化成一个点
+                if (points.Count == 2)
+                {
+                    return ThCADCoreNTSService.Instance.GeometryFactory.CreateMultiPointFromCoords(points.ToArray());
+                }
+
                 // 首尾端点一致的情况
                 // LinearRings are the fundamental building block for Polygons.
                 // LinearRings may not be degenerate; that is, a LinearRing must have at least 3 points.
