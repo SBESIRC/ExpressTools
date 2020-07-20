@@ -46,6 +46,23 @@ namespace TianHua.FanSelection.UI
             obj.AddXData(ThFanSelectionCommon.RegAppName_FanSelection, valueList);
         }
 
+        public static bool IsModel(this ObjectId obj, string identifier)
+        {
+            var valueList = obj.GetXData(ThFanSelectionCommon.RegAppName_FanSelection);
+            if (valueList == null)
+            {
+                return false;
+            }
+
+            var values = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataAsciiString);
+            if (!values.Any())
+            {
+                return false;
+            }
+
+            return (string)values.ElementAt(0).Value == identifier;
+        }
+
         public static void SetModelName(this ObjectId obj, string name)
         {
             var dynamicProperties = obj.GetDynProperties();

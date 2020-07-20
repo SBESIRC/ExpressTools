@@ -1435,29 +1435,15 @@ namespace TianHua.FanSelection.UI
             using (EditorUserInteraction UI = Active.Editor.StartUserInteraction(this))
             using (ThFanSelectionDbManager dbManager = new ThFanSelectionDbManager(Active.Database))
             {
-                // 选取插入点
-                PromptPointResult pr = Active.Editor.GetPoint("\n请输入插入点: ");
-                if (pr.Status != PromptStatus.OK)
-                    return;
-
-                // 流程1：若检测到图纸中没有对应的风机图块，则在鼠标的点击处插入风机
-                var blockName = ThFanSelectionUtils.BlockName(_FanDataModel.VentStyle);
-                Active.Database.ImportModel(blockName);
-                var objId = Active.Database.InsertModel(blockName, _FanDataModel.Attributes());
-                var blockRef = acadDatabase.Element<BlockReference>(objId);
-                for (int i = 0; i < _FanDataModel.VentQuan; i++)
+                if (!dbManager.Contains(_FanDataModel.ID))
                 {
-                    double deltaX = blockRef.GeometricExtents.Width() * 2 * i;
-                    Vector3d delta = new Vector3d(deltaX, 0.0, 0.0);
-                    Matrix3d displacement = Matrix3d.Displacement(pr.Value.GetAsVector() + delta);
-                    var model = acadDatabase.ModelSpace.Add(blockRef.GetTransformedCopy(displacement));
-                    model.AttachModel(_FanDataModel.ID, _FanDataModel.ListVentQuan[i]);
-                    model.SetModelName(_FanDataModel.FanModelName);
+                    ThFanSelectionEngine.InsertModels(_FanDataModel);
                 }
-
-                // 删除初始图块
-                blockRef.UpgradeOpen();
-                blockRef.Erase();
+                else if (dbManager.Models.Count != _FanDataModel.VentQuan)
+                {
+                    ThFanSelectionEngine.RemoveModels(_FanDataModel);
+                    ThFanSelectionEngine.InsertModels(_FanDataModel);
+                }
             }
         }
     }

@@ -67,19 +67,7 @@ namespace TianHua.FanSelection.UI
         /// <returns></returns>
         public bool Contains(string identifier)
         {
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(HostDb))
-            {
-                foreach(ObjectId obj in Geometries)
-                {
-                    var values = obj.GetXData(ThFanSelectionCommon.RegAppName_FanSelection);
-                    if (values != null)
-                    {
-                        var handles = values.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataAsciiString);
-
-                    }
-                }
-                return false;
-            }
+            return Models.ContainsKey(identifier);
         }
     }
 }
