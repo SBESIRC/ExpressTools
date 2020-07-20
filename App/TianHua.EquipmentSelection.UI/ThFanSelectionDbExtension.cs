@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Linq2Acad;
 using DotNetARX;
 using System.Linq;
@@ -45,9 +46,21 @@ namespace TianHua.FanSelection.UI
             obj.AddXData(ThFanSelectionCommon.RegAppName_FanSelection, valueList);
         }
 
-        public static void MatchProperties(this ObjectId obj, FanDataModel model)
+        public static void SetModelName(this ObjectId obj, string name)
         {
-            //
+            var dynamicProperties = obj.GetDynProperties();
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY))
+            {
+                obj.SetDynBlockValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY, name);
+            }
+            else if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY2))
+            {
+                obj.SetDynBlockValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY2, name);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
 
         /// <summary>

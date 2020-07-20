@@ -27,6 +27,7 @@ namespace TianHua.FanSelection.UI
         public static readonly string BLOCK_ATTRIBUTE_FIXED_FREQUENCY = "定频";
         public static readonly string BLOCK_ATTRIBUTE_FIRE_POWER_SUPPLY = "消防电源";
         public static readonly string BLOCK_DYNAMIC_PROPERTY_VISIBILITY = "可见性";
+        public static readonly string BLOCK_DYNAMIC_PROPERTY_VISIBILITY2 = " 风机箱型号可见性";
 
         public static readonly string BLOCK_ATTRIBUTE_VALUE_FIXED_FREQUENCY = "定频";
         public static readonly string BLOCK_ATTRIBUTE_VALUE_VARIABLE_FREQUENCY = "变频";
