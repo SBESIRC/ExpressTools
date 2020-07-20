@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using System.IO;
 using TianHua.Publics.BaseCode;
 
 namespace TianHua.FanSelection.UI
@@ -131,22 +132,34 @@ namespace TianHua.FanSelection.UI
             if (CheckFanSelection.Checked)
             {
                 var _Json = FuncJson.Serialize(m_DataMgr.m_ListFanSelection);
-                m_DataMgr.m_Json.SaveToFile(System.Environment.CurrentDirectory + @"\FanSelection.json", Encoding.UTF8, _Json);
+                m_DataMgr.m_Json.SaveToFile(
+                    Path.Combine(Environment.CurrentDirectory, ThFanSelectionCommon.HTFC_Selection), 
+                    Encoding.UTF8, 
+                    _Json);
             }
             if (CheckAxialFan.Checked)
             {
                 var _Json = FuncJson.Serialize(m_DataMgr.m_ListAxialFanSelection);
-                m_DataMgr.m_Json.SaveToFile(System.Environment.CurrentDirectory + @"\AxialFanSelection.json", Encoding.UTF8, _Json);
+                m_DataMgr.m_Json.SaveToFile(
+                    Path.Combine(Environment.CurrentDirectory, ThFanSelectionCommon.AXIAL_Selection), 
+                    Encoding.UTF8, 
+                    _Json);
             }
             if (CheckFanParameters.Checked)
             {
                 var _Json = FuncJson.Serialize(m_DataMgr.m_ListFanParameters);
-                m_DataMgr.m_Json.SaveToFile(System.Environment.CurrentDirectory + @"\FanParameters.json", Encoding.UTF8, _Json);
+                m_DataMgr.m_Json.SaveToFile(
+                    Path.Combine(Environment.CurrentDirectory, ThFanSelectionCommon.HTFC_Parameters), 
+                    Encoding.UTF8, 
+                    _Json);
             }
             if (CheckAxialFanPara.Checked)
             {
                 var _Json = FuncJson.Serialize(m_DataMgr.m_ListAxialFanParameters);
-                m_DataMgr.m_Json.SaveToFile(System.Environment.CurrentDirectory + @"\AxialFanParameters.json", Encoding.UTF8, _Json);
+                m_DataMgr.m_Json.SaveToFile(
+                    Path.Combine(Environment.CurrentDirectory, ThFanSelectionCommon.AXIAL_Parameters), 
+                    Encoding.UTF8, 
+                    _Json);
             }
 
             this.Close();

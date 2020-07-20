@@ -1,21 +1,24 @@
 ﻿using DevExpress.XtraEditors;
-using DevExpress.XtraGrid;
 using DevExpress.XtraTreeList;
 using DevExpress.XtraTreeList.Nodes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TianHua.Publics.BaseCode;
 using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
+using AcHelper;
+using Linq2Acad;
+using TianHua.AutoCAD.Utility.ExtensionTools;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 
 namespace TianHua.FanSelection.UI
 {
@@ -63,7 +66,7 @@ namespace TianHua.FanSelection.UI
         /// </summary>
         public List<AxialFanParameters> m_ListAxialFanParameters = new List<AxialFanParameters>();
 
-        public string m_Path = System.Environment.CurrentDirectory + @"\DesignData\";
+        public string m_Path = Path.Combine(ThCADCommon.SupportPath(), "DesignData");
 
         public void RessetPresenter()
         {
@@ -140,16 +143,16 @@ namespace TianHua.FanSelection.UI
 
         public void InitData()
         {
-            var _JsonFanSelection = ReadTxt(System.Environment.CurrentDirectory + @"\FanSelection.json");
+            var _JsonFanSelection = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), ThFanSelectionCommon.HTFC_Selection));
             m_ListFanSelection = FuncJson.Deserialize<List<FanSelectionData>>(_JsonFanSelection);
 
-            var _JsonAxialFanSelection = ReadTxt(System.Environment.CurrentDirectory + @"\AxialFanSelection.json");
+            var _JsonAxialFanSelection = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), ThFanSelectionCommon.AXIAL_Selection));
             m_ListAxialFanSelection = FuncJson.Deserialize<List<FanSelectionData>>(_JsonAxialFanSelection);
 
-            var _JsonFanParameters = ReadTxt(System.Environment.CurrentDirectory + @"\FanParameters.json");
+            var _JsonFanParameters = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), ThFanSelectionCommon.HTFC_Parameters));
             m_ListFanParameters = FuncJson.Deserialize<List<FanParameters>>(_JsonFanParameters);
 
-            var _JsonAxialFanParameters = ReadTxt(System.Environment.CurrentDirectory + @"\AxialFanParameters.json");
+            var _JsonAxialFanParameters = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), ThFanSelectionCommon.AXIAL_Parameters));
             m_ListAxialFanParameters = FuncJson.Deserialize<List<AxialFanParameters>>(_JsonAxialFanParameters);
 
             if (File.Exists(m_Path + @"FanDesignData.json"))
@@ -1419,11 +1422,43 @@ namespace TianHua.FanSelection.UI
         {
             var _FocusedColumn = TreeList.FocusedColumn;
             var _FanDataModel = TreeList.GetFocusedRow() as FanDataModel;
-            if (_FanDataModel == null) { return; }
-            this.Hide();
-           //TODO：
-            this.Show();
+            if (_FanDataModel == null)
+            {
+                return;
+            }
+            if (string.IsNullOrEmpty(_FanDataModel.VentStyle))
+            {
+                return;
+            }
 
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            using (EditorUserInteraction UI = Active.Editor.StartUserInteraction(this))
+            using (ThFanSelectionDbManager dbManager = new ThFanSelectionDbManager(Active.Database))
+            {
+                // 选取插入点
+                PromptPointResult pr = Active.Editor.GetPoint("\n请输入插入点: ");
+                if (pr.Status != PromptStatus.OK)
+                    return;
+
+                // 流程1：若检测到图纸中没有对应的风机图块，则在鼠标的点击处插入风机
+                var blockName = ThFanSelectionUtils.BlockName(_FanDataModel.VentStyle);
+                Active.Database.ImportModel(blockName);
+                var objId = Active.Database.InsertModel(blockName);
+                var blockRef = acadDatabase.Element<BlockReference>(objId);
+                for (int i = 0; i < _FanDataModel.VentQuan; i++)
+                {
+                    double deltaX = blockRef.GeometricExtents.Width() * 2 * i;
+                    Vector3d delta = new Vector3d(deltaX, 0.0, 0.0);
+                    Matrix3d displacement = Matrix3d.Displacement(pr.Value.GetAsVector() + delta);
+                    var model = acadDatabase.ModelSpace.Add(blockRef.GetTransformedCopy(displacement));
+                    model.AttachModel(_FanDataModel.ID, _FanDataModel.ListVentQuan[i]);
+                    model.MatchProperties(_FanDataModel);
+                }
+
+                // 删除初始图块
+                blockRef.UpgradeOpen();
+                blockRef.Erase();
+            }
         }
     }
 }

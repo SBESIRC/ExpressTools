@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TianHua.Publics.BaseCode;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace TianHua.FanSelection.UI
 {
@@ -26,7 +27,7 @@ namespace TianHua.FanSelection.UI
 
         public string m_ActionType = string.Empty;
 
-        public string m_Path = System.Environment.CurrentDirectory + @"\DesignData\";
+        public string m_Path = Path.Combine(ThCADCommon.SupportPath(), "DesignData");
 
         public double m_FilterDate = 0;
 

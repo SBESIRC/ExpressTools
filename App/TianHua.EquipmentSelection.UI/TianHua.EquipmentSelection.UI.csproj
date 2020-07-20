@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5A202950-BF0E-4887-AA2A-B6AF1C949FF4}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>TianHua.FanSelection.UI</RootNamespace>
     <AssemblyName>TianHua.FanSelection.UI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -56,6 +56,7 @@
     <Reference Include="DevExpress.XtraRichEdit.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraSpreadsheet.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraTreeList.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -121,6 +122,11 @@
     <Compile Include="JsonExporter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThFanSelectionCommon.cs" />
+    <Compile Include="ThFanSelectionDbExtension.cs" />
+    <Compile Include="ThFanSelectionDbManager.cs" />
+    <Compile Include="ThFanSelectionGeExtension.cs" />
+    <Compile Include="ThFanSelectionUtils.cs" />
     <EmbeddedResource Include="fmAirVolumeCalc.resx">
       <DependentUpon>fmAirVolumeCalc.cs</DependentUpon>
     </EmbeddedResource>
@@ -167,9 +173,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
+      <Project>{5ddfcada-bea4-402c-b3e4-5c7f83c2f09e}</Project>
+      <Name>DotNetARX</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TianHua.EquipmentSelection\TianHua.EquipmentSelection.csproj">
       <Project>{6fadc5fa-f54f-4742-bacd-9f1f855e8210}</Project>
       <Name>TianHua.EquipmentSelection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
+      <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
+      <Name>ExtensionTools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
