@@ -11,7 +11,7 @@ namespace TianHua.FanSelection.UI
 {
     public static class ThFanSelectionDbExtension
     {
-        public static ObjectId InsertModel(this Database database, string name)
+        public static ObjectId InsertModel(this Database database, string name, Dictionary<string, string> attNameValues)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
@@ -20,7 +20,8 @@ namespace TianHua.FanSelection.UI
                     name,
                     Point3d.Origin,
                     new Scale3d(1.0),
-                    0.0);
+                    0.0, 
+                    attNameValues);
             }
         }
 

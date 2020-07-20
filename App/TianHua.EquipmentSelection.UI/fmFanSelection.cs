@@ -1443,7 +1443,7 @@ namespace TianHua.FanSelection.UI
                 // 流程1：若检测到图纸中没有对应的风机图块，则在鼠标的点击处插入风机
                 var blockName = ThFanSelectionUtils.BlockName(_FanDataModel.VentStyle);
                 Active.Database.ImportModel(blockName);
-                var objId = Active.Database.InsertModel(blockName);
+                var objId = Active.Database.InsertModel(blockName, _FanDataModel.Attributes());
                 var blockRef = acadDatabase.Element<BlockReference>(objId);
                 for (int i = 0; i < _FanDataModel.VentQuan; i++)
                 {
