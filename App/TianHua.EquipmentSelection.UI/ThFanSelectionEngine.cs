@@ -104,16 +104,16 @@ namespace TianHua.FanSelection.UI
                 }
                 if (CurrentModel == dataModel.ID)
                 {
-                    var models = blockReferences.Where(o => o.ObjectId.GetModelNumber() > CurrentModelNumber);
-                    if (models.Any())
+                    var models = blockReferences.Where(o => o.ObjectId.GetModelNumber() > CurrentModelNumber).ToList();
+                    if (models.Count > 0)
                     {
                         // 找到第一个比当前编号大的图块
-                        CurrentModelNumber = models.First().ObjectId.GetModelNumber();
-                        ViewTableTools.ZoomObject(Active.Editor, models.First().ObjectId);
+                        CurrentModelNumber = models[0].ObjectId.GetModelNumber();
+                        ViewTableTools.ZoomObject(Active.Editor, models[0].ObjectId);
                     }
                     else
                     {
-                        // 未找到第一个比当前编号大的图块，回到第一个图块
+                        // 未找到一个比当前编号大的图块，回到第一个图块
                         CurrentModelNumber = blockReferences.First().ObjectId.GetModelNumber();
                         ViewTableTools.ZoomObject(Active.Editor, blockReferences.First().ObjectId);
                     }
