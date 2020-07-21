@@ -1437,12 +1437,32 @@ namespace TianHua.FanSelection.UI
             {
                 if (!dbManager.Contains(_FanDataModel.ID))
                 {
+                    // 场景1：若检测到图纸中没有对应的风机图块
+                    //  插入新的图块
                     ThFanSelectionEngine.InsertModels(_FanDataModel);
                 }
-                else if (dbManager.Models.Count != _FanDataModel.VentQuan)
+                else if (dbManager.Models[_FanDataModel.ID].Count != _FanDataModel.VentQuan)
                 {
+                    // 场景2：若检测到图纸中有对应的风机图块，但图块数量不同
+                    //  删除原图块，插入新的图块
                     ThFanSelectionEngine.RemoveModels(_FanDataModel);
                     ThFanSelectionEngine.InsertModels(_FanDataModel);
+                }
+                else if (dbManager.Models[_FanDataModel.ID].Count == _FanDataModel.VentQuan)
+                {
+                    // 场景3：若检测到图纸中有对应的风机图块，且图块数量相同
+                    var models = dbManager.GetModels(_FanDataModel.ID);
+                    var blockReference = new ThFSBlockReference(models[0]);
+                    var attributes = new Dictionary<string, string>(blockReference.Attributes);
+                    if (_FanDataModel.IsModified(attributes))
+                    {
+                        // 场景3.1：图块参数变化
+                    }
+                    else
+                    {
+
+                        // 场景3.2：图块参数没有变化
+                    }
                 }
             }
         }

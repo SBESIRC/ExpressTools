@@ -69,5 +69,16 @@ namespace TianHua.FanSelection.UI
         {
             return Models.ContainsKey(identifier);
         }
+
+        /// <summary>
+        /// 获取风机图块
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
+        public ObjectIdCollection GetModels(string identifier)
+        {
+            var models = Geometries.Cast<ObjectId>().Where(o => o.IsModel(identifier));
+            return new ObjectIdCollection(models.ToArray());
+        }
     }
 }

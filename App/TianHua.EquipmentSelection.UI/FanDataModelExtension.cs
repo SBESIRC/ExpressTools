@@ -35,5 +35,118 @@ namespace TianHua.FanSelection.UI
             };
             return attributes;
         }
+
+        public static bool IsModified(this FanDataModel model, Dictionary<string, string> attributes)
+        {
+            // 设备符号
+            if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_EQUIPMENT_SYMBOL))
+            {
+                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_EQUIPMENT_SYMBOL] 
+                    != ThFanSelectionUtils.Symbol(model.Scenario, model.InstallSpace))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+
+            // 楼层-编号
+            if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_STOREY_AND_NUMBER))
+            {
+                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_STOREY_AND_NUMBER] !=
+                    ThFanSelectionUtils.StoreyNumber(model.InstallFloor, model.VentNum))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+
+            // 风机功能
+            if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_USAGE))
+            {
+                if(attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_USAGE] != model.Name)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+
+            // 风量
+            if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME))
+            {
+                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME] != Convert.ToString(model.AirVolume))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+
+            // 全压
+            if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE))
+            {
+                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE] != Convert.ToString(model.FanModelPa))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+
+            // 电量
+            if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE))
+            {
+                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE] != string.Empty)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+
+            // 定频
+            if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FIXED_FREQUENCY))
+            {
+                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FIXED_FREQUENCY] 
+                    != ThFanSelectionUtils.FixedFrequency(model.Control, model.IsFre))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+
+            // 消防电源
+            if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FIRE_POWER_SUPPLY))
+            {
+                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FIRE_POWER_SUPPLY]
+                    != ThFanSelectionUtils.FirePower(model.PowerType))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+
+            return false;
+        }
     }
 }
