@@ -19,6 +19,7 @@ using TianHua.AutoCAD.Utility.ExtensionTools;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using DevExpress.LookAndFeel;
 
 namespace TianHua.FanSelection.UI
 {
@@ -81,18 +82,38 @@ namespace TianHua.FanSelection.UI
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
 
+
+        /// <summary>
+        /// 单例
+        /// </summary>
+        private static fmFanSelection SingleFanSelectionDialog;
+        public static fmFanSelection GetInstance()
+        {
+            if (SingleFanSelectionDialog == null)
+            {
+                SingleFanSelectionDialog = new fmFanSelection();
+
+            }
+
+            return SingleFanSelectionDialog;
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
+        }
+
         public fmFanSelection()
         {
             InitializeComponent();
+            UserLookAndFeel.Default.SetSkinStyle(SkinStyle.VisualStudio2013Dark);
         }
+
 
         private void fmFanSelection_Load(object sender, EventArgs e)
         {
             InitForm();
-
-
-
-
         }
 
         private void InitForm()

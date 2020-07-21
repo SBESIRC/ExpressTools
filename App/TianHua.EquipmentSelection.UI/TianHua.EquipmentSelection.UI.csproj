@@ -76,7 +76,6 @@
     <Compile Include="DataManager.cs" />
     <Compile Include="EquipmentSelectionApp.cs" />
     <Compile Include="ExcelLoader.cs" />
-    <Compile Include="Excl2JsonViewModels.cs" />
     <Compile Include="FanDataModelExtension.cs" />
     <Compile Include="fmAirVolumeCalc.cs">
       <SubType>Form</SubType>
