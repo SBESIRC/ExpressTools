@@ -36,18 +36,6 @@ namespace TianHua.FanSelection.UI
             return attributes;
         }
 
-        public static string ModelName(this FanDataModel model)
-        {
-            if (model.VentStyle == "轴流")
-            {
-                return ThFanSelectionUtils.AXIALModelName(model.FanModelName);
-            }
-            else
-            {
-                return ThFanSelectionUtils.HTFCModelName(model.FanModelNum, model.IntakeForm);
-            }
-        }
-
         public static bool IsModified(this FanDataModel model, Dictionary<string, string> attributes)
         {
             // 设备符号

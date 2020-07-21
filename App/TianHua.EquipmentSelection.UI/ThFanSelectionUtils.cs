@@ -94,27 +94,6 @@ namespace TianHua.FanSelection.UI
         }
 
         /// <summary>
-        /// 动态属性"可见性"值（离心风机）
-        /// </summary>
-        /// <param name="modelNumber"></param>
-        /// <param name="form"></param>
-        /// <returns></returns>
-        public static string HTFCModelName(string modelNumber, string form)
-        {
-            return string.Format("{0}#风机箱，{1}", modelNumber, form);
-        }
-
-        /// <summary>
-        /// 动态属性“可见性”值（轴流风机）
-        /// </summary>
-        /// <param name="modelName"></param>
-        /// <returns></returns>
-        public static string AXIALModelName(string modelName)
-        {
-            return modelName.Substring(0, modelName.Length - 1);
-        }
-
-        /// <summary>
         /// 设备符号前缀
         /// </summary>
         /// <param name="scenario"></param>

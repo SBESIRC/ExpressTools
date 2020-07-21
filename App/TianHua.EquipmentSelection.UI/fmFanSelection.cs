@@ -1453,10 +1453,20 @@ namespace TianHua.FanSelection.UI
                 return;
             }
 
+
+            using (Active.Document.LockDocument())
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
-            using (EditorUserInteraction UI = Active.Editor.StartUserInteraction(this))
             using (ThFanSelectionDbManager dbManager = new ThFanSelectionDbManager(Active.Database))
             {
+
+                // set focus to AutoCAD
+                //  https://adndevblog.typepad.com/autocad/2013/03/use-of-windowfocus-in-autocad-2014.html
+#if ACAD2012
+                    Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+#else
+                Active.Document.Window.Focus();
+#endif
+
                 if (!dbManager.Contains(_FanDataModel.ID))
                 {
                     // 场景1：若检测到图纸中没有对应的风机图块

@@ -68,15 +68,56 @@ namespace TianHua.FanSelection.UI
             var dynamicProperties = obj.GetDynProperties();
             if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY))
             {
-                obj.SetDynBlockValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY, name);
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY, name);
             }
             else if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY2))
             {
-                obj.SetDynBlockValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY2, name);
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY2, name);
             }
             else
             {
                 throw new NotSupportedException();
+            }
+        }
+
+        /// <summary>
+        /// 动态属性"可见性"值（离心风机）
+        /// </summary>
+        /// <param name="modelNumber"></param>
+        /// <param name="form"></param>
+        /// <returns></returns>
+        public static string HTFCModelName(this ObjectId obj, string modelNumber, string form)
+        {
+            var blockReference = new ThFSBlockReference(obj);
+            var visibilityStates = blockReference.DynablockVisibilityStates();
+            var result = visibilityStates.Where(o => o.Key.Contains(modelNumber) && o.Key.Contains(form));
+            if (result.Any())
+            {
+                return result.First().Key;
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+        }
+
+        /// <summary>
+        /// 动态属性“可见性”值（轴流风机）
+        /// </summary>
+        /// <param name="modelName"></param>
+        /// <returns></returns>
+        public static string AXIALModelName(this ObjectId obj, string modelName)
+        {
+            var blockReference = new ThFSBlockReference(obj);
+            var visibilityStates = blockReference.DynablockVisibilityStates();
+            var result = visibilityStates.Where(o => o.Key.Contains(modelName));
+            if (result.Any())
+            {
+                return result.First().Key;
+            }
+            else
+            {
+                throw new ArgumentException();
             }
         }
 

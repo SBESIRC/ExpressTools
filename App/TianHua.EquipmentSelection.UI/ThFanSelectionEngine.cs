@@ -34,7 +34,7 @@ namespace TianHua.FanSelection.UI
                     Matrix3d displacement = Matrix3d.Displacement(pr.Value.GetAsVector() + delta);
                     var model = acadDatabase.ModelSpace.Add(blockRef.GetTransformedCopy(displacement));
                     model.AttachModel(dataModel.ID, dataModel.ListVentQuan[i]);
-                    model.SetModelName(dataModel.ModelName());
+                    UpdateModelName(model, dataModel);
                 }
 
                 // 删除初始图块
@@ -74,8 +74,20 @@ namespace TianHua.FanSelection.UI
                     model.value.ObjectId.SetModelNumber(dataModel.ListVentQuan[model.i]);
 
                     // 更新风机型号
-                    model.value.ObjectId.SetModelName(dataModel.ModelName());
+                    UpdateModelName(model.value.ObjectId, dataModel);
                 }
+            }
+        }
+
+        private static void UpdateModelName(ObjectId model, FanDataModel dataModel)
+        {
+            if (dataModel.VentStyle == "轴流")
+            {
+                model.SetModelName(model.AXIALModelName(dataModel.FanModelName));
+            }
+            else
+            {
+                model.SetModelName(model.HTFCModelName(dataModel.FanModelNum, dataModel.IntakeForm));
             }
         }
 
@@ -86,7 +98,7 @@ namespace TianHua.FanSelection.UI
                 var blockReferences = acadDatabase.ModelSpace
                     .OfType<BlockReference>()
                     .Where(o => o.ObjectId.IsModel(dataModel.ID));
-                if (blockReferences.Any())
+                if (!blockReferences.Any())
                 {
                     return;
                 }
