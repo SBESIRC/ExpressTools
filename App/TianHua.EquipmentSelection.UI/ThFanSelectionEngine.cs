@@ -72,6 +72,9 @@ namespace TianHua.FanSelection.UI
 
                     // 更新编号
                     model.value.ObjectId.SetModelNumber(dataModel.ListVentQuan[model.i]);
+
+                    // 更新风机型号
+                    model.value.ObjectId.SetModelName(dataModel.ModelName());
                 }
             }
         }

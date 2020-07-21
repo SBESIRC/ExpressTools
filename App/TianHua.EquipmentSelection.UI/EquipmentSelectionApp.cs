@@ -20,7 +20,7 @@ namespace TianHua.FanSelection.UI
         {
             using (var dlg = new fmFanSelection())
             {
-                AcadApp.ShowModalDialog(dlg);
+                AcadApp.ShowModelessDialog(dlg);
             }
         }
     }

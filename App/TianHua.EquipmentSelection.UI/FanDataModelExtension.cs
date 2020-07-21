@@ -40,11 +40,11 @@ namespace TianHua.FanSelection.UI
         {
             if (model.VentStyle == "轴流")
             {
-                return ThFanSelectionUtils.Visibility(model.FanModelName);
+                return ThFanSelectionUtils.AXIALModelName(model.FanModelName);
             }
             else
             {
-                return ThFanSelectionUtils.Visibility2(model.FanModelNum, model.IntakeForm);
+                return ThFanSelectionUtils.HTFCModelName(model.FanModelNum, model.IntakeForm);
             }
         }
 
