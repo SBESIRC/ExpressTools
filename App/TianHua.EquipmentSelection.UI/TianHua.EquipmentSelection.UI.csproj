@@ -128,7 +128,9 @@
     <Compile Include="ThFanSelectionDynBlockUtils.cs" />
     <Compile Include="ThFanSelectionEngine.cs" />
     <Compile Include="ThFanSelectionGeExtension.cs" />
+    <Compile Include="ThFanSelectionTypeSelect.cs" />
     <Compile Include="ThFanSelectionUtils.cs" />
+    <Compile Include="ThFanTypeSelectionModelHandle.cs" />
     <Compile Include="ThFSBlockReference.cs" />
     <EmbeddedResource Include="fmAirVolumeCalc.resx">
       <DependentUpon>fmAirVolumeCalc.cs</DependentUpon>
