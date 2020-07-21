@@ -10,6 +10,9 @@ namespace TianHua.FanSelection.UI
 {
     public static class ThFanSelectionEngine
     {
+        private static string CurrentModel { get; set; }
+        private static int CurrentModelNumber { get; set; }
+
         public static void InsertModels(FanDataModel dataModel)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
@@ -69,6 +72,42 @@ namespace TianHua.FanSelection.UI
 
                     // 更新编号
                     model.value.ObjectId.SetModelNumber(dataModel.ListVentQuan[model.i]);
+                }
+            }
+        }
+
+        public static void ZoomToModels(FanDataModel dataModel)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var blockReferences = acadDatabase.ModelSpace
+                    .OfType<BlockReference>()
+                    .Where(o => o.ObjectId.IsModel(dataModel.ID));
+                if (blockReferences.Any())
+                {
+                    return;
+                }
+                if (CurrentModel == dataModel.ID)
+                {
+                    var models = blockReferences.Where(o => o.ObjectId.GetModelNumber() > CurrentModelNumber);
+                    if (models.Any())
+                    {
+                        // 找到第一个比当前编号大的图块
+                        CurrentModelNumber = models.First().ObjectId.GetModelNumber();
+                        ViewTableTools.ZoomObject(Active.Editor, models.First().ObjectId);
+                    }
+                    else
+                    {
+                        // 未找到第一个比当前编号大的图块，回到第一个图块
+                        CurrentModelNumber = blockReferences.First().ObjectId.GetModelNumber();
+                        ViewTableTools.ZoomObject(Active.Editor, blockReferences.First().ObjectId);
+                    }
+                }
+                else
+                {
+                    CurrentModel = dataModel.ID;
+                    CurrentModelNumber = blockReferences.First().ObjectId.GetModelNumber();
+                    ViewTableTools.ZoomObject(Active.Editor, blockReferences.First().ObjectId);
                 }
             }
         }

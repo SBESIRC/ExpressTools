@@ -1463,9 +1463,11 @@ namespace TianHua.FanSelection.UI
                     else
                     {
                         // 场景3.2：图块参数没有变化
+                        //  缩放到到对应的图块
+                        ThFanSelectionEngine.ZoomToModels(_FanDataModel);
                     }
                 }
             }
         }
     }
-} 
+}
