@@ -13,7 +13,8 @@ namespace ThIdentity.SDK
 
         public static bool IsLogged()
         {
-            return THRecordingService.SignIn(Properties.Settings.Default.Token);
+            return true; 
+            //return THRecordingService.SignIn(Properties.Settings.Default.Token);
         }
 
         // 使用Token登录
