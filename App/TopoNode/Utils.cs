@@ -4721,7 +4721,7 @@ namespace TopoNode
             // 本图纸数据块处理
             using (var db = AcadDatabase.Active())
             {
-                var blockRefs = db.CurrentSpace.OfType<BlockReference>().Where(p => p.Visible).ToList();
+                var blockRefs = db.ModelSpace.OfType<BlockReference>().Where(p => p.Visible).ToList();
                 if (blockRefs.Count == 0)
                 {
                     return objs;
@@ -4738,6 +4738,12 @@ namespace TopoNode
                         continue;
 
                     var blockId = blockReference.BlockTableRecord;
+                    // 拆离图纸块定义ID也是0
+                    if (blockId.IsNull)
+                    {
+                        continue;
+                    }
+
                     var blockRefRecord = db.Element<BlockTableRecord>(blockId);
                     if (blockRefRecord.IsFromExternalReference)
                         continue;
