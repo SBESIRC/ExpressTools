@@ -8,7 +8,6 @@ namespace ThColumnInfo.Validate
 {
     public class StirrupMaximumSpacingFModel : ValidateModel
     {
-        public ColumnDataModel Cdm { get; set; }
         /// <summary>
         /// 箍筋间距限值
         /// </summary>
@@ -22,7 +21,6 @@ namespace ThColumnInfo.Validate
         /// 保护层厚度
         /// </summary>
         public double ProtectThickness { get; set; }
-        public string AntiSeismicGrade { get; set; }
         /// <summary>
         /// 是否是首层
         /// </summary>
@@ -34,9 +32,10 @@ namespace ThColumnInfo.Validate
 
         public override bool ValidateProperty()
         {
-            if (this.Code.Contains("KZ") || this.Code.Contains("ZHZ"))
+            if (!base.ValidateProperty() ||
+                !IsContainsCodeSign(new List<string> {"ZHZ" }))
             {
-                return true;
+                return false;
             }
             return false;
         }

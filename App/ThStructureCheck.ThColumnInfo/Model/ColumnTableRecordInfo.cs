@@ -57,9 +57,13 @@ namespace ThColumnInfo
         /// </summary>
         public string AllLongitudinalReinforcement { get; set; } = "";
         /// <summary>
-        /// 箍筋(8@100/200)
+        /// 箍筋 %%132 8@100/200
         /// </summary>
         public string HoopReinforcement { get; set; } = "";
+        /// <summary>
+        /// 核芯区 ( %%132 8@100)
+        /// </summary>
+        public string ColuJoinCore { get; set; } = "";
         /// <summary>
         /// 箍筋类型号(1（4×4）)
         /// </summary>

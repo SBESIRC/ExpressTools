@@ -19,29 +19,18 @@ namespace ThColumnInfo.Validate
             }
         }
         /// <summary>
-        /// 柱表数据信息
-        /// </summary>
-
-        public ColumnDataModel Cdm { get; set; } 
-        /// <summary>
         /// 保护层厚度
         /// </summary>
         public double ProtectLayerThickness { get; set; }
-        /// <summary>
-        /// 抗震等级
-        /// </summary>
-        public string AntiSeismicGrade { get; set; }
         public override bool ValidateProperty()
         {
-            if(!(this.Code.ToUpper().Contains("KZ")|| this.Code.ToUpper().Contains("ZHZ")))
-            {
-                return true;
-            }
-            if(Cdm==null)
+            if (!base.ValidateProperty() ||
+               !IsContainsCodeSign(new List<string> { "KZ", "ZHZ" })
+               || Cdm == null)
             {
                 return false;
             }
-            if(Cdm.B* Cdm.H* Cdm.IntStirrupSpacing==0.0)
+            if (Cdm.B * Cdm.H * Cdm.IntStirrupSpacing == 0.0)
             {
                 return false;
             }

@@ -1,14 +1,16 @@
-﻿namespace ThColumnInfo.Validate
+﻿using System.Collections.Generic;
+
+namespace ThColumnInfo.Validate
 {
     public class MaximumReinforcementRatioModel : ValidateModel
     {
-       public ColumnDataModel Cdm { get; set; }
         public override bool ValidateProperty()
         {
-            if (!(this.Code.Contains("KZ") || this.Code.Contains("ZHZ") || this.Code.Contains("LZ")))
+            if(!base.ValidateProperty() || 
+                !IsContainsCodeSign(new List<string> { "KZ" , "ZHZ" , "LZ" , "ZHZ" }))
             {
                 return false;
-            }   
+            }
             if(Cdm==null)
             {
                 return false;

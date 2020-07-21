@@ -38,10 +38,10 @@ namespace ThColumnInfo.Validate
         /// 混凝土强度
         /// </summary>
         public string ConcreteStrength { get; set; }
-        public ColumnDataModel Cdm { get; set; }
         public override bool ValidateProperty()
         {
-            if (!(this.Code.Contains("KZ") || this.Code.Contains("ZHZ") || this.Code.Contains("LZ")))
+            if (!base.ValidateProperty() ||
+               !IsContainsCodeSign(new List<string> { "LZ", "KZ", "ZHZ" }))
             {
                 return false;
             }

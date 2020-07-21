@@ -76,16 +76,10 @@ namespace ThColumnInfo.Validate
         /// 最小单侧配筋率限值
         /// </summary>
         public double Dblpsessmin { get; set; } = 0.2;
-
-        public ColumnDataModel Cdm { get; set; }
         /// <summary>
         /// 混凝土强度
         /// </summary>
         public string ConcreteStrength { get; set; }
-        /// <summary>
-        /// 抗震等级
-        /// </summary>
-        public string AntiSeismicGrade { get; set; }
         /// <summary>
         /// 结构类型
         /// </summary>
@@ -106,7 +100,8 @@ namespace ThColumnInfo.Validate
         }
         public override bool ValidateProperty()
         {
-            if (!(this.Code.Contains("KZ") || this.Code.Contains("ZHZ")))
+            if (!base.ValidateProperty() ||
+               !IsContainsCodeSign(new List<string> { "KZ", "ZHZ" }))
             {
                 return false;
             }

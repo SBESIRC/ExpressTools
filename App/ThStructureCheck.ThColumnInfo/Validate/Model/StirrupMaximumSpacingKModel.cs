@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace ThColumnInfo.Validate
 {
-    public class StirrupMaximumSpacingCModel:ValidateModel
+    public class StirrupMaximumSpacingKModel : ValidateModel
     {
+        public bool IsCornerColumn { get; set; }
+
         public override bool ValidateProperty()
         {
             if (!base.ValidateProperty() ||
-               !IsContainsCodeSign(new List<string> { "LZ", "KZ", "ZHZ" }))
+               !IsContainsCodeSign(new List<string> {"LZ","KZ","ZHZ" }))
             {
                 return false;
             }

@@ -8,12 +8,12 @@ namespace ThColumnInfo.Validate
 {
     public class CompoundStirrupModel:ValidateModel
     {
-        public ColumnDataModel Cdm { get; set; }
         public override bool ValidateProperty()
         {
-            if (this.Code.Contains("LZ") || this.Code.Contains("KZ") || this.Code.Contains("ZHZ"))
+            if (!base.ValidateProperty() ||
+               !IsContainsCodeSign(new List<string> { "LZ", "KZ", "ZHZ" }))
             {
-                return true;
+                return false;
             }
             return false;
         }

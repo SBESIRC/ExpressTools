@@ -66,13 +66,11 @@ namespace ThColumnInfo.View
 
         private void btnCheckAll_Click(object sender, EventArgs e)
         {
-            //ToDo
             MessageBox.Show("全部校核");
             CheckResVM.CheckAll();
         }
         private void btnShowDetailData_Click(object sender, EventArgs e)
         {
-            //ToDo
             MessageBox.Show("导出详细数据");
             CheckResVM.ShowDetailData();
         }

@@ -460,9 +460,12 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildStirrupMaximumSpaceFRule());           // 箍筋最大间距F(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingHRule());         // 箍筋最大间距H(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceJRule());           // 箍筋最大间距J(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpaceKRule());           // 箍筋最大间距K(箍筋)
             validateRules.Add(BuildVolumeReinforceRatioARule());          // 体积配箍率A(箍筋)
             validateRules.Add(BuildVolumeReinforceRatioBRule());          // 体积配箍率B(箍筋)
             validateRules.Add(BuildVolumeReinforceRatioCRule());          // 体积配箍率C(箍筋)
+            validateRules.Add(BuildVolumeReinforceRatioDRule());          // 体积配箍率D(箍筋)
+            validateRules.Add(BuildVolumeReinforceRatioERule());          // 节点核芯区体积配箍率E(箍筋)
             validateRules.Add(BuildStirrupReinforcementAreaRule());       // 配筋面积(箍筋)
             for (int i = 0; i < this.validateRules.Count; i++)
             {
@@ -937,6 +940,19 @@ namespace ThColumnInfo.Validate
             };
             IRule rule = new StirrupMaximumSpacingJRule(smsj);
             return rule;
+        }        
+        private IRule BuildStirrupMaximumSpaceKRule()
+        {
+            StirrupMaximumSpacingKModel smsj = new StirrupMaximumSpacingKModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Text = this.columnRelateInf.ModelColumnInfs[0].Text,
+                Cdm = this.cdm,
+                IsCornerColumn =this.cornerColumn,
+                AntiSeismicGrade = this.antiSeismicGrade
+            };
+            IRule rule = new StirrupMaximumSpacingKRule(smsj);
+            return rule;
         }
         /// <summary>
         /// 体积配箍率A(箍筋)
@@ -989,6 +1005,41 @@ namespace ThColumnInfo.Validate
                 ProtectLayerThickness = this.protectLayerThickness
             };
             IRule rule = new VolumeReinforceRatioCRule(vrrc);
+            return rule;
+        }
+        /// <summary>
+        /// 体积配箍率D(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildVolumeReinforceRatioDRule()
+        {
+            VolumeReinforceRatioAModel vrra = new VolumeReinforceRatioAModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Text = this.columnRelateInf.ModelColumnInfs[0].Text,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                Cdm = this.cdm,
+                ProtectLayerThickness = this.protectLayerThickness
+            };
+            IRule rule = new VolumeReinforceRatioDRule(vrra);
+            return rule;
+        }
+        /// <summary>
+        /// 体积配箍率E(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildVolumeReinforceRatioERule()
+        {
+            VolumeReinforceRatioEModel vrre = new VolumeReinforceRatioEModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Text = this.columnRelateInf.ModelColumnInfs[0].Text,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                Cdm = this.cdm,
+                ProtectLayerThickness = this.protectLayerThickness,
+                ColuJoinCore = this.columnRelateInf.ModelColumnInfs[0].ColuJoinCore
+            };
+            IRule rule = new VolumeReinforceRatioERule(vrre);
             return rule;
         }
         /// <summary>

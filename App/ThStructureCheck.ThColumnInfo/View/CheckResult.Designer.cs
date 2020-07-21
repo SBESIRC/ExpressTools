@@ -37,15 +37,15 @@
             this.detailDataTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.panelUp = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnCheckAll = new System.Windows.Forms.Button();
-            this.btnParameterSet = new System.Windows.Forms.Button();
             this.btnShowDetailData = new System.Windows.Forms.Button();
-            this.btnComponentDefinition = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panelTree = new System.Windows.Forms.Panel();
             this.btnExportExcel = new System.Windows.Forms.Button();
+            this.btnCheckAll = new System.Windows.Forms.Button();
+            this.btnParameterSet = new System.Windows.Forms.Button();
+            this.btnComponentDefinition = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.panelUp.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -61,7 +61,7 @@
             this.tvCheckRes.Location = new System.Drawing.Point(0, 0);
             this.tvCheckRes.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tvCheckRes.Name = "tvCheckRes";
-            this.tvCheckRes.Size = new System.Drawing.Size(244, 555);
+            this.tvCheckRes.Size = new System.Drawing.Size(244, 562);
             this.tvCheckRes.TabIndex = 0;
             this.tvCheckRes.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvCheckRes_BeforeCollapse);
             this.tvCheckRes.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvCheckRes_BeforeExpand);
@@ -116,7 +116,7 @@
             this.panelUp.Location = new System.Drawing.Point(3, 0);
             this.panelUp.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.panelUp.Name = "panelUp";
-            this.panelUp.Size = new System.Drawing.Size(244, 32);
+            this.panelUp.Size = new System.Drawing.Size(244, 25);
             this.panelUp.TabIndex = 3;
             this.panelUp.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.panel1_ControlAdded);
             // 
@@ -139,52 +139,8 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(244, 32);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(244, 25);
             this.tableLayoutPanel2.TabIndex = 0;
-            // 
-            // btnCheckAll
-            // 
-            this.btnCheckAll.BackColor = System.Drawing.Color.Transparent;
-            this.btnCheckAll.BackgroundImage = global::ThColumnInfo.Properties.Resources.ComponentPropModifyPng;
-            this.btnCheckAll.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnCheckAll.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnCheckAll.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnCheckAll.FlatAppearance.BorderSize = 0;
-            this.btnCheckAll.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnCheckAll.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnCheckAll.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnCheckAll.Location = new System.Drawing.Point(187, 0);
-            this.btnCheckAll.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnCheckAll.Name = "btnCheckAll";
-            this.btnCheckAll.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.btnCheckAll.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnCheckAll.Size = new System.Drawing.Size(24, 32);
-            this.btnCheckAll.TabIndex = 6;
-            this.toolTip1.SetToolTip(this.btnCheckAll, "构件属性定义");
-            this.btnCheckAll.UseVisualStyleBackColor = false;
-            this.btnCheckAll.Click += new System.EventHandler(this.btnCheckAll_Click);
-            // 
-            // btnParameterSet
-            // 
-            this.btnParameterSet.BackColor = System.Drawing.Color.Transparent;
-            this.btnParameterSet.BackgroundImage = global::ThColumnInfo.Properties.Resources.ComponentPropModifyPng;
-            this.btnParameterSet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnParameterSet.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnParameterSet.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnParameterSet.FlatAppearance.BorderSize = 0;
-            this.btnParameterSet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnParameterSet.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnParameterSet.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnParameterSet.Location = new System.Drawing.Point(127, 0);
-            this.btnParameterSet.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnParameterSet.Name = "btnParameterSet";
-            this.btnParameterSet.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.btnParameterSet.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnParameterSet.Size = new System.Drawing.Size(24, 32);
-            this.btnParameterSet.TabIndex = 5;
-            this.toolTip1.SetToolTip(this.btnParameterSet, "构件属性定义");
-            this.btnParameterSet.UseVisualStyleBackColor = false;
-            this.btnParameterSet.Click += new System.EventHandler(this.btnParameterSet_Click);
             // 
             // btnShowDetailData
             // 
@@ -199,11 +155,103 @@
             this.btnShowDetailData.Location = new System.Drawing.Point(217, 0);
             this.btnShowDetailData.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnShowDetailData.Name = "btnShowDetailData";
-            this.btnShowDetailData.Size = new System.Drawing.Size(24, 32);
+            this.btnShowDetailData.Size = new System.Drawing.Size(24, 25);
             this.btnShowDetailData.TabIndex = 4;
             this.btnShowDetailData.UseVisualStyleBackColor = false;
             this.btnShowDetailData.Click += new System.EventHandler(this.btnShowDetailData_Click);
             this.btnShowDetailData.MouseHover += new System.EventHandler(this.btnShowDetailData_MouseHover);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.panelUp, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panelTree, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(250, 593);
+            this.tableLayoutPanel1.TabIndex = 5;
+            // 
+            // panelTree
+            // 
+            this.panelTree.Controls.Add(this.tvCheckRes);
+            this.panelTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelTree.Location = new System.Drawing.Point(3, 28);
+            this.panelTree.Name = "panelTree";
+            this.panelTree.Size = new System.Drawing.Size(244, 562);
+            this.panelTree.TabIndex = 4;
+            // 
+            // btnExportExcel
+            // 
+            this.btnExportExcel.BackColor = System.Drawing.Color.Transparent;
+            this.btnExportExcel.BackgroundImage = global::ThColumnInfo.Properties.Resources.Export;
+            this.btnExportExcel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnExportExcel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnExportExcel.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnExportExcel.FlatAppearance.BorderSize = 0;
+            this.btnExportExcel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnExportExcel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnExportExcel.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnExportExcel.Location = new System.Drawing.Point(97, 0);
+            this.btnExportExcel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnExportExcel.Name = "btnExportExcel";
+            this.btnExportExcel.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.btnExportExcel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnExportExcel.Size = new System.Drawing.Size(24, 25);
+            this.btnExportExcel.TabIndex = 7;
+            this.toolTip1.SetToolTip(this.btnExportExcel, "构件属性定义");
+            this.btnExportExcel.UseVisualStyleBackColor = false;
+            this.btnExportExcel.Visible = false;
+            this.btnExportExcel.Click += new System.EventHandler(this.btnExportExcel_Click);
+            // 
+            // btnCheckAll
+            // 
+            this.btnCheckAll.BackColor = System.Drawing.Color.Transparent;
+            this.btnCheckAll.BackgroundImage = global::ThColumnInfo.Properties.Resources.Check;
+            this.btnCheckAll.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnCheckAll.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnCheckAll.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnCheckAll.FlatAppearance.BorderSize = 0;
+            this.btnCheckAll.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnCheckAll.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnCheckAll.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnCheckAll.Location = new System.Drawing.Point(187, 0);
+            this.btnCheckAll.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnCheckAll.Name = "btnCheckAll";
+            this.btnCheckAll.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.btnCheckAll.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnCheckAll.Size = new System.Drawing.Size(24, 25);
+            this.btnCheckAll.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.btnCheckAll, "构件属性定义");
+            this.btnCheckAll.UseVisualStyleBackColor = false;
+            this.btnCheckAll.Click += new System.EventHandler(this.btnCheckAll_Click);
+            // 
+            // btnParameterSet
+            // 
+            this.btnParameterSet.BackColor = System.Drawing.Color.Transparent;
+            this.btnParameterSet.BackgroundImage = global::ThColumnInfo.Properties.Resources.Set;
+            this.btnParameterSet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnParameterSet.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnParameterSet.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnParameterSet.FlatAppearance.BorderSize = 0;
+            this.btnParameterSet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnParameterSet.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnParameterSet.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnParameterSet.Location = new System.Drawing.Point(127, 0);
+            this.btnParameterSet.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnParameterSet.Name = "btnParameterSet";
+            this.btnParameterSet.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.btnParameterSet.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnParameterSet.Size = new System.Drawing.Size(24, 25);
+            this.btnParameterSet.TabIndex = 5;
+            this.toolTip1.SetToolTip(this.btnParameterSet, "构件属性定义");
+            this.btnParameterSet.UseVisualStyleBackColor = false;
+            this.btnParameterSet.Click += new System.EventHandler(this.btnParameterSet_Click);
             // 
             // btnComponentDefinition
             // 
@@ -221,60 +269,11 @@
             this.btnComponentDefinition.Name = "btnComponentDefinition";
             this.btnComponentDefinition.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.btnComponentDefinition.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnComponentDefinition.Size = new System.Drawing.Size(24, 32);
+            this.btnComponentDefinition.Size = new System.Drawing.Size(24, 25);
             this.btnComponentDefinition.TabIndex = 2;
             this.toolTip1.SetToolTip(this.btnComponentDefinition, "构件属性定义");
             this.btnComponentDefinition.UseVisualStyleBackColor = false;
             this.btnComponentDefinition.Click += new System.EventHandler(this.btnComponentDefinition_Click);
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.panelUp, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panelTree, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(250, 593);
-            this.tableLayoutPanel1.TabIndex = 5;
-            // 
-            // panelTree
-            // 
-            this.panelTree.Controls.Add(this.tvCheckRes);
-            this.panelTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTree.Location = new System.Drawing.Point(3, 35);
-            this.panelTree.Name = "panelTree";
-            this.panelTree.Size = new System.Drawing.Size(244, 555);
-            this.panelTree.TabIndex = 4;
-            // 
-            // btnExportExcel
-            // 
-            this.btnExportExcel.BackColor = System.Drawing.Color.Transparent;
-            this.btnExportExcel.BackgroundImage = global::ThColumnInfo.Properties.Resources.ComponentPropModifyPng;
-            this.btnExportExcel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnExportExcel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnExportExcel.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnExportExcel.FlatAppearance.BorderSize = 0;
-            this.btnExportExcel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnExportExcel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnExportExcel.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnExportExcel.Location = new System.Drawing.Point(97, 0);
-            this.btnExportExcel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnExportExcel.Name = "btnExportExcel";
-            this.btnExportExcel.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.btnExportExcel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnExportExcel.Size = new System.Drawing.Size(24, 32);
-            this.btnExportExcel.TabIndex = 7;
-            this.toolTip1.SetToolTip(this.btnExportExcel, "构件属性定义");
-            this.btnExportExcel.UseVisualStyleBackColor = false;
-            this.btnExportExcel.Visible = false;
-            this.btnExportExcel.Click += new System.EventHandler(this.btnExportExcel_Click);
             // 
             // CheckResult
             // 

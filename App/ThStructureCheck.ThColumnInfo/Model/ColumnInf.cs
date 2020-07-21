@@ -6,7 +6,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
 namespace ThColumnInfo
-{   
+{
     public class ColumnInf
     {
         /// <summary>
@@ -21,6 +21,7 @@ namespace ThColumnInfo
         /// 抗震等级
         /// </summary>
         public string AntiSeismicGrade { get; set; } = "";
+        public string ColuJoinCore { get; set; } = "";
 
         public ErrorMsg Error { get; set; }
         public void Locate()

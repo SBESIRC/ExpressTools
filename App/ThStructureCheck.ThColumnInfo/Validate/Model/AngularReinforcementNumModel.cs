@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace ThColumnInfo.Validate
 {
     public class AngularReinforcementNumModel : ValidateModel
@@ -6,7 +8,8 @@ namespace ThColumnInfo.Validate
         public int AngularReinforcementNum { get; set; }
         public override bool ValidateProperty()
         {
-            if (!(this.Code.Contains("KZ") || this.Code.Contains("ZHZ") || this.Code.Contains("LZ")))
+            if (!base.ValidateProperty() ||
+               !IsContainsCodeSign(new List<string> { "LZ", "KZ", "ZHZ" }))
             {
                 return false;
             }

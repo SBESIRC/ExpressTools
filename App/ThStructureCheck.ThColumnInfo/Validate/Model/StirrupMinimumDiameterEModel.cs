@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace ThColumnInfo.Validate
 {
-    public class StirrupMinimumDiameterDModel:ValidateModel
+    public class StirrupMinimumDiameterEModel:ValidateModel
     {
-        /// <summary>
-        /// 箍筋直径
-        /// </summary>
-        public double IntStirrupDia { get; set; }
-
         /// <summary>
         /// 箍筋直径限值
         /// </summary>
@@ -27,14 +22,10 @@ namespace ThColumnInfo.Validate
         /// 是否是首层(柱根)
         /// </summary>
         public bool IsFirstFloor { get; set; }
-        /// <summary>
-        /// 剪跨比
-        /// </summary>
-        public double Jkb { get; set; }
         public override bool ValidateProperty()
         {
             if (!base.ValidateProperty() ||
-               !IsContainsCodeSign(new List<string> { "KZ", "ZHZ" }))
+               !IsContainsCodeSign(new List<string> {"ZHZ" }))
             {
                 return false;
             }

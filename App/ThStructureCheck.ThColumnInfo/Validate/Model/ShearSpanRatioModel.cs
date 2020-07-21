@@ -11,9 +11,10 @@ namespace ThColumnInfo.Validate
         public double ShearSpanRatio { get; set; }
         public override bool ValidateProperty()
         {
-            if (this.Code.Contains("KZ") || this.Code.Contains("ZHZ"))
+            if (!base.ValidateProperty() ||
+               !IsContainsCodeSign(new List<string> {"KZ", "ZHZ" }))
             {
-                return true;
+                return false;
             }
             return false;
         }

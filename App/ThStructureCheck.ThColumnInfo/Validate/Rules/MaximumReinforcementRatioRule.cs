@@ -22,13 +22,35 @@ namespace ThColumnInfo.Validate
             {
                 return;
             }
-            if (this.ruleModel.Cdm.DblP > 0.05)
+            if(ruleModel.Code.ToUpper().Contains("ZHZ"))
             {
-                ValidateResults.Add("全部纵向钢筋的配筋率大于5% ["+ this.ruleModel.Cdm.DblP+" > 0.05]，"+this.rule);
+                this.rule = "高规 10.2.11-7";
+                if((ruleModel.AntiSeismicGrade.Contains("一级") ||
+                    ruleModel.AntiSeismicGrade.Contains("二级") ||
+                    ruleModel.AntiSeismicGrade.Contains("三级") ||
+                    ruleModel.AntiSeismicGrade.Contains("二四")) &&
+                    !ruleModel.AntiSeismicGrade.Contains("特"))
+                {
+                    if(this.ruleModel.Cdm.DblP > 0.04)
+                    {
+                        ValidateResults.Add("全部纵向钢筋的配筋率大于4% [" + this.ruleModel.Cdm.DblP + " > 0.04]，" + this.rule);
+                    }
+                    else
+                    {
+                        CorrectResults.Add("全部纵向钢筋的配筋率小于等于4%" + this.rule);
+                    }
+                }
             }
             else
             {
-                CorrectResults.Add("全部纵向钢筋的配筋率小于等于5%" + this.rule);
+                if (this.ruleModel.Cdm.DblP > 0.05)
+                {
+                    ValidateResults.Add("全部纵向钢筋的配筋率大于5% [" + this.ruleModel.Cdm.DblP + " > 0.05]，" + this.rule);
+                }
+                else
+                {
+                    CorrectResults.Add("全部纵向钢筋的配筋率小于等于5%" + this.rule);
+                }
             }
         }
         public List<string> GetCalculationSteps()
@@ -41,14 +63,65 @@ namespace ThColumnInfo.Validate
             steps.Add("柱号 = " + this.ruleModel.Text);
             steps.Add(this.ruleModel.Cdm.GetDblAsCalculation());
             steps.Add(this.ruleModel.Cdm.GetDblpCalculation());
-            steps.Add("if (dblP[" + this.ruleModel.Cdm.DblP + "] > 0.05)");
+            if (ruleModel.Code.ToUpper().Contains("ZHZ"))
+            {
+                this.rule = "高规 10.2.11-7";
+                if ((ruleModel.AntiSeismicGrade.Contains("一级") ||
+                    ruleModel.AntiSeismicGrade.Contains("二级") ||
+                    ruleModel.AntiSeismicGrade.Contains("三级") ||
+                    ruleModel.AntiSeismicGrade.Contains("二四")) &&
+                    !ruleModel.AntiSeismicGrade.Contains("特"))
+                {
+                    if (this.ruleModel.Cdm.DblP > 0.04)
+                    {
+                        ValidateResults.Add("全部纵向钢筋的配筋率大于4% [" + this.ruleModel.Cdm.DblP + " > 0.04]，" + this.rule);
+                    }
+                    else
+                    {
+                        CorrectResults.Add("全部纵向钢筋的配筋率小于等于4%" + this.rule);
+                    }
+                }
+            }
+            else
+            {
+                if (this.ruleModel.Cdm.DblP > 0.05)
+                {
+                    ValidateResults.Add("全部纵向钢筋的配筋率大于5% [" + this.ruleModel.Cdm.DblP + " > 0.05]，" + this.rule);
+                }
+                else
+                {
+                    CorrectResults.Add("全部纵向钢筋的配筋率小于等于5%" + this.rule);
+                }
+            }
+            steps.Add("if ("+ ruleModel.Code+".Contains(ZHZ))");
             steps.Add("  {");
-            steps.Add("     Err: 全部纵向钢筋的配筋率大于5%（《砼规》9.3.1-1）");
+            steps.Add("    if (" + ruleModel.AntiSeismicGrade + ".Contains(\"一级\") || " +
+                ruleModel.AntiSeismicGrade + ".Contains(\"二级\") || " +
+                ruleModel.AntiSeismicGrade + ".Contains(\"三级\") || " +
+                ruleModel.AntiSeismicGrade + ".Contains(\"四级\") && " +
+                "!" + ruleModel.AntiSeismicGrade + ".Contains(\"特\")" + ")");
+            steps.Add("        {");
+            steps.Add("          if( DblP["+ this.ruleModel.Cdm.DblP+"] > 0.04)");
+            steps.Add("             {");
+            steps.Add("                Error: 全部纵向钢筋的配筋率小于等于4%（高规 10.2.11-7）");
+            steps.Add("             }");
+            steps.Add("          else");
+            steps.Add("             {");
+            steps.Add("                Debugprint: 全部纵向钢筋的配筋率小于等于4%（高规 10.2.11-7）");
+            steps.Add("             }");
+            steps.Add("        }");
             steps.Add("  }");
             steps.Add("else");
-            steps.Add("  {");
-            steps.Add("     Debugprint: 全部纵向钢筋的配筋率小于等于5%（《砼规》9.3.1-1）");
-            steps.Add("  }");
+            steps.Add("     {");
+            steps.Add("       if (dblP[" + this.ruleModel.Cdm.DblP + "] > 0.05)");
+            steps.Add("        {");
+            steps.Add("         Err: 全部纵向钢筋的配筋率大于5%（《砼规》9.3.1-1）");
+            steps.Add("        }");
+            steps.Add("        else");
+            steps.Add("        {");
+            steps.Add("            Debugprint: 全部纵向钢筋的配筋率小于等于5%（《砼规》9.3.1-1）");
+            steps.Add("        }");
+            steps.Add("     }");
             steps.Add("");
             return steps;
         }

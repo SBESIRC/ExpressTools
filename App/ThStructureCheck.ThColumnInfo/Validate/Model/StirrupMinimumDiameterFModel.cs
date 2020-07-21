@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace ThColumnInfo.Validate
 {
-    public class StirrupMaximumSpacingCModel:ValidateModel
+    public class StirrupMinimumDiameterFModel:ValidateModel
     {
+        /// <summary>
+        /// 箍筋直径
+        /// </summary>
+        public double IntStirrupDia { get; set; }
         public override bool ValidateProperty()
         {
             if (!base.ValidateProperty() ||
-               !IsContainsCodeSign(new List<string> { "LZ", "KZ", "ZHZ" }))
+               !IsContainsCodeSign(new List<string> {"ZHZ" }))
             {
                 return false;
             }

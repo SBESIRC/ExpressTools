@@ -8,12 +8,12 @@ namespace ThColumnInfo.Validate
 {
     public class StirrupMaximumSpacingHModel:ValidateModel
     {
-        public ColumnDataModel Cdm { get; set; }
         public override bool ValidateProperty()
         {
-            if (this.Code.Contains("KZ") || this.Code.Contains("ZHZ"))
+            if (!base.ValidateProperty() ||
+               !IsContainsCodeSign(new List<string> { "KZ", "ZHZ" }))
             {
-                return true;
+                return false;
             }
             return false;
         }

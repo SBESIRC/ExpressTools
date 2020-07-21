@@ -8,14 +8,11 @@ namespace ThColumnInfo.Validate
 {
     public class StirrupMaximumSpacingEModel:ValidateModel
     {
-        public ColumnDataModel Cdm { get; set; }
         public override bool ValidateProperty()
         {
-            if (!(this.Code.Contains("LZ") || this.Code.Contains("KZ") || this.Code.Contains("ZHZ")))
-            {
-                return false;
-            }
-            if(Cdm==null)
+            if (!base.ValidateProperty() ||
+               !IsContainsCodeSign(new List<string> { "LZ", "KZ", "ZHZ" })
+               || Cdm == null)
             {
                 return false;
             }

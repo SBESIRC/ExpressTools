@@ -1,4 +1,6 @@
-﻿namespace ThColumnInfo.Validate
+﻿using System.Collections.Generic;
+
+namespace ThColumnInfo.Validate
 {
     public class AxialCompressionRatioModel: ValidateModel
     {
@@ -13,7 +15,8 @@
 
         public override bool ValidateProperty()
         {
-            if (!(this.Code.Contains("KZ") || this.Code.Contains("ZHZ")))
+            if (!base.ValidateProperty() ||
+               !IsContainsCodeSign(new List<string> {"KZ", "ZHZ" }))
             {
                 return false;
             }
