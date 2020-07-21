@@ -1,4 +1,5 @@
 ﻿using System;
+using TianHua.Publics.BaseCode;
 using System.Collections.Generic;
 
 namespace TianHua.FanSelection.UI
@@ -22,10 +23,10 @@ namespace TianHua.FanSelection.UI
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME] = Convert.ToString(model.AirVolume),
 
                 // 全压
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE] = Convert.ToString(model.FanModelPa),
+                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE] = model.FanModelPa,
 
                 // 电量
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE] = string.Empty,
+                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE] = model.FanModelMotorPower,
 
                 // 定频
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FIXED_FREQUENCY] = ThFanSelectionUtils.FixedFrequency(model.Control, model.IsFre),
@@ -82,7 +83,8 @@ namespace TianHua.FanSelection.UI
             // 风量
             if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME))
             {
-                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME] != Convert.ToString(model.AirVolume))
+                if (FuncStr.NullToInt(attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME]) 
+                    != model.AirVolume)
                 {
                     return true;
                 }
@@ -95,7 +97,8 @@ namespace TianHua.FanSelection.UI
             // 全压
             if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE))
             {
-                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE] != Convert.ToString(model.FanModelPa))
+                if (FuncStr.NullToInt(attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE]) 
+                    != FuncStr.NullToInt(model.FanModelPa))
                 {
                     return true;
                 }
@@ -108,7 +111,9 @@ namespace TianHua.FanSelection.UI
             // 电量
             if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE))
             {
-                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE] != string.Empty)
+                
+                if (FuncStr.NullToDouble(attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE]) 
+                    != FuncStr.NullToDouble(model.FanModelMotorPower))
                 {
                     return true;
                 }
