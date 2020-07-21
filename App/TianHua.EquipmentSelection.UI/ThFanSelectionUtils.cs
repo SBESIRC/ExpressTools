@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace TianHua.FanSelection.UI
 {
@@ -32,7 +33,7 @@ namespace TianHua.FanSelection.UI
         /// <returns></returns>
         public static string Symbol(string scenario, string installSpace)
         {
-            return string.Format("{0}-{1}", scenario, installSpace);
+            return string.Format("{0}-{1}", ScenarioPrefix(scenario), installSpace);
         }
 
         /// <summary>
@@ -90,6 +91,37 @@ namespace TianHua.FanSelection.UI
             {
                 return ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_NON_FIRE_POWER;
             }
+        }
+
+        /// <summary>
+        /// 动态属性“可见性”值（轴流风机）
+        /// </summary>
+        /// <param name="modelName"></param>
+        /// <returns></returns>
+        public static string Visibility(string modelName)
+        {
+            return modelName.Substring(0, modelName.Length - 1);
+        }
+
+        /// <summary>
+        /// 动态属性"可见性"值（离心风机）
+        /// </summary>
+        /// <param name="modelNumber"></param>
+        /// <param name="form"></param>
+        /// <returns></returns>
+        public static string Visibility2(string modelNumber, string form)
+        {
+            return string.Format("{0}#风机箱，{1}", modelNumber, form);
+        }
+
+        /// <summary>
+        /// 设备符号前缀
+        /// </summary>
+        /// <param name="scenario"></param>
+        /// <returns></returns>
+        public static string ScenarioPrefix(string scenario)
+        {
+            return PubVar.g_ListFanPrefixDict.Where(o => o.FanUse == scenario).First().Prefix;
         }
     }
 }
