@@ -28,5 +28,14 @@ namespace TianHua.FanSelection
             new FanPrefixDictDataModel(){ No = 12, FanUse = "事故排风兼平时排风", Prefix ="EF", Explain = "平时风机,自动备注" },
             new FanPrefixDictDataModel(){ No = 13, FanUse = "事故补风兼平时送风", Prefix ="SF", Explain = "平时风机,自动备注" }
         };
+
+
+        public static List<MotorEfficiency> g_ListMotorEfficiency = new List<MotorEfficiency>()
+        {
+            new MotorEfficiency(){ Key ="直连",Value =0.99 },
+
+            new MotorEfficiency(){ Key ="皮带",Value =0.85 }
+        };
+
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection
 {
     public class Excl2JsonViewModels
     {
@@ -196,7 +196,7 @@ namespace TianHua.FanSelection.UI
         /// 风机内效率
         /// </summary>
         public int FanEfficiency { get; set; }
-      
+
     }
 
     public class FanEfficiency
@@ -228,6 +228,39 @@ namespace TianHua.FanSelection.UI
         public int FanInternalEfficiency { get; set; }
 
     }
- 
+
+    public class MotorEfficiency
+    {
+        public string Key { get; set; }
+
+        public double Value { get; set; }
+    }
+
+    public class MotorPower
+    {
+        /// <summary>
+        /// 额定功率
+        /// </summary>
+        public string Power { get; set; }
+
+        /// <summary>
+        /// 电机能效等级
+        /// </summary>
+        public string MotorEfficiencyLevel { get; set; }
+
+
+        /// <summary>
+        /// 转速
+        /// </summary>
+        public string Rpm { get; set; }
+
+        /// <summary>
+        /// 电机效率
+        /// </summary>
+        public string MotorEfficiency { get; set; }
+
+    }
+
+
 
 }

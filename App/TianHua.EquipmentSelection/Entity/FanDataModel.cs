@@ -128,7 +128,7 @@ namespace TianHua.FanSelection
                 return Properties.Resources.无;
             }
 
-        
+
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace TianHua.FanSelection
                 return Properties.Resources.无;
             }
 
-     
+
         }
 
         public Bitmap AddAuxiliary
@@ -297,7 +297,7 @@ namespace TianHua.FanSelection
 
         private Bitmap GetAddAuxiliary()
         {
-            if(PID == "0")
+            if (PID == "0")
             {
                 return Properties.Resources.向下加一行;
             }
@@ -306,7 +306,7 @@ namespace TianHua.FanSelection
                 return Properties.Resources.皇帝的新图16x16;
             }
         }
-        
+
         /// <summary>
         /// 排序ID
         /// </summary>
@@ -338,6 +338,11 @@ namespace TianHua.FanSelection
         /// 风量计算系数
         /// </summary>
         public double AirCalcFactor { get; set; }
+
+        /// <summary>
+        /// 风机内效率
+        /// </summary>
+        public string FanInternalEfficiency { get; set; }
 
     }
 }

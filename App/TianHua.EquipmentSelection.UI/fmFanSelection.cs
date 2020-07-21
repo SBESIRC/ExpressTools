@@ -701,6 +701,7 @@ namespace TianHua.FanSelection.UI
             _FanDataModel.InstallFloor = "未指定楼层";
             _FanDataModel.VentNum = "1";
             _FanDataModel.VentQuan = 1;
+            _FanDataModel.ListVentQuan = new List<int>() { 1 };
             _FanDataModel.Remark = string.Empty;
             _FanDataModel.AirVolume = 0;
             _FanDataModel.WindResis = 0;

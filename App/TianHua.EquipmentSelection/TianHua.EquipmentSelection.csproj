@@ -30,6 +30,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\Excl2JsonViewModels.cs" />
     <Compile Include="Entity\ExportFanParaModel.cs" />
     <Compile Include="Entity\FanDataModel.cs" />
     <Compile Include="Entity\FanDesignDataModel.cs" />
@@ -48,7 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Function\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
