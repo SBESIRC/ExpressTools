@@ -80,55 +80,38 @@ namespace TianHua.FanSelection.UI
             }
         }
 
-        /// <summary>
-        /// 提取块引用中的模型信息（模型标识和模型编号）
-        /// </summary>
-        /// <param name="objs"></param>
-        /// <returns></returns>
-        public static Dictionary<string, List<int>> ExtractModels(this ObjectIdCollection objs)
+        public static int GetModelNumber(this ObjectId obj)
         {
-            var models = new Dictionary<string, List<int>>();
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            var valueList = obj.GetXData(ThFanSelectionCommon.RegAppName_FanSelection);
+            if (valueList == null)
             {
-                foreach (ObjectId obj in objs)
-                {
-                    TypedValueList valueList = obj.GetXData(ThFanSelectionCommon.RegAppName_FanSelection);
-                    if (valueList != null)
-                    {
-                        // 模型ID
-                        string identifier = null;
-                        var values = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataAsciiString);
-                        if (values.Any())
-                        {
-                            identifier = (string)values.ElementAt(0).Value;
-                        }
-
-                        // 模型编号
-                        int number = 0;
-                        values = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger32);
-                        if (values.Any())
-                        {
-                            number = (int)values.ElementAt(0).Value;
-                        }
-
-                        if (!string.IsNullOrEmpty(identifier))
-                        {
-                            if (models.ContainsKey(identifier))
-                            {
-                                models[identifier].Add(number);
-                            }
-                            else
-                            {
-                                models.Add(identifier, new List<int>()
-                                {
-                                    number
-                                });
-                            }
-                        }
-                    }
-                }
+                return 0;
             }
-            return models;
+
+            var values = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger32);
+            if (!values.Any())
+            {
+                return 0;
+            }
+
+            return (int)values.ElementAt(0).Value;
+        }
+
+        public static void SetModelNumber(this ObjectId obj, int number)
+        {
+            var oldValue = obj.GetModelNumber();
+            if (oldValue > 0 && (oldValue != number))
+            {
+                obj.ModXData(
+                    ThFanSelectionCommon.RegAppName_FanSelection,
+                    DxfCode.ExtendedDataInteger32,
+                    oldValue, number);
+            }
+        }
+
+        public static void ModifyModelAttributes(this ObjectId obj, Dictionary<string, string> attributes)
+        {
+            obj.UpdateAttributesInBlock(attributes);
         }
 
         private static string BlockDwgPath()

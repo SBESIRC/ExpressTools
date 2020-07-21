@@ -56,7 +56,7 @@ namespace TianHua.FanSelection.UI
                         return false;
                     });
                 blkRefs.ForEachDbObject(o => Geometries.Add(o.ObjectId));
-                Models = Geometries.ExtractModels();
+                Models = ExtractFromDb(database, Geometries);
             }
         }
 
@@ -79,6 +79,57 @@ namespace TianHua.FanSelection.UI
         {
             var models = Geometries.Cast<ObjectId>().Where(o => o.IsModel(identifier));
             return new ObjectIdCollection(models.ToArray());
+        }
+
+        /// <summary>
+        /// 提取块引用中的模型信息（模型标识和模型编号）
+        /// </summary>
+        /// <param name="objs"></param>
+        /// <returns></returns>
+        private Dictionary<string, List<int>> ExtractFromDb(Database database, ObjectIdCollection objs)
+        {
+            var models = new Dictionary<string, List<int>>();
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
+            {
+                foreach (ObjectId obj in objs)
+                {
+                    TypedValueList valueList = obj.GetXData(ThFanSelectionCommon.RegAppName_FanSelection);
+                    if (valueList != null)
+                    {
+                        // 模型ID
+                        string identifier = null;
+                        var values = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataAsciiString);
+                        if (values.Any())
+                        {
+                            identifier = (string)values.ElementAt(0).Value;
+                        }
+
+                        // 模型编号
+                        int number = 0;
+                        values = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataInteger32);
+                        if (values.Any())
+                        {
+                            number = (int)values.ElementAt(0).Value;
+                        }
+
+                        if (!string.IsNullOrEmpty(identifier))
+                        {
+                            if (models.ContainsKey(identifier))
+                            {
+                                models[identifier].Add(number);
+                            }
+                            else
+                            {
+                                models.Add(identifier, new List<int>()
+                                {
+                                    number
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            return models;
         }
     }
 }

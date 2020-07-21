@@ -1457,15 +1457,15 @@ namespace TianHua.FanSelection.UI
                     if (_FanDataModel.IsModified(attributes))
                     {
                         // 场景3.1：图块参数变化
+                        //  更新参数和编号
+                        ThFanSelectionEngine.ModifyModels(_FanDataModel);
                     }
                     else
                     {
-
                         // 场景3.2：图块参数没有变化
                     }
                 }
             }
         }
     }
-}
- 
+} 

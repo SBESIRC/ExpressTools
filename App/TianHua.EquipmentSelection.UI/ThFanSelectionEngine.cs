@@ -54,5 +54,23 @@ namespace TianHua.FanSelection.UI
                 }
             }
         }
+
+        public static void ModifyModels(FanDataModel dataModel)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var models = acadDatabase.ModelSpace
+                    .OfType<BlockReference>()
+                    .Where(o => o.ObjectId.IsModel(dataModel.ID));
+                foreach (var model in models.Select((value, i) => new { i, value }))
+                {
+                    // 更新属性值
+                    model.value.ObjectId.ModifyModelAttributes(dataModel.Attributes());
+
+                    // 更新编号
+                    model.value.ObjectId.SetModelNumber(dataModel.ListVentQuan[model.i]);
+                }
+            }
+        }
     }
 }
