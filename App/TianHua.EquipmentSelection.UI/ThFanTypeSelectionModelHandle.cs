@@ -51,5 +51,49 @@ namespace TianHua.FanSelection.UI
 
             return result;
         }
+
+        public static Dictionary<string, Polyline> GetAxialPolyFromeModel(List<AxialFanParameters> jasonmodels)
+        {
+            Dictionary<string, List<Point3d>> fanpoints = new Dictionary<string, List<Point3d>>();
+            foreach (var group in jasonmodels.GroupBy(d => d.ModelNum))
+            {
+                fanpoints.Add(group.First().ModelNum, new List<Point3d>());
+                foreach (var item in group)
+                {
+                    fanpoints[item.ModelNum].Add(new Point3d(Convert.ToDouble(item.AirVolume), Convert.ToDouble(item.Pa), 0));
+                }
+            }
+            Dictionary<string, Polyline> typepolylines = new Dictionary<string, Polyline>();
+            foreach (var item in fanpoints)
+            {
+                List<Point3d> verticcoll = new List<Point3d>();
+                verticcoll = item.Value.OrderBy(p => p.X).ToList();
+                Polyline tppoly = new Polyline();
+                for (int i = 0; i < verticcoll.Count; i++)
+                {
+                    tppoly.AddVertexAt(i, verticcoll[i].ToPoint2d(), 0, 0, 0);
+                }
+                typepolylines.Add(item.Key, tppoly);
+            }
+            return typepolylines;
+        }
+
+        public static Dictionary<string, List<double>> GetAxialTypePolyFromModel(List<AxialFanParameters> jasonmodels, List<double> pointxyz)
+        {
+            Point3d typepoint = new Point3d(pointxyz[0], pointxyz[1], pointxyz[2]);
+            Dictionary<string, Polyline> pardic = GetAxialPolyFromeModel(jasonmodels);
+            List<string> typename = ThFanSelectionTypeSelect.GetTypePolyline(pardic, typepoint);
+
+            Dictionary<string, List<double>> result = new Dictionary<string, List<double>>();
+            foreach (var item in typename)
+            {
+                Point3d ptinline = ThFanSelectionTypeSelect.CloseVertice(pardic[item], typepoint);
+                List<double> ptxyz = new List<double> { ptinline.X, ptinline.Y, ptinline.Z };
+                result.Add(item, ptxyz);
+            }
+
+            return result;
+        }
+
     }
 }
