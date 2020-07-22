@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThColumnInfo.Validate.Rules;
+using ThColumnInfo.Validate.Model;
 
 namespace ThColumnInfo.Validate
 {

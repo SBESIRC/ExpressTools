@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ThColumnInfo.Validate.Model;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Rules
 {
     public class StirrupMaximumSpacingGRule : IRule
     {
@@ -29,8 +28,8 @@ namespace ThColumnInfo.Validate
                 !this.smsg.AntiSeismicGrade.Contains("特"))
             {
                 double intBardiamin = Math.Min(this.smsg.Cdm.IntXBarDia,this.smsg.Cdm.IntYBarDia);
-                double intStirrupSpacing = this.smsg.HoopReinforcementData.IntStirrupSpacing;
-                double intStirrupSpacing0 = this.smsg.HoopReinforcementData.IntStirrupSpacing0;
+                double intStirrupSpacing = this.smsg.Cdm.IntStirrupSpacing;
+                double intStirrupSpacing0 = this.smsg.Cdm.IntStirrupSpacing0;
                 if (this.smsg.Code.ToUpper().Contains("ZHZ") &&
                     intStirrupSpacing0 != 0.0)
                 {
@@ -56,8 +55,8 @@ namespace ThColumnInfo.Validate
             steps.Add("条文：转换柱、抗震时(一二三四级)、箍筋应全高加密(非加密区间距等于加密区间距)，箍筋间距不应大于100mm与6倍纵筋直径的较小值");
             steps.Add("柱号 = " + this.smsg.Text);
 
-            double intStirrupSpacing = this.smsg.HoopReinforcementData.IntStirrupSpacing;
-            double intStirrupSpacing0 = this.smsg.HoopReinforcementData.IntStirrupSpacing0;
+            double intStirrupSpacing = this.smsg.Cdm.IntStirrupSpacing;
+            double intStirrupSpacing0 = this.smsg.Cdm.IntStirrupSpacing0;
             double intBardiamin = Math.Min(this.smsg.Cdm.IntXBarDia, this.smsg.Cdm.IntYBarDia);
 
             steps.Add("if (抗震等级["+this.smsg.AntiSeismicGrade+"].Contains(\"一级\") ||" +

@@ -1,4 +1,4 @@
-﻿namespace ThColumnInfo.Validate
+﻿namespace ThColumnInfo.Validate.Model
 {
     public class ColumnSpecModel: ValidateModel
     {

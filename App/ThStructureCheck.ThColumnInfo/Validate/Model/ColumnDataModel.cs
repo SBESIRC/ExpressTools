@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ThColumnInfo.Service;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Model
 {
     public class ColumnDataModel
     {
@@ -257,6 +257,19 @@ namespace ThColumnInfo.Validate
             return (value1 + value2) / value3;
         }
         /// <summary>
+        /// 获取核芯区配筋面积
+        /// </summary>
+        /// <returns></returns>
+        public double GetCoreReinforcementArea(ColuJointCoreAnalysis coluJointCore)
+        {
+            //Todo 要和产品沟通具体计算公式
+            double coreReinArea = 0.0;
+            double diaArea = ThValidate.GetIronSectionArea((int)coluJointCore.Diameter);
+            coreReinArea = IntCBarCount * diaArea + 2 * (IntXBarCount * diaArea +
+               IntYBarCount * diaArea);
+            return coreReinArea;
+        }
+        /// <summary>
         /// 获取体积配箍率计算过程
         /// </summary>
         /// <param name="cover"></param>
@@ -272,6 +285,12 @@ namespace ThColumnInfo.Validate
                 "] - 2 * IntStirrupDia[" + IntStirrupDia + "]) *" + "intStirrupSpacing[" + IntStirrupSpacing + "]) = ";
             return calculation;
         }
+        /// <summary>
+        /// 获取节点核芯区体积配箍率
+        /// </summary>
+        /// <param name="coluJointCore"></param>
+        /// <param name="cover"></param>
+        /// <returns></returns>
         public string GetCoreVolumeStirrupRatioCalculation(ColuJointCoreAnalysis coluJointCore, double cover)
         {
             double intStirrupDiaArea = ThValidate.GetIronSectionArea((int)coluJointCore.Diameter);
@@ -283,6 +302,21 @@ namespace ThColumnInfo.Validate
                 "] - intStirrupDia[" + dia + "])) / ((B[" + B + "] - 2 * cover[" + cover +
                 "] - 2 * IntStirrupDia[" + dia + "]) * " + "(H[" + H + "] - 2 * cover[" + cover +
                 "] - 2 * IntStirrupDia[" + dia + "]) *" + "intStirrupSpacing[" + coluJointCore.Spacing + "]) = ";
+            return calculation;
+        }
+        /// <summary>
+        /// 获取节点核心区配筋面积
+        /// </summary>
+        /// <param name="coluJointCore"></param>
+        /// <returns></returns>
+        public string GetCoreReinAreaCalculation(ColuJointCoreAnalysis coluJointCore)
+        {
+            //ToDo,根据修改公式再调整
+            double diaArea = ThValidate.GetIronSectionArea((int)coluJointCore.Diameter);
+            double dia = coluJointCore.Diameter;
+            string calculation = "节点核芯区配筋面积=IntCBarCount[" + IntCBarCount + "] * intCBarDiaArea[" + intCBarDiaArea +
+                "] + 2 * (IntXBarCount[" + IntXBarCount + "] *intXBarDiaArea[" + intXBarDiaArea + "] + IntYBarCount[" +
+                IntYBarCount + "] *intYBarDiaArea[" + intYBarDiaArea + "]) = " + this.DblAs;
             return calculation;
         }
     }

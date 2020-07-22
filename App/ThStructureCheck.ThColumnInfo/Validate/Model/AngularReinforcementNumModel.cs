@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Model
 {
     public class AngularReinforcementNumModel : ValidateModel
     {

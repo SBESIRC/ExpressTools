@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ThColumnInfo.Validate.Model;
+using ThColumnInfo.Validate.Rules;
 using ThColumnInfo.ViewModel;
 
 namespace ThColumnInfo.Validate
@@ -467,6 +469,7 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildVolumeReinforceRatioDRule());          // 体积配箍率D(箍筋)
             validateRules.Add(BuildVolumeReinforceRatioERule());          // 节点核芯区体积配箍率E(箍筋)
             validateRules.Add(BuildStirrupReinforcementAreaRule());       // 配筋面积(箍筋)
+            validateRules.Add(BuildJointCoreReinforceAreaRule());         // 节点核心区配筋面积(箍筋)
             for (int i = 0; i < this.validateRules.Count; i++)
             {
                 if (this.validateRules[i]==null)
@@ -1058,6 +1061,18 @@ namespace ThColumnInfo.Validate
                 DblStirrupAsCal0 = this.columnRelateInf.YjkColumnData.DblStirrupAsCal0
             };
             IRule rule = new StirrupReinforcementAreaRule(sram);
+            return rule;
+        }
+        private IRule BuildJointCoreReinforceAreaRule()
+        {
+            JointCoreReinforceModel sram = new JointCoreReinforceModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Text = this.columnRelateInf.ModelColumnInfs[0].Text,
+                Cdm = this.cdm,
+                CoreJointReinforceArea = this.columnRelateInf.YjkColumnData.CoreJointReinforceArea
+            };
+            IRule rule = new JointCoreReinforceAreaRule(sram);
             return rule;
         }
     }

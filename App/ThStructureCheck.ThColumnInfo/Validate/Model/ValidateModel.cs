@@ -2,7 +2,7 @@
 using System.Linq;
 using ThColumnInfo.Service;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Model
 {
     public abstract class ValidateModel
     {

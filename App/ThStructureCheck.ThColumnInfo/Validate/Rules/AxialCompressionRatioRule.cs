@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using ThColumnInfo.Validate.Model;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Rules
 {
     /// <summary>
     /// 轴压比(轴压比)

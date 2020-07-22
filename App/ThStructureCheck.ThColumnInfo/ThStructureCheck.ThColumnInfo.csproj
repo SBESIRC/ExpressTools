@@ -91,6 +91,7 @@
     <Compile Include="Validate\Model\ColumnDataModel.cs" />
     <Compile Include="Validate\Model\ColumnSpecModel.cs" />
     <Compile Include="Validate\Model\CompoundStirrupModel.cs" />
+    <Compile Include="Validate\Model\JointCoreReinforceModel.cs" />
     <Compile Include="Validate\Model\MinimumReinforceRatioBModel.cs" />
     <Compile Include="Validate\Model\MinimumReinforceRatioAModel.cs" />
     <Compile Include="Validate\Model\ReinforcementAreaModel.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Validate\Model\VolumeReinforceRatioCModel.cs" />
     <Compile Include="Validate\Model\VolumeReinforceRatioBModel.cs" />
     <Compile Include="Validate\Model\VolumeReinforceRatioAModel.cs" />
+    <Compile Include="Validate\Rules\JointCoreReinforceAreaRule.cs" />
     <Compile Include="Validate\Rules\MaximumReinforcementRatioRule.cs" />
     <Compile Include="Validate\Rules\AngularReinforcementDiaRule.cs" />
     <Compile Include="Validate\Rules\AngularReinforcementNumRule.cs" />

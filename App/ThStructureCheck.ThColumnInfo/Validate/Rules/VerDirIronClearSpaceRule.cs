@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ThColumnInfo.Validate.Model;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Rules
 {
     public class VerDirIronClearSpaceRule : IRule
     {

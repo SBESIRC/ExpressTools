@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace ThColumnInfo.Validate.Model
 {
-    public class StirrupMaximumSpacingAModel:ValidateModel
+    public class JointCoreReinforceModel : ValidateModel
     {
+        public double CoreJointReinforceArea { get; set; }
         public override bool ValidateProperty()
         {
             if (!base.ValidateProperty() ||
-               !IsContainsCodeSign(new List<string> { "LZ", "KZ", "ZHZ" }))
+               !IsContainsCodeSign(new List<string> { "KZ", "LZ", "ZHZ" }))
             {
                 return false;
             }
-            return false;
+            return true;
         }
     }
 }

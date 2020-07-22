@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Rules
 {
     public interface IRule
     {
