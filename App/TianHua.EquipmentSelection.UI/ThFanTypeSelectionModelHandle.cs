@@ -35,8 +35,9 @@ namespace TianHua.FanSelection.UI
             return typepolylines;
         }
 
-        public static Dictionary<string, List<double>> GetTypePolylineFromModel(List<FanParameters> jasonmodels, Point3d typepoint)
+        public static Dictionary<string, List<double>> GetTypePolylineFromModel(List<FanParameters> jasonmodels, List<double> pointxyz)
         {
+            Point3d typepoint = new Point3d(pointxyz[0], pointxyz[1], pointxyz[2]);
             Dictionary<string, Polyline> pardic = GetpolylineFromeModel(jasonmodels);
             List<string> typename = ThFanSelectionTypeSelect.GetTypePolyline(pardic, typepoint);
 
