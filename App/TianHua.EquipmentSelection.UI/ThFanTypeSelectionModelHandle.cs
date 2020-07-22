@@ -4,7 +4,6 @@ using Dreambuild.AutoCAD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace TianHua.FanSelection.UI
 {
@@ -34,6 +33,22 @@ namespace TianHua.FanSelection.UI
                 typepolylines.Add(item.Key, tppoly);
             }
             return typepolylines;
+        }
+
+        public static Dictionary<string, List<double>> GetTypePolylineFromModel(List<FanParameters> jasonmodels, Point3d typepoint)
+        {
+            Dictionary<string, Polyline> pardic = GetpolylineFromeModel(jasonmodels);
+            List<string> typename = ThFanSelectionTypeSelect.GetTypePolyline(pardic, typepoint);
+
+            Dictionary<string, List<double>> result = new Dictionary<string, List<double>>();
+            foreach (var item in typename)
+            {
+                Point3d ptinline = ThFanSelectionTypeSelect.CloseVertice(pardic[item], typepoint);
+                List<double> ptxyz = new List<double> { ptinline.X, ptinline.Y, ptinline.Z };
+                result.Add(item, ptxyz);
+            }
+
+            return result;
         }
     }
 }
