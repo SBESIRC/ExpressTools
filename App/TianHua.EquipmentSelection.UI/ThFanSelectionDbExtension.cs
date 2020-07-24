@@ -36,7 +36,7 @@ namespace TianHua.FanSelection.UI
             }
         }
 
-        public static void AttachModel(this ObjectId obj, string identifier, int number)
+        public static void SetModelIdentifier(this ObjectId obj, string identifier, int number)
         {
             TypedValueList valueList = new TypedValueList
             {
@@ -80,18 +80,12 @@ namespace TianHua.FanSelection.UI
             }
         }
 
-        /// <summary>
-        /// 动态属性"可见性"值（离心风机）
-        /// </summary>
-        /// <param name="modelNumber"></param>
-        /// <param name="form"></param>
-        /// <returns></returns>
         public static string HTFCModelName(this ObjectId obj, string modelNumber, string form)
         {
             var blockReference = new ThFSBlockReference(obj);
             var visibilityStates = blockReference.DynablockVisibilityStates();
             var result = visibilityStates.Where(o => o.Key.Contains(modelNumber) && o.Key.Contains(form));
-            if (result.Any())
+            if (result.Count() == 1)
             {
                 return result.First().Key;
             }
@@ -101,17 +95,12 @@ namespace TianHua.FanSelection.UI
             }
         }
 
-        /// <summary>
-        /// 动态属性“可见性”值（轴流风机）
-        /// </summary>
-        /// <param name="modelName"></param>
-        /// <returns></returns>
         public static string AXIALModelName(this ObjectId obj, string modelName)
         {
             var blockReference = new ThFSBlockReference(obj);
             var visibilityStates = blockReference.DynablockVisibilityStates();
             var result = visibilityStates.Where(o => o.Key.Contains(modelName));
-            if (result.Any())
+            if (result.Count() == 1)
             {
                 return result.First().Key;
             }

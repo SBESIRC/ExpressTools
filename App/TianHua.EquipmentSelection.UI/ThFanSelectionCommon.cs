@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace TianHua.FanSelection.UI
 {
     public class ThFanSelectionCommon
     {
+        public static readonly string HTFC_TYPE_NAME = "离心";
+        public static readonly string AXIAL_TYPE_NAME = "轴流";
         public static readonly string HTFC_BLOCK_NAME = "HTFC(DF)柜式离心风机";
         public static readonly string AXIAL_BLOCK_NAME = "消防高温排烟专用风机";
         public static readonly string BLOCK_FAN_LAYER = "H-EQUP-FANS";
@@ -18,6 +15,7 @@ namespace TianHua.FanSelection.UI
         public static readonly string AXIAL_Parameters = "轴流风机参数.json";
         public static readonly string RegAppName_FanSelection = "THCAD_FAN_SELECTION";
 
+        // 风机块属性
         public static readonly string BLOCK_ATTRIBUTE_EQUIPMENT_SYMBOL = "设备符号";
         public static readonly string BLOCK_ATTRIBUTE_STOREY_AND_NUMBER = "楼层-编号";
         public static readonly string BLOCK_ATTRIBUTE_FAN_USAGE = "风机功能";
@@ -29,6 +27,7 @@ namespace TianHua.FanSelection.UI
         public static readonly string BLOCK_DYNAMIC_PROPERTY_VISIBILITY = "可见性";
         public static readonly string BLOCK_DYNAMIC_PROPERTY_VISIBILITY2 = "风机箱型号可见性";
 
+        // 风机块属性值
         public static readonly string BLOCK_ATTRIBUTE_VALUE_FIXED_FREQUENCY = "定频";
         public static readonly string BLOCK_ATTRIBUTE_VALUE_VARIABLE_FREQUENCY = "变频";
         public static readonly string BLOCK_ATTRIBUTE_VALUE_DUAL_FREQUENCY = "双频";

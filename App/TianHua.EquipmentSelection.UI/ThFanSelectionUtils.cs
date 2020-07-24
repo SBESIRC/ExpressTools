@@ -11,11 +11,11 @@ namespace TianHua.FanSelection.UI
         /// <param name="ventStyle"></param>
         public static string BlockName(string style)
         {
-            if (style.Contains("离心"))
+            if (style.Contains(ThFanSelectionCommon.HTFC_TYPE_NAME))
             {
                 return ThFanSelectionCommon.HTFC_BLOCK_NAME;
             }
-            else if (style.Contains("轴流"))
+            else if (style.Contains(ThFanSelectionCommon.AXIAL_BLOCK_NAME))
             {
                 return ThFanSelectionCommon.AXIAL_BLOCK_NAME;
             }

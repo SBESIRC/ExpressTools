@@ -33,7 +33,7 @@ namespace TianHua.FanSelection.UI
                     Vector3d delta = new Vector3d(deltaX, 0.0, 0.0);
                     Matrix3d displacement = Matrix3d.Displacement(pr.Value.GetAsVector() + delta);
                     var model = acadDatabase.ModelSpace.Add(blockRef.GetTransformedCopy(displacement));
-                    model.AttachModel(dataModel.ID, dataModel.ListVentQuan[i]);
+                    model.SetModelIdentifier(dataModel.ID, dataModel.ListVentQuan[i]);
                     UpdateModelName(model, dataModel);
                 }
 
@@ -81,7 +81,7 @@ namespace TianHua.FanSelection.UI
 
         private static void UpdateModelName(ObjectId model, FanDataModel dataModel)
         {
-            if (dataModel.VentStyle == "轴流")
+            if (dataModel.VentStyle.Contains(ThFanSelectionCommon.AXIAL_BLOCK_NAME))
             {
                 model.SetModelName(model.AXIALModelName(dataModel.FanModelName));
             }
