@@ -16,7 +16,7 @@ namespace ThColumnInfo.Validate.Rules
 
         public void Validate()
         {
-            if(smsh == null || smsh.ValidateProperty()==false)
+            if(smsh == null || !smsh.ValidateProperty())
             {
                 return;
             }

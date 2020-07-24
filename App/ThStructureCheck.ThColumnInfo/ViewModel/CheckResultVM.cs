@@ -114,7 +114,6 @@ namespace ThColumnInfo.ViewModel
                     leafNode.ForeColor = sysColor;
                 }
             }
-            ThProgressBar.MeterProgress();
         }
         private string dwgNotCalHasNodeName = "DwgNotCalHas";
         private void AddDwgNotCalHasNode(TreeNode innerFrameNode)
@@ -152,7 +151,27 @@ namespace ThColumnInfo.ViewModel
         }
         public void AddColumnTableCmd()
         {
-
+            var doc = ThColumnInfoUtils.GetMdiActiveDocument();           
+            using (DocumentLock docLock = doc.LockDocument())
+            {
+                List<string> lockedLayerNames = ThColumnInfoUtils.UnlockedAllLayers();
+                try
+                {                    
+                    ThStandardSign thStandardSign = owner.tvCheckRes.SelectedNode.Tag as ThStandardSign;
+                    thStandardSign.ExtractColumnTableData();
+                }
+                catch (Exception ex)
+                {
+                    ThColumnInfoUtils.WriteException(ex, "AddColumnTableCmd");
+                }
+                finally
+                {
+                    if (lockedLayerNames.Count > 0)
+                    {
+                        ThColumnInfoUtils.LockedLayers(lockedLayerNames);
+                    }
+                }
+            }
         }
         /// <summary>
         /// 校核
@@ -185,7 +204,7 @@ namespace ThColumnInfo.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        ThColumnInfoUtils.WriteException(ex, "");
+                        ThColumnInfoUtils.WriteException(ex, "Check");
                     }
                     finally
                     {
@@ -315,11 +334,16 @@ namespace ThColumnInfo.ViewModel
             {
                 return;
             }
+            ThStandardSign thStandardSign = innerFrameNode.Tag as ThStandardSign;
+            Document doc = ThColumnInfoUtils.GetMdiActiveDocument();
+            if(doc.Name!= thStandardSign.DocPath)
+            {
+                return;
+            }
             foreach (TreeNode treeNode in tn.Nodes)
             {
                 if (treeNode.Name == this.dataCorrectNodeName)
-                {
-                    ThStandardSign thStandardSign = innerFrameNode.Tag as ThStandardSign;
+                {                    
                     DataPalette.Instance.Show(thStandardSign.SignExtractColumnInfo, thStandardSign.ThSpecificValidate,
                             thStandardSign.ThCalculateValidate, treeNode);
                     break;
@@ -339,25 +363,10 @@ namespace ThColumnInfo.ViewModel
         /// <param name="subcodeText">子编号 KZ-1</param>
         /// <returns></returns>
         public TreeNode FindTreeCode(string innerFrameName, FindNodeMode findNodeMode, string codeText, string subcodeText)
-        {
-            //查找内框节点
-            TreeNode innerFrameNode = null;
-            foreach (TreeNode tn in CheckPalette._checkResult.tvCheckRes.Nodes[0].Nodes)
-            {
-                if (tn.Text == innerFrameName)
-                {
-                    innerFrameNode = tn;
-                    break;
-                }
-            }
-            if (findNodeMode == FindNodeMode.InnerFrame || innerFrameNode == null)
-            {
-                return innerFrameNode;
-            }
-
+        {       
             //查找数据正确节点
             TreeNode dataCorrectNode = null;
-            foreach (TreeNode tn in innerFrameNode.Nodes)
+            foreach (TreeNode tn in CheckPalette._checkResult.tvCheckRes.Nodes[0].Nodes)
             {
                 //从数据正确节点查找
                 if (tn.Name == this.dataCorrectNodeName)
@@ -1116,6 +1125,11 @@ namespace ThColumnInfo.ViewModel
                 FillPlantCalResultToTree(tn);
                 if (!showImportCalInf) //如是导入计算书，则无需校验
                 {
+                    if(thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos==null ||
+                       thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos.Count==0)
+                    {
+                        thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos = thStandardSign.ColumnTableRecordInfos;
+                    }
                     List<ColumnInf> correctColumnInfs = GetDataCorrectColumnInfs(tn);
                     //校核柱子
                     if (thStandardSign.SignPlantCalData == null ||

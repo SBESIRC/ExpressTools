@@ -17,7 +17,7 @@ namespace ThColumnInfo.Validate.Rules
         private double calVolumnReinforceRatio = 0.0;
         public void Validate()
         {
-            if (this.vrra == null || this.vrra.ValidateProperty() == false)
+            if (this.vrra == null || !this.vrra.ValidateProperty())
             {
                 return;
             }

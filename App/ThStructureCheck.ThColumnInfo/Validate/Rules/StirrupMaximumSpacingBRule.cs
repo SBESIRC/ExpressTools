@@ -19,7 +19,7 @@ namespace ThColumnInfo.Validate.Rules
 
         public void Validate()
         {
-            if(this.smsb == null || smsb.ValidateProperty()==false)
+            if(this.smsb == null || !smsb.ValidateProperty())
             {
                 return;
             }

@@ -20,7 +20,7 @@ namespace ThColumnInfo.Validate.Rules
 
         public void Validate()
         {
-            if(ssrm==null || ssrm.ValidateProperty()==false)
+            if(ssrm==null || !ssrm.ValidateProperty())
             {
                 return;
             }

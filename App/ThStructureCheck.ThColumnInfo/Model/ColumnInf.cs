@@ -21,7 +21,7 @@ namespace ThColumnInfo
         /// 抗震等级
         /// </summary>
         public string AntiSeismicGrade { get; set; } = "";
-        public string ColuJoinCore { get; set; } = "";
+        public string JointCorehooping { get; set; } = "";
 
         public ErrorMsg Error { get; set; }
         public void Locate()

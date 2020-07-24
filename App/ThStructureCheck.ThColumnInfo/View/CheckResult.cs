@@ -66,12 +66,10 @@ namespace ThColumnInfo.View
 
         private void btnCheckAll_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("全部校核");
             CheckResVM.CheckAll();
         }
         private void btnShowDetailData_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("导出详细数据");
             CheckResVM.ShowDetailData();
         }
 
@@ -150,7 +148,16 @@ namespace ThColumnInfo.View
             if (this.currentNode != null)
             {
                 TreeNode innerFrameNode = checkResultVM.TraverseRoot(this.currentNode);
-                if (this.currentNode != e.Node)
+                bool isExisted = false;
+                foreach(TreeNode tn in this.tvCheckRes.Nodes)
+                {
+                    if(tn== innerFrameNode)
+                    {
+                        isExisted = true;
+                        break;
+                    }
+                }
+                if (this.currentNode != e.Node && isExisted)
                 {
                     bool needHide = checkResultVM.GetTreeNodeHasVisibleFrame(innerFrameNode);
                     if (needHide && !this.isMouseRightClick)

@@ -38,7 +38,7 @@ namespace ThColumnInfo.Validate.Model
             {
                 return false;
             }
-            return false;
+            return true;
         }
         private double GetIntStirrupDiaLimited()
         {

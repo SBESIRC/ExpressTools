@@ -423,7 +423,8 @@ namespace ThColumnInfo.Validate
             {
                 Code = this.columnInf.Code,
                 Text = this.columnInf.Text,
-                ConcreteStrength = this.concreteStrength,               
+                ConcreteStrength = this.concreteStrength,          
+                AntiSeismicGrade=this.antiSeismicGrade,
                 Cdm=cdm
             };
             IRule rule = new MinimumReinforcementRatioARule(mrrm);

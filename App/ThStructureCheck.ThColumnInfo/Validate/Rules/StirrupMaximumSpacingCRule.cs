@@ -16,7 +16,7 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> CorrectResults { get; set; } = new List<string>();
         public void Validate()
         {
-            if(this.smsc == null || this.smsc.ValidateProperty()== false)
+            if(this.smsc == null || !this.smsc.ValidateProperty())
             {
                 return;
             }

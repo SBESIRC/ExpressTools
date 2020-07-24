@@ -18,7 +18,7 @@ namespace ThColumnInfo.Validate.Rules
 
         public void Validate()
         {
-            if(this.smsd == null || smsd.ValidateProperty()==false)
+            if(this.smsd == null || !smsd.ValidateProperty())
             {
                 return;
             }

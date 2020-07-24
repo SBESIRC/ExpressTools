@@ -15,7 +15,7 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> CorrectResults { get; set; } = new List<string>();
         public void Validate()
         {
-            if(sram==null || sram.ValidateProperty()==false)
+            if(sram==null || !sram.ValidateProperty())
             {
                 return;
             }

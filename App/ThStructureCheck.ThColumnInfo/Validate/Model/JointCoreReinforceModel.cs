@@ -9,6 +9,7 @@ namespace ThColumnInfo.Validate.Model
     public class JointCoreReinforceModel : ValidateModel
     {
         public double CoreJointReinforceArea { get; set; }
+        public double ProtectLayerThickness { get; set; }
         public override bool ValidateProperty()
         {
             if (!base.ValidateProperty() ||

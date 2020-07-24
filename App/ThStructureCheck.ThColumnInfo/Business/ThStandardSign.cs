@@ -8,6 +8,9 @@ using System.Text.RegularExpressions;
 using ThColumnInfo.Validate;
 using ThColumnInfo.ViewModel;
 using Autodesk.AutoCAD.ApplicationServices;
+using TianHua.AutoCAD.Utility.ExtensionTools;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.EditorInput;
 
 namespace ThColumnInfo
 {
@@ -18,6 +21,23 @@ namespace ThColumnInfo
         private string innerFrameName = "";
         private bool isStandardThSign = false;
         private string propertyName = "内框名称";
+        private string documentName = "";
+        private string docFullPath = "";
+        public string DocName
+        {
+            get
+            {
+                return documentName;
+            }
+        }
+
+        public string DocPath
+        {
+            get
+            {
+                return docFullPath;
+            }
+        }
         public BlockReference Br
         {
             get { return br; }
@@ -61,10 +81,14 @@ namespace ThColumnInfo
         /// 计算书校对
         /// </summary>
         public ThCalculationValidate ThCalculateValidate { get; set; }
+        private List<ColumnTableRecordInfo> columnTableRecordInfos { get; set; } = new List<ColumnTableRecordInfo>();
+        public List<ColumnTableRecordInfo> ColumnTableRecordInfos { get => columnTableRecordInfos; }
         public bool IsValid { get; set; } = false;
-        public ThStandardSign(BlockReference br)
+        public ThStandardSign(BlockReference br,string documentName="",string docFullPath = "")
         {
             this.br = br;
+            this.documentName = documentName;
+            this.docFullPath = docFullPath;
             CheckBlockReferenceIsThSign();
         }
         private void CheckBlockReferenceIsThSign()
@@ -157,6 +181,58 @@ namespace ThColumnInfo
                 ThColumnInfoUtils.WriteException(ex, "ThColumnInfoCheckWindow");
             }            
         }       
+        public void ExtractColumnTableData()
+        {
+            var doc = ThColumnInfoUtils.GetMdiActiveDocument();
+            ViewTableRecord view = doc.Editor.GetCurrentView();
+            try
+            {
+                Point3d leftDownPt = Point3d.Origin;
+                Point3d rightUpPt = Point3d.Origin;
+                var pt1Res =  doc.Editor.GetPoint("\n请选择柱表的左下角点");
+                if (pt1Res.Status == PromptStatus.OK)
+                {
+                    leftDownPt = pt1Res.Value;
+                }
+                else
+                {
+                    return;
+                }
+                PromptCornerOptions pco = new PromptCornerOptions("\n请选择柱表的右上角点", leftDownPt);
+                //pco.UseDashedLine = true;
+                var pt2Res = doc.Editor.GetCorner(pco);
+                if (pt2Res.Status == PromptStatus.OK)
+                {
+                    rightUpPt = pt2Res.Value;
+                }
+                else
+                {
+                    return;
+                }
+                ThProgressBar.Start("提取柱表......");
+                using (Transaction trans = doc.TransactionManager.StartTransaction())
+                {
+                    ParameterSetVM parameterSetVM = new ParameterSetVM();
+                    COMTool.ZoomWindow(ThColumnInfoUtils.TransPtFromUcsToWcs(leftDownPt)
+                        , ThColumnInfoUtils.TransPtFromUcsToWcs(rightUpPt));
+                    //提取柱表
+                    ExtractColumnTable extractColumnTable = new ExtractColumnTable(
+                        leftDownPt, rightUpPt, parameterSetVM.ParaSetInfo); //如果不是原位图纸，提取一下柱表信息
+                    extractColumnTable.Extract();
+                    this.columnTableRecordInfos = extractColumnTable.ColumnTableRecordInfos;
+                    trans.Commit();
+                }
+            }
+            catch(System.Exception ex)
+            {
+                ThColumnInfoUtils.WriteException(ex, "ExtractColumnTableData");
+            }
+            finally
+            {
+                ThProgressBar.Stop();
+                doc.Editor.SetCurrentView(view);
+            }
+        }
         public object Clone()
         {
             ThStandardSign thStandardSign = new ThStandardSign(this.br);

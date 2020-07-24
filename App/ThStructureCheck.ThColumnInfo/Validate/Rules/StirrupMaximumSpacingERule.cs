@@ -17,7 +17,7 @@ namespace ThColumnInfo.Validate.Rules
 
         public void Validate()
         {
-            if(this.smse.Cdm == null || this.smse.ValidateProperty()==false)
+            if(this.smse.Cdm == null || !this.smse.ValidateProperty())
             {
                 return;
             }            

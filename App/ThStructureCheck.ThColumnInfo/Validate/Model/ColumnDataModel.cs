@@ -136,7 +136,7 @@ namespace ThColumnInfo.Validate.Model
         {
             get
             {
-                return new ColuJointCoreAnalysis(this.ctri.ColuJoinCore);
+                return new ColuJointCoreAnalysis(this.ctri.JointCoreHoop);
             }
         }
         private double intCBarDiaArea = 0.0;
@@ -260,13 +260,11 @@ namespace ThColumnInfo.Validate.Model
         /// 获取核芯区配筋面积
         /// </summary>
         /// <returns></returns>
-        public double GetCoreReinforcementArea(ColuJointCoreAnalysis coluJointCore)
+        public double GetCoreReinforcementArea(ColuJointCoreAnalysis coluJointCore, double cover)
         {
-            //Todo 要和产品沟通具体计算公式
-            double coreReinArea = 0.0;
-            double diaArea = ThValidate.GetIronSectionArea((int)coluJointCore.Diameter);
-            coreReinArea = IntCBarCount * diaArea + 2 * (IntXBarCount * diaArea +
-               IntYBarCount * diaArea);
+            double coreReinArea = (B - 2 * cover - 2 * coluJointCore.Diameter) * 
+                (H - 2 * cover - 2 * coluJointCore.Diameter);
+            coreReinArea = coreReinArea/100.0;
             return coreReinArea;
         }
         /// <summary>
@@ -309,14 +307,16 @@ namespace ThColumnInfo.Validate.Model
         /// </summary>
         /// <param name="coluJointCore"></param>
         /// <returns></returns>
-        public string GetCoreReinAreaCalculation(ColuJointCoreAnalysis coluJointCore)
+        public string GetCoreReinAreaCalculation(ColuJointCoreAnalysis coluJointCore,double cover)
         {
             //ToDo,根据修改公式再调整
-            double diaArea = ThValidate.GetIronSectionArea((int)coluJointCore.Diameter);
             double dia = coluJointCore.Diameter;
-            string calculation = "节点核芯区配筋面积=IntCBarCount[" + IntCBarCount + "] * intCBarDiaArea[" + intCBarDiaArea +
-                "] + 2 * (IntXBarCount[" + IntXBarCount + "] *intXBarDiaArea[" + intXBarDiaArea + "] + IntYBarCount[" +
-                IntYBarCount + "] *intYBarDiaArea[" + intYBarDiaArea + "]) = " + this.DblAs;
+            double coreReinArea = (B - 2 * cover - 2 * coluJointCore.Diameter) *
+               (H - 2 * cover - 2 * coluJointCore.Diameter);
+            coreReinArea /= 100.0;
+            string calculation = "(B[" + B + "] - 2 * cover[" + cover +
+                "] - 2 * IntCoreStirrupDia[" + coluJointCore.Diameter + "]) * " + "(H[" + H + "] - 2 * cover[" + cover +
+                "] - 2 * IntCoreStirrupDia[" + coluJointCore.Diameter + "]) =" + coreReinArea;
             return calculation;
         }
     }

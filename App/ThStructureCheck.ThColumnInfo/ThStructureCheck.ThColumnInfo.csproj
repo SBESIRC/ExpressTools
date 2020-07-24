@@ -81,6 +81,8 @@
     </Compile>
     <Compile Include="Service\CheckResultCadInteractive.cs" />
     <Compile Include="Service\ColuJointCoreAnalysis.cs" />
+    <Compile Include="Service\CurveDuplicate.cs" />
+    <Compile Include="Service\ExtendLength.cs" />
     <Compile Include="Service\HoopReinforcementAnalysis.cs" />
     <Compile Include="Service\ThColunmDocManager.cs" />
     <Compile Include="ThProgressBar.cs" />

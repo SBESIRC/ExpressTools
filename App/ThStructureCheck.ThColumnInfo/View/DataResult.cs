@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using ThColumnInfo.Validate;
 using Autodesk.AutoCAD.DatabaseServices;
+using ThColumnInfo.Validate.Model;
 
 namespace ThColumnInfo.View
 {
@@ -267,7 +268,7 @@ namespace ThColumnInfo.View
                     {
                         continue;
                     }
-                    int rowIndex = this.dgvCheckRes.Rows.Add();
+                    int rowIndex = this.dgvIndicator.Rows.Add();
                     this.dgvIndicator.Rows[rowIndex].Cells["code"].Value = columnInf.Code;
                     this.dgvIndicator.Rows[rowIndex].Cells["subCode"].Value = columnInf.Text;
                     this.dgvIndicator.Rows[rowIndex].Cells["dblXSpace"].Value = cdm.DblXAs;
@@ -421,15 +422,15 @@ namespace ThColumnInfo.View
                         int rowIndex = this.dgvCheckRes.Rows.Add();
                         if (i == 0)
                         {
-                            this.dgvCheckRes.Rows[rowIndex].Cells["code"].Value = columnInf.Text;
-                            this.dgvCheckRes.Rows[rowIndex].Cells["flrName"].Value = this.flrName;
+                            this.dgvCheckRes.Rows[rowIndex].Cells["code"].Value = columnInf.Code;
+                            this.dgvCheckRes.Rows[rowIndex].Cells["subCode"].Value = columnInf.Text;
                         }
                         this.dgvCheckRes.Rows[rowIndex].Cells["detail"].Value = values[i];
 
                         this.dgvCheckRes.Rows[rowIndex].Cells["code"].Style.BackColor = this.cellBackColor;
                         this.dgvCheckRes.Rows[rowIndex].Cells["code"].Style.ForeColor = this.textForeClor;
-                        this.dgvCheckRes.Rows[rowIndex].Cells["flrName"].Style.BackColor = this.cellBackColor;
-                        this.dgvCheckRes.Rows[rowIndex].Cells["flrName"].Style.ForeColor = this.textForeClor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["subCode"].Style.BackColor = this.cellBackColor;
+                        this.dgvCheckRes.Rows[rowIndex].Cells["subCode"].Style.ForeColor = this.textForeClor;
                         this.dgvCheckRes.Rows[rowIndex].Cells["detail"].Style.BackColor = this.cellBackColor;
                         this.dgvCheckRes.Rows[rowIndex].Cells["detail"].Style.ForeColor = this.textForeClor;
                         if (i < errorIndex)
@@ -666,22 +667,19 @@ namespace ThColumnInfo.View
             try
             {
                 string columnName = this.dgvCheckRes.Columns[e.ColumnIndex].Name;
-                if (columnName != "code" && columnName != "flrName")
+                if (columnName != "code" && columnName != "subCode")
                 {
                     return;
                 }
-                if (columnName == "code")
-                {
-                    columnName = "subCode";
-                }
                 this.dgvCheckResCurrentRowIndex = e.RowIndex;
                 string codeText = this.dgvCheckRes.Rows[e.RowIndex].Cells["code"].Value.ToString();
+                string subCodeText = this.dgvCheckRes.Rows[e.RowIndex].Cells["subCode"].Value.ToString();
                 ThStandardSign thStandardSign = this.dgvCheckRes.Rows[e.RowIndex].Tag as ThStandardSign;
                 if (thStandardSign == null)
                 {
                     return;
                 }
-                TreeNode findTreeCode = CheckPalette._checkResult.CheckResVM.FindTreeCode(thStandardSign.InnerFrameName, GetFindNodeMode(columnName), "", codeText);
+                TreeNode findTreeCode = CheckPalette._checkResult.CheckResVM.FindTreeCode(thStandardSign.InnerFrameName, GetFindNodeMode(columnName), codeText, subCodeText);
                 if (findTreeCode != null)
                 {
                     CheckPalette._checkResult.CheckResVM.ShowSelectNodeFrameIds(findTreeCode);
@@ -771,7 +769,7 @@ namespace ThColumnInfo.View
             if (this.dgvCheckRes.Rows[e.RowIndex].Tag != null)
             {
                 ThStandardSign thStandardSign = this.dgvCheckRes.Rows[e.RowIndex].Tag as ThStandardSign;
-                object value = this.dgvCheckRes.Rows[e.RowIndex].Cells["code"].Value;
+                object value = this.dgvCheckRes.Rows[e.RowIndex].Cells["subCode"].Value;
                 if (value != null)
                 {
                     CheckPalette._checkResult.CheckResVM.SelectTreeNode(thStandardSign.InnerFrameName, value.ToString());

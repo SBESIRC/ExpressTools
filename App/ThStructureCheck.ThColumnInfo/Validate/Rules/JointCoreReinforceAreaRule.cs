@@ -14,8 +14,8 @@ namespace ThColumnInfo.Validate.Rules
         {
             this.jcrm = jcrm;
         }
-        public List<string> ValidateResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public List<string> CorrectResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<string> ValidateResults { get; set; } = new List<string>();
+        public List<string> CorrectResults { get; set; } = new List<string>();
 
         public void Validate()
         {
@@ -36,7 +36,7 @@ namespace ThColumnInfo.Validate.Rules
             {
                 return 0.0;
             }
-            return this.jcrm.Cdm.GetCoreReinforcementArea(coluJoinCore);
+            return this.jcrm.Cdm.GetCoreReinforcementArea(coluJoinCore, this.jcrm.ProtectLayerThickness);
         }
         private string GetJointCoreReinAreaCalculation()
         {
@@ -45,7 +45,7 @@ namespace ThColumnInfo.Validate.Rules
             {
                 return "";
             }
-            return this.jcrm.Cdm.GetCoreReinAreaCalculation(coluJoinCore);
+            return this.jcrm.Cdm.GetCoreReinAreaCalculation(coluJoinCore, this.jcrm.ProtectLayerThickness);
         }
         public List<string> GetCalculationSteps()
         {

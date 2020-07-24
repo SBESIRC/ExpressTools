@@ -21,7 +21,7 @@ namespace ThColumnInfo.Validate.Model
         /// <summary>
         /// 核芯区 (%%132 12@100)
         /// </summary>
-        public string ColuJoinCore { get; set; }
+        public string JointCorehooping { get; set; }
         /// <summary>
         /// 柱表数据信息
         /// </summary>
@@ -60,9 +60,9 @@ namespace ThColumnInfo.Validate.Model
         {
             get
             {
-                if(!string.IsNullOrEmpty(this.ColuJoinCore))
+                if(!string.IsNullOrEmpty(this.JointCorehooping))
                 {
-                    return new ColuJointCoreAnalysis(this.ColuJoinCore);
+                    return new ColuJointCoreAnalysis(this.JointCorehooping);
                 }
                 else if(this.Cdm!=null)
                 {

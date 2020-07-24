@@ -453,6 +453,8 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildStirrupMaximumSpacingARule());         // 箍筋最大间距A(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingBRule());         // 箍筋最大间距B(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingCRule());         // 箍筋最大间距C(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpacingGRule());         // 箍筋最大间距G(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpacingIRule());         // 箍筋最大间距I(箍筋) 
             validateRules.Add(BuildCompoundStirrupRule());                // 复合箍筋(箍筋)
             validateRules.Add(BuildStirrupMinimumDiameterCRule());        // 箍筋最小直径C(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingDRule());         // 箍筋最大间距D(箍筋)
@@ -652,7 +654,8 @@ namespace ThColumnInfo.Validate
             {
                 Code = this.columnRelateInf.ModelColumnInfs[0].Code,
                 Text = this.columnRelateInf.ModelColumnInfs[0].Text,
-                ConcreteStrength= this.concreteStrength,                
+                ConcreteStrength= this.concreteStrength,   
+                AntiSeismicGrade=this.antiSeismicGrade,
                 Cdm = cdm
             };
             IRule rule = new MinimumReinforcementRatioARule(mrrm);
@@ -792,6 +795,32 @@ namespace ThColumnInfo.Validate
                 Cdm = cdm,
             };
             rule = new StirrupMaximumSpacingCRule(smsc);
+            return rule;
+        }
+        private IRule BuildStirrupMaximumSpacingGRule()
+        {
+            IRule rule = null;
+            StirrupMaximumSpacingGModel smsg = new StirrupMaximumSpacingGModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Text = this.columnRelateInf.ModelColumnInfs[0].Text,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                Cdm = cdm
+            };
+            rule = new StirrupMaximumSpacingGRule(smsg);
+            return rule;
+        }
+        private IRule BuildStirrupMaximumSpacingIRule()
+        {
+            IRule rule = null;
+            StirrupMaximumSpacingGModel smsg = new StirrupMaximumSpacingGModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Text = this.columnRelateInf.ModelColumnInfs[0].Text,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                Cdm = cdm
+            };
+            rule = new StirrupMaximumSpacingIRule(smsg);
             return rule;
         }
         /// <summary>
@@ -1040,7 +1069,7 @@ namespace ThColumnInfo.Validate
                 AntiSeismicGrade = this.antiSeismicGrade,
                 Cdm = this.cdm,
                 ProtectLayerThickness = this.protectLayerThickness,
-                ColuJoinCore = this.columnRelateInf.ModelColumnInfs[0].ColuJoinCore
+                JointCorehooping = this.columnRelateInf.ModelColumnInfs[0].JointCorehooping
             };
             IRule rule = new VolumeReinforceRatioERule(vrre);
             return rule;
@@ -1063,6 +1092,10 @@ namespace ThColumnInfo.Validate
             IRule rule = new StirrupReinforcementAreaRule(sram);
             return rule;
         }
+        /// <summary>
+        /// 节点核芯区配筋面积
+        /// </summary>
+        /// <returns></returns>
         private IRule BuildJointCoreReinforceAreaRule()
         {
             JointCoreReinforceModel sram = new JointCoreReinforceModel()
@@ -1070,7 +1103,8 @@ namespace ThColumnInfo.Validate
                 Code = this.columnRelateInf.ModelColumnInfs[0].Code,
                 Text = this.columnRelateInf.ModelColumnInfs[0].Text,
                 Cdm = this.cdm,
-                CoreJointReinforceArea = this.columnRelateInf.YjkColumnData.CoreJointReinforceArea
+                CoreJointReinforceArea = this.columnRelateInf.YjkColumnData.CoreJointReinforceArea,
+                ProtectLayerThickness = this.protectLayerThickness
             };
             IRule rule = new JointCoreReinforceAreaRule(sram);
             return rule;

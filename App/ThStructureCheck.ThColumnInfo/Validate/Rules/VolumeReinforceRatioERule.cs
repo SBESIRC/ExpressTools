@@ -18,7 +18,7 @@ namespace ThColumnInfo.Validate.Rules
 
         public void Validate()
         {
-            if (this.vrre == null || this.vrre.ValidateProperty() == false)
+            if (this.vrre == null || !this.vrre.ValidateProperty())
             {
                 return;
             }

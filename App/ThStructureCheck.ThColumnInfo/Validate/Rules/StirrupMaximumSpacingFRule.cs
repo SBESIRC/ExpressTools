@@ -23,7 +23,7 @@ namespace ThColumnInfo.Validate.Rules
 
         public void Validate()
         {
-            if(this.smsfm == null || smsfm.ValidateProperty()==false)
+            if(this.smsfm == null || !smsfm.ValidateProperty())
             {
                 return;
             }

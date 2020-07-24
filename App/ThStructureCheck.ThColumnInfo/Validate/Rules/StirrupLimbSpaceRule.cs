@@ -21,7 +21,7 @@ namespace ThColumnInfo.Validate.Rules
         private string rule = "（《砼规》11.4.15）";
         public void Validate()
         {
-            if(stirrupLimbSpaceModel==null || stirrupLimbSpaceModel.ValidateProperty()==false)
+            if(stirrupLimbSpaceModel==null || !stirrupLimbSpaceModel.ValidateProperty())
             {
                 return;
             }

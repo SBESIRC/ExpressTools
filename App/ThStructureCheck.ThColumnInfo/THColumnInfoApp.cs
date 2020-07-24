@@ -44,6 +44,7 @@ namespace ThColumnInfo
                     CheckPalette._checkResult.CheckResVM.Reset(acadApp.Application.DocumentManager.MdiActiveDocument.Name);
                     if (DataPalette.ShowPaletteMark)
                     {
+                        DataPalette._dateResult.ClearDataGridView();
                         CheckPalette._checkResult.CheckResVM.ExportDetailData(CheckPalette._checkResult.CheckResVM.LastShowDetailNode);
                     }
                 }

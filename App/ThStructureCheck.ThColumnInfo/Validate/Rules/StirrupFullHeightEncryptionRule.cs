@@ -16,7 +16,7 @@ namespace ThColumnInfo.Validate.Rules
 
         public void Validate()
         {
-            if (this.sfhem == null || sfhem.ValidateProperty() == false)
+            if (this.sfhem == null || !sfhem.ValidateProperty())
             {
                 return;
             }

@@ -12,6 +12,7 @@ using System.IO;
 using NLog;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
+using ThColumnInfo.Service;
 
 namespace ThColumnInfo
 {
@@ -1595,6 +1596,42 @@ namespace ThColumnInfo
                 }
                 trans.Commit();
             }
+        }
+        public static DBObjectCollection RemoveDuplicateCurves(DBObjectCollection curves)
+        {
+            DBObjectCollection resCurves = new DBObjectCollection();
+            while (curves.Count > 0)
+            {
+                Curve firCurve = curves[0] as Curve;
+                resCurves.Add(firCurve);
+                curves.Remove(firCurve);
+                Point3d endPoint = firCurve.EndPoint;
+                Point3d startPoint = firCurve.StartPoint;
+                for (int i=0;i< curves.Count;i++)
+                {
+                    CurveDuplicate curveDuplicate = new CurveDuplicate(firCurve, curves[i] as Curve);
+                    curveDuplicate.Judge();
+                    if (curveDuplicate.IsDuplicate)
+                    {
+                        curves.RemoveAt(i);
+                        i = i - 1;
+                    }                    
+                }
+            }
+            return resCurves;
+        }
+        public static double GetBulge(Arc arc)
+        {
+            double dStartAngle = arc.StartAngle;
+            double dEndAngle = arc.EndAngle;
+            double dAlfa = dEndAngle - dStartAngle;
+            if (dAlfa < 0.0)//如果终点角度小于起点角度
+            {
+                dAlfa = 2 * Math.PI + dAlfa;
+            }
+            double dBulge = 0.0;
+            dBulge = Math.Tan(dAlfa / 4.0);
+            return dBulge;
         }
     }
 }
