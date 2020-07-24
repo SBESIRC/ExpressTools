@@ -28,21 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgvColumnTable = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dgvSpecificationRes = new System.Windows.Forms.DataGridView();
+            this.dgvIndicator = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.dgvCalculationRes = new System.Windows.Forms.DataGridView();
+            this.dgvCheckRes = new System.Windows.Forms.DataGridView();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rbShowAll = new System.Windows.Forms.RadioButton();
+            this.rbShowInvalid = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvColumnTable)).BeginInit();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSpecificationRes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvIndicator)).BeginInit();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCalculationRes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCheckRes)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -79,14 +85,14 @@
             this.dgvColumnTable.AllowUserToDeleteRows = false;
             this.dgvColumnTable.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgvColumnTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvColumnTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvColumnTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvColumnTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvColumnTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvColumnTable.EnableHeadersVisualStyles = false;
@@ -106,63 +112,113 @@
             // tabPage2
             // 
             this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage2.Controls.Add(this.dgvSpecificationRes);
+            this.tabPage2.Controls.Add(this.dgvIndicator);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(639, 218);
+            this.tabPage2.Size = new System.Drawing.Size(792, 224);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "规范校对结果";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // dgvSpecificationRes
+            // dgvIndicator
             // 
-            this.dgvSpecificationRes.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dgvSpecificationRes.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dgvSpecificationRes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSpecificationRes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSpecificationRes.EnableHeadersVisualStyles = false;
-            this.dgvSpecificationRes.Location = new System.Drawing.Point(3, 3);
-            this.dgvSpecificationRes.MultiSelect = false;
-            this.dgvSpecificationRes.Name = "dgvSpecificationRes";
-            this.dgvSpecificationRes.ReadOnly = true;
-            this.dgvSpecificationRes.RowTemplate.Height = 23;
-            this.dgvSpecificationRes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSpecificationRes.Size = new System.Drawing.Size(631, 210);
-            this.dgvSpecificationRes.TabIndex = 0;
-            this.dgvSpecificationRes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpecificationRes_CellDoubleClick);
-            this.dgvSpecificationRes.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSpecificationRes_CellMouseClick);
-            this.dgvSpecificationRes.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvSpecificationRes_Paint);
+            this.dgvIndicator.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dgvIndicator.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dgvIndicator.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvIndicator.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvIndicator.EnableHeadersVisualStyles = false;
+            this.dgvIndicator.Location = new System.Drawing.Point(3, 3);
+            this.dgvIndicator.MultiSelect = false;
+            this.dgvIndicator.Name = "dgvIndicator";
+            this.dgvIndicator.ReadOnly = true;
+            this.dgvIndicator.RowTemplate.Height = 23;
+            this.dgvIndicator.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvIndicator.Size = new System.Drawing.Size(784, 216);
+            this.dgvIndicator.TabIndex = 0;
+            this.dgvIndicator.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvSpecificationRes_Paint);
             // 
             // tabPage3
             // 
             this.tabPage3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage3.Controls.Add(this.dgvCalculationRes);
+            this.tabPage3.Controls.Add(this.tableLayoutPanel1);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(639, 218);
+            this.tabPage3.Size = new System.Drawing.Size(792, 224);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "计算书校对结果";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // dgvCalculationRes
+            // dgvCheckRes
             // 
-            this.dgvCalculationRes.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dgvCalculationRes.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dgvCalculationRes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCalculationRes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvCalculationRes.EnableHeadersVisualStyles = false;
-            this.dgvCalculationRes.Location = new System.Drawing.Point(0, 0);
-            this.dgvCalculationRes.MultiSelect = false;
-            this.dgvCalculationRes.Name = "dgvCalculationRes";
-            this.dgvCalculationRes.ReadOnly = true;
-            this.dgvCalculationRes.RowTemplate.Height = 23;
-            this.dgvCalculationRes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCalculationRes.Size = new System.Drawing.Size(637, 216);
-            this.dgvCalculationRes.TabIndex = 0;
-            this.dgvCalculationRes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCalculationRes_CellDoubleClick);
-            this.dgvCalculationRes.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCalculationRes_CellMouseClick);
-            this.dgvCalculationRes.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvCalculationRes_Paint);
+            this.dgvCheckRes.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dgvCheckRes.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dgvCheckRes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCheckRes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvCheckRes.EnableHeadersVisualStyles = false;
+            this.dgvCheckRes.Location = new System.Drawing.Point(3, 3);
+            this.dgvCheckRes.MultiSelect = false;
+            this.dgvCheckRes.Name = "dgvCheckRes";
+            this.dgvCheckRes.ReadOnly = true;
+            this.dgvCheckRes.RowTemplate.Height = 23;
+            this.dgvCheckRes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvCheckRes.Size = new System.Drawing.Size(665, 216);
+            this.dgvCheckRes.TabIndex = 0;
+            this.dgvCheckRes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCheckRes_CellDoubleClick);
+            this.dgvCheckRes.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCheckRes_CellMouseClick);
+            this.dgvCheckRes.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvCalculationRes_Paint);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 85F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel1.Controls.Add(this.dgvCheckRes, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(790, 222);
+            this.tableLayoutPanel1.TabIndex = 1;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rbShowInvalid);
+            this.groupBox1.Controls.Add(this.rbShowAll);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(674, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(113, 121);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "显示模式：";
+            this.groupBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.groupBox1_Paint);
+            // 
+            // rbShowAll
+            // 
+            this.rbShowAll.AutoSize = true;
+            this.rbShowAll.Checked = true;
+            this.rbShowAll.Location = new System.Drawing.Point(6, 24);
+            this.rbShowAll.Name = "rbShowAll";
+            this.rbShowAll.Size = new System.Drawing.Size(71, 16);
+            this.rbShowAll.TabIndex = 0;
+            this.rbShowAll.TabStop = true;
+            this.rbShowAll.Text = "全部显示";
+            this.rbShowAll.UseVisualStyleBackColor = true;
+            this.rbShowAll.CheckedChanged += new System.EventHandler(this.rbShowAll_CheckedChanged);
+            // 
+            // rbShowInvalid
+            // 
+            this.rbShowInvalid.AutoSize = true;
+            this.rbShowInvalid.Location = new System.Drawing.Point(6, 47);
+            this.rbShowInvalid.Name = "rbShowInvalid";
+            this.rbShowInvalid.Size = new System.Drawing.Size(95, 16);
+            this.rbShowInvalid.TabIndex = 1;
+            this.rbShowInvalid.Text = "仅显示不通过";
+            this.rbShowInvalid.UseVisualStyleBackColor = true;
+            this.rbShowInvalid.CheckedChanged += new System.EventHandler(this.rbShowInvalid_CheckedChanged);
             // 
             // DataResult
             // 
@@ -176,9 +232,12 @@
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvColumnTable)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSpecificationRes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvIndicator)).EndInit();
             this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCalculationRes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCheckRes)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -189,8 +248,12 @@
         private System.Windows.Forms.TabPage tabPage1;
         public System.Windows.Forms.DataGridView dgvColumnTable;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.DataGridView dgvSpecificationRes;
+        private System.Windows.Forms.DataGridView dgvIndicator;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.DataGridView dgvCalculationRes;
+        private System.Windows.Forms.DataGridView dgvCheckRes;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton rbShowInvalid;
+        private System.Windows.Forms.RadioButton rbShowAll;
     }
 }

@@ -61,6 +61,16 @@ namespace ThColumnInfo.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Check {
+            get {
+                object obj = ResourceManager.GetObject("Check", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Icon ComponentPropModify {
@@ -121,12 +131,32 @@ namespace ThColumnInfo.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Export {
+            get {
+                object obj = ResourceManager.GetObject("Export", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Icon Select {
             get {
                 object obj = ResourceManager.GetObject("Select", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Set {
+            get {
+                object obj = ResourceManager.GetObject("Set", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

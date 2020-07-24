@@ -57,9 +57,13 @@ namespace ThColumnInfo
         /// </summary>
         public string AllLongitudinalReinforcement { get; set; } = "";
         /// <summary>
-        /// 箍筋(8@100/200)
+        /// 箍筋 %%132 8@100/200
         /// </summary>
         public string HoopReinforcement { get; set; } = "";
+        /// <summary>
+        /// 核芯区 ( %%132 8@100)
+        /// </summary>
+        public string JointCoreHoop { get; set; } = "";
         /// <summary>
         /// 箍筋类型号(1（4×4）)
         /// </summary>
@@ -293,6 +297,40 @@ namespace ThColumnInfo
             {
                 return false;
             }
+        }
+        public bool ValidateJointCoreHooping(string jointCoreHooping)
+        {
+            bool isValid = false;
+            string pattern1 = @"(\（）|\()(.*)(\)|\）)";//判断是否在括号内
+            string pattern2 = "\\s{0,}(\\{1}u{1}\\d{4})?\\s{0,}\\d+\\s{0,}[@]{1}\\s{0,}\\d+\\s{0,}";
+            if (!string.IsNullOrEmpty(jointCoreHooping))
+            {
+                if (Regex.IsMatch(jointCoreHooping, pattern1))
+                {
+                    if (Regex.IsMatch(jointCoreHooping, pattern2))
+                    {
+                        isValid = true;
+                    }
+                }
+            }
+            return isValid;
+        }
+        /// <summary>
+        /// 提取节点核心区箍筋
+        /// </summary>
+        /// <param name="jointCoreHooping"></param>
+        /// <returns></returns>
+        public string ExtractJointCoreHooping(string jointCoreHooping)
+        {
+            string jointCoreHoopingValue = "";
+            string pattern = "\\s{0,}\\d+\\s{0,}[@]{1}\\s{0,}\\d+\\s{0,}";
+            var mc = Regex.Matches(jointCoreHooping, pattern);
+            foreach (Match item in mc)
+            {
+                jointCoreHoopingValue = item.Groups[0].Value;
+                break;
+            }
+            return jointCoreHoopingValue;
         }
         /// <summary>
         /// 获取角筋，中部筋中的数字

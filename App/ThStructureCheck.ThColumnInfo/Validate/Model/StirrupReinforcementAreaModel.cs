@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Model
 {
     public class StirrupReinforcementAreaModel : ValidateModel
     {
-        public ColumnDataModel Cdm { get; set; }
-
         /// <summary>
         /// 配筋面积限值
         /// </summary>
@@ -25,16 +23,13 @@ namespace ThColumnInfo.Validate
 
         public override bool ValidateProperty()
         {
-            if(!(this.Code.ToUpper().Contains("LZ") || this.Code.ToUpper().Contains("KZ") ||
-                this.Code.ToUpper().Contains("ZHZ")))
+            if (!base.ValidateProperty() ||
+               !IsContainsCodeSign(new List<string> { "LZ", "KZ", "ZHZ" })
+               || Cdm == null)
             {
                 return false;
             }
-            if(Cdm==null)
-            {
-                return false;
-            }
-            if(this.IntStirrupSpacingCal==0.0)
+            if (this.IntStirrupSpacingCal == 0.0)
             {
                 return false;
             }

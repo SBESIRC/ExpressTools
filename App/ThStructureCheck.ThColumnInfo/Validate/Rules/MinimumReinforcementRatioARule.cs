@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ThColumnInfo.Validate.Model;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Rules
 {
     public class MinimumReinforcementRatioARule : IRule
     {
@@ -25,28 +23,49 @@ namespace ThColumnInfo.Validate
             //最小全截面配筋率限值
             double dblpmin = (minimumReinforceRatioAModel.P1 + minimumReinforceRatioAModel.P2);
 
-            //全截面
-            if (minimumReinforceRatioAModel.Cdm.DblP < (dblpmin/100.0))
+            if(this.minimumReinforceRatioAModel.AntiSeismicGrade.Contains("特")&&
+               this.minimumReinforceRatioAModel.AntiSeismicGrade.Contains("一级"))
             {
-                ValidateResults.Add("全截面配筋率不足 [" + minimumReinforceRatioAModel.Cdm.DblP
-                    + " < " + (dblpmin / 100.0) + "]，" + this.rule);
+                if(this.minimumReinforceRatioAModel.Code.ToUpper().Contains("ZHZ"))
+                {
+                    this.rule = "高规 3.10.4-3";
+                    //全截面
+                    if (minimumReinforceRatioAModel.Cdm.DblP < 0.016)
+                    {
+                        ValidateResults.Add("全截面配筋率不足 [" + minimumReinforceRatioAModel.Cdm.DblP
+                            + " < 0.016]，" + this.rule);
+                    }
+                    else
+                    {
+                        CorrectResults.Add("全截面配筋率满足基本构造"+this.rule);
+                    }
+                }
             }
             else
             {
-                CorrectResults.Add("全截面配筋率满足基本构造（《砼规》8.5.1）");
+                //全截面
+                if (minimumReinforceRatioAModel.Cdm.DblP < (dblpmin / 100.0))
+                {
+                    ValidateResults.Add("全截面配筋率不足 [" + minimumReinforceRatioAModel.Cdm.DblP
+                        + " < " + (dblpmin / 100.0) + "]，" + this.rule);
+                }
+                else
+                {
+                    CorrectResults.Add("全截面配筋率满足基本构造（《砼规》8.5.1）");
+                }
             }
             //Y侧
-            if (minimumReinforceRatioAModel.Cdm.DblYP < (minimumReinforceRatioAModel.Dblpsmin/100.0))
+            if (minimumReinforceRatioAModel.Cdm.DblYP < (minimumReinforceRatioAModel.Dblpsmin / 100.0))
             {
                 ValidateResults.Add("Y侧配筋率不足 [" + minimumReinforceRatioAModel.Cdm.DblYP
                     + " < " + (minimumReinforceRatioAModel.Dblpsmin / 100.0) + "]，" + this.rule);
             }
             else
             {
-                CorrectResults.Add("Y侧配筋率满足基本构造"+this.rule);
+                CorrectResults.Add("Y侧配筋率满足基本构造" + this.rule);
             }
             //X侧
-            if (minimumReinforceRatioAModel.Cdm.DblXP < (minimumReinforceRatioAModel.Dblpsmin/100.0))
+            if (minimumReinforceRatioAModel.Cdm.DblXP < (minimumReinforceRatioAModel.Dblpsmin / 100.0))
             {
                 ValidateResults.Add("X侧配筋率不足 [" + minimumReinforceRatioAModel.Cdm.DblXP
                     + " < " + (minimumReinforceRatioAModel.Dblpsmin / 100.0) + "]，" + this.rule);
@@ -68,13 +87,28 @@ namespace ThColumnInfo.Validate
             steps.Add("dblpmin = (P1["+ minimumReinforceRatioAModel.P1+ "] + P2[" + minimumReinforceRatioAModel.P2+"])/100.0 = "+ (dblpmin / 100.0));
             steps.Add(this.minimumReinforceRatioAModel.Cdm.GetDblAsCalculation());
             steps.Add(this.minimumReinforceRatioAModel.Cdm.GetDblpCalculation());
-            steps.Add("if (DblP[" + minimumReinforceRatioAModel.Cdm.DblP + "] < dblpmin[" + (dblpmin/100.0) + "] )");
+
+            steps.Add("if(抗震等级 ["+ this.minimumReinforceRatioAModel.AntiSeismicGrade+"].Contains(\"特一级\"))");
             steps.Add("  {");
-            steps.Add("      Err：全截面配筋率不足（《砼规》8.5.1）");
+            steps.Add("    if (DblP[" + minimumReinforceRatioAModel.Cdm.DblP + "] < 0.016)");
+            steps.Add("      {");
+            steps.Add("          Err：全截面配筋率不足  " + this.rule);
+            steps.Add("      }");
+            steps.Add("    else");
+            steps.Add("      {");
+            steps.Add("          Debugprint：全截面配筋率满足基本构造 " + this.rule);
+            steps.Add("      }");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint：全截面配筋率满足基本构造（《砼规》8.5.1）");
+            steps.Add("    if (DblP[" + minimumReinforceRatioAModel.Cdm.DblP + "] < dblpmin[" + (dblpmin / 100.0) + "] )");
+            steps.Add("      {");
+            steps.Add("          Err：全截面配筋率不足（《砼规》8.5.1）");
+            steps.Add("      }");
+            steps.Add("    else");
+            steps.Add("      {");
+            steps.Add("          Debugprint：全截面配筋率满足基本构造（《砼规》8.5.1）");
+            steps.Add("      }");
             steps.Add("  }");
 
             steps.Add(this.minimumReinforceRatioAModel.Cdm.GetDblYAsCalculation());

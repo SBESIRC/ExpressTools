@@ -888,5 +888,47 @@ namespace ThColumnInfo
             }
             return res;
         }
+        /// <summary>
+        /// 从计算库(dtlCalc)中的表(tblRCColDsn)体积配筋率限值
+        /// </summary>
+        /// <param name="columnID"></param>
+        /// <returns></returns>
+        public double GetJointCoreReinforceArea(int columnID)
+        {
+            double jointCoreReinforceArea = 0.0;
+            try
+            {
+                string sql = "select AsJoint from tblRCColDsn where ID =" + columnID;
+                DataTable dt = ExecuteDataTable(sql);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dr["AsJoint"] != null)
+                    {
+                        string asJoint = dr["AsJoint"].ToString();
+                        string[] asJointValues = asJoint.Split(',');
+                        if (asJointValues.Count() > 4)
+                        {
+                            for (int i= asJointValues.Length-1;i>= asJointValues.Length-4; i--)
+                            {
+                                double value = 0.0;
+                                if(double.TryParse(asJointValues[i],out value))
+                                {
+                                    if(value> jointCoreReinforceArea)
+                                    {
+                                        jointCoreReinforceArea = value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ThColumnInfoUtils.WriteException(ex, "GetJointCoreReinforceArea");
+            }
+            return jointCoreReinforceArea;
+        }
     }
 }

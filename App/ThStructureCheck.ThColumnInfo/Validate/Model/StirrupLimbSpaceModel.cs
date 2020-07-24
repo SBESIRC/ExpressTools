@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Model
 {
     public class StirrupLimbSpaceModel : ValidateModel
     {
@@ -12,18 +12,14 @@ namespace ThColumnInfo.Validate
         /// 保护层厚度
         /// </summary>
         public double ProtectLayerThickness { get; set; }
-        /// <summary>
-        /// 抗震等级
-        /// </summary>
-        public string AntiSeismicGrade { get; set; }
-        public ColumnDataModel Cdm { get; set; }
         public override bool ValidateProperty()
         {
-            if (this.Code.Contains("KZ") || this.Code.Contains("ZHZ"))
+            if (!base.ValidateProperty() ||
+               !IsContainsCodeSign(new List<string> {"KZ", "ZHZ" }))
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
     }
 }

@@ -750,6 +750,8 @@ namespace ThColumnInfo
             bool resIntStirrupSpacingCal = yjkModelDb.GetIntStirrupSpacingCal(out intStirrupSpacingCal);
             yjkColumnDataInfo.IntStirrupSpacingCal = intStirrupSpacingCal;
 
+            //获取节点核心区配筋面积
+            yjkColumnDataInfo.CoreJointReinforceArea = yjkCalculateDb.GetJointCoreReinforceArea(columnId);
             return yjkColumnDataInfo;
         }
         private void AddExtensionDictionary(ObjectId entityId, YjkColumnDataInfo yjkColumnDataInfo,ColumnCustomData columnCustomData, DrawColumnInf drawColumnInf)

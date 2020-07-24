@@ -176,6 +176,10 @@ namespace ThColumnInfo
                 ExtractColumnTable extractColumnTable = new ExtractColumnTable(this.rangePt1, this.rangePt2, this.paraSetInfo); //如果不是原位图纸，提取一下柱表信息
                 extractColumnTable.Extract();
                 this.ColumnTableRecordInfos = extractColumnTable.ColumnTableRecordInfos;
+                if(this.ColumnTableRecordInfos==null || this.ColumnTableRecordInfos.Count==0)
+                {
+                    this.ColumnTableRecordInfos = thStandardSign.ColumnTableRecordInfos;
+                }
                 this.allColumnBoundaryPts = GetRangeColumnPoints();
                 ThProgressBar.MeterProgress();
                 FindColumnInfo(); //查找柱子信息(包括原位标注的信息)
@@ -365,6 +369,7 @@ namespace ThColumnInfo
         {
             string columnCode = ""; 
             string antiSeismicGrade = ""; //抗震等级
+            string jointCorehooping = "";
             Point3d pt1 = new Point3d(searchPt.X - this.searchColumnPolylineDis, searchPt.Y - this.searchColumnPolylineDis, searchPt.Z);
             Point3d pt2 = new Point3d(searchPt.X + this.searchColumnPolylineDis, searchPt.Y + this.searchColumnPolylineDis, searchPt.Z);
             Point3d filterPt1 = pt1.TransformBy(this.doc.Editor.CurrentUserCoordinateSystem.Inverse());
@@ -433,7 +438,7 @@ namespace ThColumnInfo
                     }
                 }
             }
-            if (string.IsNullOrEmpty(columnCode) || string.IsNullOrEmpty(antiSeismicGrade))
+            if (string.IsNullOrEmpty(columnCode) || string.IsNullOrEmpty(antiSeismicGrade) || string.IsNullOrEmpty(jointCorehooping))
             {
                 List<DBText> dBTexts = GetMarkTexts(line, searchPt);
                 for (int i = 0; i < dBTexts.Count; i++)
@@ -456,8 +461,16 @@ namespace ThColumnInfo
                             antiSeismicGrade = dBTexts[i].TextString;
                         }
                     }
+                    if(string.IsNullOrEmpty(jointCorehooping))
+                    {
+                        if (new ColumnTableRecordInfo().ValidateJointCoreHooping(dBTexts[i].TextString))
+                        {
+                            jointCorehooping = new ColumnTableRecordInfo().ExtractJointCoreHooping(dBTexts[i].TextString);
+                        }
+                    }
                     if(!string.IsNullOrEmpty(columnCode) && 
-                        !string.IsNullOrEmpty(antiSeismicGrade))
+                        !string.IsNullOrEmpty(antiSeismicGrade) &&
+                        !string.IsNullOrEmpty(jointCorehooping))
                     {
                         break;
                     }
@@ -466,6 +479,7 @@ namespace ThColumnInfo
             }
             columnInf.Code = columnCode;
             columnInf.AntiSeismicGrade = antiSeismicGrade;
+            columnInf.JointCorehooping = jointCorehooping;
         }
         /// <summary>
         /// 获取一点旁边的文字(含柱号的文字，下方有5个左右)

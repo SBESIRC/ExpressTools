@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ThColumnInfo.Validate.Model;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Rules
 {
     public class StirrupMinimumDiameterDRule:IRule
     {
@@ -19,7 +17,7 @@ namespace ThColumnInfo.Validate
         public List<string> CorrectResults { get; set; } = new List<string>();
         public void Validate()
         {
-            if(this.smdd == null || smdd.ValidateProperty()==false)
+            if(this.smdd == null || !smdd.ValidateProperty())
             {
                 return;
             }

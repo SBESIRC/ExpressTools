@@ -11,6 +11,7 @@ using TianHua.AutoCAD.Utility.ExtensionTools;
 using ThCADCore.NTS;
 using Linq2Acad;
 using AcHelper;
+using ThColumnInfo.Service;
 
 namespace ThColumnInfo
 {
@@ -226,7 +227,13 @@ namespace ThColumnInfo
             this.TableCells = new DBObjectCollection();
             var objs = new DBObjectCollection();
             this.columnTableCurves.ForEach(i => objs.Add(i));
-            this.TableCells = objs.Polygons();
+            DBObjectCollection newObjs = ThColumnInfoUtils.RemoveDuplicateCurves(objs);
+            ExtendLineLength extendLineLength = new ExtendLineLength(newObjs);
+            DBObjectCollection extendObjs = extendLineLength.Extend();
+            using (var ov = new ThCADCoreNTSPrecisionReducer(10))
+            {
+                this.TableCells = extendObjs.Polygons();
+            }
         }
         /// <summary>
         /// 
@@ -248,7 +255,8 @@ namespace ThColumnInfo
                 {
                     pts = ThColumnInfoUtils.GetPolylinePts(polyline2d);
                 }
-                if(pts.Count<4)
+                pts=FilterOverlapPoint(pts);
+                if (pts.Count<4)
                 {
                     continue;
                 }
@@ -260,6 +268,27 @@ namespace ThColumnInfo
                 }
             }
             return cells;
+        }
+        private List<Point3d> FilterOverlapPoint(List<Point3d> pts)
+        {
+            double tolerance = 1.0;
+            List<Point3d> newPts = new List<Point3d>();
+            while(pts.Count>0)
+            {
+                Point3d firstPt = pts[0];
+                newPts.Add(firstPt);
+                pts.RemoveAt(0);
+
+                for(int i=0;i< pts.Count;i++)
+                {
+                    if(pts[i].DistanceTo(firstPt)<= tolerance)
+                    {
+                        pts.RemoveAt(i);
+                        i = i - 1;
+                    }
+                }
+            }
+            return newPts;
         }
         protected DBObjectCollection ExtractTableOutline()
         {
@@ -823,14 +852,14 @@ namespace ThColumnInfo
                     currentRowHeight = Math.Round(currentRowHeight, this.disKeepPointNum);
                     if (columnWidth > 0.0)
                     {
-                        if (!(Math.Abs(currentColumnWidth - columnWidth) <= 0.001))
+                        if (!(Math.Abs(currentColumnWidth - columnWidth) <= 1.0))
                         {
                             compareRes = false;
                         }
                     }
                     if (rowHeight > 0.0 && compareRes)
                     {
-                        if (!(Math.Abs(currentRowHeight - rowHeight) <= 0.001))
+                        if (!(Math.Abs(currentRowHeight - rowHeight) <= 1.0))
                         {
                             compareRes = false;
                         }

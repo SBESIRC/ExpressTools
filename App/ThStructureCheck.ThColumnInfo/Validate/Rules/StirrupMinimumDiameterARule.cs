@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ThColumnInfo.Validate.Model;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Rules
 {
     public class StirrupMinimumDiameterARule:IRule
     {
@@ -20,7 +18,7 @@ namespace ThColumnInfo.Validate
 
         public void Validate()
         {
-            if (this.smda == null || this.smda.ValidateProperty() == false)
+            if (this.smda == null || !this.smda.ValidateProperty())
             {
                 return;
             }

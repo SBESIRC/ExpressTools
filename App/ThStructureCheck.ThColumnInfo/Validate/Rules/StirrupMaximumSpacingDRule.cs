@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ThColumnInfo.Validate.Model;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Rules
 {
     public class StirrupMaximumSpacingDRule : IRule
     {
@@ -20,7 +18,7 @@ namespace ThColumnInfo.Validate
 
         public void Validate()
         {
-            if(this.smsd == null || smsd.ValidateProperty()==false)
+            if(this.smsd == null || !smsd.ValidateProperty())
             {
                 return;
             }

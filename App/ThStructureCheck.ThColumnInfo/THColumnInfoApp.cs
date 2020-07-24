@@ -8,6 +8,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
+using ThColumnInfo.Service;
 
 [assembly: CommandClass(typeof(ThColumnInfo.ThColumnInfoCommands))]
 [assembly: ExtensionApplication(typeof(ThColumnInfo.ThColumnInfoApp))]
@@ -30,43 +31,21 @@ namespace ThColumnInfo
             }
             try
             {
-                bool hasCurrentFileName = false;
-                foreach (TreeNode tn in CheckPalette._checkResult.tvCheckRes.Nodes)
+                if(!ThColunmDocManager.IsExisted(e.Document.Name))
                 {
-                    ThStandardSignManager thStandardSignManager = tn.Tag as ThStandardSignManager;
-                    if (thStandardSignManager == null)
+                    CheckPalette._checkResult.tvCheckRes.Nodes.Clear();
+                    if (DataPalette._dateResult != null)
                     {
-                        continue;
-                    }
-                    if (thStandardSignManager.DocPath == e.Document.Name)
-                    {
-                        hasCurrentFileName = true;
-                        break;
-                    }
-                }
-                if(!hasCurrentFileName)
-                {
-                    if(DataPalette.ShowPaletteMark)
-                    {
-                        if(DataPalette._dateResult!=null)
-                        {
-                            DataPalette._dateResult.ClearDataGridView();
-                        }
+                        DataPalette._dateResult.ClearDataGridView();
                     }
                 }
                 else
                 {
-                    if(DataPalette.ShowPaletteMark)
+                    CheckPalette._checkResult.CheckResVM.Reset(acadApp.Application.DocumentManager.MdiActiveDocument.Name);
+                    if (DataPalette.ShowPaletteMark)
                     {
-                       TreeNode root= CheckPalette._checkResult.TraverseRoot(CheckPalette._checkResult.LastShowDetailNode);
-                        if(root!=null)
-                        {
-                            ThStandardSignManager tsm = root.Tag as ThStandardSignManager;
-                            if(tsm.DocPath != e.Document.Name)
-                            {
-                                CheckPalette._checkResult.ExportDetailData(CheckPalette._checkResult.LastShowDetailNode);
-                            }
-                        }
+                        DataPalette._dateResult.ClearDataGridView();
+                        CheckPalette._checkResult.CheckResVM.ExportDetailData(CheckPalette._checkResult.CheckResVM.LastShowDetailNode);
                     }
                 }
             }
@@ -75,7 +54,6 @@ namespace ThColumnInfo
                 ThColumnInfoUtils.WriteException(ex, "Dc_DocumentActivated");
             }
         }
-
         private void Dc_DocumentDestroyed(object sender, DocumentDestroyedEventArgs e)
         {
             try
@@ -85,29 +63,10 @@ namespace ThColumnInfo
                 {
                     return;
                 }
-                if (CheckPalette._checkResult.tvCheckRes.Nodes[0].Tag == null)
-                {
-                    return;
-                }
-                for (int i = 0; i < CheckPalette._checkResult.tvCheckRes.Nodes.Count; i++)
-                {
-                    ThStandardSignManager thStandardSignManager =
-                        CheckPalette._checkResult.tvCheckRes.Nodes[i].Tag as ThStandardSignManager;
-                    if(thStandardSignManager==null)
-                    {
-                        continue;
-                    }
-                    if(thStandardSignManager.DocPath== e.FileName)
-                    {
-                        CheckPalette._checkResult.tvCheckRes.Nodes.RemoveAt(i);
-                        break;
-                    }
-                }
-                if(CheckPalette._checkResult.tvCheckRes.Nodes.Count==0)
-                {
-                    CheckPalette._ps.Visible = false;
-                    DataPalette._ps.Visible = false;
-                }
+                CheckPalette._checkResult.tvCheckRes.Nodes.Clear();
+                ThColunmDocManager.DeleteThStandardSignManager(e.FileName);
+                CheckPalette._ps.Visible = false;
+                DataPalette._ps.Visible = false;
             }
             catch (System.Exception ex)
             {

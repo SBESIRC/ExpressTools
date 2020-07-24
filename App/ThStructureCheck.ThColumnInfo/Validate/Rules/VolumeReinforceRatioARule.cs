@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using ThColumnInfo.Validate.Model;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Rules
 {
     public class VolumeReinforceRatioARule : IRule
     {
@@ -20,7 +17,7 @@ namespace ThColumnInfo.Validate
         private double calVolumnReinforceRatio = 0.0;
         public void Validate()
         {
-            if (this.vrra == null || this.vrra.ValidateProperty() == false)
+            if (this.vrra == null || !this.vrra.ValidateProperty())
             {
                 return;
             }

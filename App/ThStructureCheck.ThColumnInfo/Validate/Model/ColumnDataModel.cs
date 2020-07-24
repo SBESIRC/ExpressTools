@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThColumnInfo.Service;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Model
 {
     public class ColumnDataModel
     {
@@ -15,6 +16,7 @@ namespace ThColumnInfo.Validate
             Init();
             Calculate();
         }
+
         private void Init()
         {
             if(this.ctri==null)
@@ -49,23 +51,11 @@ namespace ThColumnInfo.Validate
 
             if (!string.IsNullOrEmpty(ctri.HoopReinforcement))
             {
-                List<double> stirupDatas = ThColumnInfoUtils.GetDoubleValues(ctri.HoopReinforcement);
-                if (stirupDatas.Count > 0)
-                {
-                    IntStirrupDia = stirupDatas[0];
-                    if(stirupDatas.Count>1)
-                    {
-                        IntStirrupSpacing = stirupDatas[1];
-                    }
-                    if(stirupDatas.Count>2)
-                    {
-                        IntStirrupSpacing0 = stirupDatas[2];
-                    }
-                    else
-                    {
-                        IntStirrupSpacing0 = IntStirrupSpacing;
-                    }
-                }
+                HoopReinforcementAnalysis hoopReinforcementAnalysis = new HoopReinforcementAnalysis(ctri.HoopReinforcement);
+                hoopReinforcementAnalysis.Analysis();
+                IntStirrupDia = hoopReinforcementAnalysis.IntStirrupDia;
+                IntStirrupSpacing = hoopReinforcementAnalysis.IntStirrupSpacing;
+                IntStirrupSpacing0 = hoopReinforcementAnalysis.IntStirrupSpacing0;
             }
             if (!string.IsNullOrEmpty(ctri.HoopReinforcementTypeNumber))
             {
@@ -121,7 +111,13 @@ namespace ThColumnInfo.Validate
         /// 箍筋直径
         /// </summary>
         public double IntStirrupDia { get; set; }
+        /// <summary>
+        /// 加密区间距
+        /// </summary>
         public double IntStirrupSpacing { get; set; }
+        /// <summary>
+        /// 非加密区间距
+        /// </summary>
         public double IntStirrupSpacing0 { get; set; }
         /// <summary>
         /// X方向肢数
@@ -136,6 +132,13 @@ namespace ThColumnInfo.Validate
         /// </summary>
         public string Antiseismic { get; set; } = "";
 
+        public ColuJointCoreAnalysis ColuJointCore
+        {
+            get
+            {
+                return new ColuJointCoreAnalysis(this.ctri.JointCoreHoop);
+            }
+        }
         private double intCBarDiaArea = 0.0;
         private double intXBarDiaArea = 0.0;
         private double intYBarDiaArea = 0.0;
@@ -240,19 +243,80 @@ namespace ThColumnInfo.Validate
             return (value1 + value2) / value3;
         }
         /// <summary>
+        /// 获取体积配箍率
+        /// </summary>
+        /// <param name="cover">保护层厚度</param>
+        /// <returns></returns>
+        public double GetCoreVolumeStirrupRatio(ColuJointCoreAnalysis coluJointCore, double cover)
+        {
+            double intStirrupDiaArea = ThValidate.GetIronSectionArea((int)coluJointCore.Diameter);
+            double value1 = IntXStirrupCount * intStirrupDiaArea * (B - 2 * cover - coluJointCore.Diameter);
+            double value2 = IntYStirrupCount * intStirrupDiaArea * (H - 2 * cover - coluJointCore.Diameter);
+            double value3 = (B - 2 * cover - 2 * coluJointCore.Diameter) * 
+                (H - 2 * cover - 2 * coluJointCore.Diameter) * coluJointCore.Spacing;
+            return (value1 + value2) / value3;
+        }
+        /// <summary>
+        /// 获取核芯区配筋面积
+        /// </summary>
+        /// <returns></returns>
+        public double GetCoreReinforcementArea(ColuJointCoreAnalysis coluJointCore, double cover)
+        {
+            double coreReinArea = (B - 2 * cover - 2 * coluJointCore.Diameter) * 
+                (H - 2 * cover - 2 * coluJointCore.Diameter);
+            coreReinArea = coreReinArea/100.0;
+            return coreReinArea;
+        }
+        /// <summary>
         /// 获取体积配箍率计算过程
         /// </summary>
         /// <param name="cover"></param>
         /// <returns></returns>
         public string GetVolumeStirrupRatioCalculation(double cover)
         {
-            string calculation = "体积配箍率计算= (intXStirrupCount[" + IntXStirrupCount +
+            string calculation = "体积配箍率= (intXStirrupCount[" + IntXStirrupCount +
                 "]  *  intStirrupDiaArea[" + IntStirrupDiaArea + "] * (B[" + B + "] - 2 * cover[" + 
                 cover + "] - intStirrupDia[" + IntStirrupDia + "]) + intYStirrupCount[" + IntYStirrupCount +
                 "] * intStirrupDiaArea[" + IntStirrupDiaArea + "] * (H[" + H + "] - 2 * cover[" + cover + 
                 "] - intStirrupDia[" + IntStirrupDia + "])) / ((B[" + B + "] - 2 * cover[" + cover +
                 "] - 2 * IntStirrupDia[" + IntStirrupDia + "]) * " + "(H[" + H + "] - 2 * cover[" + cover +
                 "] - 2 * IntStirrupDia[" + IntStirrupDia + "]) *" + "intStirrupSpacing[" + IntStirrupSpacing + "]) = ";
+            return calculation;
+        }
+        /// <summary>
+        /// 获取节点核芯区体积配箍率
+        /// </summary>
+        /// <param name="coluJointCore"></param>
+        /// <param name="cover"></param>
+        /// <returns></returns>
+        public string GetCoreVolumeStirrupRatioCalculation(ColuJointCoreAnalysis coluJointCore, double cover)
+        {
+            double intStirrupDiaArea = ThValidate.GetIronSectionArea((int)coluJointCore.Diameter);
+            double dia = coluJointCore.Diameter;
+            string calculation = "节点核芯区体积配箍率= (intXStirrupCount[" + IntXStirrupCount +
+                "]  *  intStirrupDiaArea[" + intStirrupDiaArea + "] * (B[" + B + "] - 2 * cover[" +
+                cover + "] - intStirrupDia[" + dia + "]) + intYStirrupCount[" + IntYStirrupCount +
+                "] * intStirrupDiaArea[" + intStirrupDiaArea + "] * (H[" + H + "] - 2 * cover[" + cover +
+                "] - intStirrupDia[" + dia + "])) / ((B[" + B + "] - 2 * cover[" + cover +
+                "] - 2 * IntStirrupDia[" + dia + "]) * " + "(H[" + H + "] - 2 * cover[" + cover +
+                "] - 2 * IntStirrupDia[" + dia + "]) *" + "intStirrupSpacing[" + coluJointCore.Spacing + "]) = ";
+            return calculation;
+        }
+        /// <summary>
+        /// 获取节点核心区配筋面积
+        /// </summary>
+        /// <param name="coluJointCore"></param>
+        /// <returns></returns>
+        public string GetCoreReinAreaCalculation(ColuJointCoreAnalysis coluJointCore,double cover)
+        {
+            //ToDo,根据修改公式再调整
+            double dia = coluJointCore.Diameter;
+            double coreReinArea = (B - 2 * cover - 2 * coluJointCore.Diameter) *
+               (H - 2 * cover - 2 * coluJointCore.Diameter);
+            coreReinArea /= 100.0;
+            string calculation = "(B[" + B + "] - 2 * cover[" + cover +
+                "] - 2 * IntCoreStirrupDia[" + coluJointCore.Diameter + "]) * " + "(H[" + H + "] - 2 * cover[" + cover +
+                "] - 2 * IntCoreStirrupDia[" + coluJointCore.Diameter + "]) =" + coreReinArea;
             return calculation;
         }
     }

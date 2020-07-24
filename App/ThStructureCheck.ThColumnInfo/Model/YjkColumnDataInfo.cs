@@ -17,16 +17,17 @@ namespace ThColumnInfo
         private double axialCompressionRatio; //轴压比
         private double axialCompressionRatioLimited; //轴压比限值
         private double arDiaLimited; //角筋直径
-        private bool isCorner ; //（角柱，框架柱）
+        private bool isCorner; //（角柱，框架柱）
         private string structureType = ""; //结构类型
         private double dblXAsCal; //配筋面积限值(X向限值)
         private double dblYAsCal; //配筋面积限值(Y向限值)
         private double fortiCation = 0.0; //设防烈度
         private double volumeReinforceLimitedValue = 0.0; //体积配筋率限值
-        private double dblStirrupAsCal=0.0; //配筋面积限值
+        private double dblStirrupAsCal = 0.0; //配筋面积限值
         private double dblStirrupAsCal0 = 0.0; //配筋面积限值
         private double intStirrupSpacingCal = 0.0; //假定箍筋间距
         private bool isGroundFloor = false; //是否底层
+        private double coreJointReinforceArea = 0.0; //节点核心区配筋面积
 
         /// <summary>
         /// 柱子宽度
@@ -36,7 +37,7 @@ namespace ThColumnInfo
         /// 柱子宽度
         /// </summary>
         public double H { get => h; set => h = value; }
-        
+
         /// <summary>
         /// 抗震等级
         /// </summary>
@@ -105,5 +106,9 @@ namespace ThColumnInfo
         /// 是否底层
         /// </summary>
         public bool IsGroundFloor { get => isGroundFloor; set => isGroundFloor = value; }
+        /// <summary>
+        /// 节点核心区配筋面积
+        /// </summary>
+        public double CoreJointReinforceArea { get => coreJointReinforceArea; set => coreJointReinforceArea = value; }
     }
 }

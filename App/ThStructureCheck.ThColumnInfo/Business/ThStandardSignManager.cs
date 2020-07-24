@@ -51,7 +51,7 @@ namespace ThColumnInfo
             this.brs = brs;
             this.docFullPath = docFullPath;
             this.documentName = Path.GetFileNameWithoutExtension(docFullPath);
-            this.brs.ForEach(i => this.standardSigns.Add(new ThStandardSign(i)));
+            this.brs.ForEach(i => this.standardSigns.Add(new ThStandardSign(i, this.documentName, this.docFullPath)));
             this.standardSigns = this.standardSigns.Where(i => i.IsValid).Select(i => i).ToList();
             this.standardSigns.Sort(new InnerFrameNameDesc());
         }

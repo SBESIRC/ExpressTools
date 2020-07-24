@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using ThColumnInfo.Validate.Model;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Rules
 {
     /// <summary>
     /// 配筋面积,实配钢筋应满足计算值

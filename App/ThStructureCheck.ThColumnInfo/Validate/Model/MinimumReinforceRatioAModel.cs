@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Model
 {
     public class MinimumReinforceRatioAModel : ValidateModel
     {
@@ -38,10 +38,10 @@ namespace ThColumnInfo.Validate
         /// 混凝土强度
         /// </summary>
         public string ConcreteStrength { get; set; }
-        public ColumnDataModel Cdm { get; set; }
         public override bool ValidateProperty()
         {
-            if (!(this.Code.Contains("KZ") || this.Code.Contains("ZHZ") || this.Code.Contains("LZ")))
+            if (!base.ValidateProperty() ||
+               !IsContainsCodeSign(new List<string> { "LZ", "KZ", "ZHZ" }))
             {
                 return false;
             }

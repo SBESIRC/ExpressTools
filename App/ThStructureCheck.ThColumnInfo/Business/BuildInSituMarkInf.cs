@@ -93,10 +93,18 @@ namespace ThColumnInfo
                 else if (new ColumnTableRecordInfo().ValidateHoopReinforcement(dBTexts[i].TextString))
                 {
                     this.Ctri.HoopReinforcement = dBTexts[i].TextString;
+                    if (new ColumnTableRecordInfo().ValidateJointCoreHooping(dBTexts[i].TextString))
+                    {
+                        this.Ctri.JointCoreHoop = new ColumnTableRecordInfo().ExtractJointCoreHooping(dBTexts[i].TextString);
+                    }
                 }
                 else if (dBTexts[i].TextString.Contains("抗震"))
                 {
                     antiSeismicGrade = dBTexts[i].TextString;
+                }
+                else if(new ColumnTableRecordInfo().ValidateJointCoreHooping(dBTexts[i].TextString))
+                {
+                    this.Ctri.JointCoreHoop = new ColumnTableRecordInfo().ExtractJointCoreHooping(dBTexts[i].TextString);
                 }
             }
             if (string.IsNullOrEmpty(this.Ctri.Remark) && !string.IsNullOrEmpty(antiSeismicGrade))

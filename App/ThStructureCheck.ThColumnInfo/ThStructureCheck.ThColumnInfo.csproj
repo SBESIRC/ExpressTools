@@ -79,6 +79,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Service\CheckResultCadInteractive.cs" />
+    <Compile Include="Service\ColuJointCoreAnalysis.cs" />
+    <Compile Include="Service\CurveDuplicate.cs" />
+    <Compile Include="Service\ExtendLength.cs" />
+    <Compile Include="Service\HoopReinforcementAnalysis.cs" />
+    <Compile Include="Service\ThColunmDocManager.cs" />
     <Compile Include="ThProgressBar.cs" />
     <Compile Include="Tools\CurveAnyInsidePoint.cs" />
     <Compile Include="Tools\TopoService.cs" />
@@ -87,6 +93,7 @@
     <Compile Include="Validate\Model\ColumnDataModel.cs" />
     <Compile Include="Validate\Model\ColumnSpecModel.cs" />
     <Compile Include="Validate\Model\CompoundStirrupModel.cs" />
+    <Compile Include="Validate\Model\JointCoreReinforceModel.cs" />
     <Compile Include="Validate\Model\MinimumReinforceRatioBModel.cs" />
     <Compile Include="Validate\Model\MinimumReinforceRatioAModel.cs" />
     <Compile Include="Validate\Model\ReinforcementAreaModel.cs" />
@@ -98,17 +105,23 @@
     <Compile Include="Validate\Model\StirrupMaximumSpacingCModel.cs" />
     <Compile Include="Validate\Model\StirrupMaximumSpacingDModel.cs" />
     <Compile Include="Validate\Model\StirrupMaximumSpacingEModel.cs" />
+    <Compile Include="Validate\Model\StirrupMaximumSpacingKModel.cs" />
+    <Compile Include="Validate\Model\StirrupMaximumSpacingGModel.cs" />
     <Compile Include="Validate\Model\StirrupMaximumSpacingHModel.cs" />
     <Compile Include="Validate\Model\StirrupMaximumSpacingJModel.cs" />
     <Compile Include="Validate\Model\StirrupMaximumSpacingFModel.cs" />
     <Compile Include="Validate\Model\StirrupMinimumDiameterAModel.cs" />
     <Compile Include="Validate\Model\StirrupMinimumDiameterBModel.cs" />
     <Compile Include="Validate\Model\StirrupMinimumDiameterCModel.cs" />
+    <Compile Include="Validate\Model\StirrupMinimumDiameterFModel.cs" />
+    <Compile Include="Validate\Model\StirrupMinimumDiameterEModel.cs" />
     <Compile Include="Validate\Model\StirrupMinimumDiameterDModel.cs" />
     <Compile Include="Validate\Model\StirrupReinforcementAreaModel.cs" />
+    <Compile Include="Validate\Model\VolumeReinforceRatioEModel.cs" />
     <Compile Include="Validate\Model\VolumeReinforceRatioCModel.cs" />
     <Compile Include="Validate\Model\VolumeReinforceRatioBModel.cs" />
     <Compile Include="Validate\Model\VolumeReinforceRatioAModel.cs" />
+    <Compile Include="Validate\Rules\JointCoreReinforceAreaRule.cs" />
     <Compile Include="Validate\Rules\MaximumReinforcementRatioRule.cs" />
     <Compile Include="Validate\Rules\AngularReinforcementDiaRule.cs" />
     <Compile Include="Validate\Rules\AngularReinforcementNumRule.cs" />
@@ -131,6 +144,9 @@
     <Compile Include="Validate\Rules\ShearSpanRatioRule.cs" />
     <Compile Include="Validate\Rules\StirrupFullHeightEncryptionRule.cs" />
     <Compile Include="Validate\Rules\StirrupLimbSpaceRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingKRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingIRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingGRule.cs" />
     <Compile Include="Validate\Rules\StirrupMaximumSpacingJRule.cs" />
     <Compile Include="Validate\Rules\StirrupMaximumSpacingHRule.cs" />
     <Compile Include="Validate\Rules\StirrupMaximumSpacingFRule.cs" />
@@ -143,7 +159,11 @@
     <Compile Include="Validate\Rules\StirrupMinimumDiameterCRule.cs" />
     <Compile Include="Validate\Rules\StirrupMinimumDiameterBRule.cs" />
     <Compile Include="Validate\Rules\StirrupMinimumDiameterARule.cs" />
+    <Compile Include="Validate\Rules\StirrupMinimumDiameterFRule.cs.cs" />
+    <Compile Include="Validate\Rules\StirrupMinimumDiameterERule.cs.cs" />
     <Compile Include="Validate\Rules\StirrupReinforcementAreaRule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioERule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioDRule.cs" />
     <Compile Include="Validate\Rules\VolumeReinforceRatioCRule.cs" />
     <Compile Include="Validate\Rules\VolumeReinforceRatioBRule.cs" />
     <Compile Include="Validate\Rules\VolumeReinforceRatioARule.cs" />
@@ -179,6 +199,7 @@
     <Compile Include="THColumnInfoApp.cs" />
     <Compile Include="Tools\ThColumnInfoUtils.cs" />
     <Compile Include="Business\DataStyleColumnDetailInfo.cs" />
+    <Compile Include="ViewModel\CheckResultVM.cs" />
     <Compile Include="ViewModel\ComponentPropDefineVM.cs" />
     <Compile Include="ViewModel\ParameterSetVM.cs" />
     <Compile Include="View\CheckPalette.cs" />
@@ -284,6 +305,7 @@
   <ItemGroup>
     <PackageReference Include="NLog" Version="4.6.8" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
+    <PackageReference Include="NPOI" Version="2.5.1" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Select.ico">
@@ -316,6 +338,17 @@
     <Resource Include="Images\DetailDataShow.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\Check.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\Export.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\Set.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

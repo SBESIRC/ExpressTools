@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ThColumnInfo.Validate.Model;
 
-namespace ThColumnInfo.Validate
+namespace ThColumnInfo.Validate.Rules
 {
     public class StirrupLimbSpaceRule:IRule
     {
@@ -22,7 +21,7 @@ namespace ThColumnInfo.Validate
         private string rule = "（《砼规》11.4.15）";
         public void Validate()
         {
-            if(stirrupLimbSpaceModel==null || stirrupLimbSpaceModel.ValidateProperty()==false)
+            if(stirrupLimbSpaceModel==null || !stirrupLimbSpaceModel.ValidateProperty())
             {
                 return;
             }
