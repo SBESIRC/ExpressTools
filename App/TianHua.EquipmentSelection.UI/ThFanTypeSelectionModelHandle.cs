@@ -4,6 +4,7 @@ using Dreambuild.AutoCAD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TianHua.Publics.BaseCode;
 
 namespace TianHua.FanSelection.UI
 {
@@ -60,7 +61,7 @@ namespace TianHua.FanSelection.UI
                 fanpoints.Add(group.First().ModelNum, new List<Point3d>());
                 foreach (var item in group)
                 {
-                    fanpoints[item.ModelNum].Add(new Point3d(Convert.ToDouble(item.AirVolume), Convert.ToDouble(item.Pa), 0));
+                    fanpoints[item.ModelNum].Add(new Point3d( FuncStr.NullToDouble(item.AirVolume), FuncStr.NullToDouble(item.Pa), 0));
                 }
             }
             Dictionary<string, Polyline> typepolylines = new Dictionary<string, Polyline>();

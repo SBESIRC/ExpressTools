@@ -274,7 +274,7 @@ namespace TianHua.FanSelection
 
         private Bitmap GetInsertMap()
         {
-            if (PID == "0")
+            if (PID == "0" && FanModelName != string.Empty)
             {
                 return Properties.Resources.插入32;
             }
