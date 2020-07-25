@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using ThIdentity.SDK;
 using Autodesk.AutoCAD.Interop;
 using System.Collections.Generic;
 using TianHua.AutoCAD.Utility.ExtensionTools;
@@ -126,14 +125,15 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void ConfigToolbarsWithCurrentUser()
         {
-            if (ThIdentityService.IsLogged())
-            {
-                ConfigToolbarsWithCurrentProfile();
-            }
-            else
-            {
-                CloseAllToolbars();
-            }
+            ConfigToolbarsWithCurrentProfile();
+            //if (ThIdentityService.IsLogged())
+            //{
+            //    ConfigToolbarsWithCurrentProfile();
+            //}
+            //else
+            //{
+            //    CloseAllToolbars();
+            //}
         }
     }
 }

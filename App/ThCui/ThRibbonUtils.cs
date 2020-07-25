@@ -1,8 +1,7 @@
 ﻿using System.Linq;
-using System.Collections.Generic;
 using Autodesk.Windows;
+using System.Collections.Generic;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using ThIdentity.SDK;
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -43,8 +42,8 @@ namespace TianHua.AutoCAD.ThCui
                 foreach(RibbonRowPanel rowPanel in panel.Source.Items)
                 {
                     rowPanel.Items.Where(o => o.Text == "专业切换").ForEach(o => o.IsVisible = true);
-                    rowPanel.Items.Where(o => o.Id == "ID_THLOGIN").ForEach(o => o.IsVisible = false);
-                    rowPanel.Items.Where(o => o.Id == "ID_THLOGOUT").ForEach(o => o.IsVisible = true);
+                    //rowPanel.Items.Where(o => o.Id == "ID_THLOGIN").ForEach(o => o.IsVisible = false);
+                    //rowPanel.Items.Where(o => o.Id == "ID_THLOGOUT").ForEach(o => o.IsVisible = true);
                 }
             }
         }
@@ -70,22 +69,23 @@ namespace TianHua.AutoCAD.ThCui
                 foreach (RibbonRowPanel rowPanel in panel.Source.Items)
                 {
                     rowPanel.Items.Where(o => o.Text == "专业切换").ForEach(o => o.IsVisible = false);
-                    rowPanel.Items.Where(o => o.Id == "ID_THLOGIN").ForEach(o => o.IsVisible = true);
-                    rowPanel.Items.Where(o => o.Id == "ID_THLOGOUT").ForEach(o => o.IsVisible = false);
+                    //rowPanel.Items.Where(o => o.Id == "ID_THLOGIN").ForEach(o => o.IsVisible = true);
+                    //rowPanel.Items.Where(o => o.Id == "ID_THLOGOUT").ForEach(o => o.IsVisible = false);
                 }
             }
         }
 
         public static void ConfigPanelsWithCurrentUser()
         {
-            if (ThIdentityService.IsLogged())
-            {
-                OpenAllPanels();
-            }
-            else
-            {
-                CloseAllPanels();
-            }
+            OpenAllPanels();
+            //if (ThIdentityService.IsLogged())
+            //{
+            //    OpenAllPanels();
+            //}
+            //else
+            //{
+            //    CloseAllPanels();
+            //}
         }
 
         public static void ConfigPanelsWithCurrentProfile()
