@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Autodesk.AutoCAD.Interop;
+using System.Collections.Generic;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
-using ThIdentity.SDK;
-using System.Collections.Generic;
 
 namespace TianHua.AutoCAD.ThCui
 {
@@ -122,14 +121,15 @@ namespace TianHua.AutoCAD.ThCui
 
         public static void ConfigMenubarWithCurrentUser()
         {
-            if (ThIdentityService.IsLogged())
-            {
-                EnableMenuItems();
-            }
-            else
-            {
-                DisableMenuItems();
-            }
+            EnableMenuItems();
+            //if (ThIdentityService.IsLogged())
+            //{
+            //    EnableMenuItems();
+            //}
+            //else
+            //{
+            //    DisableMenuItems();
+            //}
         }
 
         public static void ConfigMenubarWithCurrentProfile()

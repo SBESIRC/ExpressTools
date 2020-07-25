@@ -14,7 +14,6 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.ApplicationServices.PreferencesFiles;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using ThIdentity.SDK;
 using Linq2Acad;
 using AcHelper;
 
@@ -138,7 +137,7 @@ namespace TianHua.AutoCAD.ThCui
             }
 
             //注册DocumentCollection事件
-            AcadApp.DocumentManager.DocumentLockModeChanged += DocCollEvent_DocumentLockModeChanged_Handler;
+            //AcadApp.DocumentManager.DocumentLockModeChanged += DocCollEvent_DocumentLockModeChanged_Handler;
             //注册SystemVariableChanged 事件
             AcadApp.SystemVariableChanged += SystemVariableChangedHandler;
 
@@ -175,7 +174,7 @@ namespace TianHua.AutoCAD.ThCui
             }
 
             //反注册DocumentCollection事件
-            AcadApp.DocumentManager.DocumentLockModeChanged -= DocCollEvent_DocumentLockModeChanged_Handler;
+            //AcadApp.DocumentManager.DocumentLockModeChanged -= DocCollEvent_DocumentLockModeChanged_Handler;
             //反注册SystemVariableChanged 事件
             AcadApp.SystemVariableChanged -= SystemVariableChangedHandler;
 
@@ -291,49 +290,49 @@ namespace TianHua.AutoCAD.ThCui
             }
         }
 
-        private void DocCollEvent_DocumentLockModeChanged_Handler(object sender, DocumentLockModeChangedEventArgs e)
-        {
-            if (!e.GlobalCommandName.StartsWith("#"))
-            {
-                // Lock状态，可以看做命令开始状态
-                var cmdName = e.GlobalCommandName;
+        //private void DocCollEvent_DocumentLockModeChanged_Handler(object sender, DocumentLockModeChangedEventArgs e)
+        //{
+        //    if (!e.GlobalCommandName.StartsWith("#"))
+        //    {
+        //        // Lock状态，可以看做命令开始状态
+        //        var cmdName = e.GlobalCommandName;
 
-                // 过滤""命令
-                // 通常发生在需要“显式”锁文档的场景中
-                if (cmdName == "")
-                {
-                    return;
-                }
+        //        // 过滤""命令
+        //        // 通常发生在需要“显式”锁文档的场景中
+        //        if (cmdName == "")
+        //        {
+        //            return;
+        //        }
 
-                // 天华Lisp命令都是以“TH”开头
-                // 特殊情况（C:THZ0）
-                bool bVeto = false;
-                if (Regex.Match(cmdName, @"^\([cC]:THZ0\)$").Success)
-                {
-                    bVeto = !ThIdentityService.IsLogged();
-                }
+        //        // 天华Lisp命令都是以“TH”开头
+        //        // 特殊情况（C:THZ0）
+        //        bool bVeto = false;
+        //        if (Regex.Match(cmdName, @"^\([cC]:THZ0\)$").Success)
+        //        {
+        //            bVeto = !ThIdentityService.IsLogged();
+        //        }
 
-                // 正常情况（C:THXXX）
-                if (Regex.Match(cmdName, @"^\([cC]:TH[A-Z]{3,}\)$").Success)
-                {
-                    bVeto = !ThIdentityService.IsLogged();
-                }
+        //        // 正常情况（C:THXXX）
+        //        if (Regex.Match(cmdName, @"^\([cC]:TH[A-Z]{3,}\)$").Success)
+        //        {
+        //            bVeto = !ThIdentityService.IsLogged();
+        //        }
 
-                // 天华ARX命令
-                if (thcommanfunctiondict.ContainsKey(cmdName))
-                {
-                    // 在未登陆的情况下，不能运行
-                    bVeto = !ThIdentityService.IsLogged();
-                }
+        //        // 天华ARX命令
+        //        if (thcommanfunctiondict.ContainsKey(cmdName))
+        //        {
+        //            // 在未登陆的情况下，不能运行
+        //            bVeto = !ThIdentityService.IsLogged();
+        //        }
 
-                // 
-                if (bVeto)
-                {
-                    e.Veto();
-                    AcadApp.Idle += Application_OnIdle_Cmd_Veto;
-                }
-            }
-        }
+        //        // 
+        //        if (bVeto)
+        //        {
+        //            e.Veto();
+        //            AcadApp.Idle += Application_OnIdle_Cmd_Veto;
+        //        }
+        //    }
+        //}
 
         private void SystemVariableChangedHandler(object sender, SystemVariableChangedEventArgs e)
         {
@@ -363,20 +362,20 @@ namespace TianHua.AutoCAD.ThCui
 
         public void RegisterCommands()
         {
-            //注册登录命令
-            Utils.AddCommand(
-                ThCuiCommon.CMD_GROUPNAME, 
-                ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME, 
-                ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME, 
-                CommandFlags.Modal, 
-                new CommandCallback(OnLogIn));
-            //注册退出命令
-            Utils.AddCommand(
-                ThCuiCommon.CMD_GROUPNAME,
-                ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
-                ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME, 
-                CommandFlags.Modal, 
-                new CommandCallback(OnLogOut));
+            ////注册登录命令
+            //Utils.AddCommand(
+            //    ThCuiCommon.CMD_GROUPNAME, 
+            //    ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME, 
+            //    ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME, 
+            //    CommandFlags.Modal, 
+            //    new CommandCallback(OnLogIn));
+            ////注册退出命令
+            //Utils.AddCommand(
+            //    ThCuiCommon.CMD_GROUPNAME,
+            //    ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
+            //    ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME, 
+            //    CommandFlags.Modal, 
+            //    new CommandCallback(OnLogOut));
 
 #if DEBUG
             Utils.AddCommand(
@@ -451,8 +450,8 @@ namespace TianHua.AutoCAD.ThCui
 
         public void UnregisterCommands()
         {
-            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME);
-            Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME);
+            //Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME);
+            //Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THHLP_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THBLI_GLOBAL_NAME);
             Utils.RemoveCommand(ThCuiCommon.CMD_GROUPNAME, ThCuiCommon.CMD_THFBK_GLOBAL_NAME);
@@ -634,48 +633,48 @@ namespace TianHua.AutoCAD.ThCui
         }
 #endif
 
-        private void OnLogIn()
-        {
-            using (var dlg = new ThLoginDlg())
-            {
-                if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
-                {
-                    return;
-                }
-            }
+        //private void OnLogIn()
+        //{
+        //    using (var dlg = new ThLoginDlg())
+        //    {
+        //        if (AcadApp.ShowModalDialog(dlg) != DialogResult.OK)
+        //        {
+        //            return;
+        //        }
+        //    }
 
-            // 更新Ribbon
-            if (ThIdentityService.IsLogged())
-            {
-                ThRibbonUtils.OpenAllPanels();
-                ThToolbarUtils.OpenAllToolbars();
-                ThMenuBarUtils.EnableMenuItems();
-            }
+        //    // 更新Ribbon
+        //    if (ThIdentityService.IsLogged())
+        //    {
+        //        ThRibbonUtils.OpenAllPanels();
+        //        ThToolbarUtils.OpenAllToolbars();
+        //        ThMenuBarUtils.EnableMenuItems();
+        //    }
 
-            // 根据当前的Profile配置Panels
-            ThRibbonUtils.ConfigPanelsWithCurrentProfile();
-            // 根据当前的Profile配置Toolbars
-            ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
-            // 根据当前的Profile配置Menubar
-            ThMenuBarUtils.ConfigMenubarWithCurrentProfile();
-            // 根据当前的Profile配置ToolPalette
-            ThToolPaletteUtils.ConfigToolPaletteWithCurrentProfile();
-        }
+        //    // 根据当前的Profile配置Panels
+        //    ThRibbonUtils.ConfigPanelsWithCurrentProfile();
+        //    // 根据当前的Profile配置Toolbars
+        //    ThToolbarUtils.ConfigToolbarsWithCurrentProfile();
+        //    // 根据当前的Profile配置Menubar
+        //    ThMenuBarUtils.ConfigMenubarWithCurrentProfile();
+        //    // 根据当前的Profile配置ToolPalette
+        //    ThToolPaletteUtils.ConfigToolPaletteWithCurrentProfile();
+        //}
 
-        private void OnLogOut()
-        {
-            ThIdentityService.Logout();
-            ThCuiProfileManager.Instance.Reset();
+        //private void OnLogOut()
+        //{
+        //    ThIdentityService.Logout();
+        //    ThCuiProfileManager.Instance.Reset();
 
-            // 更新Ribbon
-            if (!ThIdentityService.IsLogged())
-            {
-                ThRibbonUtils.CloseAllPanels();
-                ThToolbarUtils.CloseAllToolbars();
-                ThMenuBarUtils.DisableMenuItems();
-                ThToolPaletteUtils.RemoveAllToolPalettes();
-            }
-        }
+        //    // 更新Ribbon
+        //    if (!ThIdentityService.IsLogged())
+        //    {
+        //        ThRibbonUtils.CloseAllPanels();
+        //        ThToolbarUtils.CloseAllToolbars();
+        //        ThMenuBarUtils.DisableMenuItems();
+        //        ThToolPaletteUtils.RemoveAllToolPalettes();
+        //    }
+        //}
 
         private void OnHelp()
         {

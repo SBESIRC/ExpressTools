@@ -25,36 +25,36 @@ namespace TianHua.AutoCAD.ThCui
         private static void CreateHelpPanel(RibbonTabSource tab)
         {
             // 登录界面
-            var panel = tab.AddNewPanel("Help", "登录界面");
+            var panel = tab.AddNewPanel("Help", "帮助");
             var row = panel.AddNewRibbonRow();
 
-            // 登录
-            {
-                var subPanel = row.AddNewPanel();
+            //// 登录
+            //{
+            //    var subPanel = row.AddNewPanel();
 
-                var subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("登录",
-                    "天华登录",
-                    ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME,
-                    "登录天华效率平台",
-                    "IDI_THCAD_THLOGIN_SMALL",
-                    "IDI_THCAD_THLOGIN_LARGE",
-                    RibbonButtonStyle.LargeWithText);
-            }
+            //    var subRow = subPanel.AddNewRibbonRow();
+            //    subRow.AddNewButton("登录",
+            //        "天华登录",
+            //        ThCuiCommon.CMD_THLOGIN_GLOBAL_NAME,
+            //        "登录天华效率平台",
+            //        "IDI_THCAD_THLOGIN_SMALL",
+            //        "IDI_THCAD_THLOGIN_LARGE",
+            //        RibbonButtonStyle.LargeWithText);
+            //}
 
-            // 退出
-            {
-                var subPanel = row.AddNewPanel();
+            //// 退出
+            //{
+            //    var subPanel = row.AddNewPanel();
 
-                var subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("退出",
-                    "天华退出",
-                    ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
-                    "退出天华效率平台",
-                    "IDI_THCAD_THLOGOUT_SMALL",
-                    "IDI_THCAD_THLOGOUT_LARGE",
-                    RibbonButtonStyle.LargeWithText);
-            }
+            //    var subRow = subPanel.AddNewRibbonRow();
+            //    subRow.AddNewButton("退出",
+            //        "天华退出",
+            //        ThCuiCommon.CMD_THLOGOUT_GLOBAL_NAME,
+            //        "退出天华效率平台",
+            //        "IDI_THCAD_THLOGOUT_SMALL",
+            //        "IDI_THCAD_THLOGOUT_LARGE",
+            //        RibbonButtonStyle.LargeWithText);
+            //}
 
             {
                 var subPanel = row.AddNewPanel();
