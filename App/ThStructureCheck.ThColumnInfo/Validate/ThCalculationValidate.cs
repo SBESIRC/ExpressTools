@@ -623,7 +623,8 @@ namespace ThColumnInfo.Validate
             {
                 Code = this.columnRelateInf.ModelColumnInfs[0].Code,
                 Text = this.columnRelateInf.ModelColumnInfs[0].Text,
-                Cdm = this.cdm
+                Cdm = this.cdm,
+                AntiSeismicGrade=this.antiSeismicGrade
             };
             IRule rule = new MaximumReinforcementRatioRule(mrrm);
             return rule;
@@ -883,6 +884,7 @@ namespace ThColumnInfo.Validate
                 Code = this.columnRelateInf.ModelColumnInfs[0].Code,
                 Text = this.columnRelateInf.ModelColumnInfs[0].Text,
                 Cdm = cdm,
+                AntiSeismicGrade=this.antiSeismicGrade
             };
             rule = new StirrupMaximumSpacingERule(smse);
             return rule;

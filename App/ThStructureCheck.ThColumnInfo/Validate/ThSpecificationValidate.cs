@@ -511,7 +511,8 @@ namespace ThColumnInfo.Validate
             {
                 Code = this.columnInf.Code,
                 Text = this.columnInf.Text,
-                Cdm = cdm
+                Cdm = cdm,
+                AntiSeismicGrade = this.antiSeismicGrade
             };
             rule = new StirrupMinimumDiameterERule(smde);
             return rule;
@@ -527,7 +528,8 @@ namespace ThColumnInfo.Validate
             {
                 Code = this.columnInf.Code,
                 Text = this.columnInf.Text,
-                Cdm = cdm
+                Cdm = cdm,
+                AntiSeismicGrade=this.antiSeismicGrade
             };
             rule = new StirrupMinimumDiameterFRule(smdf);
             return rule;

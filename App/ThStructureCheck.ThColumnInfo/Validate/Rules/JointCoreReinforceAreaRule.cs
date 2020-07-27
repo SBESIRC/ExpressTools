@@ -28,6 +28,10 @@ namespace ThColumnInfo.Validate.Rules
             {
                 this.ValidateResults.Add("实配钢筋应满足计算值 "+this.rule);
             }
+            else
+            {
+                this.CorrectResults.Add("节点核心区配筋面积满足计算值 "+ this.rule);
+            }
         }
         private double GetJointCoreReinArea()
         {
@@ -58,7 +62,11 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("if (节点核心区配筋面积[" + this.jointCoreReinforceArea + 
                 "] < "+this.jcrm.CoreJointReinforceArea+")");
             steps.Add("  {");
-            steps.Add("    Err: 实配钢筋应满足计算值");
+            steps.Add("    Err: 实配钢筋应满足计算值 "+this.rule);
+            steps.Add("  }");
+            steps.Add("else ");
+            steps.Add("  {");
+            steps.Add("    Debug: 节点核心区配筋面积满足计算值 " + this.rule);
             steps.Add("  }");
             steps.Add("");
             return steps;

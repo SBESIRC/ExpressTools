@@ -30,7 +30,7 @@
         </StackPanel>
         <GroupBox Header="模型参数" Grid.Row="1"  Height="280">
             <Grid>
-                <GroupBox Name="selectMode" Header="楼层选择" HorizontalAlignment="Left" Height="100" Margin="19,12,0,0" VerticalAlignment="Top" Width="151">
+                <!--<GroupBox Name="selectMode" Header="楼层选择" HorizontalAlignment="Left" Height="100" Margin="19,12,0,0" VerticalAlignment="Top" Width="151">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="21*"/>
@@ -39,17 +39,17 @@
                         <RadioButton Name="rbSelectByNatural"  GroupName="selectMode" Content="按自然层选择" HorizontalAlignment="Left" 
                                      Height="19" Margin="7,20,0,0" VerticalAlignment="Top" Width="105"  Grid.ColumnSpan="2"
                                      Checked="RbSelectByNatural_Checked" Unchecked="RbSelectByNatural_Unchecked"/>
-                        <RadioButton Name="rbSelectByStandard" GroupName="selectMode"  Content="按标准层选择" HorizontalAlignment="Left"
+                        --><!--<RadioButton Name="rbSelectByStandard" GroupName="selectMode"  Content="按标准层选择" HorizontalAlignment="Left"
                                      Height="19" Margin="7,50,0,0" VerticalAlignment="Top" Width="105" Grid.ColumnSpan="2" 
                                      Checked="RbSelectByStandard_Checked" Unchecked="RbSelectByStandard_Unchecked"
-                                     />
+                                     />--><!--
                     </Grid>
-                </GroupBox>
-                <GroupBox Header="埋入角度修正" HorizontalAlignment="Left" Height="123" Margin="19,132,0,0" VerticalAlignment="Top" Width="151">
+                </GroupBox>-->
+                <GroupBox Header="埋入角度修正" HorizontalAlignment="Left" Height="80" Margin="5,15,0,0" VerticalAlignment="Top" Width="165">
                     <Grid>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="角度(逆)" Margin="0,10"></Label>
-                            <TextBox Name="tbAngle"  HorizontalAlignment="Left" Height="19" Margin="7,12,0,0" VerticalAlignment="Top" Width="55"
+                            <TextBox Name="tbAngle"  HorizontalAlignment="Left" Height="19" Margin="7,12,0,0" VerticalAlignment="Top" Width="75"
                                      PreviewTextInput="TbAngle_PreviewTextInput" input:InputMethod.IsInputMethodEnabled="False">
                                 <TextBox.Text>
                                     <Binding Path=" CalculateInfo.Angle" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">

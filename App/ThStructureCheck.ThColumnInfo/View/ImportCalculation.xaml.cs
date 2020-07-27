@@ -37,8 +37,9 @@ namespace ThColumnInfo.View
             {
                 this.cbYjkFilePath.SelectedIndex = index;
             }
-            this.rbSelectByStandard.IsChecked = calculationInfoVM.CalculateInfo.SelectByStandard;
-            this.rbSelectByNatural.IsChecked = !calculationInfoVM.CalculateInfo.SelectByStandard;
+            //暂时注释掉，后期根据需要再打开
+            //this.rbSelectByStandard.IsChecked = calculationInfoVM.CalculateInfo.SelectByStandard;
+            //this.rbSelectByNatural.IsChecked = !calculationInfoVM.CalculateInfo.SelectByStandard;
         }
         private void CbYjkFilePath_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

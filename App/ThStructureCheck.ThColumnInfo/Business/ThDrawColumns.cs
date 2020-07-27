@@ -227,6 +227,7 @@ namespace ThColumnInfo
                     else if (jigRes.Status == PromptStatus.Cancel)
                     {
                         doMark = false;
+                        this.calculateInfo.Angle = 0.0;
                     }
                 } while (doMark);
             }

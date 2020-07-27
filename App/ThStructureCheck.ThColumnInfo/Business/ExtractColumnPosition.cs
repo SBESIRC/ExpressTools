@@ -176,13 +176,14 @@ namespace ThColumnInfo
                 ExtractColumnTable extractColumnTable = new ExtractColumnTable(this.rangePt1, this.rangePt2, this.paraSetInfo); //如果不是原位图纸，提取一下柱表信息
                 extractColumnTable.Extract();
                 this.ColumnTableRecordInfos = extractColumnTable.ColumnTableRecordInfos;
-                if(this.ColumnTableRecordInfos==null || this.ColumnTableRecordInfos.Count==0)
-                {
-                    this.ColumnTableRecordInfos = thStandardSign.ColumnTableRecordInfos;
-                }
                 this.allColumnBoundaryPts = GetRangeColumnPoints();
                 ThProgressBar.MeterProgress();
                 FindColumnInfo(); //查找柱子信息(包括原位标注的信息)
+                if (this.ColumnTableRecordInfos == null || this.ColumnTableRecordInfos.Count == 0)
+                {
+                    this.ColumnTableRecordInfos = thStandardSign.ColumnTableRecordInfos;
+                }
+                this.ColumnTableRecordInfos.ForEach(o => o.UpdateJointCoreHooping());
                 CheckColumnInfo();
                 ThProgressBar.MeterProgress();
                 this.ColumnTableRecordInfos.Sort(new ColumnTableRecordInfoCompare());
@@ -195,7 +196,7 @@ namespace ThColumnInfo
             {
                 doc.Editor.SetCurrentView(view);
             }
-        }
+        }   
         public void ClearColumnInfs()
         {
             if(this.ColumnInfs.Count==0)

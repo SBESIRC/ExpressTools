@@ -157,6 +157,28 @@ namespace ThColumnInfo.View
                     this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Style.BackColor = this.cellBackColor;
                     this.dgvColumnTable.Rows[rowIndex].Cells["hooping"].Style.ForeColor = this.textForeClor;
 
+                    if(string.IsNullOrEmpty(columnInf.JointCorehooping))
+                    {
+                        string ctriJointCoreHoop = ctri.Replace132(ctri.JointCoreHoop);
+                        if(ctriJointCoreHoop.Length>1)
+                        {
+                            if(ctriJointCoreHoop[0]>='A'&& ctriJointCoreHoop[0] <= 'Z')
+                            {
+                                this.dgvColumnTable.Rows[rowIndex].Cells["coreHooping"].Value = ctriJointCoreHoop.Substring(1);
+                            }
+                            else
+                            {
+                                this.dgvColumnTable.Rows[rowIndex].Cells["coreHooping"].Value = ctriJointCoreHoop;
+                            }
+                        }                        
+                    }
+                    else
+                    {
+                        this.dgvColumnTable.Rows[rowIndex].Cells["coreHooping"].Value = columnInf.JointCorehooping;
+                    }
+                    this.dgvColumnTable.Rows[rowIndex].Cells["coreHooping"].Style.BackColor = this.cellBackColor;
+                    this.dgvColumnTable.Rows[rowIndex].Cells["coreHooping"].Style.ForeColor = this.textForeClor;
+
                     this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Value = ctri.HoopReinforcementTypeNumber;
                     this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Style.BackColor = this.cellBackColor;
                     this.dgvColumnTable.Rows[rowIndex].Cells["hoopType"].Style.ForeColor = this.textForeClor;
@@ -214,16 +236,20 @@ namespace ThColumnInfo.View
                     {
                         continue;
                     }
+                    NoCalculationValidate noCV = new NoCalculationValidate(columnInf);
                     int rowIndex = this.dgvIndicator.Rows.Add();
                     this.dgvIndicator.Rows[rowIndex].Cells["code"].Value = columnInf.Code;
                     this.dgvIndicator.Rows[rowIndex].Cells["subCode"].Value = columnInf.Text;
-                    this.dgvIndicator.Rows[rowIndex].Cells["dblXSpace"].Value = cdm.DblXAs;
-                    this.dgvIndicator.Rows[rowIndex].Cells["dblYSpace"].Value = cdm.DblYAs;
-                    this.dgvIndicator.Rows[rowIndex].Cells["dblP"].Value = cdm.DblYAs;
-                    this.dgvIndicator.Rows[rowIndex].Cells["dblXP"].Value = cdm.DblXP;
-                    this.dgvIndicator.Rows[rowIndex].Cells["dblYP"].Value = cdm.DblYP;
-                    NoCalculationValidate noCV = new NoCalculationValidate(columnInf);
-                    this.dgvIndicator.Rows[rowIndex].Cells["volumeStirrupRatio"].Value = cdm.GetVolumeStirrupRatio(noCV.ProtectLayerThickness);
+                    this.dgvIndicator.Rows[rowIndex].Cells["xLongitudinalBarArea"].Value = cdm.GetXLongitudinalBarArea();
+                    this.dgvIndicator.Rows[rowIndex].Cells["yLongitudinalBarArea"].Value = cdm.GetYLongitudinalBarArea();
+                    this.dgvIndicator.Rows[rowIndex].Cells["xStirrupArea"].Value = cdm.GetXStirrupArea();
+                    this.dgvIndicator.Rows[rowIndex].Cells["yStirrupArea"].Value = cdm.GetYStirrupArea();
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblXSpace"].Value = cdm.GetXStirrupLimbSpace(noCV.ProtectLayerThickness);
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblYSpace"].Value = cdm.GetYStirrupLimbSpace(noCV.ProtectLayerThickness);
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblXP"].Value = Math.Round(cdm.DblXP * 100, 3) + "%";
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblYP"].Value = Math.Round(cdm.DblYP * 100, 3) + "%";
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblP"].Value = Math.Round(cdm.DblP * 100, 3) + "%";
+                    this.dgvIndicator.Rows[rowIndex].Cells["volumeStirrupRatio"].Value = Math.Round(cdm.GetVolumeStirrupRatio(noCV.ProtectLayerThickness), 3) + "%";
                     this.dgvIndicator.Rows[rowIndex].Cells["shearSpanRatio"].Value = "";
                 }
                 for(int i=0;i<this.dgvIndicator.Rows.Count;i++)
@@ -271,12 +297,10 @@ namespace ThColumnInfo.View
                     int rowIndex = this.dgvIndicator.Rows.Add();
                     this.dgvIndicator.Rows[rowIndex].Cells["code"].Value = columnInf.Code;
                     this.dgvIndicator.Rows[rowIndex].Cells["subCode"].Value = columnInf.Text;
-                    this.dgvIndicator.Rows[rowIndex].Cells["dblXSpace"].Value = cdm.DblXAs;
-                    this.dgvIndicator.Rows[rowIndex].Cells["dblYSpace"].Value = cdm.DblYAs;
-                    this.dgvIndicator.Rows[rowIndex].Cells["dblP"].Value = cdm.DblYAs;
-                    this.dgvIndicator.Rows[rowIndex].Cells["dblXP"].Value = cdm.DblXP;
-                    this.dgvIndicator.Rows[rowIndex].Cells["dblYP"].Value = cdm.DblYP;
-
+                    this.dgvIndicator.Rows[rowIndex].Cells["xLongitudinalBarArea"].Value = cdm.GetXLongitudinalBarArea();
+                    this.dgvIndicator.Rows[rowIndex].Cells["yLongitudinalBarArea"].Value = cdm.GetYLongitudinalBarArea();
+                    this.dgvIndicator.Rows[rowIndex].Cells["xStirrupArea"].Value = cdm.GetXStirrupArea();
+                    this.dgvIndicator.Rows[rowIndex].Cells["yStirrupArea"].Value = cdm.GetYStirrupArea();
                     double protectThickness = 0.0;
                     double jkb = 0.0;
                     ColumnRelateInf columnRelateInf = this.thCalculationValidate.
@@ -288,8 +312,13 @@ namespace ThColumnInfo.View
                         protectThickness = calculationValidate.ProtectLayerThickness;
                         jkb = columnRelateInf.YjkColumnData.Jkb;
                     }
-                    this.dgvIndicator.Rows[rowIndex].Cells["volumeStirrupRatio"].Value = cdm.GetVolumeStirrupRatio(protectThickness);
-                    this.dgvIndicator.Rows[rowIndex].Cells["shearSpanRatio"].Value = jkb;
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblXSpace"].Value = cdm.GetXStirrupLimbSpace(protectThickness);
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblYSpace"].Value = cdm.GetYStirrupLimbSpace(protectThickness);
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblXP"].Value = Math.Round(cdm.DblXP * 100, 3) + "%";
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblYP"].Value = Math.Round(cdm.DblYP * 100, 3) + "%";
+                    this.dgvIndicator.Rows[rowIndex].Cells["dblP"].Value = Math.Round(cdm.DblP * 100, 3) + "%";
+                    this.dgvIndicator.Rows[rowIndex].Cells["volumeStirrupRatio"].Value = Math.Round(cdm.GetVolumeStirrupRatio(protectThickness), 3) + "%";
+                    this.dgvIndicator.Rows[rowIndex].Cells["shearSpanRatio"].Value = Math.Round(jkb,3);
                 }
                 for (int i = 0; i < this.dgvIndicator.Rows.Count; i++)
                 {
@@ -471,6 +500,7 @@ namespace ThColumnInfo.View
             this.dgvColumnTable.Columns.Add("bSide", "b边一侧中部筋");
             this.dgvColumnTable.Columns.Add("hside", "h边一侧中部筋");
             this.dgvColumnTable.Columns.Add("hooping", "箍筋");
+            this.dgvColumnTable.Columns.Add("coreHooping", "节点核心区箍筋");
             this.dgvColumnTable.Columns.Add("hoopType", "箍筋类型号");
 
             int baseWidth = 80;
@@ -485,6 +515,7 @@ namespace ThColumnInfo.View
                         break;
                     case "bSide":
                     case "hside":
+                    case "coreHooping":
                         dgvCol.Width = (int)(baseWidth * 1.75);
                         break;
                     case "hooping":
@@ -513,11 +544,15 @@ namespace ThColumnInfo.View
         {
             this.dgvIndicator.Columns.Add("code", "柱编号");
             this.dgvIndicator.Columns.Add("subCode", "子编号");
-            this.dgvIndicator.Columns.Add("dblXSpace", "X侧肢距");
-            this.dgvIndicator.Columns.Add("dblYSpace", "Y侧肢距");
-            this.dgvIndicator.Columns.Add("dblP", "配筋率");
+            this.dgvIndicator.Columns.Add("xLongitudinalBarArea", "X侧纵筋值");
+            this.dgvIndicator.Columns.Add("yLongitudinalBarArea", "Y侧纵筋值");
+            this.dgvIndicator.Columns.Add("xStirrupArea", "X侧箍筋值");
+            this.dgvIndicator.Columns.Add("yStirrupArea", "Y侧箍筋值");
+            this.dgvIndicator.Columns.Add("dblXSpace", "X侧箍筋肢距");
+            this.dgvIndicator.Columns.Add("dblYSpace", "Y侧箍筋肢距");
             this.dgvIndicator.Columns.Add("dblXP", "X侧配筋率");
             this.dgvIndicator.Columns.Add("dblYP", "Y侧配筋率");
+            this.dgvIndicator.Columns.Add("dblP", "全部纵筋配筋率");
             this.dgvIndicator.Columns.Add("volumeStirrupRatio", "体积配箍率");
             this.dgvIndicator.Columns.Add("shearSpanRatio", "剪跨比");
 
@@ -529,8 +564,16 @@ namespace ThColumnInfo.View
                 dgvColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
                 switch (dgvColumn.Name)
                 {
+                    case "xLongitudinalBarArea":
+                    case "yLongitudinalBarArea":
+                    case "xStirrupArea":
+                    case "yStirrupArea":
                     case "dblXP":
                     case "dblYP":
+                        dgvColumn.Width = (int)(baseWidth * 1.5);
+                        break;
+                    case "dblXSpace":
+                    case "dblYSpace":
                     case "volumeStirrupRatio":
                         dgvColumn.Width = (int)(baseWidth * 2);
                         break;

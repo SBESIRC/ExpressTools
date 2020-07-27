@@ -25,20 +25,5 @@ namespace ThColumnInfo
             }
             return curves;
         }
-        public static void SuperBoundaryCmd(ObjectIdCollection objs)
-        {
-#if ACAD_ABOVE_2014
-            Active.Editor.Command("_._SBND_ALL",
-                SelectionSet.FromObjectIds(objs.ToArray()),
-                "");
-#else
-            ResultBuffer args = new ResultBuffer(
-               new TypedValue((int)LispDataType.Text, "_._SBND_ALL"),
-               new TypedValue((int)LispDataType.SelectionSet, SelectionSet.FromObjectIds(objs.ToArray())),
-               new TypedValue((int)LispDataType.Text, "")
-               );
-            Active.Editor.AcedCmd(args);
-#endif
-        }
     }
 }

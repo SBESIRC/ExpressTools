@@ -866,7 +866,10 @@ namespace ThColumnInfo.ViewModel
             DataPalette.ShowPaletteMark = !DataPalette.ShowPaletteMark;
             SwitchShowDetailPicture();
             ShowDetailData(owner.tvCheckRes.SelectedNode);
-            DataPalette._ps.Visible = DataPalette.ShowPaletteMark;
+            if(DataPalette._ps!=null)
+            {
+                DataPalette._ps.Visible = DataPalette.ShowPaletteMark;
+            }
         }
         public void ShowDetailData(TreeNode tn)
         {

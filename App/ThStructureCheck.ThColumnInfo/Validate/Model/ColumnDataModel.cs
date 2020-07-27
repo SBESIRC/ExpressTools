@@ -143,6 +143,15 @@ namespace ThColumnInfo.Validate.Model
         private double intXBarDiaArea = 0.0;
         private double intYBarDiaArea = 0.0;
         /// <summary>
+        /// X侧纵筋面积
+        /// </summary>
+        public double IntXBarDiaArea => intXBarDiaArea;
+        /// <summary>
+        /// Y侧纵筋面积
+        /// </summary>
+        public double IntYBarDiaArea => intYBarDiaArea;
+
+        /// <summary>
         /// 计算一些值
         /// </summary>
         private void Calculate()
@@ -205,6 +214,62 @@ namespace ThColumnInfo.Validate.Model
         {
             string calculation = "dblYP=dblYAs[" + this.DblYAs + "] / (B[" + this.B + "] * H[" + this.H + "]) = " + this.DblYAs / (B * H);
             return calculation;
+        }
+        /// <summary>
+        /// 获取X侧箍筋肢距
+        /// </summary>
+        /// <param name="protectLayerThickness"></param>
+        /// <returns></returns>
+        public double GetXStirrupLimbSpace(double protectLayerThickness)
+        {
+            return Math.Round((this.B - 2 * protectLayerThickness -
+                this.IntStirrupDia) / (this.IntYStirrupCount - 1),0);
+        }
+        /// <summary>
+        /// 获取Y侧箍筋肢距
+        /// </summary>
+        /// <param name="protectLayerThickness"></param>
+        /// <returns></returns>
+        public double GetYStirrupLimbSpace(double protectLayerThickness)
+        {
+            return Math.Round((this.H - 2 * protectLayerThickness -
+                this.IntStirrupDia) / (this.IntXStirrupCount - 1),0);
+        }
+        /// <summary>
+        /// 获取X侧箍筋值
+        /// </summary>
+        /// <returns></returns>
+        public double GetXStirrupArea()
+        {
+            double intStirrupDiaArea = ThValidate.GetIronSectionArea((int)this.IntStirrupDia);
+            return Math.Round(this.IntXStirrupCount * intStirrupDiaArea,1);
+        }
+        /// <summary>
+        /// 获取Y侧箍筋值
+        /// </summary>
+        /// <returns></returns>
+        public double GetYStirrupArea()
+        {
+            double intStirrupDiaArea = ThValidate.GetIronSectionArea((int)this.IntStirrupDia);
+            return Math.Round(this.IntYStirrupCount * intStirrupDiaArea,1);
+        }
+        /// <summary>
+        /// 获取X侧纵筋值
+        /// </summary>
+        /// <returns></returns>
+        public double GetXLongitudinalBarArea()
+        {
+            double intXBarDiaArea = ThValidate.GetIronSectionArea((int)this.IntXBarDia);            
+            return Math.Round(this.IntXBarCount * intXBarDiaArea+this.IntCBarCount/2.0*this.intCBarDiaArea,1);
+        }
+        /// <summary>
+        /// 获取Y侧纵筋值
+        /// </summary>
+        /// <returns></returns>
+        public double GetYLongitudinalBarArea()
+        {
+            double intYBarDiaArea = ThValidate.GetIronSectionArea((int)this.IntYBarDia);
+            return Math.Round(this.IntYBarCount * intYBarDiaArea + this.IntCBarCount / 2.0 * this.intCBarDiaArea,1);
         }
         /// <summary>
         /// 配筋率

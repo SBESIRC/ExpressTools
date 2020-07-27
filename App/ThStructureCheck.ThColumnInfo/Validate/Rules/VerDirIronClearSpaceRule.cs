@@ -33,7 +33,7 @@ namespace ThColumnInfo.Validate.Rules
             double maxValue = Math.Max(dblXBarspacing, dblYBarspacing);
             if(this.ruleModel.Code.ToUpper().Contains("ZHZ"))
             {
-                this.rule = "高规 10.2.11 - 7";
+                this.rule = "高规 10.2.11-7";
                 bool isValid = true;
                 if(minValue < 80)
                 {

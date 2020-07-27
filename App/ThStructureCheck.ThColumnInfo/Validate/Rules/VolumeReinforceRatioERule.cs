@@ -31,6 +31,10 @@ namespace ThColumnInfo.Validate.Rules
                     {
                         this.ValidateResults.Add("体积配箍率不宜小于0.6% " + this.rule);
                     }
+                    else
+                    {
+                        this.CorrectResults.Add("体积配箍率大于等于0.6% " + this.rule);
+                    }
                 }
                 if (this.vrre.AntiSeismicGrade.Contains("二"))
                 {
@@ -38,12 +42,20 @@ namespace ThColumnInfo.Validate.Rules
                     {
                         this.ValidateResults.Add("体积配箍率不宜小于0.5% " + this.rule);
                     }
+                    else
+                    {
+                        this.CorrectResults.Add("体积配箍率大于等于0.5% " + this.rule);
+                    }
                 }
                 if (this.vrre.AntiSeismicGrade.Contains("三"))
                 {
                     if (this.calVolumnReinforceRatio < 0.004)
                     {
                         this.ValidateResults.Add("体积配箍率不宜小于0.4% " + this.rule);
+                    }
+                    else
+                    {
+                        this.CorrectResults.Add("体积配箍率大于等于0.4% " + this.rule);
                     }
                 }
             }

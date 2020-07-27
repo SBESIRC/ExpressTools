@@ -128,6 +128,24 @@ namespace ThColumnInfo
             this.HoopReinforcement = RemoveBrackets(this.HoopReinforcement);
         }
         /// <summary>
+        /// 更新节点核芯区值
+        /// </summary>
+        public void UpdateJointCoreHooping()
+        {
+            if(string.IsNullOrEmpty(this.JointCoreHoop) &&
+               !string.IsNullOrEmpty(this.HoopReinforcement))
+            {
+                if(this.HoopReinforcement.IndexOf("/")>=0)
+                {
+                    this.JointCoreHoop = this.HoopReinforcement.Substring(0, this.HoopReinforcement.IndexOf("/"));
+                }
+                else
+                {
+                    this.JointCoreHoop = this.HoopReinforcement;
+                }
+            }
+        }
+        /// <summary>
         /// 去掉括号
         /// </summary>
         /// <param name="content"></param>
