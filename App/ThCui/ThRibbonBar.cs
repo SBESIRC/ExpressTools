@@ -19,6 +19,7 @@ namespace TianHua.AutoCAD.ThCui
                 CreatePurgeToolPanel(tab);
                 CreateBlockToolPanel(tab);
                 CreateOutlineToolPanel(tab);
+                CreateEquipmentToolPanel(tab);
                 CreateFireControlToolPanel(tab);
                 CreateMiscellaneousPanel(tab);
                 CreateSitePlanToolPanel(tab);
@@ -307,6 +308,21 @@ namespace TianHua.AutoCAD.ThCui
                 "自动喷淋喷头布置",
                 "IDI_THCAD_THPT_SMALL",
                 "IDI_THCAD_THPT_SMALL",
+                RibbonButtonStyle.LargeWithText);
+        }
+
+        private static void CreateEquipmentToolPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("EquipmentTool", "设备选型");
+            var row = panel.AddNewRibbonRow();
+
+            // 风机选型
+            row.AddNewButton("风机选型",
+                "天华风机选型",
+                "THFJ",
+                "天华风机选型",
+                "IDI_THCAD_THFJ_SMALL",
+                "IDI_THCAD_THFJ_SMALL",
                 RibbonButtonStyle.LargeWithText);
         }
 

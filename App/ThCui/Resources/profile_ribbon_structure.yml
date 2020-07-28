@@ -177,6 +177,13 @@ panels:
        - text: "喷头布置"
          attributes: { "IsVisible": true, "IsEnabled": true }
     attributes: { "IsVisible": false, "IsEnabled": true }
+  - UID: "pnlEquipmentTool"
+    name: "EquipmentTool"
+    title: "设备选型"
+    items:
+       - text: "风机选型"
+         attributes: { "IsVisible": true, "IsEnabled": true }
+    attributes: { "IsVisible": false, "IsEnabled": true }
   - UID: "pnlMiscellaneous"
     name: "Miscellaneous"
     title: "第三方支持"

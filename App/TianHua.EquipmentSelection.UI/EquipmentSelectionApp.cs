@@ -15,15 +15,10 @@ namespace TianHua.FanSelection.UI
             //
         }
 
-        [CommandMethod("TIANHUACAD", "THEQSEL", CommandFlags.Modal)]
+        [CommandMethod("TIANHUACAD", "THFJ", CommandFlags.Modal)]
         public void ThEquipmentSelection()
         {
-            //using (var dlg = new Form1())
-            //{
-            //    AcadApp.ShowModelessDialog(dlg);
-            //}
-            var dlg = fmFanSelection.GetInstance();
-            AcadApp.ShowModelessDialog(dlg);
+            AcadApp.ShowModelessDialog(fmFanSelection.GetInstance());
         }
     }
 }

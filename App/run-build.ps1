@@ -59,6 +59,13 @@ Task Compile.Assembly.R18.WSS -Depends Requires.MSBuild {
     }
 }
 
+Task Compile.Assembly.R18.HAVC -Depends Requires.MSBuild {
+    exec {
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCAD.HAVC.sln" /p:Configuration=$buildType /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCAD.HAVC.sln" /p:Configuration=$buildType /t:rebuild
+    }
+}
+
 Task Compile.Resource.R18 -Depends Requires.MSBuild {
     exec {
             & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\Dark\",IntermediateOutputPath="..\build\obj\$buildType\Dark\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
@@ -66,7 +73,7 @@ Task Compile.Resource.R18 -Depends Requires.MSBuild {
     }
 }
 
-Task Dotfuscator.Assembly.R18 -Depends Requires.Dotfuscator, Compile.Assembly.R18.Common, Compile.Assembly.R18.Structure, Compile.Assembly.R18.SitePlan, Compile.Assembly.R18.WSS, Compile.Resource.R18 {
+Task Dotfuscator.Assembly.R18 -Depends Requires.Dotfuscator, Compile.Assembly.R18.Common, Compile.Assembly.R18.Structure, Compile.Assembly.R18.SitePlan, Compile.Assembly.R18.WSS, Compile.Assembly.R18.HAVC, Compile.Resource.R18 {
     if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
         exec {
             & $dotfuscatorCli ".\dotfuscator_config_${buildType}.xml"
@@ -103,6 +110,13 @@ Task Compile.Assembly.R19.WSS -Depends Requires.MSBuild {
     }
 }
 
+Task Compile.Assembly.R19.HAVC -Depends Requires.MSBuild {
+    exec {
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.HAVC.sln" /p:Configuration="${buildType}-NET40" /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.HAVC.sln" /p:Configuration="${buildType}-NET40" /t:rebuild
+    }
+}
+
 Task Compile.Resource.R19 -Depends Requires.MSBuild {
     exec {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\Dark\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\Dark\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
@@ -110,7 +124,7 @@ Task Compile.Resource.R19 -Depends Requires.MSBuild {
     }
 }
 
-Task Dotfuscator.Assembly.R19 -Depends Requires.Dotfuscator, Compile.Assembly.R19.Common, Compile.Assembly.R19.Structure, Compile.Assembly.R19.SitePlan, Compile.Assembly.R19.WSS, Compile.Resource.R19 {
+Task Dotfuscator.Assembly.R19 -Depends Requires.Dotfuscator, Compile.Assembly.R19.Common, Compile.Assembly.R19.Structure, Compile.Assembly.R19.SitePlan, Compile.Assembly.R19.WSS, Compile.Assembly.R19.HAVC, Compile.Resource.R19 {
     if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
         exec {
             & $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET40.xml"
@@ -147,6 +161,13 @@ Task Compile.Assembly.R20.WSS -Depends Requires.MSBuild {
     }
 }
 
+Task Compile.Assembly.R20.HAVC -Depends Requires.MSBuild {
+    exec {
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.HAVC.sln" /p:Configuration="${buildType}-NET45" /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.HAVC.sln" /p:Configuration="${buildType}-NET45" /t:rebuild
+    }
+}
+
 Task Compile.Resource.R20 -Depends Requires.MSBuild {
     exec {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\Dark\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\Dark\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
@@ -154,7 +175,7 @@ Task Compile.Resource.R20 -Depends Requires.MSBuild {
     }
 }
 
-Task Dotfuscator.Assembly.R20 -Depends Requires.Dotfuscator, Compile.Assembly.R20.Common, Compile.Assembly.R20.Structure, Compile.Assembly.R20.SitePlan, Compile.Assembly.R20.WSS, Compile.Resource.R20 {
+Task Dotfuscator.Assembly.R20 -Depends Requires.Dotfuscator, Compile.Assembly.R20.Common, Compile.Assembly.R20.Structure, Compile.Assembly.R20.SitePlan, Compile.Assembly.R20.WSS, Compile.Assembly.R20.HAVC, Compile.Resource.R20 {
     if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
         exec {
             & $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET45.xml"
@@ -191,6 +212,13 @@ Task Compile.Assembly.R22.WSS -Depends Requires.MSBuild {
     }
 }
 
+Task Compile.Assembly.R22.HAVC -Depends Requires.MSBuild {
+    exec {
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.HAVC.sln" /p:Configuration="${buildType}-NET46" /t:restore
+        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.HAVC.sln" /p:Configuration="${buildType}-NET46" /t:rebuild
+    }
+}
+
 Task Compile.Resource.R22 -Depends Requires.MSBuild {
     exec {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\Dark\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\Dark\" ".\ThCuiRes\ThCuiRes.vcxproj" /t:rebuild
@@ -198,7 +226,7 @@ Task Compile.Resource.R22 -Depends Requires.MSBuild {
     }
 }
 
-Task Dotfuscator.Assembly.R22 -Depends Requires.Dotfuscator, Compile.Assembly.R22.Common, Compile.Assembly.R22.Structure, Compile.Assembly.R22.SitePlan, Compile.Assembly.R22.WSS, Compile.Resource.R22 {
+Task Dotfuscator.Assembly.R22 -Depends Requires.Dotfuscator, Compile.Assembly.R22.Common, Compile.Assembly.R22.Structure, Compile.Assembly.R22.SitePlan, Compile.Assembly.R22.WSS, Compile.Assembly.R22.HAVC, Compile.Resource.R22 {
     if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
         exec {
             & $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET46.xml"
