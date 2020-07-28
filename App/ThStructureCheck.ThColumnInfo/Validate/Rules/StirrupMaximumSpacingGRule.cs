@@ -24,14 +24,13 @@ namespace ThColumnInfo.Validate.Rules
             if(this.smsg.AntiSeismicGrade.Contains("一级") || 
                 this.smsg.AntiSeismicGrade.Contains("二级") ||
                 this.smsg.AntiSeismicGrade.Contains("三级") ||
-                this.smsg.AntiSeismicGrade.Contains("四级") && 
-                !this.smsg.AntiSeismicGrade.Contains("特"))
+                this.smsg.AntiSeismicGrade.Contains("四级"))
             {
                 double intBardiamin = Math.Min(this.smsg.Cdm.IntXBarDia,this.smsg.Cdm.IntYBarDia);
                 double intStirrupSpacing = this.smsg.Cdm.IntStirrupSpacing;
                 double intStirrupSpacing0 = this.smsg.Cdm.IntStirrupSpacing0;
                 if (this.smsg.Code.ToUpper().Contains("ZHZ") &&
-                    intStirrupSpacing0 != 0.0)
+                    intStirrupSpacing != 0.0)
                 {
                     if(intStirrupSpacing == intStirrupSpacing0)
                     {
@@ -51,7 +50,7 @@ namespace ThColumnInfo.Validate.Rules
         {
             List<string> steps = new List<string>();
             steps.Add("类别：箍筋最大间距（箍筋）");
-            steps.Add("强制性：应，适用构件：ZHZ");
+            steps.Add("强制性：强条，适用构件：ZHZ");
             steps.Add("条文：转换柱、抗震时(一二三四级)、箍筋应全高加密(非加密区间距等于加密区间距)，箍筋间距不应大于100mm与6倍纵筋直径的较小值");
             steps.Add("柱号 = " + this.smsg.Text);
 

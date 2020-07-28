@@ -93,6 +93,10 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("      {");
             steps.Add("         Err: 体积配箍率不宜小于0.6% "+this.rule);
             steps.Add("      }");
+            steps.Add("    else");
+            steps.Add("      {");
+            steps.Add("         Debugprint: 体积配箍率等于等于0.6% " + this.rule);
+            steps.Add("      }");
             steps.Add("  }");
 
             steps.Add("if (抗震等级[" + this.vrre.AntiSeismicGrade + "].Contains(\"二级\"))");
@@ -101,6 +105,10 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("      {");
             steps.Add("         Err: 体积配箍率不宜小于0.5% " + this.rule);
             steps.Add("      }");
+            steps.Add("    else");
+            steps.Add("      {");
+            steps.Add("         Debugprint: 体积配箍率等于等于0.5% " + this.rule);
+            steps.Add("      }");
             steps.Add("  }");
 
             steps.Add("if (抗震等级[" + this.vrre.AntiSeismicGrade + "].Contains(\"三级\"))");
@@ -108,6 +116,10 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("    if(核芯区体积配箍率[" + this.calVolumnReinforceRatio + "] < 0.004)");
             steps.Add("      {");
             steps.Add("         Err: 体积配箍率不宜小于0.4% " + this.rule);
+            steps.Add("      }");
+            steps.Add("    else");
+            steps.Add("      {");
+            steps.Add("         Debugprint: 体积配箍率等于等于0.4% " + this.rule);
             steps.Add("      }");
             steps.Add("  }");
             return steps;

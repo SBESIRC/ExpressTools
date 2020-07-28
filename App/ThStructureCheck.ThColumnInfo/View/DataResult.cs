@@ -249,7 +249,7 @@ namespace ThColumnInfo.View
                     this.dgvIndicator.Rows[rowIndex].Cells["dblXP"].Value = Math.Round(cdm.DblXP * 100, 3) + "%";
                     this.dgvIndicator.Rows[rowIndex].Cells["dblYP"].Value = Math.Round(cdm.DblYP * 100, 3) + "%";
                     this.dgvIndicator.Rows[rowIndex].Cells["dblP"].Value = Math.Round(cdm.DblP * 100, 3) + "%";
-                    this.dgvIndicator.Rows[rowIndex].Cells["volumeStirrupRatio"].Value = Math.Round(cdm.GetVolumeStirrupRatio(noCV.ProtectLayerThickness), 3) + "%";
+                    this.dgvIndicator.Rows[rowIndex].Cells["volumeStirrupRatio"].Value = Math.Round(cdm.GetVolumeStirrupRatio(noCV.ProtectLayerThickness)*100, 3) + "%";
                     this.dgvIndicator.Rows[rowIndex].Cells["shearSpanRatio"].Value = "";
                 }
                 for(int i=0;i<this.dgvIndicator.Rows.Count;i++)
@@ -430,6 +430,12 @@ namespace ThColumnInfo.View
                 List<ColumnInf> correctColumnInfs = CheckPalette._checkResult.CheckResVM.GetDataCorrectColumnInfs(this.currentNode);
                 foreach (ColumnInf columnInf in correctColumnInfs)
                 {
+                    var res = this.thCalculationValidate.ColumnValidateResultDic.Where(i => i.Key.ModelColumnInfs.Count == 1 &&
+                     i.Key.ModelColumnInfs[0].Code == columnInf.Code && i.Key.ModelColumnInfs[0].Text == columnInf.Text).Select(i => i.Value);
+                    if(res.Count()==0)
+                    {
+                        continue;
+                    }
                     var values = this.thCalculationValidate.ColumnValidateResultDic.Where(i => i.Key.ModelColumnInfs.Count == 1 &&
                     i.Key.ModelColumnInfs[0].Code == columnInf.Code && i.Key.ModelColumnInfs[0].Text == columnInf.Text).Select(i => i.Value).First();
                     if (values == null || values.Count == 0)

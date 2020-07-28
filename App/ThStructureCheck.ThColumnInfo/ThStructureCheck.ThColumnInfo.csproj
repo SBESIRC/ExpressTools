@@ -122,13 +122,16 @@
     <Compile Include="Validate\Model\VolumeReinforceRatioBModel.cs" />
     <Compile Include="Validate\Model\VolumeReinforceRatioAModel.cs" />
     <Compile Include="Validate\Rules\JointCoreReinforceAreaRule.cs" />
-    <Compile Include="Validate\Rules\MaximumReinforcementRatioRule.cs" />
+    <Compile Include="Validate\Rules\MaximumReinforcementRatioBRule.cs" />
+    <Compile Include="Validate\Rules\MaximumReinforcementRatioARule.cs" />
     <Compile Include="Validate\Rules\AngularReinforcementDiaRule.cs" />
     <Compile Include="Validate\Rules\AngularReinforcementNumRule.cs" />
     <Compile Include="Validate\Rules\AxialCompressionRatioRule.cs" />
     <Compile Include="Validate\Rules\LongShortEdgeRatioRule.cs" />
     <Compile Include="Validate\Rules\CompoundStirrupRule.cs" />
     <Compile Include="Validate\Rules\IRule.cs" />
+    <Compile Include="Validate\Rules\MinimumReinforcementRatioDRule.cs" />
+    <Compile Include="Validate\Rules\MinimumReinforcementRatioCRule.cs" />
     <Compile Include="Validate\Rules\SpecConsistRule.cs" />
     <Compile Include="Validate\Rules\SectionTooSmallRule.cs" />
     <Compile Include="Validate\Model\MaximumReinforcementRatioModel.cs" />
@@ -162,6 +165,9 @@
     <Compile Include="Validate\Rules\StirrupMinimumDiameterFRule.cs.cs" />
     <Compile Include="Validate\Rules\StirrupMinimumDiameterERule.cs.cs" />
     <Compile Include="Validate\Rules\StirrupReinforcementAreaRule.cs" />
+    <Compile Include="Validate\Rules\VerDirIronClearSpaceBRule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioGRule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioFRule.cs" />
     <Compile Include="Validate\Rules\VolumeReinforceRatioERule.cs" />
     <Compile Include="Validate\Rules\VolumeReinforceRatioDRule.cs" />
     <Compile Include="Validate\Rules\VolumeReinforceRatioCRule.cs" />
@@ -169,7 +175,7 @@
     <Compile Include="Validate\Rules\VolumeReinforceRatioARule.cs" />
     <Compile Include="Validate\ThConverter.cs" />
     <Compile Include="Validate\Rules\VerDirForceIronDiaRule.cs" />
-    <Compile Include="Validate\Rules\VerDirIronClearSpaceRule.cs" />
+    <Compile Include="Validate\Rules\VerDirIronClearSpaceARule.cs" />
     <Compile Include="Tools\BaseFunction.cs" />
     <Compile Include="ColumnDrawRule.cs" />
     <Compile Include="Business\ExtractBase.cs" />

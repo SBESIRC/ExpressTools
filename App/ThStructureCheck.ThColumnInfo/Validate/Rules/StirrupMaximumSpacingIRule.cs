@@ -40,6 +40,7 @@ namespace ThColumnInfo.Validate.Rules
             List<string> steps = new List<string>();
             steps.Add("类别：箍筋最大间距（箍筋）");
             steps.Add("强制性：宜，适用构件：ZHZ");
+            steps.Add("条文编号：《高规》10.2.11-8");
             steps.Add("条文：转换柱、非抗震时、箍筋间距不宜大于150mm");
             steps.Add("柱号 = " + this.smsg.Text);
             double value1 = this.smsg.Cdm.IntStirrupSpacing;

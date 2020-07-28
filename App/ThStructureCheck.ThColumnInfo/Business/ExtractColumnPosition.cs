@@ -332,7 +332,7 @@ namespace ThColumnInfo
                 findDbTextIds = psr.Value.GetObjectIds().ToList();
             }
             List<DBText> dBTexts = findDbTextIds.Select(j => ThColumnInfoDbUtils.GetEntity(Application.DocumentManager.MdiActiveDocument.Database, j) as DBText).ToList();
-            List<DBText> findCodeRes = findCodeRes = dBTexts.Where(j => BaseFunction.IsColumnCode(j.TextString)).Select(j => j).ToList();
+            List<DBText> findCodeRes = dBTexts.Where(j => BaseFunction.IsColumnCode(j.TextString)).Select(j => j).ToList();
             for (int i = 0; i < dBTexts.Count; i++)
             {
                 if (string.IsNullOrEmpty(dBTexts[i].TextString))
@@ -491,12 +491,12 @@ namespace ThColumnInfo
         private List<DBText> GetMarkTexts(Curve leaderLine,Point3d pt)
         {
             List<DBText> findTexts = new List<DBText>();
-            double searchRecLength = 1.5 * this.textSize;
+            double searchRecLength = 2.0 * this.textSize;
             Point3d recCenPt = pt.TransformBy(doc.Editor.CurrentUserCoordinateSystem.Inverse());
-            Point3d recPt1 = recCenPt + new Vector3d(searchRecLength / 2.0, searchRecLength / 2.0, 0.0);
-            Point3d recPt2 = recCenPt + new Vector3d(-searchRecLength / 2.0, searchRecLength / 2.0, 0.0);
-            Point3d recPt3 = recCenPt + new Vector3d(-searchRecLength / 2.0, -searchRecLength / 2.0, 0.0);
-            Point3d recPt4 = recCenPt + new Vector3d(searchRecLength / 2.0, -searchRecLength / 2.0, 0.0);
+            Point3d recPt1 = recCenPt + new Vector3d(searchRecLength, searchRecLength, 0.0);
+            Point3d recPt2 = recCenPt + new Vector3d(-searchRecLength, searchRecLength, 0.0);
+            Point3d recPt3 = recCenPt + new Vector3d(-searchRecLength, -searchRecLength, 0.0);
+            Point3d recPt4 = recCenPt + new Vector3d(searchRecLength, -searchRecLength, 0.0);
             Point3dCollection recPts = new Point3dCollection();
             recPts.Add(recPt1);
             recPts.Add(recPt2);

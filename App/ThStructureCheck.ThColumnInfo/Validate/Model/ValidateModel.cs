@@ -71,5 +71,21 @@ namespace ThColumnInfo.Validate.Model
                 return null;
             }
         }
+        /// <summary>
+        /// 是否转换柱
+        /// </summary>
+        /// <returns></returns>
+        public bool IsZHZ()
+        {
+            if(!string.IsNullOrEmpty(this.Code))
+            {
+                int index = this.Code.ToUpper().IndexOf("ZHZ");
+                if(index==0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

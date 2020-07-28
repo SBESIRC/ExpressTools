@@ -4,10 +4,10 @@ using ThColumnInfo.Validate.Model;
 
 namespace ThColumnInfo.Validate.Rules
 {
-    public class VerDirIronClearSpaceRule : IRule
+    public class VerDirIronClearSpaceBRule : IRule
     {
         private VerDirIronClearSpaceModel ruleModel;
-        public VerDirIronClearSpaceRule(VerDirIronClearSpaceModel ruleModel)
+        public VerDirIronClearSpaceBRule(VerDirIronClearSpaceModel ruleModel)
         {
             this.ruleModel = ruleModel;
         }
@@ -16,7 +16,8 @@ namespace ThColumnInfo.Validate.Rules
 
         private double dblXBarspacing;
         private double dblYBarspacing;
-        private string rule = "（《砼规》9.3.1-2）";
+        private string rule = "（《高规》10.2.11-7）";
+        private bool isValid = true;
         public void Validate()
         {
             if(ruleModel==null || !ruleModel.ValidateProperty())
@@ -33,8 +34,7 @@ namespace ThColumnInfo.Validate.Rules
             double maxValue = Math.Max(dblXBarspacing, dblYBarspacing);
             if(this.ruleModel.Code.ToUpper().Contains("ZHZ"))
             {
-                this.rule = "高规 10.2.11-7";
-                bool isValid = true;
+                this.rule = "";
                 if(minValue < 80)
                 {
                     isValid = false;
@@ -45,21 +45,20 @@ namespace ThColumnInfo.Validate.Rules
                     if(this.ruleModel.AntiSeismicGrade.Contains("一级") ||
                         this.ruleModel.AntiSeismicGrade.Contains("二级") ||
                          this.ruleModel.AntiSeismicGrade.Contains("三级") ||
-                         this.ruleModel.AntiSeismicGrade.Contains("四级") &&
-                         !this.ruleModel.AntiSeismicGrade.Contains("特"))
+                         this.ruleModel.AntiSeismicGrade.Contains("四级"))
                     {
                         if(maxValue>200)
                         {
                             isValid = false;
-                            ValidateResults.Add("纵向钢筋净间距过大 [" + maxValue + " > 200]，" + this.rule);
+                            ValidateResults.Add("纵向钢筋净间距大于200mm [" + maxValue + " > 200]，" + this.rule);
                         }
                     }
-                    else if(this.ruleModel.AntiSeismicGrade.Contains("非抗震"))
+                    else if(this.ruleModel.AntiSeismicGrade.Contains("非"))
                     {
                         if (maxValue > 250)
                         {
                             isValid = false;
-                            ValidateResults.Add("纵向钢筋净间距过大 [" + maxValue + " > 250]，" + this.rule);
+                            ValidateResults.Add("纵向钢筋净间距大于250mm [" + maxValue + " > 250]，" + this.rule);
                         }
                     }
                 }
@@ -70,27 +69,16 @@ namespace ThColumnInfo.Validate.Rules
             }
             else
             {
-                if (minValue < 50)  //柱中纵向钢筋的净间距不应小于50mm
-                {
-                    ValidateResults.Add("纵向钢筋净间距不足 [" + minValue + " < 50]，" + this.rule);
-                }
-                else if (maxValue > 300) //且不宜大于300mm
-                {
-                    ValidateResults.Add("纵向钢筋净间距过大 [" + maxValue + " > 300]，" + this.rule);
-                }
-                else
-                {
-                    CorrectResults.Add("纵向钢筋净间距Ok" + this.rule);
-                }
+                this.isValid = false; //不是ZHZ,不要检测
             }
         }
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
             steps.Add("类别：纵筋净间距（侧面纵筋）");
-            steps.Add("条目编号：43， 强制性：宜，适用构件：LZ、KZ、ZHZ");
-            steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 9.3.1-2，条文页数：P123");
-            steps.Add("条文：柱中纵向钢筋的净间距不应小于50mm ，且不宜大于300mm");
+            steps.Add("强制性：应、宜，适用构件：ZHZ");
+            steps.Add("条文编号：《高规》10.2.11-7");
+            steps.Add("条文：转换柱、纵筋净间距不应小于80mm，抗震时不宜大于200mm，非抗震时不宜大于250mm");
             steps.Add("柱号 = " + this.ruleModel.Text);
             steps.Add("dblXBarspacing=(B[" + ruleModel.Cdm.B + "]- 2 * (保护层厚度[" + ruleModel.ProtectLayerThickness + "] + IntCBarDia[" +
                 ruleModel.Cdm.IntCBarDia + "] +IntStirrupDia[" + ruleModel.Cdm.IntStirrupDia + "]) - IntXBarCount[" +
@@ -107,39 +95,32 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("        }");
             steps.Add("     else ");
             steps.Add("        {");
-            steps.Add("         if( 抗震等级[)" + this.ruleModel.AntiSeismicGrade + "].Contains(\"一级\") || " +
-                "抗震等级[)" + this.ruleModel.AntiSeismicGrade + "].Contains(\"二级\") || " +
-                "抗震等级[)" + this.ruleModel.AntiSeismicGrade + "].Contains(\"三级\") || " +
-                "抗震等级[)" + this.ruleModel.AntiSeismicGrade + "].Contains(\"四级\"))");
+            steps.Add("         if( 抗震等级[" + this.ruleModel.AntiSeismicGrade + "].Contains(\"一级\") || " +
+                "抗震等级[" + this.ruleModel.AntiSeismicGrade + "].Contains(\"二级\") || " +
+                "抗震等级[" + this.ruleModel.AntiSeismicGrade + "].Contains(\"三级\") || " +
+                "抗震等级[" + this.ruleModel.AntiSeismicGrade + "].Contains(\"四级\"))");
             steps.Add("          {");
             steps.Add("               if(Math.Max(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) > 200)");
             steps.Add("                 {");
-            steps.Add("                     Err: 纵向钢筋净间距过大 "+this.rule);
+            steps.Add("                     Err: 纵向钢筋净间距大于200mm " + this.rule);
+            steps.Add("                 }");
+            steps.Add("               else");
+            steps.Add("                 {");
+            steps.Add("                     Debugprint: 纵向钢筋净间距Ok " + this.rule);
             steps.Add("                 }");
             steps.Add("           }");
-            steps.Add("         else if( 抗震等级[)" + this.ruleModel.AntiSeismicGrade + "].Contains(\"非抗震\")");
+            steps.Add("         else if( 抗震等级[" + this.ruleModel.AntiSeismicGrade + "].Contains(\"非抗震\")");
             steps.Add("           {");
-            steps.Add("               if(Math.Max(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) > 300)");
+            steps.Add("               if(Math.Max(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) > 250)");
             steps.Add("                 {");
-            steps.Add("                     Err: 纵向钢筋净间距过大 " + this.rule);
+            steps.Add("                     Err: 纵向钢筋净间距大于250mm " + this.rule);
+            steps.Add("                 }");
+            steps.Add("               else");
+            steps.Add("                 {");
+            steps.Add("                     Debugprint: 纵向钢筋净间距Ok " + this.rule);
             steps.Add("                 }");
             steps.Add("           }");
             steps.Add("        }");
-            steps.Add("   }");
-            steps.Add("else");
-            steps.Add("   {");
-            steps.Add("     if (Math.Min(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) < 50)");
-            steps.Add("       {");
-            steps.Add("           Err: 纵向钢筋净间距不足 （《砼规》9.3.1-2）");
-            steps.Add("       }");
-            steps.Add("     else if(Math.Max(dblXBarspacing[" + this.dblXBarspacing + "],dblYBarspacing[" + this.dblYBarspacing + "]) > 300)");
-            steps.Add("       {");
-            steps.Add("           Err: 纵向钢筋净间距过大（《砼规》9.3.1-2）");
-            steps.Add("       }");
-            steps.Add("     else");
-            steps.Add("       {");
-            steps.Add("           Debugprint: 纵向钢筋净间距Ok （《砼规》9.3.1-2）");
-            steps.Add("       }");
             steps.Add("   }");
             steps.Add("");
             return steps;

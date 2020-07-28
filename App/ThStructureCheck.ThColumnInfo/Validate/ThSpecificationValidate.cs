@@ -280,10 +280,14 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildLongLessThanShortTripleRule());        // 长短边比值(截面)
             validateRules.Add(BuildAngularReinforcementNumRule());        // 角筋根数(角筋)
             validateRules.Add(BuildVerDirForceIronRule());                // 纵向钢筋直径最小值(侧面纵筋)
-            validateRules.Add(BuildAllVdIrBigThanFpmRule());              // 最大配筋率(侧面纵筋)
-            validateRules.Add(BuildVerDirIronClearSpaceRule());           // 纵筋净间距(侧面纵筋)
+            validateRules.Add(BuildMaximumReinforcementRatioARule());     // 最大配筋率(侧面纵筋)
+            validateRules.Add(BuildMaximumReinforcementRatioBRule());     // 最大配筋率(侧面纵筋)
+            validateRules.Add(BuildVerDirIronClearSpaceARule());           // 纵筋净间距(侧面纵筋)
+            validateRules.Add(BuildVerDirIronClearSpaceBRule());           // 纵筋净间距(侧面纵筋)
             validateRules.Add(BuildMinimumReinforceRatioARule());         // 最小配筋率A(侧面纵筋,全部纵筋)
+            validateRules.Add(BuildMinimumReinforceRatioCRule());         // 最小配筋率 (侧面纵筋,全部纵筋)
             validateRules.Add(BuildMinimumReinforceRatioBRule());         // 最小配筋率B(侧面纵筋,全部纵筋)
+            validateRules.Add(BuildMinimumReinforceRatioDRule());         // 最小配筋率 (侧面纵筋,全部纵筋)
             validateRules.Add(BuildStirrupLimbSpaceRule());               // 箍筋肢距(箍筋)
             validateRules.Add(BuildStirrupMinimumDiameterARule());        // 箍筋最小直径A(箍筋)
             validateRules.Add(BuildStirrupMinimumDiameterBRule());        // 箍筋最小直径B(箍筋)
@@ -303,7 +307,12 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildStirrupMaximumSpaceFRule());           // 箍筋最大间距F(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingHRule());         // 箍筋最大间距H(箍筋)
             validateRules.Add(BuildStirrupMaximumSpaceJRule());           // 箍筋最大间距J(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpaceKRule());           // 箍筋最大间距K(箍筋) 
             validateRules.Add(BuildVolumeReinforceRatioARule());          // 体积配箍率A(箍筋)
+            validateRules.Add(BuildVolumeReinforceRatioGRule());          // 体积配箍率G(箍筋)
+            validateRules.Add(BuildVolumeReinforceRatioDRule());          // 体积配箍率D(箍筋)
+            validateRules.Add(BuildVolumeReinforceRatioERule());          // 体积配箍率E(箍筋)
+            validateRules.Add(BuildVolumeReinforceRatioFRule());          // 体积配箍率F(箍筋)
             for (int i = 0; i < this.validateRules.Count; i++)
             {
                 if (this.validateRules[i] == null)
@@ -384,7 +393,7 @@ namespace ThColumnInfo.Validate
         /// 最大配筋率(侧面纵筋)
         /// </summary>
         /// <returns></returns>
-        private IRule BuildAllVdIrBigThanFpmRule()
+        private IRule BuildMaximumReinforcementRatioARule()
         {
             MaximumReinforcementRatioModel mrrm = new MaximumReinforcementRatioModel
             {
@@ -393,14 +402,26 @@ namespace ThColumnInfo.Validate
                 AntiSeismicGrade = this.antiSeismicGrade,
                 Cdm =this.cdm
             };
-            IRule rule = new MaximumReinforcementRatioRule(mrrm);
+            IRule rule = new MaximumReinforcementRatioARule(mrrm);
+            return rule;
+        }
+        private IRule BuildMaximumReinforcementRatioBRule()
+        {
+            MaximumReinforcementRatioModel mrrm = new MaximumReinforcementRatioModel
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                Cdm = this.cdm
+            };
+            IRule rule = new MaximumReinforcementRatioBRule(mrrm);
             return rule;
         }
         /// <summary>
         /// 纵筋净间距(侧面纵筋)
         /// </summary>
         /// <returns></returns>
-        private IRule BuildVerDirIronClearSpaceRule()
+        private IRule BuildVerDirIronClearSpaceARule()
         {
             VerDirIronClearSpaceModel vdiCSM= new VerDirIronClearSpaceModel
             {
@@ -410,7 +431,20 @@ namespace ThColumnInfo.Validate
                 Cdm=this.cdm,
                 AntiSeismicGrade=this.antiSeismicGrade
             };
-            IRule rule = new VerDirIronClearSpaceRule(vdiCSM);
+            IRule rule = new VerDirIronClearSpaceARule(vdiCSM);
+            return rule;
+        }
+        private IRule BuildVerDirIronClearSpaceBRule()
+        {
+            VerDirIronClearSpaceModel vdiCSM = new VerDirIronClearSpaceModel
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                ProtectLayerThickness = this.protectLayerThickness,
+                Cdm = this.cdm,
+                AntiSeismicGrade = this.antiSeismicGrade
+            };
+            IRule rule = new VerDirIronClearSpaceBRule(vdiCSM);
             return rule;
         }
         /// <summary>
@@ -428,6 +462,19 @@ namespace ThColumnInfo.Validate
                 Cdm=cdm
             };
             IRule rule = new MinimumReinforcementRatioARule(mrrm);
+            return rule;
+        }
+        private IRule BuildMinimumReinforceRatioCRule()
+        {
+            MinimumReinforceRatioAModel mrrm = new MinimumReinforceRatioAModel
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                ConcreteStrength = this.concreteStrength,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                Cdm = cdm
+            };
+            IRule rule = new MinimumReinforcementRatioCRule(mrrm);
             return rule;
         }
         /// <summary>
@@ -448,6 +495,22 @@ namespace ThColumnInfo.Validate
                 IsFourClassHigherArchitecture= ThSpecificationValidate.paraSetInfo.IsFourClassHigherArchitecture
             };
             IRule rule = new MinimumReinforcementRatioBRule(mrrm);
+            return rule;
+        }
+        private IRule BuildMinimumReinforceRatioDRule()
+        {
+            MinimumReinforceRatioBModel mrrm = new MinimumReinforceRatioBModel
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                ConcreteStrength = this.concreteStrength,
+                StructureType = this.structureType,
+                IsCornerColumn = this.cornerColumn,
+                Cdm = cdm,
+                IsFourClassHigherArchitecture = ThSpecificationValidate.paraSetInfo.IsFourClassHigherArchitecture
+            };
+            IRule rule = new MinimumReinforcementRatioDRule(mrrm);
             return rule;
         }
         /// <summary>
@@ -758,6 +821,19 @@ namespace ThColumnInfo.Validate
             rule = new StirrupMaximumSpacingJRule(smsj);
             return rule;
         }
+        private IRule BuildStirrupMaximumSpaceKRule()
+        {
+            StirrupMaximumSpacingKModel smsj = new StirrupMaximumSpacingKModel()
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                Cdm = this.cdm,
+                IsCornerColumn = this.cornerColumn,
+                AntiSeismicGrade = this.antiSeismicGrade
+            };
+            IRule rule = new StirrupMaximumSpacingKRule(smsj);
+            return rule;
+        }
         /// <summary>
         /// 体积配箍率A(箍筋)
         /// </summary>
@@ -773,6 +849,71 @@ namespace ThColumnInfo.Validate
                 ProtectLayerThickness = this.protectLayerThickness
             };
             IRule rule = new VolumeReinforceRatioARule(vrra);
+            return rule;
+        }
+        private IRule BuildVolumeReinforceRatioGRule()
+        {
+            VolumeReinforceRatioAModel vrra = new VolumeReinforceRatioAModel()
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                Cdm = this.cdm,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                ProtectLayerThickness = this.protectLayerThickness
+            };
+            IRule rule = new VolumeReinforceRatioGRule(vrra);
+            return rule;
+        }
+        /// <summary>
+        /// 体积配箍率D(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildVolumeReinforceRatioDRule()
+        {
+            VolumeReinforceRatioAModel vrra = new VolumeReinforceRatioAModel()
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                Cdm = this.cdm,
+                ProtectLayerThickness = this.protectLayerThickness
+            };
+            IRule rule = new VolumeReinforceRatioDRule(vrra);
+            return rule;
+        }
+        /// <summary>
+        /// 体积配箍率E(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildVolumeReinforceRatioERule()
+        {
+            VolumeReinforceRatioEModel vrre = new VolumeReinforceRatioEModel()
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                Cdm = this.cdm,
+                ProtectLayerThickness = this.protectLayerThickness,
+                JointCorehooping = this.columnInf.JointCorehooping
+            };
+            IRule rule = new VolumeReinforceRatioERule(vrre);
+            return rule;
+        }
+        /// <summary>
+        /// 体积配箍率 (箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildVolumeReinforceRatioFRule()
+        {
+            VolumeReinforceRatioAModel vrra = new VolumeReinforceRatioAModel()
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                Cdm = this.cdm,
+                ProtectLayerThickness = this.protectLayerThickness
+            };
+            IRule rule = new VolumeReinforceRatioFRule(vrra);
             return rule;
         }
     }

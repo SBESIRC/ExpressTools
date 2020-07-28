@@ -135,14 +135,30 @@ namespace ThColumnInfo
             if(string.IsNullOrEmpty(this.JointCoreHoop) &&
                !string.IsNullOrEmpty(this.HoopReinforcement))
             {
-                if(this.HoopReinforcement.IndexOf("/")>=0)
+                string jointCoreContent =  new ColumnTableRecordInfo().ExtractJointCoreHooping(this.HoopReinforcement);
+                jointCoreContent=Replace132(jointCoreContent);
+                if(!string.IsNullOrEmpty(jointCoreContent))
                 {
-                    this.JointCoreHoop = this.HoopReinforcement.Substring(0, this.HoopReinforcement.IndexOf("/"));
+                    if (jointCoreContent.IndexOf("/") >= 0)
+                    {
+                        this.JointCoreHoop = jointCoreContent.Substring(0, jointCoreContent.IndexOf("/"));
+                    }
+                    else
+                    {
+                        this.JointCoreHoop = jointCoreContent;
+                    }
                 }
                 else
                 {
-                    this.JointCoreHoop = this.HoopReinforcement;
-                }
+                    if (this.HoopReinforcement.IndexOf("/") >= 0)
+                    {
+                        this.JointCoreHoop = this.HoopReinforcement.Substring(0, this.HoopReinforcement.IndexOf("/"));
+                    }
+                    else
+                    {
+                        this.JointCoreHoop = this.HoopReinforcement;
+                    }
+                }                
             }
         }
         /// <summary>
@@ -341,8 +357,20 @@ namespace ThColumnInfo
         public string ExtractJointCoreHooping(string jointCoreHooping)
         {
             string jointCoreHoopingValue = "";
+            if(jointCoreHooping.IndexOf("(")>=0 || jointCoreHooping.IndexOf("（") >= 0)
+            {
+                if(jointCoreHooping.IndexOf("(") >= 0)
+                {
+                    jointCoreHoopingValue = jointCoreHooping.Substring(jointCoreHooping.IndexOf("("));
+                }
+                if (jointCoreHooping.IndexOf("（") >= 0)
+                {
+                    jointCoreHoopingValue = jointCoreHooping.Substring(jointCoreHooping.IndexOf("（"));
+                }
+            }
+            jointCoreHoopingValue = Replace132(jointCoreHoopingValue);
             string pattern = "\\s{0,}\\d+\\s{0,}[@]{1}\\s{0,}\\d+\\s{0,}";
-            var mc = Regex.Matches(jointCoreHooping, pattern);
+            var mc = Regex.Matches(jointCoreHoopingValue, pattern);
             foreach (Match item in mc)
             {
                 jointCoreHoopingValue = item.Groups[0].Value;

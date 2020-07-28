@@ -29,7 +29,7 @@ namespace ThColumnInfo.Validate.Rules
                 }
                 else
                 {
-                    this.CorrectResults.Add("箍筋最小直径不小于10" + this.rule);
+                    this.CorrectResults.Add("箍筋最小直径不宜小于10" + this.rule);
                 }
             }
         }

@@ -76,7 +76,7 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("类别：箍筋肢距（箍筋）");
             steps.Add("条目编号：51， 强制性：应，适用构件：KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 11.4.15，条文页数：P123");
-            steps.Add("条文：柱箍筋加密区内的箍筋肢距：一级抗震等级不宜大于200mm ；二、兰级抗震等级不宜大于250mm 和20 倍箍筋直径中的较大值；四级抗震等级不宜大于300mm。");
+            steps.Add("条文：柱箍筋加密区内的箍筋肢距：一级抗震等级不宜大于200mm ；二、三级抗震等级不宜大于250mm 和20 倍箍筋直径中的较大值；四级抗震等级不宜大于300mm。");
             steps.Add("柱号 = " + this.stirrupLimbSpaceModel.Text);
             steps.Add("dblXSpace = (B["+ stirrupLimbSpaceModel.Cdm.B+"] - 2 * 保护层厚度["+ stirrupLimbSpaceModel.ProtectLayerThickness+
                 "] - IntStirrupDia[" + stirrupLimbSpaceModel.Cdm.IntStirrupDia +"]) / (IntYStirrupCount[" + 

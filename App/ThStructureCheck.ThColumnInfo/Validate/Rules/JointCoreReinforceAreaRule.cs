@@ -9,7 +9,6 @@ namespace ThColumnInfo.Validate.Rules
     {
         private JointCoreReinforceModel jcrm = null;
         private double jointCoreReinforceArea = 0.0;
-        private string rule = "配筋规则";
         public JointCoreReinforceAreaRule(JointCoreReinforceModel jcrm)
         {
             this.jcrm = jcrm;
@@ -26,11 +25,11 @@ namespace ThColumnInfo.Validate.Rules
             this.jointCoreReinforceArea = GetJointCoreReinArea();
             if(this.jointCoreReinforceArea< jcrm.CoreJointReinforceArea)
             {
-                this.ValidateResults.Add("实配钢筋应满足计算值 "+this.rule);
+                this.ValidateResults.Add("节点核心区配筋面积应满足计算值");
             }
             else
             {
-                this.CorrectResults.Add("节点核心区配筋面积满足计算值 "+ this.rule);
+                this.CorrectResults.Add("节点核心区配筋面积满足计算要求"); 
             }
         }
         private double GetJointCoreReinArea()
@@ -62,11 +61,11 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("if (节点核心区配筋面积[" + this.jointCoreReinforceArea + 
                 "] < "+this.jcrm.CoreJointReinforceArea+")");
             steps.Add("  {");
-            steps.Add("    Err: 实配钢筋应满足计算值 "+this.rule);
+            steps.Add("    Err: 节点核心区配筋面积应满足计算值");
             steps.Add("  }");
             steps.Add("else ");
             steps.Add("  {");
-            steps.Add("    Debug: 节点核心区配筋面积满足计算值 " + this.rule);
+            steps.Add("    Debug: 节点核心区配筋面积满足计算要求");
             steps.Add("  }");
             steps.Add("");
             return steps;

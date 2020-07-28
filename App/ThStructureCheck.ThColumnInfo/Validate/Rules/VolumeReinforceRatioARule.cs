@@ -39,7 +39,7 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("类别：体积配箍率A（箍筋）");
             steps.Add("条目编号：46， 强制性：应，适用构件：KZ、ZHZ");
             steps.Add("适用功能：图纸校核，条文编号：11.4.17-2，条文页数：P179");
-            steps.Add("条文：对一、二、兰、四级抗震等级的柱，其箍筋加密区的箍筋体积配筋率分别不应小于0.8% 、" +
+            steps.Add("条文：对一、二、三、四级抗震等级的柱，其箍筋加密区的箍筋体积配筋率分别不应小于0.8% 、" +
                 "0. 6% 、0. 4%和0.4%;框支柱宜采用复合螺旋箍或井宇复合箍，其最小配箍特征值应按表11. 4. 17 中的数值增加0.02 采用，且体积配筋率不应小于1. 5%;");
             steps.Add("柱号 = " + this.vrra.Text);
             steps.Add("intXStirrupCount= " + (int)this.vrra.Cdm.IntXStirrupCount);
