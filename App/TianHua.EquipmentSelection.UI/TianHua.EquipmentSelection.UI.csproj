@@ -125,6 +125,7 @@
     <Compile Include="ThFanSelectionDbExtension.cs" />
     <Compile Include="ThFanSelectionDbManager.cs" />
     <Compile Include="ThFanSelectionDynBlockUtils.cs" />
+    <Compile Include="ThFanSelectionEditorExtension.cs" />
     <Compile Include="ThFanSelectionEngine.cs" />
     <Compile Include="ThFanSelectionGeExtension.cs" />
     <Compile Include="ThFanSelectionTypeSelect.cs" />

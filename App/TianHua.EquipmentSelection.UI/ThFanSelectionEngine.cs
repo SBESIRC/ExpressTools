@@ -109,20 +109,20 @@ namespace TianHua.FanSelection.UI
                     {
                         // 找到第一个比当前编号大的图块
                         CurrentModelNumber = models[0].ObjectId.GetModelNumber();
-                        ViewTableTools.ZoomObject(Active.Editor, models[0].ObjectId);
+                        Active.Editor.ZoomToModel(models[0].ObjectId, 3);
                     }
                     else
                     {
                         // 未找到一个比当前编号大的图块，回到第一个图块
                         CurrentModelNumber = blockReferences.First().ObjectId.GetModelNumber();
-                        ViewTableTools.ZoomObject(Active.Editor, blockReferences.First().ObjectId);
+                        Active.Editor.ZoomToModel(blockReferences.First().ObjectId, 3);
                     }
                 }
                 else
                 {
                     CurrentModel = dataModel.ID;
                     CurrentModelNumber = blockReferences.First().ObjectId.GetModelNumber();
-                    ViewTableTools.ZoomObject(Active.Editor, blockReferences.First().ObjectId);
+                    Active.Editor.ZoomToModel(blockReferences.First().ObjectId, 3);
                 }
             }
         }
