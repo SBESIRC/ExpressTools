@@ -33,7 +33,7 @@ namespace TianHua.FanSelection.UI
                     Vector3d delta = new Vector3d(deltaX, 0.0, 0.0);
                     Matrix3d displacement = Matrix3d.Displacement(pr.Value.GetAsVector() + delta);
                     var model = acadDatabase.ModelSpace.Add(blockRef.GetTransformedCopy(displacement));
-                    model.SetModelIdentifier(dataModel.ID, dataModel.ListVentQuan[i]);
+                    model.SetModelIdentifier(dataModel.ID, dataModel.ListVentQuan[i], dataModel.VentStyle);
                     model.SetModelNumber(dataModel.InstallFloor, dataModel.ListVentQuan[i].ToString());
                     UpdateModelName(model, dataModel);
                 }

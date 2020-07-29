@@ -7,6 +7,7 @@ using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
+using System.Text;
 
 namespace TianHua.FanSelection.UI
 {
@@ -44,12 +45,13 @@ namespace TianHua.FanSelection.UI
             });
         }
 
-        public static void SetModelIdentifier(this ObjectId obj, string identifier, int number)
+        public static void SetModelIdentifier(this ObjectId obj, string identifier, int number, string style)
         {
             TypedValueList valueList = new TypedValueList
             {
                 { (int)DxfCode.ExtendedDataAsciiString, identifier },
-                { (int)DxfCode.ExtendedDataInteger32, number }
+                { (int)DxfCode.ExtendedDataInteger32, number },
+                { (int)DxfCode.ExtendedDataBinaryChunk,  Encoding.UTF8.GetBytes(style) },
             };
             obj.AddXData(ThFanSelectionCommon.RegAppName_FanSelection, valueList);
         }
@@ -88,6 +90,23 @@ namespace TianHua.FanSelection.UI
             }
         }
 
+        public static string GetModelName(this ObjectId obj)
+        {
+            var dynamicProperties = obj.GetDynProperties();
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY))
+            {
+                return dynamicProperties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY) as string;
+            }
+            else if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY2))
+            {
+                return dynamicProperties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY2) as string;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+
         public static string HTFCModelName(this ObjectId obj, string modelNumber, string form)
         {
             var blockReference = new ThFSBlockReference(obj);
@@ -116,6 +135,18 @@ namespace TianHua.FanSelection.UI
             {
                 throw new ArgumentException();
             }
+        }
+
+        public static string GetModelStyle(this ObjectId obj)
+        {
+            var valueList = obj.GetXData(ThFanSelectionCommon.RegAppName_FanSelection);
+            if (valueList == null)
+            {
+                return string.Empty;
+            }
+
+            var values = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataBinaryChunk).First();
+            return Encoding.UTF8.GetString(values.Value as byte[]);
         }
 
         public static int GetModelNumber(this ObjectId obj)

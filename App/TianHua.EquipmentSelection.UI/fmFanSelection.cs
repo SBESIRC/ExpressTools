@@ -1539,6 +1539,13 @@ namespace TianHua.FanSelection.UI
                     var models = dbManager.GetModels(_FanDataModel.ID);
                     var blockReference = new ThFSBlockReference(models[0]);
                     var attributes = new Dictionary<string, string>(blockReference.Attributes);
+                    if (models[0].GetModelStyle() != _FanDataModel.VentStyle)
+                    {
+                        ThFanSelectionEngine.RemoveModels(_FanDataModel);
+                        ThFanSelectionEngine.InsertModels(_FanDataModel);
+                        return;
+                    }
+
                     if (_FanDataModel.IsModified(attributes))
                     {
                         // 场景3.1：图块参数变化
