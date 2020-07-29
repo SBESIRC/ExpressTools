@@ -82,7 +82,7 @@ namespace TianHua.FanSelection.UI
 
         private static void UpdateModelName(ObjectId model, FanDataModel dataModel)
         {
-            if (dataModel.VentStyle.Contains(ThFanSelectionCommon.AXIAL_BLOCK_NAME))
+            if (dataModel.VentStyle.Contains(ThFanSelectionCommon.AXIAL_TYPE_NAME))
             {
                 model.SetModelName(model.AXIALModelName(dataModel.FanModelName));
             }

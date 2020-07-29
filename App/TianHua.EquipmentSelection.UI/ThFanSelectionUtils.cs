@@ -15,7 +15,7 @@ namespace TianHua.FanSelection.UI
             {
                 return ThFanSelectionCommon.HTFC_BLOCK_NAME;
             }
-            else if (style.Contains(ThFanSelectionCommon.AXIAL_BLOCK_NAME))
+            else if (style.Contains(ThFanSelectionCommon.AXIAL_TYPE_NAME))
             {
                 return ThFanSelectionCommon.AXIAL_BLOCK_NAME;
             }
