@@ -36,6 +36,14 @@ namespace TianHua.FanSelection.UI
             }
         }
 
+        public static void SetModelNumber(this ObjectId obj, string storey, string number)
+        {
+            obj.UpdateAttributesInBlock(new Dictionary<string, string>()
+            {
+                { ThFanSelectionCommon.BLOCK_ATTRIBUTE_STOREY_AND_NUMBER, ThFanSelectionUtils.StoreyNumber(storey, number) }
+            });
+        }
+
         public static void SetModelIdentifier(this ObjectId obj, string identifier, int number)
         {
             TypedValueList valueList = new TypedValueList

@@ -34,6 +34,7 @@ namespace TianHua.FanSelection.UI
                     Matrix3d displacement = Matrix3d.Displacement(pr.Value.GetAsVector() + delta);
                     var model = acadDatabase.ModelSpace.Add(blockRef.GetTransformedCopy(displacement));
                     model.SetModelIdentifier(dataModel.ID, dataModel.ListVentQuan[i]);
+                    model.SetModelNumber(dataModel.InstallFloor, dataModel.ListVentQuan[i].ToString());
                     UpdateModelName(model, dataModel);
                 }
 

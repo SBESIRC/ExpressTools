@@ -13,9 +13,6 @@ namespace TianHua.FanSelection.UI
                 // 设备符号
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_EQUIPMENT_SYMBOL] = ThFanSelectionUtils.Symbol(model.Scenario, model.InstallSpace),
 
-                // 楼层-编号
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_STOREY_AND_NUMBER] = ThFanSelectionUtils.StoreyNumber(model.InstallFloor, model.VentNum),
-
                 // 风机功能
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_USAGE] = model.Name,
 
