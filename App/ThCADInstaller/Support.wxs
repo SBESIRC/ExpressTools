@@ -57,6 +57,15 @@
           <Component Id="CMP_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan_Parameter" Guid="{6D973CE6-05A1-4C4D-B439-7E71AE88D0EF}" Win64="yes">
             <File Id="FILE_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan_Parameter" Source="$(var.AutoloaderContentsPath)\Support\轴流风机参数.json" KeyPath="yes" />
           </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Efficiency" Guid="{7776A5E4-3418-4D7F-B73F-63A172A02641}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Efficiency" Source="$(var.AutoloaderContentsPath)\Support\离心风机效率.json" KeyPath="yes" />
+          </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan_Efficiency" Guid="{2FBF488C-1266-4637-A98E-45C59F507205}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan_Efficiency" Source="$(var.AutoloaderContentsPath)\Support\轴流风机效率.json" KeyPath="yes" />
+          </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Support_Equipment_Motor_Power" Guid="{B87DC7C6-2B71-4BB8-8F0C-B13D82D7C557}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Support_Equipment_Motor_Power" Source="$(var.AutoloaderContentsPath)\Support\电机功率.json" KeyPath="yes" />
+          </Component>
       </DirectoryRef>
         <DirectoryRef Id="DIR_Autoloader_Contents_Support_DesignData">
           <Component Id="CMP_Autoloader_PackageContents_Support_DesignData_FanCalc" Guid="{35F09808-BBF0-487A-981C-7235355DC1BD}" Win64="yes">
@@ -89,6 +98,9 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Parameter" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan_Parameter" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Efficiency" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan_Efficiency" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_Motor_Power" />
         </ComponentGroup>
     </Fragment>
 </Wix>

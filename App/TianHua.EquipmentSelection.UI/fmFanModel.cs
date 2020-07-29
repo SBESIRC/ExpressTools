@@ -1,15 +1,12 @@
-﻿using DevExpress.XtraEditors;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Data;
+using System.Drawing;
+using DevExpress.XtraEditors;
 using TianHua.Publics.BaseCode;
+using System.Collections.Generic;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace TianHua.FanSelection.UI
 {
@@ -41,14 +38,14 @@ namespace TianHua.FanSelection.UI
 
         public void InitData()
         {
-            var _JsonFanEfficiency = ReadTxt(System.Environment.CurrentDirectory + @"\FanEfficiency.json");
+            var _JsonFanEfficiency = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), ThFanSelectionCommon.HTFC_Efficiency));
             m_ListFanEfficiency = FuncJson.Deserialize<List<FanEfficiency>>(_JsonFanEfficiency);
 
 
-            var _JsonAxialFanEfficiency = ReadTxt(System.Environment.CurrentDirectory + @"\AxialFanEfficiency.json");
+            var _JsonAxialFanEfficiency = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), ThFanSelectionCommon.AXIAL_Efficiency));
             m_ListAxialFanEfficiency = FuncJson.Deserialize<List<AxialFanEfficiency>>(_JsonAxialFanEfficiency);
 
-            var _JsonMotorPower = ReadTxt(System.Environment.CurrentDirectory + @"\MotorPower.json");
+            var _JsonMotorPower = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), ThFanSelectionCommon.MOTOR_POWER));
             m_ListMotorPower = FuncJson.Deserialize<List<MotorPower>>(_JsonMotorPower);
 
 
