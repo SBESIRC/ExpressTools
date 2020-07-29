@@ -16,9 +16,6 @@ using System.Runtime.InteropServices;
 using AcHelper;
 using Linq2Acad;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
 using DevExpress.LookAndFeel;
 
 namespace TianHua.FanSelection.UI
@@ -1135,9 +1132,7 @@ namespace TianHua.FanSelection.UI
         private void BarBtnOpen_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             fmDesignData _fmDesignData = new fmDesignData();
-
-            _fmDesignData.InitForm(m_ListFanDesign, "打开");
-
+            _fmDesignData.InitForm(m_ListFanDesign, "打开", Active.DocumentDirectory);
             if (_fmDesignData.ShowDialog() == DialogResult.OK)
             {
                 if (_fmDesignData.m_FanDesign != null && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Path) != string.Empty && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Name) != string.Empty)
@@ -1164,7 +1159,7 @@ namespace TianHua.FanSelection.UI
             if (m_FanDesign == null || FuncStr.NullToStr(m_FanDesign.Name) == string.Empty)
             {
                 fmDesignData _fmDesignData = new fmDesignData();
-                _fmDesignData.InitForm(m_ListFanDesign, "保存");
+                _fmDesignData.InitForm(m_ListFanDesign, "保存", Active.DocumentDirectory);
                 if (_fmDesignData.ShowDialog() == DialogResult.OK)
                 {
                     if (_fmDesignData.m_FanDesign != null && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Path) != string.Empty && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Name) != string.Empty)
@@ -1197,7 +1192,7 @@ namespace TianHua.FanSelection.UI
             if (m_FanDesign == null || FuncStr.NullToStr(m_FanDesign.Name) == string.Empty)
             {
                 fmDesignData _fmDesignData = new fmDesignData();
-                _fmDesignData.InitForm(m_ListFanDesign, "保存");
+                _fmDesignData.InitForm(m_ListFanDesign, "保存", Active.DocumentDirectory);
                 if (_fmDesignData.ShowDialog() == DialogResult.OK)
                 {
                     if (_fmDesignData.m_FanDesign != null && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Path) != string.Empty && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Name) != string.Empty)

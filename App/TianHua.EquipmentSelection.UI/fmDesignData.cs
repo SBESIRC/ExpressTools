@@ -27,7 +27,7 @@ namespace TianHua.FanSelection.UI
 
         public string m_ActionType = string.Empty;
 
-        public string m_Path = Path.Combine(ThCADCommon.SupportPath(), "DesignData");
+        public string m_Path = string.Empty;
 
         public double m_FilterDate = 0;
 
@@ -36,8 +36,9 @@ namespace TianHua.FanSelection.UI
             InitializeComponent();
         }
 
-        public void InitForm(List<FanDesignDataModel> _ListFanDesign, string _ActionType)
+        public void InitForm(List<FanDesignDataModel> _ListFanDesign, string _ActionType, string path)
         {
+            m_Path = path;
             m_ActionType = _ActionType;
             m_ListFanDesign = _ListFanDesign;
             if (m_ListFanDesign == null) m_ListFanDesign = new List<FanDesignDataModel>();
