@@ -24,12 +24,12 @@ namespace ThColumnInfo.Validate.Rules
             this.calVolumnReinforceRatio = this.vrrc.Cdm.GetVolumeStirrupRatio(this.vrrc.ProtectLayerThickness);
             if (calVolumnReinforceRatio < this.vrrc.VolumnReinforceRatioLimited)
             {
-                this.ValidateResults.Add("加密区箍筋体积配箍率不足 ["+ 
+                this.ValidateResults.Add("加密区箍筋体积配箍率小于计算书结果 ["+ 
                     calVolumnReinforceRatio + " < " + this.vrrc.VolumnReinforceRatioLimited+"]");
             }
             else
             {
-                this.CorrectResults.Add("加密区箍筋体积配箍率满足计算要求");
+                this.CorrectResults.Add("加密区箍筋体积配箍率满足计算书结果");
             }
         }
         public List<string> GetCalculationSteps()
@@ -49,11 +49,11 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("if (体积配箍率计算[" + this.calVolumnReinforceRatio + "] < 体积配筋率限值[" +
                 this.vrrc.VolumnReinforceRatioLimited + "])");
             steps.Add("  {");
-            steps.Add("      Err: 加密区箍筋体积配箍率不足");
+            steps.Add("      Err: 加密区箍筋体积配箍率小于计算书结果");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint: 加密区箍筋体积配箍率满足计算要求");
+            steps.Add("      Debugprint: 加密区箍筋体积配箍率满足计算书结果");
             steps.Add("  }");
             steps.Add("");
             return steps;

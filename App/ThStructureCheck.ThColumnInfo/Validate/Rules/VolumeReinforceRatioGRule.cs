@@ -39,7 +39,7 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
-            steps.Add("类别：体积配箍率（箍筋）");
+            steps.Add("类别：体积配箍率G（箍筋）");
             steps.Add("强制性：宜，适用构件：ZHZ");
             steps.Add("条文编号：高规 10.2.11-8");
             steps.Add("条文：转换柱、非抗震时、体积配箍率不宜小于0.8%");

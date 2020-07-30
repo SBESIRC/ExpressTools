@@ -136,7 +136,9 @@ namespace ThColumnInfo.Validate.Model
         {
             get
             {
-                return new ColuJointCoreAnalysis(this.ctri.JointCoreHoop);
+                ColuJointCoreAnalysis coluJointCoreAnalysis = new ColuJointCoreAnalysis(this.ctri.JointCoreHoop);
+                coluJointCoreAnalysis.Analysis();
+                return coluJointCoreAnalysis;
             }
         }
         private double intCBarDiaArea = 0.0;
@@ -222,8 +224,7 @@ namespace ThColumnInfo.Validate.Model
         /// <returns></returns>
         public double GetXStirrupLimbSpace(double protectLayerThickness)
         {
-            return Math.Round((this.B - 2 * protectLayerThickness -
-                this.IntStirrupDia) / (this.IntYStirrupCount - 1),0);
+            return Math.Round((this.B - 2 * protectLayerThickness-IntStirrupDia)/ (this.IntYStirrupCount - 1),0);
         }
         /// <summary>
         /// 获取Y侧箍筋肢距
@@ -232,8 +233,7 @@ namespace ThColumnInfo.Validate.Model
         /// <returns></returns>
         public double GetYStirrupLimbSpace(double protectLayerThickness)
         {
-            return Math.Round((this.H - 2 * protectLayerThickness -
-                this.IntStirrupDia) / (this.IntXStirrupCount - 1),0);
+            return Math.Round((this.H - 2 * protectLayerThickness - IntStirrupDia) / (this.IntXStirrupCount - 1), 0);
         }
         /// <summary>
         /// 获取X侧箍筋值
@@ -327,9 +327,12 @@ namespace ThColumnInfo.Validate.Model
         /// <returns></returns>
         public double GetCoreReinforcementArea(ColuJointCoreAnalysis coluJointCore, double cover)
         {
-            double coreReinArea = (B - 2 * cover - 2 * coluJointCore.Diameter) * 
-                (H - 2 * cover - 2 * coluJointCore.Diameter);
-            coreReinArea = coreReinArea/100.0;
+            double coreReinArea = 0.0;
+            double radius = coluJointCore.Diameter / 2.0;
+            double value1 = IntXStirrupCount * Math.PI * radius * radius;
+            double value2 = IntYStirrupCount * Math.PI * radius * radius;
+            coreReinArea = value1 + value2;
+            coreReinArea = coreReinArea / 100.0;
             return coreReinArea;
         }
         /// <summary>
@@ -374,14 +377,9 @@ namespace ThColumnInfo.Validate.Model
         /// <returns></returns>
         public string GetCoreReinAreaCalculation(ColuJointCoreAnalysis coluJointCore,double cover)
         {
-            //ToDo,根据修改公式再调整
-            double dia = coluJointCore.Diameter;
-            double coreReinArea = (B - 2 * cover - 2 * coluJointCore.Diameter) *
-               (H - 2 * cover - 2 * coluJointCore.Diameter);
-            coreReinArea /= 100.0;
-            string calculation = "(B[" + B + "] - 2 * cover[" + cover +
-                "] - 2 * IntCoreStirrupDia[" + coluJointCore.Diameter + "]) * " + "(H[" + H + "] - 2 * cover[" + cover +
-                "] - 2 * IntCoreStirrupDia[" + coluJointCore.Diameter + "]) =" + coreReinArea;
+            string calculation = "(IntXStirrupCount[" + IntXStirrupCount + "] * Pi* D[" + coluJointCore.Diameter +
+                "] * D[" + coluJointCore.Diameter + "]) / 4.0 + " + "(IntYStirrupCount[" + IntYStirrupCount + 
+                "] * Pi * D[" + coluJointCore.Diameter + "] * D[" + coluJointCore.Diameter + "]) / 4.0 = ";
             return calculation;
         }
     }

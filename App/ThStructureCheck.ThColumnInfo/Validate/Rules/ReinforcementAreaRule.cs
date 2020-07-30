@@ -49,21 +49,21 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("if (DblXAs[" + reinforcementAreaModel.Cdm.DblXAs + "] < DblXAsCal[" +
                 reinforcementAreaModel.DblXAsCal + "] )");
             steps.Add("  {");
-            steps.Add("      Err：X方向配筋不足");
+            steps.Add("      Err：X方向配筋小于计算书结果");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint：X方向配筋满足计算");
+            steps.Add("      Debugprint：X方向配筋满足计算书结果");
             steps.Add("  }");
 
             steps.Add(reinforcementAreaModel.Cdm.GetDblYAsCalculation());
             steps.Add("if (DblYAs[" + reinforcementAreaModel.Cdm.DblYAs + "] < DblYAsCal[" + reinforcementAreaModel.DblYAsCal + "])");
             steps.Add("  {");
-            steps.Add("      Err：Y方向配筋不足");
+            steps.Add("      Err：Y方向配筋小于计算书结果");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint：Y方向配筋满足计算");
+            steps.Add("      Debugprint：Y方向配筋满足计算书结果");
             steps.Add("  }");
             steps.Add("");
             return steps;

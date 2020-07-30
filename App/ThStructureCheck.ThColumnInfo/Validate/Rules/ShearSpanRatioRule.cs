@@ -24,6 +24,10 @@ namespace ThColumnInfo.Validate.Rules
             {
                 return;
             }
+            if(ssrm.IsNonAntiseismic)
+            {
+                return;
+            }
             if (ssrm.ShearSpanRatio <= 2.0)
             {
                 this.ValidateResults.Add("剪跨比小于等于2 ["+ ssrm.ShearSpanRatio+" <= 2.0]，"+this.rule);
@@ -36,6 +40,10 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
+            if (ssrm.IsNonAntiseismic)
+            {
+                return steps;
+            }
             steps.Add("类别：剪跨比（截面）");
             steps.Add("条目编号：12， 强制性：宜，适用构件：KZ、ZHZ");
             steps.Add("适用功能：图纸校核，条文编号：砼规 11.4.11-2，条文页数：175");

@@ -28,20 +28,20 @@ namespace ThColumnInfo.Validate.Rules
             double compareValue1 = this.sram.DblStirrupAsCal0 * this.sram.Cdm.IntStirrupSpacing0 / this.sram.IntStirrupSpacingCal;
             if (dblStirrupAsmin< compareValue1)
             {
-                this.ValidateResults.Add("非加密区箍筋配筋不足 [" + dblStirrupAsmin + " < " + compareValue1 + "]");
+                this.ValidateResults.Add("非加密区箍筋配筋小于计算书结果 [" + dblStirrupAsmin + " < " + compareValue1 + "]");
             }
             else
             {
-                this.CorrectResults.Add("非加密区箍筋配筋满足计算要求");
+                this.CorrectResults.Add("非加密区箍筋配筋满足计算书结果");
             }
             double compareValue2 = this.sram.DblStirrupAsCal * this.sram.Cdm.IntStirrupSpacing / this.sram.IntStirrupSpacingCal;
             if (dblStirrupAsmin< compareValue2)
             {
-                this.ValidateResults.Add("加密区箍筋配筋不足 ["+ dblStirrupAsmin + " < " + compareValue2 + "]");
+                this.ValidateResults.Add("加密区箍筋配筋小于计算书结果 [" + dblStirrupAsmin + " < " + compareValue2 + "]");
             }
             else
             {
-                this.CorrectResults.Add("加密区箍筋配筋满足计算要求");
+                this.CorrectResults.Add("加密区箍筋配筋满足计算书结果");
             }
         }
         public List<string> GetCalculationSteps()
@@ -67,21 +67,21 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("if (dblStirrupAsmin[" + dblStirrupAsmin + "] < DblStirrupAsCal0[" + this.sram.DblStirrupAsCal0 + "] * IntStirrupSpacing0[" +
                 this.sram.Cdm.IntStirrupSpacing0 + "] / IntStirrupSpacingCal[" + this.sram.IntStirrupSpacingCal+ "])");
             steps.Add("  {");
-            steps.Add("      Err: 非加密区箍筋配筋不足");
+            steps.Add("      Err: 非加密区箍筋配筋小于计算书结果");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint: 非加密区箍筋配筋满足计算要求");
+            steps.Add("      Debugprint: 非加密区箍筋配筋满足计算书结果");
             steps.Add("  }");
 
             steps.Add("if (dblStirrupAsmin[" + dblStirrupAsmin + "] < DblStirrupAsCal[" + this.sram.DblStirrupAsCal + "] * IntStirrupSpacing[" +
                 this.sram.Cdm.IntStirrupSpacing + "] / IntStirrupSpacingCal[" + this.sram.IntStirrupSpacingCal + "])");
             steps.Add("  {");
-            steps.Add("      Err: 加密区箍筋配筋不足");
+            steps.Add("      Err: 加密区箍筋配筋小于计算书结果");
             steps.Add("  }");
             steps.Add("else");
             steps.Add("  {");
-            steps.Add("      Debugprint: 加密区箍筋配筋满足计算要求");
+            steps.Add("      Debugprint: 加密区箍筋配筋满足计算书结果");
             steps.Add("  }");
             steps.Add("");
             return steps;

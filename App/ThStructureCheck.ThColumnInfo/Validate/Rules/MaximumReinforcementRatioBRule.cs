@@ -51,12 +51,13 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("柱号 = " + this.ruleModel.Text);
             steps.Add(this.ruleModel.Cdm.GetDblAsCalculation());
             steps.Add(this.ruleModel.Cdm.GetDblpCalculation());
-            steps.Add("if ("+ ruleModel.Code+".Contains(ZHZ))");
+            steps.Add("if (柱号["+ ruleModel.Code+"].Contains(ZHZ))");
             steps.Add("  {");
-            steps.Add("    if (" + ruleModel.AntiSeismicGrade + ".Contains(\"一级\") || " +
-                ruleModel.AntiSeismicGrade + ".Contains(\"二级\") || " +
-                ruleModel.AntiSeismicGrade + ".Contains(\"三级\") || " +
-                ruleModel.AntiSeismicGrade + ".Contains(\"四级\"))");
+            steps.Add("    if (抗震等级[" + ruleModel.AntiSeismicGrade + "].Contains(\"特一级\") || " +
+                "抗震等级[" + ruleModel.AntiSeismicGrade + "].Contains(\"一级\") || " +
+                "抗震等级[" + ruleModel.AntiSeismicGrade + "].Contains(\"二级\") || " +
+                "抗震等级[" + ruleModel.AntiSeismicGrade + "].Contains(\"三级\") || " +
+                "抗震等级[" + ruleModel.AntiSeismicGrade + "].Contains(\"四级\"))");
             steps.Add("        {");
             steps.Add("          if( DblP["+ this.ruleModel.Cdm.DblP+"] > 0.04)");
             steps.Add("             {");

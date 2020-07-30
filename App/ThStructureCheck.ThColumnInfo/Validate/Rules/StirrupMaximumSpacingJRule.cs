@@ -24,12 +24,16 @@ namespace ThColumnInfo.Validate.Rules
             {
                 return;
             }
+            if(smsj.IsNonAntiseismic)
+            {
+                return;
+            }
             this.intBardiamin = Math.Min(this.smsj.Cdm.IntXBarDia,
                 this.smsj.Cdm.IntYBarDia);
             intBardiamin = Math.Min(this.smsj.Cdm.IntCBarDia, intBardiamin);
             
-            if ((this.smsj.Antiseismic.Contains("一级") && !this.smsj.Antiseismic.Contains("特")) ||
-                this.smsj.Antiseismic.Contains("二级"))
+            if (this.smsj.Antiseismic.Contains("一") ||
+                this.smsj.Antiseismic.Contains("二"))
             {
                 this.stirrupSpaceingLimited = 10 * intBardiamin;
             }
@@ -54,7 +58,11 @@ namespace ThColumnInfo.Validate.Rules
         }
         public List<string> GetCalculationSteps()
         {
-            List<string> steps = new List<string>();            
+            List<string> steps = new List<string>();
+            if (smsj.IsNonAntiseismic)
+            {
+                return steps;
+            }
             steps.Add("类别：箍筋最大间距J（箍筋）");
             steps.Add("条目编号：512， 强制性：应，适用构件：KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 11.4.18，条文页数：P179");
@@ -63,13 +71,17 @@ namespace ThColumnInfo.Validate.Rules
 
             steps.Add("intBardiamin=Math.Min(IntCBarDia[" + smsj.Cdm.IntCBarDia + "],IntXBarDia[" +
                 smsj.Cdm.IntXBarDia + "],IntYBarDia[" + smsj.Cdm.IntYBarDia + "]) = " + this.intBardiamin);
-            steps.Add("if (抗震等级[" + smsj.Antiseismic + "] == 一级 || 抗震等级["+ smsj.Antiseismic+ "] == 二级)");
+            steps.Add("if (抗震等级[" + smsj.Antiseismic + "].Contains(\"特一级\") || 抗震等级[" + smsj.Antiseismic + "].Contains(\"一级\") || 抗震等级[" + smsj.Antiseismic+ "].Contains(\"二级\"))");
             steps.Add("  {");
             steps.Add("      箍筋间距限值= 10 * intBardiamin["+ intBardiamin+"]");
             steps.Add("  }");
-            steps.Add("else if (抗震等级[" + smsj.Antiseismic + "] == 三级 || 抗震等级[" + smsj.Antiseismic + "] == 四级) ");
+            steps.Add("else if (抗震等级[" + smsj.Antiseismic + "].Contains(\"三级\") || 抗震等级[" + smsj.Antiseismic + "].Contains(\"四级\"))");
             steps.Add("  {");
             steps.Add("      箍筋间距限值= 15 * intBardiamin[" + intBardiamin + "]");
+            steps.Add("  }");
+            steps.Add("else");
+            steps.Add("  {");
+            steps.Add("    return;");
             steps.Add("  }");
 
             steps.Add("if (IntStirrupSpacing0[" + smsj.Cdm.IntStirrupSpacing0 + "] > 箍筋间距限值[" +  this.stirrupSpaceingLimited + "])");

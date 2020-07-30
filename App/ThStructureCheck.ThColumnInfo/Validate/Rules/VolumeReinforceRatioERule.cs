@@ -23,40 +23,37 @@ namespace ThColumnInfo.Validate.Rules
                 return;
             }
             this.calVolumnReinforceRatio = GetVolumeStirrupRatio();
-            if (!this.vrre.AntiSeismicGrade.Contains("特"))
+            if (this.vrre.AntiSeismicGrade.Contains("一"))
             {
-                if (this.vrre.AntiSeismicGrade.Contains("一"))
+                if (this.calVolumnReinforceRatio < 0.006)
                 {
-                    if(this.calVolumnReinforceRatio<0.006)
-                    {
-                        this.ValidateResults.Add("体积配箍率不宜小于0.6% " + this.rule);
-                    }
-                    else
-                    {
-                        this.CorrectResults.Add("体积配箍率大于等于0.6% " + this.rule);
-                    }
+                    this.ValidateResults.Add("体积配箍率不宜小于0.6% " + this.rule);
                 }
-                if (this.vrre.AntiSeismicGrade.Contains("二"))
+                else
                 {
-                    if (this.calVolumnReinforceRatio < 0.005)
-                    {
-                        this.ValidateResults.Add("体积配箍率不宜小于0.5% " + this.rule);
-                    }
-                    else
-                    {
-                        this.CorrectResults.Add("体积配箍率大于等于0.5% " + this.rule);
-                    }
+                    this.CorrectResults.Add("体积配箍率大于等于0.6% " + this.rule);
                 }
-                if (this.vrre.AntiSeismicGrade.Contains("三"))
+            }
+            if (this.vrre.AntiSeismicGrade.Contains("二"))
+            {
+                if (this.calVolumnReinforceRatio < 0.005)
                 {
-                    if (this.calVolumnReinforceRatio < 0.004)
-                    {
-                        this.ValidateResults.Add("体积配箍率不宜小于0.4% " + this.rule);
-                    }
-                    else
-                    {
-                        this.CorrectResults.Add("体积配箍率大于等于0.4% " + this.rule);
-                    }
+                    this.ValidateResults.Add("体积配箍率不宜小于0.5% " + this.rule);
+                }
+                else
+                {
+                    this.CorrectResults.Add("体积配箍率大于等于0.5% " + this.rule);
+                }
+            }
+            if (this.vrre.AntiSeismicGrade.Contains("三"))
+            {
+                if (this.calVolumnReinforceRatio < 0.004)
+                {
+                    this.ValidateResults.Add("体积配箍率不宜小于0.4% " + this.rule);
+                }
+                else
+                {
+                    this.CorrectResults.Add("体积配箍率大于等于0.4% " + this.rule);
                 }
             }
         }
@@ -81,13 +78,13 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
-            steps.Add("类别：节点核心区体积配箍率 （箍筋）");
+            steps.Add("类别：节点核心区体积配箍率E （箍筋）");
             steps.Add("强制性：宜，适用构件：LZ、KZ、ZHZ");
             steps.Add("条文：实配钢筋应满足计算值");
             steps.Add("柱号 = " + this.vrre.Text);
             steps.Add("cover= " + this.vrre.ProtectLayerThickness + "//保护层厚度");
             steps.Add(GetVolumeStirrupRatioCalculation() + this.calVolumnReinforceRatio);
-            steps.Add("if (抗震等级[" + this.vrre.AntiSeismicGrade + "].Contains(\"一级\"))");
+            steps.Add("if (抗震等级[" + this.vrre.AntiSeismicGrade + "].Contains(\"特一级\") || 抗震等级[" + this.vrre.AntiSeismicGrade + "].Contains(\"一级\"))");
             steps.Add("  {");
             steps.Add("    if(核芯区体积配箍率["+ this.calVolumnReinforceRatio+"] < 0.006)");
             steps.Add("      {");
@@ -95,7 +92,7 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("      }");
             steps.Add("    else");
             steps.Add("      {");
-            steps.Add("         Debugprint: 体积配箍率等于等于0.6% " + this.rule);
+            steps.Add("         Debugprint: 体积配箍率大于等于0.6% " + this.rule);
             steps.Add("      }");
             steps.Add("  }");
 
@@ -107,7 +104,7 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("      }");
             steps.Add("    else");
             steps.Add("      {");
-            steps.Add("         Debugprint: 体积配箍率等于等于0.5% " + this.rule);
+            steps.Add("         Debugprint: 体积配箍率大于等于0.5% " + this.rule);
             steps.Add("      }");
             steps.Add("  }");
 
@@ -119,7 +116,7 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("      }");
             steps.Add("    else");
             steps.Add("      {");
-            steps.Add("         Debugprint: 体积配箍率等于等于0.4% " + this.rule);
+            steps.Add("         Debugprint: 体积配箍率大于等于0.4% " + this.rule);
             steps.Add("      }");
             steps.Add("  }");
             return steps;

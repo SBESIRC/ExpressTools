@@ -25,6 +25,10 @@ namespace ThColumnInfo.Validate.Rules
             {
                 return;
             }
+            if(stirrupLimbSpaceModel.IsNonAntiseismic)
+            {
+                return;
+            }
             this.dblXSpace = (stirrupLimbSpaceModel.Cdm.B - 2 * stirrupLimbSpaceModel.ProtectLayerThickness -
                 stirrupLimbSpaceModel.Cdm.IntStirrupDia) /
                 (stirrupLimbSpaceModel.Cdm.IntYStirrupCount - 1);
@@ -32,8 +36,7 @@ namespace ThColumnInfo.Validate.Rules
                 stirrupLimbSpaceModel.Cdm.IntStirrupDia) /
                 (stirrupLimbSpaceModel.Cdm.IntXStirrupCount - 1);
             this.dblStirrupSpace = Math.Max(dblXSpace, dblYSpace);
-            if (stirrupLimbSpaceModel.AntiSeismicGrade.Contains("一级") && 
-                !stirrupLimbSpaceModel.AntiSeismicGrade.Contains("特"))
+            if (stirrupLimbSpaceModel.AntiSeismicGrade.Contains("一级"))
             {
                 if(dblStirrupSpace > 200)
                 {
@@ -73,6 +76,10 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
+            if (stirrupLimbSpaceModel.IsNonAntiseismic)
+            {
+                return steps;
+            }
             steps.Add("类别：箍筋肢距（箍筋）");
             steps.Add("条目编号：51， 强制性：应，适用构件：KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 11.4.15，条文页数：P123");
@@ -85,7 +92,8 @@ namespace ThColumnInfo.Validate.Rules
                 "] - IntStirrupDia[" + stirrupLimbSpaceModel.Cdm.IntStirrupDia + "]) / (IntXStirrupCount[" +
                 stirrupLimbSpaceModel.Cdm.IntXStirrupCount + "] - 1) = " + this.dblYSpace);
             steps.Add("dblStirrupSpace=Math.Max(dblXSpace["+this.dblXSpace+ "] , dblYSpace["+ this.dblYSpace+"]) = "+this.dblStirrupSpace);
-            steps.Add("if (抗震等级[" + stirrupLimbSpaceModel.AntiSeismicGrade + "] == 一级 ");
+            steps.Add("if (抗震等级[" + stirrupLimbSpaceModel.AntiSeismicGrade + "].Contains(\"特一级\") || " +
+                      "抗震等级[" + stirrupLimbSpaceModel.AntiSeismicGrade + "].Contains(\"一级\"))");
             steps.Add("  {");
             steps.Add("    if (dblStirrupSpace[" + this.dblStirrupSpace + "] > 200 )");
             steps.Add("       {");

@@ -59,7 +59,7 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("柱号 = " + this.jcrm.Text);
             steps.Add(GetJointCoreReinAreaCalculation()+this.jointCoreReinforceArea);
             steps.Add("if (节点核心区配筋面积[" + this.jointCoreReinforceArea + 
-                "] < "+this.jcrm.CoreJointReinforceArea+")");
+                "] < 计算书节点核芯区配筋面积["+this.jcrm.CoreJointReinforceArea+"])");
             steps.Add("  {");
             steps.Add("    Err: 节点核心区配筋面积应满足计算值");
             steps.Add("  }");

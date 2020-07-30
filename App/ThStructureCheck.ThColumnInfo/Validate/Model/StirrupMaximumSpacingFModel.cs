@@ -14,7 +14,8 @@ namespace ThColumnInfo.Validate.Model
         public double IntStirrupSpacingLimited
         {
             get
-            { return GetIntStirrupSpacingLimited();
+            {
+                return GetIntStirrupSpacingLimited();
             }
         }
         /// <summary>
@@ -33,7 +34,7 @@ namespace ThColumnInfo.Validate.Model
         public override bool ValidateProperty()
         {
             if (!base.ValidateProperty() ||
-                !IsContainsCodeSign(new List<string> {"ZHZ" }))
+                !IsContainsCodeSign(new List<string> {"ZHZ","KZ","LZ" }))
             {
                 return false;
             }

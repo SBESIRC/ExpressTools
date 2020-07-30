@@ -24,6 +24,10 @@ namespace ThColumnInfo.Validate.Rules
             {
                 return;
             }
+           if(columnSectionModel.IsNonAntiseismic)
+            {
+                return;
+            }
             double max = Math.Max(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H);
             double min = Math.Min(columnSectionModel.Cdm.B, columnSectionModel.Cdm.H);
             if ((max / min) > 3.0)
@@ -38,6 +42,10 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
+            if (columnSectionModel.IsNonAntiseismic)
+            {
+                return steps;
+            }
             steps.Add("类别：长短边比值（截面）");
             steps.Add("条目编号：12， 强制性：宜，适用构件：KZ、ZHZ");
             steps.Add("适用功能：智能识图、图纸校核，条文编号：砼规 11.4.11-3，条文页数：175");

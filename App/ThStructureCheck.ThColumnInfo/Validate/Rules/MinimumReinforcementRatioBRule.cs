@@ -23,6 +23,10 @@ namespace ThColumnInfo.Validate.Rules
             {
                 return;
             }
+            if(minimumReinforceRatioBModel.IsNonAntiseismic)
+            {
+                return;
+            }
             this.dblsespmin = this.minimumReinforceRatioBModel.Dblsespmin;
             //对IV类场地上较高的高层建筑，最小配筋百分率应增加0.1
             this.dblsespmin += this.minimumReinforceRatioBModel.P1;
@@ -68,6 +72,10 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
+            if (minimumReinforceRatioBModel.IsNonAntiseismic)
+            {
+                return steps;
+            }
             steps.Add("类别：最小配筋率B（侧面纵筋）");
             steps.Add("条目编号：45， 强制性：应，适用构件：KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核，条文编号：砼规 11.4.12，条文页数：P174");

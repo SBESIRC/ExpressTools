@@ -466,10 +466,11 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildStirrupMaximumSpacingERule());         // 箍筋最大间距E(箍筋)
             validateRules.Add(BuildStirrupMinimumDiameterDRule());        // 箍筋最小直径D(箍筋)
             validateRules.Add(BuildStirrupFullHeightEncryptionRule());    // 箍筋全高加密(箍筋)
-            validateRules.Add(BuildStirrupMaximumSpaceFRule());           // 箍筋最大间距F(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpacingFRule());         // 箍筋最大间距F(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpacingLRule());         // 箍筋最大间距H(箍筋)
             validateRules.Add(BuildStirrupMaximumSpacingHRule());         // 箍筋最大间距H(箍筋)
-            validateRules.Add(BuildStirrupMaximumSpaceJRule());           // 箍筋最大间距J(箍筋)
-            validateRules.Add(BuildStirrupMaximumSpaceKRule());           // 箍筋最大间距K(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpacingJRule());         // 箍筋最大间距J(箍筋)
+            validateRules.Add(BuildStirrupMaximumSpacingKRule());         // 箍筋最大间距K(箍筋)
             validateRules.Add(BuildVolumeReinforceRatioARule());          // 体积配箍率A(箍筋)
             validateRules.Add(BuildVolumeReinforceRatioGRule());          // 体积配箍率G(箍筋)
             validateRules.Add(BuildVolumeReinforceRatioBRule());          // 体积配箍率B(箍筋)
@@ -675,7 +676,8 @@ namespace ThColumnInfo.Validate
                 Code = this.columnRelateInf.ModelColumnInfs[0].Code,
                 Text = this.columnRelateInf.ModelColumnInfs[0].Text,
                 ProtectLayerThickness = this.protectLayerThickness,
-                Cdm = this.cdm
+                Cdm = this.cdm,
+                AntiSeismicGrade=this.antiSeismicGrade
             };
             IRule rule = new VerDirIronClearSpaceBRule(vdiCSM);
             return rule;
@@ -994,6 +996,7 @@ namespace ThColumnInfo.Validate
                 Code = this.columnRelateInf.ModelColumnInfs[0].Code,
                 Text = this.columnRelateInf.ModelColumnInfs[0].Text,
                 Jkb = this.columnRelateInf.YjkColumnData.Jkb,
+                AntiSeismicGrade=this.antiSeismicGrade,
                 Cdm = cdm
             };
             IRule rule = new StirrupFullHeightEncryptionRule(sfhem);
@@ -1003,7 +1006,7 @@ namespace ThColumnInfo.Validate
         /// 箍筋最大间距F(箍筋)
         /// </summary>
         /// <returns></returns>
-        private IRule BuildStirrupMaximumSpaceFRule()
+        private IRule BuildStirrupMaximumSpacingFRule()
         {
             IRule rule = null;
             StirrupMaximumSpacingFModel smsf = new StirrupMaximumSpacingFModel()
@@ -1036,10 +1039,29 @@ namespace ThColumnInfo.Validate
             return rule;
         }
         /// <summary>
+        /// 箍筋最大间距I(箍筋)
+        /// </summary>
+        /// <returns></returns>
+        private IRule BuildStirrupMaximumSpacingLRule()
+        {
+            IRule rule = null;
+            StirrupMaximumSpacingFModel smsf = new StirrupMaximumSpacingFModel()
+            {
+                Code = this.columnRelateInf.ModelColumnInfs[0].Code,
+                Text = this.columnRelateInf.ModelColumnInfs[0].Text,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                IsFirstFloor = this.columnRelateInf.YjkColumnData.IsGroundFloor,
+                ProtectThickness = this.protectLayerThickness,
+                Cdm = this.cdm
+            };
+            rule = new StirrupMaximumSpacingLRule(smsf);
+            return rule;
+        }
+        /// <summary>
         /// 箍筋最大间距J(箍筋)
         /// </summary>
         /// <returns></returns>
-        private IRule BuildStirrupMaximumSpaceJRule()
+        private IRule BuildStirrupMaximumSpacingJRule()
         {
             StirrupMaximumSpacingJModel smsj = new StirrupMaximumSpacingJModel()
             {
@@ -1055,7 +1077,7 @@ namespace ThColumnInfo.Validate
         /// 箍筋最大间距K(箍筋)
         /// </summary>
         /// <returns></returns>
-        private IRule BuildStirrupMaximumSpaceKRule()
+        private IRule BuildStirrupMaximumSpacingKRule()
         {
             StirrupMaximumSpacingKModel smsj = new StirrupMaximumSpacingKModel()
             {
@@ -1068,6 +1090,7 @@ namespace ThColumnInfo.Validate
             IRule rule = new StirrupMaximumSpacingKRule(smsj);
             return rule;
         }
+
         /// <summary>
         /// 体积配箍率A(箍筋)
         /// </summary>

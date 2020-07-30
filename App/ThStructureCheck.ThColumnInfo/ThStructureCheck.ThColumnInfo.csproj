@@ -147,6 +147,7 @@
     <Compile Include="Validate\Rules\ShearSpanRatioRule.cs" />
     <Compile Include="Validate\Rules\StirrupFullHeightEncryptionRule.cs" />
     <Compile Include="Validate\Rules\StirrupLimbSpaceRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingLRule.cs" />
     <Compile Include="Validate\Rules\StirrupMaximumSpacingKRule.cs" />
     <Compile Include="Validate\Rules\StirrupMaximumSpacingIRule.cs" />
     <Compile Include="Validate\Rules\StirrupMaximumSpacingGRule.cs" />

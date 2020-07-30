@@ -7,7 +7,7 @@ namespace ThColumnInfo.Validate.Rules
     public class StirrupMinimumDiameterDRule:IRule
     {
         private StirrupMinimumDiameterDModel smdd;
-        private string rule = "（《砼规》11.4.12）";
+        private string rule = "（《砼规》11.4.12-2.4）";
         private double stirrupDiameterLimited;
         public StirrupMinimumDiameterDRule(StirrupMinimumDiameterDModel smdd)
         {
@@ -21,28 +21,37 @@ namespace ThColumnInfo.Validate.Rules
             {
                 return;
             }
-            //修正抗震等级
-            if (this.smdd.Code.ToUpper().Contains("ZHZ") ||
-                (this.smdd.Jkb <= 2 && this.smdd.Code.ToUpper().Contains("KZ")))
+            if(this.smdd.IsNonAntiseismic)
             {
-                this.smdd.AntiSeismicGrade = "一级";
+                return;
             }
-            //查表得到箍筋直径限值
-            this.stirrupDiameterLimited = this.smdd.IntStirrupDiaLimited;
-            //箍筋直径限值修正            
-            if (this.smdd.Code.ToUpper().Contains("KZ") &&
-                this.smdd.AntiSeismicGrade.Contains("四级") && this.smdd.Jkb <= 2)
+            if(this.smdd.AntiSeismicGrade.Contains("一") || 
+                this.smdd.AntiSeismicGrade.Contains("二") ||
+                this.smdd.AntiSeismicGrade.Contains("三") ||
+                this.smdd.AntiSeismicGrade.Contains("四"))
             {
-                this.stirrupDiameterLimited = 8.0;
-            }
-            if (smdd.IntStirrupDia < stirrupDiameterLimited)
-            {
-                this.ValidateResults.Add("箍筋直径不满足抗震构造 ["+ 
-                    smdd.IntStirrupDia+ " < "+ stirrupDiameterLimited + "]，"+this.rule);
-            }
-            else
-            {
-                this.CorrectResults.Add("箍筋直径满足抗震构造"+this.rule);
+                //查表得到箍筋直径限值
+                if(this.smdd.AntiSeismicGrade.Contains("特"))
+                {
+                    string oldAntiSeismicGrade = this.smdd.AntiSeismicGrade;
+                    this.smdd.AntiSeismicGrade = "一级";
+                    this.stirrupDiameterLimited = this.smdd.IntStirrupDiaLimited;
+                    this.smdd.AntiSeismicGrade = oldAntiSeismicGrade;
+                }
+                //箍筋直径限值修正        
+                if (this.smdd.AntiSeismicGrade.Contains("四级") && this.smdd.Jkb <= 2)
+                {
+                    this.stirrupDiameterLimited = 8.0;
+                }
+                if (smdd.IntStirrupDia < stirrupDiameterLimited)
+                {
+                    this.ValidateResults.Add("箍筋直径不满足抗震构造 [" +
+                        smdd.IntStirrupDia + " < " + stirrupDiameterLimited + "]，" + this.rule);
+                }
+                else
+                {
+                    this.CorrectResults.Add("箍筋直径满足抗震构造 " + this.rule);
+                }
             }
         }
         public List<string> GetCalculationSteps()
@@ -60,26 +69,25 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("剪跨比 = " + this.smdd.Jkb);
             steps.Add("是否是首层 = " + this.smdd.IsFirstFloor);
 
-            steps.Add("if (柱号[" + this.smdd.Text + "].Contains(\"ZHZ\") || " +
-                "(剪跨比[" + this.smdd.Jkb + "] <= 2 && 柱号[" + this.smdd.Text + "].Contains(\"KZ\"))");
+            steps.Add("    if (抗震等级[" + smdd.AntiSeismicGrade + "].Contains(\"特一级\") || " +
+                "抗震等级[" + smdd.AntiSeismicGrade + "].Contains(\"一级\") || " +
+                "抗震等级[" + smdd.AntiSeismicGrade + "].Contains(\"二级\") || " +
+                "抗震等级[" + smdd.AntiSeismicGrade + "].Contains(\"三级\") || " +
+                "抗震等级[" + smdd.AntiSeismicGrade + "].Contains(\"四级\"))");
             steps.Add("  {");
-            steps.Add("     抗震等级： 一级");
-            steps.Add("  }");
-            steps.Add("箍筋直径限值(查表) = " + this.smdd.IntStirrupDiaLimited);
-
-            steps.Add("if (柱号["+this.smdd.Code+ "].Contains(\"KZ\") && 抗震等级[" + 
-                smdd.AntiSeismicGrade + "] == 四级 && 剪跨比[" + smdd.Jkb + "] <= 2)");
-            steps.Add("  {");
-            steps.Add("     箍筋直径限值修正值 = 8");
-            steps.Add("  }");
-
-            steps.Add("if (IntStirrupDia[" + smdd.IntStirrupDia + "] < 箍筋直径限值[" + this.stirrupDiameterLimited + "])");
-            steps.Add("  {");
-            steps.Add("     Err: 箍筋直径不满足抗震构造" + this.rule);
-            steps.Add("  }");
-            steps.Add("else");
-            steps.Add("  {");
-            steps.Add("     Debugprint: 箍筋直径满足抗震构造" + this.rule);
+            steps.Add("     箍筋直径限值(查表) = " + this.smdd.IntStirrupDiaLimited);
+            steps.Add("     if (抗震等级[" +smdd.AntiSeismicGrade + "] == 四级 && 剪跨比[" + smdd.Jkb + "] <= 2)");
+            steps.Add("       {");
+            steps.Add("         箍筋直径限值修正值 = 8");
+            steps.Add("       }");
+            steps.Add("     if (IntStirrupDia[" + smdd.IntStirrupDia + "] < 箍筋直径限值[" + this.stirrupDiameterLimited + "])");
+            steps.Add("       {");
+            steps.Add("          Err: 箍筋直径不满足抗震构造" + this.rule);
+            steps.Add("       }");
+            steps.Add("     else");
+            steps.Add("       {");
+            steps.Add("          Debugprint: 箍筋直径满足抗震构造" + this.rule);
+            steps.Add("       }");
             steps.Add("  }");
             steps.Add("");
             return steps;

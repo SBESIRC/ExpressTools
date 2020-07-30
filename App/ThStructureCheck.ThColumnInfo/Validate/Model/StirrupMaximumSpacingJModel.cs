@@ -15,7 +15,7 @@ namespace ThColumnInfo.Validate.Model
         public override bool ValidateProperty()
         {
             if (!base.ValidateProperty() ||
-               !IsContainsCodeSign(new List<string> {"KZ", "ZHZ" }))
+               !IsContainsCodeSign(new List<string> {"KZ", "ZHZ","LZ" }))
             {
                 return false;
             }

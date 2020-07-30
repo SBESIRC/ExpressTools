@@ -50,6 +50,22 @@ namespace ThColumnInfo.Validate.Model
             return contains;
         }
         /// <summary>
+        /// 是不是非抗震等级
+        /// </summary>
+        public bool IsNonAntiseismic
+        {
+            get
+            {
+                if(!string.IsNullOrEmpty(this.AntiSeismicGrade) &&
+                    this.AntiSeismicGrade.Contains("非"))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
         /// 强制性
         /// </summary>
         public string Mandatory { get; set; } = "";
@@ -62,7 +78,9 @@ namespace ThColumnInfo.Validate.Model
             {
                 if(!string.IsNullOrEmpty(this.JointCorehooping))
                 {
-                    return new ColuJointCoreAnalysis(this.JointCorehooping);
+                    ColuJointCoreAnalysis coluJointCoreAnalysis = new ColuJointCoreAnalysis(this.JointCorehooping);
+                    coluJointCoreAnalysis.Analysis();
+                    return coluJointCoreAnalysis;
                 }
                 else if(this.Cdm!=null)
                 {

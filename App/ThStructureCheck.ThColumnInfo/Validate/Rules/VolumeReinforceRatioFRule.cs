@@ -45,12 +45,13 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
-            steps.Add("类别：体积配箍率（箍筋）");
-            steps.Add("强制性：强条，适用构件：ZHZ");
+            steps.Add("类别：体积配箍率F（箍筋）");
+            steps.Add("强制性：应，适用构件：ZHZ");
             steps.Add("条文：转换柱、抗震时、体积配箍率不宜小于1.5%");
             steps.Add("柱号 = " + this.vrra.Text);
             steps.Add("if (柱号[" + this.vrra.Code + "].Contains(\"ZHZ\") && " +
-                "(抗震等级[" +this.vrra.AntiSeismicGrade+ "].Contains(\"一级\")) || " +
+                "(抗震等级[" +this.vrra.AntiSeismicGrade+ "].Contains(\"特一级\")) || " +
+                "抗震等级[" + this.vrra.AntiSeismicGrade + "].Contains(\"一级\")) || " +
                 "抗震等级[" + this.vrra.AntiSeismicGrade + "].Contains(\"二级\")) || " +
                 "抗震等级[" + this.vrra.AntiSeismicGrade + "].Contains(\"三级\")) || " +
                 "抗震等级[" + this.vrra.AntiSeismicGrade + "].Contains(\"四级\"))");

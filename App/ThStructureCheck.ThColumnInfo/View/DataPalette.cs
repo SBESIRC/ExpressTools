@@ -43,7 +43,6 @@ namespace ThColumnInfo.View
             else
             {
                 _dateResult.UpdateData(ds, tsv, tcv, node);
-                
             }
             _ps.Visible = ShowPaletteMark;
             _ps.Size = new System.Drawing.Size(800, 200);

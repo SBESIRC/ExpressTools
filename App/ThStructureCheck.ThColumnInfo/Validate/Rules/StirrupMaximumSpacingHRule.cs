@@ -20,6 +20,10 @@ namespace ThColumnInfo.Validate.Rules
             {
                 return;
             }
+            if(smsh.IsNonAntiseismic)
+            {
+                return;
+            }
             if(smsh.Cdm.IntStirrupSpacing0> smsh.Cdm.IntStirrupSpacing*2)
             {
                 this.ValidateResults.Add("非加密区箍筋体积配箍率小于加密区的一半 ["+ 
@@ -33,6 +37,10 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
+            if (smsh.IsNonAntiseismic)
+            {
+                return steps;
+            }
             steps.Add("类别：箍筋最大间距H（箍筋）");
             steps.Add("条目编号：512， 强制性：应，适用构件：KZ、ZHZ");
             steps.Add("适用功能：智能识图，图纸校核");

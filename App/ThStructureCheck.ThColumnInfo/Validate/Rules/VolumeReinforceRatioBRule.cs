@@ -23,7 +23,10 @@ namespace ThColumnInfo.Validate.Rules
             {
                 return;
             }
-            
+            if(this.vrra.IsNonAntiseismic)
+            {
+                return;
+            }
             this.calVolumnReinforceRatio = this.vrra.Cdm.GetVolumeStirrupRatio(this.vrra.ProtectLayerThickness);
 
             //体积配箍率限值
@@ -32,7 +35,7 @@ namespace ThColumnInfo.Validate.Rules
                 this.volumeReinforceRatioLimited = 0.012;
             }
             else if(this.vrra.FortificationIntensity== 9 && 
-                (this.vrra.AntiSeismicGrade.Contains("一级") && !this.vrra.AntiSeismicGrade.Contains("特")))
+                (this.vrra.AntiSeismicGrade.Contains("一级")))
             {
                 this.volumeReinforceRatioLimited = 0.015;
             }
@@ -53,6 +56,10 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
+            if (this.vrra.IsNonAntiseismic)
+            {
+                return steps;
+            }
             steps.Add("类别：体积配箍率B（箍筋）");
             steps.Add("条目编号：517， 强制性：应，适用构件：KZ、ZHZ");
             steps.Add("适用功能：图纸校核，条文编号：11.4.17-4，条文页数：P179");
@@ -71,7 +78,8 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("  {");
             steps.Add("      体积配箍率限值=0.012");
             steps.Add("  }");
-            steps.Add("else if(设防烈度[" + this.vrra.FortificationIntensity + "] == 9 && 抗震等级[" + this.vrra.AntiSeismicGrade + "] == 一级");
+            steps.Add("else if(设防烈度[" + this.vrra.FortificationIntensity + "] == 9 && (抗震等级[" + this.vrra.AntiSeismicGrade
+                + "].Contains(\"特一级\") || 抗震等级[" + this.vrra.AntiSeismicGrade + "].Contains(\"一级\"))");
             steps.Add("  {");
             steps.Add("      体积配箍率限值=0.015");
             steps.Add("  }");

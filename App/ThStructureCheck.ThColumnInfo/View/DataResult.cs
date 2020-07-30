@@ -317,7 +317,7 @@ namespace ThColumnInfo.View
                     this.dgvIndicator.Rows[rowIndex].Cells["dblXP"].Value = Math.Round(cdm.DblXP * 100, 3) + "%";
                     this.dgvIndicator.Rows[rowIndex].Cells["dblYP"].Value = Math.Round(cdm.DblYP * 100, 3) + "%";
                     this.dgvIndicator.Rows[rowIndex].Cells["dblP"].Value = Math.Round(cdm.DblP * 100, 3) + "%";
-                    this.dgvIndicator.Rows[rowIndex].Cells["volumeStirrupRatio"].Value = Math.Round(cdm.GetVolumeStirrupRatio(protectThickness), 3) + "%";
+                    this.dgvIndicator.Rows[rowIndex].Cells["volumeStirrupRatio"].Value = Math.Round(cdm.GetVolumeStirrupRatio(protectThickness) * 100, 3) + "%";
                     this.dgvIndicator.Rows[rowIndex].Cells["shearSpanRatio"].Value = Math.Round(jkb,3);
                 }
                 for (int i = 0; i < this.dgvIndicator.Rows.Count; i++)

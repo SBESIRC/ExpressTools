@@ -35,6 +35,7 @@ namespace ThColumnInfo
             steeBarLevels.Add(new SteeBarLevel() { SteelBarGrade = "HPB300", Value = 0.5, MatchStr = "%%130" });
 
             //初始化抗震等级列表
+            antiseismicGradeList.Add("非抗震");
             antiseismicGradeList.Add("四级"); //级别最小
             antiseismicGradeList.Add("三级");
             antiseismicGradeList.Add("二级");
