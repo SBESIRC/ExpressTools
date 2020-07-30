@@ -184,6 +184,13 @@ namespace ThSitePlan.UI
                 }
             }
 
+            //显示进度条窗体
+            ThSitePlanConfigService.Instance.Initialize();
+            ThSitePlanConfigService.Instance.EnableAll(UpdateStaus.UpdateCAD);
+            int totalupdatetimes = ThSitePlanConfigService.Instance.Root.GetItemsCount();
+            ProgressBarForm pgform = new ProgressBarForm(totalupdatetimes + 36);
+            AcadApp.ShowModelessDialog(pgform);
+
             // 首先将原线框内的所有图元复制一份放到解构图集放置区的第一个线框里
             // 这个线框里面的图元会被移动到到解构图集放置区对应的线框中
             // 未被移走的图元将会保留在这个图框中，并作为“未标识”对象
@@ -196,6 +203,7 @@ namespace ThSitePlan.UI
                 acadDatabase.Database.ExplodeToOwnerSpace(playgroundFrame.Item1);
                 Active.Editor.TrimCmd(acadDatabase.Element<Polyline>(playgroundFrame.Item1));
             }
+            pgform.SetProgressBar("已完成复制流程", "正在执行CAD原始数据处理.....", 1);
 
             // CAD原始数据处理流程
             ThSitePlanConfigService.Instance.Initialize();
@@ -211,6 +219,7 @@ namespace ThSitePlan.UI
                 };
                 ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
             }
+            pgform.SetProgressBar("已完成CAD数据处理流程", "正在执行CAD衍生数据处理.....", 1);
 
             // 初始化解构区的线框信息
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
@@ -225,6 +234,7 @@ namespace ThSitePlan.UI
                 true,
                 true,
                 true);
+            pgform.SetProgressBar("已完成CAD衍生数据处理流程", "正在执行CAD种树处理.....", 2);
 
             // CAD种树处理流程
             ItemGeneratePreocess(frames,
@@ -233,6 +243,7 @@ namespace ThSitePlan.UI
                 true,
                 true,
                 true);
+            pgform.SetProgressBar("已完成CAD种树处理流程", "正在执行CAD填充处理.....", 2);
 
             // CAD填充处理流程
             ItemGeneratePreocess(frames,
@@ -241,6 +252,7 @@ namespace ThSitePlan.UI
                 true,
                 true,
                 true);
+            pgform.SetProgressBar("已完成CAD填充处理流程", "正在执行CAD阴影处理.....", 10);
 
             // CAD阴影处理流程
             ItemGeneratePreocess(frames,
@@ -251,6 +263,7 @@ namespace ThSitePlan.UI
                 true,
                 true,
                 true);
+            pgform.SetProgressBar("已完成CAD阴影处理流程", "正在执行图框清理.....", 6);
 
             // 未识别图框清理流程
             ItemGeneratePreocess(frames,
@@ -260,6 +273,7 @@ namespace ThSitePlan.UI
                 true,
                 true,
                 true);
+            pgform.SetProgressBar("已完成图框清理流程", "正在执行CAD打印.....", 2);
 
             // CAD打印流程
             ItemGeneratePreocess(frames,
@@ -269,6 +283,7 @@ namespace ThSitePlan.UI
                 true,
                 true,
                 true);
+            pgform.SetProgressBar("已完成 CAD打印流程", "正在执行PS处理.....", 5);
 
             //PS处理流程
             ThSitePlanConfigService.Instance.Initialize();
@@ -301,10 +316,13 @@ namespace ThSitePlan.UI
                  };
                 ThSitePlanPSEngine.Instance.PSRun(
                     ThSitePlanSettingsService.Instance.OutputPath,
-                    ThSitePlanConfigService.Instance.Root);
-
+                    ThSitePlanConfigService.Instance.Root,
+                    pgform.Handle, "progressBar1");
+                pgform.SetProgressBar("已完成PhotoShop生成", "正在保存PS文件.....", 1);
                 // 保存PS生成的文档
                 psService.ExportToFile(ThSitePlanSettingsService.Instance.OutputPath);
+                pgform.SetProgressBar("Done !", "Done", 6);
+                pgform.setconfirmbtn();
             }
         }
 

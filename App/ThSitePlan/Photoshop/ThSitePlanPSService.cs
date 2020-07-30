@@ -21,6 +21,7 @@ namespace ThSitePlan.Photoshop
             try
             {
                 Application = new PsApplication();
+                Application.Visible = false;
             }
             catch(COMException e) 
             {
@@ -319,6 +320,7 @@ namespace ThSitePlan.Photoshop
                 return;
             }
             Application.ActiveDocument.SaveAs(path);
+            Application.Visible = true;
         }
 
         //用于生成操作时导出并保存PSD文件
@@ -333,6 +335,7 @@ namespace ThSitePlan.Photoshop
                 psfilename = nameprefi + originaldwgindex + ".psd";
             }
             Application.ActiveDocument.SaveAs(Path.Combine(path, psfilename));
+            Application.Visible = true;
         }
 
         //在当前文档中查找指定名称的图层
