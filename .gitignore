@@ -54,3 +54,15 @@ ipch/
 *.nuget.props
 *.nuget.targets
 App/ThSitePlan.UI/Properties/licenses.licx
+App/AnalysisDemo/fmAnalysis.resx
+App/AnalysisDemo/fmAnalysis.cs
+App/AnalysisDemo/fmAnalysis.Designer.cs
+App/AnalysisDemo/Properties/Settings.settings
+App/AnalysisDemo/Properties/Settings.Designer.cs
+App/AnalysisDemo/Properties/Resources.resx
+App/AnalysisDemo/Properties/Resources.Designer.cs
+App/AnalysisDemo/Properties/AssemblyInfo.cs
+App/AnalysisDemo/Program.cs
+App/AnalysisDemo/App.config
+App/AnalysisDemo/AnalysisDemo.csproj
+App/AnalysisDemo/AnalysisData.cs
