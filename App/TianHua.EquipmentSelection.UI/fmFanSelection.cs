@@ -447,6 +447,10 @@ namespace TianHua.FanSelection.UI
                     }
 
                 }
+                else
+                {
+                    ClearFanModel(_Fan);
+                }
                 TreeList.RefreshNode(TreeList.FocusedNode);
             }
             else
@@ -482,6 +486,10 @@ namespace TianHua.FanSelection.UI
                         _Fan.FanModelWeight = _FanParameters.Weight;
                     }
 
+                }
+                else
+                {
+                    ClearFanModel(_Fan);
                 }
                 //if (_ListStr != null && _ListStr.Count() == 2)
                 //{
