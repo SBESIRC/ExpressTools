@@ -19,8 +19,8 @@ namespace TianHua.FanSelection.UI
                 // 风量
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME] = Convert.ToString(model.AirVolume),
 
-                // 全压
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE] = model.FanModelPa,
+                // 风阻
+                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE] = Convert.ToString(model.WindResis),
 
                 // 电量
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE] = model.FanModelMotorPower,
@@ -91,11 +91,11 @@ namespace TianHua.FanSelection.UI
                 throw new ArgumentException();
             }
 
-            // 全压
+            // 风阻
             if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE))
             {
                 if (FuncStr.NullToInt(attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE]) 
-                    != FuncStr.NullToInt(model.FanModelPa))
+                    != FuncStr.NullToInt(model.WindResis))
                 {
                     return true;
                 }
