@@ -34,6 +34,11 @@ namespace TianHua.FanSelection.UI
             return attributes;
         }
 
+        public static bool IsValid(this FanDataModel model)
+        {
+            return !string.IsNullOrEmpty(model.FanModelName) && (model.FanModelName != "无此风机");
+        }
+
         public static bool IsModified(this FanDataModel model, Dictionary<string, string> attributes)
         {
             // 设备符号

@@ -1514,6 +1514,10 @@ namespace TianHua.FanSelection.UI
             {
                 return;
             }
+            if (!_FanDataModel.IsValid())
+            {
+                return;
+            }
             if (string.IsNullOrEmpty(_FanDataModel.VentStyle))
             {
                 return;
