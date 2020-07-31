@@ -31,6 +31,11 @@ namespace ThSitePlan.Photoshop
             }
         }
 
+        public void ShowPSApp()
+        {
+            this.Application.Visible = true;
+        }
+
         public void Dispose()
         {
             //
@@ -101,6 +106,7 @@ namespace ThSitePlan.Photoshop
             Document NewOpenDoc = Application.Open(fullPath, pdfop);
             string CurDocNa = NewOpenDoc.Name;
             ArtLayer newlayer = NewOpenDoc.ArtLayers[1];
+            newlayer.Translate(0,0);
             newlayer.Name = CurDocNa;
             string DocName = NewOpenDoc.Name;
 
