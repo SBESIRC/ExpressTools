@@ -3,12 +3,12 @@ namespace TianHua.FanSelection.UI
 {
     public class ThFanSelectionCommon
     {
-        public static readonly string MOTOR_POWER = "电机功率";
         public static readonly string HTFC_TYPE_NAME = "离心";
         public static readonly string AXIAL_TYPE_NAME = "轴流";
         public static readonly string HTFC_BLOCK_NAME = "HTFC(DF)柜式离心风机";
         public static readonly string AXIAL_BLOCK_NAME = "消防高温排烟专用风机";
         public static readonly string BLOCK_FAN_LAYER = "H-EQUP-FANS";
+        public static readonly string MOTOR_POWER = "电机功率.json";
         public static readonly string BLOCK_FAN_FILE = "暖通.选型.风机.dwg";
         public static readonly string HTFC_Selection = "离心风机选型.json";
         public static readonly string HTFC_Parameters = "离心风机参数.json";
