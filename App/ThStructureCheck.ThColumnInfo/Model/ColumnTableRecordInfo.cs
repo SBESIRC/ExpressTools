@@ -369,7 +369,7 @@ namespace ThColumnInfo
                 }
             }
             jointCoreHoopingValue = Replace132(jointCoreHoopingValue);
-            string pattern = "\\s{0,}\\d+\\s{0,}[@]{1}\\s{0,}\\d+\\s{0,}";
+            string pattern = "[A-D]?\\s{0,}\\d+\\s{0,}[@]{1}\\s{0,}\\d+\\s{0,}";
             var mc = Regex.Matches(jointCoreHoopingValue, pattern);
             foreach (Match item in mc)
             {

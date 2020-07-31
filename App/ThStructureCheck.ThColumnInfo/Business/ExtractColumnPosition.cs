@@ -183,6 +183,11 @@ namespace ThColumnInfo
                 {
                     this.ColumnTableRecordInfos = thStandardSign.ColumnTableRecordInfos;
                 }
+                if (this.ColumnTableRecordInfos.Count == 0)
+                {
+                    System.Windows.MessageBox.Show("未能提取到任何柱表信息，\n1、请检查【参数设置】里柱表图层和柱表外框线图层是否一致。" +
+                        "\n2、请检查柱表的里的内容格式是否有误。", "柱表提取");
+                }
                 this.ColumnTableRecordInfos.ForEach(o => o.UpdateJointCoreHooping());
                 CheckColumnInfo();
                 ThProgressBar.MeterProgress();

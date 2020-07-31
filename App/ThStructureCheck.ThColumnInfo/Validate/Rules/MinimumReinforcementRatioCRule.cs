@@ -41,11 +41,12 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
-            steps.Add("类别：最小配筋率（侧面纵筋）");
+            steps.Add("类别：最小配筋率C（侧面纵筋）");
             steps.Add("强制性：应，适用构件：ZHZ");
             steps.Add("条文编号：高规 3.10.4-3");
             steps.Add("条文：特一级、框支柱、全部纵筋最小配筋率1.6%");
             steps.Add("柱号 = " + this.minimumReinforceRatioAModel.Text);
+            steps.Add(minimumReinforceRatioAModel.Cdm.GetDblpCalculation());
             steps.Add("if(抗震等级 [" + this.minimumReinforceRatioAModel.AntiSeismicGrade + "].Contains(\"特一级\"))");
             steps.Add("  {");
             steps.Add("     if(柱号 [" + this.minimumReinforceRatioAModel.Code + "].Contains(\"ZHZ\"))");

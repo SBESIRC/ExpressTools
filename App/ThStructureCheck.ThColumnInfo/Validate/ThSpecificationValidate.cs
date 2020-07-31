@@ -182,6 +182,9 @@ namespace ThColumnInfo.Validate
         private string structureType = "";
         private bool cornerColumn = false;
         public double ProtectLayerThickness => protectLayerThickness;
+        public string ConcreteStrength => concreteStrength;
+        public string AntiSeismicGrade => antiSeismicGrade;
+        public bool CornerColumn => cornerColumn;
         /// <summary>
         /// 获取抗震等级
         /// </summary>
@@ -314,6 +317,7 @@ namespace ThColumnInfo.Validate
             validateRules.Add(BuildVolumeReinforceRatioDRule());          // 体积配箍率D(箍筋)
             validateRules.Add(BuildVolumeReinforceRatioERule());          // 体积配箍率E(箍筋)
             validateRules.Add(BuildVolumeReinforceRatioFRule());          // 体积配箍率F(箍筋)
+            validateRules.Add(BuildVolumeReinforceRatioHRule());          // 体积配箍率H(箍筋)
             for (int i = 0; i < this.validateRules.Count; i++)
             {
                 if (this.validateRules[i] == null)
@@ -931,6 +935,19 @@ namespace ThColumnInfo.Validate
                 ProtectLayerThickness = this.protectLayerThickness
             };
             IRule rule = new VolumeReinforceRatioFRule(vrra);
+            return rule;
+        }
+        private IRule BuildVolumeReinforceRatioHRule()
+        {
+            VolumeReinforceRatioHModel vrrh = new VolumeReinforceRatioHModel()
+            {
+                Code = this.columnInf.Code,
+                Text = this.columnInf.Text,
+                AntiSeismicGrade = this.antiSeismicGrade,
+                Cdm = this.cdm,
+                ProtectLayerThickness = this.protectLayerThickness
+            };
+            IRule rule = new VolumeReinforceRatioHRule(vrrh);
             return rule;
         }
     }

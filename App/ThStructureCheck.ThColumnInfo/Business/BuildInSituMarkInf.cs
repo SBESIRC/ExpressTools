@@ -614,9 +614,8 @@ namespace ThColumnInfo
                         return;
                     }
                 }
-
                 //b边原位标注数量和 第一个标注数量相同，表示把角筋合到第二个数值里了
-                if (this.bSideNum == firstReinNum)
+                else if (this.bSideNum == firstReinNum && firstSuffix == bSideReinforceSuffix)
                 {
                     this.angularReinforcement = this.distinguishCBH.CornerNum * 4 + secondSuffix;
                     if(secondReinNum!= this.distinguishCBH.CornerNum * 4+this.distinguishCBH.HEdgeNum*2)
@@ -627,7 +626,7 @@ namespace ThColumnInfo
                     }
                 }
                 //b边原位标注数量和 第二个标注数量相同，表示把角筋合到第一个数值里了
-                else if (this.bSideNum == secondReinNum)
+                else if (this.bSideNum == secondReinNum && bSideReinforceSuffix == secondSuffix)
                 {
                     this.angularReinforcement = this.distinguishCBH.CornerNum * 4 + firstSuffix;
                     if (firstReinNum != this.distinguishCBH.CornerNum * 4 + this.distinguishCBH.HEdgeNum * 2)
@@ -638,7 +637,7 @@ namespace ThColumnInfo
                     }
                 }
                 //h边原位标注数量和第一个标注数量相同，表示把角筋合到第二个数值里了
-                else if (this.hSideNum == firstReinNum)
+                else if (this.hSideNum == firstReinNum && firstSuffix == hSideReinforceSuffix)
                 {
                     this.angularReinforcement = this.distinguishCBH.CornerNum * 4 + secondSuffix;
                     if (secondReinNum != this.distinguishCBH.CornerNum * 4 + this.distinguishCBH.BEdgeNum * 2)
@@ -649,7 +648,7 @@ namespace ThColumnInfo
                     }
                 }
                 //h边原位标注数量和第二个标注数量相同，表示把角筋合到第一个数值里了
-                else if (this.hSideNum == secondReinNum)
+                else if (this.hSideNum == secondReinNum && secondSuffix == hSideReinforceSuffix)
                 {
                     this.angularReinforcement = this.distinguishCBH.CornerNum * 4 + firstSuffix;
                     if (firstReinNum != this.distinguishCBH.CornerNum * 4 + this.distinguishCBH.BEdgeNum * 2)

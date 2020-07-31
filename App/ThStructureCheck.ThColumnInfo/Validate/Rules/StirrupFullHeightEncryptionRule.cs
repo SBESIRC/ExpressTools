@@ -34,11 +34,11 @@ namespace ThColumnInfo.Validate.Rules
                 {
                     if (this.sfhem.Cdm.IntStirrupSpacing!= this.sfhem.Cdm.IntStirrupSpacing0)
                     {
-                        this.ValidateResults.Add("箍筋应全高范围内加密" + this.rule);
+                        this.ValidateResults.Add("箍筋未全高加密 " + this.rule);
                     }
                     else
                     {
-                        this.CorrectResults.Add("箍筋全高范围内已加密" + this.rule);
+                        this.CorrectResults.Add("箍筋全高范围内已加密 " + this.rule);
                     }
                 }
             }
@@ -72,11 +72,11 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("        if (IntStirrupSpacing[" + sfhem.Cdm.IntStirrupSpacing +
                                   "] != IntStirrupSpacing0[" + sfhem.Cdm.IntStirrupSpacing0 + "]");
             steps.Add("          {");
-            steps.Add("             Err: 箍筋全高范围内未加密" + this.rule);
+            steps.Add("             Err: 箍筋未全高加密 " + this.rule);
             steps.Add("           }");
             steps.Add("        else");
             steps.Add("           {");
-            steps.Add("             Debugprint: 箍筋全高范围内已加密" + this.rule);
+            steps.Add("             Debugprint: 箍筋全高范围内已加密 " + this.rule);
             steps.Add("           }");
             steps.Add("      }");    
             steps.Add("  }");

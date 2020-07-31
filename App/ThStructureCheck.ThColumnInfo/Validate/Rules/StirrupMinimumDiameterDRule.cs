@@ -38,6 +38,10 @@ namespace ThColumnInfo.Validate.Rules
                     this.stirrupDiameterLimited = this.smdd.IntStirrupDiaLimited;
                     this.smdd.AntiSeismicGrade = oldAntiSeismicGrade;
                 }
+                else
+                {
+                    this.stirrupDiameterLimited = this.smdd.IntStirrupDiaLimited;
+                }
                 //箍筋直径限值修正        
                 if (this.smdd.AntiSeismicGrade.Contains("四级") && this.smdd.Jkb <= 2)
                 {

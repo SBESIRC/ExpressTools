@@ -26,8 +26,9 @@ namespace ThColumnInfo.Service
         public ColuJointCoreAnalysis(string coluJointCore)
         {
             this.coluJointCore = coluJointCore;
+            Analysis();
         }
-        public void Analysis()
+        private void Analysis()
         {
             if(string.IsNullOrEmpty(this.coluJointCore))
             {

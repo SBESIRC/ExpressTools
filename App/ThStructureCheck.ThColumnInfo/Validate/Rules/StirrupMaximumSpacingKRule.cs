@@ -29,6 +29,10 @@ namespace ThColumnInfo.Validate.Rules
                     {
                         this.ValidateResults.Add("一、二级角柱应沿柱全高加密 " + this.rule);
                     }
+                    else
+                    {
+                        this.CorrectResults.Add("一、二级角柱已沿柱全高加密 " + this.rule);
+                    }
                 }
             }
         }
@@ -49,9 +53,13 @@ namespace ThColumnInfo.Validate.Rules
                 intStirrupSpacing+"] !=0.0)");
             steps.Add("        {");
             steps.Add("           if(intStirrupSpacing["+ intStirrupSpacing +
-                "] == intStirrupSpacing0["+ intStirrupSpacing0+"])");
+                "] != intStirrupSpacing0["+ intStirrupSpacing0+"])");
             steps.Add("              {");
             steps.Add("                Error: 一、二级角柱应沿柱全高加密 " + this.rule);
+            steps.Add("              {");
+            steps.Add("           else");
+            steps.Add("              {");
+            steps.Add("                Debugprint: 一、二级角柱已沿柱全高加密 " + this.rule);
             steps.Add("              {");
             steps.Add("        }");
             steps.Add("  }");

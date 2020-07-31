@@ -136,9 +136,7 @@ namespace ThColumnInfo.Validate.Model
         {
             get
             {
-                ColuJointCoreAnalysis coluJointCoreAnalysis = new ColuJointCoreAnalysis(this.ctri.JointCoreHoop);
-                coluJointCoreAnalysis.Analysis();
-                return coluJointCoreAnalysis;
+                return new ColuJointCoreAnalysis(this.ctri.JointCoreHoop);
             }
         }
         private double intCBarDiaArea = 0.0;
@@ -322,18 +320,18 @@ namespace ThColumnInfo.Validate.Model
             return (value1 + value2) / value3;
         }
         /// <summary>
-        /// 获取核芯区配筋面积
+        /// 获取X侧核芯区配筋面积
         /// </summary>
         /// <returns></returns>
-        public double GetCoreReinforcementArea(ColuJointCoreAnalysis coluJointCore, double cover)
+        public double GetXCoreReinforcementArea(ColuJointCoreAnalysis coluJointCore)
         {
-            double coreReinArea = 0.0;
             double radius = coluJointCore.Diameter / 2.0;
-            double value1 = IntXStirrupCount * Math.PI * radius * radius;
-            double value2 = IntYStirrupCount * Math.PI * radius * radius;
-            coreReinArea = value1 + value2;
-            coreReinArea = coreReinArea / 100.0;
-            return coreReinArea;
+            return Math.Round(IntXStirrupCount * Math.PI * radius * radius, 2);
+        }
+        public double GetYCoreReinforcementArea(ColuJointCoreAnalysis coluJointCore)
+        {
+            double radius = coluJointCore.Diameter / 2.0;
+            return Math.Round(IntYStirrupCount * Math.PI * radius * radius, 2);
         }
         /// <summary>
         /// 获取体积配箍率计算过程
@@ -371,15 +369,25 @@ namespace ThColumnInfo.Validate.Model
             return calculation;
         }
         /// <summary>
-        /// 获取节点核心区配筋面积
+        /// 获取X侧节点核心区配筋面积计算步骤
         /// </summary>
         /// <param name="coluJointCore"></param>
         /// <returns></returns>
-        public string GetCoreReinAreaCalculation(ColuJointCoreAnalysis coluJointCore,double cover)
+        public string GetXCoreReinAreaCalculation(ColuJointCoreAnalysis coluJointCore)
         {
-            string calculation = "(IntXStirrupCount[" + IntXStirrupCount + "] * Pi* D[" + coluJointCore.Diameter +
-                "] * D[" + coluJointCore.Diameter + "]) / 4.0 + " + "(IntYStirrupCount[" + IntYStirrupCount + 
-                "] * Pi * D[" + coluJointCore.Diameter + "] * D[" + coluJointCore.Diameter + "]) / 4.0 = ";
+            string calculation = "m向核芯区箍筋截面面积 = IntXStirrupCount[" + IntXStirrupCount + "] * Pi* D[" + coluJointCore.Diameter +
+                "] * D[" + coluJointCore.Diameter + "] / 4.0 = " ;
+            return calculation;
+        }
+        /// <summary>
+        /// 获取X侧节点核心区配筋面积计算步骤
+        /// </summary>
+        /// <param name="coluJointCore"></param>
+        /// <returns></returns>
+        public string GetYCoreReinAreaCalculation(ColuJointCoreAnalysis coluJointCore)
+        {
+            string calculation = "n向核芯区箍筋截面面积 = IntYStirrupCount[" + IntYStirrupCount + "] * Pi * D[" + coluJointCore.Diameter +
+                "] * D[" + coluJointCore.Diameter + "] / 4.0 = ";
             return calculation;
         }
     }

@@ -159,6 +159,15 @@ namespace ThColumnInfo.ViewModel
                 {                    
                     ThStandardSign thStandardSign = owner.tvCheckRes.SelectedNode.Tag as ThStandardSign;
                     thStandardSign.ExtractColumnTableData();
+                    if(thStandardSign.ColumnTableRecordInfos.Count==0)
+                    {
+                        MessageBox.Show("未能提取到任何柱表信息，\n1、请检查【参数设置】里柱表图层和柱表外框线图层是否一致。" +
+                            "\n2、请检查柱表的里的内容格式是否有误。","柱表提取");
+                    }
+                    else
+                    {
+                        MessageBox.Show("从柱表中提取了"+ thStandardSign.ColumnTableRecordInfos.Count+"条记录!", "柱表提取");
+                    }
                 }
                 catch (Exception ex)
                 {

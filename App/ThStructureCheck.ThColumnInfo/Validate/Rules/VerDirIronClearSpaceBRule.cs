@@ -34,10 +34,8 @@ namespace ThColumnInfo.Validate.Rules
             double maxValue = Math.Max(dblXBarspacing, dblYBarspacing);
             if(this.ruleModel.Code.ToUpper().Contains("ZHZ"))
             {
-                this.rule = "";
                 if(minValue < 80)
                 {
-                    isValid = false;
                     ValidateResults.Add("纵向钢筋净间距不足 [" + minValue + " < 80]，" + this.rule);
                 }
                 else
@@ -49,7 +47,6 @@ namespace ThColumnInfo.Validate.Rules
                     {
                         if(maxValue>200)
                         {
-                            isValid = false;
                             ValidateResults.Add("纵向钢筋净间距大于200mm [" + maxValue + " > 200]，" + this.rule);
                         }
                     }
@@ -57,7 +54,6 @@ namespace ThColumnInfo.Validate.Rules
                     {
                         if (maxValue > 250)
                         {
-                            isValid = false;
                             ValidateResults.Add("纵向钢筋净间距大于250mm [" + maxValue + " > 250]，" + this.rule);
                         }
                     }
@@ -75,10 +71,14 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
-            steps.Add("类别：纵筋净间距（侧面纵筋）");
+            if(!this.isValid)
+            {
+                return steps;
+            }
+            steps.Add("类别：纵筋净间距B（侧面纵筋）");
             steps.Add("强制性：应、宜，适用构件：ZHZ");
             steps.Add("条文编号：《高规》10.2.11-7");
-            steps.Add("条文：转换柱、纵筋净间距不应小于80mm，抗震时不宜大于200mm，非抗震时不宜大于250mm");
+            steps.Add("条文：转换柱、纵筋净间距不应小于80mm，抗震时不宜大于200mm，非抗震时不宜大于250mm。");
             steps.Add("柱号 = " + this.ruleModel.Text);
             steps.Add("dblXBarspacing=(B[" + ruleModel.Cdm.B + "]- 2 * (保护层厚度[" + ruleModel.ProtectLayerThickness + "] + IntCBarDia[" +
                 ruleModel.Cdm.IntCBarDia + "] +IntStirrupDia[" + ruleModel.Cdm.IntStirrupDia + "]) - IntXBarCount[" +

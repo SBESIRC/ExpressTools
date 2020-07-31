@@ -79,7 +79,6 @@ namespace ThColumnInfo.Validate.Model
                 if(!string.IsNullOrEmpty(this.JointCorehooping))
                 {
                     ColuJointCoreAnalysis coluJointCoreAnalysis = new ColuJointCoreAnalysis(this.JointCorehooping);
-                    coluJointCoreAnalysis.Analysis();
                     return coluJointCoreAnalysis;
                 }
                 else if(this.Cdm!=null)

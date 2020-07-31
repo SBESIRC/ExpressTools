@@ -94,6 +94,7 @@
     <Compile Include="Validate\Model\ColumnSpecModel.cs" />
     <Compile Include="Validate\Model\CompoundStirrupModel.cs" />
     <Compile Include="Validate\Model\JointCoreReinforceModel.cs" />
+    <Compile Include="Validate\Model\MinimumReinforceRatioEModel.cs" />
     <Compile Include="Validate\Model\MinimumReinforceRatioBModel.cs" />
     <Compile Include="Validate\Model\MinimumReinforceRatioAModel.cs" />
     <Compile Include="Validate\Model\ReinforcementAreaModel.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Validate\Model\StirrupMinimumDiameterEModel.cs" />
     <Compile Include="Validate\Model\StirrupMinimumDiameterDModel.cs" />
     <Compile Include="Validate\Model\StirrupReinforcementAreaModel.cs" />
+    <Compile Include="Validate\Model\VolumeReinforceRatioHModel.cs" />
     <Compile Include="Validate\Model\VolumeReinforceRatioEModel.cs" />
     <Compile Include="Validate\Model\VolumeReinforceRatioCModel.cs" />
     <Compile Include="Validate\Model\VolumeReinforceRatioBModel.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="Validate\Rules\LongShortEdgeRatioRule.cs" />
     <Compile Include="Validate\Rules\CompoundStirrupRule.cs" />
     <Compile Include="Validate\Rules\IRule.cs" />
+    <Compile Include="Validate\Rules\MinimumReinforcementRatioERule.cs" />
     <Compile Include="Validate\Rules\MinimumReinforcementRatioDRule.cs" />
     <Compile Include="Validate\Rules\MinimumReinforcementRatioCRule.cs" />
     <Compile Include="Validate\Rules\SpecConsistRule.cs" />
@@ -167,6 +170,7 @@
     <Compile Include="Validate\Rules\StirrupMinimumDiameterERule.cs.cs" />
     <Compile Include="Validate\Rules\StirrupReinforcementAreaRule.cs" />
     <Compile Include="Validate\Rules\VerDirIronClearSpaceBRule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioHRule.cs" />
     <Compile Include="Validate\Rules\VolumeReinforceRatioGRule.cs" />
     <Compile Include="Validate\Rules\VolumeReinforceRatioFRule.cs" />
     <Compile Include="Validate\Rules\VolumeReinforceRatioERule.cs" />

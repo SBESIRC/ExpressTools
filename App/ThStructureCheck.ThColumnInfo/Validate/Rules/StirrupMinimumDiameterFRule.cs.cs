@@ -24,8 +24,7 @@ namespace ThColumnInfo.Validate.Rules
             if (this.smdf.AntiSeismicGrade.Contains("一") ||
                    this.smdf.AntiSeismicGrade.Contains("二") ||
                    this.smdf.AntiSeismicGrade.Contains("三") ||
-                  this.smdf.AntiSeismicGrade.Contains("四") &&
-                  !this.smdf.AntiSeismicGrade.Contains("特"))
+                  this.smdf.AntiSeismicGrade.Contains("四"))
             {
                 if (this.smdf.IntStirrupDia < 10)
                 {
@@ -40,11 +39,12 @@ namespace ThColumnInfo.Validate.Rules
         public List<string> GetCalculationSteps()
         {
             List<string> steps = new List<string>();
-            steps.Add("类别：箍筋最小直径（箍筋）");
+            steps.Add("类别：箍筋最小直径F（箍筋）");
             steps.Add("条文：转换柱、抗震设计时(一二三四级)，箍筋直径不应小于10mm");
             steps.Add("柱号 = " + this.smdf.Text);
-            steps.Add("if (抗震等级["+ this.smdf.AntiSeismicGrade+"].Contains(\"一级\") || " 
-                +"抗震等级["+ this.smdf.AntiSeismicGrade+"].Contains(\"二级\") || " +
+            steps.Add("if (抗震等级["+ this.smdf.AntiSeismicGrade+"].Contains(\"特一级\") || " +
+                "抗震等级[" + this.smdf.AntiSeismicGrade + "].Contains(\"一级\") || " +
+                "抗震等级[" + this.smdf.AntiSeismicGrade+"].Contains(\"二级\") || " +
                 "抗震等级[" + this.smdf.AntiSeismicGrade + "].Contains(\"三级\") || "+
                 "抗震等级[" + this.smdf.AntiSeismicGrade + "].Contains(\"四级\"))");
             steps.Add("  {");

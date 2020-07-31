@@ -43,6 +43,10 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("强制性：宜，适用构件：ZHZ");
             steps.Add("条文：转换柱、非抗震时、体积配箍率不宜小于0.8%");
             steps.Add("柱号 = " + this.vrra.Text);
+            steps.Add("intStirrupDia= " + (int)this.vrra.Cdm.IntStirrupDia);
+            steps.Add("intStirrupDiaArea= " + this.vrra.Cdm.IntStirrupDiaArea);
+            steps.Add("cover= " + this.vrra.ProtectLayerThickness + "//保护层厚度");
+            steps.Add(this.vrra.Cdm.GetVolumeStirrupRatioCalculation(this.vrra.ProtectLayerThickness) + this.calVolumnReinforceRatio);
             steps.Add("if (柱号[" + this.vrra.Code + "].Contains(\"ZHZ\") && " +
                 "抗震等级[" +this.vrra.AntiSeismicGrade+"].Contains(\"非抗震\"))");
             steps.Add("  {");

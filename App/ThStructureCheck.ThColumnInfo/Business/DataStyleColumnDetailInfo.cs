@@ -412,14 +412,48 @@ namespace ThColumnInfo
         /// <returns></returns>
         private void TransferColumnInfo()
         {
-            List<string> keyWordList = new List<string> { "柱号", "编号", "标高", "bxh", "b×h", "全部纵筋", "角筋", "b边一侧", "h边一侧", "箍筋", "箍筋类型号", "备注" };
+            List<string> keyWordList = new List<string> { "柱号", "编号","名称", "标高", "bxh", "b×h", "全部纵筋", "角筋", "b边一侧", "h边一侧", "箍筋", "箍筋类型号", "备注" };
             Dictionary<string, int> keyWordDic = new Dictionary<string, int>();
             List<TableCellInfo> headAllCells = new List<TableCellInfo>();
             headRowCells.ForEach(i => headAllCells.AddRange(i));
             foreach (string keyWord in keyWordList)
             {
-                TableCellInfo tci = headAllCells.Where(i => !string.IsNullOrEmpty(i.Text) && i.Text.Replace(" ", "").ToLower().
+                TableCellInfo tci;
+                if (keyWord == "箍筋")
+                {
+                    tci = headAllCells.Where(o =>
+                    {
+                        if (!string.IsNullOrEmpty(o.Text))
+                        {
+                            string text = o.Text.Replace(" ", "").ToLower();
+                            if (text.Contains("箍筋") && !text.Contains("类型"))
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }).Select(i => i).FirstOrDefault();
+                }
+                else if (keyWord == "箍筋类型号")
+                {
+                    tci = headAllCells.Where(o =>
+                    {
+                        if (!string.IsNullOrEmpty(o.Text))
+                        {
+                            string text = o.Text.Replace(" ", "").ToLower();
+                            if (text.Contains("箍筋") && text.Contains("类型"))
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }).Select(i => i).FirstOrDefault();
+                }
+                else
+                {
+                    tci = headAllCells.Where(i => !string.IsNullOrEmpty(i.Text) && i.Text.Replace(" ", "").ToLower().
                 Contains(keyWord)).Select(i => i).FirstOrDefault();
+                }
                 if (tci == null)
                 {
                     continue;
@@ -442,6 +476,7 @@ namespace ThColumnInfo
                         {
                             case "编号":
                             case "柱号":
+                            case "名称":
                                 coluTabRi.Code = dataRowCells[i][j].Text;
                                 break;
                             case "标高":

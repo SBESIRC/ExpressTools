@@ -234,12 +234,12 @@ namespace ThColumnInfo
                 {
                     continue;
                 }
-                var res = keyWordList.Where(i => tci.Text.Replace(" ", "").ToLower().Contains(i)).First();
-                if(res==null)
+                var res = keyWordList.Where(i => tci.Text.Replace(" ", "").ToLower().Contains(i));
+                if(res.Count()==0)
                 {
                     continue;
                 }
-                keyWordDic.Add(Tuple.Create(res, tci.Row));
+                keyWordDic.Add(Tuple.Create(res.First(), tci.Row));
             }
             int recordsCount = keyWordDic.Select(i => i.Item1).Distinct().Count();
             int splitNums = keyWordDic.Count / recordsCount;
