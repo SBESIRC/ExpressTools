@@ -50,20 +50,6 @@ namespace TianHua.FanSelection.UI
                 throw new ArgumentException();
             }
 
-            // 楼层-编号
-            if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_STOREY_AND_NUMBER))
-            {
-                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_STOREY_AND_NUMBER] !=
-                    ThFanSelectionUtils.StoreyNumber(model.InstallFloor, model.VentNum))
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
-
             // 风机功能
             if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_USAGE))
             {
