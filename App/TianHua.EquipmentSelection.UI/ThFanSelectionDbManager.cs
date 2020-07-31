@@ -81,6 +81,22 @@ namespace TianHua.FanSelection.UI
             return new ObjectIdCollection(models.ToArray());
         }
 
+        public void EraseModels(string identifier)
+        {
+            using (ObjectIdCollection modelids = GetModels(identifier))
+            {
+                foreach (ObjectId item in modelids)
+                {
+                    if (item.IsErased)
+                    {
+                        continue;
+                    }
+                    item.Erase();
+                }
+            }
+            
+        }
+
         /// <summary>
         /// 提取块引用中的模型信息（模型标识和模型编号）
         /// </summary>

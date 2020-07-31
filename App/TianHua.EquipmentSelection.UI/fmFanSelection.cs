@@ -889,6 +889,11 @@ namespace TianHua.FanSelection.UI
                     if (XtraMessageBox.Show(" 已插入图纸的风机图块也将被删除，是否继续？ ", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         TreeList.DeleteSelectedNodes();
+                        using (ThFanSelectionDbManager dbManager = new ThFanSelectionDbManager(Active.Database))
+                        {
+                            dbManager.EraseModels(_Fan.ID);
+                            Active.Editor.Regen();
+                        }
                     }
                 }
                 else
@@ -920,9 +925,14 @@ namespace TianHua.FanSelection.UI
                         }
                     }
 
-
+                    using (Active.Document.LockDocument())
+                    using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                    using (ThFanSelectionDbManager dbManager = new ThFanSelectionDbManager(Active.Database))
+                    {
+                        dbManager.EraseModels(_Fan.ID);
+                        Active.Editor.Regen();
+                    }
                 }
-
             }
 
 
