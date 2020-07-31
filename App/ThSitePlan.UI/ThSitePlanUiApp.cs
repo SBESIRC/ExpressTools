@@ -600,6 +600,10 @@ namespace ThSitePlan.UI
         public void ThSitePlanOpenFilePath()
         {
             System.Diagnostics.Process.Start(ThSitePlanSettingsService.Instance.OutputPath);
+            using (var psService = new ThSitePlanPSService())
+            {
+                psService.ShowPSApp();
+            }
         }
 
         public bool EnvironmentInitialize(ObjectIdCollection dbframes)

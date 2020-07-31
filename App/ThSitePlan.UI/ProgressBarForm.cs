@@ -28,6 +28,16 @@ namespace ThSitePlan.UI
             this.AppInfoBox.AppendText(appruninfo + Environment.NewLine);
         }
 
+        public void SetProgressInfo(string progressbarinfo)
+        {
+            this.ProgressInfo.Text = progressbarinfo;
+        }
+
+        public void SetAppInfoBox(string appruninfo)
+        {
+            this.AppInfoBox.AppendText(appruninfo + Environment.NewLine);
+        }
+
         public void setconfirmbtn()
         {
             Confirm_Btn.Enabled = true;
