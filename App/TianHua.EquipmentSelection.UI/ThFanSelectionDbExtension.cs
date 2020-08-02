@@ -37,11 +37,11 @@ namespace TianHua.FanSelection.UI
             }
         }
 
-        public static void SetModelNumber(this ObjectId obj, string storey, string number)
+        public static void SetModelNumber(this ObjectId obj, string storey, int number)
         {
             obj.UpdateAttributesInBlock(new Dictionary<string, string>()
             {
-                { ThFanSelectionCommon.BLOCK_ATTRIBUTE_STOREY_AND_NUMBER, ThFanSelectionUtils.StoreyNumber(storey, number) }
+                { ThFanSelectionCommon.BLOCK_ATTRIBUTE_STOREY_AND_NUMBER, ThFanSelectionUtils.StoreyNumber(storey, number.ToString()) }
             });
         }
 
@@ -54,6 +54,18 @@ namespace TianHua.FanSelection.UI
                 { (int)DxfCode.ExtendedDataBinaryChunk,  Encoding.UTF8.GetBytes(style) },
             };
             obj.AddXData(ThFanSelectionCommon.RegAppName_FanSelection, valueList);
+        }
+
+        public static void UpdateModelIdentifier(this ObjectId obj, int number)
+        {
+            var oldValue = obj.GetModelNumber();
+            if (oldValue > 0 && (oldValue != number))
+            {
+                obj.ModXData(
+                    ThFanSelectionCommon.RegAppName_FanSelection,
+                    DxfCode.ExtendedDataInteger32,
+                    oldValue, number);
+            }
         }
 
         public static bool IsModel(this ObjectId obj, string identifier)
@@ -164,18 +176,6 @@ namespace TianHua.FanSelection.UI
             }
 
             return (int)values.ElementAt(0).Value;
-        }
-
-        public static void SetModelNumber(this ObjectId obj, int number)
-        {
-            var oldValue = obj.GetModelNumber();
-            if (oldValue > 0 && (oldValue != number))
-            {
-                obj.ModXData(
-                    ThFanSelectionCommon.RegAppName_FanSelection,
-                    DxfCode.ExtendedDataInteger32,
-                    oldValue, number);
-            }
         }
 
         public static void ModifyModelAttributes(this ObjectId obj, Dictionary<string, string> attributes)

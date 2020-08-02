@@ -39,7 +39,7 @@ namespace TianHua.FanSelection.UI
             return !string.IsNullOrEmpty(model.FanModelName) && (model.FanModelName != "无此风机");
         }
 
-        public static bool IsModified(this FanDataModel model, Dictionary<string, string> attributes)
+        public static bool IsAttributeModified(this FanDataModel model, Dictionary<string, string> attributes)
         {
             // 设备符号
             if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_EQUIPMENT_SYMBOL))
@@ -53,6 +53,16 @@ namespace TianHua.FanSelection.UI
             else
             {
                 throw new ArgumentException();
+            }
+
+            // 设备编号（“楼层-编号”）
+            // 暂时只比较楼层是否变化
+            if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_STOREY_AND_NUMBER))
+            {
+                if (!attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_STOREY_AND_NUMBER].StartsWith(model.InstallFloor))
+                {
+                    return true;
+                }
             }
 
             // 风机功能

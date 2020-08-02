@@ -34,7 +34,7 @@ namespace TianHua.FanSelection.UI
                     Matrix3d displacement = Matrix3d.Displacement(pr.Value.GetAsVector() + delta);
                     var model = acadDatabase.ModelSpace.Add(blockRef.GetTransformedCopy(displacement));
                     model.SetModelIdentifier(dataModel.ID, dataModel.ListVentQuan[i], dataModel.VentStyle);
-                    model.SetModelNumber(dataModel.InstallFloor, dataModel.ListVentQuan[i].ToString());
+                    model.SetModelNumber(dataModel.InstallFloor, dataModel.ListVentQuan[i]);
                     UpdateModelName(model, dataModel);
                 }
 
@@ -68,12 +68,26 @@ namespace TianHua.FanSelection.UI
                     .Where(o => o.ObjectId.IsModel(dataModel.ID));
                 foreach (var model in models.Select((value, i) => new { i, value }))
                 {
+                    // 更新编号
+                    int number = dataModel.ListVentQuan[model.i];
+                    model.value.ObjectId.UpdateModelIdentifier(number);
+
                     // 更新属性值
                     model.value.ObjectId.ModifyModelAttributes(dataModel.Attributes());
+                    model.value.ObjectId.SetModelNumber(dataModel.InstallFloor, number);
+                }
+            }
+        }
 
-                    // 更新编号
-                    model.value.ObjectId.SetModelNumber(dataModel.ListVentQuan[model.i]);
-
+        public static void ModifyModelNames(FanDataModel dataModel)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var models = acadDatabase.ModelSpace
+                    .OfType<BlockReference>()
+                    .Where(o => o.ObjectId.IsModel(dataModel.ID));
+                foreach (var model in models.Select((value, i) => new { i, value }))
+                {
                     // 更新风机型号
                     UpdateModelName(model.value.ObjectId, dataModel);
                 }
@@ -89,6 +103,23 @@ namespace TianHua.FanSelection.UI
             else
             {
                 model.SetModelName(model.HTFCModelName(dataModel.FanModelNum, dataModel.IntakeForm));
+            }
+        }
+
+        public static bool IsModelStyleChanged(ObjectId model, FanDataModel dataModel)
+        {
+            return model.GetModelStyle() != dataModel.VentStyle;
+        }
+
+        public static bool IsModelNameChanged(ObjectId model, FanDataModel dataModel)
+        {
+            if (dataModel.VentStyle.Contains(ThFanSelectionCommon.AXIAL_TYPE_NAME))
+            {
+                return model.GetModelName() != model.AXIALModelName(dataModel.FanModelName);
+            }
+            else
+            {
+                return model.GetModelName() != model.HTFCModelName(dataModel.FanModelNum, dataModel.IntakeForm);
             }
         }
 

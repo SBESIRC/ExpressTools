@@ -1554,25 +1554,38 @@ namespace TianHua.FanSelection.UI
                 {
                     // 场景3：若检测到图纸中有对应的风机图块，且图块数量相同
                     var models = dbManager.GetModels(_FanDataModel.ID);
-                    var blockReference = new ThFSBlockReference(models[0]);
-                    var attributes = new Dictionary<string, string>(blockReference.Attributes);
-                    if (models[0].GetModelStyle() != _FanDataModel.VentStyle)
+                    // 所有风机图块由于相同的属性，这里随机选取一个风机图块作为这些图块的“代表”
+                    var model = models[0];
+                    // 风机形式变化
+                    if (ThFanSelectionEngine.IsModelStyleChanged(model, _FanDataModel))
                     {
                         ThFanSelectionEngine.RemoveModels(_FanDataModel);
                         ThFanSelectionEngine.InsertModels(_FanDataModel);
                         return;
                     }
 
-                    if (_FanDataModel.IsModified(attributes))
+                    bool bModified = false;
+
+                    // 风机名称变化
+                    if (ThFanSelectionEngine.IsModelNameChanged(model, _FanDataModel))
                     {
-                        // 场景3.1：图块参数变化
-                        //  更新参数和编号
+                        bModified = true;
+                        ThFanSelectionEngine.ModifyModelNames(_FanDataModel);
+                    }
+
+                    // 参数变化
+                    // 暂时没有处理的一个场景：编号变化
+                    var blockReference = new ThFSBlockReference(model);
+                    var attributes = new Dictionary<string, string>(blockReference.Attributes);
+                    if (_FanDataModel.IsAttributeModified(attributes))
+                    {
+                        bModified = true;
                         ThFanSelectionEngine.ModifyModels(_FanDataModel);
                     }
-                    else
+
+                    // 风机图块没有变化
+                    if (!bModified)
                     {
-                        // 场景3.2：图块参数没有变化
-                        //  缩放到到对应的图块
                         ThFanSelectionEngine.ZoomToModels(_FanDataModel);
                     }
                 }
