@@ -64,8 +64,6 @@ namespace TianHua.FanSelection.UI
         /// </summary>
         public List<AxialFanParameters> m_ListAxialFanParameters = new List<AxialFanParameters>();
 
-        public string m_Path = Path.Combine(ThCADCommon.SupportPath(), "DesignData");
-
         public void RessetPresenter()
         {
             if (m_Presenter != null)
@@ -173,9 +171,9 @@ namespace TianHua.FanSelection.UI
             var _JsonAxialFanParameters = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), ThFanSelectionCommon.AXIAL_Parameters));
             m_ListAxialFanParameters = FuncJson.Deserialize<List<AxialFanParameters>>(_JsonAxialFanParameters);
 
-            if (File.Exists(m_Path + @"FanDesignData.json"))
+            if (File.Exists(Path.Combine(Active.DocumentDirectory, "FanDesignData.json")))
             {
-                var _JsonmFanDesign = ReadTxt(m_Path + @"FanDesignData.json");
+                var _JsonmFanDesign = ReadTxt(Path.Combine(Active.DocumentDirectory, "FanDesignData.json"));
                 m_ListFanDesign = FuncJson.Deserialize<List<FanDesignDataModel>>(_JsonmFanDesign);
             }
 
@@ -1193,7 +1191,7 @@ namespace TianHua.FanSelection.UI
             {
                 m_FanDesign.LastOperationDate = DateTime.Now;
                 var _JsonFanDesign = FuncJson.Serialize(m_ListFanDesign);
-                JsonExporter.Instance.SaveToFile(m_Path + @"FanDesignData.json", Encoding.UTF8, _JsonFanDesign);
+                JsonExporter.Instance.SaveToFile(Path.Combine(Active.DocumentDirectory, "FanDesignData.json"), Encoding.UTF8, _JsonFanDesign);
 
                 var _JsonFan = FuncJson.Serialize(m_ListFan);
                 JsonExporter.Instance.SaveToFile(FuncStr.NullToStr(m_FanDesign.Path), Encoding.UTF8, _JsonFan);
@@ -1227,7 +1225,7 @@ namespace TianHua.FanSelection.UI
 
         private void BarBtnExportFanPara_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            string _ImportExcelPath = Path.Combine(m_Path, "FanPara.xlsx");
+            string _ImportExcelPath = Path.Combine(ThCADCommon.SupportPath(), "DesignData", "FanPara.xlsx");
             Microsoft.Office.Interop.Excel.Application _ExclApp = new Microsoft.Office.Interop.Excel.Application();
             _ExclApp.DisplayAlerts = false;
             _ExclApp.Visible = false;
@@ -1379,7 +1377,7 @@ namespace TianHua.FanSelection.UI
 
         private void BarBtnExportFanCalc_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            string _ImportExcelPath = Path.Combine(m_Path, "FanCalc.xlsx");
+            string _ImportExcelPath = Path.Combine(ThCADCommon.SupportPath(), "DesignData", "FanCalc.xlsx");
             Microsoft.Office.Interop.Excel.Application _ExclApp = new Microsoft.Office.Interop.Excel.Application();
             _ExclApp.DisplayAlerts = false;
             _ExclApp.Visible = false;

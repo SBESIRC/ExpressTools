@@ -134,7 +134,7 @@ namespace TianHua.FanSelection.UI
 
             var _Json = FuncJson.Serialize(m_ListFanDesign);
 
-            JsonExporter.Instance.SaveToFile(m_Path + @"FanDesignData.json", Encoding.UTF8, _Json);
+            JsonExporter.Instance.SaveToFile(Path.Combine(m_Path, "FanDesignData.json"), Encoding.UTF8, _Json);
 
             if (m_ActionType == "打开")
             {
