@@ -1227,7 +1227,7 @@ namespace TianHua.FanSelection.UI
 
         private void BarBtnExportFanPara_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            string _ImportExcelPath = m_Path + "FanPara.xlsx";
+            string _ImportExcelPath = Path.Combine(m_Path, "FanPara.xlsx");
             Microsoft.Office.Interop.Excel.Application _ExclApp = new Microsoft.Office.Interop.Excel.Application();
             _ExclApp.DisplayAlerts = false;
             _ExclApp.Visible = false;
@@ -1379,7 +1379,7 @@ namespace TianHua.FanSelection.UI
 
         private void BarBtnExportFanCalc_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            string _ImportExcelPath = m_Path + "FanCalc.xlsx";
+            string _ImportExcelPath = Path.Combine(m_Path, "FanCalc.xlsx");
             Microsoft.Office.Interop.Excel.Application _ExclApp = new Microsoft.Office.Interop.Excel.Application();
             _ExclApp.DisplayAlerts = false;
             _ExclApp.Visible = false;
