@@ -138,7 +138,7 @@ namespace TianHua.FanSelection.UI
         {
             var blockReference = new ThFSBlockReference(obj);
             var visibilityStates = blockReference.DynablockVisibilityStates();
-            var result = visibilityStates.Where(o => modelName.Contains(o.Key));
+            var result = visibilityStates.Where(o => ThFanSelectionUtils.MatchModelName(modelName, o.Key));
             if (result.Count() == 1)
             {
                 return result.First().Key;

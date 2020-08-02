@@ -102,5 +102,17 @@ namespace TianHua.FanSelection.UI
         {
             return PubVar.g_ListFanPrefixDict.Where(o => o.FanUse == scenario).First().Prefix;
         }
+
+        /// <summary>
+        /// 匹配模型名称和可见性名称
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="visibility"></param>
+        /// <returns></returns>
+        public static bool MatchModelName(string model, string visibility)
+        {
+            // 规则1：去掉模型名称最后面的字母
+            return visibility == model.Substring(0, model.Length - 1);
+        }
     }
 }
