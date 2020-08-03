@@ -53,6 +53,18 @@ namespace TianHua.FanSelection.UI
             return result;
         }
 
+        //传入性能点坐标判断该点是否安全，返回否即不安全
+        public static bool IfPointSafe(List<FanParameters> jasonmodels, List<double> typepointxyz)
+        {
+            Dictionary<string, List<double>> typepoly = GetTypePolylineFromModel(jasonmodels, typepointxyz);
+            //若一个性能点对应两条性能曲线，任意一条性能曲线的对应值不满足安全条件都返回false
+            if (typepoly.Any(p => p.Value[1] >= typepointxyz[1]))
+            {
+                return false;
+            }
+            return true;
+        }
+
         public static Dictionary<string, Polyline> GetAxialPolyFromeModel(List<AxialFanParameters> jasonmodels)
         {
             Dictionary<string, List<Point3d>> fanpoints = new Dictionary<string, List<Point3d>>();
@@ -94,6 +106,18 @@ namespace TianHua.FanSelection.UI
             }
 
             return result;
+        }
+
+        //传入性能点坐标判断该点是否安全，返回否即不安全
+        public static bool IfPointSafe(List<AxialFanParameters> jasonmodels, List<double> typepointxyz)
+        {
+            Dictionary<string, List<double>> typepoly = GetAxialTypePolyFromModel(jasonmodels, typepointxyz);
+            //若一个性能点对应两条性能曲线，任意一条性能曲线的对应值不满足安全条件都返回false
+            if (typepoly.Any(p=>p.Value[1] >= typepointxyz[1]))
+            {
+                return false;
+            }
+            return true;
         }
 
     }
