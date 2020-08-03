@@ -96,19 +96,19 @@ namespace TianHua.FanSelection.UI
             return closepoint;
         }
 
-        public static Point3d MinPointInPoly(this Polyline poly)
+        public static Point3d MinVertextInPoly(this Polyline poly)
         {
             var verticescoll = poly.GetPolyPoints().ToList();
             return verticescoll.OrderBy(q=>q.Y).First();
         }
 
-        public static string IfTypepoSmaller(Polyline poly, Point3d typepoint)
+        public static bool IfTypepoSmaller(Polyline poly, Point3d typepoint)
         {
-            if (typepoint.Y <= poly.MinPointInPoly().Y)
+            if (typepoint.Y <= poly.MinVertextInPoly().Y)
             {
-                return "Alert";
+                return false;
             }
-            return "Safe";
+            return true;
         }
 
     }

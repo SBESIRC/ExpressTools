@@ -57,12 +57,10 @@ namespace TianHua.FanSelection.UI
         public static bool IfPointSafe(List<FanParameters> jasonmodels, List<double> typepointxyz)
         {
             Dictionary<string, List<double>> typepoly = GetTypePolylineFromModel(jasonmodels, typepointxyz);
-            //若一个性能点对应两条性能曲线，任意一条性能曲线的对应值不满足安全条件都返回false
-            if (typepoly.Any(p => p.Value[1] >= typepointxyz[1]))
-            {
-                return false;
-            }
-            return true;
+            Dictionary<string, Polyline> allpolys = GetpolylineFromeModel(jasonmodels);
+            Polyline currenttypepoly = allpolys[typepoly.First().Key];
+
+            return ThFanSelectionTypeSelect.IfTypepoSmaller(currenttypepoly, new Point3d(typepointxyz[0], typepointxyz[1], typepointxyz[2]));
         }
 
         public static Dictionary<string, Polyline> GetAxialPolyFromeModel(List<AxialFanParameters> jasonmodels)
@@ -112,12 +110,10 @@ namespace TianHua.FanSelection.UI
         public static bool IfPointSafe(List<AxialFanParameters> jasonmodels, List<double> typepointxyz)
         {
             Dictionary<string, List<double>> typepoly = GetAxialTypePolyFromModel(jasonmodels, typepointxyz);
-            //若一个性能点对应两条性能曲线，任意一条性能曲线的对应值不满足安全条件都返回false
-            if (typepoly.Any(p=>p.Value[1] >= typepointxyz[1]))
-            {
-                return false;
-            }
-            return true;
+            Dictionary<string, Polyline> allpolys = GetAxialPolyFromeModel(jasonmodels);
+            Polyline currenttypepoly = allpolys[typepoly.First().Key];
+
+            return ThFanSelectionTypeSelect.IfTypepoSmaller(currenttypepoly,new Point3d(typepointxyz[0], typepointxyz[1], typepointxyz[2]));
         }
 
     }
