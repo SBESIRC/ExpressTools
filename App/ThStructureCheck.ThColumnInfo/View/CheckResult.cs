@@ -56,7 +56,6 @@ namespace ThColumnInfo.View
         private void btnExportExcel_Click(object sender, EventArgs e)
         {
             //ToDo
-            MessageBox.Show("将详细数据导出到Excel");
             CheckResVM.ExportExcelCmd();
         }
         private void btnComponentDefinition_Click(object sender, EventArgs e)

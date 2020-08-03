@@ -80,13 +80,14 @@ namespace ThColumnInfo
                     JigPromptAngleOptions prOptions2 = new JigPromptAngleOptions("\n旋转角度");
                     prOptions2.UseBasePoint = true;
                     prOptions2.BasePoint = this.moveEndPt;
-                    prOptions2.UserInputControls = UserInputControls.GovernedByOrthoMode | UserInputControls.GovernedByUCSDetect;
+                    prOptions2.UserInputControls = UserInputControls.GovernedByOrthoMode | 
+                        UserInputControls.GovernedByUCSDetect| UserInputControls.AcceptOtherInputString;
                     PromptDoubleResult pdr1 = prompts.AcquireAngle(prOptions2);
                     if (pdr1.Status != PromptStatus.OK)
                     {
                         return SamplerStatus.Cancel;
                     }
-                    if (pdr1.Value.Equals(this.rotateAngle))
+                   if (pdr1.Value.Equals(this.rotateAngle))
                     {
                         return SamplerStatus.NoChange;
                     }

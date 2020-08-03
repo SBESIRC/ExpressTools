@@ -22,7 +22,6 @@ namespace ThColumnInfo
         private Point3d rangePt2 = Point3d.Origin;
         private Document doc;
         private List<List<Point3d>> allColumnBoundaryPts = new List<List<Point3d>>();
-        private double columnOffsetRatio = 0.2;
        
         private double searchColumnPolylineDis = 5.0;
         private SelectionFilter polylineSf;
@@ -164,6 +163,7 @@ namespace ThColumnInfo
         public void Extract(bool importCalInfo =false)
         {
             this.importCalInfo = importCalInfo;
+            this.InvalidCtris = new List<ColumnTableRecordInfo>();
             ViewTableRecord view = doc.Editor.GetCurrentView();
             try
             {
@@ -183,10 +183,9 @@ namespace ThColumnInfo
                 {
                     this.ColumnTableRecordInfos = thStandardSign.ColumnTableRecordInfos;
                 }
-                if (this.ColumnTableRecordInfos.Count == 0)
+                if (this.ColumnTableRecordInfos.Count == 0 && !importCalInfo)
                 {
-                    System.Windows.MessageBox.Show("未能提取到任何柱表信息，\n1、请检查【参数设置】里柱表图层和柱表外框线图层是否一致。" +
-                        "\n2、请检查柱表的里的内容格式是否有误。", "柱表提取");
+                    System.Windows.MessageBox.Show("请检查【参数设置】里柱表框线图层和图纸中的柱表框线图层是否一致。" ,"柱表提取");
                 }
                 this.ColumnTableRecordInfos.ForEach(o => o.UpdateJointCoreHooping());
                 CheckColumnInfo();
@@ -246,6 +245,7 @@ namespace ThColumnInfo
                 return;
             }
             this.ColumnTableRecordInfos.ForEach(i => i.Handle());
+            InvalidCtris = new List<ColumnTableRecordInfo>();
             //如果导入计算书，就不要用柱表来判断
             InvalidCtris.AddRange(this.ColumnTableRecordInfos.Where(i => !i.Validate()).Select(i => i).ToList());
             for (int i = 0; i < this.ColumnInfs.Count; i++)
@@ -297,8 +297,7 @@ namespace ThColumnInfo
                     {
                         columnInfo.Points = this.allColumnBoundaryPts[i];
                         break;
-                    }
-                    ThProgressBar.MeterProgress();
+                    }                   
                 }
                 if(string.IsNullOrEmpty(columnInfo.Code))
                 {
@@ -324,7 +323,7 @@ namespace ThColumnInfo
             double maxY = columnInfo.Points.OrderByDescending(i => i.Y).First().Y;
             Point3d leftPt = new Point3d(minX, minY, 0.0);
             Point3d rightPt = new Point3d(maxX, maxY, 0.0);
-            double offsetSize = (Math.Abs(rightPt.Y-leftPt.Y)+ Math.Abs(rightPt.X- leftPt.X))/2.0;
+            double offsetSize = 50.0; // (Math.Abs(rightPt.Y-leftPt.Y)+ Math.Abs(rightPt.X- leftPt.X))/2.0;
             leftPt += new Vector3d(offsetSize*-1.0, offsetSize * -1.0,0.0);
             rightPt += new Vector3d(offsetSize, offsetSize, 0.0);
             Point3d pt1 = leftPt.TransformBy(this.doc.Editor.CurrentUserCoordinateSystem.Inverse());
@@ -596,9 +595,9 @@ namespace ThColumnInfo
             double yMax = ucsBoundaryPts.OrderByDescending(i => i.Y).Select(i => i.Y).First();
             Point3d pt1 = new Point3d(xMin, yMin, 0.0);
             Point3d pt2 = new Point3d(xMax, yMax, 0.0);      
-            double length = pt1.DistanceTo(pt2);
-            pt1=ThColumnInfoUtils.GetExtendPt(pt1, pt2, this.columnOffsetRatio * length * -1.0);
-            pt2 = ThColumnInfoUtils.GetExtendPt(pt2, pt1, this.columnOffsetRatio * length * -1.0);
+            double length =Math.Min(Math.Abs(xMax- xMin), Math.Abs(yMax - yMin));
+            pt1=ThColumnInfoUtils.GetExtendPt(pt1, pt2, -50.0); //this.columnOffsetRatio * length * -1.0
+            pt2 = ThColumnInfoUtils.GetExtendPt(pt2, pt1, -50.0);
             TypedValue[] tvs = new TypedValue[]
              {
                   new TypedValue((int)DxfCode.Start,"LINE,LWPOLYLINE") //后续如果需要，根据配置来设置过滤图层

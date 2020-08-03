@@ -77,7 +77,7 @@ namespace ThColumnInfo
             ExtractColumnPosition extractColumnPosition = new ExtractColumnPosition(thStandardSign);
             extractColumnPosition.Extract(); 
         }
-        public static void UpdateThStandardSign(ThStandardSign thStandardSign)
+        public static void UpdateThStandardSign(ThStandardSign thStandardSign,bool importCalculation=false)
         {
             if(thStandardSign==null)
             {
@@ -87,7 +87,7 @@ namespace ThColumnInfo
             using (DocumentLock docLock = doc.LockDocument())
             {
                 ExtractColumnPosition extractColumnPosition = new ExtractColumnPosition(thStandardSign);
-                extractColumnPosition.Extract();
+                extractColumnPosition.Extract(importCalculation);
             }     
         }
         public IEnumerator GetEnumerator()

@@ -227,13 +227,22 @@ namespace ThColumnInfo
                     else if (jigRes.Status == PromptStatus.Cancel)
                     {
                         doMark = false;
-                        this.calculateInfo.Angle = 0.0;
+                        this.isGoOn = false;
+                        break;
+                    }
+                    else if(jigRes.Status == PromptStatus.Other)
+                    {
+                        doMark = false;
+                        break;
                     }
                 } while (doMark);
             }
-            //必须赋值完后，方可释放上面的柱子实体
-            keyValuePairs.ForEach(i => this.ColumnRelateInfs.Add(new ColumnRelateInf()
-            { DbColumnInf = i.Key, InModelPts = GetPolylinePts(i.Value)}));
+            if(this.isGoOn)
+            {
+                //必须赋值完后，方可释放上面的柱子实体
+                keyValuePairs.ForEach(i => this.ColumnRelateInfs.Add(new ColumnRelateInf()
+                { DbColumnInf = i.Key, InModelPts = GetPolylinePts(i.Value) }));
+            }
             //ThColumnInfoUtils.EraseObjIds(columnObjIds.ToArray());//释放已绘制的柱子
             this.columnEnts.ForEach(i => i.Dispose());
         }

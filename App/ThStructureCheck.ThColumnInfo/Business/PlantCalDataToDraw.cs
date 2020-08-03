@@ -203,6 +203,10 @@ namespace ThColumnInfo
             {
                 //this.jtTextIds.AddRange(thRelateColumn.PrintJtID()); //打印柱号
             }        
+            if(this.thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos.Count==0)
+            {
+                return;
+            }
             //绘制正常或异常的柱子外框
             for (int i = 0; i < thRelateColumn.ColumnRelateInfs.Count; i++)
             {

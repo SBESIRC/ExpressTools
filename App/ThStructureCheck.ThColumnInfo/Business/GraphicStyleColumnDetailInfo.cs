@@ -544,7 +544,7 @@ namespace ThColumnInfo
                 {
                     AlignedDimension ad = dbObj as AlignedDimension;
                     vec = ad.XLine1Point.GetVectorTo(ad.XLine2Point);
-                    dimText= ad.Measurement.ToString();       
+                    dimText=Math.Round(ad.Measurement, 0).ToString();    
                 }
                 else if(dbObj is RotatedDimension)
                 {

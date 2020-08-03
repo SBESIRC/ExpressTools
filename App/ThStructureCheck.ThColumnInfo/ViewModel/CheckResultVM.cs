@@ -161,8 +161,7 @@ namespace ThColumnInfo.ViewModel
                     thStandardSign.ExtractColumnTableData();
                     if(thStandardSign.ColumnTableRecordInfos.Count==0)
                     {
-                        MessageBox.Show("未能提取到任何柱表信息，\n1、请检查【参数设置】里柱表图层和柱表外框线图层是否一致。" +
-                            "\n2、请检查柱表的里的内容格式是否有误。","柱表提取");
+                        MessageBox.Show("请检查【参数设置】里柱表框线图层和图纸中的柱表框线图层是否一致。" ,"柱表提取");
                     }
                     else
                     {
@@ -209,7 +208,11 @@ namespace ThColumnInfo.ViewModel
                         //更新当前节点数据(识别图纸中柱子和柱表)
                         ThStandardSign thStandardSign = owner.tvCheckRes.SelectedNode.Tag as ThStandardSign;
                         UpdateCheckResult(owner.tvCheckRes.SelectedNode, thStandardSign);
-                        ShowDetailData(true);
+                        if (thStandardSign.ColumnTableRecordInfos.Count > 0 ||
+                            thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos.Count > 0)
+                        {
+                            ShowDetailData(true);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -1096,7 +1099,7 @@ namespace ThColumnInfo.ViewModel
                 }
                 else
                 {
-                    ThStandardSignManager.UpdateThStandardSign(thStandardSign);
+                    ThStandardSignManager.UpdateThStandardSign(thStandardSign, showImportCalInf);
                 }
                 //hasCheckErrorNode-> 控制是否往树节点中填充"柱平法缺失"和"柱信息不完整两个节点"
                 bool ynExportErrorNode = true;
@@ -1141,6 +1144,10 @@ namespace ThColumnInfo.ViewModel
                        thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos.Count==0)
                     {
                         thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos = thStandardSign.ColumnTableRecordInfos;
+                        if (thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos.Count==0)
+                        {
+                            return;
+                        }
                     }
                     List<ColumnInf> correctColumnInfs = GetDataCorrectColumnInfs(tn);
                     //校核柱子

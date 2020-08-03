@@ -863,8 +863,8 @@ namespace ThColumnInfo
                 int bFindIndex = -1, hFindIndex = -1;
                 for(int i=0;i<strs.Length;i++)
                 {
-                    List<int> reinforceDatas = new ColumnTableRecordInfo().GetReinforceDatas(strs[0]);
-                    string suffix = new ColumnTableRecordInfo().GetReinforceSuffix(strs[0]);
+                    List<int> reinforceDatas = new ColumnTableRecordInfo().GetReinforceDatas(strs[i]);
+                    string suffix = new ColumnTableRecordInfo().GetReinforceSuffix(strs[i]);
                     int reinNum = reinforceDatas[0];
                     if(bSideReinforceSuffix== suffix && this.bSideNum== reinNum)
                     {
