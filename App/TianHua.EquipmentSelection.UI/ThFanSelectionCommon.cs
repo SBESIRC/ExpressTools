@@ -3,6 +3,9 @@ namespace TianHua.FanSelection.UI
 {
     public class ThFanSelectionCommon
     {
+        // 命令
+        public static readonly string CMD_MODEL_EDIT = "THFJEDIT";
+
         public static readonly string HTFC_TYPE_NAME = "离心";
         public static readonly string AXIAL_TYPE_NAME = "轴流";
         public static readonly string HTFC_BLOCK_NAME = "HTFC(DF)柜式离心风机";
