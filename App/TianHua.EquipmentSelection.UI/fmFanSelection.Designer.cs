@@ -272,7 +272,7 @@
             // 
             this.barDockControlBottom.CausesValidation = false;
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 261);
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 281);
             this.barDockControlBottom.Manager = this.BarManager;
             this.barDockControlBottom.Size = new System.Drawing.Size(1377, 0);
             // 
@@ -282,7 +282,7 @@
             this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.barDockControlLeft.Location = new System.Drawing.Point(0, 24);
             this.barDockControlLeft.Manager = this.BarManager;
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 237);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 257);
             // 
             // barDockControlRight
             // 
@@ -290,7 +290,7 @@
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.barDockControlRight.Location = new System.Drawing.Point(1377, 24);
             this.barDockControlRight.Manager = this.BarManager;
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 237);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 257);
             // 
             // barSubItem1
             // 
@@ -322,7 +322,7 @@
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(543, 327, 650, 400);
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(1377, 237);
+            this.layoutControl1.Size = new System.Drawing.Size(1377, 257);
             this.layoutControl1.TabIndex = 4;
             this.layoutControl1.Text = "layoutControl1";
             // 
@@ -439,11 +439,12 @@
             this.PicAddAuxiliary,
             this.ComBoxIntakeForm});
             this.TreeList.RowHeight = 28;
-            this.TreeList.Size = new System.Drawing.Size(1367, 201);
+            this.TreeList.Size = new System.Drawing.Size(1367, 221);
             this.TreeList.TabIndex = 11;
             this.TreeList.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Solid;
             this.TreeList.CustomNodeCellEditForEditing += new DevExpress.XtraTreeList.GetCustomNodeCellEditEventHandler(this.TreeList_CustomNodeCellEditForEditing);
             this.TreeList.CustomColumnDisplayText += new DevExpress.XtraTreeList.CustomColumnDisplayTextEventHandler(this.TreeList_CustomColumnDisplayText);
+            this.TreeList.CustomDrawNodeCell += new DevExpress.XtraTreeList.CustomDrawNodeCellEventHandler(this.TreeList_CustomDrawNodeCell);
             this.TreeList.CellValueChanged += new DevExpress.XtraTreeList.CellValueChangedEventHandler(this.TreeList_CellValueChanged);
             this.TreeList.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.TreeList_ShowingEditor);
             // 
@@ -1142,7 +1143,7 @@
             this.emptySpaceItem4});
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(3, 3, 3, 3);
-            this.layoutControlGroup1.Size = new System.Drawing.Size(1377, 237);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(1377, 257);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlItem1
@@ -1204,7 +1205,7 @@
             this.layoutControlItem2.Control = this.TreeList;
             this.layoutControlItem2.Location = new System.Drawing.Point(0, 26);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(1371, 205);
+            this.layoutControlItem2.Size = new System.Drawing.Size(1371, 225);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
@@ -1220,7 +1221,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1377, 261);
+            this.ClientSize = new System.Drawing.Size(1377, 281);
             this.Controls.Add(this.layoutControl1);
             this.Controls.Add(this.barDockControlLeft);
             this.Controls.Add(this.barDockControlRight);

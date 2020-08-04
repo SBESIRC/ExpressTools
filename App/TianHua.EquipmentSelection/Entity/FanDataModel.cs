@@ -344,5 +344,10 @@ namespace TianHua.FanSelection
         /// </summary>
         public string FanInternalEfficiency { get; set; }
 
+        /// <summary>
+        /// 输入总阻力是否偏小
+        /// </summary>
+        public bool IsPointSafe { get; set; }
+
     }
 }

@@ -17,6 +17,7 @@ using AcHelper;
 using Linq2Acad;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using DevExpress.LookAndFeel;
+using System.Drawing;
 
 namespace TianHua.FanSelection.UI
 {
@@ -46,6 +47,8 @@ namespace TianHua.FanSelection.UI
         public FanDesignDataModel m_FanDesign { get; set; }
 
         public DataManager m_DataMgr = new DataManager();
+
+        fmFanModel m_fmFanModel = new fmFanModel();
 
         /// <summary>
         /// 风机箱选型
@@ -93,6 +96,18 @@ namespace TianHua.FanSelection.UI
             return SingleFanSelectionDialog;
         }
 
+        public void ShowFormByID(string _ID)
+        {
+            var _FocusFan = m_ListFan.Find(p => p.ID == _ID);
+            if (_FocusFan != null)
+            {
+                TreeListNode _Node = TreeList.FindNodeByKeyID(_ID);
+                TreeList.FocusedNode = _Node;
+            }
+
+        }
+
+
         protected override void OnClosing(CancelEventArgs e)
         {
             Hide();
@@ -103,6 +118,7 @@ namespace TianHua.FanSelection.UI
         {
             InitializeComponent();
             UserLookAndFeel.Default.SetSkinStyle(SkinStyle.VisualStudio2013Dark);
+
         }
 
 
@@ -279,12 +295,12 @@ namespace TianHua.FanSelection.UI
             var _Fan = TreeList.GetFocusedRow() as FanDataModel;
             if (_Fan == null) { return; }
 
-            fmFanModel _fmFanModel = new fmFanModel();
-            _fmFanModel.InitForm(_Fan, m_ListFan);
-            if (_fmFanModel.ShowDialog() == DialogResult.OK)
+
+            m_fmFanModel.InitForm(_Fan, m_ListFan);
+            if (m_fmFanModel.ShowDialog() == DialogResult.OK)
             {
-                if (_fmFanModel.m_Fan != null)
-                    _Fan = _fmFanModel.m_Fan;
+                if (m_fmFanModel.m_Fan != null)
+                    _Fan = m_fmFanModel.m_Fan;
                 TreeList.Refresh();
             }
 
@@ -383,6 +399,7 @@ namespace TianHua.FanSelection.UI
             var _Fan = TreeList.GetFocusedRow() as FanDataModel;
             if (_Fan == null) { return; }
             if (_Fan.AirVolume == 0 || _Fan.WindResis == 0) { return; }
+            if (_Fan.PID != "0") { return; }
             if (FuncStr.NullToStr(_Fan.AirVolume) == string.Empty || FuncStr.NullToStr(_Fan.VentStyle) == string.Empty || FuncStr.NullToStr(_Fan.WindResis) == string.Empty)
             {
                 ClearFanModel(_Fan);
@@ -442,6 +459,10 @@ namespace TianHua.FanSelection.UI
                         _Fan.FanModelLength = _FanParameters.Length;
                         _Fan.FanModelDIA = _FanParameters.Diameter;
                         _Fan.FanModelWeight = _FanParameters.Weight;
+                        var _IsPointSafe = ThFanTypeSelectionModelHandle.IfPointSafe(m_ListAxialFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                        _Fan.IsPointSafe = _IsPointSafe;
+
+                        m_fmFanModel.CalcFanEfficiency(_Fan);
                     }
 
                 }
@@ -449,16 +470,13 @@ namespace TianHua.FanSelection.UI
                 {
                     ClearFanModel(_Fan);
                 }
+
+
                 TreeList.RefreshNode(TreeList.FocusedNode);
             }
             else
             {
-                //var _ListFanSelection = m_ListFanSelection.FindAll(p => FuncStr.NullToInt(p.X) >= _Fan.AirVolume && FuncStr.NullToInt(p.Y) >= _Fan.WindResis);
-                //if (_ListFanSelection == null || _ListFanSelection.Count == 0) { ClearFanModel(_Fan); _Fan.FanModelName = "无此风机"; return; }
-                //_ListFanSelection = _ListFanSelection.OrderBy(p => FuncStr.NullToInt(p.X)).OrderBy(p => FuncStr.NullToInt(p.Y)).ToList();
-                //var _FanSelection = _ListFanSelection.First();
-                //if (_FanSelection == null || FuncStr.NullToStr(_FanSelection.Value) == string.Empty) { ClearFanModel(_Fan); _Fan.FanModelName = "无此风机"; return; }
-                //var _ListStr = FuncStr.NullToStr(_FanSelection.Value).Split('/');
+
                 var _Dictionary = ThFanTypeSelectionModelHandle.GetTypePolylineFromModel(m_ListFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
 
                 if (_Dictionary != null && _Dictionary.Count > 0)
@@ -482,6 +500,9 @@ namespace TianHua.FanSelection.UI
                         _Fan.FanModelWidth = _FanParameters.Width;
                         _Fan.FanModelHeight = _FanParameters.Height;
                         _Fan.FanModelWeight = _FanParameters.Weight;
+                        var _IsPointSafe = ThFanTypeSelectionModelHandle.IfPointSafe(m_ListFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                        _Fan.IsPointSafe = _IsPointSafe;
+                        m_fmFanModel.CalcFanEfficiency(_Fan);
                     }
 
                 }
@@ -489,33 +510,6 @@ namespace TianHua.FanSelection.UI
                 {
                     ClearFanModel(_Fan);
                 }
-                //if (_ListStr != null && _ListStr.Count() == 2)
-                //{
-                //    var _CCCF = FuncStr.NullToStr(_ListStr[0]);
-                //    var _No = FuncStr.NullToInt(_ListStr[1]);
-
-                //    //    var _FanParameters = m_ListFanParameters.Find(p => p.Suffix == FuncStr.NullToStr(_No) && p.CCCF_Spec == _CCCF && FuncStr.NullToStr(p.AirVolume) == FuncStr.NullToStr(_FanSelection.X) && FuncStr.NullToStr(p.Pa) == FuncStr.NullToStr(_FanSelection.Y));
-                //    var _FanParameters = m_ListFanParameters.Find(p => p.Suffix == FuncStr.NullToStr(_No) && p.CCCF_Spec == _CCCF);
-                //    if (_FanParameters != null)
-                //    {
-                //        _Fan.FanModelID = _FanParameters.Suffix;
-                //        _Fan.FanModelName = _FanParameters.CCCF_Spec;
-                //        _Fan.FanModelNum = _FanParameters.No;
-                //        _Fan.FanModelCCCF = _FanParameters.CCCF_Spec;
-                //        _Fan.FanModelAirVolume = _FanParameters.AirVolume;
-                //        _Fan.FanModelPa = _FanParameters.Pa;
-                //        _Fan.FanModelMotorPower = _FanParameters.Power;
-                //        _Fan.FanModelNoise = _FanParameters.Noise;
-                //        _Fan.FanModelFanSpeed = _FanParameters.Rpm;
-                //        _Fan.FanModelPower = string.Empty;
-                //        _Fan.FanModelLength = _FanParameters.Length;
-                //        _Fan.FanModelWidth = _FanParameters.Width;
-                //        _Fan.FanModelHeight = _FanParameters.Height;
-                //        _Fan.FanModelWeight = _FanParameters.Weight;
-                //    }
-
-
-                //}
 
                 TreeList.RefreshNode(TreeList.FocusedNode);
             }
@@ -1225,7 +1219,9 @@ namespace TianHua.FanSelection.UI
 
         private void BarBtnExportFanPara_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+
             string _ImportExcelPath = Path.Combine(ThCADCommon.SupportPath(), "DesignData", "FanPara.xlsx");
+
             Microsoft.Office.Interop.Excel.Application _ExclApp = new Microsoft.Office.Interop.Excel.Application();
             _ExclApp.DisplayAlerts = false;
             _ExclApp.Visible = false;
@@ -1327,27 +1323,28 @@ namespace TianHua.FanSelection.UI
                _ExportFanPara.Coverage = p.Name;
                _ExportFanPara.FanForm = p.VentStyle;
                //_ExportFanPara.CalcAirVolume = FuncStr.NullToStr(p.AirVolume);
-               _ExportFanPara.CalcAirVolume = string.Empty;
+               _ExportFanPara.CalcAirVolume = FuncStr.NullToStr(p.AirCalcValue);
                _ExportFanPara.FanEnergyLevel = p.VentLev;
                _ExportFanPara.DriveMode = p.VentConnect;
                _ExportFanPara.ElectricalEnergyLevel = p.EleLev;
-               _ExportFanPara.MotorPower = string.Empty;
+               _ExportFanPara.MotorPower = p.FanModelMotorPower;
                _ExportFanPara.PowerSource = "380-3-50";
                _ExportFanPara.ElectricalRpm = FuncStr.NullToStr(p.MotorTempo);
                _ExportFanPara.IsDoubleSpeed = p.Control;
                _ExportFanPara.IsFrequency = p.IsFre ? "是" : "否";
-               _ExportFanPara.WS = string.Empty;
+               _ExportFanPara.WS = FuncStr.NullToDouble(p.FanModelPower).ToString("0.##");
                _ExportFanPara.IsFirefighting = p.PowerType == "消防" ? "Y" : "N";
                _ExportFanPara.VibrationMode = "R";
                _ExportFanPara.Amount = FuncStr.NullToStr(p.VentQuan);
                _ExportFanPara.Remark = p.Remark;
+               _ExportFanPara.FanEfficiency = p.FanInternalEfficiency;
                if (FuncStr.NullToStr(p.VentStyle) == "轴流")
                {
                    var _FanParameters = m_ListAxialFanParameters.Find(s => s.No == FuncStr.NullToStr(p.FanModelID) && s.ModelNum == p.FanModelName);
                    if (_FanParameters == null) return;
                    _ExportFanPara.FanDelivery = FuncStr.NullToStr(p.AirVolume);
                    _ExportFanPara.Pa = FuncStr.NullToStr(p.WindResis);
-                   _ExportFanPara.FanEfficiency = string.Empty;
+
                    _ExportFanPara.FanRpm = _FanParameters.Rpm;
                    _ExportFanPara.dB = _FanParameters.Noise;
                    _ExportFanPara.Weight = _FanParameters.Weight;
@@ -1361,7 +1358,6 @@ namespace TianHua.FanSelection.UI
                    if (_FanParameters == null) return;
                    _ExportFanPara.FanDelivery = FuncStr.NullToStr(p.AirVolume);
                    _ExportFanPara.Pa = FuncStr.NullToStr(p.WindResis);
-                   _ExportFanPara.FanEfficiency = string.Empty;
                    _ExportFanPara.FanRpm = _FanParameters.Rpm;
                    _ExportFanPara.dB = _FanParameters.Noise;
                    _ExportFanPara.Weight = _FanParameters.Weight;
@@ -1377,7 +1373,11 @@ namespace TianHua.FanSelection.UI
 
         private void BarBtnExportFanCalc_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+
             string _ImportExcelPath = Path.Combine(ThCADCommon.SupportPath(), "DesignData", "FanCalc.xlsx");
+
+            //string _ImportExcelPath = Path.Combine(m_Path, "FanCalc.xlsx");
+
             Microsoft.Office.Interop.Excel.Application _ExclApp = new Microsoft.Office.Interop.Excel.Application();
             _ExclApp.DisplayAlerts = false;
             _ExclApp.Visible = false;
@@ -1397,9 +1397,11 @@ namespace TianHua.FanSelection.UI
                 if (p.FanModelName == string.Empty || p.FanModelName == "无此风机") { return; }
                 var _FanPrefixDict = PubVar.g_ListFanPrefixDict.Find(s => s.FanUse == p.Scenario);
                 if (_FanPrefixDict == null) return;
+                if (p.PID != "0") { return; }
                 _Sheet.Cells[i, 1] = _FanPrefixDict.Prefix + p.InstallFloor + p.VentNum;
                 _Sheet.Cells[i, 2] = p.Name;
                 _Sheet.Cells[i, 3] = p.Scenario;
+                _Sheet.Cells[i, 13] = p.AirCalcValue;
                 _Sheet.Cells[i, 14] = p.AirVolume;
                 _Sheet.Cells[i, 15] = p.DuctLength;
 
@@ -1426,7 +1428,7 @@ namespace TianHua.FanSelection.UI
                     _Sheet.Cells[i, 22] = _FanParameters.Pa;
                 }
 
-                _Sheet.Cells[i, 23] = string.Empty;
+                _Sheet.Cells[i, 23] = FuncStr.NullToDouble(p.FanModelPower).ToString("0.##");
 
                 i++;
             });
@@ -1588,6 +1590,27 @@ namespace TianHua.FanSelection.UI
                     }
                 }
             }
+        }
+
+        private void TreeList_CustomDrawNodeCell(object sender, CustomDrawNodeCellEventArgs e)
+        {
+            FanDataModel _Fan = TreeList.GetDataRecordByNode(e.Node) as FanDataModel;
+            if (_Fan == null) return;
+            if (e.Column.FieldName == "FanModelName")
+            {
+                if (_Fan.IsPointSafe)
+                {
+                    e.Appearance.ForeColor = Color.Gold;
+                    e.Appearance.Font = new System.Drawing.Font(e.Appearance.Font, e.Appearance.Font.Style | FontStyle.Italic);
+                }
+                //else
+                //{
+                //    e.Appearance.ForeColor = Color.Black;
+                //}
+
+            }
+
+
         }
     }
 }

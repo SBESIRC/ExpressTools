@@ -58,9 +58,10 @@ namespace TianHua.FanSelection.UI
         {
             Dictionary<string, List<double>> typepoly = GetTypePolylineFromModel(jasonmodels, typepointxyz);
             Dictionary<string, Polyline> allpolys = GetpolylineFromeModel(jasonmodels);
+            if (allpolys == null) { return false; }
             Polyline currenttypepoly = allpolys[typepoly.First().Key];
 
-            return ThFanSelectionTypeSelect.IfTypepoSmaller(currenttypepoly, new Point3d(typepointxyz[0], typepointxyz[1], typepointxyz[2]));
+            return !ThFanSelectionTypeSelect.IfTypepoSmaller(currenttypepoly, new Point3d(typepointxyz[0], typepointxyz[1], typepointxyz[2]));
         }
 
         public static Dictionary<string, Polyline> GetAxialPolyFromeModel(List<AxialFanParameters> jasonmodels)
@@ -111,9 +112,10 @@ namespace TianHua.FanSelection.UI
         {
             Dictionary<string, List<double>> typepoly = GetAxialTypePolyFromModel(jasonmodels, typepointxyz);
             Dictionary<string, Polyline> allpolys = GetAxialPolyFromeModel(jasonmodels);
+            if (allpolys == null) { return false; }
             Polyline currenttypepoly = allpolys[typepoly.First().Key];
 
-            return ThFanSelectionTypeSelect.IfTypepoSmaller(currenttypepoly,new Point3d(typepointxyz[0], typepointxyz[1], typepointxyz[2]));
+            return !ThFanSelectionTypeSelect.IfTypepoSmaller(currenttypepoly,new Point3d(typepointxyz[0], typepointxyz[1], typepointxyz[2]));
         }
 
     }

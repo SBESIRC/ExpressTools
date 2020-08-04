@@ -36,9 +36,9 @@ namespace TianHua.FanSelection.UI
             InitializeComponent();
         }
 
-        public void InitForm(List<FanDesignDataModel> _ListFanDesign, string _ActionType, string path)
+        public void InitForm(List<FanDesignDataModel> _ListFanDesign, string _ActionType, string _Path)
         {
-            m_Path = path;
+            m_Path = _Path;
             m_ActionType = _ActionType;
             m_ListFanDesign = _ListFanDesign;
             if (m_ListFanDesign == null) m_ListFanDesign = new List<FanDesignDataModel>();
@@ -99,7 +99,7 @@ namespace TianHua.FanSelection.UI
         private string GetPath(FanDesignDataModel _FanDesign)
         {
             if (_FanDesign == null || FuncStr.NullToStr(_FanDesign.Name) == string.Empty) { return string.Empty; }
-            return m_Path + FuncStr.NullToStr(_FanDesign.Name) + ".json";
+            return Path.Combine(m_Path , FuncStr.NullToStr(_FanDesign.Name) + ".json");
         }
 
         private void fmDesignData_Load(object sender, EventArgs e)

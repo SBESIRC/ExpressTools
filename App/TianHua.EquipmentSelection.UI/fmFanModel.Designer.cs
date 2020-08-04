@@ -119,6 +119,7 @@
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layouZL = new DevExpress.XtraLayout.LayoutControlItem();
+            this.TxtPrompt = new DevExpress.XtraLayout.SimpleLabelItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GroupZL)).BeginInit();
@@ -187,6 +188,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layouZL)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtPrompt)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -393,9 +395,9 @@
             // 
             this.BtnCancel.AllowFocus = false;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtnCancel.Location = new System.Drawing.Point(310, 444);
+            this.BtnCancel.Location = new System.Drawing.Point(328, 444);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(102, 22);
+            this.BtnCancel.Size = new System.Drawing.Size(84, 22);
             this.BtnCancel.StyleController = this.layoutControl1;
             this.BtnCancel.TabIndex = 7;
             this.BtnCancel.Text = "取消";
@@ -405,9 +407,9 @@
             // 
             this.BtnOK.AllowFocus = false;
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(184, 444);
+            this.BtnOK.Location = new System.Drawing.Point(223, 444);
             this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(116, 22);
+            this.BtnOK.Size = new System.Drawing.Size(95, 22);
             this.BtnOK.StyleController = this.layoutControl1;
             this.BtnOK.TabIndex = 6;
             this.BtnOK.Text = "确定";
@@ -1133,9 +1135,10 @@
             this.layouLX,
             this.layoutControlItem8,
             this.layoutControlItem3,
-            this.emptySpaceItem1,
             this.layoutControlItem7,
-            this.layouZL});
+            this.layouZL,
+            this.TxtPrompt,
+            this.emptySpaceItem1});
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
             this.layoutControlGroup1.Size = new System.Drawing.Size(422, 485);
@@ -1163,10 +1166,10 @@
             // layoutControlItem8
             // 
             this.layoutControlItem8.Control = this.BtnCancel;
-            this.layoutControlItem8.Location = new System.Drawing.Point(300, 434);
+            this.layoutControlItem8.Location = new System.Drawing.Point(318, 434);
             this.layoutControlItem8.Name = "layoutControlItem8";
             this.layoutControlItem8.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem8.Size = new System.Drawing.Size(112, 41);
+            this.layoutControlItem8.Size = new System.Drawing.Size(94, 41);
             this.layoutControlItem8.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem8.TextVisible = false;
             // 
@@ -1182,18 +1185,18 @@
             // emptySpaceItem1
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
-            this.emptySpaceItem1.Location = new System.Drawing.Point(0, 434);
+            this.emptySpaceItem1.Location = new System.Drawing.Point(126, 434);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(174, 41);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(87, 41);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // layoutControlItem7
             // 
             this.layoutControlItem7.Control = this.BtnOK;
-            this.layoutControlItem7.Location = new System.Drawing.Point(174, 434);
+            this.layoutControlItem7.Location = new System.Drawing.Point(213, 434);
             this.layoutControlItem7.Name = "layoutControlItem7";
             this.layoutControlItem7.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem7.Size = new System.Drawing.Size(126, 41);
+            this.layoutControlItem7.Size = new System.Drawing.Size(105, 41);
             this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem7.TextVisible = false;
             // 
@@ -1206,6 +1209,17 @@
             this.layouZL.Size = new System.Drawing.Size(412, 85);
             this.layouZL.TextSize = new System.Drawing.Size(0, 0);
             this.layouZL.TextVisible = false;
+            // 
+            // TxtPrompt
+            // 
+            this.TxtPrompt.AllowHotTrack = false;
+            this.TxtPrompt.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.TxtPrompt.AppearanceItemCaption.Options.UseForeColor = true;
+            this.TxtPrompt.Location = new System.Drawing.Point(0, 434);
+            this.TxtPrompt.Name = "TxtPrompt";
+            this.TxtPrompt.Size = new System.Drawing.Size(126, 41);
+            this.TxtPrompt.Text = " ";
+            this.TxtPrompt.TextSize = new System.Drawing.Size(4, 14);
             // 
             // fmFanModel
             // 
@@ -1288,6 +1302,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layouZL)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtPrompt)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1385,5 +1400,6 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem35;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem2;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem3;
+        private DevExpress.XtraLayout.SimpleLabelItem TxtPrompt;
     }
 }

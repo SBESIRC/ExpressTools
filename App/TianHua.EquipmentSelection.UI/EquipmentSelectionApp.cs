@@ -46,7 +46,10 @@ namespace TianHua.FanSelection.UI
                 ObjectId entId = GetSelectedEntity();
                 if (!entId.IsNull)
                 {
-                    AcadApp.ShowAlertDialog(string.Format("风机ID：{0}", entId.GetModelIdentifier()));
+                    var _Form = fmFanSelection.GetInstance();
+                    AcadApp.ShowModelessDialog(_Form);
+                    _Form.ShowFormByID(entId.GetModelIdentifier());
+                    //AcadApp.ShowAlertDialog(string.Format("风机ID：{0}", entId.GetModelIdentifier()));
                 }
             }
         }
