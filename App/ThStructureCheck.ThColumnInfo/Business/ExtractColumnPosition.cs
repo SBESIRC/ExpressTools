@@ -185,7 +185,7 @@ namespace ThColumnInfo
                 }
                 if (this.ColumnTableRecordInfos.Count == 0 && !importCalInfo)
                 {
-                    System.Windows.MessageBox.Show("请检查【参数设置】里柱表框线图层和图纸中的柱表框线图层是否一致。" ,"柱表提取");
+                    System.Windows.MessageBox.Show("未检测到柱表信息，请确认是否已附加柱表。", "柱表提取");
                 }
                 this.ColumnTableRecordInfos.ForEach(o => o.UpdateJointCoreHooping());
                 CheckColumnInfo();
@@ -255,6 +255,10 @@ namespace ThColumnInfo
                     this.ColumnInfs[i].Error = ErrorMsg.CodeEmpty;
                     continue;
                 }
+                if(this.ColumnInfs[i].Code.Contains("ZHZ"))
+                {
+                    
+                }
                 if(this.importCalInfo)
                 {
                     //如果是导入计算书，只要有柱号，就是可以参与匹配的柱子
@@ -310,6 +314,7 @@ namespace ThColumnInfo
                 this.ColumnInfs.Add(columnInfo);
                 ThProgressBar.MeterProgress();
             }
+            this.ColumnInfs.ForEach(o => o.Code=o.Code.Trim());
         }
         private void FindColumnCode(ColumnInf columnInfo)
         {

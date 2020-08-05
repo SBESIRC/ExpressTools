@@ -862,7 +862,11 @@ namespace ThColumnInfo.View
         }
         private void dgvCheckRes_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if(e.RowIndex<0 || e.ColumnIndex<0)
+            if(e.RowIndex<0 || e.ColumnIndex<0 )
+            {
+                return;
+            }
+            if (e.RowIndex >= dgvCheckRes.Rows.Count || e.ColumnIndex>= dgvCheckRes.Columns.Count)
             {
                 return;
             }
@@ -902,7 +906,7 @@ namespace ThColumnInfo.View
         }
         private void HideDgvColumnTable(int rowIndex)
         {
-            if (rowIndex < 0)
+            if (rowIndex < 0 || rowIndex>= this.dgvColumnTable.Rows.Count)
             {
                 return;
             }

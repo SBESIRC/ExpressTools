@@ -175,6 +175,31 @@ namespace ThColumnInfo
             }
             GetCellText();
             TransferColumnInfo();
+            this.coluTabRecordInfs.ForEach(o => HandleCtri(o));
+        }
+        private void HandleCtri(ColumnTableRecordInfo ctri)
+        {
+            if(!string.IsNullOrEmpty(ctri.AllLongitudinalReinforcement) &&
+                string.IsNullOrEmpty(ctri.AngularReinforcement) &&
+                string.IsNullOrEmpty(ctri.BEdgeSideMiddleReinforcement) &&
+                string.IsNullOrEmpty(ctri.HEdgeSideMiddleReinforcement))
+            {
+                //获取集中数量
+                List<int> totalReinforceDatas = new ColumnTableRecordInfo().GetReinforceDatas(ctri.AllLongitudinalReinforcement);
+                int num = 0;
+                if (totalReinforceDatas.Count == 2)
+                {
+                    num = totalReinforceDatas[0];
+                }
+                else
+                {
+                    return;
+                }
+                string reinforceSuffix = new ColumnTableRecordInfo().GetReinforceSuffix(ctri.AllLongitudinalReinforcement);
+                ctri.AngularReinforcement =  4 + reinforceSuffix;
+                ctri.BEdgeSideMiddleReinforcement = (num - 4) / 4 + reinforceSuffix;
+                ctri.HEdgeSideMiddleReinforcement = (num - 4) / 4 + reinforceSuffix;
+            }
         }
         protected void Dispose()
         {

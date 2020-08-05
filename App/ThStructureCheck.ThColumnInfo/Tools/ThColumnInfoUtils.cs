@@ -649,6 +649,12 @@ namespace ThColumnInfo
                             {
                                 if (!ent.Visible)
                                 {
+                                    List<object> values1 = ThColumnInfoUtils.GetXData(objIds[i], PlantCalDataToDraw.thColumnRegAppName);
+                                    List<object> values2 = ThColumnInfoUtils.GetXData(objIds[i],thColumnFrameRegAppName);
+                                    if(values1.Count>0 || values2.Count>0)
+                                    {
+                                        continue;
+                                    }
                                     ent.UpgradeOpen();
                                     ent.Visible = true;
                                     ent.DowngradeOpen();

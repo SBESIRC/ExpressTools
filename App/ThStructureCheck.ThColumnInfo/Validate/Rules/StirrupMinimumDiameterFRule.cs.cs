@@ -26,9 +26,9 @@ namespace ThColumnInfo.Validate.Rules
                    this.smdf.AntiSeismicGrade.Contains("三") ||
                   this.smdf.AntiSeismicGrade.Contains("四"))
             {
-                if (this.smdf.IntStirrupDia < 10)
+                if (this.smdf.Cdm.IntStirrupDia < 10)
                 {
-                    this.ValidateResults.Add("箍筋直径小于10 [" + this.smdf.IntStirrupDia + " < 10]，" + this.rule);
+                    this.ValidateResults.Add("箍筋直径小于10 [" + this.smdf.Cdm.IntStirrupDia + " < 10]，" + this.rule);
                 }
                 else
                 {
@@ -48,7 +48,7 @@ namespace ThColumnInfo.Validate.Rules
                 "抗震等级[" + this.smdf.AntiSeismicGrade + "].Contains(\"三级\") || "+
                 "抗震等级[" + this.smdf.AntiSeismicGrade + "].Contains(\"四级\"))");
             steps.Add("  {");
-            steps.Add("    if (IntStirrupDia[" + this.smdf.IntStirrupDia + "] < 10)");
+            steps.Add("    if (IntStirrupDia[" + this.smdf.Cdm.IntStirrupDia + "] < 10)");
             steps.Add("      {");
             steps.Add("         Err：箍筋直径小于10" + this.rule);
             steps.Add("      }");

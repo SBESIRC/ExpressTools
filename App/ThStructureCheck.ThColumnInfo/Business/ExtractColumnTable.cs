@@ -265,6 +265,7 @@ namespace ThColumnInfo
                     gscdi.Extract();
                     this.ColumnTableRecordInfos = gscdi.ColuTabRecordInfs;
                 }
+                this.ColumnTableRecordInfos.ForEach(o => o.Code=o.Code.Trim());
             }
             catch (System.Exception ex)
             {

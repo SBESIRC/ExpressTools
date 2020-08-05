@@ -77,7 +77,7 @@ namespace ThColumnInfo.View
             }
             ShowHideSetValueControl(this.componentPropDefineVM.PropertyName);
             this.componentPropDefineVM.UpdateTitle();
-            this.Title = this.componentPropDefineVM.Title;
+            //this.Title = this.componentPropDefineVM.Title;
             this.componentPropDefineVM.UpdatePropertyList();
             this.lbProperties.ItemsSource = this.componentPropDefineVM.CtInfos;
             this.componentPropDefineVM.Refresh();

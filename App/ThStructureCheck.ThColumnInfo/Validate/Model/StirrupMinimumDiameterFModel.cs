@@ -8,10 +8,6 @@ namespace ThColumnInfo.Validate.Model
 {
     public class StirrupMinimumDiameterFModel:ValidateModel
     {
-        /// <summary>
-        /// 箍筋直径
-        /// </summary>
-        public double IntStirrupDia { get; set; }
         public override bool ValidateProperty()
         {
             if (!base.ValidateProperty() ||

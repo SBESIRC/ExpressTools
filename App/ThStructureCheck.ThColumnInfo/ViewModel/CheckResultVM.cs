@@ -161,7 +161,7 @@ namespace ThColumnInfo.ViewModel
                     thStandardSign.ExtractColumnTableData();
                     if(thStandardSign.ColumnTableRecordInfos.Count==0)
                     {
-                        MessageBox.Show("请检查【参数设置】里柱表框线图层和图纸中的柱表框线图层是否一致。" ,"柱表提取");
+                        MessageBox.Show("未能提取到任何柱表信息，\n请检查【参数设置】里柱表框线图层和图纸中的柱表框线图层是否一致。" ,"柱表提取");
                     }
                     else
                     {
@@ -438,7 +438,7 @@ namespace ThColumnInfo.ViewModel
             AddDwgHasCalNotNode(innerFrameNode);
             AddDwgNotCalHasNode(innerFrameNode);
         }
-        private void FillColumnDataToTreeView(ThStandardSignManager tsm,bool loadTree=true)
+        private void FillColumnDataToTreeView(ThStandardSignManager tsm,bool loadTree=false)
         {
             if (tsm == null)
             {
@@ -1101,6 +1101,11 @@ namespace ThColumnInfo.ViewModel
                 {
                     ThStandardSignManager.UpdateThStandardSign(thStandardSign, showImportCalInf);
                 }
+                if (!showImportCalInf && (thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos == null ||
+                       thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos.Count == 0))
+                {
+                    return;
+                }
                 //hasCheckErrorNode-> 控制是否往树节点中填充"柱平法缺失"和"柱信息不完整两个节点"
                 bool ynExportErrorNode = true;
                 if (showImportCalInf)
@@ -1140,15 +1145,6 @@ namespace ThColumnInfo.ViewModel
                 FillPlantCalResultToTree(tn);
                 if (!showImportCalInf) //如是导入计算书，则无需校验
                 {
-                    if(thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos==null ||
-                       thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos.Count==0)
-                    {
-                        thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos = thStandardSign.ColumnTableRecordInfos;
-                        if (thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos.Count==0)
-                        {
-                            return;
-                        }
-                    }
                     List<ColumnInf> correctColumnInfs = GetDataCorrectColumnInfs(tn);
                     //校核柱子
                     if (thStandardSign.SignPlantCalData == null ||

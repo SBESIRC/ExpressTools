@@ -166,7 +166,7 @@ namespace ThColumnInfo
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        private string RemoveBrackets(string content)
+        public string RemoveBrackets(string content)
         {
             string result = "";
             if(string.IsNullOrEmpty(content))
@@ -176,7 +176,7 @@ namespace ThColumnInfo
             content = content.Trim();
             content = content.Replace('（', '(');
             int index = content.IndexOf("(");
-            if(index >0)
+            if(index >=0)
             {
                 content = content.Substring(0, index);
             }
@@ -274,6 +274,15 @@ namespace ThColumnInfo
             //8@100 / 200
             if (!string.IsNullOrEmpty(content))
             {
+                content = RemoveBrackets(content);
+                if(string.IsNullOrEmpty(content.Trim()))
+                {
+                    return false;
+                }
+                if(content[0]>='A' && content[0] <= 'D')
+                {
+                    content=BaseFunction.ReplaceReinforceBy132(content);
+                }
                 if (Regex.IsMatch(content, this.hoopReinforcePattern))
                 {
                     return true;
@@ -375,6 +384,29 @@ namespace ThColumnInfo
             {
                 jointCoreHoopingValue = item.Groups[0].Value;
                 break;
+            }
+            return jointCoreHoopingValue;
+        }
+        /// <summary>
+        /// 把核芯区箍筋从箍筋中剥离
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public string SubtractJointCoreHooping(string content)
+        {
+            string jointCoreHoopingValue = "";
+            if(content.IndexOf('（')>=0)
+            {
+                content = content.Replace("(", "（");
+            }
+            if (content.IndexOf('）') >= 0)
+            {
+                content = content.Replace(")", "）");
+            }
+            int index = content.IndexOf('(');
+            if (index >= 0)
+            {
+                jointCoreHoopingValue = content.Substring(index);
             }
             return jointCoreHoopingValue;
         }

@@ -19,7 +19,7 @@ namespace ThColumnInfo.ViewModel
         private ObservableCollection<PropertyInfo> propertyInfos = new ObservableCollection<PropertyInfo>();
         private Dictionary<string, ModifyCustomDataType> propertyNameModType = new Dictionary<string, ModifyCustomDataType>();
         private ObservableCollection<ColorTextInfo> ctInfos=new ObservableCollection<ColorTextInfo>();
-        private string title = "";
+        //private string title = "";
         private string propertyName = "";
         private string propertySetText = "";
        
@@ -56,18 +56,18 @@ namespace ThColumnInfo.ViewModel
                 NotifyPropertyChange("RecoveryInit");
             }
         }
-        public string Title
-        {
-            get
-            {
-                return title;
-            }
-            set
-            {
-                title = value;
-                NotifyPropertyChange("Title");
-            }
-        }
+        //public string Title
+        //{
+        //    get
+        //    {
+        //        return title;
+        //    }
+        //    set
+        //    {
+        //        title = value;
+        //        NotifyPropertyChange("Title");
+        //    }
+        //}
         public List<string> YnList
         {
             get
@@ -218,30 +218,30 @@ namespace ThColumnInfo.ViewModel
         public void UpdateTitle()
         {
             ModifyCustomDataType modifyCustomDataType = GetModifyDataType();
-            switch(modifyCustomDataType)
-            {
-                case ModifyCustomDataType.AntiSeismicGrade:
-                    this.title = "构件属性修改 (默认值：" + this.initCustomData.AntiSeismicGrade+")";
-                    break;
-                case ModifyCustomDataType.ConcreteStrength:
-                    this.title = "构件属性修改 (默认值：" + this.initCustomData.ConcreteStrength + ")";
-                    break;
-                case ModifyCustomDataType.CornerColumn:
-                    this.title = "构件属性修改 (默认值：" + this.initCustomData.CornerColumn + ")";
-                    break;
-                case ModifyCustomDataType.HoopReinforceFullHeightEncryption:
-                    this.title = "构件属性修改 (默认值：" + this.initCustomData.HoopReinforceFullHeightEncryption + ")";
-                    break;
-                case ModifyCustomDataType.HoopReinforcementEnlargeTimes:
-                    this.title = "构件属性修改 (默认值：" + this.initCustomData.HoopReinforcementEnlargeTimes + ")";
-                    break;
-                case ModifyCustomDataType.LongitudinalReinforceEnlargeTimes:
-                    this.title = "构件属性修改 (默认值：" + this.initCustomData.LongitudinalReinforceEnlargeTimes + ")";
-                    break;
-                case ModifyCustomDataType.ProtectLayerThickness:
-                    this.title = "构件属性修改 (默认值：" + this.initCustomData.ProtectLayerThickness + ")";
-                    break;
-            }
+            //switch(modifyCustomDataType)
+            //{
+            //    case ModifyCustomDataType.AntiSeismicGrade:
+            //        this.title = "构件属性修改 (默认值：" + this.initCustomData.AntiSeismicGrade+")";
+            //        break;
+            //    case ModifyCustomDataType.ConcreteStrength:
+            //        this.title = "构件属性修改 (默认值：" + this.initCustomData.ConcreteStrength + ")";
+            //        break;
+            //    case ModifyCustomDataType.CornerColumn:
+            //        this.title = "构件属性修改 (默认值：" + this.initCustomData.CornerColumn + ")";
+            //        break;
+            //    case ModifyCustomDataType.HoopReinforceFullHeightEncryption:
+            //        this.title = "构件属性修改 (默认值：" + this.initCustomData.HoopReinforceFullHeightEncryption + ")";
+            //        break;
+            //    case ModifyCustomDataType.HoopReinforcementEnlargeTimes:
+            //        this.title = "构件属性修改 (默认值：" + this.initCustomData.HoopReinforcementEnlargeTimes + ")";
+            //        break;
+            //    case ModifyCustomDataType.LongitudinalReinforceEnlargeTimes:
+            //        this.title = "构件属性修改 (默认值：" + this.initCustomData.LongitudinalReinforceEnlargeTimes + ")";
+            //        break;
+            //    case ModifyCustomDataType.ProtectLayerThickness:
+            //        this.title = "构件属性修改 (默认值：" + this.initCustomData.ProtectLayerThickness + ")";
+            //        break;
+            //}
         }
         /// <summary>
         /// 更新属性列表

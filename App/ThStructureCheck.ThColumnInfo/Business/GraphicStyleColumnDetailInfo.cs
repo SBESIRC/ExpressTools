@@ -319,17 +319,62 @@ namespace ThColumnInfo
                                     if (dbObjs.Count > 1)
                                     {
                                         dbObjs = dbObjs.Where(m => m.Bounds != null && m.Bounds.HasValue).Select(m => m).ToList();
-                                        dbObjs = dbObjs.OrderBy(m => ThColumnInfoUtils.GetMidPt(m.Bounds.Value.MinPoint, m.Bounds.Value.MaxPoint).X).ToList();
+                                        dbObjs = dbObjs.OrderByDescending(m => ThColumnInfoUtils.GetMidPt(m.Bounds.Value.MinPoint, m.Bounds.Value.MaxPoint).Y).ToList();
                                     }
-                                    if (dbObjs[0] is DBText)
+                                    if(keyWordStr == "箍筋")
                                     {
-                                        DBText dbText = dbObjs[0] as DBText;
-                                        cellText = dbText.TextString;
+                                        string hoopReinforce = "";
+                                        string coreHoopReinforce = "";
+                                        foreach(DBObject dbObj in dbObjs)
+                                        {
+                                            string textContent = "";
+                                            if (dbObj is DBText dbText)
+                                            {
+                                                textContent = dbText.TextString;
+                                            }
+                                            else if (dbObjs[0] is MText mText)
+                                            {
+                                                textContent = mText.Text;
+                                            }
+                                            ColumnTableRecordInfo ctri = new ColumnTableRecordInfo();
+                                            bool isHoopReinforce = ctri.ValidateHoopReinforcement(textContent);
+                                            bool isCoreHoopReinforce = ctri.ValidateJointCoreHooping(textContent);
+                                            if (isHoopReinforce && isCoreHoopReinforce)
+                                            {
+                                                hoopReinforce = ctri.RemoveBrackets(textContent);
+                                                coreHoopReinforce = ctri.SubtractJointCoreHooping(textContent);
+                                            }
+                                            else if(isHoopReinforce)
+                                            {
+                                                hoopReinforce = ctri.RemoveBrackets(textContent);
+                                            }
+                                            else if(isCoreHoopReinforce)
+                                            {
+                                                coreHoopReinforce = ctri.SubtractJointCoreHooping(textContent);
+                                            }
+                                        }
+                                        if(!string.IsNullOrEmpty(coreHoopReinforce))
+                                        {
+                                            cellText = hoopReinforce + " (" + coreHoopReinforce + ")";
+                                        }
+                                        else
+                                        {
+                                            cellText = hoopReinforce;
+                                        }
                                     }
-                                    else if (dbObjs[0] is MText)
+                                    else                                   
                                     {
-                                        MText mText = dbObjs[0] as MText;
-                                        cellText = mText.Text;
+                                        //默认以第一个值
+                                        if (dbObjs[0] is DBText)
+                                        {
+                                            DBText dbText = dbObjs[0] as DBText;
+                                            cellText = dbText.TextString;
+                                        }
+                                        else if (dbObjs[0] is MText)
+                                        {
+                                            MText mText = dbObjs[0] as MText;
+                                            cellText = mText.Text;
+                                        }
                                     }
                                 }
                             }

@@ -426,6 +426,31 @@ namespace ThColumnInfo
             }
             return result;
         }
+        public static string ReplaceReinforceBy132(string content)
+        {
+            string result = content;
+            while (result.Contains("D") || result.Contains("B") ||
+                result.Contains("C") || result.Contains("A"))
+            {
+                if (result.Contains("A"))
+                {
+                    result = result.Replace("A","%%130");
+                }
+                else if (result.Contains("B"))
+                {
+                    result = result.Replace("B","%%131");
+                }
+                else if (result.Contains("C"))
+                {
+                    result = result.Replace("C", "%%132");
+                }
+                else if (result.Contains("D"))
+                {
+                    result = result.Replace("D","%%133");
+                }
+            }
+            return result;
+        }
         /// <summary>
         /// 创建柱图层
         /// </summary>

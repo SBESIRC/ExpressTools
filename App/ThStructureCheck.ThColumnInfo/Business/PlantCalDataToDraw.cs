@@ -17,7 +17,7 @@ namespace ThColumnInfo
         private List<List<Point3d>> thColumnPoints = new List<List<Point3d>>();
         public static double offsetDisScale = 3.0;
         public static double lineWidth = 200;
-        private string thColumnRegAppName = "ThColumnCalculation";        
+        public static readonly string thColumnRegAppName = "ThColumnCalculation";        
         private ExtractYjkColumnInfo yjkCalculateDb = null;
         private ExtractYjkColumnInfo yjkModelDb = null;
         private Document document = null;
@@ -177,11 +177,7 @@ namespace ThColumnInfo
             }
             //如果要导入计算书，需要重新提取一次信息
             this.thStandardSign.SignExtractColumnInfo.Extract(emportCalculation);
-            //提取埋入的柱子范围内对应的本地图纸柱子,(校核命令可提取柱子数量)
-            if (this.thStandardSign.SignExtractColumnInfo.ColumnInfs.Count == 0)
-            {
-                return;
-            }            
+            //提取埋入的柱子范围内对应的本地图纸柱子,(校核命令可提取柱子数量)  
             //获取数据信息完整的柱子与计算书中的柱子比对
             List<ColumnInf> columnInfs = this.thStandardSign.SignExtractColumnInfo.
                 ColumnInfs.Where(i => i.Error == ErrorMsg.OK).Select(i => i).ToList();
@@ -202,8 +198,8 @@ namespace ThColumnInfo
             if(emportCalculation)
             {
                 //this.jtTextIds.AddRange(thRelateColumn.PrintJtID()); //打印柱号
-            }        
-            if(this.thStandardSign.SignExtractColumnInfo.ColumnTableRecordInfos.Count==0)
+            }
+            if (!emportCalculation && this.thStandardSign.SignExtractColumnInfo.ColumnInfs.Count == 0)
             {
                 return;
             }
@@ -535,7 +531,7 @@ namespace ThColumnInfo
                 polylineId = ThColumnInfoUtils.AddToBlockTable(polyline, true);
                 List<TypedValue> tvs = new List<TypedValue>();
                 tvs.Add(new TypedValue((int)DxfCode.ExtendedDataAsciiString, "*"));
-                ThColumnInfoUtils.AddXData(polylineId, this.thColumnRegAppName, tvs);
+                ThColumnInfoUtils.AddXData(polylineId, thColumnRegAppName, tvs);
             }
             bool success = false;
             ColumnCustomData columnCustomData=ReadEmbededColumnCustomData(polylineId,out success); //埋入的构件属性定义数据
@@ -559,7 +555,7 @@ namespace ThColumnInfo
                 polylineId = ThColumnInfoUtils.AddToBlockTable(polyline, true);
                 List<TypedValue> tvs = new List<TypedValue>();
                 tvs.Add(new TypedValue((int)DxfCode.ExtendedDataAsciiString, "*"));
-                ThColumnInfoUtils.AddXData(polylineId, this.thColumnRegAppName, tvs);
+                ThColumnInfoUtils.AddXData(polylineId, thColumnRegAppName, tvs);
             }
             ThColumnInfoUtils.ShowObjId(polylineId, false);
             bool success = false;
@@ -573,7 +569,7 @@ namespace ThColumnInfo
             {
                 TypedValue[] tvs = new TypedValue[]
                 {
-                new TypedValue((int)DxfCode.ExtendedDataRegAppName,this.thColumnRegAppName),
+                new TypedValue((int)DxfCode.ExtendedDataRegAppName,thColumnRegAppName),
                 new TypedValue((int)DxfCode.Start,"LWPOLYLINE")
                 };
                 double minX = columnPts.OrderBy(i => i.X).First().X;
@@ -1074,7 +1070,7 @@ namespace ThColumnInfo
             {
                 TypedValue[] tvs = new TypedValue[]
                 {
-                new TypedValue((int)DxfCode.ExtendedDataRegAppName,this.thColumnRegAppName),
+                new TypedValue((int)DxfCode.ExtendedDataRegAppName,thColumnRegAppName),
                 new TypedValue((int)DxfCode.Start,"LWPOLYLINE")
                 };
                 Editor ed = this.document.Editor;

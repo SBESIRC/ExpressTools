@@ -7,8 +7,9 @@
         xmlns:local="clr-namespace:ThColumnInfo"
         xmlns:local1="clr-namespace:ThColumnInfo.View"
         mc:Ignorable="d"
-        Title="{Binding TitleContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="350" Height="230" MinWidth="350" MinHeight="230"
+        Title="构件属性定义" Width="350" Height="230" MinWidth="350" MinHeight="230"
         MaxWidth="350" MaxHeight="230" KeyDown="Window_KeyDown" Loaded="Window_Loaded" Closed="Window_Closed" ResizeMode="NoResize">
+    <!--Title="{Binding TitleContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"-->
     <Window.Resources>
         <Style TargetType="{x:Type Window}">
             <Setter Property="FontFamily" Value="宋体" />
