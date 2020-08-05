@@ -4,6 +4,7 @@ using DotNetARX;
 using System.Linq;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace TianHua.FanSelection.UI
 {
@@ -77,8 +78,11 @@ namespace TianHua.FanSelection.UI
         /// <returns></returns>
         public ObjectIdCollection GetModels(string identifier)
         {
-            var models = Geometries.Cast<ObjectId>().Where(o => o.IsModel(identifier));
-            return new ObjectIdCollection(models.ToArray());
+            var objs = new ObjectIdCollection();
+            Geometries.Cast<ObjectId>()
+                .Where(o => o.IsModel(identifier))
+                .ForEach(o => objs.Add(o));
+            return objs;
         }
 
         public void EraseModels(string identifier)
