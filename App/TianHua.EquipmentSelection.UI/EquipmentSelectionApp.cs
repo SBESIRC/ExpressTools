@@ -49,7 +49,6 @@ namespace TianHua.FanSelection.UI
                     var _Form = fmFanSelection.GetInstance();
                     AcadApp.ShowModelessDialog(_Form);
                     _Form.ShowFormByID(entId.GetModelIdentifier());
-                    //AcadApp.ShowAlertDialog(string.Format("风机ID：{0}", entId.GetModelIdentifier()));
                 }
             }
         }
@@ -70,6 +69,8 @@ namespace TianHua.FanSelection.UI
         private static void AddDoubleClickHandler()
         {
             AcadApp.BeginDoubleClick += Application_BeginDoubleClick;
+            AcadApp.DocumentManager.DocumentDestroyed += DocumentManager_DocumentDestroyed;
+            AcadApp.DocumentManager.DocumentBecameCurrent += DocumentManager_DocumentBecameCurrent;
             AcadApp.DocumentManager.DocumentLockModeChanged += DocumentManager_DocumentLockModeChanged;
             AcadApp.DocumentManager.DocumentLockModeChangeVetoed += DocumentManager_DocumentLockModeChangeVetoed;
 
@@ -80,8 +81,31 @@ namespace TianHua.FanSelection.UI
         private static void RemoveDoubleClickHandler()
         {
             AcadApp.BeginDoubleClick -= Application_BeginDoubleClick;
+            AcadApp.DocumentManager.DocumentDestroyed -= DocumentManager_DocumentDestroyed;
+            AcadApp.DocumentManager.DocumentBecameCurrent -= DocumentManager_DocumentBecameCurrent;
             AcadApp.DocumentManager.DocumentLockModeChanged -= DocumentManager_DocumentLockModeChanged;
             AcadApp.DocumentManager.DocumentLockModeChangeVetoed -= DocumentManager_DocumentLockModeChangeVetoed;
+        }
+
+        private static void DocumentManager_DocumentBecameCurrent(object sender, DocumentCollectionEventArgs e)
+        {
+            var dwgName = Convert.ToInt32(AcadApp.GetSystemVariable("DWGTITLED"));
+            if (dwgName == 0)
+            {
+                fmFanSelection.GetInstance().Hide();
+            }
+            else
+            {
+                // TODO: 数据源更新，需要刷新UI
+            }
+        }
+
+        private static void DocumentManager_DocumentDestroyed(object sender, DocumentDestroyedEventArgs e)
+        {
+            if (AcadApp.DocumentManager.Count == 1)
+            {
+                fmFanSelection.GetInstance().Hide();
+            }
         }
 
         private static void Application_BeginDoubleClick(object sender, BeginDoubleClickEventArgs e)
