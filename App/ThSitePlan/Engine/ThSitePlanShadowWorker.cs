@@ -6,6 +6,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using NFox.Cad.Collections;
 using ThSitePlan.Configuration;
 using System.Windows.Forms;
+using DotNetARX;
 
 namespace ThSitePlan.Engine
 {
@@ -36,8 +37,25 @@ namespace ThSitePlan.Engine
                     {
                         return false;
                     }
-
-                    Active.Editor.HatchBoundaryCmd(objs);
+                    Active.Editor.HatchBoundaryPolyCmd(objs);
+                    using (var polys = FilterPoly(database, configItem, options))
+                    {
+                        foreach (ObjectId item in polys)
+                        {
+                            foreach (ObjectId obj in FilterAllInPoly(database, item))
+                            {
+                                if (!obj.IsErased && !obj.Equals(item))
+                                {
+                                    obj.Erase();
+                                }
+                            }
+                        }
+                    }
+                    using (var polys = FilterPoly(database, configItem, options))
+                    {
+                        Active.Editor.CreateRegions(polys);
+                    }
+                    //Active.Editor.HatchBoundaryCmd(objs);
                 }
 
                 // 删除Hatch，只保留其轮廓线
@@ -158,6 +176,41 @@ namespace ThSitePlan.Engine
                 frame,
                 PolygonSelectionMode.Crossing,
                 filter);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
+        }
+
+        private ObjectIdCollection FilterPoly(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            ObjectId frame = (ObjectId)options.Options["Frame"];
+            var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                frame,
+                PolygonSelectionMode.Window,
+                filter);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
+        }
+
+        private ObjectIdCollection FilterAllInPoly(Database database, ObjectId frame)
+        {
+            //var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                frame,
+                PolygonSelectionMode.Window,
+                null);
             if (psr.Status == PromptStatus.OK)
             {
                 return new ObjectIdCollection(psr.Value.GetObjectIds());
