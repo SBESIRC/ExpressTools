@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions7 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject25 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject26 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject27 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject28 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.BtnOK = new DevExpress.XtraEditors.SimpleButton();
@@ -43,7 +43,6 @@
             this.ComBoxName = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ColLastOperationDate = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ColLastOperationName = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.TxtName = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.PicAll = new DevExpress.XtraEditors.PictureEdit();
@@ -152,8 +151,7 @@
             this.Gdv.Appearance.FocusedRow.Options.UseBackColor = true;
             this.Gdv.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.gridBand1,
-            this.gridBand2,
-            this.gridBand3});
+            this.gridBand2});
             this.Gdv.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
             this.ColName,
             this.ColLastOperationDate,
@@ -182,7 +180,9 @@
             this.Gdv.RowHeight = 23;
             this.Gdv.SortInfo.AddRange(new DevExpress.XtraGrid.Columns.GridColumnSortInfo[] {
             new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.ColLastOperationDate, DevExpress.Data.ColumnSortOrder.Descending)});
+            this.Gdv.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.Gdv_ShowingEditor);
             this.Gdv.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.Gdv_CellValueChanged);
+            this.Gdv.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.Gdv_ValidatingEditor);
             // 
             // gridBand1
             // 
@@ -208,10 +208,10 @@
             // ComBoxName
             // 
             this.ComBoxName.AutoHeight = false;
-            editorButtonImageOptions7.Image = global::TianHua.FanSelection.UI.Properties.Resources.删除;
-            editorButtonImageOptions7.Location = DevExpress.XtraEditors.ImageLocation.Default;
+            editorButtonImageOptions1.Image = global::TianHua.FanSelection.UI.Properties.Resources.删除;
+            editorButtonImageOptions1.Location = DevExpress.XtraEditors.ImageLocation.Default;
             this.ComBoxName.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, true, editorButtonImageOptions7, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject25, serializableAppearanceObject26, serializableAppearanceObject27, serializableAppearanceObject28, "", "Delete", null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, true, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", "Delete", null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.ComBoxName.Name = "ComBoxName";
             this.ComBoxName.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.ComBoxName_ButtonClick);
             // 
@@ -232,7 +232,7 @@
             this.ColLastOperationDate.AppearanceHeader.Options.UseTextOptions = true;
             this.ColLastOperationDate.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.ColLastOperationDate.Caption = "时间";
-            this.ColLastOperationDate.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm";
+            this.ColLastOperationDate.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
             this.ColLastOperationDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.ColLastOperationDate.FieldName = "LastOperationDate";
             this.ColLastOperationDate.Name = "ColLastOperationDate";
@@ -240,16 +240,6 @@
             this.ColLastOperationDate.SortMode = DevExpress.XtraGrid.ColumnSortMode.Value;
             this.ColLastOperationDate.Visible = true;
             this.ColLastOperationDate.Width = 107;
-            // 
-            // gridBand3
-            // 
-            this.gridBand3.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand3.Caption = "作者";
-            this.gridBand3.Columns.Add(this.ColLastOperationName);
-            this.gridBand3.Name = "gridBand3";
-            this.gridBand3.VisibleIndex = 2;
-            this.gridBand3.Width = 109;
             // 
             // ColLastOperationName
             // 
@@ -262,7 +252,6 @@
             this.ColLastOperationName.Name = "ColLastOperationName";
             this.ColLastOperationName.OptionsColumn.AllowEdit = false;
             this.ColLastOperationName.OptionsFilter.AllowAutoFilter = false;
-            this.ColLastOperationName.Visible = true;
             this.ColLastOperationName.Width = 109;
             // 
             // TxtName
@@ -535,13 +524,12 @@
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem4;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem2;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridView Gdv;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn ColName;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn ColLastOperationDate;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn ColLastOperationName;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox ComBoxName;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit TxtName;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
     }
 }

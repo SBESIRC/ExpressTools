@@ -101,6 +101,7 @@ namespace TianHua.FanSelection.UI
             var _FocusFan = m_ListFan.Find(p => p.ID == _ID);
             if (_FocusFan != null)
             {
+                ComBoxScene.EditValue = _FocusFan.Scenario;
                 TreeListNode _Node = TreeList.FindNodeByKeyID(_ID);
                 TreeList.FocusedNode = _Node;
             }
@@ -1183,6 +1184,7 @@ namespace TianHua.FanSelection.UI
             }
             else
             {
+                if (m_FanDesign.Path == string.Empty) { return; }
                 m_FanDesign.LastOperationDate = DateTime.Now;
                 var _JsonFanDesign = FuncJson.Serialize(m_ListFanDesign);
                 JsonExporter.Instance.SaveToFile(Path.Combine(Active.DocumentDirectory, "FanDesignData.json"), Encoding.UTF8, _JsonFanDesign);
@@ -1202,7 +1204,7 @@ namespace TianHua.FanSelection.UI
             if (m_FanDesign == null || FuncStr.NullToStr(m_FanDesign.Name) == string.Empty)
             {
                 fmDesignData _fmDesignData = new fmDesignData();
-                _fmDesignData.InitForm(m_ListFanDesign, "保存", Active.DocumentDirectory);
+                _fmDesignData.InitForm(m_ListFanDesign, "另存", Active.DocumentDirectory);
                 if (_fmDesignData.ShowDialog() == DialogResult.OK)
                 {
                     if (_fmDesignData.m_FanDesign != null && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Path) != string.Empty && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Name) != string.Empty)

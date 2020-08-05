@@ -51,8 +51,21 @@ namespace TianHua.FanSelection.UI
                 m_FanDesign.CreateDate = DateTime.Now;
                 m_FanDesign.LastOperationDate = DateTime.Now;
                 m_FanDesign.Name = "新建设计数据";
-                //TO DO:
-                m_FanDesign.LastOperationName = "S";
+                m_FanDesign.Status = "1";
+
+                m_FanDesign.Name = SetFanDesignDataName(m_FanDesign);
+                m_FanDesign.Path = GetPath(m_FanDesign);
+                m_ListFanDesign.Insert(0, m_FanDesign);
+            }
+            if (m_ActionType == "另存")
+            {
+                this.Text = "另存设计数据";
+                m_FanDesign = new FanDesignDataModel();
+                m_FanDesign.ID = Guid.NewGuid().ToString();
+                m_FanDesign.CreateDate = DateTime.Now;
+                m_FanDesign.LastOperationDate = DateTime.Now;
+                m_FanDesign.Name = "新建设计数据";
+                m_FanDesign.Status = "1";
 
                 m_FanDesign.Name = SetFanDesignDataName(m_FanDesign);
                 m_FanDesign.Path = GetPath(m_FanDesign);
@@ -99,19 +112,21 @@ namespace TianHua.FanSelection.UI
         private string GetPath(FanDesignDataModel _FanDesign)
         {
             if (_FanDesign == null || FuncStr.NullToStr(_FanDesign.Name) == string.Empty) { return string.Empty; }
-            return Path.Combine(m_Path , FuncStr.NullToStr(_FanDesign.Name) + ".json");
+            return Path.Combine(m_Path, FuncStr.NullToStr(_FanDesign.Name) + ".json");
         }
 
         private void fmDesignData_Load(object sender, EventArgs e)
         {
-            if (m_ActionType == "保存")
+            if (m_ActionType == "保存" || m_ActionType == "另存")
                 keybd_event((byte)Keys.Tab, 0, 0, 0);
         }
 
         private void ComBoxName_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
         {
             if (m_ListFanDesign == null || m_ListFanDesign.Count == 0) return;
+            if (m_ActionType == "另存") { return; }
             var _FanDesign = Gdv.GetRow(Gdv.FocusedRowHandle) as FanDesignDataModel;
+            if (_FanDesign.Status == "1") { XtraMessageBox.Show(" 未保存文件无法进行删除！ ", "提示"); return; }
             if (XtraMessageBox.Show(" 设计数据[" + _FanDesign.Name + "]将被删除，是否继续？ ", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 File.Delete(_FanDesign.Path);
@@ -131,7 +146,7 @@ namespace TianHua.FanSelection.UI
             {
                 Directory.CreateDirectory(m_Path);
             }
-
+            m_ListFanDesign.ForEach(p => p.Status = "0");
             var _Json = FuncJson.Serialize(m_ListFanDesign);
 
             JsonExporter.Instance.SaveToFile(Path.Combine(m_Path, "FanDesignData.json"), Encoding.UTF8, _Json);
@@ -144,7 +159,7 @@ namespace TianHua.FanSelection.UI
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            if (m_ActionType == "保存")
+            if (m_ActionType == "保存" || m_ActionType == "另存")
             {
                 m_ListFanDesign.Remove(m_FanDesign);
             }
@@ -208,6 +223,41 @@ namespace TianHua.FanSelection.UI
             m_FilterDate = -3;
             Filter(FuncStr.NullToStr(TxtSearch.Text));
 
+        }
+
+        private void Gdv_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
+        {
+
+            var _FanDesignDataModel = Gdv.GetFocusedRow() as FanDesignDataModel;
+            if (_FanDesignDataModel == null) { return; }
+            var _FocusedColumn = Gdv.FocusedColumn;
+            if (_FocusedColumn.FieldName == "Name")
+            {
+
+                var _List = m_ListFanDesign.FindAll(p => FuncStr.NullToStr(p.Name) == FuncStr.NullToStr(e.Value) && p.ID != _FanDesignDataModel.ID);
+                if (_List.Count > 0)
+                {
+                    e.Valid = false;
+                    e.ErrorText = "文件名称不能重复!";
+                    return;
+                }
+
+            }
+        }
+
+        private void Gdv_ShowingEditor(object sender, CancelEventArgs e)
+        {
+            var _FanDesignDataModel = Gdv.GetFocusedRow() as FanDesignDataModel;
+            if (_FanDesignDataModel == null) { return; }
+            if (m_ActionType == "另存")
+            {
+                var _FocusedColumn = Gdv.FocusedColumn;
+                if (_FanDesignDataModel.Status != "1")
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
         }
     }
 }

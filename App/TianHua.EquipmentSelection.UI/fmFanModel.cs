@@ -295,7 +295,7 @@ namespace TianHua.FanSelection.UI
                 //有低速、也可以没有
                 var _FanModelPower = _FanDataModel.WindResis / (3600 * _AxialFanEfficiency.FanEfficiency * 0.855 * 0.98) * 100;
 
-                _FanDataModel.FanModelPower = FuncStr.NullToDouble(_FanDataModel.FanModelPower).ToString("0.##");
+                _FanDataModel.FanModelPower = FuncStr.NullToDouble(_FanModelPower).ToString("0.##");
 
                 LabPower.Text = _FanDataModel.FanModelPower;
 
@@ -383,7 +383,7 @@ namespace TianHua.FanSelection.UI
                 //有低速、也可以没有
                 var _FanModelPower = _FanDataModel.WindResis / (3600 * _FanEfficiency.FanInternalEfficiency * 0.855 * 0.98) * 100;
 
-                _FanDataModel.FanModelPower = FuncStr.NullToDouble(_FanDataModel.FanModelPower).ToString("0.##");
+                _FanDataModel.FanModelPower = FuncStr.NullToDouble(_FanModelPower).ToString("0.##");
 
                 LabPower.Text = _FanDataModel.FanModelPower;
 
@@ -435,11 +435,11 @@ namespace TianHua.FanSelection.UI
                 }
                 return;
             }
-            if (_FanDataModel.Scenario == "平时送风兼事故补风" || _FanDataModel.Scenario == "平时排风兼事故补风")
+            if (_FanDataModel.Scenario == "平时送风兼事故补风" || _FanDataModel.Scenario == "平时排风兼事故排风")
             {
                 var _FanModelPower = _FanDataModel.WindResis / (3600 * _FanEfficiency.FanInternalEfficiency * 0.855 * 0.98) * 100;
 
-                _FanDataModel.FanModelPower = FuncStr.NullToDouble(_FanDataModel.FanModelPower).ToString("0.##");
+                _FanDataModel.FanModelPower = FuncStr.NullToDouble(_FanModelPower).ToString("0.##");
 
                 var _SonFan = m_ListFan.Find(p => p.PID == _FanDataModel.ID);
 
@@ -451,19 +451,19 @@ namespace TianHua.FanSelection.UI
                     var _SonEfficiency = m_ListFanEfficiency.Find(p => FuncStr.NullToInt(p.No_Min) < FuncStr.NullToInt(_FanDataModel.FanModelNum) && FuncStr.NullToInt(p.No_Max) > FuncStr.NullToInt(_FanDataModel.FanModelNum)
                          && FuncStr.NullToInt(p.Rpm_Min) < FuncStr.NullToInt(_SpecificSpeed)
                           && FuncStr.NullToInt(p.Rpm_Max) > FuncStr.NullToInt(_SpecificSpeed) && _FanDataModel.VentLev == p.FanEfficiencyLevel);
-                    if (_SonEfficiency == null) { return; }
+                    if (_SonEfficiency == null) { _FanDataModel.FanModelPower = string.Empty; LabPower.Text = "-"; return; }
 
                     var _SonPower = _SonFan.WindResis / (3600 * _SonEfficiency.FanInternalEfficiency * 0.855 * 0.98) * 100;
 
                     if (_FanDataModel.Use == "平时排风")
                     {
-                        _FanDataModel.FanModelPower = FuncStr.NullToDouble(_FanModelPower).ToString("0.##") + "/" + FuncStr.NullToDouble(_SonPower).ToString("0.##");
+                        _FanDataModel.FanModelPower = "-/" + FuncStr.NullToDouble(_FanModelPower).ToString("0.##");
 
                         LabPower.Text = _FanDataModel.FanModelPower;
                     }
                     else
                     {
-                        _FanDataModel.FanModelPower = FuncStr.NullToDouble(_SonPower).ToString("0.##") + "/" + FuncStr.NullToDouble(_FanModelPower).ToString("0.##");
+                        _FanDataModel.FanModelPower =  "-/" + FuncStr.NullToDouble(_SonPower).ToString("0.##");
 
                         LabPower.Text = _FanDataModel.FanModelPower;
                     }
