@@ -280,14 +280,15 @@ namespace TianHua.FanSelection.UI
                 _FanDataModel.Scenario == "事故排风" || _FanDataModel.Scenario == "事故补风")
             {
                 _FanDataModel.FanModelPower = "-";
-                LabPower.Text = "-";
+                LabPower.Text = _FanDataModel.FanModelPower;
                 return;
             }
             if (_FanDataModel.Scenario == "厨房排油烟补风")
             {
                 var _FanModelPower = _FanDataModel.WindResis / (3600 * _AxialFanEfficiency.FanEfficiency * 0.855 * 0.98) * 100;
                 _FanDataModel.FanModelPower = FuncStr.NullToDouble(_FanDataModel.FanModelPower).ToString("0.##");
-                LabPower.Text = FuncStr.NullToDouble(_FanDataModel.FanModelPower).ToString("0.##");
+
+                LabPower.Text = _FanDataModel.FanModelPower;
                 return;
             }
             if (_FanDataModel.Scenario == "平时送风" || _FanDataModel.Scenario == "平时排风")
@@ -368,14 +369,16 @@ namespace TianHua.FanSelection.UI
                   _FanDataModel.Scenario == "事故排风" || _FanDataModel.Scenario == "事故补风")
             {
                 _FanDataModel.FanModelPower = "-";
-                LabPower.Text = "-";
+                LabPower.Text = _FanDataModel.FanModelPower;
                 return;
             }
             if (_FanDataModel.Scenario == "厨房排油烟补风")
             {
                 var _FanModelPower = _FanDataModel.WindResis / (3600 * _FanEfficiency.FanInternalEfficiency * 0.855 * 0.98) * 100;
-                _FanDataModel.FanModelPower = FuncStr.NullToStr(_FanModelPower);
-                LabPower.Text = FuncStr.NullToDouble(_FanDataModel.FanModelPower).ToString("0.##");
+                _FanDataModel.FanModelPower = FuncStr.NullToDouble(_FanDataModel.FanModelPower).ToString("0.##");
+
+
+                LabPower.Text = _FanDataModel.FanModelPower;
                 return;
             }
             if (_FanDataModel.Scenario == "平时送风" || _FanDataModel.Scenario == "平时排风")
