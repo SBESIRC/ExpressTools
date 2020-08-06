@@ -90,14 +90,15 @@ namespace TianHua.FanSelection.UI
         private static void DocumentManager_DocumentBecameCurrent(object sender, DocumentCollectionEventArgs e)
         {
             var dwgName = Convert.ToInt32(AcadApp.GetSystemVariable("DWGTITLED"));
+            var _fmFanSelection = fmFanSelection.GetInstance();
+            _fmFanSelection.ReLoad();
             if (dwgName == 0)
             {
-                fmFanSelection.GetInstance().Hide();
+                _fmFanSelection.Hide();
+                return;
             }
-            else
-            {
-                // TODO: 数据源更新，需要刷新UI
-            }
+    
+            //AcadApp.ShowModelessDialog(_fmFanSelection);
         }
 
         private static void DocumentManager_DocumentDestroyed(object sender, DocumentDestroyedEventArgs e)

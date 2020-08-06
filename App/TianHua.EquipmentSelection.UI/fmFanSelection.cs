@@ -90,11 +90,15 @@ namespace TianHua.FanSelection.UI
             if (SingleFanSelectionDialog == null)
             {
                 SingleFanSelectionDialog = new fmFanSelection();
-
             }
-
             return SingleFanSelectionDialog;
         }
+
+        public void ReLoad()
+        {
+            SingleFanSelectionDialog = new fmFanSelection();
+        }
+
 
         public void ShowFormByID(string _ID)
         {
@@ -128,7 +132,7 @@ namespace TianHua.FanSelection.UI
             InitForm();
         }
 
-        private void InitForm()
+        public void InitForm()
         {
             RessetPresenter();
             ComBoxScene.Properties.Items.Clear();
@@ -1160,7 +1164,7 @@ namespace TianHua.FanSelection.UI
                         m_ListFan = m_ListFan.OrderBy(p => p.SortID).ToList();
                     TreeList.DataSource = m_ListFan;
                     this.TreeList.ExpandAll();
-
+                    this.Text = "风机选型 - " + _fmDesignData.m_FanDesign.Name;
                 }
             }
         }
@@ -1181,6 +1185,7 @@ namespace TianHua.FanSelection.UI
                         JsonExporter.Instance.SaveToFile(FuncStr.NullToStr(_fmDesignData.m_FanDesign.Path), Encoding.UTF8, _Json);
                         m_FanDesign = _fmDesignData.m_FanDesign;
                         m_ListFanDesign = _fmDesignData.m_ListFanDesign;
+                        this.Text = "风机选型 - " + _fmDesignData.m_FanDesign.Name;
                     }
                 }
             }
@@ -1214,6 +1219,7 @@ namespace TianHua.FanSelection.UI
                         var _Json = FuncJson.Serialize(m_ListFan);
                         JsonExporter.Instance.SaveToFile(FuncStr.NullToStr(_fmDesignData.m_FanDesign.Path), Encoding.UTF8, _Json);
                         m_FanDesign = _fmDesignData.m_FanDesign;
+                        this.Text = "风机选型 - " + _fmDesignData.m_FanDesign.Name;
                     }
                 }
             }
@@ -1495,6 +1501,7 @@ namespace TianHua.FanSelection.UI
             {
                 BarBtnSave.PerformClick();
                 NewFanList();
+                this.Text = "风机选型";
             }
             else if (_Result == DialogResult.No)
             {
