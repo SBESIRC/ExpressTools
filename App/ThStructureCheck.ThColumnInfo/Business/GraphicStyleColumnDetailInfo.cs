@@ -178,7 +178,7 @@ namespace ThColumnInfo
                             ucsPts.Add(ThColumnInfoUtils.TransPtFromWcsToUcs(pt));
                         }
                         PromptSelectionResult psr = ThColumnInfoUtils.SelectByPolyline(doc.Editor,
-                           ucsPts, PolygonSelectionMode.Window, sf);
+                           ucsPts, PolygonSelectionMode.Crossing, sf);
                         if (psr.Status == PromptStatus.OK)
                         {
                             List<ObjectId> textObjIds = psr.Value.GetObjectIds().ToList();

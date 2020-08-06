@@ -23,9 +23,9 @@ namespace ThColumnInfo.Validate.Rules
             }
             if(this.smde.Code.ToUpper().Contains("ZHZ") && this.smde.AntiSeismicGrade.Contains("非"))
             {
-                if (this.smde.IntStirrupDiaLimited < 10)
+                if (this.smde.Cdm.IntStirrupDia < 10)
                 {
-                    this.ValidateResults.Add("箍筋最小直径小于10 [" + this.smde.IntStirrupDiaLimited + " < 10]，" + this.rule);
+                    this.ValidateResults.Add("箍筋最小直径小于10 [" + this.smde.Cdm.IntStirrupDia + " < 10]，" + this.rule);
                 }
                 else
                 {
@@ -41,7 +41,7 @@ namespace ThColumnInfo.Validate.Rules
             steps.Add("柱号 = " + this.smde.Text);
             steps.Add("if (柱号["+ this.smde.Text+"].Contains(\"ZHZ\") && 抗震等级[" + this.smde.AntiSeismicGrade+"].Contains(\"非抗震\"))");
             steps.Add("  {");
-            steps.Add("    if (箍筋最小直径[" + this.smde.IntStirrupDiaLimited + "] < 10)");
+            steps.Add("    if (箍筋最小直径[" + this.smde.Cdm.IntStirrupDia + "] < 10)");
             steps.Add("      {");
             steps.Add("         Err：箍筋最小直径小于10" + this.rule);
             steps.Add("      }");

@@ -8,20 +8,6 @@ namespace ThColumnInfo.Validate.Model
 {
     public class StirrupMinimumDiameterEModel:ValidateModel
     {
-        /// <summary>
-        /// 箍筋直径限值
-        /// </summary>
-        public double IntStirrupDiaLimited
-        {
-            get
-            {
-                return GetIntStirrupDiaLimited();
-            }
-        }
-        /// <summary>
-        /// 是否是首层(柱根)
-        /// </summary>
-        public bool IsFirstFloor { get; set; }
         public override bool ValidateProperty()
         {
             if (!base.ValidateProperty() ||
@@ -30,12 +16,6 @@ namespace ThColumnInfo.Validate.Model
                 return false;
             }
             return true;
-        }
-        private double GetIntStirrupDiaLimited()
-        {
-            return ThValidate.GetStirrupMinimumDiameter(
-                this.AntiSeismicGrade,
-                this.IsFirstFloor);
         }
     }
 }
