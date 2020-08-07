@@ -7,6 +7,7 @@ using NFox.Cad.Collections;
 using ThSitePlan.Configuration;
 using System.Windows.Forms;
 using DotNetARX;
+using System.Linq;
 
 namespace ThSitePlan.Engine
 {
@@ -192,11 +193,11 @@ namespace ThSitePlan.Engine
             var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
             PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                 frame,
-                PolygonSelectionMode.Window,
+                PolygonSelectionMode.Crossing,
                 filter);
             if (psr.Status == PromptStatus.OK)
             {
-                return new ObjectIdCollection(psr.Value.GetObjectIds());
+                return new ObjectIdCollection(psr.Value.GetObjectIds().Where(p=>!p.Equals(frame)).ToArray());
             }
             else
             {

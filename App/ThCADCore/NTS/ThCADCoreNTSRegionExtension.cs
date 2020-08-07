@@ -156,6 +156,7 @@ namespace ThCADCore.NTS
         public static List<Polyline> Differences(this Region pRegion, DBObjectCollection sRegions)
         {
             var pGeometrys = new List<IPolygon>();
+            var pGeometrysNoIntersect = new List<IPolygon>();
             try
             {
                 pGeometrys.Add(pRegion.ToNTSPolygon());
@@ -172,6 +173,7 @@ namespace ThCADCore.NTS
                         // 检查是否相交
                         if (!pGeometry.Intersects(sGeometry))
                         {
+                            pGeometrysNoIntersect.Add(pGeometry);
                             continue;
                         }
 
@@ -202,6 +204,7 @@ namespace ThCADCore.NTS
                 // 在某些情况下，NTS会抛出异常
                 // 这里只捕捉异常，不做特殊的处理
             }
+            pGeometrys.AddRange(pGeometrysNoIntersect);
             return pGeometrys.Select(x => x.Shell.ToDbPolyline()).ToList();
         }
     }
