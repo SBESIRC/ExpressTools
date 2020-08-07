@@ -590,7 +590,7 @@ namespace TianHua.FanSelection.UI
             if (e.Column.FieldName == "Use")
             {
 
-                if (FuncStr.NullToStr(_Fan.Scenario) == "平时排风兼消防排烟" || FuncStr.NullToStr(_Fan.Scenario) == "平时送风兼消防补风")
+                if (FuncStr.NullToStr(_Fan.Scenario) == "消防排烟兼平时排风" || FuncStr.NullToStr(_Fan.Scenario) == "消防补风兼平时送风")
                 {
                     var _EditTxt = TreeList.RepositoryItems["TxtUse"] as DevExpress.XtraEditors.Repository.RepositoryItemTextEdit;
 
@@ -644,8 +644,8 @@ namespace TianHua.FanSelection.UI
                     ColAddAuxiliary.Visible = true;
                     BandUse.Visible = false;
                     break;
-                case "平时排风兼消防排烟":
-                case "平时送风兼消防补风":
+                case "消防排烟兼平时排风":
+                case "消防补风兼平时送风":
                 case "平时排风兼事故排风":
                 case "平时送风兼事故补风":
                     BandUse.Visible = true;
@@ -742,7 +742,7 @@ namespace TianHua.FanSelection.UI
 
             if (_TreeList.FocusedColumn.FieldName == "Use")
             {
-                if (FuncStr.NullToStr(_FanDataModel.Scenario) == "平时排风兼消防排烟" || FuncStr.NullToStr(_FanDataModel.Scenario) == "平时送风兼消防补风")
+                if (FuncStr.NullToStr(_FanDataModel.Scenario) == "消防排烟兼平时排风" || FuncStr.NullToStr(_FanDataModel.Scenario) == "消防补风兼平时送风")
                 {
                     e.Cancel = true;
                     return;
@@ -806,7 +806,7 @@ namespace TianHua.FanSelection.UI
             {
                 _FanDataModel.SortScenario = _FanPrefixDict.No;
             }
-            if (FuncStr.NullToStr(ComBoxScene.EditValue) == "平时排风兼消防排烟" || FuncStr.NullToStr(ComBoxScene.EditValue) == "平时送风兼消防补风")
+            if (FuncStr.NullToStr(ComBoxScene.EditValue) == "消防排烟兼平时排风" || FuncStr.NullToStr(ComBoxScene.EditValue) == "消防补风兼平时送风")
             {
                 _FanDataModel.Remark = "消防兼用";
                 _FanDataModel.Use = "消防排烟";
@@ -867,7 +867,7 @@ namespace TianHua.FanSelection.UI
             _FanDataModel.FanModelName = "-";
             _FanDataModel.MountType = "-";
 
-            if (FuncStr.NullToStr(ComBoxScene.EditValue) == "平时排风兼消防排烟" || FuncStr.NullToStr(ComBoxScene.EditValue) == "平时送风兼消防补风")
+            if (FuncStr.NullToStr(ComBoxScene.EditValue) == "消防排烟兼平时排风" || FuncStr.NullToStr(ComBoxScene.EditValue) == "消防补风兼平时送风")
             {
                 _FanDataModel.Name = "平时";
                 _FanDataModel.Use = "平时排风";
@@ -1254,32 +1254,33 @@ namespace TianHua.FanSelection.UI
                 _Sheet.Cells[i, 4] = p.CalcAirVolume;
                 _Sheet.Cells[i, 5] = p.FanDelivery;
                 _Sheet.Cells[i, 6] = p.Pa;
-                _Sheet.Cells[i, 7] = p.FanEnergyLevel;
-                _Sheet.Cells[i, 8] = p.FanEfficiency;
-                _Sheet.Cells[i, 9] = p.FanRpm;
-                _Sheet.Cells[i, 10] = p.DriveMode;
+                _Sheet.Cells[i, 7] = p.StaticPa;
+                _Sheet.Cells[i, 8] = p.FanEnergyLevel;
+                _Sheet.Cells[i, 9] = p.FanEfficiency;
+                _Sheet.Cells[i, 10] = p.FanRpm;
+                _Sheet.Cells[i, 11] = p.DriveMode;
 
-                _Sheet.Cells[i, 11] = p.ElectricalEnergyLevel;
-                _Sheet.Cells[i, 12] = p.MotorPower;
-                _Sheet.Cells[i, 13] = p.PowerSource;
-                _Sheet.Cells[i, 14] = p.ElectricalRpm;
-                _Sheet.Cells[i, 15] = p.IsDoubleSpeed;
-                _Sheet.Cells[i, 16] = p.IsFrequency;
-                _Sheet.Cells[i, 17] = p.WS;
-                _Sheet.Cells[i, 18] = p.IsFirefighting;
-
-
-                _Sheet.Cells[i, 19] = p.dB;
-                _Sheet.Cells[i, 20] = p.Weight;
-                _Sheet.Cells[i, 21] = p.Length;
-                _Sheet.Cells[i, 22] = p.Width;
-                _Sheet.Cells[i, 23] = p.Height;
+                _Sheet.Cells[i, 12] = p.ElectricalEnergyLevel;
+                _Sheet.Cells[i, 13] = p.MotorPower;
+                _Sheet.Cells[i, 14] = p.PowerSource;
+                _Sheet.Cells[i, 15] = p.ElectricalRpm;
+                _Sheet.Cells[i, 16] = p.IsDoubleSpeed;
+                _Sheet.Cells[i, 17] = p.IsFrequency;
+                _Sheet.Cells[i, 18] = p.WS;
+                _Sheet.Cells[i, 19] = p.IsFirefighting;
 
 
+                _Sheet.Cells[i, 20] = p.dB;
+                _Sheet.Cells[i, 21] = p.Weight;
+                _Sheet.Cells[i, 22] = p.Length;
+                _Sheet.Cells[i, 23] = p.Width;
+                _Sheet.Cells[i, 24] = p.Height;
 
-                _Sheet.Cells[i, 24] = p.VibrationMode;
-                _Sheet.Cells[i, 25] = p.Amount;
-                _Sheet.Cells[i, 26] = p.Remark;
+
+
+                _Sheet.Cells[i, 25] = p.VibrationMode;
+                _Sheet.Cells[i, 26] = p.Amount;
+                _Sheet.Cells[i, 27] = p.Remark;
 
                 i++;
             });
@@ -1329,7 +1330,7 @@ namespace TianHua.FanSelection.UI
                _ExportFanPara.ID = p.ID;
                _ExportFanPara.SortScenario = _FanPrefixDict.No;
                _ExportFanPara.SortID = p.SortID;
-               _ExportFanPara.No = _FanPrefixDict.Prefix + p.InstallFloor + p.VentNum;
+               _ExportFanPara.No = p.FanNum;
                _ExportFanPara.Coverage = p.Name;
                _ExportFanPara.FanForm = p.VentStyle;
                //_ExportFanPara.CalcAirVolume = FuncStr.NullToStr(p.AirVolume);
@@ -1342,12 +1343,13 @@ namespace TianHua.FanSelection.UI
                _ExportFanPara.ElectricalRpm = FuncStr.NullToStr(p.MotorTempo);
                _ExportFanPara.IsDoubleSpeed = p.Control;
                _ExportFanPara.IsFrequency = p.IsFre ? "是" : "否";
-               _ExportFanPara.WS = FuncStr.NullToDouble(p.FanModelPower).ToString("0.##");
+               _ExportFanPara.WS = p.FanModelPower;
                _ExportFanPara.IsFirefighting = p.PowerType == "消防" ? "Y" : "N";
-               _ExportFanPara.VibrationMode = "R";
+               _ExportFanPara.VibrationMode = p.VibrationMode;
                _ExportFanPara.Amount = FuncStr.NullToStr(p.VentQuan);
                _ExportFanPara.Remark = p.Remark;
                _ExportFanPara.FanEfficiency = p.FanInternalEfficiency;
+               _ExportFanPara.StaticPa = FuncStr.NullToStr((p.DuctResistance + p.Damper) * p.SelectionFactor);
                if (FuncStr.NullToStr(p.VentStyle) == "轴流")
                {
                    var _FanParameters = m_ListAxialFanParameters.Find(s => s.No == FuncStr.NullToStr(p.FanModelID) && s.ModelNum == p.FanModelName);
@@ -1408,7 +1410,7 @@ namespace TianHua.FanSelection.UI
                 var _FanPrefixDict = PubVar.g_ListFanPrefixDict.Find(s => s.FanUse == p.Scenario);
                 if (_FanPrefixDict == null) return;
                 if (p.PID != "0") { return; }
-                _Sheet.Cells[i, 1] = _FanPrefixDict.Prefix + p.InstallFloor + p.VentNum;
+                _Sheet.Cells[i, 1] = p.FanNum;
                 _Sheet.Cells[i, 2] = p.Name;
                 _Sheet.Cells[i, 3] = p.Scenario;
                 _Sheet.Cells[i, 13] = p.AirCalcValue;
@@ -1422,7 +1424,7 @@ namespace TianHua.FanSelection.UI
 
                 _Sheet.Cells[i, 19] = p.Damper;
 
-                _Sheet.Cells[i, 20] = p.DynPress;
+                _Sheet.Cells[i, 20] = p.CalcResistance;
                 _Sheet.Cells[i, 21] = p.WindResis;
 
                 if (FuncStr.NullToStr(p.VentStyle) == "轴流")
@@ -1438,7 +1440,7 @@ namespace TianHua.FanSelection.UI
                     _Sheet.Cells[i, 22] = _FanParameters.Pa;
                 }
 
-                _Sheet.Cells[i, 23] = FuncStr.NullToDouble(p.FanModelPower).ToString("0.##");
+                _Sheet.Cells[i, 23] = p.FanModelPower;
 
                 i++;
             });
@@ -1487,12 +1489,16 @@ namespace TianHua.FanSelection.UI
         {
             if (m_ListFan == null || m_ListFan.Count == 0)
             {
+                this.Text = "风机选型";
+                m_FanDesign = null;
                 NewFanList();
                 return;
             }
             var _List = m_ListFan.FindAll(p => p.FanModelName != string.Empty && p.FanModelName != "无此风机");
             if (_List == null || _List.Count == 0)
             {
+                this.Text = "风机选型";
+                m_FanDesign = null;
                 NewFanList();
                 return;
             }
@@ -1502,6 +1508,7 @@ namespace TianHua.FanSelection.UI
                 BarBtnSave.PerformClick();
                 NewFanList();
                 this.Text = "风机选型";
+                m_FanDesign = null;
             }
             else if (_Result == DialogResult.No)
             {

@@ -100,7 +100,8 @@ namespace TianHua.FanSelection.UI
             }
             if (_Fan.DuctResistance > 0 && _Fan.Damper > 0 && _Fan.DynPress > 0)
             {
-                var _Tmp = FuncStr.NullToInt((_Fan.DuctResistance + _Fan.Damper) * 1.1 + _Fan.DynPress);
+                var _Tmp = FuncStr.NullToInt((_Fan.DuctResistance + _Fan.Damper + _Fan.DynPress) * _Fan.SelectionFactor);
+                _Fan.CalcResistance = _Fan.DuctResistance + _Fan.Damper + _Fan.DynPress;
                 var _UnitsDigit = FindNum(_Tmp, 1);
                 if (_UnitsDigit != 0)
                 {

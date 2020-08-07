@@ -41,6 +41,10 @@ namespace TianHua.FanSelection
         /// </summary>
         public string Pa { get; set; }
 
+        /// <summary>
+        /// 静压
+        /// </summary>
+        public string StaticPa { get; set; }
 
         /// <summary>
         /// 风机能效等级
@@ -148,6 +152,8 @@ namespace TianHua.FanSelection
         /// 数量
         /// </summary>
         public string Amount { get; set; }
+
+
 
         /// <summary>
         /// 备注

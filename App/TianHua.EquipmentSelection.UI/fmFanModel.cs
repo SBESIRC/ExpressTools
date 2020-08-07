@@ -312,7 +312,7 @@ namespace TianHua.FanSelection.UI
                 }
                 return;
             }
-            if (_FanDataModel.Scenario == "平时排风兼消防排烟" || _FanDataModel.Scenario == "平时送风兼消防补风")
+            if (_FanDataModel.Scenario == "消防排烟兼平时排风" || _FanDataModel.Scenario == "消防补风兼平时送风")
             {
 
                 _FanDataModel.FanModelPower = "-";
@@ -412,7 +412,7 @@ namespace TianHua.FanSelection.UI
                 }
                 return;
             }
-            if (_FanDataModel.Scenario == "平时排风兼消防排烟" || _FanDataModel.Scenario == "平时送风兼消防补风")
+            if (_FanDataModel.Scenario == "消防排烟兼平时排风" || _FanDataModel.Scenario == "消防补风兼平时送风")
             {
                 _FanDataModel.FanModelPower = "-";
 
