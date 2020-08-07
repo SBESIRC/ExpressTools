@@ -38,5 +38,13 @@ namespace TianHua.FanSelection.UI
                 COMTool.ZoomWindow(ocsExtents.MinPoint, ocsExtents.MaxPoint);
             }
         }
+
+        public static void PickFirstModel(this Editor ed, ObjectId obj)
+        {
+            // 首先清空现有的PickFirst选择集
+            Active.Editor.SetImpliedSelection(new ObjectId[0]);
+            // 接着讲模型添加到PickFirst选择集
+            Active.Editor.SetImpliedSelection(new ObjectId[1] { obj });
+        }
     }
 }

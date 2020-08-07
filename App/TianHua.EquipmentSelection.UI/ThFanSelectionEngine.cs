@@ -142,12 +142,14 @@ namespace TianHua.FanSelection.UI
                         // 找到第一个比当前编号大的图块
                         CurrentModelNumber = models[0].ObjectId.GetModelNumber();
                         Active.Editor.ZoomToModel(models[0].ObjectId, 3);
+                        Active.Editor.PickFirstModel(models[0].ObjectId);
                     }
                     else
                     {
                         // 未找到一个比当前编号大的图块，回到第一个图块
                         CurrentModelNumber = blockReferences.First().ObjectId.GetModelNumber();
                         Active.Editor.ZoomToModel(blockReferences.First().ObjectId, 3);
+                        Active.Editor.PickFirstModel(blockReferences.First().ObjectId);
                     }
                 }
                 else
@@ -155,6 +157,7 @@ namespace TianHua.FanSelection.UI
                     CurrentModel = dataModel.ID;
                     CurrentModelNumber = blockReferences.First().ObjectId.GetModelNumber();
                     Active.Editor.ZoomToModel(blockReferences.First().ObjectId, 3);
+                    Active.Editor.PickFirstModel(blockReferences.First().ObjectId);
                 }
             }
         }
