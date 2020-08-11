@@ -74,6 +74,9 @@
           <Component Id="CMP_Autoloader_PackageContents_Support_DesignData_FanPara" Guid="{BB17ACBD-1EE9-4B04-AE72-71FBDC777F92}" Win64="yes">
             <File Id="FILE_Autoloader_PackageContents_Support_DesignData_FanPara" Source="$(var.AutoloaderContentsPath)\Support\DesignData\FanPara.xlsx" KeyPath="yes" />
           </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Support_Excel_Smoke_Proof" Guid="{4A8F63E3-692F-4F6D-81AD-2636B387DFF4}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Support_Excel_Smoke_Proof" Source="$(var.AutoloaderContentsPath)\Support\SmokeProofScenario.xlsx" KeyPath="yes" />
+          </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -101,6 +104,7 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Efficiency" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan_Efficiency" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_Motor_Power" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Excel_Smoke_Proof" />
         </ComponentGroup>
     </Fragment>
 </Wix>
