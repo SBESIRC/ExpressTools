@@ -77,6 +77,8 @@
     <Compile Include="CustomCommandMappers.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="EquipmentSelectionApp.cs" />
+    <Compile Include="ExcelExtension.cs" />
+    <Compile Include="ExcelFile.cs" />
     <Compile Include="ExcelLoader.cs" />
     <Compile Include="FanDataModelExtension.cs" />
     <Compile Include="fmAirVolumeCalc.cs">
