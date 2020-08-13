@@ -37,26 +37,34 @@ namespace TianHua.FanSelection.UI
             //var targetwb = excelfile.OpenWorkBook(@"D:\DATA\Git\AutoLoader\Contents\Support\FanCalc.xlsx");
             var sourcewb = excelfile.OpenWorkBook(Path.Combine(supportpath, "SmokeProofScenario.xlsx"));
             var targetwb = excelfile.OpenWorkBook(Path.Combine(supportpath, "FanCalc.xlsx"));
+            if (sourcewb == null || targetwb == null)
+            {
+                return;
+            }
             var sourcesheet = sourcewb.GetSheetFromSheetName( "1.消防电梯前室");
+            if (sourcesheet == null)
+            {
+                return;
+            }
             sourcesheet.SetCellValue("D2", "sadsfs");
 
             var targetsheet = targetwb.GetSheetFromSheetName("防烟计算");
-            excelfile.CopyRangeToOtherSheet(sourcesheet, "A1:D27", targetsheet, "A1");
+            excelfile.CopyRangeToOtherSheet(sourcesheet, "A1:D27", targetsheet);
 
             var sourcesheet2 = sourcewb.GetSheetFromSheetName("2.独立或合用前室（楼梯间自然）");
-            excelfile.CopyRangeToOtherSheet(sourcesheet2, "A1:D38", targetsheet, "A1");
+            excelfile.CopyRangeToOtherSheet(sourcesheet2, "A1:D38", targetsheet);
 
             var sourcesheet4 = sourcewb.GetSheetFromSheetName("2.独立或合用前室（楼梯间自然）");
-            excelfile.CopyRangeToOtherSheet(sourcesheet4, "A1:D38", targetsheet, "A1");
+            excelfile.CopyRangeToOtherSheet(sourcesheet4, "A1:D38", targetsheet);
 
             var sourcesheet3 = sourcewb.GetSheetFromSheetName("3.独立或合用前室（楼梯间送风）");
-            excelfile.CopyRangeToOtherSheet(sourcesheet3, "A1:D27", targetsheet, "A1");
+            excelfile.CopyRangeToOtherSheet(sourcesheet3, "A1:D27", targetsheet);
 
             var sourcesheet5 = sourcewb.GetSheetFromSheetName("2.独立或合用前室（楼梯间自然）");
-            excelfile.CopyRangeToOtherSheet(sourcesheet5, "A1:D38", targetsheet, "A1");
+            excelfile.CopyRangeToOtherSheet(sourcesheet5, "A1:D38", targetsheet);
 
             var sourcesheet6 = sourcewb.GetSheetFromSheetName("3.独立或合用前室（楼梯间送风）");
-            excelfile.CopyRangeToOtherSheet(sourcesheet6, "A1:D27", targetsheet, "A1");
+            excelfile.CopyRangeToOtherSheet(sourcesheet6, "A1:D27", targetsheet);
 
             excelfile.SaveWorkbook(targetwb, Path.Combine(supportpath, "FanCalc.xlsx"));
             sourcewb.Close();

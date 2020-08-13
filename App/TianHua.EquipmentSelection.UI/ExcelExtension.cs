@@ -12,7 +12,15 @@ namespace TianHua.FanSelection.UI
 
         public static Worksheet GetSheetFromSheetName(this Workbook workbook, string sheetname)
         {
-            return workbook.Worksheets[sheetname];
+            try
+            {
+                return workbook.Worksheets[sheetname];
+            }
+            catch (System.Exception)
+            {
+                return null;
+            }
+            
         }
     }
 }

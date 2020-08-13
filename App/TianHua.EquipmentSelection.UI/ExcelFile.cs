@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Core;
 
 namespace TianHua.FanSelection.UI
 {
@@ -20,9 +22,9 @@ namespace TianHua.FanSelection.UI
                 ScreenUpdating = false
             };
 
-            currentrows = 0;
-            currentcolumns = 0;
-            lastrowno = 0;
+            currentrows = 1;
+            currentcolumns = 1;
+            lastrowno = 1;
         }
 
         public void Close()
@@ -32,6 +34,10 @@ namespace TianHua.FanSelection.UI
 
         public Workbook OpenWorkBook(string path)
         {
+            if (!File.Exists(path))
+            {
+                return null;
+            }
             return ExcelApp.Workbooks.Open(path, System.Type.Missing, System.Type.Missing, System.Type.Missing,
               System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing,
             System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing);
@@ -43,21 +49,21 @@ namespace TianHua.FanSelection.UI
                    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
         }
 
-        public void CopyRangeToOtherSheet(Worksheet sourcesheet, string sourcerangestr, Worksheet targetsheet, string targetrangestr)
+        public void CopyRangeToOtherSheet(Worksheet sourcesheet, string sourcerangestr, Worksheet targetsheet)
         {
             Range sourcerange = sourcesheet.Range[sourcerangestr];
-            Range targetrange = targetsheet.Cells[currentrows+1,currentcolumns+1];
-            targetrange.Insert(XlInsertShiftDirection.xlShiftToRight);
+            Range targetrange = targetsheet.Cells[currentrows,currentcolumns];
+            targetrange.Insert();
             sourcerange.Copy(targetrange);
 
-            if (currentcolumns <=5)
+            if (currentcolumns <5)
             {
-                currentcolumns += 6;
+                currentcolumns += 5;
                 lastrowno = Math.Max(lastrowno,currentrows+ sourcerange.Rows.Count);
             }
             else
             {
-                currentcolumns = 0;
+                currentcolumns = 1;
                 lastrowno = Math.Max(lastrowno, currentrows + sourcerange.Rows.Count);
                 currentrows = lastrowno + 1;
             }
