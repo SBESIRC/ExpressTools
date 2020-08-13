@@ -40,6 +40,14 @@ namespace TianHua.FanSelection.UI
 
             Gdc.DataSource = m_ListFan;
             Gdv.RefreshData();
+            if (m_Fan.Scenario == "消防加压送风")
+            {
+                this.TxtAirCalcValue.ContextImageOptions.SvgImage = Properties.Resources.计算器;
+            }
+            else
+            {
+                this.TxtAirCalcValue.ContextImageOptions.SvgImage = null;
+            }
         }
 
         private void Gdv_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
@@ -106,5 +114,10 @@ namespace TianHua.FanSelection.UI
             return (_Num - _Num / _Power * _Power) * 10 / _Power;
         }
 
+        private void TxtAirCalcValue_Click(object sender, EventArgs e)
+        {
+            if (m_Fan.Scenario != "消防加压送风") { return; }
+            //TODO:调用陈越窗体.
+        }
     }
 }

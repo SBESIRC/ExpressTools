@@ -180,6 +180,7 @@
             this.TxtAirCalcValue.Mask.EditMask = "([0-9]{1,})";
             this.TxtAirCalcValue.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtAirCalcValue.Name = "TxtAirCalcValue";
+            this.TxtAirCalcValue.Click += new System.EventHandler(this.TxtAirCalcValue_Click);
             // 
             // gridBand2
             // 
