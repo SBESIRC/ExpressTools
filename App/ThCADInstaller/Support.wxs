@@ -66,6 +66,18 @@
           <Component Id="CMP_Autoloader_PackageContents_Support_Equipment_Motor_Power" Guid="{B87DC7C6-2B71-4BB8-8F0C-B13D82D7C557}" Win64="yes">
             <File Id="FILE_Autoloader_PackageContents_Support_Equipment_Motor_Power" Source="$(var.AutoloaderContentsPath)\Support\电机功率.json" KeyPath="yes" />
           </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Parameter_Single_Speed" Guid="{4F368CF5-01C2-4660-9D47-0B8719B3D699}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Parameter_Single_Speed" Source="$(var.AutoloaderContentsPath)\Support\离心风机参数-单速.json" KeyPath="yes" />
+          </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Parameter_Double_Speed" Guid="{75EDECE9-2E7F-436F-B61B-38CA8ABAEBFC}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Parameter_Double_Speed" Source="$(var.AutoloaderContentsPath)\Support\离心风机参数-双速.json" KeyPath="yes" />
+          </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan_Parameter_Double_Speed" Guid="{1A15FE4B-0F16-40AF-AB25-62CF67A2B613}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan_Parameter_Double_Speed" Source="$(var.AutoloaderContentsPath)\Support\轴流风机参数-双速.json" KeyPath="yes" />
+          </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Support_Equipment_Motor_Power_Double_Speed" Guid="{FFAB3BF2-0266-4603-B88B-D64E06ADBB3D}" Win64="yes">
+            <File Id="FILE_Autoloader_PackageContents_Support_Equipment_Motor_Power_Double_Speed" Source="$(var.AutoloaderContentsPath)\Support\电机功率-双速.json" KeyPath="yes" />
+          </Component>
       </DirectoryRef>
         <DirectoryRef Id="DIR_Autoloader_Contents_Support_DesignData">
           <Component Id="CMP_Autoloader_PackageContents_Support_DesignData_FanCalc" Guid="{35F09808-BBF0-487A-981C-7235355DC1BD}" Win64="yes">
@@ -101,6 +113,10 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Efficiency" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan_Efficiency" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_Motor_Power" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Parameter_Single_Speed" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Parameter_Double_Speed" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan_Parameter_Double_Speed" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_Motor_Power_Double_Speed" />
         </ComponentGroup>
     </Fragment>
 </Wix>
