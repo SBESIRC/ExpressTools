@@ -135,11 +135,11 @@
     <Compile Include="ModelValidation.Designer.cs">
       <DependentUpon>ModelValidation.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewFireElevatorFrontRoom.cs">
+    <Compile Include="FireElevatorFrontRoom.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="NewFireElevatorFrontRoom.Designer.cs">
-      <DependentUpon>NewFireElevatorFrontRoom.cs</DependentUpon>
+    <Compile Include="FireElevatorFrontRoom.Designer.cs">
+      <DependentUpon>FireElevatorFrontRoom.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefugeFont.cs">
@@ -192,7 +192,9 @@
     <Compile Include="ThFanSelectionUtils.cs" />
     <Compile Include="ThFanTypeSelectionModelHandle.cs" />
     <Compile Include="ThFSBlockReference.cs" />
-    <EmbeddedResource Include="FireElevatorFrontRoom.resx" />
+    <EmbeddedResource Include="FireElevatorFrontRoom.resx">
+      <DependentUpon>FireElevatorFrontRoom.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="fmAirVolumeCalc.resx">
       <DependentUpon>fmAirVolumeCalc.cs</DependentUpon>
     </EmbeddedResource>
@@ -219,9 +221,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ModelValidation.resx">
       <DependentUpon>ModelValidation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewFireElevatorFrontRoom.resx">
-      <DependentUpon>NewFireElevatorFrontRoom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

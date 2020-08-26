@@ -20,13 +20,13 @@ namespace TianHua.FanSelection.UI
     /// <summary>
     /// 消防电梯前室
     /// </summary>
-    public partial class NewFireElevatorFrontRoom : ThAirVolumeUserControl
+    public partial class FireElevatorFrontRoom : ThAirVolumeUserControl
     {
         private UserControl subview;
         private FireFrontModel Model { get; set; }
         private ModelValidator valid=new ModelValidator();
         
-        public NewFireElevatorFrontRoom(FireFrontModel model)
+        public FireElevatorFrontRoom(FireFrontModel model)
         {
             InitializeComponent();
             Model = model;

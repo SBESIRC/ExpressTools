@@ -1,6 +1,6 @@
 ﻿namespace TianHua.FanSelection.UI
 {
-    partial class NewFireElevatorFrontRoom
+    partial class FireElevatorFrontRoom
     {
         /// <summary> 
         /// 必需的设计器变量。

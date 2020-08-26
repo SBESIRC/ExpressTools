@@ -106,7 +106,7 @@ namespace TianHua.FanSelection.UI
 
             Views = new List<ThAirVolumeUserControl>()
             {
-                new NewFireElevatorFrontRoom(model),            //消防电梯前室
+                new FireElevatorFrontRoom(model),            //消防电梯前室
                 new SeparateOrSharedNatural(modelNatural),    //独立或合用前室（楼梯间自然）
                 new SeparateOrSharedWind(modelWind),           //独立或合用前室（楼梯间送风）
                 new StaircaseNoWind(modelStairNoWind),          //楼梯间（前室不送风）
