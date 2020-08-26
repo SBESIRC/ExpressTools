@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TianHua.FanSelection.Model;
 using TianHua.Publics.BaseCode;
 
 namespace TianHua.FanSelection
@@ -418,6 +419,9 @@ namespace TianHua.FanSelection
         public double CalcResistance { get; set; }
 
 
-
+        /// <summary>
+        /// 风量计算
+        /// </summary>
+        public ThFanVolumeModel FanVolumeModel { get; set; }
     }
 }

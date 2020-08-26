@@ -15,9 +15,13 @@
   </PropertyGroup>
   <Import Project="..\TIANHUA.CSharp.General.targets" />
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -30,6 +34,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\FireFrontModel.cs" />
+    <Compile Include="Entity\FontroomNaturalModel.cs" />
+    <Compile Include="Entity\FontroomWindModel.cs" />
+    <Compile Include="Entity\ModelValidator.cs" />
+    <Compile Include="Entity\RefugeFontRoomModel.cs" />
+    <Compile Include="Entity\RefugeRoomAndCorridorModel.cs" />
+    <Compile Include="Entity\StaircaseAirModel.cs" />
+    <Compile Include="Entity\StaircaseNoAirModel.cs" />
+    <Compile Include="Entity\ThEvacuationDoor.cs" />
+    <Compile Include="Entity\ThFanVolumeModel.cs" />
+    <Compile Include="Entity\ThResult.cs" />
+    <Compile Include="ExcelExport\BaseExportWorker.cs" />
+    <Compile Include="ExcelExport\ExcelExportEngine.cs" />
+    <Compile Include="ExcelExport\ExcelExtension.cs" />
+    <Compile Include="ExcelExport\ExcelFile.cs" />
+    <Compile Include="ExcelExport\FireFrontExportWorker.cs" />
+    <Compile Include="ExcelExport\FontroomNaturalExportWorker.cs" />
+    <Compile Include="ExcelExport\FontroomWindExportWorker.cs" />
+    <Compile Include="ExcelExport\RefugeCorridorExportWorker.cs" />
+    <Compile Include="ExcelExport\RefugeFontRoomExportWorker.cs" />
+    <Compile Include="ExcelExport\StaircaseAirExportWorker.cs" />
+    <Compile Include="ExcelExport\StaircaseNoAirExportWorker.cs" />
     <Compile Include="ViewModels\Excl2JsonViewModels.cs" />
     <Compile Include="Entity\ExportFanParaModel.cs" />
     <Compile Include="Entity\FanDataModel.cs" />

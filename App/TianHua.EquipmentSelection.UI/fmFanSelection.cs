@@ -18,6 +18,8 @@ using Linq2Acad;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using DevExpress.LookAndFeel;
 using System.Drawing;
+using TianHua.FanSelection.Model;
+using TianHua.FanSelection.ExcelExport;
 
 namespace TianHua.FanSelection.UI
 {
@@ -323,6 +325,7 @@ namespace TianHua.FanSelection.UI
                     _Fan.AirVolume = _fmAirVolumeCalc.m_ListFan.First().AirVolume;
                     _Fan.AirCalcFactor = _fmAirVolumeCalc.m_ListFan.First().AirCalcFactor;
                     _Fan.AirCalcValue = _fmAirVolumeCalc.m_ListFan.First().AirCalcValue;
+                    _Fan.FanVolumeModel = _fmAirVolumeCalc.m_ListFan.First().FanVolumeModel;
                 }
 
                 SetFanModel();
@@ -1537,27 +1540,32 @@ namespace TianHua.FanSelection.UI
 
         private void BarBtnExportFanCalc_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+            TreeList.Refresh();
 
-            string _ImportExcelPath = Path.Combine(ThCADCommon.SupportPath(), "DesignData", "FanCalc.xlsx");
+            ExcelFile excelfile = new ExcelFile();
+            Workbook targetWorkbookb = excelfile.OpenWorkBook(Path.Combine(ThCADCommon.SupportPath(), "DesignData", "FanCalc.xlsx"));
+            var sourceWorkbookb = excelfile.OpenWorkBook(Path.Combine(ThCADCommon.SupportPath(), "DesignData", "SmokeProofScenario.xlsx"));
 
-            //string _ImportExcelPath = Path.Combine(m_Path, "FanCalc.xlsx");
-
-            Microsoft.Office.Interop.Excel.Application _ExclApp = new Microsoft.Office.Interop.Excel.Application();
-            _ExclApp.DisplayAlerts = false;
-            _ExclApp.Visible = false;
-            _ExclApp.ScreenUpdating = false;
-            Microsoft.Office.Interop.Excel.Workbook _WorkBook = _ExclApp.Workbooks.Open(_ImportExcelPath, System.Type.Missing, System.Type.Missing, System.Type.Missing,
-              System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing,
-            System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing);
-
-            Microsoft.Office.Interop.Excel.Worksheet _Sheet = _WorkBook.Worksheets[1];
+            Worksheet _Sheet = targetWorkbookb.Worksheets[1];
+            var targetsheet = targetWorkbookb.GetSheetFromSheetName("防烟计算");
 
             var _List = m_ListFan;
             if (_List != null && _List.Count > 0) _List = _List.OrderBy(p => p.SortScenario).OrderBy(p => p.SortID).ToList();
 
             var i = 4;
+            ExcelExportEngine.Instance.File = excelfile;
+            ExcelExportEngine.Instance.Sourcebook = sourceWorkbookb;
+            ExcelExportEngine.Instance.Targetsheet = targetsheet;
             _List.ForEach(p =>
             {
+                var model = p.FanVolumeModel;
+                
+                if (!model.IsNull())
+                {
+                    ExcelExportEngine.Instance.Model = p;
+                    ExcelExportEngine.Instance.Run();
+                }
+
                 if (p.FanModelName == string.Empty || p.FanModelName == "无此风机") { return; }
                 var _FanPrefixDict = PubVar.g_ListFanPrefixDict.Find(s => s.FanUse == p.Scenario);
                 if (_FanPrefixDict == null) return;
@@ -1610,12 +1618,10 @@ namespace TianHua.FanSelection.UI
                 TreeList.PostEditor();
                 var _FilePath = _SaveFileDialog.FileName.ToString();
 
-                _WorkBook.SaveAs(_FilePath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, XlSaveAsAccessMode.xlNoChange,
+                targetWorkbookb.SaveAs(_FilePath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, XlSaveAsAccessMode.xlNoChange,
                    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                ClosePro(_ExclApp, _WorkBook);
+                ClosePro(excelfile.ExcelApp, targetWorkbookb);
             }
-
-
         }
 
 

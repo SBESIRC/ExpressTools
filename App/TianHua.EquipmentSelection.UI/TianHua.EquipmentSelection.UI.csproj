@@ -121,9 +121,66 @@
     <Compile Include="fmRemark.Designer.cs">
       <DependentUpon>fmRemark.cs</DependentUpon>
     </Compile>
+    <Compile Include="fmFanVolumeCalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmFanVolumeCalc.Designer.cs">
+      <DependentUpon>fmFanVolumeCalc.cs</DependentUpon>
+    </Compile>
     <Compile Include="ICustomCommandMapper.cs" />
     <Compile Include="JsonExporter.cs" />
+    <Compile Include="ModelValidation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModelValidation.Designer.cs">
+      <DependentUpon>ModelValidation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewFireElevatorFrontRoom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NewFireElevatorFrontRoom.Designer.cs">
+      <DependentUpon>NewFireElevatorFrontRoom.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RefugeFont.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RefugeFont.Designer.cs">
+      <DependentUpon>RefugeFont.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RefugeLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RefugeLayer.Designer.cs">
+      <DependentUpon>RefugeLayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SeparateOrSharedNatural.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SeparateOrSharedNatural.Designer.cs">
+      <DependentUpon>SeparateOrSharedNatural.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SeparateOrSharedWind.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SeparateOrSharedWind.Designer.cs">
+      <DependentUpon>SeparateOrSharedWind.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StairacaseWind.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StairacaseWind.Designer.cs">
+      <DependentUpon>StairacaseWind.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StaircaseNoWind.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StaircaseNoWind.Designer.cs">
+      <DependentUpon>StaircaseNoWind.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThAirVolumeUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ThFanSelectionCommon.cs" />
     <Compile Include="ThFanSelectionDbExtension.cs" />
     <Compile Include="ThFanSelectionDbManager.cs" />
@@ -135,6 +192,7 @@
     <Compile Include="ThFanSelectionUtils.cs" />
     <Compile Include="ThFanTypeSelectionModelHandle.cs" />
     <Compile Include="ThFSBlockReference.cs" />
+    <EmbeddedResource Include="FireElevatorFrontRoom.resx" />
     <EmbeddedResource Include="fmAirVolumeCalc.resx">
       <DependentUpon>fmAirVolumeCalc.cs</DependentUpon>
     </EmbeddedResource>
@@ -156,6 +214,15 @@
     <EmbeddedResource Include="fmRemark.resx">
       <DependentUpon>fmRemark.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="fmFanVolumeCalc.resx">
+      <DependentUpon>fmFanVolumeCalc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModelValidation.resx">
+      <DependentUpon>ModelValidation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewFireElevatorFrontRoom.resx">
+      <DependentUpon>NewFireElevatorFrontRoom.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -167,6 +234,24 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="RefugeFont.resx">
+      <DependentUpon>RefugeFont.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RefugeLayer.resx">
+      <DependentUpon>RefugeLayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeparateOrSharedNatural.resx">
+      <DependentUpon>SeparateOrSharedNatural.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeparateOrSharedWind.resx">
+      <DependentUpon>SeparateOrSharedWind.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StairacaseWind.resx">
+      <DependentUpon>StairacaseWind.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StaircaseNoWind.resx">
+      <DependentUpon>StaircaseNoWind.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
