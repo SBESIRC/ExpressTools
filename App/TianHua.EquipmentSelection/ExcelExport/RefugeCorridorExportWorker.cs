@@ -13,7 +13,7 @@ namespace TianHua.FanSelection.ExcelExport
         public override void ExportToExcel(ThFanVolumeModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelFile excelfile)
         {
             RefugeRoomAndCorridorModel refugeCorridorModel = fanmodel as RefugeRoomAndCorridorModel;
-            setsheet.SetCellValue("D2", fandatamodel.FanNum);
+            setsheet.SetCellValue("D2", fandatamodel.GetFanNum());
             setsheet.SetCellValue("D3", fandatamodel.Name);
             setsheet.SetCellValue("D4", refugeCorridorModel.WindVolume.ToString());
             setsheet.SetCellValue("D5", refugeCorridorModel.Area_Net.ToString());

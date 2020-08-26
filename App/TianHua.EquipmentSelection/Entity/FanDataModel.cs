@@ -1,11 +1,6 @@
-﻿using System;
+﻿using System.Drawing;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TianHua.FanSelection.Model;
-using TianHua.Publics.BaseCode;
 
 namespace TianHua.FanSelection
 {
@@ -350,45 +345,6 @@ namespace TianHua.FanSelection
         /// 输入总阻力是否偏小
         /// </summary>
         public bool IsPointSafe { get; set; }
-
-        public string FanNum
-        {
-            get
-            {
-                return this.GetFanNum();
-            }
-
-        }
-
-        //风机编号格式为：风机缩写-子项编号-楼层编号-风机序号:  ESF-3-F1-1
-        public string GetFanNum()
-        {
-            string _FanNum = string.Empty;
-            if (PID != "0") { return _FanNum; }
-            var _PrefixDict = PubVar.g_ListFanPrefixDict.Find(p => p.FanUse == this.Scenario);
-            if (_PrefixDict != null)
-                _FanNum = _PrefixDict.Prefix;
-            else
-                _FanNum = " ";
-
-            if (FuncStr.NullToStr(InstallSpace) != string.Empty && FuncStr.NullToStr(InstallSpace) != "未指定子项")
-                _FanNum += "-" + InstallSpace;
-            else
-                _FanNum += "- ";
-
-            if (FuncStr.NullToStr(InstallFloor) != string.Empty && FuncStr.NullToStr(InstallFloor) != "未指定楼层")
-                _FanNum += "-" + InstallFloor;
-            else
-                _FanNum += "- ";
-
-            if (FuncStr.NullToStr(VentNum) != string.Empty)
-                _FanNum += "-" + VentNum;
-            else
-                _FanNum += "- ";
-
-            return _FanNum;
-        }
-
 
         /// <summary>
         /// 减震方式

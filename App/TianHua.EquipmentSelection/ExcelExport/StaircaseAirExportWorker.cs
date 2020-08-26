@@ -13,7 +13,7 @@ namespace TianHua.FanSelection.ExcelExport
         public override void ExportToExcel(ThFanVolumeModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelFile excelfile)
         {
             StaircaseAirModel StaircaseAir = fanmodel as StaircaseAirModel;
-            setsheet.SetCellValue("D2", fandatamodel.FanNum);
+            setsheet.SetCellValue("D2", fandatamodel.GetFanNum());
             setsheet.SetCellValue("D3", fandatamodel.Name);
             setsheet.SetCellValue("D4", Math.Max(StaircaseAir.QueryValue, (StaircaseAir.DoorOpeningVolume + StaircaseAir.LeakVolume)).ToString());
             setsheet.SetCellValue("D5", (StaircaseAir.DoorOpeningVolume + StaircaseAir.LeakVolume).ToString());

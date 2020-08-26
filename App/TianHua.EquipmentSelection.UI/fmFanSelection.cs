@@ -1450,7 +1450,7 @@ namespace TianHua.FanSelection.UI
                _ExportFanPara.ID = p.ID;
                _ExportFanPara.SortScenario = _FanPrefixDict.No;
                _ExportFanPara.SortID = p.SortID;
-               _ExportFanPara.No = p.FanNum;
+               _ExportFanPara.No = p.GetFanNum();
                _ExportFanPara.Coverage = p.Name;
                _ExportFanPara.FanForm = p.VentStyle;
                //_ExportFanPara.CalcAirVolume = FuncStr.NullToStr(p.AirVolume);
@@ -1570,7 +1570,7 @@ namespace TianHua.FanSelection.UI
                 var _FanPrefixDict = PubVar.g_ListFanPrefixDict.Find(s => s.FanUse == p.Scenario);
                 if (_FanPrefixDict == null) return;
                 if (p.PID != "0") { return; }
-                _Sheet.Cells[i, 1] = p.FanNum;
+                _Sheet.Cells[i, 1] = p.GetFanNum();
                 _Sheet.Cells[i, 2] = p.Name;
                 _Sheet.Cells[i, 3] = p.Scenario;
                 _Sheet.Cells[i, 13] = p.AirCalcValue;

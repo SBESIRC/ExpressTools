@@ -34,6 +34,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\FanDataModelExtension.cs" />
     <Compile Include="Entity\FireFrontModel.cs" />
     <Compile Include="Entity\FontroomNaturalModel.cs" />
     <Compile Include="Entity\FontroomWindModel.cs" />
