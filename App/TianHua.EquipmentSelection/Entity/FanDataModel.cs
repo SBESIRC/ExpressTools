@@ -363,6 +363,7 @@ namespace TianHua.FanSelection
         public string GetFanNum()
         {
             string _FanNum = string.Empty;
+            if (PID != "0") { return _FanNum; }
             var _PrefixDict = PubVar.g_ListFanPrefixDict.Find(p => p.FanUse == this.Scenario);
             if (_PrefixDict != null)
                 _FanNum = _PrefixDict.Prefix;

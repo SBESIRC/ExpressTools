@@ -132,6 +132,11 @@ namespace TianHua.FanSelection
         /// 电机功率
         /// </summary>
         public string MotorPower { get; set; }
+
+        /// <summary>
+        /// 档位
+        /// </summary>
+        public string Gears { get; set; }
     }
 
     public class AxialFanParameters
@@ -176,6 +181,11 @@ namespace TianHua.FanSelection
         /// 长度
         /// </summary>
         public string Length { get; set; }
+        /// <summary>
+        /// 档位
+        /// </summary>
+        public string Gears { get; set; }
+
     }
 
     public class AxialFanEfficiency

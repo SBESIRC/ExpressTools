@@ -93,7 +93,12 @@ namespace TianHua.FanSelection.UI
                 var _Tmp = FuncStr.NullToInt(_TensDigit.ToString() + _UnitsDigit.ToString());
 
                 if (_Tmp < 50)
-                    _Fan.AirVolume = FuncStr.NullToInt(FuncStr.NullToStr(_Value).Replace(FuncStr.NullToStr(_Tmp), "50"));
+                {
+                    var _DifferenceValue = 50 - _Tmp;
+                    _Fan.AirVolume = FuncStr.NullToInt(_Value) + _DifferenceValue;
+                    //_Fan.AirVolume = FuncStr.NullToInt(FuncStr.NullToStr(_Value).Replace(FuncStr.NullToStr(_Tmp), "50"));
+                }
+
                 else
                 {
                     var _DifferenceValue = 100 - _Tmp;
@@ -118,6 +123,7 @@ namespace TianHua.FanSelection.UI
         {
             if (m_Fan.Scenario != "消防加压送风") { return; }
             //TODO:调用陈越窗体.
+      
         }
     }
 }

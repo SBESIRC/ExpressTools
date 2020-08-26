@@ -44,12 +44,12 @@ namespace TianHua.FanSelection.UI
                     .OfType<BlockReference>()
                     .Where(o =>
                     {
-                        if (o.GetEffectiveName() == ThFanSelectionCommon.AXIAL_BLOCK_NAME)
+                        if (o.GetEffectiveName().Contains(ThFanSelectionCommon.AXIAL_BLOCK_NAME))
                         {
                             return true;
                         }
 
-                        if (o.GetEffectiveName() == ThFanSelectionCommon.HTFC_BLOCK_NAME)
+                        if (o.GetEffectiveName().Contains(ThFanSelectionCommon.HTFC_BLOCK_NAME))
                         {
                             return true;
                         }

@@ -112,10 +112,11 @@ namespace TianHua.FanSelection
         public List<string> GetVentStyle()
         {
             List<string> _List = new List<string>();
-            _List.Add("前倾离心");
-            _List.Add("后倾离心");
+            _List.Add("前倾离心(电机内置)");
+            _List.Add("前倾离心(电机外置)");
+            _List.Add("后倾离心(电机内置)");
+            _List.Add("后倾离心(电机外置)");
             _List.Add("轴流");
-            //_List.Add("混流");
             return _List;
         }
 

@@ -22,6 +22,8 @@ namespace TianHua.FanSelection.UI
 
         public List<MotorPower> m_ListMotorPower = new List<MotorPower>();
 
+        public List<MotorPower> m_ListMotorPowerDouble = new List<MotorPower>();
+
         public fmFanModel()
         {
             InitializeComponent();
@@ -48,6 +50,8 @@ namespace TianHua.FanSelection.UI
             var _JsonMotorPower = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), ThFanSelectionCommon.MOTOR_POWER));
             m_ListMotorPower = FuncJson.Deserialize<List<MotorPower>>(_JsonMotorPower);
 
+            var _JsonMotorPowerDouble = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), ThFanSelectionCommon.MOTOR_POWER_Double));
+            m_ListMotorPowerDouble = FuncJson.Deserialize<List<MotorPower>>(_JsonMotorPowerDouble);
 
             if (m_ListFanEfficiency != null && m_ListFanEfficiency.Count > 0)
             {
@@ -122,21 +126,21 @@ namespace TianHua.FanSelection.UI
 
 
 
-            if (_FanDataModel.Scenario == "平时送风" || _FanDataModel.Scenario == "平时排风")
-            {
-                var _List = _ListFan.FindAll(p => p.PID == _FanDataModel.ID);
-                if (_List != null && _List.Count > 0)
-                {
-                    RGroupFanControl.EditValue = "双速";
+            //if (_FanDataModel.Scenario == "平时送风" || _FanDataModel.Scenario == "平时排风")
+            //{
+            //    var _List = _ListFan.FindAll(p => p.PID == _FanDataModel.ID);
+            //    if (_List != null && _List.Count > 0)
+            //    {
+            //        RGroupFanControl.EditValue = "双速";
 
-                    RGroupFanControl.Enabled = false;
-                }
-                else
-                {
-                    RGroupFanControl.Enabled = true;
-                }
+            //        RGroupFanControl.Enabled = false;
+            //    }
+            //    else
+            //    {
+            //        RGroupFanControl.Enabled = true;
+            //    }
 
-            }
+            //}
 
 
             if (_FanDataModel.IsPointSafe)
@@ -198,13 +202,16 @@ namespace TianHua.FanSelection.UI
                 {
                     _SafetyFactor = 1.1;
                 }
+
+
+                var _ListMotor = GetListMotorPower(_FanDataModel);
                 var _MotorEfficiency = PubVar.g_ListMotorEfficiency.Find(p => p.Key == _FanDataModel.VentConnect);
                 var _Tmp = _ShaftPower / 0.85;
-                var _ListMotorPower = m_ListMotorPower.FindAll(p => FuncStr.NullToDouble(p.Power) >= _Tmp && p.MotorEfficiencyLevel == _FanDataModel.EleLev && p.Rpm == FuncStr.NullToStr(_FanDataModel.MotorTempo));
+                var _ListMotorPower = _ListMotor.FindAll(p => FuncStr.NullToDouble(p.Power) >= _Tmp && p.MotorEfficiencyLevel == _FanDataModel.EleLev && p.Rpm == FuncStr.NullToStr(_FanDataModel.MotorTempo));
                 var _MotorPower = _ListMotorPower.OrderBy(p => FuncStr.NullToDouble(p.Power)).First();
 
                 var _EstimatedMotorPower = _ShaftPower / FuncStr.NullToDouble(_MotorPower.MotorEfficiency) / FuncStr.NullToDouble(_MotorEfficiency.Value) * _SafetyFactor * 100;
-                _ListMotorPower = m_ListMotorPower.FindAll(p => FuncStr.NullToDouble(p.Power) >= _EstimatedMotorPower && p.MotorEfficiencyLevel == _FanDataModel.EleLev && p.Rpm == FuncStr.NullToStr(_FanDataModel.MotorTempo));
+                _ListMotorPower = _ListMotor.FindAll(p => FuncStr.NullToDouble(p.Power) >= _EstimatedMotorPower && p.MotorEfficiencyLevel == _FanDataModel.EleLev && p.Rpm == FuncStr.NullToStr(_FanDataModel.MotorTempo));
                 _MotorPower = _ListMotorPower.OrderBy(p => FuncStr.NullToDouble(p.Power)).First();
 
                 if (_MotorPower != null)
@@ -252,14 +259,14 @@ namespace TianHua.FanSelection.UI
                 {
                     _SafetyFactor = 1.1;
                 }
-
+                var _ListMotor = GetListMotorPower(_FanDataModel);
                 var _MotorEfficiency = PubVar.g_ListMotorEfficiency.Find(p => p.Key == _FanDataModel.VentConnect);
                 var _Tmp = _ShaftPower / 0.85;
-                var _ListMotorPower = m_ListMotorPower.FindAll(p => FuncStr.NullToDouble(p.Power) >= _Tmp && p.MotorEfficiencyLevel == _FanDataModel.EleLev && p.Rpm == FuncStr.NullToStr(_FanDataModel.MotorTempo));
+                var _ListMotorPower = _ListMotor.FindAll(p => FuncStr.NullToDouble(p.Power) >= _Tmp && p.MotorEfficiencyLevel == _FanDataModel.EleLev && p.Rpm == FuncStr.NullToStr(_FanDataModel.MotorTempo));
                 var _MotorPower = _ListMotorPower.OrderBy(p => FuncStr.NullToDouble(p.Power)).First();
 
                 var _EstimatedMotorPower = _ShaftPower / FuncStr.NullToDouble(_MotorPower.MotorEfficiency) * 100 / FuncStr.NullToDouble(_MotorEfficiency.Value) * _SafetyFactor;
-                _ListMotorPower = m_ListMotorPower.FindAll(p => FuncStr.NullToDouble(p.Power) >= _EstimatedMotorPower && p.MotorEfficiencyLevel == _FanDataModel.EleLev && p.Rpm == FuncStr.NullToStr(_FanDataModel.MotorTempo));
+                _ListMotorPower = _ListMotor.FindAll(p => FuncStr.NullToDouble(p.Power) >= _EstimatedMotorPower && p.MotorEfficiencyLevel == _FanDataModel.EleLev && p.Rpm == FuncStr.NullToStr(_FanDataModel.MotorTempo));
                 _MotorPower = _ListMotorPower.OrderBy(p => FuncStr.NullToDouble(p.Power)).First();
 
                 if (_MotorPower != null)
@@ -272,6 +279,19 @@ namespace TianHua.FanSelection.UI
                 GetPower(_FanDataModel, _FanEfficiency);
 
             }
+        }
+
+        private List<MotorPower> GetListMotorPower(FanDataModel _FanDataModel)
+        {
+            if (_FanDataModel.Control == "双速")
+            {
+                return m_ListMotorPowerDouble;
+            }
+            else
+            {
+                return m_ListMotorPower;
+            }
+        
         }
 
         private void GetPower(FanDataModel _FanDataModel, AxialFanEfficiency _AxialFanEfficiency)
@@ -466,7 +486,7 @@ namespace TianHua.FanSelection.UI
                     }
                     else
                     {
-                        _FanDataModel.FanModelPower =  "-/" + FuncStr.NullToDouble(_SonPower).ToString("0.##");
+                        _FanDataModel.FanModelPower = "-/" + FuncStr.NullToDouble(_SonPower).ToString("0.##");
 
                         LabPower.Text = _FanDataModel.FanModelPower;
                     }

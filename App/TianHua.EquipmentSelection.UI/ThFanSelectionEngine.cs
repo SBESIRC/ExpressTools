@@ -1,8 +1,8 @@
 ﻿using AcHelper;
 using Linq2Acad;
 using System.Linq;
-using DotNetARX;
 using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 
@@ -23,7 +23,7 @@ namespace TianHua.FanSelection.UI
                     return;
 
                 // 若检测到图纸中没有对应的风机图块，则在鼠标的点击处插入风机
-                var blockName = ThFanSelectionUtils.BlockName(dataModel.VentStyle);
+                var blockName = BlockName(dataModel);
                 Active.Database.ImportModel(blockName);
                 var objId = Active.Database.InsertModel(blockName, dataModel.Attributes());
                 var blockRef = acadDatabase.Element<BlockReference>(objId);
@@ -41,6 +41,70 @@ namespace TianHua.FanSelection.UI
                 // 删除初始图块
                 blockRef.UpgradeOpen();
                 blockRef.Erase();
+            }
+        }
+
+        private static string BlockName(FanDataModel dataModel)
+        {
+            if (IsHTFCModel(dataModel))
+            {
+                return ThFanSelectionUtils.HTFCBlockName(
+                    dataModel.VentStyle,
+                    dataModel.IntakeForm,
+                    dataModel.MountType);
+            }
+            else
+            {
+                return ThFanSelectionCommon.AXIAL_BLOCK_NAME;
+            }
+        }
+
+        public static void ReplaceModelsInplace(FanDataModel dataModel)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                // 导入新模型图块
+                var blockName = BlockName(dataModel);
+                Active.Database.ImportModel(blockName);
+
+                // 获取原模型对象
+                var models = acadDatabase.ModelSpace
+                    .OfType<BlockReference>()
+                    .Where(o => o.ObjectId.IsModel(dataModel.ID))
+                    .ToList();
+
+                // 创建新模型
+                foreach (var model in models)
+                {
+                    // 提取原属性
+                    var block = new ThFSBlockReference(model.ObjectId);
+
+                    // 插入新的图块
+                    var objId = Active.Database.InsertModel(blockName, new Dictionary<string, string>(block.Attributes));
+                    var blockRef = acadDatabase.Element<BlockReference>(objId, true);
+
+                    // 写入原图元XData
+                    objId.SetModelXDataFrom(model.ObjectId);
+
+                    // 写入原图元属性
+                    blockRef.SetPropertiesFrom(model);
+
+                    // 写入原图元位置
+                    blockRef.TransformBy(block.BlockTransform);
+
+                    // 写入原图元自定义属性（动态属性）
+                    objId.SetModelCustomPropertiesFrom(block.CustomProperties);
+
+                    // 写入修改后的属性
+                    objId.ModifyModelAttributes(dataModel.Attributes());
+
+                    // 更新规格和型号
+                    UpdateModelName(objId, dataModel);
+
+                    // 删除原模型
+                    model.UpgradeOpen();
+                    model.Erase();
+                }
             }
         }
 
@@ -98,12 +162,17 @@ namespace TianHua.FanSelection.UI
         {
             if (dataModel.VentStyle.Contains(ThFanSelectionCommon.AXIAL_TYPE_NAME))
             {
-                model.SetModelName(model.AXIALModelName(dataModel.FanModelName));
+                model.SetModelName(ThFanSelectionUtils.AXIALModelName(dataModel.FanModelName, dataModel.MountType));
             }
             else
             {
-                model.SetModelName(model.HTFCModelName(dataModel.FanModelNum, dataModel.IntakeForm));
+                model.SetModelName(ThFanSelectionUtils.HTFCModelName(dataModel.VentStyle, dataModel.IntakeForm, dataModel.FanModelNum));
             }
+        }
+
+        public static bool IsHTFCModel(FanDataModel dataModel)
+        {
+            return dataModel.VentStyle.Contains(ThFanSelectionCommon.HTFC_TYPE_NAME);
         }
 
         public static bool IsModelStyleChanged(ObjectId model, FanDataModel dataModel)
@@ -115,11 +184,11 @@ namespace TianHua.FanSelection.UI
         {
             if (dataModel.VentStyle.Contains(ThFanSelectionCommon.AXIAL_TYPE_NAME))
             {
-                return model.GetModelName() != model.AXIALModelName(dataModel.FanModelName);
+                return model.GetModelName() != ThFanSelectionUtils.AXIALModelName(dataModel.FanModelName, dataModel.MountType);
             }
             else
             {
-                return model.GetModelName() != model.HTFCModelName(dataModel.FanModelNum, dataModel.IntakeForm);
+                return model.GetModelName() != ThFanSelectionUtils.HTFCModelName(dataModel.VentStyle, dataModel.IntakeForm, dataModel.FanModelNum);
             }
         }
 

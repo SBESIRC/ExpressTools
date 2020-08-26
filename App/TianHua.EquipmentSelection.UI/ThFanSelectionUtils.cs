@@ -6,26 +6,6 @@ namespace TianHua.FanSelection.UI
     public class ThFanSelectionUtils
     {
         /// <summary>
-        /// 从风机形式获取图块名称
-        /// </summary>
-        /// <param name="ventStyle"></param>
-        public static string BlockName(string style)
-        {
-            if (style.Contains(ThFanSelectionCommon.HTFC_TYPE_NAME))
-            {
-                return ThFanSelectionCommon.HTFC_BLOCK_NAME;
-            }
-            else if (style.Contains(ThFanSelectionCommon.AXIAL_TYPE_NAME))
-            {
-                return ThFanSelectionCommon.AXIAL_BLOCK_NAME;
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-        }
-
-        /// <summary>
         /// 属性“设备符号”值
         /// </summary>
         /// <param name="scenario"></param>
@@ -113,6 +93,216 @@ namespace TianHua.FanSelection.UI
         {
             // 规则1：去掉模型名称最后面的字母
             return visibility == model.Substring(0, model.Length - 1);
+        }
+
+        /// <summary>
+        /// 规格及型号（轴流风机）
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="modelName"></param>
+        /// <returns></returns>
+        public static string AXIALModelName(string model, string mount)
+        {
+            // 去除”风机型号”的最后一个字母
+            string modelName = model.Substring(0, model.Length - 1);
+            if (mount == ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST)
+            {
+                return string.Format("{0}（{1}）", modelName, ThFanSelectionCommon.AXIAL_MODEL_NAME_SUFFIX);
+            }
+            else
+            {
+                return modelName;
+            }
+        }
+
+        /// <summary>
+        /// 规格及型号（离心风机）
+        /// </summary>
+        /// <param name="style"></param>
+        /// <param name="airflow"></param>
+        /// <param name="mount"></param>
+        /// <returns></returns>
+        public static string HTFCModelName(string style, string airflow, string modelNumber)
+        {
+            return string.Format("{0} {1}#{2}", style.Substring(0, 2), modelNumber, airflow);
+        }
+
+        /// <summary>
+        /// 获取离心风机图块名
+        /// </summary>
+        /// <param name="style"></param>
+        /// <param name="airflow"></param>
+        /// <param name="mount"></param>
+        /// <returns></returns>
+        public static string HTFCBlockName(string style, string airflow, string mount)
+        {
+            switch (style)
+            {
+                case "前倾离心(电机外置)":
+                case "后倾离心(电机外置)":
+                    {
+                        switch (airflow)
+                        {
+                            case "直进直出":
+                                {
+                                    switch (mount)
+                                    {
+                                        case "地面":
+                                            return "离心风机(电机外置、直进直出、有基础)";
+                                        case "吊装":
+                                            return "离心风机(电机外置、直进直出、无基础)";
+                                        default:
+                                            throw new NotSupportedException();
+                                    }
+                                }
+                            case "侧进直出":
+                                {
+                                    switch (mount)
+                                    {
+                                        case "地面":
+                                            return "离心风机(电机外置、侧进直出、有基础)";
+                                        case "吊装":
+                                            return "离心风机(电机外置、侧进直出、无基础)";
+                                        default:
+                                            throw new NotSupportedException();
+                                    }
+                                }
+                            case "上进直出":
+                                {
+                                    switch (mount)
+                                    {
+                                        case "地面":
+                                            return "离心风机(电机外置、上进直出、有基础)";
+                                        case "吊装":
+                                            return "离心风机(电机外置、上进直出、无基础)";
+                                        default:
+                                            throw new NotSupportedException();
+                                    }
+                                }
+                            case "直进上出":
+                                {
+                                    switch (mount)
+                                    {
+                                        case "地面":
+                                            return "离心风机(电机外置、直进上出、有基础)";
+                                        case "吊装":
+                                            return "离心风机(电机外置、直进上出、无基础)";
+                                        default:
+                                            throw new NotSupportedException();
+                                    }
+                                }
+                            case "直进下出":
+                                {
+                                    switch (mount)
+                                    {
+                                        case "地面":
+                                            return "离心风机(电机外置、直进下出、有基础)";
+                                        case "吊装":
+                                            return "离心风机(电机外置、直进下出、无基础)";
+                                        default:
+                                            throw new NotSupportedException();
+                                    }
+                                }
+                            case "下进直出":
+                                {
+                                    switch (mount)
+                                    {
+                                        case "地面":
+                                            return "离心风机(电机外置、下进直出、有基础)";
+                                        case "吊装":
+                                            return "离心风机(电机外置、下进直出、无基础)";
+                                        default:
+                                            throw new NotSupportedException();
+                                    }
+                                }
+                            default:
+                                throw new NotSupportedException();
+                        }
+                    }
+                case "前倾离心(电机内置)":
+                case "后倾离心(电机内置)":
+                    {
+                        switch (airflow)
+                        {
+                            case "直进直出":
+                                {
+                                    switch (mount)
+                                    {
+                                        case "地面":
+                                            return "离心风机(电机内置、直进直出、有基础)";
+                                        case "吊装":
+                                            return "离心风机(电机内置、直进直出、无基础)";
+                                        default:
+                                            throw new NotSupportedException();
+                                    }
+                                }
+                            case "侧进直出":
+                                {
+                                    switch (mount)
+                                    {
+                                        case "地面":
+                                            return "离心风机(电机内置、侧进直出、有基础)";
+                                        case "吊装":
+                                            return "离心风机(电机内置、侧进直出、无基础)";
+                                        default:
+                                            throw new NotSupportedException();
+                                    }
+                                }
+                            case "上进直出":
+                                {
+                                    switch (mount)
+                                    {
+                                        case "地面":
+                                            return "离心风机(电机内置、上进直出、有基础)";
+                                        case "吊装":
+                                            return "离心风机(电机内置、上进直出、无基础)";
+                                        default:
+                                            throw new NotSupportedException();
+                                    }
+                                }
+                            case "直进上出":
+                                {
+                                    switch (mount)
+                                    {
+                                        case "地面":
+                                            return "离心风机(电机内置、直进上出、有基础)";
+                                        case "吊装":
+                                            return "离心风机(电机内置、直进上出、无基础)";
+                                        default:
+                                            throw new NotSupportedException();
+                                    }
+                                }
+                            case "直进下出":
+                                {
+                                    switch (mount)
+                                    {
+                                        case "地面":
+                                            return "离心风机(电机内置、直进下出、有基础)";
+                                        case "吊装":
+                                            return "离心风机(电机内置、直进下出、无基础)";
+                                        default:
+                                            throw new NotSupportedException();
+                                    }
+                                }
+                            case "下进直出":
+                                {
+                                    switch (mount)
+                                    {
+                                        case "地面":
+                                            return "离心风机(电机内置、下进直出、有基础)";
+                                        case "吊装":
+                                            return "离心风机(电机内置、下进直出、无基础)";
+                                        default:
+                                            throw new NotSupportedException();
+                                    }
+                                }
+                            default:
+                                throw new NotSupportedException();
+                        }
+                    }
+                default:
+                    throw new NotSupportedException();
+            }
         }
     }
 }

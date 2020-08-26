@@ -38,6 +38,14 @@ namespace TianHua.FanSelection.UI
             AcadApp.ShowModelessDialog(fmFanSelection.GetInstance());
         }
 
+        [CommandMethod("TIANHUACAD", "THFJZH", CommandFlags.Modal)]
+        public void ThEquipmentConvert()
+        {
+            fmConvert _fmConvert = new fmConvert();
+            AcadApp.ShowModelessDialog(_fmConvert);
+        }
+
+
         [CommandMethod("TIANHUACAD", "THFJEDIT", CommandFlags.UsePickSet)]
         public void ThEquipmentEdit()
         {

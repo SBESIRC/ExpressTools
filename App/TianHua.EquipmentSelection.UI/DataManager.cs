@@ -27,6 +27,7 @@ namespace TianHua.FanSelection.UI
         /// 风机箱参数
         /// </summary>
         public List<FanParameters> m_ListFanParameters = new List<FanParameters>();
+
         /// <summary>
         /// 轴流风机参数
         /// </summary>
@@ -132,6 +133,12 @@ namespace TianHua.FanSelection.UI
                     Diameter = FuncStr.NullToStr(_DataTable.Rows[i]["直径"]),
                     Length = FuncStr.NullToStr(_DataTable.Rows[i]["长度"])
                 };
+
+                if (_DataTable.Columns.Contains("档位"))
+                {
+                    _AxialFanParameters.Gears = FuncStr.NullToStr(_DataTable.Rows[i]["档位"]);
+                }
+
                 _List.Add(_AxialFanParameters);
             }
             return _List;
@@ -171,7 +178,14 @@ namespace TianHua.FanSelection.UI
                     RealPower = FuncStr.NullToStr(_DataTable.Rows[i]["实际功率"]),
                     FanEfficiency = FuncStr.NullToStr(_DataTable.Rows[i]["风机效率"]),
                     MotorPower = FuncStr.NullToStr(_DataTable.Rows[i]["电机功率"])
+       
                 };
+
+                if (_DataTable.Columns.Contains("档位"))
+                {
+                    _FanParameters.Gears = FuncStr.NullToStr(_DataTable.Rows[i]["档位"]);
+                }
+
                 _List.Add(_FanParameters);
             }
 

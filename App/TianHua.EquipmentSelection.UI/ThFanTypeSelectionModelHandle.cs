@@ -18,6 +18,10 @@ namespace TianHua.FanSelection.UI
                 fanpoints.Add(group.First().CCCF_Spec, new List<Point3d>());
                 foreach (var item in group)
                 {
+                    if (!string.IsNullOrEmpty(item.Gears) && item.Gears == "低")
+                    {
+                        continue;
+                    }
                     fanpoints[item.CCCF_Spec].Add(new Point3d(Convert.ToDouble(item.AirVolume), Convert.ToDouble(item.Pa), 0));
                 }
             }
@@ -72,6 +76,10 @@ namespace TianHua.FanSelection.UI
                 fanpoints.Add(group.First().ModelNum, new List<Point3d>());
                 foreach (var item in group)
                 {
+                    if (!string.IsNullOrEmpty(item.Gears) && item.Gears == "低")
+                    {
+                        continue;
+                    }
                     fanpoints[item.ModelNum].Add(new Point3d( FuncStr.NullToDouble(item.AirVolume), FuncStr.NullToDouble(item.Pa), 0));
                 }
             }

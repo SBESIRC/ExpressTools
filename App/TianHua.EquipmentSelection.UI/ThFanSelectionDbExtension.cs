@@ -3,11 +3,11 @@ using System.IO;
 using Linq2Acad;
 using DotNetARX;
 using System.Linq;
+using System.Text;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
-using System.Text;
 
 namespace TianHua.FanSelection.UI
 {
@@ -85,6 +85,12 @@ namespace TianHua.FanSelection.UI
             return (string)values.ElementAt(0).Value;
         }
 
+        public static void SetModelXDataFrom(this ObjectId obj, ObjectId other)
+        {
+            var xdata = other.GetXData(ThFanSelectionCommon.RegAppName_FanSelection);
+            obj.AddXData(ThFanSelectionCommon.RegAppName_FanSelection, xdata);
+        }
+
         public static bool IsModel(this ObjectId obj, string identifier)
         {
             var valueList = obj.GetXData(ThFanSelectionCommon.RegAppName_FanSelection);
@@ -105,13 +111,9 @@ namespace TianHua.FanSelection.UI
         public static void SetModelName(this ObjectId obj, string name)
         {
             var dynamicProperties = obj.GetDynProperties();
-            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY))
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_SPECIFICATION_MODEL))
             {
-                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY, name);
-            }
-            else if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY2))
-            {
-                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY2, name);
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_SPECIFICATION_MODEL, name);
             }
             else
             {
@@ -122,47 +124,13 @@ namespace TianHua.FanSelection.UI
         public static string GetModelName(this ObjectId obj)
         {
             var dynamicProperties = obj.GetDynProperties();
-            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY))
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_SPECIFICATION_MODEL))
             {
-                return dynamicProperties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY) as string;
-            }
-            else if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY2))
-            {
-                return dynamicProperties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_VISIBILITY2) as string;
+                return dynamicProperties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_SPECIFICATION_MODEL) as string;
             }
             else
             {
                 throw new NotSupportedException();
-            }
-        }
-
-        public static string HTFCModelName(this ObjectId obj, string modelNumber, string form)
-        {
-            var blockReference = new ThFSBlockReference(obj);
-            var visibilityStates = blockReference.DynablockVisibilityStates();
-            var result = visibilityStates.Where(o => o.Key.Contains(modelNumber) && o.Key.Contains(form));
-            if (result.Count() == 1)
-            {
-                return result.First().Key;
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
-        }
-
-        public static string AXIALModelName(this ObjectId obj, string modelName)
-        {
-            var blockReference = new ThFSBlockReference(obj);
-            var visibilityStates = blockReference.DynablockVisibilityStates();
-            var result = visibilityStates.Where(o => ThFanSelectionUtils.MatchModelName(modelName, o.Key));
-            if (result.Count() == 1)
-            {
-                return result.First().Key;
-            }
-            else
-            {
-                throw new ArgumentException();
             }
         }
 
@@ -198,6 +166,45 @@ namespace TianHua.FanSelection.UI
         public static void ModifyModelAttributes(this ObjectId obj, Dictionary<string, string> attributes)
         {
             obj.UpdateAttributesInBlock(attributes);
+        }
+
+        public static void SetModelCustomPropertiesFrom(this ObjectId obj, DynamicBlockReferencePropertyCollection properties)
+        {
+            var dynamicProperties = obj.GetDynProperties();
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE1) &&
+                properties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE1))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE1,
+                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE1));
+            }
+
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE2) &&
+                properties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE2))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE2,
+                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE2));
+            }
+
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ROTATE) &&
+                properties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ROTATE))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ROTATE,
+                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ROTATE));
+            }
+
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_POSITION1_X) &&
+                properties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_POSITION1_X))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_POSITION1_X,
+                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_POSITION1_X));
+            }
+
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_POSITION1_Y) &&
+                properties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_POSITION1_Y))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_POSITION1_Y,
+                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_POSITION1_Y));
+            }
         }
 
         private static string BlockDwgPath()
