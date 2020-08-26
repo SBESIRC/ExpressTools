@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TianHua.EquipmentSelection"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TianHua.EquipmentSelection.UI", "TianHua.EquipmentSelection.UI\TianHua.EquipmentSelection.UI.csproj", "{5A202950-BF0E-4887-AA2A-B6AF1C949FF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TianHua.EquipmentSelection.Test", "TianHua.EquipmentSelection.Test\TianHua.EquipmentSelection.Test.csproj", "{666E18EC-3F64-4C15-AB0E-B422A074C993}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,12 +89,28 @@ Global
 		{5A202950-BF0E-4887-AA2A-B6AF1C949FF4}.Release-NET45|Any CPU.Build.0 = Release-NET45|Any CPU
 		{5A202950-BF0E-4887-AA2A-B6AF1C949FF4}.Release-NET46|Any CPU.ActiveCfg = Release-NET46|Any CPU
 		{5A202950-BF0E-4887-AA2A-B6AF1C949FF4}.Release-NET46|Any CPU.Build.0 = Release-NET46|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Debug-NET40|Any CPU.ActiveCfg = Debug|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Debug-NET40|Any CPU.Build.0 = Debug|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Debug-NET45|Any CPU.ActiveCfg = Debug|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Debug-NET45|Any CPU.Build.0 = Debug|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Debug-NET46|Any CPU.ActiveCfg = Debug|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Debug-NET46|Any CPU.Build.0 = Debug|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Release|Any CPU.Build.0 = Release|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Release-NET40|Any CPU.ActiveCfg = Release|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Release-NET40|Any CPU.Build.0 = Release|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Release-NET45|Any CPU.ActiveCfg = Release|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Release-NET45|Any CPU.Build.0 = Release|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Release-NET46|Any CPU.ActiveCfg = Release|Any CPU
+		{666E18EC-3F64-4C15-AB0E-B422A074C993}.Release-NET46|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {4DC31E7F-3F21-4F0B-B4C8-C20B040E84EF}
 		        SolutionGuid = {BACE1130-D315-4658-B063-566B4F1EBA5B}
+		SolutionGuid = {4DC31E7F-3F21-4F0B-B4C8-C20B040E84EF}
 	EndGlobalSection
 EndGlobal
