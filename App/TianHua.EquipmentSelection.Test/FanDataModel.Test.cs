@@ -17,7 +17,7 @@ namespace TianHua.EquipmentSelection.Test
                 VentNum = "2",
                 Scenario = "平时送风"
             };
-            Assert.AreEqual("SF-4-F2-2", model.GetFanNum());
+            Assert.AreEqual("SF-4-F2-2", model.FanNum);
         }
     }
 }

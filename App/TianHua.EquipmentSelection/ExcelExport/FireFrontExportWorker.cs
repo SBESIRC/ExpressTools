@@ -13,7 +13,7 @@ namespace TianHua.FanSelection.ExcelExport
         public override void ExportToExcel(ThFanVolumeModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelFile excelfile)
         {
             FireFrontModel fireFrontModel = fanmodel as FireFrontModel;
-            setsheet.SetCellValue("D2", fandatamodel.GetFanNum());
+            setsheet.SetCellValue("D2", fandatamodel.FanNum);
             setsheet.SetCellValue("D3", fandatamodel.Name);
             setsheet.SetCellValue("D4", Math.Max(fireFrontModel.QueryValue, (fireFrontModel.DoorOpeningVolume + fireFrontModel.LeakVolume)).ToString());
             setsheet.SetCellValue("D5", (fireFrontModel.DoorOpeningVolume + fireFrontModel.LeakVolume).ToString());

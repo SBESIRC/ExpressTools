@@ -1,16 +1,26 @@
-﻿using System.Drawing;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TianHua.FanSelection.Model;
 
 namespace TianHua.FanSelection
 {
-    public class FanDataModel
+    public partial class FanDataModel
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public FanDataModel()
+        {
+            SelectionFactor = 1.1;
+        }
+
         /// <summary>
         /// 应用场景
         /// </summary>
         public string Scenario { get; set; }
 
+        /// <summary>
+        /// 场景类型
+        /// </summary>
         public int ScenarioType { get; set; }
 
         /// <summary>
@@ -43,7 +53,6 @@ namespace TianHua.FanSelection
         /// </summary>
         public int VentQuan { get; set; }
 
-
         /// <summary>
         /// 数量
         /// </summary>
@@ -53,7 +62,6 @@ namespace TianHua.FanSelection
         /// 风机序号
         /// </summary>
         public string VentNum { get; set; }
-
 
         /// <summary>
         /// 风量
@@ -105,29 +113,6 @@ namespace TianHua.FanSelection
         /// </summary>
         public string Remark { get; set; }
 
-        public Bitmap ImgRemark
-        {
-            get
-            {
-                return this.GetImgRemark();
-            }
-
-        }
-
-        private Bitmap GetImgRemark()
-        {
-            if (PID == "0")
-            {
-                return Properties.Resources.备注32;
-            }
-            else
-            {
-                return Properties.Resources.无;
-            }
-
-
-        }
-
         /// <summary>
         /// 风机形式
         /// </summary>
@@ -143,7 +128,6 @@ namespace TianHua.FanSelection
         /// </summary>
         public string VentLev { get; set; }
 
-
         /// <summary>
         /// 电机能效等级
         /// </summary>
@@ -154,49 +138,40 @@ namespace TianHua.FanSelection
         /// </summary>
         public int MotorTempo { get; set; }
 
-
         /// <summary>
         /// 风机型号表的ID
         /// </summary>
         public string FanModelID { get; set; }
-
 
         /// <summary>
         /// 风机型号表的名称
         /// </summary>
         public string FanModelName { get; set; }
 
-
         /// <summary>
         /// 型号
         /// </summary>
         public string FanModelNum { get; set; }
-
 
         /// <summary>
         /// CCCF规格
         /// </summary>
         public string FanModelCCCF { get; set; }
 
-
         /// <summary>
         /// 风量
         /// </summary>
         public string FanModelAirVolume { get; set; }
-
-
 
         /// <summary>
         /// 全压
         /// </summary>
         public string FanModelPa { get; set; }
 
-
         /// <summary>
         /// 电机功率
         /// </summary>
         public string FanModelMotorPower { get; set; }
-
 
         /// <summary>
         /// 噪音
@@ -233,7 +208,6 @@ namespace TianHua.FanSelection
         /// </summary>
         public string FanModelWeight { get; set; }
 
-
         /// <summary>
         /// 直径
         /// </summary>
@@ -259,51 +233,6 @@ namespace TianHua.FanSelection
         /// </summary>
         public string MountType { get; set; }
 
-
-        public Bitmap InsertMap
-        {
-            get
-            {
-                return this.GetInsertMap();
-            }
-
-        }
-
-        private Bitmap GetInsertMap()
-        {
-            if (PID == "0" && FanModelName != string.Empty)
-            {
-                return Properties.Resources.插入32;
-            }
-            else
-            {
-                return Properties.Resources.无;
-            }
-
-
-        }
-
-        public Bitmap AddAuxiliary
-        {
-            get
-            {
-                return this.GetAddAuxiliary();
-            }
-
-        }
-
-        private Bitmap GetAddAuxiliary()
-        {
-            if (PID == "0")
-            {
-                return Properties.Resources.向下加一行;
-            }
-            else
-            {
-                return Properties.Resources.皇帝的新图16x16;
-            }
-        }
-
         /// <summary>
         /// 排序ID
         /// </summary>
@@ -319,7 +248,6 @@ namespace TianHua.FanSelection
         /// </summary>
         public string Use { get; set; }
 
-
         /// <summary>
         ///  进风形式
         /// </summary>
@@ -329,7 +257,6 @@ namespace TianHua.FanSelection
         /// 风量计算值
         /// </summary>
         public int AirCalcValue { get; set; }
-
 
         /// <summary>
         /// 风量计算系数
@@ -354,26 +281,12 @@ namespace TianHua.FanSelection
         /// <summary>
         /// 选型系数
         /// </summary>
-        public double _SelectionFactor = 1.1;
-        public double SelectionFactor
-        {
-            get
-            {
-                return _SelectionFactor;
-            }
-            set
-            {
-                _SelectionFactor = value;
-            }
-        }
-
-
+        public double SelectionFactor { get; set; }
 
         /// <summary>
         /// 计算总阻力
         /// </summary>
         public double CalcResistance { get; set; }
-
 
         /// <summary>
         /// 风量计算
