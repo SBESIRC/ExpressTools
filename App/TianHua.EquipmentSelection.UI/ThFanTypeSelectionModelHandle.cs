@@ -1,10 +1,12 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
-using Dreambuild.AutoCAD;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using GeoAPI.Geometries;
+using Dreambuild.AutoCAD;
 using TianHua.Publics.BaseCode;
+using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
+using Autodesk.AutoCAD.DatabaseServices;
+using ThCADCore.NTS;
 
 namespace TianHua.FanSelection.UI
 {
@@ -38,6 +40,35 @@ namespace TianHua.FanSelection.UI
                 typepolylines.Add(item.Key, tppoly);
             }
             return typepolylines;
+        }
+
+        public static Dictionary<string, ILineString> GetpolylineFromeModelEx(List<FanParameters> jasonmodels)
+        {
+            var fanpoints = new Dictionary<string, List<Coordinate>>();
+            foreach (var group in jasonmodels.GroupBy(d => d.CCCF_Spec))
+            {
+                fanpoints.Add(group.First().CCCF_Spec, new List<Coordinate>());
+                foreach (var item in group)
+                {
+                    if (!string.IsNullOrEmpty(item.Gears) && item.Gears == "低")
+                    {
+                        continue;
+                    }
+
+                    var coordinate = new Coordinate(
+                        ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(Convert.ToDouble(item.AirVolume)),
+                        ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(Convert.ToDouble(item.Pa)));
+                    fanpoints[item.CCCF_Spec].Add(coordinate);
+                }
+            }
+
+            var models = new Dictionary<string, ILineString>();
+            foreach (var item in fanpoints)
+            {
+                models.Add(item.Key,
+                    ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(item.Value.OrderBy(p => p.X).ToArray()));
+            }
+            return models;
         }
 
         public static Dictionary<string, List<double>> GetTypePolylineFromModel(List<FanParameters> jasonmodels, List<double> pointxyz)
