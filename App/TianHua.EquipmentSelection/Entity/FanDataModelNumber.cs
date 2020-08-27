@@ -33,7 +33,7 @@ namespace TianHua.FanSelection
                     _FanNum += "-" + VentNum;
                 else
                     _FanNum += "- ";
-
+                
                 return _FanNum;
             }
         }

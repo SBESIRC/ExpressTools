@@ -74,6 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockCustomCommandMapper.cs" />
+    <Compile Include="CtlAxisymmetric.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtlAxisymmetric.Designer.cs">
+      <DependentUpon>CtlAxisymmetric.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomCommandMappers.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="EquipmentSelectionApp.cs" />
@@ -102,6 +108,12 @@
     </Compile>
     <Compile Include="fmDragCalc.Designer.cs">
       <DependentUpon>fmDragCalc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fmExhaustCalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmExhaustCalc.Designer.cs">
+      <DependentUpon>fmExhaustCalc.cs</DependentUpon>
     </Compile>
     <Compile Include="fmFanModel.cs">
       <SubType>Form</SubType>
@@ -195,6 +207,9 @@
     <EmbeddedResource Include="FireElevatorFrontRoom.resx">
       <DependentUpon>FireElevatorFrontRoom.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CtlAxisymmetric.resx">
+      <DependentUpon>CtlAxisymmetric.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="fmAirVolumeCalc.resx">
       <DependentUpon>fmAirVolumeCalc.cs</DependentUpon>
     </EmbeddedResource>
@@ -206,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="fmDragCalc.resx">
       <DependentUpon>fmDragCalc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmExhaustCalc.resx">
+      <DependentUpon>fmExhaustCalc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fmFanModel.resx">
       <DependentUpon>fmFanModel.cs</DependentUpon>

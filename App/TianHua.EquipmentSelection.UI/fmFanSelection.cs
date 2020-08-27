@@ -846,6 +846,7 @@ namespace TianHua.FanSelection.UI
                     return;
                 }
             }
+ 
 
             //if (_TreeList.FocusedColumn.FieldName == "FanModelName")
             //{

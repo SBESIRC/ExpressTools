@@ -75,16 +75,16 @@
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(388, 344, 650, 400);
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(525, 321);
+            this.layoutControl1.Size = new System.Drawing.Size(357, 144);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
             // BtnOK
             // 
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(339, 287);
+            this.BtnOK.Location = new System.Drawing.Point(230, 110);
             this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(174, 22);
+            this.BtnOK.Size = new System.Drawing.Size(115, 22);
             this.BtnOK.StyleController = this.layoutControl1;
             this.BtnOK.TabIndex = 33;
             this.BtnOK.Text = "确定";
@@ -107,7 +107,7 @@
             this.TxtDynPress,
             this.TxtAirCalcValue,
             this.TxtAirCalcFactor});
-            this.Gdc.Size = new System.Drawing.Size(501, 271);
+            this.Gdc.Size = new System.Drawing.Size(333, 94);
             this.Gdc.TabIndex = 32;
             this.Gdc.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.Gdv});
@@ -274,7 +274,7 @@
             this.layoutControlItem2,
             this.emptySpaceItem1});
             this.layoutControlGroup1.Name = "Root";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(525, 321);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(357, 144);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlItem1
@@ -282,32 +282,32 @@
             this.layoutControlItem1.Control = this.Gdc;
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(505, 275);
+            this.layoutControlItem1.Size = new System.Drawing.Size(337, 98);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.BtnOK;
-            this.layoutControlItem2.Location = new System.Drawing.Point(327, 275);
+            this.layoutControlItem2.Location = new System.Drawing.Point(218, 98);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(178, 26);
+            this.layoutControlItem2.Size = new System.Drawing.Size(119, 26);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
             // emptySpaceItem1
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
-            this.emptySpaceItem1.Location = new System.Drawing.Point(0, 275);
+            this.emptySpaceItem1.Location = new System.Drawing.Point(0, 98);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(327, 26);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(218, 26);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // fmAirVolumeCalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(525, 321);
+            this.ClientSize = new System.Drawing.Size(357, 144);
             this.Controls.Add(this.layoutControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;

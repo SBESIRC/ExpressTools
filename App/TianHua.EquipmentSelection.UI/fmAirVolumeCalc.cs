@@ -44,9 +44,11 @@ namespace TianHua.FanSelection.UI
             if (m_Fan.Scenario == "消防加压送风")
             {
                 this.TxtAirCalcValue.ContextImageOptions.SvgImage = Properties.Resources.计算器;
+                this.TxtAirCalcValue.ReadOnly = true;
             }
             else
             {
+                this.TxtAirCalcValue.ReadOnly = false;
                 this.TxtAirCalcValue.ContextImageOptions.SvgImage = null;
             }
         }
