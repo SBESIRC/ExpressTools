@@ -255,7 +255,7 @@
             // 
             this.wide.Location = new System.Drawing.Point(206, 270);
             this.wide.Name = "wide";
-            this.wide.Properties.Mask.EditMask = "([1-9]{1,})";
+            this.wide.Properties.Mask.EditMask = "([0-9]{1,})";
             this.wide.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.wide.Size = new System.Drawing.Size(57, 20);
             this.wide.StyleController = this.layoutControl1;
@@ -266,7 +266,7 @@
             // 
             this.length.Location = new System.Drawing.Point(67, 270);
             this.length.Name = "length";
-            this.length.Properties.Mask.EditMask = "([1-9]{1,})";
+            this.length.Properties.Mask.EditMask = "([0-9]{1,})";
             this.length.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.length.Size = new System.Drawing.Size(54, 20);
             this.length.StyleController = this.layoutControl1;
@@ -795,12 +795,12 @@
             this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem7.TextVisible = false;
             // 
-            // NewFireElevatorFrontRoom
+            // FireElevatorFrontRoom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.layoutControl1);
-            this.Name = "NewFireElevatorFrontRoom";
+            this.Name = "FireElevatorFrontRoom";
             this.Size = new System.Drawing.Size(300, 530);
             this.Load += new System.EventHandler(this.NewFireElevatorFrontRomm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
