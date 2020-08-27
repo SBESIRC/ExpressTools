@@ -2,6 +2,7 @@
     {
         "AirVolume": "9824",
         "Diameter": "510",
+        "Gears": "高",
         "Length": "650",
         "ModelNum": "HTF-II-5",
         "No": "1001",
@@ -9,12 +10,12 @@
         "Pa": "510",
         "Power": "3.1",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "115"
     },
     {
         "AirVolume": "4912",
         "Diameter": "510",
+        "Gears": "低",
         "Length": "650",
         "ModelNum": "HTF-II-5",
         "No": "1002",
@@ -22,12 +23,12 @@
         "Pa": "127",
         "Power": "0.8",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "115"
     },
     {
         "AirVolume": "9544",
         "Diameter": "510",
+        "Gears": "高",
         "Length": "650",
         "ModelNum": "HTF-II-5",
         "No": "1003",
@@ -35,12 +36,12 @@
         "Pa": "552",
         "Power": "3.1",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "115"
     },
     {
         "AirVolume": "4772",
         "Diameter": "510",
+        "Gears": "低",
         "Length": "650",
         "ModelNum": "HTF-II-5",
         "No": "1004",
@@ -48,12 +49,12 @@
         "Pa": "138",
         "Power": "0.8",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "115"
     },
     {
         "AirVolume": "8861",
         "Diameter": "510",
+        "Gears": "高",
         "Length": "650",
         "ModelNum": "HTF-II-5",
         "No": "1005",
@@ -61,12 +62,12 @@
         "Pa": "610",
         "Power": "3.1",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "115"
     },
     {
         "AirVolume": "4431",
         "Diameter": "510",
+        "Gears": "低",
         "Length": "650",
         "ModelNum": "HTF-II-5",
         "No": "1006",
@@ -74,12 +75,12 @@
         "Pa": "153",
         "Power": "0.8",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "115"
     },
     {
         "AirVolume": "8040",
         "Diameter": "510",
+        "Gears": "高",
         "Length": "650",
         "ModelNum": "HTF-II-5",
         "No": "1007",
@@ -87,12 +88,12 @@
         "Pa": "680",
         "Power": "3.1",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "115"
     },
     {
         "AirVolume": "4020",
         "Diameter": "510",
+        "Gears": "低",
         "Length": "650",
         "ModelNum": "HTF-II-5",
         "No": "1008",
@@ -100,12 +101,12 @@
         "Pa": "170",
         "Power": "0.8",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "115"
     },
     {
         "AirVolume": "6817",
         "Diameter": "510",
+        "Gears": "高",
         "Length": "650",
         "ModelNum": "HTF-II-5",
         "No": "1009",
@@ -113,12 +114,12 @@
         "Pa": "752",
         "Power": "3.1",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "115"
     },
     {
         "AirVolume": "3410",
         "Diameter": "510",
+        "Gears": "低",
         "Length": "650",
         "ModelNum": "HTF-II-5",
         "No": "1010",
@@ -126,12 +127,12 @@
         "Pa": "188",
         "Power": "0.8",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "115"
     },
     {
         "AirVolume": "12693",
         "Diameter": "560",
+        "Gears": "高",
         "Length": "680",
         "ModelNum": "HTF-II-5.5",
         "No": "1011",
@@ -139,12 +140,12 @@
         "Pa": "536",
         "Power": "4.4",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "140"
     },
     {
         "AirVolume": "6347",
         "Diameter": "560",
+        "Gears": "低",
         "Length": "680",
         "ModelNum": "HTF-II-5.5",
         "No": "1012",
@@ -152,12 +153,12 @@
         "Pa": "134",
         "Power": "1.1",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "140"
     },
     {
         "AirVolume": "12000",
         "Diameter": "560",
+        "Gears": "高",
         "Length": "680",
         "ModelNum": "HTF-II-5.5",
         "No": "1013",
@@ -165,12 +166,12 @@
         "Pa": "592",
         "Power": "4.4",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "140"
     },
     {
         "AirVolume": "6000",
         "Diameter": "560",
+        "Gears": "低",
         "Length": "680",
         "ModelNum": "HTF-II-5.5",
         "No": "1014",
@@ -178,12 +179,12 @@
         "Pa": "148",
         "Power": "1.1",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "140"
     },
     {
         "AirVolume": "10920",
         "Diameter": "560",
+        "Gears": "高",
         "Length": "680",
         "ModelNum": "HTF-II-5.5",
         "No": "1015",
@@ -191,12 +192,12 @@
         "Pa": "643",
         "Power": "4.4",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "140"
     },
     {
         "AirVolume": "5460",
         "Diameter": "560",
+        "Gears": "低",
         "Length": "680",
         "ModelNum": "HTF-II-5.5",
         "No": "1016",
@@ -204,12 +205,12 @@
         "Pa": "161",
         "Power": "1.1",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "140"
     },
     {
         "AirVolume": "9066",
         "Diameter": "560",
+        "Gears": "高",
         "Length": "680",
         "ModelNum": "HTF-II-5.5",
         "No": "1017",
@@ -217,12 +218,12 @@
         "Pa": "692",
         "Power": "4.4",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "140"
     },
     {
         "AirVolume": "4533",
         "Diameter": "560",
+        "Gears": "低",
         "Length": "680",
         "ModelNum": "HTF-II-5.5",
         "No": "1018",
@@ -230,12 +231,12 @@
         "Pa": "173",
         "Power": "1.1",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "140"
     },
     {
         "AirVolume": "8256",
         "Diameter": "560",
+        "Gears": "高",
         "Length": "680",
         "ModelNum": "HTF-II-5.5",
         "No": "1019",
@@ -243,12 +244,12 @@
         "Pa": "756",
         "Power": "4.4",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "140"
     },
     {
         "AirVolume": "4128",
         "Diameter": "560",
+        "Gears": "低",
         "Length": "680",
         "ModelNum": "HTF-II-5.5",
         "No": "1020",
@@ -256,12 +257,12 @@
         "Pa": "189",
         "Power": "1.1",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "140"
     },
     {
         "AirVolume": "16090",
         "Diameter": "610",
+        "Gears": "高",
         "Length": "700",
         "ModelNum": "HTF-II-6",
         "No": "1021",
@@ -269,12 +270,12 @@
         "Pa": "510",
         "Power": "5.9",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "165"
     },
     {
         "AirVolume": "8045",
         "Diameter": "610",
+        "Gears": "低",
         "Length": "700",
         "ModelNum": "HTF-II-6",
         "No": "1022",
@@ -282,12 +283,12 @@
         "Pa": "127",
         "Power": "1.4",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "165"
     },
     {
         "AirVolume": "15718",
         "Diameter": "610",
+        "Gears": "高",
         "Length": "700",
         "ModelNum": "HTF-II-6",
         "No": "1023",
@@ -295,12 +296,12 @@
         "Pa": "552",
         "Power": "5.9",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "165"
     },
     {
         "AirVolume": "7859",
         "Diameter": "610",
+        "Gears": "低",
         "Length": "700",
         "ModelNum": "HTF-II-6",
         "No": "1024",
@@ -308,12 +309,12 @@
         "Pa": "138",
         "Power": "1.4",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "165"
     },
     {
         "AirVolume": "15102",
         "Diameter": "610",
+        "Gears": "高",
         "Length": "700",
         "ModelNum": "HTF-II-6",
         "No": "1025",
@@ -321,12 +322,12 @@
         "Pa": "610",
         "Power": "5.9",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "165"
     },
     {
         "AirVolume": "7551",
         "Diameter": "610",
+        "Gears": "低",
         "Length": "700",
         "ModelNum": "HTF-II-6",
         "No": "1026",
@@ -334,12 +335,12 @@
         "Pa": "153",
         "Power": "1.4",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "165"
     },
     {
         "AirVolume": "14302",
         "Diameter": "610",
+        "Gears": "高",
         "Length": "700",
         "ModelNum": "HTF-II-6",
         "No": "1027",
@@ -347,12 +348,12 @@
         "Pa": "680",
         "Power": "5.9",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "165"
     },
     {
         "AirVolume": "7151",
         "Diameter": "610",
+        "Gears": "低",
         "Length": "700",
         "ModelNum": "HTF-II-6",
         "No": "1028",
@@ -360,12 +361,12 @@
         "Pa": "170",
         "Power": "1.4",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "165"
     },
     {
         "AirVolume": "13197",
         "Diameter": "610",
+        "Gears": "高",
         "Length": "700",
         "ModelNum": "HTF-II-6",
         "No": "1029",
@@ -373,12 +374,12 @@
         "Pa": "760",
         "Power": "5.9",
         "Rpm": "2900",
-        "Gears": "高",
         "Weight": "165"
     },
     {
         "AirVolume": "6599",
         "Diameter": "610",
+        "Gears": "低",
         "Length": "700",
         "ModelNum": "HTF-II-6",
         "No": "1030",
@@ -386,12 +387,12 @@
         "Pa": "190",
         "Power": "1.4",
         "Rpm": "1450",
-        "Gears": "低",
         "Weight": "165"
     },
     {
         "AirVolume": "21652",
         "Diameter": "660",
+        "Gears": "高",
         "Length": "800",
         "ModelNum": "HTF-II-6.5",
         "No": "1031",
@@ -399,12 +400,12 @@
         "Pa": "512",
         "Power": "6",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "180"
     },
     {
         "AirVolume": "10826",
         "Diameter": "660",
+        "Gears": "低",
         "Length": "800",
         "ModelNum": "HTF-II-6.5",
         "No": "1032",
@@ -412,12 +413,12 @@
         "Pa": "128",
         "Power": "2",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "180"
     },
     {
         "AirVolume": "19780",
         "Diameter": "660",
+        "Gears": "高",
         "Length": "800",
         "ModelNum": "HTF-II-6.5",
         "No": "1033",
@@ -425,12 +426,12 @@
         "Pa": "558",
         "Power": "6",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "180"
     },
     {
         "AirVolume": "9890",
         "Diameter": "660",
+        "Gears": "低",
         "Length": "800",
         "ModelNum": "HTF-II-6.5",
         "No": "1034",
@@ -438,12 +439,12 @@
         "Pa": "140",
         "Power": "2",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "180"
     },
     {
         "AirVolume": "18000",
         "Diameter": "660",
+        "Gears": "高",
         "Length": "800",
         "ModelNum": "HTF-II-6.5",
         "No": "1035",
@@ -451,12 +452,12 @@
         "Pa": "620",
         "Power": "6",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "180"
     },
     {
         "AirVolume": "9000",
         "Diameter": "660",
+        "Gears": "低",
         "Length": "800",
         "ModelNum": "HTF-II-6.5",
         "No": "1036",
@@ -464,12 +465,12 @@
         "Pa": "155",
         "Power": "2",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "180"
     },
     {
         "AirVolume": "17120",
         "Diameter": "660",
+        "Gears": "高",
         "Length": "800",
         "ModelNum": "HTF-II-6.5",
         "No": "1037",
@@ -477,12 +478,12 @@
         "Pa": "668",
         "Power": "6",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "180"
     },
     {
         "AirVolume": "8560",
         "Diameter": "660",
+        "Gears": "低",
         "Length": "800",
         "ModelNum": "HTF-II-6.5",
         "No": "1038",
@@ -490,12 +491,12 @@
         "Pa": "167",
         "Power": "2",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "180"
     },
     {
         "AirVolume": "16254",
         "Diameter": "660",
+        "Gears": "高",
         "Length": "800",
         "ModelNum": "HTF-II-6.5",
         "No": "1039",
@@ -503,12 +504,12 @@
         "Pa": "702",
         "Power": "6",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "180"
     },
     {
         "AirVolume": "8127",
         "Diameter": "660",
+        "Gears": "低",
         "Length": "800",
         "ModelNum": "HTF-II-6.5",
         "No": "1040",
@@ -516,12 +517,12 @@
         "Pa": "176",
         "Power": "2",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "180"
     },
     {
         "AirVolume": "24380",
         "Diameter": "710",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-7",
         "No": "1041",
@@ -529,12 +530,12 @@
         "Pa": "610",
         "Power": "8",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "220"
     },
     {
         "AirVolume": "16141",
         "Diameter": "710",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-7",
         "No": "1042",
@@ -542,12 +543,12 @@
         "Pa": "267",
         "Power": "2.8",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "220"
     },
     {
         "AirVolume": "23570",
         "Diameter": "710",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-7",
         "No": "1043",
@@ -555,12 +556,12 @@
         "Pa": "630",
         "Power": "8",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "220"
     },
     {
         "AirVolume": "15605",
         "Diameter": "710",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-7",
         "No": "1044",
@@ -568,12 +569,12 @@
         "Pa": "276",
         "Power": "2.8",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "220"
     },
     {
         "AirVolume": "22439",
         "Diameter": "710",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-7",
         "No": "1045",
@@ -581,12 +582,12 @@
         "Pa": "655",
         "Power": "8",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "220"
     },
     {
         "AirVolume": "14865",
         "Diameter": "710",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-7",
         "No": "1046",
@@ -594,12 +595,12 @@
         "Pa": "287",
         "Power": "2.8",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "220"
     },
     {
         "AirVolume": "20784",
         "Diameter": "710",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-7",
         "No": "1047",
@@ -607,12 +608,12 @@
         "Pa": "676",
         "Power": "8",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "220"
     },
     {
         "AirVolume": "13856",
         "Diameter": "710",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-7",
         "No": "1048",
@@ -620,12 +621,12 @@
         "Pa": "296",
         "Power": "2.8",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "220"
     },
     {
         "AirVolume": "18908",
         "Diameter": "710",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-7",
         "No": "1049",
@@ -633,12 +634,12 @@
         "Pa": "728",
         "Power": "8",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "220"
     },
     {
         "AirVolume": "12518",
         "Diameter": "710",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-7",
         "No": "1050",
@@ -646,12 +647,12 @@
         "Pa": "319",
         "Power": "2.8",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "220"
     },
     {
         "AirVolume": "31421",
         "Diameter": "810",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-8",
         "No": "1051",
@@ -659,12 +660,12 @@
         "Pa": "600",
         "Power": "8",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "230"
     },
     {
         "AirVolume": "20800",
         "Diameter": "810",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-8",
         "No": "1052",
@@ -672,12 +673,12 @@
         "Pa": "263",
         "Power": "2.8",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "230"
     },
     {
         "AirVolume": "30364",
         "Diameter": "810",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-8",
         "No": "1053",
@@ -685,12 +686,12 @@
         "Pa": "635",
         "Power": "8",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "230"
     },
     {
         "AirVolume": "20103",
         "Diameter": "810",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-8",
         "No": "1054",
@@ -698,12 +699,12 @@
         "Pa": "278",
         "Power": "2.8",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "230"
     },
     {
         "AirVolume": "29172",
         "Diameter": "810",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-8",
         "No": "1055",
@@ -711,12 +712,12 @@
         "Pa": "661",
         "Power": "8",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "230"
     },
     {
         "AirVolume": "19314",
         "Diameter": "810",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-8",
         "No": "1056",
@@ -724,12 +725,12 @@
         "Pa": "290",
         "Power": "2.8",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "230"
     },
     {
         "AirVolume": "28598",
         "Diameter": "810",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-8",
         "No": "1057",
@@ -737,12 +738,12 @@
         "Pa": "692",
         "Power": "8",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "230"
     },
     {
         "AirVolume": "18934",
         "Diameter": "810",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-8",
         "No": "1058",
@@ -750,12 +751,12 @@
         "Pa": "303",
         "Power": "2.8",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "230"
     },
     {
         "AirVolume": "26012",
         "Diameter": "810",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-8",
         "No": "1059",
@@ -763,12 +764,12 @@
         "Pa": "723",
         "Power": "8",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "230"
     },
     {
         "AirVolume": "17222",
         "Diameter": "810",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-8",
         "No": "1060",
@@ -776,12 +777,12 @@
         "Pa": "317",
         "Power": "2.8",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "230"
     },
     {
         "AirVolume": "33510",
         "Diameter": "910",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-9",
         "No": "1061",
@@ -789,12 +790,12 @@
         "Pa": "562",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "250"
     },
     {
         "AirVolume": "22186",
         "Diameter": "910",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-9",
         "No": "1062",
@@ -802,12 +803,12 @@
         "Pa": "246",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "250"
     },
     {
         "AirVolume": "32961",
         "Diameter": "910",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-9",
         "No": "1063",
@@ -815,12 +816,12 @@
         "Pa": "628",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "250"
     },
     {
         "AirVolume": "21822",
         "Diameter": "910",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-9",
         "No": "1064",
@@ -828,12 +829,12 @@
         "Pa": "275",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "250"
     },
     {
         "AirVolume": "32297",
         "Diameter": "910",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-9",
         "No": "1065",
@@ -841,12 +842,12 @@
         "Pa": "668",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "250"
     },
     {
         "AirVolume": "21383",
         "Diameter": "910",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-9",
         "No": "1066",
@@ -854,12 +855,12 @@
         "Pa": "293",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "250"
     },
     {
         "AirVolume": "30350",
         "Diameter": "910",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-9",
         "No": "1067",
@@ -867,12 +868,12 @@
         "Pa": "765",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "250"
     },
     {
         "AirVolume": "20094",
         "Diameter": "910",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-9",
         "No": "1068",
@@ -880,12 +881,12 @@
         "Pa": "335",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "250"
     },
     {
         "AirVolume": "27513",
         "Diameter": "910",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-9",
         "No": "1069",
@@ -893,12 +894,12 @@
         "Pa": "840",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "250"
     },
     {
         "AirVolume": "18216",
         "Diameter": "910",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-9",
         "No": "1070",
@@ -906,12 +907,12 @@
         "Pa": "368",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "250"
     },
     {
         "AirVolume": "45679",
         "Diameter": "1010",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-10",
         "No": "1071",
@@ -919,12 +920,12 @@
         "Pa": "630",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "305"
     },
     {
         "AirVolume": "30255",
         "Diameter": "1010",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-10",
         "No": "1072",
@@ -932,12 +933,12 @@
         "Pa": "276",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "305"
     },
     {
         "AirVolume": "42960",
         "Diameter": "1010",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-10",
         "No": "1073",
@@ -945,12 +946,12 @@
         "Pa": "665",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "305"
     },
     {
         "AirVolume": "28442",
         "Diameter": "1010",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-10",
         "No": "1074",
@@ -958,12 +959,12 @@
         "Pa": "291",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "305"
     },
     {
         "AirVolume": "40000",
         "Diameter": "1010",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-10",
         "No": "1075",
@@ -971,12 +972,12 @@
         "Pa": "690",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "305"
     },
     {
         "AirVolume": "26483",
         "Diameter": "1010",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-10",
         "No": "1076",
@@ -984,12 +985,12 @@
         "Pa": "302",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "305"
     },
     {
         "AirVolume": "38200",
         "Diameter": "1010",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-10",
         "No": "1077",
@@ -997,12 +998,12 @@
         "Pa": "736",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "305"
     },
     {
         "AirVolume": "25291",
         "Diameter": "1010",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-10",
         "No": "1078",
@@ -1010,12 +1011,12 @@
         "Pa": "322",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "305"
     },
     {
         "AirVolume": "35000",
         "Diameter": "1010",
+        "Gears": "高",
         "Length": "900",
         "ModelNum": "HTF-II-10",
         "No": "1079",
@@ -1023,12 +1024,12 @@
         "Pa": "770",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "305"
     },
     {
         "AirVolume": "24019",
         "Diameter": "1010",
+        "Gears": "低",
         "Length": "900",
         "ModelNum": "HTF-II-10",
         "No": "1080",
@@ -1036,12 +1037,12 @@
         "Pa": "338",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "305"
     },
     {
         "AirVolume": "53126",
         "Diameter": "1110",
+        "Gears": "高",
         "Length": "980",
         "ModelNum": "HTF-II-11",
         "No": "1081",
@@ -1049,12 +1050,12 @@
         "Pa": "516",
         "Power": "15.5",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "390"
     },
     {
         "AirVolume": "39844",
         "Diameter": "1110",
+        "Gears": "低",
         "Length": "980",
         "ModelNum": "HTF-II-11",
         "No": "1082",
@@ -1062,12 +1063,12 @@
         "Pa": "290",
         "Power": "5.1",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "390"
     },
     {
         "AirVolume": "51552",
         "Diameter": "1110",
+        "Gears": "高",
         "Length": "980",
         "ModelNum": "HTF-II-11",
         "No": "1083",
@@ -1075,12 +1076,12 @@
         "Pa": "580",
         "Power": "15.5",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "390"
     },
     {
         "AirVolume": "38664",
         "Diameter": "1110",
+        "Gears": "低",
         "Length": "980",
         "ModelNum": "HTF-II-11",
         "No": "1084",
@@ -1088,12 +1089,12 @@
         "Pa": "326",
         "Power": "5.1",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "390"
     },
     {
         "AirVolume": "50128",
         "Diameter": "1110",
+        "Gears": "高",
         "Length": "980",
         "ModelNum": "HTF-II-11",
         "No": "1085",
@@ -1101,12 +1102,12 @@
         "Pa": "647",
         "Power": "15.5",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "390"
     },
     {
         "AirVolume": "37596",
         "Diameter": "1110",
+        "Gears": "低",
         "Length": "980",
         "ModelNum": "HTF-II-11",
         "No": "1086",
@@ -1114,12 +1115,12 @@
         "Pa": "364",
         "Power": "5.1",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "390"
     },
     {
         "AirVolume": "48500",
         "Diameter": "1110",
+        "Gears": "高",
         "Length": "980",
         "ModelNum": "HTF-II-11",
         "No": "1087",
@@ -1127,12 +1128,12 @@
         "Pa": "690",
         "Power": "15.5",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "390"
     },
     {
         "AirVolume": "36375",
         "Diameter": "1110",
+        "Gears": "低",
         "Length": "980",
         "ModelNum": "HTF-II-11",
         "No": "1088",
@@ -1140,12 +1141,12 @@
         "Pa": "387",
         "Power": "5.1",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "390"
     },
     {
         "AirVolume": "46658",
         "Diameter": "1110",
+        "Gears": "高",
         "Length": "980",
         "ModelNum": "HTF-II-11",
         "No": "1089",
@@ -1153,12 +1154,12 @@
         "Pa": "726",
         "Power": "15.5",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "390"
     },
     {
         "AirVolume": "34994",
         "Diameter": "1110",
+        "Gears": "低",
         "Length": "980",
         "ModelNum": "HTF-II-11",
         "No": "1090",
@@ -1166,12 +1167,12 @@
         "Pa": "408",
         "Power": "5.1",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "390"
     },
     {
         "AirVolume": "65862",
         "Diameter": "1210",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-12",
         "No": "1091",
@@ -1179,12 +1180,12 @@
         "Pa": "582",
         "Power": "17",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "485"
     },
     {
         "AirVolume": "49396",
         "Diameter": "1210",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-12",
         "No": "1092",
@@ -1192,12 +1193,12 @@
         "Pa": "327",
         "Power": "8.5",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "485"
     },
     {
         "AirVolume": "62763",
         "Diameter": "1210",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-12",
         "No": "1093",
@@ -1205,12 +1206,12 @@
         "Pa": "624",
         "Power": "17",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "485"
     },
     {
         "AirVolume": "47072",
         "Diameter": "1210",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-12",
         "No": "1094",
@@ -1218,12 +1219,12 @@
         "Pa": "351",
         "Power": "8.5",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "485"
     },
     {
         "AirVolume": "59300",
         "Diameter": "1210",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-12",
         "No": "1095",
@@ -1231,12 +1232,12 @@
         "Pa": "680",
         "Power": "17",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "485"
     },
     {
         "AirVolume": "44475",
         "Diameter": "1210",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-12",
         "No": "1096",
@@ -1244,12 +1245,12 @@
         "Pa": "383",
         "Power": "8.5",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "485"
     },
     {
         "AirVolume": "58642",
         "Diameter": "1210",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-12",
         "No": "1097",
@@ -1257,12 +1258,12 @@
         "Pa": "712",
         "Power": "17",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "485"
     },
     {
         "AirVolume": "43982",
         "Diameter": "1210",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-12",
         "No": "1098",
@@ -1270,12 +1271,12 @@
         "Pa": "400",
         "Power": "8.5",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "485"
     },
     {
         "AirVolume": "55651",
         "Diameter": "1210",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-12",
         "No": "1099",
@@ -1283,12 +1284,12 @@
         "Pa": "740",
         "Power": "17",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "485"
     },
     {
         "AirVolume": "43311",
         "Diameter": "1210",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-12",
         "No": "1100",
@@ -1296,12 +1297,12 @@
         "Pa": "416",
         "Power": "8.5",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "485"
     },
     {
         "AirVolume": "74708",
         "Diameter": "1310",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-13",
         "No": "1101",
@@ -1309,12 +1310,12 @@
         "Pa": "600",
         "Power": "17",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "525"
     },
     {
         "AirVolume": "56031",
         "Diameter": "1310",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-13",
         "No": "1102",
@@ -1322,12 +1323,12 @@
         "Pa": "807",
         "Power": "8.5",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "525"
     },
     {
         "AirVolume": "71120",
         "Diameter": "1310",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-13",
         "No": "1103",
@@ -1335,12 +1336,12 @@
         "Pa": "672",
         "Power": "17",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "525"
     },
     {
         "AirVolume": "53340",
         "Diameter": "1310",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-13",
         "No": "1104",
@@ -1348,12 +1349,12 @@
         "Pa": "378",
         "Power": "8.5",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "525"
     },
     {
         "AirVolume": "65370",
         "Diameter": "1310",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-13",
         "No": "1105",
@@ -1361,12 +1362,12 @@
         "Pa": "710",
         "Power": "17",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "525"
     },
     {
         "AirVolume": "49027",
         "Diameter": "1310",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-13",
         "No": "1106",
@@ -1374,12 +1375,12 @@
         "Pa": "399",
         "Power": "8.5",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "525"
     },
     {
         "AirVolume": "61652",
         "Diameter": "1310",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-13",
         "No": "1107",
@@ -1387,12 +1388,12 @@
         "Pa": "765",
         "Power": "17",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "525"
     },
     {
         "AirVolume": "46989",
         "Diameter": "1310",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-13",
         "No": "1108",
@@ -1400,12 +1401,12 @@
         "Pa": "430",
         "Power": "8.5",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "525"
     },
     {
         "AirVolume": "56031",
         "Diameter": "1310",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-13",
         "No": "1109",
@@ -1413,12 +1414,12 @@
         "Pa": "807",
         "Power": "17",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "525"
     },
     {
         "AirVolume": "42023",
         "Diameter": "1310",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-13",
         "No": "1110",
@@ -1426,12 +1427,12 @@
         "Pa": "454",
         "Power": "8.5",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "525"
     },
     {
         "AirVolume": "85511",
         "Diameter": "1410",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-14",
         "No": "1111",
@@ -1439,12 +1440,12 @@
         "Pa": "612",
         "Power": "22",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "615"
     },
     {
         "AirVolume": "64133",
         "Diameter": "1410",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-14",
         "No": "1112",
@@ -1452,12 +1453,12 @@
         "Pa": "344",
         "Power": "11",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "615"
     },
     {
         "AirVolume": "79033",
         "Diameter": "1410",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-14",
         "No": "1113",
@@ -1465,12 +1466,12 @@
         "Pa": "676",
         "Power": "22",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "615"
     },
     {
         "AirVolume": "59275",
         "Diameter": "1410",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-14",
         "No": "1114",
@@ -1478,12 +1479,12 @@
         "Pa": "380",
         "Power": "11",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "615"
     },
     {
         "AirVolume": "74111",
         "Diameter": "1410",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-14",
         "No": "1115",
@@ -1491,12 +1492,12 @@
         "Pa": "718",
         "Power": "22",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "615"
     },
     {
         "AirVolume": "55583",
         "Diameter": "1410",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-14",
         "No": "1116",
@@ -1504,12 +1505,12 @@
         "Pa": "399",
         "Power": "11",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "615"
     },
     {
         "AirVolume": "68823",
         "Diameter": "1410",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-14",
         "No": "1117",
@@ -1517,12 +1518,12 @@
         "Pa": "768",
         "Power": "22",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "615"
     },
     {
         "AirVolume": "51617",
         "Diameter": "1410",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-14",
         "No": "1118",
@@ -1530,12 +1531,12 @@
         "Pa": "432",
         "Power": "11",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "615"
     },
     {
         "AirVolume": "63312",
         "Diameter": "1410",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-14",
         "No": "1119",
@@ -1543,12 +1544,12 @@
         "Pa": "812",
         "Power": "22",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "615"
     },
     {
         "AirVolume": "47484",
         "Diameter": "1410",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-14",
         "No": "1120",
@@ -1556,12 +1557,12 @@
         "Pa": "458",
         "Power": "11",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "615"
     },
     {
         "AirVolume": "93800",
         "Diameter": "1510",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-15",
         "No": "1121",
@@ -1569,12 +1570,12 @@
         "Pa": "623",
         "Power": "22",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "655"
     },
     {
         "AirVolume": "70350",
         "Diameter": "1510",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-15",
         "No": "1122",
@@ -1582,12 +1583,12 @@
         "Pa": "350",
         "Power": "11",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "655"
     },
     {
         "AirVolume": "90650",
         "Diameter": "1510",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-15",
         "No": "1123",
@@ -1595,12 +1596,12 @@
         "Pa": "676",
         "Power": "22",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "655"
     },
     {
         "AirVolume": "67988",
         "Diameter": "1510",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-15",
         "No": "1124",
@@ -1608,12 +1609,12 @@
         "Pa": "380",
         "Power": "11",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "655"
     },
     {
         "AirVolume": "86115",
         "Diameter": "1510",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-15",
         "No": "1125",
@@ -1621,12 +1622,12 @@
         "Pa": "710",
         "Power": "22",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "655"
     },
     {
         "AirVolume": "64586",
         "Diameter": "1510",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-15",
         "No": "1126",
@@ -1634,12 +1635,12 @@
         "Pa": "401",
         "Power": "11",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "655"
     },
     {
         "AirVolume": "82236",
         "Diameter": "1510",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-15",
         "No": "1127",
@@ -1647,12 +1648,12 @@
         "Pa": "772",
         "Power": "22",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "655"
     },
     {
         "AirVolume": "61677",
         "Diameter": "1510",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-15",
         "No": "1128",
@@ -1660,12 +1661,12 @@
         "Pa": "434",
         "Power": "11",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "655"
     },
     {
         "AirVolume": "76041",
         "Diameter": "1510",
+        "Gears": "高",
         "Length": "1150",
         "ModelNum": "HTF-II-15",
         "No": "1129",
@@ -1673,12 +1674,12 @@
         "Pa": "819",
         "Power": "22",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "655"
     },
     {
         "AirVolume": "57031",
         "Diameter": "1510",
+        "Gears": "低",
         "Length": "1150",
         "ModelNum": "HTF-II-15",
         "No": "1130",
@@ -1686,12 +1687,12 @@
         "Pa": "461",
         "Power": "11",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "655"
     },
     {
         "AirVolume": "120233",
         "Diameter": "1610",
+        "Gears": "高",
         "Length": "1250",
         "ModelNum": "HTF-II-16",
         "No": "1131",
@@ -1699,12 +1700,12 @@
         "Pa": "652",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "780"
     },
     {
         "AirVolume": "90175",
         "Diameter": "1610",
+        "Gears": "低",
         "Length": "1250",
         "ModelNum": "HTF-II-16",
         "No": "1132",
@@ -1712,12 +1713,12 @@
         "Pa": "366",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "780"
     },
     {
         "AirVolume": "113498",
         "Diameter": "1610",
+        "Gears": "高",
         "Length": "1250",
         "ModelNum": "HTF-II-16",
         "No": "1133",
@@ -1725,12 +1726,12 @@
         "Pa": "704",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "780"
     },
     {
         "AirVolume": "85116",
         "Diameter": "1610",
+        "Gears": "低",
         "Length": "1250",
         "ModelNum": "HTF-II-16",
         "No": "1134",
@@ -1738,12 +1739,12 @@
         "Pa": "396",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "780"
     },
     {
         "AirVolume": "109686",
         "Diameter": "1610",
+        "Gears": "高",
         "Length": "1250",
         "ModelNum": "HTF-II-16",
         "No": "1135",
@@ -1751,12 +1752,12 @@
         "Pa": "762",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "780"
     },
     {
         "AirVolume": "82265",
         "Diameter": "1610",
+        "Gears": "低",
         "Length": "1250",
         "ModelNum": "HTF-II-16",
         "No": "1136",
@@ -1764,12 +1765,12 @@
         "Pa": "428",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "780"
     },
     {
         "AirVolume": "99506",
         "Diameter": "1610",
+        "Gears": "高",
         "Length": "1250",
         "ModelNum": "HTF-II-16",
         "No": "1137",
@@ -1777,12 +1778,12 @@
         "Pa": "842",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "780"
     },
     {
         "AirVolume": "74630",
         "Diameter": "1610",
+        "Gears": "低",
         "Length": "1250",
         "ModelNum": "HTF-II-16",
         "No": "1138",
@@ -1790,12 +1791,12 @@
         "Pa": "473",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "780"
     },
     {
         "AirVolume": "91210",
         "Diameter": "1610",
+        "Gears": "高",
         "Length": "1250",
         "ModelNum": "HTF-II-16",
         "No": "1139",
@@ -1803,12 +1804,12 @@
         "Pa": "912",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "780"
     },
     {
         "AirVolume": "68408",
         "Diameter": "1610",
+        "Gears": "低",
         "Length": "1250",
         "ModelNum": "HTF-II-16",
         "No": "1140",
@@ -1816,12 +1817,12 @@
         "Pa": "513",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "780"
     },
     {
         "AirVolume": "12969",
         "Diameter": "610",
+        "Gears": "高",
         "Length": "850",
         "ModelNum": "HTF-Ⅳ-6",
         "No": "1141",
@@ -1829,12 +1830,12 @@
         "Pa": "579",
         "Power": "4.7",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "210"
     },
     {
         "AirVolume": "8586",
         "Diameter": "610",
+        "Gears": "低",
         "Length": "850",
         "ModelNum": "HTF-Ⅳ-6",
         "No": "1142",
@@ -1842,12 +1843,12 @@
         "Pa": "254",
         "Power": "1.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "210"
     },
     {
         "AirVolume": "12118",
         "Diameter": "610",
+        "Gears": "高",
         "Length": "850",
         "ModelNum": "HTF-Ⅳ-6",
         "No": "1143",
@@ -1855,12 +1856,12 @@
         "Pa": "631",
         "Power": "4.7",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "210"
     },
     {
         "AirVolume": "8023",
         "Diameter": "610",
+        "Gears": "低",
         "Length": "850",
         "ModelNum": "HTF-Ⅳ-6",
         "No": "1144",
@@ -1868,12 +1869,12 @@
         "Pa": "276",
         "Power": "1.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "210"
     },
     {
         "AirVolume": "10132",
         "Diameter": "610",
+        "Gears": "高",
         "Length": "850",
         "ModelNum": "HTF-Ⅳ-6",
         "No": "1145",
@@ -1881,12 +1882,12 @@
         "Pa": "798",
         "Power": "4.7",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "210"
     },
     {
         "AirVolume": "6708",
         "Diameter": "610",
+        "Gears": "低",
         "Length": "850",
         "ModelNum": "HTF-Ⅳ-6",
         "No": "1146",
@@ -1894,12 +1895,12 @@
         "Pa": "350",
         "Power": "1.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "210"
     },
     {
         "AirVolume": "7496",
         "Diameter": "610",
+        "Gears": "高",
         "Length": "850",
         "ModelNum": "HTF-Ⅳ-6",
         "No": "1147",
@@ -1907,12 +1908,12 @@
         "Pa": "838",
         "Power": "4.7",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "210"
     },
     {
         "AirVolume": "5272",
         "Diameter": "610",
+        "Gears": "低",
         "Length": "850",
         "ModelNum": "HTF-Ⅳ-6",
         "No": "1148",
@@ -1920,12 +1921,12 @@
         "Pa": "367",
         "Power": "1.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "210"
     },
     {
         "AirVolume": "6626",
         "Diameter": "610",
+        "Gears": "高",
         "Length": "850",
         "ModelNum": "HTF-Ⅳ-6",
         "No": "1149",
@@ -1933,12 +1934,12 @@
         "Pa": "850",
         "Power": "4.7",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "210"
     },
     {
         "AirVolume": "4387",
         "Diameter": "610",
+        "Gears": "低",
         "Length": "850",
         "ModelNum": "HTF-Ⅳ-6",
         "No": "1150",
@@ -1946,12 +1947,12 @@
         "Pa": "372",
         "Power": "1.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "210"
     },
     {
         "AirVolume": "27185",
         "Diameter": "710",
+        "Gears": "高",
         "Length": "920",
         "ModelNum": "HTF-Ⅳ-7",
         "No": "1151",
@@ -1959,12 +1960,12 @@
         "Pa": "788",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "270"
     },
     {
         "AirVolume": "17998",
         "Diameter": "710",
+        "Gears": "低",
         "Length": "920",
         "ModelNum": "HTF-Ⅳ-7",
         "No": "1152",
@@ -1972,12 +1973,12 @@
         "Pa": "345",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "270"
     },
     {
         "AirVolume": "25401",
         "Diameter": "710",
+        "Gears": "高",
         "Length": "920",
         "ModelNum": "HTF-Ⅳ-7",
         "No": "1153",
@@ -1985,12 +1986,12 @@
         "Pa": "860",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "270"
     },
     {
         "AirVolume": "16817",
         "Diameter": "710",
+        "Gears": "低",
         "Length": "920",
         "ModelNum": "HTF-Ⅳ-7",
         "No": "1154",
@@ -1998,12 +1999,12 @@
         "Pa": "376",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "270"
     },
     {
         "AirVolume": "21239",
         "Diameter": "710",
+        "Gears": "高",
         "Length": "920",
         "ModelNum": "HTF-Ⅳ-7",
         "No": "1155",
@@ -2011,12 +2012,12 @@
         "Pa": "1086",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "270"
     },
     {
         "AirVolume": "14061",
         "Diameter": "710",
+        "Gears": "低",
         "Length": "920",
         "ModelNum": "HTF-Ⅳ-7",
         "No": "1156",
@@ -2024,12 +2025,12 @@
         "Pa": "476",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "270"
     },
     {
         "AirVolume": "16693",
         "Diameter": "710",
+        "Gears": "高",
         "Length": "920",
         "ModelNum": "HTF-Ⅳ-7",
         "No": "1157",
@@ -2037,12 +2038,12 @@
         "Pa": "1141",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "270"
     },
     {
         "AirVolume": "11052",
         "Diameter": "710",
+        "Gears": "低",
         "Length": "920",
         "ModelNum": "HTF-Ⅳ-7",
         "No": "1158",
@@ -2050,12 +2051,12 @@
         "Pa": "500",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "270"
     },
     {
         "AirVolume": "13890",
         "Diameter": "710",
+        "Gears": "高",
         "Length": "920",
         "ModelNum": "HTF-Ⅳ-7",
         "No": "1159",
@@ -2063,12 +2064,12 @@
         "Pa": "1157",
         "Power": "12",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "270"
     },
     {
         "AirVolume": "9196",
         "Diameter": "710",
+        "Gears": "低",
         "Length": "920",
         "ModelNum": "HTF-Ⅳ-7",
         "No": "1160",
@@ -2076,12 +2077,12 @@
         "Pa": "507",
         "Power": "4",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "270"
     },
     {
         "AirVolume": "35381",
         "Diameter": "810",
+        "Gears": "高",
         "Length": "1000",
         "ModelNum": "HTF-Ⅳ-8",
         "No": "1161",
@@ -2089,12 +2090,12 @@
         "Pa": "826",
         "Power": "15.5",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "310"
     },
     {
         "AirVolume": "23424",
         "Diameter": "810",
+        "Gears": "低",
         "Length": "1000",
         "ModelNum": "HTF-Ⅳ-8",
         "No": "1162",
@@ -2102,12 +2103,12 @@
         "Pa": "362",
         "Power": "5.1",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "310"
     },
     {
         "AirVolume": "31703",
         "Diameter": "810",
+        "Gears": "高",
         "Length": "1000",
         "ModelNum": "HTF-Ⅳ-8",
         "No": "1163",
@@ -2115,12 +2116,12 @@
         "Pa": "1039",
         "Power": "15.5",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "310"
     },
     {
         "AirVolume": "20990",
         "Diameter": "810",
+        "Gears": "低",
         "Length": "1000",
         "ModelNum": "HTF-Ⅳ-8",
         "No": "1164",
@@ -2128,12 +2129,12 @@
         "Pa": "455",
         "Power": "5.1",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "310"
     },
     {
         "AirVolume": "28850",
         "Diameter": "810",
+        "Gears": "高",
         "Length": "1000",
         "ModelNum": "HTF-Ⅳ-8",
         "No": "1165",
@@ -2141,12 +2142,12 @@
         "Pa": "1083",
         "Power": "15.5",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "310"
     },
     {
         "AirVolume": "19100",
         "Diameter": "810",
+        "Gears": "低",
         "Length": "1000",
         "ModelNum": "HTF-Ⅳ-8",
         "No": "1166",
@@ -2154,12 +2155,12 @@
         "Pa": "474",
         "Power": "5.1",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "310"
     },
     {
         "AirVolume": "22825",
         "Diameter": "810",
+        "Gears": "高",
         "Length": "1000",
         "ModelNum": "HTF-Ⅳ-8",
         "No": "1167",
@@ -2167,12 +2168,12 @@
         "Pa": "1220",
         "Power": "15.5",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "310"
     },
     {
         "AirVolume": "15112",
         "Diameter": "810",
+        "Gears": "低",
         "Length": "1000",
         "ModelNum": "HTF-Ⅳ-8",
         "No": "1168",
@@ -2180,12 +2181,12 @@
         "Pa": "535",
         "Power": "5.1",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "310"
     },
     {
         "AirVolume": "17690",
         "Diameter": "810",
+        "Gears": "高",
         "Length": "1000",
         "ModelNum": "HTF-Ⅳ-8",
         "No": "1169",
@@ -2193,12 +2194,12 @@
         "Pa": "1304",
         "Power": "15.5",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "310"
     },
     {
         "AirVolume": "11712",
         "Diameter": "810",
+        "Gears": "低",
         "Length": "1000",
         "ModelNum": "HTF-Ⅳ-8",
         "No": "1170",
@@ -2206,12 +2207,12 @@
         "Pa": "571",
         "Power": "5.1",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "310"
     },
     {
         "AirVolume": "44488",
         "Diameter": "910",
+        "Gears": "高",
         "Length": "1050",
         "ModelNum": "HTF-Ⅳ-9",
         "No": "1171",
@@ -2219,12 +2220,12 @@
         "Pa": "1110",
         "Power": "24",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "340"
     },
     {
         "AirVolume": "29451",
         "Diameter": "910",
+        "Gears": "低",
         "Length": "1050",
         "ModelNum": "HTF-Ⅳ-9",
         "No": "1172",
@@ -2232,12 +2233,12 @@
         "Pa": "486",
         "Power": "8.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "340"
     },
     {
         "AirVolume": "42263",
         "Diameter": "910",
+        "Gears": "高",
         "Length": "1050",
         "ModelNum": "HTF-Ⅳ-9",
         "No": "1173",
@@ -2245,12 +2246,12 @@
         "Pa": "1233",
         "Power": "24",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "340"
     },
     {
         "AirVolume": "27978",
         "Diameter": "910",
+        "Gears": "低",
         "Length": "1050",
         "ModelNum": "HTF-Ⅳ-9",
         "No": "1174",
@@ -2258,12 +2259,12 @@
         "Pa": "540",
         "Power": "8.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "340"
     },
     {
         "AirVolume": "40150",
         "Diameter": "910",
+        "Gears": "高",
         "Length": "1050",
         "ModelNum": "HTF-Ⅳ-9",
         "No": "1175",
@@ -2271,12 +2272,12 @@
         "Pa": "1371",
         "Power": "24",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "340"
     },
     {
         "AirVolume": "26579",
         "Diameter": "910",
+        "Gears": "低",
         "Length": "1050",
         "ModelNum": "HTF-Ⅳ-9",
         "No": "1176",
@@ -2284,12 +2285,12 @@
         "Pa": "600",
         "Power": "8.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "340"
     },
     {
         "AirVolume": "38142",
         "Diameter": "910",
+        "Gears": "高",
         "Length": "1050",
         "ModelNum": "HTF-Ⅳ-9",
         "No": "1177",
@@ -2297,12 +2298,12 @@
         "Pa": "1415",
         "Power": "24",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "340"
     },
     {
         "AirVolume": "25250",
         "Diameter": "910",
+        "Gears": "低",
         "Length": "1050",
         "ModelNum": "HTF-Ⅳ-9",
         "No": "1178",
@@ -2310,12 +2311,12 @@
         "Pa": "620",
         "Power": "8.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "340"
     },
     {
         "AirVolume": "36276",
         "Diameter": "910",
+        "Gears": "高",
         "Length": "1050",
         "ModelNum": "HTF-Ⅳ-9",
         "No": "1179",
@@ -2323,12 +2324,12 @@
         "Pa": "1490",
         "Power": "24",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "340"
     },
     {
         "AirVolume": "24015",
         "Diameter": "910",
+        "Gears": "低",
         "Length": "1050",
         "ModelNum": "HTF-Ⅳ-9",
         "No": "1180",
@@ -2336,12 +2337,12 @@
         "Pa": "652",
         "Power": "8.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "340"
     },
     {
         "AirVolume": "53701",
         "Diameter": "1010",
+        "Gears": "高",
         "Length": "1100",
         "ModelNum": "HTF-Ⅳ-10",
         "No": "1181",
@@ -2349,12 +2350,12 @@
         "Pa": "984",
         "Power": "24",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "390"
     },
     {
         "AirVolume": "35550",
         "Diameter": "1010",
+        "Gears": "低",
         "Length": "1100",
         "ModelNum": "HTF-Ⅳ-10",
         "No": "1182",
@@ -2362,12 +2363,12 @@
         "Pa": "431",
         "Power": "8.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "390"
     },
     {
         "AirVolume": "51611",
         "Diameter": "1010",
+        "Gears": "高",
         "Length": "1100",
         "ModelNum": "HTF-Ⅳ-10",
         "No": "1183",
@@ -2375,12 +2376,12 @@
         "Pa": "1094",
         "Power": "24",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "390"
     },
     {
         "AirVolume": "34166",
         "Diameter": "1010",
+        "Gears": "低",
         "Length": "1100",
         "ModelNum": "HTF-Ⅳ-10",
         "No": "1184",
@@ -2388,12 +2389,12 @@
         "Pa": "479",
         "Power": "8.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "390"
     },
     {
         "AirVolume": "49431",
         "Diameter": "1010",
+        "Gears": "高",
         "Length": "1100",
         "ModelNum": "HTF-Ⅳ-10",
         "No": "1185",
@@ -2401,12 +2402,12 @@
         "Pa": "1215",
         "Power": "24",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "390"
     },
     {
         "AirVolume": "32723",
         "Diameter": "1010",
+        "Gears": "低",
         "Length": "1100",
         "ModelNum": "HTF-Ⅳ-10",
         "No": "1186",
@@ -2414,12 +2415,12 @@
         "Pa": "532",
         "Power": "8.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "390"
     },
     {
         "AirVolume": "44706",
         "Diameter": "1010",
+        "Gears": "高",
         "Length": "1100",
         "ModelNum": "HTF-Ⅳ-10",
         "No": "1187",
@@ -2427,12 +2428,12 @@
         "Pa": "1350",
         "Power": "24",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "390"
     },
     {
         "AirVolume": "29595",
         "Diameter": "1010",
+        "Gears": "低",
         "Length": "1100",
         "ModelNum": "HTF-Ⅳ-10",
         "No": "1188",
@@ -2440,12 +2441,12 @@
         "Pa": "591",
         "Power": "8.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "390"
     },
     {
         "AirVolume": "40798",
         "Diameter": "1010",
+        "Gears": "高",
         "Length": "1100",
         "ModelNum": "HTF-Ⅳ-10",
         "No": "1189",
@@ -2453,12 +2454,12 @@
         "Pa": "1437",
         "Power": "24",
         "Rpm": "1450",
-        "Gears": "高",
         "Weight": "390"
     },
     {
         "AirVolume": "27008",
         "Diameter": "1010",
+        "Gears": "低",
         "Length": "1100",
         "ModelNum": "HTF-Ⅳ-10",
         "No": "1190",
@@ -2466,12 +2467,12 @@
         "Pa": "629",
         "Power": "8.5",
         "Rpm": "960",
-        "Gears": "低",
         "Weight": "390"
     },
     {
         "AirVolume": "60096",
         "Diameter": "1110",
+        "Gears": "高",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-11",
         "No": "1191",
@@ -2479,12 +2480,12 @@
         "Pa": "1170",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "630"
     },
     {
         "AirVolume": "45072",
         "Diameter": "1110",
+        "Gears": "低",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-11",
         "No": "1192",
@@ -2492,12 +2493,12 @@
         "Pa": "658",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "630"
     },
     {
         "AirVolume": "57091",
         "Diameter": "1110",
+        "Gears": "高",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-11",
         "No": "1193",
@@ -2505,12 +2506,12 @@
         "Pa": "1232",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "630"
     },
     {
         "AirVolume": "42818",
         "Diameter": "1110",
+        "Gears": "低",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-11",
         "No": "1194",
@@ -2518,12 +2519,12 @@
         "Pa": "693",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "630"
     },
     {
         "AirVolume": "54236",
         "Diameter": "1110",
+        "Gears": "高",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-11",
         "No": "1195",
@@ -2531,12 +2532,12 @@
         "Pa": "1296",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "630"
     },
     {
         "AirVolume": "40677",
         "Diameter": "1110",
+        "Gears": "低",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-11",
         "No": "1196",
@@ -2544,12 +2545,12 @@
         "Pa": "729",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "630"
     },
     {
         "AirVolume": "51524",
         "Diameter": "1110",
+        "Gears": "高",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-11",
         "No": "1197",
@@ -2557,12 +2558,12 @@
         "Pa": "1365",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "630"
     },
     {
         "AirVolume": "38643",
         "Diameter": "1110",
+        "Gears": "低",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-11",
         "No": "1198",
@@ -2570,12 +2571,12 @@
         "Pa": "768",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "630"
     },
     {
         "AirVolume": "48948",
         "Diameter": "1110",
+        "Gears": "高",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-11",
         "No": "1199",
@@ -2583,12 +2584,12 @@
         "Pa": "1437",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "630"
     },
     {
         "AirVolume": "36711",
         "Diameter": "1110",
+        "Gears": "低",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-11",
         "No": "1200",
@@ -2596,12 +2597,12 @@
         "Pa": "808",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "630"
     },
     {
         "AirVolume": "70100",
         "Diameter": "1210",
+        "Gears": "高",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-12",
         "No": "1201",
@@ -2609,12 +2610,12 @@
         "Pa": "1205",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "750"
     },
     {
         "AirVolume": "52575",
         "Diameter": "1210",
+        "Gears": "低",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-12",
         "No": "1202",
@@ -2622,12 +2623,12 @@
         "Pa": "678",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "750"
     },
     {
         "AirVolume": "63090",
         "Diameter": "1210",
+        "Gears": "高",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-12",
         "No": "1203",
@@ -2635,12 +2636,12 @@
         "Pa": "1268",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "750"
     },
     {
         "AirVolume": "47318",
         "Diameter": "1210",
+        "Gears": "低",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-12",
         "No": "1204",
@@ -2648,12 +2649,12 @@
         "Pa": "713",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "750"
     },
     {
         "AirVolume": "56781",
         "Diameter": "1210",
+        "Gears": "高",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-12",
         "No": "1205",
@@ -2661,12 +2662,12 @@
         "Pa": "1335",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "750"
     },
     {
         "AirVolume": "42585",
         "Diameter": "1210",
+        "Gears": "低",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-12",
         "No": "1206",
@@ -2674,12 +2675,12 @@
         "Pa": "751",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "750"
     },
     {
         "AirVolume": "51102",
         "Diameter": "1210",
+        "Gears": "高",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-12",
         "No": "1207",
@@ -2687,12 +2688,12 @@
         "Pa": "1406",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "750"
     },
     {
         "AirVolume": "38326",
         "Diameter": "1210",
+        "Gears": "低",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-12",
         "No": "1208",
@@ -2700,12 +2701,12 @@
         "Pa": "791",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "750"
     },
     {
         "AirVolume": "45992",
         "Diameter": "1210",
+        "Gears": "高",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-12",
         "No": "1209",
@@ -2713,12 +2714,12 @@
         "Pa": "1480",
         "Power": "30",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "750"
     },
     {
         "AirVolume": "34494",
         "Diameter": "1210",
+        "Gears": "低",
         "Length": "1240",
         "ModelNum": "HTF-Ⅳ-12",
         "No": "1210",
@@ -2726,12 +2727,12 @@
         "Pa": "832",
         "Power": "15",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "750"
     },
     {
         "AirVolume": "88768",
         "Diameter": "1310",
+        "Gears": "高",
         "Length": "1350",
         "ModelNum": "HTF-Ⅳ-13",
         "No": "1211",
@@ -2739,12 +2740,12 @@
         "Pa": "990",
         "Power": "37",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "850"
     },
     {
         "AirVolume": "66576",
         "Diameter": "1310",
+        "Gears": "低",
         "Length": "1350",
         "ModelNum": "HTF-Ⅳ-13",
         "No": "1212",
@@ -2752,12 +2753,12 @@
         "Pa": "557",
         "Power": "18",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "850"
     },
     {
         "AirVolume": "79000",
         "Diameter": "1310",
+        "Gears": "高",
         "Length": "1350",
         "ModelNum": "HTF-Ⅳ-13",
         "No": "1213",
@@ -2765,12 +2766,12 @@
         "Pa": "1100",
         "Power": "37",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "850"
     },
     {
         "AirVolume": "59250",
         "Diameter": "1310",
+        "Gears": "低",
         "Length": "1350",
         "ModelNum": "HTF-Ⅳ-13",
         "No": "1214",
@@ -2778,12 +2779,12 @@
         "Pa": "618",
         "Power": "18",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "850"
     },
     {
         "AirVolume": "70130",
         "Diameter": "1310",
+        "Gears": "高",
         "Length": "1350",
         "ModelNum": "HTF-Ⅳ-13",
         "No": "1215",
@@ -2791,12 +2792,12 @@
         "Pa": "1223",
         "Power": "37",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "850"
     },
     {
         "AirVolume": "52598",
         "Diameter": "1310",
+        "Gears": "低",
         "Length": "1350",
         "ModelNum": "HTF-Ⅳ-13",
         "No": "1216",
@@ -2804,12 +2805,12 @@
         "Pa": "688",
         "Power": "18",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "850"
     },
     {
         "AirVolume": "62578",
         "Diameter": "1310",
+        "Gears": "高",
         "Length": "1350",
         "ModelNum": "HTF-Ⅳ-13",
         "No": "1217",
@@ -2817,12 +2818,12 @@
         "Pa": "1359",
         "Power": "37",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "850"
     },
     {
         "AirVolume": "46934",
         "Diameter": "1310",
+        "Gears": "低",
         "Length": "1350",
         "ModelNum": "HTF-Ⅳ-13",
         "No": "1218",
@@ -2830,12 +2831,12 @@
         "Pa": "764",
         "Power": "18",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "850"
     },
     {
         "AirVolume": "56320",
         "Diameter": "1310",
+        "Gears": "高",
         "Length": "1350",
         "ModelNum": "HTF-Ⅳ-13",
         "No": "1219",
@@ -2843,12 +2844,12 @@
         "Pa": "1510",
         "Power": "37",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "850"
     },
     {
         "AirVolume": "42240",
         "Diameter": "1310",
+        "Gears": "低",
         "Length": "1350",
         "ModelNum": "HTF-Ⅳ-13",
         "No": "1220",
@@ -2856,12 +2857,12 @@
         "Pa": "849",
         "Power": "18",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "850"
     },
     {
         "AirVolume": "90259",
         "Diameter": "1410",
+        "Gears": "高",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-14",
         "No": "1221",
@@ -2869,12 +2870,12 @@
         "Pa": "1028",
         "Power": "45",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "930"
     },
     {
         "AirVolume": "67694",
         "Diameter": "1410",
+        "Gears": "低",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-14",
         "No": "1222",
@@ -2882,12 +2883,12 @@
         "Pa": "578",
         "Power": "22",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "930"
     },
     {
         "AirVolume": "83362",
         "Diameter": "1410",
+        "Gears": "高",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-14",
         "No": "1223",
@@ -2895,12 +2896,12 @@
         "Pa": "1143",
         "Power": "45",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "930"
     },
     {
         "AirVolume": "62522",
         "Diameter": "1410",
+        "Gears": "低",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-14",
         "No": "1224",
@@ -2908,12 +2909,12 @@
         "Pa": "643",
         "Power": "22",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "930"
     },
     {
         "AirVolume": "76872",
         "Diameter": "1410",
+        "Gears": "高",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-14",
         "No": "1225",
@@ -2921,12 +2922,12 @@
         "Pa": "1270",
         "Power": "45",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "930"
     },
     {
         "AirVolume": "57654",
         "Diameter": "1410",
+        "Gears": "低",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-14",
         "No": "1226",
@@ -2934,12 +2935,12 @@
         "Pa": "714",
         "Power": "22",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "930"
     },
     {
         "AirVolume": "68150",
         "Diameter": "1410",
+        "Gears": "高",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-14",
         "No": "1227",
@@ -2947,12 +2948,12 @@
         "Pa": "1411",
         "Power": "45",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "930"
     },
     {
         "AirVolume": "51113",
         "Diameter": "1410",
+        "Gears": "低",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-14",
         "No": "1228",
@@ -2960,12 +2961,12 @@
         "Pa": "794",
         "Power": "22",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "930"
     },
     {
         "AirVolume": "58009",
         "Diameter": "1410",
+        "Gears": "高",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-14",
         "No": "1229",
@@ -2973,12 +2974,12 @@
         "Pa": "1586",
         "Power": "45",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "930"
     },
     {
         "AirVolume": "43506",
         "Diameter": "1410",
+        "Gears": "低",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-14",
         "No": "1230",
@@ -2986,12 +2987,12 @@
         "Pa": "882",
         "Power": "22",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "930"
     },
     {
         "AirVolume": "116520",
         "Diameter": "1510",
+        "Gears": "高",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-15",
         "No": "1231",
@@ -2999,12 +3000,12 @@
         "Pa": "912",
         "Power": "45",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "970"
     },
     {
         "AirVolume": "87390",
         "Diameter": "1510",
+        "Gears": "低",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-15",
         "No": "1232",
@@ -3012,12 +3013,12 @@
         "Pa": "513",
         "Power": "22",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "970"
     },
     {
         "AirVolume": "105820",
         "Diameter": "1510",
+        "Gears": "高",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-15",
         "No": "1233",
@@ -3025,12 +3026,12 @@
         "Pa": "1052",
         "Power": "45",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "970"
     },
     {
         "AirVolume": "79365",
         "Diameter": "1510",
+        "Gears": "低",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-15",
         "No": "1234",
@@ -3038,12 +3039,12 @@
         "Pa": "592",
         "Power": "22",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "970"
     },
     {
         "AirVolume": "96448",
         "Diameter": "1510",
+        "Gears": "高",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-15",
         "No": "1235",
@@ -3051,12 +3052,12 @@
         "Pa": "1168",
         "Power": "45",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "970"
     },
     {
         "AirVolume": "72336",
         "Diameter": "1510",
+        "Gears": "低",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-15",
         "No": "1236",
@@ -3064,12 +3065,12 @@
         "Pa": "657",
         "Power": "22",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "970"
     },
     {
         "AirVolume": "90460",
         "Diameter": "1510",
+        "Gears": "高",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-15",
         "No": "1237",
@@ -3077,12 +3078,12 @@
         "Pa": "1278",
         "Power": "45",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "970"
     },
     {
         "AirVolume": "67845",
         "Diameter": "1510",
+        "Gears": "低",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-15",
         "No": "1238",
@@ -3090,12 +3091,12 @@
         "Pa": "719",
         "Power": "22",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "970"
     },
     {
         "AirVolume": "82645",
         "Diameter": "1510",
+        "Gears": "高",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-15",
         "No": "1239",
@@ -3103,12 +3104,12 @@
         "Pa": "1412",
         "Power": "45",
         "Rpm": "960",
-        "Gears": "高",
         "Weight": "970"
     },
     {
         "AirVolume": "61984",
         "Diameter": "1510",
+        "Gears": "低",
         "Length": "1450",
         "ModelNum": "HTF-Ⅳ-15",
         "No": "1240",
@@ -3116,7 +3117,6 @@
         "Pa": "794",
         "Power": "22",
         "Rpm": "720",
-        "Gears": "低",
         "Weight": "970"
     }
 ]
