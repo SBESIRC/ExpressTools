@@ -1559,14 +1559,6 @@ namespace TianHua.FanSelection.UI
             ExcelExportEngine.Instance.Targetsheet = targetsheet;
             _List.ForEach(p =>
             {
-                var model = p.FanVolumeModel;
-                
-                if (!model.IsNull())
-                {
-                    ExcelExportEngine.Instance.Model = p;
-                    ExcelExportEngine.Instance.Run();
-                }
-
                 if (p.FanModelName == string.Empty || p.FanModelName == "无此风机") { return; }
                 var _FanPrefixDict = PubVar.g_ListFanPrefixDict.Find(s => s.FanUse == p.Scenario);
                 if (_FanPrefixDict == null) return;
@@ -1604,6 +1596,13 @@ namespace TianHua.FanSelection.UI
                 }
 
                 _Sheet.Cells[i, 23] = p.FanModelPower;
+
+                var model = p.FanVolumeModel;
+                if (!model.IsNull())
+                {
+                    ExcelExportEngine.Instance.Model = p;
+                    ExcelExportEngine.Instance.Run();
+                }
 
                 i++;
             });
