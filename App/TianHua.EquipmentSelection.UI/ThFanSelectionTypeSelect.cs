@@ -58,42 +58,12 @@ namespace TianHua.FanSelection.UI
         //获取指定polyline上所有顶点中与指定点最近的一个顶点
         public static Point3d CloseVertice(Polyline poly, Point3d typepoint)
         {
-            Ray xRay = new Ray();
-            xRay.BasePoint = typepoint;
-            xRay.UnitDir = Vector3d.YAxis;
-            Point3dCollection intersectpointcoll = new Point3dCollection();
-            IntPtr ptr = new IntPtr();
-            poly.IntersectWith(xRay, Intersect.OnBothOperands, intersectpointcoll, ptr, ptr);
-            //对于沿Y轴呈S型的Polyline,此时射线与polyline有多个交点，暂时不支持
-            if (intersectpointcoll.Count > 1)
-            {
-                throw new NotSupportedException();
-            }
-            else if (intersectpointcoll.Count == 0)
+            var verticescoll = poly.GetPolyPoints().ToList();
+            if (verticescoll.All(p => p.X < typepoint.X))
             {
                 return new Point3d();
             }
-            Point3d pointinline = intersectpointcoll[0];
-
-            var verticescoll = poly.GetPolyPoints().ToList();
-
-            Point3d closepoint = new Point3d();
-            double mindistance = -1;
-            foreach (Point3d pt in verticescoll)
-            {
-                double dist = pt.DistanceTo(pointinline);
-                //不考虑位于性能点左侧的曲线顶点
-                if (pt.X < typepoint.X)
-                {
-                    continue;
-                }
-                if (mindistance == -1 || dist < mindistance)
-                {
-                    closepoint = pt;
-                    mindistance = dist;
-                }
-            }
-            return closepoint;
+            return verticescoll.Where(p => p.X >= typepoint.X).OrderBy(p => p.X).First();
         }
 
         public static Point3d MinVertextInPoly(this Polyline poly)
