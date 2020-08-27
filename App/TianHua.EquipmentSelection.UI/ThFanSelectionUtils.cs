@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace TianHua.FanSelection.UI
 {
@@ -103,8 +104,27 @@ namespace TianHua.FanSelection.UI
         /// <returns></returns>
         public static string AXIALModelName(string model, string mount)
         {
-            // 去除”风机型号”的最后一个字母
-            string modelName = model.Substring(0, model.Length - 1);
+            // 寻找最后一个"-"
+            string modelName = string.Empty;
+            int index = model.LastIndexOf('-');
+            if (index == -1)
+            {
+                modelName = model;
+            }
+            else
+            {
+                // "数字+字母"的形式
+                string suffix = model.Substring(index + 1, model.Length - index -1);
+                Match match = Regex.Match(suffix, @"^([0-9]*(?:\.[0-9]*)?)([A-Z]+)$");
+                if (match.Success)
+                {
+                    modelName = model.Substring(0, index + 1) + match.Groups[1].Value;
+                }
+                else
+                {
+                    modelName = model;
+                }
+            }
             if (mount == ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST)
             {
                 return string.Format("{0}（{1}）", modelName, ThFanSelectionCommon.AXIAL_MODEL_NAME_SUFFIX);
