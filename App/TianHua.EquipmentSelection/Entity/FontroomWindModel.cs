@@ -51,7 +51,7 @@ namespace TianHua.FanSelection.Model
             {
                 double Af = (double)Length_Valve * Width_Valve/1000000;
                 int N3 = (Count_Floor - 3 > 0) ? (Count_Floor - 3) : 0;
-                return 0.083 * Af * N3 * 3600;
+                return Math.Round(0.083 * Af * N3 * 3600);
             }
         }
         /// <summary>
@@ -61,7 +61,7 @@ namespace TianHua.FanSelection.Model
         {
             get
             {
-                return DoorOpeningVolume + LeakVolume;
+                return Math.Round(DoorOpeningVolume + LeakVolume);
             }
         }
 
