@@ -148,6 +148,16 @@ namespace TianHua.FanSelection.UI
         }
 
         /// <summary>
+        /// 是否为离心风机
+        /// </summary>
+        /// <param name="style"></param>
+        /// <returns></returns>
+        public static bool IsHTFCModelStyle(string style)
+        {
+            return style.Contains(ThFanSelectionCommon.HTFC_TYPE_NAME);
+        }
+
+        /// <summary>
         /// 获取离心风机图块名
         /// </summary>
         /// <param name="style"></param>

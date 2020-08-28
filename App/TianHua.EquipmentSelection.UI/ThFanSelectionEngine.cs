@@ -173,12 +173,12 @@ namespace TianHua.FanSelection.UI
 
         public static bool IsHTFCModel(FanDataModel dataModel)
         {
-            return dataModel.VentStyle.Contains(ThFanSelectionCommon.HTFC_TYPE_NAME);
+            return ThFanSelectionUtils.IsHTFCModelStyle(dataModel.VentStyle);
         }
 
         public static bool IsModelStyleChanged(ObjectId model, FanDataModel dataModel)
         {
-            return model.GetModelStyle() != dataModel.VentStyle;
+            return ThFanSelectionUtils.IsHTFCModelStyle(model.GetModelStyle()) ^ IsHTFCModel(dataModel);
         }
 
         public static bool IsModelNameChanged(ObjectId model, FanDataModel dataModel)
