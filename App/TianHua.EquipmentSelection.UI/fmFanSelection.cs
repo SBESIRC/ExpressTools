@@ -1752,21 +1752,19 @@ namespace TianHua.FanSelection.UI
                         return;
                     }
 
-                    bool bModified = false;
+                    // 风机图块变化
+                    if (ThFanSelectionEngine.IsModelBlockNameChanged(model, _FanDataModel))
+                    {
+                        ThFanSelectionEngine.ReplaceModelsInplace(_FanDataModel);
+                        return;
+                    }
 
-                    // 风机模型名称变化
+                    // 风机规格和型号变化
+                    bool bModified = false;
                     if (ThFanSelectionEngine.IsModelNameChanged(model, _FanDataModel))
                     {
-                        if (ThFanSelectionEngine.IsHTFCModel(_FanDataModel))
-                        {
-                            ThFanSelectionEngine.ReplaceModelsInplace(_FanDataModel);
-                            return;
-                        }
-                        else
-                        {
-                            bModified = true;
-                            ThFanSelectionEngine.ModifyModelNames(_FanDataModel);
-                        }
+                        bModified = true;
+                        ThFanSelectionEngine.ModifyModelNames(_FanDataModel);
                     }
 
                     // 参数变化

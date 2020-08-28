@@ -1,4 +1,5 @@
 ﻿using AcHelper;
+using DotNetARX;
 using Linq2Acad;
 using System.Linq;
 using Autodesk.AutoCAD.Geometry;
@@ -190,6 +191,11 @@ namespace TianHua.FanSelection.UI
             {
                 return model.GetModelName() != ThFanSelectionUtils.HTFCModelName(dataModel.VentStyle, dataModel.IntakeForm, dataModel.FanModelNum);
             }
+        }
+
+        public static bool IsModelBlockNameChanged(ObjectId model, FanDataModel dataModel)
+        {
+            return model.GetBlockName() != BlockName(dataModel);
         }
 
         public static void ZoomToModels(FanDataModel dataModel)

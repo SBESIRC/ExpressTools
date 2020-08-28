@@ -167,9 +167,9 @@ namespace TianHua.FanSelection.UI
                                 {
                                     switch (mount)
                                     {
-                                        case "地面":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_FLOOR:
                                             return "离心风机(电机外置、直进直出、有基础)";
-                                        case "吊装":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST:
                                             return "离心风机(电机外置、直进直出、无基础)";
                                         default:
                                             throw new NotSupportedException();
@@ -179,9 +179,9 @@ namespace TianHua.FanSelection.UI
                                 {
                                     switch (mount)
                                     {
-                                        case "地面":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_FLOOR:
                                             return "离心风机(电机外置、侧进直出、有基础)";
-                                        case "吊装":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST:
                                             return "离心风机(电机外置、侧进直出、无基础)";
                                         default:
                                             throw new NotSupportedException();
@@ -191,9 +191,9 @@ namespace TianHua.FanSelection.UI
                                 {
                                     switch (mount)
                                     {
-                                        case "地面":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_FLOOR:
                                             return "离心风机(电机外置、上进直出、有基础)";
-                                        case "吊装":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST:
                                             return "离心风机(电机外置、上进直出、无基础)";
                                         default:
                                             throw new NotSupportedException();
@@ -203,9 +203,9 @@ namespace TianHua.FanSelection.UI
                                 {
                                     switch (mount)
                                     {
-                                        case "地面":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_FLOOR:
                                             return "离心风机(电机外置、直进上出、有基础)";
-                                        case "吊装":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST:
                                             return "离心风机(电机外置、直进上出、无基础)";
                                         default:
                                             throw new NotSupportedException();
@@ -215,9 +215,9 @@ namespace TianHua.FanSelection.UI
                                 {
                                     switch (mount)
                                     {
-                                        case "地面":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_FLOOR:
                                             return "离心风机(电机外置、直进下出、有基础)";
-                                        case "吊装":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST:
                                             return "离心风机(电机外置、直进下出、无基础)";
                                         default:
                                             throw new NotSupportedException();
@@ -227,9 +227,9 @@ namespace TianHua.FanSelection.UI
                                 {
                                     switch (mount)
                                     {
-                                        case "地面":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_FLOOR:
                                             return "离心风机(电机外置、下进直出、有基础)";
-                                        case "吊装":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST:
                                             return "离心风机(电机外置、下进直出、无基础)";
                                         default:
                                             throw new NotSupportedException();
@@ -248,9 +248,9 @@ namespace TianHua.FanSelection.UI
                                 {
                                     switch (mount)
                                     {
-                                        case "地面":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_FLOOR:
                                             return "离心风机(电机内置、直进直出、有基础)";
-                                        case "吊装":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST:
                                             return "离心风机(电机内置、直进直出、无基础)";
                                         default:
                                             throw new NotSupportedException();
@@ -260,9 +260,9 @@ namespace TianHua.FanSelection.UI
                                 {
                                     switch (mount)
                                     {
-                                        case "地面":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_FLOOR:
                                             return "离心风机(电机内置、侧进直出、有基础)";
-                                        case "吊装":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST:
                                             return "离心风机(电机内置、侧进直出、无基础)";
                                         default:
                                             throw new NotSupportedException();
@@ -272,9 +272,9 @@ namespace TianHua.FanSelection.UI
                                 {
                                     switch (mount)
                                     {
-                                        case "地面":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_FLOOR:
                                             return "离心风机(电机内置、上进直出、有基础)";
-                                        case "吊装":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST:
                                             return "离心风机(电机内置、上进直出、无基础)";
                                         default:
                                             throw new NotSupportedException();
@@ -284,9 +284,9 @@ namespace TianHua.FanSelection.UI
                                 {
                                     switch (mount)
                                     {
-                                        case "地面":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_FLOOR:
                                             return "离心风机(电机内置、直进上出、有基础)";
-                                        case "吊装":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST:
                                             return "离心风机(电机内置、直进上出、无基础)";
                                         default:
                                             throw new NotSupportedException();
@@ -296,9 +296,9 @@ namespace TianHua.FanSelection.UI
                                 {
                                     switch (mount)
                                     {
-                                        case "地面":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_FLOOR:
                                             return "离心风机(电机内置、直进下出、有基础)";
-                                        case "吊装":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST:
                                             return "离心风机(电机内置、直进下出、无基础)";
                                         default:
                                             throw new NotSupportedException();
@@ -308,9 +308,9 @@ namespace TianHua.FanSelection.UI
                                 {
                                     switch (mount)
                                     {
-                                        case "地面":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_FLOOR:
                                             return "离心风机(电机内置、下进直出、有基础)";
-                                        case "吊装":
+                                        case ThFanSelectionCommon.BLOCK_ATTRIBUTE_VALUE_MOUNT_HOIST:
                                             return "离心风机(电机内置、下进直出、无基础)";
                                         default:
                                             throw new NotSupportedException();
