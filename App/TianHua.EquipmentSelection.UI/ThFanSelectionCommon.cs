@@ -51,7 +51,8 @@ namespace TianHua.FanSelection.UI
         // 风机块动态属性
         public static readonly string BLOCK_DYNAMIC_PROPERTY_ANGLE1 = "角度1";
         public static readonly string BLOCK_DYNAMIC_PROPERTY_ANGLE2 = "角度2";
-        public static readonly string BLOCK_DYNAMIC_PROPERTY_ROTATE = "翻转状态1";
+        public static readonly string BLOCK_DYNAMIC_PROPERTY_ROTATE1 = "翻转状态1";
+        public static readonly string BLOCK_DYNAMIC_PROPERTY_ROTATE2 = "翻转状态2";
         public static readonly string BLOCK_DYNAMIC_PROPERTY_POSITION1_X = "位置1 X";
         public static readonly string BLOCK_DYNAMIC_PROPERTY_POSITION1_Y = "位置1 Y";
         public static readonly string BLOCK_DYNAMIC_PROPERTY_SPECIFICATION_MODEL = "规格及型号";
