@@ -34,6 +34,7 @@ namespace TianHua.FanSelection.UI
         public static readonly string BLOCK_ATTRIBUTE_FAN_VOLUME = "风量";
         public static readonly string BLOCK_ATTRIBUTE_FAN_PRESSURE = "全压";
         public static readonly string BLOCK_ATTRIBUTE_FAN_CHARGE = "电量";
+        public static readonly string BLOCK_ATTRIBUTE_FAN_REMARK = "备注";
         public static readonly string BLOCK_ATTRIBUTE_FIXED_FREQUENCY = "定频";
         public static readonly string BLOCK_ATTRIBUTE_FIRE_POWER_SUPPLY = "消防电源";
 
