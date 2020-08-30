@@ -58,6 +58,7 @@
     <Compile Include="ExcelExport\RefugeFontRoomExportWorker.cs" />
     <Compile Include="ExcelExport\StaircaseAirExportWorker.cs" />
     <Compile Include="ExcelExport\StaircaseNoAirExportWorker.cs" />
+    <Compile Include="Validation\FanDataModelValidator.cs" />
     <Compile Include="ViewModels\Excl2JsonViewModels.cs" />
     <Compile Include="Entity\ExportFanParaModel.cs" />
     <Compile Include="Entity\FanDataModel.cs" />
@@ -114,5 +115,27 @@
   <ItemGroup>
     <None Include="Resources\向下加一行.png" />
   </ItemGroup>
+  <Choose>
+    <When Condition="$(DefineConstants.Contains('ACAD2012'))">
+      <ItemGroup>
+        <PackageReference Include="FluentValidation" Version="6.2.1" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('ACAD2014'))">
+      <ItemGroup>
+        <PackageReference Include="FluentValidation" Version="6.2.1" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('ACAD2016'))">
+      <ItemGroup>
+        <PackageReference Include="FluentValidation" Version="8.6.2" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('ACAD2018'))">
+      <ItemGroup>
+        <PackageReference Include="FluentValidation" Version="8.6.2" />
+      </ItemGroup>
+    </When>
+  </Choose>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
