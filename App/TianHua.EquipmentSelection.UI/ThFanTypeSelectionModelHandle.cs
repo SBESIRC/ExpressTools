@@ -65,7 +65,7 @@ namespace TianHua.FanSelection.UI
             if (allpolys == null) { return false; }
             Polyline currenttypepoly = allpolys[typepoly.First().Key];
 
-            return ThFanSelectionTypeSelect.IfTypePointSafety(currenttypepoly, new Point3d(typepointxyz[0], typepointxyz[1], typepointxyz[2]));
+            return !ThFanSelectionTypeSelect.IfTypePointSafety(currenttypepoly, new Point3d(typepointxyz[0], typepointxyz[1], typepointxyz[2]));
         }
 
         public static Dictionary<string, Polyline> GetAxialPolyFromeModel(List<AxialFanParameters> jasonmodels)
@@ -123,7 +123,7 @@ namespace TianHua.FanSelection.UI
             if (allpolys == null) { return false; }
             Polyline currenttypepoly = allpolys[typepoly.First().Key];
 
-            return ThFanSelectionTypeSelect.IfTypePointSafety(currenttypepoly,new Point3d(typepointxyz[0], typepointxyz[1], typepointxyz[2]));
+            return !ThFanSelectionTypeSelect.IfTypePointSafety(currenttypepoly,new Point3d(typepointxyz[0], typepointxyz[1], typepointxyz[2]));
         }
 
     }
