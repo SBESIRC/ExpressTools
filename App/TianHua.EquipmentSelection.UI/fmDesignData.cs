@@ -115,7 +115,7 @@ namespace TianHua.FanSelection.UI
         private string GetPath(FanDesignDataModel _FanDesign)
         {
             if (_FanDesign == null || FuncStr.NullToStr(_FanDesign.Name) == string.Empty) { return string.Empty; }
-            return Path.Combine("..\\", FuncStr.NullToStr(_FanDesign.Name) + ".json");
+            return Path.Combine(".\\", FuncStr.NullToStr(_FanDesign.Name) + ".json");
         }
 
         private void fmDesignData_Load(object sender, EventArgs e)
