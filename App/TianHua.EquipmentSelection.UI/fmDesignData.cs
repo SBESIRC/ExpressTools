@@ -22,6 +22,8 @@ namespace TianHua.FanSelection.UI
 
         public FanDesignDataModel m_FanDesign { get; set; }
 
+        public FanDesignDataModel m_CurrentFanDesign { get; set; }
+
         [DllImport("user32.dll")]
         private static extern void keybd_event(byte bVk, byte bSCan, int dwFlags, int dwExtraInfo);
 
@@ -36,11 +38,12 @@ namespace TianHua.FanSelection.UI
             InitializeComponent();
         }
 
-        public void InitForm(List<FanDesignDataModel> _ListFanDesign, string _ActionType, string _Path)
+        public void InitForm(List<FanDesignDataModel> _ListFanDesign, string _ActionType, string _Path, FanDesignDataModel _FanDesignDataModel)
         {
             m_Path = _Path;
             m_ActionType = _ActionType;
             m_ListFanDesign = _ListFanDesign;
+            m_CurrentFanDesign = _FanDesignDataModel;
             if (m_ListFanDesign == null) m_ListFanDesign = new List<FanDesignDataModel>();
 
             if (m_ActionType == "保存")
@@ -112,7 +115,7 @@ namespace TianHua.FanSelection.UI
         private string GetPath(FanDesignDataModel _FanDesign)
         {
             if (_FanDesign == null || FuncStr.NullToStr(_FanDesign.Name) == string.Empty) { return string.Empty; }
-            return Path.Combine(m_Path, FuncStr.NullToStr(_FanDesign.Name) + ".json");
+            return Path.Combine("..\\", FuncStr.NullToStr(_FanDesign.Name) + ".json");
         }
 
         private void fmDesignData_Load(object sender, EventArgs e)
@@ -126,13 +129,17 @@ namespace TianHua.FanSelection.UI
             if (m_ListFanDesign == null || m_ListFanDesign.Count == 0) return;
             if (m_ActionType == "另存") { return; }
             var _FanDesign = Gdv.GetRow(Gdv.FocusedRowHandle) as FanDesignDataModel;
+            if (m_CurrentFanDesign.ID == _FanDesign.ID) { XtraMessageBox.Show(" 当前打开文件无法进行删除！ ", "提示"); return; }
             if (_FanDesign.Status == "1") { XtraMessageBox.Show(" 未保存文件无法进行删除！ ", "提示"); return; }
             if (XtraMessageBox.Show(" 设计数据[" + _FanDesign.Name + "]将被删除，是否继续？ ", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 File.Delete(_FanDesign.Path);
                 m_ListFanDesign.Remove(_FanDesign);
                 Gdc.DataSource = m_ListFanDesign;
+        
                 Gdv.RefreshData();
+                Gdv.FocusedColumn = ColLastOperationName;
+                Gdv.FocusedColumn = ColName;
             }
 
 
@@ -170,7 +177,11 @@ namespace TianHua.FanSelection.UI
         {
             if (e.Column.FieldName == "Name")
             {
+               
                 var _FanDesign = Gdv.GetRow(Gdv.FocusedRowHandle) as FanDesignDataModel;
+
+                if (m_CurrentFanDesign != null && m_CurrentFanDesign.ID == _FanDesign.ID) { return; }
+
                 _FanDesign.Path = GetPath(m_FanDesign);
             }
         }
