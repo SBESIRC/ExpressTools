@@ -115,7 +115,7 @@ namespace TianHua.FanSelection.UI
         private string GetPath(FanDesignDataModel _FanDesign)
         {
             if (_FanDesign == null || FuncStr.NullToStr(_FanDesign.Name) == string.Empty) { return string.Empty; }
-            return Path.Combine(".\\", FuncStr.NullToStr(_FanDesign.Name) + ".json");
+            return Path.Combine(m_Path, FuncStr.NullToStr(_FanDesign.Name) + ".json");
         }
 
         private void fmDesignData_Load(object sender, EventArgs e)
@@ -136,7 +136,7 @@ namespace TianHua.FanSelection.UI
                 File.Delete(_FanDesign.Path);
                 m_ListFanDesign.Remove(_FanDesign);
                 Gdc.DataSource = m_ListFanDesign;
-        
+
                 Gdv.RefreshData();
                 Gdv.FocusedColumn = ColLastOperationName;
                 Gdv.FocusedColumn = ColName;
@@ -177,7 +177,7 @@ namespace TianHua.FanSelection.UI
         {
             if (e.Column.FieldName == "Name")
             {
-               
+
                 var _FanDesign = Gdv.GetRow(Gdv.FocusedRowHandle) as FanDesignDataModel;
 
                 if (m_CurrentFanDesign != null && m_CurrentFanDesign.ID == _FanDesign.ID) { return; }
