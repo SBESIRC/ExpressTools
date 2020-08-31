@@ -72,7 +72,7 @@ namespace TianHua.FanSelection.UI
             return verticescoll.OrderBy(q=>q.Y).First();
         }
 
-        public static bool IfTypepoSmaller(Polyline poly, Point3d typepoint)
+        public static bool IfTypePointSafety(Polyline poly, Point3d typepoint)
         {
             if (typepoint.Y <= poly.MinVertextInPoly().Y)
             {
