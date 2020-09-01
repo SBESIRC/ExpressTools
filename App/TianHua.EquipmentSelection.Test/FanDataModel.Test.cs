@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
 using TianHua.FanSelection;
+using TianHua.FanSelection.Function;
 
 namespace TianHua.EquipmentSelection.Test
 {
@@ -18,6 +20,18 @@ namespace TianHua.EquipmentSelection.Test
                 Scenario = "平时送风"
             };
             Assert.AreEqual("SF-4-F2-2", model.FanNum);
+        }
+    }
+
+    [TestFixture]
+    public class VentSNCalculatorTest
+    {
+        [Test]
+        public void SequenceTest()
+        {
+            var calculator = new VentSNCalculator("1-5,7,9");
+            Assert.AreEqual(7, calculator.SerialNumbers.Count);
+            Assert.AreEqual(new List<int>() { 1, 2, 3, 4, 5, 7, 9 }, calculator.SerialNumbers);
         }
     }
 }

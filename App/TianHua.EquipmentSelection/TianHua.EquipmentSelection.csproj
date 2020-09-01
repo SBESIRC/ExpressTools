@@ -58,6 +58,7 @@
     <Compile Include="ExcelExport\RefugeFontRoomExportWorker.cs" />
     <Compile Include="ExcelExport\StaircaseAirExportWorker.cs" />
     <Compile Include="ExcelExport\StaircaseNoAirExportWorker.cs" />
+    <Compile Include="Function\VentSNCalculator.cs" />
     <Compile Include="ViewModels\Excl2JsonViewModels.cs" />
     <Compile Include="Entity\ExportFanParaModel.cs" />
     <Compile Include="Entity\FanDataModel.cs" />
@@ -75,9 +76,7 @@
     <Compile Include="PubVar.cs" />
     <Compile Include="View\IFanSelection.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Function\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

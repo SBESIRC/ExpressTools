@@ -8,7 +8,6 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using TianHua.Publics.BaseCode;
 using Microsoft.Office.Interop.Excel;
@@ -18,7 +17,7 @@ using Linq2Acad;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using DevExpress.LookAndFeel;
 using System.Drawing;
-using TianHua.FanSelection.Model;
+using TianHua.FanSelection.Function;
 using TianHua.FanSelection.ExcelExport;
 
 namespace TianHua.FanSelection.UI
@@ -357,56 +356,13 @@ namespace TianHua.FanSelection.UI
         {
             var _Fan = TreeList.GetFocusedRow() as FanDataModel;
             if (_Fan == null) { return; }
-            //if (e.Column.FieldName == "VentStyle")
-            //{
-            //    if (FuncStr.NullToStr(_Fan.VentStyle) == "轴流")
-            //    {
-            //        _Fan.VentConnect = "直连";
-            //        _Fan.IntakeForm = "直进式";
-            //        TreeList.Refresh();
-            //    }
-
-
-            //    SetFanModel();
-            //}
 
             if (e.Column.FieldName == "VentNum")
             {
-                MatchCollection _Matche = Regex.Matches(_Fan.VentNum, @"\d+\,*\-*");
-
-                _Fan.ListVentQuan = new List<int>();
-
-                string _Sign = string.Empty;
-
-                if (_Matche.Count > 0)
+                var calculator = new VentSNCalculator(_Fan.VentNum);
+                if (calculator.SerialNumbers.Count > 0)
                 {
-                    for (int i = 0; i < _Matche.Count; i++)
-                    {
-                        string _Str = string.Empty;
-                        string _TmpSign = string.Empty;
-                        if (FuncStr.NullToStr(_Matche[i]).Contains("-"))
-                        {
-                            _TmpSign = "-";
-                        }
-                        if (FuncStr.NullToStr(_Matche[i]).Contains(","))
-                        {
-
-                            _TmpSign = ",";
-                        }
-                        _Str = FuncStr.NullToStr(_Matche[i]).Replace(",", "").Replace("-", "");
-                        if (_Str == string.Empty) continue;
-
-                        var _Tmp = FuncStr.NullToInt(_Str);
-
-                        CalcVentQuan(_Fan.ListVentQuan, _Tmp, _Sign);
-                        _Sign = _TmpSign;
-                    }
-                }
-
-                if (_Fan.ListVentQuan.Count > 0)
-                {
-                    _Fan.ListVentQuan = _Fan.ListVentQuan.Distinct().ToList();
-                    _Fan.ListVentQuan.Sort();
+                    _Fan.ListVentQuan = calculator.SerialNumbers;
                     _Fan.VentQuan = _Fan.ListVentQuan.Count();
                 }
                 else
