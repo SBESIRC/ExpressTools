@@ -4,7 +4,7 @@ using GeoAPI.Geometries;
 using System.Collections.Generic;
 using ThCADCore.NTS;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.Function
 {
     public interface IFanSelectionModelPicker
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using GeoAPI.Geometries;
 using ThCADCore.NTS;
+using GeoAPI.Geometries;
 using System.Collections.Generic;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.Function
 {
     public static class FanParametersExtension
     {

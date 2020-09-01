@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.Function
 {
     public class ThFanSelectionUtils
     {

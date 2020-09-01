@@ -6,6 +6,7 @@ using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
+using TianHua.FanSelection.Function;
 
 namespace TianHua.FanSelection.UI
 {

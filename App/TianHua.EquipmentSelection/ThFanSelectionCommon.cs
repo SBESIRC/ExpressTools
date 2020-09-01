@@ -1,5 +1,5 @@
 ﻿
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection
 {
     public class ThFanSelectionCommon
     {

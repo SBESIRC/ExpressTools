@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.Function
 {
     public class CCCFComparer : IEqualityComparer<FanParameters>
     {

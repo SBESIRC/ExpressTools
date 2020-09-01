@@ -58,6 +58,12 @@
     <Compile Include="ExcelExport\RefugeFontRoomExportWorker.cs" />
     <Compile Include="ExcelExport\StaircaseAirExportWorker.cs" />
     <Compile Include="ExcelExport\StaircaseNoAirExportWorker.cs" />
+    <Compile Include="Function\FanParametersComparer.cs" />
+    <Compile Include="Function\FanParametersExtension.cs" />
+    <Compile Include="ThFanSelectionCommon.cs" />
+    <Compile Include="Function\ThFanSelectionModelPick.cs" />
+    <Compile Include="Function\ThFanSelectionModelPicker.cs" />
+    <Compile Include="Function\ThFanSelectionUtils.cs" />
     <Compile Include="Function\VentSNCalculator.cs" />
     <Compile Include="ViewModels\Excl2JsonViewModels.cs" />
     <Compile Include="Entity\ExportFanParaModel.cs" />
@@ -76,7 +82,12 @@
     <Compile Include="PubVar.cs" />
     <Compile Include="View\IFanSelection.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ThCADCore\ThCADCore.csproj">
+      <Project>{c6ac9e68-9059-4ddd-8fa7-58e2656d572e}</Project>
+      <Name>ThCADCore</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -112,6 +123,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\向下加一行.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NetTopologySuite" Version="1.15.3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
