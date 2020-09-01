@@ -5,7 +5,7 @@ using GeoAPI.Geometries;
 using System.Collections.Generic;
 using NetTopologySuite.LinearReferencing;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.Function
 {
     public static class ThFanSelectionModelPick
     {

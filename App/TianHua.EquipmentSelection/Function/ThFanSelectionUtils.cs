@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.Function
 {
     public class ThFanSelectionUtils
     {
@@ -155,6 +155,17 @@ namespace TianHua.FanSelection.UI
         public static bool IsHTFCModelStyle(string style)
         {
             return style.Contains(ThFanSelectionCommon.HTFC_TYPE_NAME);
+        }
+
+        /// <summary>
+        /// 是否为后倾离心风机
+        /// </summary>
+        /// <param name="style"></param>
+        /// <returns></returns>
+        public static bool IsHTFCBackwardModelStyle(string style)
+        {
+            return IsHTFCModelStyle(style) && 
+                style.Contains(ThFanSelectionCommon.HTFC_BACKWARD_NAME);
         }
 
         /// <summary>

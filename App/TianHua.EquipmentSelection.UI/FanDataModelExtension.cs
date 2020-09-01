@@ -1,6 +1,7 @@
 ﻿using System;
 using TianHua.Publics.BaseCode;
 using System.Collections.Generic;
+using TianHua.FanSelection.Function;
 
 namespace TianHua.FanSelection.UI
 {
