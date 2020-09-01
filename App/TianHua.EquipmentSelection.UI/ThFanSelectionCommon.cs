@@ -10,6 +10,7 @@ namespace TianHua.FanSelection.UI
         public const string AXIAL_BLOCK_NAME = "轴流风机";
         public const string AXIAL_MODEL_NAME_SUFFIX = "无基础";
         public const string HTFC_TYPE_NAME = "离心";
+        public const string HTFC_BACKWARD_NAME = "后倾";
         public const string HTFC_BLOCK_NAME = "离心风机";
         public const string BLOCK_FAN_LAYER = "H-EQUP-FANS";
         public const string MOTOR_POWER = "电机功率.json";

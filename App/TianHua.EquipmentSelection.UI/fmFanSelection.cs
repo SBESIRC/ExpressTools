@@ -465,18 +465,16 @@ namespace TianHua.FanSelection.UI
             }
             if (FuncStr.NullToStr(_Fan.VentStyle) == "轴流")
             {
-
-
                 List<AxialFanParameters> _ListAxialFanParameters = new List<AxialFanParameters>();
-                Dictionary<string, List<double>> _Dictionary = null;
+                IFanSelectionModelPicker picker = null;
                 if (_Fan.Control == "双速")
                 {
-                    _Dictionary = ThFanTypeSelectionModelHandle.GetAxialTypePolyFromModel(m_ListAxialFanParametersDouble, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                    picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParametersDouble, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
                     _ListAxialFanParameters = m_ListAxialFanParametersDouble;
-                    if (_Dictionary == null)
+                    if (!picker.IsFound())
                     {
-                        _Dictionary = ThFanTypeSelectionModelHandle.GetAxialTypePolyFromModel(m_ListAxialFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
-                        if (_Dictionary != null)
+                        picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                        if (!picker.IsFound())
                         {
                             _Fan.Control = "单速";
                             _ListAxialFanParameters = m_ListAxialFanParameters;
@@ -486,24 +484,13 @@ namespace TianHua.FanSelection.UI
                 }
                 else
                 {
-                    _Dictionary = ThFanTypeSelectionModelHandle.GetAxialTypePolyFromModel(m_ListAxialFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                    picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
                     _ListAxialFanParameters = m_ListAxialFanParameters;
                 }
 
-
-
-
-
-
-
-
-
-
-                if (_Dictionary != null && _Dictionary.Count > 0)
+                if (picker != null && picker.IsFound())
                 {
-                    var _Key = _Dictionary.Keys.First();
-                    var _ListPoint = _Dictionary[_Key];
-                    var _FanParameters = _ListAxialFanParameters.Find(p => p.ModelNum == _Key && FuncStr.NullToStr(p.AirVolume) == FuncStr.NullToStr(_ListPoint[0]) && FuncStr.NullToStr(p.Pa) == FuncStr.NullToStr(_ListPoint[1]));
+                    var _FanParameters = _ListAxialFanParameters.Find(p => p.ModelNum == picker.Model() && Convert.ToDouble(p.AirVolume) == picker.AirVolume() && Convert.ToDouble(p.Pa) == picker.Pa());
                     if (_FanParameters != null)
                     {
                         _Fan.FanModelID = _FanParameters.No;
@@ -519,8 +506,7 @@ namespace TianHua.FanSelection.UI
                         _Fan.FanModelLength = _FanParameters.Length;
                         _Fan.FanModelDIA = _FanParameters.Diameter;
                         _Fan.FanModelWeight = _FanParameters.Weight;
-                        var _IsPointSafe = ThFanTypeSelectionModelHandle.IfPointSafe(_ListAxialFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
-                        _Fan.IsPointSafe = _IsPointSafe;
+                        _Fan.IsPointSafe = !picker.IsOptimalModel();
 
                         m_fmFanModel.CalcFanEfficiency(_Fan);
                     }
@@ -530,24 +516,23 @@ namespace TianHua.FanSelection.UI
                 {
                     ClearFanModel(_Fan);
                 }
-
-
                 TreeList.RefreshNode(TreeList.FocusedNode);
             }
+
             else
             {
                 List<FanParameters> _ListFanParameters = new List<FanParameters>();
-                Dictionary<string, List<double>> _Dictionary = null;
+                IFanSelectionModelPicker picker = null;
                 if (FuncStr.NullToStr(_Fan.VentStyle).Contains("前倾离心"))
                 {
                     if (_Fan.Control == "双速")
                     {
-                        _Dictionary = ThFanTypeSelectionModelHandle.GetTypePolylineFromModel(m_ListFanParametersDouble, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                        picker = new ThFanSelectionModelPicker(m_ListFanParametersDouble, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
                         _ListFanParameters = m_ListFanParametersDouble;
-                        if (_Dictionary == null)
+                        if (!picker.IsFound())
                         {
-                            _Dictionary = ThFanTypeSelectionModelHandle.GetTypePolylineFromModel(m_ListFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
-                            if (_Dictionary != null)
+                            picker = new ThFanSelectionModelPicker(m_ListFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                            if (!picker.IsFound())
                             {
                                 _Fan.Control = "单速";
                                 _ListFanParameters = m_ListFanParameters;
@@ -557,7 +542,7 @@ namespace TianHua.FanSelection.UI
                     }
                     else
                     {
-                        _Dictionary = ThFanTypeSelectionModelHandle.GetTypePolylineFromModel(m_ListFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                        picker = new ThFanSelectionModelPicker(m_ListFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
                         _ListFanParameters = m_ListFanParameters;
                     }
 
@@ -571,21 +556,14 @@ namespace TianHua.FanSelection.UI
                     }
                     else
                     {
-                        _Dictionary = ThFanTypeSelectionModelHandle.GetTypePolylineFromModel(m_ListFanParametersSingle, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                        picker = new ThFanSelectionModelPicker(m_ListFanParametersSingle, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
                         _ListFanParameters = m_ListFanParametersSingle;
                     }
                 }
 
-
-
-
-
-
-                if (_Dictionary != null && _Dictionary.Count > 0)
+                if (picker != null && picker.IsFound())
                 {
-                    var _Key = _Dictionary.Keys.First();
-                    var _ListPoint = _Dictionary[_Key];
-                    var _FanParameters = _ListFanParameters.Find(p => p.CCCF_Spec == _Key && FuncStr.NullToStr(p.AirVolume) == FuncStr.NullToStr(_ListPoint[0]) && FuncStr.NullToStr(p.Pa) == FuncStr.NullToStr(_ListPoint[1]));
+                    var _FanParameters = _ListFanParameters.Find(p => p.CCCF_Spec == picker.Model() && Convert.ToDouble(p.AirVolume) == picker.AirVolume() && Convert.ToDouble(p.Pa) == picker.Pa());
                     if (_FanParameters != null)
                     {
                         _Fan.FanModelID = _FanParameters.Suffix;
@@ -602,8 +580,7 @@ namespace TianHua.FanSelection.UI
                         _Fan.FanModelWidth = _FanParameters.Width;
                         _Fan.FanModelHeight = _FanParameters.Height;
                         _Fan.FanModelWeight = _FanParameters.Weight;
-                        var _IsPointSafe = ThFanTypeSelectionModelHandle.IfPointSafe(_ListFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
-                        _Fan.IsPointSafe = _IsPointSafe;
+                        _Fan.IsPointSafe = !picker.IsOptimalModel();
                         m_fmFanModel.CalcFanEfficiency(_Fan);
                     }
 

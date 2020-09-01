@@ -85,6 +85,7 @@
     <Compile Include="EquipmentSelectionApp.cs" />
     <Compile Include="ExcelLoader.cs" />
     <Compile Include="FanDataModelExtension.cs" />
+    <Compile Include="FanParametersComparer.cs" />
     <Compile Include="FanParametersExtension.cs" />
     <Compile Include="fmAirVolumeCalc.cs">
       <SubType>Form</SubType>
@@ -203,9 +204,7 @@
     <Compile Include="ThFanSelectionGeExtension.cs" />
     <Compile Include="ThFanSelectionModelPick.cs" />
     <Compile Include="ThFanSelectionModelPicker.cs" />
-    <Compile Include="ThFanSelectionTypeSelect.cs" />
     <Compile Include="ThFanSelectionUtils.cs" />
-    <Compile Include="ThFanTypeSelectionModelHandle.cs" />
     <Compile Include="ThFSBlockReference.cs" />
     <EmbeddedResource Include="FireElevatorFrontRoom.resx">
       <DependentUpon>FireElevatorFrontRoom.cs</DependentUpon>

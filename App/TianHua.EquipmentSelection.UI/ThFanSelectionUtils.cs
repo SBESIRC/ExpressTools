@@ -158,6 +158,17 @@ namespace TianHua.FanSelection.UI
         }
 
         /// <summary>
+        /// 是否为后倾离心风机
+        /// </summary>
+        /// <param name="style"></param>
+        /// <returns></returns>
+        public static bool IsHTFCBackwardModelStyle(string style)
+        {
+            return IsHTFCModelStyle(style) && 
+                style.Contains(ThFanSelectionCommon.HTFC_BACKWARD_NAME);
+        }
+
+        /// <summary>
         /// 获取离心风机图块名
         /// </summary>
         /// <param name="style"></param>
