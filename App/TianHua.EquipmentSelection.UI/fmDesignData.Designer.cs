@@ -145,10 +145,8 @@
             // 
             // Gdv
             // 
-            this.Gdv.Appearance.FocusedCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(102)))), ((int)(((byte)(124)))));
+            this.Gdv.Appearance.FocusedCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(230)))), ((int)(((byte)(247)))));
             this.Gdv.Appearance.FocusedCell.Options.UseBackColor = true;
-            this.Gdv.Appearance.FocusedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(102)))), ((int)(((byte)(124)))));
-            this.Gdv.Appearance.FocusedRow.Options.UseBackColor = true;
             this.Gdv.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.gridBand1,
             this.gridBand2});

@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmFanSelection));
-            this.BarManager = new DevExpress.XtraBars.BarManager(this.components);
+            this.BarManager = new DevExpress.XtraBars.BarManager();
             this.bar2 = new DevExpress.XtraBars.Bar();
             this.barBtnNew = new DevExpress.XtraBars.BarButtonItem();
             this.BarBtnOpen = new DevExpress.XtraBars.BarButtonItem();
@@ -335,8 +334,6 @@
             // 
             // TreeList
             // 
-            this.TreeList.Appearance.FocusedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(102)))), ((int)(((byte)(124)))));
-            this.TreeList.Appearance.FocusedRow.Options.UseBackColor = true;
             this.TreeList.Bands.AddRange(new DevExpress.XtraTreeList.Columns.TreeListBand[] {
             this.treeListBand15,
             this.treeListBand1,

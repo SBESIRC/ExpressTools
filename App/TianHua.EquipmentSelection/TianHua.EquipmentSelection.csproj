@@ -42,6 +42,7 @@
     <Compile Include="Entity\ModelValidator.cs" />
     <Compile Include="Entity\RefugeFontRoomModel.cs" />
     <Compile Include="Entity\RefugeRoomAndCorridorModel.cs" />
+    <Compile Include="Entity\SceneResistaCalcModel.cs" />
     <Compile Include="Entity\StaircaseAirModel.cs" />
     <Compile Include="Entity\StaircaseNoAirModel.cs" />
     <Compile Include="Entity\ThEvacuationDoor.cs" />

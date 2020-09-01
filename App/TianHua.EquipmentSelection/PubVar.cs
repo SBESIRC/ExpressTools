@@ -30,6 +30,28 @@ namespace TianHua.FanSelection
         };
 
 
+        public static List<SceneResistaCalcModel> g_ListSceneResistaCalc = new List<SceneResistaCalcModel>()
+        {
+            new SceneResistaCalcModel(){ No = 1, Scene = "消防排烟", Friction = 3,  LocRes = 1.5 ,  Damper =0, DynPress = 60 },
+            new SceneResistaCalcModel(){ No = 2, Scene = "消防补风", Friction = 3,  LocRes = 1.5 ,  Damper =0, DynPress = 60 },
+            new SceneResistaCalcModel(){ No = 3, Scene = "消防加压送风", Friction = 3,  LocRes = 1.5 ,  Damper =0, DynPress = 60 },
+
+            new SceneResistaCalcModel(){ No = 4, Scene = "厨房排油烟", Friction = 2,  LocRes = 1.5 ,  Damper =80, DynPress = 60  },
+            new SceneResistaCalcModel(){ No = 5, Scene = "厨房排油烟补风", Friction = 1,  LocRes = 1.5 ,  Damper =80, DynPress = 60 },
+            new SceneResistaCalcModel(){ No = 6, Scene = "平时送风", Friction = 1,  LocRes = 1.5 ,  Damper =80, DynPress = 60  },
+            new SceneResistaCalcModel(){ No = 7, Scene = "平时排风", Friction = 1,  LocRes = 1.5 ,  Damper =80, DynPress = 60  },
+
+            new SceneResistaCalcModel(){ No = 8, Scene = "消防排烟兼平时排风", Friction = 3,  LocRes = 1.5 ,  Damper =80, DynPress = 60 },
+            new SceneResistaCalcModel(){ No = 9, Scene = "消防补风兼平时送风", Friction = 3,  LocRes = 1.5 ,  Damper =80, DynPress = 60  },
+
+            new SceneResistaCalcModel(){ No = 10, Scene = "事故排风", Friction = 1,  LocRes = 1.5 ,  Damper =80, DynPress = 60 },
+            new SceneResistaCalcModel(){ No = 11, Scene = "事故补风", Friction = 1,  LocRes = 1.5 ,  Damper =80, DynPress = 60  },
+
+            new SceneResistaCalcModel(){ No = 12, Scene = "平时送风兼事故补风", Friction = 1,  LocRes = 1.5 ,  Damper =80, DynPress = 60 },
+            new SceneResistaCalcModel(){ No = 13, Scene = "平时排风兼事故排风", Friction = 1,  LocRes = 1.5 ,  Damper =80, DynPress = 60  }
+        };
+
+
         public static List<MotorEfficiency> g_ListMotorEfficiency = new List<MotorEfficiency>()
         {
             new MotorEfficiency(){ Key ="直连",Value =0.99 },

@@ -49,7 +49,22 @@ namespace TianHua.FanSelection.UI
             //var _Json = FuncJson.Serialize(_FanDataModel);
             //m_Fan = FuncJson.Deserialize<FanDataModel>(_Json);
             m_Fan = _FanDataModel;
-            m_ListFan = new List<FanDataModel>();
+
+            if(PubVar.g_ListSceneResistaCalc != null && PubVar.g_ListSceneResistaCalc.Count > 0)
+            {
+                var _SceneResistaCalc = PubVar.g_ListSceneResistaCalc.Find(p => p.Scene == m_Fan.Scenario);
+                if(_SceneResistaCalc != null && m_Fan.DuctLength == 0 && m_Fan.Friction == 0 && m_Fan.LocRes == 0 && m_Fan.DuctResistance == 0)
+                {
+                    m_Fan.Friction = _SceneResistaCalc.Friction;
+                    m_Fan.LocRes = _SceneResistaCalc.LocRes;
+                    m_Fan.Damper = _SceneResistaCalc.Damper;
+                    m_Fan.DynPress = _SceneResistaCalc.DynPress;
+                }
+            }
+
+
+
+                m_ListFan = new List<FanDataModel>();
             m_ListFan.Add(m_Fan);
             Gdc.DataSource = m_ListFan;
             Gdc.Refresh();
@@ -98,7 +113,7 @@ namespace TianHua.FanSelection.UI
 
                 Gdv.RefreshData();
             }
-            if (_Fan.DuctResistance > 0 && _Fan.Damper > 0 && _Fan.DynPress > 0)
+            if (_Fan.DuctResistance > 0 && _Fan.Damper >= 0 && _Fan.DynPress > 0)
             {
                 var _Tmp = FuncStr.NullToInt((_Fan.DuctResistance + _Fan.Damper + _Fan.DynPress) * _Fan.SelectionFactor);
                 _Fan.CalcResistance = _Fan.DuctResistance + _Fan.Damper + _Fan.DynPress;
