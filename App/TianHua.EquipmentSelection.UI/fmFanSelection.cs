@@ -143,7 +143,7 @@ namespace TianHua.FanSelection.UI
         public fmFanSelection()
         {
             InitializeComponent();
-            UserLookAndFeel.Default.SetSkinStyle(SkinStyle.VisualStudio2013Dark);
+            UserLookAndFeel.Default.SetSkinStyle(SkinStyle.Office2013);
 
         }
 
@@ -916,6 +916,7 @@ namespace TianHua.FanSelection.UI
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
+
             TreeList.PostEditor();
             BtnAdd.Focus();
             FanDataModel _FanDataModel = new FanDataModel();
