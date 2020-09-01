@@ -74,7 +74,7 @@
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(786, 478, 650, 400);
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(375, 763);
+            this.layoutControl1.Size = new System.Drawing.Size(437, 890);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
@@ -83,35 +83,35 @@
             this.panelControl3.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.panelControl3.Controls.Add(this.simpleButton2);
             this.panelControl3.Controls.Add(this.simpleButton1);
-            this.panelControl3.Location = new System.Drawing.Point(12, 695);
+            this.panelControl3.Location = new System.Drawing.Point(12, 812);
             this.panelControl3.Name = "panelControl3";
-            this.panelControl3.Size = new System.Drawing.Size(351, 39);
+            this.panelControl3.Size = new System.Drawing.Size(413, 46);
             this.panelControl3.TabIndex = 6;
             // 
             // simpleButton2
             // 
             this.simpleButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.simpleButton2.Location = new System.Drawing.Point(263, 10);
+            this.simpleButton2.Location = new System.Drawing.Point(307, 12);
             this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton2.Size = new System.Drawing.Size(87, 27);
             this.simpleButton2.TabIndex = 1;
             this.simpleButton2.Text = "取消";
             // 
             // simpleButton1
             // 
             this.simpleButton1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.simpleButton1.Location = new System.Drawing.Point(168, 10);
+            this.simpleButton1.Location = new System.Drawing.Point(196, 12);
             this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton1.Size = new System.Drawing.Size(87, 27);
             this.simpleButton1.TabIndex = 0;
             this.simpleButton1.Text = "确定";
             // 
             // middlePanel
             // 
             this.middlePanel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.middlePanel.Location = new System.Drawing.Point(12, 80);
+            this.middlePanel.Location = new System.Drawing.Point(12, 92);
             this.middlePanel.Name = "middlePanel";
-            this.middlePanel.Size = new System.Drawing.Size(351, 611);
+            this.middlePanel.Size = new System.Drawing.Size(413, 716);
             this.middlePanel.TabIndex = 5;
             // 
             // panelControl1
@@ -121,7 +121,7 @@
             this.panelControl1.Controls.Add(this.label1);
             this.panelControl1.Location = new System.Drawing.Point(12, 12);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(351, 64);
+            this.panelControl1.Size = new System.Drawing.Size(413, 76);
             this.panelControl1.TabIndex = 4;
             // 
             // layoutControl2
@@ -132,12 +132,13 @@
             this.layoutControl2.Name = "layoutControl2";
             this.layoutControl2.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(782, 57, 650, 400);
             this.layoutControl2.Root = this.layoutControlGroup2;
-            this.layoutControl2.Size = new System.Drawing.Size(351, 64);
+            this.layoutControl2.Size = new System.Drawing.Size(413, 76);
             this.layoutControl2.TabIndex = 2;
             this.layoutControl2.Text = "layoutControl2";
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "消防电梯前室",
@@ -149,7 +150,7 @@
             "避难走道前室"});
             this.comboBox1.Location = new System.Drawing.Point(12, 30);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(327, 22);
+            this.comboBox1.Size = new System.Drawing.Size(389, 22);
             this.comboBox1.TabIndex = 4;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -161,7 +162,7 @@
             this.simpleLabelItem1,
             this.layoutControlItem4});
             this.layoutControlGroup2.Name = "Root";
-            this.layoutControlGroup2.Size = new System.Drawing.Size(351, 64);
+            this.layoutControlGroup2.Size = new System.Drawing.Size(413, 76);
             this.layoutControlGroup2.TextVisible = false;
             // 
             // simpleLabelItem1
@@ -171,7 +172,7 @@
             this.simpleLabelItem1.AppearanceItemCaption.Options.UseFont = true;
             this.simpleLabelItem1.Location = new System.Drawing.Point(0, 0);
             this.simpleLabelItem1.Name = "simpleLabelItem1";
-            this.simpleLabelItem1.Size = new System.Drawing.Size(331, 18);
+            this.simpleLabelItem1.Size = new System.Drawing.Size(393, 18);
             this.simpleLabelItem1.Text = "应用场景";
             this.simpleLabelItem1.TextSize = new System.Drawing.Size(52, 14);
             // 
@@ -180,7 +181,7 @@
             this.layoutControlItem4.Control = this.comboBox1;
             this.layoutControlItem4.Location = new System.Drawing.Point(0, 18);
             this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Size = new System.Drawing.Size(331, 26);
+            this.layoutControlItem4.Size = new System.Drawing.Size(393, 38);
             this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem4.TextVisible = false;
             // 
@@ -188,7 +189,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(5, 2);
+            this.label1.Location = new System.Drawing.Point(6, 2);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(0, 14);
             this.label1.TabIndex = 0;
@@ -203,7 +204,7 @@
             this.layoutControlItem2,
             this.layoutControlItem3});
             this.layoutControlGroup1.Name = "Root";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(375, 763);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(437, 890);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlItem1
@@ -211,45 +212,45 @@
             this.layoutControlItem1.Control = this.panelControl1;
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(355, 68);
+            this.layoutControlItem1.Size = new System.Drawing.Size(417, 80);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
             // emptySpaceItem1
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
-            this.emptySpaceItem1.Location = new System.Drawing.Point(0, 726);
+            this.emptySpaceItem1.Location = new System.Drawing.Point(0, 850);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(355, 17);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(417, 20);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.middlePanel;
-            this.layoutControlItem2.Location = new System.Drawing.Point(0, 68);
+            this.layoutControlItem2.Location = new System.Drawing.Point(0, 80);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(355, 615);
+            this.layoutControlItem2.Size = new System.Drawing.Size(417, 720);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.panelControl3;
-            this.layoutControlItem3.Location = new System.Drawing.Point(0, 683);
+            this.layoutControlItem3.Location = new System.Drawing.Point(0, 800);
             this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(355, 43);
+            this.layoutControlItem3.Size = new System.Drawing.Size(417, 50);
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextVisible = false;
             // 
-            // Form1
+            // fmFanVolumeCalc
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(375, 763);
+            this.ClientSize = new System.Drawing.Size(437, 890);
             this.Controls.Add(this.layoutControl1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form1";
+            this.Name = "fmFanVolumeCalc";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
