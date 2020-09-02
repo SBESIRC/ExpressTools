@@ -98,7 +98,6 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(162, 20);
             this.label5.TabIndex = 13;
-            this.label5.Text = "若输入值低于30则自动改为30";
             // 
             // Result
             // 
@@ -301,12 +300,12 @@
             this.layoutControlItem9.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem9.TextVisible = false;
             // 
-            // RefugeLayer
+            // EvacuationWalk
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.layoutControl1);
-            this.Name = "RefugeLayer";
+            this.Name = "EvacuationWalk";
             this.Size = new System.Drawing.Size(289, 527);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
