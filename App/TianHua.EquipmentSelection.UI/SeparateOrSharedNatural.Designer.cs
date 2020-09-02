@@ -401,7 +401,7 @@
             // 
             this.gridColumn4.Caption = "门宽（m）";
             this.gridColumn4.ColumnEdit = this.repositoryItemTextEdit4;
-            this.gridColumn4.FieldName = "Count_Door_Q";
+            this.gridColumn4.FieldName = "Width_Door_Q";
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.Visible = true;
             this.gridColumn4.VisibleIndex = 0;
@@ -417,7 +417,7 @@
             // 
             this.gridColumn5.Caption = "门高（m）";
             this.gridColumn5.ColumnEdit = this.repositoryItemTextEdit5;
-            this.gridColumn5.FieldName = "Width_Door_Q";
+            this.gridColumn5.FieldName = "Height_Door_Q";
             this.gridColumn5.Name = "gridColumn5";
             this.gridColumn5.Visible = true;
             this.gridColumn5.VisibleIndex = 1;
@@ -433,7 +433,7 @@
             // 
             this.gridColumn6.Caption = "数量（扇）";
             this.gridColumn6.ColumnEdit = this.repositoryItemTextEdit6;
-            this.gridColumn6.FieldName = "Height_Door_Q";
+            this.gridColumn6.FieldName = "Count_Door_Q";
             this.gridColumn6.Name = "gridColumn6";
             this.gridColumn6.Visible = true;
             this.gridColumn6.VisibleIndex = 2;
@@ -484,7 +484,7 @@
             // 
             this.gridColumn1.Caption = "门宽(m)";
             this.gridColumn1.ColumnEdit = this.repositoryItemTextEdit1;
-            this.gridColumn1.FieldName = "Count_Door_Q";
+            this.gridColumn1.FieldName = "Width_Door_Q";
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 0;
@@ -500,7 +500,7 @@
             // 
             this.gridColumn2.Caption = "门高（m）";
             this.gridColumn2.ColumnEdit = this.repositoryItemTextEdit2;
-            this.gridColumn2.FieldName = "Width_Door_Q";
+            this.gridColumn2.FieldName = "Height_Door_Q";
             this.gridColumn2.Name = "gridColumn2";
             this.gridColumn2.Visible = true;
             this.gridColumn2.VisibleIndex = 1;
@@ -516,7 +516,7 @@
             // 
             this.gridColumn3.Caption = "数量(扇)";
             this.gridColumn3.ColumnEdit = this.repositoryItemTextEdit3;
-            this.gridColumn3.FieldName = "Height_Door_Q";
+            this.gridColumn3.FieldName = "Count_Door_Q";
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.Visible = true;
             this.gridColumn3.VisibleIndex = 2;
