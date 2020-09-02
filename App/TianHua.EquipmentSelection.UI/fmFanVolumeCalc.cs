@@ -110,9 +110,9 @@ namespace TianHua.FanSelection.UI
                 new SeparateOrSharedNatural(modelNatural),    //独立或合用前室（楼梯间自然）
                 new SeparateOrSharedWind(modelWind),           //独立或合用前室（楼梯间送风）
                 new StaircaseNoWind(modelStairNoWind),          //楼梯间（前室不送风）
-                new StairacaseWind(modelStairWind),                 //楼梯间（前室送风）
-                new RefugeLayer(modelRefugeLayer),                 //封闭避难层（间）、避难走道
-                new RefugeFont(modelRefugeFont)                      //避难走道前室
+                new StaircaseWind(modelStairWind),                 //楼梯间（前室送风）
+                new EvacuationWalk(modelRefugeLayer),                 //封闭避难层（间）、避难走道
+                new EvacuationFront(modelRefugeFont)                      //避难走道前室
             };
             comboBox1.SelectedIndex = comboBox1index;
         }

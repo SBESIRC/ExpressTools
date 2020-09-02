@@ -1,6 +1,6 @@
 ﻿namespace TianHua.FanSelection.UI
 {
-    partial class RefugeFont
+    partial class EvacuationFront
     {
         /// <summary> 
         /// 必需的设计器变量。

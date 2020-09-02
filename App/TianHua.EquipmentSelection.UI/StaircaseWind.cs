@@ -15,12 +15,12 @@ namespace TianHua.FanSelection.UI
     /// <summary>
     /// 楼梯间（前室送风）
     /// </summary>
-    public partial class StairacaseWind : ThAirVolumeUserControl
+    public partial class StaircaseWind : ThAirVolumeUserControl
     {
         private StaircaseAirModel Model { get; set; }
         private UserControl subview;
         private ModelValidator valid = new ModelValidator();
-        public StairacaseWind(StaircaseAirModel model)
+        public StaircaseWind(StaircaseAirModel model)
         {
             InitializeComponent();
             Residence.Enabled = false;

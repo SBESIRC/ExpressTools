@@ -154,17 +154,17 @@
       <DependentUpon>FireElevatorFrontRoom.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RefugeFont.cs">
+    <Compile Include="EvacuationFront.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RefugeFont.Designer.cs">
-      <DependentUpon>RefugeFont.cs</DependentUpon>
+    <Compile Include="EvacuationFront.Designer.cs">
+      <DependentUpon>EvacuationFront.cs</DependentUpon>
     </Compile>
-    <Compile Include="RefugeLayer.cs">
+    <Compile Include="EvacuationWalk.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RefugeLayer.Designer.cs">
-      <DependentUpon>RefugeLayer.cs</DependentUpon>
+    <Compile Include="EvacuationWalk.Designer.cs">
+      <DependentUpon>EvacuationWalk.cs</DependentUpon>
     </Compile>
     <Compile Include="SeparateOrSharedNatural.cs">
       <SubType>UserControl</SubType>
@@ -178,11 +178,11 @@
     <Compile Include="SeparateOrSharedWind.Designer.cs">
       <DependentUpon>SeparateOrSharedWind.cs</DependentUpon>
     </Compile>
-    <Compile Include="StairacaseWind.cs">
+    <Compile Include="StaircaseWind.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="StairacaseWind.Designer.cs">
-      <DependentUpon>StairacaseWind.cs</DependentUpon>
+    <Compile Include="StaircaseWind.Designer.cs">
+      <DependentUpon>StaircaseWind.cs</DependentUpon>
     </Compile>
     <Compile Include="StaircaseNoWind.cs">
       <SubType>UserControl</SubType>
@@ -247,11 +247,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="RefugeFont.resx">
-      <DependentUpon>RefugeFont.cs</DependentUpon>
+    <EmbeddedResource Include="EvacuationFront.resx">
+      <DependentUpon>EvacuationFront.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RefugeLayer.resx">
-      <DependentUpon>RefugeLayer.cs</DependentUpon>
+    <EmbeddedResource Include="EvacuationWalk.resx">
+      <DependentUpon>EvacuationWalk.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeparateOrSharedNatural.resx">
       <DependentUpon>SeparateOrSharedNatural.cs</DependentUpon>
@@ -259,8 +259,8 @@
     <EmbeddedResource Include="SeparateOrSharedWind.resx">
       <DependentUpon>SeparateOrSharedWind.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StairacaseWind.resx">
-      <DependentUpon>StairacaseWind.cs</DependentUpon>
+    <EmbeddedResource Include="StaircaseWind.resx">
+      <DependentUpon>StaircaseWind.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StaircaseNoWind.resx">
       <DependentUpon>StaircaseNoWind.cs</DependentUpon>

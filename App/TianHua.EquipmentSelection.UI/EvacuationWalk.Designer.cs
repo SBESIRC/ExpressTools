@@ -1,6 +1,6 @@
 ﻿namespace TianHua.FanSelection.UI
 {
-    partial class RefugeLayer
+    partial class EvacuationWalk
     {
         /// <summary> 
         /// 必需的设计器变量。

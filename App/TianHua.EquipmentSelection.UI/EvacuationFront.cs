@@ -14,10 +14,10 @@ namespace TianHua.FanSelection.UI
     /// <summary>
     /// 避难走道前室
     /// </summary>
-    public partial class RefugeFont : ThAirVolumeUserControl
+    public partial class EvacuationFront : ThAirVolumeUserControl
     {
         private RefugeFontRoomModel Model { get; set; }
-        public RefugeFont(RefugeFontRoomModel model)
+        public EvacuationFront(RefugeFontRoomModel model)
         {
             InitializeComponent();
             Model = model;

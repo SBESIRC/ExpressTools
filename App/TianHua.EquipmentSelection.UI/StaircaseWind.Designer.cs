@@ -1,6 +1,6 @@
 ﻿namespace TianHua.FanSelection.UI
 {
-    partial class StairacaseWind
+    partial class StaircaseWind
     {
         /// <summary> 
         /// 必需的设计器变量。
