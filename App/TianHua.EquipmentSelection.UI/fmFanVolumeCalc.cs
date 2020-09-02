@@ -11,6 +11,7 @@ namespace TianHua.FanSelection.UI
         public fmFanVolumeCalc(FanDataModel fandatamodel)
         {
             InitializeComponent();
+            this.ShowIcon = false;
             middlePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             var model = new FireFrontModel();
             var modelNatural = new FontroomNaturalModel();
