@@ -473,7 +473,7 @@
             // repositoryItemTextEdit3
             // 
             this.repositoryItemTextEdit3.AutoHeight = false;
-            this.repositoryItemTextEdit3.Mask.EditMask = "([0-9]{1,})";
+            this.repositoryItemTextEdit3.Mask.EditMask = "([1-9][0-9]{0,})";
             this.repositoryItemTextEdit3.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
             // 

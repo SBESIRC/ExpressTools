@@ -69,18 +69,18 @@ namespace TianHua.FanSelection.Model
                 int length = FrontRoomDoors.Count();
                 for (int i = 0; i < length; i++)
                 {
-                    if (FrontRoomDoors[i].Type.Equals("单扇"))
+                    if (FrontRoomDoors[i].Type.ToString().Equals("单扇"))
                     {
-                        a = (FrontRoomDoors[i].Width_Door_Q +
+                        a += (FrontRoomDoors[i].Width_Door_Q +
                             FrontRoomDoors[i].Height_Door_Q) * 2
-                            * FrontRoomDoors[i].Crack_Door_Q / 1000;
+                            * FrontRoomDoors[i].Crack_Door_Q / 1000 * FrontRoomDoors[i].Count_Door_Q;
                     }
                     else
                     {
-                        b = a = ((FrontRoomDoors[i].Width_Door_Q +
+                        b += ((FrontRoomDoors[i].Width_Door_Q +
                                 FrontRoomDoors[i].Height_Door_Q) * 2
                                 + FrontRoomDoors[i].Height_Door_Q)
-                                * FrontRoomDoors[i].Crack_Door_Q / 1000;
+                                * FrontRoomDoors[i].Crack_Door_Q / 1000 * FrontRoomDoors[i].Count_Door_Q;
                     }
                 }
                 FrontRoomDoors.ForEach(o => tempN2 += o.Count_Door_Q);

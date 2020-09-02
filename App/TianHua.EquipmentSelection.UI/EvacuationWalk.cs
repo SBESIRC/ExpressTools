@@ -15,11 +15,11 @@ namespace TianHua.FanSelection.UI
     /// <summary>
     /// 封闭避难层（间）、避难走道
     /// </summary>
-    public partial class RefugeLayer : ThAirVolumeUserControl
+    public partial class EvacuationWalk : ThAirVolumeUserControl
     {
         private RefugeRoomAndCorridorModel Model { get; set; }
         private ModelValidator valid = new ModelValidator();
-        public RefugeLayer(RefugeRoomAndCorridorModel model)
+        public EvacuationWalk(RefugeRoomAndCorridorModel model)
         {
             InitializeComponent();
             Model = model;

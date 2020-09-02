@@ -22,11 +22,11 @@ namespace TianHua.FanSelection.ExcelExport
             setsheet.SetCellValue("D9", fireFrontModel.OverAk.ToString());
             setsheet.SetCellValue("D10", "1");
             setsheet.SetCellValue("D11", Math.Min(fireFrontModel.Count_Floor, 3).ToString());
-            setsheet.SetCellValue("D12", (fireFrontModel.Length_Valve * fireFrontModel.Width_Valve).ToString());
+            setsheet.SetCellValue("D12", (fireFrontModel.Length_Valve * fireFrontModel.Width_Valve/1000000).ToString());
             setsheet.SetCellValue("D13", (fireFrontModel.Count_Floor < 3 ? 0 : fireFrontModel.Count_Floor-3).ToString());
             setsheet.SetCellValue("D14", fireFrontModel.QueryValue.ToString());
             setsheet.SetCellValue("D15", fireFrontModel.Count_Floor.ToString());
-            setsheet.SetCellValue("D16", fireFrontModel.Load.ToString());
+            setsheet.SetCellValue("D16", GetLoadRange(fireFrontModel.Load.ToString()));
             setsheet.SetCellValue("D17", fireFrontModel.Length_Valve.ToString());
             setsheet.SetCellValue("D18", fireFrontModel.Width_Valve.ToString());
             int rowNo = 19;

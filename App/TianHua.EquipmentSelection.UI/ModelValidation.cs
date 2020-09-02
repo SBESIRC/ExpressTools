@@ -35,7 +35,7 @@ namespace TianHua.FanSelection.UI
                 new ThResult()
                 {
                     Name ="24<h<=50",
-                    Result=model.OverAk<3.2?model.AAAA.ToString()+"-"+model.BBBB.ToString():
+                    Result=model.OverAk>=3.2?model.AAAA.ToString()+"-"+model.BBBB.ToString():
                            (0.75*model.AAAA).ToString()+"-"+model.BBBB.ToString(),
                 },
                 new ThResult()

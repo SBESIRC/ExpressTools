@@ -42,6 +42,21 @@ namespace TianHua.FanSelection.ExcelExport
             }
             return null;
         }
+        public string GetLoadRange(string load)
+        {
+            switch (load)
+            {
+                case "LoadHeightLow" :
+                    return "h<=24m";
+                case "LoadHeightMiddle" :
+                    return "24m<h<=50m";
+                case "LoadHeightHigh" :
+                    return "50m<h<100m";
+                default:
+                    break;
+            }
+            return string.Empty;
+        }
         public abstract void ExportToExcel(ThFanVolumeModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelFile excelfile);
     }
 }

@@ -16,7 +16,7 @@ namespace TianHua.FanSelection.Model
         /// </summary>
         public double OverAk = 0.0;
         public int AAAA = 24800, BBBB = 25800;
-        public int CCCC = 2600, DDDD = 28100;
+        public int CCCC = 26000, DDDD = 28100;
         public enum LoadHeight
         {
             LoadHeightLow = 0,

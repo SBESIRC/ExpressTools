@@ -70,7 +70,7 @@
             // 
             this.Query.Location = new System.Drawing.Point(63, 12);
             this.Query.Name = "Query";
-            this.Query.Properties.Mask.EditMask = "([0-9]{1,})";
+            this.Query.Properties.Mask.EditMask = "([1-9][0-9]{0,})";
             this.Query.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.Query.Properties.EditValueChanged += new System.EventHandler(this.QueryValueChanged);
             this.Query.Size = new System.Drawing.Size(108, 20);

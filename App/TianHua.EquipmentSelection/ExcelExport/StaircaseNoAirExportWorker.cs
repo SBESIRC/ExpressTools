@@ -27,7 +27,7 @@ namespace TianHua.FanSelection.ExcelExport
             setsheet.SetCellValue("D14", GetN2Value(StaircaseNoAir).ToString());
             setsheet.SetCellValue("D15", StaircaseNoAir.QueryValue.ToString());
             setsheet.SetCellValue("D16", StaircaseNoAir.Count_Floor.ToString());
-            setsheet.SetCellValue("D17", StaircaseNoAir.Load.ToString());
+            setsheet.SetCellValue("D17", GetLoadRange(StaircaseNoAir.Load.ToString()));
             setsheet.SetCellValue("D18", StaircaseNoAir.Stair.ToString());
             setsheet.SetCellValue("D19", StaircaseNoAir.Type_Area.ToString());
             int rowNo = 20;

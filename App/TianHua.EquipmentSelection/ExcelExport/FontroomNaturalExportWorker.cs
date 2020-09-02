@@ -28,13 +28,13 @@ namespace TianHua.FanSelection.ExcelExport
             double v = 0.6 * ai / (ag + 1);
             setsheet.SetCellValue("D10", v.ToString());
             setsheet.SetCellValue("D11", Math.Min(fontroomNaturalModel.Count_Floor, 3).ToString());
-            setsheet.SetCellValue("D12", (fontroomNaturalModel.Length_Valve * fontroomNaturalModel.Width_Valve).ToString());
+            setsheet.SetCellValue("D12", (fontroomNaturalModel.Length_Valve * fontroomNaturalModel.Width_Valve/1000000).ToString());
             setsheet.SetCellValue("D13", (fontroomNaturalModel.Count_Floor < 3 ? 0 : fontroomNaturalModel.Count_Floor-3).ToString());
             setsheet.SetCellValue("D14", ai.ToString());
             setsheet.SetCellValue("D15", ag.ToString());
             setsheet.SetCellValue("D16", fontroomNaturalModel.QueryValue.ToString());
             setsheet.SetCellValue("D17", fontroomNaturalModel.Count_Floor.ToString());
-            setsheet.SetCellValue("D18", fontroomNaturalModel.Load.ToString());
+            setsheet.SetCellValue("D18", GetLoadRange(fontroomNaturalModel.Load.ToString()));
             setsheet.SetCellValue("D19", fontroomNaturalModel.Length_Valve.ToString());
             setsheet.SetCellValue("D20", fontroomNaturalModel.Width_Valve.ToString());
             int rowNo = 21;

@@ -251,7 +251,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "fmFanVolumeCalc";
-            this.Text = "Form1";
+            this.Text = "防烟计算";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).EndInit();
