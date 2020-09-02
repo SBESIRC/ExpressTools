@@ -255,7 +255,7 @@
             // 
             this.wide.Location = new System.Drawing.Point(206, 270);
             this.wide.Name = "wide";
-            this.wide.Properties.Mask.EditMask = "([0-9]{1,})";
+            this.wide.Properties.Mask.EditMask = "([1-9][0-9]{0,})";
             this.wide.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.wide.Size = new System.Drawing.Size(57, 20);
             this.wide.StyleController = this.layoutControl1;
@@ -266,7 +266,7 @@
             // 
             this.length.Location = new System.Drawing.Point(67, 270);
             this.length.Name = "length";
-            this.length.Properties.Mask.EditMask = "([0-9]{1,})";
+            this.length.Properties.Mask.EditMask = "([1-9][0-9]{0,})";
             this.length.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.length.Size = new System.Drawing.Size(54, 20);
             this.length.StyleController = this.layoutControl1;
@@ -368,7 +368,7 @@
             // repositoryItemTextEdit3
             // 
             this.repositoryItemTextEdit3.AutoHeight = false;
-            this.repositoryItemTextEdit3.Mask.EditMask = "([0-9]{1,})";
+            this.repositoryItemTextEdit3.Mask.EditMask = "([1-9][0-9]{0,})";
             this.repositoryItemTextEdit3.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
             // 

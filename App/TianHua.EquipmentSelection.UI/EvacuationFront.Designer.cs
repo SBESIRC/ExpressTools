@@ -223,7 +223,7 @@
             // repositoryItemTextEdit3
             // 
             this.repositoryItemTextEdit3.AutoHeight = false;
-            this.repositoryItemTextEdit3.Mask.EditMask = "([0-9]{1,})";
+            this.repositoryItemTextEdit3.Mask.EditMask = "([1-9][0-9]{0,})";
             this.repositoryItemTextEdit3.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
             // 
@@ -356,12 +356,12 @@
             this.simpleLabelItem1.Text = "计算结果";
             this.simpleLabelItem1.TextSize = new System.Drawing.Size(52, 14);
             // 
-            // RefugeFont
+            // EvacuationFront
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.layoutControl1);
-            this.Name = "RefugeFont";
+            this.Name = "EvacuationFront";
             this.Size = new System.Drawing.Size(289, 527);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
