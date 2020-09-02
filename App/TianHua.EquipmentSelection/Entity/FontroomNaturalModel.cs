@@ -40,7 +40,7 @@ namespace TianHua.FanSelection.Model
                 FrontRoomDoors.ForEach(o => Ak += o.Width_Door_Q * o.Height_Door_Q * o.Count_Door_Q);
                 StairCaseDoors.ForEach(o => Al += o.Width_Door_Q * o.Height_Door_Q * o.Count_Door_Q);
                 StairCaseDoors.ForEach(o => Ag += o.Width_Door_Q * o.Height_Door_Q * o.Count_Door_Q);
-                double V = 0.6*Al/(Ag+1);
+                double V = 0.6*(Al/Ag+1);
                 return Math.Round(Ak * V * Math.Min(Count_Floor, 3) * 3600);
             }
         }
