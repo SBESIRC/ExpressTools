@@ -36,6 +36,7 @@ namespace TianHua.FanSelection
         public const string BLOCK_ATTRIBUTE_FAN_PRESSURE = "全压";
         public const string BLOCK_ATTRIBUTE_FAN_CHARGE = "电量";
         public const string BLOCK_ATTRIBUTE_FAN_REMARK = "备注";
+        public const string BLOCK_ATTRIBUTE_MOUNT_TYPE = "安装方式";
         public const string BLOCK_ATTRIBUTE_FIXED_FREQUENCY = "定频";
         public const string BLOCK_ATTRIBUTE_FIRE_POWER_SUPPLY = "消防电源";
 
