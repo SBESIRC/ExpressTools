@@ -22,7 +22,7 @@ namespace TianHua.FanSelection
                 if (FuncStr.NullToStr(InstallSpace) != string.Empty && FuncStr.NullToStr(InstallSpace) != "未指定子项")
                     _FanNum += "-" + InstallSpace;
                 else
-                    _FanNum += "- ";
+                    _FanNum += "-无";
 
                 if (FuncStr.NullToStr(InstallFloor) != string.Empty && FuncStr.NullToStr(InstallFloor) != "未指定楼层")
                     _FanNum += "-" + InstallFloor;
