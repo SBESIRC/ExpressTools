@@ -26,6 +26,16 @@ namespace TianHua.FanSelection.Function
         }
 
         /// <summary>
+        /// 属性"安装方式"值
+        /// </summary>
+        /// <param name="mount"></param>
+        /// <returns></returns>
+        public static string Mount(string mount)
+        {
+            return string.Format("安装方式：{0}", mount);
+        }
+
+        /// <summary>
         /// 属性“变频”值
         /// </summary>
         /// <param name="control"></param>

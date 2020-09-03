@@ -36,7 +36,7 @@ namespace TianHua.FanSelection.UI
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_REMARK] = model.Remark,
 
                 // 安装方式
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_MOUNT_TYPE] = model.MountType,
+                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_MOUNT_TYPE] = ThFanSelectionUtils.Mount(model.MountType),
             };
             return attributes;
         }
@@ -168,7 +168,7 @@ namespace TianHua.FanSelection.UI
             // 安装方式
             if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_MOUNT_TYPE))
             {
-                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_MOUNT_TYPE] != model.MountType)
+                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_MOUNT_TYPE] != ThFanSelectionUtils.Mount(model.MountType))
                 {
                     return true;
                 }
