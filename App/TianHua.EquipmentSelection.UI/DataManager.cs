@@ -15,23 +15,32 @@ namespace TianHua.FanSelection.UI
 
         public JsonExporter m_Json;
 
-        /// <summary>
-        /// 风机箱选型
-        /// </summary>
-        public List<FanSelectionData> m_ListFanSelection = new List<FanSelectionData>();
-        /// <summary>
-        /// 轴流风机选型
-        /// </summary>
-        public List<FanSelectionData> m_ListAxialFanSelection = new List<FanSelectionData>();
-        /// <summary>
-        /// 风机箱参数
-        /// </summary>
-        public List<FanParameters> m_ListFanParameters = new List<FanParameters>();
 
         /// <summary>
-        /// 轴流风机参数
+        /// 离心-前倾-单速
         /// </summary>
-        public List<AxialFanParameters> m_ListAxialFanParameters = new List<AxialFanParameters>();
+        public List<FanParameters> m_ListFan_Forerake_Single = new List<FanParameters>();
+
+        /// <summary>
+        /// 离心-前倾-双速
+        /// </summary>
+        public List<FanParameters> m_ListFan_Forerake_Double = new List<FanParameters>();
+
+        /// <summary>
+        /// 离心-后倾-单速
+        /// </summary>
+        public List<FanParameters> m_ListFan_Hypsokinesis_Single = new List<FanParameters>();
+
+
+        /// <summary>
+        /// 轴流-单速
+        /// </summary>
+        public List<AxialFanParameters> m_ListAxialFan_Single = new List<AxialFanParameters>();
+        /// <summary>
+        /// 轴流-双速
+        /// </summary>
+        public List<AxialFanParameters> m_ListAxialFan_Double = new List<AxialFanParameters>();
+
 
         public string JsonContext
         {
@@ -68,13 +77,15 @@ namespace TianHua.FanSelection.UI
 
             m_Json = new JsonExporter(_Excel);
 
-            m_ListFanSelection = new List<FanSelectionData>();
+            m_ListFan_Forerake_Single = new List<FanParameters>();
 
-            m_ListAxialFanSelection = new List<FanSelectionData>();
+            m_ListFan_Forerake_Double = new List<FanParameters>();
 
-            m_ListFanParameters = new List<FanParameters>();
+            m_ListFan_Hypsokinesis_Single = new List<FanParameters>();
 
-            m_ListAxialFanParameters = new List<AxialFanParameters>();
+            m_ListAxialFan_Single = new List<AxialFanParameters>();
+
+            m_ListAxialFan_Double = new List<AxialFanParameters>();
 
             SetBasicData();
         }
@@ -96,21 +107,25 @@ namespace TianHua.FanSelection.UI
             if (m_Json.m_ListTable == null || m_Json.m_ListTable.Count == 0) { return; }
             for (int i = 0; i < m_Json.m_ListTable.Count; i++)
             {
-                if (FuncStr.NullToStr(m_Json.m_ListTable[i].TableName) == "风机箱选型")
+                if (FuncStr.NullToStr(m_Json.m_ListTable[i].TableName) == "离心-前倾-单速")
                 {
-                    m_ListFanSelection = InitFanSelection(m_Json.m_ListTable[i]);
+                    m_ListFan_Forerake_Single = InitFanParameters(m_Json.m_ListTable[i]);
                 }
-                if (FuncStr.NullToStr(m_Json.m_ListTable[i].TableName) == "风机箱参数")
+                if (FuncStr.NullToStr(m_Json.m_ListTable[i].TableName) == "离心-前倾-双速")
                 {
-                    m_ListFanParameters = InitFanParameters(m_Json.m_ListTable[i]);
+                    m_ListFan_Forerake_Double = InitFanParameters(m_Json.m_ListTable[i]);
                 }
-                if (FuncStr.NullToStr(m_Json.m_ListTable[i].TableName) == "轴流风机选型")
+                if (FuncStr.NullToStr(m_Json.m_ListTable[i].TableName) == "离心-后倾-单速")
                 {
-                    m_ListAxialFanSelection = InitFanSelection(m_Json.m_ListTable[i]);
+                    m_ListFan_Hypsokinesis_Single = InitFanParameters(m_Json.m_ListTable[i]);
                 }
-                if (FuncStr.NullToStr(m_Json.m_ListTable[i].TableName) == "轴流风机参数")
+                if (FuncStr.NullToStr(m_Json.m_ListTable[i].TableName) == "轴流-单速")
                 {
-                    m_ListAxialFanParameters = InitAxialFanParameters(m_Json.m_ListTable[i]);
+                    m_ListAxialFan_Single = InitAxialFanParameters(m_Json.m_ListTable[i]);
+                }
+                if (FuncStr.NullToStr(m_Json.m_ListTable[i].TableName) == "轴流-双速")
+                {
+                    m_ListAxialFan_Double = InitAxialFanParameters(m_Json.m_ListTable[i]);
                 }
             }
         }

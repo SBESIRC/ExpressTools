@@ -72,50 +72,63 @@ namespace TianHua.FanSelection.UI
 
             lock (this.m_DataMgr)
             {
-                if (m_DataMgr.m_ListFanSelection != null && m_DataMgr.m_ListFanSelection.Count > 0)
+                if (m_DataMgr.m_ListFan_Forerake_Single != null && m_DataMgr.m_ListFan_Forerake_Single.Count > 0)
                 {
-                    CheckFanSelection.Enabled = true;
-                    CheckFanSelection.Checked = true;
+                    CheckFan_Forerake_Single.Enabled = true;
+                    CheckFan_Forerake_Single.Checked = true;
                 }
                 else
                 {
-                    CheckFanSelection.Enabled = false;
-                    CheckFanSelection.Checked = false;
+                    CheckFan_Forerake_Single.Enabled = false;
+                    CheckFan_Forerake_Single.Checked = false;
                 }
 
-                if (m_DataMgr.m_ListAxialFanSelection != null && m_DataMgr.m_ListAxialFanSelection.Count > 0)
+                if (m_DataMgr.m_ListFan_Forerake_Double != null && m_DataMgr.m_ListFan_Forerake_Double.Count > 0)
                 {
-                    CheckAxialFan.Enabled = true;
-                    CheckAxialFan.Checked = true;
+                    CheckFan_Forerake_Double.Enabled = true;
+                    CheckFan_Forerake_Double.Checked = true;
                 }
                 else
                 {
-                    CheckAxialFan.Enabled = false;
-                    CheckAxialFan.Checked = false;
+                    CheckFan_Forerake_Double.Enabled = false;
+                    CheckFan_Forerake_Double.Checked = false;
                 }
 
-                if (m_DataMgr.m_ListFanParameters != null && m_DataMgr.m_ListFanParameters.Count > 0)
+                if (m_DataMgr.m_ListFan_Hypsokinesis_Single != null && m_DataMgr.m_ListFan_Hypsokinesis_Single.Count > 0)
                 {
 
-                    CheckFanParameters.Enabled = true;
-                    CheckFanParameters.Checked = true;
-                }
-                else
-                {
-                    CheckFanParameters.Enabled = false;
-                    CheckFanParameters.Checked = false;
-                }
-
-                if (m_DataMgr.m_ListAxialFanParameters != null && m_DataMgr.m_ListAxialFanParameters.Count > 0)
-                {
-
-                    CheckAxialFanPara.Enabled = true;
-                    CheckAxialFanPara.Checked = true;
+                    CheckFan_Hypsokinesis_Single.Enabled = true;
+                    CheckFan_Hypsokinesis_Single.Checked = true;
                 }
                 else
                 {
-                    CheckAxialFanPara.Enabled = false;
-                    CheckAxialFanPara.Checked = false;
+                    CheckFan_Hypsokinesis_Single.Enabled = false;
+                    CheckFan_Hypsokinesis_Single.Checked = false;
+                }
+
+                if (m_DataMgr.m_ListAxialFan_Single != null && m_DataMgr.m_ListAxialFan_Single.Count > 0)
+                {
+
+                    CheckAxialFan_Single.Enabled = true;
+                    CheckAxialFan_Single.Checked = true;
+                }
+                else
+                {
+                    CheckAxialFan_Single.Enabled = false;
+                    CheckAxialFan_Single.Checked = false;
+                }
+
+
+                if (m_DataMgr.m_ListAxialFan_Double != null && m_DataMgr.m_ListAxialFan_Double.Count > 0)
+                {
+
+                    CheckAxialFan_Double.Enabled = true;
+                    CheckAxialFan_Double.Checked = true;
+                }
+                else
+                {
+                    CheckAxialFan_Double.Enabled = false;
+                    CheckAxialFan_Double.Checked = false;
                 }
             }
         }
@@ -123,42 +136,52 @@ namespace TianHua.FanSelection.UI
         private void BtnOK_Click(object sender, EventArgs e)
         {
 
-            if(!CheckFanSelection.Checked && !CheckAxialFan.Checked && !CheckFanParameters.Checked && !CheckAxialFanPara.Checked)
+            if(!CheckFan_Forerake_Single.Checked && !CheckFan_Hypsokinesis_Single.Checked && !CheckFan_Forerake_Double.Checked && !CheckAxialFan_Single.Checked)
             {
                 XtraMessageBox.Show("请正确选择需要转换的 .Xlsx 数据!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (CheckFanSelection.Checked)
+            if (CheckFan_Forerake_Single.Checked)
             {
-                var _Json = FuncJson.Serialize(m_DataMgr.m_ListFanSelection);
+                var _Json = FuncJson.Serialize(m_DataMgr.m_ListFan_Forerake_Single);
                 m_DataMgr.m_Json.SaveToFile(
-                    Path.Combine(Environment.CurrentDirectory, ThFanSelectionCommon.HTFC_Selection), 
+                    Path.Combine(Environment.CurrentDirectory, "离心-前倾-单速.json"), 
                     Encoding.UTF8, 
                     _Json);
             }
-            if (CheckAxialFan.Checked)
+            if (CheckFan_Forerake_Double.Checked)
             {
-                var _Json = FuncJson.Serialize(m_DataMgr.m_ListAxialFanSelection);
+                var _Json = FuncJson.Serialize(m_DataMgr.m_ListFan_Forerake_Double);
                 m_DataMgr.m_Json.SaveToFile(
-                    Path.Combine(Environment.CurrentDirectory, ThFanSelectionCommon.AXIAL_Selection), 
+                    Path.Combine(Environment.CurrentDirectory, "离心-前倾-双速.json"), 
                     Encoding.UTF8, 
                     _Json);
             }
-            if (CheckFanParameters.Checked)
+            if (CheckFan_Hypsokinesis_Single.Checked)
             {
-                var _Json = FuncJson.Serialize(m_DataMgr.m_ListFanParameters);
+                var _Json = FuncJson.Serialize(m_DataMgr.m_ListFan_Hypsokinesis_Single);
                 m_DataMgr.m_Json.SaveToFile(
-                    Path.Combine(Environment.CurrentDirectory, ThFanSelectionCommon.HTFC_Parameters), 
+                    Path.Combine(Environment.CurrentDirectory, "离心-后倾-单速.json"), 
                     Encoding.UTF8, 
                     _Json);
             }
-            if (CheckAxialFanPara.Checked)
+
+            if (CheckAxialFan_Single.Checked)
             {
-                var _Json = FuncJson.Serialize(m_DataMgr.m_ListAxialFanParameters);
+                var _Json = FuncJson.Serialize(m_DataMgr.m_ListAxialFan_Single);
                 m_DataMgr.m_Json.SaveToFile(
-                    Path.Combine(Environment.CurrentDirectory, ThFanSelectionCommon.AXIAL_Parameters), 
+                    Path.Combine(Environment.CurrentDirectory, "轴流-单速.json"), 
                     Encoding.UTF8, 
+                    _Json);
+            }
+
+            if (CheckAxialFan_Double.Checked)
+            {
+                var _Json = FuncJson.Serialize(m_DataMgr.m_ListAxialFan_Double);
+                m_DataMgr.m_Json.SaveToFile(
+                    Path.Combine(Environment.CurrentDirectory, "轴流-双速.json"),
+                    Encoding.UTF8,
                     _Json);
             }
 

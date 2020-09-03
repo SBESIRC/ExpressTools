@@ -86,6 +86,12 @@
     <Compile Include="EquipmentSelectionApp.cs" />
     <Compile Include="ExcelLoader.cs" />
     <Compile Include="FanDataModelExtension.cs" />
+    <Compile Include="fmAirVolumeCalc-Exhaust.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmAirVolumeCalc-Exhaust.Designer.cs">
+      <DependentUpon>fmAirVolumeCalc-Exhaust.cs</DependentUpon>
+    </Compile>
     <Compile Include="fmAirVolumeCalc.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +145,12 @@
     </Compile>
     <Compile Include="fmFanVolumeCalc.Designer.cs">
       <DependentUpon>fmFanVolumeCalc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fmScenario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmScenario.Designer.cs">
+      <DependentUpon>fmScenario.cs</DependentUpon>
     </Compile>
     <Compile Include="ICustomCommandMapper.cs" />
     <Compile Include="JsonExporter.cs" />
@@ -207,6 +219,9 @@
     <EmbeddedResource Include="CtlAxisymmetric.resx">
       <DependentUpon>CtlAxisymmetric.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="fmAirVolumeCalc-Exhaust.resx">
+      <DependentUpon>fmAirVolumeCalc-Exhaust.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="fmAirVolumeCalc.resx">
       <DependentUpon>fmAirVolumeCalc.cs</DependentUpon>
     </EmbeddedResource>
@@ -233,6 +248,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="fmFanVolumeCalc.resx">
       <DependentUpon>fmFanVolumeCalc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmScenario.resx">
+      <DependentUpon>fmScenario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModelValidation.resx">
       <DependentUpon>ModelValidation.cs</DependentUpon>
