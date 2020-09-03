@@ -28,8 +28,8 @@ namespace TianHua.FanSelection.ExcelExport
             setsheet.SetCellValue("D15", StaircaseNoAir.QueryValue.ToString());
             setsheet.SetCellValue("D16", StaircaseNoAir.Count_Floor.ToString());
             setsheet.SetCellValue("D17", GetLoadRange(StaircaseNoAir.Load.ToString()));
-            setsheet.SetCellValue("D18", StaircaseNoAir.Stair.ToString());
-            setsheet.SetCellValue("D19", StaircaseNoAir.Type_Area.ToString());
+            setsheet.SetCellValue("D18", GetStairLocation(StaircaseNoAir.Stair.ToString()));
+            setsheet.SetCellValue("D19", GetStairSpaceState(StaircaseNoAir.Type_Area.ToString()));
             int rowNo = 20;
             foreach (var frontRoomDoor in StaircaseNoAir.FrontRoomDoors)
             {
