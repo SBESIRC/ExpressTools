@@ -333,7 +333,7 @@
             // 
             this.doorWidth.Caption = "门宽（m）";
             this.doorWidth.ColumnEdit = this.repositoryItemTextEdit1;
-            this.doorWidth.FieldName = "Count_Door_Q";
+            this.doorWidth.FieldName = "Width_Door_Q";
             this.doorWidth.Name = "doorWidth";
             this.doorWidth.Visible = true;
             this.doorWidth.VisibleIndex = 0;
@@ -341,7 +341,7 @@
             // repositoryItemTextEdit1
             // 
             this.repositoryItemTextEdit1.AutoHeight = false;
-            this.repositoryItemTextEdit1.Mask.EditMask = "([1-9][0-9]{0,})";
+            this.repositoryItemTextEdit1.Mask.EditMask = "([0-9]{1,}([.][0-9]){0,1})";
             this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
@@ -349,7 +349,7 @@
             // 
             this.doorHeight.Caption = "门高（m）";
             this.doorHeight.ColumnEdit = this.repositoryItemTextEdit1;
-            this.doorHeight.FieldName = "Width_Door_Q";
+            this.doorHeight.FieldName = "Height_Door_Q";
             this.doorHeight.Name = "doorHeight";
             this.doorHeight.Visible = true;
             this.doorHeight.VisibleIndex = 1;
@@ -358,7 +358,7 @@
             // 
             this.doorCount.Caption = "数量（扇）";
             this.doorCount.ColumnEdit = this.repositoryItemTextEdit1;
-            this.doorCount.FieldName = "Height_Door_Q";
+            this.doorCount.FieldName = "Count_Door_Q";
             this.doorCount.Name = "doorCount";
             this.doorCount.Visible = true;
             this.doorCount.VisibleIndex = 2;
