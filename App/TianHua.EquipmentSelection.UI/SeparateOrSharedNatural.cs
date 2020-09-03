@@ -151,6 +151,7 @@ namespace TianHua.FanSelection.UI
             {
                 Model.FrontRoomDoors.RemoveAt(row);
             }
+            UpdateWithModel(Model);
             gridControl1.DataSource = Model.FrontRoomDoors;
             gridView1.RefreshData();
         }
@@ -198,6 +199,7 @@ namespace TianHua.FanSelection.UI
             {
                 Model.StairCaseDoors.RemoveAt(row);
             }
+            UpdateWithModel(Model);
             gridControl2.DataSource = Model.StairCaseDoors;
             gridView2.RefreshData();
         }

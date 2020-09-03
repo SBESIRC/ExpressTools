@@ -170,6 +170,7 @@ namespace TianHua.FanSelection.UI
             {
                 Model.FrontRoomDoors.RemoveAt(row);
             }
+            UpdateWithModel(Model);
             gridControl1.DataSource = Model.FrontRoomDoors;
             gridView1.RefreshData();
         }
