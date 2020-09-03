@@ -5,10 +5,8 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
+using TianHua.FanSelection.UI.Command;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
-using TianHua.AutoCAD.Utility.ExtensionTools;
-using System.IO;
-using TianHua.FanSelection.ExcelExport;
 
 namespace TianHua.FanSelection.UI
 {
@@ -61,6 +59,15 @@ namespace TianHua.FanSelection.UI
                     AcadApp.ShowModelessDialog(_Form);
                     _Form.ShowFormByID(entId.GetModelIdentifier());
                 }
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "THFJBLOCK", CommandFlags.NoHistory)]
+        public void ThEquipmentBlock()
+        {
+            using (var cmd = new ThModelBlockCommand())
+            {
+                cmd.Execute();
             }
         }
 
