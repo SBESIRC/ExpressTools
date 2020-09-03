@@ -57,6 +57,33 @@ namespace TianHua.FanSelection.ExcelExport
             }
             return string.Empty;
         }
+        public string GetStairLocation(string location)
+        {
+            switch (location)
+            {
+                case "OnGround":
+                    return "地上";
+                case "UnderGound":
+                    return "地下";
+                default:
+                    break;
+            }
+            return string.Empty;
+        }
+        public string GetStairSpaceState(string state)
+        {
+            switch (state)
+            {
+                case "Residence":
+                    return "住宅";
+                case "Business":
+                    return "商业";
+                default:
+                    break;
+            }
+            return string.Empty;
+        }
+
         public abstract void ExportToExcel(ThFanVolumeModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelFile excelfile);
     }
 }
