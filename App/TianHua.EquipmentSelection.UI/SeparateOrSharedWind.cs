@@ -221,6 +221,7 @@ namespace TianHua.FanSelection.UI
 
         private void DoorInfoChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
+            subview.Refresh();
             UpdateWithModel(Model);
         }
 
