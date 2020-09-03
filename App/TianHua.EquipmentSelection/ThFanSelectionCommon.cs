@@ -17,13 +17,13 @@ namespace TianHua.FanSelection
         public const string MOTOR_POWER_Double = "电机功率-双速.json";
         public const string BLOCK_FAN_FILE = "暖通.选型.风机.dwg";
         public const string HTFC_Selection = "离心风机选型.json";
-        public const string HTFC_Parameters = "离心风机参数.json";
-        public const string HTFC_Parameters_Double = "离心风机参数-双速.json";
-        public const string HTFC_Parameters_Single = "离心风机参数-单速.json";
+        public const string HTFC_Parameters = "离心-前倾-单速.json";
+        public const string HTFC_Parameters_Double = "离心-前倾-双速.json";
+        public const string HTFC_Parameters_Single = "离心-后倾-单速.json";
         
         public const string AXIAL_Selection = "轴流风机选型.json";
-        public const string AXIAL_Parameters = "轴流风机参数.json";
-        public const string AXIAL_Parameters_Double = "轴流风机参数-双速.json";
+        public const string AXIAL_Parameters = "轴流-单速.json";
+        public const string AXIAL_Parameters_Double = "轴流-双速.json";
         public const string HTFC_Efficiency = "离心风机效率.json";
         public const string AXIAL_Efficiency = "轴流风机效率.json";
         public const string RegAppName_FanSelection = "THCAD_FAN_SELECTION";
