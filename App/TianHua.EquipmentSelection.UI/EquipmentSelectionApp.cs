@@ -36,7 +36,8 @@ namespace TianHua.FanSelection.UI
                 AcadApp.ShowAlertDialog("请先保存当前图纸!");
                 return;
             }
-            AcadApp.ShowModelessDialog(fmFanSelection.GetInstance());
+            Active.Document.CreateModelSelectionDialog();
+            Active.Document.ShowModelSelectionDialog();
         }
 
         [CommandMethod("TIANHUACAD", "THFJZH", CommandFlags.Modal)]
@@ -55,9 +56,8 @@ namespace TianHua.FanSelection.UI
                 ObjectId entId = GetSelectedEntity();
                 if (!entId.IsNull)
                 {
-                    var _Form = fmFanSelection.GetInstance();
-                    AcadApp.ShowModelessDialog(_Form);
-                    _Form.ShowFormByID(entId.GetModelIdentifier());
+                    Active.Document.ShowModelSelectionDialog();
+                    Active.Document.Form().ShowFormByID(entId.GetModelIdentifier());
                 }
             }
         }
@@ -87,10 +87,11 @@ namespace TianHua.FanSelection.UI
         private static void AddDoubleClickHandler()
         {
             AcadApp.BeginDoubleClick += Application_BeginDoubleClick;
-            AcadApp.DocumentManager.DocumentDestroyed += DocumentManager_DocumentDestroyed;
             AcadApp.DocumentManager.DocumentBecameCurrent += DocumentManager_DocumentBecameCurrent;
             AcadApp.DocumentManager.DocumentLockModeChanged += DocumentManager_DocumentLockModeChanged;
             AcadApp.DocumentManager.DocumentLockModeChangeVetoed += DocumentManager_DocumentLockModeChangeVetoed;
+            AcadApp.DocumentManager.DocumentToBeDeactivated += DocumentManager_DocumentToBeDeactivated;
+            AcadApp.DocumentManager.DocumentToBeDestroyed += DocumentManager_DocumentToBeDestroyed;
 
             //Load custom command mappers
             _customCommands = CustomCommandsFactory.CreateDefaultCustomCommandMappers();
@@ -99,32 +100,26 @@ namespace TianHua.FanSelection.UI
         private static void RemoveDoubleClickHandler()
         {
             AcadApp.BeginDoubleClick -= Application_BeginDoubleClick;
-            AcadApp.DocumentManager.DocumentDestroyed -= DocumentManager_DocumentDestroyed;
             AcadApp.DocumentManager.DocumentBecameCurrent -= DocumentManager_DocumentBecameCurrent;
             AcadApp.DocumentManager.DocumentLockModeChanged -= DocumentManager_DocumentLockModeChanged;
             AcadApp.DocumentManager.DocumentLockModeChangeVetoed -= DocumentManager_DocumentLockModeChangeVetoed;
+            AcadApp.DocumentManager.DocumentToBeDeactivated -= DocumentManager_DocumentToBeDeactivated;
+            AcadApp.DocumentManager.DocumentToBeDestroyed -= DocumentManager_DocumentToBeDestroyed;
+        }
+
+        private static void DocumentManager_DocumentToBeDeactivated(object sender, DocumentCollectionEventArgs e)
+        {
+            e.Document.HideModelSelectionDialog();
+        }
+
+        private static void DocumentManager_DocumentToBeDestroyed(object sender, DocumentCollectionEventArgs e)
+        {
+            e.Document.CloseModelSelectionDialog();
         }
 
         private static void DocumentManager_DocumentBecameCurrent(object sender, DocumentCollectionEventArgs e)
         {
-            var dwgName = Convert.ToInt32(AcadApp.GetSystemVariable("DWGTITLED"));
-            var _fmFanSelection = fmFanSelection.GetInstance();
-            _fmFanSelection.ReLoad();
-            if (dwgName == 0)
-            {
-                _fmFanSelection.Hide();
-                return;
-            }
-    
-            //AcadApp.ShowModelessDialog(_fmFanSelection);
-        }
-
-        private static void DocumentManager_DocumentDestroyed(object sender, DocumentDestroyedEventArgs e)
-        {
-            if (AcadApp.DocumentManager.Count == 1)
-            {
-                fmFanSelection.GetInstance().Hide();
-            }
+            e.Document.ShowModelSelectionDialog();
         }
 
         private static void Application_BeginDoubleClick(object sender, BeginDoubleClickEventArgs e)

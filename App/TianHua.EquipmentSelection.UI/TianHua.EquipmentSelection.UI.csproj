@@ -208,10 +208,12 @@
     </Compile>
     <Compile Include="ThFanSelectionDbExtension.cs" />
     <Compile Include="ThFanSelectionDbManager.cs" />
+    <Compile Include="ThFanSelectionDocumentExtension.cs" />
     <Compile Include="ThFanSelectionDynBlockExtension.cs" />
     <Compile Include="ThFanSelectionEditorExtension.cs" />
     <Compile Include="ThFanSelectionEngine.cs" />
     <Compile Include="ThFanSelectionGeExtension.cs" />
+    <Compile Include="ThFanSelectionUICommon.cs" />
     <Compile Include="ThFSBlockReference.cs" />
     <EmbeddedResource Include="FireElevatorFrontRoom.resx">
       <DependentUpon>FireElevatorFrontRoom.cs</DependentUpon>
