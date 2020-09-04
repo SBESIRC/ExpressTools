@@ -51,7 +51,7 @@ namespace TianHua.FanSelection.UI
             }
             if (form != null)
             {
-                form.Close();
+                form.Dispose();
             }
         }
 
