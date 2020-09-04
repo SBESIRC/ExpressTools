@@ -264,7 +264,7 @@ namespace TianHua.FanSelection.UI
         {
             if (!Regex.IsMatch(layerCount.Text, "^[0-9]+$"))
             {
-                return -1;
+                return 0;
             }
 
             if (OnGound.Checked)
