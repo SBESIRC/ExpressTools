@@ -87,7 +87,7 @@ namespace TianHua.FanSelection.UI
         private static void AddDoubleClickHandler()
         {
             AcadApp.BeginDoubleClick += Application_BeginDoubleClick;
-            AcadApp.DocumentManager.DocumentBecameCurrent += DocumentManager_DocumentBecameCurrent;
+            AcadApp.DocumentManager.DocumentActivated += DocumentManager_DocumentActivated;
             AcadApp.DocumentManager.DocumentLockModeChanged += DocumentManager_DocumentLockModeChanged;
             AcadApp.DocumentManager.DocumentLockModeChangeVetoed += DocumentManager_DocumentLockModeChangeVetoed;
             AcadApp.DocumentManager.DocumentToBeDeactivated += DocumentManager_DocumentToBeDeactivated;
@@ -100,11 +100,16 @@ namespace TianHua.FanSelection.UI
         private static void RemoveDoubleClickHandler()
         {
             AcadApp.BeginDoubleClick -= Application_BeginDoubleClick;
-            AcadApp.DocumentManager.DocumentBecameCurrent -= DocumentManager_DocumentBecameCurrent;
+            AcadApp.DocumentManager.DocumentActivated -= DocumentManager_DocumentActivated;
             AcadApp.DocumentManager.DocumentLockModeChanged -= DocumentManager_DocumentLockModeChanged;
             AcadApp.DocumentManager.DocumentLockModeChangeVetoed -= DocumentManager_DocumentLockModeChangeVetoed;
             AcadApp.DocumentManager.DocumentToBeDeactivated -= DocumentManager_DocumentToBeDeactivated;
             AcadApp.DocumentManager.DocumentToBeDestroyed -= DocumentManager_DocumentToBeDestroyed;
+        }
+
+        private static void DocumentManager_DocumentActivated(object sender, DocumentCollectionEventArgs e)
+        {
+            e.Document.ShowModelSelectionDialog();
         }
 
         private static void DocumentManager_DocumentToBeDeactivated(object sender, DocumentCollectionEventArgs e)
@@ -115,11 +120,6 @@ namespace TianHua.FanSelection.UI
         private static void DocumentManager_DocumentToBeDestroyed(object sender, DocumentCollectionEventArgs e)
         {
             e.Document.CloseModelSelectionDialog();
-        }
-
-        private static void DocumentManager_DocumentBecameCurrent(object sender, DocumentCollectionEventArgs e)
-        {
-            e.Document.ShowModelSelectionDialog();
         }
 
         private static void Application_BeginDoubleClick(object sender, BeginDoubleClickEventArgs e)
