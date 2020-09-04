@@ -363,6 +363,7 @@
             this.label14.Size = new System.Drawing.Size(95, 20);
             this.label14.TabIndex = 32;
             this.label14.Text = "m³/h";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label13
             // 
@@ -371,6 +372,7 @@
             this.label13.Size = new System.Drawing.Size(95, 20);
             this.label13.TabIndex = 31;
             this.label13.Text = "m³/h";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label12
             // 
@@ -379,6 +381,7 @@
             this.label12.Size = new System.Drawing.Size(136, 20);
             this.label12.TabIndex = 30;
             this.label12.Text = "m³/h";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // gridControl1
             // 
@@ -539,6 +542,7 @@
             this.label3.Size = new System.Drawing.Size(95, 20);
             this.label3.TabIndex = 9;
             this.label3.Text = "层";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // highLoad
             // 

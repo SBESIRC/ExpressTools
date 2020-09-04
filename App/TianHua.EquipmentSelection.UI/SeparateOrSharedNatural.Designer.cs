@@ -323,6 +323,7 @@
             this.label12.Size = new System.Drawing.Size(106, 20);
             this.label12.TabIndex = 32;
             this.label12.Text = "m³/h";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label11
             // 
@@ -331,6 +332,7 @@
             this.label11.Size = new System.Drawing.Size(106, 20);
             this.label11.TabIndex = 31;
             this.label11.Text = "m³/h";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Lj
             // 
@@ -348,6 +350,7 @@
             this.label10.Size = new System.Drawing.Size(169, 20);
             this.label10.TabIndex = 29;
             this.label10.Text = "m³/h";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // wide
             // 
@@ -564,6 +567,7 @@
             this.label4.Size = new System.Drawing.Size(167, 22);
             this.label4.TabIndex = 11;
             this.label4.Text = "疏散门(前室)";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // layerCount
             // 
@@ -583,6 +587,7 @@
             this.label3.Size = new System.Drawing.Size(136, 20);
             this.label3.TabIndex = 9;
             this.label3.Text = "层";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // highLoad
             // 

@@ -207,6 +207,7 @@
             this.label11.Size = new System.Drawing.Size(106, 20);
             this.label11.TabIndex = 27;
             this.label11.Text = "m³/h";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // L1
             // 
@@ -224,6 +225,7 @@
             this.label10.Size = new System.Drawing.Size(106, 20);
             this.label10.TabIndex = 25;
             this.label10.Text = "m³/h";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Lj
             // 
@@ -241,6 +243,7 @@
             this.label9.Size = new System.Drawing.Size(142, 20);
             this.label9.TabIndex = 23;
             this.label9.Text = "m³/h";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // result
             // 
@@ -280,6 +283,7 @@
             this.label7.Size = new System.Drawing.Size(21, 20);
             this.label7.TabIndex = 19;
             this.label7.Text = "mm";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label6
             // 
@@ -288,6 +292,7 @@
             this.label6.Size = new System.Drawing.Size(22, 20);
             this.label6.TabIndex = 18;
             this.label6.Text = "mm";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label5
             // 
@@ -435,6 +440,7 @@
             this.label4.Size = new System.Drawing.Size(174, 22);
             this.label4.TabIndex = 11;
             this.label4.Text = "疏散门（前室）";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // layerCount
             // 
@@ -454,6 +460,7 @@
             this.label3.Size = new System.Drawing.Size(99, 20);
             this.label3.TabIndex = 9;
             this.label3.Text = "层";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // middleLoad
             // 
@@ -597,6 +604,8 @@
             // 
             // layerNumber
             // 
+            this.layerNumber.AppearanceItemCaption.Options.UseTextOptions = true;
+            this.layerNumber.AppearanceItemCaption.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.layerNumber.Control = this.layerCount;
             this.layerNumber.Location = new System.Drawing.Point(0, 77);
             this.layerNumber.Name = "layerNumber";

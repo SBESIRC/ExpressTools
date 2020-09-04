@@ -173,7 +173,7 @@
             this.simpleLabelItem1.AppearanceItemCaption.Options.UseFont = true;
             this.simpleLabelItem1.Location = new System.Drawing.Point(0, 0);
             this.simpleLabelItem1.Name = "simpleLabelItem1";
-            this.simpleLabelItem1.Size = new System.Drawing.Size(440, 18);
+            this.simpleLabelItem1.Size = new System.Drawing.Size(436, 18);
             this.simpleLabelItem1.Text = "应用场景";
             this.simpleLabelItem1.TextSize = new System.Drawing.Size(52, 14);
             // 
@@ -250,6 +250,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(464, 890);
             this.Controls.Add(this.layoutControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "fmFanVolumeCalc";

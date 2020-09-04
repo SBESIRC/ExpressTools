@@ -116,6 +116,7 @@
             this.label6.Size = new System.Drawing.Size(100, 20);
             this.label6.TabIndex = 11;
             this.label6.Text = "m³/h";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label4
             // 
@@ -145,6 +146,7 @@
             this.label3.Size = new System.Drawing.Size(100, 20);
             this.label3.TabIndex = 7;
             this.label3.Text = "m³/h㎡";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // AreaInput
             // 
@@ -164,6 +166,7 @@
             this.label2.Size = new System.Drawing.Size(100, 20);
             this.label2.TabIndex = 5;
             this.label2.Text = "㎡";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label1
             // 

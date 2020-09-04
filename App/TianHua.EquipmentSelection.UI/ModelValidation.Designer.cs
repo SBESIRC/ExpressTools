@@ -144,6 +144,7 @@
             this.label1.Size = new System.Drawing.Size(102, 20);
             this.label1.TabIndex = 4;
             this.label1.Text = "m³/h";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // layoutControlGroup1
             // 
