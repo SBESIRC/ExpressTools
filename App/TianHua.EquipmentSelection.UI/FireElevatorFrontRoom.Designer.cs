@@ -339,6 +339,7 @@
             // repositoryItemTextEdit1
             // 
             this.repositoryItemTextEdit1.AutoHeight = false;
+            this.repositoryItemTextEdit1.Mask.AutoComplete = DevExpress.XtraEditors.Mask.AutoCompleteType.Optimistic;
             this.repositoryItemTextEdit1.Mask.EditMask = "([0-9]{1,}([.][0-9]){0,1})";
             this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
@@ -355,6 +356,7 @@
             // repositoryItemTextEdit2
             // 
             this.repositoryItemTextEdit2.AutoHeight = false;
+            this.repositoryItemTextEdit2.Mask.AutoComplete = DevExpress.XtraEditors.Mask.AutoCompleteType.Optimistic;
             this.repositoryItemTextEdit2.Mask.EditMask = "([0-9]{1,}([.][0-9]){0,1})";
             this.repositoryItemTextEdit2.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
