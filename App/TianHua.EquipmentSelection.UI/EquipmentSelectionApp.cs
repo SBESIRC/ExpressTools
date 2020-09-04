@@ -109,17 +109,34 @@ namespace TianHua.FanSelection.UI
 
         private static void DocumentManager_DocumentActivated(object sender, DocumentCollectionEventArgs e)
         {
-            e.Document.ShowModelSelectionDialog();
+            if (e.Document != null)
+            {
+                if (e.Document.PopModelSelectionDialogVisible())
+                {
+                    e.Document.ShowModelSelectionDialog();
+                }
+                else
+                {
+                    e.Document.HideModelSelectionDialog();
+                }
+            }
         }
 
         private static void DocumentManager_DocumentToBeDeactivated(object sender, DocumentCollectionEventArgs e)
         {
-            e.Document.HideModelSelectionDialog();
+            if (e.Document != null)
+            {
+                e.Document.PushModelSelectionDialogVisible();
+                e.Document.HideModelSelectionDialog();
+            }
         }
 
         private static void DocumentManager_DocumentToBeDestroyed(object sender, DocumentCollectionEventArgs e)
         {
-            e.Document.CloseModelSelectionDialog();
+            if (e.Document != null)
+            {
+                e.Document.CloseModelSelectionDialog();
+            }
         }
 
         private static void Application_BeginDoubleClick(object sender, BeginDoubleClickEventArgs e)

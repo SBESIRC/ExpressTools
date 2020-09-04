@@ -55,6 +55,26 @@ namespace TianHua.FanSelection.UI
             }
         }
 
+        public static void PushModelSelectionDialogVisible(this Document document)
+        {
+            if (document.UserData.ContainsKey(ThFanSelectionUICommon.DOCUMENT_USER_DATA_UI))
+            {
+                Form form = document.UserData[ThFanSelectionUICommon.DOCUMENT_USER_DATA_UI] as Form;
+                document.UserData[ThFanSelectionUICommon.DOCUMENT_USER_DATA_UI_VISIBLE] = form.Visible;
+            }
+        }
+
+        public static bool PopModelSelectionDialogVisible(this Document document)
+        {
+            bool visible = false;
+            if (document.UserData.ContainsKey(ThFanSelectionUICommon.DOCUMENT_USER_DATA_UI))
+            {
+                Form form = document.UserData[ThFanSelectionUICommon.DOCUMENT_USER_DATA_UI] as Form;
+                visible = (bool)document.UserData[ThFanSelectionUICommon.DOCUMENT_USER_DATA_UI_VISIBLE];
+            }
+            return visible;
+        }
+
         public static fmFanSelection Form(this Document document)
         {
             if (document.UserData.ContainsKey(ThFanSelectionUICommon.DOCUMENT_USER_DATA_UI))

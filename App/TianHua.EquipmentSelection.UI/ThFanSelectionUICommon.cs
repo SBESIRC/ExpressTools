@@ -9,5 +9,6 @@ namespace TianHua.FanSelection.UI
     public class ThFanSelectionUICommon
     {
         public const string DOCUMENT_USER_DATA_UI = "THMODELPICKDLG";
+        public const string DOCUMENT_USER_DATA_UI_VISIBLE = "THMODELPICKDLGVISIBLE";
     }
 }
