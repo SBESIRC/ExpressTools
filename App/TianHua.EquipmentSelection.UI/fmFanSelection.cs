@@ -465,6 +465,8 @@ namespace TianHua.FanSelection.UI
                         _Fan.FanModelWeight = _FanParameters.Weight;
                         _Fan.IsPointSafe = !picker.IsOptimalModel();
 
+             
+
                         m_fmFanModel.CalcFanEfficiency(_Fan);
                     }
 
@@ -538,6 +540,14 @@ namespace TianHua.FanSelection.UI
                         _Fan.FanModelHeight = _FanParameters.Height;
                         _Fan.FanModelWeight = _FanParameters.Weight;
                         _Fan.IsPointSafe = !picker.IsOptimalModel();
+
+                        if (_Fan.VentStyle.Contains("电机内置"))
+                        {
+                            _Fan.FanModelLength = _FanParameters.Length2;
+                            _Fan.FanModelWidth = _FanParameters.Width1;
+                            _Fan.FanModelHeight = _FanParameters.Height2;
+                        }
+
                         m_fmFanModel.CalcFanEfficiency(_Fan);
                     }
 
