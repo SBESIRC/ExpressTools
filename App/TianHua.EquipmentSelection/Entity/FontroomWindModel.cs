@@ -38,6 +38,7 @@ namespace TianHua.FanSelection.Model
                 double Ak = 0.0;
                 FrontRoomDoors.ForEach(o => Ak += o.Width_Door_Q * o.Height_Door_Q * o.Count_Door_Q);
                 double V = 0.7;
+                OverAk = Ak;
                 return Math.Round(Ak * V * Math.Min(Count_Floor, 3) * 3600);
             }
         }

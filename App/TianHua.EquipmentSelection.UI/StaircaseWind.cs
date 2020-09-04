@@ -241,13 +241,9 @@ namespace TianHua.FanSelection.UI
 
         private void DoorInfoChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
-            subview.Refresh();
-            if (GetN1Value() == -1)
-            {
-                return;
-            }
             Model.StairN1 = GetN1Value();
             UpdateWithModel(Model);
+            subview.Refresh();
         }
 
         private void CountFloorChanged(object sender, EventArgs e)
