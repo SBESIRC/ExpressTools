@@ -395,6 +395,8 @@
             // 
             // gridView1
             // 
+            this.gridView1.Appearance.HeaderPanel.Options.UseTextOptions = true;
+            this.gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
             this.gridColumn2,
@@ -414,6 +416,8 @@
             // 
             // gridColumn1
             // 
+            this.gridColumn1.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn1.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn1.Caption = "门形式";
             this.gridColumn1.ColumnEdit = this.repositoryItemComboBox1;
             this.gridColumn1.FieldName = "Type";
@@ -435,6 +439,8 @@
             // 
             // gridColumn2
             // 
+            this.gridColumn2.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn2.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn2.Caption = "门宽（m）";
             this.gridColumn2.ColumnEdit = this.repositoryItemTextEdit1;
             this.gridColumn2.FieldName = "Width_Door_Q";
@@ -454,6 +460,8 @@
             // 
             // gridColumn3
             // 
+            this.gridColumn3.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn3.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn3.Caption = "门高（m）";
             this.gridColumn3.ColumnEdit = this.repositoryItemTextEdit2;
             this.gridColumn3.FieldName = "Height_Door_Q";
@@ -473,6 +481,8 @@
             // 
             // gridColumn4
             // 
+            this.gridColumn4.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn4.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn4.Caption = "数量（扇）";
             this.gridColumn4.ColumnEdit = this.repositoryItemTextEdit3;
             this.gridColumn4.FieldName = "Count_Door_Q";
@@ -491,6 +501,8 @@
             // 
             // gridColumn5
             // 
+            this.gridColumn5.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn5.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn5.Caption = "缝宽（mm）";
             this.gridColumn5.ColumnEdit = this.repositoryItemTextEdit4;
             this.gridColumn5.FieldName = "Crack_Door_Q";
@@ -541,7 +553,7 @@
             this.highLoad.Name = "highLoad";
             this.highLoad.Size = new System.Drawing.Size(94, 25);
             this.highLoad.TabIndex = 8;
-            this.highLoad.Text = "50m<h=100m";
+            this.highLoad.Text = "50m<h≤100m";
             this.highLoad.UseVisualStyleBackColor = true;
             this.highLoad.CheckedChanged += new System.EventHandler(this.highLoad_CheckedChanged);
             // 
@@ -551,7 +563,7 @@
             this.middleLoad.Name = "middleLoad";
             this.middleLoad.Size = new System.Drawing.Size(95, 25);
             this.middleLoad.TabIndex = 7;
-            this.middleLoad.Text = "24m<h<=50m";
+            this.middleLoad.Text = "24m<h≤50m";
             this.middleLoad.UseVisualStyleBackColor = true;
             this.middleLoad.CheckedChanged += new System.EventHandler(this.middleLoad_CheckedChanged);
             // 
@@ -563,7 +575,7 @@
             this.lowLoad.Size = new System.Drawing.Size(68, 25);
             this.lowLoad.TabIndex = 6;
             this.lowLoad.TabStop = true;
-            this.lowLoad.Text = "h<=24m";
+            this.lowLoad.Text = "h≤24m";
             this.lowLoad.UseVisualStyleBackColor = true;
             this.lowLoad.CheckedChanged += new System.EventHandler(this.lowLoad_CheckedChanged);
             // 

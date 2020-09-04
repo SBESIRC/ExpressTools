@@ -316,6 +316,8 @@
             // 
             // gridView1
             // 
+            this.gridView1.Appearance.HeaderPanel.Options.UseTextOptions = true;
+            this.gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.doorWidth,
             this.doorHeight,
@@ -332,6 +334,8 @@
             // 
             // doorWidth
             // 
+            this.doorWidth.AppearanceCell.Options.UseTextOptions = true;
+            this.doorWidth.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.doorWidth.Caption = "门宽（m）";
             this.doorWidth.ColumnEdit = this.repositoryItemTextEdit1;
             this.doorWidth.FieldName = "Width_Door_Q";
@@ -349,6 +353,8 @@
             // 
             // doorHeight
             // 
+            this.doorHeight.AppearanceCell.Options.UseTextOptions = true;
+            this.doorHeight.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.doorHeight.Caption = "门高（m）";
             this.doorHeight.ColumnEdit = this.repositoryItemTextEdit1;
             this.doorHeight.FieldName = "Height_Door_Q";
@@ -358,6 +364,8 @@
             // 
             // doorCount
             // 
+            this.doorCount.AppearanceCell.Options.UseTextOptions = true;
+            this.doorCount.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.doorCount.Caption = "数量（扇）";
             this.doorCount.ColumnEdit = this.repositoryItemTextEdit1;
             this.doorCount.FieldName = "Count_Door_Q";
@@ -406,7 +414,7 @@
             this.highLoad.Name = "highLoad";
             this.highLoad.Size = new System.Drawing.Size(100, 25);
             this.highLoad.TabIndex = 8;
-            this.highLoad.Text = "50m<h<=100m";
+            this.highLoad.Text = "50m<h≤100m";
             this.highLoad.UseVisualStyleBackColor = true;
             this.highLoad.CheckedChanged += new System.EventHandler(this.highLoad_CheckedChanged);
             // 
@@ -416,7 +424,7 @@
             this.middleLoad.Name = "middleLoad";
             this.middleLoad.Size = new System.Drawing.Size(91, 25);
             this.middleLoad.TabIndex = 7;
-            this.middleLoad.Text = "24m<h<=50m";
+            this.middleLoad.Text = "24m<h≤50m";
             this.middleLoad.UseVisualStyleBackColor = true;
             this.middleLoad.CheckedChanged += new System.EventHandler(this.middleLoad_CheckedChanged);
             // 
@@ -428,7 +436,7 @@
             this.lowLoad.Size = new System.Drawing.Size(66, 25);
             this.lowLoad.TabIndex = 6;
             this.lowLoad.TabStop = true;
-            this.lowLoad.Text = "h<=24m";
+            this.lowLoad.Text = "h≤24m";
             this.lowLoad.UseVisualStyleBackColor = true;
             this.lowLoad.CheckedChanged += new System.EventHandler(this.lowLoad_CheckedChanged);
             // 

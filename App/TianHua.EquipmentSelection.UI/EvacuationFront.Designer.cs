@@ -169,6 +169,8 @@
             // 
             // gridView1
             // 
+            this.gridView1.Appearance.HeaderPanel.Options.UseTextOptions = true;
+            this.gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
             this.gridColumn2,
@@ -185,6 +187,8 @@
             // 
             // gridColumn1
             // 
+            this.gridColumn1.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn1.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn1.Caption = "门宽（m）";
             this.gridColumn1.ColumnEdit = this.repositoryItemTextEdit1;
             this.gridColumn1.FieldName = "Width_Door_Q";
@@ -202,6 +206,8 @@
             // 
             // gridColumn2
             // 
+            this.gridColumn2.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn2.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn2.Caption = "门高（m）";
             this.gridColumn2.ColumnEdit = this.repositoryItemTextEdit2;
             this.gridColumn2.FieldName = "Height_Door_Q";
@@ -219,6 +225,8 @@
             // 
             // gridColumn3
             // 
+            this.gridColumn3.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn3.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn3.Caption = "数量（扇）";
             this.gridColumn3.ColumnEdit = this.repositoryItemTextEdit3;
             this.gridColumn3.FieldName = "Count_Door_Q";
