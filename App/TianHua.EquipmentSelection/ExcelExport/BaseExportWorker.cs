@@ -12,32 +12,39 @@ namespace TianHua.FanSelection.ExcelExport
     {
         public static BaseExportWorker Create(ThFanVolumeModel model)
         {
-            if (model is FireFrontModel)
+            if (model is FireFrontModel fm)
             {
+                fm.FrontRoomDoors = fm.FrontRoomDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
                 return new FireFrontExportWorker();
             }
-            else if (model is FontroomNaturalModel)
+            else if (model is FontroomNaturalModel fn)
             {
+                fn.FrontRoomDoors = fn.FrontRoomDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
+                fn.StairCaseDoors = fn.StairCaseDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
                 return new FontroomNaturalExportWorker();
             }
-            else if (model is FontroomWindModel)
+            else if (model is FontroomWindModel ft)
             {
+                ft.FrontRoomDoors = ft.FrontRoomDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
                 return new FontroomWindExportWorker();
             }
-            else if (model is StaircaseNoAirModel)
+            else if (model is StaircaseNoAirModel sn)
             {
+                sn.FrontRoomDoors = sn.FrontRoomDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
                 return new StaircaseNoAirExportWorker();
             }
-            else if (model is StaircaseAirModel)
+            else if (model is StaircaseAirModel sa)
             {
+                sa.FrontRoomDoors = sa.FrontRoomDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
                 return new StaircaseAirExportWorker();
             }
             else if (model is RefugeRoomAndCorridorModel)
             {
                 return new RefugeCorridorExportWorker();
             }
-            else if (model is RefugeFontRoomModel)
+            else if (model is RefugeFontRoomModel rf)
             {
+                rf.FrontRoomDoors = rf.FrontRoomDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
                 return new RefugeFontRoomExportWorker();
             }
             return null;

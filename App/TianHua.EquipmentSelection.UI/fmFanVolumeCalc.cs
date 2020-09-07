@@ -157,8 +157,6 @@ namespace TianHua.FanSelection.UI
         private void simpleButton1_Click(object sender, EventArgs e)
         {
             //
-            //var view = Views[0] as NewFireElevatorFrontRoom;
-            //var model = view.Model;
         }      
     }
 }

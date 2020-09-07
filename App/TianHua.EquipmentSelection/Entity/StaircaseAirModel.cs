@@ -48,7 +48,15 @@ namespace TianHua.FanSelection.Model
             get
             {
                 double Ak = 0.0;
-                FrontRoomDoors.ForEach(o => Ak += o.Width_Door_Q * o.Height_Door_Q * o.Count_Door_Q);
+                foreach (var door in FrontRoomDoors)
+                {
+                    if (door.Crack_Door_Q * door.Count_Door_Q * door.Height_Door_Q * door.Width_Door_Q == 0)
+                    {
+                        continue;
+                    }
+                    Ak += door.Width_Door_Q * door.Height_Door_Q * door.Count_Door_Q;
+                }
+                //FrontRoomDoors.ForEach(o => Ak += o.Width_Door_Q * o.Height_Door_Q * o.Count_Door_Q);
                 OverAk = Ak;
                 double V = 0.7;
                 return Math.Round(Ak * V * StairN1 * 3600);
@@ -69,6 +77,10 @@ namespace TianHua.FanSelection.Model
                 int length = FrontRoomDoors.Count();
                 for (int i = 0; i < length; i++)
                 {
+                    if (FrontRoomDoors[i].Crack_Door_Q * FrontRoomDoors[i].Count_Door_Q * FrontRoomDoors[i].Height_Door_Q * FrontRoomDoors[i].Width_Door_Q == 0)
+                    {
+                        continue;
+                    }
                     if (FrontRoomDoors[i].Type.ToString().Equals("单扇"))
                     {
                         a += (FrontRoomDoors[i].Width_Door_Q +
