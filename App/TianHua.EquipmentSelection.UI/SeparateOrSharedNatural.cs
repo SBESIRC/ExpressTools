@@ -56,6 +56,13 @@ namespace TianHua.FanSelection.UI
                 default:
                     break;
             }
+
+            if (model.Load == FontroomNaturalModel.LoadHeight.LoadHeightLow)
+            {
+                UpdateWithModel(Model);
+                CheckPanel.Controls.Clear();
+                CheckPanel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            }
         }
 
         private void lowLoad_CheckedChanged(object sender, EventArgs e)

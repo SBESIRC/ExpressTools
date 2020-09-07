@@ -52,6 +52,12 @@ namespace TianHua.FanSelection.UI
                     break;
             }
 
+            if (model.Load == FontroomWindModel.LoadHeight.LoadHeightLow)
+            {
+                UpdateWithModel(Model);
+                CheckPanel.Controls.Clear();
+                CheckPanel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            }
         }
 
         public override ThFanVolumeModel Data()

@@ -74,6 +74,13 @@ namespace TianHua.FanSelection.UI
                 default:
                     break;
             }
+
+            if (model.Load== StaircaseAirModel.LoadHeight.LoadHeightLow)
+            {
+                UpdateWithModel(Model);
+                CheckPanel.Controls.Clear();
+                CheckPanel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            }
         }
 
         public override ThFanVolumeModel Data()
