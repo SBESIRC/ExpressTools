@@ -41,6 +41,21 @@ namespace TianHua.FanSelection.UI
                 length.Text = model.Length_Valve.ToString();
                 wide.Text = model.Width_Valve.ToString();
             }
+
+            switch (model.Load)
+            {
+                case FireFrontModel.LoadHeight.LoadHeightLow:
+                    lowLoad.Checked = true;
+                    break;
+                case FireFrontModel.LoadHeight.LoadHeightMiddle:
+                    middleLoad.Checked = true;
+                    break;
+                case FireFrontModel.LoadHeight.LoadHeightHigh:
+                    highLoad.Checked = true;
+                    break;
+                default:
+                    break;
+            }
         }
 
         public override ThFanVolumeModel Data()
@@ -187,7 +202,7 @@ namespace TianHua.FanSelection.UI
 
         private void NewFireElevatorFrontRomm_Load(object sender, EventArgs e)
         {
-            middleLoad.Checked = true;
+            //
         }
 
         private void CheckLjValue(double minvalue, double maxvalue)

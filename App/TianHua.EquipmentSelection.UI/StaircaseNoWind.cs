@@ -35,6 +35,45 @@ namespace TianHua.FanSelection.UI
             {
                 layerCount.Text = model.Count_Floor.ToString();
             }
+
+            switch (model.Load)
+            {
+                case StaircaseNoAirModel.LoadHeight.LoadHeightLow:
+                    lowLoad.Checked = true;
+                    break;
+                case StaircaseNoAirModel.LoadHeight.LoadHeightMiddle:
+                    middleLoad.Checked = true;
+                    break;
+                case StaircaseNoAirModel.LoadHeight.LoadHeightHigh:
+                    highLoad.Checked = true;
+                    break;
+                default:
+                    break;
+            }
+
+            switch (model.Stair)
+            {
+                case StaircaseNoAirModel.StairLocation.OnGround:
+                    OnGound.Checked = true;
+                    break;
+                case StaircaseNoAirModel.StairLocation.UnderGound:
+                    UnderGound.Checked = true;
+                    break;
+                default:
+                    break;
+            }
+
+            switch (model.Type_Area)
+            {
+                case StaircaseNoAirModel.SpaceState.Residence:
+                    Residence.Checked = true;
+                    break;
+                case StaircaseNoAirModel.SpaceState.Business:
+                    Business.Checked = true;
+                    break;
+                default:
+                    break;
+            }
         }
 
         public override ThFanVolumeModel Data()
@@ -86,11 +125,8 @@ namespace TianHua.FanSelection.UI
         {
             Residence.Enabled = false;
             Business.Enabled = false;
-            if (GetN1Value() == -1)
-            {
-                return;
-            }
             Model.StairN1 = GetN1Value();
+            Model.Stair = StaircaseNoAirModel.StairLocation.OnGround;
             UpdateWithModel(Model);
         }
 
@@ -98,31 +134,22 @@ namespace TianHua.FanSelection.UI
         {
             Residence.Enabled = true;
             Business.Enabled = true;
-            if (GetN1Value() == -1)
-            {
-                return;
-            }
             Model.StairN1 = GetN1Value();
+            Model.Stair = StaircaseNoAirModel.StairLocation.UnderGound;
             UpdateWithModel(Model);
         }
 
         private void Residence_Click(object sender, EventArgs e)
         {
-            if (GetN1Value() == -1)
-            {
-                return;
-            }
             Model.StairN1 = GetN1Value();
+            Model.Type_Area = StaircaseNoAirModel.SpaceState.Residence;
             UpdateWithModel(Model);
         }
 
         private void Business_Click(object sender, EventArgs e)
         {
-            if (GetN1Value() == -1)
-            {
-                return;
-            }
             Model.StairN1 = GetN1Value();
+            Model.Type_Area = StaircaseNoAirModel.SpaceState.Business;
             UpdateWithModel(Model);
         }
 
@@ -209,7 +236,7 @@ namespace TianHua.FanSelection.UI
 
         private void StaircaseNoWind_Load(object sender, EventArgs e)
         {
-            middleLoad.Checked = true;
+            //
         }
 
         private void CheckLjValue(double minvalue, double maxvalue)
