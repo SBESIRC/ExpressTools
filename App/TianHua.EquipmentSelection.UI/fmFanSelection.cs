@@ -886,7 +886,7 @@ namespace TianHua.FanSelection.UI
             _FanDataModel.MountType = "吊装";
             _FanDataModel.Control = "单速";
             _FanDataModel.PowerType = "普通";
-            _FanDataModel.VibrationMode = "R";
+            _FanDataModel.VibrationMode = "S";
             _FanDataModel.SortID = m_ListFan.Count + 1;
             if (_FanDataModel.Scenario.Contains("消防"))
             {
@@ -924,11 +924,16 @@ namespace TianHua.FanSelection.UI
                 _FanDataModel.VentStyle = "轴流";
                 _FanDataModel.VentConnect = "直连";
                 _FanDataModel.IntakeForm = "直进直出";
-                _FanDataModel.VibrationMode = "S";
+           
             }
             if (FuncStr.NullToStr(_FanDataModel.Scenario).Contains("事故"))
             {
                 _FanDataModel.PowerType = "事故";
+            }
+            if (FuncStr.NullToStr(_FanDataModel.Scenario)== "消防加压送风" || FuncStr.NullToStr(_FanDataModel.Scenario) == "消防排烟"
+                || FuncStr.NullToStr(_FanDataModel.Scenario) == "消防加压补风")
+            {
+                _FanDataModel.VibrationMode = "-";
             }
 
             m_ListFan.Add(_FanDataModel);

@@ -50,21 +50,25 @@ namespace TianHua.FanSelection.UI
             //m_Fan = FuncJson.Deserialize<FanDataModel>(_Json);
             m_Fan = _FanDataModel;
 
-            if(PubVar.g_ListSceneResistaCalc != null && PubVar.g_ListSceneResistaCalc.Count > 0)
+            if (PubVar.g_ListSceneResistaCalc != null && PubVar.g_ListSceneResistaCalc.Count > 0)
             {
                 var _SceneResistaCalc = PubVar.g_ListSceneResistaCalc.Find(p => p.Scene == m_Fan.Scenario);
-                if(_SceneResistaCalc != null && m_Fan.DuctLength == 0 && m_Fan.Friction == 0 && m_Fan.LocRes == 0 && m_Fan.DuctResistance == 0)
+                if (_SceneResistaCalc != null && m_Fan.DuctLength == 0 && m_Fan.Friction == 0 && m_Fan.LocRes == 0 && m_Fan.DuctResistance == 0)
                 {
                     m_Fan.Friction = _SceneResistaCalc.Friction;
                     m_Fan.LocRes = _SceneResistaCalc.LocRes;
                     m_Fan.Damper = _SceneResistaCalc.Damper;
                     m_Fan.DynPress = _SceneResistaCalc.DynPress;
+                    if (m_Fan.PID != "0" && (FuncStr.NullToStr(m_Fan.Scenario) == "消防排烟兼平时排风" || FuncStr.NullToStr(m_Fan.Scenario) == "消防补风兼平时送风"))
+                    {
+                        m_Fan.Friction = 1;
+                    }
                 }
             }
 
 
 
-                m_ListFan = new List<FanDataModel>();
+            m_ListFan = new List<FanDataModel>();
             m_ListFan.Add(m_Fan);
             Gdc.DataSource = m_ListFan;
             Gdc.Refresh();
