@@ -5,6 +5,7 @@ using AcHelper.Commands;
 using TianHua.Publics.BaseCode;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.EditorInput;
+using TianHua.FanSelection.Function;
 
 namespace TianHua.FanSelection.UI.Command
 {

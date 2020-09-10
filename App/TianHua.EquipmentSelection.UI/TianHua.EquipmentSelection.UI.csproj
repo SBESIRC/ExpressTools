@@ -85,7 +85,6 @@
     <Compile Include="DataManager.cs" />
     <Compile Include="EquipmentSelectionApp.cs" />
     <Compile Include="ExcelLoader.cs" />
-    <Compile Include="FanDataModelExtension.cs" />
     <Compile Include="fmAirVolumeCalc-Exhaust.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,7 +256,6 @@
     <EmbeddedResource Include="ModelValidation.resx">
       <DependentUpon>ModelValidation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -374,7 +372,7 @@
     </When>
   </Choose>
   <ItemGroup>
-    <PackageReference Include="EmptyLicensesLicx" Version="2.0.0" GeneratePathProperty="true">
+    <PackageReference Include="EmptyLicensesLicx" Version="2.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

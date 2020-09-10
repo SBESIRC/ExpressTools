@@ -1,9 +1,7 @@
 ﻿using System;
-using TianHua.Publics.BaseCode;
 using System.Collections.Generic;
-using TianHua.FanSelection.Function;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.Function
 {
     public static class FanDataModelExtension
     {
@@ -18,13 +16,13 @@ namespace TianHua.FanSelection.UI
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_USAGE] = model.Name,
 
                 // 风量
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME] = Convert.ToString(model.AirVolume),
+                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME] = ThFanSelectionUtils.AirVolume(model.AirVolume),
 
                 // 全压
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE] = Convert.ToString(model.WindResis),
+                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE] = ThFanSelectionUtils.WindResis(model.WindResis),
 
                 // 电量
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE] = model.FanModelMotorPower,
+                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE] = ThFanSelectionUtils.MotorPower(model.FanModelMotorPower),
 
                 // 定频
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FIXED_FREQUENCY] = ThFanSelectionUtils.FixedFrequency(model.Control, model.IsFre),
@@ -88,8 +86,8 @@ namespace TianHua.FanSelection.UI
             // 风量
             if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME))
             {
-                if (FuncStr.NullToInt(attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME])
-                    != model.AirVolume)
+                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME]
+                    != ThFanSelectionUtils.AirVolume(model.AirVolume))
                 {
                     return true;
                 }
@@ -102,8 +100,8 @@ namespace TianHua.FanSelection.UI
             // 全压
             if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE))
             {
-                if (FuncStr.NullToInt(attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE])
-                    != FuncStr.NullToInt(model.WindResis))
+                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE]
+                    != ThFanSelectionUtils.WindResis(model.WindResis))
                 {
                     return true;
                 }
@@ -117,8 +115,8 @@ namespace TianHua.FanSelection.UI
             if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE))
             {
 
-                if (FuncStr.NullToDouble(attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE])
-                    != FuncStr.NullToDouble(model.FanModelMotorPower))
+                if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE]
+                    != ThFanSelectionUtils.MotorPower(model.FanModelMotorPower))
                 {
                     return true;
                 }

@@ -36,6 +36,37 @@ namespace TianHua.FanSelection.Function
         }
 
         /// <summary>
+        /// 属性“风量”值
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string AirVolume(double value)
+        {
+            return string.Format("风量：{0} cmh", Convert.ToString(value));
+        }
+
+        /// <summary>
+        /// 属性“全压”值
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string WindResis(double value)
+        {
+            return string.Format("全压：{0} Pa", Convert.ToString(value));
+        }
+
+
+        /// <summary>
+        /// 属性“电量”值
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string MotorPower(string value)
+        {
+            return string.Format("电量：{0} kW", value);
+        }
+
+        /// <summary>
         /// 属性“变频”值
         /// </summary>
         /// <param name="control"></param>

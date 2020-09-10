@@ -59,6 +59,7 @@
     <Compile Include="ExcelExport\RefugeFontRoomExportWorker.cs" />
     <Compile Include="ExcelExport\StaircaseAirExportWorker.cs" />
     <Compile Include="ExcelExport\StaircaseNoAirExportWorker.cs" />
+    <Compile Include="Function\FanDataModelExtension.cs" />
     <Compile Include="Function\FanParametersComparer.cs" />
     <Compile Include="Function\FanParametersExtension.cs" />
     <Compile Include="ThFanSelectionCommon.cs" />
