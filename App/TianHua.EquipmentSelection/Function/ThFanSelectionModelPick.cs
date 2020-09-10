@@ -14,46 +14,26 @@ namespace TianHua.FanSelection.Function
             return model.Envelope.Contains(point);
         }
 
+        public static List<IPoint> ReferenceModelPoint(this IGeometry model, IPoint point, IGeometry refModel)
+        {
+            var refPoints = new List<IPoint>();
+            var locator = new LocationIndexedLine(model);
+            var refLocator = new LocationIndexedLine(refModel);
+            foreach (var modelPoint in model.IntersectionPoint(point))
+            {
+                var location = locator.IndexOf(modelPoint.Coordinate);
+                var refModelPoint = refLocator.ExtractPoint(location);
+                refPoints.Add(ThCADCoreNTSService.Instance.GeometryFactory.CreatePoint(refModelPoint));
+            }
+            return refPoints;
+        }
+
         public static Dictionary<IGeometry, IPoint> ModelPick(this List<IGeometry> models, IPoint point)
         {
             var points = new List<IPoint>();
             foreach (var model in models)
             {
-                // 先取信封
-                var envelope = model.EnvelopeInternal;
-                // 计算点和信封的交线
-                if (point.X <= envelope.MaxX &&
-                    point.X >= envelope.MinX &&
-                    point.Y <= envelope.MaxY)
-                {
-                    var coordinates = new List<Coordinate>()
-                    {
-                        new Coordinate(
-                            ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(point.X),
-                            ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(envelope.MinY)),
-                        new Coordinate(
-                            ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(point.X),
-                            ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(envelope.MaxY)),
-
-                    };
-                    // 计算模型线和探测线的交点
-                    var intersectPoints = model.Intersection(ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(coordinates.ToArray()));
-                    if (intersectPoints is IPoint pt)
-                    {
-                        points.Add(pt);
-                    }
-                    else if (intersectPoints is IMultiPoint pts)
-                    {
-                        foreach (IPoint po in pts.Geometries)
-                        {
-                            points.Add(po);
-                        }
-                    }
-                    else
-                    {
-                        throw new NotSupportedException();
-                    }
-                }
+                points.AddRange(model.IntersectionPoint(point));
             }
 
             // 寻找探测点上方最近的交点作为热点
@@ -72,6 +52,48 @@ namespace TianHua.FanSelection.Function
                 }
             }
             return pickedModel;
+        }
+        private static List<IPoint> IntersectionPoint(this IGeometry model, IPoint point)
+        {
+            var points = new List<IPoint>();
+
+            // 先取信封
+            var envelope = model.EnvelopeInternal;
+            // 计算点和信封的交线
+            if (point.X <= envelope.MaxX &&
+                point.X >= envelope.MinX &&
+                point.Y <= envelope.MaxY)
+            {
+                var coordinates = new List<Coordinate>()
+                    {
+                        new Coordinate(
+                            ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(point.X),
+                            ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(envelope.MinY)),
+                        new Coordinate(
+                            ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(point.X),
+                            ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(envelope.MaxY)),
+
+                    };
+                // 计算模型线和探测线的交点
+                var intersectPoints = model.Intersection(ThCADCoreNTSService.Instance.GeometryFactory.CreateLineString(coordinates.ToArray()));
+                if (intersectPoints is IPoint pt)
+                {
+                    points.Add(pt);
+                }
+                else if (intersectPoints is IMultiPoint pts)
+                {
+                    foreach (IPoint po in pts.Geometries)
+                    {
+                        points.Add(po);
+                    }
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+
+            return points;
         }
 
         private static IPoint GetClosestVertexTo(this IGeometry geometry, IPoint point)
