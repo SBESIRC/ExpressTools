@@ -151,6 +151,12 @@
     <Compile Include="fmScenario.Designer.cs">
       <DependentUpon>fmScenario.cs</DependentUpon>
     </Compile>
+    <Compile Include="fmSceneScreening.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmSceneScreening.Designer.cs">
+      <DependentUpon>fmSceneScreening.cs</DependentUpon>
+    </Compile>
     <Compile Include="ICustomCommandMapper.cs" />
     <Compile Include="JsonExporter.cs" />
     <Compile Include="ModelValidation.cs">
@@ -252,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="fmScenario.resx">
       <DependentUpon>fmScenario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmSceneScreening.resx">
+      <DependentUpon>fmSceneScreening.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModelValidation.resx">
       <DependentUpon>ModelValidation.cs</DependentUpon>

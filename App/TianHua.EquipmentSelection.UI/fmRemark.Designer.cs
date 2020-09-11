@@ -29,31 +29,31 @@
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
-            this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
-            this.Memo = new DevExpress.XtraEditors.MemoEdit();
-            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.BtnOK = new DevExpress.XtraEditors.SimpleButton();
-            this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.BtnClose = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnOK = new DevExpress.XtraEditors.SimpleButton();
+            this.Memo = new DevExpress.XtraEditors.MemoEdit();
+            this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.BtnAll = new DevExpress.XtraEditors.SimpleButton();
+            this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.emptySpaceItem3 = new DevExpress.XtraLayout.EmptySpaceItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Memo.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem3)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
             this.layoutControl1.AllowCustomization = false;
+            this.layoutControl1.Controls.Add(this.BtnAll);
             this.layoutControl1.Controls.Add(this.BtnClose);
             this.layoutControl1.Controls.Add(this.BtnOK);
             this.layoutControl1.Controls.Add(this.Memo);
@@ -66,6 +66,38 @@
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
+            // BtnClose
+            // 
+            this.BtnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.BtnClose.Location = new System.Drawing.Point(225, 170);
+            this.BtnClose.Name = "BtnClose";
+            this.BtnClose.Size = new System.Drawing.Size(83, 22);
+            this.BtnClose.StyleController = this.layoutControl1;
+            this.BtnClose.TabIndex = 9;
+            this.BtnClose.Text = "取消";
+            // 
+            // BtnOK
+            // 
+            this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.BtnOK.Location = new System.Drawing.Point(131, 170);
+            this.BtnOK.Name = "BtnOK";
+            this.BtnOK.Size = new System.Drawing.Size(84, 22);
+            this.BtnOK.StyleController = this.layoutControl1;
+            this.BtnOK.TabIndex = 8;
+            this.BtnOK.Text = "确定";
+            this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
+            // 
+            // Memo
+            // 
+            this.Memo.Location = new System.Drawing.Point(9, 9);
+            this.Memo.Name = "Memo";
+            this.Memo.Properties.Appearance.BackColor = System.Drawing.Color.White;
+            this.Memo.Properties.Appearance.Options.UseBackColor = true;
+            this.Memo.Properties.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.Memo.Size = new System.Drawing.Size(302, 149);
+            this.Memo.StyleController = this.layoutControl1;
+            this.Memo.TabIndex = 7;
+            // 
             // layoutControlGroup1
             // 
             this.layoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
@@ -74,24 +106,12 @@
             this.layoutControlItem1,
             this.layoutControlItem2,
             this.layoutControlItem3,
-            this.emptySpaceItem1,
-            this.emptySpaceItem2,
-            this.emptySpaceItem3});
+            this.layoutControlItem4,
+            this.emptySpaceItem1});
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(7, 7, 7, 7);
             this.layoutControlGroup1.Size = new System.Drawing.Size(320, 204);
             this.layoutControlGroup1.TextVisible = false;
-            // 
-            // Memo
-            // 
-            this.Memo.Location = new System.Drawing.Point(9, 9);
-            this.Memo.Name = "Memo";
-            this.Memo.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(54)))), ((int)(((byte)(54)))));
-            this.Memo.Properties.Appearance.Options.UseBackColor = true;
-            this.Memo.Properties.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.Memo.Size = new System.Drawing.Size(302, 155);
-            this.Memo.StyleController = this.layoutControl1;
-            this.Memo.TabIndex = 7;
             // 
             // layoutControlItem1
             // 
@@ -99,74 +119,60 @@
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
             this.layoutControlItem1.Padding = new DevExpress.XtraLayout.Utils.Padding(2, 2, 2, 7);
-            this.layoutControlItem1.Size = new System.Drawing.Size(306, 164);
+            this.layoutControlItem1.Size = new System.Drawing.Size(306, 158);
             this.layoutControlItem1.Text = "文字";
             this.layoutControlItem1.TextLocation = DevExpress.Utils.Locations.Top;
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
-            // BtnOK
-            // 
-            this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(49, 173);
-            this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(96, 22);
-            this.BtnOK.StyleController = this.layoutControl1;
-            this.BtnOK.TabIndex = 8;
-            this.BtnOK.Text = "确定";
-            this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
-            // 
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.BtnOK;
-            this.layoutControlItem2.Location = new System.Drawing.Point(40, 164);
+            this.layoutControlItem2.Location = new System.Drawing.Point(119, 158);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(100, 26);
+            this.layoutControlItem2.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
+            this.layoutControlItem2.Size = new System.Drawing.Size(94, 32);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
-            // 
-            // BtnClose
-            // 
-            this.BtnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtnClose.Location = new System.Drawing.Point(174, 173);
-            this.BtnClose.Name = "BtnClose";
-            this.BtnClose.Size = new System.Drawing.Size(96, 22);
-            this.BtnClose.StyleController = this.layoutControl1;
-            this.BtnClose.TabIndex = 9;
-            this.BtnClose.Text = "取消";
             // 
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.BtnClose;
-            this.layoutControlItem3.Location = new System.Drawing.Point(165, 164);
+            this.layoutControlItem3.Location = new System.Drawing.Point(213, 158);
             this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(100, 26);
+            this.layoutControlItem3.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
+            this.layoutControlItem3.Size = new System.Drawing.Size(93, 32);
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextVisible = false;
+            // 
+            // BtnAll
+            // 
+            this.BtnAll.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.BtnAll.Location = new System.Drawing.Point(38, 170);
+            this.BtnAll.Name = "BtnAll";
+            this.BtnAll.Size = new System.Drawing.Size(83, 22);
+            this.BtnAll.StyleController = this.layoutControl1;
+            this.BtnAll.TabIndex = 10;
+            this.BtnAll.Text = "全部应用";
+            this.BtnAll.Click += new System.EventHandler(this.BtnAll_Click);
+            // 
+            // layoutControlItem4
+            // 
+            this.layoutControlItem4.Control = this.BtnAll;
+            this.layoutControlItem4.Location = new System.Drawing.Point(26, 158);
+            this.layoutControlItem4.Name = "layoutControlItem4";
+            this.layoutControlItem4.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
+            this.layoutControlItem4.Size = new System.Drawing.Size(93, 32);
+            this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem4.TextVisible = false;
             // 
             // emptySpaceItem1
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
-            this.emptySpaceItem1.Location = new System.Drawing.Point(265, 164);
+            this.emptySpaceItem1.Location = new System.Drawing.Point(0, 158);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(41, 26);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(26, 32);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
-            // 
-            // emptySpaceItem2
-            // 
-            this.emptySpaceItem2.AllowHotTrack = false;
-            this.emptySpaceItem2.Location = new System.Drawing.Point(0, 164);
-            this.emptySpaceItem2.Name = "emptySpaceItem2";
-            this.emptySpaceItem2.Size = new System.Drawing.Size(40, 26);
-            this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
-            // 
-            // emptySpaceItem3
-            // 
-            this.emptySpaceItem3.AllowHotTrack = false;
-            this.emptySpaceItem3.Location = new System.Drawing.Point(140, 164);
-            this.emptySpaceItem3.Name = "emptySpaceItem3";
-            this.emptySpaceItem3.Size = new System.Drawing.Size(25, 26);
-            this.emptySpaceItem3.TextSize = new System.Drawing.Size(0, 0);
             // 
             // fmRemark
             // 
@@ -183,14 +189,13 @@
             this.Load += new System.EventHandler(this.fmRemark_Load);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Memo.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -205,8 +210,8 @@
         private DevExpress.XtraEditors.SimpleButton BtnOK;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
+        private DevExpress.XtraEditors.SimpleButton BtnAll;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
-        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem2;
-        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem3;
     }
 }

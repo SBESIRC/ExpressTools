@@ -116,10 +116,10 @@
             this.layouLX = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layouZL = new DevExpress.XtraLayout.LayoutControlItem();
             this.TxtPrompt = new DevExpress.XtraLayout.SimpleLabelItem();
+            this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GroupZL)).BeginInit();
@@ -185,10 +185,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.layouLX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layouZL)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtPrompt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -204,7 +204,7 @@
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(716, 207, 650, 400);
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(422, 485);
+            this.layoutControl1.Size = new System.Drawing.Size(445, 476);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
@@ -212,10 +212,10 @@
             // 
             this.GroupZL.Controls.Add(this.layoutControl5);
             this.GroupZL.Location = new System.Drawing.Point(7, 249);
-            this.GroupZL.MaximumSize = new System.Drawing.Size(404, 81);
-            this.GroupZL.MinimumSize = new System.Drawing.Size(404, 81);
+            this.GroupZL.MaximumSize = new System.Drawing.Size(431, 81);
+            this.GroupZL.MinimumSize = new System.Drawing.Size(431, 81);
             this.GroupZL.Name = "GroupZL";
-            this.GroupZL.Size = new System.Drawing.Size(404, 81);
+            this.GroupZL.Size = new System.Drawing.Size(431, 81);
             this.GroupZL.TabIndex = 8;
             this.GroupZL.Text = "尺寸数据";
             // 
@@ -232,16 +232,16 @@
             this.layoutControl5.Name = "layoutControl5";
             this.layoutControl5.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(786, 205, 650, 400);
             this.layoutControl5.Root = this.layoutControlGroup5;
-            this.layoutControl5.Size = new System.Drawing.Size(400, 58);
+            this.layoutControl5.Size = new System.Drawing.Size(427, 58);
             this.layoutControl5.TabIndex = 0;
             this.layoutControl5.Text = "layoutControl5";
             // 
             // LabZLWeight
             // 
             this.LabZLWeight.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabZLWeight.Location = new System.Drawing.Point(314, 10);
+            this.LabZLWeight.Location = new System.Drawing.Point(335, 10);
             this.LabZLWeight.Name = "LabZLWeight";
-            this.LabZLWeight.Size = new System.Drawing.Size(76, 14);
+            this.LabZLWeight.Size = new System.Drawing.Size(82, 14);
             this.LabZLWeight.StyleController = this.layoutControl5;
             this.LabZLWeight.TabIndex = 17;
             this.LabZLWeight.Text = "92";
@@ -249,9 +249,9 @@
             // LabZLLength
             // 
             this.LabZLLength.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabZLLength.Location = new System.Drawing.Point(108, 10);
+            this.LabZLLength.Location = new System.Drawing.Point(115, 10);
             this.LabZLLength.Name = "LabZLLength";
-            this.LabZLLength.Size = new System.Drawing.Size(91, 14);
+            this.LabZLLength.Size = new System.Drawing.Size(98, 14);
             this.LabZLLength.StyleController = this.layoutControl5;
             this.LabZLLength.TabIndex = 16;
             this.LabZLLength.Text = "640";
@@ -259,9 +259,9 @@
             // LabDIA
             // 
             this.LabDIA.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabDIA.Location = new System.Drawing.Point(108, 34);
+            this.LabDIA.Location = new System.Drawing.Point(115, 34);
             this.LabDIA.Name = "LabDIA";
-            this.LabDIA.Size = new System.Drawing.Size(92, 14);
+            this.LabDIA.Size = new System.Drawing.Size(99, 14);
             this.LabDIA.StyleController = this.layoutControl5;
             this.LabDIA.TabIndex = 15;
             this.LabDIA.Text = "850";
@@ -269,9 +269,9 @@
             // labelControl8
             // 
             this.labelControl8.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl8.Location = new System.Drawing.Point(209, 10);
+            this.labelControl8.Location = new System.Drawing.Point(223, 10);
             this.labelControl8.Name = "labelControl8";
-            this.labelControl8.Size = new System.Drawing.Size(95, 14);
+            this.labelControl8.Size = new System.Drawing.Size(102, 14);
             this.labelControl8.StyleController = this.layoutControl5;
             this.labelControl8.TabIndex = 14;
             this.labelControl8.Text = "重量（kg）：";
@@ -281,7 +281,7 @@
             this.labelControl10.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.labelControl10.Location = new System.Drawing.Point(10, 34);
             this.labelControl10.Name = "labelControl10";
-            this.labelControl10.Size = new System.Drawing.Size(88, 14);
+            this.labelControl10.Size = new System.Drawing.Size(95, 14);
             this.labelControl10.StyleController = this.layoutControl5;
             this.labelControl10.TabIndex = 13;
             this.labelControl10.Text = "直径（mm）：";
@@ -291,7 +291,7 @@
             this.labelControl12.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.labelControl12.Location = new System.Drawing.Point(10, 10);
             this.labelControl12.Name = "labelControl12";
-            this.labelControl12.Size = new System.Drawing.Size(88, 14);
+            this.labelControl12.Size = new System.Drawing.Size(95, 14);
             this.labelControl12.StyleController = this.layoutControl5;
             this.labelControl12.TabIndex = 12;
             this.labelControl12.Text = "长   （mm）：";
@@ -311,7 +311,7 @@
             this.emptySpaceItem3});
             this.layoutControlGroup5.Name = "Root";
             this.layoutControlGroup5.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlGroup5.Size = new System.Drawing.Size(400, 58);
+            this.layoutControlGroup5.Size = new System.Drawing.Size(427, 58);
             this.layoutControlGroup5.TextVisible = false;
             // 
             // layoutControlItem39
@@ -320,37 +320,37 @@
             this.layoutControlItem39.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem39.Name = "layoutControlItem39";
             this.layoutControlItem39.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem39.Size = new System.Drawing.Size(98, 24);
+            this.layoutControlItem39.Size = new System.Drawing.Size(105, 24);
             this.layoutControlItem39.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem39.TextVisible = false;
             // 
             // layoutControlItem36
             // 
             this.layoutControlItem36.Control = this.LabDIA;
-            this.layoutControlItem36.Location = new System.Drawing.Point(98, 24);
+            this.layoutControlItem36.Location = new System.Drawing.Point(105, 24);
             this.layoutControlItem36.Name = "layoutControlItem36";
             this.layoutControlItem36.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem36.Size = new System.Drawing.Size(102, 24);
+            this.layoutControlItem36.Size = new System.Drawing.Size(109, 24);
             this.layoutControlItem36.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem36.TextVisible = false;
             // 
             // layoutControlItem37
             // 
             this.layoutControlItem37.Control = this.labelControl8;
-            this.layoutControlItem37.Location = new System.Drawing.Point(199, 0);
+            this.layoutControlItem37.Location = new System.Drawing.Point(213, 0);
             this.layoutControlItem37.Name = "layoutControlItem37";
             this.layoutControlItem37.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem37.Size = new System.Drawing.Size(105, 24);
+            this.layoutControlItem37.Size = new System.Drawing.Size(112, 24);
             this.layoutControlItem37.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem37.TextVisible = false;
             // 
             // layoutControlItem34
             // 
             this.layoutControlItem34.Control = this.LabZLWeight;
-            this.layoutControlItem34.Location = new System.Drawing.Point(304, 0);
+            this.layoutControlItem34.Location = new System.Drawing.Point(325, 0);
             this.layoutControlItem34.Name = "layoutControlItem34";
             this.layoutControlItem34.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem34.Size = new System.Drawing.Size(86, 24);
+            this.layoutControlItem34.Size = new System.Drawing.Size(92, 24);
             this.layoutControlItem34.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem34.TextVisible = false;
             // 
@@ -360,44 +360,44 @@
             this.layoutControlItem38.Location = new System.Drawing.Point(0, 24);
             this.layoutControlItem38.Name = "layoutControlItem38";
             this.layoutControlItem38.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem38.Size = new System.Drawing.Size(98, 24);
+            this.layoutControlItem38.Size = new System.Drawing.Size(105, 24);
             this.layoutControlItem38.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem38.TextVisible = false;
             // 
             // layoutControlItem35
             // 
             this.layoutControlItem35.Control = this.LabZLLength;
-            this.layoutControlItem35.Location = new System.Drawing.Point(98, 0);
+            this.layoutControlItem35.Location = new System.Drawing.Point(105, 0);
             this.layoutControlItem35.Name = "layoutControlItem35";
             this.layoutControlItem35.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem35.Size = new System.Drawing.Size(101, 24);
+            this.layoutControlItem35.Size = new System.Drawing.Size(108, 24);
             this.layoutControlItem35.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem35.TextVisible = false;
             // 
             // emptySpaceItem2
             // 
             this.emptySpaceItem2.AllowHotTrack = false;
-            this.emptySpaceItem2.Location = new System.Drawing.Point(304, 24);
+            this.emptySpaceItem2.Location = new System.Drawing.Point(325, 24);
             this.emptySpaceItem2.Name = "emptySpaceItem2";
-            this.emptySpaceItem2.Size = new System.Drawing.Size(86, 24);
+            this.emptySpaceItem2.Size = new System.Drawing.Size(92, 24);
             this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
             // 
             // emptySpaceItem3
             // 
             this.emptySpaceItem3.AllowHotTrack = false;
-            this.emptySpaceItem3.Location = new System.Drawing.Point(200, 24);
+            this.emptySpaceItem3.Location = new System.Drawing.Point(214, 24);
             this.emptySpaceItem3.Name = "emptySpaceItem3";
             this.emptySpaceItem3.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.emptySpaceItem3.Size = new System.Drawing.Size(104, 24);
+            this.emptySpaceItem3.Size = new System.Drawing.Size(111, 24);
             this.emptySpaceItem3.TextSize = new System.Drawing.Size(0, 0);
             // 
             // BtnCancel
             // 
             this.BtnCancel.AllowFocus = false;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtnCancel.Location = new System.Drawing.Point(328, 444);
+            this.BtnCancel.Location = new System.Drawing.Point(346, 444);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(84, 22);
+            this.BtnCancel.Size = new System.Drawing.Size(89, 22);
             this.BtnCancel.StyleController = this.layoutControl1;
             this.BtnCancel.TabIndex = 7;
             this.BtnCancel.Text = "取消";
@@ -407,9 +407,9 @@
             // 
             this.BtnOK.AllowFocus = false;
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(223, 444);
+            this.BtnOK.Location = new System.Drawing.Point(235, 444);
             this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(95, 22);
+            this.BtnOK.Size = new System.Drawing.Size(101, 22);
             this.BtnOK.StyleController = this.layoutControl1;
             this.BtnOK.TabIndex = 6;
             this.BtnOK.Text = "确定";
@@ -421,10 +421,10 @@
             this.groupControl3.Appearance.Options.UseFont = true;
             this.groupControl3.Controls.Add(this.layoutControl4);
             this.groupControl3.Location = new System.Drawing.Point(7, 334);
-            this.groupControl3.MaximumSize = new System.Drawing.Size(404, 103);
-            this.groupControl3.MinimumSize = new System.Drawing.Size(404, 103);
+            this.groupControl3.MaximumSize = new System.Drawing.Size(431, 103);
+            this.groupControl3.MinimumSize = new System.Drawing.Size(431, 103);
             this.groupControl3.Name = "groupControl3";
-            this.groupControl3.Size = new System.Drawing.Size(404, 103);
+            this.groupControl3.Size = new System.Drawing.Size(431, 103);
             this.groupControl3.TabIndex = 5;
             this.groupControl3.Text = "电气属性";
             // 
@@ -438,7 +438,7 @@
             this.layoutControl4.Name = "layoutControl4";
             this.layoutControl4.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(702, 107, 650, 400);
             this.layoutControl4.Root = this.layoutControlGroup4;
-            this.layoutControl4.Size = new System.Drawing.Size(400, 80);
+            this.layoutControl4.Size = new System.Drawing.Size(427, 80);
             this.layoutControl4.TabIndex = 0;
             this.layoutControl4.Text = "layoutControl4";
             // 
@@ -455,7 +455,7 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("普通", "普通"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("消防", "消防"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("事故", "事故")});
-            this.RGroupPower.Size = new System.Drawing.Size(317, 27);
+            this.RGroupPower.Size = new System.Drawing.Size(344, 27);
             this.RGroupPower.StyleController = this.layoutControl4;
             this.RGroupPower.TabIndex = 7;
             // 
@@ -472,18 +472,18 @@
             this.RGroupFanControl.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("单速", "单速"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("双速", "双速")});
-            this.RGroupFanControl.Size = new System.Drawing.Size(210, 23);
+            this.RGroupFanControl.Size = new System.Drawing.Size(230, 23);
             this.RGroupFanControl.StyleController = this.layoutControl4;
             this.RGroupFanControl.TabIndex = 6;
             this.RGroupFanControl.SelectedIndexChanged += new System.EventHandler(this.RGroupFanControl_SelectedIndexChanged);
             // 
             // CheckFrequency
             // 
-            this.CheckFrequency.Location = new System.Drawing.Point(294, 13);
+            this.CheckFrequency.Location = new System.Drawing.Point(314, 13);
             this.CheckFrequency.Name = "CheckFrequency";
             this.CheckFrequency.Properties.AllowFocused = false;
             this.CheckFrequency.Properties.Caption = "变频";
-            this.CheckFrequency.Size = new System.Drawing.Size(96, 19);
+            this.CheckFrequency.Size = new System.Drawing.Size(103, 19);
             this.CheckFrequency.StyleController = this.layoutControl4;
             this.CheckFrequency.TabIndex = 5;
             // 
@@ -497,16 +497,16 @@
             this.layoutControlItem6});
             this.layoutControlGroup4.Name = "Root";
             this.layoutControlGroup4.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlGroup4.Size = new System.Drawing.Size(400, 80);
+            this.layoutControlGroup4.Size = new System.Drawing.Size(427, 80);
             this.layoutControlGroup4.TextVisible = false;
             // 
             // layoutControlItem5
             // 
             this.layoutControlItem5.Control = this.CheckFrequency;
-            this.layoutControlItem5.Location = new System.Drawing.Point(283, 0);
+            this.layoutControlItem5.Location = new System.Drawing.Point(303, 0);
             this.layoutControlItem5.Name = "layoutControlItem5";
             this.layoutControlItem5.Padding = new DevExpress.XtraLayout.Utils.Padding(6, 5, 8, 5);
-            this.layoutControlItem5.Size = new System.Drawing.Size(107, 33);
+            this.layoutControlItem5.Size = new System.Drawing.Size(114, 33);
             this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem5.TextVisible = false;
             // 
@@ -516,7 +516,7 @@
             this.layoutControlItem4.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem4.Name = "layoutControlItem4";
             this.layoutControlItem4.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem4.Size = new System.Drawing.Size(283, 33);
+            this.layoutControlItem4.Size = new System.Drawing.Size(303, 33);
             this.layoutControlItem4.Text = "风机控制：";
             this.layoutControlItem4.TextSize = new System.Drawing.Size(60, 14);
             // 
@@ -526,7 +526,7 @@
             this.layoutControlItem6.Location = new System.Drawing.Point(0, 33);
             this.layoutControlItem6.Name = "layoutControlItem6";
             this.layoutControlItem6.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem6.Size = new System.Drawing.Size(390, 37);
+            this.layoutControlItem6.Size = new System.Drawing.Size(417, 37);
             this.layoutControlItem6.Text = "电      源：";
             this.layoutControlItem6.TextSize = new System.Drawing.Size(60, 14);
             // 
@@ -536,10 +536,10 @@
             this.GroupLX.Appearance.Options.UseFont = true;
             this.GroupLX.Controls.Add(this.layoutControl3);
             this.GroupLX.Location = new System.Drawing.Point(7, 164);
-            this.GroupLX.MaximumSize = new System.Drawing.Size(404, 81);
-            this.GroupLX.MinimumSize = new System.Drawing.Size(404, 81);
+            this.GroupLX.MaximumSize = new System.Drawing.Size(431, 81);
+            this.GroupLX.MinimumSize = new System.Drawing.Size(431, 81);
             this.GroupLX.Name = "GroupLX";
-            this.GroupLX.Size = new System.Drawing.Size(404, 81);
+            this.GroupLX.Size = new System.Drawing.Size(431, 81);
             this.GroupLX.TabIndex = 0;
             this.GroupLX.Text = "尺寸数据";
             // 
@@ -558,16 +558,16 @@
             this.layoutControl3.Name = "layoutControl3";
             this.layoutControl3.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(702, 19, 650, 400);
             this.layoutControl3.Root = this.layoutControlGroup3;
-            this.layoutControl3.Size = new System.Drawing.Size(400, 58);
+            this.layoutControl3.Size = new System.Drawing.Size(427, 58);
             this.layoutControl3.TabIndex = 0;
             this.layoutControl3.Text = "layoutControl3";
             // 
             // LabWeight
             // 
             this.LabWeight.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabWeight.Location = new System.Drawing.Point(312, 34);
+            this.LabWeight.Location = new System.Drawing.Point(333, 34);
             this.LabWeight.Name = "LabWeight";
-            this.LabWeight.Size = new System.Drawing.Size(78, 14);
+            this.LabWeight.Size = new System.Drawing.Size(84, 14);
             this.LabWeight.StyleController = this.layoutControl3;
             this.LabWeight.TabIndex = 11;
             this.LabWeight.Text = "92";
@@ -575,9 +575,9 @@
             // LabHeight
             // 
             this.LabHeight.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabHeight.Location = new System.Drawing.Point(108, 34);
+            this.LabHeight.Location = new System.Drawing.Point(115, 34);
             this.LabHeight.Name = "LabHeight";
-            this.LabHeight.Size = new System.Drawing.Size(90, 14);
+            this.LabHeight.Size = new System.Drawing.Size(97, 14);
             this.LabHeight.StyleController = this.layoutControl3;
             this.LabHeight.TabIndex = 10;
             this.LabHeight.Text = "580";
@@ -585,9 +585,9 @@
             // LabWidth
             // 
             this.LabWidth.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabWidth.Location = new System.Drawing.Point(312, 10);
+            this.LabWidth.Location = new System.Drawing.Point(333, 10);
             this.LabWidth.Name = "LabWidth";
-            this.LabWidth.Size = new System.Drawing.Size(78, 14);
+            this.LabWidth.Size = new System.Drawing.Size(84, 14);
             this.LabWidth.StyleController = this.layoutControl3;
             this.LabWidth.TabIndex = 9;
             this.LabWidth.Text = "640";
@@ -595,9 +595,9 @@
             // LabLength
             // 
             this.LabLength.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabLength.Location = new System.Drawing.Point(108, 10);
+            this.LabLength.Location = new System.Drawing.Point(115, 10);
             this.LabLength.Name = "LabLength";
-            this.LabLength.Size = new System.Drawing.Size(90, 14);
+            this.LabLength.Size = new System.Drawing.Size(97, 14);
             this.LabLength.StyleController = this.layoutControl3;
             this.LabLength.TabIndex = 8;
             this.LabLength.Text = "850";
@@ -605,9 +605,9 @@
             // labelControl20
             // 
             this.labelControl20.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl20.Location = new System.Drawing.Point(208, 34);
+            this.labelControl20.Location = new System.Drawing.Point(222, 34);
             this.labelControl20.Name = "labelControl20";
-            this.labelControl20.Size = new System.Drawing.Size(94, 14);
+            this.labelControl20.Size = new System.Drawing.Size(101, 14);
             this.labelControl20.StyleController = this.layoutControl3;
             this.labelControl20.TabIndex = 7;
             this.labelControl20.Text = "重量（kg）：";
@@ -617,7 +617,7 @@
             this.labelControl19.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.labelControl19.Location = new System.Drawing.Point(10, 34);
             this.labelControl19.Name = "labelControl19";
-            this.labelControl19.Size = new System.Drawing.Size(88, 14);
+            this.labelControl19.Size = new System.Drawing.Size(95, 14);
             this.labelControl19.StyleController = this.layoutControl3;
             this.labelControl19.TabIndex = 6;
             this.labelControl19.Text = "高（mm）：";
@@ -625,9 +625,9 @@
             // labelControl18
             // 
             this.labelControl18.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl18.Location = new System.Drawing.Point(208, 10);
+            this.labelControl18.Location = new System.Drawing.Point(222, 10);
             this.labelControl18.Name = "labelControl18";
-            this.labelControl18.Size = new System.Drawing.Size(94, 14);
+            this.labelControl18.Size = new System.Drawing.Size(101, 14);
             this.labelControl18.StyleController = this.layoutControl3;
             this.labelControl18.TabIndex = 5;
             this.labelControl18.Text = "宽（mm）：";
@@ -637,7 +637,7 @@
             this.labelControl17.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.labelControl17.Location = new System.Drawing.Point(10, 10);
             this.labelControl17.Name = "labelControl17";
-            this.labelControl17.Size = new System.Drawing.Size(88, 14);
+            this.labelControl17.Size = new System.Drawing.Size(95, 14);
             this.labelControl17.StyleController = this.layoutControl3;
             this.labelControl17.TabIndex = 4;
             this.labelControl17.Text = "长（mm）：";
@@ -657,7 +657,7 @@
             this.layoutControlItem32});
             this.layoutControlGroup3.Name = "Root";
             this.layoutControlGroup3.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlGroup3.Size = new System.Drawing.Size(400, 58);
+            this.layoutControlGroup3.Size = new System.Drawing.Size(427, 58);
             this.layoutControlGroup3.TextVisible = false;
             // 
             // layoutControlItem25
@@ -666,17 +666,17 @@
             this.layoutControlItem25.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem25.Name = "layoutControlItem25";
             this.layoutControlItem25.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem25.Size = new System.Drawing.Size(98, 24);
+            this.layoutControlItem25.Size = new System.Drawing.Size(105, 24);
             this.layoutControlItem25.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem25.TextVisible = false;
             // 
             // layoutControlItem26
             // 
             this.layoutControlItem26.Control = this.labelControl18;
-            this.layoutControlItem26.Location = new System.Drawing.Point(198, 0);
+            this.layoutControlItem26.Location = new System.Drawing.Point(212, 0);
             this.layoutControlItem26.Name = "layoutControlItem26";
             this.layoutControlItem26.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem26.Size = new System.Drawing.Size(104, 24);
+            this.layoutControlItem26.Size = new System.Drawing.Size(111, 24);
             this.layoutControlItem26.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem26.TextVisible = false;
             // 
@@ -686,57 +686,57 @@
             this.layoutControlItem27.Location = new System.Drawing.Point(0, 24);
             this.layoutControlItem27.Name = "layoutControlItem27";
             this.layoutControlItem27.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem27.Size = new System.Drawing.Size(98, 24);
+            this.layoutControlItem27.Size = new System.Drawing.Size(105, 24);
             this.layoutControlItem27.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem27.TextVisible = false;
             // 
             // layoutControlItem28
             // 
             this.layoutControlItem28.Control = this.labelControl20;
-            this.layoutControlItem28.Location = new System.Drawing.Point(198, 24);
+            this.layoutControlItem28.Location = new System.Drawing.Point(212, 24);
             this.layoutControlItem28.Name = "layoutControlItem28";
             this.layoutControlItem28.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem28.Size = new System.Drawing.Size(104, 24);
+            this.layoutControlItem28.Size = new System.Drawing.Size(111, 24);
             this.layoutControlItem28.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem28.TextVisible = false;
             // 
             // layoutControlItem29
             // 
             this.layoutControlItem29.Control = this.LabLength;
-            this.layoutControlItem29.Location = new System.Drawing.Point(98, 0);
+            this.layoutControlItem29.Location = new System.Drawing.Point(105, 0);
             this.layoutControlItem29.Name = "layoutControlItem29";
             this.layoutControlItem29.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem29.Size = new System.Drawing.Size(100, 24);
+            this.layoutControlItem29.Size = new System.Drawing.Size(107, 24);
             this.layoutControlItem29.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem29.TextVisible = false;
             // 
             // layoutControlItem30
             // 
             this.layoutControlItem30.Control = this.LabWidth;
-            this.layoutControlItem30.Location = new System.Drawing.Point(302, 0);
+            this.layoutControlItem30.Location = new System.Drawing.Point(323, 0);
             this.layoutControlItem30.Name = "layoutControlItem30";
             this.layoutControlItem30.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem30.Size = new System.Drawing.Size(88, 24);
+            this.layoutControlItem30.Size = new System.Drawing.Size(94, 24);
             this.layoutControlItem30.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem30.TextVisible = false;
             // 
             // layoutControlItem31
             // 
             this.layoutControlItem31.Control = this.LabHeight;
-            this.layoutControlItem31.Location = new System.Drawing.Point(98, 24);
+            this.layoutControlItem31.Location = new System.Drawing.Point(105, 24);
             this.layoutControlItem31.Name = "layoutControlItem31";
             this.layoutControlItem31.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem31.Size = new System.Drawing.Size(100, 24);
+            this.layoutControlItem31.Size = new System.Drawing.Size(107, 24);
             this.layoutControlItem31.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem31.TextVisible = false;
             // 
             // layoutControlItem32
             // 
             this.layoutControlItem32.Control = this.LabWeight;
-            this.layoutControlItem32.Location = new System.Drawing.Point(302, 24);
+            this.layoutControlItem32.Location = new System.Drawing.Point(323, 24);
             this.layoutControlItem32.Name = "layoutControlItem32";
             this.layoutControlItem32.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem32.Size = new System.Drawing.Size(88, 24);
+            this.layoutControlItem32.Size = new System.Drawing.Size(94, 24);
             this.layoutControlItem32.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem32.TextVisible = false;
             // 
@@ -746,10 +746,10 @@
             this.groupControl1.Appearance.Options.UseFont = true;
             this.groupControl1.Controls.Add(this.layoutControl2);
             this.groupControl1.Location = new System.Drawing.Point(7, 7);
-            this.groupControl1.MaximumSize = new System.Drawing.Size(404, 153);
-            this.groupControl1.MinimumSize = new System.Drawing.Size(404, 153);
+            this.groupControl1.MaximumSize = new System.Drawing.Size(431, 153);
+            this.groupControl1.MinimumSize = new System.Drawing.Size(431, 153);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(404, 153);
+            this.groupControl1.Size = new System.Drawing.Size(431, 153);
             this.groupControl1.TabIndex = 4;
             this.groupControl1.Text = "基本信息";
             // 
@@ -776,16 +776,16 @@
             this.layoutControl2.Name = "layoutControl2";
             this.layoutControl2.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(383, 389, 650, 400);
             this.layoutControl2.Root = this.layoutControlGroup2;
-            this.layoutControl2.Size = new System.Drawing.Size(400, 130);
+            this.layoutControl2.Size = new System.Drawing.Size(427, 130);
             this.layoutControl2.TabIndex = 0;
             this.layoutControl2.Text = "layoutControl2";
             // 
             // LabPower
             // 
             this.LabPower.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabPower.Location = new System.Drawing.Point(132, 106);
+            this.LabPower.Location = new System.Drawing.Point(140, 106);
             this.LabPower.Name = "LabPower";
-            this.LabPower.Size = new System.Drawing.Size(258, 14);
+            this.LabPower.Size = new System.Drawing.Size(277, 14);
             this.LabPower.StyleController = this.layoutControl2;
             this.LabPower.TabIndex = 19;
             this.LabPower.Text = "0.34/0.23";
@@ -795,7 +795,7 @@
             this.LabX.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.LabX.Location = new System.Drawing.Point(10, 106);
             this.LabX.Name = "LabX";
-            this.LabX.Size = new System.Drawing.Size(112, 14);
+            this.LabX.Size = new System.Drawing.Size(120, 14);
             this.LabX.StyleController = this.layoutControl2;
             this.LabX.TabIndex = 18;
             this.LabX.Text = "单位功耗 (W/m³ h)：";
@@ -803,9 +803,9 @@
             // LabFanSpeed
             // 
             this.LabFanSpeed.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabFanSpeed.Location = new System.Drawing.Point(132, 82);
+            this.LabFanSpeed.Location = new System.Drawing.Point(140, 82);
             this.LabFanSpeed.Name = "LabFanSpeed";
-            this.LabFanSpeed.Size = new System.Drawing.Size(258, 14);
+            this.LabFanSpeed.Size = new System.Drawing.Size(277, 14);
             this.LabFanSpeed.StyleController = this.layoutControl2;
             this.LabFanSpeed.TabIndex = 17;
             this.LabFanSpeed.Text = "1,100";
@@ -815,7 +815,7 @@
             this.labelControl13.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.labelControl13.Location = new System.Drawing.Point(10, 82);
             this.labelControl13.Name = "labelControl13";
-            this.labelControl13.Size = new System.Drawing.Size(112, 14);
+            this.labelControl13.Size = new System.Drawing.Size(120, 14);
             this.labelControl13.StyleController = this.layoutControl2;
             this.labelControl13.TabIndex = 16;
             this.labelControl13.Text = "风机转速 (r/min)： ";
@@ -823,9 +823,9 @@
             // LabNoise
             // 
             this.LabNoise.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabNoise.Location = new System.Drawing.Point(311, 58);
+            this.LabNoise.Location = new System.Drawing.Point(349, 58);
             this.LabNoise.Name = "LabNoise";
-            this.LabNoise.Size = new System.Drawing.Size(79, 14);
+            this.LabNoise.Size = new System.Drawing.Size(68, 14);
             this.LabNoise.StyleController = this.layoutControl2;
             this.LabNoise.TabIndex = 15;
             this.LabNoise.Text = "61";
@@ -833,9 +833,9 @@
             // labelControl11
             // 
             this.labelControl11.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl11.Location = new System.Drawing.Point(208, 58);
+            this.labelControl11.Location = new System.Drawing.Point(233, 58);
             this.labelControl11.Name = "labelControl11";
-            this.labelControl11.Size = new System.Drawing.Size(93, 14);
+            this.labelControl11.Size = new System.Drawing.Size(106, 14);
             this.labelControl11.StyleController = this.layoutControl2;
             this.labelControl11.TabIndex = 14;
             this.labelControl11.Text = "噪 音 (dB(A))：";
@@ -843,9 +843,9 @@
             // LabMotorPower
             // 
             this.LabMotorPower.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabMotorPower.Location = new System.Drawing.Point(132, 58);
+            this.LabMotorPower.Location = new System.Drawing.Point(140, 58);
             this.LabMotorPower.Name = "LabMotorPower";
-            this.LabMotorPower.Size = new System.Drawing.Size(66, 14);
+            this.LabMotorPower.Size = new System.Drawing.Size(83, 14);
             this.LabMotorPower.StyleController = this.layoutControl2;
             this.LabMotorPower.TabIndex = 13;
             this.LabMotorPower.Text = "1.5";
@@ -855,7 +855,7 @@
             this.labelControl9.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.labelControl9.Location = new System.Drawing.Point(10, 58);
             this.labelControl9.Name = "labelControl9";
-            this.labelControl9.Size = new System.Drawing.Size(112, 14);
+            this.labelControl9.Size = new System.Drawing.Size(120, 14);
             this.labelControl9.StyleController = this.layoutControl2;
             this.labelControl9.TabIndex = 12;
             this.labelControl9.Text = "电机功率 (kW)：";
@@ -863,9 +863,9 @@
             // LabPa
             // 
             this.LabPa.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabPa.Location = new System.Drawing.Point(311, 34);
+            this.LabPa.Location = new System.Drawing.Point(349, 34);
             this.LabPa.Name = "LabPa";
-            this.LabPa.Size = new System.Drawing.Size(79, 14);
+            this.LabPa.Size = new System.Drawing.Size(68, 14);
             this.LabPa.StyleController = this.layoutControl2;
             this.LabPa.TabIndex = 11;
             this.LabPa.Text = "518";
@@ -873,9 +873,9 @@
             // labelControl7
             // 
             this.labelControl7.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl7.Location = new System.Drawing.Point(208, 34);
+            this.labelControl7.Location = new System.Drawing.Point(233, 34);
             this.labelControl7.Name = "labelControl7";
-            this.labelControl7.Size = new System.Drawing.Size(93, 14);
+            this.labelControl7.Size = new System.Drawing.Size(106, 14);
             this.labelControl7.StyleController = this.layoutControl2;
             this.labelControl7.TabIndex = 10;
             this.labelControl7.Text = "全 压 (Pa)：";
@@ -883,9 +883,9 @@
             // LabAir
             // 
             this.LabAir.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabAir.Location = new System.Drawing.Point(132, 34);
+            this.LabAir.Location = new System.Drawing.Point(140, 34);
             this.LabAir.Name = "LabAir";
-            this.LabAir.Size = new System.Drawing.Size(66, 14);
+            this.LabAir.Size = new System.Drawing.Size(83, 14);
             this.LabAir.StyleController = this.layoutControl2;
             this.LabAir.TabIndex = 9;
             this.LabAir.Text = "4,480";
@@ -895,7 +895,7 @@
             this.labelControl5.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.labelControl5.Location = new System.Drawing.Point(10, 34);
             this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(112, 14);
+            this.labelControl5.Size = new System.Drawing.Size(120, 14);
             this.labelControl5.StyleController = this.layoutControl2;
             this.labelControl5.TabIndex = 8;
             this.labelControl5.Text = "风      量 (m³/h)：";
@@ -903,9 +903,9 @@
             // LabCCFC
             // 
             this.LabCCFC.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabCCFC.Location = new System.Drawing.Point(311, 10);
+            this.LabCCFC.Location = new System.Drawing.Point(349, 10);
             this.LabCCFC.Name = "LabCCFC";
-            this.LabCCFC.Size = new System.Drawing.Size(79, 14);
+            this.LabCCFC.Size = new System.Drawing.Size(68, 14);
             this.LabCCFC.StyleController = this.layoutControl2;
             this.LabCCFC.TabIndex = 7;
             this.LabCCFC.Text = "9A-4";
@@ -913,9 +913,9 @@
             // labelControl3
             // 
             this.labelControl3.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl3.Location = new System.Drawing.Point(208, 10);
+            this.labelControl3.Location = new System.Drawing.Point(233, 10);
             this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(93, 14);
+            this.labelControl3.Size = new System.Drawing.Size(106, 14);
             this.labelControl3.StyleController = this.layoutControl2;
             this.labelControl3.TabIndex = 6;
             this.labelControl3.Text = "CCCF规格：";
@@ -923,9 +923,9 @@
             // LabModelNum
             // 
             this.LabModelNum.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.LabModelNum.Location = new System.Drawing.Point(132, 10);
+            this.LabModelNum.Location = new System.Drawing.Point(140, 10);
             this.LabModelNum.Name = "LabModelNum";
-            this.LabModelNum.Size = new System.Drawing.Size(66, 14);
+            this.LabModelNum.Size = new System.Drawing.Size(83, 14);
             this.LabModelNum.StyleController = this.layoutControl2;
             this.LabModelNum.TabIndex = 5;
             this.LabModelNum.Text = "9A-4/030";
@@ -935,7 +935,7 @@
             this.labelControl1.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.labelControl1.Location = new System.Drawing.Point(10, 10);
             this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(112, 14);
+            this.labelControl1.Size = new System.Drawing.Size(120, 14);
             this.labelControl1.StyleController = this.layoutControl2;
             this.labelControl1.TabIndex = 4;
             this.labelControl1.Text = "型      号：";
@@ -963,7 +963,7 @@
             this.layoutControlItem24});
             this.layoutControlGroup2.Name = "Root";
             this.layoutControlGroup2.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlGroup2.Size = new System.Drawing.Size(400, 130);
+            this.layoutControlGroup2.Size = new System.Drawing.Size(427, 130);
             this.layoutControlGroup2.TextVisible = false;
             // 
             // layoutControlItem9
@@ -972,37 +972,37 @@
             this.layoutControlItem9.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem9.Name = "layoutControlItem9";
             this.layoutControlItem9.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem9.Size = new System.Drawing.Size(122, 24);
+            this.layoutControlItem9.Size = new System.Drawing.Size(130, 24);
             this.layoutControlItem9.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem9.TextVisible = false;
             // 
             // layoutControlItem10
             // 
             this.layoutControlItem10.Control = this.LabModelNum;
-            this.layoutControlItem10.Location = new System.Drawing.Point(122, 0);
+            this.layoutControlItem10.Location = new System.Drawing.Point(130, 0);
             this.layoutControlItem10.Name = "layoutControlItem10";
             this.layoutControlItem10.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem10.Size = new System.Drawing.Size(76, 24);
+            this.layoutControlItem10.Size = new System.Drawing.Size(93, 24);
             this.layoutControlItem10.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem10.TextVisible = false;
             // 
             // layoutControlItem11
             // 
             this.layoutControlItem11.Control = this.labelControl3;
-            this.layoutControlItem11.Location = new System.Drawing.Point(198, 0);
+            this.layoutControlItem11.Location = new System.Drawing.Point(223, 0);
             this.layoutControlItem11.Name = "layoutControlItem11";
             this.layoutControlItem11.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem11.Size = new System.Drawing.Size(103, 24);
+            this.layoutControlItem11.Size = new System.Drawing.Size(116, 24);
             this.layoutControlItem11.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem11.TextVisible = false;
             // 
             // layoutControlItem12
             // 
             this.layoutControlItem12.Control = this.LabCCFC;
-            this.layoutControlItem12.Location = new System.Drawing.Point(301, 0);
+            this.layoutControlItem12.Location = new System.Drawing.Point(339, 0);
             this.layoutControlItem12.Name = "layoutControlItem12";
             this.layoutControlItem12.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem12.Size = new System.Drawing.Size(89, 24);
+            this.layoutControlItem12.Size = new System.Drawing.Size(78, 24);
             this.layoutControlItem12.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem12.TextVisible = false;
             // 
@@ -1012,37 +1012,37 @@
             this.layoutControlItem13.Location = new System.Drawing.Point(0, 24);
             this.layoutControlItem13.Name = "layoutControlItem13";
             this.layoutControlItem13.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem13.Size = new System.Drawing.Size(122, 24);
+            this.layoutControlItem13.Size = new System.Drawing.Size(130, 24);
             this.layoutControlItem13.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem13.TextVisible = false;
             // 
             // layoutControlItem14
             // 
             this.layoutControlItem14.Control = this.LabAir;
-            this.layoutControlItem14.Location = new System.Drawing.Point(122, 24);
+            this.layoutControlItem14.Location = new System.Drawing.Point(130, 24);
             this.layoutControlItem14.Name = "layoutControlItem14";
             this.layoutControlItem14.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem14.Size = new System.Drawing.Size(76, 24);
+            this.layoutControlItem14.Size = new System.Drawing.Size(93, 24);
             this.layoutControlItem14.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem14.TextVisible = false;
             // 
             // layoutControlItem15
             // 
             this.layoutControlItem15.Control = this.labelControl7;
-            this.layoutControlItem15.Location = new System.Drawing.Point(198, 24);
+            this.layoutControlItem15.Location = new System.Drawing.Point(223, 24);
             this.layoutControlItem15.Name = "layoutControlItem15";
             this.layoutControlItem15.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem15.Size = new System.Drawing.Size(103, 24);
+            this.layoutControlItem15.Size = new System.Drawing.Size(116, 24);
             this.layoutControlItem15.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem15.TextVisible = false;
             // 
             // layoutControlItem16
             // 
             this.layoutControlItem16.Control = this.LabPa;
-            this.layoutControlItem16.Location = new System.Drawing.Point(301, 24);
+            this.layoutControlItem16.Location = new System.Drawing.Point(339, 24);
             this.layoutControlItem16.Name = "layoutControlItem16";
             this.layoutControlItem16.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem16.Size = new System.Drawing.Size(89, 24);
+            this.layoutControlItem16.Size = new System.Drawing.Size(78, 24);
             this.layoutControlItem16.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem16.TextVisible = false;
             // 
@@ -1052,37 +1052,37 @@
             this.layoutControlItem17.Location = new System.Drawing.Point(0, 48);
             this.layoutControlItem17.Name = "layoutControlItem17";
             this.layoutControlItem17.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem17.Size = new System.Drawing.Size(122, 24);
+            this.layoutControlItem17.Size = new System.Drawing.Size(130, 24);
             this.layoutControlItem17.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem17.TextVisible = false;
             // 
             // layoutControlItem18
             // 
             this.layoutControlItem18.Control = this.LabMotorPower;
-            this.layoutControlItem18.Location = new System.Drawing.Point(122, 48);
+            this.layoutControlItem18.Location = new System.Drawing.Point(130, 48);
             this.layoutControlItem18.Name = "layoutControlItem18";
             this.layoutControlItem18.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem18.Size = new System.Drawing.Size(76, 24);
+            this.layoutControlItem18.Size = new System.Drawing.Size(93, 24);
             this.layoutControlItem18.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem18.TextVisible = false;
             // 
             // layoutControlItem19
             // 
             this.layoutControlItem19.Control = this.labelControl11;
-            this.layoutControlItem19.Location = new System.Drawing.Point(198, 48);
+            this.layoutControlItem19.Location = new System.Drawing.Point(223, 48);
             this.layoutControlItem19.Name = "layoutControlItem19";
             this.layoutControlItem19.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem19.Size = new System.Drawing.Size(103, 24);
+            this.layoutControlItem19.Size = new System.Drawing.Size(116, 24);
             this.layoutControlItem19.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem19.TextVisible = false;
             // 
             // layoutControlItem20
             // 
             this.layoutControlItem20.Control = this.LabNoise;
-            this.layoutControlItem20.Location = new System.Drawing.Point(301, 48);
+            this.layoutControlItem20.Location = new System.Drawing.Point(339, 48);
             this.layoutControlItem20.Name = "layoutControlItem20";
             this.layoutControlItem20.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem20.Size = new System.Drawing.Size(89, 24);
+            this.layoutControlItem20.Size = new System.Drawing.Size(78, 24);
             this.layoutControlItem20.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem20.TextVisible = false;
             // 
@@ -1092,17 +1092,17 @@
             this.layoutControlItem21.Location = new System.Drawing.Point(0, 72);
             this.layoutControlItem21.Name = "layoutControlItem21";
             this.layoutControlItem21.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem21.Size = new System.Drawing.Size(122, 24);
+            this.layoutControlItem21.Size = new System.Drawing.Size(130, 24);
             this.layoutControlItem21.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem21.TextVisible = false;
             // 
             // layoutControlItem22
             // 
             this.layoutControlItem22.Control = this.LabFanSpeed;
-            this.layoutControlItem22.Location = new System.Drawing.Point(122, 72);
+            this.layoutControlItem22.Location = new System.Drawing.Point(130, 72);
             this.layoutControlItem22.Name = "layoutControlItem22";
             this.layoutControlItem22.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem22.Size = new System.Drawing.Size(268, 24);
+            this.layoutControlItem22.Size = new System.Drawing.Size(287, 24);
             this.layoutControlItem22.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem22.TextVisible = false;
             // 
@@ -1112,17 +1112,17 @@
             this.layoutControlItem23.Location = new System.Drawing.Point(0, 96);
             this.layoutControlItem23.Name = "layoutControlItem23";
             this.layoutControlItem23.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem23.Size = new System.Drawing.Size(122, 24);
+            this.layoutControlItem23.Size = new System.Drawing.Size(130, 24);
             this.layoutControlItem23.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem23.TextVisible = false;
             // 
             // layoutControlItem24
             // 
             this.layoutControlItem24.Control = this.LabPower;
-            this.layoutControlItem24.Location = new System.Drawing.Point(122, 96);
+            this.layoutControlItem24.Location = new System.Drawing.Point(130, 96);
             this.layoutControlItem24.Name = "layoutControlItem24";
             this.layoutControlItem24.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem24.Size = new System.Drawing.Size(268, 24);
+            this.layoutControlItem24.Size = new System.Drawing.Size(287, 24);
             this.layoutControlItem24.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem24.TextVisible = false;
             // 
@@ -1141,7 +1141,7 @@
             this.emptySpaceItem1});
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlGroup1.Size = new System.Drawing.Size(422, 485);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(445, 476);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlItem1
@@ -1149,7 +1149,7 @@
             this.layoutControlItem1.Control = this.groupControl1;
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(412, 157);
+            this.layoutControlItem1.Size = new System.Drawing.Size(435, 157);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
@@ -1159,17 +1159,17 @@
             this.layouLX.CustomizationFormText = "layouLX";
             this.layouLX.Location = new System.Drawing.Point(0, 157);
             this.layouLX.Name = "layouLX";
-            this.layouLX.Size = new System.Drawing.Size(412, 85);
+            this.layouLX.Size = new System.Drawing.Size(435, 85);
             this.layouLX.TextSize = new System.Drawing.Size(0, 0);
             this.layouLX.TextVisible = false;
             // 
             // layoutControlItem8
             // 
             this.layoutControlItem8.Control = this.BtnCancel;
-            this.layoutControlItem8.Location = new System.Drawing.Point(318, 434);
+            this.layoutControlItem8.Location = new System.Drawing.Point(336, 434);
             this.layoutControlItem8.Name = "layoutControlItem8";
             this.layoutControlItem8.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem8.Size = new System.Drawing.Size(94, 41);
+            this.layoutControlItem8.Size = new System.Drawing.Size(99, 32);
             this.layoutControlItem8.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem8.TextVisible = false;
             // 
@@ -1178,25 +1178,17 @@
             this.layoutControlItem3.Control = this.groupControl3;
             this.layoutControlItem3.Location = new System.Drawing.Point(0, 327);
             this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(412, 107);
+            this.layoutControlItem3.Size = new System.Drawing.Size(435, 107);
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextVisible = false;
-            // 
-            // emptySpaceItem1
-            // 
-            this.emptySpaceItem1.AllowHotTrack = false;
-            this.emptySpaceItem1.Location = new System.Drawing.Point(126, 434);
-            this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(87, 41);
-            this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // layoutControlItem7
             // 
             this.layoutControlItem7.Control = this.BtnOK;
-            this.layoutControlItem7.Location = new System.Drawing.Point(213, 434);
+            this.layoutControlItem7.Location = new System.Drawing.Point(225, 434);
             this.layoutControlItem7.Name = "layoutControlItem7";
             this.layoutControlItem7.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem7.Size = new System.Drawing.Size(105, 41);
+            this.layoutControlItem7.Size = new System.Drawing.Size(111, 32);
             this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem7.TextVisible = false;
             // 
@@ -1206,7 +1198,7 @@
             this.layouZL.CustomizationFormText = "layouZL";
             this.layouZL.Location = new System.Drawing.Point(0, 242);
             this.layouZL.Name = "layouZL";
-            this.layouZL.Size = new System.Drawing.Size(412, 85);
+            this.layouZL.Size = new System.Drawing.Size(435, 85);
             this.layouZL.TextSize = new System.Drawing.Size(0, 0);
             this.layouZL.TextVisible = false;
             // 
@@ -1217,15 +1209,23 @@
             this.TxtPrompt.AppearanceItemCaption.Options.UseForeColor = true;
             this.TxtPrompt.Location = new System.Drawing.Point(0, 434);
             this.TxtPrompt.Name = "TxtPrompt";
-            this.TxtPrompt.Size = new System.Drawing.Size(126, 41);
+            this.TxtPrompt.Size = new System.Drawing.Size(133, 32);
             this.TxtPrompt.Text = " ";
             this.TxtPrompt.TextSize = new System.Drawing.Size(4, 14);
+            // 
+            // emptySpaceItem1
+            // 
+            this.emptySpaceItem1.AllowHotTrack = false;
+            this.emptySpaceItem1.Location = new System.Drawing.Point(133, 434);
+            this.emptySpaceItem1.Name = "emptySpaceItem1";
+            this.emptySpaceItem1.Size = new System.Drawing.Size(92, 32);
+            this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // fmFanModel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(422, 485);
+            this.ClientSize = new System.Drawing.Size(445, 476);
             this.Controls.Add(this.layoutControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -1299,10 +1299,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.layouLX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layouZL)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtPrompt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             this.ResumeLayout(false);
 
         }

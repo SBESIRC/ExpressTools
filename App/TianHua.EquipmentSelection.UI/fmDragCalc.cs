@@ -110,6 +110,15 @@ namespace TianHua.FanSelection.UI
         {
             if (m_ListFan == null || m_ListFan.Count == 0) { return; }
             var _Fan = m_ListFan.First();
+
+            if (e.Column.FieldName == "SelectionFactor")
+            {
+                if (_Fan.SelectionFactor < 1.1)
+                {
+                    _Fan.SelectionFactor = 1.1;
+                }
+            }
+
             if (_Fan.DuctLength > 0 && _Fan.Friction > 0 && _Fan.LocRes > 0)
             {
 

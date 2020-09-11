@@ -170,5 +170,11 @@ namespace TianHua.FanSelection
         /// 排序ID
         /// </summary>
         public int SortID { get; set; }
+
+
+        /// <summary>
+        /// 场景
+        /// </summary>
+        public string Scenario { get; set; }
     }
 }

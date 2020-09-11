@@ -155,6 +155,72 @@ namespace TianHua.FanSelection.UI
 
             CalcFanEfficiency(_FanDataModel);
 
+            InitSonFan();
+
+        }
+
+        private void InitSonFan()
+        {
+            if (m_Fan == null || m_Fan.PID != "0" || m_ListFan == null || m_ListFan.Count == 0) { return; }
+
+            var _FanSon = m_ListFan.Find(p => p.PID == m_Fan.ID);
+
+            if (_FanSon == null) { return; }
+
+            LabAir.Text = LabAir.Text + "/" + _FanSon.AirVolume;
+
+            LabPa.Text = LabPa.Text + "/" + _FanSon.WindResis;
+
+            double _SafetyFactor = 0;
+
+            double _Flow = Math.Round(FuncStr.NullToDouble(_FanSon.AirVolume) / 3600, 5);
+
+            var _SpecificSpeed = 5.54 * FuncStr.NullToDouble(m_Fan.FanModelFanSpeed) * Math.Pow(_Flow, 0.5) / Math.Pow(_FanSon.WindResis, 0.75);
+
+            var _FanEfficiency = m_ListFanEfficiency.Find(p => FuncStr.NullToInt(p.No_Min) <= FuncStr.NullToInt(m_Fan.FanModelNum) && FuncStr.NullToInt(p.No_Max) >= FuncStr.NullToInt(m_Fan.FanModelNum)
+                 && FuncStr.NullToInt(p.Rpm_Min) <= FuncStr.NullToInt(_SpecificSpeed)
+                  && FuncStr.NullToInt(p.Rpm_Max) >= FuncStr.NullToInt(_SpecificSpeed) && m_Fan.VentLev == p.FanEfficiencyLevel);
+            if (_FanEfficiency == null) { return; }
+            var _ShaftPower = _FanSon.AirVolume * _FanSon.WindResis / _FanEfficiency.FanInternalEfficiency * 100 / 0.855 / 1000 / 3600;
+            if (_ShaftPower <= 0.5)
+            {
+                _SafetyFactor = 1.5;
+            }
+            else if (_ShaftPower <= 1)
+            {
+                _SafetyFactor = 1.4;
+            }
+            else if (_ShaftPower <= 2)
+            {
+                _SafetyFactor = 1.3;
+            }
+            else if (_ShaftPower <= 5)
+            {
+                _SafetyFactor = 1.2;
+            }
+            else if (_ShaftPower <= 20)
+            {
+                _SafetyFactor = 1.15;
+            }
+            else
+            {
+                _SafetyFactor = 1.1;
+            }
+
+            var _ListMotor = GetListMotorPower(m_Fan);
+            var _MotorEfficiency = PubVar.g_ListMotorEfficiency.Find(p => p.Key == m_Fan.VentConnect);
+            var _Tmp = _ShaftPower / 0.85;
+            var _ListMotorPower = _ListMotor.FindAll(p => FuncStr.NullToDouble(p.Power) >= _Tmp && p.MotorEfficiencyLevel == m_Fan.EleLev && p.Rpm == FuncStr.NullToStr(m_Fan.MotorTempo));
+            var _MotorPower = _ListMotorPower.OrderBy(p => FuncStr.NullToDouble(p.Power)).First();
+
+            var _EstimatedMotorPower = _ShaftPower / FuncStr.NullToDouble(_MotorPower.MotorEfficiency) / FuncStr.NullToDouble(_MotorEfficiency.Value) * _SafetyFactor * 100;
+            _ListMotorPower = _ListMotor.FindAll(p => FuncStr.NullToDouble(p.Power) >= _EstimatedMotorPower && p.MotorEfficiencyLevel == m_Fan.EleLev && p.Rpm == FuncStr.NullToStr(m_Fan.MotorTempo));
+            _MotorPower = _ListMotorPower.OrderBy(p => FuncStr.NullToDouble(p.Power)).First();
+
+            if (_MotorPower != null)
+            {
+                LabMotorPower.Text = LabMotorPower.Text + "/" + _MotorPower.Power;
+            }
         }
 
         public void CalcFanEfficiency(FanDataModel _FanDataModel)
@@ -291,7 +357,7 @@ namespace TianHua.FanSelection.UI
             {
                 return m_ListMotorPower;
             }
-        
+
         }
 
         private void GetPower(FanDataModel _FanDataModel, AxialFanEfficiency _AxialFanEfficiency)
@@ -366,7 +432,7 @@ namespace TianHua.FanSelection.UI
                     if (_FanDataModel.Use == "平时排风")
                     {
                         //_FanDataModel.FanModelPower = FuncStr.NullToDouble(_FanModelPower).ToString("0.##") + "/" + FuncStr.NullToDouble(_SonPower).ToString("0.##");
-                        _FanDataModel.FanModelPower =  "-/" + FuncStr.NullToDouble(_FanModelPower).ToString("0.##");
+                        _FanDataModel.FanModelPower = "-/" + FuncStr.NullToDouble(_FanModelPower).ToString("0.##");
 
                         LabPower.Text = _FanDataModel.FanModelPower;
                     }
