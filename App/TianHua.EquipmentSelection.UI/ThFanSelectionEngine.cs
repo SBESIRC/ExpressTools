@@ -26,8 +26,9 @@ namespace TianHua.FanSelection.UI
 
                 // 若检测到图纸中没有对应的风机图块，则在鼠标的点击处插入风机
                 var blockName = BlockName(dataModel);
-                Active.Database.ImportModel(blockName);
-                var objId = Active.Database.InsertModel(blockName, dataModel.Attributes());
+                var layerName = BlockLayer(dataModel);
+                Active.Database.ImportModel(blockName, layerName);
+                var objId = Active.Database.InsertModel(blockName, layerName, dataModel.Attributes());
                 var blockRef = acadDatabase.Element<BlockReference>(objId);
                 for (int i = 0; i < dataModel.VentQuan; i++)
                 {
@@ -61,13 +62,31 @@ namespace TianHua.FanSelection.UI
             }
         }
 
+        private static string BlockLayer(FanDataModel dataModel)
+        {
+            if (dataModel.Scenario == "消防排烟" || dataModel.Scenario == "消防加压送风" || dataModel.Scenario == "消防补风")
+            {
+                return ThFanSelectionCommon.BLOCK_LAYER_FIRE;
+            }
+            else if (dataModel.Scenario == "消防排烟兼平时排风" || dataModel.Scenario == "消防补风兼平时送风")
+            {
+                return ThFanSelectionCommon.BLOCK_LAYER_DUAL;
+            }
+            else
+            {
+                return ThFanSelectionCommon.BLOCK_LAYER_EQUP;
+            }
+
+        }
+
         public static void ReplaceModelsInplace(FanDataModel dataModel)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 // 导入新模型图块
                 var blockName = BlockName(dataModel);
-                Active.Database.ImportModel(blockName);
+                var layerName = BlockLayer(dataModel);
+                Active.Database.ImportModel(blockName, layerName);
 
                 // 获取原模型对象
                 var models = acadDatabase.ModelSpace
@@ -82,7 +101,7 @@ namespace TianHua.FanSelection.UI
                     var block = new ThFSBlockReference(model.ObjectId);
 
                     // 插入新的图块
-                    var objId = Active.Database.InsertModel(blockName, new Dictionary<string, string>(block.Attributes));
+                    var objId = Active.Database.InsertModel(blockName, layerName, new Dictionary<string, string>(block.Attributes));
                     var blockRef = acadDatabase.Element<BlockReference>(objId, true);
 
                     // 写入原图元XData

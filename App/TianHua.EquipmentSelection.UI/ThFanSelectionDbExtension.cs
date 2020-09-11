@@ -14,12 +14,12 @@ namespace TianHua.FanSelection.UI
 {
     public static class ThFanSelectionDbExtension
     {
-        public static ObjectId InsertModel(this Database database, string name, Dictionary<string, string> attNameValues)
+        public static ObjectId InsertModel(this Database database, string name, string layer, Dictionary<string, string> attNameValues)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
                 return acadDatabase.ModelSpace.ObjectId.InsertBlockReference(
-                    ThFanSelectionCommon.BLOCK_FAN_LAYER,
+                    layer,
                     name,
                     Point3d.Origin,
                     new Scale3d(1.0),
@@ -28,13 +28,13 @@ namespace TianHua.FanSelection.UI
             }
         }
 
-        public static void ImportModel(this Database database, string name)
+        public static void ImportModel(this Database database, string name, string layer)
         {
             using (AcadDatabase currentDb = AcadDatabase.Use(database))
             using (AcadDatabase blockDb = AcadDatabase.Open(BlockDwgPath(), DwgOpenMode.ReadOnly, false))
             {
                 currentDb.Blocks.Import(blockDb.Blocks.ElementOrDefault(name), false);
-                currentDb.Layers.Import(blockDb.Layers.ElementOrDefault(ThFanSelectionCommon.BLOCK_FAN_LAYER), false);
+                currentDb.Layers.Import(blockDb.Layers.ElementOrDefault(layer), false);
             }
         }
 

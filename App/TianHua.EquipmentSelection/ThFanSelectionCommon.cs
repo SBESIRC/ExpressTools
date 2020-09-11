@@ -12,7 +12,6 @@ namespace TianHua.FanSelection
         public const string HTFC_TYPE_NAME = "离心";
         public const string HTFC_BACKWARD_NAME = "后倾";
         public const string HTFC_BLOCK_NAME = "离心风机";
-        public const string BLOCK_FAN_LAYER = "H-EQUP-FANS";
         public const string MOTOR_POWER = "电机功率.json";
         public const string MOTOR_POWER_Double = "电机功率-双速.json";
         public const string BLOCK_FAN_FILE = "暖通.选型.风机.dwg";
@@ -27,6 +26,12 @@ namespace TianHua.FanSelection
         public const string HTFC_Efficiency = "离心风机效率.json";
         public const string AXIAL_Efficiency = "轴流风机效率.json";
         public const string RegAppName_FanSelection = "THCAD_FAN_SELECTION";
+
+        // 图层
+        public const string BLOCK_LAYER_FIRE = "H-FIRE-FBOX";
+        public const string BLOCK_LAYER_DUAL = "H-DUAL-FBOX";
+        public const string BLOCK_LAYER_EQUP = "H-EQUP-FBOX";
+
 
         // 风机块属性
         public const string BLOCK_ATTRIBUTE_EQUIPMENT_SYMBOL = "设备符号";
